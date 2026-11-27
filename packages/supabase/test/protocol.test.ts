@@ -18,10 +18,10 @@ import {
   BadRequest,
   NotFound,
   v1CreateAProject,
-  v1ExchangeOauthToken,
   v1GetASnippet,
   v1ListAllSnippets,
 } from "../src/services/supabase.ts";
+import { v1ExchangeOauthToken } from "../src/unstable-services/supabase.ts";
 
 interface Captured {
   readonly method: string;
