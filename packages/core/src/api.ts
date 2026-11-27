@@ -1,3 +1,4 @@
+import * as Cause from "effect/Cause";
 import * as Context from "effect/Context";
 import * as Duration from "effect/Duration";
 import * as Effect from "effect/Effect";
@@ -8,6 +9,7 @@ import type * as HttpClientRequest from "effect/http/HttpClientRequest";
 import * as Option from "effect/Option";
 import { pipeArguments } from "effect/Pipeable";
 import * as Ref from "effect/Ref";
+import * as References from "effect/References";
 import * as S from "effect/Schema";
 import type * as AST from "effect/SchemaAST";
 import * as Stream from "effect/Stream";
@@ -420,8 +422,8 @@ interface Prepared extends Operation {
   readonly cfg: OperationConfig<any, any, any, any, any>;
   /** The operation's protocol, from its first call on (see {@link protocolOf}). */
   service?: Protocol<any, any>;
-  /** The operation span's facts, from the telemetry traits; built on the first traced call. */
-  info?: Telemetry.OperationInfo;
+  /** The operation span's facts, from the telemetry traits. */
+  readonly info: Telemetry.OperationInfo;
   /** Input members marked `T.IdempotencyToken()`, with their format; read on the first call. */
   idempotencyTokens?: ReadonlyArray<readonly [name: string, format: unknown]>;
 }
@@ -469,14 +471,6 @@ const withIdempotencyTokens = (p: Prepared, input: unknown): unknown => {
   return filled ?? input;
 };
 
-const infoOf = (p: Prepared): Telemetry.OperationInfo =>
-  (p.info ??= Telemetry.operationInfo(
-    p.cfg.telemetry,
-    p.cfg.span,
-    p.cfg.operationName,
-    p.inputAst,
-  ));
-
 const stateKey = /*@__PURE__*/ Symbol.for("@distilled.cloud/core/api/OperationState");
 
 // Lazily resolve the operation config + schema ASTs on first call, not at
@@ -488,10 +482,12 @@ const stateKey = /*@__PURE__*/ Symbol.for("@distilled.cloud/core/api/OperationSt
 const prepare = (state: OperationState): Prepared => {
   if (state.prepared) return state.prepared;
   const cfg = state.configFn();
+  const inputAst: AST.AST = cfg.input!.ast;
   return (state.prepared = {
     cfg,
     config: cfg,
-    inputAst: cfg.input!.ast,
+    inputAst,
+    info: Telemetry.operationInfo(cfg.telemetry, cfg.span, cfg.operationName, inputAst),
     outputAst: cfg.output!.ast,
     // What the protocol matches a failed response against: the operation's
     // declared classes, then its service's. The protocol receives them as
@@ -524,12 +520,63 @@ const prepareOr = (state: OperationState): Prepared | SdkError => {
 const stateOf = (op: unknown): OperationState => (op as Record<symbol, OperationState>)[stateKey]!;
 
 /**
+ * The defect boundary: what a failed operation fails with. Nothing thrown
+ * while an operation runs crashes the fiber: a `throw` in a plain helper
+ * under its protocol's `encode`, `decode`, `call` or `stream`, a
+ * `JSON.parse`, a property read on a `null` the spec says is an object. It
+ * becomes the failure of an {@link SdkError} that names the operation and
+ * what was thrown, and carries the thrown value as its `cause`. Any other
+ * cause (a typed failure, an interrupt) fails as it is.
+ *
+ * With a `callSite`, the failure also gets the operation as a stack frame
+ * at the caller's line, so `Cause.pretty` prints
+ * `at S3.GetObject (user.ts:12:5)`; no stack-frame context is provided per
+ * call.
+ *
+ * A call that succeeds pays no Effect step of its own for the boundary: the
+ * three places that run an operation (the call, `.stream()`,
+ * {@link encodeRequest}) come here from the one failure handler around them.
+ */
+const failed = (
+  state: OperationState,
+  cause: Cause.Cause<unknown>,
+  callSite?: (() => string | undefined) | undefined,
+): Effect.Effect<never, unknown> => {
+  // Not loaded: nothing of the operation ran.
+  const prepared = state.prepared;
+  if (prepared === undefined) return Effect.failCause(cause);
+  const name = prepared.info.name;
+  const die = cause.reasons.find(Cause.isDieReason);
+  if (die !== undefined) {
+    const error = new SdkError({ message: `${name} threw: ${String(die.defect)}` });
+    error.cause = die.defect;
+    cause = Cause.fail(error);
+  }
+  if (callSite === undefined) return Effect.failCause(cause);
+  return Effect.withFiber((fiber) =>
+    Effect.failCause(
+      Cause.annotate(
+        cause,
+        Context.make(Cause.StackTrace, {
+          name,
+          stack: callSite,
+          parent:
+            Context.getOrUndefined(Cause.annotations(cause), Cause.StackTrace) ??
+            fiber.getRef(References.CurrentStackFrame),
+        }),
+        { overwrite: true },
+      ),
+    ),
+  );
+};
+
+/**
  * The span facts an operation's calls carry (name, kind, fixed attributes,
  * input rules), as the runtime builds them from its generated config. For
  * tests and tooling.
  */
 export const describeOperation = (op: unknown): Telemetry.OperationInfo =>
-  infoOf(prepare(stateOf(op)));
+  prepare(stateOf(op)).info;
 
 /**
  * The HTTP request a call to `op` with `input` would send, built by the
@@ -549,11 +596,16 @@ export const encodeRequest = <I, O, E, R>(
     const prepared = prepareOr(state);
     if (prepared instanceof SdkError) return Effect.fail(prepared);
     const encode = (service: Protocol<any, any>) =>
-      service.encode({
-        input: withIdempotencyTokens(prepared, input),
-        inputAst: prepared.inputAst,
-        config: prepared.cfg,
-      });
+      Effect.catchCause(
+        Effect.suspend(() =>
+          service.encode({
+            input: withIdempotencyTokens(prepared, input),
+            inputAst: prepared.inputAst,
+            config: prepared.cfg,
+          }),
+        ),
+        (cause) => failed(state, cause),
+      );
     if (prepared.service !== undefined) return encode(prepared.service);
     return Effect.flatMap(protocolOf(prepared), encode);
   });
@@ -613,6 +665,10 @@ const callUntraced = (
  * BRAINSTORM: the call in its operation span (recorded only when an
  * exporter is installed), whose stack frame is the caller (captured here,
  * synchronously, while the caller is still on the JS stack).
+ *
+ * The one `catchCause` around the call is where every failed call ends up
+ * ({@link failed}). The whole call runs under it, the part that runs before
+ * any Effect of the protocol does included.
  */
 const callOperation = (
   state: OperationState,
@@ -620,20 +676,23 @@ const callOperation = (
   entry: Function,
 ): Effect.Effect<any, any, any> => {
   const callSite = Telemetry.captureCallSite(entry);
-  return Effect.withFiber((fiber) => {
-    const debug = fiber.getRef(Telemetry.Debug);
-    const prepared = prepareOr(state);
-    if (prepared instanceof SdkError) return Effect.fail(prepared);
-    return Telemetry.operationSpan(
-      fiber,
-      debug,
-      infoOf(prepared),
-      callSite,
-      input,
-      (sent) => callUntraced(state, sent, debug),
-      debug === undefined ? undefined : { input: prepared.inputAst, output: prepared.outputAst },
-    );
-  });
+  return Effect.catchCause(
+    Effect.withFiber((fiber) => {
+      const debug = fiber.getRef(Telemetry.Debug);
+      const prepared = prepareOr(state);
+      if (prepared instanceof SdkError) return Effect.fail(prepared);
+      return Telemetry.operationSpan(
+        fiber,
+        debug,
+        prepared.info,
+        callSite,
+        input,
+        (sent) => callUntraced(state, sent, debug),
+        debug === undefined ? undefined : { input: prepared.inputAst, output: prepared.outputAst },
+      );
+    }),
+    (cause) => failed(state, cause, callSite),
+  );
 };
 
 /**
@@ -935,18 +994,21 @@ export const cannotStream = (
 const streamCall =
   (state: OperationState) =>
   (input: unknown): Stream.Stream<any, any, any> =>
-    Stream.unwrap(
-      Effect.suspend(() => {
-        const prepared = prepareOr(state);
-        if (prepared instanceof SdkError) return Effect.succeed(Stream.fail(prepared));
-        const fixed = prepared.cfg.streamInput;
-        const sent = fixed === undefined ? input : { ...(input as object), ...fixed };
-        const run = (service: Protocol<any, any>) =>
-          service.stream === undefined ? cannotStream(prepared) : service.stream(prepared, sent);
-        return prepared.service !== undefined
-          ? Effect.succeed(run(prepared.service))
-          : Effect.map(protocolOf(prepared), run);
-      }),
+    Stream.catchCause(
+      Stream.unwrap(
+        Effect.suspend(() => {
+          const prepared = prepareOr(state);
+          if (prepared instanceof SdkError) return Effect.succeed(Stream.fail(prepared));
+          const fixed = prepared.cfg.streamInput;
+          const sent = fixed === undefined ? input : { ...(input as object), ...fixed };
+          const run = (service: Protocol<any, any>) =>
+            service.stream === undefined ? cannotStream(prepared) : service.stream(prepared, sent);
+          return prepared.service !== undefined
+            ? Effect.succeed(run(prepared.service))
+            : Effect.map(protocolOf(prepared), run);
+        }),
+      ),
+      (cause) => Stream.fromEffect(failed(state, cause)),
     );
 
 const StreamingOperationProto: object = /*@__PURE__*/ Object.create(OperationProto, {
