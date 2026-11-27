@@ -1,0 +1,21 @@
+{
+  "description": "`site_token` is the Web Analytics site token, which goes in the public JavaScript beacon on the site's pages, so it is not a secret. The shared secret-name rule marks names that end in `token`; this removes the mark.",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.rum#CreateSiteInfoResponse/members/site_token/traits/smithy.api#sensitive"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.rum#GetSiteInfoResponse/members/site_token/traits/smithy.api#sensitive"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.rum#SiteInfoListResultItem/members/site_token/traits/smithy.api#sensitive"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.rum#SiteInfoUpdateResponse/members/site_token/traits/smithy.api#sensitive"
+    }
+  ]
+}
