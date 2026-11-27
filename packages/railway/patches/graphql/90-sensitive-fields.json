@@ -1,5 +1,5 @@
 {
-  "description": "These fields return credentials: API, project, login-session, clearance and short-lived WebSocket tokens, a bucket's S3 secret access key, plugin credentials, a two-factor seed and its otpauth URI, recovery codes, and project and workspace invite codes, which let whoever holds one join. Mark them sensitive so the client returns them wrapped in Redacted. The S3 access key ID is an identifier, not a secret, and stays plain. The mark applies only to string fields, so fields typed `EnvironmentVariables` (`Query.variables`, `Query.variablesForServiceDeployment`, `Environment.variables`, `DeploymentSnapshot.variables`) stay plain with the values inside them, and so do JSON fields such as `Environment.config` that can hold variable values.",
+  "description": "These fields return credentials: API, project, login-session, clearance and short-lived WebSocket tokens, a bucket's S3 secret access key, plugin credentials, a two-factor seed and its otpauth URI, recovery codes, and project and workspace invite codes, which let whoever holds one join. Mark them sensitive so the client returns them wrapped in Redacted. The S3 access key ID is an identifier, not a secret, and stays plain. The `EnvironmentVariables` maps that return variable values are marked too: `Query.variables`, `Query.variablesForServiceDeployment` and `DeploymentSnapshot.variables`. Railway variables hold a service's configuration and secrets (Railway docs, 'Using Variables': 'Variables provide a way to manage configuration and secrets across services in Railway'), and the client wraps a sensitive JSON scalar whole in Redacted, so the caller unwraps the map with Redacted.value. JSON fields such as `Environment.config` that can hold variable values stay plain.",
   "patches": [
     {
       "op": "add",
@@ -59,6 +59,21 @@
     {
       "op": "add",
       "path": "/types/TwoFactorInfoSecret/fields/uri/sensitive",
+      "value": true
+    },
+    {
+      "op": "add",
+      "path": "/types/Query/fields/variables/sensitive",
+      "value": true
+    },
+    {
+      "op": "add",
+      "path": "/types/Query/fields/variablesForServiceDeployment/sensitive",
+      "value": true
+    },
+    {
+      "op": "add",
+      "path": "/types/DeploymentSnapshot/fields/variables/sensitive",
       "value": true
     }
   ]

@@ -3079,7 +3079,7 @@ export interface DeploymentSnapshot {
   readonly createdAt: string;
   readonly id: string;
   readonly updatedAt: string;
-  readonly variables: unknown;
+  readonly variables: Redacted.Redacted<unknown>;
   readonly variablesRedacted: boolean;
 }
 
@@ -9184,7 +9184,7 @@ const DeploymentSnapshotFields: TypeMeta["fields"] = {
   createdAt: scalarField("createdAt"),
   id: scalarField("id"),
   updatedAt: scalarField("updatedAt"),
-  variables: scalarField("variables"),
+  variables: scalarField("variables", { sensitive: true }),
   variablesRedacted: scalarField("variablesRedacted"),
 };
 
@@ -13897,7 +13897,7 @@ export const Railway = {
     readonly projectId: string;
     readonly serviceId?: string | null | undefined;
     readonly unrendered?: boolean | null | undefined;
-  }): Query<unknown, RailwayNotFound | RailwayGlobalError> =>
+  }): Query<Redacted.Redacted<unknown>, RailwayNotFound | RailwayGlobalError> =>
     rootLeaf(
       "query",
       "variables",
@@ -13910,12 +13910,13 @@ export const Railway = {
         unrendered: "Boolean",
       },
       [RailwayNotFoundSpec, ...globalErrors],
+      { sensitive: true },
     ),
   variablesForServiceDeployment: (args: {
     readonly environmentId: string;
     readonly projectId: string;
     readonly serviceId: string;
-  }): Query<unknown, RailwayNotFound | RailwayGlobalError> =>
+  }): Query<Redacted.Redacted<unknown>, RailwayNotFound | RailwayGlobalError> =>
     rootLeaf(
       "query",
       "variablesForServiceDeployment",
@@ -13923,6 +13924,7 @@ export const Railway = {
       args,
       { environmentId: "String!", projectId: "String!", serviceId: "String!" },
       [RailwayNotFoundSpec, ...globalErrors],
+      { sensitive: true },
     ),
   volumeInstance: (args: {
     readonly id: string;
