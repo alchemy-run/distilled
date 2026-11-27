@@ -145,21 +145,18 @@ jobs:
       - name: Run oxlint
         run: pnpm lint
 
-      # Regenerates two small SDKs and fails if the committed code differs, so
-      # a hand edit under src/services or a generator change without its
-      # regeneration does not land. turso and npm both run the OpenAPI
-      # converter, patches and the shared generator, from specs of a few
-      # hundred KB. `generatedAt` in package.json is today's date, so
-      # package.json is left out of the diff.
-      - name: Fetch the turso and npm specs
-        run: |
-          pnpm --filter @distilled.cloud/turso run specs:fetch
-          pnpm --filter @distilled.cloud/npm run specs:fetch
-
+      # In the merge queue only: regenerates every SDK the queued change
+      # touches, from its pinned spec mirror, and fails if the committed code
+      # differs. A hand edit under src/services or a patch without its
+      # regeneration regenerates that one SDK; a change to the shared
+      # generator (packages/dev/src/codegen) regenerates all of them
+      # (scripts/check-generated.ts). On a PR the step is skipped and the job
+      # still reports, as the queue requires.
       - name: Check generated code matches the generator
-        run: |
-          pnpm generate turso npm
-          git diff --exit-code -- packages/turso packages/npm ':(exclude)packages/*/package.json'
+        if: github.event_name == 'merge_group'
+        run: node scripts/check-generated.ts "$BASE_SHA"
+        env:
+          BASE_SHA: ${{ github.event.merge_group.base_sha }}
 
   # The effect peer range's floor, Node 22.19.0 / 22 / 26, Bun and workerd.
   # The newest effect runs nightly (compat.yml) and before a release.
