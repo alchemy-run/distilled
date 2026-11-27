@@ -443,7 +443,7 @@ export type V1CreateAProjectRequestDesiredInstanceSize =
 export type V1CreateAProjectRequestDataApiExposedSchemasList = Array<string>;
 export interface V1CreateAProjectRequest {
   /** Database password */
-  db_pass: string;
+  db_pass: T.Sensitive;
   /** Name of your project */
   name: string;
   /** Deprecated: Use `organization_slug` instead. */
@@ -970,7 +970,7 @@ export interface BranchDetailResponseOutput {
   db_host: string;
   db_port: number;
   db_user?: string | undefined;
-  db_pass?: string | undefined;
+  db_pass?: T.Sensitive | undefined;
   jwt_secret?: T.Sensitive | undefined;
 }
 export interface V1GetActionRunRequest {
@@ -7156,7 +7156,7 @@ function __c40(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          db_pass: S.String,
+          db_pass: S.String.pipe(T.SensitiveValue({})),
           name: S.String,
           organization_id: S.optional(S.String),
           organization_slug: S.String,
@@ -7868,7 +7868,7 @@ function __c74(j: number): any {
           db_host: S.String,
           db_port: S.Number,
           db_user: S.optional(S.String),
-          db_pass: S.optional(S.String),
+          db_pass: S.optional(S.String.pipe(T.SensitiveValue({}))),
           jwt_secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "BranchDetailResponseOutput" });
