@@ -2,9 +2,10 @@
 /**
  * Mirrors Unkey's OpenAPI spec and vendor API docs into ../specs/.
  *
- * Unkey publishes a bundled OpenAPI 3.1 document in `unkeyed/unkey`
- * (`svc/api/openapi/openapi-generated.yaml`). Only that file is downloaded,
- * from raw.githubusercontent.com — the upstream repository is never cloned.
+ * The Unkey API serves its bundled OpenAPI 3.1 document at
+ * https://api.unkey.com/openapi.yaml. Unkey's own SDKs (`unkeyed/sdks`,
+ * `.speakeasy/workflow.yaml`) generate from the same URL. The `unkeyed/unkey`
+ * repository that used to hold this file is no longer public.
  * YAML is parsed and rewritten as deterministic JSON so a whitespace-only
  * change upstream produces no mirror diff.
  *
@@ -24,12 +25,8 @@ import { mkdirSync } from "fs";
 import { writeFile } from "fs/promises";
 import YAML from "yaml";
 
-/** Upstream repository, as `<owner>/<repo>`. */
-const REPO = "unkeyed/unkey";
-/** Branch (or tag/commit) to mirror. */
-const REF = "main";
-/** Path of the bundled OpenAPI document within {@link REPO}. */
-const SPEC_PATH = "svc/api/openapi/openapi-generated.yaml";
+/** The bundled OpenAPI document, as served by the Unkey API. */
+const SPEC_URL = "https://api.unkey.com/openapi.yaml";
 
 const SPECS_DIR = "../specs";
 const OUTPUT_PATH = `${SPECS_DIR}/openapi.json`;
@@ -65,17 +62,6 @@ const headers = {
   "user-agent": "distilled.cloud-unkey-spec-mirror",
 };
 
-/**
- * The raw URL for a path in {@link REPO}. Each segment is encoded
- * individually so paths containing characters like `(` survive the round
- * trip while the separators do not.
- */
-const rawUrl = (path: string) =>
-  `https://raw.githubusercontent.com/${REPO}/${REF}/${path
-    .split("/")
-    .map(encodeURIComponent)
-    .join("/")}`;
-
 async function fetchText(url: string): Promise<string> {
   const response = await fetch(url, { headers });
   if (!response.ok) {
@@ -85,7 +71,7 @@ async function fetchText(url: string): Promise<string> {
 }
 
 async function main() {
-  const url = rawUrl(SPEC_PATH);
+  const url = SPEC_URL;
   console.log(`Fetching OpenAPI spec from ${url}...`);
 
   const yaml = await fetchText(url);

@@ -1,13 +1,13 @@
 # spec-mirror-unkey
 
-A git mirror of Unkey's [OpenAPI spec](https://github.com/unkeyed/unkey/blob/main/svc/api/openapi/openapi-generated.yaml), reduced to exactly the file the
+A git mirror of Unkey's [OpenAPI spec](https://api.unkey.com/openapi.yaml), reduced to exactly the file the
 [`@distilled.cloud/unkey`](https://github.com/alchemy-run/distilled) generator reads:
 
-- `specs/openapi.json` — bundled `svc/api/openapi/openapi-generated.yaml`, parsed to JSON
+- `specs/openapi.json` — `https://api.unkey.com/openapi.yaml`, parsed to JSON
 - `specs/docs/` — vendor API-reference markdown snapshot
 
-Nothing else from `unkeyed/unkey` is mirrored, so this repository stays small
-enough to use as a git submodule — the upstream repository is never cloned.
+Nothing else is mirrored, so this repository stays small enough to use as a
+git submodule.
 
 The mirror is updated every 24 hours by
 [`.github/workflows/update-specs.yml`](./.github/workflows/update-specs.yml).
