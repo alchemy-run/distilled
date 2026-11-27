@@ -49,6 +49,7 @@
 import * as fs from "node:fs";
 import * as path from "node:path";
 import { clearModels, writeModel } from "@distilled.cloud/dev/codegen/models";
+import { isSensitiveMemberName } from "@distilled.cloud/dev/codegen/openapi";
 import { finalizeConvert } from "@distilled.cloud/dev/codegen/patches";
 import { resolveSpecPath } from "@distilled.cloud/dev/codegen/spec-path";
 import { markUnstable } from "@distilled.cloud/dev/codegen/stability";
@@ -412,7 +413,14 @@ const convertDoc = (doc: DiscoveryDoc): object => {
     const members: Record<string, any> = {};
     for (const [propName, prop] of Object.entries(properties)) {
       const target = propTarget(prop, `${localName}${capitalize(safeIdentifier(propName))}`);
-      const traits = memberTraits(prop.description, required?.includes(propName) ?? false);
+      let traits = memberTraits(prop.description, required?.includes(propName) ?? false);
+      // The same name rule as the OpenAPI converter (`password`, `privateKeyData`, `clientSecret`).
+      if (
+        target === "smithy.api#String" &&
+        isSensitiveMemberName(propName, { parent: localName })
+      ) {
+        traits = { ...traits, "smithy.api#sensitive": {} };
+      }
       members[propName] = traits ? { target, traits } : { target };
     }
     return members;
@@ -573,6 +581,12 @@ const convertDoc = (doc: DiscoveryDoc): object => {
       } else {
         traits["smithy.api#httpQuery"] = paramName;
         if (param.required) traits["smithy.api#required"] = {};
+        if (
+          target === "smithy.api#String" &&
+          isSensitiveMemberName(paramName, { where: "query" })
+        ) {
+          traits["smithy.api#sensitive"] = {};
+        }
       }
       inputMembers[paramName] = { target, traits };
     }

@@ -1767,7 +1767,7 @@ export interface SandboxCreateInput {
   readonly resources?: SandboxResourcesInput | null | undefined;
   readonly sourceSandboxId?: string | null | undefined;
   readonly template?: SandboxTemplateInput | null | undefined;
-  readonly variables?: unknown | null | undefined;
+  readonly variables?: unknown | Redacted.Redacted<unknown> | null | undefined;
 }
 
 export interface SandboxDomainInput {
@@ -1784,7 +1784,7 @@ export interface SandboxTemplateInput {
   readonly instructions?: ReadonlyArray<string> | null | undefined;
   readonly name?: string | null | undefined;
   readonly region?: string | null | undefined;
-  readonly variables?: unknown | null | undefined;
+  readonly variables?: unknown | Redacted.Redacted<unknown> | null | undefined;
 }
 
 export interface ServiceConnectInput {
@@ -1803,7 +1803,7 @@ export interface ServiceCreateInput {
   readonly source?: ServiceSourceInput | null | undefined;
   readonly templateId?: string | null | undefined;
   readonly templateServiceId?: string | null | undefined;
-  readonly variables?: unknown | null | undefined;
+  readonly variables?: unknown | Redacted.Redacted<unknown> | null | undefined;
 }
 
 export interface ServiceDomainCreateInput {
@@ -2030,7 +2030,7 @@ export interface TemplateDeployService {
   readonly tcpProxyApplicationPort?: number | null | undefined;
   readonly tcpProxyApplicationPorts?: ReadonlyArray<number> | null | undefined;
   readonly template: string;
-  readonly variables?: unknown | null | undefined;
+  readonly variables?: unknown | Redacted.Redacted<unknown> | null | undefined;
   readonly volumes?: ReadonlyArray<unknown> | null | undefined;
 }
 
@@ -2144,7 +2144,7 @@ export interface VariableCollectionUpsertInput {
   readonly replace?: boolean | null | undefined;
   readonly serviceId?: string | null | undefined;
   readonly skipDeploys?: boolean | null | undefined;
-  readonly variables: unknown;
+  readonly variables: unknown | Redacted.Redacted<unknown>;
 }
 
 export interface VariableDeleteInput {
@@ -2160,7 +2160,7 @@ export interface VariableUpsertInput {
   readonly projectId: string;
   readonly serviceId?: string | null | undefined;
   readonly skipDeploys?: boolean | null | undefined;
-  readonly value: string;
+  readonly value: string | Redacted.Redacted<string>;
 }
 
 export interface VolumeCreateInput {
@@ -3079,7 +3079,7 @@ export interface DeploymentSnapshot {
   readonly createdAt: string;
   readonly id: string;
   readonly updatedAt: string;
-  readonly variables: unknown;
+  readonly variables: Redacted.Redacted<unknown>;
   readonly variablesRedacted: boolean;
 }
 
@@ -9184,7 +9184,7 @@ const DeploymentSnapshotFields: TypeMeta["fields"] = {
   createdAt: scalarField("createdAt"),
   id: scalarField("id"),
   updatedAt: scalarField("updatedAt"),
-  variables: scalarField("variables"),
+  variables: scalarField("variables", { sensitive: true }),
   variablesRedacted: scalarField("variablesRedacted"),
 };
 
@@ -13897,7 +13897,7 @@ export const Railway = {
     readonly projectId: string;
     readonly serviceId?: string | null | undefined;
     readonly unrendered?: boolean | null | undefined;
-  }): Query<unknown, RailwayNotFound | RailwayGlobalError> =>
+  }): Query<Redacted.Redacted<unknown>, RailwayNotFound | RailwayGlobalError> =>
     rootLeaf(
       "query",
       "variables",
@@ -13910,12 +13910,13 @@ export const Railway = {
         unrendered: "Boolean",
       },
       [RailwayNotFoundSpec, ...globalErrors],
+      { sensitive: true },
     ),
   variablesForServiceDeployment: (args: {
     readonly environmentId: string;
     readonly projectId: string;
     readonly serviceId: string;
-  }): Query<unknown, RailwayNotFound | RailwayGlobalError> =>
+  }): Query<Redacted.Redacted<unknown>, RailwayNotFound | RailwayGlobalError> =>
     rootLeaf(
       "query",
       "variablesForServiceDeployment",
@@ -13923,6 +13924,7 @@ export const Railway = {
       args,
       { environmentId: "String!", projectId: "String!", serviceId: "String!" },
       [RailwayNotFoundSpec, ...globalErrors],
+      { sensitive: true },
     ),
   volumeInstance: (args: {
     readonly id: string;

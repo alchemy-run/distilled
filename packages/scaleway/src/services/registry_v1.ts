@@ -25,7 +25,7 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
-export type CreateNamespaceRequestRegion = "fr-par" | "nl-ams" | "pl-waw";
+export type CreateNamespaceRequestRegion = "fr-par" | "nl-ams" | "pl-waw" | "it-mil";
 export interface CreateNamespaceRequest {
   /** The region you want to target */
   region?: CreateNamespaceRequestRegion | (string & {}) | undefined;
@@ -42,6 +42,8 @@ export interface CreateNamespaceRequest {
 }
 export type NamespaceStatus = "unknown" | "ready" | "deleting" | "error" | "locked";
 export interface Namespace {
+  /** SRN of the namespace. */
+  srn?: string | undefined;
   /** UUID of the namespace. */
   id?: string | undefined;
   /** Name of the namespace, unique in a region across all organizations. */
@@ -71,7 +73,7 @@ export interface Namespace {
   /** Region the namespace belongs to. */
   region?: string | undefined;
 }
-export type DeleteImageRequestRegion = "fr-par" | "nl-ams" | "pl-waw";
+export type DeleteImageRequestRegion = "fr-par" | "nl-ams" | "pl-waw" | "it-mil";
 export interface DeleteImageRequest {
   /** The region you want to target */
   region?: DeleteImageRequestRegion | (string & {}) | undefined;
@@ -83,6 +85,10 @@ export type ImageVisibility = "visibility_unknown" | "inherit" | "public" | "pri
 /** List of docker tags of the image. */
 export type ImageTagsList = Array<string>;
 export interface Image {
+  /** SRN of the image. */
+  srn?: string | undefined;
+  /** Region where the image is located. */
+  region?: string | undefined;
   /** UUID of the image. */
   id?: string | undefined;
   /** Name of the image, it must be unique within the namespace. */
@@ -104,14 +110,14 @@ export interface Image {
   /** List of docker tags of the image. */
   tags?: ImageTagsList | undefined;
 }
-export type DeleteNamespaceRequestRegion = "fr-par" | "nl-ams" | "pl-waw";
+export type DeleteNamespaceRequestRegion = "fr-par" | "nl-ams" | "pl-waw" | "it-mil";
 export interface DeleteNamespaceRequest {
   /** The region you want to target */
   region?: DeleteNamespaceRequestRegion | (string & {}) | undefined;
   /** UUID of the namespace. */
   namespace_id: string;
 }
-export type DeleteTagRequestRegion = "fr-par" | "nl-ams" | "pl-waw";
+export type DeleteTagRequestRegion = "fr-par" | "nl-ams" | "pl-waw" | "it-mil";
 export interface DeleteTagRequest {
   /** The region you want to target */
   region?: DeleteTagRequestRegion | (string & {}) | undefined;
@@ -122,6 +128,10 @@ export interface DeleteTagRequest {
 }
 export type TagStatus = "unknown" | "ready" | "deleting" | "error" | "locked";
 export interface Tag {
+  /** SRN of the tag. */
+  srn?: string | undefined;
+  /** Region where the tag is located. */
+  region?: string | undefined;
   /** UUID of the tag. */
   id?: string | undefined;
   /** Tag name, unique to an image. */
@@ -137,28 +147,28 @@ export interface Tag {
   /** Date and time of last update. (RFC 3339 format) */
   updated_at?: string | null | undefined;
 }
-export type GetImageRequestRegion = "fr-par" | "nl-ams" | "pl-waw";
+export type GetImageRequestRegion = "fr-par" | "nl-ams" | "pl-waw" | "it-mil";
 export interface GetImageRequest {
   /** The region you want to target */
   region?: GetImageRequestRegion | (string & {}) | undefined;
   /** UUID of the image. */
   image_id: string;
 }
-export type GetNamespaceRequestRegion = "fr-par" | "nl-ams" | "pl-waw";
+export type GetNamespaceRequestRegion = "fr-par" | "nl-ams" | "pl-waw" | "it-mil";
 export interface GetNamespaceRequest {
   /** The region you want to target */
   region?: GetNamespaceRequestRegion | (string & {}) | undefined;
   /** UUID of the namespace. */
   namespace_id: string;
 }
-export type GetTagRequestRegion = "fr-par" | "nl-ams" | "pl-waw";
+export type GetTagRequestRegion = "fr-par" | "nl-ams" | "pl-waw" | "it-mil";
 export interface GetTagRequest {
   /** The region you want to target */
   region?: GetTagRequestRegion | (string & {}) | undefined;
   /** UUID of the tag. */
   tag_id: string;
 }
-export type ListImagesRequestRegion = "fr-par" | "nl-ams" | "pl-waw";
+export type ListImagesRequestRegion = "fr-par" | "nl-ams" | "pl-waw" | "it-mil";
 export type ListImagesRequestOrderBy =
   | "created_at_asc"
   | "created_at_desc"
@@ -190,7 +200,7 @@ export interface ListImagesResponse {
   /** Total number of images that match the selected filters. */
   total_count?: number | undefined;
 }
-export type ListNamespacesRequestRegion = "fr-par" | "nl-ams" | "pl-waw";
+export type ListNamespacesRequestRegion = "fr-par" | "nl-ams" | "pl-waw" | "it-mil";
 export type ListNamespacesRequestOrderBy =
   | "created_at_asc"
   | "created_at_desc"
@@ -222,7 +232,7 @@ export interface ListNamespacesResponse {
   /** Total number of namespaces that match the selected filters. */
   total_count?: number | undefined;
 }
-export type ListTagsRequestRegion = "fr-par" | "nl-ams" | "pl-waw";
+export type ListTagsRequestRegion = "fr-par" | "nl-ams" | "pl-waw" | "it-mil";
 export type ListTagsRequestOrderBy =
   | "created_at_asc"
   | "created_at_desc"
@@ -250,7 +260,7 @@ export interface ListTagsResponse {
   /** Total number of tags that match the selected filters. */
   total_count?: number | undefined;
 }
-export type UpdateImageRequestRegion = "fr-par" | "nl-ams" | "pl-waw";
+export type UpdateImageRequestRegion = "fr-par" | "nl-ams" | "pl-waw" | "it-mil";
 export interface UpdateImageRequest {
   /** The region you want to target */
   region?: UpdateImageRequestRegion | (string & {}) | undefined;
@@ -259,7 +269,7 @@ export interface UpdateImageRequest {
   /** Set to `public` to allow the image to be pulled without authentication. Else, set to `private`. Set to `inherit` to keep the same visibility configuration as the namespace. */
   visibility?: ImageVisibility | (string & {}) | undefined;
 }
-export type UpdateNamespaceRequestRegion = "fr-par" | "nl-ams" | "pl-waw";
+export type UpdateNamespaceRequestRegion = "fr-par" | "nl-ams" | "pl-waw" | "it-mil";
 export interface UpdateNamespaceRequest {
   /** The region you want to target */
   region?: UpdateNamespaceRequestRegion | (string & {}) | undefined;
@@ -543,6 +553,7 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          srn: S.optional(S.String),
           id: S.optional(S.String),
           name: S.optional(S.String),
           description: S.optional(S.String),
@@ -586,6 +597,8 @@ function __c3(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          srn: S.optional(S.String),
+          region: S.optional(S.String),
           id: S.optional(S.String),
           name: S.optional(S.String),
           namespace_id: S.optional(S.String),
@@ -681,6 +694,8 @@ function __c8(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          srn: S.optional(S.String),
+          region: S.optional(S.String),
           id: S.optional(S.String),
           name: S.optional(S.String),
           image_id: S.optional(S.String),

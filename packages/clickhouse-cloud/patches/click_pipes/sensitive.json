@@ -1,5 +1,5 @@
 {
-  "description": "ClickPipes GCS and Pub/Sub sources take a GCP service account JSON key: ClickPipePostObjectStorageSource.serviceAccountKey and ClickPipePatchObjectStorageSource.serviceAccountKey ('Base64-encoded GCP service account JSON key') and ServiceAccount.serviceAccountFile ('Google Cloud service account JSON key file content, base64 encoded'). A service account key is a private key; none of the three carries a sensitive mark. Source: the OpenAPI document served at https://api.clickhouse.cloud/v1 (2026-11-11).",
+  "description": "ClickPipes GCS and Pub/Sub sources take a GCP service account JSON key: ClickPipePostObjectStorageSource.serviceAccountKey and ClickPipePatchObjectStorageSource.serviceAccountKey ('Base64-encoded GCP service account JSON key') and ServiceAccount.serviceAccountFile ('Google Cloud service account JSON key file content, base64 encoded'). A service account key is a private key; none of the three carries a sensitive mark. The MongoDB CDC source takes a connection URI that can carry the password: ClickPipeMutateMongoDBSource.uri (createClickPipe) and ClickPipePatchMongoDBSource.uri (updateClickPipe), which the spec describes as 'MongoDB connection URI' with 'Embedded credentials' that 'are redacted from API responses'. Mark both inputs sensitive; the output ClickPipeMongoDBSource.uri stays plain because the API already strips the credentials from it. Sources: the OpenAPI document served at https://api.clickhouse.cloud/v1 (2026-11-11), and the same descriptions in spec-mirror-clickhouse-cloud (2026-11-24).",
   "patches": [
     {
       "op": "add",
@@ -14,6 +14,16 @@
     {
       "op": "add",
       "path": "/shapes/com.clickhouse.cloud.click_pipes#ServiceAccount/members/serviceAccountFile/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.click_pipes#ClickPipeMutateMongoDBSource/members/uri/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.click_pipes#ClickPipePatchMongoDBSource/members/uri/traits/smithy.api#sensitive",
       "value": {}
     }
   ]

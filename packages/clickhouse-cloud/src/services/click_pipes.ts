@@ -720,7 +720,7 @@ export type ClickPipeMutateMongoDBSourceTableMappingsList = Array<ClickPipeMongo
 export interface ClickPipeMutateMongoDBSource {
   credentials?: PLAIN | undefined;
   /** MongoDB connection URI. Supports both standard URIs (mongodb://...) and SRV URIs (mongodb+srv://...). Embedded credentials are redacted from API responses, so the returned value can differ from what was submitted. */
-  uri: string;
+  uri: string | Redacted.Redacted<string>;
   /** MongoDB read preference for replica set reads. */
   readPreference: ClickPipeMutateMongoDBSourceReadPreference | (string & {});
   /** TLS/SSL host for secure connections. */
@@ -1759,7 +1759,7 @@ export type ClickPipePatchMongoDBSourceTableMappingsToRemoveList =
 export interface ClickPipePatchMongoDBSource {
   credentials?: PLAIN | undefined;
   /** MongoDB connection URI (mongodb:// or mongodb+srv://). Credentials are redacted in responses; a masked value is never saved as a credential, so a real credential equal to [REDACTED] cannot be set. To change the connection, send the full URI with real credentials; omit this field or resend the redacted value to leave it unchanged. */
-  uri: string | null;
+  uri: string | Redacted.Redacted<string> | null;
   /** MongoDB read preference for replica set reads. */
   readPreference: ClickPipePatchMongoDBSourceReadPreference | (string & {}) | null;
   /** TLS/SSL host for secure connections. */
@@ -2370,7 +2370,7 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           credentials: S.optional(__S(64, __c2, 0)),
-          uri: S.String,
+          uri: S.String.pipe(T.SensitiveValue({})),
           readPreference: S.String,
           tlsHost: S.optional(S.String),
           disableTls: S.optional(S.Boolean),
@@ -3131,7 +3131,7 @@ function __c8(j: number): any {
       return S.suspend(() =>
         S.Struct({
           credentials: S.optional(__S(64, __c2, 0)),
-          uri: S.NullOr(S.String),
+          uri: S.NullOr(S.String).pipe(T.SensitiveValue({})),
           readPreference: S.NullOr(S.String),
           tlsHost: S.optional(S.NullOr(S.String)),
           disableTls: S.optional(S.NullOr(S.Boolean)),

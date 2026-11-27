@@ -128,18 +128,18 @@ export interface AddOrUpdateBuildSourceSecretFileRequest {
   buildSourceId: string;
   /** The file name of the secret file */
   envVarKey: string;
-  content?: string | undefined;
+  content?: string | Redacted.Redacted<string> | undefined;
 }
 export interface SecretFile {
   name: string;
-  content: string;
+  content: string | Redacted.Redacted<string>;
 }
 export interface AddOrUpdateSecretFileRequest {
   /** The ID of the service */
   serviceId: string;
   /** The file name of the secret file */
   envVarKey: string;
-  content?: string | undefined;
+  content?: string | Redacted.Redacted<string> | undefined;
 }
 export type AddResourcesToEnvironmentRequestResourceIdsList = Array<string>;
 export interface AddResourcesToEnvironmentRequest {
@@ -398,7 +398,7 @@ export interface CreateBuildSourceRequestImage {
 export type CreateBuildSourceRequestServiceIdsList = Array<string>;
 export interface SchemaItemCase0 {
   key: string;
-  value: string;
+  value: string | Redacted.Redacted<string>;
 }
 export interface SchemaItemCase1 {
   key: string;
@@ -409,7 +409,7 @@ export type SchemaItem = SchemaItemCase0 | SchemaItemCase1;
 export type Schema6 = Array<SchemaItem>;
 export interface Items {
   name: string;
-  content: string;
+  content: string | Redacted.Redacted<string>;
 }
 /** Secret files for the build source's build. Only valid for `git` sources. */
 export type CreateBuildSourceRequestSecretFilesList = Array<Items>;
@@ -580,7 +580,7 @@ export interface EnvGroupLink {
 export type CreateEnvGroupResponseServiceLinksList = Array<EnvGroupLink>;
 export interface EnvVar {
   key: string;
-  value: string;
+  value: string | Redacted.Redacted<string>;
 }
 /** Omitted if the caller doesn't have the permission to read the environment group's secret values. */
 export type CreateEnvGroupResponseEnvVarsList = Array<EnvVar>;
@@ -6558,7 +6558,7 @@ export interface UpdateBuildSourceRequest {
   image?: UpdateBuildSourceRequestImage | undefined;
 }
 export interface EnvVarValue {
-  value: string;
+  value: string | Redacted.Redacted<string>;
 }
 export interface EnvVarGenerateValue {
   generateValue: boolean;
@@ -6639,7 +6639,7 @@ export interface UpdateEnvGroupEnvVarResponse {
 export interface UpdateEnvGroupSecretFileRequest {
   envGroupId: string;
   envVarKey: string;
-  content?: string | undefined;
+  content?: string | Redacted.Redacted<string> | undefined;
 }
 /** List of serviceIds linked to the envGroup */
 export type UpdateEnvGroupSecretFileResponseServiceLinksList = Array<EnvGroupLink>;
@@ -14965,7 +14965,7 @@ function __c162(j: number): any {
       return S.suspend(() =>
         S.Struct({
           key: S.String,
-          value: S.String,
+          value: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "SchemaItemCase0" });
   }
@@ -15338,7 +15338,7 @@ function __c183(j: number): any {
         S.Struct({
           envGroupId: S.String.pipe(T.Label()),
           envVarKey: S.String.pipe(T.Label()),
-          content: S.optional(S.String),
+          content: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -16745,7 +16745,7 @@ function __c267(j: number): any {
         S.Struct({
           buildSourceId: S.String.pipe(T.Label()),
           envVarKey: S.String.pipe(T.Label()),
-          content: S.optional(S.String),
+          content: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -16762,7 +16762,7 @@ function __c268(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          content: S.String,
+          content: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "SecretFile" });
   }
@@ -16909,7 +16909,7 @@ function __c279(j: number): any {
         S.Struct({
           serviceId: S.String.pipe(T.Label()),
           envVarKey: S.String.pipe(T.Label()),
-          content: S.optional(S.String),
+          content: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }).pipe(
           T.Http({
             method: "PUT",

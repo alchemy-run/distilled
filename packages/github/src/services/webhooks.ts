@@ -9251,7 +9251,7 @@ export interface IssueCommentUnpinnedEvent {
   sender: NullableSimpleUser;
 }
 export type IssueDependenciesBlockedByAddedEventAction = "blocked_by_added";
-/** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. They're rolling out gradually, so they might not be available in your repositories yet. */
+/** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. */
 export interface IssueStatus {
   /** The stable identifier of the planning status. */
   id: number;
@@ -9366,7 +9366,7 @@ export interface Issue {
   number: number;
   /** State of the issue; either 'open' or 'closed' */
   state: string;
-  /** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. They're rolling out gradually, so they might not be available in your repositories yet. */
+  /** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. */
   status?: IssueStatus | null | undefined;
   /** The reason for the current state */
   state_reason?: IssueStateReason | null | undefined;
@@ -9802,7 +9802,7 @@ export interface WebhooksIssuePerformedViaGithubApp {
 export type WebhooksIssuePullRequest = IssueCommentCreatedEventIssuePullRequest;
 export type WebhooksIssueReactions = CommitCommentCreatedEventCommentReactions;
 export type WebhooksIssueIssueFieldValuesList = Array<IssueFieldValue>;
-/** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. They're rolling out gradually, so they might not be available in your repositories yet. */
+/** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. */
 export type WebhooksIssueStatus = IssueStatus;
 /** State of the issue; either 'open' or 'closed' */
 export type WebhooksIssueState = "open" | "closed";
@@ -9864,7 +9864,7 @@ export interface WebhooksIssue {
   sub_issues_summary?: SubIssuesSummary | undefined;
   issue_dependencies_summary?: IssueDependenciesSummary | undefined;
   issue_field_values?: WebhooksIssueIssueFieldValuesList | undefined;
-  /** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. They're rolling out gradually, so they might not be available in your repositories yet. */
+  /** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. */
   status?: IssueStatus | null | undefined;
   /** State of the issue; either 'open' or 'closed' */
   state?: WebhooksIssueState | undefined;
@@ -10241,7 +10241,7 @@ export interface IssuesClosedEventIssuePerformedViaGithubApp {
 export type IssuesClosedEventIssuePullRequest = IssueCommentCreatedEventIssuePullRequest;
 export type IssuesClosedEventIssueReactions = CommitCommentCreatedEventCommentReactions;
 export type IssuesClosedEventIssueIssueFieldValuesList = Array<IssueFieldValue>;
-/** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. They're rolling out gradually, so they might not be available in your repositories yet. */
+/** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. */
 export type IssuesClosedEventIssueStatus = IssueStatus;
 /** State of the issue; either 'open' or 'closed' */
 export type IssuesClosedEventIssueState = "open" | "closed";
@@ -10303,7 +10303,7 @@ export interface IssuesClosedEventIssue {
   sub_issues_summary?: SubIssuesSummary | undefined;
   issue_dependencies_summary?: IssueDependenciesSummary | undefined;
   issue_field_values?: IssuesClosedEventIssueIssueFieldValuesList | undefined;
-  /** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. They're rolling out gradually, so they might not be available in your repositories yet. */
+  /** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. */
   status?: IssueStatus | null | undefined;
   /** State of the issue; either 'open' or 'closed' */
   state: IssuesClosedEventIssueState;
@@ -10680,7 +10680,7 @@ export interface IssuesDeletedEventIssuePerformedViaGithubApp {
 export type IssuesDeletedEventIssuePullRequest = IssueCommentCreatedEventIssuePullRequest;
 export type IssuesDeletedEventIssueReactions = CommitCommentCreatedEventCommentReactions;
 export type IssuesDeletedEventIssueIssueFieldValuesList = Array<IssueFieldValue>;
-/** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. They're rolling out gradually, so they might not be available in your repositories yet. */
+/** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. */
 export type IssuesDeletedEventIssueStatus = IssueStatus;
 /** State of the issue; either 'open' or 'closed' */
 export type IssuesDeletedEventIssueState = "open" | "closed";
@@ -10742,7 +10742,7 @@ export interface IssuesDeletedEventIssue {
   sub_issues_summary?: SubIssuesSummary | undefined;
   issue_dependencies_summary?: IssueDependenciesSummary | undefined;
   issue_field_values?: IssuesDeletedEventIssueIssueFieldValuesList | undefined;
-  /** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. They're rolling out gradually, so they might not be available in your repositories yet. */
+  /** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. */
   status?: IssueStatus | null | undefined;
   /** State of the issue; either 'open' or 'closed' */
   state?: IssuesDeletedEventIssueState | undefined;
@@ -11148,7 +11148,7 @@ export interface IssuesDemilestonedEventIssuePerformedViaGithubApp {
 export type IssuesDemilestonedEventIssuePullRequest = IssueCommentCreatedEventIssuePullRequest;
 export type IssuesDemilestonedEventIssueReactions = CommitCommentCreatedEventCommentReactions;
 export type IssuesDemilestonedEventIssueIssueFieldValuesList = Array<IssueFieldValue>;
-/** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. They're rolling out gradually, so they might not be available in your repositories yet. */
+/** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. */
 export type IssuesDemilestonedEventIssueStatus = IssueStatus;
 /** State of the issue; either 'open' or 'closed' */
 export type IssuesDemilestonedEventIssueState = "open" | "closed";
@@ -11210,7 +11210,7 @@ export interface IssuesDemilestonedEventIssue {
   sub_issues_summary?: SubIssuesSummary | undefined;
   issue_dependencies_summary?: IssueDependenciesSummary | undefined;
   issue_field_values?: IssuesDemilestonedEventIssueIssueFieldValuesList | undefined;
-  /** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. They're rolling out gradually, so they might not be available in your repositories yet. */
+  /** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. */
   status?: IssueStatus | null | undefined;
   /** State of the issue; either 'open' or 'closed' */
   state?: IssuesDemilestonedEventIssueState | undefined;
@@ -11644,7 +11644,7 @@ export interface IssuesEditedEventIssuePerformedViaGithubApp {
 export type IssuesEditedEventIssuePullRequest = IssueCommentCreatedEventIssuePullRequest;
 export type IssuesEditedEventIssueReactions = CommitCommentCreatedEventCommentReactions;
 export type IssuesEditedEventIssueIssueFieldValuesList = Array<IssueFieldValue>;
-/** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. They're rolling out gradually, so they might not be available in your repositories yet. */
+/** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. */
 export type IssuesEditedEventIssueStatus = IssueStatus;
 /** State of the issue; either 'open' or 'closed' */
 export type IssuesEditedEventIssueState = "open" | "closed";
@@ -11706,7 +11706,7 @@ export interface IssuesEditedEventIssue {
   sub_issues_summary?: SubIssuesSummary | undefined;
   issue_dependencies_summary?: IssueDependenciesSummary | undefined;
   issue_field_values?: IssuesEditedEventIssueIssueFieldValuesList | undefined;
-  /** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. They're rolling out gradually, so they might not be available in your repositories yet. */
+  /** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. */
   status?: IssueStatus | null | undefined;
   /** State of the issue; either 'open' or 'closed' */
   state?: IssuesEditedEventIssueState | undefined;
@@ -12251,7 +12251,7 @@ export interface IssuesLabeledEventIssuePerformedViaGithubApp {
 export type IssuesLabeledEventIssuePullRequest = IssueCommentCreatedEventIssuePullRequest;
 export type IssuesLabeledEventIssueReactions = CommitCommentCreatedEventCommentReactions;
 export type IssuesLabeledEventIssueIssueFieldValuesList = Array<IssueFieldValue>;
-/** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. They're rolling out gradually, so they might not be available in your repositories yet. */
+/** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. */
 export type IssuesLabeledEventIssueStatus = IssueStatus;
 /** State of the issue; either 'open' or 'closed' */
 export type IssuesLabeledEventIssueState = "open" | "closed";
@@ -12313,7 +12313,7 @@ export interface IssuesLabeledEventIssue {
   sub_issues_summary?: SubIssuesSummary | undefined;
   issue_dependencies_summary?: IssueDependenciesSummary | undefined;
   issue_field_values?: IssuesLabeledEventIssueIssueFieldValuesList | undefined;
-  /** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. They're rolling out gradually, so they might not be available in your repositories yet. */
+  /** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. */
   status?: IssueStatus | null | undefined;
   /** State of the issue; either 'open' or 'closed' */
   state?: IssuesLabeledEventIssueState | undefined;
@@ -12685,7 +12685,7 @@ export interface IssuesLockedEventIssuePerformedViaGithubApp {
 export type IssuesLockedEventIssuePullRequest = IssueCommentCreatedEventIssuePullRequest;
 export type IssuesLockedEventIssueReactions = CommitCommentCreatedEventCommentReactions;
 export type IssuesLockedEventIssueIssueFieldValuesList = Array<IssueFieldValue>;
-/** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. They're rolling out gradually, so they might not be available in your repositories yet. */
+/** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. */
 export type IssuesLockedEventIssueStatus = IssueStatus;
 /** State of the issue; either 'open' or 'closed' */
 export type IssuesLockedEventIssueState = "open" | "closed";
@@ -12747,7 +12747,7 @@ export interface IssuesLockedEventIssue {
   sub_issues_summary?: SubIssuesSummary | undefined;
   issue_dependencies_summary?: IssueDependenciesSummary | undefined;
   issue_field_values?: IssuesLockedEventIssueIssueFieldValuesList | undefined;
-  /** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. They're rolling out gradually, so they might not be available in your repositories yet. */
+  /** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. */
   status?: IssueStatus | null | undefined;
   /** State of the issue; either 'open' or 'closed' */
   state?: IssuesLockedEventIssueState | undefined;
@@ -13140,7 +13140,7 @@ export interface IssuesMilestonedEventIssuePerformedViaGithubApp {
 export type IssuesMilestonedEventIssuePullRequest = IssueCommentCreatedEventIssuePullRequest;
 export type IssuesMilestonedEventIssueReactions = CommitCommentCreatedEventCommentReactions;
 export type IssuesMilestonedEventIssueIssueFieldValuesList = Array<IssueFieldValue>;
-/** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. They're rolling out gradually, so they might not be available in your repositories yet. */
+/** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. */
 export type IssuesMilestonedEventIssueStatus = IssueStatus;
 /** State of the issue; either 'open' or 'closed' */
 export type IssuesMilestonedEventIssueState = "open" | "closed";
@@ -13202,7 +13202,7 @@ export interface IssuesMilestonedEventIssue {
   sub_issues_summary?: SubIssuesSummary | undefined;
   issue_dependencies_summary?: IssueDependenciesSummary | undefined;
   issue_field_values?: IssuesMilestonedEventIssueIssueFieldValuesList | undefined;
-  /** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. They're rolling out gradually, so they might not be available in your repositories yet. */
+  /** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. */
   status?: IssueStatus | null | undefined;
   /** State of the issue; either 'open' or 'closed' */
   state?: IssuesMilestonedEventIssueState | undefined;
@@ -13626,7 +13626,7 @@ export interface IssuesOpenedEventChangesOldIssuePerformedViaGithubApp {
 export type IssuesOpenedEventChangesOldIssuePullRequest = IssueCommentCreatedEventIssuePullRequest;
 export type IssuesOpenedEventChangesOldIssueReactions = CommitCommentCreatedEventCommentReactions;
 export type IssuesOpenedEventChangesOldIssueIssueFieldValuesList = Array<IssueFieldValue>;
-/** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. They're rolling out gradually, so they might not be available in your repositories yet. */
+/** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. */
 export type IssuesOpenedEventChangesOldIssueStatus = IssueStatus;
 /** State of the issue; either 'open' or 'closed' */
 export type IssuesOpenedEventChangesOldIssueState = "open" | "closed";
@@ -13690,7 +13690,7 @@ export interface IssuesOpenedEventChangesOldIssue {
   sub_issues_summary?: SubIssuesSummary | undefined;
   issue_dependencies_summary?: IssueDependenciesSummary | undefined;
   issue_field_values?: IssuesOpenedEventChangesOldIssueIssueFieldValuesList | undefined;
-  /** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. They're rolling out gradually, so they might not be available in your repositories yet. */
+  /** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. */
   status?: IssueStatus | null | undefined;
   /** State of the issue; either 'open' or 'closed' */
   state?: IssuesOpenedEventChangesOldIssueState | undefined;
@@ -14221,7 +14221,7 @@ export interface IssuesOpenedEventIssuePerformedViaGithubApp {
 export type IssuesOpenedEventIssuePullRequest = IssueCommentCreatedEventIssuePullRequest;
 export type IssuesOpenedEventIssueReactions = CommitCommentCreatedEventCommentReactions;
 export type IssuesOpenedEventIssueIssueFieldValuesList = Array<IssueFieldValue>;
-/** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. They're rolling out gradually, so they might not be available in your repositories yet. */
+/** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. */
 export type IssuesOpenedEventIssueStatus = IssueStatus;
 /** State of the issue; either 'open' or 'closed' */
 export type IssuesOpenedEventIssueState = "open" | "closed";
@@ -14282,7 +14282,7 @@ export interface IssuesOpenedEventIssue {
   sub_issues_summary?: SubIssuesSummary | undefined;
   issue_dependencies_summary?: IssueDependenciesSummary | undefined;
   issue_field_values?: IssuesOpenedEventIssueIssueFieldValuesList | undefined;
-  /** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. They're rolling out gradually, so they might not be available in your repositories yet. */
+  /** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. */
   status?: IssueStatus | null | undefined;
   /** State of the issue; either 'open' or 'closed' */
   state?: IssuesOpenedEventIssueState | undefined;
@@ -14615,7 +14615,7 @@ export interface WebhooksIssue2PerformedViaGithubApp {
 export type WebhooksIssue2PullRequest = IssueCommentCreatedEventIssuePullRequest;
 export type WebhooksIssue2Reactions = CommitCommentCreatedEventCommentReactions;
 export type WebhooksIssue2IssueFieldValuesList = Array<IssueFieldValue>;
-/** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. They're rolling out gradually, so they might not be available in your repositories yet. */
+/** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. */
 export type WebhooksIssue2Status = IssueStatus;
 /** State of the issue; either 'open' or 'closed' */
 export type WebhooksIssue2State = "open" | "closed";
@@ -14677,7 +14677,7 @@ export interface WebhooksIssue2 {
   sub_issues_summary?: SubIssuesSummary | undefined;
   issue_dependencies_summary?: IssueDependenciesSummary | undefined;
   issue_field_values?: WebhooksIssue2IssueFieldValuesList | undefined;
-  /** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. They're rolling out gradually, so they might not be available in your repositories yet. */
+  /** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. */
   status?: IssueStatus | null | undefined;
   /** State of the issue; either 'open' or 'closed' */
   state?: WebhooksIssue2State | undefined;
@@ -15079,7 +15079,7 @@ export interface IssuesReopenedEventIssuePerformedViaGithubApp {
 export type IssuesReopenedEventIssuePullRequest = IssueCommentCreatedEventIssuePullRequest;
 export type IssuesReopenedEventIssueReactions = CommitCommentCreatedEventCommentReactions;
 export type IssuesReopenedEventIssueIssueFieldValuesList = Array<IssueFieldValue>;
-/** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. They're rolling out gradually, so they might not be available in your repositories yet. */
+/** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. */
 export type IssuesReopenedEventIssueStatus = IssueStatus;
 /** State of the issue; either 'open' or 'closed' */
 export type IssuesReopenedEventIssueState = "open" | "closed";
@@ -15141,7 +15141,7 @@ export interface IssuesReopenedEventIssue {
   sub_issues_summary?: SubIssuesSummary | undefined;
   issue_dependencies_summary?: IssueDependenciesSummary | undefined;
   issue_field_values?: IssuesReopenedEventIssueIssueFieldValuesList | undefined;
-  /** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. They're rolling out gradually, so they might not be available in your repositories yet. */
+  /** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. */
   status?: IssueStatus | null | undefined;
   /** State of the issue; either 'open' or 'closed' */
   state: IssuesReopenedEventIssueState;
@@ -15629,7 +15629,7 @@ export type IssuesTransferredEventChangesNewIssuePullRequest =
 export type IssuesTransferredEventChangesNewIssueReactions =
   CommitCommentCreatedEventCommentReactions;
 export type IssuesTransferredEventChangesNewIssueIssueFieldValuesList = Array<IssueFieldValue>;
-/** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. They're rolling out gradually, so they might not be available in your repositories yet. */
+/** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. */
 export type IssuesTransferredEventChangesNewIssueStatus = IssueStatus;
 /** State of the issue; either 'open' or 'closed' */
 export type IssuesTransferredEventChangesNewIssueState = "open" | "closed";
@@ -15694,7 +15694,7 @@ export interface IssuesTransferredEventChangesNewIssue {
   sub_issues_summary?: SubIssuesSummary | undefined;
   issue_dependencies_summary?: IssueDependenciesSummary | undefined;
   issue_field_values?: IssuesTransferredEventChangesNewIssueIssueFieldValuesList | undefined;
-  /** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. They're rolling out gradually, so they might not be available in your repositories yet. */
+  /** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. */
   status?: IssueStatus | null | undefined;
   /** State of the issue; either 'open' or 'closed' */
   state?: IssuesTransferredEventChangesNewIssueState | undefined;
@@ -16301,7 +16301,7 @@ export interface IssuesUnlockedEventIssuePerformedViaGithubApp {
 export type IssuesUnlockedEventIssuePullRequest = IssueCommentCreatedEventIssuePullRequest;
 export type IssuesUnlockedEventIssueReactions = CommitCommentCreatedEventCommentReactions;
 export type IssuesUnlockedEventIssueIssueFieldValuesList = Array<IssueFieldValue>;
-/** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. They're rolling out gradually, so they might not be available in your repositories yet. */
+/** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. */
 export type IssuesUnlockedEventIssueStatus = IssueStatus;
 /** State of the issue; either 'open' or 'closed' */
 export type IssuesUnlockedEventIssueState = "open" | "closed";
@@ -16363,7 +16363,7 @@ export interface IssuesUnlockedEventIssue {
   sub_issues_summary?: SubIssuesSummary | undefined;
   issue_dependencies_summary?: IssueDependenciesSummary | undefined;
   issue_field_values?: IssuesUnlockedEventIssueIssueFieldValuesList | undefined;
-  /** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. They're rolling out gradually, so they might not be available in your repositories yet. */
+  /** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. */
   status?: IssueStatus | null | undefined;
   /** State of the issue; either 'open' or 'closed' */
   state?: IssuesUnlockedEventIssueState | undefined;

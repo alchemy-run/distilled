@@ -2099,7 +2099,7 @@ export const listDefaultEnvironmentVariables: API.OperationMethod<
 }));
 
 export type ListDeletedProjectsError = ConvexOpError;
-/** List deleted projects List a team's deleted projects within the recovery window, newest first. */
+/** List deleted projects List a team's deleted projects within the recovery window, newest first. Deleted projects are recoverable for 7 days before they are purged. */
 export const listDeletedProjects: API.PaginatedOperationMethod<
   ListDeletedProjectsRequest,
   PaginatedDeletedProjectsResponse,
@@ -2505,7 +2505,7 @@ export const mintAiGatewayJwt: API.OperationMethod<
 }));
 
 export type RecoverProjectError = ConvexOpError;
-/** Recover project Recover a recently deleted project and its eligible deployments. */
+/** Recover project Recover a recently deleted project and its eligible deployments. Deleted projects are recoverable for 7 days before they are purged. */
 export const recoverProject: API.OperationMethod<
   RecoverProjectRequest,
   RecoverProjectResponse,
