@@ -26,4 +26,4 @@ export { paginateCursor } from "./pagination.ts";
 export * as Retry from "./retry.ts";
 export * as Services from "./services/index.ts";
 export * from "./services/spacetimedb.ts";
-export { BadRequest, NotFound } from "./services/spacetimedb.ts";
+export { BadRequest, Conflict, NotFound } from "./services/spacetimedb.ts";

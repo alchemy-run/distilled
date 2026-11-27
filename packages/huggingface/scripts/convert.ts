@@ -170,6 +170,19 @@ const OPERATION_NAMES: Readonly<Record<string, string>> = {
   "POST /api/blog/{namespace}/{slug}/resource-group": "setBlogResourceGroup",
   "GET /api/collections/{namespace}/{slug}-{id}/resource-group": "getCollectionResourceGroup",
   "POST /api/collections/{namespace}/{slug}-{id}/resource-group": "setCollectionResourceGroup",
+
+  // -- trusted publishers: summaries are bare nouns ("Trusted publisher") ----
+  "GET /api/organizations/{name}/service-accounts/{serviceAccountId}/trusted-publishers":
+    "listServiceAccountTrustedPublishers",
+  "POST /api/organizations/{name}/service-accounts/{serviceAccountId}/trusted-publishers":
+    "createServiceAccountTrustedPublisher",
+  "DELETE /api/organizations/{name}/service-accounts/{serviceAccountId}/trusted-publishers/{publisherId}":
+    "deleteServiceAccountTrustedPublisher",
+  "GET /api/{repoType}/{namespace}/{repo}/settings/trusted-publishers": "listRepoTrustedPublishers",
+  "POST /api/{repoType}/{namespace}/{repo}/settings/trusted-publishers":
+    "createRepoTrustedPublisher",
+  "DELETE /api/{repoType}/{namespace}/{repo}/settings/trusted-publishers/{publisherId}":
+    "deleteRepoTrustedPublisher",
 };
 
 /**
