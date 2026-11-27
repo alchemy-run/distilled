@@ -652,7 +652,7 @@ export interface GetPositionsRequest {
   limit?: number | undefined;
   /** Opaque pagination cursor from a prior response's `next_cursor`. It carries the page position, page size, and the status/sort/direction it was minted under. */
   cursor?: string | undefined;
-  /** One of `OPEN`, `REDEEMABLE`, `REDEEMABLE_LOST`, `MERGEABLE`, or `CLOSED`; defaults to `OPEN`. `REDEEMABLE_LOST` requires `user`, supports all six sorts, and defaults to `CURRENT_VALUE`; it preserves row status `REDEEMABLE`. `MERGEABLE` is `OPEN` narrowed to live complementary pairs (conditions where the wallet holds >= 2 servable-live tokens) and defaults to `TOKENS`; it is user-scoped, so a market-anchored request renders as `OPEN`. `OPEN` is the superset; it includes settled-but-unredeemed winners, which `REDEEMABLE` narrows to. `CLOSED` is exited positions. */
+  /** One of `OPEN`, `REDEEMABLE`, `REDEEMABLE_LOST`, `MERGEABLE`, or `CLOSED`; defaults to `OPEN`. `REDEEMABLE_LOST` requires `user`, supports every sort but `AVG_PRICE`, and defaults to `CURRENT_VALUE`; it preserves row status `REDEEMABLE`. `MERGEABLE` is `OPEN` narrowed to live complementary pairs (conditions where the wallet holds >= 2 servable-live tokens) and defaults to `TOKENS`; it is user-scoped, so a market-anchored request renders as `OPEN`. `OPEN` is the superset; it includes settled-but-unredeemed winners, which `REDEEMABLE` narrows to. `CLOSED` is exited positions. */
   status?: string | undefined;
   /** Event id(s), comma-separated (at most 20 distinct values). User-anchored only. */
   event_id?: string | undefined;
@@ -664,7 +664,7 @@ export interface GetPositionsRequest {
   filter_amount?: number | undefined;
   /** Also include positions on archived markets; defaults to `false`. `OPEN`/`REDEEMABLE`/`REDEEMABLE_LOST`/`MERGEABLE` only; combining it with `status=CLOSED` is rejected. Inactive markets remain excluded either way. */
   include_archived?: boolean | undefined;
-  /** One of `CURRENT_VALUE`, `PRICE`, `TOKENS`, `UNREALIZED_PNL`, `REALIZED_PNL`, `TOTAL_PNL`, or `TIMESTAMP` (the row's `last_event_at`). `PRICE` ranks by the response's effective `current_price` on every supported anchor and status. On `REDEEMABLE`, the existing winners-first partition remains ahead of the requested price order. The default follows the status: `CURRENT_VALUE` for `OPEN`/`REDEEMABLE`, `REALIZED_PNL` for `CLOSED`. On a user's `CLOSED` positions, `TOKENS`, `CURRENT_VALUE`, `PRICE` and `UNREALIZED_PNL` describe a holding that no longer exists, so those pages are served in `REALIZED_PNL` order. */
+  /** One of `CURRENT_VALUE`, `PRICE`, `AVG_PRICE`, `TOKENS`, `UNREALIZED_PNL`, `REALIZED_PNL`, `TOTAL_PNL`, or `TIMESTAMP` (the row's `last_event_at`). `PRICE` ranks by the response's effective `current_price` on every supported anchor and status. `AVG_PRICE` ranks by the response's `avg_price` (the entry price); a user's `CLOSED` and `REDEEMABLE_LOST` positions reject it until they have an indexed path for it. On `REDEEMABLE`, the existing winners-first partition remains ahead of the requested price order. The default follows the status: `CURRENT_VALUE` for `OPEN`/`REDEEMABLE`, `REALIZED_PNL` for `CLOSED`. On a user's `CLOSED` positions, `TOKENS`, `CURRENT_VALUE`, `PRICE` and `UNREALIZED_PNL` describe a holding that no longer exists, so those pages are served in `REALIZED_PNL` order. */
   sort_by?: string | undefined;
   /** Inclusive lower bound on `last_event_at`, epoch seconds; omit or `0` for unbounded (the `/v2/activity` + `/v2/trades` vocabulary). */
   start?: number | undefined;
@@ -697,8 +697,12 @@ export interface Position {
   event_id: string;
   /** Parent event slug. */
   event_slug: string;
+  /** Parent event title; `""` when Gamma has none. */
+  event_title: string;
   /** First acquisition of the position (buy, split, mint, transfer in), epoch seconds; 0 when no acquisition is recorded. */
   first_entry_at: number;
+  /** Gamma's short label for this market inside a multi-market event (e.g. `Rene Haas` under `Next CEO of NVIDIA?`); `""` for single-market events. */
+  group_item_title: string;
   /** Market icon URL. */
   icon: string;
   /** The row's last economics event, epoch seconds; 0 without native state. */
@@ -756,6 +760,81 @@ export interface PositionsPage {
   data: PositionsPageDataList;
   /** Paging envelope: follow `next_cursor` until `null`. */
   pagination: Pagination;
+}
+export interface GetPositionsSnapshotRequest {
+  /** Proxy wallet, `0x` followed by 40 hex digits. The `user_address` spelling is accepted as an alias. */
+  user?: string | undefined;
+  /** The UTC day, `YYYY-MM-DD`: the positions held at its end, the cut being the next day at 00:00:00Z. It must be a closed, servable day; a day outside the servable range is a `400` that names the range. */
+  date?: string | undefined;
+  /** Page size, 0 to 1000 (default 100). Ignored when `cursor` is supplied (the cursor's size wins). */
+  limit?: number | undefined;
+  /** Opaque pagination cursor from a prior response's `next_cursor`. */
+  cursor?: string | undefined;
+}
+/** One position held at the end of the day, valued at the cut. */
+export interface SnapshotPosition {
+  /** The ERC-1155 token id, decimal. */
+  asset: string;
+  /** `cost_basis / size`, entry fees included (`/v2/positions` reports its `avg_price` without fees). */
+  avg_price: number;
+  /** The market's condition id (66 characters), or the combo condition id of a combo position; null when the token is unknown. */
+  condition_id?: string | null | undefined;
+  /** The remaining cost basis of the shares in USDC, entry fees included (the `total_cost_usdc` of the same position on `/v2/positions`). */
+  cost_basis: number;
+  /** The slug of the market's Gamma event; null for combos. */
+  event_slug?: string | null | undefined;
+  /** The contract family: 0 ConditionalTokens, 1 and 2 polymarket-v2 binary and neg-risk, 3 combo, 4 directional. */
+  module: number;
+  /** The outcome label; `Yes` or `No` for a combo. */
+  outcome?: string | null | undefined;
+  /** The price at the cut: the payout for `settlement`, the mark (0 to 1) for `mark`, and `avg_price` for `basis`, which can exceed 1. */
+  price: number;
+  /** Where `price` came from: `settlement` (the market resolved before the cut: its payout), `mark` (the last market price recorded at a midnight on or before the day), or `basis` (no price: the average price, so `value` equals `cost_basis`). */
+  price_source: string;
+  /** Shares held at the end of the day. */
+  size: number;
+  /** The current Gamma market slug; null for combos. */
+  slug?: string | null | undefined;
+  /** The current Gamma market question; null for combos. */
+  title?: string | null | undefined;
+  /** `size * price`. */
+  value: number;
+}
+/** The page's positions, in the walk's stable order (not `asset` order). */
+export type PositionsSnapshotPageDataList = Array<SnapshotPosition>;
+/** `value` split by `price_source`. */
+export interface SnapshotValueBySource {
+  /** Value of the positions with no price (their cost basis). */
+  basis: number;
+  /** Value of the positions priced at a recorded midnight market price. */
+  mark: number;
+  /** Value of the positions whose market resolved before the cut. */
+  settlement: number;
+}
+/** The totals of every position of the day; on the first page only. */
+export interface SnapshotSummary {
+  /** The highest block of the day's recorded moves. */
+  closed_block: number;
+  /** The remaining cost basis of every position, in USDC. */
+  cost_basis: number;
+  /** The cut, `date + 1 day` at 00:00:00Z (RFC 3339). */
+  cut: string;
+  /** The requested day, `YYYY-MM-DD`. */
+  date: string;
+  /** Positions held at the end of the day (every page together). */
+  positions: number;
+  /** The value of every position at the cut, in USDC. */
+  value: number;
+  /** `value` split by `price_source`. */
+  value_by_source: SnapshotValueBySource;
+}
+/** `{ data, summary, pagination }`: `summary` is present on the first page only. */
+export interface PositionsSnapshotPage {
+  /** The page's positions, in the walk's stable order (not `asset` order). */
+  data: PositionsSnapshotPageDataList;
+  /** Page size, display offset, `has_more` and the `next_cursor` to follow. */
+  pagination: Pagination;
+  summary?: SnapshotSummary | null | undefined;
 }
 export interface GetPricesHistoryRequest {
   /** Outcome token id (the CLOB asset id the chart is keyed by). Required. `tokenId` is an accepted alias. */
@@ -1189,7 +1268,7 @@ export interface EnvelopePortfolioValue {
   data: EnvelopePortfolioValueData;
 }
 export type GetActivityError = PolymarketOpError;
-/** List account activity Keyset-paginated activity feed (trades, splits, merges, redeems, ...) in the standard `{ data, pagination }` envelope. Ordering is `(block_timestamp, sequence_id)`, `DESC` by default or `ASC` via `sort_direction=ASC`; both keyset-seekable. Value sorts (`CASH`/`TOKENS`) have no seek anchor and are rejected with `400` rather than silently re-served as page one. The cursor binds the direction it was minted under and the resume ADOPTS it, so a replay cannot flip the walk mid-stream. A malformed `condition` id is a `400` naming the value; a well-formed one that matches nothing serves an empty `data` array, which is the meaningful zero-state; absence means the market is not servable, and only that. */
+/** List account activity Keyset-paginated activity feed (trades, splits, merges, redeems, ...) in the standard `{ data, pagination }` envelope. Ordering is `(block_timestamp, sequence_id)`, `DESC` by default or `ASC` via `sort_direction=ASC`; both keyset-seekable. Value sorts (`CASH`/`TOKENS`) have no seek anchor and are rejected with `400` rather than silently re-served as page one. The cursor binds the direction it was minted under and the resume ADOPTS it, so a replay cannot flip the walk mid-stream. When `user` is the active wallet of a Polymarket account that owns other wallets, the feed holds every wallet's activity; each row's `proxy_wallet` names the wallet it belongs to. A malformed `condition` id is a `400` naming the value; a well-formed one that matches nothing serves an empty `data` array, which is the meaningful zero-state; absence means the market is not servable, and only that. */
 export const getActivity: API.OperationMethod<
   GetActivityRequest,
   ActivityPage,
@@ -1250,8 +1329,8 @@ export const getBuildersLeaderboard: API.OperationMethod<
   GetBuildersLeaderboardError,
   PolymarketOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<GetBuildersLeaderboardRequest>,
-  output: __S(259, __c16, 3) as any as S.Schema<BuildersLeaderboardPage>,
+  input: __S(272, __c17, 0) as any as S.Schema<GetBuildersLeaderboardRequest>,
+  output: __S(275, __c17, 3) as any as S.Schema<BuildersLeaderboardPage>,
   errors: [],
   serviceErrors: PolymarketServiceErrors,
   protocol: DataProtocol,
@@ -1268,8 +1347,8 @@ export const getBuildersVolume: API.OperationMethod<
   GetBuildersVolumeError,
   PolymarketOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c17, 0) as any as S.Schema<GetBuildersVolumeRequest>,
-  output: __S(275, __c17, 3) as any as S.Schema<EnvelopeVecBuilderVolumePoint>,
+  input: __S(288, __c18, 0) as any as S.Schema<GetBuildersVolumeRequest>,
+  output: __S(291, __c18, 3) as any as S.Schema<EnvelopeVecBuilderVolumePoint>,
   errors: [],
   serviceErrors: PolymarketServiceErrors,
   protocol: DataProtocol,
@@ -1279,15 +1358,15 @@ export const getBuildersVolume: API.OperationMethod<
 }));
 
 export type GetComboPositionsError = PolymarketOpError;
-/** List combo positions Combo positions for a user, in the standard `{ data, pagination }` envelope. Sorts: `FIRST_ENTRY` (default) | `ENTRY_COST` (+ `CURRENT_VALUE` alias) | `UPDATED`, each with `sort_direction`. `FIRST_ENTRY DESC` pages by the two-state keyset anchor `(first_entry_at_micros, combo_condition_id, outcome_index)` (NULL micros = the NULL tail); `UPDATED ASC` by the single-state `(updated_at_micros, ...)` anchor; every other combination by an offset-shaped token. The cursor binds sort + direction and the resume ADOPTS them, so a replay cannot flip or re-sort the walk mid-stream. It binds the cohort; `user`/`status`/`condition`/`updated_after`/ `updated_before`; the same way: following a page needs nothing but `?user=` (always required here) and `?cursor=`, and restating a filter is allowed but must agree. Omitting one is not a contradiction, it is the absence of a choice; **contradicting** one is a 400, because the token's walk state only means anything against the cohort it was minted on. Incremental sync: `updated_after`/`updated_before` are an INCLUSIVE epoch-second window on `updated_at`. Without a `status` filter, either bound switches the response to the mirror-complete sync view (every live row, not only held ones); a `status` filter keeps its own visibility. The upper end is always capped by a short stability ceiling (~90s behind now) so a mirror never reads rows that may still move. Pair with `sortBy=UPDATED&sortDirection=ASC` for the stable sync order. A malformed `condition` combo condition id is a `400` naming the value; a well-formed one that matches nothing serves an empty `data` array, which is the meaningful zero-state. */
+/** List combo positions Combo positions for a user, in the standard `{ data, pagination }` envelope. Sorts: `FIRST_ENTRY` (default) | `ENTRY_COST` (+ `CURRENT_VALUE` alias) | `UPDATED`, each with `sort_direction`. `FIRST_ENTRY DESC` pages by the two-state keyset anchor `(first_entry_at_micros, combo_condition_id, outcome_index)` (NULL micros = the NULL tail); `UPDATED ASC` by the single-state `(updated_at_micros, ...)` anchor; every other combination by an offset-shaped token. The cursor binds sort + direction and the resume ADOPTS them, so a replay cannot flip or re-sort the walk mid-stream. It binds the cohort; `user`/`status`/`condition`/`updated_after`/ `updated_before`; the same way: following a page needs nothing but `?user=` (always required here) and `?cursor=`, and restating a filter is allowed but must agree. Omitting one is not a contradiction, it is the absence of a choice; **contradicting** one is a 400, because the token's walk state only means anything against the cohort it was minted on. Incremental sync: `updated_after`/`updated_before` are an INCLUSIVE epoch-second window on `updated_at`. Without a `status` filter, either bound switches the response to the mirror-complete sync view (every live row, not only held ones); a `status` filter keeps its own visibility. The upper end is always capped by a short stability ceiling (~90s behind now) so a mirror never reads rows that may still move. Pair with `sortBy=UPDATED&sortDirection=ASC` for the stable sync order. Resolved positions are history: when `status` names `RESOLVED_WIN`, `RESOLVED_LOSS` or `RESOLVED_PARTIAL` and `user` is the active wallet of a Polymarket account that owns other wallets, the page also holds the other wallets' positions in those resolved statuses; each row's `proxy_wallet` names its wallet. Open positions, and the sync window, read `user` alone. A malformed `condition` combo condition id is a `400` naming the value; a well-formed one that matches nothing serves an empty `data` array, which is the meaningful zero-state. */
 export const getComboPositions: API.OperationMethod<
   GetComboPositionsRequest,
   ComboPositionsPage,
   GetComboPositionsError,
   PolymarketOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<GetComboPositionsRequest>,
-  output: __S(291, __c18, 3) as any as S.Schema<ComboPositionsPage>,
+  input: __S(304, __c19, 0) as any as S.Schema<GetComboPositionsRequest>,
+  output: __S(307, __c19, 3) as any as S.Schema<ComboPositionsPage>,
   errors: [],
   serviceErrors: PolymarketServiceErrors,
   protocol: DataProtocol,
@@ -1297,15 +1376,15 @@ export const getComboPositions: API.OperationMethod<
 }));
 
 export type GetCombosError = PolymarketOpError;
-/** List combo activity Keyset-paginated combo lifecycle + redemption feed for a user, in the standard `{ data, pagination }` envelope. Pass `?cursor=` from a prior response's `next_cursor` to fetch the next page. Unlike the activity feed, the anchor behind the cursor is `(block_number, log_index)`; this endpoint's total order. A malformed `condition` combo condition id is a `400` naming the value; a well-formed one that matches nothing serves an empty `data` array, which is the meaningful zero-state. */
+/** List combo activity Keyset-paginated combo lifecycle + redemption feed for a user, in the standard `{ data, pagination }` envelope. Pass `?cursor=` from a prior response's `next_cursor` to fetch the next page. Unlike the activity feed, the anchor behind the cursor is `(block_number, log_index)`; this endpoint's total order. When `user` is the active wallet of a Polymarket account that owns other wallets, the feed holds every wallet's combo activity; each row's `proxy_wallet` names the wallet it belongs to. A malformed `condition` combo condition id is a `400` naming the value; a well-formed one that matches nothing serves an empty `data` array, which is the meaningful zero-state. */
 export const getCombos: API.OperationMethod<
   GetCombosRequest,
   ComboActivityPage,
   GetCombosError,
   PolymarketOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<GetCombosRequest>,
-  output: __S(323, __c20, 3) as any as S.Schema<ComboActivityPage>,
+  input: __S(336, __c21, 0) as any as S.Schema<GetCombosRequest>,
+  output: __S(339, __c21, 3) as any as S.Schema<ComboActivityPage>,
   errors: [],
   serviceErrors: PolymarketServiceErrors,
   protocol: DataProtocol,
@@ -1322,8 +1401,8 @@ export const getHolders: API.OperationMethod<
   GetHoldersError,
   PolymarketOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<GetHoldersRequest>,
-  output: __S(341, __c21, 5) as any as S.Schema<HoldersPage>,
+  input: __S(352, __c22, 0) as any as S.Schema<GetHoldersRequest>,
+  output: __S(357, __c22, 5) as any as S.Schema<HoldersPage>,
   errors: [],
   serviceErrors: PolymarketServiceErrors,
   protocol: DataProtocol,
@@ -1340,8 +1419,8 @@ export const getLeaderboard: API.OperationMethod<
   GetLeaderboardError,
   PolymarketOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c22, 0) as any as S.Schema<GetLeaderboardRequest>,
-  output: __S(353, __c22, 1) as any as S.Schema<GetLeaderboardResponse>,
+  input: __S(368, __c23, 0) as any as S.Schema<GetLeaderboardRequest>,
+  output: __S(369, __c23, 1) as any as S.Schema<GetLeaderboardResponse>,
   errors: [],
   serviceErrors: PolymarketServiceErrors,
   protocol: DataProtocol,
@@ -1358,8 +1437,8 @@ export const getLiveVolume: API.OperationMethod<
   GetLiveVolumeError,
   PolymarketOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c23, 0) as any as S.Schema<GetLiveVolumeRequest>,
-  output: __S(372, __c23, 4) as any as S.Schema<EnvelopeLiveVolume>,
+  input: __S(384, __c24, 0) as any as S.Schema<GetLiveVolumeRequest>,
+  output: __S(388, __c24, 4) as any as S.Schema<EnvelopeLiveVolume>,
   errors: [],
   serviceErrors: PolymarketServiceErrors,
   protocol: DataProtocol,
@@ -1387,7 +1466,7 @@ export const getOi: API.OperationMethod<
 }));
 
 export type GetPositionsError = PolymarketOpError;
-/** List positions for a user or market A keyset page of positions in the standard `{ data, pagination }` envelope. One route serves a user's open book, their closed book (`status=CLOSED`), and a market's holders (market anchor). At least one of `user`/`condition` is required. Supplying both anchors on the user and applies `condition` as a narrowing filter. `status` defaults to `OPEN`, which is the **superset**: a settled-but-unredeemed winner still holds its tokens, so it is an open position whose condition resolved. `REDEEMABLE` narrows to that subset, and each row echoes its own `status`. Resume contract: a `next_cursor` binds the `status`/`sortBy`/`sortDirection` the walk started with. To follow it, send `cursor` together with the same `user` or `condition` anchor used on the first page; a bare `?cursor=` request returns 400. The token is the authority on the spine and the total order, and the handler adopts all three from it. Restating them is allowed and must agree; **explicitly** contradicting one is a 400, because replaying an anchor under a different spine or order would silently walk a different result set. Omitting them is not a contradiction; a defaulted `status` is the absence of a choice, not a request for `OPEN`. User CLOSED residual sorts bind their realized-PnL ranking in the signed cursor kind. Earlier cursors for those sorts return 400 and require restarting pagination without `cursor`, because their numeric anchor has ambiguous units. A malformed `condition` id is a `400` naming the value; a well-formed one that matches nothing serves an empty `data` array, which is the meaningful zero-state; absence means the market is not servable, and only that. */
+/** List positions for a user or market A keyset page of positions in the standard `{ data, pagination }` envelope. One route serves a user's open book, their closed book (`status=CLOSED`), and a market's holders (market anchor). At least one of `user`/`condition` is required. Supplying both anchors on the user and applies `condition` as a narrowing filter. `status` defaults to `OPEN`, which is the **superset**: a settled-but-unredeemed winner still holds its tokens, so it is an open position whose condition resolved. `REDEEMABLE` narrows to that subset, and each row echoes its own `status`. When `user` is the active wallet of a Polymarket account that owns other wallets, `status=CLOSED` returns every wallet's closed positions; each row's `proxy_wallet` names the wallet it belongs to. `OPEN` and `REDEEMABLE` read the requested wallet. Resume contract: a `next_cursor` binds the `status`/`sortBy`/`sortDirection` the walk started with. To follow it, send `cursor` together with the same `user` or `condition` anchor used on the first page; a bare `?cursor=` request returns 400. The token is the authority on the spine and the total order, and the handler adopts all three from it. Restating them is allowed and must agree; **explicitly** contradicting one is a 400, because replaying an anchor under a different spine or order would silently walk a different result set. Omitting them is not a contradiction; a defaulted `status` is the absence of a choice, not a request for `OPEN`. User CLOSED residual sorts bind their realized-PnL ranking in the signed cursor kind. Earlier cursors for those sorts return 400 and require restarting pagination without `cursor`, because their numeric anchor has ambiguous units. A malformed `condition` id is a `400` naming the value; a well-formed one that matches nothing serves an empty `data` array, which is the meaningful zero-state; absence means the market is not servable, and only that. */
 export const getPositions: API.OperationMethod<
   GetPositionsRequest,
   PositionsPage,
@@ -1404,6 +1483,24 @@ export const getPositions: API.OperationMethod<
   span: "GetPositions",
 }));
 
+export type GetPositionsSnapshotError = PolymarketOpError;
+/** Snapshot a wallet's positions at the end of a day Every position of one wallet at the end of a closed UTC day, for tax and accounting exports: each token it holds above 0.1 share at the cut, open, won and unredeemed, or resolved to 0 and still held (priced 0). Size, cost basis, the price at the cut and the value, with the day's totals on the first page. The cut is the next day at 00:00:00Z: every block with an earlier timestamp counts. A served day never changes, so a `200` is cacheable for a day. The price at the cut, first match wins: `settlement` when the market resolved before the cut (its payout; a combo pays 0 once a leg pays 0, the product of its legs' payouts once every leg resolved, and its No side 1 minus that), `mark` when a market price was recorded on or before the day (the latest one, clamped to [0, 1]), else `basis` (the average price, so `value` equals `cost_basis`). Positions of 0.1 share or less are dust and not served. Every contract family is included, combos too; `title`, `slug` and `event_slug` are the market's current Gamma metadata and are null for combos. `size` is the wallet's on-chain balance at the cut; `cost_basis` is the native cost basis as `/v2/positions` serves it (size times the average price, or a structural market's entry cost), as `/v2/positions/combos` serves it for a combo, frozen at resolution for a position resolved to 0, and 0 for a balance with no native basis. `date` must lie in the servable range: the days closed since the snapshot history began, through yesterday once the writer has passed midnight (about an hour after it). Any other day is a `400` whose message names the range. Pages are in a stable order (not `asset` order); follow `next_cursor` with the same `user` (`date` may be omitted; restated, it must agree). A new walk (a first page: `date` and no `cursor`) is limited to one per client every 30 seconds; a second one inside that window is a `429` whose `Retry-After` is the rest of the window. Cursor pages are not counted, nor is a walk that fails. A cold first page of a very large wallet can take several seconds. Responses are served gzip-compressed: a request must send `Accept-Encoding: gzip`, as browsers and most HTTP clients do by default (with curl, pass `--compressed`). A request that does not is a `406`. */
+export const getPositionsSnapshot: API.OperationMethod<
+  GetPositionsSnapshotRequest,
+  PositionsSnapshotPage,
+  GetPositionsSnapshotError,
+  PolymarketOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(80, __c5, 0) as any as S.Schema<GetPositionsSnapshotRequest>,
+  output: __S(85, __c5, 5) as any as S.Schema<PositionsSnapshotPage>,
+  errors: [],
+  serviceErrors: PolymarketServiceErrors,
+  protocol: DataProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPositionsSnapshot",
+}));
+
 export type GetPricesHistoryError = PolymarketOpError;
 /** Get a token's price history The price-history series for one outcome token, or a single point-in-time observation. Three window forms, exactly one per request: `start` (with optional `end`), `interval`, or `as_of`. Points are served oldest-first; pass `?cursor=` from a prior response's `next_cursor` for the next page. `interval=max` (or `all`) serves the market's whole life, back to 2022 for the oldest markets, at 12-hour buckets unless `bucket_seconds` says otherwise; explicit `start`/`end` windows cap at 15 days, so the presets are the long-range path. The series ends with a **terminal point**: the latest observation inside the window, which is a real tick and so can fall between bucket boundaries. Nothing may assume uniform spacing (sparse data already forbids that), and each point's `resolution_seconds` says what window it was observed in. **Availability is graded by resolution.** The 3-hour and 12-hour series are permanent (back to 2022-11-18); the fine grains are windowed, with these MINIMUMS: 1-minute data at least 7 days, 5-minute at least 60, 30-minute at least 90. Floors, not exact horizons: data expires in multi-day chunks, so a grain usually reaches a few days further back than its minimum. Coverage is measured per request, never assumed from a table, so `bucket_seconds=60` over a window starting a month ago is an incompatible pair: both values are valid, and there is no data at their intersection. The two ways of asking behave differently on purpose: * **`bucket_seconds` sent** is served exactly as asked, so over a window whose resolution has expired you get an empty page rather than a silent substitution. * **`bucket_seconds` omitted** lets the server choose a width that can actually serve the window: the finest tier grain whose series stays under ~2,500 points, except that a window wider than 12 hours never defaults to the 60-second grain (ask for `bucket_seconds=60` explicitly when you want it over a longer window), and coarsened further if that grain does not reach the window's start. A window up to 12 hours keeps 1-minute detail (an hour 60 points, 12 hours 720); beyond that it moves to a materialized tier (a day 288, three days 864, a week 2,016, fifteen days 720). Send `bucket_seconds` when you want a specific density instead. A RESOLVED market's series ends with one settlement point: the on-chain payout of the requested token (0 lost, 1 won, fractional for voided or split resolutions) at `resolution_seconds` 0, placed one bucket edge past the last stored row and clamped to an explicit window's `end`. It appears only on the final page of a paginated walk, and only once the resolution is settled on-chain; an unresolved market's series is unchanged. `resolution_seconds` on every point reports what it was served at, so read it instead of assuming the width a recent window would have given you. For a multi-day window prefer a grain-aligned `bucket_seconds` (300, 1800, 10800, 43200) or omit it; a 60-second width over days is the one shape that is both slow and, past 7 days, empty. */
 export const getPricesHistory: API.OperationMethod<
@@ -1412,8 +1509,8 @@ export const getPricesHistory: API.OperationMethod<
   GetPricesHistoryError,
   PolymarketOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c5, 0) as any as S.Schema<GetPricesHistoryRequest>,
-  output: __S(83, __c5, 3) as any as S.Schema<PricesHistoryPage>,
+  input: __S(96, __c6, 0) as any as S.Schema<GetPricesHistoryRequest>,
+  output: __S(99, __c6, 3) as any as S.Schema<PricesHistoryPage>,
   errors: [],
   serviceErrors: PolymarketServiceErrors,
   protocol: DataProtocol,
@@ -1430,8 +1527,8 @@ export const getResolutions: API.OperationMethod<
   GetResolutionsError,
   PolymarketOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<GetResolutionsRequest>,
-  output: __S(100, __c6, 4) as any as S.Schema<EnvelopeVecResolution>,
+  input: __S(112, __c7, 0) as any as S.Schema<GetResolutionsRequest>,
+  output: __S(116, __c7, 4) as any as S.Schema<EnvelopeVecResolution>,
   errors: [],
   serviceErrors: PolymarketServiceErrors,
   protocol: DataProtocol,
@@ -1448,8 +1545,8 @@ export const getStatus: API.OperationMethod<
   GetStatusError,
   PolymarketOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<GetStatusRequest>,
-  output: __S(120, __c7, 8) as any as S.Schema<EnvelopeServiceStatus>,
+  input: __S(128, __c8, 0) as any as S.Schema<GetStatusRequest>,
+  output: __S(136, __c8, 8) as any as S.Schema<EnvelopeServiceStatus>,
   errors: [],
   serviceErrors: PolymarketServiceErrors,
   protocol: DataProtocol,
@@ -1466,8 +1563,8 @@ export const getTokens: API.OperationMethod<
   GetTokensError,
   PolymarketOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c8, 0) as any as S.Schema<GetTokensRequest>,
-  output: __S(131, __c8, 3) as any as S.Schema<EnvelopeVecTokenRef>,
+  input: __S(144, __c9, 0) as any as S.Schema<GetTokensRequest>,
+  output: __S(147, __c9, 3) as any as S.Schema<EnvelopeVecTokenRef>,
   errors: [],
   serviceErrors: PolymarketServiceErrors,
   protocol: DataProtocol,
@@ -1477,15 +1574,15 @@ export const getTokens: API.OperationMethod<
 }));
 
 export type GetTradesError = PolymarketOpError;
-/** List trades Keyset-paginated trade feed in the standard `{ data, pagination }` envelope. Pass `?cursor=` from a prior response's `next_cursor` to fetch the next page; it carries both the page size and the `(block_timestamp, sequence_id)` seek anchor, so deep pages cost the same as shallow ones. A malformed `condition` id is a `400` naming the value; a well-formed one that matches nothing serves an empty `data` array, which is the meaningful zero-state; absence means the market is not servable, and only that. */
+/** List trades Keyset-paginated trade feed in the standard `{ data, pagination }` envelope. Pass `?cursor=` from a prior response's `next_cursor` to fetch the next page; it carries both the page size and the `(block_timestamp, sequence_id)` seek anchor, so deep pages cost the same as shallow ones. When `user` is the active wallet of a Polymarket account that owns other wallets, the feed holds every wallet's trades; each row's `proxy_wallet` names the wallet it belongs to. A malformed `condition` id is a `400` naming the value; a well-formed one that matches nothing serves an empty `data` array, which is the meaningful zero-state; absence means the market is not servable, and only that. */
 export const getTrades: API.OperationMethod<
   GetTradesRequest,
   TradesPage,
   GetTradesError,
   PolymarketOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<GetTradesRequest>,
-  output: __S(147, __c9, 3) as any as S.Schema<TradesPage>,
+  input: __S(160, __c10, 0) as any as S.Schema<GetTradesRequest>,
+  output: __S(163, __c10, 3) as any as S.Schema<TradesPage>,
   errors: [],
   serviceErrors: PolymarketServiceErrors,
   protocol: DataProtocol,
@@ -1495,15 +1592,15 @@ export const getTrades: API.OperationMethod<
 }));
 
 export type GetUserPnlV2Error = PolymarketOpError;
-/** Get a user's PnL series Complete cumulative native-PnL atoms and compositions. */
+/** Get a user's PnL series Complete cumulative native-PnL atoms and compositions. When `user` is the active wallet of a Polymarket account that owns other wallets, the series describes the person: each point adds every wallet's newest observation at or before it, so PnL made on a former wallet keeps counting after the user moves to a new one, and the final point equals `/v2/user-stats` `all_time_pnl`. A field one wallet does not cover is `null` on the point. Any other wallet reads alone. */
 export const getUserPnlV2: API.OperationMethod<
   GetUserPnlV2Request,
   EnvelopeUserPnlSeries,
   GetUserPnlV2Error,
   PolymarketOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<GetUserPnlV2Request>,
-  output: __S(163, __c10, 3) as any as S.Schema<EnvelopeUserPnlSeries>,
+  input: __S(176, __c11, 0) as any as S.Schema<GetUserPnlV2Request>,
+  output: __S(179, __c11, 3) as any as S.Schema<EnvelopeUserPnlSeries>,
   errors: [],
   serviceErrors: PolymarketServiceErrors,
   protocol: DataProtocol,
@@ -1513,15 +1610,15 @@ export const getUserPnlV2: API.OperationMethod<
 }));
 
 export type GetUserStatsError = PolymarketOpError;
-/** Get a user's profile stats The profile card for one wallet in a single call. `?user=` is required. Returns `{ data: { trades, biggest_win, views, join_date, all_time_pnl } }`, or `{ data: null }` when the wallet is not a known user. **`data: null` and a row of zeros mean different things.** `null` is "no such user"; zeros are "this user exists but has never traded, never won and has no profile views". `trades` counts DISTINCT MARKETS traded, not individual trades. It is exact, not estimated. `biggest_win` is the best single **resolved** position win in USDC, market and combo arms unified, and `0` when the wallet has no win over $1. `join_date` is epoch seconds, or `null` when unknown. `all_time_pnl` is the newest persisted cumulative `/v2/user-pnl` point at its actual observation timestamp. It is `null` when the user exists but no observation has been published yet. For the composition card: trading realized is `realized_market_pnl + realized_combo_pnl`; LP realized is `realized_lp_pnl`; rebates, yield, rewards, referral, and fees paid map to their same-named fields (`fees_paid` is refunds minus charges). `volume`, `volume_usdc`, and `trade_count` are cumulative maker-attributed canonical fill metrics. Not paginated: one row by construction, so `data` is the bare object with no `pagination`; the `/v2/value` shape. */
+/** Get a user's profile stats The profile card for one wallet in a single call. `?user=` is required. Returns `{ data: { trades, biggest_win, views, join_date, all_time_pnl } }`, or `{ data: null }` when the wallet is not a known user. **`data: null` and a row of zeros mean different things.** `null` is "no such user"; zeros are "this user exists but has never traded, never won and has no profile views". `trades` counts DISTINCT MARKETS traded, not individual trades. It is exact, not estimated. `biggest_win` is the best single **resolved** position win in USDC, market and combo arms unified, and `0` when the wallet has no win over $1. `join_date` is epoch seconds, or `null` when unknown. When `user` is the active wallet of a Polymarket account that owns other wallets, the card describes the person: `trades` counts distinct markets across every wallet, `biggest_win` is the best of any of them, and `all_time_pnl` adds each wallet's newest point. Any other wallet reads alone. `all_time_pnl` is the newest persisted cumulative `/v2/user-pnl` point at its actual observation timestamp. It is `null` when the user exists but no observation has been published yet. For the composition card: trading realized is `realized_market_pnl + realized_combo_pnl`; LP realized is `realized_lp_pnl`; rebates, yield, rewards, referral, and fees paid map to their same-named fields (`fees_paid` is refunds minus charges). `volume`, `volume_usdc`, and `trade_count` are cumulative maker-attributed canonical fill metrics. Not paginated: one row by construction, so `data` is the bare object with no `pagination`; the `/v2/value` shape. */
 export const getUserStats: API.OperationMethod<
   GetUserStatsRequest,
   EnvelopeOptionUserStats,
   GetUserStatsError,
   PolymarketOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<GetUserStatsRequest>,
-  output: __S(194, __c12, 2) as any as S.Schema<EnvelopeOptionUserStats>,
+  input: __S(208, __c13, 0) as any as S.Schema<GetUserStatsRequest>,
+  output: __S(210, __c13, 2) as any as S.Schema<EnvelopeOptionUserStats>,
   errors: [],
   serviceErrors: PolymarketServiceErrors,
   protocol: DataProtocol,
@@ -1538,8 +1635,8 @@ export const getUserVolume: API.OperationMethod<
   GetUserVolumeError,
   PolymarketOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<GetUserVolumeRequest>,
-  output: __S(210, __c13, 2) as any as S.Schema<EnvelopeUserVolume>,
+  input: __S(240, __c15, 0) as any as S.Schema<GetUserVolumeRequest>,
+  output: __S(242, __c15, 2) as any as S.Schema<EnvelopeUserVolume>,
   errors: [],
   serviceErrors: PolymarketServiceErrors,
   protocol: DataProtocol,
@@ -1556,8 +1653,8 @@ export const getValue: API.OperationMethod<
   GetValueError,
   PolymarketOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<GetValueRequest>,
-  output: __S(242, __c15, 2) as any as S.Schema<EnvelopePortfolioValue>,
+  input: __S(256, __c16, 0) as any as S.Schema<GetValueRequest>,
+  output: __S(258, __c16, 2) as any as S.Schema<EnvelopePortfolioValue>,
   errors: [],
   serviceErrors: PolymarketServiceErrors,
   protocol: DataProtocol,
@@ -1736,7 +1833,9 @@ function __c4(j: number): any {
           entry_fees_usdc: S.Number,
           event_id: S.String,
           event_slug: S.String,
+          event_title: S.String,
           first_entry_at: S.Number,
+          group_item_title: S.String,
           icon: S.String,
           last_event_at: S.Number,
           mergeable: S.Boolean,
@@ -1779,6 +1878,67 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          user: S.optional(S.String.pipe(T.Query())),
+          date: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          cursor: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/v2/positions/snapshot", code: 200 })),
+      ).annotate({ identifier: "GetPositionsSnapshotRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          asset: S.String,
+          avg_price: S.Number,
+          condition_id: S.optional(S.NullOr(S.String)),
+          cost_basis: S.Number,
+          event_slug: S.optional(S.NullOr(S.String)),
+          module: S.Number,
+          outcome: S.optional(S.NullOr(S.String)),
+          price: S.Number,
+          price_source: S.String,
+          size: S.Number,
+          slug: S.optional(S.NullOr(S.String)),
+          title: S.optional(S.NullOr(S.String)),
+          value: S.Number,
+        }),
+      ).annotate({ identifier: "SnapshotPosition" });
+    case 2:
+      return S.Array(__S(81, __c5, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          basis: S.Number,
+          mark: S.Number,
+          settlement: S.Number,
+        }),
+      ).annotate({ identifier: "SnapshotValueBySource" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          closed_block: S.Number,
+          cost_basis: S.Number,
+          cut: S.String,
+          date: S.String,
+          positions: S.Number,
+          value: S.Number,
+          value_by_source: __S(83, __c5, 3),
+        }),
+      ).annotate({ identifier: "SnapshotSummary" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(82, __c5, 2),
+          pagination: __S(16, __c1, 0),
+          summary: S.optional(S.NullOr(__S(84, __c5, 4))),
+        }),
+      ).annotate({ identifier: "PositionsSnapshotPage" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           token_id: S.optional(S.String.pipe(T.Query())),
           start: S.optional(S.Number.pipe(T.Query())),
           end: S.optional(S.Number.pipe(T.Query())),
@@ -1798,17 +1958,17 @@ function __c5(j: number): any {
         }),
       ).annotate({ identifier: "PricePoint" });
     case 2:
-      return S.Array(__S(81, __c5, 1));
+      return S.Array(__S(97, __c6, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(82, __c5, 2),
+          data: __S(98, __c6, 2),
           pagination: __S(16, __c1, 0),
         }),
       ).annotate({ identifier: "PricesHistoryPage" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1830,7 +1990,7 @@ function __c6(j: number): any {
           log_index: S.String,
           market_type: S.optional(S.NullOr(S.String)),
           new_version_q: S.Boolean,
-          payouts: S.optional(S.NullOr(__S(97, __c6, 1))),
+          payouts: S.optional(S.NullOr(__S(113, __c7, 1))),
           price: S.optional(S.NullOr(S.String)),
           proposed_price: S.optional(S.NullOr(S.String)),
           question_id: S.optional(S.NullOr(S.String)),
@@ -1847,16 +2007,16 @@ function __c6(j: number): any {
         }),
       ).annotate({ identifier: "EnvelopeVecResolutionDataItem" });
     case 3:
-      return S.Array(__S(98, __c6, 2));
+      return S.Array(__S(114, __c7, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          data: __S(99, __c6, 3),
+          data: __S(115, __c7, 3),
         }),
       ).annotate({ identifier: "EnvelopeVecResolution" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1871,16 +2031,16 @@ function __c7(j: number): any {
         }),
       ).annotate({ identifier: "CursorLag" });
     case 2:
-      return S.Array(__S(113, __c7, 1));
+      return S.Array(__S(129, __c8, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           chain_id: S.Number,
           cursors: S.Number,
-          lagging: __S(114, __c7, 2),
+          lagging: __S(130, __c8, 2),
           max_synced_block: S.optional(S.NullOr(S.Number)),
           min_synced_block: S.optional(S.NullOr(S.Number)),
-          most_lagged: S.optional(S.NullOr(__S(113, __c7, 1))),
+          most_lagged: S.optional(S.NullOr(__S(129, __c8, 1))),
           network: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "IngestionFreshness" });
@@ -1893,12 +2053,12 @@ function __c7(j: number): any {
         }),
       ).annotate({ identifier: "ServingMechanism" });
     case 5:
-      return S.Array(__S(116, __c7, 4));
+      return S.Array(__S(132, __c8, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           lag_seconds: S.optional(S.NullOr(S.Number)),
-          mechanisms: __S(117, __c7, 5),
+          mechanisms: __S(133, __c8, 5),
           worst: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "ServingFreshness" });
@@ -1907,19 +2067,19 @@ function __c7(j: number): any {
         S.Struct({
           age_seconds: S.Number,
           computed_at: S.String,
-          ingestion: __S(115, __c7, 3),
-          serving: __S(118, __c7, 6),
+          ingestion: __S(131, __c8, 3),
+          serving: __S(134, __c8, 6),
         }),
       ).annotate({ identifier: "EnvelopeServiceStatusData" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          data: __S(119, __c7, 7),
+          data: __S(135, __c8, 7),
         }),
       ).annotate({ identifier: "EnvelopeServiceStatus" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1952,16 +2112,16 @@ function __c8(j: number): any {
         }),
       ).annotate({ identifier: "EnvelopeVecTokenRefDataItem" });
     case 2:
-      return S.Array(__S(129, __c8, 1));
+      return S.Array(__S(145, __c9, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(130, __c8, 2),
+          data: __S(146, __c9, 2),
         }),
       ).annotate({ identifier: "EnvelopeVecTokenRef" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2004,17 +2164,17 @@ function __c9(j: number): any {
         }),
       ).annotate({ identifier: "Trade" });
     case 2:
-      return S.Array(__S(145, __c9, 1));
+      return S.Array(__S(161, __c10, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(146, __c9, 2),
+          data: __S(162, __c10, 2),
           pagination: __S(16, __c1, 0),
         }),
       ).annotate({ identifier: "TradesPage" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2025,13 +2185,13 @@ function __c10(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v2/user-pnl", code: 200 })),
       ).annotate({ identifier: "GetUserPnlV2Request" });
     case 1:
-      return S.Array(__S(176, __c11, 0));
+      return S.Array(__S(192, __c12, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           fidelity: S.String,
           interval: S.String,
-          points: __S(161, __c10, 1),
+          points: __S(177, __c11, 1),
           proxy_wallet: S.String,
           source_fidelity: S.String,
         }),
@@ -2039,12 +2199,12 @@ function __c10(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(162, __c10, 2),
+          data: __S(178, __c11, 2),
         }),
       ).annotate({ identifier: "EnvelopeUserPnlSeries" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2080,7 +2240,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "UserPnlPoint" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2091,7 +2251,7 @@ function __c12(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          all_time_pnl: S.optional(S.NullOr(__S(176, __c11, 0))),
+          all_time_pnl: S.optional(S.NullOr(__S(192, __c12, 0))),
           biggest_win: S.Number,
           join_date: S.optional(S.NullOr(S.Number)),
           proxy_wallet: S.String,
@@ -2102,35 +2262,9 @@ function __c12(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: S.NullOr(__S(193, __c12, 1)),
+          data: S.NullOr(__S(209, __c13, 1)),
         }),
       ).annotate({ identifier: "EnvelopeOptionUserStats" });
-  }
-}
-function __c13(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          user: S.optional(S.String.pipe(T.Query())),
-          start: S.optional(S.Number.pipe(T.Query())),
-          end: S.optional(S.Number.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/v2/user-volume", code: 200 })),
-      ).annotate({ identifier: "GetUserVolumeRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          trade_count: S.Number,
-          volume: S.Number,
-          volume_usdc: S.Number,
-        }),
-      ).annotate({ identifier: "EnvelopeUserVolumeData" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(209, __c13, 1),
-        }),
-      ).annotate({ identifier: "EnvelopeUserVolume" });
   }
 }
 function __c14(j: number): any {
@@ -2180,6 +2314,32 @@ function __c15(j: number): any {
       return S.suspend(() =>
         S.Struct({
           user: S.optional(S.String.pipe(T.Query())),
+          start: S.optional(S.Number.pipe(T.Query())),
+          end: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/v2/user-volume", code: 200 })),
+      ).annotate({ identifier: "GetUserVolumeRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          trade_count: S.Number,
+          volume: S.Number,
+          volume_usdc: S.Number,
+        }),
+      ).annotate({ identifier: "EnvelopeUserVolumeData" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(241, __c15, 1),
+        }),
+      ).annotate({ identifier: "EnvelopeUserVolume" });
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          user: S.optional(S.String.pipe(T.Query())),
           condition: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/v2/value", code: 200 })),
       ).annotate({ identifier: "GetValueRequest" });
@@ -2193,12 +2353,12 @@ function __c15(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(241, __c15, 1),
+          data: __S(257, __c16, 1),
         }),
       ).annotate({ identifier: "EnvelopePortfolioValue" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2221,17 +2381,17 @@ function __c16(j: number): any {
         }),
       ).annotate({ identifier: "BuilderStanding" });
     case 2:
-      return S.Array(__S(257, __c16, 1));
+      return S.Array(__S(273, __c17, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(258, __c16, 2),
+          data: __S(274, __c17, 2),
           pagination: __S(16, __c1, 0),
         }),
       ).annotate({ identifier: "BuildersLeaderboardPage" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2254,16 +2414,16 @@ function __c17(j: number): any {
         }),
       ).annotate({ identifier: "EnvelopeVecBuilderVolumePointDataItem" });
     case 2:
-      return S.Array(__S(273, __c17, 1));
+      return S.Array(__S(289, __c18, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(274, __c17, 2),
+          data: __S(290, __c18, 2),
         }),
       ).annotate({ identifier: "EnvelopeVecBuilderVolumePoint" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2291,7 +2451,7 @@ function __c18(j: number): any {
           first_entry_at: S.String,
           first_entry_at_micros: S.optional(S.NullOr(S.Number)),
           gross_entry_cost_usdc: S.Number,
-          legs: __S(308, __c19, 4),
+          legs: __S(324, __c20, 4),
           legs_pending: S.Number,
           legs_resolved: S.Number,
           legs_total: S.Number,
@@ -2307,17 +2467,17 @@ function __c18(j: number): any {
         }),
       ).annotate({ identifier: "ComboPosition" });
     case 2:
-      return S.Array(__S(289, __c18, 1));
+      return S.Array(__S(305, __c19, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(290, __c18, 2),
+          data: __S(306, __c19, 2),
           pagination: __S(16, __c1, 0),
         }),
       ).annotate({ identifier: "ComboPositionsPage" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2335,19 +2495,19 @@ function __c19(j: number): any {
         S.Struct({
           category: S.String,
           end_date: S.String,
-          event: __S(304, __c19, 0),
+          event: __S(320, __c20, 0),
           group_item_title: S.optional(S.String),
           icon_url: S.String,
           image_url: S.String,
           line: S.optional(S.NullOr(S.Number)),
           market_id: S.String,
           outcome: S.String,
-          outcomes: S.optional(__S(305, __c19, 1)),
+          outcomes: S.optional(__S(321, __c20, 1)),
           question: S.optional(S.String),
           slug: S.String,
           sports_market_type: S.optional(S.String),
           subcategory: S.String,
-          tags: __S(305, __c19, 1),
+          tags: __S(321, __c20, 1),
           title: S.String,
         }),
       ).annotate({ identifier: "ComboLegMarket" });
@@ -2362,14 +2522,14 @@ function __c19(j: number): any {
           leg_position_id: S.String,
           leg_resolved_at: S.optional(S.NullOr(S.String)),
           leg_status: S.String,
-          market: __S(306, __c19, 2),
+          market: __S(322, __c20, 2),
         }),
       ).annotate({ identifier: "ComboLeg" });
     case 4:
-      return S.Array(__S(307, __c19, 3));
+      return S.Array(__S(323, __c20, 3));
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2388,7 +2548,7 @@ function __c20(j: number): any {
           combo_condition_id: S.String,
           combo_position_id: S.String,
           id: S.String,
-          legs: __S(308, __c19, 4),
+          legs: __S(324, __c20, 4),
           payout_usdc: S.optional(S.NullOr(S.Number)),
           proxy_wallet: S.String,
           timestamp: S.Number,
@@ -2397,17 +2557,17 @@ function __c20(j: number): any {
         }),
       ).annotate({ identifier: "ComboActivity" });
     case 2:
-      return S.Array(__S(321, __c20, 1));
+      return S.Array(__S(337, __c21, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(322, __c20, 2),
+          data: __S(338, __c21, 2),
           pagination: __S(16, __c1, 0),
         }),
       ).annotate({ identifier: "ComboActivityPage" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2443,26 +2603,26 @@ function __c21(j: number): any {
         }),
       ).annotate({ identifier: "Holder" });
     case 2:
-      return S.Array(__S(337, __c21, 1));
+      return S.Array(__S(353, __c22, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          holders: __S(338, __c21, 2),
+          holders: __S(354, __c22, 2),
           token_id: S.String,
         }),
       ).annotate({ identifier: "MetaHolder" });
     case 4:
-      return S.Array(__S(339, __c21, 3));
+      return S.Array(__S(355, __c22, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          data: __S(340, __c21, 4),
+          data: __S(356, __c22, 4),
           pagination: __S(16, __c1, 0),
         }),
       ).annotate({ identifier: "HoldersPage" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2481,7 +2641,7 @@ function __c22(j: number): any {
       });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2497,18 +2657,18 @@ function __c23(j: number): any {
         }),
       ).annotate({ identifier: "ConditionVolume" });
     case 2:
-      return S.Array(__S(369, __c23, 1));
+      return S.Array(__S(385, __c24, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          conditions: __S(370, __c23, 2),
+          conditions: __S(386, __c24, 2),
           taker_volume_total: S.Number,
         }),
       ).annotate({ identifier: "EnvelopeLiveVolumeData" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          data: __S(371, __c23, 3),
+          data: __S(387, __c24, 3),
         }),
       ).annotate({ identifier: "EnvelopeLiveVolume" });
   }
