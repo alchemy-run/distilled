@@ -581,7 +581,7 @@ export interface DiscussionEvent {
   action: string;
   discussion: Discussion;
 }
-/** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. They're rolling out gradually, so they might not be available in your repositories yet. */
+/** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. */
 export interface IssueStatus {
   /** The stable identifier of the planning status. */
   id: number;
@@ -1000,7 +1000,7 @@ export interface Issue {
   number: number;
   /** State of the issue; either 'open' or 'closed' */
   state: string;
-  /** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. They're rolling out gradually, so they might not be available in your repositories yet. */
+  /** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. */
   status?: IssueStatus | null | undefined;
   /** The reason for the current state */
   state_reason?: IssueStateReason | null | undefined;

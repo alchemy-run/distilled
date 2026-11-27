@@ -56,7 +56,7 @@ export interface AddAssigneesRequest {
   /** Usernames of people to assign this issue to. _NOTE: Only users with push access can add assignees to an issue. Assignees are silently ignored otherwise._ */
   assignees?: AddAssigneesRequestAssigneesList | undefined;
 }
-/** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. They're rolling out gradually, so they might not be available in your repositories yet. */
+/** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. */
 export interface IssueStatus {
   /** The stable identifier of the planning status. */
   id: number;
@@ -500,7 +500,7 @@ export interface Issue {
   number: number;
   /** State of the issue; either 'open' or 'closed' */
   state: string;
-  /** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. They're rolling out gradually, so they might not be available in your repositories yet. */
+  /** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. */
   status?: IssueStatus | null | undefined;
   /** The reason for the current state */
   state_reason?: IssueStateReason | null | undefined;
@@ -784,7 +784,7 @@ export interface CreateRequest {
   title: CreateRequestTitle;
   /** The contents of the issue. */
   body?: string | undefined;
-  /** The initial status of the issue. Can be `Backlog`, `Todo`, `In progress`, or `In review`. If omitted, the issue starts in `Backlog`. If you do not have permission to set the status, the supplied value is ignored and the issue starts in `Backlog`. Cannot be `null` or an empty string. Ignored when issue statuses aren't available in the repository. Issue statuses are in public preview and subject to change. They're rolling out gradually, so they might not be available in your repositories yet. */
+  /** The initial status of the issue. Can be `Backlog`, `Todo`, `In progress`, or `In review`. If omitted, the issue starts in `Backlog`. If you do not have permission to set the status, the supplied value is ignored and the issue starts in `Backlog`. Cannot be `null` or an empty string. Ignored when issue statuses aren't available in the repository. Issue statuses are in public preview and subject to change. */
   status?: string | undefined;
   /** Login for the user that this issue should be assigned to. _NOTE: Only users with push access can set the assignee for new issues. The assignee is silently dropped otherwise. **This field is closing down.**_ */
   assignee?: string | null | undefined;
@@ -1015,7 +1015,7 @@ export interface GetEventRequest {
   repo: string;
   event_id: number;
 }
-/** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. They're rolling out gradually, so they might not be available in your repositories yet. */
+/** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. */
 export type NullableIssueStatus = IssueStatus;
 /** The reason for the current state */
 export type NullableIssueStateReason = "completed" | "reopened" | "not_planned" | "duplicate";
@@ -1041,7 +1041,7 @@ export interface NullableIssue {
   number: number;
   /** State of the issue; either 'open' or 'closed' */
   state: string;
-  /** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. They're rolling out gradually, so they might not be available in your repositories yet. */
+  /** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. */
   status?: IssueStatus | null | undefined;
   /** The reason for the current state */
   state_reason?: NullableIssueStateReason | null | undefined;
@@ -2750,7 +2750,7 @@ export interface UpdateRequest {
   assignee?: string | null | undefined;
   /** The open or closed state of the issue. */
   state?: UpdateRequestState | (string & {}) | undefined;
-  /** The status to give the issue. Can be `Backlog`, `Todo`, `In progress`, `In review`, `Done`, `Not planned`, or `Duplicate`. If omitted, the current status is preserved unless `state` or `state_reason` changes. Setting a status also updates `state` and `state_reason` as needed. If provided, `state` and `state_reason` must be consistent with the requested status. Changing the status to `Duplicate` requires `duplicate_issue_id`. Cannot be `null` or an empty string. The status and other applied field changes are saved together. If the status cannot be saved, those field changes are rolled back. Ignored when issue statuses aren't available in the repository. Issue statuses are in public preview and subject to change. They're rolling out gradually, so they might not be available in your repositories yet. */
+  /** The status to give the issue. Can be `Backlog`, `Todo`, `In progress`, `In review`, `Done`, `Not planned`, or `Duplicate`. If omitted, the current status is preserved unless `state` or `state_reason` changes. Setting a status also updates `state` and `state_reason` as needed. If provided, `state` and `state_reason` must be consistent with the requested status. Changing the status to `Duplicate` requires `duplicate_issue_id`. Cannot be `null` or an empty string. The status and other applied field changes are saved together. If the status cannot be saved, those field changes are rolled back. Ignored when issue statuses aren't available in the repository. Issue statuses are in public preview and subject to change. */
   status?: string | undefined;
   /** The reason for the state change. Ignored unless `state` is changed. */
   state_reason?: UpdateRequestStateReason | (string & {}) | null | undefined;
@@ -2766,7 +2766,7 @@ export interface UpdateRequest {
   /** The issue type to associate with this issue. Only users with push access can set the type for issues. Without push access to the repository, type changes are silently dropped. */
   type?: UpdateRequestType | null | undefined;
 }
-/** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. They're rolling out gradually, so they might not be available in your repositories yet. */
+/** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. */
 export type UpdateResponseStatus = IssueStatus;
 /** The reason for the current state */
 export type UpdateResponseStateReason = "completed" | "reopened" | "not_planned" | "duplicate";
@@ -2873,7 +2873,7 @@ export interface UpdateResponse {
   number: number;
   /** State of the issue; either 'open' or 'closed' */
   state: string;
-  /** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. They're rolling out gradually, so they might not be available in your repositories yet. */
+  /** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. */
   status?: IssueStatus | null | undefined;
   /** The reason for the current state */
   state_reason?: UpdateResponseStateReason | null | undefined;

@@ -417,7 +417,7 @@ export interface IssuesAndPullRequestsRequest {
   /** The type of search to perform on issues. When not specified, the default is lexical search. - `semantic` -- performs a pure semantic (vector) search using embedding-based understanding. - `hybrid` -- combines semantic search with lexical search for best results. Semantic and hybrid search require authentication and are rate limited to 10 requests per minute. Only applies to issue searches (`/search/issues`). */
   search_type?: IssuesAndPullRequestsRequestSearchType | (string & {}) | undefined;
 }
-/** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. They're rolling out gradually, so they might not be available in your repositories yet. */
+/** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. */
 export interface IssueSearchResultItemStatus {
   /** The stable identifier of the planning status. */
   id: number;
@@ -819,7 +819,7 @@ export interface NullableIssueComment {
 }
 /** Issue Search Result Item */
 export interface IssueSearchResultItem {
-  /** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. They're rolling out gradually, so they might not be available in your repositories yet. */
+  /** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. */
   status?: IssueSearchResultItemStatus | null | undefined;
   url: string;
   repository_url: string;
