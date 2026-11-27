@@ -140,6 +140,7 @@ export type RuleResponseStatus =
   | "Updating"
   | "Deleting"
   | "Creating";
+export type RuleResponseSyncStatus = "SYNCED" | "NOT_SYNCED";
 /** The type of the rule (e.g., "ACL", "SecurityRule"). */
 export type RuleResponseType = "ACL" | "SecurityRule" | "SecurityGroup";
 export interface RuleResponse {
@@ -164,6 +165,7 @@ export interface RuleResponse {
   stateful?: boolean | undefined;
   /** The current state of the resource. */
   status: RuleResponseStatus;
+  syncStatus?: RuleResponseSyncStatus | undefined;
   /** The type of the rule (e.g., "ACL", "SecurityRule"). */
   type: RuleResponseType;
 }
@@ -576,6 +578,7 @@ function __c6(j: number): any {
           sourceIP: S.String,
           stateful: S.optional(S.Boolean),
           status: S.String,
+          syncStatus: S.optional(S.String),
           type: S.String,
         }),
       ).annotate({ identifier: "RuleResponse" });
