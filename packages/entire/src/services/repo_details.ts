@@ -67,6 +67,7 @@ export interface RepoListItem {
   github_id: number;
   html_url: string | null;
   id: string;
+  is_provider_admin?: boolean | undefined;
   language: string | null;
   name: string | null;
   open_pr_count: number;
@@ -567,6 +568,7 @@ function __c2(j: number): any {
           github_id: S.Number,
           html_url: S.NullOr(S.String),
           id: S.String,
+          is_provider_admin: S.optional(S.Boolean),
           language: S.NullOr(S.String),
           name: S.NullOr(S.String),
           open_pr_count: S.Number,

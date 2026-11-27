@@ -170,9 +170,12 @@ export interface GetRepoRequest {
   commitToken?: string | undefined;
 }
 export type RepoCandidateAccess = "read" | "write" | "admin";
+export type RepoCandidateVisibility = "public" | "private";
 export interface RepoCandidate {
   access: RepoCandidateAccess;
   onboardable: boolean;
+  provider_repo_id?: string | undefined;
+  visibility?: RepoCandidateVisibility | undefined;
   [key: string]: unknown;
 }
 export interface RepoCapabilities {
@@ -653,12 +656,23 @@ export interface RepoReference {
 export type ResolveReposRequestRepositoriesList = Array<RepoReference>;
 export interface ResolveReposRequest {
   commitToken?: string | undefined;
+  /** Source of provider visibility: cached (default) or fresh. fresh makes one live provider read, requires exactly one repository, and is rate limited per caller. Under fresh, a no-mirror result carries provider_repo_id in candidate, and an unavailable result for an onboarded repository can carry provider_repo. A no-mirror result without provider_repo_id means core did not honour fresh. */
+  provider_access?: string | undefined;
   /** Retry stale permission denials for navigation. Defaults to false for list enrichment. Failed retries retain denials; a commitToken authorization revision takes precedence. */
   recheckDeniedPermissions?: boolean | undefined;
   repositories: ResolveReposRequestRepositoriesList;
 }
 export type RepoResolutionPlacementsList = Array<RepoPlacement>;
 export type RepoResolutionProvider = "github" | "entire";
+/** The provider's visibility for the repository. */
+export type RepoProviderRepoVisibility = "public" | "private";
+export interface RepoProviderRepo {
+  /** The provider's repository ID. */
+  id: string;
+  /** The provider's visibility for the repository. */
+  visibility: RepoProviderRepoVisibility;
+  [key: string]: unknown;
+}
 export type RepoResolutionStatus = "ready" | "processing" | "no-mirror" | "moved" | "unavailable";
 export interface RepoResolution {
   candidate?: RepoCandidate | undefined;
@@ -668,6 +682,8 @@ export interface RepoResolution {
   placements?: RepoResolutionPlacementsList | undefined;
   primaries?: RepoPrimaries | undefined;
   provider: RepoResolutionProvider;
+  /** The provider's facts for a repository that the caller can see at the provider but cannot reach in Entire. Set only with provider_access fresh and status unavailable. */
+  provider_repo?: RepoProviderRepo | undefined;
   repoGroupId?: string | undefined;
   repoId?: string | undefined;
   requestedFullName: string;
@@ -1150,7 +1166,7 @@ export const resolveRepoIDs: API.OperationMethod<
 }));
 
 export type ResolveReposError = EntireOpError;
-/** Resolve provider-qualified repository lifecycle states */
+/** Resolve provider-qualified repository lifecycle states Set provider_access to fresh to read one GitHub repository live. A fresh request that exceeds the per-caller limit returns 429 with Retry-After. */
 export const resolveRepos: API.OperationMethod<
   ResolveReposRequest,
   ResolveReposResponse,
@@ -1158,7 +1174,7 @@ export const resolveRepos: API.OperationMethod<
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(114, __c14, 2) as any as S.Schema<ResolveReposRequest>,
-  output: __S(117, __c14, 5) as any as S.Schema<ResolveReposResponse>,
+  output: __S(118, __c14, 6) as any as S.Schema<ResolveReposResponse>,
   errors: [],
   serviceErrors: EntireServiceErrors,
   protocol: EntireCoreProtocol,
@@ -1698,11 +1714,22 @@ function __c14(j: number): any {
       return S.suspend(() =>
         S.Struct({
           commitToken: S.optional(S.String),
+          provider_access: S.optional(S.String),
           recheckDeniedPermissions: S.optional(S.Boolean),
           repositories: __S(113, __c14, 1),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/repos/resolve", code: 200 })),
       ).annotate({ identifier: "ResolveReposRequest" });
     case 3:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            id: S.String,
+            visibility: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "RepoProviderRepo" });
+    case 4:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
@@ -1713,6 +1740,7 @@ function __c14(j: number): any {
             placements: S.optional(__S(226, __c28, 2)),
             primaries: S.optional(__S(228, __c28, 4)),
             provider: S.String,
+            provider_repo: S.optional(__S(115, __c14, 3)),
             repoGroupId: S.optional(S.String),
             repoId: S.optional(S.String),
             requestedFullName: S.String,
@@ -1721,14 +1749,14 @@ function __c14(j: number): any {
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "RepoResolution" });
-    case 4:
-      return S.Array(__S(115, __c14, 3));
     case 5:
+      return S.Array(__S(116, __c14, 4));
+    case 6:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
             _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-            resolutions: __S(116, __c14, 4),
+            resolutions: __S(117, __c14, 5),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -2005,6 +2033,8 @@ function __c28(j: number): any {
           S.Struct({
             access: S.String,
             onboardable: S.Boolean,
+            provider_repo_id: S.optional(S.String),
+            visibility: S.optional(S.String),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
