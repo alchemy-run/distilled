@@ -66,6 +66,16 @@ const encodeRequest = (protocol: Protocol<ServiceUnavailable>): Run => {
   return () => API.encodeRequest(listThings, {});
 };
 
+/** A paginated operation whose strategy throws: when it is called, or after its first page. */
+const paged = (method: "pages" | "items", when: "called" | "after a page"): Run => {
+  const listThings = API.makePaginated(
+    () => ({ ...config(working)(), pagination: { items: "items" } }),
+    (operation, input) =>
+      when === "called" ? boom() : Stream.map(Stream.fromEffect(operation(input)), boom),
+  );
+  return () => Stream.runCollect(listThings[method]({}));
+};
+
 const cases: ReadonlyArray<readonly [string, Run]> = [
   ["encode throws", call({ ...working, encode: boom })],
   ["encode throws in its Effect", call({ ...working, encode: () => Effect.sync(boom) })],
@@ -79,6 +89,9 @@ const cases: ReadonlyArray<readonly [string, Run]> = [
     stream({ ...working, stream: () => Stream.map(Stream.make(1), boom) }),
   ],
   ["encodeRequest: encode throws", encodeRequest({ ...working, encode: boom })],
+  ["pages: the strategy throws", paged("pages", "called")],
+  ["pages: the strategy throws after a page", paged("pages", "after a page")],
+  ["items: the strategy throws after a page", paged("items", "after a page")],
 ];
 
 const expectSdkError = (exit: Exit.Exit<unknown, unknown>) => {
