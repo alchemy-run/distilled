@@ -1,0 +1,35 @@
+{
+  "description": "Railway variables hold a service's configuration and secrets (Railway docs, 'Using Variables': 'Variables provide a way to manage configuration and secrets across services in Railway'), such as a `DATABASE_URL` connection string or an `API_KEY`. The inputs that set them carry no sensitive mark, so a plain value shows in debug logs: VariableUpsertInput.value (variableUpsert) is named `value`, which the shared secret-name rule can't read, and the `EnvironmentVariables` maps (VariableCollectionUpsertInput.variables for variableCollectionUpsert, ServiceCreateInput.variables, SandboxCreateInput.variables, SandboxTemplateInput.variables and TemplateDeployService.variables) are a JSON scalar the rule never marks. Mark them sensitive, so they accept a `Redacted` value. Not every variable is a secret; the mark errs on the safe side. Source: https://docs.railway.com/guides/variables and the introspection schema in spec-mirror-railway (2026-11-26).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/types/VariableUpsertInput/inputFields/value/sensitive",
+      "value": true
+    },
+    {
+      "op": "add",
+      "path": "/types/VariableCollectionUpsertInput/inputFields/variables/sensitive",
+      "value": true
+    },
+    {
+      "op": "add",
+      "path": "/types/ServiceCreateInput/inputFields/variables/sensitive",
+      "value": true
+    },
+    {
+      "op": "add",
+      "path": "/types/SandboxCreateInput/inputFields/variables/sensitive",
+      "value": true
+    },
+    {
+      "op": "add",
+      "path": "/types/SandboxTemplateInput/inputFields/variables/sensitive",
+      "value": true
+    },
+    {
+      "op": "add",
+      "path": "/types/TemplateDeployService/inputFields/variables/sensitive",
+      "value": true
+    }
+  ]
+}
