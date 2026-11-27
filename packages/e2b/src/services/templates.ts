@@ -53,6 +53,8 @@ export interface CreateTemplateRequest {
   /** Maximum CPU count the template's sandboxes can be resized to; makes the template resizable. Must be at least cpuCount. */
   maxCpuCount?: number | undefined;
   memoryMB?: number | undefined;
+  /** Memory the template's sandboxes can grow to, in MiB. memoryMB is what they boot with; the rest is added when a sandbox asks for it. Must be at least memoryMB, and the difference a multiple of 128 MiB. */
+  maxMemoryMB?: number | undefined;
   minFreeDiskMb?: number | undefined;
 }
 /** Names of the template */
@@ -111,7 +113,10 @@ export interface TemplateBuild {
   cpuCount: number;
   /** Maximum CPU count for resizable templates; absent for fixed-size templates. */
   maxCpuCount?: number | undefined;
+  /** Memory in MiB a sandbox created from this build starts with: the build's memory, or for a snapshot of a grown sandbox the size it was taken at. A create that names no memoryMB starts at this size. */
   memoryMB: number;
+  /** Memory the template's sandboxes can grow to, in MiB; absent for templates whose memory cannot grow. */
+  maxMemoryMB?: number | undefined;
   diskSizeMB?: number | undefined;
   envdVersion?: string | undefined;
 }
@@ -125,7 +130,10 @@ export interface GetTemplateResponse {
   cpuCount: number;
   /** Maximum CPU count for resizable templates; absent for fixed-size templates. */
   maxCpuCount?: number | undefined;
+  /** Memory in MiB a sandbox created from this template starts with: the build's memory, or for a snapshot template of a grown sandbox the size it was taken at. A create that names no memoryMB starts at this size. */
   memoryMB: number;
+  /** Memory the template's sandboxes can grow to, in MiB; absent for templates whose memory cannot grow. */
+  maxMemoryMB?: number | undefined;
   diskSizeMB: number;
   /** Whether the template is public or only accessible by the team */
   public: boolean;
@@ -267,7 +275,10 @@ export interface Template {
   cpuCount: number;
   /** Maximum CPU count for resizable templates; absent for fixed-size templates. */
   maxCpuCount?: number | undefined;
+  /** Memory in MiB a sandbox created from this template starts with: the build's memory, or for a snapshot template of a grown sandbox the size it was taken at. A create that names no memoryMB starts at this size. */
   memoryMB: number;
+  /** Memory the template's sandboxes can grow to, in MiB; absent for templates whose memory cannot grow. */
+  maxMemoryMB?: number | undefined;
   diskSizeMB: number;
   /** Whether the template is public or only accessible by the team */
   public: boolean;
@@ -345,7 +356,10 @@ export interface TemplateBuildWithTags {
   cpuCount: number;
   /** Maximum CPU count for resizable templates; absent for fixed-size templates. */
   maxCpuCount?: number | undefined;
+  /** Memory in MiB a sandbox created from this build starts with: the build's memory, or for a snapshot of a grown sandbox the size it was taken at. A create that names no memoryMB starts at this size. */
   memoryMB: number;
+  /** Memory the template's sandboxes can grow to, in MiB; absent for templates whose memory cannot grow. */
+  maxMemoryMB?: number | undefined;
   diskSizeMB?: number | undefined;
   envdVersion?: string | undefined;
   /** Tags of the template that point at this build. A tag points at the latest ready build it was assigned to, the build a sandbox created with that tag starts from. */
@@ -710,6 +724,7 @@ function __c0(j: number): any {
           cpuCount: S.optional(S.Number),
           maxCpuCount: S.optional(S.Number),
           memoryMB: S.optional(S.Number),
+          maxMemoryMB: S.optional(S.Number),
           minFreeDiskMb: S.optional(S.Number),
         }).pipe(T.Http({ method: "POST", uri: "/v3/templates", code: 200 })),
       ).annotate({ identifier: "CreateTemplateRequest" });
@@ -757,6 +772,7 @@ function __c2(j: number): any {
           cpuCount: S.Number,
           maxCpuCount: S.optional(S.Number),
           memoryMB: S.Number,
+          maxMemoryMB: S.optional(S.Number),
           diskSizeMB: S.optional(S.Number),
           envdVersion: S.optional(S.String),
           tags: __S(8, __c1, 0),
@@ -876,6 +892,7 @@ function __c8(j: number): any {
           cpuCount: S.Number,
           maxCpuCount: S.optional(S.Number),
           memoryMB: S.Number,
+          maxMemoryMB: S.optional(S.Number),
           diskSizeMB: S.Number,
           public: S.Boolean,
           aliases: __S(8, __c1, 0),
@@ -909,6 +926,7 @@ function __c9(j: number): any {
           cpuCount: S.Number,
           maxCpuCount: S.optional(S.Number),
           memoryMB: S.Number,
+          maxMemoryMB: S.optional(S.Number),
           diskSizeMB: S.optional(S.Number),
           envdVersion: S.optional(S.String),
         }),
@@ -1068,6 +1086,7 @@ function __c17(j: number): any {
           cpuCount: S.Number,
           maxCpuCount: S.optional(S.Number),
           memoryMB: S.Number,
+          maxMemoryMB: S.optional(S.Number),
           diskSizeMB: S.Number,
           public: S.Boolean,
           aliases: __S(8, __c1, 0),

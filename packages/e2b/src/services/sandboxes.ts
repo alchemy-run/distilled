@@ -32,6 +32,10 @@ export interface ConnectSandboxRequest {
   timeout?: number | undefined;
   /** Defaults to true. When false and the sandbox is paused, resume from disk state only: the sandbox cold-boots fresh and any memory in the snapshot is ignored, never modified or deleted. Disk state has crash-recovery semantics -- writes not flushed before the pause may be lost. A no-op for snapshots that contain no memory. Rejected with an error in environments where this capability is not enabled, never silently downgraded to a memory restore. A snapshot taken while the sandbox guest agent was not responding (envdUnresponsiveAtPause) can only be resumed this way, and needs no enablement. */
   memory?: boolean | undefined;
+  /** Memory for the sandbox in MiB when this connect resumes it, from its memory snapshot or by cold-booting (memory false). Defaults to the memory the sandbox had when it was paused; at least that, and at most the template's maxMemoryMB, in steps of 128 MiB above its memoryMB. A sandbox that is already running keeps its size and the field is ignored. For a paused sandbox, a size the snapshot or the team cannot take is refused with 400; a size it can take applies only when this connect resumes the sandbox, and is ignored when another request is already resuming it. The response's memoryMB reports the size the sandbox runs with. */
+  memoryMB?: number | undefined;
+  /** Online vCPU target for the sandbox when this connect resumes it, from its memory snapshot or by cold-booting (memory false). Defaults to the snapshot's cpuCount; for a resizable template (one with maxCpuCount) that count is lowered to the team's vCPU limit when above it. A requested count is at most the template's maxCpuCount (fixed-size templates accept only their cpuCount) and the team's vCPU limit, and is refused when resizable templates are not enabled for the team. Like memoryMB: a sandbox that is already running keeps its count and the field is ignored. For a paused sandbox, a count the snapshot or the team cannot take is refused with 400; a count it can take applies only when this connect resumes the sandbox, and is ignored when another request is already resuming it. The response's cpuCount reports the count the sandbox runs with. */
+  cpuCount?: number | undefined;
 }
 export interface Sandbox {
   /** Identifier of the template from which is the sandbox created */
@@ -49,6 +53,10 @@ export interface Sandbox {
   trafficAccessToken?: string | Redacted.Redacted<string> | null | undefined;
   /** Base domain where the sandbox traffic is accessible */
   domain?: string | null | undefined;
+  /** Online vCPUs the sandbox runs with. A connect reports the count of the sandbox it returns, which differs from a requested cpuCount when the request was ignored. Absent from older API versions. */
+  cpuCount?: number | undefined;
+  /** Memory the sandbox runs with in MiB. A connect reports the size of the sandbox it returns, which differs from a requested memoryMB when the request was ignored. While the API does not know a sandbox's size (it was started by an older API version, for example), this reports its boot RAM. Absent from older API versions. */
+  memoryMB?: number | undefined;
 }
 /** Auto-resume configuration for paused sandboxes. */
 export interface SandboxAutoResumeConfig {
@@ -144,6 +152,8 @@ export interface CreateSandboxRequest {
   timeout?: number | undefined;
   /** Online vCPU target for the sandbox. Defaults to the template's cpuCount; at most its maxCpuCount (fixed-size templates accept only their cpuCount). */
   cpuCount?: number | undefined;
+  /** Memory for the sandbox in MiB. Defaults to the template's memoryMB; at most its maxMemoryMB, in steps of 128 MiB above memoryMB (templates without a maxMemoryMB accept only their memoryMB). */
+  memoryMB?: number | undefined;
   /** Automatically pauses the sandbox after the timeout */
   autoPause?: boolean | undefined;
   /** Controls the snapshot kind taken when the sandbox auto-pauses on timeout (only relevant when autoPause is true). When false, the auto-pause drops the in-memory state and persists only the filesystem (a filesystem-only snapshot); resuming it cold-boots (reboots) the sandbox from disk. Such a snapshot cannot be auto-resumed by traffic and must be resumed explicitly, so it cannot be combined with autoResume. Defaults to true (full memory snapshot). */
@@ -187,7 +197,7 @@ export interface ForkSandboxRequest {
 export interface Error {
   /** Error code */
   code: number;
-  /** Machine-readable semantic error code. Not a closed set; initial values: sandbox_capacity_unavailable, sandbox_placement_timeout, sandbox_no_compatible_node, sandbox_create_failed (a node could not create the sandbox this time; retry), sandbox_create_refused (a node refused the sandbox for a reason no retry changes, such as a vcpu count out of bounds in the stored build; a server error, since no request field reaches that check), internal_server_error, secret_limit_reached, idempotency_request_mismatch, idempotency_in_progress, idempotency_outcome_unknown, cluster_registration_invalid, cluster_registration_conflict, cluster_assignment_invalid, cluster_assignment_project_not_found, cluster_assignment_cluster_not_found, cluster_assignment_already_assigned, cluster_assignment_cluster_deleting, sandbox_snapshot_guest_agent_unresponsive (a plain resume of a snapshot taken while the sandbox guest agent was not responding; resume it with memory: false). */
+  /** Machine-readable semantic error code. Not a closed set; initial values: sandbox_capacity_unavailable, sandbox_placement_timeout, sandbox_no_compatible_node, sandbox_create_failed (a node could not create the sandbox this time; retry), sandbox_create_refused (a node refused the sandbox for a reason no retry changes, such as a vcpu count out of bounds in the stored build; a server error, since no request field reaches that check), internal_server_error, secret_limit_reached, idempotency_request_mismatch, idempotency_in_progress, idempotency_outcome_unknown, sandbox_snapshot_guest_agent_unresponsive (a plain resume of a snapshot taken while the sandbox guest agent was not responding; resume it with memory: false). */
   error_code?: string | undefined;
   /** Error */
   message: string;
@@ -680,6 +690,8 @@ function __c0(j: number): any {
           sandboxID: S.String.pipe(T.Label()),
           timeout: S.optional(S.Number),
           memory: S.optional(S.Boolean),
+          memoryMB: S.optional(S.Number),
+          cpuCount: S.optional(S.Number),
         }).pipe(T.Http({ method: "POST", uri: "/v2/sandboxes/{sandboxID}/connect", code: 200 })),
       ).annotate({ identifier: "ConnectSandboxRequest" });
   }
@@ -697,6 +709,8 @@ function __c1(j: number): any {
           envdAccessToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           trafficAccessToken: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           domain: S.optional(S.NullOr(S.String)),
+          cpuCount: S.optional(S.Number),
+          memoryMB: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Sandbox" });
   }
@@ -732,6 +746,7 @@ function __c2(j: number): any {
           templateID: S.String,
           timeout: S.optional(S.Number),
           cpuCount: S.optional(S.Number),
+          memoryMB: S.optional(S.Number),
           autoPause: S.optional(S.Boolean),
           autoPauseMemory: S.optional(S.Boolean),
           autoResume: S.optional(__S(16, __c2, 0)),
