@@ -1788,6 +1788,8 @@ export type CreateProjectResponseMicrofrontendsCase1GroupIdsList = Array<string>
 export interface CreateProjectResponseMicrofrontendsCase1 {
   /** A path that is used to take screenshots and as the default path in preview links when a domain for this microfrontend is shown in the UI. Includes the leading slash, e.g. `/docs` */
   defaultRoute?: string | undefined;
+  /** Whether requests routed to this microfrontend skip the default app's managed rulesets (OWASP Core Ruleset, Bot Protection, AI Bots), so only this project's own managed rulesets apply to its routes. The default app's custom firewall rules apply either way. */
+  doNotInheritDefaultAppManagedRules?: boolean | undefined;
   /** Whether to add microfrontends routing to aliases. This means domains in this project will route as a microfrontend. */
   doNotRouteWithMicrofrontendsRouting?: boolean | undefined;
   /** Whether microfrontends are enabled for this project. */
@@ -5768,6 +5770,8 @@ export type DeleteProjectAvatarResponseMicrofrontendsCase1GroupIdsList = Array<s
 export interface DeleteProjectAvatarResponseMicrofrontendsCase1 {
   /** A path that is used to take screenshots and as the default path in preview links when a domain for this microfrontend is shown in the UI. Includes the leading slash, e.g. `/docs` */
   defaultRoute?: string | undefined;
+  /** Whether requests routed to this microfrontend skip the default app's managed rulesets (OWASP Core Ruleset, Bot Protection, AI Bots), so only this project's own managed rulesets apply to its routes. The default app's custom firewall rules apply either way. */
+  doNotInheritDefaultAppManagedRules?: boolean | undefined;
   /** Whether to add microfrontends routing to aliases. This means domains in this project will route as a microfrontend. */
   doNotRouteWithMicrofrontendsRouting?: boolean | undefined;
   /** Whether microfrontends are enabled for this project. */
@@ -10102,6 +10106,8 @@ export type GetProjectResponseMicrofrontendsCase1GroupIdsList = Array<string>;
 export interface GetProjectResponseMicrofrontendsCase1 {
   /** A path that is used to take screenshots and as the default path in preview links when a domain for this microfrontend is shown in the UI. Includes the leading slash, e.g. `/docs` */
   defaultRoute?: string | undefined;
+  /** Whether requests routed to this microfrontend skip the default app's managed rulesets (OWASP Core Ruleset, Bot Protection, AI Bots), so only this project's own managed rulesets apply to its routes. The default app's custom firewall rules apply either way. */
+  doNotInheritDefaultAppManagedRules?: boolean | undefined;
   /** Whether to add microfrontends routing to aliases. This means domains in this project will route as a microfrontend. */
   doNotRouteWithMicrofrontendsRouting?: boolean | undefined;
   /** Whether microfrontends are enabled for this project. */
@@ -17779,6 +17785,8 @@ export type GetProjectsResponseBodyCase2ProjectsItemMicrofrontendsCase1GroupIdsL
 export interface GetProjectsResponseBodyCase2ProjectsItemMicrofrontendsCase1 {
   /** A path that is used to take screenshots and as the default path in preview links when a domain for this microfrontend is shown in the UI. Includes the leading slash, e.g. `/docs` */
   defaultRoute?: string | undefined;
+  /** Whether requests routed to this microfrontend skip the default app's managed rulesets (OWASP Core Ruleset, Bot Protection, AI Bots), so only this project's own managed rulesets apply to its routes. The default app's custom firewall rules apply either way. */
+  doNotInheritDefaultAppManagedRules?: boolean | undefined;
   /** Whether to add microfrontends routing to aliases. This means domains in this project will route as a microfrontend. */
   doNotRouteWithMicrofrontendsRouting?: boolean | undefined;
   /** Whether microfrontends are enabled for this project. */
@@ -21437,6 +21445,8 @@ export interface UpdateMicrofrontendsRequest {
   routeObservabilityToThisProject?: boolean | undefined;
   /** Whether domains in this project should route as a microfrontend. Can only be set for child applications. */
   doNotRouteWithMicrofrontendsRouting?: boolean | undefined;
+  /** Whether requests routed to this project skip the default application's managed rulesets, so only this project's own managed rulesets apply. Can only be set for child applications. */
+  doNotInheritDefaultAppManagedRules?: boolean | undefined;
 }
 export type UpdateMicrofrontendsResponseAliasItemConfiguredBy = "A" | "CNAME" | "dns-01" | "http";
 export type UpdateMicrofrontendsResponseAliasItemDeploymentAliasList = Array<string>;
@@ -22644,6 +22654,8 @@ export type UpdateMicrofrontendsResponseMicrofrontendsCase1GroupIdsList = Array<
 export interface UpdateMicrofrontendsResponseMicrofrontendsCase1 {
   /** A path that is used to take screenshots and as the default path in preview links when a domain for this microfrontend is shown in the UI. Includes the leading slash, e.g. `/docs` */
   defaultRoute?: string | undefined;
+  /** Whether requests routed to this microfrontend skip the default app's managed rulesets (OWASP Core Ruleset, Bot Protection, AI Bots), so only this project's own managed rulesets apply to its routes. The default app's custom firewall rules apply either way. */
+  doNotInheritDefaultAppManagedRules?: boolean | undefined;
   /** Whether to add microfrontends routing to aliases. This means domains in this project will route as a microfrontend. */
   doNotRouteWithMicrofrontendsRouting?: boolean | undefined;
   /** Whether microfrontends are enabled for this project. */
@@ -26876,6 +26888,8 @@ export type UpdateProjectResponseMicrofrontendsCase1GroupIdsList = Array<string>
 export interface UpdateProjectResponseMicrofrontendsCase1 {
   /** A path that is used to take screenshots and as the default path in preview links when a domain for this microfrontend is shown in the UI. Includes the leading slash, e.g. `/docs` */
   defaultRoute?: string | undefined;
+  /** Whether requests routed to this microfrontend skip the default app's managed rulesets (OWASP Core Ruleset, Bot Protection, AI Bots), so only this project's own managed rulesets apply to its routes. The default app's custom firewall rules apply either way. */
+  doNotInheritDefaultAppManagedRules?: boolean | undefined;
   /** Whether to add microfrontends routing to aliases. This means domains in this project will route as a microfrontend. */
   doNotRouteWithMicrofrontendsRouting?: boolean | undefined;
   /** Whether microfrontends are enabled for this project. */
@@ -30502,6 +30516,8 @@ export type UploadProjectAvatarResponseMicrofrontendsCase1GroupIdsList = Array<s
 export interface UploadProjectAvatarResponseMicrofrontendsCase1 {
   /** A path that is used to take screenshots and as the default path in preview links when a domain for this microfrontend is shown in the UI. Includes the leading slash, e.g. `/docs` */
   defaultRoute?: string | undefined;
+  /** Whether requests routed to this microfrontend skip the default app's managed rulesets (OWASP Core Ruleset, Bot Protection, AI Bots), so only this project's own managed rulesets apply to its routes. The default app's custom firewall rules apply either way. */
+  doNotInheritDefaultAppManagedRules?: boolean | undefined;
   /** Whether to add microfrontends routing to aliases. This means domains in this project will route as a microfrontend. */
   doNotRouteWithMicrofrontendsRouting?: boolean | undefined;
   /** Whether microfrontends are enabled for this project. */
@@ -35130,6 +35146,7 @@ function __c26(j: number): any {
           defaultRoute: S.optional(S.String),
           routeObservabilityToThisProject: S.optional(S.Boolean),
           doNotRouteWithMicrofrontendsRouting: S.optional(S.Boolean),
+          doNotInheritDefaultAppManagedRules: S.optional(S.Boolean),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/v1/projects/{projectId}/microfrontends", code: 200 }),
         ),

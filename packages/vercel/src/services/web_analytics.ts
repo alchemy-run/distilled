@@ -408,6 +408,7 @@ export interface CreateSpeedInsightsToggleRequest {
   value: boolean;
 }
 export interface CreateSpeedInsightsToggleResponse {
+  changed: boolean;
   value: boolean;
 }
 export interface CreateWebInsightsToggleRequest {
@@ -517,7 +518,7 @@ export const createSpeedInsightsToggle: API.OperationMethod<
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c5, 0) as any as S.Schema<CreateSpeedInsightsToggleRequest>,
-  output: __S(48, __c6, 0) as any as S.Schema<CreateSpeedInsightsToggleResponse>,
+  output: __S(41, __c5, 1) as any as S.Schema<CreateSpeedInsightsToggleResponse>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
   serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
@@ -533,8 +534,8 @@ export const createWebInsightsToggle: API.OperationMethod<
   CreateWebInsightsToggleError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<CreateWebInsightsToggleRequest>,
-  output: __S(48, __c6, 0) as any as S.Schema<CreateWebInsightsToggleResponse>,
+  input: __S(48, __c6, 0) as any as S.Schema<CreateWebInsightsToggleRequest>,
+  output: __S(49, __c6, 1) as any as S.Schema<CreateWebInsightsToggleResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
@@ -693,19 +694,16 @@ function __c5(j: number): any {
           value: S.Boolean,
         }).pipe(T.Http({ method: "POST", uri: "/speed-insights/toggle", code: 200 })),
       ).annotate({ identifier: "CreateSpeedInsightsToggleRequest" });
-  }
-}
-function __c6(j: number): any {
-  switch (j) {
-    case 0:
+    case 1:
       return S.suspend(() =>
         S.Struct({
+          changed: S.Boolean,
           value: S.Boolean,
         }),
       ).annotate({ identifier: "CreateSpeedInsightsToggleResponse" });
   }
 }
-function __c7(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -714,6 +712,12 @@ function __c7(j: number): any {
           value: S.Boolean,
         }).pipe(T.Http({ method: "POST", uri: "/web/insights/toggle", code: 200 })),
       ).annotate({ identifier: "CreateWebInsightsToggleRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          value: S.Boolean,
+        }),
+      ).annotate({ identifier: "CreateWebInsightsToggleResponse" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

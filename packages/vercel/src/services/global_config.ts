@@ -92,7 +92,7 @@ export interface CreateEdgeConfigRequest {
 }
 export interface CreateEdgeConfigResponse {
   createdAt: number;
-  /** The ID of the user who created the Global Config, optional because it is not always set. */
+  /** The ID of the principal who created the Global Config, optional because it is not always set. */
   createdBy?: string | undefined;
   digest: string;
   id: string;
@@ -152,7 +152,7 @@ export interface GetEdgeConfigRequest {
 }
 export interface GetEdgeConfigResponse {
   createdAt: number;
-  /** The ID of the user who created the Global Config, optional because it is not always set. */
+  /** The ID of the principal who created the Global Config, optional because it is not always set. */
   createdBy?: string | undefined;
   digest: string;
   id: string;
@@ -306,7 +306,7 @@ export interface GetEdgeConfigsRequest {
 /** A Global Config */
 export interface GetEdgeConfigsResponseBodyItem {
   createdAt: number;
-  /** The ID of the user who created the Global Config, optional because it is not always set. */
+  /** The ID of the principal who created the Global Config, optional because it is not always set. */
   createdBy?: string | undefined;
   digest: string;
   id: string;
@@ -433,7 +433,7 @@ export interface UpdateEdgeConfigRequest {
 }
 export interface UpdateEdgeConfigResponse {
   createdAt: number;
-  /** The ID of the user who created the Global Config, optional because it is not always set. */
+  /** The ID of the principal who created the Global Config, optional because it is not always set. */
   createdBy?: string | undefined;
   digest: string;
   id: string;

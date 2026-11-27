@@ -773,15 +773,10 @@ export interface CreateFlagResponseEnvironmentsValueFallthroughCase2 {
   startTimestamp: number;
   type: CreateFlagResponseEnvironmentsValueFallthroughCase2Type;
 }
-export type CreateFlagResponseEnvironmentsValueFallthroughCase3Type = "experiment";
-export interface CreateFlagResponseEnvironmentsValueFallthroughCase3 {
-  type: CreateFlagResponseEnvironmentsValueFallthroughCase3Type;
-}
 export type CreateFlagResponseEnvironmentsValueFallthrough =
   | CreateFlagResponseEnvironmentsValueFallthroughCase0
   | CreateFlagResponseEnvironmentsValueFallthroughCase1
-  | CreateFlagResponseEnvironmentsValueFallthroughCase2
-  | CreateFlagResponseEnvironmentsValueFallthroughCase3;
+  | CreateFlagResponseEnvironmentsValueFallthroughCase2;
 export type CreateFlagResponseEnvironmentsValuePausedOutcomeType = "variant";
 export interface CreateFlagResponseEnvironmentsValuePausedOutcome {
   type: CreateFlagResponseEnvironmentsValuePausedOutcomeType;
@@ -908,15 +903,10 @@ export interface CreateFlagResponseEnvironmentsValueRulesItemOutcomeCase2 {
   startTimestamp: number;
   type: CreateFlagResponseEnvironmentsValueRulesItemOutcomeCase2Type;
 }
-export type CreateFlagResponseEnvironmentsValueRulesItemOutcomeCase3Type = "experiment";
-export interface CreateFlagResponseEnvironmentsValueRulesItemOutcomeCase3 {
-  type: CreateFlagResponseEnvironmentsValueRulesItemOutcomeCase3Type;
-}
 export type CreateFlagResponseEnvironmentsValueRulesItemOutcome =
   | CreateFlagResponseEnvironmentsValueRulesItemOutcomeCase0
   | CreateFlagResponseEnvironmentsValueRulesItemOutcomeCase1
-  | CreateFlagResponseEnvironmentsValueRulesItemOutcomeCase2
-  | CreateFlagResponseEnvironmentsValueRulesItemOutcomeCase3;
+  | CreateFlagResponseEnvironmentsValueRulesItemOutcomeCase2;
 export interface CreateFlagResponseEnvironmentsValueRulesItem {
   conditions: CreateFlagResponseEnvironmentsValueRulesItemConditionsList;
   id: string;
@@ -1432,15 +1422,10 @@ export interface FlagEnvironmentsValueFallthroughCase2 {
   startTimestamp: number;
   type: FlagEnvironmentsValueFallthroughCase2Type;
 }
-export type FlagEnvironmentsValueFallthroughCase3Type = "experiment";
-export interface FlagEnvironmentsValueFallthroughCase3 {
-  type: FlagEnvironmentsValueFallthroughCase3Type;
-}
 export type FlagEnvironmentsValueFallthrough =
   | FlagEnvironmentsValueFallthroughCase0
   | FlagEnvironmentsValueFallthroughCase1
-  | FlagEnvironmentsValueFallthroughCase2
-  | FlagEnvironmentsValueFallthroughCase3;
+  | FlagEnvironmentsValueFallthroughCase2;
 export type FlagEnvironmentsValuePausedOutcomeType = "variant";
 export interface FlagEnvironmentsValuePausedOutcome {
   type: FlagEnvironmentsValuePausedOutcomeType;
@@ -1562,15 +1547,10 @@ export interface FlagEnvironmentsValueRulesItemOutcomeCase2 {
   startTimestamp: number;
   type: FlagEnvironmentsValueRulesItemOutcomeCase2Type;
 }
-export type FlagEnvironmentsValueRulesItemOutcomeCase3Type = "experiment";
-export interface FlagEnvironmentsValueRulesItemOutcomeCase3 {
-  type: FlagEnvironmentsValueRulesItemOutcomeCase3Type;
-}
 export type FlagEnvironmentsValueRulesItemOutcome =
   | FlagEnvironmentsValueRulesItemOutcomeCase0
   | FlagEnvironmentsValueRulesItemOutcomeCase1
-  | FlagEnvironmentsValueRulesItemOutcomeCase2
-  | FlagEnvironmentsValueRulesItemOutcomeCase3;
+  | FlagEnvironmentsValueRulesItemOutcomeCase2;
 export interface FlagEnvironmentsValueRulesItem {
   conditions: FlagEnvironmentsValueRulesItemConditionsList;
   id: string;
@@ -2118,16 +2098,10 @@ export interface ListFlagVersionsResponseVersionsItemDataEnvironmentsValueFallth
   startTimestamp: number;
   type: ListFlagVersionsResponseVersionsItemDataEnvironmentsValueFallthroughCase2Type;
 }
-export type ListFlagVersionsResponseVersionsItemDataEnvironmentsValueFallthroughCase3Type =
-  "experiment";
-export interface ListFlagVersionsResponseVersionsItemDataEnvironmentsValueFallthroughCase3 {
-  type: ListFlagVersionsResponseVersionsItemDataEnvironmentsValueFallthroughCase3Type;
-}
 export type ListFlagVersionsResponseVersionsItemDataEnvironmentsValueFallthrough =
   | ListFlagVersionsResponseVersionsItemDataEnvironmentsValueFallthroughCase0
   | ListFlagVersionsResponseVersionsItemDataEnvironmentsValueFallthroughCase1
-  | ListFlagVersionsResponseVersionsItemDataEnvironmentsValueFallthroughCase2
-  | ListFlagVersionsResponseVersionsItemDataEnvironmentsValueFallthroughCase3;
+  | ListFlagVersionsResponseVersionsItemDataEnvironmentsValueFallthroughCase2;
 export type ListFlagVersionsResponseVersionsItemDataEnvironmentsValuePausedOutcomeType = "variant";
 export interface ListFlagVersionsResponseVersionsItemDataEnvironmentsValuePausedOutcome {
   type: ListFlagVersionsResponseVersionsItemDataEnvironmentsValuePausedOutcomeType;
@@ -2261,16 +2235,10 @@ export interface ListFlagVersionsResponseVersionsItemDataEnvironmentsValueRulesI
   startTimestamp: number;
   type: ListFlagVersionsResponseVersionsItemDataEnvironmentsValueRulesItemOutcomeCase2Type;
 }
-export type ListFlagVersionsResponseVersionsItemDataEnvironmentsValueRulesItemOutcomeCase3Type =
-  "experiment";
-export interface ListFlagVersionsResponseVersionsItemDataEnvironmentsValueRulesItemOutcomeCase3 {
-  type: ListFlagVersionsResponseVersionsItemDataEnvironmentsValueRulesItemOutcomeCase3Type;
-}
 export type ListFlagVersionsResponseVersionsItemDataEnvironmentsValueRulesItemOutcome =
   | ListFlagVersionsResponseVersionsItemDataEnvironmentsValueRulesItemOutcomeCase0
   | ListFlagVersionsResponseVersionsItemDataEnvironmentsValueRulesItemOutcomeCase1
-  | ListFlagVersionsResponseVersionsItemDataEnvironmentsValueRulesItemOutcomeCase2
-  | ListFlagVersionsResponseVersionsItemDataEnvironmentsValueRulesItemOutcomeCase3;
+  | ListFlagVersionsResponseVersionsItemDataEnvironmentsValueRulesItemOutcomeCase2;
 export interface ListFlagVersionsResponseVersionsItemDataEnvironmentsValueRulesItem {
   conditions: ListFlagVersionsResponseVersionsItemDataEnvironmentsValueRulesItemConditionsList;
   id: string;
@@ -2816,15 +2784,10 @@ export interface UpdateFlagResponseEnvironmentsValueFallthroughCase2 {
   startTimestamp: number;
   type: UpdateFlagResponseEnvironmentsValueFallthroughCase2Type;
 }
-export type UpdateFlagResponseEnvironmentsValueFallthroughCase3Type = "experiment";
-export interface UpdateFlagResponseEnvironmentsValueFallthroughCase3 {
-  type: UpdateFlagResponseEnvironmentsValueFallthroughCase3Type;
-}
 export type UpdateFlagResponseEnvironmentsValueFallthrough =
   | UpdateFlagResponseEnvironmentsValueFallthroughCase0
   | UpdateFlagResponseEnvironmentsValueFallthroughCase1
-  | UpdateFlagResponseEnvironmentsValueFallthroughCase2
-  | UpdateFlagResponseEnvironmentsValueFallthroughCase3;
+  | UpdateFlagResponseEnvironmentsValueFallthroughCase2;
 export type UpdateFlagResponseEnvironmentsValuePausedOutcomeType = "variant";
 export interface UpdateFlagResponseEnvironmentsValuePausedOutcome {
   type: UpdateFlagResponseEnvironmentsValuePausedOutcomeType;
@@ -2948,15 +2911,10 @@ export interface UpdateFlagResponseEnvironmentsValueRulesItemOutcomeCase2 {
   startTimestamp: number;
   type: UpdateFlagResponseEnvironmentsValueRulesItemOutcomeCase2Type;
 }
-export type UpdateFlagResponseEnvironmentsValueRulesItemOutcomeCase3Type = "experiment";
-export interface UpdateFlagResponseEnvironmentsValueRulesItemOutcomeCase3 {
-  type: UpdateFlagResponseEnvironmentsValueRulesItemOutcomeCase3Type;
-}
 export type UpdateFlagResponseEnvironmentsValueRulesItemOutcome =
   | UpdateFlagResponseEnvironmentsValueRulesItemOutcomeCase0
   | UpdateFlagResponseEnvironmentsValueRulesItemOutcomeCase1
-  | UpdateFlagResponseEnvironmentsValueRulesItemOutcomeCase2
-  | UpdateFlagResponseEnvironmentsValueRulesItemOutcomeCase3;
+  | UpdateFlagResponseEnvironmentsValueRulesItemOutcomeCase2;
 export interface UpdateFlagResponseEnvironmentsValueRulesItem {
   conditions: UpdateFlagResponseEnvironmentsValueRulesItemConditionsList;
   id: string;
