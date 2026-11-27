@@ -174,7 +174,7 @@ catalogs:
       specifier: https://pkg.alchemy.run/@alchemy.run/github/branch:main
       version: https://pkg.alchemy.run/@alchemy.run/github/branch:main
     '@effect/platform-node':
-      specifier: ~4.1.7
+      specifier: ~4.1.4
       version: 4.1.7
     '@oxc-project/types':
       specifier: ^0.153.0
@@ -189,7 +189,7 @@ catalogs:
       specifier: ^13.16.1
       version: 13.16.1
     effect:
-      specifier: ~4.1.7
+      specifier: ~4.1.4
       version: 4.1.7
     esbuild:
       specifier: ^0.28.2

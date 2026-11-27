@@ -4,7 +4,7 @@
  *
  *   node scripts/compat/effect-version.ts lowest|latest [--write]
  *
- * `lowest` is the range's floor (`~4.1.7` -> 4.1.7). `latest` is the newest
+ * `lowest` is the range's floor (`~4.1.4` -> 4.1.4). `latest` is the newest
  * stable release in the range (same minor for `~`, same major for `^`) that
  * is older than the workspace's minimum release age (1 day), so `pnpm
  * install` accepts it. `--write` adds
