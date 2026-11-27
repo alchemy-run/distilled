@@ -4,8 +4,8 @@ import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
  * generate — turn the Smithy JSON models in .generated-specs into the Whop
  * Effect SDK.
  *
- * Input:  .generated-specs/<tag>.json  (one model per merged API tag,
- *         written by scripts/convert.ts from the two OpenAPI documents in
+ * Input:  .generated-specs/<tag>.json  (one model per API tag,
+ *         written by scripts/convert.ts from the OpenAPI document in
  *         specs/)
  * Output: src/services/<tag>.ts  +  src/services/index.ts
  *
@@ -84,7 +84,7 @@ const spec: SdkSpec = {
     },
   },
 
-  sourceNote: ".generated-specs (specs/api-v1-native.json + api-v1-stable.json)",
+  sourceNote: ".generated-specs (specs/openapi.json)",
 
   operationDecl: {
     contextType: "WhopOpContext",
