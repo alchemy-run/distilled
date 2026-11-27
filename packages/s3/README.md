@@ -56,6 +56,24 @@ const MinIO = Layer.mergeAll(
 program.pipe(Effect.provide(MinIO), Effect.runPromise);
 ```
 
+## Upload a large file
+
+`upload` sends a body of any size, a stream included, in 5 MiB parts with
+up to 4 parts at a time, so it holds about 30 MiB whatever the size. Each
+part goes out with its length on every HttpClient, and a failed part
+retries. A body that fits in one part goes out as one `PutObject`. On a
+failure the multipart upload is aborted, so S3 keeps no parts.
+
+```typescript
+import { upload } from "@distilled.cloud/s3/Upload";
+
+const response = yield* Effect.tryPromise(() => fetch("https://example.com/video.mp4"));
+yield* upload(
+  { Bucket: "my-bucket", Key: "video.mp4", Body: response.body!, ContentType: "video/mp4" },
+  { partSize: 16 * 1024 * 1024, queueSize: 8 }, // optional
+);
+```
+
 ## Use it through another distilled SDK
 
 An SDK that already holds credentials provides the layer:
