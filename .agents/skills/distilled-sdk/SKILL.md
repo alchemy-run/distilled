@@ -175,7 +175,9 @@ plain strings.
   returns `Checked<Config>` from `@distilled.cloud/core/config`, as s2 does
   for its basin; every layer calls it. Keep a `ConfigError` on the call only
   for a value that one operation needs and the configuration lacks
-  (`AGENTS.md` rule 18).
+  (`AGENTS.md` rule 18). `packages/neon/src/credentials.ts` is the shape to
+  copy, and `pnpm config-errors:check` fails in CI when an operation of a
+  new SDK can fail with `ConfigError`.
 - **Cache tokens with core `refreshing`.** A token or credentials cache is
   `refreshing(mint, refreshAt)` from `@distilled.cloud/core/token-cache`,
   created once per layer value, so a burst of calls on a cold or stale

@@ -130,6 +130,9 @@ number.
     `S2.credentials({ basin: "a/b" })` fails when the layer is built; a
     stream operation without a basin fails on the call; a Tailscale token
     exchange that gets a 503 fails the call with `TokenRequestFailed`.
+    `pnpm config-errors:check` enforces this in CI: it fails when an SDK's
+    operations can fail with `ConfigError` and the SDK is not on the lists
+    in `scripts/check-config-errors.ts`.
 
 ## Getting the repo
 
@@ -185,6 +188,7 @@ pnpm typecheck              # tsrs -b — fast, does NOT check generated code (s
 pnpm typecheck:ci           # tsrs -b --noCheck false — what CI runs
 pnpm --filter "./stacks/*" run typecheck
 pnpm specs:check            # spec-mirror coherence; also a CI gate
+pnpm config-errors:check    # rule 18: no operation fails with ConfigError for its setup; a CI gate
 pnpm format                 # oxfmt, not prettier
 pnpm lint                   # oxlint
 pnpm generate [<pkg>…]      # convert + generate + format; all packages if no args

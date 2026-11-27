@@ -18,7 +18,7 @@ describe("CredentialsFromEnv", () => {
     if (saved !== undefined) process.env.NEON_API_KEY = saved;
   });
 
-  test("a missing NEON_API_KEY fails the call with ConfigError and sends nothing", async () => {
+  test("a missing NEON_API_KEY fails the layer with ConfigError and sends nothing", async () => {
     let sent = 0;
     const client = Layer.succeed(
       HttpClient.HttpClient,

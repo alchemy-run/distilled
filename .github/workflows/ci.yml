@@ -207,6 +207,12 @@ jobs:
       - name: Check generated service modules
         run: pnpm services:check
 
+      # AGENTS.md rule 18: ConfigError is a setup error. This asks the
+      # compiler whether an SDK's operations can fail with it, and fails for
+      # an SDK that is not on the script's lists.
+      - name: Check that no operation fails with ConfigError for its setup
+        run: pnpm config-errors:check
+
   website:
     name: Website (typecheck & static build)
     runs-on: blacksmith-4vcpu-ubuntu-2404
