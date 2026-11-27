@@ -5,7 +5,8 @@ import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
  * LaunchDarkly Effect SDK.
  *
  * Input:  .generated-specs/launchdarkly.json  (written by scripts/convert.ts)
- * Output: src/services/launchdarkly.ts  +  src/services/index.ts
+ * Output: src/services/launchdarkly.ts  +  src/services/index.ts, and the
+ *         operations convert marks unstable in src/unstable-services/
  *
  * The smithy→SDK compiler and CLI pipeline live in
  * `@distilled.cloud/dev/codegen`; this script is LaunchDarkly's provider
@@ -89,5 +90,6 @@ runGeneratorCli({
   // patches/ holds OpenAPI-document patches consumed by scripts/convert.ts;
   // there is no smithy-model patch chain.
   patchesDir: false,
+  unstableOutDir: "src/unstable-services",
   spec: () => launchdarklySpec,
 });
