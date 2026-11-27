@@ -44430,6 +44430,8 @@ export type CreateSamlConfigRequestAuthProvider =
   | "auth0-saml";
 /** Additional AuthnContextClassRef values, besides the built-in two-factor classes, that prove the identity provider completed MFA. */
 export type CreateSamlConfigRequestMfaAuthnContextsList = Array<string>;
+/** Additional values of the MFA attribute, besides 'mfa' and 'http://schemas.microsoft.com/claims/multipleauthn', that prove the identity provider completed MFA, such as 'swk' for an Okta login whose second factor was a passkey. */
+export type CreateSamlConfigRequestMfaAttributeValuesList = Array<string>;
 export interface CreateSamlConfigRequest {
   /** The ID of the organization to create the SAML config for. */
   organizationId: string;
@@ -44449,8 +44451,11 @@ export interface CreateSamlConfigRequest {
   mfaSignalAttribute?: string | null | undefined;
   /** Additional AuthnContextClassRef values, besides the built-in two-factor classes, that prove the identity provider completed MFA. */
   mfaAuthnContexts?: CreateSamlConfigRequestMfaAuthnContextsList | null | undefined;
+  /** Additional values of the MFA attribute, besides 'mfa' and 'http://schemas.microsoft.com/claims/multipleauthn', that prove the identity provider completed MFA, such as 'swk' for an Okta login whose second factor was a passkey. */
+  mfaAttributeValues?: CreateSamlConfigRequestMfaAttributeValuesList | null | undefined;
 }
 export type CreateSamlConfigResponseMfaAuthnContextsList = Array<string>;
+export type CreateSamlConfigResponseMfaAttributeValuesList = Array<string>;
 export interface CreateSamlConfigResponse {
   id: string;
   orgId: string;
@@ -44461,6 +44466,7 @@ export interface CreateSamlConfigResponse {
   authProvider: string;
   mfaSignalAttribute?: string | null | undefined;
   mfaAuthnContexts?: CreateSamlConfigResponseMfaAuthnContextsList | null | undefined;
+  mfaAttributeValues?: CreateSamlConfigResponseMfaAttributeValuesList | null | undefined;
 }
 export interface CreateSecretFolderRequest {
   /** The ID of the project to create the folder in. */
@@ -99797,6 +99803,7 @@ export interface GetSamlConfigRequest {
   organizationId: string;
 }
 export type GetSamlConfigResponseMfaAuthnContextsList = Array<string>;
+export type GetSamlConfigResponseMfaAttributeValuesList = Array<string>;
 export interface GetSamlConfigResponse {
   id: string;
   organization: string;
@@ -99810,6 +99817,7 @@ export interface GetSamlConfigResponse {
   enableGroupSync?: boolean | undefined;
   mfaSignalAttribute?: string | null | undefined;
   mfaAuthnContexts?: GetSamlConfigResponseMfaAuthnContextsList | null | undefined;
+  mfaAttributeValues?: GetSamlConfigResponseMfaAttributeValuesList | null | undefined;
 }
 export interface GetSecretByIdV4Request {
   secretId: string;
@@ -213828,6 +213836,8 @@ export type UpdateSamlConfigRequestAuthProvider =
   | "auth0-saml";
 /** Additional AuthnContextClassRef values, besides the built-in two-factor classes, that prove the identity provider completed MFA. */
 export type UpdateSamlConfigRequestMfaAuthnContextsList = Array<string>;
+/** Additional values of the MFA attribute, besides 'mfa' and 'http://schemas.microsoft.com/claims/multipleauthn', that prove the identity provider completed MFA, such as 'swk' for an Okta login whose second factor was a passkey. */
+export type UpdateSamlConfigRequestMfaAttributeValuesList = Array<string>;
 export interface UpdateSamlConfigRequest {
   /** Authentication provider to use for SAML authentication. */
   authProvider?: UpdateSamlConfigRequestAuthProvider | (string & {}) | undefined;
@@ -213845,10 +213855,13 @@ export interface UpdateSamlConfigRequest {
   mfaSignalAttribute?: string | null | undefined;
   /** Additional AuthnContextClassRef values, besides the built-in two-factor classes, that prove the identity provider completed MFA. */
   mfaAuthnContexts?: UpdateSamlConfigRequestMfaAuthnContextsList | null | undefined;
+  /** Additional values of the MFA attribute, besides 'mfa' and 'http://schemas.microsoft.com/claims/multipleauthn', that prove the identity provider completed MFA, such as 'swk' for an Okta login whose second factor was a passkey. */
+  mfaAttributeValues?: UpdateSamlConfigRequestMfaAttributeValuesList | null | undefined;
   /** The ID of the organization to update the SAML config for. */
   organizationId: string;
 }
 export type UpdateSamlConfigResponseMfaAuthnContextsList = Array<string>;
+export type UpdateSamlConfigResponseMfaAttributeValuesList = Array<string>;
 export interface UpdateSamlConfigResponse {
   id: string;
   orgId: string;
@@ -213859,6 +213872,7 @@ export interface UpdateSamlConfigResponse {
   authProvider: string;
   mfaSignalAttribute?: string | null | undefined;
   mfaAuthnContexts?: UpdateSamlConfigResponseMfaAuthnContextsList | null | undefined;
+  mfaAttributeValues?: UpdateSamlConfigResponseMfaAttributeValuesList | null | undefined;
 }
 export interface UpdateSecretFolderRequest {
   /** The ID of the folder to update. */
@@ -285618,6 +285632,7 @@ function __c284(j: number): any {
           enableGroupSync: S.optional(S.Boolean),
           mfaSignalAttribute: S.optional(S.NullOr(S.String)),
           mfaAuthnContexts: S.optional(S.NullOr(__S(41280, __c2580, 0))),
+          mfaAttributeValues: S.optional(S.NullOr(__S(41280, __c2580, 0))),
         }),
       ).annotate({ identifier: "GetSamlConfigResponse" });
   }
@@ -324083,6 +324098,7 @@ function __c2077(j: number): any {
           enableGroupSync: S.optional(S.Boolean),
           mfaSignalAttribute: S.optional(S.NullOr(S.String)),
           mfaAuthnContexts: S.optional(S.NullOr(__S(41280, __c2580, 0))),
+          mfaAttributeValues: S.optional(S.NullOr(__S(41280, __c2580, 0))),
           organizationId: S.String,
         }).pipe(T.Http({ method: "PATCH", uri: "/api/v1/sso/config", code: 200 })),
       ).annotate({ identifier: "UpdateSamlConfigRequest" });
@@ -329641,6 +329657,7 @@ function __c2312(j: number): any {
           enableGroupSync: S.optional(S.Boolean),
           mfaSignalAttribute: S.optional(S.NullOr(S.String)),
           mfaAuthnContexts: S.optional(S.NullOr(__S(41280, __c2580, 0))),
+          mfaAttributeValues: S.optional(S.NullOr(__S(41280, __c2580, 0))),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/sso/config", code: 200 })),
       ).annotate({ identifier: "CreateSamlConfigRequest" });
   }
@@ -329659,6 +329676,7 @@ function __c2313(j: number): any {
           authProvider: S.String,
           mfaSignalAttribute: S.optional(S.NullOr(S.String)),
           mfaAuthnContexts: S.optional(S.NullOr(__S(41280, __c2580, 0))),
+          mfaAttributeValues: S.optional(S.NullOr(__S(41280, __c2580, 0))),
         }),
       ).annotate({ identifier: "CreateSamlConfigResponse" });
   }
