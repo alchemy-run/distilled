@@ -7,6 +7,9 @@
  *
  * const customer = yield* RevenueCat.getCustomer({ project_id, customer_id });
  * ```
+ *
+ * Operations the spec marks `x-release-status: beta` are not re-exported
+ * here; import them from `@distilled.cloud/revenuecat/unstable/revenuecat`.
  */
 export * from "./credentials.ts";
 export * from "./errors.ts";

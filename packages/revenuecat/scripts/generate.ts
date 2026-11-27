@@ -5,7 +5,8 @@ import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
  * RevenueCat Effect SDK.
  *
  * Input:  .generated-specs/revenuecat.json  (written by scripts/convert.ts)
- * Output: src/services/revenuecat.ts  +  src/services/index.ts
+ * Output: src/services/revenuecat.ts  +  src/services/index.ts, and
+ *         src/unstable-services/ for the operations convert marks unstable
  */
 import type { SdkSpec } from "@distilled.cloud/dev/codegen/generator";
 
@@ -72,6 +73,7 @@ runGeneratorCli({
   description: "Generate the RevenueCat Effect SDK from the Smithy model",
   convert: () => import("./convert.ts"),
   root: `${import.meta.dirname}/..`,
+  unstableOutDir: "src/unstable-services",
   patchesDir: false,
   // The converter only recognises `next_page` next to a `page` input;
   // RevenueCat lists take `starting_after` and return `next_page` as a URL.
