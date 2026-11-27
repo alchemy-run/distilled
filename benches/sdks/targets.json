@@ -830,13 +830,15 @@
   "elasticsearch": {
     "ElasticsearchProtocol": {
       "pkg": "elasticsearch",
+      "protocol": "ElasticsearchProtocol",
+      "primary": true,
       "imports": {
         "Credentials": "pkg:credentials",
         "Op": "pkg:services/elasticsearch"
       },
       "auth": "Credentials.CredentialsFromEnv",
-      "call": "Op.listTasks({})",
-      "label": "elasticsearch.listTasks",
+      "call": "Op.listReindex({})",
+      "label": "elasticsearch.listReindex",
       "env": {
         "ELASTICSEARCH_API_KEY": "bench-secret"
       },
@@ -847,8 +849,13 @@
         },
         "body": "{}"
       },
-      "protocol": "ElasticsearchProtocol",
-      "primary": true
+      "strictResponse": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{\"reindex\":[]}"
+      }
     }
   },
   "expo-eas": {
@@ -932,13 +939,11 @@
         "Credentials": "pkg:credentials",
         "Op": "pkg:services/sprites"
       },
-      "auth": "Credentials.CredentialsFromEnv",
-      "call": "Op.createOrganizationToken({\"org\":\"bench\"})",
-      "label": "sprites.createOrganizationToken",
+      "auth": "Credentials.SpritesCredentialsFromEnv",
+      "call": "Op.listSprites({})",
+      "label": "sprites.listSprites",
       "env": {
-        "FLY_API_HOSTNAME": "https://bench.example.com",
-        "FLY_API_TOKEN": "bench-secret",
-        "FLY_IO_API_KEY": "bench-secret"
+        "SPRITES_TOKEN": "bench-secret"
       },
       "response": {
         "status": 200,
@@ -947,12 +952,14 @@
         },
         "body": "{}"
       },
+      "pinned": true,
+      "note": "Sprites has its own credentials service (SpritesCredentials), so the package default layer does not apply.",
       "strictResponse": {
         "status": 200,
         "headers": {
           "content-type": "application/json"
         },
-        "body": "{\"token\":\"x\"}"
+        "body": "{\"cold\":0,\"has_more\":false,\"name\":\"x\",\"running\":0,\"sprites\":[],\"warm\":0}"
       }
     }
   },
@@ -1561,12 +1568,14 @@
       "response": {
         "status": 200,
         "headers": {
-          "content-type": "application/json"
+          "content-type": "application/grpc"
         },
-        "body": "{}"
+        "body": "\u0000\u0000\u0000\u0000\u0000"
       },
       "protocol": "ModalProtocol",
-      "primary": true
+      "primary": true,
+      "pinned": true,
+      "note": "Modal speaks gRPC: the reply is one frame with an empty message, not JSON."
     }
   },
   "modrinth": {
@@ -2607,13 +2616,15 @@
   "vercel": {
     "VercelProtocol": {
       "pkg": "vercel",
+      "protocol": "VercelProtocol",
+      "primary": true,
       "imports": {
         "Credentials": "pkg:credentials",
-        "Op": "pkg:services/sandboxes"
+        "Op": "pkg:services/aliases"
       },
       "auth": "Credentials.CredentialsFromEnv",
-      "call": "Op.listDrives({})",
-      "label": "sandboxes.listDrives",
+      "call": "Op.listAliases({})",
+      "label": "aliases.listAliases",
       "env": {
         "VERCEL_TOKEN": "bench-secret"
       },
@@ -2624,14 +2635,12 @@
         },
         "body": "{}"
       },
-      "protocol": "VercelProtocol",
-      "primary": true,
       "strictResponse": {
         "status": 200,
         "headers": {
           "content-type": "application/json"
         },
-        "body": "{\"drives\":[],\"pagination\":{\"count\":0,\"next\":\"x\"}}"
+        "body": "{\"aliases\":[],\"pagination\":{\"count\":0,\"next\":0,\"prev\":0}}"
       }
     }
   },
