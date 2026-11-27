@@ -5,6 +5,10 @@
  * `scripts/convert.ts` converts from the OpenAPI spec. Everything else in this
  * folder is hand-written.
  *
+ * The `/beta/` endpoints are generated to `./unstable-services` and imported
+ * as `@distilled.cloud/plaid/unstable/plaid`; they are not re-exported from
+ * the package root.
+ *
  * @example
  * ```ts
  * import * as Plaid from "@distilled.cloud/plaid";

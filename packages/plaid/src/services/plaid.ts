@@ -983,148 +983,6 @@ export interface AssetReportFilterResponse {
   request_id: string;
   [key: string]: unknown;
 }
-/** The type of identifier supplied to `/beta/issues/v1/match`. */
-export type BetaIssuesV1MatchIdentifierType =
-  | "ITEM_ID"
-  | "REQUEST_ID"
-  | "LINK_SESSION_ID"
-  | "ACCOUNT_ID";
-export interface BetaIssuesV1MatchRequest {
-  client_id?: string | undefined;
-  secret?: string | Redacted.Redacted<string> | undefined;
-  identifier_type: BetaIssuesV1MatchIdentifierType | (string & {});
-  /** The Item, request, Link session, or Account identifier to match. */
-  identifier: string;
-}
-/** The customer-facing category of an issue. */
-export type BetaIssuesV1IssueType = "ERROR";
-/** The customer-facing severity of an issue. */
-export type BetaIssuesV1IssueSeverity = "CRITICAL" | "HIGH" | "MEDIUM" | "LOW";
-/** A customer-visible effect of an issue. */
-export type BetaIssuesV1IssueBehavior =
-  | "NEW_CONNECTIONS_CANNOT_BE_ESTABLISHED"
-  | "EXISTING_CONNECTIONS_WILL_NOT_RECEIVE_UPDATES"
-  | "EXISTING_CONNECTIONS_WILL_BE_DISCONNECTED";
-/** The customer-visible effects of the issue. */
-export type BetaIssuesV1IssueBehaviorsList = Array<BetaIssuesV1IssueBehavior>;
-/** The party responsible for resolving an issue. */
-export type BetaIssuesV1IssueAttribution = "USER" | "PLAID" | "DATA_PARTNER";
-/** The customer-facing resolution state of an issue. */
-export type BetaIssuesV1IssueStatus =
-  | "USER_ACTION_REQUIRED"
-  | "BACKLOGGED"
-  | "LIKELY_TO_BE_PRIORITIZED"
-  | "IN_PROGRESS"
-  | "RESOLVED"
-  | "PENDING_NOTIFICATION"
-  | "DATA_PARTNER_NOTIFIED"
-  | "DATA_PARTNER_FIX_IN_PROGRESS";
-/** The client-specific impact of an error issue. */
-export interface BetaIssuesV1IssueImpact {
-  affected_new_item_count: number;
-  affected_existing_item_count: number;
-}
-/** A list of products that an institution can support. All Items must be initialized with at least one product. The Balance product is always available and does not need to be specified during initialization. */
-export type Products =
-  | "assets"
-  | "auth"
-  | "balance"
-  | "balance_plus"
-  | "beacon"
-  | "identity"
-  | "identity_match"
-  | "investments"
-  | "investments_auth"
-  | "liabilities"
-  | "payment_initiation"
-  | "identity_verification"
-  | "transactions"
-  | "credit_details"
-  | "income"
-  | "income_verification"
-  | "standing_orders"
-  | "transfer"
-  | "employment"
-  | "recurring_transactions"
-  | "transactions_refresh"
-  | "signal"
-  | "statements"
-  | "processor_payments"
-  | "processor_identity"
-  | "profile"
-  | "cra_base_report"
-  | "cra_income_insights"
-  | "cra_partner_insights"
-  | "cra_network_insights"
-  | "cra_cashflow_insights"
-  | "cra_monitoring"
-  | "cra_lend_score"
-  | "cra_plaid_credit_score"
-  | "cra_qualify"
-  | "cra_home_lending"
-  | "cra_lend_score_complete"
-  | "cra_income_complete"
-  | "layer"
-  | "pay_by_bank"
-  | "protect_linked_bank"
-  | "protect_transactions";
-/** The Plaid products affected by the issue. */
-export type BetaIssuesV1IssueAffectedProductsList = Array<Products>;
-/** How an issue was considered resolved. `MANUAL_RESOLUTION` indicates Plaid's engineering team has reviewed the issue and mitigated its impact. Issues that are manually resolved may still have a small number of occurrences. `AUTOMATED_RESOLUTION` indicates the error has not recently occurred and was automatically closed. */
-export type BetaIssuesV1IssueResolutionType = "MANUAL_RESOLUTION" | "AUTOMATED_RESOLUTION";
-/** A recorded reduction in the impact of an issue. */
-export interface BetaIssuesV1IssueResolutionEvent {
-  resolution_time: string;
-  type: BetaIssuesV1IssueResolutionType;
-}
-/** Resolution events recorded for the issue. */
-export type BetaIssuesV1IssueResolutionLogList = Array<BetaIssuesV1IssueResolutionEvent>;
-/** A customer-facing institution issue. */
-export interface BetaIssuesV1Issue {
-  /** The customer-visible identifier of the issue. */
-  issue_id: string;
-  issue_type: BetaIssuesV1IssueType;
-  severity: BetaIssuesV1IssueSeverity;
-  /** The identifier of the institution affected by the issue. */
-  institution_id: string;
-  /** The name of the institution affected by the issue. */
-  institution_name: string;
-  /** The customer-visible effects of the issue. */
-  behaviors: BetaIssuesV1IssueBehaviorsList;
-  /** The API error type associated with the issue if available. Mirrors the `error_type` field on `PlaidError` returned on error responses and is safe for programmatic use. Always null or non-null together with `issue_error_code`. */
-  issue_error_type: string | null;
-  /** The API error code associated with the issue if available. Always null or non-null together with `issue_error_type`. */
-  issue_error_code: string | null;
-  /** A customer-facing explanation of the issue. */
-  description: string;
-  attribution: BetaIssuesV1IssueAttribution;
-  status: BetaIssuesV1IssueStatus;
-  /** Guidance for an end user affected by the issue, or null when no guidance is available. */
-  user_guidance: string | null;
-  /** The estimated resolution time, or null when no estimate is available. */
-  estimated_resolution_time: string | null;
-  /** The time the issue began, or null when it is unknown. Only populated for incidents. */
-  start_time: string | null;
-  /** The time the issue ended, or null while it remains active. */
-  end_time: string | null;
-  impact: BetaIssuesV1IssueImpact | null;
-  /** The Plaid products affected by the issue. */
-  affected_products: BetaIssuesV1IssueAffectedProductsList;
-  /** Resolution events recorded for the issue. */
-  resolution_log: BetaIssuesV1IssueResolutionLogList;
-  [key: string]: unknown;
-}
-/** Issues matched to the Item. An empty list indicates that no matching issues were found. */
-export type BetaIssuesV1MatchResponseIssuesList = Array<BetaIssuesV1Issue>;
-/** BetaIssuesV1MatchResponse defines the response schema for `/beta/issues/v1/match`. */
-export interface BetaIssuesV1MatchResponse {
-  /** The identifier of the Item used to match issues. */
-  item_id: string;
-  /** Issues matched to the Item. An empty list indicates that no matching issues were found. */
-  issues: BetaIssuesV1MatchResponseIssuesList;
-  request_id: string;
-  [key: string]: unknown;
-}
 /** Specifies the reason for cancelling transfer. This is required for RfP transfers, and will be ignored for other networks. `"AC03"` - Invalid Creditor Account Number `"AM09"` - Incorrect Amount `"CUST"` - Requested By Customer - Cancellation requested `"DUPL"` - Duplicate Payment `"FRAD"` - Fraudulent Payment - Unauthorized or fraudulently induced `"TECH"` - Technical Problem - Cancellation due to system issues `"UPAY"` - Undue Payment - Payment was made through another channel `"AC14"` - Invalid or Missing Creditor Account Type `"AM06"` - Amount Too Low `"BE05"` - Unrecognized Initiating Party `"FOCR"` - Following Refund Request `"MS02"` - No Specified Reason - Customer `"MS03"` - No Specified Reason - Agent `"RR04"` - Regulatory Reason `"RUTA"` - Return Upon Unable To Apply */
 export type ReasonCode =
   | "AC03"
@@ -1223,170 +1081,6 @@ export interface AssetReportCreateResponse {
   asset_report_token: string | Redacted.Redacted<string>;
   asset_report_id: string;
   request_id: string;
-  [key: string]: unknown;
-}
-/** The products to be enabled for the end customer. If empty or `null`, this field will default to the products enabled for the reseller at the time this endpoint is called. */
-export type CreateBetaPartnerCustomerV1RequestProductsList = Array<Products | (string & {})>;
-/** The technical contact for the end customer. Defaults to partner's technical contact if omitted. */
-export interface PartnerEndCustomerTechnicalContact {
-  given_name?: string | undefined;
-  family_name?: string | undefined;
-  email?: string | undefined;
-  [key: string]: unknown;
-}
-/** The billing contact for the end customer. Defaults to partner's billing contact if omitted. */
-export type PartnerEndCustomerBillingContact = PartnerEndCustomerTechnicalContact;
-/** This information is public. Users of your app will see this information when managing connections between your app and their bank accounts in Plaid Portal. Defaults to partner's customer support info if omitted. This field is mandatory for partners whose Plaid accounts were created after November 26, 2024 and will be mandatory for all partners by the 1033 compliance deadline. */
-export interface PartnerEndCustomerCustomerSupportInfo {
-  /** This field is mandatory for partners whose Plaid accounts were created after November 26, 2024 and will be mandatory for all partners by the 1033 compliance deadline. */
-  email?: string | undefined;
-  phone_number?: string | undefined;
-  contact_url?: string | undefined;
-  link_update_url?: string | undefined;
-  [key: string]: unknown;
-}
-/** The end customer's address. */
-export interface PartnerEndCustomerAddress {
-  city?: string | undefined;
-  street?: string | undefined;
-  region?: string | undefined;
-  postal_code?: string | undefined;
-  /** ISO-3166-1 alpha-2 country code standard. */
-  country_code?: string | undefined;
-  [key: string]: unknown;
-}
-/** A list of URIs indicating the destination(s) where a user can be forwarded after completing the Link flow; used to support OAuth authentication flows when launching Link in the browser or another app. URIs should not contain any query parameters. When used in Production, URIs must use https. To modify redirect URIs for an end customer after creating them, go to the end customer's [API page](https://dashboard.plaid.com/team/api) in the Dashboard. */
-export type CreateBetaPartnerCustomerV1RequestRedirectUrisList = Array<string>;
-/** The bank addendum acceptance for the end customer. */
-export interface PartnerEndCustomerBankAddendumAcceptance {
-  /** Denotes whether the end customer has accepted the bank addendum terms. */
-  customer_accepted?: boolean | undefined;
-  /** The IP address of the end customer when they accepted the bank addendum. */
-  customer_ip_address?: string | undefined;
-  /** The timestamp of when the end customer accepted the bank addendum in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format (`YYYY-MM-DDTHH:mm:ssZ`). */
-  customer_agreement_timestamp?: string | undefined;
-  [key: string]: unknown;
-}
-/** A CRA use case under a permissible purpose. */
-export type PartnerEndCustomerCRAUseCase =
-  | "CREDIT_UNDERWRITING"
-  | "TENANT_SCREENING"
-  | "INVESTOR_OR_SERVICER_OF_CREDIT"
-  | "UTILITIES"
-  | "BANK_ACCOUNT_OPENING"
-  | "IDENTITY_VERIFICATION_FRAUD_PREVENTION"
-  | "COLLECTIONS_DEBT_RECOVERY";
-/** List of use cases for the given permissible purpose. */
-export type PartnerEndCustomerCRAUseCasesUseCasesList = Array<
-  PartnerEndCustomerCRAUseCase | (string & {})
->;
-/** The list of use cases associated with a given permissible purpose. */
-export interface PartnerEndCustomerCRAUseCases {
-  /** List of use cases for the given permissible purpose. */
-  use_cases?: PartnerEndCustomerCRAUseCasesUseCasesList | undefined;
-}
-/** A map of permissible purposes to their corresponding use cases. */
-export interface PartnerEndCustomerCRAPurposes {
-  WRITTEN_INSTRUCTION?: PartnerEndCustomerCRAUseCases | undefined;
-  EXTENSION_OF_CREDIT_OR_ACCOUNT_REVIEW?: PartnerEndCustomerCRAUseCases | undefined;
-  EMPLOYMENT?: PartnerEndCustomerCRAUseCases | undefined;
-  INSURANCE_UNDERWRITING?: PartnerEndCustomerCRAUseCases | undefined;
-  LICENSE_ELIGIBILITY?: PartnerEndCustomerCRAUseCases | undefined;
-  RISK_ASSESSMENT?: PartnerEndCustomerCRAUseCases | undefined;
-  BUSINESS_NEED_TRANSACTION?: PartnerEndCustomerCRAUseCases | undefined;
-  BUSINESS_NEED_ACCOUNT_REVIEW?: PartnerEndCustomerCRAUseCases | undefined;
-  [key: string]: unknown;
-}
-/** The CRA questionnaire for the end customer. */
-export interface PartnerEndCustomerCRAQuestionnaire {
-  purposes?: PartnerEndCustomerCRAPurposes | undefined;
-  /** Denotes whether the third party is involved. */
-  is_third_party_involved?: boolean | undefined;
-  /** Denotes whether the technical service provider is involved. */
-  is_technical_service_provider_involved?: boolean | undefined;
-  [key: string]: unknown;
-}
-/** The questionnaires for the end customer. */
-export interface PartnerEndCustomerQuestionnaires {
-  cra?: PartnerEndCustomerCRAQuestionnaire | undefined;
-  [key: string]: unknown;
-}
-export interface CreateBetaPartnerCustomerV1Request {
-  client_id?: string | undefined;
-  secret?: string | Redacted.Redacted<string> | undefined;
-  /** The company name of the end customer being created. This will be used to display the end customer in the Plaid Dashboard. It will not be shown to end users. */
-  company_name: string;
-  /** Denotes whether or not the partner has completed attestation of diligence for the end customer to be created. */
-  is_diligence_attested?: boolean | undefined;
-  /** The products to be enabled for the end customer. If empty or `null`, this field will default to the products enabled for the reseller at the time this endpoint is called. */
-  products?: CreateBetaPartnerCustomerV1RequestProductsList | undefined;
-  /** If `true`, the end customer's default Link customization will be set to match the partner's. You can always change the end customer's Link customization in the Plaid Dashboard. See the [Link Customization docs](https://plaid.com/docs/link/customization/) for more information. If you require the ability to programmatically create end customers using multiple different Link customization profiles, contact your Plaid account manager for assistance. Important: Data Transparency Messaging (DTM) use cases will not be copied to the end customer's Link customization unless the **Publish changes** button is clicked after the use cases are applied. Link will not work in Production unless the end customer's DTM use cases are configured. For more details, see [Data Transparency Messaging](https://plaid.com/docs/link/data-transparency-messaging-migration-guide/). */
-  create_link_customization?: boolean | undefined;
-  /** Base64-encoded representation of the end customer's logo. Must be a PNG of size 1024x1024 under 4MB. The logo will be shared with financial institutions and shown to the end user during Link flows. A logo is required if `create_link_customization` is `true`. If `create_link_customization` is `false` and the logo is omitted, the partner's logo will be used if one exists, otherwise a stock logo will be used. */
-  logo?: string | undefined;
-  /** The end customer's legal name. This will be shared with financial institutions as part of the OAuth registration process. It will not be shown to end users. */
-  legal_entity_name?: string | undefined;
-  /** The end customer's website. */
-  website: string;
-  /** The name of the end customer's application. This will be shown to end users when they go through the Plaid Link flow. The application name must be unique and cannot match the name of another application already registered with Plaid. */
-  application_name: string;
-  technical_contact?: PartnerEndCustomerTechnicalContact | undefined;
-  billing_contact?: PartnerEndCustomerTechnicalContact | undefined;
-  customer_support_info: PartnerEndCustomerCustomerSupportInfo;
-  address: PartnerEndCustomerAddress;
-  /** A list of URIs indicating the destination(s) where a user can be forwarded after completing the Link flow; used to support OAuth authentication flows when launching Link in the browser or another app. URIs should not contain any query parameters. When used in Production, URIs must use https. To modify redirect URIs for an end customer after creating them, go to the end customer's [API page](https://dashboard.plaid.com/team/api) in the Dashboard. */
-  redirect_uris?: CreateBetaPartnerCustomerV1RequestRedirectUrisList | undefined;
-  bank_addendum_acceptance?: PartnerEndCustomerBankAddendumAcceptance | undefined;
-  questionnaires?: PartnerEndCustomerQuestionnaires | undefined;
-}
-/** The status of the given end customer. `UNDER_REVIEW`: The end customer has been created and enabled in the Sandbox environment. The end customer must be manually reviewed by the Plaid team before it can be enabled in Production, at which point its status will automatically transition to `PENDING_ENABLEMENT` or `DENIED`. `PENDING_ENABLEMENT`: The end customer is ready to be fully enabled in the Production environment. Call the `/partner/customer/enable` endpoint to enable the end customer in full Production. `ACTIVE`: The end customer has been fully enabled in all environments. `DENIED`: The end customer has been created and enabled in the Sandbox environment, but it did not pass review by the Plaid team and therefore cannot be enabled for Production access. Talk to your account manager for more information. */
-export type PartnerEndCustomerStatus =
-  | "UNDER_REVIEW"
-  | "PENDING_ENABLEMENT"
-  | "ACTIVE"
-  | "DENIED"
-  | "MORE_INFORMATION_NEEDED";
-/** Mapping of product names to their current status. */
-export type PartnerEndCustomerProductStatuses = { [key: string]: unknown | undefined };
-/** A field that may be required to be submitted for enablement. */
-export type PartnerEndCustomerRequirementDue =
-  | "legal_entity_name"
-  | "website"
-  | "application_name"
-  | "is_diligence_attested"
-  | "technical_contact"
-  | "billing_contact"
-  | "address"
-  | "bank_addendum_acceptance"
-  | "questionnaires.cra";
-/** A list of fields that are still required to be submitted. */
-export type PartnerEndCustomerRequirementsDue = Array<PartnerEndCustomerRequirementDue>;
-/** The secrets for the newly created end customer. */
-export interface PartnerEndCustomerSecrets {
-  /** The end customer's secret key for the Sandbox environment. */
-  sandbox?: string | undefined;
-  /** The end customer's secret key for the Development environment. The Development environment has been removed. */
-  development?: string | undefined;
-  /** The end customer's secret key for the Production environment. The end customer will be provided with a limited number of credits to test in the Production environment before full enablement. */
-  production?: string | undefined;
-  [key: string]: unknown;
-}
-/** The details for the newly created end customer, including secrets for non-Production environments. */
-export interface BetaPartnerEndCustomerWithSecrets {
-  /** The `client_id` of the end customer. */
-  client_id?: string | undefined;
-  /** The company name associated with the end customer. */
-  company_name?: string | undefined;
-  status?: PartnerEndCustomerStatus | undefined;
-  product_statuses?: PartnerEndCustomerProductStatuses | undefined;
-  requirements_due?: PartnerEndCustomerRequirementsDue | undefined;
-  secrets?: PartnerEndCustomerSecrets | undefined;
-  [key: string]: unknown;
-}
-/** Response schema for `/beta/partner/customer/v1/create`. */
-export interface BetaPartnerCustomerV1CreateResponse {
-  end_customer?: BetaPartnerEndCustomerWithSecrets | undefined;
-  request_id?: string | undefined;
   [key: string]: unknown;
 }
 /** Physical address of a business. Used for input requests. */
@@ -1652,6 +1346,50 @@ export interface BusinessVerificationCreateResponse {
   shareable_url: string | null;
   [key: string]: unknown;
 }
+/** A list of products that an institution can support. All Items must be initialized with at least one product. The Balance product is always available and does not need to be specified during initialization. */
+export type Products =
+  | "assets"
+  | "auth"
+  | "balance"
+  | "balance_plus"
+  | "beacon"
+  | "identity"
+  | "identity_match"
+  | "investments"
+  | "investments_auth"
+  | "liabilities"
+  | "payment_initiation"
+  | "identity_verification"
+  | "transactions"
+  | "credit_details"
+  | "income"
+  | "income_verification"
+  | "standing_orders"
+  | "transfer"
+  | "employment"
+  | "recurring_transactions"
+  | "transactions_refresh"
+  | "signal"
+  | "statements"
+  | "processor_payments"
+  | "processor_identity"
+  | "profile"
+  | "cra_base_report"
+  | "cra_income_insights"
+  | "cra_partner_insights"
+  | "cra_network_insights"
+  | "cra_cashflow_insights"
+  | "cra_monitoring"
+  | "cra_lend_score"
+  | "cra_plaid_credit_score"
+  | "cra_qualify"
+  | "cra_home_lending"
+  | "cra_lend_score_complete"
+  | "cra_income_complete"
+  | "layer"
+  | "pay_by_bank"
+  | "protect_linked_bank"
+  | "protect_transactions";
 /** Specifies a list of products to generate when creating the report (in addition to the Base Report, which is always generated except for requests for only `cra_network_insights` or for FICO-only Partner Insights). These products will be made available before a success webhook is sent. Note that specifying `cra_partner_insights` in this field will trigger a billable event. Other products are not billed until the respective reports are retrieved via their product-specific `/get` endpoints. */
 export type CreateCraCheckReportRequestProductsList = Array<Products | (string & {})>;
 /** The types of GSE Reports supported by the Plaid API */
@@ -3552,6 +3290,34 @@ export interface LinkTokenCreateResponse {
 }
 /** The products to be enabled for the end customer. If empty or `null`, this field will default to the products enabled for the reseller at the time this endpoint is called. */
 export type CreatePartnerCustomerRequestProductsList = Array<Products | (string & {})>;
+/** The technical contact for the end customer. Defaults to partner's technical contact if omitted. */
+export interface PartnerEndCustomerTechnicalContact {
+  given_name?: string | undefined;
+  family_name?: string | undefined;
+  email?: string | undefined;
+  [key: string]: unknown;
+}
+/** The billing contact for the end customer. Defaults to partner's billing contact if omitted. */
+export type PartnerEndCustomerBillingContact = PartnerEndCustomerTechnicalContact;
+/** This information is public. Users of your app will see this information when managing connections between your app and their bank accounts in Plaid Portal. Defaults to partner's customer support info if omitted. This field is mandatory for partners whose Plaid accounts were created after November 26, 2024 and will be mandatory for all partners by the 1033 compliance deadline. */
+export interface PartnerEndCustomerCustomerSupportInfo {
+  /** This field is mandatory for partners whose Plaid accounts were created after November 26, 2024 and will be mandatory for all partners by the 1033 compliance deadline. */
+  email?: string | undefined;
+  phone_number?: string | undefined;
+  contact_url?: string | undefined;
+  link_update_url?: string | undefined;
+  [key: string]: unknown;
+}
+/** The end customer's address. */
+export interface PartnerEndCustomerAddress {
+  city?: string | undefined;
+  street?: string | undefined;
+  region?: string | undefined;
+  postal_code?: string | undefined;
+  /** ISO-3166-1 alpha-2 country code standard. */
+  country_code?: string | undefined;
+  [key: string]: unknown;
+}
 /** Assets under management for the given end customer. Required for end customers with monthly service commitments. */
 export interface PartnerEndCustomerAssetsUnderManagement {
   amount: number;
@@ -3590,6 +3356,23 @@ export interface CreatePartnerCustomerRequest {
   redirect_uris?: CreatePartnerCustomerRequestRedirectUrisList | undefined;
   /** The unique identifier assigned to a financial institution by regulatory authorities, if applicable. For banks, this is the FDIC Certificate Number. For credit unions, this is the Credit Union Charter Number. */
   registration_number?: string | undefined;
+}
+/** The status of the given end customer. `UNDER_REVIEW`: The end customer has been created and enabled in the Sandbox environment. The end customer must be manually reviewed by the Plaid team before it can be enabled in Production, at which point its status will automatically transition to `PENDING_ENABLEMENT` or `DENIED`. `PENDING_ENABLEMENT`: The end customer is ready to be fully enabled in the Production environment. Call the `/partner/customer/enable` endpoint to enable the end customer in full Production. `ACTIVE`: The end customer has been fully enabled in all environments. `DENIED`: The end customer has been created and enabled in the Sandbox environment, but it did not pass review by the Plaid team and therefore cannot be enabled for Production access. Talk to your account manager for more information. */
+export type PartnerEndCustomerStatus =
+  | "UNDER_REVIEW"
+  | "PENDING_ENABLEMENT"
+  | "ACTIVE"
+  | "DENIED"
+  | "MORE_INFORMATION_NEEDED";
+/** The secrets for the newly created end customer. */
+export interface PartnerEndCustomerSecrets {
+  /** The end customer's secret key for the Sandbox environment. */
+  sandbox?: string | undefined;
+  /** The end customer's secret key for the Development environment. The Development environment has been removed. */
+  development?: string | undefined;
+  /** The end customer's secret key for the Production environment. The end customer will be provided with a limited number of credits to test in the Production environment before full enablement. */
+  production?: string | undefined;
+  [key: string]: unknown;
 }
 /** The details for the newly created end customer, including secrets for non-Production environments. */
 export interface PartnerEndCustomerWithSecrets {
@@ -4271,46 +4054,6 @@ export interface SessionTokenCreateResponseLink {
 export interface SessionTokenCreateResponse {
   request_id: string;
   link?: SessionTokenCreateResponseLink | undefined;
-  [key: string]: unknown;
-}
-/** Transaction field for which the rule is defined. */
-export type TransactionsRuleField = "TRANSACTION_ID" | "MERCHANT_NAME";
-/** Transaction rule's match type. For `TRANSACTION_ID` field, `EXACT_MATCH` is available. `TRANSACTION_ID` matches are case sensitive; `MERCHANT_NAME` matches are case insensitive. */
-export type TransactionsRuleType = "EXACT_MATCH" | "SUBSTRING_MATCH";
-/** A representation of transactions rule details. */
-export interface TransactionsRuleDetails {
-  field: TransactionsRuleField | (string & {});
-  type: TransactionsRuleType | (string & {});
-  /** For `TRANSACTION_ID` field, provide `transaction_id`. For `MERCHANT_NAME` field, provide a string pattern. */
-  query: string;
-}
-export interface CreateTransactionsRuleRequest {
-  client_id?: string | undefined;
-  secret?: string | Redacted.Redacted<string> | undefined;
-  /** A unique ID representing the end user. This ID is used to associate rules with a specific user. */
-  client_user_id: string;
-  pfc_primary_category: string;
-  pfc_detailed_category: string;
-  rule_details: TransactionsRuleDetails;
-}
-/** A representation of a transactions category rule. */
-export interface TransactionsCategoryRule {
-  /** A unique identifier of the rule created */
-  id?: string | undefined;
-  /** The Plaid-generated unique identifier for the end user this rule belongs to. */
-  user_id?: string | undefined;
-  /** Date and time when a rule was created in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format ( `YYYY-MM-DDTHH:mm:ssZ` ). */
-  created_at?: string | undefined;
-  /** Date and time when a rule was last updated in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format ( `YYYY-MM-DDTHH:mm:ssZ` ). */
-  updated_at?: string | undefined;
-  pfc_primary_category?: string | undefined;
-  pfc_detailed_category?: string | undefined;
-  rule_details?: TransactionsRuleDetails | undefined;
-}
-/** TransactionsRulesCreateResponse defines the response schema for `/beta/transactions/rules/v1/create` */
-export interface TransactionsRulesCreateResponse {
-  rule: TransactionsCategoryRule;
-  request_id: string;
   [key: string]: unknown;
 }
 /** The type of transfer. This will be either `debit` or `credit`. A `debit` indicates a transfer of money into the origination account; a `credit` indicates a transfer of money out of the origination account. */
@@ -5419,22 +5162,6 @@ export interface DownloadStatementRequest {
   statement_id: string;
 }
 export interface DownloadStatementResponse {}
-export type EnableBetaPartnerCustomerV1RequestProductsList = Array<Products | (string & {})>;
-export interface EnableBetaPartnerCustomerV1Request {
-  client_id?: string | undefined;
-  secret?: string | Redacted.Redacted<string> | undefined;
-  end_customer_client_id: string;
-  products?: EnableBetaPartnerCustomerV1RequestProductsList | undefined;
-}
-/** Response schema for `/beta/partner/customer/v1/enable`. */
-export interface BetaPartnerCustomerV1EnableResponse {
-  end_customer_client_id?: string | undefined;
-  status?: PartnerEndCustomerStatus | undefined;
-  product_statuses?: PartnerEndCustomerProductStatuses | undefined;
-  production_secret?: string | Redacted.Redacted<string> | undefined;
-  request_id?: string | undefined;
-  [key: string]: unknown;
-}
 export interface EnablePartnerCustomerRequest {
   client_id?: string | undefined;
   secret?: string | Redacted.Redacted<string> | undefined;
@@ -6040,151 +5767,6 @@ export interface AuthGetResponse {
   numbers: AuthGetNumbers;
   item: Item;
   request_id: string;
-  [key: string]: unknown;
-}
-export interface GetBetaCashAdvanceIncomeInsightsV1Request {
-  client_id?: string | undefined;
-  secret?: string | Redacted.Redacted<string> | undefined;
-  user_id: string;
-}
-/** The category of an income stream. */
-export interface CashAdvanceIncomeCategory {
-  /** The primary income category, for example `EARNED_INCOME`, `RETIREMENT`, or `BENEFITS`. `null` if the category could not be determined. */
-  primary: string | null;
-  [key: string]: unknown;
-}
-/** The pay cadence of an income stream. `DYNAMIC` means the income recurs, but not on a regular schedule. `null` if the pay frequency could not be determined. */
-export type CashAdvancePayFrequency =
-  | "WEEKLY"
-  | "BIWEEKLY"
-  | "SEMI_MONTHLY"
-  | "MONTHLY"
-  | "ANNUALLY"
-  | "DAILY"
-  | "DYNAMIC";
-/** An income stream returned by `/beta/cash_advance/income_insights/v1/get`. */
-export interface CashAdvanceIncomeStream {
-  /** The name of the income provider, such as an employer or benefits agency. `null` if the provider could not be identified. */
-  provider_name: string | null;
-  category: CashAdvanceIncomeCategory | null;
-  pay_frequency: CashAdvancePayFrequency | null;
-  /** The ISO-4217 currency code of the income stream. Always `USD`. */
-  iso_currency_code: string | null;
-  [key: string]: unknown;
-}
-/** The user's top income streams, ranked by historical net monthly income. Contains at most three streams, and is empty if the user has no income. */
-export type BetaCashAdvanceIncomeInsightsV1GetResponseIncomeStreamsList =
-  Array<CashAdvanceIncomeStream>;
-/** BetaCashAdvanceIncomeInsightsV1GetResponse defines the response schema for `/beta/cash_advance/income_insights/v1/get` */
-export interface BetaCashAdvanceIncomeInsightsV1GetResponse {
-  request_id: string;
-  /** The next payment date of the highest-ranked income stream, in ISO 8601 format (YYYY-MM-DD). `null` if the user has no income streams. */
-  next_payment_date: string | null;
-  /** The historical net monthly income of the highest-ranked income stream. `null` if the user has no income streams. */
-  next_payment_amount: number | null;
-  /** The ISO-4217 currency code of `next_payment_amount`. Always `USD` when `next_payment_amount` is set, and `null` otherwise. */
-  iso_currency_code: string | null;
-  /** The user's top income streams, ranked by historical net monthly income. Contains at most three streams, and is empty if the user has no income. */
-  income_streams: BetaCashAdvanceIncomeInsightsV1GetResponseIncomeStreamsList;
-  [key: string]: unknown;
-}
-export interface GetBetaEwaReportV1Request {
-  access_token: string | Redacted.Redacted<string>;
-  client_id?: string | undefined;
-  secret?: string | Redacted.Redacted<string> | undefined;
-}
-/** EwaScore represents an earned wage access score for a specific advance amount range. */
-export interface EwaScore {
-  /** Float value representing the lower bound (inclusive) of the advance amount range associated with a specific EWA score. */
-  lowest_amount?: number | undefined;
-  /** Float value representing the upper bound (exclusive) of the advance amount range associated with a specific EWA score. */
-  highest_amount?: number | undefined;
-  /** EWA score for the corresponding amount bucket. Scores range from 1-99, where a higher score indicates a higher likelihood of repayment. */
-  score?: number | undefined;
-  [key: string]: unknown;
-}
-/** A list of earned wage access (EWA) scoring entries that map potential advance amounts to repayment likelihood scores. The predefined advance amount ranges are `[0, 25)`, `[25, 50)`, `[50, 100)`, `[100, 200)`, `[200, 300)`, `[300, 400)`, and `[400, 500)`. */
-export type BetaEwaReportV1GetResponseEwaScoresList = Array<EwaScore>;
-/** A set of attributes providing context about the factors that contributed to the EWA scores. Each key is the attribute name and the value is its numeric score, or null if the attribute could not be computed. */
-export type EwaAttributes = { [key: string]: number | null | undefined };
-/** BetaEwaReportV1GetResponse defines the response schema for `/beta/ewa_report/v1/get` */
-export interface BetaEwaReportV1GetResponse {
-  request_id?: string | undefined;
-  /** Unique identifier for the generated EWA score group. */
-  ewa_report_id?: string | undefined;
-  /** The date and time when `ewa_scores` was generated, in ISO 8601 format (e.g. "2018-04-12T03:32:11Z"). */
-  generation_time?: string | undefined;
-  /** A list of earned wage access (EWA) scoring entries that map potential advance amounts to repayment likelihood scores. The predefined advance amount ranges are `[0, 25)`, `[25, 50)`, `[50, 100)`, `[100, 200)`, `[200, 300)`, `[300, 400)`, and `[400, 500)`. */
-  ewa_scores?: BetaEwaReportV1GetResponseEwaScoresList | undefined;
-  ewa_attributes?: EwaAttributes | null | undefined;
-  [key: string]: unknown;
-}
-export interface GetBetaIssuesV1Request {
-  client_id?: string | undefined;
-  secret?: string | Redacted.Redacted<string> | undefined;
-  /** The KI- or INC-prefixed identifier of the issue to retrieve. */
-  issue_id: string;
-}
-/** The customer-visible effects of the issue. */
-export type GetBetaIssuesV1ResponseBehaviorsList = Array<BetaIssuesV1IssueBehavior>;
-/** The Plaid products affected by the issue. */
-export type GetBetaIssuesV1ResponseAffectedProductsList = Array<Products>;
-/** Resolution events recorded for the issue. */
-export type GetBetaIssuesV1ResponseResolutionLogList = Array<BetaIssuesV1IssueResolutionEvent>;
-export interface GetBetaIssuesV1Response {
-  /** The customer-visible identifier of the issue. */
-  issue_id: string;
-  issue_type: BetaIssuesV1IssueType;
-  severity: BetaIssuesV1IssueSeverity;
-  /** The identifier of the institution affected by the issue. */
-  institution_id: string;
-  /** The name of the institution affected by the issue. */
-  institution_name: string;
-  /** The customer-visible effects of the issue. */
-  behaviors: GetBetaIssuesV1ResponseBehaviorsList;
-  /** The API error type associated with the issue if available. Mirrors the `error_type` field on `PlaidError` returned on error responses and is safe for programmatic use. Always null or non-null together with `issue_error_code`. */
-  issue_error_type: string | null;
-  /** The API error code associated with the issue if available. Always null or non-null together with `issue_error_type`. */
-  issue_error_code: string | null;
-  /** A customer-facing explanation of the issue. */
-  description: string;
-  attribution: BetaIssuesV1IssueAttribution;
-  status: BetaIssuesV1IssueStatus;
-  /** Guidance for an end user affected by the issue, or null when no guidance is available. */
-  user_guidance: string | null;
-  /** The estimated resolution time, or null when no estimate is available. */
-  estimated_resolution_time: string | null;
-  /** The time the issue began, or null when it is unknown. Only populated for incidents. */
-  start_time: string | null;
-  /** The time the issue ended, or null while it remains active. */
-  end_time: string | null;
-  impact: BetaIssuesV1IssueImpact | null;
-  /** The Plaid products affected by the issue. */
-  affected_products: GetBetaIssuesV1ResponseAffectedProductsList;
-  /** Resolution events recorded for the issue. */
-  resolution_log: GetBetaIssuesV1ResponseResolutionLogList;
-  request_id: string;
-}
-export interface GetBetaPartnerCustomerV1Request {
-  client_id?: string | undefined;
-  secret?: string | Redacted.Redacted<string> | undefined;
-  end_customer_client_id: string;
-}
-/** The details for an end customer. */
-export interface BetaPartnerEndCustomer {
-  /** The `client_id` of the end customer. */
-  client_id?: string | undefined;
-  /** The company name associated with the end customer. */
-  company_name?: string | undefined;
-  status?: PartnerEndCustomerStatus | undefined;
-  product_statuses?: PartnerEndCustomerProductStatuses | undefined;
-  requirements_due?: PartnerEndCustomerRequirementsDue | undefined;
-  [key: string]: unknown;
-}
-/** Response schema for `/beta/partner/customer/v1/get`. */
-export interface BetaPartnerCustomerV1GetResponse {
-  end_customer?: BetaPartnerEndCustomer | undefined;
-  request_id?: string | undefined;
   [key: string]: unknown;
 }
 export interface GetBusinessVerificationRequest {
@@ -9846,30 +9428,18 @@ export interface AssetReportFreddieGetResponse {
   SchemaVersion: number;
   [key: string]: unknown;
 }
-export interface GetCreditBankEmploymentRequest {
+/** An optional object for `/credit/bank_income/get` request options. */
+export interface CreditBankIncomeGetRequestOptions {
+  /** How many Bank Income Reports should be fetched. Multiple reports may be available if the report has been re-created or refreshed. If more than one report is available, the most recent reports will be returned first. */
+  count?: number | undefined;
+}
+export interface GetCreditBankIncomeRequest {
   client_id?: string | undefined;
   secret?: string | Redacted.Redacted<string> | undefined;
-  user_token: string | Redacted.Redacted<string>;
+  user_token?: string | Redacted.Redacted<string> | undefined;
+  user_id?: string | undefined;
+  options?: CreditBankIncomeGetRequestOptions | undefined;
 }
-/** Object containing employer data. */
-export interface CreditBankEmployer {
-  /** Name of the employer. */
-  name: string;
-}
-/** Detailed information for the bank employment. */
-export interface CreditBankEmployment {
-  /** A unique identifier for the bank employment. */
-  bank_employment_id: string;
-  /** Plaid's unique identifier for the account. */
-  account_id: string;
-  employer: CreditBankEmployer;
-  /** The date of the most recent deposit from this employer. */
-  latest_deposit_date: string;
-  /** The date of the earliest deposit from this employer from within the period of the days requested. */
-  earliest_deposit_date: string;
-}
-/** The bank employment information for this Item. Each entry in the array is a different employer found. */
-export type CreditBankEmploymentItemBankEmploymentsList = Array<CreditBankEmployment>;
 /** Data returned by the financial institution about the account owner or owners. Identity information is optional, so field may return an empty array. */
 export type CreditBankIncomeAccountOwnersList = Array<Owner>;
 /** The Item's bank accounts that have the selected data. */
@@ -9886,89 +9456,6 @@ export interface CreditBankIncomeAccount {
   type: CreditBankIncomeAccountType;
   /** Data returned by the financial institution about the account owner or owners. Identity information is optional, so field may return an empty array. */
   owners: CreditBankIncomeAccountOwnersList;
-}
-/** The Item's accounts that have Bank Employment data. */
-export type CreditBankEmploymentItemBankEmploymentAccountsList = Array<CreditBankIncomeAccount>;
-/** The details and metadata for an end user's Item. */
-export interface CreditBankEmploymentItem {
-  /** The unique identifier for the Item. */
-  item_id: string;
-  /** The time when this Item's data was last retrieved from the financial institution, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format (e.g. "2018-04-12T03:32:11Z"). */
-  last_updated_time: string;
-  /** The unique identifier of the institution associated with the Item. */
-  institution_id: string;
-  /** The name of the institution associated with the Item. */
-  institution_name: string;
-  /** The bank employment information for this Item. Each entry in the array is a different employer found. */
-  bank_employments: CreditBankEmploymentItemBankEmploymentsList;
-  /** The Item's accounts that have Bank Employment data. */
-  bank_employment_accounts: CreditBankEmploymentItemBankEmploymentAccountsList;
-}
-/** The list of Items in the report along with the associated metadata about the Item. */
-export type CreditBankEmploymentReportItemsList = Array<CreditBankEmploymentItem>;
-/** The warning type which will always be `BANK_EMPLOYMENT_WARNING`. */
-export type CreditBankEmploymentWarningType = "BANK_EMPLOYMENT_WARNING";
-/** The warning code identifies a specific kind of warning. `IDENTITY_UNAVAILABLE`: Unable to extract identity for the Item `TRANSACTIONS_UNAVAILABLE`: Unable to extract transactions for the Item `ITEM_UNAPPROVED`: User exited flow before giving permission to share data for the Item `REPORT_DELETED`: Report deleted due to customer or consumer request `DATA_UNAVAILABLE`: No relevant data was found for the Item */
-export type CreditBankIncomeWarningCode =
-  | "IDENTITY_UNAVAILABLE"
-  | "TRANSACTIONS_UNAVAILABLE"
-  | "ITEM_UNAPPROVED"
-  | "REPORT_DELETED"
-  | "DATA_UNAVAILABLE";
-/** An error object and associated `item_id` used to identify a specific Item and error when a batch operation operating on multiple Items has encountered an error in one of the Items. */
-export interface CreditBankIncomeCause {
-  error_type: CreditBankIncomeErrorType;
-  /** We use standard HTTP response codes for success and failure notifications, and our errors are further classified by `error_type`. In general, 200 HTTP codes correspond to success, 40X codes are for developer- or user-related failures, and 50X codes are for Plaid-related issues. Error fields will be `null` if no error has occurred. */
-  error_code: string;
-  /** A developer-friendly representation of the error code. This may change over time and is not safe for programmatic use. */
-  error_message: string;
-  /** A user-friendly representation of the error code. null if the error is not related to user action. This may change over time and is not safe for programmatic use. */
-  display_message: string;
-  /** The `item_id` of the Item associated with this warning. */
-  item_id: string;
-}
-/** The warning associated with the data that was unavailable for the Bank Employment Report. */
-export interface CreditBankEmploymentWarning {
-  warning_type: CreditBankEmploymentWarningType;
-  warning_code: CreditBankIncomeWarningCode;
-  cause: CreditBankIncomeCause;
-}
-/** If data from the Bank Employment report was unable to be retrieved, the warnings will contain information about the error that caused the data to be incomplete. */
-export type CreditBankEmploymentReportWarningsList = Array<CreditBankEmploymentWarning>;
-/** The report of the Bank Employment data for an end user. */
-export interface CreditBankEmploymentReport {
-  /** The unique identifier associated with the Bank Employment Report. */
-  bank_employment_report_id: string;
-  /** The time when the Bank Employment Report was generated, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format (e.g. "2018-04-12T03:32:11Z"). */
-  generated_time: string;
-  /** The number of days requested by the customer for the Bank Employment Report. */
-  days_requested: number;
-  /** The list of Items in the report along with the associated metadata about the Item. */
-  items: CreditBankEmploymentReportItemsList;
-  /** If data from the Bank Employment report was unable to be retrieved, the warnings will contain information about the error that caused the data to be incomplete. */
-  warnings: CreditBankEmploymentReportWarningsList;
-}
-/** Bank Employment data. Each entry in the array will be a distinct bank employment report. */
-export type CreditBankEmploymentGetResponseBankEmploymentReportsList =
-  Array<CreditBankEmploymentReport>;
-/** CreditBankEmploymentGetResponse defines the response schema for `/beta/credit/v1/bank_employment/get`. */
-export interface CreditBankEmploymentGetResponse {
-  /** Bank Employment data. Each entry in the array will be a distinct bank employment report. */
-  bank_employment_reports: CreditBankEmploymentGetResponseBankEmploymentReportsList;
-  request_id: string;
-  [key: string]: unknown;
-}
-/** An optional object for `/credit/bank_income/get` request options. */
-export interface CreditBankIncomeGetRequestOptions {
-  /** How many Bank Income Reports should be fetched. Multiple reports may be available if the report has been re-created or refreshed. If more than one report is available, the most recent reports will be returned first. */
-  count?: number | undefined;
-}
-export interface GetCreditBankIncomeRequest {
-  client_id?: string | undefined;
-  secret?: string | Redacted.Redacted<string> | undefined;
-  user_token?: string | Redacted.Redacted<string> | undefined;
-  user_id?: string | undefined;
-  options?: CreditBankIncomeGetRequestOptions | undefined;
 }
 /** The Item's accounts that have Bank Income data. */
 export type CreditBankIncomeItemBankIncomeAccountsList = Array<CreditBankIncomeAccount>;
@@ -10077,6 +9564,25 @@ export interface CreditBankIncomeSummary {
   income_transactions_count?: number | undefined;
   historical_summary?: CreditBankIncomeSummaryHistoricalSummaryList | undefined;
   [key: string]: unknown;
+}
+/** The warning code identifies a specific kind of warning. `IDENTITY_UNAVAILABLE`: Unable to extract identity for the Item `TRANSACTIONS_UNAVAILABLE`: Unable to extract transactions for the Item `ITEM_UNAPPROVED`: User exited flow before giving permission to share data for the Item `REPORT_DELETED`: Report deleted due to customer or consumer request `DATA_UNAVAILABLE`: No relevant data was found for the Item */
+export type CreditBankIncomeWarningCode =
+  | "IDENTITY_UNAVAILABLE"
+  | "TRANSACTIONS_UNAVAILABLE"
+  | "ITEM_UNAPPROVED"
+  | "REPORT_DELETED"
+  | "DATA_UNAVAILABLE";
+/** An error object and associated `item_id` used to identify a specific Item and error when a batch operation operating on multiple Items has encountered an error in one of the Items. */
+export interface CreditBankIncomeCause {
+  error_type: CreditBankIncomeErrorType;
+  /** We use standard HTTP response codes for success and failure notifications, and our errors are further classified by `error_type`. In general, 200 HTTP codes correspond to success, 40X codes are for developer- or user-related failures, and 50X codes are for Plaid-related issues. Error fields will be `null` if no error has occurred. */
+  error_code: string;
+  /** A developer-friendly representation of the error code. This may change over time and is not safe for programmatic use. */
+  error_message: string;
+  /** A user-friendly representation of the error code. null if the error is not related to user action. This may change over time and is not safe for programmatic use. */
+  display_message: string;
+  /** The `item_id` of the Item associated with this warning. */
+  item_id: string;
 }
 /** The warning associated with the data that was unavailable for the Bank Income Report. */
 export interface CreditBankIncomeWarning {
@@ -13824,173 +13330,6 @@ export interface TransactionsRecurringGetResponse {
   request_id: string;
   [key: string]: unknown;
 }
-export interface GetTransactionsUserInsightRequest {
-  client_id?: string | undefined;
-  secret?: string | Redacted.Redacted<string> | undefined;
-  /** A unique client-provided `client_user_id` to retrieve insights for. */
-  client_user_id: string;
-}
-/** metadata for the set of insights provided in `TransactionsUserInsightsGetResponse` */
-export interface UserDataOverview {
-  /** The total number of transactions. */
-  transaction_count: number;
-  /** The date of the oldest transaction processed to generate insights. */
-  oldest_transaction_date?: string | undefined;
-  /** The date of the newest transaction processed to generate insights. */
-  newest_transaction_date?: string | undefined;
-  /** The range of days of transactions available. */
-  days_available: number;
-  /** Sum of outflow amounts. */
-  total_outflows: number;
-  /** Sum of inflow amounts. */
-  total_inflows: number;
-  [key: string]: unknown;
-}
-/** A possible account detected to be associated with a transaction user. */
-export interface DetectedAccount {
-  /** The detected account type (depository, credit, loan, investment etc.). */
-  account_type: string | null;
-  /** The detected subtype of the account, based on the transactions to/from the institution. */
-  account_subtype: string | null;
-  /** The number of transactions associated with this detected account type at this financial institution. */
-  transaction_count: number;
-  /** The date of the oldest transaction associated with this detected account type at this financial institution. */
-  oldest_transaction_date?: string | undefined;
-  /** The date of the newest transaction associated with this detected account type at this financial institution. */
-  newest_transaction_date?: string | undefined;
-  /** Amount of the most recent transaction associated with this detected account type at this financial institution. */
-  newest_transaction_amount?: number | undefined;
-  /** Sum of outflow amounts associated with this detected account type at this financial institution. */
-  total_outflows: number;
-  /** Sum of inflow amounts associated with this detected account type at this financial institution. */
-  total_inflows: number;
-  [key: string]: unknown;
-}
-/** Associated accounts, detected based on the nature of transfers to/from this institution. */
-export type FinancialInstitutionInsightsDetectedAccountsList = Array<DetectedAccount>;
-/** Insights surrounding external financial institution counterparties associated with a user. */
-export interface FinancialInstitutionInsights {
-  /** Name of the financial institution counterparty. */
-  name: string;
-  /** A unique, stable, Plaid-generated id that maps to the counterparty. */
-  entity_id?: string | null | undefined;
-  /** The website associated with the counterparty. */
-  website: string | null;
-  /** Associated accounts, detected based on the nature of transfers to/from this institution. */
-  detected_accounts: FinancialInstitutionInsightsDetectedAccountsList;
-}
-/** Insights related to a user's transactions with other financial institutions, including detected account types. */
-export type CounterpartyInsightsFinancialInstitutionInsightsList =
-  Array<FinancialInstitutionInsights>;
-/** Insights into a user's top merchants. */
-export interface MerchantInsights {
-  /** The counterparty name. */
-  name: string;
-  /** A unique, stable, Plaid-generated id that maps to the merchant. */
-  entity_id?: string | null | undefined;
-  /** The website associated with the merchant. */
-  website: string | null;
-  /** The number of transactions associated with merchant of this type. */
-  transaction_count: number;
-  /** The primary personal finance category associated with this merchant. */
-  personal_finance_category_primary: string | null;
-  /** The detailed personal finance category associated with this merchant. */
-  personal_finance_category_detailed: string | null;
-  /** Sum of outflow amounts. */
-  total_outflows: number;
-  /** Sum of inflow amounts. */
-  total_inflows: number;
-}
-/** Insights about a user's top merchants, ranked by spend. */
-export type CounterpartyInsightsMerchantInsightsList = Array<MerchantInsights>;
-/** Insights around a user's counterparties */
-export interface CounterpartyInsights {
-  /** Insights related to a user's transactions with other financial institutions, including detected account types. */
-  financial_institution_insights?: CounterpartyInsightsFinancialInstitutionInsightsList | undefined;
-  /** Insights about a user's top merchants, ranked by spend. */
-  merchant_insights?: CounterpartyInsightsMerchantInsightsList | undefined;
-  [key: string]: unknown;
-}
-/** The most common counterparties associated with this category sorted by outflow. */
-export type CategoryInsightDetailsTopCounterpartiesList = Array<string>;
-/** Insights object for categories. */
-export interface CategoryInsightDetails {
-  /** Category name. */
-  name: string;
-  /** The number of transactions associated with this category. */
-  transaction_count: number;
-  /** Sum of outflow amounts. */
-  total_outflows: number;
-  /** Sum of inflow amounts. */
-  total_inflows: number;
-  /** The most common counterparties associated with this category sorted by outflow. */
-  top_counterparties?: CategoryInsightDetailsTopCounterpartiesList | undefined;
-  [key: string]: unknown;
-}
-/** List of insights of top primary personal finance categories ranked by outflow. */
-export type CategoryInsightsPrimaryCategoryInsightsList = Array<CategoryInsightDetails>;
-/** List of insights of top detailed personal finance categories ranked by outflow. */
-export type CategoryInsightsDetailedCategoryInsightsList = Array<CategoryInsightDetails>;
-/** Insights on a user's top personal finance categories. */
-export interface CategoryInsights {
-  /** List of insights of top primary personal finance categories ranked by outflow. */
-  primary_category_insights?: CategoryInsightsPrimaryCategoryInsightsList | undefined;
-  /** List of insights of top detailed personal finance categories ranked by outflow. */
-  detailed_category_insights?: CategoryInsightsDetailedCategoryInsightsList | undefined;
-  [key: string]: unknown;
-}
-/** An array of Plaid transaction IDs belonging to the stream, sorted by posted date. */
-export type RecurringInsightsStreamTransactionIdsList = Array<string>;
-/** Insights object for recurring transactions streams. */
-export interface RecurringInsightsStream {
-  /** A unique id for the stream. */
-  stream_id: string;
-  /** The client-provided raw description of the most recent transaction in the stream. */
-  description?: string | undefined;
-  /** The merchant or primary counterparty associated with the transaction stream. */
-  merchant_name: string;
-  /** The posted date of the earliest transaction in the stream. */
-  oldest_transaction_date?: string | undefined;
-  /** The posted date of the latest transaction in the stream. */
-  newest_transaction_date?: string | undefined;
-  /** The average number of days between each of the recurring transactions. */
-  average_days_apart: number;
-  frequency?: RecurringTransactionFrequency | undefined;
-  /** The number of transactions in this stream. */
-  transaction_count?: number | undefined;
-  /** An array of Plaid transaction IDs belonging to the stream, sorted by posted date. */
-  transaction_ids?: RecurringInsightsStreamTransactionIdsList | undefined;
-  average_amount?: TransactionStreamAmount | undefined;
-  newest_transaction_amount?: TransactionStreamAmount | undefined;
-  /** Indicates whether the transaction stream is still live. */
-  is_active: boolean;
-  status?: TransactionStreamStatus | undefined;
-  /** The primary category associated with the transaction stream. */
-  personal_finance_category_primary?: string | undefined;
-  /** The detailed category associated with the transaction stream. */
-  personal_finance_category_detailed?: string | undefined;
-  [key: string]: unknown;
-}
-/** An array of inflow transaction streams (e.g., income). */
-export type RecurringTransactionsInflowStreamsList = Array<RecurringInsightsStream>;
-/** An array of outflow transaction streams (e.g., subscriptions, bills, loan payments). */
-export type RecurringTransactionsOutflowStreamsList = Array<RecurringInsightsStream>;
-/** Insights object for recurring transactions for `/beta/transactions/user_insights/v1/get` endpoint */
-export interface RecurringTransactions {
-  /** An array of inflow transaction streams (e.g., income). */
-  inflow_streams: RecurringTransactionsInflowStreamsList;
-  /** An array of outflow transaction streams (e.g., subscriptions, bills, loan payments). */
-  outflow_streams: RecurringTransactionsOutflowStreamsList;
-  [key: string]: unknown;
-}
-/** TransactionsUserInsightsGetResponse defines the response schema for `/beta/transactions/user_insights/v1/get`. */
-export interface TransactionsUserInsightsGetResponse {
-  user_data_overview: UserDataOverview;
-  counterparty_insights?: CounterpartyInsights | undefined;
-  category_insights?: CategoryInsights | undefined;
-  recurring_transactions?: RecurringTransactions | undefined;
-  [key: string]: unknown;
-}
 export interface GetTransferRequest {
   client_id?: string | undefined;
   secret?: string | Redacted.Redacted<string> | undefined;
@@ -15023,90 +14362,6 @@ export interface BankTransferEventListResponse {
   request_id: string;
   [key: string]: unknown;
 }
-export interface ListBetaIssuesV1Request {
-  client_id?: string | undefined;
-  secret?: string | Redacted.Redacted<string> | undefined;
-  /** The identifier of the institution whose issues should be returned. */
-  institution_id: string;
-}
-/** Critical and high-severity issues that are active or were resolved in the past 14 days. An empty list indicates that no matching issues were found. */
-export type BetaIssuesV1ListResponseIssuesList = Array<BetaIssuesV1Issue>;
-/** BetaIssuesV1ListResponse defines the response schema for `/beta/issues/v1/list`. */
-export interface BetaIssuesV1ListResponse {
-  /** Critical and high-severity issues that are active or were resolved in the past 14 days. An empty list indicates that no matching issues were found. */
-  issues: BetaIssuesV1ListResponseIssuesList;
-  request_id: string;
-  [key: string]: unknown;
-}
-/** Return only events with these webhook types, for example `ITEM`. Case-sensitive. */
-export type ListBetaWebhookEventsRequestWebhookTypesList = Array<string>;
-/** Return only events with these webhook codes, for example `ERROR`. Case-sensitive. */
-export type ListBetaWebhookEventsRequestWebhookCodesList = Array<string>;
-/** Return only events for these Items. */
-export type ListBetaWebhookEventsRequestItemIdsList = Array<string>;
-/** The current delivery status of the webhook. `PENDING`: Plaid hasn't recorded a successful delivery and may retry. The webhook may have been delivered even if its status is `PENDING`. `DELIVERED`: Your endpoint returned a 2xx response. `FAILED`: Plaid stopped retrying without receiving a 2xx response. */
-export type WebhookEventDeliveryStatus = "PENDING" | "DELIVERED" | "FAILED";
-/** Return only events with these delivery statuses. */
-export type ListBetaWebhookEventsRequestDeliveryStatusesList = Array<
-  WebhookEventDeliveryStatus | (string & {})
->;
-export interface ListBetaWebhookEventsRequest {
-  client_id?: string | undefined;
-  secret?: string | Redacted.Redacted<string> | undefined;
-  /** The `next_cursor` from a previous `/beta/webhook_events/list` response. Omit on your first request. If provided, `start_time` is ignored. */
-  cursor?: string | undefined;
-  /** Return events sent at or after this time, in ISO 8601 format. Must be within the last 7 days. Ignored if `cursor` is provided. If you omit both `cursor` and `start_time`, results start with the oldest retained event. */
-  start_time?: string | null | undefined;
-  /** The maximum number of webhook events to return. Fewer events may be returned even when more are available; use `has_more` to determine whether to request another page. */
-  count?: number | null | undefined;
-  /** Return only events with these webhook types, for example `ITEM`. Case-sensitive. */
-  webhook_types?: ListBetaWebhookEventsRequestWebhookTypesList | undefined;
-  /** Return only events with these webhook codes, for example `ERROR`. Case-sensitive. */
-  webhook_codes?: ListBetaWebhookEventsRequestWebhookCodesList | undefined;
-  /** Return only events for these Items. */
-  item_ids?: ListBetaWebhookEventsRequestItemIdsList | undefined;
-  /** Return only events with these delivery statuses. */
-  delivery_statuses?: ListBetaWebhookEventsRequestDeliveryStatusesList | undefined;
-}
-/** The JSON body Plaid sent to the webhook destination. */
-export type WebhookEventPayload = { [key: string]: unknown | undefined };
-/** A webhook event for your account. */
-export interface WebhookEvent {
-  /** The ID of this webhook event. It stays the same across requests, so you can use it to skip events you've already handled. Include it when contacting Support. */
-  webhook_message_id: string;
-  /** The webhook type. */
-  webhook_type: string;
-  /** The webhook code. */
-  webhook_code: string;
-  /** The Item ID associated with the webhook, if any. */
-  item_id: string | null;
-  /** The time Plaid sent the webhook. */
-  sent_time: string;
-  payload: WebhookEventPayload;
-  /** The destination URL Plaid sent the webhook to. */
-  destination_url: string;
-  delivery_status: WebhookEventDeliveryStatus;
-  /** The most recent HTTP status code returned by the destination, if any. */
-  last_http_status_code: number | null;
-  /** Number of delivery attempts Plaid has made for this webhook. */
-  attempt_count: number;
-  /** The time of the most recent delivery attempt. Null if Plaid hasn't attempted delivery yet. */
-  last_attempt_time: string | null;
-  [key: string]: unknown;
-}
-/** Webhook events for your account. */
-export type BetaWebhookEventsListResponseWebhookEventsList = Array<WebhookEvent>;
-/** BetaWebhookEventsListResponse defines the response schema for `/beta/webhook_events/list` */
-export interface BetaWebhookEventsListResponse {
-  /** Webhook events for your account. */
-  webhook_events: BetaWebhookEventsListResponseWebhookEventsList;
-  /** Indicates whether another page of webhook events is available. */
-  has_more: boolean;
-  /** The cursor to send as `cursor` in your next request. Store it even when `has_more` is `false`. */
-  next_cursor: string;
-  request_id: string;
-  [key: string]: unknown;
-}
 export interface ListCraServicingSubscriptionRequest {
   client_id?: string | undefined;
   secret?: string | Redacted.Redacted<string> | undefined;
@@ -15587,21 +14842,6 @@ export interface StatementsListResponse {
   institution_name: string;
   /** The Plaid Item ID. The `item_id` is always unique; linking the same account at the same institution twice will result in two Items with different `item_id` values. Like all Plaid identifiers, the `item_id` is case-sensitive. */
   item_id: string;
-  request_id: string;
-  [key: string]: unknown;
-}
-export interface ListTransactionsRulesRequest {
-  client_id?: string | undefined;
-  secret?: string | Redacted.Redacted<string> | undefined;
-  /** A unique ID representing the end user whose rules should be listed. */
-  client_user_id: string;
-}
-/** A list of the user's transaction rules */
-export type TransactionsRulesListResponseRulesList = Array<TransactionsCategoryRule>;
-/** TransactionsRulesListResponse defines the response schema for `/beta/transactions/rules/v1/list` */
-export interface TransactionsRulesListResponse {
-  /** A list of the user's transaction rules */
-  rules: TransactionsRulesListResponseRulesList;
   request_id: string;
   [key: string]: unknown;
 }
@@ -17344,19 +16584,6 @@ export interface PartnerCustomerRemoveResponse {
   request_id?: string | undefined;
   [key: string]: unknown;
 }
-export interface RemoveTransactionsRuleRequest {
-  client_id?: string | undefined;
-  secret?: string | Redacted.Redacted<string> | undefined;
-  /** A unique ID representing the end user the rule belongs to. */
-  client_user_id: string;
-  /** A rule's unique identifier */
-  rule_id: string;
-}
-/** TransactionsRulesRemoveResponse defines the response schema for `/beta/transactions/rules/v1/remove` */
-export interface TransactionsRulesRemoveResponse {
-  request_id: string;
-  [key: string]: unknown;
-}
 export interface RemoveUserRequest {
   client_id?: string | undefined;
   secret?: string | Redacted.Redacted<string> | undefined;
@@ -18191,19 +17418,6 @@ export interface TransferPlatformRequirementSubmitResponse {
   request_id: string;
   [key: string]: unknown;
 }
-export interface SubscribeBetaIssuesV1Request {
-  client_id?: string | undefined;
-  secret?: string | Redacted.Redacted<string> | undefined;
-  /** The KI- or INC-prefixed identifier of the issue to subscribe to. */
-  issue_id: string;
-  /** The URL that will receive issue resolution webhooks. */
-  webhook: string;
-}
-/** BetaIssuesV1SubscribeResponse defines the response schema for `/beta/issues/v1/subscribe`. */
-export interface BetaIssuesV1SubscribeResponse {
-  request_id: string;
-  [key: string]: unknown;
-}
 export interface SubscribeIssueRequest {
   client_id?: string | undefined;
   secret?: string | Redacted.Redacted<string> | undefined;
@@ -18693,33 +17907,6 @@ export interface CraLoanUnregisterResponse {
   request_id: string;
   [key: string]: unknown;
 }
-export interface UnsubscribeBetaIssuesV1Request {
-  client_id?: string | undefined;
-  secret?: string | Redacted.Redacted<string> | undefined;
-  /** The customer-visible KI- or INC-prefixed identifier of the issue to unsubscribe from. */
-  issue_id: string;
-}
-/** BetaIssuesV1UnsubscribeResponse defines the response schema for `/beta/issues/v1/unsubscribe`. */
-export interface BetaIssuesV1UnsubscribeResponse {
-  request_id: string;
-  [key: string]: unknown;
-}
-export type UpdateBetaPartnerCustomerV1RequestRedirectUrisList = Array<string>;
-export interface UpdateBetaPartnerCustomerV1Request {
-  client_id?: string | undefined;
-  secret?: string | Redacted.Redacted<string> | undefined;
-  end_customer_client_id: string;
-  legal_entity_name?: string | undefined;
-  redirect_uris?: UpdateBetaPartnerCustomerV1RequestRedirectUrisList | undefined;
-  bank_addendum_acceptance?: PartnerEndCustomerBankAddendumAcceptance | undefined;
-  questionnaires?: PartnerEndCustomerQuestionnaires | undefined;
-}
-/** Response schema for `/beta/partner/customer/v1/update`. */
-export interface BetaPartnerCustomerV1UpdateResponse {
-  end_customer?: BetaPartnerEndCustomer | undefined;
-  request_id?: string | undefined;
-  [key: string]: unknown;
-}
 /** Contains the status and date of an update to the loan. */
 export type CraLoanStatusHistoryUpdate = CraLoanOpenedStatus;
 /** A list of status update history of the loan. */
@@ -19069,8 +18256,8 @@ export const assetReportAuditCopyGet: API.OperationMethod<
   AssetReportAuditCopyGetError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5664, __c177, 0) as any as S.Schema<AssetReportAuditCopyGetRequest>,
-  output: __S(5792, __c181, 0) as any as S.Schema<AssetReportGetResponse>,
+  input: __S(5632, __c176, 0) as any as S.Schema<AssetReportAuditCopyGetRequest>,
+  output: __S(6016, __c188, 0) as any as S.Schema<AssetReportGetResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -19087,8 +18274,8 @@ export const assetReportAuditCopyPdfGet: API.OperationMethod<
   AssetReportAuditCopyPdfGetError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10144, __c317, 0) as any as S.Schema<AssetReportAuditCopyPdfGetRequest>,
-  output: __S(10176, __c318, 0) as any as S.Schema<AssetReportAuditCopyPdfGetResponse>,
+  input: __S(9568, __c299, 0) as any as S.Schema<AssetReportAuditCopyPdfGetRequest>,
+  output: __S(9600, __c300, 0) as any as S.Schema<AssetReportAuditCopyPdfGetResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -19105,8 +18292,8 @@ export const assetReportAuditCopyRemove: API.OperationMethod<
   AssetReportAuditCopyRemoveError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11168, __c349, 0) as any as S.Schema<AssetReportAuditCopyRemoveRequest>,
-  output: __S(11200, __c350, 0) as any as S.Schema<AssetReportAuditCopyRemoveResponse>,
+  input: __S(10400, __c325, 0) as any as S.Schema<AssetReportAuditCopyRemoveRequest>,
+  output: __S(10432, __c326, 0) as any as S.Schema<AssetReportAuditCopyRemoveResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -19123,32 +18310,14 @@ export const assetReportFilter: API.OperationMethod<
   AssetReportFilterError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11744, __c367, 0) as any as S.Schema<AssetReportFilterRequest>,
-  output: __S(11776, __c368, 0) as any as S.Schema<AssetReportFilterResponse>,
+  input: __S(11168, __c349, 0) as any as S.Schema<AssetReportFilterRequest>,
+  output: __S(11200, __c350, 0) as any as S.Schema<AssetReportFilterResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AssetReportFilter",
-}));
-
-export type BetaIssuesV1MatchError = PlaidOpError;
-/** Match an Item to issues Match a Plaid identifier to institution issues that affect it. */
-export const betaIssuesV1Match: API.OperationMethod<
-  BetaIssuesV1MatchRequest,
-  BetaIssuesV1MatchResponse,
-  BetaIssuesV1MatchError,
-  PlaidOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(12320, __c385, 0) as any as S.Schema<BetaIssuesV1MatchRequest>,
-  output: __S(12321, __c385, 1) as any as S.Schema<BetaIssuesV1MatchResponse>,
-  errors: [],
-  serviceErrors: PlaidServiceErrors,
-  protocol: PlaidProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "BetaIssuesV1Match",
 }));
 
 export type CancelTransferError = PlaidOpError;
@@ -19159,8 +18328,8 @@ export const cancelTransfer: API.OperationMethod<
   CancelTransferError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13088, __c409, 0) as any as S.Schema<CancelTransferRequest>,
-  output: __S(13120, __c410, 0) as any as S.Schema<TransferCancelResponse>,
+  input: __S(11616, __c363, 0) as any as S.Schema<CancelTransferRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<TransferCancelResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -19177,8 +18346,8 @@ export const cancelTransferAuthorization: API.OperationMethod<
   CancelTransferAuthorizationError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13664, __c427, 0) as any as S.Schema<CancelTransferAuthorizationRequest>,
-  output: __S(13120, __c410, 0) as any as S.Schema<TransferAuthorizationCancelResponse>,
+  input: __S(12416, __c388, 0) as any as S.Schema<CancelTransferAuthorizationRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<TransferAuthorizationCancelResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -19195,8 +18364,8 @@ export const cancelTransferRecurring: API.OperationMethod<
   CancelTransferRecurringError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14272, __c446, 0) as any as S.Schema<CancelTransferRecurringRequest>,
-  output: __S(13120, __c410, 0) as any as S.Schema<TransferRecurringCancelResponse>,
+  input: __S(13024, __c407, 0) as any as S.Schema<CancelTransferRecurringRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<TransferRecurringCancelResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -19213,8 +18382,8 @@ export const cancelTransferRefund: API.OperationMethod<
   CancelTransferRefundError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c5, 0) as any as S.Schema<CancelTransferRefundRequest>,
-  output: __S(13120, __c410, 0) as any as S.Schema<TransferRefundCancelResponse>,
+  input: __S(13504, __c422, 0) as any as S.Schema<CancelTransferRefundRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<TransferRefundCancelResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -19231,32 +18400,14 @@ export const createAssetReport: API.OperationMethod<
   CreateAssetReportError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(641, __c20, 1) as any as S.Schema<CreateAssetReportRequest>,
-  output: __S(11776, __c368, 0) as any as S.Schema<AssetReportCreateResponse>,
+  input: __S(161, __c5, 1) as any as S.Schema<CreateAssetReportRequest>,
+  output: __S(11200, __c350, 0) as any as S.Schema<AssetReportCreateResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateAssetReport",
-}));
-
-export type CreateBetaPartnerCustomerV1Error = PlaidOpError;
-/** Creates a new end customer for a Plaid reseller. The `/beta/partner/customer/v1/create` endpoint creates a new end customer record. You can provide as much information as you have available. If any required information is missing for the products you intend to use, it will be listed in the `requirements_due` field of the response. */
-export const createBetaPartnerCustomerV1: API.OperationMethod<
-  CreateBetaPartnerCustomerV1Request,
-  BetaPartnerCustomerV1CreateResponse,
-  CreateBetaPartnerCustomerV1Error,
-  PlaidOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c44, 0) as any as S.Schema<CreateBetaPartnerCustomerV1Request>,
-  output: __S(1410, __c44, 2) as any as S.Schema<BetaPartnerCustomerV1CreateResponse>,
-  errors: [],
-  serviceErrors: PlaidServiceErrors,
-  protocol: PlaidProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "CreateBetaPartnerCustomerV1",
 }));
 
 export type CreateBusinessVerificationError = PlaidOpError;
@@ -19267,8 +18418,8 @@ export const createBusinessVerification: API.OperationMethod<
   CreateBusinessVerificationError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1954, __c61, 2) as any as S.Schema<CreateBusinessVerificationRequest>,
-  output: __S(2038, __c63, 22) as any as S.Schema<BusinessVerificationCreateResponse>,
+  input: __S(930, __c29, 2) as any as S.Schema<CreateBusinessVerificationRequest>,
+  output: __S(1014, __c31, 22) as any as S.Schema<BusinessVerificationCreateResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -19285,8 +18436,8 @@ export const createCraCheckReport: API.OperationMethod<
   CreateCraCheckReportError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2528, __c79, 0) as any as S.Schema<CreateCraCheckReportRequest>,
-  output: __S(2784, __c87, 0) as any as S.Schema<CraCheckReportCreateResponse>,
+  input: __S(1504, __c47, 0) as any as S.Schema<CreateCraCheckReportRequest>,
+  output: __S(1760, __c55, 0) as any as S.Schema<CraCheckReportCreateResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -19303,8 +18454,8 @@ export const createCraReport: API.OperationMethod<
   CreateCraReportError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3136, __c98, 0) as any as S.Schema<CreateCraReportRequest>,
-  output: __S(3137, __c98, 1) as any as S.Schema<CraReportCreateResponse>,
+  input: __S(2208, __c69, 0) as any as S.Schema<CreateCraReportRequest>,
+  output: __S(2209, __c69, 1) as any as S.Schema<CraReportCreateResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -19321,8 +18472,8 @@ export const createCraServicingSubscription: API.OperationMethod<
   CreateCraServicingSubscriptionError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3616, __c113, 0) as any as S.Schema<CreateCraServicingSubscriptionRequest>,
-  output: __S(3648, __c114, 0) as any as S.Schema<CraServicingSubscriptionCreateResponse>,
+  input: __S(2592, __c81, 0) as any as S.Schema<CreateCraServicingSubscriptionRequest>,
+  output: __S(2624, __c82, 0) as any as S.Schema<CraServicingSubscriptionCreateResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -19339,8 +18490,8 @@ export const createCreditRelay: API.OperationMethod<
   CreateCreditRelayError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4128, __c129, 0) as any as S.Schema<CreateCreditRelayRequest>,
-  output: __S(4129, __c129, 1) as any as S.Schema<CreditRelayCreateResponse>,
+  input: __S(3104, __c97, 0) as any as S.Schema<CreateCreditRelayRequest>,
+  output: __S(3105, __c97, 1) as any as S.Schema<CreditRelayCreateResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -19357,8 +18508,8 @@ export const createIdentityVerification: API.OperationMethod<
   CreateIdentityVerificationError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4577, __c143, 1) as any as S.Schema<CreateIdentityVerificationRequest>,
-  output: __S(4704, __c147, 0) as any as S.Schema<IdentityVerificationCreateResponse>,
+  input: __S(3553, __c111, 1) as any as S.Schema<CreateIdentityVerificationRequest>,
+  output: __S(3680, __c115, 0) as any as S.Schema<IdentityVerificationCreateResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -19375,8 +18526,8 @@ export const createIdentityVerificationAutofill: API.OperationMethod<
   CreateIdentityVerificationAutofillError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5216, __c163, 0) as any as S.Schema<CreateIdentityVerificationAutofillRequest>,
-  output: __S(5219, __c163, 3) as any as S.Schema<IdentityVerificationAutofillCreateResponse>,
+  input: __S(4288, __c134, 0) as any as S.Schema<CreateIdentityVerificationAutofillRequest>,
+  output: __S(4291, __c134, 3) as any as S.Schema<IdentityVerificationAutofillCreateResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -19393,8 +18544,8 @@ export const createLinkToken: API.OperationMethod<
   CreateLinkTokenError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6103, __c190, 23) as any as S.Schema<CreateLinkTokenRequest>,
-  output: __S(6104, __c190, 24) as any as S.Schema<LinkTokenCreateResponse>,
+  input: __S(4695, __c146, 23) as any as S.Schema<CreateLinkTokenRequest>,
+  output: __S(4696, __c146, 24) as any as S.Schema<LinkTokenCreateResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -19411,8 +18562,8 @@ export const createPartnerCustomer: API.OperationMethod<
   CreatePartnerCustomerError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6561, __c205, 1) as any as S.Schema<CreatePartnerCustomerRequest>,
-  output: __S(6563, __c205, 3) as any as S.Schema<PartnerCustomerCreateResponse>,
+  input: __S(5252, __c164, 4) as any as S.Schema<CreatePartnerCustomerRequest>,
+  output: __S(5255, __c164, 7) as any as S.Schema<PartnerCustomerCreateResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -19429,8 +18580,8 @@ export const createPaymentInitiationConsent: API.OperationMethod<
   CreatePaymentInitiationConsentError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6947, __c217, 3) as any as S.Schema<CreatePaymentInitiationConsentRequest>,
-  output: __S(6948, __c217, 4) as any as S.Schema<PaymentInitiationConsentCreateResponse>,
+  input: __S(6051, __c189, 3) as any as S.Schema<CreatePaymentInitiationConsentRequest>,
+  output: __S(6052, __c189, 4) as any as S.Schema<PaymentInitiationConsentCreateResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -19447,8 +18598,8 @@ export const createPaymentInitiationPayment: API.OperationMethod<
   CreatePaymentInitiationPaymentError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7490, __c234, 2) as any as S.Schema<CreatePaymentInitiationPaymentRequest>,
-  output: __S(7491, __c234, 3) as any as S.Schema<PaymentInitiationPaymentCreateResponse>,
+  input: __S(6530, __c204, 2) as any as S.Schema<CreatePaymentInitiationPaymentRequest>,
+  output: __S(6531, __c204, 3) as any as S.Schema<PaymentInitiationPaymentCreateResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -19465,8 +18616,8 @@ export const createPaymentInitiationRecipient: API.OperationMethod<
   CreatePaymentInitiationRecipientError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7840, __c245, 0) as any as S.Schema<CreatePaymentInitiationRecipientRequest>,
-  output: __S(7841, __c245, 1) as any as S.Schema<PaymentInitiationRecipientCreateResponse>,
+  input: __S(6944, __c217, 0) as any as S.Schema<CreatePaymentInitiationRecipientRequest>,
+  output: __S(6945, __c217, 1) as any as S.Schema<PaymentInitiationRecipientCreateResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -19483,8 +18634,8 @@ export const createProcessorApexProcessorToken: API.OperationMethod<
   CreateProcessorApexProcessorTokenError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8224, __c257, 0) as any as S.Schema<CreateProcessorApexProcessorTokenRequest>,
-  output: __S(8256, __c258, 0) as any as S.Schema<ProcessorTokenCreateResponse>,
+  input: __S(7296, __c228, 0) as any as S.Schema<CreateProcessorApexProcessorTokenRequest>,
+  output: __S(7328, __c229, 0) as any as S.Schema<ProcessorTokenCreateResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -19501,8 +18652,8 @@ export const createProcessorStripeBankAccountToken: API.OperationMethod<
   CreateProcessorStripeBankAccountTokenError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8608, __c269, 0) as any as S.Schema<CreateProcessorStripeBankAccountTokenRequest>,
-  output: __S(8609, __c269, 1) as any as S.Schema<ProcessorStripeBankAccountTokenCreateResponse>,
+  input: __S(7712, __c241, 0) as any as S.Schema<CreateProcessorStripeBankAccountTokenRequest>,
+  output: __S(7713, __c241, 1) as any as S.Schema<ProcessorStripeBankAccountTokenCreateResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -19519,8 +18670,8 @@ export const createProcessorToken: API.OperationMethod<
   CreateProcessorTokenError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8992, __c281, 0) as any as S.Schema<CreateProcessorTokenRequest>,
-  output: __S(8256, __c258, 0) as any as S.Schema<ProcessorTokenCreateResponse>,
+  input: __S(8064, __c252, 0) as any as S.Schema<CreateProcessorTokenRequest>,
+  output: __S(7328, __c229, 0) as any as S.Schema<ProcessorTokenCreateResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -19537,8 +18688,8 @@ export const createProtectCashAdvanceDecision: API.OperationMethod<
   CreateProtectCashAdvanceDecisionError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9377, __c293, 1) as any as S.Schema<CreateProtectCashAdvanceDecisionRequest>,
-  output: __S(13120, __c410, 0) as any as S.Schema<ProtectCashAdvanceDecisionCreateResponse>,
+  input: __S(8481, __c265, 1) as any as S.Schema<CreateProtectCashAdvanceDecisionRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<ProtectCashAdvanceDecisionCreateResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -19555,8 +18706,8 @@ export const createProtectCashAdvanceRepayment: API.OperationMethod<
   CreateProtectCashAdvanceRepaymentError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9793, __c306, 1) as any as S.Schema<CreateProtectCashAdvanceRepaymentRequest>,
-  output: __S(13120, __c410, 0) as any as S.Schema<ProtectCashAdvanceRepaymentCreateResponse>,
+  input: __S(8897, __c278, 1) as any as S.Schema<CreateProtectCashAdvanceRepaymentRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<ProtectCashAdvanceRepaymentCreateResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -19573,8 +18724,8 @@ export const createProtectReport: API.OperationMethod<
   CreateProtectReportError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10241, __c320, 1) as any as S.Schema<CreateProtectReportRequest>,
-  output: __S(10242, __c320, 2) as any as S.Schema<ProtectReportCreateResponse>,
+  input: __S(9249, __c289, 1) as any as S.Schema<CreateProtectReportRequest>,
+  output: __S(9250, __c289, 2) as any as S.Schema<ProtectReportCreateResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -19591,8 +18742,8 @@ export const createSandboxProcessorToken: API.OperationMethod<
   CreateSandboxProcessorTokenError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10433, __c326, 1) as any as S.Schema<CreateSandboxProcessorTokenRequest>,
-  output: __S(8256, __c258, 0) as any as S.Schema<SandboxProcessorTokenCreateResponse>,
+  input: __S(9537, __c298, 1) as any as S.Schema<CreateSandboxProcessorTokenRequest>,
+  output: __S(7328, __c229, 0) as any as S.Schema<SandboxProcessorTokenCreateResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -19609,8 +18760,8 @@ export const createSandboxPublicToken: API.OperationMethod<
   CreateSandboxPublicTokenError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10467, __c327, 3) as any as S.Schema<CreateSandboxPublicTokenRequest>,
-  output: __S(10468, __c327, 4) as any as S.Schema<SandboxPublicTokenCreateResponse>,
+  input: __S(9667, __c302, 3) as any as S.Schema<CreateSandboxPublicTokenRequest>,
+  output: __S(9668, __c302, 4) as any as S.Schema<SandboxPublicTokenCreateResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -19627,8 +18778,8 @@ export const createSandboxTransaction: API.OperationMethod<
   CreateSandboxTransactionError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10498, __c328, 2) as any as S.Schema<CreateSandboxTransactionRequest>,
-  output: __S(13120, __c410, 0) as any as S.Schema<SandboxTransactionsCreateResponse>,
+  input: __S(9698, __c303, 2) as any as S.Schema<CreateSandboxTransactionRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<SandboxTransactionsCreateResponse>,
   errors: [BadRequest],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -19645,8 +18796,8 @@ export const createSandboxTransferTestClock: API.OperationMethod<
   CreateSandboxTransferTestClockError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10528, __c329, 0) as any as S.Schema<CreateSandboxTransferTestClockRequest>,
-  output: __S(10560, __c330, 0) as any as S.Schema<SandboxTransferTestClockCreateResponse>,
+  input: __S(9728, __c304, 0) as any as S.Schema<CreateSandboxTransferTestClockRequest>,
+  output: __S(9760, __c305, 0) as any as S.Schema<SandboxTransferTestClockCreateResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -19663,32 +18814,14 @@ export const createSessionToken: API.OperationMethod<
   CreateSessionTokenError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10625, __c332, 1) as any as S.Schema<CreateSessionTokenRequest>,
-  output: __S(10627, __c332, 3) as any as S.Schema<SessionTokenCreateResponse>,
+  input: __S(9825, __c307, 1) as any as S.Schema<CreateSessionTokenRequest>,
+  output: __S(9827, __c307, 3) as any as S.Schema<SessionTokenCreateResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateSessionToken",
-}));
-
-export type CreateTransactionsRuleError = PlaidOpError;
-/** Create transaction category rule The `/beta/transactions/rules/v1/create` endpoint creates transaction categorization rules. Rules will be applied on the Item's transactions returned in `/transactions/get` response. The product is currently in beta. To request access, contact transactions-feedback@plaid.com. */
-export const createTransactionsRule: API.OperationMethod<
-  CreateTransactionsRuleRequest,
-  TransactionsRulesCreateResponse,
-  CreateTransactionsRuleError,
-  PlaidOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(10656, __c333, 0) as any as S.Schema<CreateTransactionsRuleRequest>,
-  output: __S(10657, __c333, 1) as any as S.Schema<TransactionsRulesCreateResponse>,
-  errors: [],
-  serviceErrors: PlaidServiceErrors,
-  protocol: PlaidProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "CreateTransactionsRule",
 }));
 
 export type CreateTransferError = PlaidOpError;
@@ -19699,8 +18832,8 @@ export const createTransfer: API.OperationMethod<
   CreateTransferError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10721, __c335, 1) as any as S.Schema<CreateTransferRequest>,
-  output: __S(10752, __c336, 0) as any as S.Schema<TransferCreateResponse>,
+  input: __S(9857, __c308, 1) as any as S.Schema<CreateTransferRequest>,
+  output: __S(9888, __c309, 0) as any as S.Schema<TransferCreateResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -19717,8 +18850,8 @@ export const createTransferAuthorization: API.OperationMethod<
   CreateTransferAuthorizationError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11042, __c345, 2) as any as S.Schema<CreateTransferAuthorizationRequest>,
-  output: __S(11049, __c345, 9) as any as S.Schema<TransferAuthorizationCreateResponse>,
+  input: __S(10178, __c318, 2) as any as S.Schema<CreateTransferAuthorizationRequest>,
+  output: __S(10185, __c318, 9) as any as S.Schema<TransferAuthorizationCreateResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -19735,8 +18868,8 @@ export const createTransferIntent: API.OperationMethod<
   CreateTransferIntentError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11136, __c348, 0) as any as S.Schema<CreateTransferIntentRequest>,
-  output: __S(11138, __c348, 2) as any as S.Schema<TransferIntentCreateResponse>,
+  input: __S(10272, __c321, 0) as any as S.Schema<CreateTransferIntentRequest>,
+  output: __S(10274, __c321, 2) as any as S.Schema<TransferIntentCreateResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -19753,8 +18886,8 @@ export const createTransferOriginator: API.OperationMethod<
   CreateTransferOriginatorError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11232, __c351, 0) as any as S.Schema<CreateTransferOriginatorRequest>,
-  output: __S(11233, __c351, 1) as any as S.Schema<TransferOriginatorCreateResponse>,
+  input: __S(10304, __c322, 0) as any as S.Schema<CreateTransferOriginatorRequest>,
+  output: __S(10305, __c322, 1) as any as S.Schema<TransferOriginatorCreateResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -19771,8 +18904,8 @@ export const createTransferOriginatorFundingAccount: API.OperationMethod<
   CreateTransferOriginatorFundingAccountError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11265, __c352, 1) as any as S.Schema<CreateTransferOriginatorFundingAccountRequest>,
-  output: __S(11266, __c352, 2) as any as S.Schema<TransferOriginatorFundingAccountCreateResponse>,
+  input: __S(10337, __c323, 1) as any as S.Schema<CreateTransferOriginatorFundingAccountRequest>,
+  output: __S(10338, __c323, 2) as any as S.Schema<TransferOriginatorFundingAccountCreateResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -19789,8 +18922,8 @@ export const createTransferPlatformOriginator: API.OperationMethod<
   CreateTransferPlatformOriginatorError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11297, __c353, 1) as any as S.Schema<CreateTransferPlatformOriginatorRequest>,
-  output: __S(13120, __c410, 0) as any as S.Schema<TransferPlatformOriginatorCreateResponse>,
+  input: __S(10369, __c324, 1) as any as S.Schema<CreateTransferPlatformOriginatorRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<TransferPlatformOriginatorCreateResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -19807,8 +18940,8 @@ export const createTransferPlatformPerson: API.OperationMethod<
   CreateTransferPlatformPersonError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11330, __c354, 2) as any as S.Schema<CreateTransferPlatformPersonRequest>,
-  output: __S(11331, __c354, 3) as any as S.Schema<TransferPlatformPersonCreateResponse>,
+  input: __S(10466, __c327, 2) as any as S.Schema<CreateTransferPlatformPersonRequest>,
+  output: __S(10467, __c327, 3) as any as S.Schema<TransferPlatformPersonCreateResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -19825,8 +18958,8 @@ export const createTransferQuestionnaire: API.OperationMethod<
   CreateTransferQuestionnaireError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11360, __c355, 0) as any as S.Schema<CreateTransferQuestionnaireRequest>,
-  output: __S(11361, __c355, 1) as any as S.Schema<TransferQuestionnaireCreateResponse>,
+  input: __S(10496, __c328, 0) as any as S.Schema<CreateTransferQuestionnaireRequest>,
+  output: __S(10497, __c328, 1) as any as S.Schema<TransferQuestionnaireCreateResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -19843,8 +18976,8 @@ export const createTransferRecurring: API.OperationMethod<
   CreateTransferRecurringError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11393, __c356, 1) as any as S.Schema<CreateTransferRecurringRequest>,
-  output: __S(11394, __c356, 2) as any as S.Schema<TransferRecurringCreateResponse>,
+  input: __S(10529, __c329, 1) as any as S.Schema<CreateTransferRecurringRequest>,
+  output: __S(10530, __c329, 2) as any as S.Schema<TransferRecurringCreateResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -19861,8 +18994,8 @@ export const createTransferRefund: API.OperationMethod<
   CreateTransferRefundError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11456, __c358, 0) as any as S.Schema<CreateTransferRefundRequest>,
-  output: __S(11488, __c359, 0) as any as S.Schema<TransferRefundCreateResponse>,
+  input: __S(10592, __c331, 0) as any as S.Schema<CreateTransferRefundRequest>,
+  output: __S(10624, __c332, 0) as any as S.Schema<TransferRefundCreateResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -19879,8 +19012,8 @@ export const createUser: API.OperationMethod<
   CreateUserError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11520, __c360, 0) as any as S.Schema<CreateUserRequest>,
-  output: __S(11521, __c360, 1) as any as S.Schema<UserCreateResponse>,
+  input: __S(10656, __c333, 0) as any as S.Schema<CreateUserRequest>,
+  output: __S(10657, __c333, 1) as any as S.Schema<UserCreateResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -19897,8 +19030,8 @@ export const createUserThirdPartyToken: API.OperationMethod<
   CreateUserThirdPartyTokenError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11616, __c363, 0) as any as S.Schema<CreateUserThirdPartyTokenRequest>,
-  output: __S(11617, __c363, 1) as any as S.Schema<UserThirdPartyTokenCreateResponse>,
+  input: __S(10752, __c336, 0) as any as S.Schema<CreateUserThirdPartyTokenRequest>,
+  output: __S(10753, __c336, 1) as any as S.Schema<UserThirdPartyTokenCreateResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -19915,8 +19048,8 @@ export const createWallet: API.OperationMethod<
   CreateWalletError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11648, __c364, 0) as any as S.Schema<CreateWalletRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<CreateWalletResponse>,
+  input: __S(10784, __c337, 0) as any as S.Schema<CreateWalletRequest>,
+  output: __S(10816, __c338, 0) as any as S.Schema<CreateWalletResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -19933,8 +19066,8 @@ export const createWatchlistScreeningEntity: API.OperationMethod<
   CreateWatchlistScreeningEntityError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11809, __c369, 1) as any as S.Schema<CreateWatchlistScreeningEntityRequest>,
-  output: __S(11872, __c371, 0) as any as S.Schema<WatchlistScreeningEntityCreateResponse>,
+  input: __S(10881, __c340, 1) as any as S.Schema<CreateWatchlistScreeningEntityRequest>,
+  output: __S(10944, __c342, 0) as any as S.Schema<WatchlistScreeningEntityCreateResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -19951,8 +19084,8 @@ export const createWatchlistScreeningEntityReview: API.OperationMethod<
   CreateWatchlistScreeningEntityReviewError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11936, __c373, 0) as any as S.Schema<CreateWatchlistScreeningEntityReviewRequest>,
-  output: __S(11968, __c374, 0) as any as S.Schema<WatchlistScreeningEntityReviewCreateResponse>,
+  input: __S(11008, __c344, 0) as any as S.Schema<CreateWatchlistScreeningEntityReviewRequest>,
+  output: __S(11040, __c345, 0) as any as S.Schema<WatchlistScreeningEntityReviewCreateResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -19969,8 +19102,8 @@ export const createWatchlistScreeningIndividual: API.OperationMethod<
   CreateWatchlistScreeningIndividualError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12001, __c375, 1) as any as S.Schema<CreateWatchlistScreeningIndividualRequest>,
-  output: __S(12064, __c377, 0) as any as S.Schema<WatchlistScreeningIndividualCreateResponse>,
+  input: __S(11073, __c346, 1) as any as S.Schema<CreateWatchlistScreeningIndividualRequest>,
+  output: __S(11136, __c348, 0) as any as S.Schema<WatchlistScreeningIndividualCreateResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -19987,10 +19120,10 @@ export const createWatchlistScreeningIndividualReview: API.OperationMethod<
   CreateWatchlistScreeningIndividualReviewError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12096, __c378, 0) as any as S.Schema<CreateWatchlistScreeningIndividualReviewRequest>,
+  input: __S(11232, __c351, 0) as any as S.Schema<CreateWatchlistScreeningIndividualReviewRequest>,
   output: __S(
-    11968,
-    __c374,
+    11040,
+    __c345,
     0,
   ) as any as S.Schema<WatchlistScreeningIndividualReviewCreateResponse>,
   errors: [],
@@ -20009,7 +19142,7 @@ export const creditAuditCopyTokenCreate: API.OperationMethod<
   CreditAuditCopyTokenCreateError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12128, __c379, 0) as any as S.Schema<CreditAuditCopyTokenCreateRequest>,
+  input: __S(11264, __c352, 0) as any as S.Schema<CreditAuditCopyTokenCreateRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<CreditAuditCopyTokenCreateResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
@@ -20027,8 +19160,8 @@ export const creditAuditCopyTokenUpdate: API.OperationMethod<
   CreditAuditCopyTokenUpdateError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12160, __c380, 0) as any as S.Schema<CreditAuditCopyTokenUpdateRequest>,
-  output: __S(12161, __c380, 1) as any as S.Schema<CreditAuditCopyTokenUpdateResponse>,
+  input: __S(11296, __c353, 0) as any as S.Schema<CreditAuditCopyTokenUpdateRequest>,
+  output: __S(11297, __c353, 1) as any as S.Schema<CreditAuditCopyTokenUpdateResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -20045,8 +19178,8 @@ export const creditReportAuditCopyRemove: API.OperationMethod<
   CreditReportAuditCopyRemoveError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12192, __c381, 0) as any as S.Schema<CreditReportAuditCopyRemoveRequest>,
-  output: __S(11200, __c350, 0) as any as S.Schema<CreditAuditCopyTokenRemoveResponse>,
+  input: __S(11328, __c354, 0) as any as S.Schema<CreditReportAuditCopyRemoveRequest>,
+  output: __S(10432, __c326, 0) as any as S.Schema<CreditAuditCopyTokenRemoveResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -20063,8 +19196,8 @@ export const deleteCraServicingSubscription: API.OperationMethod<
   DeleteCraServicingSubscriptionError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12224, __c382, 0) as any as S.Schema<DeleteCraServicingSubscriptionRequest>,
-  output: __S(3648, __c114, 0) as any as S.Schema<CraServicingSubscriptionDeleteResponse>,
+  input: __S(11360, __c355, 0) as any as S.Schema<DeleteCraServicingSubscriptionRequest>,
+  output: __S(2624, __c82, 0) as any as S.Schema<CraServicingSubscriptionDeleteResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -20081,32 +19214,14 @@ export const downloadStatement: API.OperationMethod<
   DownloadStatementError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12256, __c383, 0) as any as S.Schema<DownloadStatementRequest>,
-  output: __S(10176, __c318, 0) as any as S.Schema<DownloadStatementResponse>,
+  input: __S(11392, __c356, 0) as any as S.Schema<DownloadStatementRequest>,
+  output: __S(9600, __c300, 0) as any as S.Schema<DownloadStatementResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DownloadStatement",
-}));
-
-export type EnableBetaPartnerCustomerV1Error = PlaidOpError;
-/** Enables a Plaid reseller's end customer in the Production environment. The `/beta/partner/customer/v1/enable` endpoint is used by reseller partners to enable an end customer in the full Production environment. */
-export const enableBetaPartnerCustomerV1: API.OperationMethod<
-  EnableBetaPartnerCustomerV1Request,
-  BetaPartnerCustomerV1EnableResponse,
-  EnableBetaPartnerCustomerV1Error,
-  PlaidOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(12288, __c384, 0) as any as S.Schema<EnableBetaPartnerCustomerV1Request>,
-  output: __S(12289, __c384, 1) as any as S.Schema<BetaPartnerCustomerV1EnableResponse>,
-  errors: [],
-  serviceErrors: PlaidServiceErrors,
-  protocol: PlaidProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "EnableBetaPartnerCustomerV1",
 }));
 
 export type EnablePartnerCustomerError = PlaidOpError;
@@ -20117,8 +19232,8 @@ export const enablePartnerCustomer: API.OperationMethod<
   EnablePartnerCustomerError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12448, __c389, 0) as any as S.Schema<EnablePartnerCustomerRequest>,
-  output: __S(12449, __c389, 1) as any as S.Schema<PartnerCustomerEnableResponse>,
+  input: __S(11424, __c357, 0) as any as S.Schema<EnablePartnerCustomerRequest>,
+  output: __S(11425, __c357, 1) as any as S.Schema<PartnerCustomerEnableResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -20135,8 +19250,8 @@ export const executePaymentInitiationConsentPayment: API.OperationMethod<
   ExecutePaymentInitiationConsentPaymentError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12480, __c390, 0) as any as S.Schema<ExecutePaymentInitiationConsentPaymentRequest>,
-  output: __S(12481, __c390, 1) as any as S.Schema<PaymentInitiationConsentPaymentExecuteResponse>,
+  input: __S(11456, __c358, 0) as any as S.Schema<ExecutePaymentInitiationConsentPaymentRequest>,
+  output: __S(11457, __c358, 1) as any as S.Schema<PaymentInitiationConsentPaymentExecuteResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -20153,8 +19268,8 @@ export const executeWalletTransaction: API.OperationMethod<
   ExecuteWalletTransactionError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12513, __c391, 1) as any as S.Schema<ExecuteWalletTransactionRequest>,
-  output: __S(12514, __c391, 2) as any as S.Schema<WalletTransactionExecuteResponse>,
+  input: __S(11489, __c359, 1) as any as S.Schema<ExecuteWalletTransactionRequest>,
+  output: __S(11490, __c359, 2) as any as S.Schema<WalletTransactionExecuteResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -20171,8 +19286,8 @@ export const fdxNotifications: API.OperationMethod<
   FdxNotificationsError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12579, __c393, 3) as any as S.Schema<FdxNotificationsRequest>,
-  output: __S(10176, __c318, 0) as any as S.Schema<FdxNotificationsResponse>,
+  input: __S(11555, __c361, 3) as any as S.Schema<FdxNotificationsRequest>,
+  output: __S(9600, __c300, 0) as any as S.Schema<FdxNotificationsResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -20189,8 +19304,8 @@ export const getAccount: API.OperationMethod<
   GetAccountError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12640, __c395, 0) as any as S.Schema<GetAccountRequest>,
-  output: __S(12672, __c396, 0) as any as S.Schema<AccountsGetResponse>,
+  input: __S(11680, __c365, 0) as any as S.Schema<GetAccountRequest>,
+  output: __S(11712, __c366, 0) as any as S.Schema<AccountsGetResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -20207,8 +19322,8 @@ export const getAccountsBalance: API.OperationMethod<
   GetAccountsBalanceError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12897, __c403, 1) as any as S.Schema<GetAccountsBalanceRequest>,
-  output: __S(12672, __c396, 0) as any as S.Schema<AccountsGetResponse>,
+  input: __S(11937, __c373, 1) as any as S.Schema<GetAccountsBalanceRequest>,
+  output: __S(11712, __c366, 0) as any as S.Schema<AccountsGetResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -20225,8 +19340,8 @@ export const getApplication: API.OperationMethod<
   GetApplicationError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12928, __c404, 0) as any as S.Schema<GetApplicationRequest>,
-  output: __S(12930, __c404, 2) as any as S.Schema<ApplicationGetResponse>,
+  input: __S(11968, __c374, 0) as any as S.Schema<GetApplicationRequest>,
+  output: __S(11970, __c374, 2) as any as S.Schema<ApplicationGetResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -20243,8 +19358,8 @@ export const getAssetReport: API.OperationMethod<
   GetAssetReportError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12960, __c405, 0) as any as S.Schema<GetAssetReportRequest>,
-  output: __S(5792, __c181, 0) as any as S.Schema<AssetReportGetResponse>,
+  input: __S(12000, __c375, 0) as any as S.Schema<GetAssetReportRequest>,
+  output: __S(6016, __c188, 0) as any as S.Schema<AssetReportGetResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -20261,8 +19376,8 @@ export const getAssetReportPdf: API.OperationMethod<
   GetAssetReportPdfError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12992, __c406, 0) as any as S.Schema<GetAssetReportPdfRequest>,
-  output: __S(10176, __c318, 0) as any as S.Schema<GetAssetReportPdfResponse>,
+  input: __S(12032, __c376, 0) as any as S.Schema<GetAssetReportPdfRequest>,
+  output: __S(9600, __c300, 0) as any as S.Schema<GetAssetReportPdfResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -20279,86 +19394,14 @@ export const getAuth: API.OperationMethod<
   GetAuthError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13024, __c407, 0) as any as S.Schema<GetAuthRequest>,
-  output: __S(13030, __c407, 6) as any as S.Schema<AuthGetResponse>,
+  input: __S(12064, __c377, 0) as any as S.Schema<GetAuthRequest>,
+  output: __S(12070, __c377, 6) as any as S.Schema<AuthGetResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetAuth",
-}));
-
-export type GetBetaCashAdvanceIncomeInsightsV1Error = PlaidOpError;
-/** Get Cash Advance income insights The `/beta/cash_advance/income_insights/v1/get` endpoint returns a user's top income streams across all of the user's active Items, ranked by historical net monthly income and capped at three, along with the next payment date and amount of the highest-ranked stream. Only USD income streams are returned. If some, but not all, of the user's Items could not be evaluated, the response is based on the remaining Items. */
-export const getBetaCashAdvanceIncomeInsightsV1: API.OperationMethod<
-  GetBetaCashAdvanceIncomeInsightsV1Request,
-  BetaCashAdvanceIncomeInsightsV1GetResponse,
-  GetBetaCashAdvanceIncomeInsightsV1Error,
-  PlaidOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(13152, __c411, 0) as any as S.Schema<GetBetaCashAdvanceIncomeInsightsV1Request>,
-  output: __S(13156, __c411, 4) as any as S.Schema<BetaCashAdvanceIncomeInsightsV1GetResponse>,
-  errors: [],
-  serviceErrors: PlaidServiceErrors,
-  protocol: PlaidProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetBetaCashAdvanceIncomeInsightsV1",
-}));
-
-export type GetBetaEwaReportV1Error = PlaidOpError;
-/** Get EWA Score Report The `/beta/ewa_report/v1/get` endpoint provides an Earned Wage Access (EWA) score that quantifies the delinquency risk associated with a given item. The score is derived from a combination of cashflow patterns and network-based behavioral features. The response returns a list of EWA scores, where each score corresponds to a potential advance amount range. These scores estimate the likelihood of repayment for advances within that range. Score range: 1-99 Interpretation: Higher scores indicate a greater likelihood of repayment. This endpoint enables clients to assess repayment risk and make data-driven decisions when determining eligibility or limits for earned wage advances. */
-export const getBetaEwaReportV1: API.OperationMethod<
-  GetBetaEwaReportV1Request,
-  BetaEwaReportV1GetResponse,
-  GetBetaEwaReportV1Error,
-  PlaidOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(13184, __c412, 0) as any as S.Schema<GetBetaEwaReportV1Request>,
-  output: __S(13188, __c412, 4) as any as S.Schema<BetaEwaReportV1GetResponse>,
-  errors: [],
-  serviceErrors: PlaidServiceErrors,
-  protocol: PlaidProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetBetaEwaReportV1",
-}));
-
-export type GetBetaIssuesV1Error = PlaidOpError;
-/** Get an issue Retrieve the latest public details for a specific institution issue. */
-export const getBetaIssuesV1: API.OperationMethod<
-  GetBetaIssuesV1Request,
-  GetBetaIssuesV1Response,
-  GetBetaIssuesV1Error,
-  PlaidOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(13216, __c413, 0) as any as S.Schema<GetBetaIssuesV1Request>,
-  output: __S(13217, __c413, 1) as any as S.Schema<GetBetaIssuesV1Response>,
-  errors: [],
-  serviceErrors: PlaidServiceErrors,
-  protocol: PlaidProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetBetaIssuesV1",
-}));
-
-export type GetBetaPartnerCustomerV1Error = PlaidOpError;
-/** Retrieves the details of a Plaid reseller's end customer. The `/beta/partner/customer/v1/get` endpoint is used by reseller partners to retrieve data about a single end customer. */
-export const getBetaPartnerCustomerV1: API.OperationMethod<
-  GetBetaPartnerCustomerV1Request,
-  BetaPartnerCustomerV1GetResponse,
-  GetBetaPartnerCustomerV1Error,
-  PlaidOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(13248, __c414, 0) as any as S.Schema<GetBetaPartnerCustomerV1Request>,
-  output: __S(13281, __c415, 1) as any as S.Schema<BetaPartnerCustomerV1GetResponse>,
-  errors: [],
-  serviceErrors: PlaidServiceErrors,
-  protocol: PlaidProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetBetaPartnerCustomerV1",
 }));
 
 export type GetBusinessVerificationError = PlaidOpError;
@@ -20369,8 +19412,8 @@ export const getBusinessVerification: API.OperationMethod<
   GetBusinessVerificationError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13312, __c416, 0) as any as S.Schema<GetBusinessVerificationRequest>,
-  output: __S(2038, __c63, 22) as any as S.Schema<BusinessVerificationGetResponse>,
+  input: __S(12128, __c379, 0) as any as S.Schema<GetBusinessVerificationRequest>,
+  output: __S(1014, __c31, 22) as any as S.Schema<BusinessVerificationGetResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -20387,8 +19430,8 @@ export const getCashflowReport: API.OperationMethod<
   GetCashflowReportError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13344, __c417, 0) as any as S.Schema<GetCashflowReportRequest>,
-  output: __S(13345, __c417, 1) as any as S.Schema<CashflowReportGetResponse>,
+  input: __S(12160, __c380, 0) as any as S.Schema<GetCashflowReportRequest>,
+  output: __S(12161, __c380, 1) as any as S.Schema<CashflowReportGetResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -20405,8 +19448,8 @@ export const getCashflowReportInsight: API.OperationMethod<
   GetCashflowReportInsightError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13536, __c423, 0) as any as S.Schema<GetCashflowReportInsightRequest>,
-  output: __S(13543, __c423, 7) as any as S.Schema<CashflowReportInsightsGetResponse>,
+  input: __S(12352, __c386, 0) as any as S.Schema<GetCashflowReportInsightRequest>,
+  output: __S(12359, __c386, 7) as any as S.Schema<CashflowReportInsightsGetResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -20423,8 +19466,8 @@ export const getCashflowReportTransaction: API.OperationMethod<
   GetCashflowReportTransactionError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13568, __c424, 0) as any as S.Schema<GetCashflowReportTransactionRequest>,
-  output: __S(13569, __c424, 1) as any as S.Schema<CashflowReportTransactionsGetResponse>,
+  input: __S(12384, __c387, 0) as any as S.Schema<GetCashflowReportTransactionRequest>,
+  output: __S(12385, __c387, 1) as any as S.Schema<CashflowReportTransactionsGetResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -20441,8 +19484,8 @@ export const getConsentEvent: API.OperationMethod<
   GetConsentEventError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13600, __c425, 0) as any as S.Schema<GetConsentEventRequest>,
-  output: __S(13605, __c425, 5) as any as S.Schema<ConsentEventsGetResponse>,
+  input: __S(12448, __c389, 0) as any as S.Schema<GetConsentEventRequest>,
+  output: __S(12453, __c389, 5) as any as S.Schema<ConsentEventsGetResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -20459,8 +19502,8 @@ export const getConsumerReportPdf: API.OperationMethod<
   GetConsumerReportPdfError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13632, __c426, 0) as any as S.Schema<GetConsumerReportPdfRequest>,
-  output: __S(10176, __c318, 0) as any as S.Schema<GetConsumerReportPdfResponse>,
+  input: __S(12480, __c390, 0) as any as S.Schema<GetConsumerReportPdfRequest>,
+  output: __S(9600, __c300, 0) as any as S.Schema<GetConsumerReportPdfResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -20477,8 +19520,8 @@ export const getCraCheckReportBaseReport: API.OperationMethod<
   GetCraCheckReportBaseReportError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13696, __c428, 0) as any as S.Schema<GetCraCheckReportBaseReportRequest>,
-  output: __S(13715, __c428, 19) as any as S.Schema<CraCheckReportBaseReportGetResponse>,
+  input: __S(12512, __c391, 0) as any as S.Schema<GetCraCheckReportBaseReportRequest>,
+  output: __S(12531, __c391, 19) as any as S.Schema<CraCheckReportBaseReportGetResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -20495,8 +19538,8 @@ export const getCraCheckReportCashflowInsight: API.OperationMethod<
   GetCraCheckReportCashflowInsightError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13792, __c431, 0) as any as S.Schema<GetCraCheckReportCashflowInsightRequest>,
-  output: __S(13794, __c431, 2) as any as S.Schema<CraCheckReportCashflowInsightsGetResponse>,
+  input: __S(12608, __c394, 0) as any as S.Schema<GetCraCheckReportCashflowInsightRequest>,
+  output: __S(12610, __c394, 2) as any as S.Schema<CraCheckReportCashflowInsightsGetResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -20513,8 +19556,8 @@ export const getCraCheckReportIncomeInsight: API.OperationMethod<
   GetCraCheckReportIncomeInsightError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13824, __c432, 0) as any as S.Schema<GetCraCheckReportIncomeInsightRequest>,
-  output: __S(13847, __c432, 23) as any as S.Schema<CraCheckReportIncomeInsightsGetResponse>,
+  input: __S(12640, __c395, 0) as any as S.Schema<GetCraCheckReportIncomeInsightRequest>,
+  output: __S(12663, __c395, 23) as any as S.Schema<CraCheckReportIncomeInsightsGetResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -20531,8 +19574,8 @@ export const getCraCheckReportLendScore: API.OperationMethod<
   GetCraCheckReportLendScoreError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13984, __c437, 0) as any as S.Schema<GetCraCheckReportLendScoreRequest>,
-  output: __S(13987, __c437, 3) as any as S.Schema<CraCheckReportLendScoreGetResponse>,
+  input: __S(12800, __c400, 0) as any as S.Schema<GetCraCheckReportLendScoreRequest>,
+  output: __S(12803, __c400, 3) as any as S.Schema<CraCheckReportLendScoreGetResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -20549,8 +19592,8 @@ export const getCraCheckReportNetworkInsight: API.OperationMethod<
   GetCraCheckReportNetworkInsightError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14016, __c438, 0) as any as S.Schema<GetCraCheckReportNetworkInsightRequest>,
-  output: __S(14020, __c438, 4) as any as S.Schema<CraCheckReportNetworkInsightsGetResponse>,
+  input: __S(12832, __c401, 0) as any as S.Schema<GetCraCheckReportNetworkInsightRequest>,
+  output: __S(12836, __c401, 4) as any as S.Schema<CraCheckReportNetworkInsightsGetResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -20567,8 +19610,8 @@ export const getCraCheckReportPartnerInsight: API.OperationMethod<
   GetCraCheckReportPartnerInsightError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14049, __c439, 1) as any as S.Schema<GetCraCheckReportPartnerInsightRequest>,
-  output: __S(14050, __c439, 2) as any as S.Schema<CraCheckReportPartnerInsightsGetResponse>,
+  input: __S(12865, __c402, 1) as any as S.Schema<GetCraCheckReportPartnerInsightRequest>,
+  output: __S(12866, __c402, 2) as any as S.Schema<CraCheckReportPartnerInsightsGetResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -20585,8 +19628,8 @@ export const getCraCheckReportPdf: API.OperationMethod<
   GetCraCheckReportPdfError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14112, __c441, 0) as any as S.Schema<GetCraCheckReportPdfRequest>,
-  output: __S(10176, __c318, 0) as any as S.Schema<GetCraCheckReportPdfResponse>,
+  input: __S(12928, __c404, 0) as any as S.Schema<GetCraCheckReportPdfRequest>,
+  output: __S(9600, __c300, 0) as any as S.Schema<GetCraCheckReportPdfResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -20603,8 +19646,8 @@ export const getCraCheckReportVerification: API.OperationMethod<
   GetCraCheckReportVerificationError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14144, __c442, 0) as any as S.Schema<GetCraCheckReportVerificationRequest>,
-  output: __S(14178, __c443, 2) as any as S.Schema<CraCheckReportVerificationGetResponse>,
+  input: __S(12960, __c405, 0) as any as S.Schema<GetCraCheckReportVerificationRequest>,
+  output: __S(12994, __c406, 2) as any as S.Schema<CraCheckReportVerificationGetResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -20621,8 +19664,8 @@ export const getCraCheckReportVerificationPdf: API.OperationMethod<
   GetCraCheckReportVerificationPdfError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14208, __c444, 0) as any as S.Schema<GetCraCheckReportVerificationPdfRequest>,
-  output: __S(10176, __c318, 0) as any as S.Schema<GetCraCheckReportVerificationPdfResponse>,
+  input: __S(13056, __c408, 0) as any as S.Schema<GetCraCheckReportVerificationPdfRequest>,
+  output: __S(9600, __c300, 0) as any as S.Schema<GetCraCheckReportVerificationPdfResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -20639,8 +19682,8 @@ export const getCraCreditProfileReport: API.OperationMethod<
   GetCraCreditProfileReportError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14240, __c445, 0) as any as S.Schema<GetCraCreditProfileReportRequest>,
-  output: __S(14245, __c445, 5) as any as S.Schema<CraCreditProfileReportGetResponse>,
+  input: __S(13088, __c409, 0) as any as S.Schema<GetCraCreditProfileReportRequest>,
+  output: __S(13093, __c409, 5) as any as S.Schema<CraCreditProfileReportGetResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -20657,8 +19700,8 @@ export const getCraPartnerInsight: API.OperationMethod<
   GetCraPartnerInsightError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14304, __c447, 0) as any as S.Schema<GetCraPartnerInsightRequest>,
-  output: __S(14306, __c447, 2) as any as S.Schema<CraPartnerInsightsGetResponse>,
+  input: __S(13120, __c410, 0) as any as S.Schema<GetCraPartnerInsightRequest>,
+  output: __S(13122, __c410, 2) as any as S.Schema<CraPartnerInsightsGetResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -20675,8 +19718,8 @@ export const getCraReport: API.OperationMethod<
   GetCraReportError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14337, __c448, 1) as any as S.Schema<GetCraReportRequest>,
-  output: __S(14340, __c448, 4) as any as S.Schema<CraReportGetResponse>,
+  input: __S(13153, __c411, 1) as any as S.Schema<GetCraReportRequest>,
+  output: __S(13156, __c411, 4) as any as S.Schema<CraReportGetResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -20693,8 +19736,8 @@ export const getCraServicingSubscription: API.OperationMethod<
   GetCraServicingSubscriptionError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14368, __c449, 0) as any as S.Schema<GetCraServicingSubscriptionRequest>,
-  output: __S(14369, __c449, 1) as any as S.Schema<CraServicingSubscriptionGetResponse>,
+  input: __S(13184, __c412, 0) as any as S.Schema<GetCraServicingSubscriptionRequest>,
+  output: __S(13185, __c412, 1) as any as S.Schema<CraServicingSubscriptionGetResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -20711,32 +19754,14 @@ export const getCreditAssetReportFreddieMac: API.OperationMethod<
   GetCreditAssetReportFreddieMacError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14432, __c451, 0) as any as S.Schema<GetCreditAssetReportFreddieMacRequest>,
-  output: __S(14453, __c451, 21) as any as S.Schema<AssetReportFreddieGetResponse>,
+  input: __S(13248, __c414, 0) as any as S.Schema<GetCreditAssetReportFreddieMacRequest>,
+  output: __S(13269, __c414, 21) as any as S.Schema<AssetReportFreddieGetResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetCreditAssetReportFreddieMac",
-}));
-
-export type GetCreditBankEmploymentError = PlaidOpError;
-/** Retrieve information from the bank accounts used for employment verification `/beta/credit/v1/bank_employment/get` returns the employment report(s) derived from bank transaction data for a specified user. */
-export const getCreditBankEmployment: API.OperationMethod<
-  GetCreditBankEmploymentRequest,
-  CreditBankEmploymentGetResponse,
-  GetCreditBankEmploymentError,
-  PlaidOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(14496, __c453, 0) as any as S.Schema<GetCreditBankEmploymentRequest>,
-  output: __S(14506, __c453, 10) as any as S.Schema<CreditBankEmploymentGetResponse>,
-  errors: [],
-  serviceErrors: PlaidServiceErrors,
-  protocol: PlaidProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetCreditBankEmployment",
 }));
 
 export type GetCreditBankIncomeError = PlaidOpError;
@@ -20747,8 +19772,8 @@ export const getCreditBankIncome: API.OperationMethod<
   GetCreditBankIncomeError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14561, __c455, 1) as any as S.Schema<GetCreditBankIncomeRequest>,
-  output: __S(14575, __c455, 15) as any as S.Schema<CreditBankIncomeGetResponse>,
+  input: __S(13313, __c416, 1) as any as S.Schema<GetCreditBankIncomeRequest>,
+  output: __S(13330, __c416, 18) as any as S.Schema<CreditBankIncomeGetResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -20765,8 +19790,8 @@ export const getCreditBankIncomePdf: API.OperationMethod<
   GetCreditBankIncomePdfError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14592, __c456, 0) as any as S.Schema<GetCreditBankIncomePdfRequest>,
-  output: __S(10176, __c318, 0) as any as S.Schema<GetCreditBankIncomePdfResponse>,
+  input: __S(13344, __c417, 0) as any as S.Schema<GetCreditBankIncomePdfRequest>,
+  output: __S(9600, __c300, 0) as any as S.Schema<GetCreditBankIncomePdfResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -20783,8 +19808,8 @@ export const getCreditBankStatementsUpload: API.OperationMethod<
   GetCreditBankStatementsUploadError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14624, __c457, 0) as any as S.Schema<GetCreditBankStatementsUploadRequest>,
-  output: __S(14636, __c457, 12) as any as S.Schema<CreditBankStatementsUploadsGetResponse>,
+  input: __S(13376, __c418, 0) as any as S.Schema<GetCreditBankStatementsUploadRequest>,
+  output: __S(13388, __c418, 12) as any as S.Schema<CreditBankStatementsUploadsGetResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -20801,8 +19826,8 @@ export const getCreditEmployment: API.OperationMethod<
   GetCreditEmploymentError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14720, __c460, 0) as any as S.Schema<GetCreditEmploymentRequest>,
-  output: __S(14726, __c460, 6) as any as S.Schema<CreditEmploymentGetResponse>,
+  input: __S(13472, __c421, 0) as any as S.Schema<GetCreditEmploymentRequest>,
+  output: __S(13478, __c421, 6) as any as S.Schema<CreditEmploymentGetResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -20819,8 +19844,8 @@ export const getCreditFreddieMacReport: API.OperationMethod<
   GetCreditFreddieMacReportError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14752, __c461, 0) as any as S.Schema<GetCreditFreddieMacReportRequest>,
-  output: __S(14778, __c461, 26) as any as S.Schema<CreditFreddieMacReportsGetResponse>,
+  input: __S(13536, __c423, 0) as any as S.Schema<GetCreditFreddieMacReportRequest>,
+  output: __S(13562, __c423, 26) as any as S.Schema<CreditFreddieMacReportsGetResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -20837,8 +19862,8 @@ export const getCreditPayrollIncome: API.OperationMethod<
   GetCreditPayrollIncomeError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c6, 0) as any as S.Schema<GetCreditPayrollIncomeRequest>,
-  output: __S(230, __c7, 6) as any as S.Schema<CreditPayrollIncomeGetResponse>,
+  input: __S(13568, __c424, 0) as any as S.Schema<GetCreditPayrollIncomeRequest>,
+  output: __S(13606, __c425, 6) as any as S.Schema<CreditPayrollIncomeGetResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -20855,8 +19880,8 @@ export const getCreditPayrollIncomeRiskSignal: API.OperationMethod<
   GetCreditPayrollIncomeRiskSignalError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c8, 0) as any as S.Schema<GetCreditPayrollIncomeRiskSignalRequest>,
-  output: __S(271, __c8, 15) as any as S.Schema<CreditPayrollIncomeRiskSignalsGetResponse>,
+  input: __S(13632, __c426, 0) as any as S.Schema<GetCreditPayrollIncomeRiskSignalRequest>,
+  output: __S(13647, __c426, 15) as any as S.Schema<CreditPayrollIncomeRiskSignalsGetResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -20873,8 +19898,8 @@ export const getCreditRelay: API.OperationMethod<
   GetCreditRelayError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c9, 0) as any as S.Schema<GetCreditRelayRequest>,
-  output: __S(5792, __c181, 0) as any as S.Schema<AssetReportGetResponse>,
+  input: __S(13664, __c427, 0) as any as S.Schema<GetCreditRelayRequest>,
+  output: __S(6016, __c188, 0) as any as S.Schema<AssetReportGetResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -20891,8 +19916,8 @@ export const getCreditRelayPdf: API.OperationMethod<
   GetCreditRelayPdfError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c10, 0) as any as S.Schema<GetCreditRelayPdfRequest>,
-  output: __S(10176, __c318, 0) as any as S.Schema<GetCreditRelayPdfResponse>,
+  input: __S(13696, __c428, 0) as any as S.Schema<GetCreditRelayPdfRequest>,
+  output: __S(9600, __c300, 0) as any as S.Schema<GetCreditRelayPdfResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -20909,8 +19934,8 @@ export const getCreditSession: API.OperationMethod<
   GetCreditSessionError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c11, 0) as any as S.Schema<GetCreditSessionRequest>,
-  output: __S(364, __c11, 12) as any as S.Schema<CreditSessionsGetResponse>,
+  input: __S(13728, __c429, 0) as any as S.Schema<GetCreditSessionRequest>,
+  output: __S(13740, __c429, 12) as any as S.Schema<CreditSessionsGetResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -20927,8 +19952,8 @@ export const getDashboardUser: API.OperationMethod<
   GetDashboardUserError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c13, 0) as any as S.Schema<GetDashboardUserRequest>,
-  output: __S(417, __c13, 1) as any as S.Schema<DashboardUserGetResponse>,
+  input: __S(13792, __c431, 0) as any as S.Schema<GetDashboardUserRequest>,
+  output: __S(13793, __c431, 1) as any as S.Schema<DashboardUserGetResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -20945,8 +19970,8 @@ export const getFdxConsent: API.OperationMethod<
   GetFdxConsentError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c14, 0) as any as S.Schema<GetFdxConsentRequest>,
-  output: __S(483, __c15, 3) as any as S.Schema<FDXConsentGrant>,
+  input: __S(13824, __c432, 0) as any as S.Schema<GetFdxConsentRequest>,
+  output: __S(13859, __c433, 3) as any as S.Schema<FDXConsentGrant>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -20963,8 +19988,8 @@ export const getFdxConsentsRevocation: API.OperationMethod<
   GetFdxConsentsRevocationError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c16, 0) as any as S.Schema<GetFdxConsentsRevocationRequest>,
-  output: __S(515, __c16, 3) as any as S.Schema<FDXConsentRevocations>,
+  input: __S(13888, __c434, 0) as any as S.Schema<GetFdxConsentsRevocationRequest>,
+  output: __S(13891, __c434, 3) as any as S.Schema<FDXConsentRevocations>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -20981,8 +20006,8 @@ export const getIdentity: API.OperationMethod<
   GetIdentityError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c17, 0) as any as S.Schema<GetIdentityRequest>,
-  output: __S(546, __c17, 2) as any as S.Schema<IdentityGetResponse>,
+  input: __S(13920, __c435, 0) as any as S.Schema<GetIdentityRequest>,
+  output: __S(13922, __c435, 2) as any as S.Schema<IdentityGetResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -20999,8 +20024,8 @@ export const getIdentityDocumentsUpload: API.OperationMethod<
   GetIdentityDocumentsUploadError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c19, 0) as any as S.Schema<GetIdentityDocumentsUploadRequest>,
-  output: __S(618, __c19, 10) as any as S.Schema<IdentityDocumentsUploadsGetResponse>,
+  input: __S(256, __c8, 0) as any as S.Schema<GetIdentityDocumentsUploadRequest>,
+  output: __S(266, __c8, 10) as any as S.Schema<IdentityDocumentsUploadsGetResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -21017,8 +20042,8 @@ export const getIdentityVerification: API.OperationMethod<
   GetIdentityVerificationError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c22, 0) as any as S.Schema<GetIdentityVerificationRequest>,
-  output: __S(4704, __c147, 0) as any as S.Schema<IdentityVerificationGetResponse>,
+  input: __S(288, __c9, 0) as any as S.Schema<GetIdentityVerificationRequest>,
+  output: __S(3680, __c115, 0) as any as S.Schema<IdentityVerificationGetResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -21035,8 +20060,8 @@ export const getInstitution: API.OperationMethod<
   GetInstitutionError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(737, __c23, 1) as any as S.Schema<GetInstitutionRequest>,
-  output: __S(738, __c23, 2) as any as S.Schema<InstitutionsGetResponse>,
+  input: __S(321, __c10, 1) as any as S.Schema<GetInstitutionRequest>,
+  output: __S(322, __c10, 2) as any as S.Schema<InstitutionsGetResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -21053,8 +20078,8 @@ export const getInvestmentsAuth: API.OperationMethod<
   GetInvestmentsAuthError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c26, 0) as any as S.Schema<GetInvestmentsAuthRequest>,
-  output: __S(833, __c26, 1) as any as S.Schema<InvestmentsAuthGetResponse>,
+  input: __S(416, __c13, 0) as any as S.Schema<GetInvestmentsAuthRequest>,
+  output: __S(417, __c13, 1) as any as S.Schema<InvestmentsAuthGetResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -21071,8 +20096,8 @@ export const getInvestmentsHolding: API.OperationMethod<
   GetInvestmentsHoldingError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c33, 0) as any as S.Schema<GetInvestmentsHoldingRequest>,
-  output: __S(1057, __c33, 1) as any as S.Schema<InvestmentsHoldingsGetResponse>,
+  input: __S(640, __c20, 0) as any as S.Schema<GetInvestmentsHoldingRequest>,
+  output: __S(641, __c20, 1) as any as S.Schema<InvestmentsHoldingsGetResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -21089,8 +20114,8 @@ export const getInvestmentsTransaction: API.OperationMethod<
   GetInvestmentsTransactionError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c34, 0) as any as S.Schema<GetInvestmentsTransactionRequest>,
-  output: __S(1089, __c34, 1) as any as S.Schema<InvestmentsTransactionsGetResponse>,
+  input: __S(672, __c21, 0) as any as S.Schema<GetInvestmentsTransactionRequest>,
+  output: __S(673, __c21, 1) as any as S.Schema<InvestmentsTransactionsGetResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -21107,8 +20132,8 @@ export const getIssue: API.OperationMethod<
   GetIssueError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c36, 0) as any as S.Schema<GetIssueRequest>,
-  output: __S(1153, __c36, 1) as any as S.Schema<IssuesGetResponse>,
+  input: __S(736, __c23, 0) as any as S.Schema<GetIssueRequest>,
+  output: __S(737, __c23, 1) as any as S.Schema<IssuesGetResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -21125,8 +20150,8 @@ export const getItem: API.OperationMethod<
   GetItemError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c38, 0) as any as S.Schema<GetItemRequest>,
-  output: __S(1221, __c38, 5) as any as S.Schema<ItemGetResponse>,
+  input: __S(800, __c25, 0) as any as S.Schema<GetItemRequest>,
+  output: __S(805, __c25, 5) as any as S.Schema<ItemGetResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -21143,8 +20168,8 @@ export const getLiability: API.OperationMethod<
   GetLiabilityError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c39, 0) as any as S.Schema<GetLiabilityRequest>,
-  output: __S(1249, __c39, 1) as any as S.Schema<LiabilitiesGetResponse>,
+  input: __S(832, __c26, 0) as any as S.Schema<GetLiabilityRequest>,
+  output: __S(833, __c26, 1) as any as S.Schema<LiabilitiesGetResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -21161,8 +20186,8 @@ export const getLinkToken: API.OperationMethod<
   GetLinkTokenError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c41, 0) as any as S.Schema<GetLinkTokenRequest>,
-  output: __S(1339, __c41, 27) as any as S.Schema<LinkTokenGetResponse>,
+  input: __S(896, __c28, 0) as any as S.Schema<GetLinkTokenRequest>,
+  output: __S(923, __c28, 27) as any as S.Schema<LinkTokenGetResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -21179,8 +20204,8 @@ export const getNetworkStatus: API.OperationMethod<
   GetNetworkStatusError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c42, 0) as any as S.Schema<GetNetworkStatusRequest>,
-  output: __S(1346, __c42, 2) as any as S.Schema<NetworkStatusGetResponse>,
+  input: __S(1056, __c33, 0) as any as S.Schema<GetNetworkStatusRequest>,
+  output: __S(1058, __c33, 2) as any as S.Schema<NetworkStatusGetResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -21197,8 +20222,8 @@ export const getPartnerCustomer: API.OperationMethod<
   GetPartnerCustomerError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c48, 0) as any as S.Schema<GetPartnerCustomerRequest>,
-  output: __S(1538, __c48, 2) as any as S.Schema<PartnerCustomerGetResponse>,
+  input: __S(1120, __c35, 0) as any as S.Schema<GetPartnerCustomerRequest>,
+  output: __S(1122, __c35, 2) as any as S.Schema<PartnerCustomerGetResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -21215,8 +20240,8 @@ export const getPartnerCustomerOauthInstitution: API.OperationMethod<
   GetPartnerCustomerOauthInstitutionError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1569, __c49, 1) as any as S.Schema<GetPartnerCustomerOauthInstitutionRequest>,
-  output: __S(1573, __c49, 5) as any as S.Schema<PartnerCustomerOAuthInstitutionsGetResponse>,
+  input: __S(1153, __c36, 1) as any as S.Schema<GetPartnerCustomerOauthInstitutionRequest>,
+  output: __S(1157, __c36, 5) as any as S.Schema<PartnerCustomerOAuthInstitutionsGetResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -21233,8 +20258,8 @@ export const getPaymentInitiationConsent: API.OperationMethod<
   GetPaymentInitiationConsentError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c50, 0) as any as S.Schema<GetPaymentInitiationConsentRequest>,
-  output: __S(1601, __c50, 1) as any as S.Schema<GetPaymentInitiationConsentResponse>,
+  input: __S(1184, __c37, 0) as any as S.Schema<GetPaymentInitiationConsentRequest>,
+  output: __S(1185, __c37, 1) as any as S.Schema<GetPaymentInitiationConsentResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -21251,8 +20276,8 @@ export const getPaymentInitiationPayment: API.OperationMethod<
   GetPaymentInitiationPaymentError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c52, 0) as any as S.Schema<GetPaymentInitiationPaymentRequest>,
-  output: __S(1665, __c52, 1) as any as S.Schema<GetPaymentInitiationPaymentResponse>,
+  input: __S(1248, __c39, 0) as any as S.Schema<GetPaymentInitiationPaymentRequest>,
+  output: __S(1249, __c39, 1) as any as S.Schema<GetPaymentInitiationPaymentResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -21269,8 +20294,8 @@ export const getPaymentInitiationRecipient: API.OperationMethod<
   GetPaymentInitiationRecipientError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c55, 0) as any as S.Schema<GetPaymentInitiationRecipientRequest>,
-  output: __S(1761, __c55, 1) as any as S.Schema<GetPaymentInitiationRecipientResponse>,
+  input: __S(1344, __c42, 0) as any as S.Schema<GetPaymentInitiationRecipientRequest>,
+  output: __S(1345, __c42, 1) as any as S.Schema<GetPaymentInitiationRecipientResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -21287,8 +20312,8 @@ export const getProcessorAccount: API.OperationMethod<
   GetProcessorAccountError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c56, 0) as any as S.Schema<GetProcessorAccountRequest>,
-  output: __S(1793, __c56, 1) as any as S.Schema<ProcessorAccountGetResponse>,
+  input: __S(1376, __c43, 0) as any as S.Schema<GetProcessorAccountRequest>,
+  output: __S(1377, __c43, 1) as any as S.Schema<ProcessorAccountGetResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -21305,8 +20330,8 @@ export const getProcessorAuth: API.OperationMethod<
   GetProcessorAuthError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c57, 0) as any as S.Schema<GetProcessorAuthRequest>,
-  output: __S(1826, __c57, 2) as any as S.Schema<ProcessorAuthGetResponse>,
+  input: __S(1408, __c44, 0) as any as S.Schema<GetProcessorAuthRequest>,
+  output: __S(1410, __c44, 2) as any as S.Schema<ProcessorAuthGetResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -21323,8 +20348,8 @@ export const getProcessorBalance: API.OperationMethod<
   GetProcessorBalanceError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1857, __c58, 1) as any as S.Schema<GetProcessorBalanceRequest>,
-  output: __S(1858, __c58, 2) as any as S.Schema<ProcessorBalanceGetResponse>,
+  input: __S(1441, __c45, 1) as any as S.Schema<GetProcessorBalanceRequest>,
+  output: __S(1442, __c45, 2) as any as S.Schema<ProcessorBalanceGetResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -21341,8 +20366,8 @@ export const getProcessorIdentity: API.OperationMethod<
   GetProcessorIdentityError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c59, 0) as any as S.Schema<GetProcessorIdentityRequest>,
-  output: __S(1889, __c59, 1) as any as S.Schema<ProcessorIdentityGetResponse>,
+  input: __S(1472, __c46, 0) as any as S.Schema<GetProcessorIdentityRequest>,
+  output: __S(1473, __c46, 1) as any as S.Schema<ProcessorIdentityGetResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -21359,8 +20384,8 @@ export const getProcessorInvestmentsAuth: API.OperationMethod<
   GetProcessorInvestmentsAuthError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c60, 0) as any as S.Schema<GetProcessorInvestmentsAuthRequest>,
-  output: __S(1921, __c60, 1) as any as S.Schema<ProcessorInvestmentsAuthGetResponse>,
+  input: __S(1792, __c56, 0) as any as S.Schema<GetProcessorInvestmentsAuthRequest>,
+  output: __S(1793, __c56, 1) as any as S.Schema<ProcessorInvestmentsAuthGetResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -21377,8 +20402,8 @@ export const getProcessorInvestmentsHolding: API.OperationMethod<
   GetProcessorInvestmentsHoldingError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c65, 0) as any as S.Schema<GetProcessorInvestmentsHoldingRequest>,
-  output: __S(2081, __c65, 1) as any as S.Schema<ProcessorInvestmentsHoldingsGetResponse>,
+  input: __S(1824, __c57, 0) as any as S.Schema<GetProcessorInvestmentsHoldingRequest>,
+  output: __S(1825, __c57, 1) as any as S.Schema<ProcessorInvestmentsHoldingsGetResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -21395,8 +20420,8 @@ export const getProcessorInvestmentsTransaction: API.OperationMethod<
   GetProcessorInvestmentsTransactionError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2112, __c66, 0) as any as S.Schema<GetProcessorInvestmentsTransactionRequest>,
-  output: __S(2113, __c66, 1) as any as S.Schema<ProcessorInvestmentsTransactionsGetResponse>,
+  input: __S(1856, __c58, 0) as any as S.Schema<GetProcessorInvestmentsTransactionRequest>,
+  output: __S(1857, __c58, 1) as any as S.Schema<ProcessorInvestmentsTransactionsGetResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -21413,8 +20438,8 @@ export const getProcessorLiability: API.OperationMethod<
   GetProcessorLiabilityError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2144, __c67, 0) as any as S.Schema<GetProcessorLiabilityRequest>,
-  output: __S(2145, __c67, 1) as any as S.Schema<ProcessorLiabilitiesGetResponse>,
+  input: __S(1888, __c59, 0) as any as S.Schema<GetProcessorLiabilityRequest>,
+  output: __S(1889, __c59, 1) as any as S.Schema<ProcessorLiabilitiesGetResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -21431,8 +20456,8 @@ export const getProcessorTokenPermissions: API.OperationMethod<
   GetProcessorTokenPermissionsError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c68, 0) as any as S.Schema<GetProcessorTokenPermissionsRequest>,
-  output: __S(2177, __c68, 1) as any as S.Schema<ProcessorTokenPermissionsGetResponse>,
+  input: __S(1920, __c60, 0) as any as S.Schema<GetProcessorTokenPermissionsRequest>,
+  output: __S(1921, __c60, 1) as any as S.Schema<ProcessorTokenPermissionsGetResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -21449,8 +20474,8 @@ export const getProcessorTransaction: API.OperationMethod<
   GetProcessorTransactionError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2209, __c69, 1) as any as S.Schema<GetProcessorTransactionRequest>,
-  output: __S(2210, __c69, 2) as any as S.Schema<ProcessorTransactionsGetResponse>,
+  input: __S(1953, __c61, 1) as any as S.Schema<GetProcessorTransactionRequest>,
+  output: __S(1954, __c61, 2) as any as S.Schema<ProcessorTransactionsGetResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -21467,8 +20492,8 @@ export const getProcessorTransactionsRecurring: API.OperationMethod<
   GetProcessorTransactionsRecurringError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2304, __c72, 0) as any as S.Schema<GetProcessorTransactionsRecurringRequest>,
-  output: __S(2339, __c73, 3) as any as S.Schema<ProcessorTransactionsRecurringGetResponse>,
+  input: __S(2048, __c64, 0) as any as S.Schema<GetProcessorTransactionsRecurringRequest>,
+  output: __S(2084, __c65, 4) as any as S.Schema<ProcessorTransactionsRecurringGetResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -21485,8 +20510,8 @@ export const getProfileNetworkStatus: API.OperationMethod<
   GetProfileNetworkStatusError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2400, __c75, 0) as any as S.Schema<GetProfileNetworkStatusRequest>,
-  output: __S(2401, __c75, 1) as any as S.Schema<ProfileNetworkStatusGetResponse>,
+  input: __S(2112, __c66, 0) as any as S.Schema<GetProfileNetworkStatusRequest>,
+  output: __S(2113, __c66, 1) as any as S.Schema<ProfileNetworkStatusGetResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -21503,8 +20528,8 @@ export const getProtectUserInsight: API.OperationMethod<
   GetProtectUserInsightError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2432, __c76, 0) as any as S.Schema<GetProtectUserInsightRequest>,
-  output: __S(2437, __c76, 5) as any as S.Schema<ProtectUserInsightsGetResponse>,
+  input: __S(2144, __c67, 0) as any as S.Schema<GetProtectUserInsightRequest>,
+  output: __S(2149, __c67, 5) as any as S.Schema<ProtectUserInsightsGetResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -21521,8 +20546,8 @@ export const getRecipient: API.OperationMethod<
   GetRecipientError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2464, __c77, 0) as any as S.Schema<GetRecipientRequest>,
-  output: __S(2465, __c77, 1) as any as S.Schema<GetRecipientResponse>,
+  input: __S(2176, __c68, 0) as any as S.Schema<GetRecipientRequest>,
+  output: __S(2177, __c68, 1) as any as S.Schema<GetRecipientResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -21539,8 +20564,8 @@ export const getRecipients: API.OperationMethod<
   GetRecipientsError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c78, 0) as any as S.Schema<GetRecipientsRequest>,
-  output: __S(2499, __c78, 3) as any as S.Schema<GetRecipientsResponse>,
+  input: __S(2272, __c71, 0) as any as S.Schema<GetRecipientsRequest>,
+  output: __S(2275, __c71, 3) as any as S.Schema<GetRecipientsResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -21557,8 +20582,8 @@ export const getSandboxTransferTestClock: API.OperationMethod<
   GetSandboxTransferTestClockError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2816, __c88, 0) as any as S.Schema<GetSandboxTransferTestClockRequest>,
-  output: __S(10560, __c330, 0) as any as S.Schema<SandboxTransferTestClockGetResponse>,
+  input: __S(2304, __c72, 0) as any as S.Schema<GetSandboxTransferTestClockRequest>,
+  output: __S(9760, __c305, 0) as any as S.Schema<SandboxTransferTestClockGetResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -21575,8 +20600,8 @@ export const getTransaction: API.OperationMethod<
   GetTransactionError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2849, __c89, 1) as any as S.Schema<GetTransactionRequest>,
-  output: __S(2850, __c89, 2) as any as S.Schema<TransactionsGetResponse>,
+  input: __S(2337, __c73, 1) as any as S.Schema<GetTransactionRequest>,
+  output: __S(2338, __c73, 2) as any as S.Schema<TransactionsGetResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -21593,32 +20618,14 @@ export const getTransactionsRecurring: API.OperationMethod<
   GetTransactionsRecurringError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2880, __c90, 0) as any as S.Schema<GetTransactionsRecurringRequest>,
-  output: __S(2339, __c73, 3) as any as S.Schema<TransactionsRecurringGetResponse>,
+  input: __S(2368, __c74, 0) as any as S.Schema<GetTransactionsRecurringRequest>,
+  output: __S(2084, __c65, 4) as any as S.Schema<TransactionsRecurringGetResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetTransactionsRecurring",
-}));
-
-export type GetTransactionsUserInsightError = PlaidOpError;
-/** Obtain user insights based on transactions sent through /transactions/enrich The `/beta/transactions/user_insights/v1/get` gets user insights for clients who have enriched data with `/transactions/enrich`. The product is currently in beta. */
-export const getTransactionsUserInsight: API.OperationMethod<
-  GetTransactionsUserInsightRequest,
-  TransactionsUserInsightsGetResponse,
-  GetTransactionsUserInsightError,
-  PlaidOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(2912, __c91, 0) as any as S.Schema<GetTransactionsUserInsightRequest>,
-  output: __S(2927, __c91, 15) as any as S.Schema<TransactionsUserInsightsGetResponse>,
-  errors: [],
-  serviceErrors: PlaidServiceErrors,
-  protocol: PlaidProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetTransactionsUserInsight",
 }));
 
 export type GetTransferError = PlaidOpError;
@@ -21629,8 +20636,8 @@ export const getTransfer: API.OperationMethod<
   GetTransferError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2944, __c92, 0) as any as S.Schema<GetTransferRequest>,
-  output: __S(10752, __c336, 0) as any as S.Schema<TransferGetResponse>,
+  input: __S(2400, __c75, 0) as any as S.Schema<GetTransferRequest>,
+  output: __S(9888, __c309, 0) as any as S.Schema<TransferGetResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -21647,8 +20654,8 @@ export const getTransferCapability: API.OperationMethod<
   GetTransferCapabilityError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2976, __c93, 0) as any as S.Schema<GetTransferCapabilityRequest>,
-  output: __S(2980, __c93, 4) as any as S.Schema<TransferCapabilitiesGetResponse>,
+  input: __S(2432, __c76, 0) as any as S.Schema<GetTransferCapabilityRequest>,
+  output: __S(2436, __c76, 4) as any as S.Schema<TransferCapabilitiesGetResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -21665,8 +20672,8 @@ export const getTransferConfiguration: API.OperationMethod<
   GetTransferConfigurationError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3008, __c94, 0) as any as S.Schema<GetTransferConfigurationRequest>,
-  output: __S(3009, __c94, 1) as any as S.Schema<TransferConfigurationGetResponse>,
+  input: __S(2464, __c77, 0) as any as S.Schema<GetTransferConfigurationRequest>,
+  output: __S(2465, __c77, 1) as any as S.Schema<TransferConfigurationGetResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -21683,8 +20690,8 @@ export const getTransferIntent: API.OperationMethod<
   GetTransferIntentError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3040, __c95, 0) as any as S.Schema<GetTransferIntentRequest>,
-  output: __S(3043, __c95, 3) as any as S.Schema<TransferIntentGetResponse>,
+  input: __S(2496, __c78, 0) as any as S.Schema<GetTransferIntentRequest>,
+  output: __S(2499, __c78, 3) as any as S.Schema<TransferIntentGetResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -21701,8 +20708,8 @@ export const getTransferLedger: API.OperationMethod<
   GetTransferLedgerError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3072, __c96, 0) as any as S.Schema<GetTransferLedgerRequest>,
-  output: __S(3074, __c96, 2) as any as S.Schema<TransferLedgerGetResponse>,
+  input: __S(2528, __c79, 0) as any as S.Schema<GetTransferLedgerRequest>,
+  output: __S(2530, __c79, 2) as any as S.Schema<TransferLedgerGetResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -21719,8 +20726,8 @@ export const getTransferMetrics: API.OperationMethod<
   GetTransferMetricsError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3104, __c97, 0) as any as S.Schema<GetTransferMetricsRequest>,
-  output: __S(3108, __c97, 4) as any as S.Schema<TransferMetricsGetResponse>,
+  input: __S(2560, __c80, 0) as any as S.Schema<GetTransferMetricsRequest>,
+  output: __S(2564, __c80, 4) as any as S.Schema<TransferMetricsGetResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -21737,8 +20744,8 @@ export const getTransferOriginator: API.OperationMethod<
   GetTransferOriginatorError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3200, __c100, 0) as any as S.Schema<GetTransferOriginatorRequest>,
-  output: __S(3204, __c100, 4) as any as S.Schema<TransferOriginatorGetResponse>,
+  input: __S(2688, __c84, 0) as any as S.Schema<GetTransferOriginatorRequest>,
+  output: __S(2692, __c84, 4) as any as S.Schema<TransferOriginatorGetResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -21755,8 +20762,8 @@ export const getTransferRecurring: API.OperationMethod<
   GetTransferRecurringError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3232, __c101, 0) as any as S.Schema<GetTransferRecurringRequest>,
-  output: __S(3233, __c101, 1) as any as S.Schema<TransferRecurringGetResponse>,
+  input: __S(2720, __c85, 0) as any as S.Schema<GetTransferRecurringRequest>,
+  output: __S(2721, __c85, 1) as any as S.Schema<TransferRecurringGetResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -21773,8 +20780,8 @@ export const getTransferRefund: API.OperationMethod<
   GetTransferRefundError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3264, __c102, 0) as any as S.Schema<GetTransferRefundRequest>,
-  output: __S(11488, __c359, 0) as any as S.Schema<TransferRefundGetResponse>,
+  input: __S(2752, __c86, 0) as any as S.Schema<GetTransferRefundRequest>,
+  output: __S(10624, __c332, 0) as any as S.Schema<TransferRefundGetResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -21791,8 +20798,8 @@ export const getTransferSweep: API.OperationMethod<
   GetTransferSweepError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3296, __c103, 0) as any as S.Schema<GetTransferSweepRequest>,
-  output: __S(3360, __c105, 0) as any as S.Schema<TransferSweepGetResponse>,
+  input: __S(2784, __c87, 0) as any as S.Schema<GetTransferSweepRequest>,
+  output: __S(2848, __c89, 0) as any as S.Schema<TransferSweepGetResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -21809,8 +20816,8 @@ export const getUser: API.OperationMethod<
   GetUserError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3392, __c106, 0) as any as S.Schema<GetUserRequest>,
-  output: __S(3393, __c106, 1) as any as S.Schema<UserGetResponse>,
+  input: __S(2880, __c90, 0) as any as S.Schema<GetUserRequest>,
+  output: __S(2881, __c90, 1) as any as S.Schema<UserGetResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -21827,8 +20834,8 @@ export const getUserAccountSession: API.OperationMethod<
   GetUserAccountSessionError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3424, __c107, 0) as any as S.Schema<GetUserAccountSessionRequest>,
-  output: __S(3433, __c107, 9) as any as S.Schema<UserAccountSessionGetResponse>,
+  input: __S(2912, __c91, 0) as any as S.Schema<GetUserAccountSessionRequest>,
+  output: __S(2921, __c91, 9) as any as S.Schema<UserAccountSessionGetResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -21845,8 +20852,8 @@ export const getUserItem: API.OperationMethod<
   GetUserItemError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3456, __c108, 0) as any as S.Schema<GetUserItemRequest>,
-  output: __S(3458, __c108, 2) as any as S.Schema<UserItemsGetResponse>,
+  input: __S(2944, __c92, 0) as any as S.Schema<GetUserItemRequest>,
+  output: __S(2946, __c92, 2) as any as S.Schema<UserItemsGetResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -21863,8 +20870,8 @@ export const getUserTransferLimit: API.OperationMethod<
   GetUserTransferLimitError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3488, __c109, 0) as any as S.Schema<GetUserTransferLimitRequest>,
-  output: __S(3491, __c109, 3) as any as S.Schema<UserTransferLimitsGetResponse>,
+  input: __S(2976, __c93, 0) as any as S.Schema<GetUserTransferLimitRequest>,
+  output: __S(2979, __c93, 3) as any as S.Schema<UserTransferLimitsGetResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -21881,8 +20888,8 @@ export const getWallet: API.OperationMethod<
   GetWalletError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3520, __c110, 0) as any as S.Schema<GetWalletRequest>,
-  output: __S(11680, __c365, 0) as any as S.Schema<GetWalletResponse>,
+  input: __S(3008, __c94, 0) as any as S.Schema<GetWalletRequest>,
+  output: __S(10816, __c338, 0) as any as S.Schema<GetWalletResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -21899,8 +20906,8 @@ export const getWalletTransaction: API.OperationMethod<
   GetWalletTransactionError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3552, __c111, 0) as any as S.Schema<GetWalletTransactionRequest>,
-  output: __S(3553, __c111, 1) as any as S.Schema<GetWalletTransactionResponse>,
+  input: __S(3040, __c95, 0) as any as S.Schema<GetWalletTransactionRequest>,
+  output: __S(3041, __c95, 1) as any as S.Schema<GetWalletTransactionResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -21917,8 +20924,8 @@ export const getWatchlistScreeningEntity: API.OperationMethod<
   GetWatchlistScreeningEntityError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3712, __c116, 0) as any as S.Schema<GetWatchlistScreeningEntityRequest>,
-  output: __S(11872, __c371, 0) as any as S.Schema<WatchlistScreeningEntityGetResponse>,
+  input: __S(3136, __c98, 0) as any as S.Schema<GetWatchlistScreeningEntityRequest>,
+  output: __S(10944, __c342, 0) as any as S.Schema<WatchlistScreeningEntityGetResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -21935,8 +20942,8 @@ export const getWatchlistScreeningEntityProgram: API.OperationMethod<
   GetWatchlistScreeningEntityProgramError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3744, __c117, 0) as any as S.Schema<GetWatchlistScreeningEntityProgramRequest>,
-  output: __S(3776, __c118, 0) as any as S.Schema<WatchlistScreeningEntityProgramGetResponse>,
+  input: __S(3168, __c99, 0) as any as S.Schema<GetWatchlistScreeningEntityProgramRequest>,
+  output: __S(3200, __c100, 0) as any as S.Schema<WatchlistScreeningEntityProgramGetResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -21953,8 +20960,8 @@ export const getWatchlistScreeningIndividual: API.OperationMethod<
   GetWatchlistScreeningIndividualError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3808, __c119, 0) as any as S.Schema<GetWatchlistScreeningIndividualRequest>,
-  output: __S(12064, __c377, 0) as any as S.Schema<WatchlistScreeningIndividualGetResponse>,
+  input: __S(3232, __c101, 0) as any as S.Schema<GetWatchlistScreeningIndividualRequest>,
+  output: __S(11136, __c348, 0) as any as S.Schema<WatchlistScreeningIndividualGetResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -21971,8 +20978,8 @@ export const getWatchlistScreeningIndividualProgram: API.OperationMethod<
   GetWatchlistScreeningIndividualProgramError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3840, __c120, 0) as any as S.Schema<GetWatchlistScreeningIndividualProgramRequest>,
-  output: __S(3776, __c118, 0) as any as S.Schema<WatchlistScreeningIndividualProgramGetResponse>,
+  input: __S(3264, __c102, 0) as any as S.Schema<GetWatchlistScreeningIndividualProgramRequest>,
+  output: __S(3200, __c100, 0) as any as S.Schema<WatchlistScreeningIndividualProgramGetResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -21989,8 +20996,8 @@ export const getWebhookVerificationKey: API.OperationMethod<
   GetWebhookVerificationKeyError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3872, __c121, 0) as any as S.Schema<GetWebhookVerificationKeyRequest>,
-  output: __S(3874, __c121, 2) as any as S.Schema<WebhookVerificationKeyGetResponse>,
+  input: __S(3296, __c103, 0) as any as S.Schema<GetWebhookVerificationKeyRequest>,
+  output: __S(3298, __c103, 2) as any as S.Schema<WebhookVerificationKeyGetResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -22007,8 +21014,8 @@ export const identityMatch: API.OperationMethod<
   IdentityMatchError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3904, __c122, 0) as any as S.Schema<IdentityMatchRequest>,
-  output: __S(3906, __c122, 2) as any as S.Schema<IdentityMatchResponse>,
+  input: __S(3328, __c104, 0) as any as S.Schema<IdentityMatchRequest>,
+  output: __S(3330, __c104, 2) as any as S.Schema<IdentityMatchResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -22025,8 +21032,8 @@ export const importItem: API.OperationMethod<
   ImportItemError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4002, __c125, 2) as any as S.Schema<ImportItemRequest>,
-  output: __S(4003, __c125, 3) as any as S.Schema<ItemImportResponse>,
+  input: __S(3426, __c107, 2) as any as S.Schema<ImportItemRequest>,
+  output: __S(3427, __c107, 3) as any as S.Schema<ItemImportResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -22043,8 +21050,8 @@ export const institutionsGetById: API.OperationMethod<
   InstitutionsGetByIdError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4033, __c126, 1) as any as S.Schema<InstitutionsGetByIdRequest>,
-  output: __S(4034, __c126, 2) as any as S.Schema<InstitutionsGetByIdResponse>,
+  input: __S(3457, __c108, 1) as any as S.Schema<InstitutionsGetByIdRequest>,
+  output: __S(3458, __c108, 2) as any as S.Schema<InstitutionsGetByIdResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -22061,8 +21068,8 @@ export const invalidateItemAccessToken: API.OperationMethod<
   InvalidateItemAccessTokenError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4064, __c127, 0) as any as S.Schema<InvalidateItemAccessTokenRequest>,
-  output: __S(4065, __c127, 1) as any as S.Schema<ItemAccessTokenInvalidateResponse>,
+  input: __S(3488, __c109, 0) as any as S.Schema<InvalidateItemAccessTokenRequest>,
+  output: __S(3489, __c109, 1) as any as S.Schema<ItemAccessTokenInvalidateResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -22079,8 +21086,8 @@ export const itemPublicTokenExchange: API.OperationMethod<
   ItemPublicTokenExchangeError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4096, __c128, 0) as any as S.Schema<ItemPublicTokenExchangeRequest>,
-  output: __S(4097, __c128, 1) as any as S.Schema<ItemPublicTokenExchangeResponse>,
+  input: __S(3520, __c110, 0) as any as S.Schema<ItemPublicTokenExchangeRequest>,
+  output: __S(3521, __c110, 1) as any as S.Schema<ItemPublicTokenExchangeResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -22097,8 +21104,8 @@ export const linkOauthCorrelationIdExchange: API.OperationMethod<
   LinkOauthCorrelationIdExchangeError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4160, __c130, 0) as any as S.Schema<LinkOauthCorrelationIdExchangeRequest>,
-  output: __S(4161, __c130, 1) as any as S.Schema<LinkOAuthCorrelationIdExchangeResponse>,
+  input: __S(3872, __c121, 0) as any as S.Schema<LinkOauthCorrelationIdExchangeRequest>,
+  output: __S(3873, __c121, 1) as any as S.Schema<LinkOAuthCorrelationIdExchangeResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -22115,50 +21122,14 @@ export const listBankTransferEvent: API.OperationMethod<
   ListBankTransferEventError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4192, __c131, 0) as any as S.Schema<ListBankTransferEventRequest>,
-  output: __S(4228, __c132, 4) as any as S.Schema<BankTransferEventListResponse>,
+  input: __S(3904, __c122, 0) as any as S.Schema<ListBankTransferEventRequest>,
+  output: __S(3940, __c123, 4) as any as S.Schema<BankTransferEventListResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListBankTransferEvent",
-}));
-
-export type ListBetaIssuesV1Error = PlaidOpError;
-/** List institution issues Retrieve high-severity issues for an institution. */
-export const listBetaIssuesV1: API.OperationMethod<
-  ListBetaIssuesV1Request,
-  BetaIssuesV1ListResponse,
-  ListBetaIssuesV1Error,
-  PlaidOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(4256, __c133, 0) as any as S.Schema<ListBetaIssuesV1Request>,
-  output: __S(4257, __c133, 1) as any as S.Schema<BetaIssuesV1ListResponse>,
-  errors: [],
-  serviceErrors: PlaidServiceErrors,
-  protocol: PlaidProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "ListBetaIssuesV1",
-}));
-
-export type ListBetaWebhookEventsError = PlaidOpError;
-/** List webhook events `/beta/webhook_events/list` returns the webhooks Plaid sent to your account in the last 7 days, including webhooks that weren't delivered. Use it to recover webhooks your endpoint missed. Events are returned oldest first. `TRANSACTIONS` webhooks are not included. To recover Transactions updates, use [`/transactions/sync`](https://plaid.com/docs/api/products/transactions/#transactionssync). To page through events, omit `cursor` on your first request, then pass the previous response's `next_cursor` on each later request. Store `next_cursor` even when `has_more` is `false`, so your next poll returns only newer events. Filters are optional. An event matches a filter if it matches any of the filter's values, and must match every filter you provide. Events older than 7 days are not retained. If your cursor or `start_time` is older than that, the request fails with `WEBHOOK_EVENTS_CURSOR_EXPIRED` or `WEBHOOK_EVENTS_START_TIME_OUT_OF_RANGE`. This endpoint is in beta and may change in backwards-incompatible ways. Send feedback to building@plaid.com. */
-export const listBetaWebhookEvents: API.OperationMethod<
-  ListBetaWebhookEventsRequest,
-  BetaWebhookEventsListResponse,
-  ListBetaWebhookEventsError,
-  PlaidOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(4288, __c134, 0) as any as S.Schema<ListBetaWebhookEventsRequest>,
-  output: __S(4291, __c134, 3) as any as S.Schema<BetaWebhookEventsListResponse>,
-  errors: [],
-  serviceErrors: PlaidServiceErrors,
-  protocol: PlaidProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "ListBetaWebhookEvents",
 }));
 
 export type ListCraServicingSubscriptionError = PlaidOpError;
@@ -22169,8 +21140,8 @@ export const listCraServicingSubscription: API.OperationMethod<
   ListCraServicingSubscriptionError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4320, __c135, 0) as any as S.Schema<ListCraServicingSubscriptionRequest>,
-  output: __S(4322, __c135, 2) as any as S.Schema<CraServicingSubscriptionListResponse>,
+  input: __S(3968, __c124, 0) as any as S.Schema<ListCraServicingSubscriptionRequest>,
+  output: __S(3970, __c124, 2) as any as S.Schema<CraServicingSubscriptionListResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -22187,8 +21158,8 @@ export const listDashboardUser: API.OperationMethod<
   ListDashboardUserError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4352, __c136, 0) as any as S.Schema<ListDashboardUserRequest>,
-  output: __S(4355, __c136, 3) as any as S.Schema<DashboardUserListResponse>,
+  input: __S(4000, __c125, 0) as any as S.Schema<ListDashboardUserRequest>,
+  output: __S(4003, __c125, 3) as any as S.Schema<DashboardUserListResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -22205,8 +21176,8 @@ export const listFdxConsents: API.OperationMethod<
   ListFdxConsentsError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4384, __c137, 0) as any as S.Schema<ListFdxConsentsRequest>,
-  output: __S(4386, __c137, 2) as any as S.Schema<GetConsentsResponse>,
+  input: __S(4032, __c126, 0) as any as S.Schema<ListFdxConsentsRequest>,
+  output: __S(4034, __c126, 2) as any as S.Schema<GetConsentsResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -22223,8 +21194,8 @@ export const listIdentityMatch: API.OperationMethod<
   ListIdentityMatchError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4416, __c138, 0) as any as S.Schema<ListIdentityMatchRequest>,
-  output: __S(4421, __c138, 5) as any as S.Schema<IdentityMatchListResponse>,
+  input: __S(4064, __c127, 0) as any as S.Schema<ListIdentityMatchRequest>,
+  output: __S(4069, __c127, 5) as any as S.Schema<IdentityMatchListResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -22241,8 +21212,8 @@ export const listIdentityVerification: API.OperationMethod<
   ListIdentityVerificationError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4448, __c139, 0) as any as S.Schema<ListIdentityVerificationRequest>,
-  output: __S(4451, __c139, 3) as any as S.Schema<IdentityVerificationListResponse>,
+  input: __S(4096, __c128, 0) as any as S.Schema<ListIdentityVerificationRequest>,
+  output: __S(4099, __c128, 3) as any as S.Schema<IdentityVerificationListResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -22259,8 +21230,8 @@ export const listItemActivity: API.OperationMethod<
   ListItemActivityError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4480, __c140, 0) as any as S.Schema<ListItemActivityRequest>,
-  output: __S(4485, __c140, 5) as any as S.Schema<ItemActivityListResponse>,
+  input: __S(4128, __c129, 0) as any as S.Schema<ListItemActivityRequest>,
+  output: __S(4133, __c129, 5) as any as S.Schema<ItemActivityListResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -22277,8 +21248,8 @@ export const listItemApplication: API.OperationMethod<
   ListItemApplicationError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4864, __c152, 0) as any as S.Schema<ListItemApplicationRequest>,
-  output: __S(4869, __c152, 5) as any as S.Schema<ItemApplicationListResponse>,
+  input: __S(4224, __c132, 0) as any as S.Schema<ListItemApplicationRequest>,
+  output: __S(4229, __c132, 5) as any as S.Schema<ItemApplicationListResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -22295,8 +21266,8 @@ export const listPaymentInitiationPayment: API.OperationMethod<
   ListPaymentInitiationPaymentError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4896, __c153, 0) as any as S.Schema<ListPaymentInitiationPaymentRequest>,
-  output: __S(4899, __c153, 3) as any as S.Schema<PaymentInitiationPaymentListResponse>,
+  input: __S(4256, __c133, 0) as any as S.Schema<ListPaymentInitiationPaymentRequest>,
+  output: __S(4259, __c133, 3) as any as S.Schema<PaymentInitiationPaymentListResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -22313,8 +21284,8 @@ export const listPaymentInitiationRecipient: API.OperationMethod<
   ListPaymentInitiationRecipientError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4928, __c154, 0) as any as S.Schema<ListPaymentInitiationRecipientRequest>,
-  output: __S(4931, __c154, 3) as any as S.Schema<PaymentInitiationRecipientListResponse>,
+  input: __S(4320, __c135, 0) as any as S.Schema<ListPaymentInitiationRecipientRequest>,
+  output: __S(4323, __c135, 3) as any as S.Schema<PaymentInitiationRecipientListResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -22331,8 +21302,8 @@ export const listSandboxTransferTestClock: API.OperationMethod<
   ListSandboxTransferTestClockError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4960, __c155, 0) as any as S.Schema<ListSandboxTransferTestClockRequest>,
-  output: __S(4962, __c155, 2) as any as S.Schema<SandboxTransferTestClockListResponse>,
+  input: __S(4352, __c136, 0) as any as S.Schema<ListSandboxTransferTestClockRequest>,
+  output: __S(4354, __c136, 2) as any as S.Schema<SandboxTransferTestClockListResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -22349,32 +21320,14 @@ export const listStatements: API.OperationMethod<
   ListStatementsError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4992, __c156, 0) as any as S.Schema<ListStatementsRequest>,
-  output: __S(4997, __c156, 5) as any as S.Schema<StatementsListResponse>,
+  input: __S(4384, __c137, 0) as any as S.Schema<ListStatementsRequest>,
+  output: __S(4389, __c137, 5) as any as S.Schema<StatementsListResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListStatements",
-}));
-
-export type ListTransactionsRulesError = PlaidOpError;
-/** Return a list of rules created for the end user. The `/beta/transactions/rules/v1/list` returns a list of transaction rules created for the end user specified by `client_user_id`. */
-export const listTransactionsRules: API.OperationMethod<
-  ListTransactionsRulesRequest,
-  TransactionsRulesListResponse,
-  ListTransactionsRulesError,
-  PlaidOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(5024, __c157, 0) as any as S.Schema<ListTransactionsRulesRequest>,
-  output: __S(5026, __c157, 2) as any as S.Schema<TransactionsRulesListResponse>,
-  errors: [],
-  serviceErrors: PlaidServiceErrors,
-  protocol: PlaidProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "ListTransactionsRules",
 }));
 
 export type ListTransferError = PlaidOpError;
@@ -22385,8 +21338,8 @@ export const listTransfer: API.OperationMethod<
   ListTransferError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5056, __c158, 0) as any as S.Schema<ListTransferRequest>,
-  output: __S(5058, __c158, 2) as any as S.Schema<TransferListResponse>,
+  input: __S(4416, __c138, 0) as any as S.Schema<ListTransferRequest>,
+  output: __S(4418, __c138, 2) as any as S.Schema<TransferListResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -22403,8 +21356,8 @@ export const listTransferEvent: API.OperationMethod<
   ListTransferEventError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5088, __c159, 0) as any as S.Schema<ListTransferEventRequest>,
-  output: __S(5122, __c160, 2) as any as S.Schema<TransferEventListResponse>,
+  input: __S(4448, __c139, 0) as any as S.Schema<ListTransferEventRequest>,
+  output: __S(4482, __c140, 2) as any as S.Schema<TransferEventListResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -22421,8 +21374,8 @@ export const listTransferLedgerEvent: API.OperationMethod<
   ListTransferLedgerEventError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5152, __c161, 0) as any as S.Schema<ListTransferLedgerEventRequest>,
-  output: __S(5155, __c161, 3) as any as S.Schema<TransferLedgerEventListResponse>,
+  input: __S(4512, __c141, 0) as any as S.Schema<ListTransferLedgerEventRequest>,
+  output: __S(4515, __c141, 3) as any as S.Schema<TransferLedgerEventListResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -22439,8 +21392,8 @@ export const listTransferOriginator: API.OperationMethod<
   ListTransferOriginatorError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5184, __c162, 0) as any as S.Schema<ListTransferOriginatorRequest>,
-  output: __S(5187, __c162, 3) as any as S.Schema<TransferOriginatorListResponse>,
+  input: __S(4544, __c142, 0) as any as S.Schema<ListTransferOriginatorRequest>,
+  output: __S(4547, __c142, 3) as any as S.Schema<TransferOriginatorListResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -22457,8 +21410,8 @@ export const listTransferRecurring: API.OperationMethod<
   ListTransferRecurringError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5248, __c164, 0) as any as S.Schema<ListTransferRecurringRequest>,
-  output: __S(5250, __c164, 2) as any as S.Schema<TransferRecurringListResponse>,
+  input: __S(4576, __c143, 0) as any as S.Schema<ListTransferRecurringRequest>,
+  output: __S(4578, __c143, 2) as any as S.Schema<TransferRecurringListResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -22475,8 +21428,8 @@ export const listTransferRepayment: API.OperationMethod<
   ListTransferRepaymentError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5280, __c165, 0) as any as S.Schema<ListTransferRepaymentRequest>,
-  output: __S(5283, __c165, 3) as any as S.Schema<TransferRepaymentListResponse>,
+  input: __S(4608, __c144, 0) as any as S.Schema<ListTransferRepaymentRequest>,
+  output: __S(4611, __c144, 3) as any as S.Schema<TransferRepaymentListResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -22493,8 +21446,8 @@ export const listTransferRepaymentReturn: API.OperationMethod<
   ListTransferRepaymentReturnError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5312, __c166, 0) as any as S.Schema<ListTransferRepaymentReturnRequest>,
-  output: __S(5315, __c166, 3) as any as S.Schema<TransferRepaymentReturnListResponse>,
+  input: __S(4640, __c145, 0) as any as S.Schema<ListTransferRepaymentReturnRequest>,
+  output: __S(4643, __c145, 3) as any as S.Schema<TransferRepaymentReturnListResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -22511,8 +21464,8 @@ export const listTransferSweep: API.OperationMethod<
   ListTransferSweepError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5344, __c167, 0) as any as S.Schema<ListTransferSweepRequest>,
-  output: __S(5346, __c167, 2) as any as S.Schema<TransferSweepListResponse>,
+  input: __S(4768, __c149, 0) as any as S.Schema<ListTransferSweepRequest>,
+  output: __S(4770, __c149, 2) as any as S.Schema<TransferSweepListResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -22529,8 +21482,8 @@ export const listWallet: API.OperationMethod<
   ListWalletError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5376, __c168, 0) as any as S.Schema<ListWalletRequest>,
-  output: __S(5379, __c168, 3) as any as S.Schema<WalletListResponse>,
+  input: __S(4800, __c150, 0) as any as S.Schema<ListWalletRequest>,
+  output: __S(4803, __c150, 3) as any as S.Schema<WalletListResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -22547,8 +21500,8 @@ export const listWalletTransaction: API.OperationMethod<
   ListWalletTransactionError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5409, __c169, 1) as any as S.Schema<ListWalletTransactionRequest>,
-  output: __S(5412, __c169, 4) as any as S.Schema<WalletTransactionListResponse>,
+  input: __S(4833, __c151, 1) as any as S.Schema<ListWalletTransactionRequest>,
+  output: __S(4836, __c151, 4) as any as S.Schema<WalletTransactionListResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -22565,8 +21518,8 @@ export const listWatchlistScreeningEntity: API.OperationMethod<
   ListWatchlistScreeningEntityError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5440, __c170, 0) as any as S.Schema<ListWatchlistScreeningEntityRequest>,
-  output: __S(5474, __c171, 2) as any as S.Schema<WatchlistScreeningEntityListResponse>,
+  input: __S(4864, __c152, 0) as any as S.Schema<ListWatchlistScreeningEntityRequest>,
+  output: __S(4898, __c153, 2) as any as S.Schema<WatchlistScreeningEntityListResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -22583,8 +21536,8 @@ export const listWatchlistScreeningEntityHistory: API.OperationMethod<
   ListWatchlistScreeningEntityHistoryError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5504, __c172, 0) as any as S.Schema<ListWatchlistScreeningEntityHistoryRequest>,
-  output: __S(5474, __c171, 2) as any as S.Schema<WatchlistScreeningEntityHistoryListResponse>,
+  input: __S(4928, __c154, 0) as any as S.Schema<ListWatchlistScreeningEntityHistoryRequest>,
+  output: __S(4898, __c153, 2) as any as S.Schema<WatchlistScreeningEntityHistoryListResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -22601,8 +21554,8 @@ export const listWatchlistScreeningEntityHit: API.OperationMethod<
   ListWatchlistScreeningEntityHitError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5536, __c173, 0) as any as S.Schema<ListWatchlistScreeningEntityHitRequest>,
-  output: __S(5550, __c173, 14) as any as S.Schema<WatchlistScreeningEntityHitListResponse>,
+  input: __S(4960, __c155, 0) as any as S.Schema<ListWatchlistScreeningEntityHitRequest>,
+  output: __S(4974, __c155, 14) as any as S.Schema<WatchlistScreeningEntityHitListResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -22619,8 +21572,8 @@ export const listWatchlistScreeningEntityProgram: API.OperationMethod<
   ListWatchlistScreeningEntityProgramError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5600, __c175, 0) as any as S.Schema<ListWatchlistScreeningEntityProgramRequest>,
-  output: __S(5601, __c175, 1) as any as S.Schema<WatchlistScreeningEntityProgramListResponse>,
+  input: __S(5024, __c157, 0) as any as S.Schema<ListWatchlistScreeningEntityProgramRequest>,
+  output: __S(5025, __c157, 1) as any as S.Schema<WatchlistScreeningEntityProgramListResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -22637,8 +21590,8 @@ export const listWatchlistScreeningEntityReview: API.OperationMethod<
   ListWatchlistScreeningEntityReviewError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6176, __c193, 0) as any as S.Schema<ListWatchlistScreeningEntityReviewRequest>,
-  output: __S(6177, __c193, 1) as any as S.Schema<WatchlistScreeningEntityReviewListResponse>,
+  input: __S(5088, __c159, 0) as any as S.Schema<ListWatchlistScreeningEntityReviewRequest>,
+  output: __S(5089, __c159, 1) as any as S.Schema<WatchlistScreeningEntityReviewListResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -22655,8 +21608,8 @@ export const listWatchlistScreeningIndividual: API.OperationMethod<
   ListWatchlistScreeningIndividualError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6240, __c195, 0) as any as S.Schema<ListWatchlistScreeningIndividualRequest>,
-  output: __S(6274, __c196, 2) as any as S.Schema<WatchlistScreeningIndividualListResponse>,
+  input: __S(5152, __c161, 0) as any as S.Schema<ListWatchlistScreeningIndividualRequest>,
+  output: __S(5186, __c162, 2) as any as S.Schema<WatchlistScreeningIndividualListResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -22673,8 +21626,8 @@ export const listWatchlistScreeningIndividualHistory: API.OperationMethod<
   ListWatchlistScreeningIndividualHistoryError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6304, __c197, 0) as any as S.Schema<ListWatchlistScreeningIndividualHistoryRequest>,
-  output: __S(6274, __c196, 2) as any as S.Schema<WatchlistScreeningIndividualHistoryListResponse>,
+  input: __S(5216, __c163, 0) as any as S.Schema<ListWatchlistScreeningIndividualHistoryRequest>,
+  output: __S(5186, __c162, 2) as any as S.Schema<WatchlistScreeningIndividualHistoryListResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -22691,8 +21644,8 @@ export const listWatchlistScreeningIndividualHit: API.OperationMethod<
   ListWatchlistScreeningIndividualHitError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6336, __c198, 0) as any as S.Schema<ListWatchlistScreeningIndividualHitRequest>,
-  output: __S(6344, __c198, 8) as any as S.Schema<WatchlistScreeningIndividualHitListResponse>,
+  input: __S(5280, __c165, 0) as any as S.Schema<ListWatchlistScreeningIndividualHitRequest>,
+  output: __S(5288, __c165, 8) as any as S.Schema<WatchlistScreeningIndividualHitListResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -22709,8 +21662,8 @@ export const listWatchlistScreeningIndividualProgram: API.OperationMethod<
   ListWatchlistScreeningIndividualProgramError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6368, __c199, 0) as any as S.Schema<ListWatchlistScreeningIndividualProgramRequest>,
-  output: __S(6369, __c199, 1) as any as S.Schema<WatchlistScreeningIndividualProgramListResponse>,
+  input: __S(5312, __c166, 0) as any as S.Schema<ListWatchlistScreeningIndividualProgramRequest>,
+  output: __S(5313, __c166, 1) as any as S.Schema<WatchlistScreeningIndividualProgramListResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -22727,8 +21680,8 @@ export const listWatchlistScreeningIndividualReview: API.OperationMethod<
   ListWatchlistScreeningIndividualReviewError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6400, __c200, 0) as any as S.Schema<ListWatchlistScreeningIndividualReviewRequest>,
-  output: __S(6401, __c200, 1) as any as S.Schema<WatchlistScreeningIndividualReviewListResponse>,
+  input: __S(5344, __c167, 0) as any as S.Schema<ListWatchlistScreeningIndividualReviewRequest>,
+  output: __S(5345, __c167, 1) as any as S.Schema<WatchlistScreeningIndividualReviewListResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -22745,8 +21698,8 @@ export const oauthIntrospect: API.OperationMethod<
   OauthIntrospectError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6432, __c201, 0) as any as S.Schema<OauthIntrospectRequest>,
-  output: __S(6433, __c201, 1) as any as S.Schema<OAuthIntrospectResponse>,
+  input: __S(5376, __c168, 0) as any as S.Schema<OauthIntrospectRequest>,
+  output: __S(5377, __c168, 1) as any as S.Schema<OAuthIntrospectResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -22763,8 +21716,8 @@ export const oauthToken: API.OperationMethod<
   OauthTokenError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6464, __c202, 0) as any as S.Schema<OauthTokenRequest>,
-  output: __S(6465, __c202, 1) as any as S.Schema<OAuthTokenResponse>,
+  input: __S(5408, __c169, 0) as any as S.Schema<OauthTokenRequest>,
+  output: __S(5409, __c169, 1) as any as S.Schema<OAuthTokenResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -22781,8 +21734,8 @@ export const paymentInitiationPaymentReverse: API.OperationMethod<
   PaymentInitiationPaymentReverseError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6496, __c203, 0) as any as S.Schema<PaymentInitiationPaymentReverseRequest>,
-  output: __S(6497, __c203, 1) as any as S.Schema<PaymentInitiationPaymentReverseResponse>,
+  input: __S(5440, __c170, 0) as any as S.Schema<PaymentInitiationPaymentReverseRequest>,
+  output: __S(5441, __c170, 1) as any as S.Schema<PaymentInitiationPaymentReverseResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -22799,8 +21752,8 @@ export const processorIdentityMatch: API.OperationMethod<
   ProcessorIdentityMatchError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6528, __c204, 0) as any as S.Schema<ProcessorIdentityMatchRequest>,
-  output: __S(6529, __c204, 1) as any as S.Schema<ProcessorIdentityMatchResponse>,
+  input: __S(5472, __c171, 0) as any as S.Schema<ProcessorIdentityMatchRequest>,
+  output: __S(5473, __c171, 1) as any as S.Schema<ProcessorIdentityMatchResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -22817,8 +21770,8 @@ export const processorSignalDecisionReport: API.OperationMethod<
   ProcessorSignalDecisionReportError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6592, __c206, 0) as any as S.Schema<ProcessorSignalDecisionReportRequest>,
-  output: __S(13120, __c410, 0) as any as S.Schema<ProcessorSignalDecisionReportResponse>,
+  input: __S(5504, __c172, 0) as any as S.Schema<ProcessorSignalDecisionReportRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<ProcessorSignalDecisionReportResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -22835,8 +21788,8 @@ export const processorSignalEvaluate: API.OperationMethod<
   ProcessorSignalEvaluateError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6624, __c207, 0) as any as S.Schema<ProcessorSignalEvaluateRequest>,
-  output: __S(6625, __c207, 1) as any as S.Schema<ProcessorSignalEvaluateResponse>,
+  input: __S(5536, __c173, 0) as any as S.Schema<ProcessorSignalEvaluateRequest>,
+  output: __S(5537, __c173, 1) as any as S.Schema<ProcessorSignalEvaluateResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -22853,8 +21806,8 @@ export const processorSignalPrepare: API.OperationMethod<
   ProcessorSignalPrepareError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6688, __c209, 0) as any as S.Schema<ProcessorSignalPrepareRequest>,
-  output: __S(13120, __c410, 0) as any as S.Schema<ProcessorSignalPrepareResponse>,
+  input: __S(5600, __c175, 0) as any as S.Schema<ProcessorSignalPrepareRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<ProcessorSignalPrepareResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -22871,8 +21824,8 @@ export const processorSignalReturnReport: API.OperationMethod<
   ProcessorSignalReturnReportError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6720, __c210, 0) as any as S.Schema<ProcessorSignalReturnReportRequest>,
-  output: __S(13120, __c410, 0) as any as S.Schema<ProcessorSignalReturnReportResponse>,
+  input: __S(6208, __c194, 0) as any as S.Schema<ProcessorSignalReturnReportRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<ProcessorSignalReturnReportResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -22889,8 +21842,8 @@ export const protectCompute: API.OperationMethod<
   ProtectComputeError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6755, __c211, 3) as any as S.Schema<ProtectComputeRequest>,
-  output: __S(6757, __c211, 5) as any as S.Schema<ProtectComputeResponse>,
+  input: __S(6243, __c195, 3) as any as S.Schema<ProtectComputeRequest>,
+  output: __S(6245, __c195, 5) as any as S.Schema<ProtectComputeResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -22907,8 +21860,8 @@ export const refreshAssetReport: API.OperationMethod<
   RefreshAssetReportError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6785, __c212, 1) as any as S.Schema<RefreshAssetReportRequest>,
-  output: __S(6786, __c212, 2) as any as S.Schema<AssetReportRefreshResponse>,
+  input: __S(6273, __c196, 1) as any as S.Schema<RefreshAssetReportRequest>,
+  output: __S(6274, __c196, 2) as any as S.Schema<AssetReportRefreshResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -22925,8 +21878,8 @@ export const refreshCashflowReport: API.OperationMethod<
   RefreshCashflowReportError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6816, __c213, 0) as any as S.Schema<RefreshCashflowReportRequest>,
-  output: __S(13120, __c410, 0) as any as S.Schema<CashflowReportRefreshResponse>,
+  input: __S(6304, __c197, 0) as any as S.Schema<RefreshCashflowReportRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<CashflowReportRefreshResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -22943,8 +21896,8 @@ export const refreshCreditPayrollIncome: API.OperationMethod<
   RefreshCreditPayrollIncomeError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6849, __c214, 1) as any as S.Schema<RefreshCreditPayrollIncomeRequest>,
-  output: __S(6850, __c214, 2) as any as S.Schema<CreditPayrollIncomeRefreshResponse>,
+  input: __S(6337, __c198, 1) as any as S.Schema<RefreshCreditPayrollIncomeRequest>,
+  output: __S(6338, __c198, 2) as any as S.Schema<CreditPayrollIncomeRefreshResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -22961,8 +21914,8 @@ export const refreshCreditRelay: API.OperationMethod<
   RefreshCreditRelayError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6880, __c215, 0) as any as S.Schema<RefreshCreditRelayRequest>,
-  output: __S(6881, __c215, 1) as any as S.Schema<CreditRelayRefreshResponse>,
+  input: __S(6368, __c199, 0) as any as S.Schema<RefreshCreditRelayRequest>,
+  output: __S(6369, __c199, 1) as any as S.Schema<CreditRelayRefreshResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -22979,8 +21932,8 @@ export const refreshIdentity: API.OperationMethod<
   RefreshIdentityError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6912, __c216, 0) as any as S.Schema<RefreshIdentityRequest>,
-  output: __S(13120, __c410, 0) as any as S.Schema<IdentityRefreshResponse>,
+  input: __S(6400, __c200, 0) as any as S.Schema<RefreshIdentityRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<IdentityRefreshResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -22997,8 +21950,8 @@ export const refreshInvestment: API.OperationMethod<
   RefreshInvestmentError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7104, __c222, 0) as any as S.Schema<RefreshInvestmentRequest>,
-  output: __S(13120, __c410, 0) as any as S.Schema<InvestmentsRefreshResponse>,
+  input: __S(6432, __c201, 0) as any as S.Schema<RefreshInvestmentRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<InvestmentsRefreshResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -23015,8 +21968,8 @@ export const refreshProcessorTransaction: API.OperationMethod<
   RefreshProcessorTransactionError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7136, __c223, 0) as any as S.Schema<RefreshProcessorTransactionRequest>,
-  output: __S(13120, __c410, 0) as any as S.Schema<ProcessorTransactionsRefreshResponse>,
+  input: __S(6464, __c202, 0) as any as S.Schema<RefreshProcessorTransactionRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<ProcessorTransactionsRefreshResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -23033,8 +21986,8 @@ export const refreshStatement: API.OperationMethod<
   RefreshStatementError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7168, __c224, 0) as any as S.Schema<RefreshStatementRequest>,
-  output: __S(13120, __c410, 0) as any as S.Schema<StatementsRefreshResponse>,
+  input: __S(6496, __c203, 0) as any as S.Schema<RefreshStatementRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<StatementsRefreshResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -23051,8 +22004,8 @@ export const refreshTransaction: API.OperationMethod<
   RefreshTransactionError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7200, __c225, 0) as any as S.Schema<RefreshTransactionRequest>,
-  output: __S(13120, __c410, 0) as any as S.Schema<TransactionsRefreshResponse>,
+  input: __S(6560, __c205, 0) as any as S.Schema<RefreshTransactionRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<TransactionsRefreshResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -23069,8 +22022,8 @@ export const refreshUserFinancialData: API.OperationMethod<
   RefreshUserFinancialDataError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7232, __c226, 0) as any as S.Schema<RefreshUserFinancialDataRequest>,
-  output: __S(7266, __c227, 2) as any as S.Schema<UserFinancialDataRefreshResponse>,
+  input: __S(6592, __c206, 0) as any as S.Schema<RefreshUserFinancialDataRequest>,
+  output: __S(6626, __c207, 2) as any as S.Schema<UserFinancialDataRefreshResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -23087,8 +22040,8 @@ export const refreshUserTransaction: API.OperationMethod<
   RefreshUserTransactionError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7296, __c228, 0) as any as S.Schema<RefreshUserTransactionRequest>,
-  output: __S(7266, __c227, 2) as any as S.Schema<UserTransactionsRefreshResponse>,
+  input: __S(6656, __c208, 0) as any as S.Schema<RefreshUserTransactionRequest>,
+  output: __S(6626, __c207, 2) as any as S.Schema<UserTransactionsRefreshResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -23105,8 +22058,8 @@ export const registerCraLoan: API.OperationMethod<
   RegisterCraLoanError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7331, __c229, 3) as any as S.Schema<RegisterCraLoanRequest>,
-  output: __S(13120, __c410, 0) as any as S.Schema<CraLoansRegisterResponse>,
+  input: __S(6691, __c209, 3) as any as S.Schema<RegisterCraLoanRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<CraLoansRegisterResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -23123,8 +22076,8 @@ export const registerCraLoansApplication: API.OperationMethod<
   RegisterCraLoansApplicationError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7394, __c231, 2) as any as S.Schema<RegisterCraLoansApplicationRequest>,
-  output: __S(13120, __c410, 0) as any as S.Schema<CraLoansApplicationsRegisterResponse>,
+  input: __S(6754, __c211, 2) as any as S.Schema<RegisterCraLoansApplicationRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<CraLoansApplicationsRegisterResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -23141,8 +22094,8 @@ export const removeAssetReport: API.OperationMethod<
   RemoveAssetReportError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7424, __c232, 0) as any as S.Schema<RemoveAssetReportRequest>,
-  output: __S(11200, __c350, 0) as any as S.Schema<AssetReportRemoveResponse>,
+  input: __S(6784, __c212, 0) as any as S.Schema<RemoveAssetReportRequest>,
+  output: __S(10432, __c326, 0) as any as S.Schema<AssetReportRemoveResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -23159,8 +22112,8 @@ export const removeCreditRelay: API.OperationMethod<
   RemoveCreditRelayError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7456, __c233, 0) as any as S.Schema<RemoveCreditRelayRequest>,
-  output: __S(11200, __c350, 0) as any as S.Schema<CreditRelayRemoveResponse>,
+  input: __S(6816, __c213, 0) as any as S.Schema<RemoveCreditRelayRequest>,
+  output: __S(10432, __c326, 0) as any as S.Schema<CreditRelayRemoveResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -23177,8 +22130,8 @@ export const removeItem: API.OperationMethod<
   RemoveItemError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7520, __c235, 0) as any as S.Schema<RemoveItemRequest>,
-  output: __S(13120, __c410, 0) as any as S.Schema<ItemRemoveResponse>,
+  input: __S(6848, __c214, 0) as any as S.Schema<RemoveItemRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<ItemRemoveResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -23195,32 +22148,14 @@ export const removePartnerCustomer: API.OperationMethod<
   RemovePartnerCustomerError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7552, __c236, 0) as any as S.Schema<RemovePartnerCustomerRequest>,
-  output: __S(2784, __c87, 0) as any as S.Schema<PartnerCustomerRemoveResponse>,
+  input: __S(6880, __c215, 0) as any as S.Schema<RemovePartnerCustomerRequest>,
+  output: __S(1760, __c55, 0) as any as S.Schema<PartnerCustomerRemoveResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RemovePartnerCustomer",
-}));
-
-export type RemoveTransactionsRuleError = PlaidOpError;
-/** Remove transaction rule The `/beta/transactions/rules/v1/remove` endpoint is used to remove a transaction rule. */
-export const removeTransactionsRule: API.OperationMethod<
-  RemoveTransactionsRuleRequest,
-  TransactionsRulesRemoveResponse,
-  RemoveTransactionsRuleError,
-  PlaidOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(7584, __c237, 0) as any as S.Schema<RemoveTransactionsRuleRequest>,
-  output: __S(13120, __c410, 0) as any as S.Schema<TransactionsRulesRemoveResponse>,
-  errors: [],
-  serviceErrors: PlaidServiceErrors,
-  protocol: PlaidProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "RemoveTransactionsRule",
 }));
 
 export type RemoveUserError = PlaidOpError;
@@ -23231,8 +22166,8 @@ export const removeUser: API.OperationMethod<
   RemoveUserError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7616, __c238, 0) as any as S.Schema<RemoveUserRequest>,
-  output: __S(13120, __c410, 0) as any as S.Schema<UserRemoveResponse>,
+  input: __S(6912, __c216, 0) as any as S.Schema<RemoveUserRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<UserRemoveResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -23249,8 +22184,8 @@ export const removeUserIdentity: API.OperationMethod<
   RemoveUserIdentityError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7648, __c239, 0) as any as S.Schema<RemoveUserIdentityRequest>,
-  output: __S(13120, __c410, 0) as any as S.Schema<UserIdentityRemoveResponse>,
+  input: __S(6976, __c218, 0) as any as S.Schema<RemoveUserIdentityRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<UserIdentityRemoveResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -23267,8 +22202,8 @@ export const removeUserItem: API.OperationMethod<
   RemoveUserItemError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7680, __c240, 0) as any as S.Schema<RemoveUserItemRequest>,
-  output: __S(13120, __c410, 0) as any as S.Schema<UserItemsRemoveResponse>,
+  input: __S(7008, __c219, 0) as any as S.Schema<RemoveUserItemRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<UserItemsRemoveResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -23285,8 +22220,8 @@ export const removeUserThirdPartyToken: API.OperationMethod<
   RemoveUserThirdPartyTokenError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7712, __c241, 0) as any as S.Schema<RemoveUserThirdPartyTokenRequest>,
-  output: __S(11200, __c350, 0) as any as S.Schema<UserThirdPartyTokenRemoveResponse>,
+  input: __S(7040, __c220, 0) as any as S.Schema<RemoveUserThirdPartyTokenRequest>,
+  output: __S(10432, __c326, 0) as any as S.Schema<UserThirdPartyTokenRemoveResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -23303,8 +22238,8 @@ export const retryIdentityVerification: API.OperationMethod<
   RetryIdentityVerificationError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7746, __c242, 2) as any as S.Schema<RetryIdentityVerificationRequest>,
-  output: __S(4704, __c147, 0) as any as S.Schema<IdentityVerificationRetryResponse>,
+  input: __S(7074, __c221, 2) as any as S.Schema<RetryIdentityVerificationRequest>,
+  output: __S(3680, __c115, 0) as any as S.Schema<IdentityVerificationRetryResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -23321,8 +22256,8 @@ export const revokeFdxConsent: API.OperationMethod<
   RevokeFdxConsentError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7776, __c243, 0) as any as S.Schema<RevokeFdxConsentRequest>,
-  output: __S(10176, __c318, 0) as any as S.Schema<RevokeFdxConsentResponse>,
+  input: __S(7104, __c222, 0) as any as S.Schema<RevokeFdxConsentRequest>,
+  output: __S(9600, __c300, 0) as any as S.Schema<RevokeFdxConsentResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -23339,8 +22274,8 @@ export const revokeOauth: API.OperationMethod<
   RevokeOauthError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7808, __c244, 0) as any as S.Schema<RevokeOauthRequest>,
-  output: __S(13120, __c410, 0) as any as S.Schema<OAuthRevokeResponse>,
+  input: __S(7136, __c223, 0) as any as S.Schema<RevokeOauthRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<OAuthRevokeResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -23357,8 +22292,8 @@ export const revokePaymentInitiationConsent: API.OperationMethod<
   RevokePaymentInitiationConsentError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7872, __c246, 0) as any as S.Schema<RevokePaymentInitiationConsentRequest>,
-  output: __S(2784, __c87, 0) as any as S.Schema<PaymentInitiationConsentRevokeResponse>,
+  input: __S(7168, __c224, 0) as any as S.Schema<RevokePaymentInitiationConsentRequest>,
+  output: __S(1760, __c55, 0) as any as S.Schema<PaymentInitiationConsentRevokeResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -23375,8 +22310,8 @@ export const sandboxCraServicingSimulate: API.OperationMethod<
   SandboxCraServicingSimulateError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7905, __c247, 1) as any as S.Schema<SandboxCraServicingSimulateRequest>,
-  output: __S(7906, __c247, 2) as any as S.Schema<SandboxCraServicingSimulateResponse>,
+  input: __S(7201, __c225, 1) as any as S.Schema<SandboxCraServicingSimulateRequest>,
+  output: __S(7202, __c225, 2) as any as S.Schema<SandboxCraServicingSimulateResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -23393,8 +22328,8 @@ export const sandboxFdxConsentSeed: API.OperationMethod<
   SandboxFdxConsentSeedError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7936, __c248, 0) as any as S.Schema<SandboxFdxConsentSeedRequest>,
-  output: __S(7937, __c248, 1) as any as S.Schema<SandboxFdxConsentSeedResponse>,
+  input: __S(7232, __c226, 0) as any as S.Schema<SandboxFdxConsentSeedRequest>,
+  output: __S(7233, __c226, 1) as any as S.Schema<SandboxFdxConsentSeedResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -23411,8 +22346,8 @@ export const sandboxIncomeFireWebhook: API.OperationMethod<
   SandboxIncomeFireWebhookError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7968, __c249, 0) as any as S.Schema<SandboxIncomeFireWebhookRequest>,
-  output: __S(13120, __c410, 0) as any as S.Schema<SandboxIncomeFireWebhookResponse>,
+  input: __S(7264, __c227, 0) as any as S.Schema<SandboxIncomeFireWebhookRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<SandboxIncomeFireWebhookResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -23429,8 +22364,8 @@ export const sandboxItemApplicationSeed: API.OperationMethod<
   SandboxItemApplicationSeedError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8000, __c250, 0) as any as S.Schema<SandboxItemApplicationSeedRequest>,
-  output: __S(8001, __c250, 1) as any as S.Schema<SandboxItemApplicationSeedResponse>,
+  input: __S(7360, __c230, 0) as any as S.Schema<SandboxItemApplicationSeedRequest>,
+  output: __S(7361, __c230, 1) as any as S.Schema<SandboxItemApplicationSeedResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -23447,8 +22382,8 @@ export const sandboxItemFireWebhook: API.OperationMethod<
   SandboxItemFireWebhookError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8033, __c251, 1) as any as S.Schema<SandboxItemFireWebhookRequest>,
-  output: __S(8064, __c252, 0) as any as S.Schema<SandboxItemFireWebhookResponse>,
+  input: __S(7393, __c231, 1) as any as S.Schema<SandboxItemFireWebhookRequest>,
+  output: __S(7424, __c232, 0) as any as S.Schema<SandboxItemFireWebhookResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -23465,8 +22400,8 @@ export const sandboxItemResetLogin: API.OperationMethod<
   SandboxItemResetLoginError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8096, __c253, 0) as any as S.Schema<SandboxItemResetLoginRequest>,
-  output: __S(8097, __c253, 1) as any as S.Schema<SandboxItemResetLoginResponse>,
+  input: __S(7456, __c233, 0) as any as S.Schema<SandboxItemResetLoginRequest>,
+  output: __S(7457, __c233, 1) as any as S.Schema<SandboxItemResetLoginResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -23483,8 +22418,8 @@ export const sandboxItemSetVerificationStatus: API.OperationMethod<
   SandboxItemSetVerificationStatusError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8128, __c254, 0) as any as S.Schema<SandboxItemSetVerificationStatusRequest>,
-  output: __S(13120, __c410, 0) as any as S.Schema<SandboxItemSetVerificationStatusResponse>,
+  input: __S(7488, __c234, 0) as any as S.Schema<SandboxItemSetVerificationStatusRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<SandboxItemSetVerificationStatusResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -23501,8 +22436,8 @@ export const sandboxOauthSelectAccounts: API.OperationMethod<
   SandboxOauthSelectAccountsError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8160, __c255, 0) as any as S.Schema<SandboxOauthSelectAccountsRequest>,
-  output: __S(8161, __c255, 1) as any as S.Schema<SandboxOauthSelectAccountsResponse2>,
+  input: __S(7520, __c235, 0) as any as S.Schema<SandboxOauthSelectAccountsRequest>,
+  output: __S(7521, __c235, 1) as any as S.Schema<SandboxOauthSelectAccountsResponse2>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -23519,8 +22454,8 @@ export const sandboxPaymentSimulate: API.OperationMethod<
   SandboxPaymentSimulateError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8192, __c256, 0) as any as S.Schema<SandboxPaymentSimulateRequest>,
-  output: __S(8193, __c256, 1) as any as S.Schema<SandboxPaymentSimulateResponse>,
+  input: __S(7552, __c236, 0) as any as S.Schema<SandboxPaymentSimulateRequest>,
+  output: __S(7553, __c236, 1) as any as S.Schema<SandboxPaymentSimulateResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -23537,8 +22472,8 @@ export const sandboxTransferFireWebhook: API.OperationMethod<
   SandboxTransferFireWebhookError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8288, __c259, 0) as any as S.Schema<SandboxTransferFireWebhookRequest>,
-  output: __S(13120, __c410, 0) as any as S.Schema<SandboxTransferFireWebhookResponse>,
+  input: __S(7584, __c237, 0) as any as S.Schema<SandboxTransferFireWebhookRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<SandboxTransferFireWebhookResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -23555,8 +22490,8 @@ export const sandboxTransferLedgerDepositSimulate: API.OperationMethod<
   SandboxTransferLedgerDepositSimulateError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8320, __c260, 0) as any as S.Schema<SandboxTransferLedgerDepositSimulateRequest>,
-  output: __S(13120, __c410, 0) as any as S.Schema<SandboxTransferLedgerDepositSimulateResponse>,
+  input: __S(7616, __c238, 0) as any as S.Schema<SandboxTransferLedgerDepositSimulateRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<SandboxTransferLedgerDepositSimulateResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -23573,8 +22508,8 @@ export const sandboxTransferLedgerSimulateAvailable: API.OperationMethod<
   SandboxTransferLedgerSimulateAvailableError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8352, __c261, 0) as any as S.Schema<SandboxTransferLedgerSimulateAvailableRequest>,
-  output: __S(13120, __c410, 0) as any as S.Schema<SandboxTransferLedgerSimulateAvailableResponse>,
+  input: __S(7648, __c239, 0) as any as S.Schema<SandboxTransferLedgerSimulateAvailableRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<SandboxTransferLedgerSimulateAvailableResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -23591,8 +22526,8 @@ export const sandboxTransferLedgerWithdrawSimulate: API.OperationMethod<
   SandboxTransferLedgerWithdrawSimulateError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8384, __c262, 0) as any as S.Schema<SandboxTransferLedgerWithdrawSimulateRequest>,
-  output: __S(13120, __c410, 0) as any as S.Schema<SandboxTransferLedgerWithdrawSimulateResponse>,
+  input: __S(7680, __c240, 0) as any as S.Schema<SandboxTransferLedgerWithdrawSimulateRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<SandboxTransferLedgerWithdrawSimulateResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -23609,8 +22544,8 @@ export const sandboxTransferRefundSimulate: API.OperationMethod<
   SandboxTransferRefundSimulateError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8416, __c263, 0) as any as S.Schema<SandboxTransferRefundSimulateRequest>,
-  output: __S(13120, __c410, 0) as any as S.Schema<SandboxTransferRefundSimulateResponse>,
+  input: __S(7744, __c242, 0) as any as S.Schema<SandboxTransferRefundSimulateRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<SandboxTransferRefundSimulateResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -23627,8 +22562,8 @@ export const sandboxTransferSimulate: API.OperationMethod<
   SandboxTransferSimulateError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8448, __c264, 0) as any as S.Schema<SandboxTransferSimulateRequest>,
-  output: __S(13120, __c410, 0) as any as S.Schema<SandboxTransferSimulateResponse>,
+  input: __S(7776, __c243, 0) as any as S.Schema<SandboxTransferSimulateRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<SandboxTransferSimulateResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -23645,8 +22580,8 @@ export const sandboxTransferSweepSimulate: API.OperationMethod<
   SandboxTransferSweepSimulateError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8480, __c265, 0) as any as S.Schema<SandboxTransferSweepSimulateRequest>,
-  output: __S(8481, __c265, 1) as any as S.Schema<SandboxTransferSweepSimulateResponse>,
+  input: __S(7808, __c244, 0) as any as S.Schema<SandboxTransferSweepSimulateRequest>,
+  output: __S(7809, __c244, 1) as any as S.Schema<SandboxTransferSweepSimulateResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -23663,8 +22598,8 @@ export const sandboxTransferTestClockAdvance: API.OperationMethod<
   SandboxTransferTestClockAdvanceError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8512, __c266, 0) as any as S.Schema<SandboxTransferTestClockAdvanceRequest>,
-  output: __S(13120, __c410, 0) as any as S.Schema<SandboxTransferTestClockAdvanceResponse>,
+  input: __S(7840, __c245, 0) as any as S.Schema<SandboxTransferTestClockAdvanceRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<SandboxTransferTestClockAdvanceResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -23681,8 +22616,8 @@ export const sandboxUserFireWebhook: API.OperationMethod<
   SandboxUserFireWebhookError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8544, __c267, 0) as any as S.Schema<SandboxUserFireWebhookRequest>,
-  output: __S(8064, __c252, 0) as any as S.Schema<SandboxUserFireWebhookResponse>,
+  input: __S(7872, __c246, 0) as any as S.Schema<SandboxUserFireWebhookRequest>,
+  output: __S(7424, __c232, 0) as any as S.Schema<SandboxUserFireWebhookResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -23699,8 +22634,8 @@ export const sandboxUserResetLogin: API.OperationMethod<
   SandboxUserResetLoginError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8576, __c268, 0) as any as S.Schema<SandboxUserResetLoginRequest>,
-  output: __S(13120, __c410, 0) as any as S.Schema<SandboxUserResetLoginResponse>,
+  input: __S(7904, __c247, 0) as any as S.Schema<SandboxUserResetLoginRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<SandboxUserResetLoginResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -23717,8 +22652,8 @@ export const searchInstitution: API.OperationMethod<
   SearchInstitutionError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8642, __c270, 2) as any as S.Schema<SearchInstitutionRequest>,
-  output: __S(8643, __c270, 3) as any as S.Schema<InstitutionsSearchResponse>,
+  input: __S(7938, __c248, 2) as any as S.Schema<SearchInstitutionRequest>,
+  output: __S(7939, __c248, 3) as any as S.Schema<InstitutionsSearchResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -23735,8 +22670,8 @@ export const searchIssue: API.OperationMethod<
   SearchIssueError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8672, __c271, 0) as any as S.Schema<SearchIssueRequest>,
-  output: __S(8674, __c271, 2) as any as S.Schema<IssuesSearchResponse>,
+  input: __S(7968, __c249, 0) as any as S.Schema<SearchIssueRequest>,
+  output: __S(7970, __c249, 2) as any as S.Schema<IssuesSearchResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -23753,8 +22688,8 @@ export const sendUserAccountSessionEvent: API.OperationMethod<
   SendUserAccountSessionEventError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8705, __c272, 1) as any as S.Schema<SendUserAccountSessionEventRequest>,
-  output: __S(13120, __c410, 0) as any as S.Schema<UserAccountSessionEventSendResponse>,
+  input: __S(8001, __c250, 1) as any as S.Schema<SendUserAccountSessionEventRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<UserAccountSessionEventSendResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -23771,8 +22706,8 @@ export const setProcessorTokenPermissions: API.OperationMethod<
   SetProcessorTokenPermissionsError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8736, __c273, 0) as any as S.Schema<SetProcessorTokenPermissionsRequest>,
-  output: __S(13120, __c410, 0) as any as S.Schema<ProcessorTokenPermissionsSetResponse>,
+  input: __S(8032, __c251, 0) as any as S.Schema<SetProcessorTokenPermissionsRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<ProcessorTokenPermissionsSetResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -23789,8 +22724,8 @@ export const signalDecisionReport: API.OperationMethod<
   SignalDecisionReportError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8768, __c274, 0) as any as S.Schema<SignalDecisionReportRequest>,
-  output: __S(13120, __c410, 0) as any as S.Schema<SignalDecisionReportResponse>,
+  input: __S(8096, __c253, 0) as any as S.Schema<SignalDecisionReportRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<SignalDecisionReportResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -23807,8 +22742,8 @@ export const signalEvaluate: API.OperationMethod<
   SignalEvaluateError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8800, __c275, 0) as any as S.Schema<SignalEvaluateRequest>,
-  output: __S(8802, __c275, 2) as any as S.Schema<SignalEvaluateResponse>,
+  input: __S(8128, __c254, 0) as any as S.Schema<SignalEvaluateRequest>,
+  output: __S(8130, __c254, 2) as any as S.Schema<SignalEvaluateResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -23825,8 +22760,8 @@ export const signalPrepare: API.OperationMethod<
   SignalPrepareError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8832, __c276, 0) as any as S.Schema<SignalPrepareRequest>,
-  output: __S(13120, __c410, 0) as any as S.Schema<SignalPrepareResponse>,
+  input: __S(8160, __c255, 0) as any as S.Schema<SignalPrepareRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<SignalPrepareResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -23843,8 +22778,8 @@ export const signalReturnReport: API.OperationMethod<
   SignalReturnReportError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8864, __c277, 0) as any as S.Schema<SignalReturnReportRequest>,
-  output: __S(13120, __c410, 0) as any as S.Schema<SignalReturnReportResponse>,
+  input: __S(8192, __c256, 0) as any as S.Schema<SignalReturnReportRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<SignalReturnReportResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -23861,8 +22796,8 @@ export const signalSchedule: API.OperationMethod<
   SignalScheduleError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8896, __c278, 0) as any as S.Schema<SignalScheduleRequest>,
-  output: __S(8899, __c278, 3) as any as S.Schema<SignalScheduleResponse>,
+  input: __S(8224, __c257, 0) as any as S.Schema<SignalScheduleRequest>,
+  output: __S(8227, __c257, 3) as any as S.Schema<SignalScheduleResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -23879,8 +22814,8 @@ export const submitTransferDiligence: API.OperationMethod<
   SubmitTransferDiligenceError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8931, __c279, 3) as any as S.Schema<SubmitTransferDiligenceRequest>,
-  output: __S(13120, __c410, 0) as any as S.Schema<TransferDiligenceSubmitResponse>,
+  input: __S(8259, __c258, 3) as any as S.Schema<SubmitTransferDiligenceRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<TransferDiligenceSubmitResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -23897,32 +22832,14 @@ export const submitTransferPlatformRequirement: API.OperationMethod<
   SubmitTransferPlatformRequirementError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9026, __c282, 2) as any as S.Schema<SubmitTransferPlatformRequirementRequest>,
-  output: __S(13120, __c410, 0) as any as S.Schema<TransferPlatformRequirementSubmitResponse>,
+  input: __S(8322, __c260, 2) as any as S.Schema<SubmitTransferPlatformRequirementRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<TransferPlatformRequirementSubmitResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SubmitTransferPlatformRequirement",
-}));
-
-export type SubscribeBetaIssuesV1Error = PlaidOpError;
-/** Subscribe to an issue Subscribe a webhook URL to resolution notifications for an institution issue. A client has a single subscription per issue, so subscribing again for the same issue overwrites the previously registered webhook URL. */
-export const subscribeBetaIssuesV1: API.OperationMethod<
-  SubscribeBetaIssuesV1Request,
-  BetaIssuesV1SubscribeResponse,
-  SubscribeBetaIssuesV1Error,
-  PlaidOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(9056, __c283, 0) as any as S.Schema<SubscribeBetaIssuesV1Request>,
-  output: __S(13120, __c410, 0) as any as S.Schema<BetaIssuesV1SubscribeResponse>,
-  errors: [],
-  serviceErrors: PlaidServiceErrors,
-  protocol: PlaidProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "SubscribeBetaIssuesV1",
 }));
 
 export type SubscribeIssueError = PlaidOpError;
@@ -23933,8 +22850,8 @@ export const subscribeIssue: API.OperationMethod<
   SubscribeIssueError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9088, __c284, 0) as any as S.Schema<SubscribeIssueRequest>,
-  output: __S(13120, __c410, 0) as any as S.Schema<IssuesSubscribeResponse>,
+  input: __S(8352, __c261, 0) as any as S.Schema<SubscribeIssueRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<IssuesSubscribeResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -23951,8 +22868,8 @@ export const syncBankTransferEvent: API.OperationMethod<
   SyncBankTransferEventError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9120, __c285, 0) as any as S.Schema<SyncBankTransferEventRequest>,
-  output: __S(4228, __c132, 4) as any as S.Schema<BankTransferEventSyncResponse>,
+  input: __S(8384, __c262, 0) as any as S.Schema<SyncBankTransferEventRequest>,
+  output: __S(3940, __c123, 4) as any as S.Schema<BankTransferEventSyncResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -23969,8 +22886,8 @@ export const syncProcessorTransaction: API.OperationMethod<
   SyncProcessorTransactionError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9152, __c286, 0) as any as S.Schema<SyncProcessorTransactionRequest>,
-  output: __S(9153, __c286, 1) as any as S.Schema<ProcessorTransactionsSyncResponse>,
+  input: __S(8416, __c263, 0) as any as S.Schema<SyncProcessorTransactionRequest>,
+  output: __S(8417, __c263, 1) as any as S.Schema<ProcessorTransactionsSyncResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -23987,8 +22904,8 @@ export const syncTransaction: API.OperationMethod<
   SyncTransactionError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9216, __c288, 0) as any as S.Schema<SyncTransactionRequest>,
-  output: __S(9217, __c288, 1) as any as S.Schema<TransactionsSyncResponse>,
+  input: __S(8576, __c268, 0) as any as S.Schema<SyncTransactionRequest>,
+  output: __S(8577, __c268, 1) as any as S.Schema<TransactionsSyncResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -24005,8 +22922,8 @@ export const terminateItemProduct: API.OperationMethod<
   TerminateItemProductError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9248, __c289, 0) as any as S.Schema<TerminateItemProductRequest>,
-  output: __S(13120, __c410, 0) as any as S.Schema<ItemProductsTerminateResponse>,
+  input: __S(8608, __c269, 0) as any as S.Schema<TerminateItemProductRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<ItemProductsTerminateResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -24023,8 +22940,8 @@ export const terminateUserProduct: API.OperationMethod<
   TerminateUserProductError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9280, __c290, 0) as any as S.Schema<TerminateUserProductRequest>,
-  output: __S(13120, __c410, 0) as any as S.Schema<UserProductsTerminateResponse>,
+  input: __S(8640, __c270, 0) as any as S.Schema<TerminateUserProductRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<UserProductsTerminateResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -24041,8 +22958,8 @@ export const transactionsEnrich: API.OperationMethod<
   TransactionsEnrichError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9316, __c291, 4) as any as S.Schema<TransactionsEnrichRequest>,
-  output: __S(9322, __c291, 10) as any as S.Schema<TransactionsEnrichResponse>,
+  input: __S(8676, __c271, 4) as any as S.Schema<TransactionsEnrichRequest>,
+  output: __S(8682, __c271, 10) as any as S.Schema<TransactionsEnrichResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -24059,8 +22976,8 @@ export const transferEventSync: API.OperationMethod<
   TransferEventSyncError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9344, __c292, 0) as any as S.Schema<TransferEventSyncRequest>,
-  output: __S(5122, __c160, 2) as any as S.Schema<TransferEventSyncResponse>,
+  input: __S(8704, __c272, 0) as any as S.Schema<TransferEventSyncRequest>,
+  output: __S(4482, __c140, 2) as any as S.Schema<TransferEventSyncResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -24077,8 +22994,8 @@ export const transferLedgerDeposit: API.OperationMethod<
   TransferLedgerDepositError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9472, __c296, 0) as any as S.Schema<TransferLedgerDepositRequest>,
-  output: __S(3360, __c105, 0) as any as S.Schema<TransferLedgerDepositResponse>,
+  input: __S(8736, __c273, 0) as any as S.Schema<TransferLedgerDepositRequest>,
+  output: __S(2848, __c89, 0) as any as S.Schema<TransferLedgerDepositResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -24095,8 +23012,8 @@ export const transferLedgerDistribute: API.OperationMethod<
   TransferLedgerDistributeError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9504, __c297, 0) as any as S.Schema<TransferLedgerDistributeRequest>,
-  output: __S(13120, __c410, 0) as any as S.Schema<TransferLedgerDistributeResponse>,
+  input: __S(8768, __c274, 0) as any as S.Schema<TransferLedgerDistributeRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<TransferLedgerDistributeResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -24113,8 +23030,8 @@ export const transferLedgerWithdraw: API.OperationMethod<
   TransferLedgerWithdrawError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9536, __c298, 0) as any as S.Schema<TransferLedgerWithdrawRequest>,
-  output: __S(3360, __c105, 0) as any as S.Schema<TransferLedgerWithdrawResponse>,
+  input: __S(8800, __c275, 0) as any as S.Schema<TransferLedgerWithdrawRequest>,
+  output: __S(2848, __c89, 0) as any as S.Schema<TransferLedgerWithdrawResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -24131,8 +23048,8 @@ export const transferMigrateAccount: API.OperationMethod<
   TransferMigrateAccountError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9568, __c299, 0) as any as S.Schema<TransferMigrateAccountRequest>,
-  output: __S(9569, __c299, 1) as any as S.Schema<TransferMigrateAccountResponse>,
+  input: __S(8832, __c276, 0) as any as S.Schema<TransferMigrateAccountRequest>,
+  output: __S(8833, __c276, 1) as any as S.Schema<TransferMigrateAccountResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -24149,8 +23066,8 @@ export const transferReturnRecover: API.OperationMethod<
   TransferReturnRecoverError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9600, __c300, 0) as any as S.Schema<TransferReturnRecoverRequest>,
-  output: __S(13120, __c410, 0) as any as S.Schema<TransferReturnRecoverResponse>,
+  input: __S(8864, __c277, 0) as any as S.Schema<TransferReturnRecoverRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<TransferReturnRecoverResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -24167,8 +23084,8 @@ export const unlinkItemApplication: API.OperationMethod<
   UnlinkItemApplicationError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9632, __c301, 0) as any as S.Schema<UnlinkItemApplicationRequest>,
-  output: __S(13120, __c410, 0) as any as S.Schema<ItemApplicationUnlinkResponse>,
+  input: __S(8928, __c279, 0) as any as S.Schema<UnlinkItemApplicationRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<ItemApplicationUnlinkResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -24185,50 +23102,14 @@ export const unregisterCraLoan: API.OperationMethod<
   UnregisterCraLoanError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9666, __c302, 2) as any as S.Schema<UnregisterCraLoanRequest>,
-  output: __S(13120, __c410, 0) as any as S.Schema<CraLoanUnregisterResponse>,
+  input: __S(8962, __c280, 2) as any as S.Schema<UnregisterCraLoanRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<CraLoanUnregisterResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UnregisterCraLoan",
-}));
-
-export type UnsubscribeBetaIssuesV1Error = PlaidOpError;
-/** Unsubscribe from an issue Remove the client's subscription to resolution notifications for an institution issue. This removes the client's single subscription for that issue, identified by the issue alone. */
-export const unsubscribeBetaIssuesV1: API.OperationMethod<
-  UnsubscribeBetaIssuesV1Request,
-  BetaIssuesV1UnsubscribeResponse,
-  UnsubscribeBetaIssuesV1Error,
-  PlaidOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(9696, __c303, 0) as any as S.Schema<UnsubscribeBetaIssuesV1Request>,
-  output: __S(13120, __c410, 0) as any as S.Schema<BetaIssuesV1UnsubscribeResponse>,
-  errors: [],
-  serviceErrors: PlaidServiceErrors,
-  protocol: PlaidProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "UnsubscribeBetaIssuesV1",
-}));
-
-export type UpdateBetaPartnerCustomerV1Error = PlaidOpError;
-/** Updates an existing end customer. The `/beta/partner/customer/v1/update` endpoint updates an existing end customer record. */
-export const updateBetaPartnerCustomerV1: API.OperationMethod<
-  UpdateBetaPartnerCustomerV1Request,
-  BetaPartnerCustomerV1UpdateResponse,
-  UpdateBetaPartnerCustomerV1Error,
-  PlaidOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(9728, __c304, 0) as any as S.Schema<UpdateBetaPartnerCustomerV1Request>,
-  output: __S(13281, __c415, 1) as any as S.Schema<BetaPartnerCustomerV1UpdateResponse>,
-  errors: [],
-  serviceErrors: PlaidServiceErrors,
-  protocol: PlaidProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "UpdateBetaPartnerCustomerV1",
 }));
 
 export type UpdateCraLoanError = PlaidOpError;
@@ -24239,8 +23120,8 @@ export const updateCraLoan: API.OperationMethod<
   UpdateCraLoanError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9765, __c305, 5) as any as S.Schema<UpdateCraLoanRequest>,
-  output: __S(13120, __c410, 0) as any as S.Schema<CraLoansUpdateResponse>,
+  input: __S(8997, __c281, 5) as any as S.Schema<UpdateCraLoanRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<CraLoansUpdateResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -24257,8 +23138,8 @@ export const updateCraServicingSubscription: API.OperationMethod<
   UpdateCraServicingSubscriptionError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9824, __c307, 0) as any as S.Schema<UpdateCraServicingSubscriptionRequest>,
-  output: __S(3648, __c114, 0) as any as S.Schema<CraServicingSubscriptionUpdateResponse>,
+  input: __S(9024, __c282, 0) as any as S.Schema<UpdateCraServicingSubscriptionRequest>,
+  output: __S(2624, __c82, 0) as any as S.Schema<CraServicingSubscriptionUpdateResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -24275,8 +23156,8 @@ export const updateCreditPayrollIncomeParsingConfig: API.OperationMethod<
   UpdateCreditPayrollIncomeParsingConfigError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9856, __c308, 0) as any as S.Schema<UpdateCreditPayrollIncomeParsingConfigRequest>,
-  output: __S(13120, __c410, 0) as any as S.Schema<CreditPayrollIncomeParsingConfigUpdateResponse>,
+  input: __S(9056, __c283, 0) as any as S.Schema<UpdateCreditPayrollIncomeParsingConfigRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<CreditPayrollIncomeParsingConfigUpdateResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -24293,8 +23174,8 @@ export const updateItemApplicationScope: API.OperationMethod<
   UpdateItemApplicationScopeError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9889, __c309, 1) as any as S.Schema<UpdateItemApplicationScopeRequest>,
-  output: __S(13120, __c410, 0) as any as S.Schema<ItemApplicationScopesUpdateResponse>,
+  input: __S(9089, __c284, 1) as any as S.Schema<UpdateItemApplicationScopeRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<ItemApplicationScopesUpdateResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -24311,8 +23192,8 @@ export const updateItemWebhook: API.OperationMethod<
   UpdateItemWebhookError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9920, __c310, 0) as any as S.Schema<UpdateItemWebhookRequest>,
-  output: __S(9921, __c310, 1) as any as S.Schema<ItemWebhookUpdateResponse>,
+  input: __S(9120, __c285, 0) as any as S.Schema<UpdateItemWebhookRequest>,
+  output: __S(9121, __c285, 1) as any as S.Schema<ItemWebhookUpdateResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -24329,8 +23210,8 @@ export const updateProcessorTokenWebhook: API.OperationMethod<
   UpdateProcessorTokenWebhookError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9952, __c311, 0) as any as S.Schema<UpdateProcessorTokenWebhookRequest>,
-  output: __S(13120, __c410, 0) as any as S.Schema<ProcessorTokenWebhookUpdateResponse>,
+  input: __S(9152, __c286, 0) as any as S.Schema<UpdateProcessorTokenWebhookRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<ProcessorTokenWebhookUpdateResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -24347,8 +23228,8 @@ export const updateSandboxCraCashflowUpdate: API.OperationMethod<
   UpdateSandboxCraCashflowUpdateError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9984, __c312, 0) as any as S.Schema<UpdateSandboxCraCashflowUpdateRequest>,
-  output: __S(13120, __c410, 0) as any as S.Schema<SandboxCraCashflowUpdatesUpdateResponse>,
+  input: __S(9184, __c287, 0) as any as S.Schema<UpdateSandboxCraCashflowUpdateRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<SandboxCraCashflowUpdatesUpdateResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -24365,8 +23246,8 @@ export const updateTransferOriginatorFundingAccount: API.OperationMethod<
   UpdateTransferOriginatorFundingAccountError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10016, __c313, 0) as any as S.Schema<UpdateTransferOriginatorFundingAccountRequest>,
-  output: __S(13120, __c410, 0) as any as S.Schema<TransferOriginatorFundingAccountUpdateResponse>,
+  input: __S(9216, __c288, 0) as any as S.Schema<UpdateTransferOriginatorFundingAccountRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<TransferOriginatorFundingAccountUpdateResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -24383,8 +23264,8 @@ export const updateUser: API.OperationMethod<
   UpdateUserError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10048, __c314, 0) as any as S.Schema<UpdateUserRequest>,
-  output: __S(13120, __c410, 0) as any as S.Schema<UserUpdateResponse>,
+  input: __S(9312, __c291, 0) as any as S.Schema<UpdateUserRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<UserUpdateResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -24401,8 +23282,8 @@ export const updateWatchlistScreeningEntity: API.OperationMethod<
   UpdateWatchlistScreeningEntityError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10081, __c315, 1) as any as S.Schema<UpdateWatchlistScreeningEntityRequest>,
-  output: __S(11872, __c371, 0) as any as S.Schema<WatchlistScreeningEntityUpdateResponse>,
+  input: __S(9345, __c292, 1) as any as S.Schema<UpdateWatchlistScreeningEntityRequest>,
+  output: __S(10944, __c342, 0) as any as S.Schema<WatchlistScreeningEntityUpdateResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -24419,8 +23300,8 @@ export const updateWatchlistScreeningIndividual: API.OperationMethod<
   UpdateWatchlistScreeningIndividualError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10113, __c316, 1) as any as S.Schema<UpdateWatchlistScreeningIndividualRequest>,
-  output: __S(12064, __c377, 0) as any as S.Schema<WatchlistScreeningIndividualUpdateResponse>,
+  input: __S(9377, __c293, 1) as any as S.Schema<UpdateWatchlistScreeningIndividualRequest>,
+  output: __S(11136, __c348, 0) as any as S.Schema<WatchlistScreeningIndividualUpdateResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -24437,8 +23318,8 @@ export const uploadProtectCashAdvanceFeedback: API.OperationMethod<
   UploadProtectCashAdvanceFeedbackError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10304, __c322, 0) as any as S.Schema<UploadProtectCashAdvanceFeedbackRequest>,
-  output: __S(10305, __c322, 1) as any as S.Schema<ProtectCashAdvanceFeedbackUploadResponse>,
+  input: __S(9408, __c294, 0) as any as S.Schema<UploadProtectCashAdvanceFeedbackRequest>,
+  output: __S(9409, __c294, 1) as any as S.Schema<ProtectCashAdvanceFeedbackUploadResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -24455,8 +23336,8 @@ export const uploadTransferDiligenceDocument: API.OperationMethod<
   UploadTransferDiligenceDocumentError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10336, __c323, 0) as any as S.Schema<UploadTransferDiligenceDocumentRequest>,
-  output: __S(13120, __c410, 0) as any as S.Schema<TransferDiligenceDocumentUploadResponse>,
+  input: __S(9440, __c295, 0) as any as S.Schema<UploadTransferDiligenceDocumentRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<TransferDiligenceDocumentUploadResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -24473,8 +23354,8 @@ export const userItemsAssociate: API.OperationMethod<
   UserItemsAssociateError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10368, __c324, 0) as any as S.Schema<UserItemsAssociateRequest>,
-  output: __S(13120, __c410, 0) as any as S.Schema<UserItemsAssociateResponse>,
+  input: __S(9472, __c296, 0) as any as S.Schema<UserItemsAssociateRequest>,
+  output: __S(11648, __c364, 0) as any as S.Schema<UserItemsAssociateResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -24491,8 +23372,8 @@ export const verifyAuth: API.OperationMethod<
   VerifyAuthError,
   PlaidOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10402, __c325, 2) as any as S.Schema<VerifyAuthRequest>,
-  output: __S(10403, __c325, 3) as any as S.Schema<AuthVerifyResponse>,
+  input: __S(9506, __c297, 2) as any as S.Schema<VerifyAuthRequest>,
+  output: __S(9507, __c297, 3) as any as S.Schema<AuthVerifyResponse>,
   errors: [],
   serviceErrors: PlaidServiceErrors,
   protocol: PlaidProtocol,
@@ -24570,456 +23451,37 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          client_report_id: S.optional(S.NullOr(S.String)),
+          webhook: S.optional(S.NullOr(S.String)),
+          include_fast_report: S.optional(S.NullOr(S.Boolean)),
+          products: S.optional(__S(32, __c1, 0)),
+          add_ons: S.optional(__S(192, __c6, 0)),
+          user: S.optional(__S(5664, __c177, 0)),
+          require_all_items: S.optional(S.NullOr(S.Boolean)),
+        }),
+      ).annotate({ identifier: "AssetReportCreateRequestOptions" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          refund_id: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/transfer/refund/cancel", code: 200 })),
-      ).annotate({ identifier: "CancelTransferRefundRequest" });
+          access_tokens: S.optional(__S(224, __c7, 0)),
+          days_requested: S.Number,
+          options: S.optional(__S(160, __c5, 0)),
+        }).pipe(T.Http({ method: "POST", uri: "/asset_report/create", code: 200 })),
+      ).annotate({ identifier: "CreateAssetReportRequest" });
   }
 }
 function __c6(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          client_id: S.optional(S.String),
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          user_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          user_id: S.optional(S.String),
-          options: S.optional(__S(14656, __c458, 0)),
-        }).pipe(T.Http({ method: "POST", uri: "/credit/payroll_income/get", code: 200 })),
-      ).annotate({ identifier: "GetCreditPayrollIncomeRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            pay_rate: S.optional(S.NullOr(S.String)),
-            pay_amount: S.optional(S.NullOr(S.Number)),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "PayrollIncomeRateOfPay" });
-    case 2:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            account_id: S.NullOr(S.String),
-            rate_of_pay: __S(193, __c6, 1),
-            pay_frequency: S.NullOr(S.String),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "PayrollIncomeAccountData" });
-    case 3:
-      return S.Array(/*@__PURE__*/ S.NullOr(__S(194, __c6, 2)));
-    case 4:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            current_amount: S.NullOr(S.Number),
-            description: S.NullOr(S.String),
-            iso_currency_code: S.NullOr(S.String),
-            unofficial_currency_code: S.NullOr(S.String),
-            ytd_amount: S.NullOr(S.Number),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "PayStubDeductionsBreakdown" });
-    case 5:
-      return S.Array(__S(196, __c6, 4));
-    case 6:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            current_amount: S.NullOr(S.Number),
-            iso_currency_code: S.NullOr(S.String),
-            unofficial_currency_code: S.NullOr(S.String),
-            ytd_amount: S.NullOr(S.Number),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "PayStubDeductionsTotal" });
-    case 7:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            breakdown: __S(197, __c6, 5),
-            total: __S(198, __c6, 6),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "CreditPayStubDeductions" });
-    case 8:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            canonical_description: S.NullOr(S.String),
-            current_amount: S.NullOr(S.Number),
-            description: S.NullOr(S.String),
-            hours: S.NullOr(S.Number),
-            iso_currency_code: S.NullOr(S.String),
-            rate: S.NullOr(S.Number),
-            unofficial_currency_code: S.NullOr(S.String),
-            ytd_amount: S.NullOr(S.Number),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "PayStubEarningsBreakdown" });
-    case 9:
-      return S.Array(__S(200, __c6, 8));
-    case 10:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            current_amount: S.NullOr(S.Number),
-            hours: S.NullOr(S.Number),
-            iso_currency_code: S.NullOr(S.String),
-            unofficial_currency_code: S.NullOr(S.String),
-            ytd_amount: S.NullOr(S.Number),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "PayStubEarningsTotal" });
-    case 11:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            breakdown: __S(201, __c6, 9),
-            total: __S(202, __c6, 10),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "CreditPayStubEarnings" });
-    case 12:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            id_type: S.NullOr(S.String),
-            id_mask: S.NullOr(S.String),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "PayStubTaxpayerID" });
-    case 13:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            address: __S(14688, __c459, 0),
-            name: S.NullOr(S.String),
-            marital_status: S.NullOr(S.String),
-            taxpayer_id: __S(204, __c6, 12),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "CreditPayStubEmployee" });
-    case 14:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            address: __S(14688, __c459, 0),
-            name: S.NullOr(S.String),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "CreditPayStubEmployer" });
-    case 15:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            account_name: S.NullOr(S.String),
-            bank_name: S.NullOr(S.String),
-            current_amount: S.NullOr(S.Number),
-            iso_currency_code: S.NullOr(S.String),
-            mask: S.NullOr(S.String),
-            type: S.NullOr(S.String),
-            unofficial_currency_code: S.NullOr(S.String),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "PayStubDistributionBreakdown" });
-    case 16:
-      return S.Array(__S(207, __c6, 15));
-    case 17:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            pay_amount: S.NullOr(S.Number),
-            distribution_breakdown: __S(208, __c6, 16),
-            end_date: S.NullOr(S.String),
-            gross_earnings: S.NullOr(S.Number),
-            iso_currency_code: S.NullOr(S.String),
-            pay_date: S.NullOr(S.String),
-            pay_frequency: S.NullOr(S.String),
-            pay_basis: S.optional(S.String),
-            start_date: S.NullOr(S.String),
-            unofficial_currency_code: S.NullOr(S.String),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "PayStubPayPeriodDetails" });
-    case 18:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            deductions: __S(199, __c6, 7),
-            document_id: S.NullOr(S.String),
-            document_metadata: __S(14657, __c458, 1),
-            earnings: __S(203, __c6, 11),
-            employee: __S(205, __c6, 13),
-            employer: __S(206, __c6, 14),
-            net_pay: __S(196, __c6, 4),
-            pay_period_details: __S(209, __c6, 17),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "CreditPayStub" });
-    case 19:
-      return S.Array(__S(210, __c6, 18));
-    case 20:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            code: S.optional(S.NullOr(S.String)),
-            amount: S.optional(S.NullOr(S.String)),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "W2Box12" });
-    case 21:
-      return S.Array(__S(212, __c6, 20));
-    case 22:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            state: S.optional(S.NullOr(S.String)),
-            employer_state_id_number: S.optional(S.NullOr(S.String)),
-            state_wages_tips: S.optional(S.NullOr(S.String)),
-            state_income_tax: S.optional(S.NullOr(S.String)),
-            local_wages_tips: S.optional(S.NullOr(S.String)),
-            local_income_tax: S.optional(S.NullOr(S.String)),
-            locality_name: S.optional(S.NullOr(S.String)),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "W2StateAndLocalWages" });
-    case 23:
-      return S.Array(__S(214, __c6, 22));
-    case 24:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            document_metadata: __S(14657, __c458, 1),
-            document_id: S.String,
-            employer: __S(206, __c6, 14),
-            employee: __S(205, __c6, 13),
-            tax_year: S.NullOr(S.String),
-            employer_id_number: S.NullOr(S.String),
-            wages_tips_other_comp: S.NullOr(S.String),
-            federal_income_tax_withheld: S.NullOr(S.String),
-            social_security_wages: S.NullOr(S.String),
-            social_security_tax_withheld: S.NullOr(S.String),
-            medicare_wages_and_tips: S.NullOr(S.String),
-            medicare_tax_withheld: S.NullOr(S.String),
-            social_security_tips: S.NullOr(S.String),
-            allocated_tips: S.NullOr(S.String),
-            box_9: S.NullOr(S.String),
-            dependent_care_benefits: S.NullOr(S.String),
-            nonqualified_plans: S.NullOr(S.String),
-            box_12: __S(213, __c6, 21),
-            statutory_employee: S.NullOr(S.String),
-            retirement_plan: S.NullOr(S.String),
-            third_party_sick_pay: S.NullOr(S.String),
-            other: S.NullOr(S.String),
-            state_and_local_wages: __S(215, __c6, 23),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "CreditW2" });
-    case 25:
-      return S.Array(__S(216, __c6, 24));
-    case 26:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            address: S.optional(__S(14688, __c459, 0)),
-            name: S.optional(S.NullOr(S.String)),
-            tin: S.optional(S.NullOr(S.String)),
-            account_number: S.optional(S.NullOr(S.String)),
-            facta_filing_requirement: S.optional(S.NullOr(S.String)),
-            second_tin_exists: S.optional(S.NullOr(S.String)),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "Credit1099Recipient" });
-    case 27:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            address: S.optional(__S(14688, __c459, 0)),
-            name: S.optional(S.NullOr(S.String)),
-            tin: S.optional(S.NullOr(S.String)),
-            telephone_number: S.optional(S.NullOr(S.String)),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "Credit1099Payer" });
-    case 28:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            address: S.optional(__S(14688, __c459, 0)),
-            name: S.optional(S.NullOr(S.String)),
-            tin: S.optional(S.NullOr(S.String)),
-            type: S.optional(S.NullOr(S.String)),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "Credit1099Filer" });
-    case 29:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            document_id: S.NullOr(S.String),
-            document_metadata: S.optional(__S(14657, __c458, 1)),
-            form_1099_type: S.optional(S.String),
-            recipient: S.optional(__S(218, __c6, 26)),
-            payer: S.optional(__S(219, __c6, 27)),
-            filer: S.optional(__S(220, __c6, 28)),
-            tax_year: S.optional(S.NullOr(S.String)),
-            rents: S.optional(S.NullOr(S.Number)),
-            royalties: S.optional(S.NullOr(S.Number)),
-            other_income: S.optional(S.NullOr(S.Number)),
-            federal_income_tax_withheld: S.optional(S.NullOr(S.Number)),
-            fishing_boat_proceeds: S.optional(S.NullOr(S.Number)),
-            medical_and_healthcare_payments: S.optional(S.NullOr(S.Number)),
-            nonemployee_compensation: S.optional(S.NullOr(S.Number)),
-            substitute_payments_in_lieu_of_dividends_or_interest: S.optional(S.NullOr(S.Number)),
-            payer_made_direct_sales_of_5000_or_more_of_consumer_products_to_buyer: S.optional(
-              S.NullOr(S.String),
-            ),
-            crop_insurance_proceeds: S.optional(S.NullOr(S.Number)),
-            excess_golden_parachute_payments: S.optional(S.NullOr(S.Number)),
-            gross_proceeds_paid_to_an_attorney: S.optional(S.NullOr(S.Number)),
-            section_409a_deferrals: S.optional(S.NullOr(S.Number)),
-            section_409a_income: S.optional(S.NullOr(S.Number)),
-            state_tax_withheld: S.optional(S.NullOr(S.Number)),
-            state_tax_withheld_lower: S.optional(S.NullOr(S.Number)),
-            payer_state_number: S.optional(S.NullOr(S.String)),
-            payer_state_number_lower: S.optional(S.NullOr(S.String)),
-            state_income: S.optional(S.NullOr(S.Number)),
-            state_income_lower: S.optional(S.NullOr(S.Number)),
-            transactions_reported: S.optional(S.NullOr(S.String)),
-            pse_name: S.optional(S.NullOr(S.String)),
-            pse_telephone_number: S.optional(S.NullOr(S.String)),
-            gross_amount: S.optional(S.NullOr(S.Number)),
-            card_not_present_transaction: S.optional(S.NullOr(S.Number)),
-            merchant_category_code: S.optional(S.NullOr(S.String)),
-            number_of_payment_transactions: S.optional(S.NullOr(S.String)),
-            january_amount: S.optional(S.NullOr(S.Number)),
-            february_amount: S.optional(S.NullOr(S.Number)),
-            march_amount: S.optional(S.NullOr(S.Number)),
-            april_amount: S.optional(S.NullOr(S.Number)),
-            may_amount: S.optional(S.NullOr(S.Number)),
-            june_amount: S.optional(S.NullOr(S.Number)),
-            july_amount: S.optional(S.NullOr(S.Number)),
-            august_amount: S.optional(S.NullOr(S.Number)),
-            september_amount: S.optional(S.NullOr(S.Number)),
-            october_amount: S.optional(S.NullOr(S.Number)),
-            november_amount: S.optional(S.NullOr(S.Number)),
-            december_amount: S.optional(S.NullOr(S.Number)),
-            primary_state: S.optional(S.NullOr(S.String)),
-            secondary_state: S.optional(S.NullOr(S.String)),
-            primary_state_id: S.optional(S.NullOr(S.String)),
-            secondary_state_id: S.optional(S.NullOr(S.String)),
-            primary_state_income_tax: S.optional(S.NullOr(S.Number)),
-            secondary_state_income_tax: S.optional(S.NullOr(S.Number)),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "Credit1099" });
-    case 30:
-      return S.Array(__S(221, __c6, 29));
-    case 31:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            given_name: S.optional(S.NullOr(S.String)),
-            surname_primary_name: S.optional(S.NullOr(S.String)),
-            passport_name: S.optional(S.NullOr(S.String)),
-            preferred_name: S.optional(S.NullOr(S.String)),
-            school_name: S.optional(S.NullOr(S.String)),
-            program_start_date: S.optional(S.NullOr(S.String)),
-            program_end_date: S.optional(S.NullOr(S.String)),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "CreditI20Student" });
+      return S.Array(S.String);
   }
 }
 function __c7(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            document_id: S.optional(S.NullOr(S.String)),
-            document_metadata: S.optional(__S(14657, __c458, 1)),
-            student: S.optional(__S(223, __c6, 31)),
-            personal_funds: S.optional(S.NullOr(S.Number)),
-            on_campus_employment: S.optional(S.NullOr(S.Number)),
-            funds_from_this_school: S.optional(S.NullOr(S.Number)),
-            students_funding_total: S.optional(S.NullOr(S.Number)),
-            funds_from_another_source: S.optional(S.NullOr(S.Number)),
-            estimated_average_costs_total: S.optional(S.NullOr(S.Number)),
-            estimated_average_living_expenses: S.optional(S.NullOr(S.Number)),
-            students_funding_period_months: S.optional(S.NullOr(S.Number)),
-            estimated_average_costs_period_months: S.optional(S.NullOr(S.Number)),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "CreditI20" });
-    case 1:
-      return S.Array(__S(224, __c7, 0));
-    case 2:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            account_id: S.NullOr(S.String),
-            pay_stubs: __S(211, __c6, 19),
-            w2s: __S(217, __c6, 25),
-            form1099s: __S(222, __c6, 30),
-            i20s: __S(225, __c7, 1),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "PayrollIncomeObject" });
-    case 3:
-      return S.Array(__S(226, __c7, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          item_id: S.String,
-          institution_id: S.String,
-          institution_name: S.String,
-          accounts: __S(195, __c6, 3),
-          payroll_income: __S(227, __c7, 3),
-          status: S.NullOr(__S(14658, __c458, 2)),
-          updated_at: S.NullOr(S.String),
-        }),
-      ).annotate({ identifier: "PayrollItem" });
-    case 5:
-      return S.Array(__S(228, __c7, 4));
-    case 6:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            items: __S(229, __c7, 5),
-            error: S.optional(S.NullOr(__S(64, __c2, 0))),
-            request_id: S.String,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "CreditPayrollIncomeGetResponse" });
+      return S.Array(/*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.SensitiveValue({})));
   }
 }
 function __c8(j: number): any {
@@ -25029,417 +23491,8 @@ function __c8(j: number): any {
         S.Struct({
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          user_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          user_id: S.optional(S.String),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/credit/payroll_income/risk_signals/get", code: 200 }),
-        ),
-      ).annotate({ identifier: "GetCreditPayrollIncomeRiskSignalRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            document_id: S.optional(S.NullOr(S.String)),
-            document_name: S.optional(S.String),
-            status: S.optional(S.String),
-            document_type: S.optional(S.NullOr(S.String)),
-            file_type: S.optional(S.NullOr(S.String)),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "RiskSignalDocumentReference" });
-    case 2:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            item_id: S.String,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "DocumentRiskSignalInstitutionMetadata" });
-    case 3:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            type: S.NullOr(S.String),
-            field: S.NullOr(S.String),
-            has_fraud_risk: S.NullOr(S.Boolean),
-            institution_metadata: S.NullOr(__S(258, __c8, 2)),
-            expected_value: S.NullOr(S.String),
-            actual_value: S.NullOr(S.String),
-            signal_description: S.NullOr(S.String),
-            page_number: S.NullOr(S.Number),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "DocumentRiskSignal" });
-    case 4:
-      return S.Array(/*@__PURE__*/ S.NullOr(__S(259, __c8, 3)));
-    case 5:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            risk_score: S.NullOr(S.Number),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "DocumentRiskSummary" });
-    case 6:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            document_reference: __S(257, __c8, 1),
-            risk_signals: __S(260, __c8, 4),
-            risk_summary: __S(261, __c8, 5),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "SingleDocumentRiskSignal" });
-    case 7:
-      return S.Array(__S(262, __c8, 6));
-    case 8:
-      return S.Array(__S(257, __c8, 1));
-    case 9:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            document_references: __S(264, __c8, 8),
-            risk_signals: __S(260, __c8, 4),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "MultiDocumentRiskSignal" });
-    case 10:
-      return S.Array(__S(265, __c8, 9));
-    case 11:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            account_id: S.NullOr(S.String),
-            single_document_risk_signals: __S(263, __c8, 7),
-            multi_document_risk_signals: __S(266, __c8, 10),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "DocumentRiskSignalsObject" });
-    case 12:
-      return S.Array(__S(267, __c8, 11));
-    case 13:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            item_id: S.String,
-            verification_risk_signals: __S(268, __c8, 12),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "PayrollRiskSignalsItem" });
-    case 14:
-      return S.Array(__S(269, __c8, 13));
-    case 15:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            items: __S(270, __c8, 14),
-            error: S.optional(S.NullOr(__S(64, __c2, 0))),
-            request_id: S.String,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "CreditPayrollIncomeRiskSignalsGetResponse" });
-  }
-}
-function __c9(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          client_id: S.optional(S.String),
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          relay_token: S.String.pipe(T.SensitiveValue({})),
-          report_type: S.String,
-          include_insights: S.optional(S.Boolean),
-        }).pipe(T.Http({ method: "POST", uri: "/credit/relay/get", code: 200 })),
-      ).annotate({ identifier: "GetCreditRelayRequest" });
-  }
-}
-function __c10(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          client_id: S.optional(S.String),
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          relay_token: S.String.pipe(T.SensitiveValue({})),
-          report_type: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/credit/relay/pdf/get", code: 200 })),
-      ).annotate({ identifier: "GetCreditRelayPdfRequest" });
-  }
-}
-function __c11(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          client_id: S.optional(S.String),
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          user_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          user_id: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/credit/sessions/get", code: 200 })),
-      ).annotate({ identifier: "GetCreditSessionRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          public_token: S.optional(S.String),
-          item_id: S.optional(S.String),
-          institution_id: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CreditSessionItemAddResult" });
-    case 2:
-      return S.Array(__S(353, __c11, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          status: S.optional(S.String),
-          item_id: S.optional(S.String),
-          institution_id: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CreditSessionBankIncomeResult" });
-    case 4:
-      return S.Array(__S(355, __c11, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          num_paystubs_retrieved: S.optional(S.Number),
-          num_w2s_retrieved: S.optional(S.Number),
-          institution_id: S.optional(S.String),
-          institution_name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CreditSessionPayrollIncomeResult" });
-    case 6:
-      return S.Array(__S(357, __c11, 5));
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          item_add_results: S.optional(__S(354, __c11, 2)),
-          bank_income_results: S.optional(__S(356, __c11, 4)),
-          bank_employment_results: S.optional(__S(356, __c11, 4)),
-          payroll_income_results: S.optional(__S(358, __c11, 6)),
-          document_income_results: S.optional(S.NullOr(__S(384, __c12, 0))),
-        }),
-      ).annotate({ identifier: "CreditSessionResults" });
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          error_type: S.optional(S.String),
-          error_code: S.optional(S.String),
-          error_message: S.optional(S.String),
-          display_message: S.optional(S.NullOr(S.String)),
-        }),
-      ).annotate({ identifier: "CreditSessionError" });
-    case 9:
-      return S.Array(__S(360, __c11, 8));
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          link_session_id: S.optional(S.String),
-          session_start_time: S.optional(S.String),
-          results: S.optional(__S(359, __c11, 7)),
-          errors: S.optional(__S(361, __c11, 9)),
-        }),
-      ).annotate({ identifier: "CreditSession" });
-    case 11:
-      return S.Array(__S(362, __c11, 10));
-    case 12:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            sessions: S.optional(__S(363, __c11, 11)),
-            request_id: S.String,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "CreditSessionsGetResponse" });
-  }
-}
-function __c12(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          num_paystubs_uploaded: S.Number,
-          num_w2s_uploaded: S.Number,
-          num_bank_statements_uploaded: S.Number,
-          num_1099s_uploaded: S.Number,
-          num_i20s_uploaded: S.Number,
-        }),
-      ).annotate({ identifier: "CreditSessionDocumentIncomeResult" });
-  }
-}
-function __c13(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          dashboard_user_id: S.String,
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          client_id: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/dashboard_user/get", code: 200 })),
-      ).annotate({ identifier: "GetDashboardUserRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            id: S.String,
-            created_at: S.String,
-            email_address: S.String,
-            status: S.String,
-            request_id: S.String,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "DashboardUserGetResponse" });
-  }
-}
-function __c14(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          consentId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/fdx/consents/{consentId}", code: 200 })),
-      ).annotate({ identifier: "GetFdxConsentRequest" });
-  }
-}
-function __c15(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(12608, __c394, 0));
-    case 1:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            resourceType: S.String,
-            resourceId: S.String,
-            dataClusters: __S(12352, __c386, 0),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "FDXConsentGrantResource" });
-    case 2:
-      return S.Array(__S(481, __c15, 1));
-    case 3:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            id: S.String,
-            status: S.String,
-            createdTime: S.String,
-            updatedTime: S.String,
-            expirationTime: S.optional(S.String),
-            parties: __S(480, __c15, 0),
-            resources: S.optional(__S(482, __c15, 2)),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "FDXConsentGrant" });
-  }
-}
-function __c16(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          consentId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/fdx/consents/{consentId}/revocation", code: 200 })),
-      ).annotate({ identifier: "GetFdxConsentsRevocationRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            status: S.String,
-            reason: S.String,
-            initiator: S.String,
-            updatedTime: S.String,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "FDXConsentRevocationRecord" });
-    case 2:
-      return S.Array(__S(513, __c16, 1));
-    case 3:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            revocations: __S(514, __c16, 2),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "FDXConsentRevocations" });
-  }
-}
-function __c17(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          client_id: S.optional(S.String),
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           access_token: S.String.pipe(T.SensitiveValue({})),
-          options: S.optional(__S(12864, __c402, 0)),
-        }).pipe(T.Http({ method: "POST", uri: "/identity/get", code: 200 })),
-      ).annotate({ identifier: "GetIdentityRequest" });
-    case 1:
-      return S.Array(__S(576, __c18, 0));
-    case 2:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            accounts: __S(545, __c17, 1),
-            item: __S(12800, __c400, 0),
-            request_id: S.String,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "IdentityGetResponse" });
-  }
-}
-function __c18(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            account_id: S.String,
-            balances: __S(12832, __c401, 0),
-            mask: S.NullOr(S.String),
-            name: S.String,
-            official_name: S.NullOr(S.String),
-            type: S.String,
-            subtype: S.NullOr(S.String),
-            verification_status: S.optional(S.String),
-            verification_name: S.optional(S.String),
-            verification_insights: S.optional(__S(12770, __c399, 2)),
-            persistent_account_id: S.optional(S.String),
-            apy: S.optional(S.NullOr(S.Number)),
-            holder_category: S.optional(S.NullOr(S.String)),
-            paired_account_id: S.optional(S.NullOr(S.String)),
-            owners: __S(5829, __c182, 5),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "AccountIdentity" });
-  }
-}
-function __c19(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          client_id: S.optional(S.String),
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          access_token: S.String.pipe(T.SensitiveValue({})),
-          options: S.optional(__S(12864, __c402, 0)),
+          options: S.optional(__S(11904, __c372, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/identity/documents/uploads/get", code: 200 })),
       ).annotate({ identifier: "GetIdentityDocumentsUploadRequest" });
     case 1:
@@ -25477,13 +23530,13 @@ function __c19(j: number): any {
         ),
       ).annotate({ identifier: "IdentityDocumentUploadRiskSignal" });
     case 4:
-      return S.Array(__S(611, __c19, 3));
+      return S.Array(__S(259, __c8, 3));
     case 5:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            risk_summary: S.optional(__S(610, __c19, 2)),
-            risk_signals: S.optional(__S(612, __c19, 4)),
+            risk_summary: S.optional(__S(258, __c8, 2)),
+            risk_signals: S.optional(__S(260, __c8, 4)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -25492,18 +23545,18 @@ function __c19(j: number): any {
       return S.suspend(() =>
         S.Struct({
           document_id: S.optional(S.String),
-          metadata: S.optional(__S(609, __c19, 1)),
-          risk_insights: S.optional(__S(613, __c19, 5)),
+          metadata: S.optional(__S(257, __c8, 1)),
+          risk_insights: S.optional(__S(261, __c8, 5)),
         }),
       ).annotate({ identifier: "IdentityDocumentUpload" });
     case 7:
-      return S.Array(__S(614, __c19, 6));
+      return S.Array(__S(262, __c8, 6));
     case 8:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
             account_id: S.String,
-            balances: __S(12832, __c401, 0),
+            balances: __S(11872, __c371, 0),
             mask: S.NullOr(S.String),
             name: S.String,
             official_name: S.NullOr(S.String),
@@ -25511,25 +23564,25 @@ function __c19(j: number): any {
             subtype: S.NullOr(S.String),
             verification_status: S.optional(S.String),
             verification_name: S.optional(S.String),
-            verification_insights: S.optional(__S(12770, __c399, 2)),
+            verification_insights: S.optional(__S(11810, __c369, 2)),
             persistent_account_id: S.optional(S.String),
             apy: S.optional(S.NullOr(S.Number)),
             holder_category: S.optional(S.NullOr(S.String)),
             paired_account_id: S.optional(S.NullOr(S.String)),
-            owners: __S(5829, __c182, 5),
-            documents: S.optional(S.NullOr(__S(615, __c19, 7))),
+            owners: __S(5733, __c179, 5),
+            documents: S.optional(S.NullOr(__S(263, __c8, 7))),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "AccountIdentityDocumentUpload" });
     case 9:
-      return S.Array(__S(616, __c19, 8));
+      return S.Array(__S(264, __c8, 8));
     case 10:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            accounts: __S(617, __c19, 9),
-            item: __S(12800, __c400, 0),
+            accounts: __S(265, __c8, 9),
+            item: __S(11840, __c370, 0),
             request_id: S.String,
           }),
           [S.Record(S.String, S.Unknown)],
@@ -25537,39 +23590,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "IdentityDocumentsUploadsGetResponse" });
   }
 }
-function __c20(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          client_report_id: S.optional(S.NullOr(S.String)),
-          webhook: S.optional(S.NullOr(S.String)),
-          include_fast_report: S.optional(S.NullOr(S.Boolean)),
-          products: S.optional(__S(32, __c1, 0)),
-          add_ons: S.optional(__S(12352, __c386, 0)),
-          user: S.optional(__S(5696, __c178, 0)),
-          require_all_items: S.optional(S.NullOr(S.Boolean)),
-        }),
-      ).annotate({ identifier: "AssetReportCreateRequestOptions" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          client_id: S.optional(S.String),
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          access_tokens: S.optional(__S(672, __c21, 0)),
-          days_requested: S.Number,
-          options: S.optional(__S(640, __c20, 0)),
-        }).pipe(T.Http({ method: "POST", uri: "/asset_report/create", code: 200 })),
-      ).annotate({ identifier: "CreateAssetReportRequest" });
-  }
-}
-function __c21(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(/*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.SensitiveValue({})));
-  }
-}
-function __c22(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25581,12 +23602,12 @@ function __c22(j: number): any {
       ).annotate({ identifier: "GetIdentityVerificationRequest" });
   }
 }
-function __c23(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          products: S.optional(S.NullOr(__S(12352, __c386, 0))),
+          products: S.optional(S.NullOr(__S(192, __c6, 0))),
           routing_numbers: S.optional(S.NullOr(__S(32, __c1, 0))),
           oauth: S.optional(S.NullOr(S.Boolean)),
           include_optional_metadata: S.optional(S.Boolean),
@@ -25601,15 +23622,15 @@ function __c23(j: number): any {
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           count: S.Number,
           offset: S.Number,
-          country_codes: __S(12352, __c386, 0),
-          options: S.optional(__S(736, __c23, 0)),
+          country_codes: __S(192, __c6, 0),
+          options: S.optional(__S(320, __c10, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/institutions/get", code: 200 })),
       ).annotate({ identifier: "GetInstitutionRequest" });
     case 2:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            institutions: __S(800, __c25, 0),
+            institutions: __S(384, __c12, 0),
             total: S.Number,
             request_id: S.String,
           }),
@@ -25618,7 +23639,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "InstitutionsGetResponse" });
   }
 }
-function __c24(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25638,7 +23659,7 @@ function __c24(j: number): any {
           S.Struct({
             status: S.String,
             last_status_change: S.String,
-            breakdown: __S(768, __c24, 0),
+            breakdown: __S(352, __c11, 0),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -25655,7 +23676,7 @@ function __c24(j: number): any {
         ),
       ).annotate({ identifier: "IncidentUpdate" });
     case 3:
-      return S.Array(__S(770, __c24, 2));
+      return S.Array(__S(354, __c11, 2));
     case 4:
       return S.suspend(() =>
         S.StructWithRest(
@@ -25663,26 +23684,26 @@ function __c24(j: number): any {
             start_date: S.String,
             end_date: S.optional(S.NullOr(S.String)),
             title: S.String,
-            incident_updates: S.NullOr(__S(771, __c24, 3)),
+            incident_updates: S.NullOr(__S(355, __c11, 3)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "HealthIncident" });
     case 5:
-      return S.Array(__S(772, __c24, 4));
+      return S.Array(__S(356, __c11, 4));
     case 6:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            item_logins: S.NullOr(__S(769, __c24, 1)),
-            transactions_updates: S.optional(S.NullOr(__S(769, __c24, 1))),
-            auth: S.optional(S.NullOr(__S(769, __c24, 1))),
-            identity: S.optional(S.NullOr(__S(769, __c24, 1))),
-            investments_updates: S.optional(S.NullOr(__S(769, __c24, 1))),
-            liabilities_updates: S.optional(S.NullOr(__S(769, __c24, 1))),
-            liabilities: S.optional(S.NullOr(__S(769, __c24, 1))),
-            investments: S.optional(S.NullOr(__S(769, __c24, 1))),
-            health_incidents: S.optional(S.NullOr(__S(773, __c24, 5))),
+            item_logins: S.NullOr(__S(353, __c11, 1)),
+            transactions_updates: S.optional(S.NullOr(__S(353, __c11, 1))),
+            auth: S.optional(S.NullOr(__S(353, __c11, 1))),
+            identity: S.optional(S.NullOr(__S(353, __c11, 1))),
+            investments_updates: S.optional(S.NullOr(__S(353, __c11, 1))),
+            liabilities_updates: S.optional(S.NullOr(__S(353, __c11, 1))),
+            liabilities: S.optional(S.NullOr(__S(353, __c11, 1))),
+            investments: S.optional(S.NullOr(__S(353, __c11, 1))),
+            health_incidents: S.optional(S.NullOr(__S(357, __c11, 5))),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -25693,7 +23714,7 @@ function __c24(j: number): any {
           S.Struct({
             supports_standing_order_end_date: S.Boolean,
             supports_standing_order_negative_execution_days: S.Boolean,
-            valid_standing_order_intervals: S.NullOr(__S(12352, __c386, 0)),
+            valid_standing_order_intervals: S.NullOr(__S(192, __c6, 0)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -25704,9 +23725,9 @@ function __c24(j: number): any {
           S.Struct({
             supports_international_payments: S.Boolean,
             supports_sepa_instant: S.Boolean,
-            maximum_payment_amount: S.optional(__S(10848, __c339, 0)),
+            maximum_payment_amount: S.optional(__S(9984, __c312, 0)),
             supports_refund_details: S.Boolean,
-            standing_order_metadata: S.NullOr(__S(775, __c24, 7)),
+            standing_order_metadata: S.NullOr(__S(359, __c11, 7)),
             supports_payment_consents: S.Boolean,
             supports_commercial_payment_consents: S.Boolean,
           }),
@@ -25729,7 +23750,7 @@ function __c24(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            supported_methods: S.NullOr(__S(777, __c24, 9)),
+            supported_methods: S.NullOr(__S(361, __c11, 9)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -25740,8 +23761,8 @@ function __c24(j: number): any {
           S.Struct({
             institution_id: S.String,
             name: S.String,
-            products: __S(12352, __c386, 0),
-            country_codes: __S(12352, __c386, 0),
+            products: __S(192, __c6, 0),
+            country_codes: __S(192, __c6, 0),
             url: S.optional(S.NullOr(S.String)),
             primary_color: S.optional(S.NullOr(S.String)),
             logo: S.optional(S.NullOr(S.String)),
@@ -25749,22 +23770,22 @@ function __c24(j: number): any {
             dtc_numbers: S.optional(__S(32, __c1, 0)),
             oauth: S.Boolean,
             connection_availability: S.String,
-            status: S.optional(S.NullOr(__S(774, __c24, 6))),
-            payment_initiation_metadata: S.optional(S.NullOr(__S(776, __c24, 8))),
-            auth_metadata: S.optional(S.NullOr(__S(778, __c24, 10))),
+            status: S.optional(S.NullOr(__S(358, __c11, 6))),
+            payment_initiation_metadata: S.optional(S.NullOr(__S(360, __c11, 8))),
+            auth_metadata: S.optional(S.NullOr(__S(362, __c11, 10))),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "Institution" });
   }
 }
-function __c25(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(779, __c24, 11));
+      return S.Array(__S(363, __c11, 11));
   }
 }
-function __c26(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25772,21 +23793,21 @@ function __c26(j: number): any {
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           access_token: S.String.pipe(T.SensitiveValue({})),
-          options: S.optional(__S(12864, __c402, 0)),
+          options: S.optional(__S(11904, __c372, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/investments/auth/get", code: 200 })),
       ).annotate({ identifier: "GetInvestmentsAuthRequest" });
     case 1:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            accounts: __S(864, __c27, 0),
-            holdings: __S(961, __c30, 1),
-            securities: __S(900, __c28, 4),
-            owners: __S(1025, __c32, 1),
-            numbers: __S(1032, __c32, 8),
-            data_sources: __S(1033, __c32, 9),
-            account_details_401k: S.optional(__S(1037, __c32, 13)),
-            item: __S(12800, __c400, 0),
+            accounts: __S(448, __c14, 0),
+            holdings: __S(545, __c17, 1),
+            securities: __S(484, __c15, 4),
+            owners: __S(609, __c19, 1),
+            numbers: __S(616, __c19, 8),
+            data_sources: __S(617, __c19, 9),
+            account_details_401k: S.optional(__S(621, __c19, 13)),
+            item: __S(11840, __c370, 0),
             request_id: S.String,
           }),
           [S.Record(S.String, S.Unknown)],
@@ -25794,13 +23815,13 @@ function __c26(j: number): any {
       ).annotate({ identifier: "InvestmentsAuthGetResponse" });
   }
 }
-function __c27(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(929, __c29, 1));
+      return S.Array(__S(513, __c16, 1));
   }
 }
-function __c28(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25828,7 +23849,7 @@ function __c28(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            yield_rate: S.NullOr(__S(897, __c28, 1)),
+            yield_rate: S.NullOr(__S(481, __c15, 1)),
             maturity_date: S.NullOr(S.String),
             issue_date: S.NullOr(S.String),
             face_value: S.NullOr(S.Number),
@@ -25862,17 +23883,17 @@ function __c28(j: number): any {
             industry: S.NullOr(S.String),
             cfi_code: S.NullOr(S.String),
             figi: S.NullOr(S.String),
-            option_contract: S.NullOr(__S(896, __c28, 0)),
-            fixed_income: S.NullOr(__S(898, __c28, 2)),
+            option_contract: S.NullOr(__S(480, __c15, 0)),
+            fixed_income: S.NullOr(__S(482, __c15, 2)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "Security" });
     case 4:
-      return S.Array(__S(899, __c28, 3));
+      return S.Array(__S(483, __c15, 3));
   }
 }
-function __c29(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25894,7 +23915,7 @@ function __c29(j: number): any {
         S.StructWithRest(
           S.Struct({
             account_id: S.String,
-            balances: __S(928, __c29, 0),
+            balances: __S(512, __c16, 0),
             mask: S.NullOr(S.String),
             name: S.String,
             official_name: S.NullOr(S.String),
@@ -25902,7 +23923,7 @@ function __c29(j: number): any {
             subtype: S.NullOr(S.String),
             verification_status: S.optional(S.String),
             verification_name: S.optional(S.String),
-            verification_insights: S.optional(__S(12770, __c399, 2)),
+            verification_insights: S.optional(__S(11810, __c369, 2)),
             persistent_account_id: S.optional(S.String),
             apy: S.optional(S.NullOr(S.Number)),
             holder_category: S.optional(S.NullOr(S.String)),
@@ -25913,7 +23934,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "InvestmentAccount" });
   }
 }
-function __c30(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25931,16 +23952,16 @@ function __c30(j: number): any {
             unofficial_currency_code: S.NullOr(S.String),
             vested_quantity: S.optional(S.NullOr(S.Number)),
             vested_value: S.optional(S.NullOr(S.Number)),
-            tax_lots: S.optional(__S(6049, __c189, 1)),
+            tax_lots: S.optional(__S(5953, __c186, 1)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "Holding" });
     case 1:
-      return S.Array(__S(960, __c30, 0));
+      return S.Array(__S(544, __c17, 0));
   }
 }
-function __c31(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25966,10 +23987,10 @@ function __c31(j: number): any {
         ),
       ).annotate({ identifier: "InvestmentTransaction" });
     case 1:
-      return S.Array(__S(992, __c31, 0));
+      return S.Array(__S(576, __c18, 0));
   }
 }
-function __c32(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25982,7 +24003,7 @@ function __c32(j: number): any {
         ),
       ).annotate({ identifier: "InvestmentsAuthOwner" });
     case 1:
-      return S.Array(__S(1024, __c32, 0));
+      return S.Array(__S(608, __c19, 0));
     case 2:
       return S.suspend(() =>
         S.StructWithRest(
@@ -25995,7 +24016,7 @@ function __c32(j: number): any {
         ),
       ).annotate({ identifier: "NumbersACATS" });
     case 3:
-      return S.Array(__S(1026, __c32, 2));
+      return S.Array(__S(610, __c19, 2));
     case 4:
       return S.suspend(() =>
         S.StructWithRest(
@@ -26007,7 +24028,7 @@ function __c32(j: number): any {
         ),
       ).annotate({ identifier: "NumbersATON" });
     case 5:
-      return S.Array(__S(1028, __c32, 4));
+      return S.Array(__S(612, __c19, 4));
     case 6:
       return S.suspend(() =>
         S.StructWithRest(
@@ -26020,14 +24041,14 @@ function __c32(j: number): any {
         ),
       ).annotate({ identifier: "NumbersRetirement401k" });
     case 7:
-      return S.Array(__S(1030, __c32, 6));
+      return S.Array(__S(614, __c19, 6));
     case 8:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            acats: S.optional(__S(1027, __c32, 3)),
-            aton: S.optional(__S(1029, __c32, 5)),
-            retirement_401k: S.optional(__S(1031, __c32, 7)),
+            acats: S.optional(__S(611, __c19, 3)),
+            aton: S.optional(__S(613, __c19, 5)),
+            retirement_401k: S.optional(__S(615, __c19, 7)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -26057,7 +24078,7 @@ function __c32(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            last_contribution_transactions: __S(993, __c31, 1),
+            last_contribution_transactions: __S(577, __c18, 1),
             contribution_count_1m: S.Number,
             contribution_amount_1m: S.Number,
             contribution_count_6m: S.Number,
@@ -26073,17 +24094,17 @@ function __c32(j: number): any {
         S.StructWithRest(
           S.Struct({
             account_id: S.optional(S.String),
-            fee_details: S.optional(__S(1034, __c32, 10)),
-            contribution_details: S.optional(__S(1035, __c32, 11)),
+            fee_details: S.optional(__S(618, __c19, 10)),
+            contribution_details: S.optional(__S(619, __c19, 11)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "InvestmentsAuthAccountDetails401k" });
     case 13:
-      return S.Array(__S(1036, __c32, 12));
+      return S.Array(__S(620, __c19, 12));
   }
 }
-function __c33(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26091,17 +24112,17 @@ function __c33(j: number): any {
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           access_token: S.String.pipe(T.SensitiveValue({})),
-          options: S.optional(__S(12864, __c402, 0)),
+          options: S.optional(__S(11904, __c372, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/investments/holdings/get", code: 200 })),
       ).annotate({ identifier: "GetInvestmentsHoldingRequest" });
     case 1:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            accounts: __S(864, __c27, 0),
-            holdings: __S(961, __c30, 1),
-            securities: __S(900, __c28, 4),
-            item: __S(12800, __c400, 0),
+            accounts: __S(448, __c14, 0),
+            holdings: __S(545, __c17, 1),
+            securities: __S(484, __c15, 4),
+            item: __S(11840, __c370, 0),
             request_id: S.String,
             is_investments_fallback_item: S.optional(S.Boolean),
           }),
@@ -26110,7 +24131,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "InvestmentsHoldingsGetResponse" });
   }
 }
-function __c34(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26120,17 +24141,17 @@ function __c34(j: number): any {
           access_token: S.String.pipe(T.SensitiveValue({})),
           start_date: S.String,
           end_date: S.String,
-          options: S.optional(__S(1120, __c35, 0)),
+          options: S.optional(__S(704, __c22, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/investments/transactions/get", code: 200 })),
       ).annotate({ identifier: "GetInvestmentsTransactionRequest" });
     case 1:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            item: __S(12800, __c400, 0),
-            accounts: __S(864, __c27, 0),
-            securities: __S(900, __c28, 4),
-            investment_transactions: __S(993, __c31, 1),
+            item: __S(11840, __c370, 0),
+            accounts: __S(448, __c14, 0),
+            securities: __S(484, __c15, 4),
+            investment_transactions: __S(577, __c18, 1),
             total_investment_transactions: S.Number,
             request_id: S.String,
             is_investments_fallback_item: S.optional(S.Boolean),
@@ -26140,7 +24161,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "InvestmentsTransactionsGetResponse" });
   }
 }
-function __c35(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26153,7 +24174,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "InvestmentsTransactionsGetRequestOptions" });
   }
 }
-function __c36(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26167,7 +24188,7 @@ function __c36(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            issue: S.optional(__S(1184, __c37, 0)),
+            issue: S.optional(__S(768, __c24, 0)),
             request_id: S.optional(S.String),
           }),
           [S.Record(S.String, S.Unknown)],
@@ -26175,7 +24196,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "IssuesGetResponse" });
   }
 }
-function __c37(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26194,7 +24215,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "Issue" });
   }
 }
-function __c38(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26214,16 +24235,16 @@ function __c38(j: number): any {
             webhook: S.NullOr(S.String),
             auth_method: S.optional(S.NullOr(S.String)),
             error: S.NullOr(__S(64, __c2, 0)),
-            available_products: __S(12352, __c386, 0),
-            billed_products: __S(12352, __c386, 0),
-            products: S.optional(__S(12352, __c386, 0)),
-            consented_products: S.optional(__S(12352, __c386, 0)),
+            available_products: __S(192, __c6, 0),
+            billed_products: __S(192, __c6, 0),
+            products: S.optional(__S(192, __c6, 0)),
+            consented_products: S.optional(__S(192, __c6, 0)),
             consent_expiration_time: S.NullOr(S.String),
             update_type: S.String,
             paired_item_id: S.optional(S.NullOr(S.String)),
             created_at: S.optional(S.String),
             consented_use_cases: S.optional(__S(32, __c1, 0)),
-            consented_data_scopes: S.optional(__S(12352, __c386, 0)),
+            consented_data_scopes: S.optional(__S(192, __c6, 0)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -26252,9 +24273,9 @@ function __c38(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            investments: S.optional(S.NullOr(__S(1218, __c38, 2))),
-            transactions: S.optional(S.NullOr(__S(1218, __c38, 2))),
-            last_webhook: S.optional(S.NullOr(__S(1219, __c38, 3))),
+            investments: S.optional(S.NullOr(__S(802, __c25, 2))),
+            transactions: S.optional(S.NullOr(__S(802, __c25, 2))),
+            last_webhook: S.optional(S.NullOr(__S(803, __c25, 3))),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -26263,8 +24284,8 @@ function __c38(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            item: __S(1217, __c38, 1),
-            status: S.optional(S.NullOr(__S(1220, __c38, 4))),
+            item: __S(801, __c25, 1),
+            status: S.optional(S.NullOr(__S(804, __c25, 4))),
             request_id: S.String,
           }),
           [S.Record(S.String, S.Unknown)],
@@ -26272,7 +24293,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "ItemGetResponse" });
   }
 }
-function __c39(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26280,16 +24301,16 @@ function __c39(j: number): any {
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           access_token: S.String.pipe(T.SensitiveValue({})),
-          options: S.optional(__S(12864, __c402, 0)),
+          options: S.optional(__S(11904, __c372, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/liabilities/get", code: 200 })),
       ).annotate({ identifier: "GetLiabilityRequest" });
     case 1:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            accounts: __S(12736, __c398, 0),
-            item: __S(12800, __c400, 0),
-            liabilities: __S(1297, __c40, 17),
+            accounts: __S(11776, __c368, 0),
+            item: __S(11840, __c370, 0),
+            liabilities: __S(881, __c27, 17),
             request_id: S.String,
           }),
           [S.Record(S.String, S.Unknown)],
@@ -26297,7 +24318,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "LiabilitiesGetResponse" });
   }
 }
-function __c40(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26312,13 +24333,13 @@ function __c40(j: number): any {
         ),
       ).annotate({ identifier: "APR" });
     case 1:
-      return S.Array(__S(1280, __c40, 0));
+      return S.Array(__S(864, __c27, 0));
     case 2:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
             account_id: S.NullOr(S.String),
-            aprs: __S(1281, __c40, 1),
+            aprs: __S(865, __c27, 1),
             is_overdue: S.NullOr(S.Boolean),
             last_payment_amount: S.NullOr(S.Number),
             last_payment_date: S.NullOr(S.String),
@@ -26332,7 +24353,7 @@ function __c40(j: number): any {
         ),
       ).annotate({ identifier: "CreditCardLiability" });
     case 3:
-      return S.Array(__S(1282, __c40, 2));
+      return S.Array(__S(866, __c27, 2));
     case 4:
       return S.suspend(() =>
         S.StructWithRest(
@@ -26353,7 +24374,7 @@ function __c40(j: number): any {
             escrow_balance: S.NullOr(S.Number),
             has_pmi: S.NullOr(S.Boolean),
             has_prepayment_penalty: S.NullOr(S.Boolean),
-            interest_rate: __S(1284, __c40, 4),
+            interest_rate: __S(868, __c27, 4),
             last_payment_amount: S.NullOr(S.Number),
             last_payment_date: S.NullOr(S.String),
             loan_type_description: S.NullOr(S.String),
@@ -26364,7 +24385,7 @@ function __c40(j: number): any {
             origination_date: S.NullOr(S.String),
             origination_principal_amount: S.NullOr(S.Number),
             past_due_amount: S.NullOr(S.Number),
-            property_address: __S(14688, __c459, 0),
+            property_address: __S(13440, __c420, 0),
             ytd_interest_paid: S.NullOr(S.Number),
             ytd_principal_paid: S.NullOr(S.Number),
           }),
@@ -26372,7 +24393,7 @@ function __c40(j: number): any {
         ),
       ).annotate({ identifier: "MortgageLiability" });
     case 6:
-      return S.Array(__S(1285, __c40, 5));
+      return S.Array(__S(869, __c27, 5));
     case 7:
       return S.suspend(() =>
         S.StructWithRest(
@@ -26420,17 +24441,17 @@ function __c40(j: number): any {
             last_statement_balance: S.optional(S.NullOr(S.Number)),
             last_statement_issue_date: S.NullOr(S.String),
             loan_name: S.NullOr(S.String),
-            loan_status: __S(1287, __c40, 7),
+            loan_status: __S(871, __c27, 7),
             minimum_payment_amount: S.NullOr(S.Number),
             next_payment_due_date: S.NullOr(S.String),
             origination_date: S.NullOr(S.String),
             origination_principal_amount: S.NullOr(S.Number),
             outstanding_interest_amount: S.NullOr(S.Number),
             payment_reference_number: S.NullOr(S.String),
-            pslf_status: __S(1288, __c40, 8),
-            repayment_plan: __S(1289, __c40, 9),
+            pslf_status: __S(872, __c27, 8),
+            repayment_plan: __S(873, __c27, 9),
             sequence_number: S.NullOr(S.String),
-            servicer_address: __S(5728, __c179, 0),
+            servicer_address: __S(5696, __c178, 0),
             ytd_interest_paid: S.NullOr(S.Number),
             ytd_principal_paid: S.NullOr(S.Number),
           }),
@@ -26438,7 +24459,7 @@ function __c40(j: number): any {
         ),
       ).annotate({ identifier: "StudentLoan" });
     case 11:
-      return S.Array(__S(1290, __c40, 10));
+      return S.Array(__S(874, __c27, 10));
     case 12:
       return S.suspend(() =>
         S.StructWithRest(
@@ -26455,7 +24476,7 @@ function __c40(j: number): any {
           S.Struct({
             account_id: S.String,
             account_number: S.NullOr(S.String),
-            interest_rate: S.NullOr(__S(1292, __c40, 12)),
+            interest_rate: S.NullOr(__S(876, __c27, 12)),
             principal_balance: S.NullOr(S.Number),
             origination_principal_amount: S.NullOr(S.Number),
             origination_date: S.NullOr(S.String),
@@ -26475,13 +24496,13 @@ function __c40(j: number): any {
         ),
       ).annotate({ identifier: "LoanLiability" });
     case 14:
-      return S.Array(__S(1293, __c40, 13));
+      return S.Array(__S(877, __c27, 13));
     case 15:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
             account_id: S.String,
-            interest_rate: S.NullOr(__S(1292, __c40, 12)),
+            interest_rate: S.NullOr(__S(876, __c27, 12)),
             credit_limit: S.NullOr(S.Number),
             available_credit: S.NullOr(S.Number),
             principal_balance: S.NullOr(S.Number),
@@ -26495,29 +24516,29 @@ function __c40(j: number): any {
             past_due_amount: S.NullOr(S.Number),
             finance_charges: S.NullOr(S.Number),
             draw_period_end_date: S.NullOr(S.String),
-            aprs: __S(1281, __c40, 1),
+            aprs: __S(865, __c27, 1),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "LineOfCreditLiability" });
     case 16:
-      return S.Array(__S(1295, __c40, 15));
+      return S.Array(__S(879, __c27, 15));
     case 17:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            credit: S.NullOr(__S(1283, __c40, 3)),
-            mortgage: S.NullOr(__S(1286, __c40, 6)),
-            student: S.NullOr(__S(1291, __c40, 11)),
-            loan: S.optional(S.NullOr(__S(1294, __c40, 14))),
-            line_of_credit: S.optional(S.NullOr(__S(1296, __c40, 16))),
+            credit: S.NullOr(__S(867, __c27, 3)),
+            mortgage: S.NullOr(__S(870, __c27, 6)),
+            student: S.NullOr(__S(875, __c27, 11)),
+            loan: S.optional(S.NullOr(__S(878, __c27, 14))),
+            line_of_credit: S.optional(S.NullOr(__S(880, __c27, 16))),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "LiabilitiesObject" });
   }
 }
-function __c41(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26547,12 +24568,12 @@ function __c41(j: number): any {
         }),
       ).annotate({ identifier: "LinkSessionSuccessMetadataAccount" });
     case 3:
-      return S.Array(__S(1314, __c41, 2));
+      return S.Array(__S(898, __c28, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          institution: S.optional(S.NullOr(__S(1313, __c41, 1))),
-          accounts: S.optional(__S(1315, __c41, 3)),
+          institution: S.optional(S.NullOr(__S(897, __c28, 1))),
+          accounts: S.optional(__S(899, __c28, 3)),
           link_session_id: S.optional(S.String),
           session_group_id: S.optional(S.String),
           transfer_status: S.optional(S.NullOr(S.String)),
@@ -26562,7 +24583,7 @@ function __c41(j: number): any {
       return S.suspend(() =>
         S.Struct({
           public_token: S.String,
-          metadata: S.NullOr(__S(1316, __c41, 4)),
+          metadata: S.NullOr(__S(900, __c28, 4)),
         }),
       ).annotate({ identifier: "LinkSessionSuccess" });
     case 6:
@@ -26582,8 +24603,8 @@ function __c41(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          institution: S.optional(S.NullOr(__S(1313, __c41, 1))),
-          status: S.optional(__S(1318, __c41, 6)),
+          institution: S.optional(S.NullOr(__S(897, __c28, 1))),
+          status: S.optional(__S(902, __c28, 6)),
           link_session_id: S.optional(S.String),
           request_id: S.optional(S.String),
         }),
@@ -26593,7 +24614,7 @@ function __c41(j: number): any {
         S.StructWithRest(
           S.Struct({
             error: S.NullOr(__S(64, __c2, 0)),
-            metadata: S.NullOr(__S(1319, __c41, 7)),
+            metadata: S.NullOr(__S(903, __c28, 7)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -26628,65 +24649,65 @@ function __c41(j: number): any {
             event_name: S.String,
             timestamp: S.String,
             event_id: S.String,
-            event_metadata: __S(1321, __c41, 9),
+            event_metadata: __S(905, __c28, 9),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "LinkEvent" });
     case 11:
-      return S.Array(__S(1322, __c41, 10));
+      return S.Array(__S(906, __c28, 10));
     case 12:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
             public_token: S.String,
-            accounts: __S(1315, __c41, 3),
-            institution: S.NullOr(__S(1313, __c41, 1)),
+            accounts: __S(899, __c28, 3),
+            institution: S.NullOr(__S(897, __c28, 1)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "LinkSessionItemAddResult" });
     case 13:
-      return S.Array(__S(1324, __c41, 12));
+      return S.Array(__S(908, __c28, 12));
     case 14:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
             item_id: S.String,
-            accounts: __S(1315, __c41, 3),
-            institution: S.NullOr(__S(1313, __c41, 1)),
+            accounts: __S(899, __c28, 3),
+            institution: S.NullOr(__S(897, __c28, 1)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "LinkSessionCraItemAddResult" });
     case 15:
-      return S.Array(__S(1326, __c41, 14));
+      return S.Array(__S(910, __c28, 14));
     case 16:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
             status: S.String,
             item_id: S.String,
-            institution: S.NullOr(__S(1313, __c41, 1)),
+            institution: S.NullOr(__S(897, __c28, 1)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "LinkSessionBankIncomeResult" });
     case 17:
-      return S.Array(__S(1328, __c41, 16));
+      return S.Array(__S(912, __c28, 16));
     case 18:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
             num_paystubs_retrieved: S.Number,
             num_w2s_retrieved: S.Number,
-            institution: S.NullOr(__S(1313, __c41, 1)),
+            institution: S.NullOr(__S(897, __c28, 1)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "LinkSessionPayrollIncomeResult" });
     case 19:
-      return S.Array(__S(1330, __c41, 18));
+      return S.Array(__S(914, __c28, 18));
     case 20:
       return S.suspend(() =>
         S.Struct({
@@ -26706,14 +24727,14 @@ function __c41(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            item_add_results: __S(1325, __c41, 13),
-            cra_item_add_results: __S(1327, __c41, 15),
-            cra_update_results: __S(1327, __c41, 15),
-            bank_income_results: __S(1329, __c41, 17),
-            payroll_income_results: __S(1331, __c41, 19),
-            document_income_results: S.NullOr(__S(384, __c12, 0)),
-            cra_document_upload_results: S.optional(S.NullOr(__S(1332, __c41, 20))),
-            cra_report_results: S.NullOr(__S(1333, __c41, 21)),
+            item_add_results: __S(909, __c28, 13),
+            cra_item_add_results: __S(911, __c28, 15),
+            cra_update_results: __S(911, __c28, 15),
+            bank_income_results: __S(913, __c28, 17),
+            payroll_income_results: __S(915, __c28, 19),
+            document_income_results: S.NullOr(__S(13760, __c430, 0)),
+            cra_document_upload_results: S.optional(S.NullOr(__S(916, __c28, 20))),
+            cra_report_results: S.NullOr(__S(917, __c28, 21)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -26725,25 +24746,25 @@ function __c41(j: number): any {
             link_session_id: S.String,
             started_at: S.optional(S.String),
             finished_at: S.optional(S.NullOr(S.String)),
-            on_success: S.optional(S.NullOr(__S(1317, __c41, 5))),
-            on_exit: S.optional(S.NullOr(__S(1320, __c41, 8))),
-            exit: S.optional(S.NullOr(__S(1320, __c41, 8))),
-            events: S.optional(__S(1323, __c41, 11)),
-            results: S.optional(S.NullOr(__S(1334, __c41, 22))),
+            on_success: S.optional(S.NullOr(__S(901, __c28, 5))),
+            on_exit: S.optional(S.NullOr(__S(904, __c28, 8))),
+            exit: S.optional(S.NullOr(__S(904, __c28, 8))),
+            events: S.optional(__S(907, __c28, 11)),
+            results: S.optional(S.NullOr(__S(918, __c28, 22))),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "LinkTokenGetSessionsResponse" });
     case 24:
-      return S.Array(__S(1335, __c41, 23));
+      return S.Array(__S(919, __c28, 23));
     case 25:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            depository: S.optional(S.NullOr(__S(6113, __c191, 1))),
-            credit: S.optional(S.NullOr(__S(6114, __c191, 2))),
-            loan: S.optional(S.NullOr(__S(6114, __c191, 2))),
-            investment: S.optional(S.NullOr(__S(6114, __c191, 2))),
+            depository: S.optional(S.NullOr(__S(4705, __c147, 1))),
+            credit: S.optional(S.NullOr(__S(4706, __c147, 2))),
+            loan: S.optional(S.NullOr(__S(4706, __c147, 2))),
+            investment: S.optional(S.NullOr(__S(4706, __c147, 2))),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -26752,12 +24773,12 @@ function __c41(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            initial_products: __S(12352, __c386, 0),
+            initial_products: __S(192, __c6, 0),
             webhook: S.NullOr(S.String),
-            country_codes: __S(12352, __c386, 0),
+            country_codes: __S(192, __c6, 0),
             language: S.NullOr(S.String),
-            institution_data: S.optional(S.NullOr(__S(6112, __c191, 0))),
-            account_filters: S.optional(S.NullOr(__S(1337, __c41, 25))),
+            institution_data: S.optional(S.NullOr(__S(4704, __c147, 0))),
+            account_filters: S.optional(S.NullOr(__S(921, __c28, 25))),
             redirect_uri: S.NullOr(S.String),
             client_name: S.NullOr(S.String),
           }),
@@ -26771,8 +24792,8 @@ function __c41(j: number): any {
             link_token: S.String.pipe(T.SensitiveValue({})),
             created_at: S.NullOr(S.String),
             expiration: S.NullOr(S.String),
-            link_sessions: S.optional(__S(1336, __c41, 24)),
-            metadata: __S(1338, __c41, 26),
+            link_sessions: S.optional(__S(920, __c28, 24)),
+            metadata: __S(922, __c28, 26),
             user_id: S.optional(S.String),
             request_id: S.String,
           }),
@@ -26781,574 +24802,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "LinkTokenGetResponse" });
   }
 }
-function __c42(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          client_id: S.optional(S.String),
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          user: __S(1376, __c43, 0),
-          template_id: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/network/status/get", code: 200 })),
-      ).annotate({ identifier: "GetNetworkStatusRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            eligible: S.Boolean,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "NetworkStatusGetResponseLayer" });
-    case 2:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            network_status: S.String,
-            layer: S.optional(S.NullOr(__S(1345, __c42, 1))),
-            request_id: S.String,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "NetworkStatusGetResponse" });
-  }
-}
-function __c43(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            phone_number: S.String,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "NetworkStatusGetUser" });
-  }
-}
-function __c44(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          client_id: S.optional(S.String),
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          company_name: S.String,
-          is_diligence_attested: S.optional(S.Boolean),
-          products: S.optional(__S(12352, __c386, 0)),
-          create_link_customization: S.optional(S.Boolean),
-          logo: S.optional(S.String),
-          legal_entity_name: S.optional(S.String),
-          website: S.String,
-          application_name: S.String,
-          technical_contact: S.optional(__S(1472, __c46, 0)),
-          billing_contact: S.optional(__S(1472, __c46, 0)),
-          customer_support_info: __S(1473, __c46, 1),
-          address: __S(1474, __c46, 2),
-          redirect_uris: S.optional(__S(32, __c1, 0)),
-          bank_addendum_acceptance: S.optional(__S(1504, __c47, 0)),
-          questionnaires: S.optional(__S(1508, __c47, 4)),
-        }).pipe(T.Http({ method: "POST", uri: "/beta/partner/customer/v1/create", code: 200 })),
-      ).annotate({ identifier: "CreateBetaPartnerCustomerV1Request" });
-    case 1:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            client_id: S.optional(S.String),
-            company_name: S.optional(S.String),
-            status: S.optional(S.String),
-            product_statuses: S.optional(__S(1440, __c45, 0)),
-            requirements_due: S.optional(__S(12352, __c386, 0)),
-            secrets: S.optional(__S(1475, __c46, 3)),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "BetaPartnerEndCustomerWithSecrets" });
-    case 2:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            end_customer: S.optional(__S(1409, __c44, 1)),
-            request_id: S.optional(S.String),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "BetaPartnerCustomerV1CreateResponse" });
-  }
-}
-function __c45(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.Unknown);
-  }
-}
-function __c46(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            given_name: S.optional(S.String),
-            family_name: S.optional(S.String),
-            email: S.optional(S.String),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "PartnerEndCustomerTechnicalContact" });
-    case 1:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            email: S.optional(S.String),
-            phone_number: S.optional(S.String),
-            contact_url: S.optional(S.String),
-            link_update_url: S.optional(S.String),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "PartnerEndCustomerCustomerSupportInfo" });
-    case 2:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            city: S.optional(S.String),
-            street: S.optional(S.String),
-            region: S.optional(S.String),
-            postal_code: S.optional(S.String),
-            country_code: S.optional(S.String),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "PartnerEndCustomerAddress" });
-    case 3:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            sandbox: S.optional(S.String),
-            development: S.optional(S.String),
-            production: S.optional(S.String),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "PartnerEndCustomerSecrets" });
-  }
-}
-function __c47(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            customer_accepted: S.optional(S.Boolean),
-            customer_ip_address: S.optional(S.String),
-            customer_agreement_timestamp: S.optional(S.String),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "PartnerEndCustomerBankAddendumAcceptance" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          use_cases: S.optional(__S(12352, __c386, 0)),
-        }),
-      ).annotate({ identifier: "PartnerEndCustomerCRAUseCases" });
-    case 2:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            WRITTEN_INSTRUCTION: S.optional(__S(1505, __c47, 1)),
-            EXTENSION_OF_CREDIT_OR_ACCOUNT_REVIEW: S.optional(__S(1505, __c47, 1)),
-            EMPLOYMENT: S.optional(__S(1505, __c47, 1)),
-            INSURANCE_UNDERWRITING: S.optional(__S(1505, __c47, 1)),
-            LICENSE_ELIGIBILITY: S.optional(__S(1505, __c47, 1)),
-            RISK_ASSESSMENT: S.optional(__S(1505, __c47, 1)),
-            BUSINESS_NEED_TRANSACTION: S.optional(__S(1505, __c47, 1)),
-            BUSINESS_NEED_ACCOUNT_REVIEW: S.optional(__S(1505, __c47, 1)),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "PartnerEndCustomerCRAPurposes" });
-    case 3:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            purposes: S.optional(__S(1506, __c47, 2)),
-            is_third_party_involved: S.optional(S.Boolean),
-            is_technical_service_provider_involved: S.optional(S.Boolean),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "PartnerEndCustomerCRAQuestionnaire" });
-    case 4:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            cra: S.optional(__S(1507, __c47, 3)),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "PartnerEndCustomerQuestionnaires" });
-  }
-}
-function __c48(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          client_id: S.optional(S.String),
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          end_customer_client_id: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/partner/customer/get", code: 200 })),
-      ).annotate({ identifier: "GetPartnerCustomerRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            client_id: S.optional(S.String),
-            company_name: S.optional(S.String),
-            status: S.optional(S.String),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "PartnerEndCustomer" });
-    case 2:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            end_customer: S.optional(__S(1537, __c48, 1)),
-            request_id: S.optional(S.String),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "PartnerCustomerGetResponse" });
-  }
-}
-function __c49(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(/*@__PURE__*/ S.NullOr(__S(64, __c2, 0)));
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          client_id: S.optional(S.String),
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          end_customer_client_id: S.String,
-        }).pipe(
-          T.Http({ method: "POST", uri: "/partner/customer/oauth_institutions/get", code: 200 }),
-        ),
-      ).annotate({ identifier: "GetPartnerCustomerOauthInstitutionRequest" });
-    case 2:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            development: S.optional(S.String),
-            production: S.optional(S.String),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "PartnerEndCustomerOAuthInstitutionEnvironments" });
-    case 3:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            name: S.optional(S.String),
-            institution_id: S.optional(S.String),
-            environments: S.optional(__S(1570, __c49, 2)),
-            production_enablement_date: S.optional(S.NullOr(S.String)),
-            classic_disablement_date: S.optional(S.NullOr(S.String)),
-            errors: S.optional(__S(1568, __c49, 0)),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "PartnerEndCustomerOAuthInstitution" });
-    case 4:
-      return S.Array(__S(1571, __c49, 3));
-    case 5:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            flowdown_status: S.optional(S.String),
-            questionnaire_status: S.optional(S.String),
-            institutions: S.optional(__S(1572, __c49, 4)),
-            request_id: S.optional(S.String),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "PartnerCustomerOAuthInstitutionsGetResponse" });
-  }
-}
-function __c50(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          client_id: S.optional(S.String),
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          consent_id: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/payment_initiation/consent/get", code: 200 })),
-      ).annotate({ identifier: "GetPaymentInitiationConsentRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          consent_id: S.String,
-          status: S.String,
-          created_at: S.String,
-          recipient_id: S.String,
-          reference: S.String,
-          constraints: __S(6979, __c218, 3),
-          scopes: S.optional(__S(12352, __c386, 0)),
-          type: S.optional(S.String),
-          payer_details: S.optional(S.NullOr(__S(1632, __c51, 0))),
-          request_id: S.String,
-        }),
-      ).annotate({ identifier: "GetPaymentInitiationConsentResponse" });
-  }
-}
-function __c51(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          iban: S.NullOr(S.String),
-          bacs: S.NullOr(__S(7008, __c219, 0)),
-        }),
-      ).annotate({ identifier: "ExternalPaymentRefundDetails" });
-  }
-}
-function __c52(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          client_id: S.optional(S.String),
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          payment_id: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/payment_initiation/payment/get", code: 200 })),
-      ).annotate({ identifier: "GetPaymentInitiationPaymentRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          payment_id: S.String,
-          amount: __S(7040, __c220, 0),
-          status: S.String,
-          recipient_id: S.String,
-          reference: S.String,
-          adjusted_reference: S.optional(S.NullOr(S.String)),
-          last_status_update: S.String,
-          schedule: S.optional(S.NullOr(__S(1696, __c53, 0))),
-          refund_details: S.optional(S.NullOr(__S(1632, __c51, 0))),
-          bacs: S.NullOr(__S(7008, __c219, 0)),
-          iban: S.NullOr(S.String),
-          refund_ids: S.optional(S.NullOr(__S(32, __c1, 0))),
-          amount_refunded: S.optional(__S(1728, __c54, 0)),
-          wallet_id: S.optional(S.NullOr(S.String)),
-          scheme: S.optional(S.NullOr(S.String)),
-          adjusted_scheme: S.optional(S.NullOr(S.String)),
-          consent_id: S.optional(S.NullOr(S.String)),
-          transaction_id: S.optional(S.NullOr(S.String)),
-          end_to_end_id: S.optional(S.NullOr(S.String)),
-          error: S.optional(S.NullOr(__S(64, __c2, 0))),
-          institution_id: S.NullOr(S.String),
-          request_id: S.String,
-        }),
-      ).annotate({ identifier: "GetPaymentInitiationPaymentResponse" });
-  }
-}
-function __c53(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            interval: S.String,
-            interval_execution_day: S.Number,
-            start_date: S.String,
-            end_date: S.NullOr(S.String),
-            adjusted_start_date: S.NullOr(S.String),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "ExternalPaymentScheduleGet" });
-  }
-}
-function __c54(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            currency: S.String,
-            value: S.Number,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "PaymentAmountRefunded" });
-  }
-}
-function __c55(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          client_id: S.optional(S.String),
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          recipient_id: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/payment_initiation/recipient/get", code: 200 })),
-      ).annotate({ identifier: "GetPaymentInitiationRecipientRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          recipient_id: S.String,
-          name: S.String,
-          address: S.optional(S.NullOr(__S(7072, __c221, 0))),
-          iban: S.optional(S.NullOr(S.String)),
-          bacs: S.optional(S.NullOr(__S(7008, __c219, 0))),
-          request_id: S.String,
-        }),
-      ).annotate({ identifier: "GetPaymentInitiationRecipientResponse" });
-  }
-}
-function __c56(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          client_id: S.optional(S.String),
-          processor_token: S.String.pipe(T.SensitiveValue({})),
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-        }).pipe(T.Http({ method: "POST", uri: "/processor/account/get", code: 200 })),
-      ).annotate({ identifier: "GetProcessorAccountRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            account: __S(12704, __c397, 0),
-            institution_id: S.String,
-            request_id: S.String,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "ProcessorAccountGetResponse" });
-  }
-}
-function __c57(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          client_id: S.optional(S.String),
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          processor_token: S.String.pipe(T.SensitiveValue({})),
-        }).pipe(T.Http({ method: "POST", uri: "/processor/auth/get", code: 200 })),
-      ).annotate({ identifier: "GetProcessorAuthRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            ach: S.optional(S.NullOr(__S(13056, __c408, 0))),
-            eft: S.optional(S.NullOr(__S(13057, __c408, 1))),
-            international: S.optional(S.NullOr(__S(13058, __c408, 2))),
-            bacs: S.optional(S.NullOr(__S(13059, __c408, 3))),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "ProcessorNumber" });
-    case 2:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            request_id: S.String,
-            numbers: __S(1825, __c57, 1),
-            account: __S(12704, __c397, 0),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "ProcessorAuthGetResponse" });
-  }
-}
-function __c58(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          min_last_updated_datetime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ProcessorBalanceGetRequestOptions" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          client_id: S.optional(S.String),
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          processor_token: S.String.pipe(T.SensitiveValue({})),
-          options: S.optional(__S(1856, __c58, 0)),
-        }).pipe(T.Http({ method: "POST", uri: "/processor/balance/get", code: 200 })),
-      ).annotate({ identifier: "GetProcessorBalanceRequest" });
-    case 2:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            account: __S(12704, __c397, 0),
-            request_id: S.String,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "ProcessorBalanceGetResponse" });
-  }
-}
-function __c59(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          client_id: S.optional(S.String),
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          processor_token: S.String.pipe(T.SensitiveValue({})),
-        }).pipe(T.Http({ method: "POST", uri: "/processor/identity/get", code: 200 })),
-      ).annotate({ identifier: "GetProcessorIdentityRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            account: __S(576, __c18, 0),
-            request_id: S.String,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "ProcessorIdentityGetResponse" });
-  }
-}
-function __c60(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          client_id: S.optional(S.String),
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          processor_token: S.String.pipe(T.SensitiveValue({})),
-        }).pipe(T.Http({ method: "POST", uri: "/processor/investments/auth/get", code: 200 })),
-      ).annotate({ identifier: "GetProcessorInvestmentsAuthRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            account: __S(12704, __c397, 0),
-            holdings: __S(961, __c30, 1),
-            securities: __S(900, __c28, 4),
-            owners: __S(1025, __c32, 1),
-            numbers: __S(1032, __c32, 8),
-            data_sources: __S(1033, __c32, 9),
-            account_details_401k: S.optional(__S(1037, __c32, 13)),
-            is_investments_fallback_item: S.optional(S.Boolean),
-            request_id: S.String,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "ProcessorInvestmentsAuthGetResponse" });
-  }
-}
-function __c61(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27370,12 +24824,12 @@ function __c61(j: number): any {
           S.Struct({
             name: S.String,
             alternative_name: S.optional(S.NullOr(S.String)),
-            address: __S(1952, __c61, 0),
+            address: __S(928, __c29, 0),
             website: S.optional(S.String),
             phone_number: S.optional(S.String),
             email_address: S.optional(S.String),
             tin: S.optional(S.NullOr(S.String)),
-            officers: S.optional(S.NullOr(__S(2017, __c63, 1))),
+            officers: S.optional(S.NullOr(__S(993, __c31, 1))),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -27384,14 +24838,14 @@ function __c61(j: number): any {
       return S.suspend(() =>
         S.Struct({
           client_user_id: S.String,
-          business: __S(1953, __c61, 1),
+          business: __S(929, __c29, 1),
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }).pipe(T.Http({ method: "POST", uri: "/business_verification/create", code: 200 })),
       ).annotate({ identifier: "CreateBusinessVerificationRequest" });
   }
 }
-function __c62(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27409,7 +24863,7 @@ function __c62(j: number): any {
       ).annotate({ identifier: "ResponseBusinessAddress" });
   }
 }
-function __c63(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27421,19 +24875,19 @@ function __c63(j: number): any {
         ),
       ).annotate({ identifier: "BusinessOfficer" });
     case 1:
-      return S.Array(__S(2016, __c63, 0));
+      return S.Array(__S(992, __c31, 0));
     case 2:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
             name: S.NullOr(S.String),
             alternative_names: __S(32, __c1, 0),
-            address: __S(1984, __c62, 0),
+            address: __S(960, __c30, 0),
             website: S.NullOr(S.String),
             phone_number: S.NullOr(S.String),
             email_address: S.NullOr(S.String),
             tin: S.NullOr(S.String),
-            officers: __S(2017, __c63, 1),
+            officers: __S(993, __c31, 1),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -27459,7 +24913,7 @@ function __c63(j: number): any {
         ),
       ).annotate({ identifier: "ProviderBusinessName" });
     case 5:
-      return S.Array(__S(2020, __c63, 4));
+      return S.Array(__S(996, __c31, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -27473,7 +24927,7 @@ function __c63(j: number): any {
         }),
       ).annotate({ identifier: "ProviderBusinessAddress" });
     case 7:
-      return S.Array(__S(2022, __c63, 6));
+      return S.Array(__S(998, __c31, 6));
     case 8:
       return S.suspend(() =>
         S.StructWithRest(
@@ -27484,7 +24938,7 @@ function __c63(j: number): any {
         ),
       ).annotate({ identifier: "BusinessPhoneNumber" });
     case 9:
-      return S.Array(__S(2024, __c63, 8));
+      return S.Array(__S(1000, __c31, 8));
     case 10:
       return S.suspend(() =>
         S.StructWithRest(
@@ -27495,7 +24949,7 @@ function __c63(j: number): any {
         ),
       ).annotate({ identifier: "BusinessEmailAddress" });
     case 11:
-      return S.Array(__S(2026, __c63, 10));
+      return S.Array(__S(1002, __c31, 10));
     case 12:
       return S.suspend(() =>
         S.StructWithRest(
@@ -27506,17 +24960,17 @@ function __c63(j: number): any {
         ),
       ).annotate({ identifier: "BusinessWebsite" });
     case 13:
-      return S.Array(__S(2028, __c63, 12));
+      return S.Array(__S(1004, __c31, 12));
     case 14:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            names: __S(2021, __c63, 5),
+            names: __S(997, __c31, 5),
             entity_type: S.NullOr(S.String),
-            addresses: __S(2023, __c63, 7),
-            phone_numbers: __S(2025, __c63, 9),
-            email_addresses: __S(2027, __c63, 11),
-            websites: __S(2029, __c63, 13),
+            addresses: __S(999, __c31, 7),
+            phone_numbers: __S(1001, __c31, 9),
+            email_addresses: __S(1003, __c31, 11),
+            websites: __S(1005, __c31, 13),
             formation_date: S.NullOr(S.String),
           }),
           [S.Record(S.String, S.Unknown)],
@@ -27528,13 +24982,13 @@ function __c63(j: number): any {
           S.Struct({
             status: S.String,
             score: S.Number,
-            name: __S(2048, __c64, 0),
-            address: __S(2048, __c64, 0),
-            website: __S(2048, __c64, 0),
-            tin: __S(2019, __c63, 3),
-            officers: __S(2048, __c64, 0),
-            registered_agent: __S(2048, __c64, 0),
-            match_details: S.NullOr(__S(2030, __c63, 14)),
+            name: __S(1024, __c32, 0),
+            address: __S(1024, __c32, 0),
+            website: __S(1024, __c32, 0),
+            tin: __S(995, __c31, 3),
+            officers: __S(1024, __c32, 0),
+            registered_agent: __S(1024, __c32, 0),
+            match_details: S.NullOr(__S(1006, __c31, 14)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -27555,7 +25009,7 @@ function __c63(j: number): any {
           S.Struct({
             status: S.String,
             score: S.NullOr(S.Number),
-            industry_prediction: S.NullOr(__S(2032, __c63, 16)),
+            industry_prediction: S.NullOr(__S(1008, __c31, 16)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -27588,8 +25042,8 @@ function __c63(j: number): any {
             is_parked: S.String,
             email_is_deliverable: S.String,
             website_build_status: S.NullOr(S.String),
-            whois_record: __S(2034, __c63, 18),
-            ssl: __S(2035, __c63, 19),
+            whois_record: __S(1010, __c31, 18),
+            ssl: __S(1011, __c31, 19),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -27600,11 +25054,11 @@ function __c63(j: number): any {
           S.Struct({
             status: S.String,
             score: S.NullOr(S.Number),
-            address: __S(2048, __c64, 0),
-            phone_number: __S(2048, __c64, 0),
-            email_address: __S(2048, __c64, 0),
-            website: __S(2048, __c64, 0),
-            website_analysis: S.NullOr(__S(2036, __c63, 20)),
+            address: __S(1024, __c32, 0),
+            phone_number: __S(1024, __c32, 0),
+            email_address: __S(1024, __c32, 0),
+            website: __S(1024, __c32, 0),
+            website_analysis: S.NullOr(__S(1012, __c31, 20)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -27619,10 +25073,10 @@ function __c63(j: number): any {
             completed_at: S.NullOr(S.String),
             redacted_at: S.NullOr(S.String),
             status: S.String,
-            search_terms: __S(2018, __c63, 2),
-            business_verification: S.NullOr(__S(2031, __c63, 15)),
-            risk_check: S.NullOr(__S(2033, __c63, 17)),
-            digital_presence_check: S.NullOr(__S(2037, __c63, 21)),
+            search_terms: __S(994, __c31, 2),
+            business_verification: S.NullOr(__S(1007, __c31, 15)),
+            risk_check: S.NullOr(__S(1009, __c31, 17)),
+            digital_presence_check: S.NullOr(__S(1013, __c31, 21)),
             request_id: S.String,
             shareable_url: S.NullOr(S.String),
           }),
@@ -27631,7 +25085,7 @@ function __c63(j: number): any {
       ).annotate({ identifier: "BusinessVerificationCreateResponse" });
   }
 }
-function __c64(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27644,433 +25098,381 @@ function __c64(j: number): any {
       ).annotate({ identifier: "BusinessFieldMatchSummary" });
   }
 }
-function __c65(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           client_id: S.optional(S.String),
-          processor_token: S.String.pipe(T.SensitiveValue({})),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-        }).pipe(T.Http({ method: "POST", uri: "/processor/investments/holdings/get", code: 200 })),
-      ).annotate({ identifier: "GetProcessorInvestmentsHoldingRequest" });
+          user: __S(1088, __c34, 0),
+          template_id: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/network/status/get", code: 200 })),
+      ).annotate({ identifier: "GetNetworkStatusRequest" });
     case 1:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            account: __S(929, __c29, 1),
-            holdings: __S(961, __c30, 1),
-            securities: __S(900, __c28, 4),
-            is_investments_fallback_item: S.optional(S.Boolean),
-            request_id: S.optional(S.String),
+            eligible: S.Boolean,
           }),
           [S.Record(S.String, S.Unknown)],
         ),
-      ).annotate({ identifier: "ProcessorInvestmentsHoldingsGetResponse" });
-  }
-}
-function __c66(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          client_id: S.optional(S.String),
-          options: S.optional(__S(1120, __c35, 0)),
-          processor_token: S.String.pipe(T.SensitiveValue({})),
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          start_date: S.String,
-          end_date: S.String,
-        }).pipe(
-          T.Http({ method: "POST", uri: "/processor/investments/transactions/get", code: 200 }),
-        ),
-      ).annotate({ identifier: "GetProcessorInvestmentsTransactionRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            account: __S(929, __c29, 1),
-            investment_transactions: __S(993, __c31, 1),
-            securities: __S(900, __c28, 4),
-            total_investment_transactions: S.Number,
-            request_id: S.String,
-            is_investments_fallback_item: S.optional(S.Boolean),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "ProcessorInvestmentsTransactionsGetResponse" });
-  }
-}
-function __c67(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          client_id: S.optional(S.String),
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          processor_token: S.String.pipe(T.SensitiveValue({})),
-        }).pipe(T.Http({ method: "POST", uri: "/processor/liabilities/get", code: 200 })),
-      ).annotate({ identifier: "GetProcessorLiabilityRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            account: __S(12704, __c397, 0),
-            liabilities: __S(1297, __c40, 17),
-            request_id: S.String,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "ProcessorLiabilitiesGetResponse" });
-  }
-}
-function __c68(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          client_id: S.optional(S.String),
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          processor_token: S.String.pipe(T.SensitiveValue({})),
-        }).pipe(T.Http({ method: "POST", uri: "/processor/token/permissions/get", code: 200 })),
-      ).annotate({ identifier: "GetProcessorTokenPermissionsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            request_id: S.String,
-            products: __S(12352, __c386, 0),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "ProcessorTokenPermissionsGetResponse" });
-  }
-}
-function __c69(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          count: S.optional(S.Number),
-          offset: S.optional(S.Number),
-          include_original_description: S.optional(S.NullOr(S.Boolean)),
-          include_personal_finance_category_beta: S.optional(S.Boolean),
-          include_personal_finance_category: S.optional(S.Boolean),
-          include_logo_and_counterparty_beta: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "ProcessorTransactionsGetRequestOptions" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          client_id: S.optional(S.String),
-          options: S.optional(__S(2208, __c69, 0)),
-          processor_token: S.String.pipe(T.SensitiveValue({})),
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          start_date: S.String,
-          end_date: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/processor/transactions/get", code: 200 })),
-      ).annotate({ identifier: "GetProcessorTransactionRequest" });
+      ).annotate({ identifier: "NetworkStatusGetResponseLayer" });
     case 2:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            account: __S(12704, __c397, 0),
-            transactions: __S(2241, __c70, 1),
-            total_transactions: S.Number,
-            request_id: S.String,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "ProcessorTransactionsGetResponse" });
-  }
-}
-function __c70(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            account_id: S.String,
-            amount: S.Number,
-            iso_currency_code: S.NullOr(S.String),
-            unofficial_currency_code: S.NullOr(S.String),
-            category: S.optional(S.NullOr(__S(32, __c1, 0))),
-            category_id: S.optional(S.NullOr(S.String)),
-            check_number: S.optional(S.NullOr(S.String)),
-            date: S.String,
-            location: __S(5920, __c185, 0),
-            name: S.String,
-            merchant_name: S.optional(S.NullOr(S.String)),
-            original_description: S.optional(S.NullOr(S.String)),
-            payment_meta: __S(5856, __c183, 0),
-            pending: S.Boolean,
-            pending_transaction_id: S.NullOr(S.String),
-            account_owner: S.NullOr(S.String),
-            transaction_id: S.String,
-            transaction_type: S.optional(S.String),
-            logo_url: S.optional(S.NullOr(S.String)),
-            website: S.optional(S.NullOr(S.String)),
-            authorized_date: S.NullOr(S.String),
-            authorized_datetime: S.NullOr(S.String),
-            datetime: S.NullOr(S.String),
-            payment_channel: S.String,
-            personal_finance_category: S.optional(S.NullOr(__S(13504, __c422, 0))),
-            business_finance_category: S.optional(S.NullOr(__S(13440, __c420, 0))),
-            transaction_code: S.NullOr(S.String),
-            personal_finance_category_icon_url: S.optional(S.String),
-            counterparties: S.optional(__S(13442, __c420, 2)),
-            merchant_entity_id: S.optional(S.NullOr(S.String)),
-            merchant_category_code: S.optional(S.NullOr(S.String)),
-            running_balance: S.optional(S.NullOr(S.Number)),
-            client_customization: S.optional(S.NullOr(__S(2272, __c71, 0))),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "Transaction" });
-    case 1:
-      return S.Array(__S(2240, __c70, 0));
-  }
-}
-function __c71(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            custom_entity_id: S.optional(S.String),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "ClientCustomization" });
-  }
-}
-function __c72(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          client_id: S.optional(S.String),
-          processor_token: S.String.pipe(T.SensitiveValue({})),
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          options: S.optional(__S(2336, __c73, 0)),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/processor/transactions/recurring/get", code: 200 }),
-        ),
-      ).annotate({ identifier: "GetProcessorTransactionsRecurringRequest" });
-  }
-}
-function __c73(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          include_personal_finance_category: S.optional(S.Boolean),
-          personal_finance_category_version: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TransactionsRecurringGetRequestOptions" });
-    case 1:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            account_id: S.String,
-            stream_id: S.String,
-            category: S.NullOr(__S(32, __c1, 0)),
-            category_id: S.NullOr(S.String),
-            description: S.String,
-            merchant_name: S.NullOr(S.String),
-            first_date: S.String,
-            last_date: S.String,
-            predicted_next_date: S.optional(S.NullOr(S.String)),
-            frequency: S.String,
-            transaction_ids: __S(32, __c1, 0),
-            average_amount: __S(2368, __c74, 0),
-            last_amount: __S(2368, __c74, 0),
-            is_active: S.Boolean,
-            status: S.String,
-            personal_finance_category: S.optional(S.NullOr(__S(13504, __c422, 0))),
-            is_user_modified: S.Boolean,
-            last_user_modified_datetime: S.optional(S.String),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "TransactionStream" });
-    case 2:
-      return S.Array(__S(2337, __c73, 1));
-    case 3:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            inflow_streams: __S(2338, __c73, 2),
-            outflow_streams: __S(2338, __c73, 2),
-            updated_datetime: S.String,
-            personal_finance_category_version: S.optional(S.String),
-            request_id: S.String,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "ProcessorTransactionsRecurringGetResponse" });
-  }
-}
-function __c74(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            amount: S.optional(S.Number),
-            iso_currency_code: S.optional(S.NullOr(S.String)),
-            unofficial_currency_code: S.optional(S.NullOr(S.String)),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "TransactionStreamAmount" });
-  }
-}
-function __c75(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          client_id: S.optional(S.String),
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          user: __S(1376, __c43, 0),
-        }).pipe(T.Http({ method: "POST", uri: "/profile/network_status/get", code: 200 })),
-      ).annotate({ identifier: "GetProfileNetworkStatusRequest" });
-    case 1:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
             network_status: S.String,
+            layer: S.optional(S.NullOr(__S(1057, __c33, 1))),
             request_id: S.String,
           }),
           [S.Record(S.String, S.Unknown)],
         ),
-      ).annotate({ identifier: "ProfileNetworkStatusGetResponse" });
+      ).annotate({ identifier: "NetworkStatusGetResponse" });
   }
 }
-function __c76(j: number): any {
+function __c34(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            phone_number: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "NetworkStatusGetUser" });
+  }
+}
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          user_id: S.optional(S.String),
-          client_user_id: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/protect/user/insights/get", code: 200 })),
-      ).annotate({ identifier: "GetProtectUserInsightRequest" });
+          end_customer_client_id: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/partner/customer/get", code: 200 })),
+      ).annotate({ identifier: "GetPartnerCustomerRequest" });
     case 1:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            event_id: S.String,
-            timestamp: S.String,
-            event_type: S.optional(S.String),
-            trust_index: S.NullOr(__S(4610, __c144, 2)),
-            fraud_attributes: S.NullOr(__S(1440, __c45, 0)),
+            client_id: S.optional(S.String),
+            company_name: S.optional(S.String),
+            status: S.optional(S.String),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
-      ).annotate({ identifier: "LatestScoredEvent" });
+      ).annotate({ identifier: "PartnerEndCustomer" });
     case 2:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            protect_event_id: S.optional(S.NullOr(S.String)),
-            link_session_id: S.optional(S.NullOr(S.String)),
-            idv_session_id: S.optional(S.NullOr(S.String)),
-            signal_client_transaction_id: S.optional(S.NullOr(S.String)),
-            internal_reference: S.optional(S.NullOr(S.String)),
-            time: S.optional(S.NullOr(S.String)),
-            amount: S.optional(S.NullOr(__S(10272, __c321, 0))),
-            item_id: S.optional(S.NullOr(S.String)),
+            end_customer: S.optional(__S(1121, __c35, 1)),
+            request_id: S.optional(S.String),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
-      ).annotate({ identifier: "ProtectIncidentEventResponse" });
+      ).annotate({ identifier: "PartnerCustomerGetResponse" });
+  }
+}
+function __c36(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(/*@__PURE__*/ S.NullOr(__S(64, __c2, 0)));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          client_id: S.optional(S.String),
+          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          end_customer_client_id: S.String,
+        }).pipe(
+          T.Http({ method: "POST", uri: "/partner/customer/oauth_institutions/get", code: 200 }),
+        ),
+      ).annotate({ identifier: "GetPartnerCustomerOauthInstitutionRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            development: S.optional(S.String),
+            production: S.optional(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "PartnerEndCustomerOAuthInstitutionEnvironments" });
     case 3:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            report_id: S.String,
-            incident_event: S.NullOr(__S(2434, __c76, 2)),
-            report_confidence: S.String,
-            report_type: S.String,
-            report_source: S.String,
-            bank_account: S.NullOr(__S(10273, __c321, 1)),
-            ach_return_code: S.NullOr(S.String),
-            notes: S.NullOr(S.String),
-            created_at: S.String,
+            name: S.optional(S.String),
+            institution_id: S.optional(S.String),
+            environments: S.optional(__S(1154, __c36, 2)),
+            production_enablement_date: S.optional(S.NullOr(S.String)),
+            classic_disablement_date: S.optional(S.NullOr(S.String)),
+            errors: S.optional(__S(1152, __c36, 0)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
-      ).annotate({ identifier: "ProtectReport" });
+      ).annotate({ identifier: "PartnerEndCustomerOAuthInstitution" });
     case 4:
-      return S.Array(__S(2435, __c76, 3));
+      return S.Array(__S(1155, __c36, 3));
     case 5:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            user_id: S.String,
-            latest_scored_event: S.NullOr(__S(2433, __c76, 1)),
-            reports: S.optional(__S(2436, __c76, 4)),
+            flowdown_status: S.optional(S.String),
+            questionnaire_status: S.optional(S.String),
+            institutions: S.optional(__S(1156, __c36, 4)),
+            request_id: S.optional(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "PartnerCustomerOAuthInstitutionsGetResponse" });
+  }
+}
+function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          client_id: S.optional(S.String),
+          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          consent_id: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/payment_initiation/consent/get", code: 200 })),
+      ).annotate({ identifier: "GetPaymentInitiationConsentRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          consent_id: S.String,
+          status: S.String,
+          created_at: S.String,
+          recipient_id: S.String,
+          reference: S.String,
+          constraints: __S(6083, __c190, 3),
+          scopes: S.optional(__S(192, __c6, 0)),
+          type: S.optional(S.String),
+          payer_details: S.optional(S.NullOr(__S(1216, __c38, 0))),
+          request_id: S.String,
+        }),
+      ).annotate({ identifier: "GetPaymentInitiationConsentResponse" });
+  }
+}
+function __c38(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          iban: S.NullOr(S.String),
+          bacs: S.NullOr(__S(6112, __c191, 0)),
+        }),
+      ).annotate({ identifier: "ExternalPaymentRefundDetails" });
+  }
+}
+function __c39(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          client_id: S.optional(S.String),
+          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          payment_id: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/payment_initiation/payment/get", code: 200 })),
+      ).annotate({ identifier: "GetPaymentInitiationPaymentRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          payment_id: S.String,
+          amount: __S(6144, __c192, 0),
+          status: S.String,
+          recipient_id: S.String,
+          reference: S.String,
+          adjusted_reference: S.optional(S.NullOr(S.String)),
+          last_status_update: S.String,
+          schedule: S.optional(S.NullOr(__S(1280, __c40, 0))),
+          refund_details: S.optional(S.NullOr(__S(1216, __c38, 0))),
+          bacs: S.NullOr(__S(6112, __c191, 0)),
+          iban: S.NullOr(S.String),
+          refund_ids: S.optional(S.NullOr(__S(32, __c1, 0))),
+          amount_refunded: S.optional(__S(1312, __c41, 0)),
+          wallet_id: S.optional(S.NullOr(S.String)),
+          scheme: S.optional(S.NullOr(S.String)),
+          adjusted_scheme: S.optional(S.NullOr(S.String)),
+          consent_id: S.optional(S.NullOr(S.String)),
+          transaction_id: S.optional(S.NullOr(S.String)),
+          end_to_end_id: S.optional(S.NullOr(S.String)),
+          error: S.optional(S.NullOr(__S(64, __c2, 0))),
+          institution_id: S.NullOr(S.String),
+          request_id: S.String,
+        }),
+      ).annotate({ identifier: "GetPaymentInitiationPaymentResponse" });
+  }
+}
+function __c40(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            interval: S.String,
+            interval_execution_day: S.Number,
+            start_date: S.String,
+            end_date: S.NullOr(S.String),
+            adjusted_start_date: S.NullOr(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "ExternalPaymentScheduleGet" });
+  }
+}
+function __c41(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            currency: S.String,
+            value: S.Number,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "PaymentAmountRefunded" });
+  }
+}
+function __c42(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          client_id: S.optional(S.String),
+          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          recipient_id: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/payment_initiation/recipient/get", code: 200 })),
+      ).annotate({ identifier: "GetPaymentInitiationRecipientRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          recipient_id: S.String,
+          name: S.String,
+          address: S.optional(S.NullOr(__S(6176, __c193, 0))),
+          iban: S.optional(S.NullOr(S.String)),
+          bacs: S.optional(S.NullOr(__S(6112, __c191, 0))),
+          request_id: S.String,
+        }),
+      ).annotate({ identifier: "GetPaymentInitiationRecipientResponse" });
+  }
+}
+function __c43(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          client_id: S.optional(S.String),
+          processor_token: S.String.pipe(T.SensitiveValue({})),
+          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+        }).pipe(T.Http({ method: "POST", uri: "/processor/account/get", code: 200 })),
+      ).annotate({ identifier: "GetProcessorAccountRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            account: __S(11744, __c367, 0),
+            institution_id: S.String,
             request_id: S.String,
           }),
           [S.Record(S.String, S.Unknown)],
         ),
-      ).annotate({ identifier: "ProtectUserInsightsGetResponse" });
+      ).annotate({ identifier: "ProcessorAccountGetResponse" });
   }
 }
-function __c77(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          recipientId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/fdx/recipient/{recipientId}", code: 200 })),
-      ).annotate({ identifier: "GetRecipientRequest" });
+          client_id: S.optional(S.String),
+          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          processor_token: S.String.pipe(T.SensitiveValue({})),
+        }).pipe(T.Http({ method: "POST", uri: "/processor/auth/get", code: 200 })),
+      ).annotate({ identifier: "GetProcessorAuthRequest" });
     case 1:
-      return S.suspend(() =>
-        S.Struct({
-          recipient_id: S.String,
-          client_name: S.String,
-          logo_uri: S.optional(S.NullOr(S.String)),
-          third_party_legal_name: S.String,
-        }),
-      ).annotate({ identifier: "GetRecipientResponse" });
-  }
-}
-function __c78(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/fdx/recipients", code: 200 })),
-      ).annotate({ identifier: "GetRecipientsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          recipient_id: S.String,
-          client_name: S.String,
-          logo_uri: S.optional(S.NullOr(S.String)),
-          third_party_legal_name: S.String,
-          category: S.String,
-          joined_date: S.String,
-          connection_count: S.Number,
-        }),
-      ).annotate({ identifier: "ExtendedRecipientMetadata" });
-    case 2:
-      return S.Array(__S(2497, __c78, 1));
-    case 3:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            recipients: __S(2498, __c78, 2),
+            ach: S.optional(S.NullOr(__S(12096, __c378, 0))),
+            eft: S.optional(S.NullOr(__S(12097, __c378, 1))),
+            international: S.optional(S.NullOr(__S(12098, __c378, 2))),
+            bacs: S.optional(S.NullOr(__S(12099, __c378, 3))),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
-      ).annotate({ identifier: "GetRecipientsResponse" });
+      ).annotate({ identifier: "ProcessorNumber" });
+    case 2:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            request_id: S.String,
+            numbers: __S(1409, __c44, 1),
+            account: __S(11744, __c367, 0),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "ProcessorAuthGetResponse" });
   }
 }
-function __c79(j: number): any {
+function __c45(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          min_last_updated_datetime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ProcessorBalanceGetRequestOptions" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          client_id: S.optional(S.String),
+          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          processor_token: S.String.pipe(T.SensitiveValue({})),
+          options: S.optional(__S(1440, __c45, 0)),
+        }).pipe(T.Http({ method: "POST", uri: "/processor/balance/get", code: 200 })),
+      ).annotate({ identifier: "GetProcessorBalanceRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            account: __S(11744, __c367, 0),
+            request_id: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "ProcessorBalanceGetResponse" });
+  }
+}
+function __c46(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          client_id: S.optional(S.String),
+          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          processor_token: S.String.pipe(T.SensitiveValue({})),
+        }).pipe(T.Http({ method: "POST", uri: "/processor/identity/get", code: 200 })),
+      ).annotate({ identifier: "GetProcessorIdentityRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            account: __S(13952, __c436, 0),
+            request_id: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "ProcessorIdentityGetResponse" });
+  }
+}
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28083,47 +25485,47 @@ function __c79(j: number): any {
           days_requested: S.Number,
           days_required: S.optional(S.Number),
           client_report_id: S.optional(S.NullOr(S.String)),
-          products: S.optional(S.NullOr(__S(12352, __c386, 0))),
-          base_report: S.optional(S.NullOr(__S(2562, __c80, 2))),
-          cashflow_insights: S.optional(S.NullOr(__S(2592, __c81, 0))),
-          partner_insights: S.optional(S.NullOr(__S(2725, __c85, 5))),
-          lend_score: S.optional(S.NullOr(__S(2656, __c83, 0))),
-          network_insights: S.optional(S.NullOr(__S(2688, __c84, 0))),
+          products: S.optional(S.NullOr(__S(192, __c6, 0))),
+          base_report: S.optional(S.NullOr(__S(1538, __c48, 2))),
+          cashflow_insights: S.optional(S.NullOr(__S(1568, __c49, 0))),
+          partner_insights: S.optional(S.NullOr(__S(1701, __c53, 5))),
+          lend_score: S.optional(S.NullOr(__S(1632, __c51, 0))),
+          network_insights: S.optional(S.NullOr(__S(1664, __c52, 0))),
           include_investments: S.optional(S.NullOr(S.Boolean)),
-          income_insights: S.optional(S.NullOr(__S(2625, __c82, 1))),
+          income_insights: S.optional(S.NullOr(__S(1601, __c50, 1))),
           consumer_report_permissible_purpose: S.String,
         }).pipe(T.Http({ method: "POST", uri: "/cra/check_report/create", code: 200 })),
       ).annotate({ identifier: "CreateCraCheckReportRequest" });
   }
 }
-function __c80(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          report_types: __S(12352, __c386, 0),
+          report_types: __S(192, __c6, 0),
         }),
       ).annotate({ identifier: "CraCheckReportGSEOptions" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          reports_requested: __S(12352, __c386, 0),
-          employment_refresh_options: S.optional(S.NullOr(__S(2752, __c86, 0))),
+          reports_requested: __S(192, __c6, 0),
+          employment_refresh_options: S.optional(S.NullOr(__S(1728, __c54, 0))),
         }),
       ).annotate({ identifier: "CraCheckReportHomeLendingReportOptions" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           client_report_id: S.optional(S.NullOr(S.String)),
-          gse_options: S.optional(S.NullOr(__S(2560, __c80, 0))),
+          gse_options: S.optional(S.NullOr(__S(1536, __c48, 0))),
           require_identity: S.optional(S.NullOr(S.Boolean)),
-          home_lending_report_options: S.optional(S.NullOr(__S(2561, __c80, 1))),
+          home_lending_report_options: S.optional(S.NullOr(__S(1537, __c48, 1))),
           exclude_transactions: S.optional(S.NullOr(S.Boolean)),
         }),
       ).annotate({ identifier: "CraCheckReportCreateBaseReportOptions" });
   }
 }
-function __c81(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28133,7 +25535,7 @@ function __c81(j: number): any {
       ).annotate({ identifier: "CraCheckReportCreateCashflowInsightsOptions" });
   }
 }
-function __c82(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28145,13 +25547,13 @@ function __c82(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          income_insights_filter: S.optional(S.NullOr(__S(2624, __c82, 0))),
+          income_insights_filter: S.optional(S.NullOr(__S(1600, __c50, 0))),
           income_insights_version: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "CraCheckReportCreateIncomeInsightsOptions" });
   }
 }
-function __c83(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28161,7 +25563,7 @@ function __c83(j: number): any {
       ).annotate({ identifier: "CraCheckReportCreateLendScoreOptions" });
   }
 }
-function __c84(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28171,7 +25573,7 @@ function __c84(j: number): any {
       ).annotate({ identifier: "CraCheckReportCreateNetworkInsightsOptions" });
   }
 }
-function __c85(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28203,29 +25605,29 @@ function __c85(j: number): any {
           ultrafico_score_version: S.String,
           fico_scoring_request_id: S.optional(S.String),
           request_correlation_id: S.optional(S.String),
-          base_fico_score: __S(2721, __c85, 1),
+          base_fico_score: __S(1697, __c53, 1),
         }),
       ).annotate({ identifier: "CraPartnerInsightsUltraFicoScoreRequest" });
     case 3:
-      return S.Array(__S(2722, __c85, 2));
+      return S.Array(__S(1698, __c53, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           fico_lender_id: S.String,
           lender_application_id: S.String,
-          ultrafico_score_requests: __S(2723, __c85, 3),
+          ultrafico_score_requests: __S(1699, __c53, 3),
         }),
       ).annotate({ identifier: "CraPartnerInsightsFicoInput" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          prism_versions: S.optional(S.NullOr(__S(2720, __c85, 0))),
-          fico: S.optional(S.NullOr(__S(2724, __c85, 4))),
+          prism_versions: S.optional(S.NullOr(__S(1696, __c53, 0))),
+          fico: S.optional(S.NullOr(__S(1700, __c53, 4))),
         }),
       ).annotate({ identifier: "CraCheckReportCreatePartnerInsightsOptions" });
   }
 }
-function __c86(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28235,7 +25637,7 @@ function __c86(j: number): any {
       ).annotate({ identifier: "CraCheckReportCreateEmploymentRefreshOptions" });
   }
 }
-function __c87(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28248,7 +25650,496 @@ function __c87(j: number): any {
       ).annotate({ identifier: "CraCheckReportCreateResponse" });
   }
 }
-function __c88(j: number): any {
+function __c56(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          client_id: S.optional(S.String),
+          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          processor_token: S.String.pipe(T.SensitiveValue({})),
+        }).pipe(T.Http({ method: "POST", uri: "/processor/investments/auth/get", code: 200 })),
+      ).annotate({ identifier: "GetProcessorInvestmentsAuthRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            account: __S(11744, __c367, 0),
+            holdings: __S(545, __c17, 1),
+            securities: __S(484, __c15, 4),
+            owners: __S(609, __c19, 1),
+            numbers: __S(616, __c19, 8),
+            data_sources: __S(617, __c19, 9),
+            account_details_401k: S.optional(__S(621, __c19, 13)),
+            is_investments_fallback_item: S.optional(S.Boolean),
+            request_id: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "ProcessorInvestmentsAuthGetResponse" });
+  }
+}
+function __c57(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          client_id: S.optional(S.String),
+          processor_token: S.String.pipe(T.SensitiveValue({})),
+          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+        }).pipe(T.Http({ method: "POST", uri: "/processor/investments/holdings/get", code: 200 })),
+      ).annotate({ identifier: "GetProcessorInvestmentsHoldingRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            account: __S(513, __c16, 1),
+            holdings: __S(545, __c17, 1),
+            securities: __S(484, __c15, 4),
+            is_investments_fallback_item: S.optional(S.Boolean),
+            request_id: S.optional(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "ProcessorInvestmentsHoldingsGetResponse" });
+  }
+}
+function __c58(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          client_id: S.optional(S.String),
+          options: S.optional(__S(704, __c22, 0)),
+          processor_token: S.String.pipe(T.SensitiveValue({})),
+          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          start_date: S.String,
+          end_date: S.String,
+        }).pipe(
+          T.Http({ method: "POST", uri: "/processor/investments/transactions/get", code: 200 }),
+        ),
+      ).annotate({ identifier: "GetProcessorInvestmentsTransactionRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            account: __S(513, __c16, 1),
+            investment_transactions: __S(577, __c18, 1),
+            securities: __S(484, __c15, 4),
+            total_investment_transactions: S.Number,
+            request_id: S.String,
+            is_investments_fallback_item: S.optional(S.Boolean),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "ProcessorInvestmentsTransactionsGetResponse" });
+  }
+}
+function __c59(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          client_id: S.optional(S.String),
+          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          processor_token: S.String.pipe(T.SensitiveValue({})),
+        }).pipe(T.Http({ method: "POST", uri: "/processor/liabilities/get", code: 200 })),
+      ).annotate({ identifier: "GetProcessorLiabilityRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            account: __S(11744, __c367, 0),
+            liabilities: __S(881, __c27, 17),
+            request_id: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "ProcessorLiabilitiesGetResponse" });
+  }
+}
+function __c60(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          client_id: S.optional(S.String),
+          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          processor_token: S.String.pipe(T.SensitiveValue({})),
+        }).pipe(T.Http({ method: "POST", uri: "/processor/token/permissions/get", code: 200 })),
+      ).annotate({ identifier: "GetProcessorTokenPermissionsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            request_id: S.String,
+            products: __S(192, __c6, 0),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "ProcessorTokenPermissionsGetResponse" });
+  }
+}
+function __c61(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          count: S.optional(S.Number),
+          offset: S.optional(S.Number),
+          include_original_description: S.optional(S.NullOr(S.Boolean)),
+          include_personal_finance_category_beta: S.optional(S.Boolean),
+          include_personal_finance_category: S.optional(S.Boolean),
+          include_logo_and_counterparty_beta: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "ProcessorTransactionsGetRequestOptions" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          client_id: S.optional(S.String),
+          options: S.optional(__S(1952, __c61, 0)),
+          processor_token: S.String.pipe(T.SensitiveValue({})),
+          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          start_date: S.String,
+          end_date: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/processor/transactions/get", code: 200 })),
+      ).annotate({ identifier: "GetProcessorTransactionRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            account: __S(11744, __c367, 0),
+            transactions: __S(1985, __c62, 1),
+            total_transactions: S.Number,
+            request_id: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "ProcessorTransactionsGetResponse" });
+  }
+}
+function __c62(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            account_id: S.String,
+            amount: S.Number,
+            iso_currency_code: S.NullOr(S.String),
+            unofficial_currency_code: S.NullOr(S.String),
+            category: S.optional(S.NullOr(__S(32, __c1, 0))),
+            category_id: S.optional(S.NullOr(S.String)),
+            check_number: S.optional(S.NullOr(S.String)),
+            date: S.String,
+            location: __S(5792, __c181, 0),
+            name: S.String,
+            merchant_name: S.optional(S.NullOr(S.String)),
+            original_description: S.optional(S.NullOr(S.String)),
+            payment_meta: __S(5824, __c182, 0),
+            pending: S.Boolean,
+            pending_transaction_id: S.NullOr(S.String),
+            account_owner: S.NullOr(S.String),
+            transaction_id: S.String,
+            transaction_type: S.optional(S.String),
+            logo_url: S.optional(S.NullOr(S.String)),
+            website: S.optional(S.NullOr(S.String)),
+            authorized_date: S.NullOr(S.String),
+            authorized_datetime: S.NullOr(S.String),
+            datetime: S.NullOr(S.String),
+            payment_channel: S.String,
+            personal_finance_category: S.optional(S.NullOr(__S(12320, __c385, 0))),
+            business_finance_category: S.optional(S.NullOr(__S(12256, __c383, 0))),
+            transaction_code: S.NullOr(S.String),
+            personal_finance_category_icon_url: S.optional(S.String),
+            counterparties: S.optional(__S(12258, __c383, 2)),
+            merchant_entity_id: S.optional(S.NullOr(S.String)),
+            merchant_category_code: S.optional(S.NullOr(S.String)),
+            running_balance: S.optional(S.NullOr(S.Number)),
+            client_customization: S.optional(S.NullOr(__S(2016, __c63, 0))),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "Transaction" });
+    case 1:
+      return S.Array(__S(1984, __c62, 0));
+  }
+}
+function __c63(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            custom_entity_id: S.optional(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "ClientCustomization" });
+  }
+}
+function __c64(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          client_id: S.optional(S.String),
+          processor_token: S.String.pipe(T.SensitiveValue({})),
+          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          options: S.optional(__S(2080, __c65, 0)),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/processor/transactions/recurring/get", code: 200 }),
+        ),
+      ).annotate({ identifier: "GetProcessorTransactionsRecurringRequest" });
+  }
+}
+function __c65(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          include_personal_finance_category: S.optional(S.Boolean),
+          personal_finance_category_version: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TransactionsRecurringGetRequestOptions" });
+    case 1:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            amount: S.optional(S.Number),
+            iso_currency_code: S.optional(S.NullOr(S.String)),
+            unofficial_currency_code: S.optional(S.NullOr(S.String)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "TransactionStreamAmount" });
+    case 2:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            account_id: S.String,
+            stream_id: S.String,
+            category: S.NullOr(__S(32, __c1, 0)),
+            category_id: S.NullOr(S.String),
+            description: S.String,
+            merchant_name: S.NullOr(S.String),
+            first_date: S.String,
+            last_date: S.String,
+            predicted_next_date: S.optional(S.NullOr(S.String)),
+            frequency: S.String,
+            transaction_ids: __S(32, __c1, 0),
+            average_amount: __S(2081, __c65, 1),
+            last_amount: __S(2081, __c65, 1),
+            is_active: S.Boolean,
+            status: S.String,
+            personal_finance_category: S.optional(S.NullOr(__S(12320, __c385, 0))),
+            is_user_modified: S.Boolean,
+            last_user_modified_datetime: S.optional(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "TransactionStream" });
+    case 3:
+      return S.Array(__S(2082, __c65, 2));
+    case 4:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            inflow_streams: __S(2083, __c65, 3),
+            outflow_streams: __S(2083, __c65, 3),
+            updated_datetime: S.String,
+            personal_finance_category_version: S.optional(S.String),
+            request_id: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "ProcessorTransactionsRecurringGetResponse" });
+  }
+}
+function __c66(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          client_id: S.optional(S.String),
+          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          user: __S(1088, __c34, 0),
+        }).pipe(T.Http({ method: "POST", uri: "/profile/network_status/get", code: 200 })),
+      ).annotate({ identifier: "GetProfileNetworkStatusRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            network_status: S.String,
+            request_id: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "ProfileNetworkStatusGetResponse" });
+  }
+}
+function __c67(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          client_id: S.optional(S.String),
+          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          user_id: S.optional(S.String),
+          client_user_id: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/protect/user/insights/get", code: 200 })),
+      ).annotate({ identifier: "GetProtectUserInsightRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            event_id: S.String,
+            timestamp: S.String,
+            event_type: S.optional(S.String),
+            trust_index: S.NullOr(__S(3586, __c112, 2)),
+            fraud_attributes: S.NullOr(__S(3840, __c120, 0)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "LatestScoredEvent" });
+    case 2:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            protect_event_id: S.optional(S.NullOr(S.String)),
+            link_session_id: S.optional(S.NullOr(S.String)),
+            idv_session_id: S.optional(S.NullOr(S.String)),
+            signal_client_transaction_id: S.optional(S.NullOr(S.String)),
+            internal_reference: S.optional(S.NullOr(S.String)),
+            time: S.optional(S.NullOr(S.String)),
+            amount: S.optional(S.NullOr(__S(9280, __c290, 0))),
+            item_id: S.optional(S.NullOr(S.String)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "ProtectIncidentEventResponse" });
+    case 3:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            report_id: S.String,
+            incident_event: S.NullOr(__S(2146, __c67, 2)),
+            report_confidence: S.String,
+            report_type: S.String,
+            report_source: S.String,
+            bank_account: S.NullOr(__S(9281, __c290, 1)),
+            ach_return_code: S.NullOr(S.String),
+            notes: S.NullOr(S.String),
+            created_at: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "ProtectReport" });
+    case 4:
+      return S.Array(__S(2147, __c67, 3));
+    case 5:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            user_id: S.String,
+            latest_scored_event: S.NullOr(__S(2145, __c67, 1)),
+            reports: S.optional(__S(2148, __c67, 4)),
+            request_id: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "ProtectUserInsightsGetResponse" });
+  }
+}
+function __c68(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          recipientId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/fdx/recipient/{recipientId}", code: 200 })),
+      ).annotate({ identifier: "GetRecipientRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          recipient_id: S.String,
+          client_name: S.String,
+          logo_uri: S.optional(S.NullOr(S.String)),
+          third_party_legal_name: S.String,
+        }),
+      ).annotate({ identifier: "GetRecipientResponse" });
+  }
+}
+function __c69(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          client_id: S.optional(S.String),
+          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          user_id: S.String,
+          products: __S(2240, __c70, 0),
+          scope: S.Unknown,
+          decision_stage: S.String,
+          consumer_report_permissible_purpose: S.Unknown,
+          client_report_id: S.optional(S.NullOr(S.String)),
+          days_requested: S.optional(S.NullOr(S.Number)),
+          days_required: S.optional(S.NullOr(S.Number)),
+          include_investments: S.optional(S.NullOr(S.Boolean)),
+          include_identity_match: S.optional(S.NullOr(S.Boolean)),
+          webhook: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/cra/report/create", code: 200 })),
+      ).annotate({ identifier: "CreateCraReportRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            report_id: S.Unknown,
+            request_id: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "CraReportCreateResponse" });
+  }
+}
+function __c70(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.Unknown);
+  }
+}
+function __c71(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/fdx/recipients", code: 200 })),
+      ).annotate({ identifier: "GetRecipientsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          recipient_id: S.String,
+          client_name: S.String,
+          logo_uri: S.optional(S.NullOr(S.String)),
+          third_party_legal_name: S.String,
+          category: S.String,
+          joined_date: S.String,
+          connection_count: S.Number,
+        }),
+      ).annotate({ identifier: "ExtendedRecipientMetadata" });
+    case 2:
+      return S.Array(__S(2273, __c71, 1));
+    case 3:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            recipients: __S(2274, __c71, 2),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "GetRecipientsResponse" });
+  }
+}
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28260,7 +26151,7 @@ function __c88(j: number): any {
       ).annotate({ identifier: "GetSandboxTransferTestClockRequest" });
   }
 }
-function __c89(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28280,7 +26171,7 @@ function __c89(j: number): any {
       return S.suspend(() =>
         S.Struct({
           client_id: S.optional(S.String),
-          options: S.optional(__S(2848, __c89, 0)),
+          options: S.optional(__S(2336, __c73, 0)),
           access_token: S.String.pipe(T.SensitiveValue({})),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           start_date: S.String,
@@ -28291,10 +26182,10 @@ function __c89(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            accounts: __S(12736, __c398, 0),
-            transactions: __S(2241, __c70, 1),
+            accounts: __S(11776, __c368, 0),
+            transactions: __S(1985, __c62, 1),
             total_transactions: S.Number,
-            item: __S(12800, __c400, 0),
+            item: __S(11840, __c370, 0),
             request_id: S.String,
           }),
           [S.Record(S.String, S.Unknown)],
@@ -28302,7 +26193,7 @@ function __c89(j: number): any {
       ).annotate({ identifier: "TransactionsGetResponse" });
   }
 }
-function __c90(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28310,167 +26201,13 @@ function __c90(j: number): any {
           client_id: S.optional(S.String),
           access_token: S.String.pipe(T.SensitiveValue({})),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          options: S.optional(__S(2336, __c73, 0)),
+          options: S.optional(__S(2080, __c65, 0)),
           account_ids: S.optional(__S(32, __c1, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/transactions/recurring/get", code: 200 })),
       ).annotate({ identifier: "GetTransactionsRecurringRequest" });
   }
 }
-function __c91(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          client_id: S.optional(S.String),
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          client_user_id: S.String,
-        }).pipe(
-          T.Http({ method: "POST", uri: "/beta/transactions/user_insights/v1/get", code: 200 }),
-        ),
-      ).annotate({ identifier: "GetTransactionsUserInsightRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            transaction_count: S.Number,
-            oldest_transaction_date: S.optional(S.String),
-            newest_transaction_date: S.optional(S.String),
-            days_available: S.Number,
-            total_outflows: S.Number,
-            total_inflows: S.Number,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "UserDataOverview" });
-    case 2:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            account_type: S.NullOr(S.String),
-            account_subtype: S.NullOr(S.String),
-            transaction_count: S.Number,
-            oldest_transaction_date: S.optional(S.String),
-            newest_transaction_date: S.optional(S.String),
-            newest_transaction_amount: S.optional(S.Number),
-            total_outflows: S.Number,
-            total_inflows: S.Number,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "DetectedAccount" });
-    case 3:
-      return S.Array(__S(2914, __c91, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          entity_id: S.optional(S.NullOr(S.String)),
-          website: S.NullOr(S.String),
-          detected_accounts: __S(2915, __c91, 3),
-        }),
-      ).annotate({ identifier: "FinancialInstitutionInsights" });
-    case 5:
-      return S.Array(__S(2916, __c91, 4));
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          entity_id: S.optional(S.NullOr(S.String)),
-          website: S.NullOr(S.String),
-          transaction_count: S.Number,
-          personal_finance_category_primary: S.NullOr(S.String),
-          personal_finance_category_detailed: S.NullOr(S.String),
-          total_outflows: S.Number,
-          total_inflows: S.Number,
-        }),
-      ).annotate({ identifier: "MerchantInsights" });
-    case 7:
-      return S.Array(__S(2918, __c91, 6));
-    case 8:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            financial_institution_insights: S.optional(__S(2917, __c91, 5)),
-            merchant_insights: S.optional(__S(2919, __c91, 7)),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "CounterpartyInsights" });
-    case 9:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            name: S.String,
-            transaction_count: S.Number,
-            total_outflows: S.Number,
-            total_inflows: S.Number,
-            top_counterparties: S.optional(__S(32, __c1, 0)),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "CategoryInsightDetails" });
-    case 10:
-      return S.Array(__S(2921, __c91, 9));
-    case 11:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            primary_category_insights: S.optional(__S(2922, __c91, 10)),
-            detailed_category_insights: S.optional(__S(2922, __c91, 10)),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "CategoryInsights" });
-    case 12:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            stream_id: S.String,
-            description: S.optional(S.String),
-            merchant_name: S.String,
-            oldest_transaction_date: S.optional(S.String),
-            newest_transaction_date: S.optional(S.String),
-            average_days_apart: S.Number,
-            frequency: S.optional(S.String),
-            transaction_count: S.optional(S.Number),
-            transaction_ids: S.optional(__S(32, __c1, 0)),
-            average_amount: S.optional(__S(2368, __c74, 0)),
-            newest_transaction_amount: S.optional(__S(2368, __c74, 0)),
-            is_active: S.Boolean,
-            status: S.optional(S.String),
-            personal_finance_category_primary: S.optional(S.String),
-            personal_finance_category_detailed: S.optional(S.String),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "RecurringInsightsStream" });
-    case 13:
-      return S.Array(__S(2924, __c91, 12));
-    case 14:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            inflow_streams: __S(2925, __c91, 13),
-            outflow_streams: __S(2925, __c91, 13),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "RecurringTransactions" });
-    case 15:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            user_data_overview: __S(2913, __c91, 1),
-            counterparty_insights: S.optional(__S(2920, __c91, 8)),
-            category_insights: S.optional(__S(2923, __c91, 11)),
-            recurring_transactions: S.optional(__S(2926, __c91, 14)),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "TransactionsUserInsightsGetResponse" });
-  }
-}
-function __c92(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28484,7 +26221,7 @@ function __c92(j: number): any {
       ).annotate({ identifier: "GetTransferRequest" });
   }
 }
-function __c93(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28520,8 +26257,8 @@ function __c93(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            rtp: __S(2977, __c93, 1),
-            rfp: __S(2978, __c93, 2),
+            rtp: __S(2433, __c76, 1),
+            rfp: __S(2434, __c76, 2),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -28530,7 +26267,7 @@ function __c93(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            institution_supported_networks: __S(2979, __c93, 3),
+            institution_supported_networks: __S(2435, __c76, 3),
             request_id: S.String,
           }),
           [S.Record(S.String, S.Unknown)],
@@ -28538,7 +26275,7 @@ function __c93(j: number): any {
       ).annotate({ identifier: "TransferCapabilitiesGetResponse" });
   }
 }
-function __c94(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28568,7 +26305,7 @@ function __c94(j: number): any {
       ).annotate({ identifier: "TransferConfigurationGetResponse" });
   }
 }
-function __c95(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28597,9 +26334,9 @@ function __c95(j: number): any {
             created: S.String,
             status: S.String,
             transfer_id: S.NullOr(S.String),
-            failure_reason: S.NullOr(__S(3041, __c95, 1)),
+            failure_reason: S.NullOr(__S(2497, __c78, 1)),
             authorization_decision: S.NullOr(S.String),
-            authorization_decision_rationale: S.NullOr(__S(10944, __c342, 0)),
+            authorization_decision_rationale: S.NullOr(__S(10080, __c315, 0)),
             account_id: S.optional(S.NullOr(S.String)),
             origination_account_id: S.String,
             funding_account_id: S.String,
@@ -28607,13 +26344,13 @@ function __c95(j: number): any {
             mode: S.String,
             network: S.optional(S.String),
             ach_class: S.optional(S.String),
-            user: __S(10913, __c341, 1),
+            user: __S(10049, __c314, 1),
             description: S.String,
-            metadata: S.optional(S.NullOr(__S(10848, __c339, 0))),
+            metadata: S.optional(S.NullOr(__S(9984, __c312, 0))),
             iso_currency_code: S.String,
             require_guarantee: S.optional(S.NullOr(S.Boolean)),
             guarantee_decision: S.NullOr(S.String),
-            guarantee_decision_rationale: S.NullOr(__S(10944, __c342, 0)),
+            guarantee_decision_rationale: S.NullOr(__S(10080, __c315, 0)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -28622,7 +26359,7 @@ function __c95(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            transfer_intent: __S(3042, __c95, 2),
+            transfer_intent: __S(2498, __c78, 2),
             request_id: S.String,
           }),
           [S.Record(S.String, S.Unknown)],
@@ -28630,7 +26367,7 @@ function __c95(j: number): any {
       ).annotate({ identifier: "TransferIntentGetResponse" });
   }
 }
-function __c96(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28656,7 +26393,7 @@ function __c96(j: number): any {
         S.StructWithRest(
           S.Struct({
             ledger_id: S.String,
-            balance: __S(3073, __c96, 1),
+            balance: __S(2529, __c79, 1),
             name: S.String,
             is_default: S.Boolean,
             request_id: S.String,
@@ -28666,7 +26403,7 @@ function __c96(j: number): any {
       ).annotate({ identifier: "TransferLedgerGetResponse" });
   }
 }
-function __c97(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28691,7 +26428,7 @@ function __c97(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            last_60d: S.optional(S.NullOr(__S(3105, __c97, 1))),
+            last_60d: S.optional(S.NullOr(__S(2561, __c80, 1))),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -28719,15 +26456,15 @@ function __c97(j: number): any {
             monthly_debit_transfer_volume: S.String,
             monthly_credit_transfer_volume: S.String,
             iso_currency_code: S.String,
-            return_rates: S.optional(S.NullOr(__S(3106, __c97, 2))),
-            authorization_usage: S.optional(S.NullOr(__S(3107, __c97, 3))),
+            return_rates: S.optional(S.NullOr(__S(2562, __c80, 2))),
+            authorization_usage: S.optional(S.NullOr(__S(2563, __c80, 3))),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "TransferMetricsGetResponse" });
   }
 }
-function __c98(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28735,37 +26472,35 @@ function __c98(j: number): any {
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           user_id: S.String,
-          products: __S(3168, __c99, 0),
-          scope: S.Unknown,
-          decision_stage: S.String,
-          consumer_report_permissible_purpose: S.Unknown,
-          client_report_id: S.optional(S.NullOr(S.String)),
-          days_requested: S.optional(S.NullOr(S.Number)),
-          days_required: S.optional(S.NullOr(S.Number)),
-          include_investments: S.optional(S.NullOr(S.Boolean)),
-          include_identity_match: S.optional(S.NullOr(S.Boolean)),
+          scope: S.String,
+          cadence: S.optional(S.NullOr(S.String)),
           webhook: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/cra/report/create", code: 200 })),
-      ).annotate({ identifier: "CreateCraReportRequest" });
-    case 1:
+          products: __S(2656, __c83, 0),
+        }).pipe(T.Http({ method: "POST", uri: "/cra/servicing/subscription/create", code: 200 })),
+      ).annotate({ identifier: "CreateCraServicingSubscriptionRequest" });
+  }
+}
+function __c82(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            report_id: S.Unknown,
+            subscription_id: S.String,
             request_id: S.String,
           }),
           [S.Record(S.String, S.Unknown)],
         ),
-      ).annotate({ identifier: "CraReportCreateResponse" });
+      ).annotate({ identifier: "CraServicingSubscriptionCreateResponse" });
   }
 }
-function __c99(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
   }
 }
-function __c100(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28786,7 +26521,7 @@ function __c100(j: number): any {
         ),
       ).annotate({ identifier: "TransferPlatformRequirement" });
     case 2:
-      return S.Array(__S(3201, __c100, 1));
+      return S.Array(__S(2689, __c84, 1));
     case 3:
       return S.suspend(() =>
         S.StructWithRest(
@@ -28794,7 +26529,7 @@ function __c100(j: number): any {
             client_id: S.String,
             transfer_diligence_status: S.String,
             company_name: S.String,
-            outstanding_requirements: S.optional(__S(3202, __c100, 2)),
+            outstanding_requirements: S.optional(__S(2690, __c84, 2)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -28803,7 +26538,7 @@ function __c100(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            originator: __S(3203, __c100, 3),
+            originator: __S(2691, __c84, 3),
             request_id: S.String,
           }),
           [S.Record(S.String, S.Unknown)],
@@ -28811,7 +26546,7 @@ function __c100(j: number): any {
       ).annotate({ identifier: "TransferOriginatorGetResponse" });
   }
 }
-function __c101(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28825,7 +26560,7 @@ function __c101(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            recurring_transfer: __S(11425, __c357, 1),
+            recurring_transfer: __S(10561, __c330, 1),
             request_id: S.String,
           }),
           [S.Record(S.String, S.Unknown)],
@@ -28833,7 +26568,7 @@ function __c101(j: number): any {
       ).annotate({ identifier: "TransferRecurringGetResponse" });
   }
 }
-function __c102(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28845,7 +26580,7 @@ function __c102(j: number): any {
       ).annotate({ identifier: "GetTransferRefundRequest" });
   }
 }
-function __c103(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28857,7 +26592,7 @@ function __c103(j: number): any {
       ).annotate({ identifier: "GetTransferSweepRequest" });
   }
 }
-function __c104(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28885,20 +26620,20 @@ function __c104(j: number): any {
             trigger: S.optional(S.NullOr(S.String)),
             description: S.optional(S.String),
             network_trace_id: S.optional(S.NullOr(S.String)),
-            failure_reason: S.optional(S.NullOr(__S(3328, __c104, 0))),
+            failure_reason: S.optional(S.NullOr(__S(2816, __c88, 0))),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "TransferSweep" });
   }
 }
-function __c105(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            sweep: __S(3329, __c104, 1),
+            sweep: __S(2817, __c88, 1),
             request_id: S.String,
           }),
           [S.Record(S.String, S.Unknown)],
@@ -28906,7 +26641,7 @@ function __c105(j: number): any {
       ).annotate({ identifier: "TransferSweepGetResponse" });
   }
 }
-function __c106(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28925,14 +26660,14 @@ function __c106(j: number): any {
             client_user_id: S.NullOr(S.String),
             created_at: S.String,
             updated_at: S.optional(S.String),
-            identity: S.optional(S.NullOr(__S(11557, __c361, 5))),
+            identity: S.optional(S.NullOr(__S(10693, __c334, 5))),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "UserGetResponse" });
   }
 }
-function __c107(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28970,8 +26705,8 @@ function __c107(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            name: S.optional(S.NullOr(__S(3425, __c107, 1))),
-            address: S.optional(S.NullOr(__S(3426, __c107, 2))),
+            name: S.optional(S.NullOr(__S(2913, __c91, 1))),
+            address: S.optional(S.NullOr(__S(2914, __c91, 2))),
             phone_number: S.optional(S.String),
             email: S.optional(S.NullOr(S.String)),
             date_of_birth: S.optional(S.NullOr(S.String)),
@@ -28992,7 +26727,7 @@ function __c107(j: number): any {
         ),
       ).annotate({ identifier: "UserAccountItem" });
     case 5:
-      return S.Array(__S(3428, __c107, 4));
+      return S.Array(__S(2916, __c91, 4));
     case 6:
       return S.suspend(() =>
         S.StructWithRest(
@@ -29010,7 +26745,7 @@ function __c107(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            ssn: S.optional(__S(3430, __c107, 6)),
+            ssn: S.optional(__S(2918, __c91, 6)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -29019,11 +26754,11 @@ function __c107(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            name: S.optional(__S(3430, __c107, 6)),
-            address: S.optional(__S(3430, __c107, 6)),
-            email: S.optional(__S(3430, __c107, 6)),
-            date_of_birth: S.optional(__S(3430, __c107, 6)),
-            official_document: S.optional(S.NullOr(__S(3431, __c107, 7))),
+            name: S.optional(__S(2918, __c91, 6)),
+            address: S.optional(__S(2918, __c91, 6)),
+            email: S.optional(__S(2918, __c91, 6)),
+            date_of_birth: S.optional(__S(2918, __c91, 6)),
+            official_document: S.optional(S.NullOr(__S(2919, __c91, 7))),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -29034,9 +26769,9 @@ function __c107(j: number): any {
           S.Struct({
             idv_session_status: S.optional(S.String),
             link_session_id: S.NullOr(S.String),
-            identity: S.NullOr(__S(3427, __c107, 3)),
-            items: __S(3429, __c107, 5),
-            identity_edit_history: S.optional(S.NullOr(__S(3432, __c107, 8))),
+            identity: S.NullOr(__S(2915, __c91, 3)),
+            items: __S(2917, __c91, 5),
+            identity_edit_history: S.optional(S.NullOr(__S(2920, __c91, 8))),
             request_id: S.String,
           }),
           [S.Record(S.String, S.Unknown)],
@@ -29044,7 +26779,7 @@ function __c107(j: number): any {
       ).annotate({ identifier: "UserAccountSessionGetResponse" });
   }
 }
-function __c108(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29056,12 +26791,12 @@ function __c108(j: number): any {
         }).pipe(T.Http({ method: "POST", uri: "/user/items/get", code: 200 })),
       ).annotate({ identifier: "GetUserItemRequest" });
     case 1:
-      return S.Array(__S(12800, __c400, 0));
+      return S.Array(__S(11840, __c370, 0));
     case 2:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            items: __S(3457, __c108, 1),
+            items: __S(2945, __c92, 1),
             request_id: S.String,
           }),
           [S.Record(S.String, S.Unknown)],
@@ -29069,7 +26804,7 @@ function __c108(j: number): any {
       ).annotate({ identifier: "UserItemsGetResponse" });
   }
 }
-function __c109(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29093,10 +26828,10 @@ function __c109(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            transaction_limit: __S(3489, __c109, 1),
-            daily_limit: S.NullOr(__S(3489, __c109, 1)),
-            weekly_limit: S.NullOr(__S(3489, __c109, 1)),
-            monthly_limit: S.NullOr(__S(3489, __c109, 1)),
+            transaction_limit: __S(2977, __c93, 1),
+            daily_limit: S.NullOr(__S(2977, __c93, 1)),
+            weekly_limit: S.NullOr(__S(2977, __c93, 1)),
+            monthly_limit: S.NullOr(__S(2977, __c93, 1)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -29105,7 +26840,7 @@ function __c109(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            guarantee_limits: __S(3490, __c109, 2),
+            guarantee_limits: __S(2978, __c93, 2),
             request_id: S.String,
           }),
           [S.Record(S.String, S.Unknown)],
@@ -29113,7 +26848,7 @@ function __c109(j: number): any {
       ).annotate({ identifier: "UserTransferLimitsGetResponse" });
   }
 }
-function __c110(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29125,7 +26860,7 @@ function __c110(j: number): any {
       ).annotate({ identifier: "GetWalletRequest" });
   }
 }
-function __c111(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29143,8 +26878,8 @@ function __c111(j: number): any {
           reference: S.String,
           type: S.String,
           scheme: S.optional(S.NullOr(S.String)),
-          amount: __S(12547, __c392, 3),
-          counterparty: __S(12546, __c392, 2),
+          amount: __S(11523, __c360, 3),
+          counterparty: __S(11522, __c360, 2),
           status: S.String,
           created_at: S.String,
           last_status_update: S.String,
@@ -29152,13 +26887,13 @@ function __c111(j: number): any {
           payment_id: S.optional(S.NullOr(S.String)),
           failure_reason: S.optional(S.NullOr(S.String)),
           error: S.optional(S.NullOr(__S(64, __c2, 0))),
-          related_transactions: S.optional(__S(3585, __c112, 1)),
+          related_transactions: S.optional(__S(3073, __c96, 1)),
           request_id: S.String,
         }),
       ).annotate({ identifier: "GetWalletTransactionResponse" });
   }
 }
-function __c112(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29171,46 +26906,34 @@ function __c112(j: number): any {
         ),
       ).annotate({ identifier: "WalletTransactionRelation" });
     case 1:
-      return S.Array(__S(3584, __c112, 0));
+      return S.Array(__S(3072, __c96, 0));
   }
 }
-function __c113(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          user_id: S.String,
-          scope: S.String,
-          cadence: S.optional(S.NullOr(S.String)),
-          webhook: S.optional(S.String),
-          products: __S(3680, __c115, 0),
-        }).pipe(T.Http({ method: "POST", uri: "/cra/servicing/subscription/create", code: 200 })),
-      ).annotate({ identifier: "CreateCraServicingSubscriptionRequest" });
-  }
-}
-function __c114(j: number): any {
-  switch (j) {
-    case 0:
+          report_tokens: __S(224, __c7, 0),
+          secondary_client_id: S.String,
+          webhook: S.optional(S.NullOr(S.String)),
+        }).pipe(T.Http({ method: "POST", uri: "/credit/relay/create", code: 200 })),
+      ).annotate({ identifier: "CreateCreditRelayRequest" });
+    case 1:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            subscription_id: S.String,
+            relay_token: S.String.pipe(T.SensitiveValue({})),
             request_id: S.String,
           }),
           [S.Record(S.String, S.Unknown)],
         ),
-      ).annotate({ identifier: "CraServicingSubscriptionCreateResponse" });
+      ).annotate({ identifier: "CreditRelayCreateResponse" });
   }
 }
-function __c115(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.Unknown);
-  }
-}
-function __c116(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29222,7 +26945,7 @@ function __c116(j: number): any {
       ).annotate({ identifier: "GetWatchlistScreeningEntityRequest" });
   }
 }
-function __c117(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29236,7 +26959,7 @@ function __c117(j: number): any {
       ).annotate({ identifier: "GetWatchlistScreeningEntityProgramRequest" });
   }
 }
-function __c118(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29245,10 +26968,10 @@ function __c118(j: number): any {
             id: S.String,
             created_at: S.String,
             is_rescanning_enabled: S.Boolean,
-            lists_enabled: __S(12352, __c386, 0),
+            lists_enabled: __S(192, __c6, 0),
             name: S.String,
             name_sensitivity: S.String,
-            audit_trail: __S(11904, __c372, 0),
+            audit_trail: __S(10976, __c343, 0),
             is_archived: S.Boolean,
             request_id: S.String,
           }),
@@ -29257,7 +26980,7 @@ function __c118(j: number): any {
       ).annotate({ identifier: "WatchlistScreeningEntityProgramGetResponse" });
   }
 }
-function __c119(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29269,7 +26992,7 @@ function __c119(j: number): any {
       ).annotate({ identifier: "GetWatchlistScreeningIndividualRequest" });
   }
 }
-function __c120(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29283,7 +27006,7 @@ function __c120(j: number): any {
       ).annotate({ identifier: "GetWatchlistScreeningIndividualProgramRequest" });
   }
 }
-function __c121(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29314,7 +27037,7 @@ function __c121(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            key: __S(3873, __c121, 1),
+            key: __S(3297, __c103, 1),
             request_id: S.String,
           }),
           [S.Record(S.String, S.Unknown)],
@@ -29322,7 +27045,7 @@ function __c121(j: number): any {
       ).annotate({ identifier: "WebhookVerificationKeyGetResponse" });
   }
 }
-function __c122(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29330,18 +27053,18 @@ function __c122(j: number): any {
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           access_token: S.String.pipe(T.SensitiveValue({})),
-          user: S.optional(__S(3969, __c124, 1)),
-          options: S.optional(__S(12864, __c402, 0)),
+          user: S.optional(__S(3393, __c106, 1)),
+          options: S.optional(__S(11904, __c372, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/identity/match", code: 200 })),
       ).annotate({ identifier: "IdentityMatchRequest" });
     case 1:
-      return S.Array(__S(3970, __c124, 2));
+      return S.Array(__S(3394, __c106, 2));
     case 2:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            accounts: __S(3905, __c122, 1),
-            item: __S(12800, __c400, 0),
+            accounts: __S(3329, __c104, 1),
+            item: __S(11840, __c370, 0),
             request_id: S.String,
           }),
           [S.Record(S.String, S.Unknown)],
@@ -29349,7 +27072,7 @@ function __c122(j: number): any {
       ).annotate({ identifier: "IdentityMatchResponse" });
   }
 }
-function __c123(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29384,7 +27107,7 @@ function __c123(j: number): any {
       ).annotate({ identifier: "AddressMatchScore" });
   }
 }
-function __c124(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29406,7 +27129,7 @@ function __c124(j: number): any {
             legal_name: S.optional(S.NullOr(S.String)),
             phone_number: S.optional(S.NullOr(S.String)),
             email_address: S.optional(S.NullOr(S.String)),
-            address: S.optional(S.NullOr(__S(3968, __c124, 0))),
+            address: S.optional(S.NullOr(__S(3392, __c106, 0))),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -29416,7 +27139,7 @@ function __c124(j: number): any {
         S.StructWithRest(
           S.Struct({
             account_id: S.String,
-            balances: __S(12832, __c401, 0),
+            balances: __S(11872, __c371, 0),
             mask: S.NullOr(S.String),
             name: S.String,
             official_name: S.NullOr(S.String),
@@ -29424,22 +27147,22 @@ function __c124(j: number): any {
             subtype: S.NullOr(S.String),
             verification_status: S.optional(S.String),
             verification_name: S.optional(S.String),
-            verification_insights: S.optional(__S(12770, __c399, 2)),
+            verification_insights: S.optional(__S(11810, __c369, 2)),
             persistent_account_id: S.optional(S.String),
             apy: S.optional(S.NullOr(S.Number)),
             holder_category: S.optional(S.NullOr(S.String)),
             paired_account_id: S.optional(S.NullOr(S.String)),
-            legal_name: __S(3936, __c123, 0),
-            phone_number: __S(3937, __c123, 1),
-            email_address: __S(3937, __c123, 1),
-            address: __S(3938, __c123, 2),
+            legal_name: __S(3360, __c105, 0),
+            phone_number: __S(3361, __c105, 1),
+            email_address: __S(3361, __c105, 1),
+            address: __S(3362, __c105, 2),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "AccountIdentityMatchScore" });
   }
 }
-function __c125(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29460,9 +27183,9 @@ function __c125(j: number): any {
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           institution_id: S.optional(S.String),
-          products: S.optional(__S(12352, __c386, 0)),
-          user_auth: __S(4000, __c125, 0),
-          options: S.optional(__S(4001, __c125, 1)),
+          products: S.optional(__S(192, __c6, 0)),
+          user_auth: __S(3424, __c107, 0),
+          options: S.optional(__S(3425, __c107, 1)),
         }).pipe(T.Http({ method: "POST", uri: "/item/import", code: 200 })),
       ).annotate({ identifier: "ImportItemRequest" });
     case 3:
@@ -29477,7 +27200,7 @@ function __c125(j: number): any {
       ).annotate({ identifier: "ItemImportResponse" });
   }
 }
-function __c126(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29494,15 +27217,15 @@ function __c126(j: number): any {
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           institution_id: S.String,
-          country_codes: __S(12352, __c386, 0),
-          options: S.optional(__S(4032, __c126, 0)),
+          country_codes: __S(192, __c6, 0),
+          options: S.optional(__S(3456, __c108, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/institutions/get_by_id", code: 200 })),
       ).annotate({ identifier: "InstitutionsGetByIdRequest" });
     case 2:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            institution: __S(779, __c24, 11),
+            institution: __S(363, __c11, 11),
             request_id: S.String,
           }),
           [S.Record(S.String, S.Unknown)],
@@ -29510,7 +27233,7 @@ function __c126(j: number): any {
       ).annotate({ identifier: "InstitutionsGetByIdResponse" });
   }
 }
-function __c127(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29532,7 +27255,7 @@ function __c127(j: number): any {
       ).annotate({ identifier: "ItemAccessTokenInvalidateResponse" });
   }
 }
-function __c128(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29555,517 +27278,7 @@ function __c128(j: number): any {
       ).annotate({ identifier: "ItemPublicTokenExchangeResponse" });
   }
 }
-function __c129(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          client_id: S.optional(S.String),
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          report_tokens: __S(672, __c21, 0),
-          secondary_client_id: S.String,
-          webhook: S.optional(S.NullOr(S.String)),
-        }).pipe(T.Http({ method: "POST", uri: "/credit/relay/create", code: 200 })),
-      ).annotate({ identifier: "CreateCreditRelayRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            relay_token: S.String.pipe(T.SensitiveValue({})),
-            request_id: S.String,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "CreditRelayCreateResponse" });
-  }
-}
-function __c130(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          client_id: S.optional(S.String),
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          link_correlation_id: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/link/oauth/correlation_id/exchange", code: 200 })),
-      ).annotate({ identifier: "LinkOauthCorrelationIdExchangeRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            link_token: S.String.pipe(T.SensitiveValue({})),
-            request_id: S.String,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "LinkOAuthCorrelationIdExchangeResponse" });
-  }
-}
-function __c131(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          client_id: S.optional(S.String),
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          start_date: S.optional(S.NullOr(S.String)),
-          end_date: S.optional(S.NullOr(S.String)),
-          bank_transfer_id: S.optional(S.NullOr(S.String)),
-          account_id: S.optional(S.NullOr(S.String)),
-          bank_transfer_type: S.optional(S.NullOr(S.String)),
-          event_types: S.optional(__S(12352, __c386, 0)),
-          count: S.optional(S.NullOr(S.Number)),
-          offset: S.optional(S.NullOr(S.Number)),
-          origination_account_id: S.optional(S.NullOr(S.String)),
-          direction: S.optional(S.NullOr(S.String)),
-        }).pipe(T.Http({ method: "POST", uri: "/bank_transfer/event/list", code: 200 })),
-      ).annotate({ identifier: "ListBankTransferEventRequest" });
-  }
-}
-function __c132(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            ach_return_code: S.optional(S.NullOr(S.String)),
-            description: S.optional(S.NullOr(S.String)),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "BankTransferFailure" });
-    case 1:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            available_balance: S.NullOr(S.String),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "ReceiverDetails" });
-    case 2:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            event_id: S.Number,
-            timestamp: S.String,
-            event_type: S.String,
-            account_id: S.String,
-            bank_transfer_id: S.String,
-            origination_account_id: S.NullOr(S.String),
-            bank_transfer_type: S.String,
-            bank_transfer_amount: S.String,
-            bank_transfer_iso_currency_code: S.String,
-            failure_reason: S.NullOr(__S(4224, __c132, 0)),
-            direction: S.NullOr(S.String),
-            receiver_details: S.NullOr(__S(4225, __c132, 1)),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "BankTransferEvent" });
-    case 3:
-      return S.Array(__S(4226, __c132, 2));
-    case 4:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            bank_transfer_events: __S(4227, __c132, 3),
-            request_id: S.String,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "BankTransferEventListResponse" });
-  }
-}
-function __c133(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          client_id: S.optional(S.String),
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          institution_id: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/beta/issues/v1/list", code: 200 })),
-      ).annotate({ identifier: "ListBetaIssuesV1Request" });
-    case 1:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            issues: __S(12385, __c387, 1),
-            request_id: S.String,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "BetaIssuesV1ListResponse" });
-  }
-}
-function __c134(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          client_id: S.optional(S.String),
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          cursor: S.optional(S.String),
-          start_time: S.optional(S.NullOr(S.String)),
-          count: S.optional(S.NullOr(S.Number)),
-          webhook_types: S.optional(__S(32, __c1, 0)),
-          webhook_codes: S.optional(__S(32, __c1, 0)),
-          item_ids: S.optional(__S(32, __c1, 0)),
-          delivery_statuses: S.optional(__S(12352, __c386, 0)),
-        }).pipe(T.Http({ method: "POST", uri: "/beta/webhook_events/list", code: 200 })),
-      ).annotate({ identifier: "ListBetaWebhookEventsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            webhook_message_id: S.String,
-            webhook_type: S.String,
-            webhook_code: S.String,
-            item_id: S.NullOr(S.String),
-            sent_time: S.String,
-            payload: __S(1440, __c45, 0),
-            destination_url: S.String,
-            delivery_status: S.String,
-            last_http_status_code: S.NullOr(S.Number),
-            attempt_count: S.Number,
-            last_attempt_time: S.NullOr(S.String),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "WebhookEvent" });
-    case 2:
-      return S.Array(__S(4289, __c134, 1));
-    case 3:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            webhook_events: __S(4290, __c134, 2),
-            has_more: S.Boolean,
-            next_cursor: S.String,
-            request_id: S.String,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "BetaWebhookEventsListResponse" });
-  }
-}
-function __c135(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          client_id: S.optional(S.String),
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          user_id: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/cra/servicing/subscription/list", code: 200 })),
-      ).annotate({ identifier: "ListCraServicingSubscriptionRequest" });
-    case 1:
-      return S.Array(__S(14400, __c450, 0));
-    case 2:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            subscriptions: __S(4321, __c135, 1),
-            request_id: S.String,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "CraServicingSubscriptionListResponse" });
-  }
-}
-function __c136(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          client_id: S.optional(S.String),
-          cursor: S.optional(S.NullOr(S.String)),
-        }).pipe(T.Http({ method: "POST", uri: "/dashboard_user/list", code: 200 })),
-      ).annotate({ identifier: "ListDashboardUserRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            id: S.String,
-            created_at: S.String,
-            email_address: S.String,
-            status: S.String,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "DashboardUser" });
-    case 2:
-      return S.Array(__S(4353, __c136, 1));
-    case 3:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            dashboard_users: __S(4354, __c136, 2),
-            next_cursor: S.NullOr(S.String),
-            request_id: S.String,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "DashboardUserListResponse" });
-  }
-}
-function __c137(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Query()),
-          status: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/fdx/consents", code: 200 })),
-      ).annotate({ identifier: "ListFdxConsentsRequest" });
-    case 1:
-      return S.Array(__S(483, __c15, 3));
-    case 2:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            consent_grants: __S(4385, __c137, 1),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "GetConsentsResponse" });
-  }
-}
-function __c138(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          client_id: S.optional(S.String),
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          start_time: S.String,
-          end_time: S.String,
-          count: S.optional(S.Number),
-          cursor: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/identity/match/list", code: 200 })),
-      ).annotate({ identifier: "ListIdentityMatchRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            account_id: S.NullOr(S.String),
-            legal_name: __S(3936, __c123, 0),
-            phone_number: __S(3937, __c123, 1),
-            email_address: __S(3937, __c123, 1),
-            address: __S(3938, __c123, 2),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "IdentityMatchListAttemptScore" });
-    case 2:
-      return S.Array(__S(4417, __c138, 1));
-    case 3:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            attempt_id: S.String,
-            item_id: S.NullOr(S.String),
-            created_at: S.String,
-            link_session_id: S.String,
-            link_customization_name: S.String,
-            ruleset_revision: S.Number,
-            outcome: S.String,
-            outcome_account_id: S.NullOr(S.String),
-            scores: __S(4418, __c138, 2),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "IdentityMatchListAttempt" });
-    case 4:
-      return S.Array(__S(4419, __c138, 3));
-    case 5:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            identity_match_attempts: __S(4420, __c138, 4),
-            next_cursor: S.NullOr(S.String),
-            has_more: S.Boolean,
-            request_id: S.String,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "IdentityMatchListResponse" });
-  }
-}
-function __c139(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          client_id: S.optional(S.String),
-          template_id: S.String,
-          client_user_id: S.optional(S.String),
-          user_id: S.optional(S.NullOr(S.String)),
-          cursor: S.optional(S.NullOr(S.String)),
-        }).pipe(T.Http({ method: "POST", uri: "/identity_verification/list", code: 200 })),
-      ).annotate({ identifier: "ListIdentityVerificationRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            id: S.String,
-            client_user_id: S.String,
-            created_at: S.String,
-            completed_at: S.NullOr(S.String),
-            previous_attempt_id: S.NullOr(S.String),
-            shareable_url: S.NullOr(S.String),
-            template: __S(4640, __c145, 0),
-            user: __S(4641, __c145, 1),
-            status: S.String,
-            steps: __S(4642, __c145, 2),
-            documentary_verification: S.NullOr(__S(4654, __c145, 14)),
-            selfie_check: S.NullOr(__S(4661, __c145, 21)),
-            kyc_check: S.NullOr(__S(4669, __c145, 29)),
-            risk_check: S.NullOr(__S(4682, __c146, 10)),
-            verify_sms: S.NullOr(__S(4685, __c146, 13)),
-            watchlist_screening_id: S.NullOr(S.String),
-            beacon_user_id: S.NullOr(S.String),
-            user_id: S.NullOr(S.String),
-            redacted_at: S.NullOr(S.String),
-            latest_scored_protect_event: S.optional(S.NullOr(__S(4686, __c146, 14))),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "IdentityVerification" });
-    case 2:
-      return S.Array(__S(4449, __c139, 1));
-    case 3:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            identity_verifications: __S(4450, __c139, 2),
-            next_cursor: S.NullOr(S.String),
-            request_id: S.String,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "IdentityVerificationListResponse" });
-  }
-}
-function __c140(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          client_id: S.optional(S.String),
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          access_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          cursor: S.optional(S.String),
-          count: S.optional(S.Number),
-        }).pipe(T.Http({ method: "POST", uri: "/item/activity/list", code: 200 })),
-      ).annotate({ identifier: "ListItemActivityRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          activity: S.String,
-          initiated_date: S.String,
-          id: S.String,
-          initiator: S.String,
-          state: S.String,
-          target_application_id: S.optional(S.String),
-          scopes: S.optional(S.NullOr(__S(4512, __c141, 0))),
-          authentication: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Activity" });
-    case 2:
-      return S.Array(__S(4481, __c140, 1));
-    case 3:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            application_id: S.String,
-            account_balance_info: S.NullOr(S.String),
-            account_routing_number: S.NullOr(S.String),
-            contact_info: S.NullOr(S.String),
-            transactions: S.NullOr(S.String),
-            credit_loan_info: S.NullOr(S.String),
-            investments: S.NullOr(S.String),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "ApplicationLastDataAccessTimes" });
-    case 4:
-      return S.Array(__S(4483, __c140, 3));
-    case 5:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            request_id: S.String,
-            activities: __S(4482, __c140, 2),
-            last_data_access_times: __S(4484, __c140, 4),
-            cursor: S.optional(S.String),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "ItemActivityListResponse" });
-  }
-}
-function __c141(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            product_access: S.optional(__S(4544, __c142, 0)),
-            accounts: S.optional(__S(4547, __c142, 3)),
-            new_accounts: S.optional(S.NullOr(S.Boolean)),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "ScopesNullable" });
-  }
-}
-function __c142(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            statements: S.optional(S.NullOr(S.Boolean)),
-            identity: S.optional(S.NullOr(S.Boolean)),
-            auth: S.optional(S.NullOr(S.Boolean)),
-            transactions: S.optional(S.NullOr(S.Boolean)),
-            accounts_details_transactions: S.optional(S.NullOr(S.Boolean)),
-            accounts_routing_number: S.optional(S.NullOr(S.Boolean)),
-            accounts_statements: S.optional(S.NullOr(S.Boolean)),
-            accounts_tax_statements: S.optional(S.NullOr(S.Boolean)),
-            customers_profiles: S.optional(S.NullOr(S.Boolean)),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "ProductAccess" });
-    case 1:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            account_data: S.optional(S.NullOr(S.Boolean)),
-            statements: S.optional(S.NullOr(S.Boolean)),
-            tax_documents: S.optional(S.NullOr(S.Boolean)),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "AccountProductAccessNullable" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          unique_id: S.String,
-          authorized: S.optional(S.NullOr(S.Boolean)),
-          account_product_access: S.optional(S.NullOr(__S(4545, __c142, 1))),
-        }),
-      ).annotate({ identifier: "AccountAccess" });
-    case 3:
-      return S.Array(__S(4546, __c142, 2));
-  }
-}
-function __c143(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30073,9 +27286,9 @@ function __c143(j: number): any {
           email_address: S.optional(S.String),
           phone_number: S.optional(S.NullOr(S.String)),
           date_of_birth: S.optional(S.String),
-          name: S.optional(S.NullOr(__S(4832, __c151, 0))),
-          address: S.optional(S.NullOr(__S(4800, __c150, 0))),
-          id_number: S.optional(S.NullOr(__S(4768, __c149, 0))),
+          name: S.optional(S.NullOr(__S(3808, __c119, 0))),
+          address: S.optional(S.NullOr(__S(3776, __c118, 0))),
+          id_number: S.optional(S.NullOr(__S(3744, __c117, 0))),
           client_user_id: S.optional(S.NullOr(S.String)),
           ip_address: S.optional(S.NullOr(S.String)),
         }),
@@ -30089,7 +27302,7 @@ function __c143(j: number): any {
           template_id: S.String,
           language: S.optional(S.NullOr(S.String)),
           gave_consent: S.Boolean,
-          user: S.optional(S.NullOr(__S(4576, __c143, 0))),
+          user: S.optional(S.NullOr(__S(3552, __c111, 0))),
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           is_idempotent: S.optional(S.NullOr(S.Boolean)),
@@ -30097,7 +27310,7 @@ function __c143(j: number): any {
       ).annotate({ identifier: "CreateIdentityVerificationRequest" });
   }
 }
-function __c144(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30112,8 +27325,8 @@ function __c144(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            device_and_connection: S.optional(S.NullOr(__S(4608, __c144, 0))),
-            bank_account_insights: S.optional(S.NullOr(__S(4608, __c144, 0))),
+            device_and_connection: S.optional(S.NullOr(__S(3584, __c112, 0))),
+            bank_account_insights: S.optional(S.NullOr(__S(3584, __c112, 0))),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -30124,14 +27337,14 @@ function __c144(j: number): any {
           S.Struct({
             score: S.Number,
             model: S.String,
-            subscores: S.NullOr(__S(4609, __c144, 1)),
+            subscores: S.NullOr(__S(3585, __c112, 1)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "TrustIndex" });
   }
 }
-function __c145(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30151,9 +27364,9 @@ function __c145(j: number): any {
             date_of_birth: S.NullOr(S.String),
             ip_address: S.NullOr(S.String),
             email_address: S.NullOr(S.String),
-            name: S.NullOr(__S(4736, __c148, 0)),
-            address: S.NullOr(__S(1984, __c62, 0)),
-            id_number: S.NullOr(__S(4768, __c149, 0)),
+            name: S.NullOr(__S(3712, __c116, 0)),
+            address: S.NullOr(__S(960, __c30, 0)),
+            id_number: S.NullOr(__S(3744, __c117, 0)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -30210,8 +27423,8 @@ function __c145(j: number): any {
             issuing_country: S.String,
             issuing_region: S.NullOr(S.String),
             date_of_birth: S.NullOr(S.String),
-            address: S.NullOr(__S(4644, __c145, 4)),
-            name: S.optional(S.NullOr(__S(4736, __c148, 0))),
+            address: S.NullOr(__S(3620, __c113, 4)),
+            name: S.optional(S.NullOr(__S(3712, __c116, 0))),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -30291,11 +27504,11 @@ function __c145(j: number): any {
           S.Struct({
             authenticity: S.String,
             image_quality: S.String,
-            extracted_data: S.NullOr(__S(4646, __c145, 6)),
-            fraud_analysis_details: S.NullOr(__S(4647, __c145, 7)),
-            image_quality_details: S.NullOr(__S(4648, __c145, 8)),
-            human_review: S.optional(S.NullOr(__S(4649, __c145, 9))),
-            aamva_verification: S.NullOr(__S(4650, __c145, 10)),
+            extracted_data: S.NullOr(__S(3622, __c113, 6)),
+            fraud_analysis_details: S.NullOr(__S(3623, __c113, 7)),
+            image_quality_details: S.NullOr(__S(3624, __c113, 8)),
+            human_review: S.optional(S.NullOr(__S(3625, __c113, 9))),
+            aamva_verification: S.NullOr(__S(3626, __c113, 10)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -30306,22 +27519,22 @@ function __c145(j: number): any {
           S.Struct({
             status: S.String,
             attempt: S.Number,
-            images: __S(4643, __c145, 3),
-            extracted_data: S.NullOr(__S(4645, __c145, 5)),
-            analysis: __S(4651, __c145, 11),
+            images: __S(3619, __c113, 3),
+            extracted_data: S.NullOr(__S(3621, __c113, 5)),
+            analysis: __S(3627, __c113, 11),
             redacted_at: S.NullOr(S.String),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "DocumentaryVerificationDocument" });
     case 13:
-      return S.Array(__S(4652, __c145, 12));
+      return S.Array(__S(3628, __c113, 12));
     case 14:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
             status: S.String,
-            documents: __S(4653, __c145, 13),
+            documents: __S(3629, __c113, 13),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -30374,8 +27587,8 @@ function __c145(j: number): any {
           S.Struct({
             document_comparison: S.String,
             liveness_check: S.String,
-            age_check: S.optional(S.NullOr(__S(4656, __c145, 16))),
-            facial_analysis: S.optional(S.NullOr(__S(4657, __c145, 17))),
+            age_check: S.optional(S.NullOr(__S(3632, __c113, 16))),
+            facial_analysis: S.optional(S.NullOr(__S(3633, __c113, 17))),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -30386,20 +27599,20 @@ function __c145(j: number): any {
           S.Struct({
             status: S.String,
             attempt: S.Number,
-            capture: __S(4655, __c145, 15),
-            analysis: __S(4658, __c145, 18),
+            capture: __S(3631, __c113, 15),
+            analysis: __S(3634, __c113, 18),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "SelfieCheckSelfie" });
     case 20:
-      return S.Array(__S(4659, __c145, 19));
+      return S.Array(__S(3635, __c113, 19));
     case 21:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
             status: S.String,
-            selfies: __S(4660, __c145, 20),
+            selfies: __S(3636, __c113, 20),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -30429,7 +27642,7 @@ function __c145(j: number): any {
             city: S.optional(S.String),
             region: S.optional(S.String),
             postal_code: S.optional(S.String),
-            international_details: S.optional(S.NullOr(__S(4662, __c145, 22))),
+            international_details: S.optional(S.NullOr(__S(3638, __c113, 22))),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -30476,7 +27689,7 @@ function __c145(j: number): any {
         S.StructWithRest(
           S.Struct({
             summary: S.String,
-            ssa_verification: S.NullOr(__S(4666, __c145, 26)),
+            ssa_verification: S.NullOr(__S(3642, __c113, 26)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -30496,11 +27709,11 @@ function __c145(j: number): any {
         S.StructWithRest(
           S.Struct({
             status: S.String,
-            address: __S(4663, __c145, 23),
-            name: __S(4664, __c145, 24),
-            date_of_birth: __S(4665, __c145, 25),
-            id_number: __S(4667, __c145, 27),
-            phone_number: __S(4668, __c145, 28),
+            address: __S(3639, __c113, 23),
+            name: __S(3640, __c113, 24),
+            date_of_birth: __S(3641, __c113, 25),
+            id_number: __S(3643, __c113, 27),
+            phone_number: __S(3644, __c113, 28),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -30533,7 +27746,7 @@ function __c145(j: number): any {
             is_edu: S.String,
             includes_date_of_birth: S.String,
             name: S.String,
-            linked_services: __S(12352, __c386, 0),
+            linked_services: __S(192, __c6, 0),
             risk_level: S.optional(S.String),
             factors: S.optional(__S(32, __c1, 0)),
           }),
@@ -30542,13 +27755,13 @@ function __c145(j: number): any {
       ).annotate({ identifier: "RiskCheckEmail" });
   }
 }
-function __c146(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            linked_services: __S(12352, __c386, 0),
+            linked_services: __S(192, __c6, 0),
             risk_level: S.optional(S.String),
             factors: S.optional(__S(32, __c1, 0)),
           }),
@@ -30569,7 +27782,7 @@ function __c146(j: number): any {
         ),
       ).annotate({ identifier: "RiskCheckDevice" });
     case 2:
-      return S.Array(__S(4673, __c146, 1));
+      return S.Array(__S(3649, __c114, 1));
     case 3:
       return S.suspend(() =>
         S.StructWithRest(
@@ -30585,8 +27798,8 @@ function __c146(j: number): any {
           S.Struct({
             score: S.Number,
             risk_level: S.optional(S.String),
-            first_party_synthetic_fraud: S.optional(S.NullOr(__S(4675, __c146, 3))),
-            third_party_synthetic_fraud: S.optional(S.NullOr(__S(4675, __c146, 3))),
+            first_party_synthetic_fraud: S.optional(S.NullOr(__S(3651, __c114, 3))),
+            third_party_synthetic_fraud: S.optional(S.NullOr(__S(3651, __c114, 3))),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -30605,8 +27818,8 @@ function __c146(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            synthetic_identity: S.NullOr(__S(4676, __c146, 4)),
-            stolen_identity: S.NullOr(__S(4677, __c146, 5)),
+            synthetic_identity: S.NullOr(__S(3652, __c114, 4)),
+            stolen_identity: S.NullOr(__S(3653, __c114, 5)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -30633,19 +27846,19 @@ function __c146(j: number): any {
         ),
       ).annotate({ identifier: "RiskCheckFacialDuplicate" });
     case 9:
-      return S.Array(__S(4680, __c146, 8));
+      return S.Array(__S(3656, __c114, 8));
     case 10:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
             status: S.String,
-            behavior: S.NullOr(__S(4670, __c145, 30)),
-            email: S.NullOr(__S(4671, __c145, 31)),
-            phone: S.NullOr(__S(4672, __c146, 0)),
-            devices: __S(4674, __c146, 2),
-            identity_abuse_signals: S.NullOr(__S(4678, __c146, 6)),
-            network: S.optional(S.NullOr(__S(4679, __c146, 7))),
-            facial_duplicates: __S(4681, __c146, 9),
+            behavior: S.NullOr(__S(3646, __c113, 30)),
+            email: S.NullOr(__S(3647, __c113, 31)),
+            phone: S.NullOr(__S(3648, __c114, 0)),
+            devices: __S(3650, __c114, 2),
+            identity_abuse_signals: S.NullOr(__S(3654, __c114, 6)),
+            network: S.optional(S.NullOr(__S(3655, __c114, 7))),
+            facial_duplicates: __S(3657, __c114, 9),
             trust_index_score: S.NullOr(S.Number),
           }),
           [S.Record(S.String, S.Unknown)],
@@ -30668,13 +27881,13 @@ function __c146(j: number): any {
         ),
       ).annotate({ identifier: "SMSVerification" });
     case 12:
-      return S.Array(__S(4683, __c146, 11));
+      return S.Array(__S(3659, __c114, 11));
     case 13:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
             status: S.String,
-            verifications: __S(4684, __c146, 12),
+            verifications: __S(3660, __c114, 12),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -30685,15 +27898,15 @@ function __c146(j: number): any {
           S.Struct({
             event_id: S.String,
             timestamp: S.String,
-            trust_index: S.NullOr(__S(4610, __c144, 2)),
-            fraud_attributes: S.NullOr(__S(1440, __c45, 0)),
+            trust_index: S.NullOr(__S(3586, __c112, 2)),
+            fraud_attributes: S.NullOr(__S(3840, __c120, 0)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "IDVProtectEvent" });
   }
 }
-function __c147(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30705,20 +27918,20 @@ function __c147(j: number): any {
             completed_at: S.NullOr(S.String),
             previous_attempt_id: S.NullOr(S.String),
             shareable_url: S.NullOr(S.String),
-            template: __S(4640, __c145, 0),
-            user: __S(4641, __c145, 1),
+            template: __S(3616, __c113, 0),
+            user: __S(3617, __c113, 1),
             status: S.String,
-            steps: __S(4642, __c145, 2),
-            documentary_verification: S.NullOr(__S(4654, __c145, 14)),
-            selfie_check: S.NullOr(__S(4661, __c145, 21)),
-            kyc_check: S.NullOr(__S(4669, __c145, 29)),
-            risk_check: S.NullOr(__S(4682, __c146, 10)),
-            verify_sms: S.NullOr(__S(4685, __c146, 13)),
+            steps: __S(3618, __c113, 2),
+            documentary_verification: S.NullOr(__S(3630, __c113, 14)),
+            selfie_check: S.NullOr(__S(3637, __c113, 21)),
+            kyc_check: S.NullOr(__S(3645, __c113, 29)),
+            risk_check: S.NullOr(__S(3658, __c114, 10)),
+            verify_sms: S.NullOr(__S(3661, __c114, 13)),
             watchlist_screening_id: S.NullOr(S.String),
             beacon_user_id: S.NullOr(S.String),
             user_id: S.NullOr(S.String),
             redacted_at: S.NullOr(S.String),
-            latest_scored_protect_event: S.optional(S.NullOr(__S(4686, __c146, 14))),
+            latest_scored_protect_event: S.optional(S.NullOr(__S(3662, __c114, 14))),
             request_id: S.String,
           }),
           [S.Record(S.String, S.Unknown)],
@@ -30726,7 +27939,7 @@ function __c147(j: number): any {
       ).annotate({ identifier: "IdentityVerificationCreateResponse" });
   }
 }
-function __c148(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30740,7 +27953,7 @@ function __c148(j: number): any {
       ).annotate({ identifier: "IdentityVerificationResponseUserName" });
   }
 }
-function __c149(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30754,7 +27967,7 @@ function __c149(j: number): any {
       ).annotate({ identifier: "UserIDNumber" });
   }
 }
-function __c150(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30772,7 +27985,7 @@ function __c150(j: number): any {
       ).annotate({ identifier: "UserAddress" });
   }
 }
-function __c151(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30783,7 +27996,426 @@ function __c151(j: number): any {
       ).annotate({ identifier: "IdentityVerificationRequestUserName" });
   }
 }
-function __c152(j: number): any {
+function __c120(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.Unknown);
+  }
+}
+function __c121(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          client_id: S.optional(S.String),
+          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          link_correlation_id: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/link/oauth/correlation_id/exchange", code: 200 })),
+      ).annotate({ identifier: "LinkOauthCorrelationIdExchangeRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            link_token: S.String.pipe(T.SensitiveValue({})),
+            request_id: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "LinkOAuthCorrelationIdExchangeResponse" });
+  }
+}
+function __c122(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          client_id: S.optional(S.String),
+          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          start_date: S.optional(S.NullOr(S.String)),
+          end_date: S.optional(S.NullOr(S.String)),
+          bank_transfer_id: S.optional(S.NullOr(S.String)),
+          account_id: S.optional(S.NullOr(S.String)),
+          bank_transfer_type: S.optional(S.NullOr(S.String)),
+          event_types: S.optional(__S(192, __c6, 0)),
+          count: S.optional(S.NullOr(S.Number)),
+          offset: S.optional(S.NullOr(S.Number)),
+          origination_account_id: S.optional(S.NullOr(S.String)),
+          direction: S.optional(S.NullOr(S.String)),
+        }).pipe(T.Http({ method: "POST", uri: "/bank_transfer/event/list", code: 200 })),
+      ).annotate({ identifier: "ListBankTransferEventRequest" });
+  }
+}
+function __c123(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            ach_return_code: S.optional(S.NullOr(S.String)),
+            description: S.optional(S.NullOr(S.String)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "BankTransferFailure" });
+    case 1:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            available_balance: S.NullOr(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "ReceiverDetails" });
+    case 2:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            event_id: S.Number,
+            timestamp: S.String,
+            event_type: S.String,
+            account_id: S.String,
+            bank_transfer_id: S.String,
+            origination_account_id: S.NullOr(S.String),
+            bank_transfer_type: S.String,
+            bank_transfer_amount: S.String,
+            bank_transfer_iso_currency_code: S.String,
+            failure_reason: S.NullOr(__S(3936, __c123, 0)),
+            direction: S.NullOr(S.String),
+            receiver_details: S.NullOr(__S(3937, __c123, 1)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "BankTransferEvent" });
+    case 3:
+      return S.Array(__S(3938, __c123, 2));
+    case 4:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            bank_transfer_events: __S(3939, __c123, 3),
+            request_id: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "BankTransferEventListResponse" });
+  }
+}
+function __c124(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          client_id: S.optional(S.String),
+          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          user_id: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/cra/servicing/subscription/list", code: 200 })),
+      ).annotate({ identifier: "ListCraServicingSubscriptionRequest" });
+    case 1:
+      return S.Array(__S(13216, __c413, 0));
+    case 2:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            subscriptions: __S(3969, __c124, 1),
+            request_id: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "CraServicingSubscriptionListResponse" });
+  }
+}
+function __c125(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          client_id: S.optional(S.String),
+          cursor: S.optional(S.NullOr(S.String)),
+        }).pipe(T.Http({ method: "POST", uri: "/dashboard_user/list", code: 200 })),
+      ).annotate({ identifier: "ListDashboardUserRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            id: S.String,
+            created_at: S.String,
+            email_address: S.String,
+            status: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "DashboardUser" });
+    case 2:
+      return S.Array(__S(4001, __c125, 1));
+    case 3:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            dashboard_users: __S(4002, __c125, 2),
+            next_cursor: S.NullOr(S.String),
+            request_id: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "DashboardUserListResponse" });
+  }
+}
+function __c126(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          customerId: S.String.pipe(T.Query()),
+          status: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/fdx/consents", code: 200 })),
+      ).annotate({ identifier: "ListFdxConsentsRequest" });
+    case 1:
+      return S.Array(__S(13859, __c433, 3));
+    case 2:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            consent_grants: __S(4033, __c126, 1),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "GetConsentsResponse" });
+  }
+}
+function __c127(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          client_id: S.optional(S.String),
+          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          start_time: S.String,
+          end_time: S.String,
+          count: S.optional(S.Number),
+          cursor: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/identity/match/list", code: 200 })),
+      ).annotate({ identifier: "ListIdentityMatchRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            account_id: S.NullOr(S.String),
+            legal_name: __S(3360, __c105, 0),
+            phone_number: __S(3361, __c105, 1),
+            email_address: __S(3361, __c105, 1),
+            address: __S(3362, __c105, 2),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "IdentityMatchListAttemptScore" });
+    case 2:
+      return S.Array(__S(4065, __c127, 1));
+    case 3:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            attempt_id: S.String,
+            item_id: S.NullOr(S.String),
+            created_at: S.String,
+            link_session_id: S.String,
+            link_customization_name: S.String,
+            ruleset_revision: S.Number,
+            outcome: S.String,
+            outcome_account_id: S.NullOr(S.String),
+            scores: __S(4066, __c127, 2),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "IdentityMatchListAttempt" });
+    case 4:
+      return S.Array(__S(4067, __c127, 3));
+    case 5:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            identity_match_attempts: __S(4068, __c127, 4),
+            next_cursor: S.NullOr(S.String),
+            has_more: S.Boolean,
+            request_id: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "IdentityMatchListResponse" });
+  }
+}
+function __c128(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          client_id: S.optional(S.String),
+          template_id: S.String,
+          client_user_id: S.optional(S.String),
+          user_id: S.optional(S.NullOr(S.String)),
+          cursor: S.optional(S.NullOr(S.String)),
+        }).pipe(T.Http({ method: "POST", uri: "/identity_verification/list", code: 200 })),
+      ).annotate({ identifier: "ListIdentityVerificationRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            id: S.String,
+            client_user_id: S.String,
+            created_at: S.String,
+            completed_at: S.NullOr(S.String),
+            previous_attempt_id: S.NullOr(S.String),
+            shareable_url: S.NullOr(S.String),
+            template: __S(3616, __c113, 0),
+            user: __S(3617, __c113, 1),
+            status: S.String,
+            steps: __S(3618, __c113, 2),
+            documentary_verification: S.NullOr(__S(3630, __c113, 14)),
+            selfie_check: S.NullOr(__S(3637, __c113, 21)),
+            kyc_check: S.NullOr(__S(3645, __c113, 29)),
+            risk_check: S.NullOr(__S(3658, __c114, 10)),
+            verify_sms: S.NullOr(__S(3661, __c114, 13)),
+            watchlist_screening_id: S.NullOr(S.String),
+            beacon_user_id: S.NullOr(S.String),
+            user_id: S.NullOr(S.String),
+            redacted_at: S.NullOr(S.String),
+            latest_scored_protect_event: S.optional(S.NullOr(__S(3662, __c114, 14))),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "IdentityVerification" });
+    case 2:
+      return S.Array(__S(4097, __c128, 1));
+    case 3:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            identity_verifications: __S(4098, __c128, 2),
+            next_cursor: S.NullOr(S.String),
+            request_id: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "IdentityVerificationListResponse" });
+  }
+}
+function __c129(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          client_id: S.optional(S.String),
+          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          access_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          cursor: S.optional(S.String),
+          count: S.optional(S.Number),
+        }).pipe(T.Http({ method: "POST", uri: "/item/activity/list", code: 200 })),
+      ).annotate({ identifier: "ListItemActivityRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          activity: S.String,
+          initiated_date: S.String,
+          id: S.String,
+          initiator: S.String,
+          state: S.String,
+          target_application_id: S.optional(S.String),
+          scopes: S.optional(S.NullOr(__S(4160, __c130, 0))),
+          authentication: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Activity" });
+    case 2:
+      return S.Array(__S(4129, __c129, 1));
+    case 3:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            application_id: S.String,
+            account_balance_info: S.NullOr(S.String),
+            account_routing_number: S.NullOr(S.String),
+            contact_info: S.NullOr(S.String),
+            transactions: S.NullOr(S.String),
+            credit_loan_info: S.NullOr(S.String),
+            investments: S.NullOr(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "ApplicationLastDataAccessTimes" });
+    case 4:
+      return S.Array(__S(4131, __c129, 3));
+    case 5:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            request_id: S.String,
+            activities: __S(4130, __c129, 2),
+            last_data_access_times: __S(4132, __c129, 4),
+            cursor: S.optional(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "ItemActivityListResponse" });
+  }
+}
+function __c130(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            product_access: S.optional(__S(4192, __c131, 0)),
+            accounts: S.optional(__S(4195, __c131, 3)),
+            new_accounts: S.optional(S.NullOr(S.Boolean)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "ScopesNullable" });
+  }
+}
+function __c131(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            statements: S.optional(S.NullOr(S.Boolean)),
+            identity: S.optional(S.NullOr(S.Boolean)),
+            auth: S.optional(S.NullOr(S.Boolean)),
+            transactions: S.optional(S.NullOr(S.Boolean)),
+            accounts_details_transactions: S.optional(S.NullOr(S.Boolean)),
+            accounts_routing_number: S.optional(S.NullOr(S.Boolean)),
+            accounts_statements: S.optional(S.NullOr(S.Boolean)),
+            accounts_tax_statements: S.optional(S.NullOr(S.Boolean)),
+            customers_profiles: S.optional(S.NullOr(S.Boolean)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "ProductAccess" });
+    case 1:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            account_data: S.optional(S.NullOr(S.Boolean)),
+            statements: S.optional(S.NullOr(S.Boolean)),
+            tax_documents: S.optional(S.NullOr(S.Boolean)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "AccountProductAccessNullable" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          unique_id: S.String,
+          authorized: S.optional(S.NullOr(S.Boolean)),
+          account_product_access: S.optional(S.NullOr(__S(4193, __c131, 1))),
+        }),
+      ).annotate({ identifier: "AccountAccess" });
+    case 3:
+      return S.Array(__S(4194, __c131, 2));
+  }
+}
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30803,11 +28435,11 @@ function __c152(j: number): any {
           application_url: S.optional(S.NullOr(S.String)),
           reason_for_access: S.optional(S.NullOr(S.String)),
           created_at: S.String,
-          scopes: S.optional(S.NullOr(__S(4512, __c141, 0))),
+          scopes: S.optional(S.NullOr(__S(4160, __c130, 0))),
         }),
       ).annotate({ identifier: "ConnectedApplication" });
     case 2:
-      return S.Array(__S(4865, __c152, 1));
+      return S.Array(__S(4225, __c132, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -30820,21 +28452,21 @@ function __c152(j: number): any {
         }),
       ).annotate({ identifier: "DisconnectedApplication" });
     case 4:
-      return S.Array(__S(4867, __c152, 3));
+      return S.Array(__S(4227, __c132, 3));
     case 5:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
             request_id: S.optional(S.String),
-            applications: __S(4866, __c152, 2),
-            disconnected_applications: S.optional(__S(4868, __c152, 4)),
+            applications: __S(4226, __c132, 2),
+            disconnected_applications: S.optional(__S(4228, __c132, 4)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "ItemApplicationListResponse" });
   }
 }
-function __c153(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30851,18 +28483,18 @@ function __c153(j: number): any {
         S.StructWithRest(
           S.Struct({
             payment_id: S.String,
-            amount: __S(7040, __c220, 0),
+            amount: __S(6144, __c192, 0),
             status: S.String,
             recipient_id: S.String,
             reference: S.String,
             adjusted_reference: S.optional(S.NullOr(S.String)),
             last_status_update: S.String,
-            schedule: S.optional(S.NullOr(__S(1696, __c53, 0))),
-            refund_details: S.optional(S.NullOr(__S(1632, __c51, 0))),
-            bacs: S.NullOr(__S(7008, __c219, 0)),
+            schedule: S.optional(S.NullOr(__S(1280, __c40, 0))),
+            refund_details: S.optional(S.NullOr(__S(1216, __c38, 0))),
+            bacs: S.NullOr(__S(6112, __c191, 0)),
             iban: S.NullOr(S.String),
             refund_ids: S.optional(S.NullOr(__S(32, __c1, 0))),
-            amount_refunded: S.optional(__S(1728, __c54, 0)),
+            amount_refunded: S.optional(__S(1312, __c41, 0)),
             wallet_id: S.optional(S.NullOr(S.String)),
             scheme: S.optional(S.NullOr(S.String)),
             adjusted_scheme: S.optional(S.NullOr(S.String)),
@@ -30875,12 +28507,12 @@ function __c153(j: number): any {
         ),
       ).annotate({ identifier: "PaymentInitiationPayment" });
     case 2:
-      return S.Array(__S(4897, __c153, 1));
+      return S.Array(__S(4257, __c133, 1));
     case 3:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            payments: __S(4898, __c153, 2),
+            payments: __S(4258, __c133, 2),
             next_cursor: S.NullOr(S.String),
             request_id: S.String,
           }),
@@ -30889,7 +28521,59 @@ function __c153(j: number): any {
       ).annotate({ identifier: "PaymentInitiationPaymentListResponse" });
   }
 }
-function __c154(j: number): any {
+function __c134(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          identity_verification_id: S.String,
+          client_id: S.optional(S.String),
+          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/identity_verification/autofill/create", code: 200 }),
+        ),
+      ).annotate({ identifier: "CreateIdentityVerificationAutofillRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            street: S.String,
+            street2: S.NullOr(S.String),
+            city: S.NullOr(S.String),
+            region: S.NullOr(S.String),
+            postal_code: S.NullOr(S.String),
+            country: S.String,
+            po_box: S.String,
+            type: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "IdentityVerificationAutofillAddress" });
+    case 2:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            name: S.NullOr(__S(3712, __c116, 0)),
+            address: S.NullOr(__S(4289, __c134, 1)),
+            id_number: S.NullOr(__S(3744, __c117, 0)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "IdentityVerificationAutofillUserData" });
+    case 3:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            status: S.String,
+            user: S.NullOr(__S(4290, __c134, 2)),
+            request_id: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "IdentityVerificationAutofillCreateResponse" });
+  }
+}
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30906,20 +28590,20 @@ function __c154(j: number): any {
           S.Struct({
             recipient_id: S.String,
             name: S.String,
-            address: S.optional(S.NullOr(__S(7072, __c221, 0))),
+            address: S.optional(S.NullOr(__S(6176, __c193, 0))),
             iban: S.optional(S.NullOr(S.String)),
-            bacs: S.optional(S.NullOr(__S(7008, __c219, 0))),
+            bacs: S.optional(S.NullOr(__S(6112, __c191, 0))),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "PaymentInitiationRecipient" });
     case 2:
-      return S.Array(__S(4929, __c154, 1));
+      return S.Array(__S(4321, __c135, 1));
     case 3:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            recipients: __S(4930, __c154, 2),
+            recipients: __S(4322, __c135, 2),
             request_id: S.String,
             next_cursor: S.optional(S.String),
           }),
@@ -30928,7 +28612,7 @@ function __c154(j: number): any {
       ).annotate({ identifier: "PaymentInitiationRecipientListResponse" });
   }
 }
-function __c155(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30942,12 +28626,12 @@ function __c155(j: number): any {
         }).pipe(T.Http({ method: "POST", uri: "/sandbox/transfer/test_clock/list", code: 200 })),
       ).annotate({ identifier: "ListSandboxTransferTestClockRequest" });
     case 1:
-      return S.Array(__S(10592, __c331, 0));
+      return S.Array(__S(9792, __c306, 0));
     case 2:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            test_clocks: __S(4961, __c155, 1),
+            test_clocks: __S(4353, __c136, 1),
             request_id: S.String,
           }),
           [S.Record(S.String, S.Unknown)],
@@ -30955,7 +28639,7 @@ function __c155(j: number): any {
       ).annotate({ identifier: "SandboxTransferTestClockListResponse" });
   }
 }
-function __c156(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30978,7 +28662,7 @@ function __c156(j: number): any {
         ),
       ).annotate({ identifier: "StatementsStatement" });
     case 2:
-      return S.Array(__S(4993, __c156, 1));
+      return S.Array(__S(4385, __c137, 1));
     case 3:
       return S.suspend(() =>
         S.StructWithRest(
@@ -30989,18 +28673,18 @@ function __c156(j: number): any {
             account_official_name: S.String,
             account_subtype: S.String,
             account_type: S.String,
-            statements: __S(4994, __c156, 2),
+            statements: __S(4386, __c137, 2),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "StatementsAccount" });
     case 4:
-      return S.Array(__S(4995, __c156, 3));
+      return S.Array(__S(4387, __c137, 3));
     case 5:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            accounts: __S(4996, __c156, 4),
+            accounts: __S(4388, __c137, 4),
             institution_id: S.String,
             institution_name: S.String,
             item_id: S.String,
@@ -31011,31 +28695,7 @@ function __c156(j: number): any {
       ).annotate({ identifier: "StatementsListResponse" });
   }
 }
-function __c157(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          client_id: S.optional(S.String),
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          client_user_id: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/beta/transactions/rules/v1/list", code: 200 })),
-      ).annotate({ identifier: "ListTransactionsRulesRequest" });
-    case 1:
-      return S.Array(__S(10689, __c334, 1));
-    case 2:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            rules: __S(5025, __c157, 1),
-            request_id: S.String,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "TransactionsRulesListResponse" });
-  }
-}
-function __c158(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31052,12 +28712,12 @@ function __c158(j: number): any {
         }).pipe(T.Http({ method: "POST", uri: "/transfer/list", code: 200 })),
       ).annotate({ identifier: "ListTransferRequest" });
     case 1:
-      return S.Array(__S(10790, __c337, 6));
+      return S.Array(__S(9926, __c310, 6));
     case 2:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            transfers: __S(5057, __c158, 1),
+            transfers: __S(4417, __c138, 1),
             request_id: S.String,
           }),
           [S.Record(S.String, S.Unknown)],
@@ -31065,7 +28725,7 @@ function __c158(j: number): any {
       ).annotate({ identifier: "TransferListResponse" });
   }
 }
-function __c159(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31077,7 +28737,7 @@ function __c159(j: number): any {
           transfer_id: S.optional(S.NullOr(S.String)),
           account_id: S.optional(S.NullOr(S.String)),
           transfer_type: S.optional(S.NullOr(S.String)),
-          event_types: S.optional(__S(12352, __c386, 0)),
+          event_types: S.optional(__S(192, __c6, 0)),
           sweep_id: S.optional(S.String),
           count: S.optional(S.NullOr(S.Number)),
           offset: S.optional(S.NullOr(S.Number)),
@@ -31088,7 +28748,7 @@ function __c159(j: number): any {
       ).annotate({ identifier: "ListTransferEventRequest" });
   }
 }
-function __c160(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31104,7 +28764,7 @@ function __c160(j: number): any {
             origination_account_id: S.NullOr(S.String),
             transfer_type: S.optional(S.String),
             transfer_amount: S.optional(S.String),
-            failure_reason: S.NullOr(__S(11008, __c344, 0)),
+            failure_reason: S.NullOr(__S(10144, __c317, 0)),
             sweep_id: S.NullOr(S.String),
             sweep_amount: S.NullOr(S.String),
             event_amount: S.optional(S.NullOr(S.String)),
@@ -31117,12 +28777,12 @@ function __c160(j: number): any {
         ),
       ).annotate({ identifier: "TransferEvent" });
     case 1:
-      return S.Array(__S(5120, __c160, 0));
+      return S.Array(__S(4480, __c140, 0));
     case 2:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            transfer_events: __S(5121, __c160, 1),
+            transfer_events: __S(4481, __c140, 1),
             has_more: S.Boolean,
             request_id: S.String,
           }),
@@ -31131,7 +28791,7 @@ function __c160(j: number): any {
       ).annotate({ identifier: "TransferEventListResponse" });
   }
 }
-function __c161(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31169,12 +28829,12 @@ function __c161(j: number): any {
         ),
       ).annotate({ identifier: "TransferLedgerEvent" });
     case 2:
-      return S.Array(__S(5153, __c161, 1));
+      return S.Array(__S(4513, __c141, 1));
     case 3:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            ledger_events: __S(5154, __c161, 2),
+            ledger_events: __S(4514, __c141, 2),
             has_more: S.Boolean,
             request_id: S.String,
           }),
@@ -31183,7 +28843,7 @@ function __c161(j: number): any {
       ).annotate({ identifier: "TransferLedgerEventListResponse" });
   }
 }
-function __c162(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31205,12 +28865,12 @@ function __c162(j: number): any {
         ),
       ).annotate({ identifier: "Originator" });
     case 2:
-      return S.Array(__S(5185, __c162, 1));
+      return S.Array(__S(4545, __c142, 1));
     case 3:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            originators: __S(5186, __c162, 2),
+            originators: __S(4546, __c142, 2),
             request_id: S.String,
           }),
           [S.Record(S.String, S.Unknown)],
@@ -31218,59 +28878,7 @@ function __c162(j: number): any {
       ).annotate({ identifier: "TransferOriginatorListResponse" });
   }
 }
-function __c163(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          identity_verification_id: S.String,
-          client_id: S.optional(S.String),
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/identity_verification/autofill/create", code: 200 }),
-        ),
-      ).annotate({ identifier: "CreateIdentityVerificationAutofillRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            street: S.String,
-            street2: S.NullOr(S.String),
-            city: S.NullOr(S.String),
-            region: S.NullOr(S.String),
-            postal_code: S.NullOr(S.String),
-            country: S.String,
-            po_box: S.String,
-            type: S.String,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "IdentityVerificationAutofillAddress" });
-    case 2:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            name: S.NullOr(__S(4736, __c148, 0)),
-            address: S.NullOr(__S(5217, __c163, 1)),
-            id_number: S.NullOr(__S(4768, __c149, 0)),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "IdentityVerificationAutofillUserData" });
-    case 3:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            status: S.String,
-            user: S.NullOr(__S(5218, __c163, 2)),
-            request_id: S.String,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "IdentityVerificationAutofillCreateResponse" });
-  }
-}
-function __c164(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31285,12 +28893,12 @@ function __c164(j: number): any {
         }).pipe(T.Http({ method: "POST", uri: "/transfer/recurring/list", code: 200 })),
       ).annotate({ identifier: "ListTransferRecurringRequest" });
     case 1:
-      return S.Array(__S(11425, __c357, 1));
+      return S.Array(__S(10561, __c330, 1));
     case 2:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            recurring_transfers: __S(5249, __c164, 1),
+            recurring_transfers: __S(4577, __c143, 1),
             request_id: S.String,
           }),
           [S.Record(S.String, S.Unknown)],
@@ -31298,7 +28906,7 @@ function __c164(j: number): any {
       ).annotate({ identifier: "TransferRecurringListResponse" });
   }
 }
-function __c165(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31324,12 +28932,12 @@ function __c165(j: number): any {
         ),
       ).annotate({ identifier: "TransferRepayment" });
     case 2:
-      return S.Array(__S(5281, __c165, 1));
+      return S.Array(__S(4609, __c144, 1));
     case 3:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            repayments: __S(5282, __c165, 2),
+            repayments: __S(4610, __c144, 2),
             request_id: S.String,
           }),
           [S.Record(S.String, S.Unknown)],
@@ -31337,7 +28945,7 @@ function __c165(j: number): any {
       ).annotate({ identifier: "TransferRepaymentListResponse" });
   }
 }
-function __c166(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31362,12 +28970,12 @@ function __c166(j: number): any {
         ),
       ).annotate({ identifier: "TransferRepaymentReturn" });
     case 2:
-      return S.Array(__S(5313, __c166, 1));
+      return S.Array(__S(4641, __c145, 1));
     case 3:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            repayment_returns: __S(5314, __c166, 2),
+            repayment_returns: __S(4642, __c145, 2),
             request_id: S.String,
           }),
           [S.Record(S.String, S.Unknown)],
@@ -31375,1108 +28983,22 @@ function __c166(j: number): any {
       ).annotate({ identifier: "TransferRepaymentReturnListResponse" });
   }
 }
-function __c167(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          client_id: S.optional(S.String),
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          start_date: S.optional(S.NullOr(S.String)),
-          end_date: S.optional(S.NullOr(S.String)),
-          count: S.optional(S.NullOr(S.Number)),
-          offset: S.optional(S.Number),
-          amount: S.optional(S.NullOr(S.String)),
-          status: S.optional(S.NullOr(S.String)),
-          originator_client_id: S.optional(S.NullOr(S.String)),
-          funding_account_id: S.optional(S.NullOr(S.String)),
-          transfer_id: S.optional(S.NullOr(S.String)),
-          trigger: S.optional(S.NullOr(S.String)),
-        }).pipe(T.Http({ method: "POST", uri: "/transfer/sweep/list", code: 200 })),
-      ).annotate({ identifier: "ListTransferSweepRequest" });
-    case 1:
-      return S.Array(__S(3329, __c104, 1));
-    case 2:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            sweeps: __S(5345, __c167, 1),
-            request_id: S.String,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "TransferSweepListResponse" });
-  }
-}
-function __c168(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          client_id: S.optional(S.String),
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          iso_currency_code: S.optional(S.String),
-          cursor: S.optional(S.String),
-          count: S.optional(S.Number),
-        }).pipe(T.Http({ method: "POST", uri: "/wallet/list", code: 200 })),
-      ).annotate({ identifier: "ListWalletRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            wallet_id: S.String,
-            balance: __S(11712, __c366, 0),
-            numbers: __S(11714, __c366, 2),
-            recipient_id: S.optional(S.String),
-            status: S.String,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "Wallet" });
-    case 2:
-      return S.Array(__S(5377, __c168, 1));
-    case 3:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            wallets: __S(5378, __c168, 2),
-            next_cursor: S.optional(S.String),
-            request_id: S.String,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "WalletListResponse" });
-  }
-}
-function __c169(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          start_time: S.optional(S.String),
-          end_time: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "WalletTransactionListRequestOptions" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          client_id: S.optional(S.String),
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          wallet_id: S.String,
-          cursor: S.optional(S.String),
-          count: S.optional(S.Number),
-          options: S.optional(S.NullOr(__S(5408, __c169, 0))),
-        }).pipe(T.Http({ method: "POST", uri: "/wallet/transaction/list", code: 200 })),
-      ).annotate({ identifier: "ListWalletTransactionRequest" });
-    case 2:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            transaction_id: S.String,
-            wallet_id: S.String,
-            reference: S.String,
-            type: S.String,
-            scheme: S.optional(S.NullOr(S.String)),
-            amount: __S(12547, __c392, 3),
-            counterparty: __S(12546, __c392, 2),
-            status: S.String,
-            created_at: S.String,
-            last_status_update: S.String,
-            payee_verification_status: S.optional(S.NullOr(S.String)),
-            payment_id: S.optional(S.NullOr(S.String)),
-            failure_reason: S.optional(S.NullOr(S.String)),
-            error: S.optional(S.NullOr(__S(64, __c2, 0))),
-            related_transactions: S.optional(__S(3585, __c112, 1)),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "WalletTransaction" });
-    case 3:
-      return S.Array(__S(5410, __c169, 2));
-    case 4:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            transactions: __S(5411, __c169, 3),
-            next_cursor: S.optional(S.String),
-            request_id: S.String,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "WalletTransactionListResponse" });
-  }
-}
-function __c170(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          client_id: S.optional(S.String),
-          entity_watchlist_program_id: S.String,
-          client_user_id: S.optional(S.String),
-          status: S.optional(S.String),
-          assignee: S.optional(S.String),
-          cursor: S.optional(S.NullOr(S.String)),
-        }).pipe(T.Http({ method: "POST", uri: "/watchlist_screening/entity/list", code: 200 })),
-      ).annotate({ identifier: "ListWatchlistScreeningEntityRequest" });
-  }
-}
-function __c171(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            id: S.String,
-            search_terms: __S(11840, __c370, 0),
-            assignee: S.NullOr(S.String),
-            status: S.String,
-            client_user_id: S.NullOr(S.String),
-            audit_trail: __S(11904, __c372, 0),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "EntityWatchlistScreening" });
-    case 1:
-      return S.Array(__S(5472, __c171, 0));
-    case 2:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            entity_watchlist_screenings: __S(5473, __c171, 1),
-            next_cursor: S.NullOr(S.String),
-            request_id: S.String,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "WatchlistScreeningEntityListResponse" });
-  }
-}
-function __c172(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          client_id: S.optional(S.String),
-          entity_watchlist_screening_id: S.String,
-          cursor: S.optional(S.NullOr(S.String)),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/watchlist_screening/entity/history/list", code: 200 }),
-        ),
-      ).annotate({ identifier: "ListWatchlistScreeningEntityHistoryRequest" });
-  }
-}
-function __c173(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          client_id: S.optional(S.String),
-          entity_watchlist_screening_id: S.String,
-          cursor: S.optional(S.NullOr(S.String)),
-        }).pipe(T.Http({ method: "POST", uri: "/watchlist_screening/entity/hit/list", code: 200 })),
-      ).annotate({ identifier: "ListWatchlistScreeningEntityHitRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            documents: S.optional(S.String),
-            email_addresses: S.optional(S.String),
-            locations: S.optional(S.String),
-            names: S.optional(S.String),
-            phone_numbers: S.optional(S.String),
-            urls: S.optional(S.String),
-            search_terms_version: S.Number,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "EntityScreeningHitAnalysis" });
-    case 2:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            email_address: S.String,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "EntityScreeningHitEmails" });
-    case 3:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            analysis: S.optional(__S(2048, __c64, 0)),
-            data: S.optional(__S(5538, __c173, 2)),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "EntityScreeningHitEmailsItems" });
-    case 4:
-      return S.Array(__S(5539, __c173, 3));
-    case 5:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            type: S.String,
-            phone_number: S.String,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "EntityScreeningHitPhoneNumbers" });
-    case 6:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            analysis: S.optional(__S(2048, __c64, 0)),
-            data: S.optional(__S(5541, __c173, 5)),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "EntityScreeningHitsPhoneNumberItems" });
-    case 7:
-      return S.Array(__S(5542, __c173, 6));
-    case 8:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            url: S.String,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "EntityScreeningHitUrls" });
-    case 9:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            analysis: S.optional(__S(2048, __c64, 0)),
-            data: S.optional(__S(5544, __c173, 8)),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "EntityScreeningHitUrlsItems" });
-    case 10:
-      return S.Array(__S(5545, __c173, 9));
-    case 11:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            documents: S.optional(__S(5570, __c174, 2)),
-            email_addresses: S.optional(__S(5540, __c173, 4)),
-            locations: S.optional(__S(5573, __c174, 5)),
-            names: S.optional(__S(5576, __c174, 8)),
-            phone_numbers: S.optional(__S(5543, __c173, 7)),
-            urls: S.optional(__S(5546, __c173, 10)),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "EntityScreeningHitData" });
-    case 12:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            id: S.String,
-            review_status: S.String,
-            first_active: S.String,
-            inactive_since: S.NullOr(S.String),
-            historical_since: S.NullOr(S.String),
-            list_code: S.String,
-            plaid_uid: S.String,
-            source_uid: S.NullOr(S.String),
-            sub_programs: __S(32, __c1, 0),
-            analysis: S.optional(__S(5537, __c173, 1)),
-            data: S.optional(__S(5547, __c173, 11)),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "EntityWatchlistScreeningHit" });
-    case 13:
-      return S.Array(__S(5548, __c173, 12));
-    case 14:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            entity_watchlist_screening_hits: __S(5549, __c173, 13),
-            next_cursor: S.NullOr(S.String),
-            request_id: S.String,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "WatchlistScreeningEntityHitListResponse" });
-  }
-}
-function __c174(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            type: S.String,
-            number: S.String,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "EntityDocument" });
-    case 1:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            analysis: S.optional(__S(2048, __c64, 0)),
-            data: S.optional(__S(5568, __c174, 0)),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "EntityScreeningHitDocumentsItems" });
-    case 2:
-      return S.Array(__S(5569, __c174, 1));
-    case 3:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            full: S.String,
-            country: S.String,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "WatchlistScreeningHitLocations" });
-    case 4:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            analysis: S.optional(__S(2048, __c64, 0)),
-            data: S.optional(__S(5571, __c174, 3)),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "GenericScreeningHitLocationItems" });
-    case 5:
-      return S.Array(__S(5572, __c174, 4));
-    case 6:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            full: S.String,
-            is_primary: S.Boolean,
-            weak_alias_determination: S.String,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "EntityScreeningHitNames" });
-    case 7:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            analysis: S.optional(__S(2048, __c64, 0)),
-            data: S.optional(__S(5574, __c174, 6)),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "EntityScreeningHitNamesItems" });
-    case 8:
-      return S.Array(__S(5575, __c174, 7));
-  }
-}
-function __c175(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          client_id: S.optional(S.String),
-          cursor: S.optional(S.NullOr(S.String)),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/watchlist_screening/entity/program/list", code: 200 }),
-        ),
-      ).annotate({ identifier: "ListWatchlistScreeningEntityProgramRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            entity_watchlist_programs: __S(5633, __c176, 1),
-            next_cursor: S.NullOr(S.String),
-            request_id: S.String,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "WatchlistScreeningEntityProgramListResponse" });
-  }
-}
-function __c176(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            id: S.String,
-            created_at: S.String,
-            is_rescanning_enabled: S.Boolean,
-            lists_enabled: __S(12352, __c386, 0),
-            name: S.String,
-            name_sensitivity: S.String,
-            audit_trail: __S(11904, __c372, 0),
-            is_archived: S.Boolean,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "EntityWatchlistProgram" });
-    case 1:
-      return S.Array(__S(5632, __c176, 0));
-  }
-}
-function __c177(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          client_id: S.optional(S.String),
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          audit_copy_token: S.String.pipe(T.SensitiveValue({})),
-        }).pipe(T.Http({ method: "POST", uri: "/asset_report/audit_copy/get", code: 200 })),
-      ).annotate({ identifier: "AssetReportAuditCopyGetRequest" });
-  }
-}
-function __c178(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            client_user_id: S.optional(S.NullOr(S.String)),
-            first_name: S.optional(S.NullOr(S.String)),
-            middle_name: S.optional(S.NullOr(S.String)),
-            last_name: S.optional(S.NullOr(S.String)),
-            ssn: S.optional(S.NullOr(S.String)),
-            phone_number: S.optional(S.NullOr(S.String)),
-            email: S.optional(S.NullOr(S.String)),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "AssetReportUser" });
-  }
-}
-function __c179(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            city: S.NullOr(S.String),
-            region: S.NullOr(S.String),
-            street: S.NullOr(S.String),
-            postal_code: S.NullOr(S.String),
-            country: S.NullOr(S.String),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "AddressData" });
-  }
-}
-function __c180(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            amount: S.optional(S.NullOr(S.Number)),
-            iso_currency_code: S.optional(S.NullOr(S.String)),
-            unofficial_currency_code: S.optional(S.NullOr(S.String)),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "MonthlyAverage" });
-    case 1:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            id: S.optional(S.String),
-            transactions_count: S.optional(S.NullOr(S.Number)),
-            amount: S.optional(S.NullOr(S.Number)),
-            iso_currency_code: S.optional(S.NullOr(S.String)),
-            unofficial_currency_code: S.optional(S.NullOr(S.String)),
-            monthly_average: S.optional(S.NullOr(__S(5760, __c180, 0))),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "CategoryExpenses" });
-    case 2:
-      return S.Array(/*@__PURE__*/ S.NullOr(__S(5761, __c180, 1)));
-    case 3:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            start_date: S.optional(S.NullOr(S.String)),
-            end_date: S.optional(S.NullOr(S.String)),
-            total_amount: S.optional(S.NullOr(__S(5760, __c180, 0))),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "MonthlySummary" });
-    case 4:
-      return S.Array(/*@__PURE__*/ S.NullOr(__S(5763, __c180, 3)));
-    case 5:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            amount: S.optional(S.NullOr(S.Number)),
-            iso_currency_code: S.optional(S.NullOr(S.String)),
-            unofficial_currency_code: S.optional(S.NullOr(S.String)),
-            monthly_average: S.optional(S.NullOr(__S(5760, __c180, 0))),
-            category_details: S.optional(__S(5762, __c180, 2)),
-            transactions_count: S.optional(S.NullOr(S.Number)),
-            monthly_summaries: S.optional(__S(5764, __c180, 4)),
-            days_since_last_occurrence: S.optional(S.NullOr(S.Number)),
-            percentage_of_income: S.optional(S.NullOr(S.Number)),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "BankPenaltiesIndicators" });
-    case 6:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            amount: S.optional(S.NullOr(S.Number)),
-            iso_currency_code: S.optional(S.NullOr(S.String)),
-            unofficial_currency_code: S.optional(S.NullOr(S.String)),
-            monthly_average: S.optional(S.NullOr(__S(5760, __c180, 0))),
-            top_merchants: S.optional(__S(32, __c1, 0)),
-            transactions_count: S.optional(S.NullOr(S.Number)),
-            monthly_summaries: S.optional(__S(5764, __c180, 4)),
-            days_since_last_occurrence: S.optional(S.NullOr(S.Number)),
-            percentage_of_income: S.optional(S.NullOr(S.Number)),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "GamblingIndicators" });
-    case 7:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            amount: S.optional(S.NullOr(S.Number)),
-            iso_currency_code: S.optional(S.NullOr(S.String)),
-            unofficial_currency_code: S.optional(S.NullOr(S.String)),
-            category_details: S.optional(__S(5762, __c180, 2)),
-            monthly_average: S.optional(S.NullOr(__S(5760, __c180, 0))),
-            top_providers: S.optional(__S(32, __c1, 0)),
-            transactions_count: S.optional(S.NullOr(S.Number)),
-            monthly_summaries: S.optional(__S(5764, __c180, 4)),
-            days_since_last_occurrence: S.optional(S.NullOr(S.Number)),
-            percentage_of_income: S.optional(S.NullOr(S.Number)),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "LoanDisbursementsIndicators" });
-    case 8:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            amount: S.optional(S.NullOr(S.Number)),
-            iso_currency_code: S.optional(S.NullOr(S.String)),
-            unofficial_currency_code: S.optional(S.NullOr(S.String)),
-            monthly_average: S.optional(S.NullOr(__S(5760, __c180, 0))),
-            category_details: S.optional(__S(5762, __c180, 2)),
-            top_providers: S.optional(__S(32, __c1, 0)),
-            transactions_count: S.optional(S.NullOr(S.Number)),
-            monthly_summaries: S.optional(__S(5764, __c180, 4)),
-            days_since_last_occurrence: S.optional(S.NullOr(S.Number)),
-            percentage_of_income: S.optional(S.NullOr(S.Number)),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "LoanPaymentsIndicators" });
-    case 9:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            start_date: S.optional(S.NullOr(S.String)),
-            end_date: S.optional(S.NullOr(S.String)),
-            minimum_balance: S.optional(S.NullOr(__S(5760, __c180, 0))),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "NegativeBalanceOccurrence" });
-    case 10:
-      return S.Array(/*@__PURE__*/ S.NullOr(__S(5769, __c180, 9)));
-    case 11:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            days_since_last_occurrence: S.optional(S.NullOr(S.Number)),
-            days_with_negative_balance: S.optional(S.NullOr(S.Number)),
-            minimum_balance: S.optional(S.NullOr(__S(5760, __c180, 0))),
-            occurrences: S.optional(__S(5770, __c180, 10)),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "NegativeBalanceInsights" });
-    case 12:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            bank_penalties: S.optional(S.NullOr(__S(5765, __c180, 5))),
-            gambling: S.optional(S.NullOr(__S(5766, __c180, 6))),
-            loan_disbursements: S.optional(S.NullOr(__S(5767, __c180, 7))),
-            loan_payments: S.optional(S.NullOr(__S(5768, __c180, 8))),
-            negative_balance: S.optional(S.NullOr(__S(5771, __c180, 11))),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "RiskIndicators" });
-    case 13:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            amount: S.optional(S.NullOr(S.Number)),
-            iso_currency_code: S.optional(S.NullOr(S.String)),
-            unofficial_currency_code: S.optional(S.NullOr(S.String)),
-            monthly_average: S.optional(S.NullOr(__S(5760, __c180, 0))),
-            transactions_count: S.optional(S.NullOr(S.Number)),
-            percentage_of_income: S.optional(S.NullOr(S.Number)),
-            top_categories: S.optional(__S(5762, __c180, 2)),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "ExpenditureSummary" });
-    case 14:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            transactions_count: S.optional(S.NullOr(S.Number)),
-            total_amount: S.optional(S.NullOr(__S(5760, __c180, 0))),
-            top_categories: S.optional(__S(5762, __c180, 2)),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "OutlierTransactionsInsights" });
-    case 15:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            cash_flow: S.optional(S.NullOr(__S(5760, __c180, 0))),
-            total_expenditure: S.optional(S.NullOr(__S(5773, __c180, 13))),
-            essential_expenditure: S.optional(S.NullOr(__S(5773, __c180, 13))),
-            non_essential_expenditure: S.optional(S.NullOr(__S(5773, __c180, 13))),
-            other: S.optional(S.NullOr(__S(5773, __c180, 13))),
-            transfers_out: S.optional(S.NullOr(__S(5773, __c180, 13))),
-            outlier_transactions: S.optional(S.NullOr(__S(5774, __c180, 14))),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "ExpenditureInsights" });
-    case 16:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            total_income: S.optional(S.NullOr(__S(5760, __c180, 0))),
-            income_excluding_transfers: S.optional(S.NullOr(__S(5760, __c180, 0))),
-            transfers_in: S.optional(S.NullOr(__S(5760, __c180, 0))),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "IncomeInsights" });
-    case 17:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            expenditure: S.optional(S.NullOr(__S(5775, __c180, 15))),
-            income: S.optional(S.NullOr(__S(5776, __c180, 16))),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "AffordabilityInsights" });
-    case 18:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            risk: S.optional(S.NullOr(__S(5772, __c180, 12))),
-            affordability: S.optional(S.NullOr(__S(5777, __c180, 17))),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "AccountInsights" });
-    case 19:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            available: S.NullOr(S.Number),
-            current: S.NullOr(S.Number),
-            limit: S.NullOr(S.Number),
-            margin_loan_amount: S.NullOr(S.Number),
-            iso_currency_code: S.NullOr(S.String),
-            unofficial_currency_code: S.NullOr(S.String),
-            last_updated_datetime: S.optional(S.NullOr(S.String)),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "AssetReportAccountBalance" });
-    case 20:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            account_id: S.String,
-            amount: S.Number,
-            iso_currency_code: S.NullOr(S.String),
-            unofficial_currency_code: S.NullOr(S.String),
-            original_description: S.NullOr(S.String),
-            category: S.optional(S.NullOr(__S(32, __c1, 0))),
-            category_id: S.optional(S.NullOr(S.String)),
-            credit_category: S.optional(S.NullOr(__S(5888, __c184, 0))),
-            check_number: S.optional(S.NullOr(S.String)),
-            date: S.String,
-            date_transacted: S.optional(S.NullOr(S.String)),
-            location: S.optional(__S(5920, __c185, 0)),
-            name: S.optional(S.String),
-            merchant_name: S.optional(S.NullOr(S.String)),
-            payment_meta: S.optional(__S(5856, __c183, 0)),
-            pending: S.Boolean,
-            pending_transaction_id: S.optional(S.NullOr(S.String)),
-            account_owner: S.optional(S.NullOr(S.String)),
-            transaction_id: S.String,
-            transaction_type: S.optional(S.String),
-            income_source_id: S.optional(S.String),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "AssetReportTransaction" });
-    case 21:
-      return S.Array(__S(5780, __c180, 20));
-    case 22:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            account_id: S.String,
-            security_id: S.String,
-            ticker_symbol: S.NullOr(S.String),
-            institution_price: S.Number,
-            institution_price_as_of: S.optional(S.NullOr(S.String)),
-            institution_value: S.Number,
-            quantity: S.Number,
-            vested_quantity: S.optional(S.NullOr(S.Number)),
-            vested_value: S.optional(S.NullOr(S.Number)),
-            iso_currency_code: S.NullOr(S.String),
-            unofficial_currency_code: S.NullOr(S.String),
-            tax_lots: S.optional(__S(6049, __c189, 1)),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "AssetReportInvestmentHolding" });
-    case 23:
-      return S.Array(__S(5782, __c180, 22));
-    case 24:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            security_id: S.String,
-            name: S.NullOr(S.String),
-            ticker_symbol: S.NullOr(S.String),
-            type: S.NullOr(S.String),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "AssetReportInvestmentSecurity" });
-    case 25:
-      return S.Array(__S(5784, __c180, 24));
-    case 26:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            holdings: S.optional(__S(5783, __c180, 23)),
-            securities: S.optional(__S(5785, __c180, 25)),
-            transactions: S.optional(__S(6017, __c188, 1)),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "AssetReportInvestments" });
-    case 27:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            account_id: S.String,
-            balances: __S(5779, __c180, 19),
-            mask: S.NullOr(S.String),
-            name: S.String,
-            official_name: S.NullOr(S.String),
-            type: S.String,
-            subtype: S.NullOr(S.String),
-            verification_status: S.optional(S.String),
-            persistent_account_id: S.optional(S.String),
-            days_available: S.Number,
-            transactions: __S(5781, __c180, 21),
-            investments: S.optional(__S(5786, __c180, 26)),
-            owners: __S(5829, __c182, 5),
-            ownership_type: S.optional(S.NullOr(S.String)),
-            historical_balances: __S(5953, __c186, 1),
-            account_insights: S.optional(S.NullOr(__S(5778, __c180, 18))),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "AccountAssets" });
-    case 28:
-      return S.Array(__S(5787, __c180, 27));
-    case 29:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            item_id: S.String,
-            institution_name: S.String,
-            institution_id: S.String,
-            date_last_updated: S.String,
-            accounts: __S(5788, __c180, 28),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "AssetReportItem" });
-    case 30:
-      return S.Array(__S(5789, __c180, 29));
-    case 31:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            asset_report_id: S.String,
-            insights: S.optional(S.NullOr(__S(5778, __c180, 18))),
-            client_report_id: S.NullOr(S.String),
-            date_generated: S.String,
-            days_requested: S.Number,
-            user: __S(5696, __c178, 0),
-            items: __S(5790, __c180, 30),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "AssetReport" });
-  }
-}
-function __c181(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            report: __S(5791, __c180, 31),
-            warnings: __S(5986, __c187, 2),
-            request_id: S.String,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "AssetReportGetResponse" });
-  }
-}
-function __c182(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            data: S.String,
-            primary: S.Boolean,
-            type: S.String,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "PhoneNumber" });
-    case 1:
-      return S.Array(__S(5824, __c182, 0));
-    case 2:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            data: __S(5728, __c179, 0),
-            primary: S.optional(S.Boolean),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "Address" });
-    case 3:
-      return S.Array(__S(5826, __c182, 2));
-    case 4:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            names: __S(32, __c1, 0),
-            phone_numbers: __S(5825, __c182, 1),
-            emails: __S(5825, __c182, 1),
-            addresses: __S(5827, __c182, 3),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "Owner" });
-    case 5:
-      return S.Array(__S(5828, __c182, 4));
-  }
-}
-function __c183(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            reference_number: S.NullOr(S.String),
-            ppd_id: S.NullOr(S.String),
-            payee: S.NullOr(S.String),
-            by_order_of: S.NullOr(S.String),
-            payer: S.NullOr(S.String),
-            payment_method: S.NullOr(S.String),
-            payment_processor: S.NullOr(S.String),
-            reason: S.NullOr(S.String),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "PaymentMeta" });
-  }
-}
-function __c184(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            primary: S.NullOr(S.String),
-            detailed: S.NullOr(S.String),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "CreditCategory" });
-  }
-}
-function __c185(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            address: S.NullOr(S.String),
-            city: S.NullOr(S.String),
-            region: S.NullOr(S.String),
-            postal_code: S.NullOr(S.String),
-            country: S.NullOr(S.String),
-            lat: S.NullOr(S.Number),
-            lon: S.NullOr(S.Number),
-            store_number: S.NullOr(S.String),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "Location" });
-  }
-}
-function __c186(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            date: S.String,
-            current: S.Number,
-            iso_currency_code: S.NullOr(S.String),
-            unofficial_currency_code: S.NullOr(S.String),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "HistoricalBalance" });
-    case 1:
-      return S.Array(__S(5952, __c186, 0));
-  }
-}
-function __c187(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            error_type: S.String,
-            error_code: S.String,
-            error_code_reason: S.optional(S.NullOr(S.String)),
-            error_message: S.String,
-            display_message: S.NullOr(S.String),
-            request_id: S.optional(S.String),
-            causes: S.optional(__S(0, __c0, 0)),
-            status: S.optional(S.NullOr(S.Number)),
-            documentation_url: S.optional(S.String),
-            suggested_action: S.optional(S.NullOr(S.String)),
-            required_account_subtypes: S.optional(__S(32, __c1, 0)),
-            provided_account_subtypes: S.optional(__S(32, __c1, 0)),
-            item_id: S.String,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "Cause" });
-    case 1:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            warning_type: S.String,
-            warning_code: S.String,
-            cause: S.NullOr(__S(5984, __c187, 0)),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "Warning" });
-    case 2:
-      return S.Array(__S(5985, __c187, 1));
-  }
-}
-function __c188(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            investment_transaction_id: S.String,
-            account_id: S.String,
-            security_id: S.NullOr(S.String),
-            date: S.String,
-            name: S.String,
-            quantity: S.Number,
-            amount: S.Number,
-            price: S.Number,
-            fees: S.NullOr(S.Number),
-            type: S.String,
-            subtype: S.String,
-            iso_currency_code: S.NullOr(S.String),
-            unofficial_currency_code: S.NullOr(S.String),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "AssetReportInvestmentTransaction" });
-    case 1:
-      return S.Array(__S(6016, __c188, 0));
-  }
-}
-function __c189(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            institution_lot_id: S.NullOr(S.String),
-            original_purchase_datetime: S.NullOr(S.String),
-            quantity: S.NullOr(S.Number),
-            purchase_price: S.NullOr(S.Number),
-            cost_basis: S.NullOr(S.Number),
-            current_value: S.NullOr(S.Number),
-            position_type: S.NullOr(S.String),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "HoldingTaxLot" });
-    case 1:
-      return S.Array(__S(6048, __c189, 0));
-  }
-}
-function __c190(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           client_user_id: S.String,
           legal_name: S.optional(S.String),
-          name: S.optional(__S(4832, __c151, 0)),
+          name: S.optional(__S(3808, __c119, 0)),
           phone_number: S.optional(S.String),
           phone_number_verified_time: S.optional(S.NullOr(S.String)),
           email_address: S.optional(S.String),
           email_address_verified_time: S.optional(S.NullOr(S.String)),
           ssn: S.optional(S.String),
           date_of_birth: S.optional(S.NullOr(S.String)),
-          address: S.optional(__S(4800, __c150, 0)),
-          id_number: S.optional(__S(4768, __c149, 0)),
+          address: S.optional(__S(3776, __c118, 0)),
+          id_number: S.optional(__S(3744, __c117, 0)),
         }),
       ).annotate({ identifier: "LinkTokenCreateRequestUser" });
     case 1:
@@ -32489,11 +29011,11 @@ function __c190(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            depository: S.optional(__S(6113, __c191, 1)),
-            credit: S.optional(__S(6114, __c191, 2)),
-            loan: S.optional(__S(6114, __c191, 2)),
-            investment: S.optional(__S(6114, __c191, 2)),
-            other: S.optional(__S(6114, __c191, 2)),
+            depository: S.optional(__S(4705, __c147, 1)),
+            credit: S.optional(__S(4706, __c147, 2)),
+            loan: S.optional(__S(4706, __c147, 2)),
+            investment: S.optional(__S(4706, __c147, 2)),
+            other: S.optional(__S(4706, __c147, 2)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -32521,8 +29043,8 @@ function __c190(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          employment_source_types: S.optional(__S(12352, __c386, 0)),
-          bank_employment: S.optional(__S(2752, __c86, 0)),
+          employment_source_types: S.optional(__S(192, __c6, 0)),
+          bank_employment: S.optional(__S(1728, __c54, 0)),
         }),
       ).annotate({ identifier: "LinkTokenCreateRequestEmployment" });
     case 7:
@@ -32535,10 +29057,10 @@ function __c190(j: number): any {
     case 8:
       return S.suspend(() =>
         S.Struct({
-          flow_types: S.optional(S.NullOr(__S(12352, __c386, 0))),
+          flow_types: S.optional(S.NullOr(__S(192, __c6, 0))),
           is_update_mode: S.optional(S.Boolean),
           item_id_to_update: S.optional(S.NullOr(S.String)),
-          parsing_config: S.optional(S.NullOr(__S(12352, __c386, 0))),
+          parsing_config: S.optional(S.NullOr(__S(192, __c6, 0))),
         }),
       ).annotate({ identifier: "LinkTokenCreateRequestIncomeVerificationPayrollIncome" });
     case 9:
@@ -32553,17 +29075,17 @@ function __c190(j: number): any {
         }),
       ).annotate({ identifier: "LinkTokenCreateRequestUserStatedIncomeSource" });
     case 10:
-      return S.Array(__S(6089, __c190, 9));
+      return S.Array(__S(4681, __c146, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
           income_verification_id: S.optional(S.String),
           asset_report_id: S.optional(S.String),
-          access_tokens: S.optional(S.NullOr(__S(672, __c21, 0))),
-          income_source_types: S.optional(__S(12352, __c386, 0)),
-          bank_income: S.optional(__S(6087, __c190, 7)),
-          payroll_income: S.optional(__S(6088, __c190, 8)),
-          stated_income_sources: S.optional(__S(6090, __c190, 10)),
+          access_tokens: S.optional(S.NullOr(__S(224, __c7, 0))),
+          income_source_types: S.optional(__S(192, __c6, 0)),
+          bank_income: S.optional(__S(4679, __c146, 7)),
+          payroll_income: S.optional(__S(4680, __c146, 8)),
+          stated_income_sources: S.optional(__S(4682, __c146, 10)),
         }),
       ).annotate({ identifier: "LinkTokenCreateRequestIncomeVerification" });
     case 12:
@@ -32579,13 +29101,13 @@ function __c190(j: number): any {
           days_requested: S.Number,
           days_required: S.optional(S.Number),
           client_report_id: S.optional(S.NullOr(S.String)),
-          partner_insights: S.optional(__S(2725, __c85, 5)),
-          base_report: S.optional(__S(2562, __c80, 2)),
-          cashflow_insights: S.optional(__S(2592, __c81, 0)),
-          lend_score: S.optional(__S(2656, __c83, 0)),
-          network_insights: S.optional(__S(2688, __c84, 0)),
+          partner_insights: S.optional(__S(1701, __c53, 5)),
+          base_report: S.optional(__S(1538, __c48, 2)),
+          cashflow_insights: S.optional(__S(1568, __c49, 0)),
+          lend_score: S.optional(__S(1632, __c51, 0)),
+          network_insights: S.optional(__S(1664, __c52, 0)),
           include_investments: S.optional(S.NullOr(S.Boolean)),
-          income_insights: S.optional(__S(2625, __c82, 1)),
+          income_insights: S.optional(__S(1601, __c50, 1)),
         }),
       ).annotate({ identifier: "LinkTokenCreateRequestCraOptions" });
     case 14:
@@ -32598,7 +29120,7 @@ function __c190(j: number): any {
           days_required: S.optional(S.NullOr(S.Number)),
           include_investments: S.optional(S.NullOr(S.Boolean)),
           include_identity_match: S.optional(S.NullOr(S.Boolean)),
-          products: S.optional(__S(3168, __c99, 0)),
+          products: S.optional(__S(2240, __c70, 0)),
         }),
       ).annotate({ identifier: "LinkTokenCreateRequestCraReportParameter" });
     case 15:
@@ -32675,7 +29197,7 @@ function __c190(j: number): any {
         S.Struct({
           is_document_upload: S.optional(S.Boolean),
           account_ids: S.optional(__S(32, __c1, 0)),
-          parsing_configs: S.optional(__S(12352, __c386, 0)),
+          parsing_configs: S.optional(__S(192, __c6, 0)),
         }),
       ).annotate({ identifier: "LinkTokenCreateIdentity" });
     case 23:
@@ -32685,47 +29207,47 @@ function __c190(j: number): any {
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           client_name: S.String,
           language: S.String,
-          country_codes: __S(12352, __c386, 0),
-          user: S.optional(__S(6080, __c190, 0)),
+          country_codes: __S(192, __c6, 0),
+          user: S.optional(__S(4672, __c146, 0)),
           user_id: S.optional(S.String),
-          products: S.optional(S.NullOr(__S(12352, __c386, 0))),
-          required_if_supported_products: S.optional(S.NullOr(__S(12352, __c386, 0))),
-          optional_products: S.optional(S.NullOr(__S(12352, __c386, 0))),
-          additional_consented_products: S.optional(S.NullOr(__S(12352, __c386, 0))),
+          products: S.optional(S.NullOr(__S(192, __c6, 0))),
+          required_if_supported_products: S.optional(S.NullOr(__S(192, __c6, 0))),
+          optional_products: S.optional(S.NullOr(__S(192, __c6, 0))),
+          additional_consented_products: S.optional(S.NullOr(__S(192, __c6, 0))),
           webhook: S.optional(S.String),
           access_token: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
-          access_tokens: S.optional(__S(672, __c21, 0)),
+          access_tokens: S.optional(__S(224, __c7, 0)),
           link_customization_name: S.optional(S.String),
           appearance_mode: S.optional(S.NullOr(S.String)),
           redirect_uri: S.optional(S.String),
           android_package_name: S.optional(S.String),
-          institution_data: S.optional(__S(6112, __c191, 0)),
-          card_switch: S.optional(__S(6081, __c190, 1)),
-          account_filters: S.optional(__S(6082, __c190, 2)),
-          eu_config: S.optional(__S(6083, __c190, 3)),
+          institution_data: S.optional(__S(4704, __c147, 0)),
+          card_switch: S.optional(__S(4673, __c146, 1)),
+          account_filters: S.optional(__S(4674, __c146, 2)),
+          eu_config: S.optional(__S(4675, __c146, 3)),
           institution_id: S.optional(S.String),
-          payment_configuration: S.optional(__S(6084, __c190, 4)),
-          payment_initiation: S.optional(__S(6085, __c190, 5)),
-          employment: S.optional(__S(6086, __c190, 6)),
-          income_verification: S.optional(__S(6091, __c190, 11)),
-          base_report: S.optional(__S(6092, __c190, 12)),
-          credit_partner_insights: S.optional(__S(6144, __c192, 0)),
-          cra_options: S.optional(__S(6093, __c190, 13)),
-          cra_report_parameter: S.optional(__S(6094, __c190, 14)),
+          payment_configuration: S.optional(__S(4676, __c146, 4)),
+          payment_initiation: S.optional(__S(4677, __c146, 5)),
+          employment: S.optional(__S(4678, __c146, 6)),
+          income_verification: S.optional(__S(4683, __c146, 11)),
+          base_report: S.optional(__S(4684, __c146, 12)),
+          credit_partner_insights: S.optional(__S(4736, __c148, 0)),
+          cra_options: S.optional(__S(4685, __c146, 13)),
+          cra_report_parameter: S.optional(__S(4686, __c146, 14)),
           consumer_report_permissible_purpose: S.optional(S.String),
-          auth: S.optional(__S(6095, __c190, 15)),
-          transfer: S.optional(__S(6096, __c190, 16)),
-          update: S.optional(__S(6097, __c190, 17)),
-          identity_verification: S.optional(__S(6098, __c190, 18)),
-          statements: S.optional(__S(6145, __c192, 1)),
+          auth: S.optional(__S(4687, __c146, 15)),
+          transfer: S.optional(__S(4688, __c146, 16)),
+          update: S.optional(__S(4689, __c146, 17)),
+          identity_verification: S.optional(__S(4690, __c146, 18)),
+          statements: S.optional(__S(4737, __c148, 1)),
           third_party_user_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          investments: S.optional(__S(6099, __c190, 19)),
-          investments_auth: S.optional(__S(6100, __c190, 20)),
-          hosted_link: S.optional(__S(6101, __c190, 21)),
-          transactions: S.optional(__S(6144, __c192, 0)),
-          cashflow_report: S.optional(__S(6144, __c192, 0)),
+          investments: S.optional(__S(4691, __c146, 19)),
+          investments_auth: S.optional(__S(4692, __c146, 20)),
+          hosted_link: S.optional(__S(4693, __c146, 21)),
+          transactions: S.optional(__S(4736, __c148, 0)),
+          cashflow_report: S.optional(__S(4736, __c148, 0)),
           cra_enabled: S.optional(S.Boolean),
-          identity: S.optional(__S(6102, __c190, 22)),
+          identity: S.optional(__S(4694, __c146, 22)),
           financekit_supported: S.optional(S.Boolean),
           enable_multi_item_link: S.optional(S.Boolean),
           user_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
@@ -32746,7 +29268,7 @@ function __c190(j: number): any {
       ).annotate({ identifier: "LinkTokenCreateResponse" });
   }
 }
-function __c191(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32759,8 +29281,8 @@ function __c191(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            account_subtypes: __S(12352, __c386, 0),
-            limited_purpose_types: S.optional(__S(12352, __c386, 0)),
+            account_subtypes: __S(192, __c6, 0),
+            limited_purpose_types: S.optional(__S(192, __c6, 0)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -32769,14 +29291,14 @@ function __c191(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            account_subtypes: __S(12352, __c386, 0),
+            account_subtypes: __S(192, __c6, 0),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "CreditFilter" });
   }
 }
-function __c192(j: number): any {
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32793,7 +29315,456 @@ function __c192(j: number): any {
       ).annotate({ identifier: "LinkTokenCreateRequestStatements" });
   }
 }
-function __c193(j: number): any {
+function __c149(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          client_id: S.optional(S.String),
+          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          start_date: S.optional(S.NullOr(S.String)),
+          end_date: S.optional(S.NullOr(S.String)),
+          count: S.optional(S.NullOr(S.Number)),
+          offset: S.optional(S.Number),
+          amount: S.optional(S.NullOr(S.String)),
+          status: S.optional(S.NullOr(S.String)),
+          originator_client_id: S.optional(S.NullOr(S.String)),
+          funding_account_id: S.optional(S.NullOr(S.String)),
+          transfer_id: S.optional(S.NullOr(S.String)),
+          trigger: S.optional(S.NullOr(S.String)),
+        }).pipe(T.Http({ method: "POST", uri: "/transfer/sweep/list", code: 200 })),
+      ).annotate({ identifier: "ListTransferSweepRequest" });
+    case 1:
+      return S.Array(__S(2817, __c88, 1));
+    case 2:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            sweeps: __S(4769, __c149, 1),
+            request_id: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "TransferSweepListResponse" });
+  }
+}
+function __c150(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          client_id: S.optional(S.String),
+          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          iso_currency_code: S.optional(S.String),
+          cursor: S.optional(S.String),
+          count: S.optional(S.Number),
+        }).pipe(T.Http({ method: "POST", uri: "/wallet/list", code: 200 })),
+      ).annotate({ identifier: "ListWalletRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            wallet_id: S.String,
+            balance: __S(10848, __c339, 0),
+            numbers: __S(10850, __c339, 2),
+            recipient_id: S.optional(S.String),
+            status: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "Wallet" });
+    case 2:
+      return S.Array(__S(4801, __c150, 1));
+    case 3:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            wallets: __S(4802, __c150, 2),
+            next_cursor: S.optional(S.String),
+            request_id: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "WalletListResponse" });
+  }
+}
+function __c151(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          start_time: S.optional(S.String),
+          end_time: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "WalletTransactionListRequestOptions" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          client_id: S.optional(S.String),
+          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          wallet_id: S.String,
+          cursor: S.optional(S.String),
+          count: S.optional(S.Number),
+          options: S.optional(S.NullOr(__S(4832, __c151, 0))),
+        }).pipe(T.Http({ method: "POST", uri: "/wallet/transaction/list", code: 200 })),
+      ).annotate({ identifier: "ListWalletTransactionRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            transaction_id: S.String,
+            wallet_id: S.String,
+            reference: S.String,
+            type: S.String,
+            scheme: S.optional(S.NullOr(S.String)),
+            amount: __S(11523, __c360, 3),
+            counterparty: __S(11522, __c360, 2),
+            status: S.String,
+            created_at: S.String,
+            last_status_update: S.String,
+            payee_verification_status: S.optional(S.NullOr(S.String)),
+            payment_id: S.optional(S.NullOr(S.String)),
+            failure_reason: S.optional(S.NullOr(S.String)),
+            error: S.optional(S.NullOr(__S(64, __c2, 0))),
+            related_transactions: S.optional(__S(3073, __c96, 1)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "WalletTransaction" });
+    case 3:
+      return S.Array(__S(4834, __c151, 2));
+    case 4:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            transactions: __S(4835, __c151, 3),
+            next_cursor: S.optional(S.String),
+            request_id: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "WalletTransactionListResponse" });
+  }
+}
+function __c152(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          client_id: S.optional(S.String),
+          entity_watchlist_program_id: S.String,
+          client_user_id: S.optional(S.String),
+          status: S.optional(S.String),
+          assignee: S.optional(S.String),
+          cursor: S.optional(S.NullOr(S.String)),
+        }).pipe(T.Http({ method: "POST", uri: "/watchlist_screening/entity/list", code: 200 })),
+      ).annotate({ identifier: "ListWatchlistScreeningEntityRequest" });
+  }
+}
+function __c153(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            id: S.String,
+            search_terms: __S(10912, __c341, 0),
+            assignee: S.NullOr(S.String),
+            status: S.String,
+            client_user_id: S.NullOr(S.String),
+            audit_trail: __S(10976, __c343, 0),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "EntityWatchlistScreening" });
+    case 1:
+      return S.Array(__S(4896, __c153, 0));
+    case 2:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            entity_watchlist_screenings: __S(4897, __c153, 1),
+            next_cursor: S.NullOr(S.String),
+            request_id: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "WatchlistScreeningEntityListResponse" });
+  }
+}
+function __c154(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          client_id: S.optional(S.String),
+          entity_watchlist_screening_id: S.String,
+          cursor: S.optional(S.NullOr(S.String)),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/watchlist_screening/entity/history/list", code: 200 }),
+        ),
+      ).annotate({ identifier: "ListWatchlistScreeningEntityHistoryRequest" });
+  }
+}
+function __c155(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          client_id: S.optional(S.String),
+          entity_watchlist_screening_id: S.String,
+          cursor: S.optional(S.NullOr(S.String)),
+        }).pipe(T.Http({ method: "POST", uri: "/watchlist_screening/entity/hit/list", code: 200 })),
+      ).annotate({ identifier: "ListWatchlistScreeningEntityHitRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            documents: S.optional(S.String),
+            email_addresses: S.optional(S.String),
+            locations: S.optional(S.String),
+            names: S.optional(S.String),
+            phone_numbers: S.optional(S.String),
+            urls: S.optional(S.String),
+            search_terms_version: S.Number,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "EntityScreeningHitAnalysis" });
+    case 2:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            email_address: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "EntityScreeningHitEmails" });
+    case 3:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            analysis: S.optional(__S(1024, __c32, 0)),
+            data: S.optional(__S(4962, __c155, 2)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "EntityScreeningHitEmailsItems" });
+    case 4:
+      return S.Array(__S(4963, __c155, 3));
+    case 5:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            type: S.String,
+            phone_number: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "EntityScreeningHitPhoneNumbers" });
+    case 6:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            analysis: S.optional(__S(1024, __c32, 0)),
+            data: S.optional(__S(4965, __c155, 5)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "EntityScreeningHitsPhoneNumberItems" });
+    case 7:
+      return S.Array(__S(4966, __c155, 6));
+    case 8:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            url: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "EntityScreeningHitUrls" });
+    case 9:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            analysis: S.optional(__S(1024, __c32, 0)),
+            data: S.optional(__S(4968, __c155, 8)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "EntityScreeningHitUrlsItems" });
+    case 10:
+      return S.Array(__S(4969, __c155, 9));
+    case 11:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            documents: S.optional(__S(4994, __c156, 2)),
+            email_addresses: S.optional(__S(4964, __c155, 4)),
+            locations: S.optional(__S(4997, __c156, 5)),
+            names: S.optional(__S(5000, __c156, 8)),
+            phone_numbers: S.optional(__S(4967, __c155, 7)),
+            urls: S.optional(__S(4970, __c155, 10)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "EntityScreeningHitData" });
+    case 12:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            id: S.String,
+            review_status: S.String,
+            first_active: S.String,
+            inactive_since: S.NullOr(S.String),
+            historical_since: S.NullOr(S.String),
+            list_code: S.String,
+            plaid_uid: S.String,
+            source_uid: S.NullOr(S.String),
+            sub_programs: __S(32, __c1, 0),
+            analysis: S.optional(__S(4961, __c155, 1)),
+            data: S.optional(__S(4971, __c155, 11)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "EntityWatchlistScreeningHit" });
+    case 13:
+      return S.Array(__S(4972, __c155, 12));
+    case 14:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            entity_watchlist_screening_hits: __S(4973, __c155, 13),
+            next_cursor: S.NullOr(S.String),
+            request_id: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "WatchlistScreeningEntityHitListResponse" });
+  }
+}
+function __c156(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            type: S.String,
+            number: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "EntityDocument" });
+    case 1:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            analysis: S.optional(__S(1024, __c32, 0)),
+            data: S.optional(__S(4992, __c156, 0)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "EntityScreeningHitDocumentsItems" });
+    case 2:
+      return S.Array(__S(4993, __c156, 1));
+    case 3:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            full: S.String,
+            country: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "WatchlistScreeningHitLocations" });
+    case 4:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            analysis: S.optional(__S(1024, __c32, 0)),
+            data: S.optional(__S(4995, __c156, 3)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "GenericScreeningHitLocationItems" });
+    case 5:
+      return S.Array(__S(4996, __c156, 4));
+    case 6:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            full: S.String,
+            is_primary: S.Boolean,
+            weak_alias_determination: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "EntityScreeningHitNames" });
+    case 7:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            analysis: S.optional(__S(1024, __c32, 0)),
+            data: S.optional(__S(4998, __c156, 6)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "EntityScreeningHitNamesItems" });
+    case 8:
+      return S.Array(__S(4999, __c156, 7));
+  }
+}
+function __c157(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          client_id: S.optional(S.String),
+          cursor: S.optional(S.NullOr(S.String)),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/watchlist_screening/entity/program/list", code: 200 }),
+        ),
+      ).annotate({ identifier: "ListWatchlistScreeningEntityProgramRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            entity_watchlist_programs: __S(5057, __c158, 1),
+            next_cursor: S.NullOr(S.String),
+            request_id: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "WatchlistScreeningEntityProgramListResponse" });
+  }
+}
+function __c158(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            id: S.String,
+            created_at: S.String,
+            is_rescanning_enabled: S.Boolean,
+            lists_enabled: __S(192, __c6, 0),
+            name: S.String,
+            name_sensitivity: S.String,
+            audit_trail: __S(10976, __c343, 0),
+            is_archived: S.Boolean,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "EntityWatchlistProgram" });
+    case 1:
+      return S.Array(__S(5056, __c158, 0));
+  }
+}
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32810,7 +29781,7 @@ function __c193(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            entity_watchlist_screening_reviews: __S(6209, __c194, 1),
+            entity_watchlist_screening_reviews: __S(5121, __c160, 1),
             next_cursor: S.NullOr(S.String),
             request_id: S.String,
           }),
@@ -32819,7 +29790,7 @@ function __c193(j: number): any {
       ).annotate({ identifier: "WatchlistScreeningEntityReviewListResponse" });
   }
 }
-function __c194(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32829,16 +29800,16 @@ function __c194(j: number): any {
             confirmed_hits: __S(32, __c1, 0),
             dismissed_hits: __S(32, __c1, 0),
             comment: S.NullOr(S.String),
-            audit_trail: __S(11904, __c372, 0),
+            audit_trail: __S(10976, __c343, 0),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "EntityWatchlistScreeningReview" });
     case 1:
-      return S.Array(__S(6208, __c194, 0));
+      return S.Array(__S(5120, __c160, 0));
   }
 }
-function __c195(j: number): any {
+function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32854,29 +29825,29 @@ function __c195(j: number): any {
       ).annotate({ identifier: "ListWatchlistScreeningIndividualRequest" });
   }
 }
-function __c196(j: number): any {
+function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
             id: S.String,
-            search_terms: __S(12032, __c376, 0),
+            search_terms: __S(11104, __c347, 0),
             assignee: S.NullOr(S.String),
             status: S.String,
             client_user_id: S.NullOr(S.String),
-            audit_trail: __S(11904, __c372, 0),
+            audit_trail: __S(10976, __c343, 0),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "WatchlistScreeningIndividual" });
     case 1:
-      return S.Array(__S(6272, __c196, 0));
+      return S.Array(__S(5184, __c162, 0));
     case 2:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            watchlist_screenings: __S(6273, __c196, 1),
+            watchlist_screenings: __S(5185, __c162, 1),
             next_cursor: S.NullOr(S.String),
             request_id: S.String,
           }),
@@ -32885,7 +29856,7 @@ function __c196(j: number): any {
       ).annotate({ identifier: "WatchlistScreeningIndividualListResponse" });
   }
 }
-function __c197(j: number): any {
+function __c163(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32904,7 +29875,113 @@ function __c197(j: number): any {
       ).annotate({ identifier: "ListWatchlistScreeningIndividualHistoryRequest" });
   }
 }
-function __c198(j: number): any {
+function __c164(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            given_name: S.optional(S.String),
+            family_name: S.optional(S.String),
+            email: S.optional(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "PartnerEndCustomerTechnicalContact" });
+    case 1:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            email: S.optional(S.String),
+            phone_number: S.optional(S.String),
+            contact_url: S.optional(S.String),
+            link_update_url: S.optional(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "PartnerEndCustomerCustomerSupportInfo" });
+    case 2:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            city: S.optional(S.String),
+            street: S.optional(S.String),
+            region: S.optional(S.String),
+            postal_code: S.optional(S.String),
+            country_code: S.optional(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "PartnerEndCustomerAddress" });
+    case 3:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            amount: S.Number,
+            iso_currency_code: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "PartnerEndCustomerAssetsUnderManagement" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          client_id: S.optional(S.String),
+          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          company_name: S.String,
+          is_diligence_attested: S.Boolean,
+          products: S.optional(__S(192, __c6, 0)),
+          create_link_customization: S.optional(S.Boolean),
+          logo: S.optional(S.String),
+          legal_entity_name: S.String,
+          website: S.String,
+          application_name: S.String,
+          technical_contact: S.optional(__S(5248, __c164, 0)),
+          billing_contact: S.optional(__S(5248, __c164, 0)),
+          customer_support_info: S.optional(__S(5249, __c164, 1)),
+          address: __S(5250, __c164, 2),
+          is_bank_addendum_completed: S.Boolean,
+          assets_under_management: S.optional(__S(5251, __c164, 3)),
+          redirect_uris: S.optional(__S(32, __c1, 0)),
+          registration_number: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/partner/customer/create", code: 200 })),
+      ).annotate({ identifier: "CreatePartnerCustomerRequest" });
+    case 5:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            sandbox: S.optional(S.String),
+            development: S.optional(S.String),
+            production: S.optional(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "PartnerEndCustomerSecrets" });
+    case 6:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            client_id: S.optional(S.String),
+            company_name: S.optional(S.String),
+            status: S.optional(S.String),
+            secrets: S.optional(__S(5253, __c164, 5)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "PartnerEndCustomerWithSecrets" });
+    case 7:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            end_customer: S.optional(__S(5254, __c164, 6)),
+            request_id: S.optional(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "PartnerCustomerCreateResponse" });
+  }
+}
+function __c165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32944,22 +30021,22 @@ function __c198(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            analysis: S.optional(__S(2048, __c64, 0)),
-            data: S.optional(__S(6338, __c198, 2)),
+            analysis: S.optional(__S(1024, __c32, 0)),
+            data: S.optional(__S(5282, __c165, 2)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "ScreeningHitDateOfBirthItem" });
     case 4:
-      return S.Array(__S(6339, __c198, 3));
+      return S.Array(__S(5283, __c165, 3));
     case 5:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            dates_of_birth: S.optional(__S(6340, __c198, 4)),
-            documents: S.optional(__S(5570, __c174, 2)),
-            locations: S.optional(__S(5573, __c174, 5)),
-            names: S.optional(__S(5576, __c174, 8)),
+            dates_of_birth: S.optional(__S(5284, __c165, 4)),
+            documents: S.optional(__S(4994, __c156, 2)),
+            locations: S.optional(__S(4997, __c156, 5)),
+            names: S.optional(__S(5000, __c156, 8)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -32977,19 +30054,19 @@ function __c198(j: number): any {
             plaid_uid: S.String,
             source_uid: S.NullOr(S.String),
             sub_programs: __S(32, __c1, 0),
-            analysis: S.optional(__S(6337, __c198, 1)),
-            data: S.optional(__S(6341, __c198, 5)),
+            analysis: S.optional(__S(5281, __c165, 1)),
+            data: S.optional(__S(5285, __c165, 5)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "WatchlistScreeningHit" });
     case 7:
-      return S.Array(__S(6342, __c198, 6));
+      return S.Array(__S(5286, __c165, 6));
     case 8:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            watchlist_screening_hits: __S(6343, __c198, 7),
+            watchlist_screening_hits: __S(5287, __c165, 7),
             next_cursor: S.NullOr(S.String),
             request_id: S.String,
           }),
@@ -32998,7 +30075,7 @@ function __c198(j: number): any {
       ).annotate({ identifier: "WatchlistScreeningIndividualHitListResponse" });
   }
 }
-function __c199(j: number): any {
+function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33018,7 +30095,7 @@ function __c199(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            watchlist_programs: __S(5633, __c176, 1),
+            watchlist_programs: __S(5057, __c158, 1),
             next_cursor: S.NullOr(S.String),
             request_id: S.String,
           }),
@@ -33027,7 +30104,7 @@ function __c199(j: number): any {
       ).annotate({ identifier: "WatchlistScreeningIndividualProgramListResponse" });
   }
 }
-function __c200(j: number): any {
+function __c167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33044,7 +30121,7 @@ function __c200(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            watchlist_screening_reviews: __S(6209, __c194, 1),
+            watchlist_screening_reviews: __S(5121, __c160, 1),
             next_cursor: S.NullOr(S.String),
             request_id: S.String,
           }),
@@ -33053,7 +30130,7 @@ function __c200(j: number): any {
       ).annotate({ identifier: "WatchlistScreeningIndividualReviewListResponse" });
   }
 }
-function __c201(j: number): any {
+function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33085,7 +30162,7 @@ function __c201(j: number): any {
       ).annotate({ identifier: "OAuthIntrospectResponse" });
   }
 }
-function __c202(j: number): any {
+function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33117,7 +30194,7 @@ function __c202(j: number): any {
       ).annotate({ identifier: "OAuthTokenResponse" });
   }
 }
-function __c203(j: number): any {
+function __c170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33127,9 +30204,9 @@ function __c203(j: number): any {
           payment_id: S.String,
           idempotency_key: S.String,
           reference: S.String,
-          amount: S.optional(__S(1728, __c54, 0)),
+          amount: S.optional(__S(1312, __c41, 0)),
           counterparty_date_of_birth: S.optional(S.NullOr(S.String)),
-          counterparty_address: S.optional(S.NullOr(__S(7072, __c221, 0))),
+          counterparty_address: S.optional(S.NullOr(__S(6176, __c193, 0))),
         }).pipe(T.Http({ method: "POST", uri: "/payment_initiation/payment/reverse", code: 200 })),
       ).annotate({ identifier: "PaymentInitiationPaymentReverseRequest" });
     case 1:
@@ -33145,7 +30222,7 @@ function __c203(j: number): any {
       ).annotate({ identifier: "PaymentInitiationPaymentReverseResponse" });
   }
 }
-function __c204(j: number): any {
+function __c171(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33153,14 +30230,14 @@ function __c204(j: number): any {
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           processor_token: S.String.pipe(T.SensitiveValue({})),
-          user: S.optional(__S(3969, __c124, 1)),
+          user: S.optional(__S(3393, __c106, 1)),
         }).pipe(T.Http({ method: "POST", uri: "/processor/identity/match", code: 200 })),
       ).annotate({ identifier: "ProcessorIdentityMatchRequest" });
     case 1:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            account: __S(3970, __c124, 2),
+            account: __S(3394, __c106, 2),
             request_id: S.String,
           }),
           [S.Record(S.String, S.Unknown)],
@@ -33168,66 +30245,7 @@ function __c204(j: number): any {
       ).annotate({ identifier: "ProcessorIdentityMatchResponse" });
   }
 }
-function __c205(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            amount: S.Number,
-            iso_currency_code: S.String,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "PartnerEndCustomerAssetsUnderManagement" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          client_id: S.optional(S.String),
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          company_name: S.String,
-          is_diligence_attested: S.Boolean,
-          products: S.optional(__S(12352, __c386, 0)),
-          create_link_customization: S.optional(S.Boolean),
-          logo: S.optional(S.String),
-          legal_entity_name: S.String,
-          website: S.String,
-          application_name: S.String,
-          technical_contact: S.optional(__S(1472, __c46, 0)),
-          billing_contact: S.optional(__S(1472, __c46, 0)),
-          customer_support_info: S.optional(__S(1473, __c46, 1)),
-          address: __S(1474, __c46, 2),
-          is_bank_addendum_completed: S.Boolean,
-          assets_under_management: S.optional(__S(6560, __c205, 0)),
-          redirect_uris: S.optional(__S(32, __c1, 0)),
-          registration_number: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/partner/customer/create", code: 200 })),
-      ).annotate({ identifier: "CreatePartnerCustomerRequest" });
-    case 2:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            client_id: S.optional(S.String),
-            company_name: S.optional(S.String),
-            status: S.optional(S.String),
-            secrets: S.optional(__S(1475, __c46, 3)),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "PartnerEndCustomerWithSecrets" });
-    case 3:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            end_customer: S.optional(__S(6562, __c205, 2)),
-            request_id: S.optional(S.String),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "PartnerCustomerCreateResponse" });
-  }
-}
-function __c206(j: number): any {
+function __c172(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33245,7 +30263,7 @@ function __c206(j: number): any {
       ).annotate({ identifier: "ProcessorSignalDecisionReportRequest" });
   }
 }
-function __c207(j: number): any {
+function __c173(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33259,8 +30277,8 @@ function __c207(j: number): any {
           client_user_id: S.optional(S.String),
           is_recurring: S.optional(S.NullOr(S.Boolean)),
           default_payment_method: S.optional(S.NullOr(S.String)),
-          user: S.optional(__S(6658, __c208, 2)),
-          device: S.optional(__S(6659, __c208, 3)),
+          user: S.optional(__S(5570, __c174, 2)),
+          device: S.optional(__S(5571, __c174, 3)),
           ruleset_key: S.optional(S.NullOr(S.String)),
         }).pipe(T.Http({ method: "POST", uri: "/processor/signal/evaluate", code: 200 })),
       ).annotate({ identifier: "ProcessorSignalEvaluateRequest" });
@@ -33269,17 +30287,17 @@ function __c207(j: number): any {
         S.StructWithRest(
           S.Struct({
             request_id: S.String,
-            scores: S.NullOr(__S(6661, __c208, 5)),
-            core_attributes: S.optional(__S(6662, __c208, 6)),
-            ruleset: S.optional(S.NullOr(__S(6664, __c208, 8))),
-            warnings: S.optional(__S(11073, __c346, 1)),
+            scores: S.NullOr(__S(5573, __c174, 5)),
+            core_attributes: S.optional(__S(5574, __c174, 6)),
+            ruleset: S.optional(S.NullOr(__S(5576, __c174, 8))),
+            warnings: S.optional(__S(10209, __c319, 1)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "ProcessorSignalEvaluateResponse" });
   }
 }
-function __c208(j: number): any {
+function __c174(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33307,10 +30325,10 @@ function __c208(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.NullOr(__S(6656, __c208, 0))),
+          name: S.optional(S.NullOr(__S(5568, __c174, 0))),
           phone_number: S.optional(S.NullOr(S.String)),
           email_address: S.optional(S.NullOr(S.String)),
-          address: S.optional(S.NullOr(__S(6657, __c208, 1))),
+          address: S.optional(S.NullOr(__S(5569, __c174, 1))),
         }),
       ).annotate({ identifier: "SignalUser" });
     case 3:
@@ -33331,8 +30349,8 @@ function __c208(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            customer_initiated_return_risk: S.optional(__S(6660, __c208, 4)),
-            bank_initiated_return_risk: S.optional(__S(6660, __c208, 4)),
+            customer_initiated_return_risk: S.optional(__S(5572, __c174, 4)),
+            bank_initiated_return_risk: S.optional(__S(5572, __c174, 4)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -33439,7 +30457,7 @@ function __c208(j: number): any {
           S.Struct({
             ruleset_key: S.optional(S.String),
             result: S.String,
-            triggered_rule_details: S.optional(S.NullOr(__S(6663, __c208, 7))),
+            triggered_rule_details: S.optional(S.NullOr(__S(5575, __c174, 7))),
             outcome: S.optional(S.String),
           }),
           [S.Record(S.String, S.Unknown)],
@@ -33447,7 +30465,7 @@ function __c208(j: number): any {
       ).annotate({ identifier: "Ruleset" });
   }
 }
-function __c209(j: number): any {
+function __c175(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33459,7 +30477,776 @@ function __c209(j: number): any {
       ).annotate({ identifier: "ProcessorSignalPrepareRequest" });
   }
 }
-function __c210(j: number): any {
+function __c176(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          client_id: S.optional(S.String),
+          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          audit_copy_token: S.String.pipe(T.SensitiveValue({})),
+        }).pipe(T.Http({ method: "POST", uri: "/asset_report/audit_copy/get", code: 200 })),
+      ).annotate({ identifier: "AssetReportAuditCopyGetRequest" });
+  }
+}
+function __c177(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            client_user_id: S.optional(S.NullOr(S.String)),
+            first_name: S.optional(S.NullOr(S.String)),
+            middle_name: S.optional(S.NullOr(S.String)),
+            last_name: S.optional(S.NullOr(S.String)),
+            ssn: S.optional(S.NullOr(S.String)),
+            phone_number: S.optional(S.NullOr(S.String)),
+            email: S.optional(S.NullOr(S.String)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "AssetReportUser" });
+  }
+}
+function __c178(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            city: S.NullOr(S.String),
+            region: S.NullOr(S.String),
+            street: S.NullOr(S.String),
+            postal_code: S.NullOr(S.String),
+            country: S.NullOr(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "AddressData" });
+  }
+}
+function __c179(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            data: S.String,
+            primary: S.Boolean,
+            type: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "PhoneNumber" });
+    case 1:
+      return S.Array(__S(5728, __c179, 0));
+    case 2:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            data: __S(5696, __c178, 0),
+            primary: S.optional(S.Boolean),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "Address" });
+    case 3:
+      return S.Array(__S(5730, __c179, 2));
+    case 4:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            names: __S(32, __c1, 0),
+            phone_numbers: __S(5729, __c179, 1),
+            emails: __S(5729, __c179, 1),
+            addresses: __S(5731, __c179, 3),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "Owner" });
+    case 5:
+      return S.Array(__S(5732, __c179, 4));
+  }
+}
+function __c180(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            primary: S.NullOr(S.String),
+            detailed: S.NullOr(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "CreditCategory" });
+  }
+}
+function __c181(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            address: S.NullOr(S.String),
+            city: S.NullOr(S.String),
+            region: S.NullOr(S.String),
+            postal_code: S.NullOr(S.String),
+            country: S.NullOr(S.String),
+            lat: S.NullOr(S.Number),
+            lon: S.NullOr(S.Number),
+            store_number: S.NullOr(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "Location" });
+  }
+}
+function __c182(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            reference_number: S.NullOr(S.String),
+            ppd_id: S.NullOr(S.String),
+            payee: S.NullOr(S.String),
+            by_order_of: S.NullOr(S.String),
+            payer: S.NullOr(S.String),
+            payment_method: S.NullOr(S.String),
+            payment_processor: S.NullOr(S.String),
+            reason: S.NullOr(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "PaymentMeta" });
+  }
+}
+function __c183(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            error_type: S.String,
+            error_code: S.String,
+            error_code_reason: S.optional(S.NullOr(S.String)),
+            error_message: S.String,
+            display_message: S.NullOr(S.String),
+            request_id: S.optional(S.String),
+            causes: S.optional(__S(0, __c0, 0)),
+            status: S.optional(S.NullOr(S.Number)),
+            documentation_url: S.optional(S.String),
+            suggested_action: S.optional(S.NullOr(S.String)),
+            required_account_subtypes: S.optional(__S(32, __c1, 0)),
+            provided_account_subtypes: S.optional(__S(32, __c1, 0)),
+            item_id: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "Cause" });
+    case 1:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            warning_type: S.String,
+            warning_code: S.String,
+            cause: S.NullOr(__S(5856, __c183, 0)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "Warning" });
+    case 2:
+      return S.Array(__S(5857, __c183, 1));
+  }
+}
+function __c184(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            date: S.String,
+            current: S.Number,
+            iso_currency_code: S.NullOr(S.String),
+            unofficial_currency_code: S.NullOr(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "HistoricalBalance" });
+    case 1:
+      return S.Array(__S(5888, __c184, 0));
+  }
+}
+function __c185(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            investment_transaction_id: S.String,
+            account_id: S.String,
+            security_id: S.NullOr(S.String),
+            date: S.String,
+            name: S.String,
+            quantity: S.Number,
+            amount: S.Number,
+            price: S.Number,
+            fees: S.NullOr(S.Number),
+            type: S.String,
+            subtype: S.String,
+            iso_currency_code: S.NullOr(S.String),
+            unofficial_currency_code: S.NullOr(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "AssetReportInvestmentTransaction" });
+    case 1:
+      return S.Array(__S(5920, __c185, 0));
+  }
+}
+function __c186(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            institution_lot_id: S.NullOr(S.String),
+            original_purchase_datetime: S.NullOr(S.String),
+            quantity: S.NullOr(S.Number),
+            purchase_price: S.NullOr(S.Number),
+            cost_basis: S.NullOr(S.Number),
+            current_value: S.NullOr(S.Number),
+            position_type: S.NullOr(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "HoldingTaxLot" });
+    case 1:
+      return S.Array(__S(5952, __c186, 0));
+  }
+}
+function __c187(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            amount: S.optional(S.NullOr(S.Number)),
+            iso_currency_code: S.optional(S.NullOr(S.String)),
+            unofficial_currency_code: S.optional(S.NullOr(S.String)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "MonthlyAverage" });
+    case 1:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            id: S.optional(S.String),
+            transactions_count: S.optional(S.NullOr(S.Number)),
+            amount: S.optional(S.NullOr(S.Number)),
+            iso_currency_code: S.optional(S.NullOr(S.String)),
+            unofficial_currency_code: S.optional(S.NullOr(S.String)),
+            monthly_average: S.optional(S.NullOr(__S(5984, __c187, 0))),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "CategoryExpenses" });
+    case 2:
+      return S.Array(/*@__PURE__*/ S.NullOr(__S(5985, __c187, 1)));
+    case 3:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            start_date: S.optional(S.NullOr(S.String)),
+            end_date: S.optional(S.NullOr(S.String)),
+            total_amount: S.optional(S.NullOr(__S(5984, __c187, 0))),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "MonthlySummary" });
+    case 4:
+      return S.Array(/*@__PURE__*/ S.NullOr(__S(5987, __c187, 3)));
+    case 5:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            amount: S.optional(S.NullOr(S.Number)),
+            iso_currency_code: S.optional(S.NullOr(S.String)),
+            unofficial_currency_code: S.optional(S.NullOr(S.String)),
+            monthly_average: S.optional(S.NullOr(__S(5984, __c187, 0))),
+            category_details: S.optional(__S(5986, __c187, 2)),
+            transactions_count: S.optional(S.NullOr(S.Number)),
+            monthly_summaries: S.optional(__S(5988, __c187, 4)),
+            days_since_last_occurrence: S.optional(S.NullOr(S.Number)),
+            percentage_of_income: S.optional(S.NullOr(S.Number)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "BankPenaltiesIndicators" });
+    case 6:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            amount: S.optional(S.NullOr(S.Number)),
+            iso_currency_code: S.optional(S.NullOr(S.String)),
+            unofficial_currency_code: S.optional(S.NullOr(S.String)),
+            monthly_average: S.optional(S.NullOr(__S(5984, __c187, 0))),
+            top_merchants: S.optional(__S(32, __c1, 0)),
+            transactions_count: S.optional(S.NullOr(S.Number)),
+            monthly_summaries: S.optional(__S(5988, __c187, 4)),
+            days_since_last_occurrence: S.optional(S.NullOr(S.Number)),
+            percentage_of_income: S.optional(S.NullOr(S.Number)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "GamblingIndicators" });
+    case 7:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            amount: S.optional(S.NullOr(S.Number)),
+            iso_currency_code: S.optional(S.NullOr(S.String)),
+            unofficial_currency_code: S.optional(S.NullOr(S.String)),
+            category_details: S.optional(__S(5986, __c187, 2)),
+            monthly_average: S.optional(S.NullOr(__S(5984, __c187, 0))),
+            top_providers: S.optional(__S(32, __c1, 0)),
+            transactions_count: S.optional(S.NullOr(S.Number)),
+            monthly_summaries: S.optional(__S(5988, __c187, 4)),
+            days_since_last_occurrence: S.optional(S.NullOr(S.Number)),
+            percentage_of_income: S.optional(S.NullOr(S.Number)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "LoanDisbursementsIndicators" });
+    case 8:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            amount: S.optional(S.NullOr(S.Number)),
+            iso_currency_code: S.optional(S.NullOr(S.String)),
+            unofficial_currency_code: S.optional(S.NullOr(S.String)),
+            monthly_average: S.optional(S.NullOr(__S(5984, __c187, 0))),
+            category_details: S.optional(__S(5986, __c187, 2)),
+            top_providers: S.optional(__S(32, __c1, 0)),
+            transactions_count: S.optional(S.NullOr(S.Number)),
+            monthly_summaries: S.optional(__S(5988, __c187, 4)),
+            days_since_last_occurrence: S.optional(S.NullOr(S.Number)),
+            percentage_of_income: S.optional(S.NullOr(S.Number)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "LoanPaymentsIndicators" });
+    case 9:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            start_date: S.optional(S.NullOr(S.String)),
+            end_date: S.optional(S.NullOr(S.String)),
+            minimum_balance: S.optional(S.NullOr(__S(5984, __c187, 0))),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "NegativeBalanceOccurrence" });
+    case 10:
+      return S.Array(/*@__PURE__*/ S.NullOr(__S(5993, __c187, 9)));
+    case 11:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            days_since_last_occurrence: S.optional(S.NullOr(S.Number)),
+            days_with_negative_balance: S.optional(S.NullOr(S.Number)),
+            minimum_balance: S.optional(S.NullOr(__S(5984, __c187, 0))),
+            occurrences: S.optional(__S(5994, __c187, 10)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "NegativeBalanceInsights" });
+    case 12:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            bank_penalties: S.optional(S.NullOr(__S(5989, __c187, 5))),
+            gambling: S.optional(S.NullOr(__S(5990, __c187, 6))),
+            loan_disbursements: S.optional(S.NullOr(__S(5991, __c187, 7))),
+            loan_payments: S.optional(S.NullOr(__S(5992, __c187, 8))),
+            negative_balance: S.optional(S.NullOr(__S(5995, __c187, 11))),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "RiskIndicators" });
+    case 13:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            amount: S.optional(S.NullOr(S.Number)),
+            iso_currency_code: S.optional(S.NullOr(S.String)),
+            unofficial_currency_code: S.optional(S.NullOr(S.String)),
+            monthly_average: S.optional(S.NullOr(__S(5984, __c187, 0))),
+            transactions_count: S.optional(S.NullOr(S.Number)),
+            percentage_of_income: S.optional(S.NullOr(S.Number)),
+            top_categories: S.optional(__S(5986, __c187, 2)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "ExpenditureSummary" });
+    case 14:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            transactions_count: S.optional(S.NullOr(S.Number)),
+            total_amount: S.optional(S.NullOr(__S(5984, __c187, 0))),
+            top_categories: S.optional(__S(5986, __c187, 2)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "OutlierTransactionsInsights" });
+    case 15:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            cash_flow: S.optional(S.NullOr(__S(5984, __c187, 0))),
+            total_expenditure: S.optional(S.NullOr(__S(5997, __c187, 13))),
+            essential_expenditure: S.optional(S.NullOr(__S(5997, __c187, 13))),
+            non_essential_expenditure: S.optional(S.NullOr(__S(5997, __c187, 13))),
+            other: S.optional(S.NullOr(__S(5997, __c187, 13))),
+            transfers_out: S.optional(S.NullOr(__S(5997, __c187, 13))),
+            outlier_transactions: S.optional(S.NullOr(__S(5998, __c187, 14))),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "ExpenditureInsights" });
+    case 16:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            total_income: S.optional(S.NullOr(__S(5984, __c187, 0))),
+            income_excluding_transfers: S.optional(S.NullOr(__S(5984, __c187, 0))),
+            transfers_in: S.optional(S.NullOr(__S(5984, __c187, 0))),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "IncomeInsights" });
+    case 17:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            expenditure: S.optional(S.NullOr(__S(5999, __c187, 15))),
+            income: S.optional(S.NullOr(__S(6000, __c187, 16))),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "AffordabilityInsights" });
+    case 18:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            risk: S.optional(S.NullOr(__S(5996, __c187, 12))),
+            affordability: S.optional(S.NullOr(__S(6001, __c187, 17))),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "AccountInsights" });
+    case 19:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            available: S.NullOr(S.Number),
+            current: S.NullOr(S.Number),
+            limit: S.NullOr(S.Number),
+            margin_loan_amount: S.NullOr(S.Number),
+            iso_currency_code: S.NullOr(S.String),
+            unofficial_currency_code: S.NullOr(S.String),
+            last_updated_datetime: S.optional(S.NullOr(S.String)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "AssetReportAccountBalance" });
+    case 20:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            account_id: S.String,
+            amount: S.Number,
+            iso_currency_code: S.NullOr(S.String),
+            unofficial_currency_code: S.NullOr(S.String),
+            original_description: S.NullOr(S.String),
+            category: S.optional(S.NullOr(__S(32, __c1, 0))),
+            category_id: S.optional(S.NullOr(S.String)),
+            credit_category: S.optional(S.NullOr(__S(5760, __c180, 0))),
+            check_number: S.optional(S.NullOr(S.String)),
+            date: S.String,
+            date_transacted: S.optional(S.NullOr(S.String)),
+            location: S.optional(__S(5792, __c181, 0)),
+            name: S.optional(S.String),
+            merchant_name: S.optional(S.NullOr(S.String)),
+            payment_meta: S.optional(__S(5824, __c182, 0)),
+            pending: S.Boolean,
+            pending_transaction_id: S.optional(S.NullOr(S.String)),
+            account_owner: S.optional(S.NullOr(S.String)),
+            transaction_id: S.String,
+            transaction_type: S.optional(S.String),
+            income_source_id: S.optional(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "AssetReportTransaction" });
+    case 21:
+      return S.Array(__S(6004, __c187, 20));
+    case 22:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            account_id: S.String,
+            security_id: S.String,
+            ticker_symbol: S.NullOr(S.String),
+            institution_price: S.Number,
+            institution_price_as_of: S.optional(S.NullOr(S.String)),
+            institution_value: S.Number,
+            quantity: S.Number,
+            vested_quantity: S.optional(S.NullOr(S.Number)),
+            vested_value: S.optional(S.NullOr(S.Number)),
+            iso_currency_code: S.NullOr(S.String),
+            unofficial_currency_code: S.NullOr(S.String),
+            tax_lots: S.optional(__S(5953, __c186, 1)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "AssetReportInvestmentHolding" });
+    case 23:
+      return S.Array(__S(6006, __c187, 22));
+    case 24:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            security_id: S.String,
+            name: S.NullOr(S.String),
+            ticker_symbol: S.NullOr(S.String),
+            type: S.NullOr(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "AssetReportInvestmentSecurity" });
+    case 25:
+      return S.Array(__S(6008, __c187, 24));
+    case 26:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            holdings: S.optional(__S(6007, __c187, 23)),
+            securities: S.optional(__S(6009, __c187, 25)),
+            transactions: S.optional(__S(5921, __c185, 1)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "AssetReportInvestments" });
+    case 27:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            account_id: S.String,
+            balances: __S(6003, __c187, 19),
+            mask: S.NullOr(S.String),
+            name: S.String,
+            official_name: S.NullOr(S.String),
+            type: S.String,
+            subtype: S.NullOr(S.String),
+            verification_status: S.optional(S.String),
+            persistent_account_id: S.optional(S.String),
+            days_available: S.Number,
+            transactions: __S(6005, __c187, 21),
+            investments: S.optional(__S(6010, __c187, 26)),
+            owners: __S(5733, __c179, 5),
+            ownership_type: S.optional(S.NullOr(S.String)),
+            historical_balances: __S(5889, __c184, 1),
+            account_insights: S.optional(S.NullOr(__S(6002, __c187, 18))),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "AccountAssets" });
+    case 28:
+      return S.Array(__S(6011, __c187, 27));
+    case 29:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            item_id: S.String,
+            institution_name: S.String,
+            institution_id: S.String,
+            date_last_updated: S.String,
+            accounts: __S(6012, __c187, 28),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "AssetReportItem" });
+    case 30:
+      return S.Array(__S(6013, __c187, 29));
+    case 31:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            asset_report_id: S.String,
+            insights: S.optional(S.NullOr(__S(6002, __c187, 18))),
+            client_report_id: S.NullOr(S.String),
+            date_generated: S.String,
+            days_requested: S.Number,
+            user: __S(5664, __c177, 0),
+            items: __S(6014, __c187, 30),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "AssetReport" });
+  }
+}
+function __c188(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            report: __S(6015, __c187, 31),
+            warnings: __S(5858, __c183, 2),
+            request_id: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "AssetReportGetResponse" });
+  }
+}
+function __c189(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          request_refund_details: S.optional(S.NullOr(S.Boolean)),
+          iban: S.optional(S.NullOr(S.String)),
+          bacs: S.optional(S.NullOr(__S(6112, __c191, 0))),
+        }),
+      ).annotate({ identifier: "ExternalPaymentInitiationConsentOptions" });
+    case 1:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            bacs: S.optional(S.NullOr(__S(6112, __c191, 0))),
+            iban: S.optional(S.NullOr(S.String)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "PaymentInitiationConsentPayerNumbers" });
+    case 2:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            name: S.String,
+            numbers: __S(6049, __c189, 1),
+            address: S.optional(S.NullOr(__S(6176, __c193, 0))),
+            date_of_birth: S.optional(S.NullOr(S.String)),
+            phone_numbers: S.optional(__S(32, __c1, 0)),
+            emails: S.optional(__S(32, __c1, 0)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "PaymentInitiationConsentPayerDetails" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          client_id: S.optional(S.String),
+          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          recipient_id: S.String,
+          user_id: S.optional(S.String),
+          reference: S.String,
+          scopes: S.optional(__S(192, __c6, 0)),
+          type: S.optional(S.String),
+          constraints: __S(6083, __c190, 3),
+          options: S.optional(S.NullOr(__S(6048, __c189, 0))),
+          payer_details: S.optional(S.NullOr(__S(6050, __c189, 2))),
+        }).pipe(T.Http({ method: "POST", uri: "/payment_initiation/consent/create", code: 200 })),
+      ).annotate({ identifier: "CreatePaymentInitiationConsentRequest" });
+    case 4:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            consent_id: S.String,
+            status: S.String,
+            request_id: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "PaymentInitiationConsentCreateResponse" });
+  }
+}
+function __c190(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          from: S.optional(S.NullOr(S.String)),
+          to: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "PaymentConsentValidDateTime" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          amount: __S(6144, __c192, 0),
+          interval: S.String,
+          alignment: S.String,
+        }),
+      ).annotate({ identifier: "PaymentConsentPeriodicAmount" });
+    case 2:
+      return S.Array(__S(6081, __c190, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          valid_date_time: S.optional(S.NullOr(__S(6080, __c190, 0))),
+          max_payment_amount: __S(6144, __c192, 0),
+          periodic_amounts: __S(6082, __c190, 2),
+        }),
+      ).annotate({ identifier: "PaymentInitiationConsentConstraints" });
+  }
+}
+function __c191(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            account: S.optional(S.String),
+            sort_code: S.optional(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "PaymentInitiationOptionalRestrictionBacs" });
+  }
+}
+function __c192(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          currency: S.String,
+          value: S.Number,
+        }),
+      ).annotate({ identifier: "PaymentAmount" });
+  }
+}
+function __c193(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            street: __S(32, __c1, 0),
+            city: S.String,
+            postal_code: S.String,
+            country: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "PaymentInitiationAddress" });
+  }
+}
+function __c194(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33474,7 +31261,7 @@ function __c210(j: number): any {
       ).annotate({ identifier: "ProcessorSignalReturnReportRequest" });
   }
 }
-function __c211(j: number): any {
+function __c195(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33492,8 +31279,8 @@ function __c211(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          link: S.optional(S.NullOr(__S(6752, __c211, 0))),
-          device: S.optional(S.NullOr(__S(6753, __c211, 1))),
+          link: S.optional(S.NullOr(__S(6240, __c195, 0))),
+          device: S.optional(S.NullOr(__S(6241, __c195, 1))),
         }),
       ).annotate({ identifier: "ProtectModelInputs" });
     case 3:
@@ -33502,8 +31289,8 @@ function __c211(j: number): any {
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           model: S.String,
-          user: __S(9440, __c295, 0),
-          model_inputs: S.optional(S.NullOr(__S(6754, __c211, 2))),
+          user: __S(8544, __c267, 0),
+          model_inputs: S.optional(S.NullOr(__S(6242, __c195, 2))),
         }).pipe(T.Http({ method: "POST", uri: "/protect/compute", code: 200 })),
       ).annotate({ identifier: "ProtectComputeRequest" });
     case 4:
@@ -33527,8 +31314,8 @@ function __c211(j: number): any {
           S.Struct({
             score: S.optional(S.NullOr(S.Number)),
             model: S.optional(S.String),
-            attributes: S.optional(S.NullOr(__S(1440, __c45, 0))),
-            subscores: S.optional(S.NullOr(__S(6756, __c211, 4))),
+            attributes: S.optional(S.NullOr(__S(3840, __c120, 0))),
+            subscores: S.optional(S.NullOr(__S(6244, __c195, 4))),
             timestamp: S.optional(S.NullOr(S.String)),
             request_id: S.String,
           }),
@@ -33537,14 +31324,14 @@ function __c211(j: number): any {
       ).annotate({ identifier: "ProtectComputeResponse" });
   }
 }
-function __c212(j: number): any {
+function __c196(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           client_report_id: S.optional(S.NullOr(S.String)),
           webhook: S.optional(S.NullOr(S.String)),
-          user: S.optional(__S(5696, __c178, 0)),
+          user: S.optional(__S(5664, __c177, 0)),
         }),
       ).annotate({ identifier: "AssetReportRefreshRequestOptions" });
     case 1:
@@ -33554,7 +31341,7 @@ function __c212(j: number): any {
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           asset_report_token: S.String.pipe(T.SensitiveValue({})),
           days_requested: S.optional(S.NullOr(S.Number)),
-          options: S.optional(__S(6784, __c212, 0)),
+          options: S.optional(__S(6272, __c196, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/asset_report/refresh", code: 200 })),
       ).annotate({ identifier: "RefreshAssetReportRequest" });
     case 2:
@@ -33570,7 +31357,7 @@ function __c212(j: number): any {
       ).annotate({ identifier: "AssetReportRefreshResponse" });
   }
 }
-function __c213(j: number): any {
+function __c197(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33583,7 +31370,7 @@ function __c213(j: number): any {
       ).annotate({ identifier: "RefreshCashflowReportRequest" });
   }
 }
-function __c214(j: number): any {
+function __c198(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33599,7 +31386,7 @@ function __c214(j: number): any {
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           user_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           user_id: S.optional(S.String),
-          options: S.optional(__S(6848, __c214, 0)),
+          options: S.optional(__S(6336, __c198, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/credit/payroll_income/refresh", code: 200 })),
       ).annotate({ identifier: "RefreshCreditPayrollIncomeRequest" });
     case 2:
@@ -33614,7 +31401,7 @@ function __c214(j: number): any {
       ).annotate({ identifier: "CreditPayrollIncomeRefreshResponse" });
   }
 }
-function __c215(j: number): any {
+function __c199(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33639,7 +31426,7 @@ function __c215(j: number): any {
       ).annotate({ identifier: "CreditRelayRefreshResponse" });
   }
 }
-function __c216(j: number): any {
+function __c200(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33651,139 +31438,7 @@ function __c216(j: number): any {
       ).annotate({ identifier: "RefreshIdentityRequest" });
   }
 }
-function __c217(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          request_refund_details: S.optional(S.NullOr(S.Boolean)),
-          iban: S.optional(S.NullOr(S.String)),
-          bacs: S.optional(S.NullOr(__S(7008, __c219, 0))),
-        }),
-      ).annotate({ identifier: "ExternalPaymentInitiationConsentOptions" });
-    case 1:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            bacs: S.optional(S.NullOr(__S(7008, __c219, 0))),
-            iban: S.optional(S.NullOr(S.String)),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "PaymentInitiationConsentPayerNumbers" });
-    case 2:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            name: S.String,
-            numbers: __S(6945, __c217, 1),
-            address: S.optional(S.NullOr(__S(7072, __c221, 0))),
-            date_of_birth: S.optional(S.NullOr(S.String)),
-            phone_numbers: S.optional(__S(32, __c1, 0)),
-            emails: S.optional(__S(32, __c1, 0)),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "PaymentInitiationConsentPayerDetails" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          client_id: S.optional(S.String),
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          recipient_id: S.String,
-          user_id: S.optional(S.String),
-          reference: S.String,
-          scopes: S.optional(__S(12352, __c386, 0)),
-          type: S.optional(S.String),
-          constraints: __S(6979, __c218, 3),
-          options: S.optional(S.NullOr(__S(6944, __c217, 0))),
-          payer_details: S.optional(S.NullOr(__S(6946, __c217, 2))),
-        }).pipe(T.Http({ method: "POST", uri: "/payment_initiation/consent/create", code: 200 })),
-      ).annotate({ identifier: "CreatePaymentInitiationConsentRequest" });
-    case 4:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            consent_id: S.String,
-            status: S.String,
-            request_id: S.String,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "PaymentInitiationConsentCreateResponse" });
-  }
-}
-function __c218(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          from: S.optional(S.NullOr(S.String)),
-          to: S.optional(S.NullOr(S.String)),
-        }),
-      ).annotate({ identifier: "PaymentConsentValidDateTime" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          amount: __S(7040, __c220, 0),
-          interval: S.String,
-          alignment: S.String,
-        }),
-      ).annotate({ identifier: "PaymentConsentPeriodicAmount" });
-    case 2:
-      return S.Array(__S(6977, __c218, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          valid_date_time: S.optional(S.NullOr(__S(6976, __c218, 0))),
-          max_payment_amount: __S(7040, __c220, 0),
-          periodic_amounts: __S(6978, __c218, 2),
-        }),
-      ).annotate({ identifier: "PaymentInitiationConsentConstraints" });
-  }
-}
-function __c219(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            account: S.optional(S.String),
-            sort_code: S.optional(S.String),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "PaymentInitiationOptionalRestrictionBacs" });
-  }
-}
-function __c220(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          currency: S.String,
-          value: S.Number,
-        }),
-      ).annotate({ identifier: "PaymentAmount" });
-  }
-}
-function __c221(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            street: __S(32, __c1, 0),
-            city: S.String,
-            postal_code: S.String,
-            country: S.String,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "PaymentInitiationAddress" });
-  }
-}
-function __c222(j: number): any {
+function __c201(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33795,7 +31450,7 @@ function __c222(j: number): any {
       ).annotate({ identifier: "RefreshInvestmentRequest" });
   }
 }
-function __c223(j: number): any {
+function __c202(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33807,7 +31462,7 @@ function __c223(j: number): any {
       ).annotate({ identifier: "RefreshProcessorTransactionRequest" });
   }
 }
-function __c224(j: number): any {
+function __c203(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33821,7 +31476,57 @@ function __c224(j: number): any {
       ).annotate({ identifier: "RefreshStatementRequest" });
   }
 }
-function __c225(j: number): any {
+function __c204(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            interval: S.String,
+            interval_execution_day: S.Number,
+            start_date: S.String,
+            end_date: S.optional(S.NullOr(S.String)),
+            adjusted_start_date: S.optional(S.NullOr(S.String)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "ExternalPaymentScheduleRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          request_refund_details: S.optional(S.NullOr(S.Boolean)),
+          iban: S.optional(S.NullOr(S.String)),
+          bacs: S.optional(S.NullOr(__S(6112, __c191, 0))),
+          scheme: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "ExternalPaymentOptions" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          client_id: S.optional(S.String),
+          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          recipient_id: S.String,
+          user_id: S.optional(S.String),
+          reference: S.String,
+          amount: __S(6144, __c192, 0),
+          schedule: S.optional(__S(6528, __c204, 0)),
+          options: S.optional(S.NullOr(__S(6529, __c204, 1))),
+        }).pipe(T.Http({ method: "POST", uri: "/payment_initiation/payment/create", code: 200 })),
+      ).annotate({ identifier: "CreatePaymentInitiationPaymentRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            payment_id: S.String,
+            status: S.String,
+            request_id: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "PaymentInitiationPaymentCreateResponse" });
+  }
+}
+function __c205(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33833,7 +31538,7 @@ function __c225(j: number): any {
       ).annotate({ identifier: "RefreshTransactionRequest" });
   }
 }
-function __c226(j: number): any {
+function __c206(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33845,7 +31550,7 @@ function __c226(j: number): any {
       ).annotate({ identifier: "RefreshUserFinancialDataRequest" });
   }
 }
-function __c227(j: number): any {
+function __c207(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33859,21 +31564,21 @@ function __c227(j: number): any {
         ),
       ).annotate({ identifier: "RefreshResult" });
     case 1:
-      return S.Array(__S(7264, __c227, 0));
+      return S.Array(__S(6624, __c207, 0));
     case 2:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
             request_id: S.optional(S.String),
             user_id: S.optional(S.String),
-            results: S.optional(__S(7265, __c227, 1)),
+            results: S.optional(__S(6625, __c207, 1)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "UserFinancialDataRefreshResponse" });
   }
 }
-function __c228(j: number): any {
+function __c208(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33885,7 +31590,7 @@ function __c228(j: number): any {
       ).annotate({ identifier: "RefreshUserTransactionRequest" });
   }
 }
-function __c229(j: number): any {
+function __c209(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33906,26 +31611,26 @@ function __c229(j: number): any {
             type: S.String,
             payment_schedule: S.String,
             opened_date: S.String,
-            opened_with_status: __S(7360, __c230, 0),
+            opened_with_status: __S(6720, __c210, 0),
             loan_amount: S.optional(S.Number),
-            application: S.optional(__S(7328, __c229, 0)),
+            application: S.optional(__S(6688, __c209, 0)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "CraLoanRegister" });
     case 2:
-      return S.Array(__S(7329, __c229, 1));
+      return S.Array(__S(6689, __c209, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          loans: __S(7330, __c229, 2),
+          loans: __S(6690, __c209, 2),
         }).pipe(T.Http({ method: "POST", uri: "/cra/loans/register", code: 200 })),
       ).annotate({ identifier: "RegisterCraLoanRequest" });
   }
 }
-function __c230(j: number): any {
+function __c210(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33939,7 +31644,7 @@ function __c230(j: number): any {
       ).annotate({ identifier: "CraLoanOpenedStatus" });
   }
 }
-function __c231(j: number): any {
+function __c211(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33956,18 +31661,18 @@ function __c231(j: number): any {
         ),
       ).annotate({ identifier: "CraLoanApplication" });
     case 1:
-      return S.Array(__S(7392, __c231, 0));
+      return S.Array(__S(6752, __c211, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          applications: __S(7393, __c231, 1),
+          applications: __S(6753, __c211, 1),
         }).pipe(T.Http({ method: "POST", uri: "/cra/loans/applications/register", code: 200 })),
       ).annotate({ identifier: "RegisterCraLoansApplicationRequest" });
   }
 }
-function __c232(j: number): any {
+function __c212(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33979,7 +31684,7 @@ function __c232(j: number): any {
       ).annotate({ identifier: "RemoveAssetReportRequest" });
   }
 }
-function __c233(j: number): any {
+function __c213(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33991,57 +31696,7 @@ function __c233(j: number): any {
       ).annotate({ identifier: "RemoveCreditRelayRequest" });
   }
 }
-function __c234(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            interval: S.String,
-            interval_execution_day: S.Number,
-            start_date: S.String,
-            end_date: S.optional(S.NullOr(S.String)),
-            adjusted_start_date: S.optional(S.NullOr(S.String)),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "ExternalPaymentScheduleRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          request_refund_details: S.optional(S.NullOr(S.Boolean)),
-          iban: S.optional(S.NullOr(S.String)),
-          bacs: S.optional(S.NullOr(__S(7008, __c219, 0))),
-          scheme: S.optional(S.NullOr(S.String)),
-        }),
-      ).annotate({ identifier: "ExternalPaymentOptions" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          client_id: S.optional(S.String),
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          recipient_id: S.String,
-          user_id: S.optional(S.String),
-          reference: S.String,
-          amount: __S(7040, __c220, 0),
-          schedule: S.optional(__S(7488, __c234, 0)),
-          options: S.optional(S.NullOr(__S(7489, __c234, 1))),
-        }).pipe(T.Http({ method: "POST", uri: "/payment_initiation/payment/create", code: 200 })),
-      ).annotate({ identifier: "CreatePaymentInitiationPaymentRequest" });
-    case 3:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            payment_id: S.String,
-            status: S.String,
-            request_id: S.String,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "PaymentInitiationPaymentCreateResponse" });
-  }
-}
-function __c235(j: number): any {
+function __c214(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34055,7 +31710,7 @@ function __c235(j: number): any {
       ).annotate({ identifier: "RemoveItemRequest" });
   }
 }
-function __c236(j: number): any {
+function __c215(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34067,20 +31722,7 @@ function __c236(j: number): any {
       ).annotate({ identifier: "RemovePartnerCustomerRequest" });
   }
 }
-function __c237(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          client_id: S.optional(S.String),
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          client_user_id: S.String,
-          rule_id: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/beta/transactions/rules/v1/remove", code: 200 })),
-      ).annotate({ identifier: "RemoveTransactionsRuleRequest" });
-  }
-}
-function __c238(j: number): any {
+function __c216(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34093,7 +31735,32 @@ function __c238(j: number): any {
       ).annotate({ identifier: "RemoveUserRequest" });
   }
 }
-function __c239(j: number): any {
+function __c217(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          client_id: S.optional(S.String),
+          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          name: S.String,
+          iban: S.optional(S.NullOr(S.String)),
+          bacs: S.optional(S.NullOr(__S(6112, __c191, 0))),
+          address: S.optional(S.NullOr(__S(6176, __c193, 0))),
+        }).pipe(T.Http({ method: "POST", uri: "/payment_initiation/recipient/create", code: 200 })),
+      ).annotate({ identifier: "CreatePaymentInitiationRecipientRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            recipient_id: S.String,
+            request_id: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "PaymentInitiationRecipientCreateResponse" });
+  }
+}
+function __c218(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34105,7 +31772,7 @@ function __c239(j: number): any {
       ).annotate({ identifier: "RemoveUserIdentityRequest" });
   }
 }
-function __c240(j: number): any {
+function __c219(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34119,7 +31786,7 @@ function __c240(j: number): any {
       ).annotate({ identifier: "RemoveUserItemRequest" });
   }
 }
-function __c241(j: number): any {
+function __c220(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34131,7 +31798,7 @@ function __c241(j: number): any {
       ).annotate({ identifier: "RemoveUserThirdPartyTokenRequest" });
   }
 }
-function __c242(j: number): any {
+function __c221(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34140,9 +31807,9 @@ function __c242(j: number): any {
             email_address: S.optional(S.String),
             phone_number: S.optional(S.NullOr(S.String)),
             date_of_birth: S.optional(S.String),
-            name: S.optional(S.NullOr(__S(4832, __c151, 0))),
-            address: S.optional(S.NullOr(__S(4800, __c150, 0))),
-            id_number: S.optional(S.NullOr(__S(4768, __c149, 0))),
+            name: S.optional(S.NullOr(__S(3808, __c119, 0))),
+            address: S.optional(S.NullOr(__S(3776, __c118, 0))),
+            id_number: S.optional(S.NullOr(__S(3744, __c117, 0))),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -34162,8 +31829,8 @@ function __c242(j: number): any {
           client_user_id: S.String,
           template_id: S.String,
           strategy: S.String,
-          user: S.optional(S.NullOr(__S(7744, __c242, 0))),
-          steps: S.optional(S.NullOr(__S(7745, __c242, 1))),
+          user: S.optional(S.NullOr(__S(7072, __c221, 0))),
+          steps: S.optional(S.NullOr(__S(7073, __c221, 1))),
           is_shareable: S.optional(S.NullOr(S.Boolean)),
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
@@ -34171,7 +31838,7 @@ function __c242(j: number): any {
       ).annotate({ identifier: "RetryIdentityVerificationRequest" });
   }
 }
-function __c243(j: number): any {
+function __c222(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34185,7 +31852,7 @@ function __c243(j: number): any {
       ).annotate({ identifier: "RevokeFdxConsentRequest" });
   }
 }
-function __c244(j: number): any {
+function __c223(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34198,32 +31865,7 @@ function __c244(j: number): any {
       ).annotate({ identifier: "RevokeOauthRequest" });
   }
 }
-function __c245(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          client_id: S.optional(S.String),
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          name: S.String,
-          iban: S.optional(S.NullOr(S.String)),
-          bacs: S.optional(S.NullOr(__S(7008, __c219, 0))),
-          address: S.optional(S.NullOr(__S(7072, __c221, 0))),
-        }).pipe(T.Http({ method: "POST", uri: "/payment_initiation/recipient/create", code: 200 })),
-      ).annotate({ identifier: "CreatePaymentInitiationRecipientRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            recipient_id: S.String,
-            request_id: S.String,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "PaymentInitiationRecipientCreateResponse" });
-  }
-}
-function __c246(j: number): any {
+function __c224(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34235,7 +31877,7 @@ function __c246(j: number): any {
       ).annotate({ identifier: "RevokePaymentInitiationConsentRequest" });
   }
 }
-function __c247(j: number): any {
+function __c225(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34251,7 +31893,7 @@ function __c247(j: number): any {
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           subscription_id: S.String,
           user_id: S.optional(S.String),
-          options: S.optional(S.NullOr(__S(7904, __c247, 0))),
+          options: S.optional(S.NullOr(__S(7200, __c225, 0))),
         }).pipe(T.Http({ method: "POST", uri: "/sandbox/cra/servicing/simulate", code: 200 })),
       ).annotate({ identifier: "SandboxCraServicingSimulateRequest" });
     case 2:
@@ -34266,7 +31908,7 @@ function __c247(j: number): any {
       ).annotate({ identifier: "SandboxCraServicingSimulateResponse" });
   }
 }
-function __c248(j: number): any {
+function __c226(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34290,7 +31932,7 @@ function __c248(j: number): any {
       ).annotate({ identifier: "SandboxFdxConsentSeedResponse" });
   }
 }
-function __c249(j: number): any {
+function __c227(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34306,7 +31948,36 @@ function __c249(j: number): any {
       ).annotate({ identifier: "SandboxIncomeFireWebhookRequest" });
   }
 }
-function __c250(j: number): any {
+function __c228(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          client_id: S.optional(S.String),
+          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          access_token: S.String.pipe(T.SensitiveValue({})),
+          account_id: S.String,
+        }).pipe(
+          T.Http({ method: "POST", uri: "/processor/apex/processor_token/create", code: 200 }),
+        ),
+      ).annotate({ identifier: "CreateProcessorApexProcessorTokenRequest" });
+  }
+}
+function __c229(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            processor_token: S.String.pipe(T.SensitiveValue({})),
+            request_id: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "ProcessorTokenCreateResponse" });
+  }
+}
+function __c230(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34329,7 +32000,7 @@ function __c250(j: number): any {
       ).annotate({ identifier: "SandboxItemApplicationSeedResponse" });
   }
 }
-function __c251(j: number): any {
+function __c231(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34345,12 +32016,12 @@ function __c251(j: number): any {
           access_token: S.String.pipe(T.SensitiveValue({})),
           webhook_type: S.optional(S.String),
           webhook_code: S.String,
-          options: S.optional(__S(8032, __c251, 0)),
+          options: S.optional(__S(7392, __c231, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/sandbox/item/fire_webhook", code: 200 })),
       ).annotate({ identifier: "SandboxItemFireWebhookRequest" });
   }
 }
-function __c252(j: number): any {
+function __c232(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34364,7 +32035,7 @@ function __c252(j: number): any {
       ).annotate({ identifier: "SandboxItemFireWebhookResponse" });
   }
 }
-function __c253(j: number): any {
+function __c233(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34386,7 +32057,7 @@ function __c253(j: number): any {
       ).annotate({ identifier: "SandboxItemResetLoginResponse" });
   }
 }
-function __c254(j: number): any {
+function __c234(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34402,7 +32073,7 @@ function __c254(j: number): any {
       ).annotate({ identifier: "SandboxItemSetVerificationStatusRequest" });
   }
 }
-function __c255(j: number): any {
+function __c235(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34412,12 +32083,12 @@ function __c255(j: number): any {
         }).pipe(T.Http({ method: "POST", uri: "/sandbox/oauth/select_accounts", code: 200 })),
       ).annotate({ identifier: "SandboxOauthSelectAccountsRequest" });
     case 1:
-      return S.suspend(() => __S(1440, __c45, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(3840, __c120, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "SandboxOauthSelectAccountsResponse2",
       });
   }
 }
-function __c256(j: number): any {
+function __c236(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34442,36 +32113,7 @@ function __c256(j: number): any {
       ).annotate({ identifier: "SandboxPaymentSimulateResponse" });
   }
 }
-function __c257(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          client_id: S.optional(S.String),
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          access_token: S.String.pipe(T.SensitiveValue({})),
-          account_id: S.String,
-        }).pipe(
-          T.Http({ method: "POST", uri: "/processor/apex/processor_token/create", code: 200 }),
-        ),
-      ).annotate({ identifier: "CreateProcessorApexProcessorTokenRequest" });
-  }
-}
-function __c258(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            processor_token: S.String.pipe(T.SensitiveValue({})),
-            request_id: S.String,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "ProcessorTokenCreateResponse" });
-  }
-}
-function __c259(j: number): any {
+function __c237(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34483,7 +32125,7 @@ function __c259(j: number): any {
       ).annotate({ identifier: "SandboxTransferFireWebhookRequest" });
   }
 }
-function __c260(j: number): any {
+function __c238(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34492,14 +32134,14 @@ function __c260(j: number): any {
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           sweep_id: S.String,
           event_type: S.String,
-          failure_reason: S.optional(S.NullOr(__S(11008, __c344, 0))),
+          failure_reason: S.optional(S.NullOr(__S(10144, __c317, 0))),
         }).pipe(
           T.Http({ method: "POST", uri: "/sandbox/transfer/ledger/deposit/simulate", code: 200 }),
         ),
       ).annotate({ identifier: "SandboxTransferLedgerDepositSimulateRequest" });
   }
 }
-function __c261(j: number): any {
+function __c239(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34516,7 +32158,7 @@ function __c261(j: number): any {
       ).annotate({ identifier: "SandboxTransferLedgerSimulateAvailableRequest" });
   }
 }
-function __c262(j: number): any {
+function __c240(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34525,112 +32167,14 @@ function __c262(j: number): any {
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           sweep_id: S.String,
           event_type: S.String,
-          failure_reason: S.optional(S.NullOr(__S(11008, __c344, 0))),
+          failure_reason: S.optional(S.NullOr(__S(10144, __c317, 0))),
         }).pipe(
           T.Http({ method: "POST", uri: "/sandbox/transfer/ledger/withdraw/simulate", code: 200 }),
         ),
       ).annotate({ identifier: "SandboxTransferLedgerWithdrawSimulateRequest" });
   }
 }
-function __c263(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          client_id: S.optional(S.String),
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          refund_id: S.String,
-          test_clock_id: S.optional(S.NullOr(S.String)),
-          event_type: S.String,
-          failure_reason: S.optional(S.NullOr(__S(11008, __c344, 0))),
-          webhook: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/sandbox/transfer/refund/simulate", code: 200 })),
-      ).annotate({ identifier: "SandboxTransferRefundSimulateRequest" });
-  }
-}
-function __c264(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          client_id: S.optional(S.String),
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          transfer_id: S.String,
-          test_clock_id: S.optional(S.NullOr(S.String)),
-          event_type: S.String,
-          failure_reason: S.optional(S.NullOr(__S(11008, __c344, 0))),
-          webhook: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/sandbox/transfer/simulate", code: 200 })),
-      ).annotate({ identifier: "SandboxTransferSimulateRequest" });
-  }
-}
-function __c265(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          client_id: S.optional(S.String),
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          test_clock_id: S.optional(S.NullOr(S.String)),
-          webhook: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/sandbox/transfer/sweep/simulate", code: 200 })),
-      ).annotate({ identifier: "SandboxTransferSweepSimulateRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            sweep: S.optional(__S(3329, __c104, 1)),
-            request_id: S.String,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "SandboxTransferSweepSimulateResponse" });
-  }
-}
-function __c266(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          client_id: S.optional(S.String),
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          test_clock_id: S.String,
-          new_virtual_time: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/sandbox/transfer/test_clock/advance", code: 200 })),
-      ).annotate({ identifier: "SandboxTransferTestClockAdvanceRequest" });
-  }
-}
-function __c267(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          client_id: S.optional(S.String),
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          user_id: S.optional(S.String),
-          user_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          webhook_type: S.String,
-          webhook_code: S.String,
-          webhook: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/sandbox/user/fire_webhook", code: 200 })),
-      ).annotate({ identifier: "SandboxUserFireWebhookRequest" });
-  }
-}
-function __c268(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          client_id: S.optional(S.String),
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          user_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          item_ids: S.optional(S.NullOr(__S(32, __c1, 0))),
-          user_id: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/sandbox/user/reset_login", code: 200 })),
-      ).annotate({ identifier: "SandboxUserResetLoginRequest" });
-  }
-}
-function __c269(j: number): any {
+function __c241(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34655,7 +32199,105 @@ function __c269(j: number): any {
       ).annotate({ identifier: "ProcessorStripeBankAccountTokenCreateResponse" });
   }
 }
-function __c270(j: number): any {
+function __c242(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          client_id: S.optional(S.String),
+          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          refund_id: S.String,
+          test_clock_id: S.optional(S.NullOr(S.String)),
+          event_type: S.String,
+          failure_reason: S.optional(S.NullOr(__S(10144, __c317, 0))),
+          webhook: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/sandbox/transfer/refund/simulate", code: 200 })),
+      ).annotate({ identifier: "SandboxTransferRefundSimulateRequest" });
+  }
+}
+function __c243(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          client_id: S.optional(S.String),
+          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          transfer_id: S.String,
+          test_clock_id: S.optional(S.NullOr(S.String)),
+          event_type: S.String,
+          failure_reason: S.optional(S.NullOr(__S(10144, __c317, 0))),
+          webhook: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/sandbox/transfer/simulate", code: 200 })),
+      ).annotate({ identifier: "SandboxTransferSimulateRequest" });
+  }
+}
+function __c244(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          client_id: S.optional(S.String),
+          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          test_clock_id: S.optional(S.NullOr(S.String)),
+          webhook: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/sandbox/transfer/sweep/simulate", code: 200 })),
+      ).annotate({ identifier: "SandboxTransferSweepSimulateRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            sweep: S.optional(__S(2817, __c88, 1)),
+            request_id: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "SandboxTransferSweepSimulateResponse" });
+  }
+}
+function __c245(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          client_id: S.optional(S.String),
+          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          test_clock_id: S.String,
+          new_virtual_time: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/sandbox/transfer/test_clock/advance", code: 200 })),
+      ).annotate({ identifier: "SandboxTransferTestClockAdvanceRequest" });
+  }
+}
+function __c246(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          client_id: S.optional(S.String),
+          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          user_id: S.optional(S.String),
+          user_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          webhook_type: S.String,
+          webhook_code: S.String,
+          webhook: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/sandbox/user/fire_webhook", code: 200 })),
+      ).annotate({ identifier: "SandboxUserFireWebhookRequest" });
+  }
+}
+function __c247(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          client_id: S.optional(S.String),
+          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          user_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          item_ids: S.optional(S.NullOr(__S(32, __c1, 0))),
+          user_id: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/sandbox/user/reset_login", code: 200 })),
+      ).annotate({ identifier: "SandboxUserResetLoginRequest" });
+  }
+}
+function __c248(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34671,7 +32313,7 @@ function __c270(j: number): any {
           include_optional_metadata: S.optional(S.Boolean),
           include_auth_metadata: S.optional(S.NullOr(S.Boolean)),
           include_payment_initiation_metadata: S.optional(S.NullOr(S.Boolean)),
-          payment_initiation: S.optional(S.NullOr(__S(8640, __c270, 0))),
+          payment_initiation: S.optional(S.NullOr(__S(7936, __c248, 0))),
         }),
       ).annotate({ identifier: "InstitutionsSearchRequestOptions" });
     case 2:
@@ -34680,16 +32322,16 @@ function __c270(j: number): any {
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           query: S.String,
-          products: S.optional(S.NullOr(__S(12352, __c386, 0))),
-          country_codes: __S(12352, __c386, 0),
-          options: S.optional(__S(8641, __c270, 1)),
+          products: S.optional(S.NullOr(__S(192, __c6, 0))),
+          country_codes: __S(192, __c6, 0),
+          options: S.optional(__S(7937, __c248, 1)),
         }).pipe(T.Http({ method: "POST", uri: "/institutions/search", code: 200 })),
       ).annotate({ identifier: "SearchInstitutionRequest" });
     case 3:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            institutions: __S(800, __c25, 0),
+            institutions: __S(384, __c12, 0),
             request_id: S.String,
           }),
           [S.Record(S.String, S.Unknown)],
@@ -34697,7 +32339,7 @@ function __c270(j: number): any {
       ).annotate({ identifier: "InstitutionsSearchResponse" });
   }
 }
-function __c271(j: number): any {
+function __c249(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34710,12 +32352,12 @@ function __c271(j: number): any {
         }).pipe(T.Http({ method: "POST", uri: "/issues/search", code: 200 })),
       ).annotate({ identifier: "SearchIssueRequest" });
     case 1:
-      return S.Array(__S(1184, __c37, 0));
+      return S.Array(__S(768, __c24, 0));
     case 2:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            issues: S.optional(__S(8673, __c271, 1)),
+            issues: S.optional(__S(7969, __c249, 1)),
             request_id: S.optional(S.String),
           }),
           [S.Record(S.String, S.Unknown)],
@@ -34723,7 +32365,7 @@ function __c271(j: number): any {
       ).annotate({ identifier: "IssuesSearchResponse" });
   }
 }
-function __c272(j: number): any {
+function __c250(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34740,12 +32382,12 @@ function __c272(j: number): any {
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           cohort_id: S.optional(S.String),
           link_session_id: S.String,
-          event: __S(8704, __c272, 0),
+          event: __S(8000, __c250, 0),
         }).pipe(T.Http({ method: "POST", uri: "/user_account/session/event/send", code: 200 })),
       ).annotate({ identifier: "SendUserAccountSessionEventRequest" });
   }
 }
-function __c273(j: number): any {
+function __c251(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34753,12 +32395,26 @@ function __c273(j: number): any {
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           processor_token: S.String.pipe(T.SensitiveValue({})),
-          products: __S(12352, __c386, 0),
+          products: __S(192, __c6, 0),
         }).pipe(T.Http({ method: "POST", uri: "/processor/token/permissions/set", code: 200 })),
       ).annotate({ identifier: "SetProcessorTokenPermissionsRequest" });
   }
 }
-function __c274(j: number): any {
+function __c252(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          client_id: S.optional(S.String),
+          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          access_token: S.String.pipe(T.SensitiveValue({})),
+          account_id: S.String,
+          processor: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/processor/token/create", code: 200 })),
+      ).annotate({ identifier: "CreateProcessorTokenRequest" });
+  }
+}
+function __c253(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34776,7 +32432,7 @@ function __c274(j: number): any {
       ).annotate({ identifier: "SignalDecisionReportRequest" });
   }
 }
-function __c275(j: number): any {
+function __c254(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34791,8 +32447,8 @@ function __c275(j: number): any {
           client_user_id: S.optional(S.String),
           is_recurring: S.optional(S.NullOr(S.Boolean)),
           default_payment_method: S.optional(S.NullOr(S.String)),
-          user: S.optional(__S(6658, __c208, 2)),
-          device: S.optional(__S(6659, __c208, 3)),
+          user: S.optional(__S(5570, __c174, 2)),
+          device: S.optional(__S(5571, __c174, 3)),
           risk_profile_key: S.optional(S.NullOr(S.String)),
           ruleset_key: S.optional(S.NullOr(S.String)),
         }).pipe(T.Http({ method: "POST", uri: "/signal/evaluate", code: 200 })),
@@ -34809,18 +32465,18 @@ function __c275(j: number): any {
         S.StructWithRest(
           S.Struct({
             request_id: S.String,
-            scores: S.NullOr(__S(6661, __c208, 5)),
-            core_attributes: S.optional(__S(6662, __c208, 6)),
-            risk_profile: S.optional(S.NullOr(__S(8801, __c275, 1))),
-            ruleset: S.optional(S.NullOr(__S(6664, __c208, 8))),
-            warnings: __S(11073, __c346, 1),
+            scores: S.NullOr(__S(5573, __c174, 5)),
+            core_attributes: S.optional(__S(5574, __c174, 6)),
+            risk_profile: S.optional(S.NullOr(__S(8129, __c254, 1))),
+            ruleset: S.optional(S.NullOr(__S(5576, __c174, 8))),
+            warnings: __S(10209, __c319, 1),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "SignalEvaluateResponse" });
   }
 }
-function __c276(j: number): any {
+function __c255(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34832,7 +32488,7 @@ function __c276(j: number): any {
       ).annotate({ identifier: "SignalPrepareRequest" });
   }
 }
-function __c277(j: number): any {
+function __c256(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34846,7 +32502,7 @@ function __c277(j: number): any {
       ).annotate({ identifier: "SignalReturnReportRequest" });
   }
 }
-function __c278(j: number): any {
+function __c257(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34872,14 +32528,14 @@ function __c278(j: number): any {
         ),
       ).annotate({ identifier: "SignalScheduleRecommendation" });
     case 2:
-      return S.Array(__S(8897, __c278, 1));
+      return S.Array(__S(8225, __c257, 1));
     case 3:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
             optimal_date: S.NullOr(S.String),
-            recommendations: __S(8898, __c278, 2),
-            warnings: __S(11073, __c346, 1),
+            recommendations: __S(8226, __c257, 2),
+            warnings: __S(10209, __c319, 1),
             request_id: S.String,
           }),
           [S.Record(S.String, S.Unknown)],
@@ -34887,7 +32543,7 @@ function __c278(j: number): any {
       ).annotate({ identifier: "SignalScheduleResponse" });
   }
 }
-function __c279(j: number): any {
+function __c258(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34896,7 +32552,7 @@ function __c279(j: number): any {
           expected_highest_amount: S.String,
           expected_average_amount: S.String,
           expected_monthly_amount: S.String,
-          sec_codes: __S(12352, __c386, 0),
+          sec_codes: __S(192, __c6, 0),
         }),
       ).annotate({ identifier: "TransferCreditUsageConfiguration" });
     case 1:
@@ -34914,12 +32570,12 @@ function __c279(j: number): any {
         S.Struct({
           dba: S.String,
           tax_id: S.String,
-          credit_usage_configuration: S.optional(S.NullOr(__S(8928, __c279, 0))),
-          debit_usage_configuration: S.optional(S.NullOr(__S(8928, __c279, 0))),
-          address: __S(8929, __c279, 1),
+          credit_usage_configuration: S.optional(S.NullOr(__S(8256, __c258, 0))),
+          debit_usage_configuration: S.optional(S.NullOr(__S(8256, __c258, 0))),
+          address: __S(8257, __c258, 1),
           website: S.String,
           naics_code: S.String,
-          funding_account: __S(8960, __c280, 0),
+          funding_account: __S(8288, __c259, 0),
         }),
       ).annotate({ identifier: "TransferOriginatorDiligence" });
     case 3:
@@ -34928,12 +32584,12 @@ function __c279(j: number): any {
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           originator_client_id: S.String,
-          originator_diligence: __S(8930, __c279, 2),
+          originator_diligence: __S(8258, __c258, 2),
         }).pipe(T.Http({ method: "POST", uri: "/transfer/diligence/submit", code: 200 })),
       ).annotate({ identifier: "SubmitTransferDiligenceRequest" });
   }
 }
-function __c280(j: number): any {
+function __c259(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34944,21 +32600,7 @@ function __c280(j: number): any {
       ).annotate({ identifier: "TransferFundingAccount" });
   }
 }
-function __c281(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          client_id: S.optional(S.String),
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          access_token: S.String.pipe(T.SensitiveValue({})),
-          account_id: S.String,
-          processor: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/processor/token/create", code: 200 })),
-      ).annotate({ identifier: "CreateProcessorTokenRequest" });
-  }
-}
-function __c282(j: number): any {
+function __c260(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34969,34 +32611,21 @@ function __c282(j: number): any {
         }),
       ).annotate({ identifier: "TransferPlatformRequirementSubmission" });
     case 1:
-      return S.Array(__S(9024, __c282, 0));
+      return S.Array(__S(8320, __c260, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           originator_client_id: S.String,
-          requirement_submissions: __S(9025, __c282, 1),
+          requirement_submissions: __S(8321, __c260, 1),
         }).pipe(
           T.Http({ method: "POST", uri: "/transfer/platform/requirement/submit", code: 200 }),
         ),
       ).annotate({ identifier: "SubmitTransferPlatformRequirementRequest" });
   }
 }
-function __c283(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          client_id: S.optional(S.String),
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          issue_id: S.String,
-          webhook: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/beta/issues/v1/subscribe", code: 200 })),
-      ).annotate({ identifier: "SubscribeBetaIssuesV1Request" });
-  }
-}
-function __c284(j: number): any {
+function __c261(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35009,7 +32638,7 @@ function __c284(j: number): any {
       ).annotate({ identifier: "SubscribeIssueRequest" });
   }
 }
-function __c285(j: number): any {
+function __c262(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35022,7 +32651,7 @@ function __c285(j: number): any {
       ).annotate({ identifier: "SyncBankTransferEventRequest" });
   }
 }
-function __c286(j: number): any {
+function __c263(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35032,7 +32661,7 @@ function __c286(j: number): any {
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           cursor: S.optional(S.String),
           count: S.optional(S.Number),
-          options: S.optional(__S(9184, __c287, 0)),
+          options: S.optional(__S(8448, __c264, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/processor/transactions/sync", code: 200 })),
       ).annotate({ identifier: "SyncProcessorTransactionRequest" });
     case 1:
@@ -35040,10 +32669,10 @@ function __c286(j: number): any {
         S.StructWithRest(
           S.Struct({
             transactions_update_status: S.String,
-            account: S.NullOr(__S(12704, __c397, 0)),
-            added: __S(2241, __c70, 1),
-            modified: __S(2241, __c70, 1),
-            removed: __S(9186, __c287, 2),
+            account: S.NullOr(__S(11744, __c367, 0)),
+            added: __S(1985, __c62, 1),
+            modified: __S(1985, __c62, 1),
+            removed: __S(8450, __c264, 2),
             next_cursor: S.String,
             has_more: S.Boolean,
             request_id: S.String,
@@ -35053,7 +32682,7 @@ function __c286(j: number): any {
       ).annotate({ identifier: "ProcessorTransactionsSyncResponse" });
   }
 }
-function __c287(j: number): any {
+function __c264(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35077,10 +32706,70 @@ function __c287(j: number): any {
         ),
       ).annotate({ identifier: "RemovedTransaction" });
     case 2:
-      return S.Array(__S(9185, __c287, 1));
+      return S.Array(__S(8449, __c264, 1));
   }
 }
-function __c288(j: number): any {
+function __c265(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            amount_approved: __S(8512, __c266, 0),
+            amount_due: S.optional(__S(8512, __c266, 0)),
+            due_date: S.optional(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "CashAdvanceInfo" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          client_id: S.optional(S.String),
+          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          user: __S(8544, __c267, 0),
+          client_advance_id: S.optional(S.NullOr(S.String)),
+          advance_type: S.optional(S.String),
+          previous_advance_count: S.optional(S.NullOr(S.Number)),
+          decision_time: S.String,
+          decision: S.String,
+          is_taken: S.optional(S.NullOr(S.Boolean)),
+          cash_advance: S.optional(S.NullOr(__S(8480, __c265, 0))),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/protect/cash_advance/decision/create", code: 200 }),
+        ),
+      ).annotate({ identifier: "CreateProtectCashAdvanceDecisionRequest" });
+  }
+}
+function __c266(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            iso_currency_code: S.optional(S.String),
+            value: S.Number,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "Amount" });
+  }
+}
+function __c267(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            user_id: S.optional(S.String),
+            client_user_id: S.optional(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "ProtectUser" });
+  }
+}
+function __c268(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35090,7 +32779,7 @@ function __c288(j: number): any {
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           cursor: S.optional(S.String),
           count: S.optional(S.Number),
-          options: S.optional(__S(9184, __c287, 0)),
+          options: S.optional(__S(8448, __c264, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/transactions/sync", code: 200 })),
       ).annotate({ identifier: "SyncTransactionRequest" });
     case 1:
@@ -35098,10 +32787,10 @@ function __c288(j: number): any {
         S.StructWithRest(
           S.Struct({
             transactions_update_status: S.String,
-            accounts: __S(12736, __c398, 0),
-            added: __S(2241, __c70, 1),
-            modified: __S(2241, __c70, 1),
-            removed: __S(9186, __c287, 2),
+            accounts: __S(11776, __c368, 0),
+            added: __S(1985, __c62, 1),
+            modified: __S(1985, __c62, 1),
+            removed: __S(8450, __c264, 2),
             next_cursor: S.String,
             has_more: S.Boolean,
             request_id: S.String,
@@ -35111,7 +32800,7 @@ function __c288(j: number): any {
       ).annotate({ identifier: "TransactionsSyncResponse" });
   }
 }
-function __c289(j: number): any {
+function __c269(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35125,7 +32814,7 @@ function __c289(j: number): any {
       ).annotate({ identifier: "TerminateItemProductRequest" });
   }
 }
-function __c290(j: number): any {
+function __c270(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35139,7 +32828,7 @@ function __c290(j: number): any {
       ).annotate({ identifier: "TerminateUserProductRequest" });
   }
 }
-function __c291(j: number): any {
+function __c271(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35168,7 +32857,7 @@ function __c291(j: number): any {
             amount: S.Number,
             direction: S.String,
             iso_currency_code: S.String,
-            location: S.optional(__S(9312, __c291, 0)),
+            location: S.optional(__S(8672, __c271, 0)),
             mcc: S.optional(S.String),
             date_posted: S.optional(S.String),
           }),
@@ -35176,7 +32865,7 @@ function __c291(j: number): any {
         ),
       ).annotate({ identifier: "ClientProvidedTransaction" });
     case 2:
-      return S.Array(__S(9313, __c291, 1));
+      return S.Array(__S(8673, __c271, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -35190,8 +32879,8 @@ function __c291(j: number): any {
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           account_type: S.String,
-          transactions: __S(9314, __c291, 2),
-          options: S.optional(__S(9315, __c291, 3)),
+          transactions: __S(8674, __c271, 2),
+          options: S.optional(__S(8675, __c271, 3)),
         }).pipe(T.Http({ method: "POST", uri: "/transactions/enrich", code: 200 })),
       ).annotate({ identifier: "TransactionsEnrichRequest" });
     case 5:
@@ -35205,28 +32894,28 @@ function __c291(j: number): any {
             logo_url: S.NullOr(S.String),
             confidence_level: S.optional(S.NullOr(S.String)),
             phone_number: S.NullOr(S.String),
-            account_numbers: S.optional(S.NullOr(__S(13474, __c421, 2))),
+            account_numbers: S.optional(S.NullOr(__S(12290, __c384, 2))),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "Counterparty" });
     case 6:
-      return S.Array(__S(9317, __c291, 5));
+      return S.Array(__S(8677, __c271, 5));
     case 7:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
             check_number: S.optional(S.NullOr(S.String)),
-            counterparties: __S(9318, __c291, 6),
+            counterparties: __S(8678, __c271, 6),
             entity_id: S.optional(S.NullOr(S.String)),
             legacy_category_id: S.optional(S.NullOr(S.String)),
             legacy_category: S.optional(S.NullOr(__S(32, __c1, 0))),
-            location: __S(5920, __c185, 0),
+            location: __S(5792, __c181, 0),
             logo_url: S.NullOr(S.String),
             merchant_name: S.NullOr(S.String),
             payment_channel: S.String,
             phone_number: S.NullOr(S.String),
-            personal_finance_category: S.NullOr(__S(13504, __c422, 0)),
+            personal_finance_category: S.NullOr(__S(12320, __c385, 0)),
             personal_finance_category_icon_url: S.String,
             website: S.NullOr(S.String),
           }),
@@ -35246,19 +32935,19 @@ function __c291(j: number): any {
             amount: S.Number,
             direction: S.optional(S.String),
             iso_currency_code: S.String,
-            enrichments: __S(9319, __c291, 7),
-            client_customization: S.optional(S.NullOr(__S(2272, __c71, 0))),
+            enrichments: __S(8679, __c271, 7),
+            client_customization: S.optional(S.NullOr(__S(2016, __c63, 0))),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "ClientProvidedEnrichedTransaction" });
     case 9:
-      return S.Array(__S(9320, __c291, 8));
+      return S.Array(__S(8680, __c271, 8));
     case 10:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            enriched_transactions: __S(9321, __c291, 9),
+            enriched_transactions: __S(8681, __c271, 9),
             request_id: S.optional(S.String),
           }),
           [S.Record(S.String, S.Unknown)],
@@ -35266,7 +32955,7 @@ function __c291(j: number): any {
       ).annotate({ identifier: "TransactionsEnrichResponse" });
   }
 }
-function __c292(j: number): any {
+function __c272(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35279,67 +32968,7 @@ function __c292(j: number): any {
       ).annotate({ identifier: "TransferEventSyncRequest" });
   }
 }
-function __c293(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            amount_approved: __S(9408, __c294, 0),
-            amount_due: S.optional(__S(9408, __c294, 0)),
-            due_date: S.optional(S.String),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "CashAdvanceInfo" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          client_id: S.optional(S.String),
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          user: __S(9440, __c295, 0),
-          client_advance_id: S.optional(S.NullOr(S.String)),
-          advance_type: S.optional(S.String),
-          previous_advance_count: S.optional(S.NullOr(S.Number)),
-          decision_time: S.String,
-          decision: S.String,
-          is_taken: S.optional(S.NullOr(S.Boolean)),
-          cash_advance: S.optional(S.NullOr(__S(9376, __c293, 0))),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/protect/cash_advance/decision/create", code: 200 }),
-        ),
-      ).annotate({ identifier: "CreateProtectCashAdvanceDecisionRequest" });
-  }
-}
-function __c294(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            iso_currency_code: S.optional(S.String),
-            value: S.Number,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "Amount" });
-  }
-}
-function __c295(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            user_id: S.optional(S.String),
-            client_user_id: S.optional(S.String),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "ProtectUser" });
-  }
-}
-function __c296(j: number): any {
+function __c273(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35357,7 +32986,7 @@ function __c296(j: number): any {
       ).annotate({ identifier: "TransferLedgerDepositRequest" });
   }
 }
-function __c297(j: number): any {
+function __c274(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35373,7 +33002,7 @@ function __c297(j: number): any {
       ).annotate({ identifier: "TransferLedgerDistributeRequest" });
   }
 }
-function __c298(j: number): any {
+function __c275(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35391,7 +33020,7 @@ function __c298(j: number): any {
       ).annotate({ identifier: "TransferLedgerWithdrawRequest" });
   }
 }
-function __c299(j: number): any {
+function __c276(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35417,7 +33046,7 @@ function __c299(j: number): any {
       ).annotate({ identifier: "TransferMigrateAccountResponse" });
   }
 }
-function __c300(j: number): any {
+function __c277(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35431,7 +33060,36 @@ function __c300(j: number): any {
       ).annotate({ identifier: "TransferReturnRecoverRequest" });
   }
 }
-function __c301(j: number): any {
+function __c278(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            amount_paid: S.optional(S.NullOr(__S(8512, __c266, 0))),
+            amount_due: __S(8512, __c266, 0),
+            due_date: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "CashAdvanceRepayment" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          client_id: S.optional(S.String),
+          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          user: __S(8544, __c267, 0),
+          client_advance_id: S.String,
+          status: S.String,
+          repayment_time: S.optional(S.NullOr(S.String)),
+          repayment: __S(8896, __c278, 0),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/protect/cash_advance/repayment/create", code: 200 }),
+        ),
+      ).annotate({ identifier: "CreateProtectCashAdvanceRepaymentRequest" });
+  }
+}
+function __c279(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35444,62 +33102,34 @@ function __c301(j: number): any {
       ).annotate({ identifier: "UnlinkItemApplicationRequest" });
   }
 }
-function __c302(j: number): any {
+function __c280(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
             loan_id: S.String,
-            closed_with_status: __S(7360, __c230, 0),
+            closed_with_status: __S(6720, __c210, 0),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "CraLoanUnregister" });
     case 1:
-      return S.Array(__S(9664, __c302, 0));
+      return S.Array(__S(8960, __c280, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          loans: __S(9665, __c302, 1),
+          loans: __S(8961, __c280, 1),
         }).pipe(T.Http({ method: "POST", uri: "/cra/loans/unregister", code: 200 })),
       ).annotate({ identifier: "UnregisterCraLoanRequest" });
   }
 }
-function __c303(j: number): any {
+function __c281(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          client_id: S.optional(S.String),
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          issue_id: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/beta/issues/v1/unsubscribe", code: 200 })),
-      ).annotate({ identifier: "UnsubscribeBetaIssuesV1Request" });
-  }
-}
-function __c304(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          client_id: S.optional(S.String),
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          end_customer_client_id: S.String,
-          legal_entity_name: S.optional(S.String),
-          redirect_uris: S.optional(__S(32, __c1, 0)),
-          bank_addendum_acceptance: S.optional(__S(1504, __c47, 0)),
-          questionnaires: S.optional(__S(1508, __c47, 4)),
-        }).pipe(T.Http({ method: "POST", uri: "/beta/partner/customer/v1/update", code: 200 })),
-      ).annotate({ identifier: "UpdateBetaPartnerCustomerV1Request" });
-  }
-}
-function __c305(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(7360, __c230, 0));
+      return S.Array(__S(6720, __c210, 0));
     case 1:
       return S.suspend(() =>
         S.StructWithRest(
@@ -35514,60 +33144,31 @@ function __c305(j: number): any {
         ),
       ).annotate({ identifier: "CraLoanPaymentHistory" });
     case 2:
-      return S.Array(__S(9761, __c305, 1));
+      return S.Array(__S(8993, __c281, 1));
     case 3:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
             loan_id: S.optional(S.String),
-            status_history: S.optional(__S(9760, __c305, 0)),
-            payment_history: S.optional(__S(9762, __c305, 2)),
+            status_history: S.optional(__S(8992, __c281, 0)),
+            payment_history: S.optional(__S(8994, __c281, 2)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "CraLoanUpdate" });
     case 4:
-      return S.Array(__S(9763, __c305, 3));
+      return S.Array(__S(8995, __c281, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          loans: __S(9764, __c305, 4),
+          loans: __S(8996, __c281, 4),
         }).pipe(T.Http({ method: "POST", uri: "/cra/loans/update", code: 200 })),
       ).annotate({ identifier: "UpdateCraLoanRequest" });
   }
 }
-function __c306(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            amount_paid: S.optional(S.NullOr(__S(9408, __c294, 0))),
-            amount_due: __S(9408, __c294, 0),
-            due_date: S.String,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "CashAdvanceRepayment" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          client_id: S.optional(S.String),
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          user: __S(9440, __c295, 0),
-          client_advance_id: S.String,
-          status: S.String,
-          repayment_time: S.optional(S.NullOr(S.String)),
-          repayment: __S(9792, __c306, 0),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/protect/cash_advance/repayment/create", code: 200 }),
-        ),
-      ).annotate({ identifier: "CreateProtectCashAdvanceRepaymentRequest" });
-  }
-}
-function __c307(j: number): any {
+function __c282(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35576,13 +33177,13 @@ function __c307(j: number): any {
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           subscription_id: S.String,
           webhook: S.optional(S.String),
-          products: S.optional(__S(3680, __c115, 0)),
-          reset_fields: S.optional(S.NullOr(__S(12352, __c386, 0))),
+          products: S.optional(__S(2656, __c83, 0)),
+          reset_fields: S.optional(S.NullOr(__S(192, __c6, 0))),
         }).pipe(T.Http({ method: "POST", uri: "/cra/servicing/subscription/update", code: 200 })),
       ).annotate({ identifier: "UpdateCraServicingSubscriptionRequest" });
   }
 }
-function __c308(j: number): any {
+function __c283(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35592,7 +33193,7 @@ function __c308(j: number): any {
           user_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           user_id: S.optional(S.String),
           item_id: S.optional(S.String),
-          parsing_config: __S(12352, __c386, 0),
+          parsing_config: __S(192, __c6, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -35603,13 +33204,13 @@ function __c308(j: number): any {
       ).annotate({ identifier: "UpdateCreditPayrollIncomeParsingConfigRequest" });
   }
 }
-function __c309(j: number): any {
+function __c284(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          product_access: S.optional(__S(4544, __c142, 0)),
-          accounts: S.optional(__S(4547, __c142, 3)),
+          product_access: S.optional(__S(4192, __c131, 0)),
+          accounts: S.optional(__S(4195, __c131, 3)),
           new_accounts: S.optional(S.NullOr(S.Boolean)),
         }),
       ).annotate({ identifier: "Scopes" });
@@ -35620,14 +33221,14 @@ function __c309(j: number): any {
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           access_token: S.String.pipe(T.SensitiveValue({})),
           application_id: S.String,
-          scopes: __S(9888, __c309, 0),
+          scopes: __S(9088, __c284, 0),
           state: S.optional(S.String),
           context: S.String,
         }).pipe(T.Http({ method: "POST", uri: "/item/application/scopes/update", code: 200 })),
       ).annotate({ identifier: "UpdateItemApplicationScopeRequest" });
   }
 }
-function __c310(j: number): any {
+function __c285(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35642,7 +33243,7 @@ function __c310(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            item: __S(12800, __c400, 0),
+            item: __S(11840, __c370, 0),
             request_id: S.String,
           }),
           [S.Record(S.String, S.Unknown)],
@@ -35650,7 +33251,7 @@ function __c310(j: number): any {
       ).annotate({ identifier: "ItemWebhookUpdateResponse" });
   }
 }
-function __c311(j: number): any {
+function __c286(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35663,7 +33264,7 @@ function __c311(j: number): any {
       ).annotate({ identifier: "UpdateProcessorTokenWebhookRequest" });
   }
 }
-function __c312(j: number): any {
+function __c287(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35671,13 +33272,13 @@ function __c312(j: number): any {
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           user_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          webhook_codes: S.optional(S.NullOr(__S(12352, __c386, 0))),
+          webhook_codes: S.optional(S.NullOr(__S(192, __c6, 0))),
           user_id: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/sandbox/cra/cashflow_updates/update", code: 200 })),
       ).annotate({ identifier: "UpdateSandboxCraCashflowUpdateRequest" });
   }
 }
-function __c313(j: number): any {
+function __c288(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35685,118 +33286,14 @@ function __c313(j: number): any {
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           originator_client_id: S.String,
-          funding_account: __S(8960, __c280, 0),
+          funding_account: __S(8288, __c259, 0),
         }).pipe(
           T.Http({ method: "POST", uri: "/transfer/originator/funding_account/update", code: 200 }),
         ),
       ).annotate({ identifier: "UpdateTransferOriginatorFundingAccountRequest" });
   }
 }
-function __c314(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          client_id: S.optional(S.String),
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          user_id: S.optional(S.String),
-          identity: S.optional(S.NullOr(__S(11557, __c361, 5))),
-          user_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          consumer_report_user_identity: S.optional(S.NullOr(__S(11584, __c362, 0))),
-        }).pipe(T.Http({ method: "POST", uri: "/user/update", code: 200 })),
-      ).annotate({ identifier: "UpdateUserRequest" });
-  }
-}
-function __c315(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          entity_watchlist_program_id: S.String,
-          legal_name: S.optional(S.String),
-          document_number: S.optional(S.String),
-          email_address: S.optional(S.String),
-          country: S.optional(S.String),
-          phone_number: S.optional(S.String),
-          url: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "UpdateEntityScreeningRequestSearchTerms" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          entity_watchlist_screening_id: S.String,
-          search_terms: S.optional(S.NullOr(__S(10080, __c315, 0))),
-          assignee: S.optional(S.String),
-          status: S.optional(S.String),
-          client_user_id: S.optional(S.String),
-          client_id: S.optional(S.String),
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          reset_fields: S.optional(S.NullOr(__S(12352, __c386, 0))),
-        }).pipe(T.Http({ method: "POST", uri: "/watchlist_screening/entity/update", code: 200 })),
-      ).annotate({ identifier: "UpdateWatchlistScreeningEntityRequest" });
-  }
-}
-function __c316(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          watchlist_program_id: S.optional(S.String),
-          legal_name: S.optional(S.String),
-          date_of_birth: S.optional(S.String),
-          document_number: S.optional(S.String),
-          country: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "UpdateIndividualScreeningRequestSearchTerms" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          watchlist_screening_id: S.String,
-          search_terms: S.optional(S.NullOr(__S(10112, __c316, 0))),
-          assignee: S.optional(S.String),
-          status: S.optional(S.String),
-          client_user_id: S.optional(S.String),
-          client_id: S.optional(S.String),
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          reset_fields: S.optional(S.NullOr(__S(12352, __c386, 0))),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/watchlist_screening/individual/update", code: 200 }),
-        ),
-      ).annotate({ identifier: "UpdateWatchlistScreeningIndividualRequest" });
-  }
-}
-function __c317(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          client_id: S.optional(S.String),
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          audit_copy_token: S.String.pipe(T.SensitiveValue({})),
-          options: S.optional(__S(10208, __c319, 0)),
-        }).pipe(T.Http({ method: "POST", uri: "/asset_report/audit_copy/pdf/get", code: 200 })),
-      ).annotate({ identifier: "AssetReportAuditCopyPdfGetRequest" });
-  }
-}
-function __c318(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({})).annotate({
-        identifier: "AssetReportAuditCopyPdfGetResponse",
-      });
-  }
-}
-function __c319(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          days_to_include: S.optional(S.NullOr(S.Number)),
-        }),
-      ).annotate({ identifier: "AssetReportPDFGetRequestOptions" });
-  }
-}
-function __c320(j: number): any {
+function __c289(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35808,7 +33305,7 @@ function __c320(j: number): any {
             signal_client_transaction_id: S.optional(S.NullOr(S.String)),
             internal_reference: S.optional(S.NullOr(S.String)),
             time: S.optional(S.NullOr(S.String)),
-            amount: S.optional(S.NullOr(__S(10272, __c321, 0))),
+            amount: S.optional(S.NullOr(__S(9280, __c290, 0))),
             access_token: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
             item_id: S.optional(S.NullOr(S.String)),
           }),
@@ -35822,11 +33319,11 @@ function __c320(j: number): any {
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           user_id: S.optional(S.NullOr(S.String)),
           client_user_id: S.optional(S.NullOr(S.String)),
-          incident_event: S.optional(S.NullOr(__S(10240, __c320, 0))),
+          incident_event: S.optional(S.NullOr(__S(9248, __c289, 0))),
           report_confidence: S.String,
           report_type: S.String,
           report_source: S.String,
-          bank_account: S.optional(S.NullOr(__S(10273, __c321, 1))),
+          bank_account: S.optional(S.NullOr(__S(9281, __c290, 1))),
           ach_return_code: S.optional(S.NullOr(S.String)),
           notes: S.optional(S.NullOr(S.String)),
         }).pipe(T.Http({ method: "POST", uri: "/protect/report/create", code: 200 })),
@@ -35843,7 +33340,7 @@ function __c320(j: number): any {
       ).annotate({ identifier: "ProtectReportCreateResponse" });
   }
 }
-function __c321(j: number): any {
+function __c290(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35868,7 +33365,80 @@ function __c321(j: number): any {
       ).annotate({ identifier: "ProtectBankAccount" });
   }
 }
-function __c322(j: number): any {
+function __c291(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          client_id: S.optional(S.String),
+          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          user_id: S.optional(S.String),
+          identity: S.optional(S.NullOr(__S(10693, __c334, 5))),
+          user_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          consumer_report_user_identity: S.optional(S.NullOr(__S(10720, __c335, 0))),
+        }).pipe(T.Http({ method: "POST", uri: "/user/update", code: 200 })),
+      ).annotate({ identifier: "UpdateUserRequest" });
+  }
+}
+function __c292(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          entity_watchlist_program_id: S.String,
+          legal_name: S.optional(S.String),
+          document_number: S.optional(S.String),
+          email_address: S.optional(S.String),
+          country: S.optional(S.String),
+          phone_number: S.optional(S.String),
+          url: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "UpdateEntityScreeningRequestSearchTerms" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          entity_watchlist_screening_id: S.String,
+          search_terms: S.optional(S.NullOr(__S(9344, __c292, 0))),
+          assignee: S.optional(S.String),
+          status: S.optional(S.String),
+          client_user_id: S.optional(S.String),
+          client_id: S.optional(S.String),
+          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          reset_fields: S.optional(S.NullOr(__S(192, __c6, 0))),
+        }).pipe(T.Http({ method: "POST", uri: "/watchlist_screening/entity/update", code: 200 })),
+      ).annotate({ identifier: "UpdateWatchlistScreeningEntityRequest" });
+  }
+}
+function __c293(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          watchlist_program_id: S.optional(S.String),
+          legal_name: S.optional(S.String),
+          date_of_birth: S.optional(S.String),
+          document_number: S.optional(S.String),
+          country: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "UpdateIndividualScreeningRequestSearchTerms" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          watchlist_screening_id: S.String,
+          search_terms: S.optional(S.NullOr(__S(9376, __c293, 0))),
+          assignee: S.optional(S.String),
+          status: S.optional(S.String),
+          client_user_id: S.optional(S.String),
+          client_id: S.optional(S.String),
+          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          reset_fields: S.optional(S.NullOr(__S(192, __c6, 0))),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/watchlist_screening/individual/update", code: 200 }),
+        ),
+      ).annotate({ identifier: "UpdateWatchlistScreeningIndividualRequest" });
+  }
+}
+function __c294(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35891,7 +33461,7 @@ function __c322(j: number): any {
       ).annotate({ identifier: "ProtectCashAdvanceFeedbackUploadResponse" });
   }
 }
-function __c323(j: number): any {
+function __c295(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35903,7 +33473,7 @@ function __c323(j: number): any {
       ).annotate({ identifier: "UploadTransferDiligenceDocumentRequest" });
   }
 }
-function __c324(j: number): any {
+function __c296(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35916,7 +33486,7 @@ function __c324(j: number): any {
       ).annotate({ identifier: "UserItemsAssociateRequest" });
   }
 }
-function __c325(j: number): any {
+function __c297(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35928,7 +33498,7 @@ function __c325(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          ach: __S(10400, __c325, 0),
+          ach: __S(9504, __c297, 0),
         }),
       ).annotate({ identifier: "AuthVerifyRequestNumbers" });
     case 2:
@@ -35937,7 +33507,7 @@ function __c325(j: number): any {
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           legal_name: S.optional(S.NullOr(S.String)),
-          numbers: __S(10401, __c325, 1),
+          numbers: __S(9505, __c297, 1),
         }).pipe(T.Http({ method: "POST", uri: "/auth/verify", code: 200 })),
       ).annotate({ identifier: "VerifyAuthRequest" });
     case 3:
@@ -35947,14 +33517,14 @@ function __c325(j: number): any {
             request_id: S.String,
             item_id: S.optional(S.NullOr(S.String)),
             verification_status: S.String,
-            verification_insights: __S(12770, __c399, 2),
+            verification_insights: __S(11810, __c369, 2),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "AuthVerifyResponse" });
   }
 }
-function __c326(j: number): any {
+function __c298(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35969,12 +33539,43 @@ function __c326(j: number): any {
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           institution_id: S.String,
-          options: S.optional(__S(10432, __c326, 0)),
+          options: S.optional(__S(9536, __c298, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/sandbox/processor_token/create", code: 200 })),
       ).annotate({ identifier: "CreateSandboxProcessorTokenRequest" });
   }
 }
-function __c327(j: number): any {
+function __c299(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          client_id: S.optional(S.String),
+          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          audit_copy_token: S.String.pipe(T.SensitiveValue({})),
+          options: S.optional(__S(9632, __c301, 0)),
+        }).pipe(T.Http({ method: "POST", uri: "/asset_report/audit_copy/pdf/get", code: 200 })),
+      ).annotate({ identifier: "AssetReportAuditCopyPdfGetRequest" });
+  }
+}
+function __c300(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({
+        identifier: "AssetReportAuditCopyPdfGetResponse",
+      });
+  }
+}
+function __c301(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          days_to_include: S.optional(S.NullOr(S.Number)),
+        }),
+      ).annotate({ identifier: "AssetReportPDFGetRequestOptions" });
+  }
+}
+function __c302(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35987,8 +33588,8 @@ function __c327(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          income_source_types: S.optional(__S(12352, __c386, 0)),
-          bank_income: S.optional(__S(6144, __c192, 0)),
+          income_source_types: S.optional(__S(192, __c6, 0)),
+          bank_income: S.optional(__S(4736, __c148, 0)),
         }),
       ).annotate({ identifier: "SandboxPublicTokenCreateRequestOptionsIncomeVerification" });
     case 2:
@@ -35997,9 +33598,9 @@ function __c327(j: number): any {
           webhook: S.optional(S.String),
           override_username: S.optional(S.NullOr(S.String)),
           override_password: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
-          transactions: S.optional(S.NullOr(__S(10464, __c327, 0))),
-          statements: S.optional(S.NullOr(__S(6145, __c192, 1))),
-          income_verification: S.optional(__S(10465, __c327, 1)),
+          transactions: S.optional(S.NullOr(__S(9664, __c302, 0))),
+          statements: S.optional(S.NullOr(__S(4737, __c148, 1))),
+          income_verification: S.optional(__S(9665, __c302, 1)),
         }),
       ).annotate({ identifier: "SandboxPublicTokenCreateRequestOptions" });
     case 3:
@@ -36008,8 +33609,8 @@ function __c327(j: number): any {
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           institution_id: S.String,
-          initial_products: __S(12352, __c386, 0),
-          options: S.optional(__S(10466, __c327, 2)),
+          initial_products: __S(192, __c6, 0),
+          options: S.optional(__S(9666, __c302, 2)),
           user_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           user_id: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/sandbox/public_token/create", code: 200 })),
@@ -36026,7 +33627,7 @@ function __c327(j: number): any {
       ).annotate({ identifier: "SandboxPublicTokenCreateResponse" });
   }
 }
-function __c328(j: number): any {
+function __c303(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36043,19 +33644,19 @@ function __c328(j: number): any {
         ),
       ).annotate({ identifier: "CustomSandboxTransaction" });
     case 1:
-      return S.Array(__S(10496, __c328, 0));
+      return S.Array(__S(9696, __c303, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           access_token: S.String.pipe(T.SensitiveValue({})),
-          transactions: __S(10497, __c328, 1),
+          transactions: __S(9697, __c303, 1),
         }).pipe(T.Http({ method: "POST", uri: "/sandbox/transactions/create", code: 200 })),
       ).annotate({ identifier: "CreateSandboxTransactionRequest" });
   }
 }
-function __c329(j: number): any {
+function __c304(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36067,13 +33668,13 @@ function __c329(j: number): any {
       ).annotate({ identifier: "CreateSandboxTransferTestClockRequest" });
   }
 }
-function __c330(j: number): any {
+function __c305(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            test_clock: __S(10592, __c331, 0),
+            test_clock: __S(9792, __c306, 0),
             request_id: S.String,
           }),
           [S.Record(S.String, S.Unknown)],
@@ -36081,7 +33682,7 @@ function __c330(j: number): any {
       ).annotate({ identifier: "SandboxTransferTestClockCreateResponse" });
   }
 }
-function __c331(j: number): any {
+function __c306(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36095,7 +33696,7 @@ function __c331(j: number): any {
       ).annotate({ identifier: "TransferTestClock" });
   }
 }
-function __c332(j: number): any {
+function __c307(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36110,7 +33711,7 @@ function __c332(j: number): any {
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           template_id: S.String,
-          user: S.optional(__S(10624, __c332, 0)),
+          user: S.optional(__S(9824, __c307, 0)),
           redirect_uri: S.optional(S.String),
           android_package_name: S.optional(S.String),
           webhook: S.optional(S.String),
@@ -36133,63 +33734,14 @@ function __c332(j: number): any {
         S.StructWithRest(
           S.Struct({
             request_id: S.String,
-            link: S.optional(__S(10626, __c332, 2)),
+            link: S.optional(__S(9826, __c307, 2)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "SessionTokenCreateResponse" });
   }
 }
-function __c333(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          client_id: S.optional(S.String),
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          client_user_id: S.String,
-          pfc_primary_category: S.String,
-          pfc_detailed_category: S.String,
-          rule_details: __S(10688, __c334, 0),
-        }).pipe(T.Http({ method: "POST", uri: "/beta/transactions/rules/v1/create", code: 200 })),
-      ).annotate({ identifier: "CreateTransactionsRuleRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            rule: __S(10689, __c334, 1),
-            request_id: S.String,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "TransactionsRulesCreateResponse" });
-  }
-}
-function __c334(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          field: S.String,
-          type: S.String,
-          query: S.String,
-        }),
-      ).annotate({ identifier: "TransactionsRuleDetails" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          user_id: S.optional(S.String),
-          created_at: S.optional(S.String),
-          updated_at: S.optional(S.String),
-          pfc_primary_category: S.optional(S.String),
-          pfc_detailed_category: S.optional(S.String),
-          rule_details: S.optional(__S(10688, __c334, 0)),
-        }),
-      ).annotate({ identifier: "TransactionsCategoryRule" });
-  }
-}
-function __c335(j: number): any {
+function __c308(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36197,7 +33749,7 @@ function __c335(j: number): any {
           legal_name: S.optional(S.String),
           phone_number: S.optional(S.String),
           email_address: S.optional(S.String),
-          address: S.optional(__S(10880, __c340, 0)),
+          address: S.optional(__S(10016, __c313, 0)),
         }),
       ).annotate({ identifier: "TransferUserInRequestDeprecated" });
     case 1:
@@ -36214,8 +33766,8 @@ function __c335(j: number): any {
           amount: S.optional(S.String),
           description: S.String,
           ach_class: S.optional(S.String),
-          user: S.optional(S.NullOr(__S(10720, __c335, 0))),
-          metadata: S.optional(S.NullOr(__S(10848, __c339, 0))),
+          user: S.optional(S.NullOr(__S(9856, __c308, 0))),
+          metadata: S.optional(S.NullOr(__S(9984, __c312, 0))),
           origination_account_id: S.optional(S.NullOr(S.String)),
           iso_currency_code: S.optional(S.String),
           test_clock_id: S.optional(S.NullOr(S.String)),
@@ -36224,13 +33776,13 @@ function __c335(j: number): any {
       ).annotate({ identifier: "CreateTransferRequest" });
   }
 }
-function __c336(j: number): any {
+function __c309(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            transfer: __S(10790, __c337, 6),
+            transfer: __S(9926, __c310, 6),
             request_id: S.String,
           }),
           [S.Record(S.String, S.Unknown)],
@@ -36238,7 +33790,7 @@ function __c336(j: number): any {
       ).annotate({ identifier: "TransferCreateResponse" });
   }
 }
-function __c337(j: number): any {
+function __c310(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36252,19 +33804,19 @@ function __c337(j: number): any {
         ),
       ).annotate({ identifier: "TransferGuaranteeScheduleItem" });
     case 1:
-      return S.Array(__S(10784, __c337, 0));
+      return S.Array(__S(9920, __c310, 0));
     case 2:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
             guaranteed_amount: S.String,
-            schedule: __S(10785, __c337, 1),
+            schedule: __S(9921, __c310, 1),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "TransferGuaranteeDetails" });
     case 3:
-      return S.Array(__S(10976, __c343, 0));
+      return S.Array(__S(10112, __c316, 0));
     case 4:
       return S.suspend(() =>
         S.StructWithRest(
@@ -36276,7 +33828,7 @@ function __c337(j: number): any {
         ),
       ).annotate({ identifier: "TransferExpectedSweepSettlementScheduleItem" });
     case 5:
-      return S.Array(__S(10788, __c337, 4));
+      return S.Array(__S(9924, __c310, 4));
     case 6:
       return S.suspend(() =>
         S.StructWithRest(
@@ -36288,30 +33840,30 @@ function __c337(j: number): any {
             funding_account_id: S.NullOr(S.String),
             ledger_id: S.optional(S.NullOr(S.String)),
             type: S.String,
-            user: __S(10913, __c341, 1),
+            user: __S(10049, __c314, 1),
             amount: S.String,
             description: S.String,
             created: S.String,
             status: S.String,
             sweep_status: S.optional(S.NullOr(S.String)),
             network: S.String,
-            wire_details: S.optional(S.NullOr(__S(10816, __c338, 0))),
+            wire_details: S.optional(S.NullOr(__S(9952, __c311, 0))),
             cancellable: S.Boolean,
-            failure_reason: S.NullOr(__S(11008, __c344, 0)),
-            metadata: S.NullOr(__S(10848, __c339, 0)),
+            failure_reason: S.NullOr(__S(10144, __c317, 0)),
+            metadata: S.NullOr(__S(9984, __c312, 0)),
             origination_account_id: S.String,
             guarantee_decision: S.NullOr(S.String),
-            guarantee_decision_rationale: S.NullOr(__S(10944, __c342, 0)),
-            guarantee_details: S.optional(S.NullOr(__S(10786, __c337, 2))),
+            guarantee_decision_rationale: S.NullOr(__S(10080, __c315, 0)),
+            guarantee_details: S.optional(S.NullOr(__S(9922, __c310, 2))),
             iso_currency_code: S.String,
             standard_return_window: S.NullOr(S.String),
             unauthorized_return_window: S.NullOr(S.String),
             expected_settlement_date: S.NullOr(S.String),
             expected_funds_available_date: S.optional(S.NullOr(S.String)),
             originator_client_id: S.NullOr(S.String),
-            refunds: __S(10787, __c337, 3),
+            refunds: __S(9923, __c310, 3),
             recurring_transfer_id: S.NullOr(S.String),
-            expected_sweep_settlement_schedule: S.optional(__S(10789, __c337, 5)),
+            expected_sweep_settlement_schedule: S.optional(__S(9925, __c310, 5)),
             credit_funds_source: S.NullOr(S.String),
             facilitator_fee: S.optional(S.String),
             network_trace_id: S.optional(S.NullOr(S.String)),
@@ -36321,7 +33873,7 @@ function __c337(j: number): any {
       ).annotate({ identifier: "Transfer" });
   }
 }
-function __c338(j: number): any {
+function __c311(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36332,13 +33884,13 @@ function __c338(j: number): any {
       ).annotate({ identifier: "TransferWireDetails" });
   }
 }
-function __c339(j: number): any {
+function __c312(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c340(j: number): any {
+function __c313(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36352,7 +33904,7 @@ function __c340(j: number): any {
       ).annotate({ identifier: "TransferUserAddressInRequest" });
   }
 }
-function __c341(j: number): any {
+function __c314(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36374,14 +33926,14 @@ function __c341(j: number): any {
             legal_name: S.String,
             phone_number: S.NullOr(S.String),
             email_address: S.NullOr(S.String),
-            address: S.NullOr(__S(10912, __c341, 0)),
+            address: S.NullOr(__S(10048, __c314, 0)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "TransferUserInResponse" });
   }
 }
-function __c342(j: number): any {
+function __c315(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36395,7 +33947,7 @@ function __c342(j: number): any {
       ).annotate({ identifier: "TransferAuthorizationGuaranteeDecisionRationale" });
   }
 }
-function __c343(j: number): any {
+function __c316(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36405,7 +33957,7 @@ function __c343(j: number): any {
             transfer_id: S.String,
             amount: S.String,
             status: S.String,
-            failure_reason: S.NullOr(__S(11008, __c344, 0)),
+            failure_reason: S.NullOr(__S(10144, __c317, 0)),
             ledger_id: S.optional(S.NullOr(S.String)),
             created: S.String,
             network_trace_id: S.optional(S.NullOr(S.String)),
@@ -36415,7 +33967,7 @@ function __c343(j: number): any {
       ).annotate({ identifier: "TransferRefund" });
   }
 }
-function __c344(j: number): any {
+function __c317(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36430,7 +33982,7 @@ function __c344(j: number): any {
       ).annotate({ identifier: "TransferFailure" });
   }
 }
-function __c345(j: number): any {
+function __c318(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36463,10 +34015,10 @@ function __c345(j: number): any {
           network: S.String,
           amount: S.String,
           ach_class: S.optional(S.String),
-          wire_details: S.optional(S.NullOr(__S(10816, __c338, 0))),
-          user: __S(11104, __c347, 0),
+          wire_details: S.optional(S.NullOr(__S(9952, __c311, 0))),
+          user: __S(10240, __c320, 0),
           user_id: S.optional(S.NullOr(S.String)),
-          device: S.optional(__S(11040, __c345, 0)),
+          device: S.optional(__S(10176, __c318, 0)),
           origination_account_id: S.optional(S.String),
           iso_currency_code: S.optional(S.String),
           idempotency_key: S.optional(S.NullOr(S.String)),
@@ -36478,8 +34030,8 @@ function __c345(j: number): any {
           credit_funds_source: S.optional(S.NullOr(S.String)),
           test_clock_id: S.optional(S.NullOr(S.String)),
           ruleset_key: S.optional(S.NullOr(S.String)),
-          custom_attributes: S.optional(S.NullOr(__S(10848, __c339, 0))),
-          user_attributes: S.optional(S.NullOr(__S(11041, __c345, 1))),
+          custom_attributes: S.optional(S.NullOr(__S(9984, __c312, 0))),
+          user_attributes: S.optional(S.NullOr(__S(10177, __c318, 1))),
         }).pipe(T.Http({ method: "POST", uri: "/transfer/authorization/create", code: 200 })),
       ).annotate({ identifier: "CreateTransferAuthorizationRequest" });
     case 3:
@@ -36493,13 +34045,13 @@ function __c345(j: number): any {
         ),
       ).annotate({ identifier: "AuthorizationGuaranteeScheduleItem" });
     case 4:
-      return S.Array(__S(11043, __c345, 3));
+      return S.Array(__S(10179, __c318, 3));
     case 5:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
             outcome: S.String,
-            schedule: __S(11044, __c345, 4),
+            schedule: __S(10180, __c318, 4),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -36511,7 +34063,7 @@ function __c345(j: number): any {
             bank_initiated_return_score: S.NullOr(S.Number),
             customer_initiated_return_score: S.NullOr(S.Number),
             risk_level: S.NullOr(S.String),
-            warnings: __S(11073, __c346, 1),
+            warnings: __S(10209, __c319, 1),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -36525,11 +34077,11 @@ function __c345(j: number): any {
             funding_account_id: S.NullOr(S.String),
             ledger_id: S.optional(S.NullOr(S.String)),
             type: S.String,
-            user: __S(10913, __c341, 1),
+            user: __S(10049, __c314, 1),
             amount: S.String,
             requested_amount: S.String,
             network: S.String,
-            wire_details: S.optional(S.NullOr(__S(10816, __c338, 0))),
+            wire_details: S.optional(S.NullOr(__S(9952, __c311, 0))),
             origination_account_id: S.String,
             iso_currency_code: S.String,
             originator_client_id: S.NullOr(S.String),
@@ -36545,12 +34097,12 @@ function __c345(j: number): any {
             id: S.String,
             created: S.String,
             decision: S.String,
-            decision_rationale: S.NullOr(__S(10944, __c342, 0)),
+            decision_rationale: S.NullOr(__S(10080, __c315, 0)),
             guarantee_decision: S.NullOr(S.String),
-            guarantee_decision_rationale: S.NullOr(__S(10944, __c342, 0)),
-            guarantee_details: S.optional(S.NullOr(__S(11045, __c345, 5))),
-            payment_risk: S.NullOr(__S(11046, __c345, 6)),
-            proposed_transfer: __S(11047, __c345, 7),
+            guarantee_decision_rationale: S.NullOr(__S(10080, __c315, 0)),
+            guarantee_details: S.optional(S.NullOr(__S(10181, __c318, 5))),
+            payment_risk: S.NullOr(__S(10182, __c318, 6)),
+            proposed_transfer: __S(10183, __c318, 7),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -36559,7 +34111,7 @@ function __c345(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            authorization: __S(11048, __c345, 8),
+            authorization: __S(10184, __c318, 8),
             request_id: S.String,
           }),
           [S.Record(S.String, S.Unknown)],
@@ -36567,7 +34119,7 @@ function __c345(j: number): any {
       ).annotate({ identifier: "TransferAuthorizationCreateResponse" });
   }
 }
-function __c346(j: number): any {
+function __c319(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36578,10 +34130,10 @@ function __c346(j: number): any {
         }),
       ).annotate({ identifier: "SignalWarning" });
     case 1:
-      return S.Array(__S(11072, __c346, 0));
+      return S.Array(__S(10208, __c319, 0));
   }
 }
-function __c347(j: number): any {
+function __c320(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36589,12 +34141,12 @@ function __c347(j: number): any {
           legal_name: S.String,
           phone_number: S.optional(S.String),
           email_address: S.optional(S.String),
-          address: S.optional(__S(10880, __c340, 0)),
+          address: S.optional(__S(10016, __c313, 0)),
         }),
       ).annotate({ identifier: "TransferAuthorizationUserInRequest" });
   }
 }
-function __c348(j: number): any {
+function __c321(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36609,8 +34161,8 @@ function __c348(j: number): any {
           description: S.String,
           ach_class: S.optional(S.String),
           origination_account_id: S.optional(S.NullOr(S.String)),
-          user: __S(11104, __c347, 0),
-          metadata: S.optional(S.NullOr(__S(10848, __c339, 0))),
+          user: __S(10240, __c320, 0),
+          metadata: S.optional(S.NullOr(__S(9984, __c312, 0))),
           iso_currency_code: S.optional(S.String),
           require_guarantee: S.optional(S.NullOr(S.Boolean)),
         }).pipe(T.Http({ method: "POST", uri: "/transfer/intent/create", code: 200 })),
@@ -36629,9 +34181,9 @@ function __c348(j: number): any {
             mode: S.String,
             network: S.optional(S.String),
             ach_class: S.optional(S.String),
-            user: __S(10913, __c341, 1),
+            user: __S(10049, __c314, 1),
             description: S.String,
-            metadata: S.optional(S.NullOr(__S(10848, __c339, 0))),
+            metadata: S.optional(S.NullOr(__S(9984, __c312, 0))),
             iso_currency_code: S.String,
             require_guarantee: S.optional(S.NullOr(S.Boolean)),
           }),
@@ -36642,7 +34194,7 @@ function __c348(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            transfer_intent: __S(11137, __c348, 1),
+            transfer_intent: __S(10273, __c321, 1),
             request_id: S.String,
           }),
           [S.Record(S.String, S.Unknown)],
@@ -36650,33 +34202,7 @@ function __c348(j: number): any {
       ).annotate({ identifier: "TransferIntentCreateResponse" });
   }
 }
-function __c349(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          client_id: S.optional(S.String),
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          audit_copy_token: S.String.pipe(T.SensitiveValue({})),
-        }).pipe(T.Http({ method: "POST", uri: "/asset_report/audit_copy/remove", code: 200 })),
-      ).annotate({ identifier: "AssetReportAuditCopyRemoveRequest" });
-  }
-}
-function __c350(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            removed: S.Boolean,
-            request_id: S.String,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "AssetReportAuditCopyRemoveResponse" });
-  }
-}
-function __c351(j: number): any {
+function __c322(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36699,7 +34225,7 @@ function __c351(j: number): any {
       ).annotate({ identifier: "TransferOriginatorCreateResponse" });
   }
 }
-function __c352(j: number): any {
+function __c323(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36715,7 +34241,7 @@ function __c352(j: number): any {
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           originator_client_id: S.String,
-          funding_account: __S(11264, __c352, 0),
+          funding_account: __S(10336, __c323, 0),
         }).pipe(
           T.Http({ method: "POST", uri: "/transfer/originator/funding_account/create", code: 200 }),
         ),
@@ -36732,7 +34258,7 @@ function __c352(j: number): any {
       ).annotate({ identifier: "TransferOriginatorFundingAccountCreateResponse" });
   }
 }
-function __c353(j: number): any {
+function __c324(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36748,14 +34274,40 @@ function __c353(j: number): any {
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           originator_client_id: S.String,
-          tos_acceptance_metadata: __S(11296, __c353, 0),
+          tos_acceptance_metadata: __S(10368, __c324, 0),
           originator_reviewed_at: S.String,
           webhook: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/transfer/platform/originator/create", code: 200 })),
       ).annotate({ identifier: "CreateTransferPlatformOriginatorRequest" });
   }
 }
-function __c354(j: number): any {
+function __c325(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          client_id: S.optional(S.String),
+          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          audit_copy_token: S.String.pipe(T.SensitiveValue({})),
+        }).pipe(T.Http({ method: "POST", uri: "/asset_report/audit_copy/remove", code: 200 })),
+      ).annotate({ identifier: "AssetReportAuditCopyRemoveRequest" });
+  }
+}
+function __c326(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            removed: S.Boolean,
+            request_id: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "AssetReportAuditCopyRemoveResponse" });
+  }
+}
+function __c327(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36781,11 +34333,11 @@ function __c354(j: number): any {
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           originator_client_id: S.String,
-          name: S.optional(__S(4832, __c151, 0)),
+          name: S.optional(__S(3808, __c119, 0)),
           email_address: S.optional(S.String),
           phone_number: S.optional(S.String),
-          address: S.optional(__S(11328, __c354, 0)),
-          id_number: S.optional(__S(11329, __c354, 1)),
+          address: S.optional(__S(10464, __c327, 0)),
+          id_number: S.optional(__S(10465, __c327, 1)),
           date_of_birth: S.optional(S.String),
           relationship_to_originator: S.optional(S.String),
           ownership_percentage: S.optional(S.Number),
@@ -36804,7 +34356,7 @@ function __c354(j: number): any {
       ).annotate({ identifier: "TransferPlatformPersonCreateResponse" });
   }
 }
-function __c355(j: number): any {
+function __c328(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36827,7 +34379,7 @@ function __c355(j: number): any {
       ).annotate({ identifier: "TransferQuestionnaireCreateResponse" });
   }
 }
-function __c356(j: number): any {
+function __c329(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36856,18 +34408,18 @@ function __c356(j: number): any {
           iso_currency_code: S.optional(S.String),
           description: S.String,
           test_clock_id: S.optional(S.NullOr(S.String)),
-          schedule: __S(11424, __c357, 0),
-          user: __S(11104, __c347, 0),
-          device: S.optional(__S(11392, __c356, 0)),
+          schedule: __S(10560, __c330, 0),
+          user: __S(10240, __c320, 0),
+          device: S.optional(__S(10528, __c329, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/transfer/recurring/create", code: 200 })),
       ).annotate({ identifier: "CreateTransferRecurringRequest" });
     case 2:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            recurring_transfer: S.optional(__S(11425, __c357, 1)),
+            recurring_transfer: S.optional(__S(10561, __c330, 1)),
             decision: S.String,
-            decision_rationale: S.optional(S.NullOr(__S(10944, __c342, 0))),
+            decision_rationale: S.optional(S.NullOr(__S(10080, __c315, 0))),
             request_id: S.String,
           }),
           [S.Record(S.String, S.Unknown)],
@@ -36875,7 +34427,7 @@ function __c356(j: number): any {
       ).annotate({ identifier: "TransferRecurringCreateResponse" });
   }
 }
-function __c357(j: number): any {
+function __c330(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36906,15 +34458,15 @@ function __c357(j: number): any {
             iso_currency_code: S.String,
             description: S.String,
             transfer_ids: __S(32, __c1, 0),
-            user: __S(10913, __c341, 1),
-            schedule: __S(11424, __c357, 0),
+            user: __S(10049, __c314, 1),
+            schedule: __S(10560, __c330, 0),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "RecurringTransferNullable" });
   }
 }
-function __c358(j: number): any {
+function __c331(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36928,13 +34480,13 @@ function __c358(j: number): any {
       ).annotate({ identifier: "CreateTransferRefundRequest" });
   }
 }
-function __c359(j: number): any {
+function __c332(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            refund: __S(10976, __c343, 0),
+            refund: __S(10112, __c316, 0),
             request_id: S.String,
           }),
           [S.Record(S.String, S.Unknown)],
@@ -36942,7 +34494,7 @@ function __c359(j: number): any {
       ).annotate({ identifier: "TransferRefundCreateResponse" });
   }
 }
-function __c360(j: number): any {
+function __c333(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36950,9 +34502,9 @@ function __c360(j: number): any {
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           client_user_id: S.String,
-          identity: S.optional(S.NullOr(__S(11557, __c361, 5))),
+          identity: S.optional(S.NullOr(__S(10693, __c334, 5))),
           end_customer: S.optional(S.String),
-          consumer_report_user_identity: S.optional(S.NullOr(__S(11584, __c362, 0))),
+          consumer_report_user_identity: S.optional(S.NullOr(__S(10720, __c335, 0))),
           with_upgraded_user: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/user/create", code: 200 })),
       ).annotate({ identifier: "CreateUserRequest" });
@@ -36969,7 +34521,7 @@ function __c360(j: number): any {
       ).annotate({ identifier: "UserCreateResponse" });
   }
 }
-function __c361(j: number): any {
+function __c334(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36979,7 +34531,7 @@ function __c361(j: number): any {
         }),
       ).annotate({ identifier: "ClientUserIdentityEmail" });
     case 1:
-      return S.Array(__S(11552, __c361, 0));
+      return S.Array(__S(10688, __c334, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -36993,26 +34545,26 @@ function __c361(j: number): any {
         }),
       ).annotate({ identifier: "ClientUserIdentityAddress" });
     case 3:
-      return S.Array(__S(11554, __c361, 2));
+      return S.Array(__S(10690, __c334, 2));
     case 4:
-      return S.Array(/*@__PURE__*/ S.NullOr(__S(4768, __c149, 0)));
+      return S.Array(/*@__PURE__*/ S.NullOr(__S(3744, __c117, 0)));
     case 5:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            name: S.optional(S.NullOr(__S(4832, __c151, 0))),
+            name: S.optional(S.NullOr(__S(3808, __c119, 0))),
             date_of_birth: S.optional(S.NullOr(S.String)),
-            emails: S.optional(__S(11553, __c361, 1)),
-            phone_numbers: S.optional(__S(11553, __c361, 1)),
-            addresses: S.optional(__S(11555, __c361, 3)),
-            id_numbers: S.optional(__S(11556, __c361, 4)),
+            emails: S.optional(__S(10689, __c334, 1)),
+            phone_numbers: S.optional(__S(10689, __c334, 1)),
+            addresses: S.optional(__S(10691, __c334, 3)),
+            id_numbers: S.optional(__S(10692, __c334, 4)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "ClientUserIdentity" });
   }
 }
-function __c362(j: number): any {
+function __c335(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37025,14 +34577,14 @@ function __c362(j: number): any {
             ssn_full: S.optional(S.NullOr(S.String)),
             ssn_last_4: S.optional(S.NullOr(S.String)),
             date_of_birth: S.NullOr(S.String),
-            primary_address: __S(5728, __c179, 0),
+            primary_address: __S(5696, __c178, 0),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "ConsumerReportUserIdentity" });
   }
 }
-function __c363(j: number): any {
+function __c336(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37057,7 +34609,7 @@ function __c363(j: number): any {
       ).annotate({ identifier: "UserThirdPartyTokenCreateResponse" });
   }
 }
-function __c364(j: number): any {
+function __c337(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37069,14 +34621,14 @@ function __c364(j: number): any {
       ).annotate({ identifier: "CreateWalletRequest" });
   }
 }
-function __c365(j: number): any {
+function __c338(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           wallet_id: S.String,
-          balance: __S(11712, __c366, 0),
-          numbers: __S(11714, __c366, 2),
+          balance: __S(10848, __c339, 0),
+          numbers: __S(10850, __c339, 2),
           recipient_id: S.optional(S.String),
           status: S.String,
           request_id: S.String,
@@ -37084,7 +34636,7 @@ function __c365(j: number): any {
       ).annotate({ identifier: "CreateWalletResponse" });
   }
 }
-function __c366(j: number): any {
+function __c339(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37111,43 +34663,15 @@ function __c366(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            bacs: S.optional(S.NullOr(__S(7008, __c219, 0))),
-            international: S.optional(S.NullOr(__S(11713, __c366, 1))),
+            bacs: S.optional(S.NullOr(__S(6112, __c191, 0))),
+            international: S.optional(S.NullOr(__S(10849, __c339, 1))),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "WalletNumbers" });
   }
 }
-function __c367(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          client_id: S.optional(S.String),
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          asset_report_token: S.String.pipe(T.SensitiveValue({})),
-          account_ids_to_exclude: __S(32, __c1, 0),
-        }).pipe(T.Http({ method: "POST", uri: "/asset_report/filter", code: 200 })),
-      ).annotate({ identifier: "AssetReportFilterRequest" });
-  }
-}
-function __c368(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            asset_report_token: S.String.pipe(T.SensitiveValue({})),
-            asset_report_id: S.String,
-            request_id: S.String,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "AssetReportFilterResponse" });
-  }
-}
-function __c369(j: number): any {
+function __c340(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37164,7 +34688,7 @@ function __c369(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          search_terms: __S(11808, __c369, 0),
+          search_terms: __S(10880, __c340, 0),
           client_user_id: S.optional(S.String),
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
@@ -37172,7 +34696,7 @@ function __c369(j: number): any {
       ).annotate({ identifier: "CreateWatchlistScreeningEntityRequest" });
   }
 }
-function __c370(j: number): any {
+function __c341(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37192,18 +34716,18 @@ function __c370(j: number): any {
       ).annotate({ identifier: "EntityWatchlistScreeningSearchTerms" });
   }
 }
-function __c371(j: number): any {
+function __c342(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
             id: S.String,
-            search_terms: __S(11840, __c370, 0),
+            search_terms: __S(10912, __c341, 0),
             assignee: S.NullOr(S.String),
             status: S.String,
             client_user_id: S.NullOr(S.String),
-            audit_trail: __S(11904, __c372, 0),
+            audit_trail: __S(10976, __c343, 0),
             request_id: S.String,
           }),
           [S.Record(S.String, S.Unknown)],
@@ -37211,7 +34735,7 @@ function __c371(j: number): any {
       ).annotate({ identifier: "WatchlistScreeningEntityCreateResponse" });
   }
 }
-function __c372(j: number): any {
+function __c343(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37226,7 +34750,7 @@ function __c372(j: number): any {
       ).annotate({ identifier: "WatchlistScreeningAuditTrail" });
   }
 }
-function __c373(j: number): any {
+function __c344(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37243,7 +34767,7 @@ function __c373(j: number): any {
       ).annotate({ identifier: "CreateWatchlistScreeningEntityReviewRequest" });
   }
 }
-function __c374(j: number): any {
+function __c345(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37253,7 +34777,7 @@ function __c374(j: number): any {
             confirmed_hits: __S(32, __c1, 0),
             dismissed_hits: __S(32, __c1, 0),
             comment: S.NullOr(S.String),
-            audit_trail: __S(11904, __c372, 0),
+            audit_trail: __S(10976, __c343, 0),
             request_id: S.String,
           }),
           [S.Record(S.String, S.Unknown)],
@@ -37261,7 +34785,7 @@ function __c374(j: number): any {
       ).annotate({ identifier: "WatchlistScreeningEntityReviewCreateResponse" });
   }
 }
-function __c375(j: number): any {
+function __c346(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37276,7 +34800,7 @@ function __c375(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          search_terms: __S(12000, __c375, 0),
+          search_terms: __S(11072, __c346, 0),
           client_user_id: S.optional(S.String),
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
@@ -37286,7 +34810,7 @@ function __c375(j: number): any {
       ).annotate({ identifier: "CreateWatchlistScreeningIndividualRequest" });
   }
 }
-function __c376(j: number): any {
+function __c347(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37304,18 +34828,18 @@ function __c376(j: number): any {
       ).annotate({ identifier: "WatchlistScreeningSearchTerms" });
   }
 }
-function __c377(j: number): any {
+function __c348(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
             id: S.String,
-            search_terms: __S(12032, __c376, 0),
+            search_terms: __S(11104, __c347, 0),
             assignee: S.NullOr(S.String),
             status: S.String,
             client_user_id: S.NullOr(S.String),
-            audit_trail: __S(11904, __c372, 0),
+            audit_trail: __S(10976, __c343, 0),
             request_id: S.String,
           }),
           [S.Record(S.String, S.Unknown)],
@@ -37323,7 +34847,35 @@ function __c377(j: number): any {
       ).annotate({ identifier: "WatchlistScreeningIndividualCreateResponse" });
   }
 }
-function __c378(j: number): any {
+function __c349(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          client_id: S.optional(S.String),
+          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          asset_report_token: S.String.pipe(T.SensitiveValue({})),
+          account_ids_to_exclude: __S(32, __c1, 0),
+        }).pipe(T.Http({ method: "POST", uri: "/asset_report/filter", code: 200 })),
+      ).annotate({ identifier: "AssetReportFilterRequest" });
+  }
+}
+function __c350(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            asset_report_token: S.String.pipe(T.SensitiveValue({})),
+            asset_report_id: S.String,
+            request_id: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "AssetReportFilterResponse" });
+  }
+}
+function __c351(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37344,19 +34896,19 @@ function __c378(j: number): any {
       ).annotate({ identifier: "CreateWatchlistScreeningIndividualReviewRequest" });
   }
 }
-function __c379(j: number): any {
+function __c352(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          report_tokens: __S(672, __c21, 0),
+          report_tokens: __S(224, __c7, 0),
         }).pipe(T.Http({ method: "POST", uri: "/credit/audit_copy_token/create", code: 200 })),
       ).annotate({ identifier: "CreditAuditCopyTokenCreateRequest" });
   }
 }
-function __c380(j: number): any {
+function __c353(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37364,7 +34916,7 @@ function __c380(j: number): any {
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           audit_copy_token: S.String.pipe(T.SensitiveValue({})),
-          report_tokens: __S(672, __c21, 0),
+          report_tokens: __S(224, __c7, 0),
         }).pipe(T.Http({ method: "POST", uri: "/credit/audit_copy_token/update", code: 200 })),
       ).annotate({ identifier: "CreditAuditCopyTokenUpdateRequest" });
     case 1:
@@ -37379,7 +34931,7 @@ function __c380(j: number): any {
       ).annotate({ identifier: "CreditAuditCopyTokenUpdateResponse" });
   }
 }
-function __c381(j: number): any {
+function __c354(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37391,7 +34943,7 @@ function __c381(j: number): any {
       ).annotate({ identifier: "CreditReportAuditCopyRemoveRequest" });
   }
 }
-function __c382(j: number): any {
+function __c355(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37403,7 +34955,7 @@ function __c382(j: number): any {
       ).annotate({ identifier: "DeleteCraServicingSubscriptionRequest" });
   }
 }
-function __c383(j: number): any {
+function __c356(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37416,115 +34968,7 @@ function __c383(j: number): any {
       ).annotate({ identifier: "DownloadStatementRequest" });
   }
 }
-function __c384(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          client_id: S.optional(S.String),
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          end_customer_client_id: S.String,
-          products: S.optional(__S(12352, __c386, 0)),
-        }).pipe(T.Http({ method: "POST", uri: "/beta/partner/customer/v1/enable", code: 200 })),
-      ).annotate({ identifier: "EnableBetaPartnerCustomerV1Request" });
-    case 1:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            end_customer_client_id: S.optional(S.String),
-            status: S.optional(S.String),
-            product_statuses: S.optional(__S(1440, __c45, 0)),
-            production_secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-            request_id: S.optional(S.String),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "BetaPartnerCustomerV1EnableResponse" });
-  }
-}
-function __c385(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          client_id: S.optional(S.String),
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          identifier_type: S.String,
-          identifier: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/beta/issues/v1/match", code: 200 })),
-      ).annotate({ identifier: "BetaIssuesV1MatchRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            item_id: S.String,
-            issues: __S(12385, __c387, 1),
-            request_id: S.String,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "BetaIssuesV1MatchResponse" });
-  }
-}
-function __c386(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c387(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            issue_id: S.String,
-            issue_type: S.String,
-            severity: S.String,
-            institution_id: S.String,
-            institution_name: S.String,
-            behaviors: __S(12352, __c386, 0),
-            issue_error_type: S.NullOr(S.String),
-            issue_error_code: S.NullOr(S.String),
-            description: S.String,
-            attribution: S.String,
-            status: S.String,
-            user_guidance: S.NullOr(S.String),
-            estimated_resolution_time: S.NullOr(S.String),
-            start_time: S.NullOr(S.String),
-            end_time: S.NullOr(S.String),
-            impact: S.NullOr(__S(12416, __c388, 0)),
-            affected_products: __S(12352, __c386, 0),
-            resolution_log: __S(12418, __c388, 2),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "BetaIssuesV1Issue" });
-    case 1:
-      return S.Array(__S(12384, __c387, 0));
-  }
-}
-function __c388(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          affected_new_item_count: S.Number,
-          affected_existing_item_count: S.Number,
-        }),
-      ).annotate({ identifier: "BetaIssuesV1IssueImpact" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          resolution_time: S.String,
-          type: S.String,
-        }),
-      ).annotate({ identifier: "BetaIssuesV1IssueResolutionEvent" });
-    case 2:
-      return S.Array(__S(12417, __c388, 1));
-  }
-}
-function __c389(j: number): any {
+function __c357(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37546,7 +34990,7 @@ function __c389(j: number): any {
       ).annotate({ identifier: "PartnerCustomerEnableResponse" });
   }
 }
-function __c390(j: number): any {
+function __c358(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37554,7 +34998,7 @@ function __c390(j: number): any {
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           consent_id: S.String,
-          amount: __S(7040, __c220, 0),
+          amount: __S(6144, __c192, 0),
           idempotency_key: S.String,
           reference: S.optional(S.NullOr(S.String)),
           scope: S.optional(S.Unknown),
@@ -37577,13 +35021,13 @@ function __c390(j: number): any {
       ).annotate({ identifier: "PaymentInitiationConsentPaymentExecuteResponse" });
   }
 }
-function __c391(j: number): any {
+function __c359(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           full_name: S.String,
-          address: S.NullOr(__S(7072, __c221, 0)),
+          address: S.NullOr(__S(6176, __c193, 0)),
           account_number: S.String,
           bic: S.String,
         }),
@@ -37595,11 +35039,11 @@ function __c391(j: number): any {
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           idempotency_key: S.String,
           wallet_id: S.String,
-          counterparty: __S(12546, __c392, 2),
-          amount: __S(12547, __c392, 3),
+          counterparty: __S(11522, __c360, 2),
+          amount: __S(11523, __c360, 3),
           user_id: S.optional(S.String),
           reference: S.String,
-          originating_fund_source: S.optional(S.NullOr(__S(12512, __c391, 0))),
+          originating_fund_source: S.optional(S.NullOr(__S(11488, __c359, 0))),
         }).pipe(T.Http({ method: "POST", uri: "/wallet/transaction/execute", code: 200 })),
       ).annotate({ identifier: "ExecuteWalletTransactionRequest" });
     case 2:
@@ -37615,7 +35059,7 @@ function __c391(j: number): any {
       ).annotate({ identifier: "WalletTransactionExecuteResponse" });
   }
 }
-function __c392(j: number): any {
+function __c360(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37630,8 +35074,8 @@ function __c392(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            bacs: S.optional(__S(7008, __c219, 0)),
-            international: S.optional(S.NullOr(__S(12544, __c392, 0))),
+            bacs: S.optional(__S(6112, __c191, 0)),
+            international: S.optional(S.NullOr(__S(11520, __c360, 0))),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -37641,8 +35085,8 @@ function __c392(j: number): any {
         S.StructWithRest(
           S.Struct({
             name: S.String,
-            numbers: __S(12545, __c392, 1),
-            address: S.optional(S.NullOr(__S(7072, __c221, 0))),
+            numbers: __S(11521, __c360, 1),
+            address: S.optional(S.NullOr(__S(6176, __c193, 0))),
             date_of_birth: S.optional(S.NullOr(S.String)),
             holder_category: S.optional(S.String),
             is_verified: S.optional(S.Boolean),
@@ -37662,7 +35106,7 @@ function __c392(j: number): any {
       ).annotate({ identifier: "WalletTransactionAmount" });
   }
 }
-function __c393(j: number): any {
+function __c361(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37679,7 +35123,7 @@ function __c393(j: number): any {
         S.Struct({
           id: S.optional(S.String),
           idType: S.optional(S.String),
-          event: S.optional(__S(12576, __c393, 0)),
+          event: S.optional(__S(11552, __c361, 0)),
         }),
       ).annotate({ identifier: "FDXNotificationPayload" });
     case 2:
@@ -37688,7 +35132,7 @@ function __c393(j: number): any {
           href: S.String,
           action: S.optional(S.String),
           rel: S.optional(S.String),
-          types: S.optional(__S(12352, __c386, 0)),
+          types: S.optional(__S(192, __c6, 0)),
         }),
       ).annotate({ identifier: "FDXHateoasLink" });
     case 3:
@@ -37701,15 +35145,15 @@ function __c393(j: number): any {
           category: S.String,
           severity: S.optional(S.String),
           priority: S.optional(S.String),
-          publisher: S.optional(__S(12608, __c394, 0)),
-          subscriber: S.optional(__S(12608, __c394, 0)),
-          notificationPayload: __S(12577, __c393, 1),
-          url: S.optional(__S(12578, __c393, 2)),
+          publisher: S.optional(__S(11584, __c362, 0)),
+          subscriber: S.optional(__S(11584, __c362, 0)),
+          notificationPayload: __S(11553, __c361, 1),
+          url: S.optional(__S(11554, __c361, 2)),
         }).pipe(T.Http({ method: "POST", uri: "/fdx/notifications", code: 200 })),
       ).annotate({ identifier: "FdxNotificationsRequest" });
   }
 }
-function __c394(j: number): any {
+function __c362(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37725,7 +35169,34 @@ function __c394(j: number): any {
       ).annotate({ identifier: "FDXParty" });
   }
 }
-function __c395(j: number): any {
+function __c363(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          client_id: S.optional(S.String),
+          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          transfer_id: S.String,
+          originator_client_id: S.optional(S.NullOr(S.String)),
+          reason_code: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/transfer/cancel", code: 200 })),
+      ).annotate({ identifier: "CancelTransferRequest" });
+  }
+}
+function __c364(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            request_id: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "TransferCancelResponse" });
+  }
+}
+function __c365(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37733,19 +35204,19 @@ function __c395(j: number): any {
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           access_token: S.String.pipe(T.SensitiveValue({})),
-          options: S.optional(__S(12864, __c402, 0)),
+          options: S.optional(__S(11904, __c372, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/accounts/get", code: 200 })),
       ).annotate({ identifier: "GetAccountRequest" });
   }
 }
-function __c396(j: number): any {
+function __c366(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            accounts: __S(12736, __c398, 0),
-            item: __S(12800, __c400, 0),
+            accounts: __S(11776, __c368, 0),
+            item: __S(11840, __c370, 0),
             request_id: S.String,
           }),
           [S.Record(S.String, S.Unknown)],
@@ -37753,14 +35224,14 @@ function __c396(j: number): any {
       ).annotate({ identifier: "AccountsGetResponse" });
   }
 }
-function __c397(j: number): any {
+function __c367(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
             account_id: S.String,
-            balances: __S(12832, __c401, 0),
+            balances: __S(11872, __c371, 0),
             mask: S.NullOr(S.String),
             name: S.String,
             official_name: S.NullOr(S.String),
@@ -37768,7 +35239,7 @@ function __c397(j: number): any {
             subtype: S.NullOr(S.String),
             verification_status: S.optional(S.String),
             verification_name: S.optional(S.String),
-            verification_insights: S.optional(__S(12770, __c399, 2)),
+            verification_insights: S.optional(__S(11810, __c369, 2)),
             persistent_account_id: S.optional(S.String),
             apy: S.optional(S.NullOr(S.Number)),
             holder_category: S.optional(S.NullOr(S.String)),
@@ -37779,13 +35250,13 @@ function __c397(j: number): any {
       ).annotate({ identifier: "AccountBase" });
   }
 }
-function __c398(j: number): any {
+function __c368(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(12704, __c397, 0));
+      return S.Array(__S(11744, __c367, 0));
   }
 }
-function __c399(j: number): any {
+function __c369(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37811,8 +35282,8 @@ function __c399(j: number): any {
         S.StructWithRest(
           S.Struct({
             name_match_score: S.optional(S.NullOr(S.Number)),
-            network_status: __S(12768, __c399, 0),
-            previous_returns: S.optional(__S(12769, __c399, 1)),
+            network_status: __S(11808, __c369, 0),
+            previous_returns: S.optional(__S(11809, __c369, 1)),
             account_number_format: S.String,
           }),
           [S.Record(S.String, S.Unknown)],
@@ -37820,7 +35291,7 @@ function __c399(j: number): any {
       ).annotate({ identifier: "AccountVerificationInsights" });
   }
 }
-function __c400(j: number): any {
+function __c370(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37832,10 +35303,10 @@ function __c400(j: number): any {
             webhook: S.NullOr(S.String),
             auth_method: S.optional(S.NullOr(S.String)),
             error: S.NullOr(__S(64, __c2, 0)),
-            available_products: __S(12352, __c386, 0),
-            billed_products: __S(12352, __c386, 0),
-            products: S.optional(__S(12352, __c386, 0)),
-            consented_products: S.optional(__S(12352, __c386, 0)),
+            available_products: __S(192, __c6, 0),
+            billed_products: __S(192, __c6, 0),
+            products: S.optional(__S(192, __c6, 0)),
+            consented_products: S.optional(__S(192, __c6, 0)),
             consent_expiration_time: S.NullOr(S.String),
             update_type: S.String,
             paired_item_id: S.optional(S.NullOr(S.String)),
@@ -37845,7 +35316,7 @@ function __c400(j: number): any {
       ).annotate({ identifier: "Item" });
   }
 }
-function __c401(j: number): any {
+function __c371(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37863,7 +35334,7 @@ function __c401(j: number): any {
       ).annotate({ identifier: "AccountBalance" });
   }
 }
-function __c402(j: number): any {
+function __c372(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37873,7 +35344,7 @@ function __c402(j: number): any {
       ).annotate({ identifier: "AccountsGetRequestOptions" });
   }
 }
-function __c403(j: number): any {
+function __c373(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37888,12 +35359,12 @@ function __c403(j: number): any {
           access_token: S.String.pipe(T.SensitiveValue({})),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           client_id: S.optional(S.String),
-          options: S.optional(__S(12896, __c403, 0)),
+          options: S.optional(__S(11936, __c373, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/accounts/balance/get", code: 200 })),
       ).annotate({ identifier: "GetAccountsBalanceRequest" });
   }
 }
-function __c404(j: number): any {
+function __c374(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37926,14 +35397,14 @@ function __c404(j: number): any {
         S.StructWithRest(
           S.Struct({
             request_id: S.String,
-            application: __S(12929, __c404, 1),
+            application: __S(11969, __c374, 1),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "ApplicationGetResponse" });
   }
 }
-function __c405(j: number): any {
+function __c375(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37944,12 +35415,12 @@ function __c405(j: number): any {
           user_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           include_insights: S.optional(S.Boolean),
           fast_report: S.optional(S.Boolean),
-          options: S.optional(__S(10208, __c319, 0)),
+          options: S.optional(__S(9632, __c301, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/asset_report/get", code: 200 })),
       ).annotate({ identifier: "GetAssetReportRequest" });
   }
 }
-function __c406(j: number): any {
+function __c376(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37957,12 +35428,12 @@ function __c406(j: number): any {
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           asset_report_token: S.String.pipe(T.SensitiveValue({})),
-          options: S.optional(__S(10208, __c319, 0)),
+          options: S.optional(__S(9632, __c301, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/asset_report/pdf/get", code: 200 })),
       ).annotate({ identifier: "GetAssetReportPdfRequest" });
   }
 }
-function __c407(j: number): any {
+function __c377(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37970,25 +35441,25 @@ function __c407(j: number): any {
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           access_token: S.String.pipe(T.SensitiveValue({})),
-          options: S.optional(__S(12864, __c402, 0)),
+          options: S.optional(__S(11904, __c372, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/auth/get", code: 200 })),
       ).annotate({ identifier: "GetAuthRequest" });
     case 1:
-      return S.Array(__S(13056, __c408, 0));
+      return S.Array(__S(12096, __c378, 0));
     case 2:
-      return S.Array(__S(13057, __c408, 1));
+      return S.Array(__S(12097, __c378, 1));
     case 3:
-      return S.Array(__S(13058, __c408, 2));
+      return S.Array(__S(12098, __c378, 2));
     case 4:
-      return S.Array(__S(13059, __c408, 3));
+      return S.Array(__S(12099, __c378, 3));
     case 5:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            ach: __S(13025, __c407, 1),
-            eft: __S(13026, __c407, 2),
-            international: __S(13027, __c407, 3),
-            bacs: __S(13028, __c407, 4),
+            ach: __S(12065, __c377, 1),
+            eft: __S(12066, __c377, 2),
+            international: __S(12067, __c377, 3),
+            bacs: __S(12068, __c377, 4),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -37997,9 +35468,9 @@ function __c407(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            accounts: __S(12736, __c398, 0),
-            numbers: __S(13029, __c407, 5),
-            item: __S(12800, __c400, 0),
+            accounts: __S(11776, __c368, 0),
+            numbers: __S(12069, __c377, 5),
+            item: __S(11840, __c370, 0),
             request_id: S.String,
           }),
           [S.Record(S.String, S.Unknown)],
@@ -38007,7 +35478,7 @@ function __c407(j: number): any {
       ).annotate({ identifier: "AuthGetResponse" });
   }
 }
-function __c408(j: number): any {
+function __c378(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38060,199 +35531,7 @@ function __c408(j: number): any {
       ).annotate({ identifier: "NumbersBACS" });
   }
 }
-function __c409(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          client_id: S.optional(S.String),
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          transfer_id: S.String,
-          originator_client_id: S.optional(S.NullOr(S.String)),
-          reason_code: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/transfer/cancel", code: 200 })),
-      ).annotate({ identifier: "CancelTransferRequest" });
-  }
-}
-function __c410(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            request_id: S.String,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "TransferCancelResponse" });
-  }
-}
-function __c411(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          client_id: S.optional(S.String),
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          user_id: S.String,
-        }).pipe(
-          T.Http({ method: "POST", uri: "/beta/cash_advance/income_insights/v1/get", code: 200 }),
-        ),
-      ).annotate({ identifier: "GetBetaCashAdvanceIncomeInsightsV1Request" });
-    case 1:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            primary: S.NullOr(S.String),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "CashAdvanceIncomeCategory" });
-    case 2:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            provider_name: S.NullOr(S.String),
-            category: S.NullOr(__S(13153, __c411, 1)),
-            pay_frequency: S.NullOr(S.String),
-            iso_currency_code: S.NullOr(S.String),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "CashAdvanceIncomeStream" });
-    case 3:
-      return S.Array(__S(13154, __c411, 2));
-    case 4:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            request_id: S.String,
-            next_payment_date: S.NullOr(S.String),
-            next_payment_amount: S.NullOr(S.Number),
-            iso_currency_code: S.NullOr(S.String),
-            income_streams: __S(13155, __c411, 3),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "BetaCashAdvanceIncomeInsightsV1GetResponse" });
-  }
-}
-function __c412(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          access_token: S.String.pipe(T.SensitiveValue({})),
-          client_id: S.optional(S.String),
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-        }).pipe(T.Http({ method: "POST", uri: "/beta/ewa_report/v1/get", code: 200 })),
-      ).annotate({ identifier: "GetBetaEwaReportV1Request" });
-    case 1:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            lowest_amount: S.optional(S.Number),
-            highest_amount: S.optional(S.Number),
-            score: S.optional(S.Number),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "EwaScore" });
-    case 2:
-      return S.Array(__S(13185, __c412, 1));
-    case 3:
-      return S.Record(S.String, /*@__PURE__*/ S.NullOr(S.Number));
-    case 4:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            request_id: S.optional(S.String),
-            ewa_report_id: S.optional(S.String),
-            generation_time: S.optional(S.String),
-            ewa_scores: S.optional(__S(13186, __c412, 2)),
-            ewa_attributes: S.optional(S.NullOr(__S(13187, __c412, 3))),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "BetaEwaReportV1GetResponse" });
-  }
-}
-function __c413(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          client_id: S.optional(S.String),
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          issue_id: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/beta/issues/v1/get", code: 200 })),
-      ).annotate({ identifier: "GetBetaIssuesV1Request" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          issue_id: S.String,
-          issue_type: S.String,
-          severity: S.String,
-          institution_id: S.String,
-          institution_name: S.String,
-          behaviors: __S(12352, __c386, 0),
-          issue_error_type: S.NullOr(S.String),
-          issue_error_code: S.NullOr(S.String),
-          description: S.String,
-          attribution: S.String,
-          status: S.String,
-          user_guidance: S.NullOr(S.String),
-          estimated_resolution_time: S.NullOr(S.String),
-          start_time: S.NullOr(S.String),
-          end_time: S.NullOr(S.String),
-          impact: S.NullOr(__S(12416, __c388, 0)),
-          affected_products: __S(12352, __c386, 0),
-          resolution_log: __S(12418, __c388, 2),
-          request_id: S.String,
-        }),
-      ).annotate({ identifier: "GetBetaIssuesV1Response" });
-  }
-}
-function __c414(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          client_id: S.optional(S.String),
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          end_customer_client_id: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/beta/partner/customer/v1/get", code: 200 })),
-      ).annotate({ identifier: "GetBetaPartnerCustomerV1Request" });
-  }
-}
-function __c415(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            client_id: S.optional(S.String),
-            company_name: S.optional(S.String),
-            status: S.optional(S.String),
-            product_statuses: S.optional(__S(1440, __c45, 0)),
-            requirements_due: S.optional(__S(12352, __c386, 0)),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "BetaPartnerEndCustomer" });
-    case 1:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            end_customer: S.optional(__S(13280, __c415, 0)),
-            request_id: S.optional(S.String),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "BetaPartnerCustomerV1GetResponse" });
-  }
-}
-function __c416(j: number): any {
+function __c379(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38264,7 +35543,7 @@ function __c416(j: number): any {
       ).annotate({ identifier: "GetBusinessVerificationRequest" });
   }
 }
-function __c417(j: number): any {
+function __c380(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38275,17 +35554,17 @@ function __c417(j: number): any {
           days_requested: S.Number,
           count: S.optional(S.Number),
           cursor: S.optional(S.String),
-          options: S.optional(__S(12864, __c402, 0)),
+          options: S.optional(__S(11904, __c372, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/cashflow_report/get", code: 200 })),
       ).annotate({ identifier: "GetCashflowReportRequest" });
     case 1:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            accounts: __S(13377, __c418, 1),
-            transactions: __S(13409, __c419, 1),
+            accounts: __S(12193, __c381, 1),
+            transactions: __S(12225, __c382, 1),
             total_transactions: S.Number,
-            item: __S(12800, __c400, 0),
+            item: __S(11840, __c370, 0),
             next_cursor: S.String,
             has_more: S.Boolean,
             last_successful_update_time: S.String,
@@ -38296,14 +35575,14 @@ function __c417(j: number): any {
       ).annotate({ identifier: "CashflowReportGetResponse" });
   }
 }
-function __c418(j: number): any {
+function __c381(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
             account_id: S.String,
-            balances: __S(12832, __c401, 0),
+            balances: __S(11872, __c371, 0),
             mask: S.NullOr(S.String),
             name: S.String,
             official_name: S.NullOr(S.String),
@@ -38311,21 +35590,21 @@ function __c418(j: number): any {
             subtype: S.NullOr(S.String),
             verification_status: S.optional(S.String),
             verification_name: S.optional(S.String),
-            verification_insights: S.optional(__S(12770, __c399, 2)),
+            verification_insights: S.optional(__S(11810, __c369, 2)),
             persistent_account_id: S.optional(S.String),
             apy: S.optional(S.NullOr(S.Number)),
             holder_category: S.optional(S.NullOr(S.String)),
             paired_account_id: S.optional(S.NullOr(S.String)),
-            owners: S.optional(__S(5829, __c182, 5)),
+            owners: S.optional(__S(5733, __c179, 5)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "BusinessAccount" });
     case 1:
-      return S.Array(__S(13376, __c418, 0));
+      return S.Array(__S(12192, __c381, 0));
   }
 }
-function __c419(j: number): any {
+function __c382(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38337,11 +35616,11 @@ function __c419(j: number): any {
             unofficial_currency_code: S.NullOr(S.String),
             check_number: S.optional(S.NullOr(S.String)),
             date: S.String,
-            location: __S(5920, __c185, 0),
+            location: __S(5792, __c181, 0),
             name: S.NullOr(S.String),
             merchant_name: S.optional(S.NullOr(S.String)),
             original_description: S.optional(S.NullOr(S.String)),
-            payment_meta: __S(5856, __c183, 0),
+            payment_meta: __S(5824, __c182, 0),
             pending: S.NullOr(S.Boolean),
             pending_transaction_id: S.NullOr(S.String),
             account_owner: S.NullOr(S.String),
@@ -38352,22 +35631,22 @@ function __c419(j: number): any {
             authorized_datetime: S.NullOr(S.String),
             datetime: S.NullOr(S.String),
             payment_channel: S.String,
-            personal_finance_category: S.optional(S.NullOr(__S(13504, __c422, 0))),
-            business_finance_category: S.optional(S.NullOr(__S(13440, __c420, 0))),
-            credit_category: S.optional(S.NullOr(__S(5888, __c184, 0))),
+            personal_finance_category: S.optional(S.NullOr(__S(12320, __c385, 0))),
+            business_finance_category: S.optional(S.NullOr(__S(12256, __c383, 0))),
+            credit_category: S.optional(S.NullOr(__S(5760, __c180, 0))),
             transaction_code: S.NullOr(S.String),
             personal_finance_category_icon_url: S.optional(S.NullOr(S.String)),
-            counterparties: S.optional(__S(13442, __c420, 2)),
+            counterparties: S.optional(__S(12258, __c383, 2)),
             merchant_entity_id: S.optional(S.NullOr(S.String)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "CashflowReportTransaction" });
     case 1:
-      return S.Array(__S(13408, __c419, 0));
+      return S.Array(__S(12224, __c382, 0));
   }
 }
-function __c420(j: number): any {
+function __c383(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38390,16 +35669,16 @@ function __c420(j: number): any {
             website: S.NullOr(S.String),
             logo_url: S.NullOr(S.String),
             confidence_level: S.optional(S.NullOr(S.String)),
-            account_numbers: S.optional(S.NullOr(__S(13474, __c421, 2))),
+            account_numbers: S.optional(S.NullOr(__S(12290, __c384, 2))),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "TransactionCounterparty" });
     case 2:
-      return S.Array(__S(13441, __c420, 1));
+      return S.Array(__S(12257, __c383, 1));
   }
 }
-function __c421(j: number): any {
+function __c384(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38419,15 +35698,15 @@ function __c421(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            bacs: S.optional(S.NullOr(__S(13472, __c421, 0))),
-            international: S.optional(S.NullOr(__S(13473, __c421, 1))),
+            bacs: S.optional(S.NullOr(__S(12288, __c384, 0))),
+            international: S.optional(S.NullOr(__S(12289, __c384, 1))),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "CounterpartyNumbers" });
   }
 }
-function __c422(j: number): any {
+function __c385(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38443,7 +35722,7 @@ function __c422(j: number): any {
       ).annotate({ identifier: "PersonalFinanceCategory" });
   }
 }
-function __c423(j: number): any {
+function __c386(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38466,7 +35745,7 @@ function __c423(j: number): any {
         ),
       ).annotate({ identifier: "CashflowReportHistoricalBalance" });
     case 2:
-      return S.Array(__S(13537, __c423, 1));
+      return S.Array(__S(12353, __c386, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -38481,18 +35760,18 @@ function __c423(j: number): any {
           S.Struct({
             start_date: S.String,
             end_date: S.String,
-            starting_balance: S.NullOr(__S(13539, __c423, 3)),
-            ending_balance: S.NullOr(__S(13539, __c423, 3)),
-            average_daily_ending_balance: __S(13539, __c423, 3),
-            average_daily_inflow_amount: __S(13539, __c423, 3),
-            average_daily_outflow_amount: __S(13539, __c423, 3),
-            average_daily_net_cashflow_amount: __S(13539, __c423, 3),
+            starting_balance: S.NullOr(__S(12355, __c386, 3)),
+            ending_balance: S.NullOr(__S(12355, __c386, 3)),
+            average_daily_ending_balance: __S(12355, __c386, 3),
+            average_daily_inflow_amount: __S(12355, __c386, 3),
+            average_daily_outflow_amount: __S(12355, __c386, 3),
+            average_daily_net_cashflow_amount: __S(12355, __c386, 3),
             average_daily_inflow_transaction_count: S.Number,
             average_daily_outflow_transaction_count: S.Number,
-            total_revenue: __S(13539, __c423, 3),
-            total_loan_payment: __S(13539, __c423, 3),
-            total_variable_expense: __S(13539, __c423, 3),
-            total_payroll: __S(13539, __c423, 3),
+            total_revenue: __S(12355, __c386, 3),
+            total_loan_payment: __S(12355, __c386, 3),
+            total_variable_expense: __S(12355, __c386, 3),
+            total_payroll: __S(12355, __c386, 3),
             nsf_transaction_count: S.Number,
             overdraft_transaction_count: S.Number,
             negative_ending_balance_day_count: S.Number,
@@ -38501,13 +35780,13 @@ function __c423(j: number): any {
         ),
       ).annotate({ identifier: "CashflowReportMonthlySummary" });
     case 5:
-      return S.Array(__S(13540, __c423, 4));
+      return S.Array(__S(12356, __c386, 4));
     case 6:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            historical_balances: __S(13538, __c423, 2),
-            monthly_summaries: __S(13541, __c423, 5),
+            historical_balances: __S(12354, __c386, 2),
+            monthly_summaries: __S(12357, __c386, 5),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -38516,9 +35795,9 @@ function __c423(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            item: __S(12800, __c400, 0),
-            accounts: __S(13377, __c418, 1),
-            account_insights: __S(13542, __c423, 6),
+            item: __S(11840, __c370, 0),
+            accounts: __S(12193, __c381, 1),
+            account_insights: __S(12358, __c386, 6),
             last_generated_time: S.String,
             request_id: S.String,
           }),
@@ -38527,7 +35806,7 @@ function __c423(j: number): any {
       ).annotate({ identifier: "CashflowReportInsightsGetResponse" });
   }
 }
-function __c424(j: number): any {
+function __c387(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38537,17 +35816,17 @@ function __c424(j: number): any {
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           count: S.optional(S.Number),
           cursor: S.optional(S.String),
-          options: S.optional(__S(12864, __c402, 0)),
+          options: S.optional(__S(11904, __c372, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/cashflow_report/transactions/get", code: 200 })),
       ).annotate({ identifier: "GetCashflowReportTransactionRequest" });
     case 1:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            accounts: __S(13377, __c418, 1),
-            transactions: __S(13409, __c419, 1),
+            accounts: __S(12193, __c381, 1),
+            transactions: __S(12225, __c382, 1),
             total_transactions: S.Number,
-            item: __S(12800, __c400, 0),
+            item: __S(11840, __c370, 0),
             next_cursor: S.String,
             has_more: S.Boolean,
             request_id: S.String,
@@ -38557,7 +35836,19 @@ function __c424(j: number): any {
       ).annotate({ identifier: "CashflowReportTransactionsGetResponse" });
   }
 }
-function __c425(j: number): any {
+function __c388(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          client_id: S.optional(S.String),
+          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          authorization_id: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/transfer/authorization/cancel", code: 200 })),
+      ).annotate({ identifier: "CancelTransferAuthorizationRequest" });
+  }
+}
+function __c389(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38582,7 +35873,7 @@ function __c425(j: number): any {
         ),
       ).annotate({ identifier: "ConsentedAccount" });
     case 2:
-      return S.Array(__S(13601, __c425, 1));
+      return S.Array(__S(12449, __c389, 1));
     case 3:
       return S.suspend(() =>
         S.StructWithRest(
@@ -38596,26 +35887,26 @@ function __c425(j: number): any {
             initiator: S.optional(S.String),
             consented_use_cases: S.optional(__S(32, __c1, 0)),
             consented_data_scopes: S.optional(__S(32, __c1, 0)),
-            consented_accounts: S.optional(__S(13602, __c425, 2)),
+            consented_accounts: S.optional(__S(12450, __c389, 2)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "ConsentEvent" });
     case 4:
-      return S.Array(__S(13603, __c425, 3));
+      return S.Array(__S(12451, __c389, 3));
     case 5:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
             request_id: S.String,
-            consent_events: __S(13604, __c425, 4),
+            consent_events: __S(12452, __c389, 4),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "ConsentEventsGetResponse" });
   }
 }
-function __c426(j: number): any {
+function __c390(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38627,19 +35918,7 @@ function __c426(j: number): any {
       ).annotate({ identifier: "GetConsumerReportPdfRequest" });
   }
 }
-function __c427(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          client_id: S.optional(S.String),
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          authorization_id: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/transfer/authorization/cancel", code: 200 })),
-      ).annotate({ identifier: "CancelTransferAuthorizationRequest" });
-  }
-}
-function __c428(j: number): any {
+function __c391(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38661,13 +35940,13 @@ function __c428(j: number): any {
           S.Struct({
             start_date: S.String,
             end_date: S.String,
-            average_balance: __S(13728, __c429, 0),
+            average_balance: __S(12544, __c392, 0),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "BaseReportAverageMonthlyBalances" });
     case 2:
-      return S.Array(__S(13697, __c428, 1));
+      return S.Array(__S(12513, __c391, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -38678,7 +35957,7 @@ function __c428(j: number): any {
           unofficial_currency_code: S.NullOr(S.String),
           last_updated_datetime: S.optional(S.NullOr(S.String)),
           average_balance: S.optional(S.NullOr(S.Number)),
-          average_monthly_balances: S.optional(__S(13698, __c428, 2)),
+          average_monthly_balances: S.optional(__S(12514, __c391, 2)),
           most_recent_thirty_day_average_balance: S.optional(S.NullOr(S.Number)),
         }),
       ).annotate({ identifier: "BaseReportAccountBalances" });
@@ -38704,7 +35983,7 @@ function __c428(j: number): any {
         ),
       ).annotate({ identifier: "BaseReportLongestGapInsights" });
     case 6:
-      return S.Array(__S(13701, __c428, 5));
+      return S.Array(__S(12517, __c391, 5));
     case 7:
       return S.suspend(() =>
         S.StructWithRest(
@@ -38717,20 +35996,20 @@ function __c428(j: number): any {
         ),
       ).annotate({ identifier: "BaseReportNumberFlowInsights" });
     case 8:
-      return S.Array(__S(13703, __c428, 7));
+      return S.Array(__S(12519, __c391, 7));
     case 9:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
             start_date: S.String,
             end_date: S.String,
-            total_amount: __S(13728, __c429, 0),
+            total_amount: __S(12544, __c392, 0),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "BaseReportAverageFlowInsights" });
     case 10:
-      return S.Array(__S(13705, __c428, 9));
+      return S.Array(__S(12521, __c391, 9));
     case 11:
       return S.suspend(() =>
         S.StructWithRest(
@@ -38739,11 +36018,11 @@ function __c428(j: number): any {
             most_recent_transaction_date: S.optional(S.NullOr(S.String)),
             days_available: S.optional(S.Number),
             average_days_between_transactions: S.optional(S.Number),
-            longest_gaps_between_transactions: S.optional(__S(13702, __c428, 6)),
-            number_of_inflows: S.optional(__S(13704, __c428, 8)),
-            average_inflow_amounts: S.optional(__S(13706, __c428, 10)),
-            number_of_outflows: S.optional(__S(13704, __c428, 8)),
-            average_outflow_amounts: S.optional(__S(13706, __c428, 10)),
+            longest_gaps_between_transactions: S.optional(__S(12518, __c391, 6)),
+            number_of_inflows: S.optional(__S(12520, __c391, 8)),
+            average_inflow_amounts: S.optional(__S(12522, __c391, 10)),
+            number_of_outflows: S.optional(__S(12520, __c391, 8)),
+            average_outflow_amounts: S.optional(__S(12522, __c391, 10)),
             number_of_days_no_transactions: S.optional(S.Number),
           }),
           [S.Record(S.String, S.Unknown)],
@@ -38759,14 +36038,14 @@ function __c428(j: number): any {
             nsf_overdraft_transactions_count_30d: S.optional(S.Number),
             nsf_overdraft_transactions_count_60d: S.optional(S.Number),
             nsf_overdraft_transactions_count_90d: S.optional(S.Number),
-            total_inflow_amount: S.optional(S.NullOr(__S(13728, __c429, 0))),
-            total_inflow_amount_30d: S.optional(S.NullOr(__S(13728, __c429, 0))),
-            total_inflow_amount_60d: S.optional(S.NullOr(__S(13728, __c429, 0))),
-            total_inflow_amount_90d: S.optional(S.NullOr(__S(13728, __c429, 0))),
-            total_outflow_amount: S.optional(S.NullOr(__S(13728, __c429, 0))),
-            total_outflow_amount_30d: S.optional(S.NullOr(__S(13728, __c429, 0))),
-            total_outflow_amount_60d: S.optional(S.NullOr(__S(13728, __c429, 0))),
-            total_outflow_amount_90d: S.optional(S.NullOr(__S(13728, __c429, 0))),
+            total_inflow_amount: S.optional(S.NullOr(__S(12544, __c392, 0))),
+            total_inflow_amount_30d: S.optional(S.NullOr(__S(12544, __c392, 0))),
+            total_inflow_amount_60d: S.optional(S.NullOr(__S(12544, __c392, 0))),
+            total_inflow_amount_90d: S.optional(S.NullOr(__S(12544, __c392, 0))),
+            total_outflow_amount: S.optional(S.NullOr(__S(12544, __c392, 0))),
+            total_outflow_amount_30d: S.optional(S.NullOr(__S(12544, __c392, 0))),
+            total_outflow_amount_60d: S.optional(S.NullOr(__S(12544, __c392, 0))),
+            total_outflow_amount_90d: S.optional(S.NullOr(__S(12544, __c392, 0))),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -38776,28 +36055,28 @@ function __c428(j: number): any {
         S.StructWithRest(
           S.Struct({
             account_id: S.String,
-            balances: __S(13699, __c428, 3),
-            consumer_disputes: __S(13761, __c430, 1),
+            balances: __S(12515, __c391, 3),
+            consumer_disputes: __S(12577, __c393, 1),
             mask: S.NullOr(S.String),
-            metadata: __S(13700, __c428, 4),
+            metadata: __S(12516, __c391, 4),
             name: S.String,
             official_name: S.NullOr(S.String),
             type: S.String,
             subtype: S.NullOr(S.String),
             days_available: S.Number,
-            transactions: __S(13763, __c430, 3),
-            owners: __S(5829, __c182, 5),
+            transactions: __S(12579, __c393, 3),
+            owners: __S(5733, __c179, 5),
             holder_category: S.optional(S.Unknown),
             ownership_type: S.NullOr(S.String),
-            historical_balances: S.optional(__S(5953, __c186, 1)),
-            account_insights: S.optional(__S(13707, __c428, 11)),
-            attributes: S.optional(__S(13708, __c428, 12)),
+            historical_balances: S.optional(__S(5889, __c184, 1)),
+            account_insights: S.optional(__S(12523, __c391, 11)),
+            attributes: S.optional(__S(12524, __c391, 12)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "BaseReportAccount" });
     case 14:
-      return S.Array(__S(13709, __c428, 13));
+      return S.Array(__S(12525, __c391, 13));
     case 15:
       return S.suspend(() =>
         S.StructWithRest(
@@ -38806,13 +36085,13 @@ function __c428(j: number): any {
             institution_id: S.String,
             date_last_updated: S.String,
             item_id: S.String,
-            accounts: __S(13710, __c428, 14),
+            accounts: __S(12526, __c391, 14),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "BaseReportItem" });
     case 16:
-      return S.Array(__S(13711, __c428, 15));
+      return S.Array(__S(12527, __c391, 15));
     case 17:
       return S.suspend(() =>
         S.StructWithRest(
@@ -38821,14 +36100,14 @@ function __c428(j: number): any {
             nsf_overdraft_transactions_count_30d: S.optional(S.Number),
             nsf_overdraft_transactions_count_60d: S.optional(S.Number),
             nsf_overdraft_transactions_count_90d: S.optional(S.Number),
-            total_inflow_amount: S.optional(S.NullOr(__S(13728, __c429, 0))),
-            total_inflow_amount_30d: S.optional(S.NullOr(__S(13728, __c429, 0))),
-            total_inflow_amount_60d: S.optional(S.NullOr(__S(13728, __c429, 0))),
-            total_inflow_amount_90d: S.optional(S.NullOr(__S(13728, __c429, 0))),
-            total_outflow_amount: S.optional(S.NullOr(__S(13728, __c429, 0))),
-            total_outflow_amount_30d: S.optional(S.NullOr(__S(13728, __c429, 0))),
-            total_outflow_amount_60d: S.optional(S.NullOr(__S(13728, __c429, 0))),
-            total_outflow_amount_90d: S.optional(S.NullOr(__S(13728, __c429, 0))),
+            total_inflow_amount: S.optional(S.NullOr(__S(12544, __c392, 0))),
+            total_inflow_amount_30d: S.optional(S.NullOr(__S(12544, __c392, 0))),
+            total_inflow_amount_60d: S.optional(S.NullOr(__S(12544, __c392, 0))),
+            total_inflow_amount_90d: S.optional(S.NullOr(__S(12544, __c392, 0))),
+            total_outflow_amount: S.optional(S.NullOr(__S(12544, __c392, 0))),
+            total_outflow_amount_30d: S.optional(S.NullOr(__S(12544, __c392, 0))),
+            total_outflow_amount_60d: S.optional(S.NullOr(__S(12544, __c392, 0))),
+            total_outflow_amount_90d: S.optional(S.NullOr(__S(12544, __c392, 0))),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -38841,8 +36120,8 @@ function __c428(j: number): any {
             date_generated: S.String,
             days_requested: S.Number,
             client_report_id: S.optional(S.NullOr(S.String)),
-            items: __S(13712, __c428, 16),
-            attributes: S.optional(__S(13713, __c428, 17)),
+            items: __S(12528, __c391, 16),
+            attributes: S.optional(__S(12529, __c391, 17)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -38851,8 +36130,8 @@ function __c428(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            report: __S(13714, __c428, 18),
-            warnings: __S(5986, __c187, 2),
+            report: __S(12530, __c391, 18),
+            warnings: __S(5858, __c183, 2),
             request_id: S.String,
           }),
           [S.Record(S.String, S.Unknown)],
@@ -38860,7 +36139,7 @@ function __c428(j: number): any {
       ).annotate({ identifier: "CraCheckReportBaseReportGetResponse" });
   }
 }
-function __c429(j: number): any {
+function __c392(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38875,7 +36154,7 @@ function __c429(j: number): any {
       ).annotate({ identifier: "CreditAmountWithCurrency" });
   }
 }
-function __c430(j: number): any {
+function __c393(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38890,7 +36169,7 @@ function __c430(j: number): any {
         ),
       ).annotate({ identifier: "ConsumerDispute" });
     case 1:
-      return S.Array(__S(13760, __c430, 0));
+      return S.Array(__S(12576, __c393, 0));
     case 2:
       return S.suspend(() =>
         S.StructWithRest(
@@ -38901,11 +36180,11 @@ function __c430(j: number): any {
             unofficial_currency_code: S.NullOr(S.String),
             name: S.optional(S.NullOr(S.String)),
             original_description: S.NullOr(S.String),
-            credit_category: S.optional(S.NullOr(__S(5888, __c184, 0))),
+            credit_category: S.optional(S.NullOr(__S(5760, __c180, 0))),
             check_number: S.optional(S.NullOr(S.String)),
             date: S.String,
             date_transacted: S.optional(S.NullOr(S.String)),
-            location: S.optional(__S(5920, __c185, 0)),
+            location: S.optional(__S(5792, __c181, 0)),
             merchant_name: S.optional(S.NullOr(S.String)),
             pending: S.Boolean,
             account_owner: S.optional(S.NullOr(S.String)),
@@ -38913,16 +36192,16 @@ function __c430(j: number): any {
             transaction_type: S.optional(S.NullOr(S.String)),
             category: S.optional(S.NullOr(__S(32, __c1, 0))),
             category_id: S.optional(S.NullOr(S.String)),
-            personal_finance_category: S.optional(S.NullOr(__S(13504, __c422, 0))),
+            personal_finance_category: S.optional(S.NullOr(__S(12320, __c385, 0))),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "BaseReportTransaction" });
     case 3:
-      return S.Array(__S(13762, __c430, 2));
+      return S.Array(__S(12578, __c393, 2));
   }
 }
-function __c431(j: number): any {
+function __c394(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38932,7 +36211,7 @@ function __c431(j: number): any {
           user_id: S.optional(S.String),
           third_party_user_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           user_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          options: S.optional(S.NullOr(__S(2592, __c81, 0))),
+          options: S.optional(S.NullOr(__S(1568, __c49, 0))),
         }).pipe(
           T.Http({ method: "POST", uri: "/cra/check_report/cashflow_insights/get", code: 200 }),
         ),
@@ -38952,16 +36231,16 @@ function __c431(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            report: __S(13793, __c431, 1),
+            report: __S(12609, __c394, 1),
             request_id: S.String,
-            warnings: S.optional(__S(5986, __c187, 2)),
+            warnings: S.optional(__S(5858, __c183, 2)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "CraCheckReportCashflowInsightsGetResponse" });
   }
 }
-function __c432(j: number): any {
+function __c395(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38971,7 +36250,7 @@ function __c432(j: number): any {
           user_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           third_party_user_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           user_id: S.optional(S.String),
-          options: S.optional(S.NullOr(__S(2625, __c82, 1))),
+          options: S.optional(S.NullOr(__S(1601, __c50, 1))),
           report_id: S.optional(S.String),
           consumer_report_permissible_purpose: S.optional(S.String),
         }).pipe(
@@ -38983,16 +36262,16 @@ function __c432(j: number): any {
         S.Struct({
           account_id: S.optional(S.String),
           mask: S.NullOr(S.String),
-          metadata: __S(13856, __c433, 0),
+          metadata: __S(12672, __c396, 0),
           name: S.String,
           official_name: S.NullOr(S.String),
           subtype: S.String,
           type: S.String,
-          owners: __S(5829, __c182, 5),
+          owners: __S(5733, __c179, 5),
         }),
       ).annotate({ identifier: "CraBankIncomeAccount" });
     case 2:
-      return S.Array(__S(13825, __c432, 1));
+      return S.Array(__S(12641, __c395, 1));
     case 3:
       return S.suspend(() =>
         S.StructWithRest(
@@ -39005,7 +36284,7 @@ function __c432(j: number): any {
         ),
       ).annotate({ identifier: "CraPredictionInterval" });
     case 4:
-      return S.Array(__S(13827, __c432, 3));
+      return S.Array(__S(12643, __c395, 3));
     case 5:
       return S.suspend(() =>
         S.StructWithRest(
@@ -39025,21 +36304,21 @@ function __c432(j: number): any {
         ),
       ).annotate({ identifier: "CraBankIncomeTransaction" });
     case 6:
-      return S.Array(__S(13829, __c432, 5));
+      return S.Array(__S(12645, __c395, 5));
     case 7:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            total_amounts: S.optional(__S(13920, __c435, 0)),
+            total_amounts: S.optional(__S(12736, __c398, 0)),
             start_date: S.optional(S.String),
             end_date: S.optional(S.String),
-            transactions: S.optional(__S(13830, __c432, 6)),
+            transactions: S.optional(__S(12646, __c395, 6)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "CraBankIncomeHistoricalSummary" });
     case 8:
-      return S.Array(__S(13831, __c432, 7));
+      return S.Array(__S(12647, __c395, 7));
     case 9:
       return S.suspend(() =>
         S.StructWithRest(
@@ -39060,36 +36339,36 @@ function __c432(j: number): any {
             historical_average_monthly_gross_income: S.optional(S.NullOr(S.Number)),
             historical_average_monthly_income: S.optional(S.NullOr(S.Number)),
             forecasted_average_monthly_income: S.optional(S.NullOr(S.Number)),
-            forecasted_average_monthly_income_prediction_intervals: __S(13828, __c432, 4),
-            employer: S.optional(__S(13952, __c436, 0)),
-            income_provider: S.NullOr(__S(13888, __c434, 0)),
-            historical_summary: S.optional(__S(13832, __c432, 8)),
+            forecasted_average_monthly_income_prediction_intervals: __S(12644, __c395, 4),
+            employer: S.optional(__S(12768, __c399, 0)),
+            income_provider: S.NullOr(__S(12704, __c397, 0)),
+            historical_summary: S.optional(__S(12648, __c395, 8)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "CraBankIncomeSource" });
     case 10:
-      return S.Array(__S(13833, __c432, 9));
+      return S.Array(__S(12649, __c395, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
           item_id: S.optional(S.String),
-          accounts: S.optional(__S(13826, __c432, 2)),
-          bank_income_accounts: __S(13826, __c432, 2),
-          bank_income_sources: __S(13834, __c432, 10),
+          accounts: S.optional(__S(12642, __c395, 2)),
+          bank_income_accounts: __S(12642, __c395, 2),
+          bank_income_sources: __S(12650, __c395, 10),
           last_updated_time: S.optional(S.String),
           institution_id: S.optional(S.String),
           institution_name: S.optional(S.String),
         }),
       ).annotate({ identifier: "CraBankIncomeItem" });
     case 12:
-      return S.Array(__S(13835, __c432, 11));
+      return S.Array(__S(12651, __c395, 11));
     case 13:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            current: S.NullOr(__S(13890, __c434, 2)),
-            projected: S.NullOr(__S(13890, __c434, 2)),
+            current: S.NullOr(__S(12706, __c397, 2)),
+            projected: S.NullOr(__S(12706, __c397, 2)),
             iso_currency_code: S.NullOr(S.String),
             unofficial_currency_code: S.NullOr(S.String),
           }),
@@ -39097,12 +36376,12 @@ function __c432(j: number): any {
         ),
       ).annotate({ identifier: "CraIncomeMetrics" });
     case 14:
-      return S.Array(__S(13837, __c432, 13));
+      return S.Array(__S(12653, __c395, 13));
     case 15:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            income_metrics: __S(13838, __c432, 14),
+            income_metrics: __S(12654, __c395, 14),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -39115,32 +36394,32 @@ function __c432(j: number): any {
             start_date: S.String,
             end_date: S.String,
             description: S.String,
-            insights: __S(13893, __c434, 5),
-            income_metrics: __S(13837, __c432, 13),
-            transactions: __S(13896, __c434, 8),
+            insights: __S(12709, __c397, 5),
+            income_metrics: __S(12653, __c395, 13),
+            transactions: __S(12712, __c397, 8),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "CraIncomeStream" });
     case 17:
-      return S.Array(__S(13840, __c432, 16));
+      return S.Array(__S(12656, __c395, 16));
     case 18:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            total_amounts: S.optional(__S(13920, __c435, 0)),
+            total_amounts: S.optional(__S(12736, __c398, 0)),
             start_date: S.optional(S.String),
             end_date: S.optional(S.String),
             income_sources_count: S.optional(S.Number),
             income_categories_count: S.optional(S.Number),
             income_transactions_count: S.optional(S.Number),
-            historical_average_monthly_gross_income: S.optional(__S(13920, __c435, 0)),
-            historical_average_monthly_income: S.optional(__S(13920, __c435, 0)),
-            forecasted_average_monthly_income: S.optional(__S(13920, __c435, 0)),
-            historical_annual_gross_income: S.optional(__S(13920, __c435, 0)),
-            historical_annual_income: S.optional(__S(13920, __c435, 0)),
-            forecasted_annual_income: S.optional(__S(13920, __c435, 0)),
-            historical_summary: S.optional(__S(13832, __c432, 8)),
+            historical_average_monthly_gross_income: S.optional(__S(12736, __c398, 0)),
+            historical_average_monthly_income: S.optional(__S(12736, __c398, 0)),
+            forecasted_average_monthly_income: S.optional(__S(12736, __c398, 0)),
+            historical_annual_gross_income: S.optional(__S(12736, __c398, 0)),
+            historical_annual_income: S.optional(__S(12736, __c398, 0)),
+            forecasted_annual_income: S.optional(__S(12736, __c398, 0)),
+            historical_summary: S.optional(__S(12648, __c395, 8)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -39163,13 +36442,13 @@ function __c432(j: number): any {
           S.Struct({
             warning_type: S.optional(S.String),
             warning_code: S.optional(S.String),
-            cause: S.optional(__S(13843, __c432, 19)),
+            cause: S.optional(__S(12659, __c395, 19)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "CraBankIncomeWarning" });
     case 21:
-      return S.Array(__S(13844, __c432, 20));
+      return S.Array(__S(12660, __c395, 20));
     case 22:
       return S.suspend(() =>
         S.StructWithRest(
@@ -39178,11 +36457,11 @@ function __c432(j: number): any {
             generated_time: S.optional(S.String),
             days_requested: S.optional(S.Number),
             client_report_id: S.optional(S.NullOr(S.String)),
-            items: S.optional(__S(13836, __c432, 12)),
-            user_summary: S.optional(S.NullOr(__S(13839, __c432, 15))),
-            income_streams: __S(13841, __c432, 17),
-            bank_income_summary: S.optional(__S(13842, __c432, 18)),
-            warnings: S.optional(__S(13845, __c432, 21)),
+            items: S.optional(__S(12652, __c395, 12)),
+            user_summary: S.optional(S.NullOr(__S(12655, __c395, 15))),
+            income_streams: __S(12657, __c395, 17),
+            bank_income_summary: S.optional(__S(12658, __c395, 18)),
+            warnings: S.optional(__S(12661, __c395, 21)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -39191,16 +36470,16 @@ function __c432(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            report: S.optional(__S(13846, __c432, 22)),
+            report: S.optional(__S(12662, __c395, 22)),
             request_id: S.String,
-            warnings: S.optional(__S(5986, __c187, 2)),
+            warnings: S.optional(__S(5858, __c183, 2)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "CraCheckReportIncomeInsightsGetResponse" });
   }
 }
-function __c433(j: number): any {
+function __c396(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39211,7 +36490,7 @@ function __c433(j: number): any {
       ).annotate({ identifier: "CraBankIncomeAccountMetadata" });
   }
 }
-function __c434(j: number): any {
+function __c397(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39237,8 +36516,8 @@ function __c434(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            monthly: __S(13889, __c434, 1),
-            annual: __S(13889, __c434, 1),
+            monthly: __S(12705, __c397, 1),
+            annual: __S(12705, __c397, 1),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -39266,11 +36545,11 @@ function __c434(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            income_category: __S(13891, __c434, 3),
+            income_category: __S(12707, __c397, 3),
             pay_frequency: S.String,
-            income_provider: S.NullOr(__S(13888, __c434, 0)),
+            income_provider: S.NullOr(__S(12704, __c397, 0)),
             status: S.String,
-            next_payment: S.NullOr(__S(13892, __c434, 4)),
+            next_payment: S.NullOr(__S(12708, __c397, 4)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -39297,22 +36576,22 @@ function __c434(j: number): any {
             original_description: S.String,
             iso_currency_code: S.NullOr(S.String),
             unofficial_currency_code: S.NullOr(S.String),
-            outlier: __S(13894, __c434, 6),
+            outlier: __S(12710, __c397, 6),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "CraIncomeTransaction" });
     case 8:
-      return S.Array(__S(13895, __c434, 7));
+      return S.Array(__S(12711, __c397, 7));
   }
 }
-function __c435(j: number): any {
+function __c398(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(13728, __c429, 0));
+      return S.Array(__S(12544, __c392, 0));
   }
 }
-function __c436(j: number): any {
+function __c399(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39325,7 +36604,7 @@ function __c436(j: number): any {
       ).annotate({ identifier: "CraBankIncomeEmployer" });
   }
 }
-function __c437(j: number): any {
+function __c400(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39335,7 +36614,7 @@ function __c437(j: number): any {
           user_id: S.optional(S.String),
           third_party_user_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           user_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          options: S.optional(S.NullOr(__S(2656, __c83, 0))),
+          options: S.optional(S.NullOr(__S(1632, __c51, 0))),
         }).pipe(T.Http({ method: "POST", uri: "/cra/check_report/lend_score/get", code: 200 })),
       ).annotate({ identifier: "GetCraCheckReportLendScoreRequest" });
     case 1:
@@ -39355,7 +36634,7 @@ function __c437(j: number): any {
           S.Struct({
             report_id: S.String,
             generated_time: S.String,
-            lend_score: S.optional(S.NullOr(__S(13985, __c437, 1))),
+            lend_score: S.optional(S.NullOr(__S(12801, __c400, 1))),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -39364,16 +36643,16 @@ function __c437(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            report: __S(13986, __c437, 2),
+            report: __S(12802, __c400, 2),
             request_id: S.String,
-            warnings: S.optional(__S(5986, __c187, 2)),
+            warnings: S.optional(__S(5858, __c183, 2)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "CraCheckReportLendScoreGetResponse" });
   }
 }
-function __c438(j: number): any {
+function __c401(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39381,7 +36660,7 @@ function __c438(j: number): any {
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           user_id: S.optional(S.String),
-          options: S.optional(S.NullOr(__S(2688, __c84, 0))),
+          options: S.optional(S.NullOr(__S(1664, __c52, 0))),
           third_party_user_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           user_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }).pipe(
@@ -39397,7 +36676,7 @@ function __c438(j: number): any {
         }),
       ).annotate({ identifier: "CraNetworkInsightsItem" });
     case 2:
-      return S.Array(__S(14017, __c438, 1));
+      return S.Array(__S(12833, __c401, 1));
     case 3:
       return S.suspend(() =>
         S.StructWithRest(
@@ -39405,7 +36684,7 @@ function __c438(j: number): any {
             report_id: S.String,
             generated_time: S.String,
             network_attributes: S.Unknown,
-            items: __S(14018, __c438, 2),
+            items: __S(12834, __c401, 2),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -39414,21 +36693,21 @@ function __c438(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            report: __S(14019, __c438, 3),
+            report: __S(12835, __c401, 3),
             request_id: S.String,
-            warnings: S.optional(__S(5986, __c187, 2)),
+            warnings: S.optional(__S(5858, __c183, 2)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "CraCheckReportNetworkInsightsGetResponse" });
   }
 }
-function __c439(j: number): any {
+function __c402(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          prism_versions: S.optional(S.NullOr(__S(2720, __c85, 0))),
+          prism_versions: S.optional(S.NullOr(__S(1696, __c53, 0))),
         }),
       ).annotate({ identifier: "CraCheckReportPartnerInsightsGetOptions" });
     case 1:
@@ -39440,8 +36719,8 @@ function __c439(j: number): any {
           third_party_user_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           user_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           user_tier: S.optional(S.NullOr(S.String)),
-          partner_insights: S.optional(__S(2725, __c85, 5)),
-          options: S.optional(S.NullOr(__S(14048, __c439, 0))),
+          partner_insights: S.optional(__S(1701, __c53, 5)),
+          options: S.optional(S.NullOr(__S(12864, __c402, 0))),
         }).pipe(
           T.Http({ method: "POST", uri: "/cra/check_report/partner_insights/get", code: 200 }),
         ),
@@ -39450,16 +36729,16 @@ function __c439(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            report: S.optional(__S(14094, __c440, 14)),
+            report: S.optional(__S(12910, __c403, 14)),
             request_id: S.String,
-            warnings: S.optional(__S(5986, __c187, 2)),
+            warnings: S.optional(__S(5858, __c183, 2)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "CraCheckReportPartnerInsightsGetResponse" });
   }
 }
-function __c440(j: number): any {
+function __c403(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39484,13 +36763,13 @@ function __c440(j: number): any {
         S.Struct({
           request_correlation_id: S.optional(S.String),
           fico_scoring_request_id: S.optional(S.String),
-          ultrafico_score: S.optional(S.NullOr(__S(14080, __c440, 0))),
+          ultrafico_score: S.optional(S.NullOr(__S(12896, __c403, 0))),
           error_reason: S.optional(S.String),
           exclusion_code: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "CraPartnerInsightsUltraFicoScoreResult" });
     case 2:
-      return S.Array(__S(14081, __c440, 1));
+      return S.Array(__S(12897, __c403, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -39521,8 +36800,8 @@ function __c440(j: number): any {
       return S.suspend(() =>
         S.Struct({
           lender_application_id: S.String,
-          ultrafico_score_results: __S(14082, __c440, 2),
-          report_characteristics: S.optional(S.NullOr(__S(14083, __c440, 3))),
+          ultrafico_score_results: __S(12898, __c403, 2),
+          report_characteristics: S.optional(S.NullOr(__S(12899, __c403, 3))),
         }),
       ).annotate({ identifier: "CraPartnerInsightsFicoResults" });
     case 5:
@@ -39563,7 +36842,7 @@ function __c440(j: number): any {
             model_version: S.optional(S.String),
             score: S.NullOr(S.Number),
             reason_codes: S.optional(__S(32, __c1, 0)),
-            metadata: S.optional(__S(14086, __c440, 6)),
+            metadata: S.optional(__S(12902, __c403, 6)),
             error_reason: S.optional(S.String),
           }),
           [S.Record(S.String, S.Unknown)],
@@ -39576,7 +36855,7 @@ function __c440(j: number): any {
             model_version: S.String,
             score: S.NullOr(S.Number),
             reason_codes: S.optional(__S(32, __c1, 0)),
-            metadata: S.optional(__S(14086, __c440, 6)),
+            metadata: S.optional(__S(12902, __c403, 6)),
             error_reason: S.optional(S.String),
           }),
           [S.Record(S.String, S.Unknown)],
@@ -39586,11 +36865,11 @@ function __c440(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            insights: S.optional(S.NullOr(__S(14085, __c440, 5))),
-            cash_score: S.optional(S.NullOr(__S(14087, __c440, 7))),
-            extend: S.optional(S.NullOr(__S(14088, __c440, 8))),
-            first_detect: S.optional(S.NullOr(__S(14087, __c440, 7))),
-            detect: S.optional(S.NullOr(__S(14088, __c440, 8))),
+            insights: S.optional(S.NullOr(__S(12901, __c403, 5))),
+            cash_score: S.optional(S.NullOr(__S(12903, __c403, 7))),
+            extend: S.optional(S.NullOr(__S(12904, __c403, 8))),
+            first_detect: S.optional(S.NullOr(__S(12903, __c403, 7))),
+            detect: S.optional(S.NullOr(__S(12904, __c403, 8))),
             status: S.String,
           }),
           [S.Record(S.String, S.Unknown)],
@@ -39602,18 +36881,18 @@ function __c440(j: number): any {
           S.Struct({
             account_id: S.optional(S.String),
             mask: S.NullOr(S.String),
-            metadata: __S(13856, __c433, 0),
+            metadata: __S(12672, __c396, 0),
             name: S.String,
             official_name: S.NullOr(S.String),
             subtype: S.String,
             type: S.String,
-            owners: __S(5829, __c182, 5),
+            owners: __S(5733, __c179, 5),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "CraPartnerInsightsItemAccount" });
     case 11:
-      return S.Array(__S(14090, __c440, 10));
+      return S.Array(__S(12906, __c403, 10));
     case 12:
       return S.suspend(() =>
         S.StructWithRest(
@@ -39621,13 +36900,13 @@ function __c440(j: number): any {
             institution_id: S.optional(S.String),
             institution_name: S.optional(S.String),
             item_id: S.optional(S.String),
-            accounts: S.optional(__S(14091, __c440, 11)),
+            accounts: S.optional(__S(12907, __c403, 11)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "CraPartnerInsightsItem" });
     case 13:
-      return S.Array(__S(14092, __c440, 12));
+      return S.Array(__S(12908, __c403, 12));
     case 14:
       return S.suspend(() =>
         S.StructWithRest(
@@ -39635,16 +36914,16 @@ function __c440(j: number): any {
             report_id: S.optional(S.String),
             generated_time: S.optional(S.String),
             client_report_id: S.optional(S.NullOr(S.String)),
-            fico: S.optional(S.NullOr(__S(14084, __c440, 4))),
-            prism: S.optional(S.NullOr(__S(14089, __c440, 9))),
-            items: S.optional(__S(14093, __c440, 13)),
+            fico: S.optional(S.NullOr(__S(12900, __c403, 4))),
+            prism: S.optional(S.NullOr(__S(12905, __c403, 9))),
+            items: S.optional(__S(12909, __c403, 13)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "CraPartnerInsights" });
   }
 }
-function __c441(j: number): any {
+function __c404(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39653,13 +36932,13 @@ function __c441(j: number): any {
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           user_id: S.optional(S.String),
           third_party_user_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          add_ons: S.optional(__S(12352, __c386, 0)),
+          add_ons: S.optional(__S(192, __c6, 0)),
           user_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }).pipe(T.Http({ method: "POST", uri: "/cra/check_report/pdf/get", code: 200 })),
       ).annotate({ identifier: "GetCraCheckReportPdfRequest" });
   }
 }
-function __c442(j: number): any {
+function __c405(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39667,8 +36946,8 @@ function __c442(j: number): any {
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           user_id: S.optional(S.String),
-          reports_requested: __S(12352, __c386, 0),
-          employment_refresh_options: S.optional(S.NullOr(__S(2752, __c86, 0))),
+          reports_requested: __S(192, __c6, 0),
+          employment_refresh_options: S.optional(S.NullOr(__S(1728, __c54, 0))),
           user_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }).pipe(T.Http({ method: "POST", uri: "/cra/check_report/verification/get", code: 200 })),
       ).annotate({ identifier: "GetCraCheckReportVerificationRequest" });
@@ -39685,7 +36964,7 @@ function __c442(j: number): any {
         ),
       ).annotate({ identifier: "CraVoaReportAccountHistoricalBalance" });
     case 2:
-      return S.Array(__S(14145, __c442, 1));
+      return S.Array(__S(12961, __c405, 1));
     case 3:
       return S.suspend(() =>
         S.StructWithRest(
@@ -39694,7 +36973,7 @@ function __c442(j: number): any {
             current: S.NullOr(S.Number),
             iso_currency_code: S.NullOr(S.String),
             unofficial_currency_code: S.NullOr(S.String),
-            historical_balances: __S(14146, __c442, 2),
+            historical_balances: __S(12962, __c405, 2),
             average_balance_30_days: S.NullOr(S.Number),
             average_balance_60_days: S.NullOr(S.Number),
             nsf_overdraft_transactions_count: S.Number,
@@ -39706,7 +36985,7 @@ function __c442(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            all_transactions: __S(13763, __c430, 3),
+            all_transactions: __S(12579, __c393, 3),
             end_date: S.NullOr(S.String),
             start_date: S.NullOr(S.String),
           }),
@@ -39726,13 +37005,13 @@ function __c442(j: number): any {
             quantity: S.Number,
             iso_currency_code: S.NullOr(S.String),
             unofficial_currency_code: S.NullOr(S.String),
-            tax_lots: S.optional(__S(6049, __c189, 1)),
+            tax_lots: S.optional(__S(5953, __c186, 1)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "BaseReportInvestmentHolding" });
     case 6:
-      return S.Array(__S(14149, __c442, 5));
+      return S.Array(__S(12965, __c405, 5));
     case 7:
       return S.suspend(() =>
         S.StructWithRest(
@@ -39750,14 +37029,14 @@ function __c442(j: number): any {
         ),
       ).annotate({ identifier: "BaseReportInvestmentSecurity" });
     case 8:
-      return S.Array(__S(14151, __c442, 7));
+      return S.Array(__S(12967, __c405, 7));
     case 9:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            holdings: __S(14150, __c442, 6),
-            securities: __S(14152, __c442, 8),
-            investment_transactions: __S(6017, __c188, 1),
+            holdings: __S(12966, __c405, 6),
+            securities: __S(12968, __c405, 8),
+            investment_transactions: __S(5921, __c185, 1),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -39767,29 +37046,29 @@ function __c442(j: number): any {
         S.StructWithRest(
           S.Struct({
             account_id: S.String,
-            balances: __S(14147, __c442, 3),
-            consumer_disputes: __S(13761, __c430, 1),
+            balances: __S(12963, __c405, 3),
+            consumer_disputes: __S(12577, __c393, 1),
             mask: S.NullOr(S.String),
             name: S.String,
             official_name: S.NullOr(S.String),
             type: S.String,
             subtype: S.NullOr(S.String),
             days_available: S.Number,
-            transactions_insights: __S(14148, __c442, 4),
-            owners: __S(5829, __c182, 5),
+            transactions_insights: __S(12964, __c405, 4),
+            owners: __S(5733, __c179, 5),
             ownership_type: S.NullOr(S.String),
-            investments: S.optional(S.NullOr(__S(14153, __c442, 9))),
+            investments: S.optional(S.NullOr(__S(12969, __c405, 9))),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "CraVoaReportAccount" });
     case 11:
-      return S.Array(__S(14154, __c442, 10));
+      return S.Array(__S(12970, __c405, 10));
     case 12:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            accounts: __S(14155, __c442, 11),
+            accounts: __S(12971, __c405, 11),
             institution_name: S.String,
             institution_id: S.String,
             item_id: S.String,
@@ -39799,13 +37078,13 @@ function __c442(j: number): any {
         ),
       ).annotate({ identifier: "CraVoaReportItem" });
     case 13:
-      return S.Array(__S(14156, __c442, 12));
+      return S.Array(__S(12972, __c405, 12));
     case 14:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            total_inflow_amount: S.NullOr(__S(13728, __c429, 0)),
-            total_outflow_amount: S.NullOr(__S(13728, __c429, 0)),
+            total_inflow_amount: S.NullOr(__S(12544, __c392, 0)),
+            total_outflow_amount: S.NullOr(__S(12544, __c392, 0)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -39816,8 +37095,8 @@ function __c442(j: number): any {
           S.Struct({
             generated_time: S.String,
             days_requested: S.Number,
-            items: __S(14157, __c442, 13),
-            attributes: __S(14158, __c442, 14),
+            items: __S(12973, __c405, 13),
+            attributes: __S(12974, __c405, 14),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -39836,7 +37115,7 @@ function __c442(j: number): any {
         ),
       ).annotate({ identifier: "CraEmploymentRefreshReportTransaction" });
     case 17:
-      return S.Array(__S(14160, __c442, 16));
+      return S.Array(__S(12976, __c405, 16));
     case 18:
       return S.suspend(() =>
         S.StructWithRest(
@@ -39846,18 +37125,18 @@ function __c442(j: number): any {
             official_name: S.NullOr(S.String),
             type: S.String,
             subtype: S.NullOr(S.String),
-            transactions: __S(14161, __c442, 17),
+            transactions: __S(12977, __c405, 17),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "CraEmploymentRefreshReportAccount" });
     case 19:
-      return S.Array(__S(14162, __c442, 18));
+      return S.Array(__S(12978, __c405, 18));
     case 20:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            accounts: __S(14163, __c442, 19),
+            accounts: __S(12979, __c405, 19),
             institution_name: S.String,
             institution_id: S.String,
             item_id: S.String,
@@ -39867,14 +37146,14 @@ function __c442(j: number): any {
         ),
       ).annotate({ identifier: "CraEmploymentRefreshReportItem" });
     case 21:
-      return S.Array(__S(14164, __c442, 20));
+      return S.Array(__S(12980, __c405, 20));
     case 22:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
             generated_time: S.String,
             days_requested: S.Number,
-            items: __S(14165, __c442, 21),
+            items: __S(12981, __c405, 21),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -39883,7 +37162,7 @@ function __c442(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            current: S.NullOr(__S(13890, __c434, 2)),
+            current: S.NullOr(__S(12706, __c397, 2)),
             iso_currency_code: S.NullOr(S.String),
             unofficial_currency_code: S.NullOr(S.String),
           }),
@@ -39891,12 +37170,12 @@ function __c442(j: number): any {
         ),
       ).annotate({ identifier: "CraVerificationIncomeMetrics" });
     case 24:
-      return S.Array(__S(14167, __c442, 23));
+      return S.Array(__S(12983, __c405, 23));
     case 25:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            income_metrics: __S(14168, __c442, 24),
+            income_metrics: __S(12984, __c405, 24),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -39909,22 +37188,22 @@ function __c442(j: number): any {
             start_date: S.String,
             end_date: S.String,
             description: S.String,
-            insights: __S(13893, __c434, 5),
-            income_metrics: __S(14167, __c442, 23),
-            transactions: __S(13896, __c434, 8),
+            insights: __S(12709, __c397, 5),
+            income_metrics: __S(12983, __c405, 23),
+            transactions: __S(12712, __c397, 8),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "CraVerificationIncomeStream" });
     case 27:
-      return S.Array(__S(14170, __c442, 26));
+      return S.Array(__S(12986, __c405, 26));
     case 28:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
             account_id: S.String,
             mask: S.NullOr(S.String),
-            metadata: __S(13856, __c433, 0),
+            metadata: __S(12672, __c396, 0),
             name: S.String,
             official_name: S.NullOr(S.String),
             subtype: S.NullOr(S.String),
@@ -39934,13 +37213,13 @@ function __c442(j: number): any {
         ),
       ).annotate({ identifier: "CraVerificationIncomeAccount" });
     case 29:
-      return S.Array(__S(14172, __c442, 28));
+      return S.Array(__S(12988, __c405, 28));
     case 30:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
             item_id: S.String,
-            accounts: __S(14173, __c442, 29),
+            accounts: __S(12989, __c405, 29),
             last_updated_time: S.String,
             institution_id: S.String,
             institution_name: S.String,
@@ -39949,10 +37228,10 @@ function __c442(j: number): any {
         ),
       ).annotate({ identifier: "CraVerificationIncomeItem" });
     case 31:
-      return S.Array(__S(14174, __c442, 30));
+      return S.Array(__S(12990, __c405, 30));
   }
 }
-function __c443(j: number): any {
+function __c406(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39960,9 +37239,9 @@ function __c443(j: number): any {
           S.Struct({
             generated_time: S.String,
             days_requested: S.Number,
-            user_summary: S.NullOr(__S(14169, __c442, 25)),
-            income_streams: __S(14171, __c442, 27),
-            items: __S(14175, __c442, 31),
+            user_summary: S.NullOr(__S(12985, __c405, 25)),
+            income_streams: __S(12987, __c405, 27),
+            items: __S(12991, __c405, 31),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -39974,9 +37253,9 @@ function __c443(j: number): any {
             report_id: S.String,
             gse_reference_id: S.optional(S.String),
             client_report_id: S.optional(S.NullOr(S.String)),
-            voa: S.optional(S.NullOr(__S(14159, __c442, 15))),
-            employment_refresh: S.optional(S.NullOr(__S(14166, __c442, 22))),
-            income: S.optional(S.NullOr(__S(14176, __c443, 0))),
+            voa: S.optional(S.NullOr(__S(12975, __c405, 15))),
+            employment_refresh: S.optional(S.NullOr(__S(12982, __c405, 22))),
+            income: S.optional(S.NullOr(__S(12992, __c406, 0))),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -39985,16 +37264,28 @@ function __c443(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            report: __S(14177, __c443, 1),
+            report: __S(12993, __c406, 1),
             request_id: S.String,
-            warnings: __S(5986, __c187, 2),
+            warnings: __S(5858, __c183, 2),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "CraCheckReportVerificationGetResponse" });
   }
 }
-function __c444(j: number): any {
+function __c407(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          client_id: S.optional(S.String),
+          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          recurring_transfer_id: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/transfer/recurring/cancel", code: 200 })),
+      ).annotate({ identifier: "CancelTransferRecurringRequest" });
+  }
+}
+function __c408(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40004,7 +37295,7 @@ function __c444(j: number): any {
           user_id: S.optional(S.String),
           third_party_user_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           report_requested: S.optional(S.Unknown),
-          reports_requested: S.optional(__S(12352, __c386, 0)),
+          reports_requested: S.optional(__S(192, __c6, 0)),
           hide_gse_details: S.optional(S.Boolean),
           user_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }).pipe(
@@ -40013,7 +37304,7 @@ function __c444(j: number): any {
       ).annotate({ identifier: "GetCraCheckReportVerificationPdfRequest" });
   }
 }
-function __c445(j: number): any {
+function __c409(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40041,7 +37332,7 @@ function __c445(j: number): any {
         ),
       ).annotate({ identifier: "CraCreditProfileLendScore" });
     case 2:
-      return S.Array(/*@__PURE__*/ S.NullOr(__S(14241, __c445, 1)));
+      return S.Array(/*@__PURE__*/ S.NullOr(__S(13089, __c409, 1)));
     case 3:
       return S.suspend(() =>
         S.StructWithRest(
@@ -40069,10 +37360,10 @@ function __c445(j: number): any {
             date_retrieved: S.String,
             inquiry_type: S.String,
             client_report_id: S.String,
-            lend_scores: __S(14242, __c445, 2),
-            cashflow_insights_attributes: S.NullOr(__S(1440, __c45, 0)),
-            network_insights_attributes: S.NullOr(__S(1440, __c45, 0)),
-            metadata: S.NullOr(__S(14243, __c445, 3)),
+            lend_scores: __S(13090, __c409, 2),
+            cashflow_insights_attributes: S.NullOr(__S(3840, __c120, 0)),
+            network_insights_attributes: S.NullOr(__S(3840, __c120, 0)),
+            metadata: S.NullOr(__S(13091, __c409, 3)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -40081,29 +37372,17 @@ function __c445(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            report: __S(14244, __c445, 4),
+            report: __S(13092, __c409, 4),
             request_id: S.String,
             user_id: S.optional(S.String),
-            warnings: __S(5986, __c187, 2),
+            warnings: __S(5858, __c183, 2),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "CraCreditProfileReportGetResponse" });
   }
 }
-function __c446(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          client_id: S.optional(S.String),
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          recurring_transfer_id: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/transfer/recurring/cancel", code: 200 })),
-      ).annotate({ identifier: "CancelTransferRecurringRequest" });
-  }
-}
-function __c447(j: number): any {
+function __c410(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40115,12 +37394,12 @@ function __c447(j: number): any {
         }).pipe(T.Http({ method: "POST", uri: "/cra/partner_insights/get", code: 200 })),
       ).annotate({ identifier: "GetCraPartnerInsightRequest" });
     case 1:
-      return S.Array(__S(14094, __c440, 14));
+      return S.Array(__S(12910, __c403, 14));
     case 2:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            report: S.optional(__S(14305, __c447, 1)),
+            report: S.optional(__S(13121, __c410, 1)),
             request_id: S.String,
           }),
           [S.Record(S.String, S.Unknown)],
@@ -40128,7 +37407,7 @@ function __c447(j: number): any {
       ).annotate({ identifier: "CraPartnerInsightsGetResponse" });
   }
 }
-function __c448(j: number): any {
+function __c411(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -40138,7 +37417,7 @@ function __c448(j: number): any {
           client_id: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           user_id: S.String,
-          products: __S(14336, __c448, 0),
+          products: __S(13152, __c411, 0),
           scope: S.optional(S.String),
           decision_stage: S.String,
           consumer_report_permissible_purpose: S.Unknown,
@@ -40157,7 +37436,7 @@ function __c448(j: number): any {
             scope: S.String,
             decision_stage: S.String,
             consumer_report_permissible_purpose: S.Unknown,
-            products: __S(14338, __c448, 2),
+            products: __S(13154, __c411, 2),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -40166,18 +37445,18 @@ function __c448(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            report: __S(14339, __c448, 3),
+            report: __S(13155, __c411, 3),
             request_id: S.String,
             user_id: S.String,
             client_user_id: S.NullOr(S.String),
-            warnings: __S(5986, __c187, 2),
+            warnings: __S(5858, __c183, 2),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "CraReportGetResponse" });
   }
 }
-function __c449(j: number): any {
+function __c412(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40191,7 +37470,7 @@ function __c449(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            subscription: __S(14400, __c450, 0),
+            subscription: __S(13216, __c413, 0),
             request_id: S.String,
           }),
           [S.Record(S.String, S.Unknown)],
@@ -40199,7 +37478,7 @@ function __c449(j: number): any {
       ).annotate({ identifier: "CraServicingSubscriptionGetResponse" });
   }
 }
-function __c450(j: number): any {
+function __c413(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40210,14 +37489,14 @@ function __c450(j: number): any {
             scope: S.String,
             cadence: S.optional(S.NullOr(S.String)),
             webhook: S.optional(S.NullOr(S.String)),
-            products: __S(3680, __c115, 0),
+            products: __S(2656, __c83, 0),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "CraServicingSubscription" });
   }
 }
-function __c451(j: number): any {
+function __c414(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40231,7 +37510,7 @@ function __c451(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            LOAN_IDENTIFIER: __S(14464, __c452, 0),
+            LOAN_IDENTIFIER: __S(13280, __c415, 0),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -40240,7 +37519,7 @@ function __c451(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            LOAN_IDENTIFIERS: __S(14433, __c451, 1),
+            LOAN_IDENTIFIERS: __S(13249, __c414, 1),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -40249,7 +37528,7 @@ function __c451(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            LOAN: __S(14434, __c451, 2),
+            LOAN: __S(13250, __c414, 2),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -40268,7 +37547,7 @@ function __c451(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            NAME: __S(14436, __c451, 4),
+            NAME: __S(13252, __c414, 4),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -40277,20 +37556,20 @@ function __c451(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            INDIVIDUAL: __S(14437, __c451, 5),
-            ROLES: __S(14467, __c452, 3),
-            TAXPAYER_IDENTIFIERS: __S(14469, __c452, 5),
+            INDIVIDUAL: __S(13253, __c414, 5),
+            ROLES: __S(13283, __c415, 3),
+            TAXPAYER_IDENTIFIERS: __S(13285, __c415, 5),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "Party" });
     case 7:
-      return S.Array(__S(14438, __c451, 6));
+      return S.Array(__S(13254, __c414, 6));
     case 8:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            PARTY: __S(14439, __c451, 7),
+            PARTY: __S(13255, __c414, 7),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -40308,19 +37587,19 @@ function __c451(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            ASSET_TRANSACTION_DETAIL: __S(14478, __c452, 14),
-            ASSET_TRANSACTION_DESCRIPTON: __S(14480, __c452, 16),
+            ASSET_TRANSACTION_DETAIL: __S(13294, __c415, 14),
+            ASSET_TRANSACTION_DESCRIPTON: __S(13296, __c415, 16),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "AssetTransaction" });
     case 11:
-      return S.Array(__S(14442, __c451, 10));
+      return S.Array(__S(13258, __c414, 10));
     case 12:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            ASSET_TRANSACTION: __S(14443, __c451, 11),
+            ASSET_TRANSACTION: __S(13259, __c414, 11),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -40329,22 +37608,22 @@ function __c451(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            ASSET_DETAIL: __S(14472, __c452, 8),
-            ASSET_OWNERS: __S(14475, __c452, 11),
-            ASSET_HOLDER: __S(14477, __c452, 13),
-            ASSET_TRANSACTIONS: __S(14444, __c451, 12),
-            VALIDATION_SOURCES: __S(14483, __c452, 19),
+            ASSET_DETAIL: __S(13288, __c415, 8),
+            ASSET_OWNERS: __S(13291, __c415, 11),
+            ASSET_HOLDER: __S(13293, __c415, 13),
+            ASSET_TRANSACTIONS: __S(13260, __c414, 12),
+            VALIDATION_SOURCES: __S(13299, __c415, 19),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "Asset" });
     case 14:
-      return S.Array(__S(14445, __c451, 13));
+      return S.Array(__S(13261, __c414, 13));
     case 15:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            ASSET: __S(14446, __c451, 14),
+            ASSET: __S(13262, __c414, 14),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -40353,7 +37632,7 @@ function __c451(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            ASSETS: __S(14447, __c451, 15),
+            ASSETS: __S(13263, __c414, 15),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -40362,9 +37641,9 @@ function __c451(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            REPORTING_INFORMATION: __S(14441, __c451, 9),
-            SERVICE_PRODUCT_FULFILLMENT: __S(14471, __c452, 7),
-            VERIFICATION_OF_ASSET_RESPONSE: __S(14448, __c451, 16),
+            REPORTING_INFORMATION: __S(13257, __c414, 9),
+            SERVICE_PRODUCT_FULFILLMENT: __S(13287, __c415, 7),
+            VERIFICATION_OF_ASSET_RESPONSE: __S(13264, __c414, 16),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -40373,8 +37652,8 @@ function __c451(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            VERIFICATION_OF_ASSET: __S(14449, __c451, 17),
-            STATUSES: __S(14485, __c452, 21),
+            VERIFICATION_OF_ASSET: __S(13265, __c414, 17),
+            STATUSES: __S(13301, __c415, 21),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -40383,7 +37662,7 @@ function __c451(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            SERVICE: __S(14450, __c451, 18),
+            SERVICE: __S(13266, __c414, 18),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -40392,9 +37671,9 @@ function __c451(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            LOANS: __S(14435, __c451, 3),
-            PARTIES: __S(14440, __c451, 8),
-            SERVICES: __S(14451, __c451, 19),
+            LOANS: __S(13251, __c414, 3),
+            PARTIES: __S(13256, __c414, 8),
+            SERVICES: __S(13267, __c414, 19),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -40403,7 +37682,7 @@ function __c451(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            DEAL: __S(14452, __c451, 20),
+            DEAL: __S(13268, __c414, 20),
             request_id: S.String,
             SchemaVersion: S.Number,
           }),
@@ -40412,7 +37691,7 @@ function __c451(j: number): any {
       ).annotate({ identifier: "AssetReportFreddieGetResponse" });
   }
 }
-function __c452(j: number): any {
+function __c415(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40437,7 +37716,7 @@ function __c452(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            ROLE_DETAIL: __S(14465, __c452, 1),
+            ROLE_DETAIL: __S(13281, __c415, 1),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -40446,7 +37725,7 @@ function __c452(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            ROLE: __S(14466, __c452, 2),
+            ROLE: __S(13282, __c415, 2),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -40465,7 +37744,7 @@ function __c452(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            TAXPAYER_IDENTIFIER: __S(14468, __c452, 4),
+            TAXPAYER_IDENTIFIER: __S(13284, __c415, 4),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -40484,7 +37763,7 @@ function __c452(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            SERVICE_PRODUCT_FULFILLMENT_DETAIL: __S(14470, __c452, 6),
+            SERVICE_PRODUCT_FULFILLMENT_DETAIL: __S(13286, __c415, 6),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -40528,12 +37807,12 @@ function __c452(j: number): any {
         ),
       ).annotate({ identifier: "AssetOwner" });
     case 10:
-      return S.Array(__S(14473, __c452, 9));
+      return S.Array(__S(13289, __c415, 9));
     case 11:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            ASSET_OWNER: __S(14474, __c452, 10),
+            ASSET_OWNER: __S(13290, __c415, 10),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -40551,7 +37830,7 @@ function __c452(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            NAME: __S(14476, __c452, 12),
+            NAME: __S(13292, __c415, 12),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -40586,7 +37865,7 @@ function __c452(j: number): any {
         ),
       ).annotate({ identifier: "AssetTransactionDescription" });
     case 16:
-      return S.Array(__S(14479, __c452, 15));
+      return S.Array(__S(13295, __c415, 15));
     case 17:
       return S.suspend(() =>
         S.StructWithRest(
@@ -40598,12 +37877,12 @@ function __c452(j: number): any {
         ),
       ).annotate({ identifier: "ValidationSource" });
     case 18:
-      return S.Array(__S(14481, __c452, 17));
+      return S.Array(__S(13297, __c415, 17));
     case 19:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            VALIDATION_SOURCE: __S(14482, __c452, 18),
+            VALIDATION_SOURCE: __S(13298, __c415, 18),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -40622,117 +37901,14 @@ function __c452(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            STATUS: __S(14484, __c452, 20),
+            STATUS: __S(13300, __c415, 20),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "Statuses" });
   }
 }
-function __c453(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          client_id: S.optional(S.String),
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          user_token: S.String.pipe(T.SensitiveValue({})),
-        }).pipe(T.Http({ method: "POST", uri: "/beta/credit/v1/bank_employment/get", code: 200 })),
-      ).annotate({ identifier: "GetCreditBankEmploymentRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-        }),
-      ).annotate({ identifier: "CreditBankEmployer" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          bank_employment_id: S.String,
-          account_id: S.String,
-          employer: __S(14497, __c453, 1),
-          latest_deposit_date: S.String,
-          earliest_deposit_date: S.String,
-        }),
-      ).annotate({ identifier: "CreditBankEmployment" });
-    case 3:
-      return S.Array(__S(14498, __c453, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          item_id: S.String,
-          last_updated_time: S.String,
-          institution_id: S.String,
-          institution_name: S.String,
-          bank_employments: __S(14499, __c453, 3),
-          bank_employment_accounts: __S(14529, __c454, 1),
-        }),
-      ).annotate({ identifier: "CreditBankEmploymentItem" });
-    case 5:
-      return S.Array(__S(14500, __c453, 4));
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          warning_type: S.String,
-          warning_code: S.String,
-          cause: __S(14530, __c454, 2),
-        }),
-      ).annotate({ identifier: "CreditBankEmploymentWarning" });
-    case 7:
-      return S.Array(__S(14502, __c453, 6));
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          bank_employment_report_id: S.String,
-          generated_time: S.String,
-          days_requested: S.Number,
-          items: __S(14501, __c453, 5),
-          warnings: __S(14503, __c453, 7),
-        }),
-      ).annotate({ identifier: "CreditBankEmploymentReport" });
-    case 9:
-      return S.Array(__S(14504, __c453, 8));
-    case 10:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            bank_employment_reports: __S(14505, __c453, 9),
-            request_id: S.String,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "CreditBankEmploymentGetResponse" });
-  }
-}
-function __c454(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          account_id: S.String,
-          mask: S.NullOr(S.String),
-          name: S.String,
-          official_name: S.NullOr(S.String),
-          subtype: S.String,
-          type: S.String,
-          owners: __S(5829, __c182, 5),
-        }),
-      ).annotate({ identifier: "CreditBankIncomeAccount" });
-    case 1:
-      return S.Array(__S(14528, __c454, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          error_type: S.String,
-          error_code: S.String,
-          error_message: S.String,
-          display_message: S.String,
-          item_id: S.String,
-        }),
-      ).annotate({ identifier: "CreditBankIncomeCause" });
-  }
-}
-function __c455(j: number): any {
+function __c416(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40747,10 +37923,24 @@ function __c455(j: number): any {
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           user_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           user_id: S.optional(S.String),
-          options: S.optional(__S(14560, __c455, 0)),
+          options: S.optional(__S(13312, __c416, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/credit/bank_income/get", code: 200 })),
       ).annotate({ identifier: "GetCreditBankIncomeRequest" });
     case 2:
+      return S.suspend(() =>
+        S.Struct({
+          account_id: S.String,
+          mask: S.NullOr(S.String),
+          name: S.String,
+          official_name: S.NullOr(S.String),
+          subtype: S.String,
+          type: S.String,
+          owners: __S(5733, __c179, 5),
+        }),
+      ).annotate({ identifier: "CreditBankIncomeAccount" });
+    case 3:
+      return S.Array(__S(13314, __c416, 2));
+    case 4:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
@@ -40767,26 +37957,26 @@ function __c455(j: number): any {
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "CreditBankIncomeTransaction" });
-    case 3:
-      return S.Array(__S(14562, __c455, 2));
-    case 4:
+    case 5:
+      return S.Array(__S(13316, __c416, 4));
+    case 6:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
             total_amount: S.optional(S.Number),
             iso_currency_code: S.optional(S.NullOr(S.String)),
             unofficial_currency_code: S.optional(S.NullOr(S.String)),
-            total_amounts: S.optional(__S(13920, __c435, 0)),
+            total_amounts: S.optional(__S(12736, __c398, 0)),
             start_date: S.optional(S.String),
             end_date: S.optional(S.String),
-            transactions: S.optional(__S(14563, __c455, 3)),
+            transactions: S.optional(__S(13317, __c416, 5)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "CreditBankIncomeHistoricalSummary" });
-    case 5:
-      return S.Array(__S(14564, __c455, 4));
-    case 6:
+    case 7:
+      return S.Array(__S(13318, __c416, 6));
+    case 8:
       return S.suspend(() =>
         S.Struct({
           income_source_id: S.optional(S.String),
@@ -40798,70 +37988,80 @@ function __c455(j: number): any {
           pay_frequency: S.optional(S.String),
           total_amount: S.optional(S.Number),
           transaction_count: S.optional(S.Number),
-          historical_summary: S.optional(__S(14565, __c455, 5)),
+          historical_summary: S.optional(__S(13319, __c416, 7)),
         }),
       ).annotate({ identifier: "CreditBankIncomeSource" });
-    case 7:
-      return S.Array(__S(14566, __c455, 6));
-    case 8:
+    case 9:
+      return S.Array(__S(13320, __c416, 8));
+    case 10:
       return S.suspend(() =>
         S.Struct({
-          bank_income_accounts: S.optional(__S(14529, __c454, 1)),
-          bank_income_sources: S.optional(__S(14567, __c455, 7)),
+          bank_income_accounts: S.optional(__S(13315, __c416, 3)),
+          bank_income_sources: S.optional(__S(13321, __c416, 9)),
           last_updated_time: S.optional(S.String),
           institution_id: S.optional(S.String),
           institution_name: S.optional(S.String),
           item_id: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreditBankIncomeItem" });
-    case 9:
-      return S.Array(__S(14568, __c455, 8));
-    case 10:
+    case 11:
+      return S.Array(__S(13322, __c416, 10));
+    case 12:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
             total_amount: S.optional(S.Number),
             iso_currency_code: S.optional(S.NullOr(S.String)),
             unofficial_currency_code: S.optional(S.NullOr(S.String)),
-            total_amounts: S.optional(__S(13920, __c435, 0)),
+            total_amounts: S.optional(__S(12736, __c398, 0)),
             start_date: S.optional(S.String),
             end_date: S.optional(S.String),
             income_sources_count: S.optional(S.Number),
             income_categories_count: S.optional(S.Number),
             income_transactions_count: S.optional(S.Number),
-            historical_summary: S.optional(__S(14565, __c455, 5)),
+            historical_summary: S.optional(__S(13319, __c416, 7)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "CreditBankIncomeSummary" });
-    case 11:
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          error_type: S.String,
+          error_code: S.String,
+          error_message: S.String,
+          display_message: S.String,
+          item_id: S.String,
+        }),
+      ).annotate({ identifier: "CreditBankIncomeCause" });
+    case 14:
       return S.suspend(() =>
         S.Struct({
           warning_type: S.optional(S.String),
           warning_code: S.optional(S.String),
-          cause: S.optional(__S(14530, __c454, 2)),
+          cause: S.optional(__S(13325, __c416, 13)),
         }),
       ).annotate({ identifier: "CreditBankIncomeWarning" });
-    case 12:
-      return S.Array(__S(14571, __c455, 11));
-    case 13:
+    case 15:
+      return S.Array(__S(13326, __c416, 14));
+    case 16:
       return S.suspend(() =>
         S.Struct({
           bank_income_id: S.optional(S.String),
           generated_time: S.optional(S.String),
           days_requested: S.optional(S.Number),
-          items: S.optional(__S(14569, __c455, 9)),
-          bank_income_summary: S.optional(__S(14570, __c455, 10)),
-          warnings: S.optional(__S(14572, __c455, 12)),
+          items: S.optional(__S(13323, __c416, 11)),
+          bank_income_summary: S.optional(__S(13324, __c416, 12)),
+          warnings: S.optional(__S(13327, __c416, 15)),
         }),
       ).annotate({ identifier: "CreditBankIncome" });
-    case 14:
-      return S.Array(__S(14573, __c455, 13));
-    case 15:
+    case 17:
+      return S.Array(__S(13328, __c416, 16));
+    case 18:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            bank_income: S.optional(__S(14574, __c455, 14)),
+            bank_income: S.optional(__S(13329, __c416, 17)),
             request_id: S.String,
           }),
           [S.Record(S.String, S.Unknown)],
@@ -40869,7 +38069,7 @@ function __c455(j: number): any {
       ).annotate({ identifier: "CreditBankIncomeGetResponse" });
   }
 }
-function __c456(j: number): any {
+function __c417(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40882,7 +38082,7 @@ function __c456(j: number): any {
       ).annotate({ identifier: "GetCreditBankIncomePdfRequest" });
   }
 }
-function __c457(j: number): any {
+function __c418(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40891,7 +38091,7 @@ function __c457(j: number): any {
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           user_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           user_id: S.optional(S.String),
-          options: S.optional(__S(14656, __c458, 0)),
+          options: S.optional(__S(13408, __c419, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/credit/bank_statements/uploads/get", code: 200 })),
       ).annotate({ identifier: "GetCreditBankStatementsUploadRequest" });
     case 1:
@@ -40904,13 +38104,13 @@ function __c457(j: number): any {
         }),
       ).annotate({ identifier: "CreditBankStatementUploadTransaction" });
     case 2:
-      return S.Array(__S(14625, __c457, 1));
+      return S.Array(__S(13377, __c418, 1));
     case 3:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
             name: S.NullOr(S.String),
-            address: __S(14688, __c459, 0),
+            address: __S(13440, __c420, 0),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -40925,7 +38125,7 @@ function __c457(j: number): any {
         }),
       ).annotate({ identifier: "CreditBankStatementUploadBankAccountPeriod" });
     case 5:
-      return S.Array(__S(14628, __c457, 4));
+      return S.Array(__S(13380, __c418, 4));
     case 6:
       return S.suspend(() =>
         S.StructWithRest(
@@ -40934,45 +38134,45 @@ function __c457(j: number): any {
             bank_name: S.NullOr(S.String),
             account_type: S.NullOr(S.String),
             account_number: S.NullOr(S.String),
-            owner: __S(14627, __c457, 3),
-            periods: __S(14629, __c457, 5),
+            owner: __S(13379, __c418, 3),
+            periods: __S(13381, __c418, 5),
             account_id: S.NullOr(S.String),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "CreditBankStatementUploadBankAccount" });
     case 7:
-      return S.Array(__S(14630, __c457, 6));
+      return S.Array(__S(13382, __c418, 6));
     case 8:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            transactions: __S(14626, __c457, 2),
-            document_metadata: __S(14657, __c458, 1),
+            transactions: __S(13378, __c418, 2),
+            document_metadata: __S(13409, __c419, 1),
             document_id: S.NullOr(S.String),
-            bank_accounts: __S(14631, __c457, 7),
+            bank_accounts: __S(13383, __c418, 7),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "CreditBankStatementUploadObject" });
     case 9:
-      return S.Array(__S(14632, __c457, 8));
+      return S.Array(__S(13384, __c418, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
           item_id: S.String,
-          bank_statements: __S(14633, __c457, 9),
-          status: S.NullOr(__S(14658, __c458, 2)),
+          bank_statements: __S(13385, __c418, 9),
+          status: S.NullOr(__S(13410, __c419, 2)),
           updated_at: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "CreditBankStatementUploadItem" });
     case 11:
-      return S.Array(__S(14634, __c457, 10));
+      return S.Array(__S(13386, __c418, 10));
     case 12:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            items: __S(14635, __c457, 11),
+            items: __S(13387, __c418, 11),
             request_id: S.String,
           }),
           [S.Record(S.String, S.Unknown)],
@@ -40980,7 +38180,7 @@ function __c457(j: number): any {
       ).annotate({ identifier: "CreditBankStatementsUploadsGetResponse" });
   }
 }
-function __c458(j: number): any {
+function __c419(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41013,7 +38213,7 @@ function __c458(j: number): any {
       ).annotate({ identifier: "PayrollItemStatus" });
   }
 }
-function __c459(j: number): any {
+function __c420(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41030,7 +38230,7 @@ function __c459(j: number): any {
       ).annotate({ identifier: "CreditBankStatementUploadAccountOwnerAddress" });
   }
 }
-function __c460(j: number): any {
+function __c421(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41060,9 +38260,9 @@ function __c460(j: number): any {
             status: S.NullOr(S.String),
             start_date: S.NullOr(S.String),
             end_date: S.NullOr(S.String),
-            employer: __S(13952, __c436, 0),
+            employer: __S(12768, __c399, 0),
             title: S.NullOr(S.String),
-            platform_ids: __S(14721, __c460, 1),
+            platform_ids: __S(13473, __c421, 1),
             employee_type: S.NullOr(S.String),
             last_paystub_date: S.NullOr(S.String),
           }),
@@ -41070,25 +38270,25 @@ function __c460(j: number): any {
         ),
       ).annotate({ identifier: "CreditEmploymentVerification" });
     case 3:
-      return S.Array(__S(14722, __c460, 2));
+      return S.Array(__S(13474, __c421, 2));
     case 4:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
             item_id: S.String,
-            employments: __S(14723, __c460, 3),
+            employments: __S(13475, __c421, 3),
             employment_report_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "CreditEmploymentItem" });
     case 5:
-      return S.Array(__S(14724, __c460, 4));
+      return S.Array(__S(13476, __c421, 4));
     case 6:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            items: __S(14725, __c460, 5),
+            items: __S(13477, __c421, 5),
             request_id: S.String,
           }),
           [S.Record(S.String, S.Unknown)],
@@ -41096,7 +38296,19 @@ function __c460(j: number): any {
       ).annotate({ identifier: "CreditEmploymentGetResponse" });
   }
 }
-function __c461(j: number): any {
+function __c422(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          client_id: S.optional(S.String),
+          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          refund_id: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/transfer/refund/cancel", code: 200 })),
+      ).annotate({ identifier: "CancelTransferRefundRequest" });
+  }
+}
+function __c423(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41107,12 +38319,12 @@ function __c461(j: number): any {
         }).pipe(T.Http({ method: "POST", uri: "/credit/freddie_mac/reports/get", code: 200 })),
       ).annotate({ identifier: "GetCreditFreddieMacReportRequest" });
     case 1:
-      return S.Array(__S(14464, __c452, 0));
+      return S.Array(__S(13280, __c415, 0));
     case 2:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            LOAN_IDENTIFIER: __S(14753, __c461, 1),
+            LOAN_IDENTIFIER: __S(13537, __c423, 1),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -41121,7 +38333,7 @@ function __c461(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            LOAN_IDENTIFIERS: __S(14754, __c461, 2),
+            LOAN_IDENTIFIERS: __S(13538, __c423, 2),
             LoanRoleType: S.String,
           }),
           [S.Record(S.String, S.Unknown)],
@@ -41131,7 +38343,7 @@ function __c461(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            LOAN: __S(14755, __c461, 3),
+            LOAN: __S(13539, __c423, 3),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -41151,7 +38363,7 @@ function __c461(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            NAME: __S(14757, __c461, 5),
+            NAME: __S(13541, __c423, 5),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -41160,20 +38372,20 @@ function __c461(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            INDIVIDUAL: __S(14758, __c461, 6),
-            ROLES: __S(14467, __c452, 3),
-            TAXPAYER_IDENTIFIERS: __S(14469, __c452, 5),
+            INDIVIDUAL: __S(13542, __c423, 6),
+            ROLES: __S(13283, __c415, 3),
+            TAXPAYER_IDENTIFIERS: __S(13285, __c415, 5),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "CreditFreddieMacParty" });
     case 8:
-      return S.Array(__S(14759, __c461, 7));
+      return S.Array(__S(13543, __c423, 7));
     case 9:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            PARTY: __S(14760, __c461, 8),
+            PARTY: __S(13544, __c423, 8),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -41210,12 +38422,12 @@ function __c461(j: number): any {
         ),
       ).annotate({ identifier: "AssetHolding" });
     case 12:
-      return S.Array(__S(14763, __c461, 11));
+      return S.Array(__S(13547, __c423, 11));
     case 13:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            ASSET_HOLDING: __S(14764, __c461, 12),
+            ASSET_HOLDING: __S(13548, __c423, 12),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -41224,19 +38436,19 @@ function __c461(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            ASSET_TRANSACTION_DETAIL: __S(14478, __c452, 14),
-            ASSET_TRANSACTION_DESCRIPTION: __S(14480, __c452, 16),
+            ASSET_TRANSACTION_DETAIL: __S(13294, __c415, 14),
+            ASSET_TRANSACTION_DESCRIPTION: __S(13296, __c415, 16),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "CreditFreddieMacAssetTransaction" });
     case 15:
-      return S.Array(__S(14766, __c461, 14));
+      return S.Array(__S(13550, __c423, 14));
     case 16:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            ASSET_TRANSACTION: __S(14767, __c461, 15),
+            ASSET_TRANSACTION: __S(13551, __c423, 15),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -41245,23 +38457,23 @@ function __c461(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            ASSET_DETAIL: __S(14472, __c452, 8),
-            ASSET_OWNERS: __S(14475, __c452, 11),
-            ASSET_HOLDER: __S(14477, __c452, 13),
-            ASSET_HOLDINGS: S.optional(__S(14765, __c461, 13)),
-            ASSET_TRANSACTIONS: __S(14768, __c461, 16),
-            VALIDATION_SOURCES: __S(14483, __c452, 19),
+            ASSET_DETAIL: __S(13288, __c415, 8),
+            ASSET_OWNERS: __S(13291, __c415, 11),
+            ASSET_HOLDER: __S(13293, __c415, 13),
+            ASSET_HOLDINGS: S.optional(__S(13549, __c423, 13)),
+            ASSET_TRANSACTIONS: __S(13552, __c423, 16),
+            VALIDATION_SOURCES: __S(13299, __c415, 19),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "CreditFreddieMacAsset" });
     case 18:
-      return S.Array(__S(14769, __c461, 17));
+      return S.Array(__S(13553, __c423, 17));
     case 19:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            ASSET: __S(14770, __c461, 18),
+            ASSET: __S(13554, __c423, 18),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -41270,7 +38482,7 @@ function __c461(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            ASSETS: __S(14771, __c461, 19),
+            ASSETS: __S(13555, __c423, 19),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -41279,21 +38491,21 @@ function __c461(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            REPORTING_INFORMATION: __S(14762, __c461, 10),
-            SERVICE_PRODUCT_FULFILLMENT: __S(14471, __c452, 7),
-            VERIFICATION_OF_ASSET_RESPONSE: __S(14772, __c461, 20),
+            REPORTING_INFORMATION: __S(13546, __c423, 10),
+            SERVICE_PRODUCT_FULFILLMENT: __S(13287, __c415, 7),
+            VERIFICATION_OF_ASSET_RESPONSE: __S(13556, __c423, 20),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "CreditFreddieMacVerificationOfAsset" });
     case 22:
-      return S.Array(__S(14773, __c461, 21));
+      return S.Array(__S(13557, __c423, 21));
     case 23:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            VERIFICATION_OF_ASSET: __S(14774, __c461, 22),
-            STATUSES: __S(14485, __c452, 21),
+            VERIFICATION_OF_ASSET: __S(13558, __c423, 22),
+            STATUSES: __S(13301, __c415, 21),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -41302,7 +38514,7 @@ function __c461(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            SERVICE: __S(14775, __c461, 23),
+            SERVICE: __S(13559, __c423, 23),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -41311,9 +38523,9 @@ function __c461(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            LOANS: __S(14756, __c461, 4),
-            PARTIES: __S(14761, __c461, 9),
-            SERVICES: __S(14776, __c461, 24),
+            LOANS: __S(13540, __c423, 4),
+            PARTIES: __S(13545, __c423, 9),
+            SERVICES: __S(13560, __c423, 24),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -41322,13 +38534,867 @@ function __c461(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            DEAL: __S(14777, __c461, 25),
+            DEAL: __S(13561, __c423, 25),
             request_id: S.String,
             SchemaVersion: S.Number,
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "CreditFreddieMacReportsGetResponse" });
+  }
+}
+function __c424(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          client_id: S.optional(S.String),
+          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          user_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          user_id: S.optional(S.String),
+          options: S.optional(__S(13408, __c419, 0)),
+        }).pipe(T.Http({ method: "POST", uri: "/credit/payroll_income/get", code: 200 })),
+      ).annotate({ identifier: "GetCreditPayrollIncomeRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            pay_rate: S.optional(S.NullOr(S.String)),
+            pay_amount: S.optional(S.NullOr(S.Number)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "PayrollIncomeRateOfPay" });
+    case 2:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            account_id: S.NullOr(S.String),
+            rate_of_pay: __S(13569, __c424, 1),
+            pay_frequency: S.NullOr(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "PayrollIncomeAccountData" });
+    case 3:
+      return S.Array(/*@__PURE__*/ S.NullOr(__S(13570, __c424, 2)));
+    case 4:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            current_amount: S.NullOr(S.Number),
+            description: S.NullOr(S.String),
+            iso_currency_code: S.NullOr(S.String),
+            unofficial_currency_code: S.NullOr(S.String),
+            ytd_amount: S.NullOr(S.Number),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "PayStubDeductionsBreakdown" });
+    case 5:
+      return S.Array(__S(13572, __c424, 4));
+    case 6:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            current_amount: S.NullOr(S.Number),
+            iso_currency_code: S.NullOr(S.String),
+            unofficial_currency_code: S.NullOr(S.String),
+            ytd_amount: S.NullOr(S.Number),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "PayStubDeductionsTotal" });
+    case 7:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            breakdown: __S(13573, __c424, 5),
+            total: __S(13574, __c424, 6),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "CreditPayStubDeductions" });
+    case 8:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            canonical_description: S.NullOr(S.String),
+            current_amount: S.NullOr(S.Number),
+            description: S.NullOr(S.String),
+            hours: S.NullOr(S.Number),
+            iso_currency_code: S.NullOr(S.String),
+            rate: S.NullOr(S.Number),
+            unofficial_currency_code: S.NullOr(S.String),
+            ytd_amount: S.NullOr(S.Number),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "PayStubEarningsBreakdown" });
+    case 9:
+      return S.Array(__S(13576, __c424, 8));
+    case 10:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            current_amount: S.NullOr(S.Number),
+            hours: S.NullOr(S.Number),
+            iso_currency_code: S.NullOr(S.String),
+            unofficial_currency_code: S.NullOr(S.String),
+            ytd_amount: S.NullOr(S.Number),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "PayStubEarningsTotal" });
+    case 11:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            breakdown: __S(13577, __c424, 9),
+            total: __S(13578, __c424, 10),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "CreditPayStubEarnings" });
+    case 12:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            id_type: S.NullOr(S.String),
+            id_mask: S.NullOr(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "PayStubTaxpayerID" });
+    case 13:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            address: __S(13440, __c420, 0),
+            name: S.NullOr(S.String),
+            marital_status: S.NullOr(S.String),
+            taxpayer_id: __S(13580, __c424, 12),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "CreditPayStubEmployee" });
+    case 14:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            address: __S(13440, __c420, 0),
+            name: S.NullOr(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "CreditPayStubEmployer" });
+    case 15:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            account_name: S.NullOr(S.String),
+            bank_name: S.NullOr(S.String),
+            current_amount: S.NullOr(S.Number),
+            iso_currency_code: S.NullOr(S.String),
+            mask: S.NullOr(S.String),
+            type: S.NullOr(S.String),
+            unofficial_currency_code: S.NullOr(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "PayStubDistributionBreakdown" });
+    case 16:
+      return S.Array(__S(13583, __c424, 15));
+    case 17:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            pay_amount: S.NullOr(S.Number),
+            distribution_breakdown: __S(13584, __c424, 16),
+            end_date: S.NullOr(S.String),
+            gross_earnings: S.NullOr(S.Number),
+            iso_currency_code: S.NullOr(S.String),
+            pay_date: S.NullOr(S.String),
+            pay_frequency: S.NullOr(S.String),
+            pay_basis: S.optional(S.String),
+            start_date: S.NullOr(S.String),
+            unofficial_currency_code: S.NullOr(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "PayStubPayPeriodDetails" });
+    case 18:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            deductions: __S(13575, __c424, 7),
+            document_id: S.NullOr(S.String),
+            document_metadata: __S(13409, __c419, 1),
+            earnings: __S(13579, __c424, 11),
+            employee: __S(13581, __c424, 13),
+            employer: __S(13582, __c424, 14),
+            net_pay: __S(13572, __c424, 4),
+            pay_period_details: __S(13585, __c424, 17),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "CreditPayStub" });
+    case 19:
+      return S.Array(__S(13586, __c424, 18));
+    case 20:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            code: S.optional(S.NullOr(S.String)),
+            amount: S.optional(S.NullOr(S.String)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "W2Box12" });
+    case 21:
+      return S.Array(__S(13588, __c424, 20));
+    case 22:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            state: S.optional(S.NullOr(S.String)),
+            employer_state_id_number: S.optional(S.NullOr(S.String)),
+            state_wages_tips: S.optional(S.NullOr(S.String)),
+            state_income_tax: S.optional(S.NullOr(S.String)),
+            local_wages_tips: S.optional(S.NullOr(S.String)),
+            local_income_tax: S.optional(S.NullOr(S.String)),
+            locality_name: S.optional(S.NullOr(S.String)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "W2StateAndLocalWages" });
+    case 23:
+      return S.Array(__S(13590, __c424, 22));
+    case 24:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            document_metadata: __S(13409, __c419, 1),
+            document_id: S.String,
+            employer: __S(13582, __c424, 14),
+            employee: __S(13581, __c424, 13),
+            tax_year: S.NullOr(S.String),
+            employer_id_number: S.NullOr(S.String),
+            wages_tips_other_comp: S.NullOr(S.String),
+            federal_income_tax_withheld: S.NullOr(S.String),
+            social_security_wages: S.NullOr(S.String),
+            social_security_tax_withheld: S.NullOr(S.String),
+            medicare_wages_and_tips: S.NullOr(S.String),
+            medicare_tax_withheld: S.NullOr(S.String),
+            social_security_tips: S.NullOr(S.String),
+            allocated_tips: S.NullOr(S.String),
+            box_9: S.NullOr(S.String),
+            dependent_care_benefits: S.NullOr(S.String),
+            nonqualified_plans: S.NullOr(S.String),
+            box_12: __S(13589, __c424, 21),
+            statutory_employee: S.NullOr(S.String),
+            retirement_plan: S.NullOr(S.String),
+            third_party_sick_pay: S.NullOr(S.String),
+            other: S.NullOr(S.String),
+            state_and_local_wages: __S(13591, __c424, 23),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "CreditW2" });
+    case 25:
+      return S.Array(__S(13592, __c424, 24));
+    case 26:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            address: S.optional(__S(13440, __c420, 0)),
+            name: S.optional(S.NullOr(S.String)),
+            tin: S.optional(S.NullOr(S.String)),
+            account_number: S.optional(S.NullOr(S.String)),
+            facta_filing_requirement: S.optional(S.NullOr(S.String)),
+            second_tin_exists: S.optional(S.NullOr(S.String)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "Credit1099Recipient" });
+    case 27:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            address: S.optional(__S(13440, __c420, 0)),
+            name: S.optional(S.NullOr(S.String)),
+            tin: S.optional(S.NullOr(S.String)),
+            telephone_number: S.optional(S.NullOr(S.String)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "Credit1099Payer" });
+    case 28:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            address: S.optional(__S(13440, __c420, 0)),
+            name: S.optional(S.NullOr(S.String)),
+            tin: S.optional(S.NullOr(S.String)),
+            type: S.optional(S.NullOr(S.String)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "Credit1099Filer" });
+    case 29:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            document_id: S.NullOr(S.String),
+            document_metadata: S.optional(__S(13409, __c419, 1)),
+            form_1099_type: S.optional(S.String),
+            recipient: S.optional(__S(13594, __c424, 26)),
+            payer: S.optional(__S(13595, __c424, 27)),
+            filer: S.optional(__S(13596, __c424, 28)),
+            tax_year: S.optional(S.NullOr(S.String)),
+            rents: S.optional(S.NullOr(S.Number)),
+            royalties: S.optional(S.NullOr(S.Number)),
+            other_income: S.optional(S.NullOr(S.Number)),
+            federal_income_tax_withheld: S.optional(S.NullOr(S.Number)),
+            fishing_boat_proceeds: S.optional(S.NullOr(S.Number)),
+            medical_and_healthcare_payments: S.optional(S.NullOr(S.Number)),
+            nonemployee_compensation: S.optional(S.NullOr(S.Number)),
+            substitute_payments_in_lieu_of_dividends_or_interest: S.optional(S.NullOr(S.Number)),
+            payer_made_direct_sales_of_5000_or_more_of_consumer_products_to_buyer: S.optional(
+              S.NullOr(S.String),
+            ),
+            crop_insurance_proceeds: S.optional(S.NullOr(S.Number)),
+            excess_golden_parachute_payments: S.optional(S.NullOr(S.Number)),
+            gross_proceeds_paid_to_an_attorney: S.optional(S.NullOr(S.Number)),
+            section_409a_deferrals: S.optional(S.NullOr(S.Number)),
+            section_409a_income: S.optional(S.NullOr(S.Number)),
+            state_tax_withheld: S.optional(S.NullOr(S.Number)),
+            state_tax_withheld_lower: S.optional(S.NullOr(S.Number)),
+            payer_state_number: S.optional(S.NullOr(S.String)),
+            payer_state_number_lower: S.optional(S.NullOr(S.String)),
+            state_income: S.optional(S.NullOr(S.Number)),
+            state_income_lower: S.optional(S.NullOr(S.Number)),
+            transactions_reported: S.optional(S.NullOr(S.String)),
+            pse_name: S.optional(S.NullOr(S.String)),
+            pse_telephone_number: S.optional(S.NullOr(S.String)),
+            gross_amount: S.optional(S.NullOr(S.Number)),
+            card_not_present_transaction: S.optional(S.NullOr(S.Number)),
+            merchant_category_code: S.optional(S.NullOr(S.String)),
+            number_of_payment_transactions: S.optional(S.NullOr(S.String)),
+            january_amount: S.optional(S.NullOr(S.Number)),
+            february_amount: S.optional(S.NullOr(S.Number)),
+            march_amount: S.optional(S.NullOr(S.Number)),
+            april_amount: S.optional(S.NullOr(S.Number)),
+            may_amount: S.optional(S.NullOr(S.Number)),
+            june_amount: S.optional(S.NullOr(S.Number)),
+            july_amount: S.optional(S.NullOr(S.Number)),
+            august_amount: S.optional(S.NullOr(S.Number)),
+            september_amount: S.optional(S.NullOr(S.Number)),
+            october_amount: S.optional(S.NullOr(S.Number)),
+            november_amount: S.optional(S.NullOr(S.Number)),
+            december_amount: S.optional(S.NullOr(S.Number)),
+            primary_state: S.optional(S.NullOr(S.String)),
+            secondary_state: S.optional(S.NullOr(S.String)),
+            primary_state_id: S.optional(S.NullOr(S.String)),
+            secondary_state_id: S.optional(S.NullOr(S.String)),
+            primary_state_income_tax: S.optional(S.NullOr(S.Number)),
+            secondary_state_income_tax: S.optional(S.NullOr(S.Number)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "Credit1099" });
+    case 30:
+      return S.Array(__S(13597, __c424, 29));
+    case 31:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            given_name: S.optional(S.NullOr(S.String)),
+            surname_primary_name: S.optional(S.NullOr(S.String)),
+            passport_name: S.optional(S.NullOr(S.String)),
+            preferred_name: S.optional(S.NullOr(S.String)),
+            school_name: S.optional(S.NullOr(S.String)),
+            program_start_date: S.optional(S.NullOr(S.String)),
+            program_end_date: S.optional(S.NullOr(S.String)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "CreditI20Student" });
+  }
+}
+function __c425(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            document_id: S.optional(S.NullOr(S.String)),
+            document_metadata: S.optional(__S(13409, __c419, 1)),
+            student: S.optional(__S(13599, __c424, 31)),
+            personal_funds: S.optional(S.NullOr(S.Number)),
+            on_campus_employment: S.optional(S.NullOr(S.Number)),
+            funds_from_this_school: S.optional(S.NullOr(S.Number)),
+            students_funding_total: S.optional(S.NullOr(S.Number)),
+            funds_from_another_source: S.optional(S.NullOr(S.Number)),
+            estimated_average_costs_total: S.optional(S.NullOr(S.Number)),
+            estimated_average_living_expenses: S.optional(S.NullOr(S.Number)),
+            students_funding_period_months: S.optional(S.NullOr(S.Number)),
+            estimated_average_costs_period_months: S.optional(S.NullOr(S.Number)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "CreditI20" });
+    case 1:
+      return S.Array(__S(13600, __c425, 0));
+    case 2:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            account_id: S.NullOr(S.String),
+            pay_stubs: __S(13587, __c424, 19),
+            w2s: __S(13593, __c424, 25),
+            form1099s: __S(13598, __c424, 30),
+            i20s: __S(13601, __c425, 1),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "PayrollIncomeObject" });
+    case 3:
+      return S.Array(__S(13602, __c425, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          item_id: S.String,
+          institution_id: S.String,
+          institution_name: S.String,
+          accounts: __S(13571, __c424, 3),
+          payroll_income: __S(13603, __c425, 3),
+          status: S.NullOr(__S(13410, __c419, 2)),
+          updated_at: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "PayrollItem" });
+    case 5:
+      return S.Array(__S(13604, __c425, 4));
+    case 6:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            items: __S(13605, __c425, 5),
+            error: S.optional(S.NullOr(__S(64, __c2, 0))),
+            request_id: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "CreditPayrollIncomeGetResponse" });
+  }
+}
+function __c426(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          client_id: S.optional(S.String),
+          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          user_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          user_id: S.optional(S.String),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/credit/payroll_income/risk_signals/get", code: 200 }),
+        ),
+      ).annotate({ identifier: "GetCreditPayrollIncomeRiskSignalRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            document_id: S.optional(S.NullOr(S.String)),
+            document_name: S.optional(S.String),
+            status: S.optional(S.String),
+            document_type: S.optional(S.NullOr(S.String)),
+            file_type: S.optional(S.NullOr(S.String)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "RiskSignalDocumentReference" });
+    case 2:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            item_id: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "DocumentRiskSignalInstitutionMetadata" });
+    case 3:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            type: S.NullOr(S.String),
+            field: S.NullOr(S.String),
+            has_fraud_risk: S.NullOr(S.Boolean),
+            institution_metadata: S.NullOr(__S(13634, __c426, 2)),
+            expected_value: S.NullOr(S.String),
+            actual_value: S.NullOr(S.String),
+            signal_description: S.NullOr(S.String),
+            page_number: S.NullOr(S.Number),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "DocumentRiskSignal" });
+    case 4:
+      return S.Array(/*@__PURE__*/ S.NullOr(__S(13635, __c426, 3)));
+    case 5:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            risk_score: S.NullOr(S.Number),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "DocumentRiskSummary" });
+    case 6:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            document_reference: __S(13633, __c426, 1),
+            risk_signals: __S(13636, __c426, 4),
+            risk_summary: __S(13637, __c426, 5),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "SingleDocumentRiskSignal" });
+    case 7:
+      return S.Array(__S(13638, __c426, 6));
+    case 8:
+      return S.Array(__S(13633, __c426, 1));
+    case 9:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            document_references: __S(13640, __c426, 8),
+            risk_signals: __S(13636, __c426, 4),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "MultiDocumentRiskSignal" });
+    case 10:
+      return S.Array(__S(13641, __c426, 9));
+    case 11:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            account_id: S.NullOr(S.String),
+            single_document_risk_signals: __S(13639, __c426, 7),
+            multi_document_risk_signals: __S(13642, __c426, 10),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "DocumentRiskSignalsObject" });
+    case 12:
+      return S.Array(__S(13643, __c426, 11));
+    case 13:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            item_id: S.String,
+            verification_risk_signals: __S(13644, __c426, 12),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "PayrollRiskSignalsItem" });
+    case 14:
+      return S.Array(__S(13645, __c426, 13));
+    case 15:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            items: __S(13646, __c426, 14),
+            error: S.optional(S.NullOr(__S(64, __c2, 0))),
+            request_id: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "CreditPayrollIncomeRiskSignalsGetResponse" });
+  }
+}
+function __c427(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          client_id: S.optional(S.String),
+          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          relay_token: S.String.pipe(T.SensitiveValue({})),
+          report_type: S.String,
+          include_insights: S.optional(S.Boolean),
+        }).pipe(T.Http({ method: "POST", uri: "/credit/relay/get", code: 200 })),
+      ).annotate({ identifier: "GetCreditRelayRequest" });
+  }
+}
+function __c428(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          client_id: S.optional(S.String),
+          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          relay_token: S.String.pipe(T.SensitiveValue({})),
+          report_type: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/credit/relay/pdf/get", code: 200 })),
+      ).annotate({ identifier: "GetCreditRelayPdfRequest" });
+  }
+}
+function __c429(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          client_id: S.optional(S.String),
+          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          user_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          user_id: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/credit/sessions/get", code: 200 })),
+      ).annotate({ identifier: "GetCreditSessionRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          public_token: S.optional(S.String),
+          item_id: S.optional(S.String),
+          institution_id: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreditSessionItemAddResult" });
+    case 2:
+      return S.Array(__S(13729, __c429, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.String),
+          item_id: S.optional(S.String),
+          institution_id: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreditSessionBankIncomeResult" });
+    case 4:
+      return S.Array(__S(13731, __c429, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          num_paystubs_retrieved: S.optional(S.Number),
+          num_w2s_retrieved: S.optional(S.Number),
+          institution_id: S.optional(S.String),
+          institution_name: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreditSessionPayrollIncomeResult" });
+    case 6:
+      return S.Array(__S(13733, __c429, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          item_add_results: S.optional(__S(13730, __c429, 2)),
+          bank_income_results: S.optional(__S(13732, __c429, 4)),
+          bank_employment_results: S.optional(__S(13732, __c429, 4)),
+          payroll_income_results: S.optional(__S(13734, __c429, 6)),
+          document_income_results: S.optional(S.NullOr(__S(13760, __c430, 0))),
+        }),
+      ).annotate({ identifier: "CreditSessionResults" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          error_type: S.optional(S.String),
+          error_code: S.optional(S.String),
+          error_message: S.optional(S.String),
+          display_message: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "CreditSessionError" });
+    case 9:
+      return S.Array(__S(13736, __c429, 8));
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          link_session_id: S.optional(S.String),
+          session_start_time: S.optional(S.String),
+          results: S.optional(__S(13735, __c429, 7)),
+          errors: S.optional(__S(13737, __c429, 9)),
+        }),
+      ).annotate({ identifier: "CreditSession" });
+    case 11:
+      return S.Array(__S(13738, __c429, 10));
+    case 12:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            sessions: S.optional(__S(13739, __c429, 11)),
+            request_id: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "CreditSessionsGetResponse" });
+  }
+}
+function __c430(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          num_paystubs_uploaded: S.Number,
+          num_w2s_uploaded: S.Number,
+          num_bank_statements_uploaded: S.Number,
+          num_1099s_uploaded: S.Number,
+          num_i20s_uploaded: S.Number,
+        }),
+      ).annotate({ identifier: "CreditSessionDocumentIncomeResult" });
+  }
+}
+function __c431(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          dashboard_user_id: S.String,
+          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          client_id: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/dashboard_user/get", code: 200 })),
+      ).annotate({ identifier: "GetDashboardUserRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            id: S.String,
+            created_at: S.String,
+            email_address: S.String,
+            status: S.String,
+            request_id: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "DashboardUserGetResponse" });
+  }
+}
+function __c432(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          consentId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/fdx/consents/{consentId}", code: 200 })),
+      ).annotate({ identifier: "GetFdxConsentRequest" });
+  }
+}
+function __c433(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(11584, __c362, 0));
+    case 1:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            resourceType: S.String,
+            resourceId: S.String,
+            dataClusters: __S(192, __c6, 0),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "FDXConsentGrantResource" });
+    case 2:
+      return S.Array(__S(13857, __c433, 1));
+    case 3:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            id: S.String,
+            status: S.String,
+            createdTime: S.String,
+            updatedTime: S.String,
+            expirationTime: S.optional(S.String),
+            parties: __S(13856, __c433, 0),
+            resources: S.optional(__S(13858, __c433, 2)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "FDXConsentGrant" });
+  }
+}
+function __c434(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          consentId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/fdx/consents/{consentId}/revocation", code: 200 })),
+      ).annotate({ identifier: "GetFdxConsentsRevocationRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            status: S.String,
+            reason: S.String,
+            initiator: S.String,
+            updatedTime: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "FDXConsentRevocationRecord" });
+    case 2:
+      return S.Array(__S(13889, __c434, 1));
+    case 3:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            revocations: __S(13890, __c434, 2),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "FDXConsentRevocations" });
+  }
+}
+function __c435(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          client_id: S.optional(S.String),
+          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          access_token: S.String.pipe(T.SensitiveValue({})),
+          options: S.optional(__S(11904, __c372, 0)),
+        }).pipe(T.Http({ method: "POST", uri: "/identity/get", code: 200 })),
+      ).annotate({ identifier: "GetIdentityRequest" });
+    case 1:
+      return S.Array(__S(13952, __c436, 0));
+    case 2:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            accounts: __S(13921, __c435, 1),
+            item: __S(11840, __c370, 0),
+            request_id: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "IdentityGetResponse" });
+  }
+}
+function __c436(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            account_id: S.String,
+            balances: __S(11872, __c371, 0),
+            mask: S.NullOr(S.String),
+            name: S.String,
+            official_name: S.NullOr(S.String),
+            type: S.String,
+            subtype: S.NullOr(S.String),
+            verification_status: S.optional(S.String),
+            verification_name: S.optional(S.String),
+            verification_insights: S.optional(__S(11810, __c369, 2)),
+            persistent_account_id: S.optional(S.String),
+            apy: S.optional(S.NullOr(S.Number)),
+            holder_category: S.optional(S.NullOr(S.String)),
+            paired_account_id: S.optional(S.NullOr(S.String)),
+            owners: __S(5733, __c179, 5),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "AccountIdentity" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.
