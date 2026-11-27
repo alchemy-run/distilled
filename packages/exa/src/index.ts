@@ -7,7 +7,9 @@
  * hand-written.
  *
  * One module per API: `api` (search, contents, answer, monitors, agent runs,
- * batches, Websets) and `teamManagement` (API keys and credits).
+ * Websets) and `teamManagement` (API keys and credits). Exa's beta batches
+ * operations are generated to `./unstable-services` and imported from
+ * `@distilled.cloud/exa/unstable/api`.
  *
  * @example
  * ```ts
