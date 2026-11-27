@@ -128,6 +128,20 @@ const comment = (issue: Issue, body: string) =>
 
 const log = (message: string) => console.log(`${mirror}: ${message}`);
 
+/**
+ * `text` as a Markdown code span. A file name comes from the provider's
+ * spec and can hold backticks, which would end a one-backtick span and let
+ * the rest of the name write Markdown into the issue. The span's fence is
+ * one backtick longer than the longest run in `text`, so no run ends it.
+ */
+const codeSpan = (text: string) => {
+  const longest = Math.max(0, ...(text.match(/`+/g) ?? []).map((run) => run.length));
+  if (longest === 0) return `\`${text}\``;
+  const fence = "`".repeat(longest + 1);
+  // The spaces keep a leading or trailing backtick apart from the fence.
+  return `${fence} ${text} ${fence}`;
+};
+
 interface Job {
   name: string;
   html_url: string;
@@ -222,7 +236,7 @@ if (mode === "updated") {
     .filter(Boolean)
     .map((line) => {
       const [status, ...path] = line.split("\t");
-      return `- \`${status}\` \`${path.join(" → ")}\``;
+      return `- ${codeSpan(status ?? "")} ${codeSpan(path.join(" → "))}`;
     });
   const LIMIT = 100;
   const files = [
