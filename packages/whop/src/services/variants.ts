@@ -740,6 +740,8 @@ export interface UpdateVariantRequest {
   split_pay_required_payments?: number | null | undefined;
   /** The maximum number of units available for purchase. Ignored when unlimited_stock is true. */
   stock?: number | null | undefined;
+  /** The number of units to add to the current stock. Use a negative number to remove units. The change applies after the other changes in this request, to the stock at that time. This keeps a sale made at the same time. Do not send 0, and do not send it with `stock`. A variant with unlimited stock, or a change that takes the stock below 0, returns a `409`. */
+  stock_adjustment?: number | undefined;
   /** A comparison price displayed with a strikethrough for the initial price. */
   strike_through_initial_price?: number | null | undefined;
   /** A comparison price displayed with a strikethrough for the renewal price. */
@@ -850,7 +852,7 @@ export const listVariants: API.PaginatedOperationMethod<
   paginateRelay,
 ) as any;
 
-export type UpdateVariantError = BadRequest | WhopOpError;
+export type UpdateVariantError = BadRequest | Conflict | WhopOpError;
 /** Update Variant Updates a variant's pricing, billing interval, visibility, stock, and other settings. While `unpaid_invoice_count` is above `0`, a change to the prices, billing period, trial, number of payments, currency or billing type returns a `400`. */
 export const updateVariant: API.OperationMethod<
   UpdateVariantRequest,
@@ -860,7 +862,7 @@ export const updateVariant: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c8, 0) as any as S.Schema<UpdateVariantRequest>,
   output: __S(25, __c3, 1) as any as S.Schema<Variant>,
-  errors: [BadRequest],
+  errors: [BadRequest, Conflict],
   serviceErrors: WhopServiceErrors,
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -1213,6 +1215,7 @@ function __c8(j: number): any {
           sku: S.optional(S.NullOr(S.String)),
           split_pay_required_payments: S.optional(S.NullOr(S.Number)),
           stock: S.optional(S.NullOr(S.Number)),
+          stock_adjustment: S.optional(S.Number),
           strike_through_initial_price: S.optional(S.NullOr(S.Number)),
           strike_through_renewal_price: S.optional(S.NullOr(S.Number)),
           three_ds_level: S.optional(S.NullOr(S.String)),
