@@ -85,12 +85,13 @@ const DOCS: DocFile[] = [
     kind: "text",
   },
   {
-    url: "https://docs.ovhcloud.com/en/guides/account-and-service-management/account-information/first-steps-with-ovh-api/",
+    // docs.ovhcloud.com answers 404 for a trailing slash.
+    url: "https://docs.ovhcloud.com/en/guides/manage-and-operate/api/first-steps",
     output: "docs/first-steps-with-ovh-api.html",
     kind: "text",
   },
   {
-    url: "https://docs.ovhcloud.com/en/guides/account-and-service-management/account-information/authenticate-api-with-service-account/",
+    url: "https://docs.ovhcloud.com/en/guides/account-and-service-management/account-information/authenticate-api-with-service-account",
     output: "docs/authenticate-api-with-service-account.html",
     kind: "text",
   },
