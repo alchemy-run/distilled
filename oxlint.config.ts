@@ -86,6 +86,9 @@ export default defineConfig({
         "typescript/no-implied-eval": "error",
         "distilled/no-function-constructor": "error",
         "distilled/no-throw-in-effect": "error",
+        // Warnings while the code that predates them is fixed; then errors.
+        "distilled/or-throw": "warn",
+        "distilled/no-unguarded-throwing-builtin": "warn",
       },
     },
     {
@@ -99,6 +102,8 @@ export default defineConfig({
         "distilled/explain-ignored-failure": "off",
         "distilled/no-function-constructor": "off",
         "distilled/no-throw-in-effect": "off",
+        "distilled/or-throw": "off",
+        "distilled/no-unguarded-throwing-builtin": "off",
       },
     },
   ],
