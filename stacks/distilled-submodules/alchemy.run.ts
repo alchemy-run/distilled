@@ -116,7 +116,10 @@ export default Alchemy.Stack(
             // Without a first commit there is no branch for the scaffold to
             // land on. Ignored for the repositories that already exist.
             autoInit: true,
+            // Mirrors take no contributions: a mirror's issues are filed on
+            // alchemy-run/distilled, and its workflow is the only writer.
             hasIssues: false,
+            hasPullRequests: false,
             hasProjects: false,
             hasWiki: false,
             deleteBranchOnMerge: true,
