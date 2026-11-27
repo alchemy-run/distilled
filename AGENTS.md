@@ -159,8 +159,10 @@ uninitialised, and every `packages/*/specs/spec-mirror-*/` directory is empty.
 
 ## You probably do not need the specs
 
-CI fetches only the turso and npm mirrors: the Lint job regenerates those two
-SDKs and fails if the committed code differs. The generated SDKs are
+PR CI fetches no mirror. In the merge queue, the Lint job regenerates each SDK
+the change touches (all of them when `packages/dev/src/codegen/` changes)
+from its pinned mirror, and fails if the committed code differs. The
+generated SDKs are
 committed, so `pnpm install && pnpm typecheck` is a complete, working
 checkout for anything that is not a codegen change.
 

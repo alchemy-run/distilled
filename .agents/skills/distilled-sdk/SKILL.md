@@ -30,10 +30,11 @@ description: Build or update a distilled SDK for an API provider — sourcing it
 
 Two facts follow from this and shape everything below:
 
-- **The generated output is committed.** CI regenerates only turso and npm,
-  to check the committed code matches the generator, and fetches only their
-  mirrors. A new SDK's PR is green with no spec present at all — the specs
-  only matter to whoever regenerates.
+- **The generated output is committed.** PR CI fetches no spec. The merge
+  queue regenerates each SDK a change touches from its pinned mirror and
+  fails if the committed code differs. The queue skips an SDK with no
+  mirror gitlink yet, so a new SDK's PR merges with no spec present; the
+  follow-up PR that links the mirror gets the check.
 - **The mirror is the spec source, not the upstream.** A package never
   submodules the upstream repository. `github/rest-api-description` is 6.7 GB
   checked out for one 13 MB file; the mirror holds the file. See
