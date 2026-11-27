@@ -74,7 +74,7 @@ export interface UpdateSecretRequest {
   metadata?: SecretMetadata | undefined;
 }
 export type CreateSecretError = E2BOpError;
-/** Create a secret Create a secret by storing a runtime marker as its first version. The response carries metadata only. */
+/** Create a secret Create a secret by storing a runtime marker as its first version. The response carries metadata only. The value is not part of the Idempotency-Key comparison: reusing a key with a different value replays the first result. */
 export const createSecret: API.OperationMethod<
   CreateSecretRequest,
   Secret,

@@ -139,7 +139,10 @@ export interface Template {
   cpuCount: number;
   /** Maximum CPU count for resizable templates; absent for fixed-size templates. */
   maxCpuCount?: number | undefined;
+  /** Memory in MiB a sandbox created from this template starts with: the build's memory, or for a snapshot template of a grown sandbox the size it was taken at. A create that names no memoryMB starts at this size. */
   memoryMB: number;
+  /** Memory the template's sandboxes can grow to, in MiB; absent for templates whose memory cannot grow. */
+  maxMemoryMB?: number | undefined;
   diskSizeMB: number;
   /** Whether the template is public or only accessible by the team */
   public: boolean;
@@ -364,6 +367,7 @@ function __c4(j: number): any {
           cpuCount: S.Number,
           maxCpuCount: S.optional(S.Number),
           memoryMB: S.Number,
+          maxMemoryMB: S.optional(S.Number),
           diskSizeMB: S.Number,
           public: S.Boolean,
           aliases: __S(8, __c1, 0),

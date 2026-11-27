@@ -206,6 +206,8 @@ export interface InitEnvdRequest {
   cpuCount?: number | undefined;
   /** Whether this call thaws the workload cgroups a pre-pause freeze left frozen. Absent or "inline": it thaws them before it answers, as every envd before this field did, unless a freeze came after the call entered, which the call then leaves in place. "skip": it thaws nothing and answers X-Envd-Thaw: skip, leaving the workload frozen; only for a resume whose VM is discarded after the call, such as one that records which pages the resume touches. A value this envd does not know reads as inline, the side on which a guest is never left frozen. */
   thaw?: InitEnvdRequestThaw | (string & {}) | undefined;
+  /** Whether services listening only on loopback (127.0.0.1, localhost, ::1) are forwarded onto the sandbox's network interface, making them reachable through sandbox URLs. false kills every running forward and forwards nothing new; true forwards again from the next port scan. Absent keeps the current setting. A freshly booted guest forwards nothing until its first /init, then forwards unless told otherwise; an envd that restarts in the same boot keeps the setting. */
+  exposeLocalhostPorts?: boolean | undefined;
 }
 export interface InitEnvdResponse {}
 export interface ReadFileRequest {
@@ -698,6 +700,7 @@ function __c14(j: number): any {
           caBundle: S.optional(S.String),
           cpuCount: S.optional(S.Number),
           thaw: S.optional(S.String),
+          exposeLocalhostPorts: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/init", code: 200 })),
       ).annotate({ identifier: "InitEnvdRequest" });
   }
