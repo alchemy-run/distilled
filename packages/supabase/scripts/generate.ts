@@ -5,7 +5,8 @@ import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
  * SDK.
  *
  * Input:  .generated-specs/supabase.json  (written by scripts/convert.ts)
- * Output: src/services/supabase.ts  +  src/services/index.ts
+ * Output: src/services/supabase.ts  +  src/services/index.ts, and the
+ *         operations convert marks unstable in src/unstable-services/
  *
  * The smithy→SDK compiler and CLI pipeline live in
  * `@distilled.cloud/dev/codegen`; this script is Supabase's provider spec:
@@ -73,6 +74,7 @@ runGeneratorCli({
   // The RFC-6902 patch chain applies to the OpenAPI document in
   // scripts/convert.ts — there are no smithy-model patches.
   patchesDir: false,
+  unstableOutDir: "src/unstable-services",
   spec: (model) => {
     // The converter records non-JSON request encodings as an operation
     // trait but only merges `multipart` into `smithy.api#http` (see
