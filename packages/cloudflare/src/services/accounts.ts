@@ -351,7 +351,7 @@ export interface CreateClientSecretRequest {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateClientSecretResponse {
   /** The Stripe client secret for frontend payment confirmation. */
-  clientSecret?: string | null | undefined;
+  clientSecret?: string | Redacted.Redacted<string> | null | undefined;
 }
 export type MembersCreateRequestRolesList = Array<string>;
 export type MembersCreateRequestStatus = "accepted" | "pending";
@@ -542,7 +542,7 @@ export interface CreatePayBadDebtRequest {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreatePayBadDebtResponse {
   /** The Stripe client secret for frontend payment confirmation. */
-  clientSecret?: string | null | undefined;
+  clientSecret?: string | Redacted.Redacted<string> | null | undefined;
 }
 export interface CreatePayInvoiceRequest {
   /** Identifier */
@@ -557,7 +557,7 @@ export interface CreatePayInvoiceRequest {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreatePayInvoiceResponse {
   /** The Stripe client secret for frontend payment confirmation. */
-  clientSecret?: string | null | undefined;
+  clientSecret?: string | Redacted.Redacted<string> | null | undefined;
 }
 export type CreatePaymentMethodRequestType =
   | "CREDIT_CARD"
@@ -4355,7 +4355,9 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          clientSecret: S.optional(S.NullOr(S.String).pipe(T.Body("client_secret"))),
+          clientSecret: S.optional(
+            S.NullOr(S.String).pipe(T.Body("client_secret"), T.SensitiveValue({})),
+          ),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "CreateClientSecretResponse" });
   }

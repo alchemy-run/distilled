@@ -1,0 +1,81 @@
+{
+  "description": "`web_analytics_token` is the Web Analytics site token that Pages puts in the public beacon snippet of every page it serves, so it is not a secret. The shared secret-name rule marks names that end in `token`; this removes the mark.",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.pages#ProjectsCreateRequestBuildConfig/members/web_analytics_token/traits/smithy.api#sensitive"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.pages#ProjectsCreateResponseBuildConfig/members/web_analytics_token/traits/smithy.api#sensitive"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.pages#ProjectsCreateResponseCanonicalDeploymentBuildConfig/members/web_analytics_token/traits/smithy.api#sensitive"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.pages#ProjectsCreateResponseLatestDeploymentBuildConfig/members/web_analytics_token/traits/smithy.api#sensitive"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.pages#ProjectsDeploymentsCreateResponseBuildConfig/members/web_analytics_token/traits/smithy.api#sensitive"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.pages#ProjectsDeploymentsGetResponseBuildConfig/members/web_analytics_token/traits/smithy.api#sensitive"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.pages#ProjectsDeploymentsListResultItemBuildConfig/members/web_analytics_token/traits/smithy.api#sensitive"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.pages#ProjectsDeploymentsRetryResponseBuildConfig/members/web_analytics_token/traits/smithy.api#sensitive"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.pages#ProjectsDeploymentsRollbackResponseBuildConfig/members/web_analytics_token/traits/smithy.api#sensitive"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.pages#ProjectsEditRequestBuildConfig/members/web_analytics_token/traits/smithy.api#sensitive"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.pages#ProjectsEditResponseBuildConfig/members/web_analytics_token/traits/smithy.api#sensitive"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.pages#ProjectsEditResponseCanonicalDeploymentBuildConfig/members/web_analytics_token/traits/smithy.api#sensitive"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.pages#ProjectsEditResponseLatestDeploymentBuildConfig/members/web_analytics_token/traits/smithy.api#sensitive"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.pages#ProjectsGetResponseBuildConfig/members/web_analytics_token/traits/smithy.api#sensitive"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.pages#ProjectsGetResponseCanonicalDeploymentBuildConfig/members/web_analytics_token/traits/smithy.api#sensitive"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.pages#ProjectsGetResponseLatestDeploymentBuildConfig/members/web_analytics_token/traits/smithy.api#sensitive"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.pages#ProjectsListResultItemBuildConfig/members/web_analytics_token/traits/smithy.api#sensitive"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.pages#ProjectsListResultItemCanonicalDeploymentBuildConfig/members/web_analytics_token/traits/smithy.api#sensitive"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.pages#ProjectsListResultItemLatestDeploymentBuildConfig/members/web_analytics_token/traits/smithy.api#sensitive"
+    }
+  ]
+}

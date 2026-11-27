@@ -39,6 +39,10 @@
  */
 
 import { writeModel } from "@distilled.cloud/dev/codegen/models";
+import {
+  isSensitiveMemberName,
+  SENSITIVE_FIELD_PATTERNS,
+} from "@distilled.cloud/dev/codegen/openapi";
 import { finalizeConvert } from "@distilled.cloud/dev/codegen/patches";
 import { resolveSpecPath } from "@distilled.cloud/dev/codegen/spec-path";
 import { markOperationUnstable } from "@distilled.cloud/dev/codegen/stability";
@@ -1420,6 +1424,20 @@ const boundTarget = (
   }
 };
 
+/**
+ * The shared secret-name patterns, minus two that match plain data here:
+ * `/password/i` also matches the rulesets' `password_expression` (a filter
+ * expression for leaked-credential checks), and `^plain_text$` matches a
+ * request tracer's body text.
+ */
+const SENSITIVE_PATTERNS = SENSITIVE_FIELD_PATTERNS.flatMap((re) =>
+  re.source === "password"
+    ? [/password(?![-_]?expression)/i]
+    : re.source === "^plain[-_]?text$"
+      ? []
+      : [re],
+);
+
 /** Build a structure's `members` map from a list of field nodes. */
 const buildMembers = (bag: Bag, rawFields: FieldNode[], hint: string): Record<string, any> => {
   const members: Record<string, any> = {};
@@ -1450,6 +1468,15 @@ const buildMembers = (bag: Bag, rawFields: FieldNode[], hint: string): Record<st
     const traits: Record<string, any> = {};
     if (f.doc) traits["smithy.api#documentation"] = f.doc;
     if (nullable) traits[NULLABLE_TRAIT] = {};
+    // The same name rule as the OpenAPI converter (`secret`, `secretAccessKey`, `clientSecret`).
+    const where = f.binding === "query" ? "query" : f.binding === "header" ? "header" : "body";
+    if (
+      target === PRELUDE.String &&
+      f.binding !== "label" &&
+      isSensitiveMemberName(f.name, { where, parent: hint, patterns: SENSITIVE_PATTERNS })
+    ) {
+      traits["smithy.api#sensitive"] = {};
+    }
 
     switch (f.binding) {
       case "label":

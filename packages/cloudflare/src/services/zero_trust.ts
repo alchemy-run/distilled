@@ -2361,7 +2361,7 @@ export interface CasbPostureWebhooksEvaluateRequest {
   /** List of custom headers to include in the test webhook request. */
   headers?: CasbPostureWebhooksEvaluateRequestHeadersList | undefined;
   /** Secret key used for HMAC signing when authentication_type is "HMAC-Signing". */
-  signingSecret?: string | undefined;
+  signingSecret?: string | Redacted.Redacted<string> | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CasbPostureWebhooksEvaluateResponse {
@@ -2637,9 +2637,9 @@ export interface CreateAccessAiControlMcpServerRequest {
   /** Display name for the MCP server. */
   name: string;
   /** Credential configuration for the upstream MCP server. For auth_type "bearer", either a raw token string (e.g. "sk-abc123"), which is wrapped server-side as `Authorization: Bearer <token>`, or a JSON-encoded object of the form `{"headers":{"Header-Name":"value",...}}` for custom or multiple static headers (e.g. Cloudflare Access service tokens: `{"headers":{"cf-access-client-id":"...","cf-access-client-secret":"..."}}`). For auth_type "oauth" with a pre-registered client, send a JSON-encoded object containing `auth_mode:"manual"`, `config.authorization_endpoint`, `config.token_endpoint`, and `registration_info.client_id`. Also provide `registration_info.redirect_uris` unless `is_shared_oauth_callback_enabled` is true. Optional fields include `config.issuer`, `config.revocation_endpoint`, `registration_info.scope`, and `registration_info.token_endpoint_auth_method`. Send the client secret in the separate `client_secret` field. Omit `auth_credentials` on update to preserve the existing configuration. */
-  authCredentials?: string | undefined;
+  authCredentials?: string | Redacted.Redacted<string> | undefined;
   /** Provides 'client_secret' for a pre-registered OAuth client. This field is accepted on create or update only when 'auth_credentials.auth_mode' is 'manual'. It is required when creating an MCP server with manual OAuth credentials or changing an existing server to use manual OAuth credentials. Omit 'client_secret' on update to preserve the existing secret. Provide a new 'client_secret' to rotate the secret. The secret is never returned by read, create, or update requests. */
-  clientSecret?: string | undefined;
+  clientSecret?: string | Redacted.Redacted<string> | undefined;
   /** Optional description of the MCP server. */
   description?: string | undefined;
   /** When true, per-user authorization uses the shared Cloudflare callback URL as the 'redirect_uri' instead of the portal callback URL. The default is false. Set 'is_shared_oauth_callback_enabled' to true to enable the shared Cloudflare callback URL for this MCP server. */
@@ -4397,7 +4397,7 @@ export type AccessApplicationsCreateRequestScimConfigAuthenticationSCIMConfigAut
   "httpbasic";
 export interface AccessApplicationsCreateRequestScimConfigAuthenticationSCIMConfigAuthenticationHTTPBasic {
   /** Password used to authenticate with the remote SCIM service. */
-  password: string;
+  password: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsCreateRequestScimConfigAuthenticationSCIMConfigAuthenticationHTTPBasicScheme;
   /** User name used to authenticate with the remote SCIM service. */
@@ -4407,7 +4407,7 @@ export type AccessApplicationsCreateRequestScimConfigAuthenticationSCIMConfigAut
   "oauthbearertoken";
 export interface AccessApplicationsCreateRequestScimConfigAuthenticationSCIMConfigAuthenticationOAuthBearerToken {
   /** Token used to authenticate with the remote SCIM service. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsCreateRequestScimConfigAuthenticationSCIMConfigAuthenticationOAuthBearerTokenScheme;
 }
@@ -4421,7 +4421,7 @@ export interface AccessApplicationsCreateRequestScimConfigAuthenticationSCIMConf
   /** Client ID used to authenticate when generating a token for authenticating with the remote SCIM service. */
   clientId: string;
   /** Secret used to authenticate when generating a token for authenticating with the remove SCIM service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsCreateRequestScimConfigAuthenticationSCIMConfigAuthenticationOauth2Scheme;
   /** URL used to generate the token used to authenticate with the remote SCIM service. */
@@ -4437,7 +4437,7 @@ export interface AccessApplicationsCreateRequestScimConfigAuthenticationAccessSC
   /** Client ID of the Access service token used to authenticate with the remote service. */
   clientId: string;
   /** Client secret of the Access service token used to authenticate with the remote service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsCreateRequestScimConfigAuthenticationAccessSCIMConfigAuthenticationAccessServiceTokenScheme;
 }
@@ -4445,7 +4445,7 @@ export type AccessApplicationsCreateRequestScimConfigAuthenticationAccessSCIMCon
   "httpbasic";
 export interface AccessApplicationsCreateRequestScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationHTTPBasic {
   /** Password used to authenticate with the remote SCIM service. */
-  password: string;
+  password: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsCreateRequestScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationHTTPBasicScheme;
   /** User name used to authenticate with the remote SCIM service. */
@@ -4455,7 +4455,7 @@ export type AccessApplicationsCreateRequestScimConfigAuthenticationAccessSCIMCon
   "oauthbearertoken";
 export interface AccessApplicationsCreateRequestScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOAuthBearerToken {
   /** Token used to authenticate with the remote SCIM service. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsCreateRequestScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOAuthBearerTokenScheme;
 }
@@ -4469,7 +4469,7 @@ export interface AccessApplicationsCreateRequestScimConfigAuthenticationAccessSC
   /** Client ID used to authenticate when generating a token for authenticating with the remote SCIM service. */
   clientId: string;
   /** Secret used to authenticate when generating a token for authenticating with the remove SCIM service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsCreateRequestScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOauth2Scheme;
   /** URL used to generate the token used to authenticate with the remote SCIM service. */
@@ -4485,7 +4485,7 @@ export interface AccessApplicationsCreateRequestScimConfigAuthenticationAccessSC
   /** Client ID of the Access service token used to authenticate with the remote service. */
   clientId: string;
   /** Client secret of the Access service token used to authenticate with the remote service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsCreateRequestScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemAccessSCIMConfigAuthenticationAccessServiceTokenScheme;
 }
@@ -4684,7 +4684,7 @@ export interface AccessApplicationsCreateRequestSaasAppOIDCSaaSApp {
   /** The application client id */
   clientId?: string | undefined;
   /** The application client secret, only returned on POST request. */
-  clientSecret?: string | undefined;
+  clientSecret?: string | Redacted.Redacted<string> | undefined;
   customClaims?: AccessApplicationsCreateRequestSaasAppOIDCSaaSAppCustomClaimsList | undefined;
   /** The OIDC flows supported by this application */
   grantTypes?: AccessApplicationsCreateRequestSaasAppOIDCSaaSAppGrantTypesList | undefined;
@@ -6067,7 +6067,7 @@ export type AccessApplicationsCreateResultSelfHostedApplicationScimConfigAuthent
   "httpbasic";
 export interface AccessApplicationsCreateResultSelfHostedApplicationScimConfigAuthenticationSCIMConfigAuthenticationHTTPBasic {
   /** Password used to authenticate with the remote SCIM service. */
-  password: string;
+  password: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsCreateResultSelfHostedApplicationScimConfigAuthenticationSCIMConfigAuthenticationHTTPBasicScheme;
   /** User name used to authenticate with the remote SCIM service. */
@@ -6077,7 +6077,7 @@ export type AccessApplicationsCreateResultSelfHostedApplicationScimConfigAuthent
   "oauthbearertoken";
 export interface AccessApplicationsCreateResultSelfHostedApplicationScimConfigAuthenticationSCIMConfigAuthenticationOAuthBearerToken {
   /** Token used to authenticate with the remote SCIM service. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsCreateResultSelfHostedApplicationScimConfigAuthenticationSCIMConfigAuthenticationOAuthBearerTokenScheme;
 }
@@ -6091,7 +6091,7 @@ export interface AccessApplicationsCreateResultSelfHostedApplicationScimConfigAu
   /** Client ID used to authenticate when generating a token for authenticating with the remote SCIM service. */
   clientId: string;
   /** Secret used to authenticate when generating a token for authenticating with the remove SCIM service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsCreateResultSelfHostedApplicationScimConfigAuthenticationSCIMConfigAuthenticationOauth2Scheme;
   /** URL used to generate the token used to authenticate with the remote SCIM service. */
@@ -6108,7 +6108,7 @@ export interface AccessApplicationsCreateResultSelfHostedApplicationScimConfigAu
   /** Client ID of the Access service token used to authenticate with the remote service. */
   clientId: string;
   /** Client secret of the Access service token used to authenticate with the remote service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsCreateResultSelfHostedApplicationScimConfigAuthenticationAccessSCIMConfigAuthenticationAccessServiceTokenScheme;
 }
@@ -6116,7 +6116,7 @@ export type AccessApplicationsCreateResultSelfHostedApplicationScimConfigAuthent
   "httpbasic";
 export interface AccessApplicationsCreateResultSelfHostedApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationHTTPBasic {
   /** Password used to authenticate with the remote SCIM service. */
-  password: string;
+  password: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsCreateResultSelfHostedApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationHTTPBasicScheme;
   /** User name used to authenticate with the remote SCIM service. */
@@ -6126,7 +6126,7 @@ export type AccessApplicationsCreateResultSelfHostedApplicationScimConfigAuthent
   "oauthbearertoken";
 export interface AccessApplicationsCreateResultSelfHostedApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOAuthBearerToken {
   /** Token used to authenticate with the remote SCIM service. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsCreateResultSelfHostedApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOAuthBearerTokenScheme;
 }
@@ -6140,7 +6140,7 @@ export interface AccessApplicationsCreateResultSelfHostedApplicationScimConfigAu
   /** Client ID used to authenticate when generating a token for authenticating with the remote SCIM service. */
   clientId: string;
   /** Secret used to authenticate when generating a token for authenticating with the remove SCIM service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsCreateResultSelfHostedApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOauth2Scheme;
   /** URL used to generate the token used to authenticate with the remote SCIM service. */
@@ -6157,7 +6157,7 @@ export interface AccessApplicationsCreateResultSelfHostedApplicationScimConfigAu
   /** Client ID of the Access service token used to authenticate with the remote service. */
   clientId: string;
   /** Client secret of the Access service token used to authenticate with the remote service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsCreateResultSelfHostedApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemAccessSCIMConfigAuthenticationAccessServiceTokenScheme;
 }
@@ -7013,7 +7013,7 @@ export interface AccessApplicationsCreateResultSaaSApplicationSaasAppOIDCSaaSApp
   /** The application client id */
   clientId?: string | null | undefined;
   /** The application client secret, only returned on POST request. */
-  clientSecret?: string | null | undefined;
+  clientSecret?: string | Redacted.Redacted<string> | null | undefined;
   customClaims?:
     | AccessApplicationsCreateResultSaaSApplicationSaasAppOIDCSaaSAppCustomClaimsList
     | null
@@ -7053,7 +7053,7 @@ export type AccessApplicationsCreateResultSaaSApplicationScimConfigAuthenticatio
   "httpbasic";
 export interface AccessApplicationsCreateResultSaaSApplicationScimConfigAuthenticationSCIMConfigAuthenticationHTTPBasic {
   /** Password used to authenticate with the remote SCIM service. */
-  password: string;
+  password: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsCreateResultSaaSApplicationScimConfigAuthenticationSCIMConfigAuthenticationHTTPBasicScheme;
   /** User name used to authenticate with the remote SCIM service. */
@@ -7063,7 +7063,7 @@ export type AccessApplicationsCreateResultSaaSApplicationScimConfigAuthenticatio
   "oauthbearertoken";
 export interface AccessApplicationsCreateResultSaaSApplicationScimConfigAuthenticationSCIMConfigAuthenticationOAuthBearerToken {
   /** Token used to authenticate with the remote SCIM service. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsCreateResultSaaSApplicationScimConfigAuthenticationSCIMConfigAuthenticationOAuthBearerTokenScheme;
 }
@@ -7077,7 +7077,7 @@ export interface AccessApplicationsCreateResultSaaSApplicationScimConfigAuthenti
   /** Client ID used to authenticate when generating a token for authenticating with the remote SCIM service. */
   clientId: string;
   /** Secret used to authenticate when generating a token for authenticating with the remove SCIM service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsCreateResultSaaSApplicationScimConfigAuthenticationSCIMConfigAuthenticationOauth2Scheme;
   /** URL used to generate the token used to authenticate with the remote SCIM service. */
@@ -7094,7 +7094,7 @@ export interface AccessApplicationsCreateResultSaaSApplicationScimConfigAuthenti
   /** Client ID of the Access service token used to authenticate with the remote service. */
   clientId: string;
   /** Client secret of the Access service token used to authenticate with the remote service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsCreateResultSaaSApplicationScimConfigAuthenticationAccessSCIMConfigAuthenticationAccessServiceTokenScheme;
 }
@@ -7102,7 +7102,7 @@ export type AccessApplicationsCreateResultSaaSApplicationScimConfigAuthenticatio
   "httpbasic";
 export interface AccessApplicationsCreateResultSaaSApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationHTTPBasic {
   /** Password used to authenticate with the remote SCIM service. */
-  password: string;
+  password: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsCreateResultSaaSApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationHTTPBasicScheme;
   /** User name used to authenticate with the remote SCIM service. */
@@ -7112,7 +7112,7 @@ export type AccessApplicationsCreateResultSaaSApplicationScimConfigAuthenticatio
   "oauthbearertoken";
 export interface AccessApplicationsCreateResultSaaSApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOAuthBearerToken {
   /** Token used to authenticate with the remote SCIM service. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsCreateResultSaaSApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOAuthBearerTokenScheme;
 }
@@ -7126,7 +7126,7 @@ export interface AccessApplicationsCreateResultSaaSApplicationScimConfigAuthenti
   /** Client ID used to authenticate when generating a token for authenticating with the remote SCIM service. */
   clientId: string;
   /** Secret used to authenticate when generating a token for authenticating with the remove SCIM service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsCreateResultSaaSApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOauth2Scheme;
   /** URL used to generate the token used to authenticate with the remote SCIM service. */
@@ -7143,7 +7143,7 @@ export interface AccessApplicationsCreateResultSaaSApplicationScimConfigAuthenti
   /** Client ID of the Access service token used to authenticate with the remote service. */
   clientId: string;
   /** Client secret of the Access service token used to authenticate with the remote service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsCreateResultSaaSApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemAccessSCIMConfigAuthenticationAccessServiceTokenScheme;
 }
@@ -8074,7 +8074,7 @@ export type AccessApplicationsCreateResultBrowserSSHApplicationScimConfigAuthent
   "httpbasic";
 export interface AccessApplicationsCreateResultBrowserSSHApplicationScimConfigAuthenticationSCIMConfigAuthenticationHTTPBasic {
   /** Password used to authenticate with the remote SCIM service. */
-  password: string;
+  password: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsCreateResultBrowserSSHApplicationScimConfigAuthenticationSCIMConfigAuthenticationHTTPBasicScheme;
   /** User name used to authenticate with the remote SCIM service. */
@@ -8084,7 +8084,7 @@ export type AccessApplicationsCreateResultBrowserSSHApplicationScimConfigAuthent
   "oauthbearertoken";
 export interface AccessApplicationsCreateResultBrowserSSHApplicationScimConfigAuthenticationSCIMConfigAuthenticationOAuthBearerToken {
   /** Token used to authenticate with the remote SCIM service. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsCreateResultBrowserSSHApplicationScimConfigAuthenticationSCIMConfigAuthenticationOAuthBearerTokenScheme;
 }
@@ -8098,7 +8098,7 @@ export interface AccessApplicationsCreateResultBrowserSSHApplicationScimConfigAu
   /** Client ID used to authenticate when generating a token for authenticating with the remote SCIM service. */
   clientId: string;
   /** Secret used to authenticate when generating a token for authenticating with the remove SCIM service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsCreateResultBrowserSSHApplicationScimConfigAuthenticationSCIMConfigAuthenticationOauth2Scheme;
   /** URL used to generate the token used to authenticate with the remote SCIM service. */
@@ -8115,7 +8115,7 @@ export interface AccessApplicationsCreateResultBrowserSSHApplicationScimConfigAu
   /** Client ID of the Access service token used to authenticate with the remote service. */
   clientId: string;
   /** Client secret of the Access service token used to authenticate with the remote service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsCreateResultBrowserSSHApplicationScimConfigAuthenticationAccessSCIMConfigAuthenticationAccessServiceTokenScheme;
 }
@@ -8123,7 +8123,7 @@ export type AccessApplicationsCreateResultBrowserSSHApplicationScimConfigAuthent
   "httpbasic";
 export interface AccessApplicationsCreateResultBrowserSSHApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationHTTPBasic {
   /** Password used to authenticate with the remote SCIM service. */
-  password: string;
+  password: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsCreateResultBrowserSSHApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationHTTPBasicScheme;
   /** User name used to authenticate with the remote SCIM service. */
@@ -8133,7 +8133,7 @@ export type AccessApplicationsCreateResultBrowserSSHApplicationScimConfigAuthent
   "oauthbearertoken";
 export interface AccessApplicationsCreateResultBrowserSSHApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOAuthBearerToken {
   /** Token used to authenticate with the remote SCIM service. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsCreateResultBrowserSSHApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOAuthBearerTokenScheme;
 }
@@ -8147,7 +8147,7 @@ export interface AccessApplicationsCreateResultBrowserSSHApplicationScimConfigAu
   /** Client ID used to authenticate when generating a token for authenticating with the remote SCIM service. */
   clientId: string;
   /** Secret used to authenticate when generating a token for authenticating with the remove SCIM service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsCreateResultBrowserSSHApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOauth2Scheme;
   /** URL used to generate the token used to authenticate with the remote SCIM service. */
@@ -8164,7 +8164,7 @@ export interface AccessApplicationsCreateResultBrowserSSHApplicationScimConfigAu
   /** Client ID of the Access service token used to authenticate with the remote service. */
   clientId: string;
   /** Client secret of the Access service token used to authenticate with the remote service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsCreateResultBrowserSSHApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemAccessSCIMConfigAuthenticationAccessServiceTokenScheme;
 }
@@ -9137,7 +9137,7 @@ export type AccessApplicationsCreateResultBrowserVNCApplicationScimConfigAuthent
   "httpbasic";
 export interface AccessApplicationsCreateResultBrowserVNCApplicationScimConfigAuthenticationSCIMConfigAuthenticationHTTPBasic {
   /** Password used to authenticate with the remote SCIM service. */
-  password: string;
+  password: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsCreateResultBrowserVNCApplicationScimConfigAuthenticationSCIMConfigAuthenticationHTTPBasicScheme;
   /** User name used to authenticate with the remote SCIM service. */
@@ -9147,7 +9147,7 @@ export type AccessApplicationsCreateResultBrowserVNCApplicationScimConfigAuthent
   "oauthbearertoken";
 export interface AccessApplicationsCreateResultBrowserVNCApplicationScimConfigAuthenticationSCIMConfigAuthenticationOAuthBearerToken {
   /** Token used to authenticate with the remote SCIM service. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsCreateResultBrowserVNCApplicationScimConfigAuthenticationSCIMConfigAuthenticationOAuthBearerTokenScheme;
 }
@@ -9161,7 +9161,7 @@ export interface AccessApplicationsCreateResultBrowserVNCApplicationScimConfigAu
   /** Client ID used to authenticate when generating a token for authenticating with the remote SCIM service. */
   clientId: string;
   /** Secret used to authenticate when generating a token for authenticating with the remove SCIM service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsCreateResultBrowserVNCApplicationScimConfigAuthenticationSCIMConfigAuthenticationOauth2Scheme;
   /** URL used to generate the token used to authenticate with the remote SCIM service. */
@@ -9178,7 +9178,7 @@ export interface AccessApplicationsCreateResultBrowserVNCApplicationScimConfigAu
   /** Client ID of the Access service token used to authenticate with the remote service. */
   clientId: string;
   /** Client secret of the Access service token used to authenticate with the remote service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsCreateResultBrowserVNCApplicationScimConfigAuthenticationAccessSCIMConfigAuthenticationAccessServiceTokenScheme;
 }
@@ -9186,7 +9186,7 @@ export type AccessApplicationsCreateResultBrowserVNCApplicationScimConfigAuthent
   "httpbasic";
 export interface AccessApplicationsCreateResultBrowserVNCApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationHTTPBasic {
   /** Password used to authenticate with the remote SCIM service. */
-  password: string;
+  password: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsCreateResultBrowserVNCApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationHTTPBasicScheme;
   /** User name used to authenticate with the remote SCIM service. */
@@ -9196,7 +9196,7 @@ export type AccessApplicationsCreateResultBrowserVNCApplicationScimConfigAuthent
   "oauthbearertoken";
 export interface AccessApplicationsCreateResultBrowserVNCApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOAuthBearerToken {
   /** Token used to authenticate with the remote SCIM service. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsCreateResultBrowserVNCApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOAuthBearerTokenScheme;
 }
@@ -9210,7 +9210,7 @@ export interface AccessApplicationsCreateResultBrowserVNCApplicationScimConfigAu
   /** Client ID used to authenticate when generating a token for authenticating with the remote SCIM service. */
   clientId: string;
   /** Secret used to authenticate when generating a token for authenticating with the remove SCIM service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsCreateResultBrowserVNCApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOauth2Scheme;
   /** URL used to generate the token used to authenticate with the remote SCIM service. */
@@ -9227,7 +9227,7 @@ export interface AccessApplicationsCreateResultBrowserVNCApplicationScimConfigAu
   /** Client ID of the Access service token used to authenticate with the remote service. */
   clientId: string;
   /** Client secret of the Access service token used to authenticate with the remote service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsCreateResultBrowserVNCApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemAccessSCIMConfigAuthenticationAccessServiceTokenScheme;
 }
@@ -14062,7 +14062,7 @@ export type AccessApplicationsCreateResultBrowserRDPApplicationScimConfigAuthent
   "httpbasic";
 export interface AccessApplicationsCreateResultBrowserRDPApplicationScimConfigAuthenticationSCIMConfigAuthenticationHTTPBasic {
   /** Password used to authenticate with the remote SCIM service. */
-  password: string;
+  password: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsCreateResultBrowserRDPApplicationScimConfigAuthenticationSCIMConfigAuthenticationHTTPBasicScheme;
   /** User name used to authenticate with the remote SCIM service. */
@@ -14072,7 +14072,7 @@ export type AccessApplicationsCreateResultBrowserRDPApplicationScimConfigAuthent
   "oauthbearertoken";
 export interface AccessApplicationsCreateResultBrowserRDPApplicationScimConfigAuthenticationSCIMConfigAuthenticationOAuthBearerToken {
   /** Token used to authenticate with the remote SCIM service. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsCreateResultBrowserRDPApplicationScimConfigAuthenticationSCIMConfigAuthenticationOAuthBearerTokenScheme;
 }
@@ -14086,7 +14086,7 @@ export interface AccessApplicationsCreateResultBrowserRDPApplicationScimConfigAu
   /** Client ID used to authenticate when generating a token for authenticating with the remote SCIM service. */
   clientId: string;
   /** Secret used to authenticate when generating a token for authenticating with the remove SCIM service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsCreateResultBrowserRDPApplicationScimConfigAuthenticationSCIMConfigAuthenticationOauth2Scheme;
   /** URL used to generate the token used to authenticate with the remote SCIM service. */
@@ -14103,7 +14103,7 @@ export interface AccessApplicationsCreateResultBrowserRDPApplicationScimConfigAu
   /** Client ID of the Access service token used to authenticate with the remote service. */
   clientId: string;
   /** Client secret of the Access service token used to authenticate with the remote service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsCreateResultBrowserRDPApplicationScimConfigAuthenticationAccessSCIMConfigAuthenticationAccessServiceTokenScheme;
 }
@@ -14111,7 +14111,7 @@ export type AccessApplicationsCreateResultBrowserRDPApplicationScimConfigAuthent
   "httpbasic";
 export interface AccessApplicationsCreateResultBrowserRDPApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationHTTPBasic {
   /** Password used to authenticate with the remote SCIM service. */
-  password: string;
+  password: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsCreateResultBrowserRDPApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationHTTPBasicScheme;
   /** User name used to authenticate with the remote SCIM service. */
@@ -14121,7 +14121,7 @@ export type AccessApplicationsCreateResultBrowserRDPApplicationScimConfigAuthent
   "oauthbearertoken";
 export interface AccessApplicationsCreateResultBrowserRDPApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOAuthBearerToken {
   /** Token used to authenticate with the remote SCIM service. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsCreateResultBrowserRDPApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOAuthBearerTokenScheme;
 }
@@ -14135,7 +14135,7 @@ export interface AccessApplicationsCreateResultBrowserRDPApplicationScimConfigAu
   /** Client ID used to authenticate when generating a token for authenticating with the remote SCIM service. */
   clientId: string;
   /** Secret used to authenticate when generating a token for authenticating with the remove SCIM service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsCreateResultBrowserRDPApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOauth2Scheme;
   /** URL used to generate the token used to authenticate with the remote SCIM service. */
@@ -14152,7 +14152,7 @@ export interface AccessApplicationsCreateResultBrowserRDPApplicationScimConfigAu
   /** Client ID of the Access service token used to authenticate with the remote service. */
   clientId: string;
   /** Client secret of the Access service token used to authenticate with the remote service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsCreateResultBrowserRDPApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemAccessSCIMConfigAuthenticationAccessServiceTokenScheme;
 }
@@ -15066,7 +15066,7 @@ export type AccessApplicationsCreateResultMcpServerApplicationScimConfigAuthenti
   "httpbasic";
 export interface AccessApplicationsCreateResultMcpServerApplicationScimConfigAuthenticationSCIMConfigAuthenticationHTTPBasic {
   /** Password used to authenticate with the remote SCIM service. */
-  password: string;
+  password: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsCreateResultMcpServerApplicationScimConfigAuthenticationSCIMConfigAuthenticationHTTPBasicScheme;
   /** User name used to authenticate with the remote SCIM service. */
@@ -15076,7 +15076,7 @@ export type AccessApplicationsCreateResultMcpServerApplicationScimConfigAuthenti
   "oauthbearertoken";
 export interface AccessApplicationsCreateResultMcpServerApplicationScimConfigAuthenticationSCIMConfigAuthenticationOAuthBearerToken {
   /** Token used to authenticate with the remote SCIM service. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsCreateResultMcpServerApplicationScimConfigAuthenticationSCIMConfigAuthenticationOAuthBearerTokenScheme;
 }
@@ -15090,7 +15090,7 @@ export interface AccessApplicationsCreateResultMcpServerApplicationScimConfigAut
   /** Client ID used to authenticate when generating a token for authenticating with the remote SCIM service. */
   clientId: string;
   /** Secret used to authenticate when generating a token for authenticating with the remove SCIM service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsCreateResultMcpServerApplicationScimConfigAuthenticationSCIMConfigAuthenticationOauth2Scheme;
   /** URL used to generate the token used to authenticate with the remote SCIM service. */
@@ -15107,7 +15107,7 @@ export interface AccessApplicationsCreateResultMcpServerApplicationScimConfigAut
   /** Client ID of the Access service token used to authenticate with the remote service. */
   clientId: string;
   /** Client secret of the Access service token used to authenticate with the remote service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsCreateResultMcpServerApplicationScimConfigAuthenticationAccessSCIMConfigAuthenticationAccessServiceTokenScheme;
 }
@@ -15115,7 +15115,7 @@ export type AccessApplicationsCreateResultMcpServerApplicationScimConfigAuthenti
   "httpbasic";
 export interface AccessApplicationsCreateResultMcpServerApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationHTTPBasic {
   /** Password used to authenticate with the remote SCIM service. */
-  password: string;
+  password: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsCreateResultMcpServerApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationHTTPBasicScheme;
   /** User name used to authenticate with the remote SCIM service. */
@@ -15125,7 +15125,7 @@ export type AccessApplicationsCreateResultMcpServerApplicationScimConfigAuthenti
   "oauthbearertoken";
 export interface AccessApplicationsCreateResultMcpServerApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOAuthBearerToken {
   /** Token used to authenticate with the remote SCIM service. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsCreateResultMcpServerApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOAuthBearerTokenScheme;
 }
@@ -15139,7 +15139,7 @@ export interface AccessApplicationsCreateResultMcpServerApplicationScimConfigAut
   /** Client ID used to authenticate when generating a token for authenticating with the remote SCIM service. */
   clientId: string;
   /** Secret used to authenticate when generating a token for authenticating with the remove SCIM service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsCreateResultMcpServerApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOauth2Scheme;
   /** URL used to generate the token used to authenticate with the remote SCIM service. */
@@ -15156,7 +15156,7 @@ export interface AccessApplicationsCreateResultMcpServerApplicationScimConfigAut
   /** Client ID of the Access service token used to authenticate with the remote service. */
   clientId: string;
   /** Client secret of the Access service token used to authenticate with the remote service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsCreateResultMcpServerApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemAccessSCIMConfigAuthenticationAccessServiceTokenScheme;
 }
@@ -16039,7 +16039,7 @@ export type AccessApplicationsCreateResultMcpServerPortalApplicationScimConfigAu
   "httpbasic";
 export interface AccessApplicationsCreateResultMcpServerPortalApplicationScimConfigAuthenticationSCIMConfigAuthenticationHTTPBasic {
   /** Password used to authenticate with the remote SCIM service. */
-  password: string;
+  password: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsCreateResultMcpServerPortalApplicationScimConfigAuthenticationSCIMConfigAuthenticationHTTPBasicScheme;
   /** User name used to authenticate with the remote SCIM service. */
@@ -16049,7 +16049,7 @@ export type AccessApplicationsCreateResultMcpServerPortalApplicationScimConfigAu
   "oauthbearertoken";
 export interface AccessApplicationsCreateResultMcpServerPortalApplicationScimConfigAuthenticationSCIMConfigAuthenticationOAuthBearerToken {
   /** Token used to authenticate with the remote SCIM service. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsCreateResultMcpServerPortalApplicationScimConfigAuthenticationSCIMConfigAuthenticationOAuthBearerTokenScheme;
 }
@@ -16063,7 +16063,7 @@ export interface AccessApplicationsCreateResultMcpServerPortalApplicationScimCon
   /** Client ID used to authenticate when generating a token for authenticating with the remote SCIM service. */
   clientId: string;
   /** Secret used to authenticate when generating a token for authenticating with the remove SCIM service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsCreateResultMcpServerPortalApplicationScimConfigAuthenticationSCIMConfigAuthenticationOauth2Scheme;
   /** URL used to generate the token used to authenticate with the remote SCIM service. */
@@ -16080,7 +16080,7 @@ export interface AccessApplicationsCreateResultMcpServerPortalApplicationScimCon
   /** Client ID of the Access service token used to authenticate with the remote service. */
   clientId: string;
   /** Client secret of the Access service token used to authenticate with the remote service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsCreateResultMcpServerPortalApplicationScimConfigAuthenticationAccessSCIMConfigAuthenticationAccessServiceTokenScheme;
 }
@@ -16088,7 +16088,7 @@ export type AccessApplicationsCreateResultMcpServerPortalApplicationScimConfigAu
   "httpbasic";
 export interface AccessApplicationsCreateResultMcpServerPortalApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationHTTPBasic {
   /** Password used to authenticate with the remote SCIM service. */
-  password: string;
+  password: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsCreateResultMcpServerPortalApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationHTTPBasicScheme;
   /** User name used to authenticate with the remote SCIM service. */
@@ -16098,7 +16098,7 @@ export type AccessApplicationsCreateResultMcpServerPortalApplicationScimConfigAu
   "oauthbearertoken";
 export interface AccessApplicationsCreateResultMcpServerPortalApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOAuthBearerToken {
   /** Token used to authenticate with the remote SCIM service. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsCreateResultMcpServerPortalApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOAuthBearerTokenScheme;
 }
@@ -16112,7 +16112,7 @@ export interface AccessApplicationsCreateResultMcpServerPortalApplicationScimCon
   /** Client ID used to authenticate when generating a token for authenticating with the remote SCIM service. */
   clientId: string;
   /** Secret used to authenticate when generating a token for authenticating with the remove SCIM service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsCreateResultMcpServerPortalApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOauth2Scheme;
   /** URL used to generate the token used to authenticate with the remote SCIM service. */
@@ -16129,7 +16129,7 @@ export interface AccessApplicationsCreateResultMcpServerPortalApplicationScimCon
   /** Client ID of the Access service token used to authenticate with the remote service. */
   clientId: string;
   /** Client secret of the Access service token used to authenticate with the remote service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsCreateResultMcpServerPortalApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemAccessSCIMConfigAuthenticationAccessServiceTokenScheme;
 }
@@ -19975,7 +19975,7 @@ export interface CreateAccessServiceTokenResponse {
   /** The Client ID for the service token. Access will check for this value in the `CF-Access-Client-ID` request header. */
   clientId?: string | null | undefined;
   /** The Client Secret for the service token. Access will check for this value in the `CF-Access-Client-Secret` request header. */
-  clientSecret?: string | null | undefined;
+  clientSecret?: string | Redacted.Redacted<string> | null | undefined;
   /** The duration for how long the service token will be valid. Must be in the format `300ms` or `2h45m`, or the special value `forever` for non-expiring tokens. Valid time units are: ns, us (or µs), ms, s, m, h. The default is 1 year in hours (8760h). */
   duration?: string | null | undefined;
   /** Whether the service token is enabled. A disabled service token cannot be used to authenticate; both its current and previous `client_secret` stop being accepted, but the token itself is preserved and can be re-enabled. A service token reported as leaked is disabled automatically and cannot be re-enabled until its secret is rotated; attempting to do so returns a 409. Defaults to enabled when omitted on create. */
@@ -20585,7 +20585,7 @@ export interface CreateCasbPostureWebhookRequest {
   /** List of custom headers to include in webhook requests. */
   headers?: CreateCasbPostureWebhookRequestHeadersList | undefined;
   /** Secret key used for HMAC signing when authentication_type is "HMAC-Signing". */
-  signingSecret?: string | undefined;
+  signingSecret?: string | Redacted.Redacted<string> | undefined;
   /** Status of the webhook configuration. Defaults to enabled when omitted. */
   status?: CreateCasbPostureWebhookRequestStatus | (string & {}) | undefined;
 }
@@ -20726,7 +20726,7 @@ export interface CreateCwsBasicAuthCredentialsSecretRequest {
   /** ID of the parent credential */
   credentialId: string;
   /** Password stored only as a one-way hash and never returned. Maximum 72 UTF-8 bytes. */
-  password: string;
+  password: string | Redacted.Redacted<string>;
   /** Optional deactivation deadline (RFC 3339). Omit or null for no expiry. */
   expiresAt?: string | undefined;
 }
@@ -22812,7 +22812,7 @@ export interface CreateDlpDatasetResponse {
   /** The version to use when uploading the dataset. */
   version: number;
   /** The secret to use for Exact Data Match datasets. */
-  secret?: string | null | undefined;
+  secret?: string | Redacted.Redacted<string> | null | undefined;
 }
 export interface CreateDlpDatasetUploadRequest {
   accountId: string;
@@ -22840,7 +22840,7 @@ export interface CreateDlpDatasetUploadResponse {
   version: number;
   caseSensitive?: boolean | null | undefined;
   columns?: DlpDatasetsUploadCreateResponseColumnsList | null | undefined;
-  secret?: string | null | undefined;
+  secret?: string | Redacted.Redacted<string> | null | undefined;
 }
 export interface DlpDatasetsVersionsCreateRequestBodyItemExistingColumn {
   entryId: string;
@@ -22985,7 +22985,7 @@ export type DlpEmailAccountMappingCreateResponseAuthRequirements =
   | DlpEmailAccountMappingCreateResponseAuthRequirementsType;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateDlpEmailAccountMappingResponse {
-  addinIdentifierToken: string;
+  addinIdentifierToken: string | Redacted.Redacted<string>;
   authRequirements: DlpEmailAccountMappingCreateResponseAuthRequirements;
 }
 export type DlpEmailRulesCreateRequestActionAction = "Block";
@@ -27308,7 +27308,7 @@ export interface CreateTunnelCloudflaredRequest {
   /** Indicates if this is a locally or remotely configured tunnel. If `local`, manage the tunnel using a YAML file on the origin machine. If `cloudflare`, manage the tunnel on the Zero Trust dashboard. */
   configSrc?: TunnelsCloudflaredCreateRequestConfigSrc | (string & {}) | undefined;
   /** Sets the password required to run a locally-managed tunnel. Must be at least 32 bytes and encoded as a base64 string. */
-  tunnelSecret?: string | undefined;
+  tunnelSecret?: string | Redacted.Redacted<string> | undefined;
 }
 export type TunnelsCloudflaredCreateResponseConfigSrc = "local" | "cloudflare";
 export interface TunnelsCloudflaredCreateResponseConnectionsItem {
@@ -30317,7 +30317,7 @@ export type AccessApplicationsGetResultSelfHostedApplicationScimConfigAuthentica
   "httpbasic";
 export interface AccessApplicationsGetResultSelfHostedApplicationScimConfigAuthenticationSCIMConfigAuthenticationHTTPBasic {
   /** Password used to authenticate with the remote SCIM service. */
-  password: string;
+  password: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsGetResultSelfHostedApplicationScimConfigAuthenticationSCIMConfigAuthenticationHTTPBasicScheme;
   /** User name used to authenticate with the remote SCIM service. */
@@ -30327,7 +30327,7 @@ export type AccessApplicationsGetResultSelfHostedApplicationScimConfigAuthentica
   "oauthbearertoken";
 export interface AccessApplicationsGetResultSelfHostedApplicationScimConfigAuthenticationSCIMConfigAuthenticationOAuthBearerToken {
   /** Token used to authenticate with the remote SCIM service. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsGetResultSelfHostedApplicationScimConfigAuthenticationSCIMConfigAuthenticationOAuthBearerTokenScheme;
 }
@@ -30341,7 +30341,7 @@ export interface AccessApplicationsGetResultSelfHostedApplicationScimConfigAuthe
   /** Client ID used to authenticate when generating a token for authenticating with the remote SCIM service. */
   clientId: string;
   /** Secret used to authenticate when generating a token for authenticating with the remove SCIM service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsGetResultSelfHostedApplicationScimConfigAuthenticationSCIMConfigAuthenticationOauth2Scheme;
   /** URL used to generate the token used to authenticate with the remote SCIM service. */
@@ -30358,7 +30358,7 @@ export interface AccessApplicationsGetResultSelfHostedApplicationScimConfigAuthe
   /** Client ID of the Access service token used to authenticate with the remote service. */
   clientId: string;
   /** Client secret of the Access service token used to authenticate with the remote service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsGetResultSelfHostedApplicationScimConfigAuthenticationAccessSCIMConfigAuthenticationAccessServiceTokenScheme;
 }
@@ -30366,7 +30366,7 @@ export type AccessApplicationsGetResultSelfHostedApplicationScimConfigAuthentica
   "httpbasic";
 export interface AccessApplicationsGetResultSelfHostedApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationHTTPBasic {
   /** Password used to authenticate with the remote SCIM service. */
-  password: string;
+  password: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsGetResultSelfHostedApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationHTTPBasicScheme;
   /** User name used to authenticate with the remote SCIM service. */
@@ -30376,7 +30376,7 @@ export type AccessApplicationsGetResultSelfHostedApplicationScimConfigAuthentica
   "oauthbearertoken";
 export interface AccessApplicationsGetResultSelfHostedApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOAuthBearerToken {
   /** Token used to authenticate with the remote SCIM service. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsGetResultSelfHostedApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOAuthBearerTokenScheme;
 }
@@ -30390,7 +30390,7 @@ export interface AccessApplicationsGetResultSelfHostedApplicationScimConfigAuthe
   /** Client ID used to authenticate when generating a token for authenticating with the remote SCIM service. */
   clientId: string;
   /** Secret used to authenticate when generating a token for authenticating with the remove SCIM service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsGetResultSelfHostedApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOauth2Scheme;
   /** URL used to generate the token used to authenticate with the remote SCIM service. */
@@ -30407,7 +30407,7 @@ export interface AccessApplicationsGetResultSelfHostedApplicationScimConfigAuthe
   /** Client ID of the Access service token used to authenticate with the remote service. */
   clientId: string;
   /** Client secret of the Access service token used to authenticate with the remote service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsGetResultSelfHostedApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemAccessSCIMConfigAuthenticationAccessServiceTokenScheme;
 }
@@ -31233,7 +31233,7 @@ export interface AccessApplicationsGetResultSaaSApplicationSaasAppOIDCSaaSApp {
   /** The application client id */
   clientId?: string | null | undefined;
   /** The application client secret, only returned on POST request. */
-  clientSecret?: string | null | undefined;
+  clientSecret?: string | Redacted.Redacted<string> | null | undefined;
   customClaims?:
     | AccessApplicationsGetResultSaaSApplicationSaasAppOIDCSaaSAppCustomClaimsList
     | null
@@ -31273,7 +31273,7 @@ export type AccessApplicationsGetResultSaaSApplicationScimConfigAuthenticationSC
   "httpbasic";
 export interface AccessApplicationsGetResultSaaSApplicationScimConfigAuthenticationSCIMConfigAuthenticationHTTPBasic {
   /** Password used to authenticate with the remote SCIM service. */
-  password: string;
+  password: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsGetResultSaaSApplicationScimConfigAuthenticationSCIMConfigAuthenticationHTTPBasicScheme;
   /** User name used to authenticate with the remote SCIM service. */
@@ -31283,7 +31283,7 @@ export type AccessApplicationsGetResultSaaSApplicationScimConfigAuthenticationSC
   "oauthbearertoken";
 export interface AccessApplicationsGetResultSaaSApplicationScimConfigAuthenticationSCIMConfigAuthenticationOAuthBearerToken {
   /** Token used to authenticate with the remote SCIM service. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsGetResultSaaSApplicationScimConfigAuthenticationSCIMConfigAuthenticationOAuthBearerTokenScheme;
 }
@@ -31297,7 +31297,7 @@ export interface AccessApplicationsGetResultSaaSApplicationScimConfigAuthenticat
   /** Client ID used to authenticate when generating a token for authenticating with the remote SCIM service. */
   clientId: string;
   /** Secret used to authenticate when generating a token for authenticating with the remove SCIM service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsGetResultSaaSApplicationScimConfigAuthenticationSCIMConfigAuthenticationOauth2Scheme;
   /** URL used to generate the token used to authenticate with the remote SCIM service. */
@@ -31314,7 +31314,7 @@ export interface AccessApplicationsGetResultSaaSApplicationScimConfigAuthenticat
   /** Client ID of the Access service token used to authenticate with the remote service. */
   clientId: string;
   /** Client secret of the Access service token used to authenticate with the remote service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsGetResultSaaSApplicationScimConfigAuthenticationAccessSCIMConfigAuthenticationAccessServiceTokenScheme;
 }
@@ -31322,7 +31322,7 @@ export type AccessApplicationsGetResultSaaSApplicationScimConfigAuthenticationAc
   "httpbasic";
 export interface AccessApplicationsGetResultSaaSApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationHTTPBasic {
   /** Password used to authenticate with the remote SCIM service. */
-  password: string;
+  password: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsGetResultSaaSApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationHTTPBasicScheme;
   /** User name used to authenticate with the remote SCIM service. */
@@ -31332,7 +31332,7 @@ export type AccessApplicationsGetResultSaaSApplicationScimConfigAuthenticationAc
   "oauthbearertoken";
 export interface AccessApplicationsGetResultSaaSApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOAuthBearerToken {
   /** Token used to authenticate with the remote SCIM service. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsGetResultSaaSApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOAuthBearerTokenScheme;
 }
@@ -31346,7 +31346,7 @@ export interface AccessApplicationsGetResultSaaSApplicationScimConfigAuthenticat
   /** Client ID used to authenticate when generating a token for authenticating with the remote SCIM service. */
   clientId: string;
   /** Secret used to authenticate when generating a token for authenticating with the remove SCIM service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsGetResultSaaSApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOauth2Scheme;
   /** URL used to generate the token used to authenticate with the remote SCIM service. */
@@ -31363,7 +31363,7 @@ export interface AccessApplicationsGetResultSaaSApplicationScimConfigAuthenticat
   /** Client ID of the Access service token used to authenticate with the remote service. */
   clientId: string;
   /** Client secret of the Access service token used to authenticate with the remote service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsGetResultSaaSApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemAccessSCIMConfigAuthenticationAccessServiceTokenScheme;
 }
@@ -32294,7 +32294,7 @@ export type AccessApplicationsGetResultBrowserSSHApplicationScimConfigAuthentica
   "httpbasic";
 export interface AccessApplicationsGetResultBrowserSSHApplicationScimConfigAuthenticationSCIMConfigAuthenticationHTTPBasic {
   /** Password used to authenticate with the remote SCIM service. */
-  password: string;
+  password: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsGetResultBrowserSSHApplicationScimConfigAuthenticationSCIMConfigAuthenticationHTTPBasicScheme;
   /** User name used to authenticate with the remote SCIM service. */
@@ -32304,7 +32304,7 @@ export type AccessApplicationsGetResultBrowserSSHApplicationScimConfigAuthentica
   "oauthbearertoken";
 export interface AccessApplicationsGetResultBrowserSSHApplicationScimConfigAuthenticationSCIMConfigAuthenticationOAuthBearerToken {
   /** Token used to authenticate with the remote SCIM service. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsGetResultBrowserSSHApplicationScimConfigAuthenticationSCIMConfigAuthenticationOAuthBearerTokenScheme;
 }
@@ -32318,7 +32318,7 @@ export interface AccessApplicationsGetResultBrowserSSHApplicationScimConfigAuthe
   /** Client ID used to authenticate when generating a token for authenticating with the remote SCIM service. */
   clientId: string;
   /** Secret used to authenticate when generating a token for authenticating with the remove SCIM service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsGetResultBrowserSSHApplicationScimConfigAuthenticationSCIMConfigAuthenticationOauth2Scheme;
   /** URL used to generate the token used to authenticate with the remote SCIM service. */
@@ -32335,7 +32335,7 @@ export interface AccessApplicationsGetResultBrowserSSHApplicationScimConfigAuthe
   /** Client ID of the Access service token used to authenticate with the remote service. */
   clientId: string;
   /** Client secret of the Access service token used to authenticate with the remote service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsGetResultBrowserSSHApplicationScimConfigAuthenticationAccessSCIMConfigAuthenticationAccessServiceTokenScheme;
 }
@@ -32343,7 +32343,7 @@ export type AccessApplicationsGetResultBrowserSSHApplicationScimConfigAuthentica
   "httpbasic";
 export interface AccessApplicationsGetResultBrowserSSHApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationHTTPBasic {
   /** Password used to authenticate with the remote SCIM service. */
-  password: string;
+  password: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsGetResultBrowserSSHApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationHTTPBasicScheme;
   /** User name used to authenticate with the remote SCIM service. */
@@ -32353,7 +32353,7 @@ export type AccessApplicationsGetResultBrowserSSHApplicationScimConfigAuthentica
   "oauthbearertoken";
 export interface AccessApplicationsGetResultBrowserSSHApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOAuthBearerToken {
   /** Token used to authenticate with the remote SCIM service. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsGetResultBrowserSSHApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOAuthBearerTokenScheme;
 }
@@ -32367,7 +32367,7 @@ export interface AccessApplicationsGetResultBrowserSSHApplicationScimConfigAuthe
   /** Client ID used to authenticate when generating a token for authenticating with the remote SCIM service. */
   clientId: string;
   /** Secret used to authenticate when generating a token for authenticating with the remove SCIM service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsGetResultBrowserSSHApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOauth2Scheme;
   /** URL used to generate the token used to authenticate with the remote SCIM service. */
@@ -32384,7 +32384,7 @@ export interface AccessApplicationsGetResultBrowserSSHApplicationScimConfigAuthe
   /** Client ID of the Access service token used to authenticate with the remote service. */
   clientId: string;
   /** Client secret of the Access service token used to authenticate with the remote service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsGetResultBrowserSSHApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemAccessSCIMConfigAuthenticationAccessServiceTokenScheme;
 }
@@ -33350,7 +33350,7 @@ export type AccessApplicationsGetResultBrowserVNCApplicationScimConfigAuthentica
   "httpbasic";
 export interface AccessApplicationsGetResultBrowserVNCApplicationScimConfigAuthenticationSCIMConfigAuthenticationHTTPBasic {
   /** Password used to authenticate with the remote SCIM service. */
-  password: string;
+  password: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsGetResultBrowserVNCApplicationScimConfigAuthenticationSCIMConfigAuthenticationHTTPBasicScheme;
   /** User name used to authenticate with the remote SCIM service. */
@@ -33360,7 +33360,7 @@ export type AccessApplicationsGetResultBrowserVNCApplicationScimConfigAuthentica
   "oauthbearertoken";
 export interface AccessApplicationsGetResultBrowserVNCApplicationScimConfigAuthenticationSCIMConfigAuthenticationOAuthBearerToken {
   /** Token used to authenticate with the remote SCIM service. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsGetResultBrowserVNCApplicationScimConfigAuthenticationSCIMConfigAuthenticationOAuthBearerTokenScheme;
 }
@@ -33374,7 +33374,7 @@ export interface AccessApplicationsGetResultBrowserVNCApplicationScimConfigAuthe
   /** Client ID used to authenticate when generating a token for authenticating with the remote SCIM service. */
   clientId: string;
   /** Secret used to authenticate when generating a token for authenticating with the remove SCIM service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsGetResultBrowserVNCApplicationScimConfigAuthenticationSCIMConfigAuthenticationOauth2Scheme;
   /** URL used to generate the token used to authenticate with the remote SCIM service. */
@@ -33391,7 +33391,7 @@ export interface AccessApplicationsGetResultBrowserVNCApplicationScimConfigAuthe
   /** Client ID of the Access service token used to authenticate with the remote service. */
   clientId: string;
   /** Client secret of the Access service token used to authenticate with the remote service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsGetResultBrowserVNCApplicationScimConfigAuthenticationAccessSCIMConfigAuthenticationAccessServiceTokenScheme;
 }
@@ -33399,7 +33399,7 @@ export type AccessApplicationsGetResultBrowserVNCApplicationScimConfigAuthentica
   "httpbasic";
 export interface AccessApplicationsGetResultBrowserVNCApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationHTTPBasic {
   /** Password used to authenticate with the remote SCIM service. */
-  password: string;
+  password: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsGetResultBrowserVNCApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationHTTPBasicScheme;
   /** User name used to authenticate with the remote SCIM service. */
@@ -33409,7 +33409,7 @@ export type AccessApplicationsGetResultBrowserVNCApplicationScimConfigAuthentica
   "oauthbearertoken";
 export interface AccessApplicationsGetResultBrowserVNCApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOAuthBearerToken {
   /** Token used to authenticate with the remote SCIM service. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsGetResultBrowserVNCApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOAuthBearerTokenScheme;
 }
@@ -33423,7 +33423,7 @@ export interface AccessApplicationsGetResultBrowserVNCApplicationScimConfigAuthe
   /** Client ID used to authenticate when generating a token for authenticating with the remote SCIM service. */
   clientId: string;
   /** Secret used to authenticate when generating a token for authenticating with the remove SCIM service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsGetResultBrowserVNCApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOauth2Scheme;
   /** URL used to generate the token used to authenticate with the remote SCIM service. */
@@ -33440,7 +33440,7 @@ export interface AccessApplicationsGetResultBrowserVNCApplicationScimConfigAuthe
   /** Client ID of the Access service token used to authenticate with the remote service. */
   clientId: string;
   /** Client secret of the Access service token used to authenticate with the remote service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsGetResultBrowserVNCApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemAccessSCIMConfigAuthenticationAccessServiceTokenScheme;
 }
@@ -38242,7 +38242,7 @@ export type AccessApplicationsGetResultBrowserRDPApplicationScimConfigAuthentica
   "httpbasic";
 export interface AccessApplicationsGetResultBrowserRDPApplicationScimConfigAuthenticationSCIMConfigAuthenticationHTTPBasic {
   /** Password used to authenticate with the remote SCIM service. */
-  password: string;
+  password: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsGetResultBrowserRDPApplicationScimConfigAuthenticationSCIMConfigAuthenticationHTTPBasicScheme;
   /** User name used to authenticate with the remote SCIM service. */
@@ -38252,7 +38252,7 @@ export type AccessApplicationsGetResultBrowserRDPApplicationScimConfigAuthentica
   "oauthbearertoken";
 export interface AccessApplicationsGetResultBrowserRDPApplicationScimConfigAuthenticationSCIMConfigAuthenticationOAuthBearerToken {
   /** Token used to authenticate with the remote SCIM service. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsGetResultBrowserRDPApplicationScimConfigAuthenticationSCIMConfigAuthenticationOAuthBearerTokenScheme;
 }
@@ -38266,7 +38266,7 @@ export interface AccessApplicationsGetResultBrowserRDPApplicationScimConfigAuthe
   /** Client ID used to authenticate when generating a token for authenticating with the remote SCIM service. */
   clientId: string;
   /** Secret used to authenticate when generating a token for authenticating with the remove SCIM service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsGetResultBrowserRDPApplicationScimConfigAuthenticationSCIMConfigAuthenticationOauth2Scheme;
   /** URL used to generate the token used to authenticate with the remote SCIM service. */
@@ -38283,7 +38283,7 @@ export interface AccessApplicationsGetResultBrowserRDPApplicationScimConfigAuthe
   /** Client ID of the Access service token used to authenticate with the remote service. */
   clientId: string;
   /** Client secret of the Access service token used to authenticate with the remote service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsGetResultBrowserRDPApplicationScimConfigAuthenticationAccessSCIMConfigAuthenticationAccessServiceTokenScheme;
 }
@@ -38291,7 +38291,7 @@ export type AccessApplicationsGetResultBrowserRDPApplicationScimConfigAuthentica
   "httpbasic";
 export interface AccessApplicationsGetResultBrowserRDPApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationHTTPBasic {
   /** Password used to authenticate with the remote SCIM service. */
-  password: string;
+  password: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsGetResultBrowserRDPApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationHTTPBasicScheme;
   /** User name used to authenticate with the remote SCIM service. */
@@ -38301,7 +38301,7 @@ export type AccessApplicationsGetResultBrowserRDPApplicationScimConfigAuthentica
   "oauthbearertoken";
 export interface AccessApplicationsGetResultBrowserRDPApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOAuthBearerToken {
   /** Token used to authenticate with the remote SCIM service. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsGetResultBrowserRDPApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOAuthBearerTokenScheme;
 }
@@ -38315,7 +38315,7 @@ export interface AccessApplicationsGetResultBrowserRDPApplicationScimConfigAuthe
   /** Client ID used to authenticate when generating a token for authenticating with the remote SCIM service. */
   clientId: string;
   /** Secret used to authenticate when generating a token for authenticating with the remove SCIM service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsGetResultBrowserRDPApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOauth2Scheme;
   /** URL used to generate the token used to authenticate with the remote SCIM service. */
@@ -38332,7 +38332,7 @@ export interface AccessApplicationsGetResultBrowserRDPApplicationScimConfigAuthe
   /** Client ID of the Access service token used to authenticate with the remote service. */
   clientId: string;
   /** Client secret of the Access service token used to authenticate with the remote service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsGetResultBrowserRDPApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemAccessSCIMConfigAuthenticationAccessServiceTokenScheme;
 }
@@ -39236,7 +39236,7 @@ export type AccessApplicationsGetResultMcpServerApplicationScimConfigAuthenticat
   "httpbasic";
 export interface AccessApplicationsGetResultMcpServerApplicationScimConfigAuthenticationSCIMConfigAuthenticationHTTPBasic {
   /** Password used to authenticate with the remote SCIM service. */
-  password: string;
+  password: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsGetResultMcpServerApplicationScimConfigAuthenticationSCIMConfigAuthenticationHTTPBasicScheme;
   /** User name used to authenticate with the remote SCIM service. */
@@ -39246,7 +39246,7 @@ export type AccessApplicationsGetResultMcpServerApplicationScimConfigAuthenticat
   "oauthbearertoken";
 export interface AccessApplicationsGetResultMcpServerApplicationScimConfigAuthenticationSCIMConfigAuthenticationOAuthBearerToken {
   /** Token used to authenticate with the remote SCIM service. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsGetResultMcpServerApplicationScimConfigAuthenticationSCIMConfigAuthenticationOAuthBearerTokenScheme;
 }
@@ -39260,7 +39260,7 @@ export interface AccessApplicationsGetResultMcpServerApplicationScimConfigAuthen
   /** Client ID used to authenticate when generating a token for authenticating with the remote SCIM service. */
   clientId: string;
   /** Secret used to authenticate when generating a token for authenticating with the remove SCIM service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsGetResultMcpServerApplicationScimConfigAuthenticationSCIMConfigAuthenticationOauth2Scheme;
   /** URL used to generate the token used to authenticate with the remote SCIM service. */
@@ -39277,7 +39277,7 @@ export interface AccessApplicationsGetResultMcpServerApplicationScimConfigAuthen
   /** Client ID of the Access service token used to authenticate with the remote service. */
   clientId: string;
   /** Client secret of the Access service token used to authenticate with the remote service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsGetResultMcpServerApplicationScimConfigAuthenticationAccessSCIMConfigAuthenticationAccessServiceTokenScheme;
 }
@@ -39285,7 +39285,7 @@ export type AccessApplicationsGetResultMcpServerApplicationScimConfigAuthenticat
   "httpbasic";
 export interface AccessApplicationsGetResultMcpServerApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationHTTPBasic {
   /** Password used to authenticate with the remote SCIM service. */
-  password: string;
+  password: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsGetResultMcpServerApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationHTTPBasicScheme;
   /** User name used to authenticate with the remote SCIM service. */
@@ -39295,7 +39295,7 @@ export type AccessApplicationsGetResultMcpServerApplicationScimConfigAuthenticat
   "oauthbearertoken";
 export interface AccessApplicationsGetResultMcpServerApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOAuthBearerToken {
   /** Token used to authenticate with the remote SCIM service. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsGetResultMcpServerApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOAuthBearerTokenScheme;
 }
@@ -39309,7 +39309,7 @@ export interface AccessApplicationsGetResultMcpServerApplicationScimConfigAuthen
   /** Client ID used to authenticate when generating a token for authenticating with the remote SCIM service. */
   clientId: string;
   /** Secret used to authenticate when generating a token for authenticating with the remove SCIM service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsGetResultMcpServerApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOauth2Scheme;
   /** URL used to generate the token used to authenticate with the remote SCIM service. */
@@ -39326,7 +39326,7 @@ export interface AccessApplicationsGetResultMcpServerApplicationScimConfigAuthen
   /** Client ID of the Access service token used to authenticate with the remote service. */
   clientId: string;
   /** Client secret of the Access service token used to authenticate with the remote service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsGetResultMcpServerApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemAccessSCIMConfigAuthenticationAccessServiceTokenScheme;
 }
@@ -40200,7 +40200,7 @@ export type AccessApplicationsGetResultMcpServerPortalApplicationScimConfigAuthe
   "httpbasic";
 export interface AccessApplicationsGetResultMcpServerPortalApplicationScimConfigAuthenticationSCIMConfigAuthenticationHTTPBasic {
   /** Password used to authenticate with the remote SCIM service. */
-  password: string;
+  password: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsGetResultMcpServerPortalApplicationScimConfigAuthenticationSCIMConfigAuthenticationHTTPBasicScheme;
   /** User name used to authenticate with the remote SCIM service. */
@@ -40210,7 +40210,7 @@ export type AccessApplicationsGetResultMcpServerPortalApplicationScimConfigAuthe
   "oauthbearertoken";
 export interface AccessApplicationsGetResultMcpServerPortalApplicationScimConfigAuthenticationSCIMConfigAuthenticationOAuthBearerToken {
   /** Token used to authenticate with the remote SCIM service. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsGetResultMcpServerPortalApplicationScimConfigAuthenticationSCIMConfigAuthenticationOAuthBearerTokenScheme;
 }
@@ -40224,7 +40224,7 @@ export interface AccessApplicationsGetResultMcpServerPortalApplicationScimConfig
   /** Client ID used to authenticate when generating a token for authenticating with the remote SCIM service. */
   clientId: string;
   /** Secret used to authenticate when generating a token for authenticating with the remove SCIM service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsGetResultMcpServerPortalApplicationScimConfigAuthenticationSCIMConfigAuthenticationOauth2Scheme;
   /** URL used to generate the token used to authenticate with the remote SCIM service. */
@@ -40241,7 +40241,7 @@ export interface AccessApplicationsGetResultMcpServerPortalApplicationScimConfig
   /** Client ID of the Access service token used to authenticate with the remote service. */
   clientId: string;
   /** Client secret of the Access service token used to authenticate with the remote service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsGetResultMcpServerPortalApplicationScimConfigAuthenticationAccessSCIMConfigAuthenticationAccessServiceTokenScheme;
 }
@@ -40249,7 +40249,7 @@ export type AccessApplicationsGetResultMcpServerPortalApplicationScimConfigAuthe
   "httpbasic";
 export interface AccessApplicationsGetResultMcpServerPortalApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationHTTPBasic {
   /** Password used to authenticate with the remote SCIM service. */
-  password: string;
+  password: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsGetResultMcpServerPortalApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationHTTPBasicScheme;
   /** User name used to authenticate with the remote SCIM service. */
@@ -40259,7 +40259,7 @@ export type AccessApplicationsGetResultMcpServerPortalApplicationScimConfigAuthe
   "oauthbearertoken";
 export interface AccessApplicationsGetResultMcpServerPortalApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOAuthBearerToken {
   /** Token used to authenticate with the remote SCIM service. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsGetResultMcpServerPortalApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOAuthBearerTokenScheme;
 }
@@ -40273,7 +40273,7 @@ export interface AccessApplicationsGetResultMcpServerPortalApplicationScimConfig
   /** Client ID used to authenticate when generating a token for authenticating with the remote SCIM service. */
   clientId: string;
   /** Secret used to authenticate when generating a token for authenticating with the remove SCIM service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsGetResultMcpServerPortalApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOauth2Scheme;
   /** URL used to generate the token used to authenticate with the remote SCIM service. */
@@ -40290,7 +40290,7 @@ export interface AccessApplicationsGetResultMcpServerPortalApplicationScimConfig
   /** Client ID of the Access service token used to authenticate with the remote service. */
   clientId: string;
   /** Client secret of the Access service token used to authenticate with the remote service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsGetResultMcpServerPortalApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemAccessSCIMConfigAuthenticationAccessServiceTokenScheme;
 }
@@ -46209,7 +46209,7 @@ export type DlpEmailAccountMappingGetResponseAuthRequirements =
   | DlpEmailAccountMappingGetResponseAuthRequirementsType;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetDlpEmailAccountMappingResponse {
-  addinIdentifierToken: string;
+  addinIdentifierToken: string | Redacted.Redacted<string>;
   authRequirements: DlpEmailAccountMappingGetResponseAuthRequirements;
 }
 export interface GetDlpEmailRuleRequest {
@@ -54202,7 +54202,7 @@ export type AccessApplicationsListResultItemSelfHostedApplicationScimConfigAuthe
   "httpbasic";
 export interface AccessApplicationsListResultItemSelfHostedApplicationScimConfigAuthenticationSCIMConfigAuthenticationHTTPBasic {
   /** Password used to authenticate with the remote SCIM service. */
-  password: string;
+  password: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsListResultItemSelfHostedApplicationScimConfigAuthenticationSCIMConfigAuthenticationHTTPBasicScheme;
   /** User name used to authenticate with the remote SCIM service. */
@@ -54212,7 +54212,7 @@ export type AccessApplicationsListResultItemSelfHostedApplicationScimConfigAuthe
   "oauthbearertoken";
 export interface AccessApplicationsListResultItemSelfHostedApplicationScimConfigAuthenticationSCIMConfigAuthenticationOAuthBearerToken {
   /** Token used to authenticate with the remote SCIM service. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsListResultItemSelfHostedApplicationScimConfigAuthenticationSCIMConfigAuthenticationOAuthBearerTokenScheme;
 }
@@ -54226,7 +54226,7 @@ export interface AccessApplicationsListResultItemSelfHostedApplicationScimConfig
   /** Client ID used to authenticate when generating a token for authenticating with the remote SCIM service. */
   clientId: string;
   /** Secret used to authenticate when generating a token for authenticating with the remove SCIM service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsListResultItemSelfHostedApplicationScimConfigAuthenticationSCIMConfigAuthenticationOauth2Scheme;
   /** URL used to generate the token used to authenticate with the remote SCIM service. */
@@ -54243,7 +54243,7 @@ export interface AccessApplicationsListResultItemSelfHostedApplicationScimConfig
   /** Client ID of the Access service token used to authenticate with the remote service. */
   clientId: string;
   /** Client secret of the Access service token used to authenticate with the remote service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsListResultItemSelfHostedApplicationScimConfigAuthenticationAccessSCIMConfigAuthenticationAccessServiceTokenScheme;
 }
@@ -54251,7 +54251,7 @@ export type AccessApplicationsListResultItemSelfHostedApplicationScimConfigAuthe
   "httpbasic";
 export interface AccessApplicationsListResultItemSelfHostedApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationHTTPBasic {
   /** Password used to authenticate with the remote SCIM service. */
-  password: string;
+  password: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsListResultItemSelfHostedApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationHTTPBasicScheme;
   /** User name used to authenticate with the remote SCIM service. */
@@ -54261,7 +54261,7 @@ export type AccessApplicationsListResultItemSelfHostedApplicationScimConfigAuthe
   "oauthbearertoken";
 export interface AccessApplicationsListResultItemSelfHostedApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOAuthBearerToken {
   /** Token used to authenticate with the remote SCIM service. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsListResultItemSelfHostedApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOAuthBearerTokenScheme;
 }
@@ -54275,7 +54275,7 @@ export interface AccessApplicationsListResultItemSelfHostedApplicationScimConfig
   /** Client ID used to authenticate when generating a token for authenticating with the remote SCIM service. */
   clientId: string;
   /** Secret used to authenticate when generating a token for authenticating with the remove SCIM service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsListResultItemSelfHostedApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOauth2Scheme;
   /** URL used to generate the token used to authenticate with the remote SCIM service. */
@@ -54292,7 +54292,7 @@ export interface AccessApplicationsListResultItemSelfHostedApplicationScimConfig
   /** Client ID of the Access service token used to authenticate with the remote service. */
   clientId: string;
   /** Client secret of the Access service token used to authenticate with the remote service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsListResultItemSelfHostedApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemAccessSCIMConfigAuthenticationAccessServiceTokenScheme;
 }
@@ -55144,7 +55144,7 @@ export interface AccessApplicationsListResultItemSaaSApplicationSaasAppOIDCSaaSA
   /** The application client id */
   clientId?: string | null | undefined;
   /** The application client secret, only returned on POST request. */
-  clientSecret?: string | null | undefined;
+  clientSecret?: string | Redacted.Redacted<string> | null | undefined;
   customClaims?:
     | AccessApplicationsListResultItemSaaSApplicationSaasAppOIDCSaaSAppCustomClaimsList
     | null
@@ -55184,7 +55184,7 @@ export type AccessApplicationsListResultItemSaaSApplicationScimConfigAuthenticat
   "httpbasic";
 export interface AccessApplicationsListResultItemSaaSApplicationScimConfigAuthenticationSCIMConfigAuthenticationHTTPBasic {
   /** Password used to authenticate with the remote SCIM service. */
-  password: string;
+  password: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsListResultItemSaaSApplicationScimConfigAuthenticationSCIMConfigAuthenticationHTTPBasicScheme;
   /** User name used to authenticate with the remote SCIM service. */
@@ -55194,7 +55194,7 @@ export type AccessApplicationsListResultItemSaaSApplicationScimConfigAuthenticat
   "oauthbearertoken";
 export interface AccessApplicationsListResultItemSaaSApplicationScimConfigAuthenticationSCIMConfigAuthenticationOAuthBearerToken {
   /** Token used to authenticate with the remote SCIM service. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsListResultItemSaaSApplicationScimConfigAuthenticationSCIMConfigAuthenticationOAuthBearerTokenScheme;
 }
@@ -55208,7 +55208,7 @@ export interface AccessApplicationsListResultItemSaaSApplicationScimConfigAuthen
   /** Client ID used to authenticate when generating a token for authenticating with the remote SCIM service. */
   clientId: string;
   /** Secret used to authenticate when generating a token for authenticating with the remove SCIM service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsListResultItemSaaSApplicationScimConfigAuthenticationSCIMConfigAuthenticationOauth2Scheme;
   /** URL used to generate the token used to authenticate with the remote SCIM service. */
@@ -55225,7 +55225,7 @@ export interface AccessApplicationsListResultItemSaaSApplicationScimConfigAuthen
   /** Client ID of the Access service token used to authenticate with the remote service. */
   clientId: string;
   /** Client secret of the Access service token used to authenticate with the remote service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsListResultItemSaaSApplicationScimConfigAuthenticationAccessSCIMConfigAuthenticationAccessServiceTokenScheme;
 }
@@ -55233,7 +55233,7 @@ export type AccessApplicationsListResultItemSaaSApplicationScimConfigAuthenticat
   "httpbasic";
 export interface AccessApplicationsListResultItemSaaSApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationHTTPBasic {
   /** Password used to authenticate with the remote SCIM service. */
-  password: string;
+  password: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsListResultItemSaaSApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationHTTPBasicScheme;
   /** User name used to authenticate with the remote SCIM service. */
@@ -55243,7 +55243,7 @@ export type AccessApplicationsListResultItemSaaSApplicationScimConfigAuthenticat
   "oauthbearertoken";
 export interface AccessApplicationsListResultItemSaaSApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOAuthBearerToken {
   /** Token used to authenticate with the remote SCIM service. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsListResultItemSaaSApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOAuthBearerTokenScheme;
 }
@@ -55257,7 +55257,7 @@ export interface AccessApplicationsListResultItemSaaSApplicationScimConfigAuthen
   /** Client ID used to authenticate when generating a token for authenticating with the remote SCIM service. */
   clientId: string;
   /** Secret used to authenticate when generating a token for authenticating with the remove SCIM service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsListResultItemSaaSApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOauth2Scheme;
   /** URL used to generate the token used to authenticate with the remote SCIM service. */
@@ -55274,7 +55274,7 @@ export interface AccessApplicationsListResultItemSaaSApplicationScimConfigAuthen
   /** Client ID of the Access service token used to authenticate with the remote service. */
   clientId: string;
   /** Client secret of the Access service token used to authenticate with the remote service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsListResultItemSaaSApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemAccessSCIMConfigAuthenticationAccessServiceTokenScheme;
 }
@@ -56208,7 +56208,7 @@ export type AccessApplicationsListResultItemBrowserSSHApplicationScimConfigAuthe
   "httpbasic";
 export interface AccessApplicationsListResultItemBrowserSSHApplicationScimConfigAuthenticationSCIMConfigAuthenticationHTTPBasic {
   /** Password used to authenticate with the remote SCIM service. */
-  password: string;
+  password: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsListResultItemBrowserSSHApplicationScimConfigAuthenticationSCIMConfigAuthenticationHTTPBasicScheme;
   /** User name used to authenticate with the remote SCIM service. */
@@ -56218,7 +56218,7 @@ export type AccessApplicationsListResultItemBrowserSSHApplicationScimConfigAuthe
   "oauthbearertoken";
 export interface AccessApplicationsListResultItemBrowserSSHApplicationScimConfigAuthenticationSCIMConfigAuthenticationOAuthBearerToken {
   /** Token used to authenticate with the remote SCIM service. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsListResultItemBrowserSSHApplicationScimConfigAuthenticationSCIMConfigAuthenticationOAuthBearerTokenScheme;
 }
@@ -56232,7 +56232,7 @@ export interface AccessApplicationsListResultItemBrowserSSHApplicationScimConfig
   /** Client ID used to authenticate when generating a token for authenticating with the remote SCIM service. */
   clientId: string;
   /** Secret used to authenticate when generating a token for authenticating with the remove SCIM service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsListResultItemBrowserSSHApplicationScimConfigAuthenticationSCIMConfigAuthenticationOauth2Scheme;
   /** URL used to generate the token used to authenticate with the remote SCIM service. */
@@ -56249,7 +56249,7 @@ export interface AccessApplicationsListResultItemBrowserSSHApplicationScimConfig
   /** Client ID of the Access service token used to authenticate with the remote service. */
   clientId: string;
   /** Client secret of the Access service token used to authenticate with the remote service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsListResultItemBrowserSSHApplicationScimConfigAuthenticationAccessSCIMConfigAuthenticationAccessServiceTokenScheme;
 }
@@ -56257,7 +56257,7 @@ export type AccessApplicationsListResultItemBrowserSSHApplicationScimConfigAuthe
   "httpbasic";
 export interface AccessApplicationsListResultItemBrowserSSHApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationHTTPBasic {
   /** Password used to authenticate with the remote SCIM service. */
-  password: string;
+  password: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsListResultItemBrowserSSHApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationHTTPBasicScheme;
   /** User name used to authenticate with the remote SCIM service. */
@@ -56267,7 +56267,7 @@ export type AccessApplicationsListResultItemBrowserSSHApplicationScimConfigAuthe
   "oauthbearertoken";
 export interface AccessApplicationsListResultItemBrowserSSHApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOAuthBearerToken {
   /** Token used to authenticate with the remote SCIM service. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsListResultItemBrowserSSHApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOAuthBearerTokenScheme;
 }
@@ -56281,7 +56281,7 @@ export interface AccessApplicationsListResultItemBrowserSSHApplicationScimConfig
   /** Client ID used to authenticate when generating a token for authenticating with the remote SCIM service. */
   clientId: string;
   /** Secret used to authenticate when generating a token for authenticating with the remove SCIM service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsListResultItemBrowserSSHApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOauth2Scheme;
   /** URL used to generate the token used to authenticate with the remote SCIM service. */
@@ -56298,7 +56298,7 @@ export interface AccessApplicationsListResultItemBrowserSSHApplicationScimConfig
   /** Client ID of the Access service token used to authenticate with the remote service. */
   clientId: string;
   /** Client secret of the Access service token used to authenticate with the remote service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsListResultItemBrowserSSHApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemAccessSCIMConfigAuthenticationAccessServiceTokenScheme;
 }
@@ -57271,7 +57271,7 @@ export type AccessApplicationsListResultItemBrowserVNCApplicationScimConfigAuthe
   "httpbasic";
 export interface AccessApplicationsListResultItemBrowserVNCApplicationScimConfigAuthenticationSCIMConfigAuthenticationHTTPBasic {
   /** Password used to authenticate with the remote SCIM service. */
-  password: string;
+  password: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsListResultItemBrowserVNCApplicationScimConfigAuthenticationSCIMConfigAuthenticationHTTPBasicScheme;
   /** User name used to authenticate with the remote SCIM service. */
@@ -57281,7 +57281,7 @@ export type AccessApplicationsListResultItemBrowserVNCApplicationScimConfigAuthe
   "oauthbearertoken";
 export interface AccessApplicationsListResultItemBrowserVNCApplicationScimConfigAuthenticationSCIMConfigAuthenticationOAuthBearerToken {
   /** Token used to authenticate with the remote SCIM service. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsListResultItemBrowserVNCApplicationScimConfigAuthenticationSCIMConfigAuthenticationOAuthBearerTokenScheme;
 }
@@ -57295,7 +57295,7 @@ export interface AccessApplicationsListResultItemBrowserVNCApplicationScimConfig
   /** Client ID used to authenticate when generating a token for authenticating with the remote SCIM service. */
   clientId: string;
   /** Secret used to authenticate when generating a token for authenticating with the remove SCIM service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsListResultItemBrowserVNCApplicationScimConfigAuthenticationSCIMConfigAuthenticationOauth2Scheme;
   /** URL used to generate the token used to authenticate with the remote SCIM service. */
@@ -57312,7 +57312,7 @@ export interface AccessApplicationsListResultItemBrowserVNCApplicationScimConfig
   /** Client ID of the Access service token used to authenticate with the remote service. */
   clientId: string;
   /** Client secret of the Access service token used to authenticate with the remote service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsListResultItemBrowserVNCApplicationScimConfigAuthenticationAccessSCIMConfigAuthenticationAccessServiceTokenScheme;
 }
@@ -57320,7 +57320,7 @@ export type AccessApplicationsListResultItemBrowserVNCApplicationScimConfigAuthe
   "httpbasic";
 export interface AccessApplicationsListResultItemBrowserVNCApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationHTTPBasic {
   /** Password used to authenticate with the remote SCIM service. */
-  password: string;
+  password: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsListResultItemBrowserVNCApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationHTTPBasicScheme;
   /** User name used to authenticate with the remote SCIM service. */
@@ -57330,7 +57330,7 @@ export type AccessApplicationsListResultItemBrowserVNCApplicationScimConfigAuthe
   "oauthbearertoken";
 export interface AccessApplicationsListResultItemBrowserVNCApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOAuthBearerToken {
   /** Token used to authenticate with the remote SCIM service. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsListResultItemBrowserVNCApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOAuthBearerTokenScheme;
 }
@@ -57344,7 +57344,7 @@ export interface AccessApplicationsListResultItemBrowserVNCApplicationScimConfig
   /** Client ID used to authenticate when generating a token for authenticating with the remote SCIM service. */
   clientId: string;
   /** Secret used to authenticate when generating a token for authenticating with the remove SCIM service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsListResultItemBrowserVNCApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOauth2Scheme;
   /** URL used to generate the token used to authenticate with the remote SCIM service. */
@@ -57361,7 +57361,7 @@ export interface AccessApplicationsListResultItemBrowserVNCApplicationScimConfig
   /** Client ID of the Access service token used to authenticate with the remote service. */
   clientId: string;
   /** Client secret of the Access service token used to authenticate with the remote service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsListResultItemBrowserVNCApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemAccessSCIMConfigAuthenticationAccessServiceTokenScheme;
 }
@@ -62192,7 +62192,7 @@ export type AccessApplicationsListResultItemBrowserRDPApplicationScimConfigAuthe
   "httpbasic";
 export interface AccessApplicationsListResultItemBrowserRDPApplicationScimConfigAuthenticationSCIMConfigAuthenticationHTTPBasic {
   /** Password used to authenticate with the remote SCIM service. */
-  password: string;
+  password: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsListResultItemBrowserRDPApplicationScimConfigAuthenticationSCIMConfigAuthenticationHTTPBasicScheme;
   /** User name used to authenticate with the remote SCIM service. */
@@ -62202,7 +62202,7 @@ export type AccessApplicationsListResultItemBrowserRDPApplicationScimConfigAuthe
   "oauthbearertoken";
 export interface AccessApplicationsListResultItemBrowserRDPApplicationScimConfigAuthenticationSCIMConfigAuthenticationOAuthBearerToken {
   /** Token used to authenticate with the remote SCIM service. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsListResultItemBrowserRDPApplicationScimConfigAuthenticationSCIMConfigAuthenticationOAuthBearerTokenScheme;
 }
@@ -62216,7 +62216,7 @@ export interface AccessApplicationsListResultItemBrowserRDPApplicationScimConfig
   /** Client ID used to authenticate when generating a token for authenticating with the remote SCIM service. */
   clientId: string;
   /** Secret used to authenticate when generating a token for authenticating with the remove SCIM service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsListResultItemBrowserRDPApplicationScimConfigAuthenticationSCIMConfigAuthenticationOauth2Scheme;
   /** URL used to generate the token used to authenticate with the remote SCIM service. */
@@ -62233,7 +62233,7 @@ export interface AccessApplicationsListResultItemBrowserRDPApplicationScimConfig
   /** Client ID of the Access service token used to authenticate with the remote service. */
   clientId: string;
   /** Client secret of the Access service token used to authenticate with the remote service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsListResultItemBrowserRDPApplicationScimConfigAuthenticationAccessSCIMConfigAuthenticationAccessServiceTokenScheme;
 }
@@ -62241,7 +62241,7 @@ export type AccessApplicationsListResultItemBrowserRDPApplicationScimConfigAuthe
   "httpbasic";
 export interface AccessApplicationsListResultItemBrowserRDPApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationHTTPBasic {
   /** Password used to authenticate with the remote SCIM service. */
-  password: string;
+  password: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsListResultItemBrowserRDPApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationHTTPBasicScheme;
   /** User name used to authenticate with the remote SCIM service. */
@@ -62251,7 +62251,7 @@ export type AccessApplicationsListResultItemBrowserRDPApplicationScimConfigAuthe
   "oauthbearertoken";
 export interface AccessApplicationsListResultItemBrowserRDPApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOAuthBearerToken {
   /** Token used to authenticate with the remote SCIM service. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsListResultItemBrowserRDPApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOAuthBearerTokenScheme;
 }
@@ -62265,7 +62265,7 @@ export interface AccessApplicationsListResultItemBrowserRDPApplicationScimConfig
   /** Client ID used to authenticate when generating a token for authenticating with the remote SCIM service. */
   clientId: string;
   /** Secret used to authenticate when generating a token for authenticating with the remove SCIM service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsListResultItemBrowserRDPApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOauth2Scheme;
   /** URL used to generate the token used to authenticate with the remote SCIM service. */
@@ -62282,7 +62282,7 @@ export interface AccessApplicationsListResultItemBrowserRDPApplicationScimConfig
   /** Client ID of the Access service token used to authenticate with the remote service. */
   clientId: string;
   /** Client secret of the Access service token used to authenticate with the remote service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsListResultItemBrowserRDPApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemAccessSCIMConfigAuthenticationAccessServiceTokenScheme;
 }
@@ -63196,7 +63196,7 @@ export type AccessApplicationsListResultItemMcpServerApplicationScimConfigAuthen
   "httpbasic";
 export interface AccessApplicationsListResultItemMcpServerApplicationScimConfigAuthenticationSCIMConfigAuthenticationHTTPBasic {
   /** Password used to authenticate with the remote SCIM service. */
-  password: string;
+  password: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsListResultItemMcpServerApplicationScimConfigAuthenticationSCIMConfigAuthenticationHTTPBasicScheme;
   /** User name used to authenticate with the remote SCIM service. */
@@ -63206,7 +63206,7 @@ export type AccessApplicationsListResultItemMcpServerApplicationScimConfigAuthen
   "oauthbearertoken";
 export interface AccessApplicationsListResultItemMcpServerApplicationScimConfigAuthenticationSCIMConfigAuthenticationOAuthBearerToken {
   /** Token used to authenticate with the remote SCIM service. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsListResultItemMcpServerApplicationScimConfigAuthenticationSCIMConfigAuthenticationOAuthBearerTokenScheme;
 }
@@ -63220,7 +63220,7 @@ export interface AccessApplicationsListResultItemMcpServerApplicationScimConfigA
   /** Client ID used to authenticate when generating a token for authenticating with the remote SCIM service. */
   clientId: string;
   /** Secret used to authenticate when generating a token for authenticating with the remove SCIM service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsListResultItemMcpServerApplicationScimConfigAuthenticationSCIMConfigAuthenticationOauth2Scheme;
   /** URL used to generate the token used to authenticate with the remote SCIM service. */
@@ -63237,7 +63237,7 @@ export interface AccessApplicationsListResultItemMcpServerApplicationScimConfigA
   /** Client ID of the Access service token used to authenticate with the remote service. */
   clientId: string;
   /** Client secret of the Access service token used to authenticate with the remote service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsListResultItemMcpServerApplicationScimConfigAuthenticationAccessSCIMConfigAuthenticationAccessServiceTokenScheme;
 }
@@ -63245,7 +63245,7 @@ export type AccessApplicationsListResultItemMcpServerApplicationScimConfigAuthen
   "httpbasic";
 export interface AccessApplicationsListResultItemMcpServerApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationHTTPBasic {
   /** Password used to authenticate with the remote SCIM service. */
-  password: string;
+  password: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsListResultItemMcpServerApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationHTTPBasicScheme;
   /** User name used to authenticate with the remote SCIM service. */
@@ -63255,7 +63255,7 @@ export type AccessApplicationsListResultItemMcpServerApplicationScimConfigAuthen
   "oauthbearertoken";
 export interface AccessApplicationsListResultItemMcpServerApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOAuthBearerToken {
   /** Token used to authenticate with the remote SCIM service. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsListResultItemMcpServerApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOAuthBearerTokenScheme;
 }
@@ -63269,7 +63269,7 @@ export interface AccessApplicationsListResultItemMcpServerApplicationScimConfigA
   /** Client ID used to authenticate when generating a token for authenticating with the remote SCIM service. */
   clientId: string;
   /** Secret used to authenticate when generating a token for authenticating with the remove SCIM service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsListResultItemMcpServerApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOauth2Scheme;
   /** URL used to generate the token used to authenticate with the remote SCIM service. */
@@ -63286,7 +63286,7 @@ export interface AccessApplicationsListResultItemMcpServerApplicationScimConfigA
   /** Client ID of the Access service token used to authenticate with the remote service. */
   clientId: string;
   /** Client secret of the Access service token used to authenticate with the remote service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsListResultItemMcpServerApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemAccessSCIMConfigAuthenticationAccessServiceTokenScheme;
 }
@@ -64171,7 +64171,7 @@ export type AccessApplicationsListResultItemMcpServerPortalApplicationScimConfig
   "httpbasic";
 export interface AccessApplicationsListResultItemMcpServerPortalApplicationScimConfigAuthenticationSCIMConfigAuthenticationHTTPBasic {
   /** Password used to authenticate with the remote SCIM service. */
-  password: string;
+  password: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsListResultItemMcpServerPortalApplicationScimConfigAuthenticationSCIMConfigAuthenticationHTTPBasicScheme;
   /** User name used to authenticate with the remote SCIM service. */
@@ -64181,7 +64181,7 @@ export type AccessApplicationsListResultItemMcpServerPortalApplicationScimConfig
   "oauthbearertoken";
 export interface AccessApplicationsListResultItemMcpServerPortalApplicationScimConfigAuthenticationSCIMConfigAuthenticationOAuthBearerToken {
   /** Token used to authenticate with the remote SCIM service. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsListResultItemMcpServerPortalApplicationScimConfigAuthenticationSCIMConfigAuthenticationOAuthBearerTokenScheme;
 }
@@ -64195,7 +64195,7 @@ export interface AccessApplicationsListResultItemMcpServerPortalApplicationScimC
   /** Client ID used to authenticate when generating a token for authenticating with the remote SCIM service. */
   clientId: string;
   /** Secret used to authenticate when generating a token for authenticating with the remove SCIM service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsListResultItemMcpServerPortalApplicationScimConfigAuthenticationSCIMConfigAuthenticationOauth2Scheme;
   /** URL used to generate the token used to authenticate with the remote SCIM service. */
@@ -64212,7 +64212,7 @@ export interface AccessApplicationsListResultItemMcpServerPortalApplicationScimC
   /** Client ID of the Access service token used to authenticate with the remote service. */
   clientId: string;
   /** Client secret of the Access service token used to authenticate with the remote service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsListResultItemMcpServerPortalApplicationScimConfigAuthenticationAccessSCIMConfigAuthenticationAccessServiceTokenScheme;
 }
@@ -64220,7 +64220,7 @@ export type AccessApplicationsListResultItemMcpServerPortalApplicationScimConfig
   "httpbasic";
 export interface AccessApplicationsListResultItemMcpServerPortalApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationHTTPBasic {
   /** Password used to authenticate with the remote SCIM service. */
-  password: string;
+  password: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsListResultItemMcpServerPortalApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationHTTPBasicScheme;
   /** User name used to authenticate with the remote SCIM service. */
@@ -64230,7 +64230,7 @@ export type AccessApplicationsListResultItemMcpServerPortalApplicationScimConfig
   "oauthbearertoken";
 export interface AccessApplicationsListResultItemMcpServerPortalApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOAuthBearerToken {
   /** Token used to authenticate with the remote SCIM service. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsListResultItemMcpServerPortalApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOAuthBearerTokenScheme;
 }
@@ -64244,7 +64244,7 @@ export interface AccessApplicationsListResultItemMcpServerPortalApplicationScimC
   /** Client ID used to authenticate when generating a token for authenticating with the remote SCIM service. */
   clientId: string;
   /** Secret used to authenticate when generating a token for authenticating with the remove SCIM service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsListResultItemMcpServerPortalApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOauth2Scheme;
   /** URL used to generate the token used to authenticate with the remote SCIM service. */
@@ -64261,7 +64261,7 @@ export interface AccessApplicationsListResultItemMcpServerPortalApplicationScimC
   /** Client ID of the Access service token used to authenticate with the remote service. */
   clientId: string;
   /** Client secret of the Access service token used to authenticate with the remote service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsListResultItemMcpServerPortalApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemAccessSCIMConfigAuthenticationAccessServiceTokenScheme;
 }
@@ -76168,7 +76168,7 @@ export interface PatchTunnelCloudflaredRequest {
   /** A user-friendly name for a tunnel. */
   name?: string | undefined;
   /** Sets the password required to run a locally-managed tunnel. Must be at least 32 bytes and encoded as a base64 string. */
-  tunnelSecret?: string | undefined;
+  tunnelSecret?: string | Redacted.Redacted<string> | undefined;
 }
 export type TunnelsCloudflaredEditResponseConfigSrc = "local" | "cloudflare";
 export type TunnelsCloudflaredEditResponseConnectionsItem =
@@ -76221,7 +76221,7 @@ export interface PatchTunnelWarpConnectorRequest {
   /** A user-friendly name for a tunnel. */
   name?: string | undefined;
   /** Sets the password required to run a locally-managed tunnel. Must be at least 32 bytes and encoded as a base64 string. */
-  tunnelSecret?: string | undefined;
+  tunnelSecret?: string | Redacted.Redacted<string> | undefined;
 }
 export type TunnelsWarpConnectorEditResponseConnectionsItem =
   TunnelsCloudflaredCreateResponseConnectionsItem;
@@ -78393,7 +78393,7 @@ export interface RotateAccessServiceTokenResponse {
   /** The Client ID for the service token. Access will check for this value in the `CF-Access-Client-ID` request header. */
   clientId?: string | null | undefined;
   /** The Client Secret for the service token. Access will check for this value in the `CF-Access-Client-Secret` request header. */
-  clientSecret?: string | null | undefined;
+  clientSecret?: string | Redacted.Redacted<string> | null | undefined;
   /** The duration for how long the service token will be valid. Must be in the format `300ms` or `2h45m`, or the special value `forever` for non-expiring tokens. Valid time units are: ns, us (or µs), ms, s, m, h. The default is 1 year in hours (8760h). */
   duration?: string | null | undefined;
   /** Whether the service token is enabled. A disabled service token cannot be used to authenticate; both its current and previous `client_secret` stop being accepted, but the token itself is preserved and can be re-enabled. A service token reported as leaked is disabled automatically and cannot be re-enabled until its secret is rotated; attempting to do so returns a 409. Defaults to enabled when omitted on create. */
@@ -78844,9 +78844,9 @@ export interface UpdateAccessAiControlMcpServerRequest {
   /** Unique identifier for the MCP server. */
   id: string;
   /** Credential configuration for the upstream MCP server. For auth_type "bearer", either a raw token string (e.g. "sk-abc123"), which is wrapped server-side as `Authorization: Bearer <token>`, or a JSON-encoded object of the form `{"headers":{"Header-Name":"value",...}}` for custom or multiple static headers (e.g. Cloudflare Access service tokens: `{"headers":{"cf-access-client-id":"...","cf-access-client-secret":"..."}}`). For auth_type "oauth" with a pre-registered client, send a JSON-encoded object containing `auth_mode:"manual"`, `config.authorization_endpoint`, `config.token_endpoint`, and `registration_info.client_id`. Also provide `registration_info.redirect_uris` unless `is_shared_oauth_callback_enabled` is true. Optional fields include `config.issuer`, `config.revocation_endpoint`, `registration_info.scope`, and `registration_info.token_endpoint_auth_method`. Send the client secret in the separate `client_secret` field. Omit `auth_credentials` on update to preserve the existing configuration. */
-  authCredentials?: string | undefined;
+  authCredentials?: string | Redacted.Redacted<string> | undefined;
   /** Provides 'client_secret' for a pre-registered OAuth client. This field is accepted on create or update only when 'auth_credentials.auth_mode' is 'manual'. It is required when creating an MCP server with manual OAuth credentials or changing an existing server to use manual OAuth credentials. Omit 'client_secret' on update to preserve the existing secret. Provide a new 'client_secret' to rotate the secret. The secret is never returned by read, create, or update requests. */
-  clientSecret?: string | undefined;
+  clientSecret?: string | Redacted.Redacted<string> | undefined;
   /** Optional description of the MCP server. */
   description?: string | undefined;
   /** When true, per-user authorization uses the shared Cloudflare callback URL as the 'redirect_uri' instead of the portal callback URL. The default is false. Set 'is_shared_oauth_callback_enabled' to true to enable the shared Cloudflare callback URL for this MCP server. */
@@ -80006,7 +80006,7 @@ export type AccessApplicationsUpdateRequestScimConfigAuthenticationSCIMConfigAut
   "httpbasic";
 export interface AccessApplicationsUpdateRequestScimConfigAuthenticationSCIMConfigAuthenticationHTTPBasic {
   /** Password used to authenticate with the remote SCIM service. */
-  password: string;
+  password: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsUpdateRequestScimConfigAuthenticationSCIMConfigAuthenticationHTTPBasicScheme;
   /** User name used to authenticate with the remote SCIM service. */
@@ -80016,7 +80016,7 @@ export type AccessApplicationsUpdateRequestScimConfigAuthenticationSCIMConfigAut
   "oauthbearertoken";
 export interface AccessApplicationsUpdateRequestScimConfigAuthenticationSCIMConfigAuthenticationOAuthBearerToken {
   /** Token used to authenticate with the remote SCIM service. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsUpdateRequestScimConfigAuthenticationSCIMConfigAuthenticationOAuthBearerTokenScheme;
 }
@@ -80030,7 +80030,7 @@ export interface AccessApplicationsUpdateRequestScimConfigAuthenticationSCIMConf
   /** Client ID used to authenticate when generating a token for authenticating with the remote SCIM service. */
   clientId: string;
   /** Secret used to authenticate when generating a token for authenticating with the remove SCIM service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsUpdateRequestScimConfigAuthenticationSCIMConfigAuthenticationOauth2Scheme;
   /** URL used to generate the token used to authenticate with the remote SCIM service. */
@@ -80046,7 +80046,7 @@ export interface AccessApplicationsUpdateRequestScimConfigAuthenticationAccessSC
   /** Client ID of the Access service token used to authenticate with the remote service. */
   clientId: string;
   /** Client secret of the Access service token used to authenticate with the remote service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsUpdateRequestScimConfigAuthenticationAccessSCIMConfigAuthenticationAccessServiceTokenScheme;
 }
@@ -80054,7 +80054,7 @@ export type AccessApplicationsUpdateRequestScimConfigAuthenticationAccessSCIMCon
   "httpbasic";
 export interface AccessApplicationsUpdateRequestScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationHTTPBasic {
   /** Password used to authenticate with the remote SCIM service. */
-  password: string;
+  password: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsUpdateRequestScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationHTTPBasicScheme;
   /** User name used to authenticate with the remote SCIM service. */
@@ -80064,7 +80064,7 @@ export type AccessApplicationsUpdateRequestScimConfigAuthenticationAccessSCIMCon
   "oauthbearertoken";
 export interface AccessApplicationsUpdateRequestScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOAuthBearerToken {
   /** Token used to authenticate with the remote SCIM service. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsUpdateRequestScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOAuthBearerTokenScheme;
 }
@@ -80078,7 +80078,7 @@ export interface AccessApplicationsUpdateRequestScimConfigAuthenticationAccessSC
   /** Client ID used to authenticate when generating a token for authenticating with the remote SCIM service. */
   clientId: string;
   /** Secret used to authenticate when generating a token for authenticating with the remove SCIM service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsUpdateRequestScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOauth2Scheme;
   /** URL used to generate the token used to authenticate with the remote SCIM service. */
@@ -80094,7 +80094,7 @@ export interface AccessApplicationsUpdateRequestScimConfigAuthenticationAccessSC
   /** Client ID of the Access service token used to authenticate with the remote service. */
   clientId: string;
   /** Client secret of the Access service token used to authenticate with the remote service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsUpdateRequestScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemAccessSCIMConfigAuthenticationAccessServiceTokenScheme;
 }
@@ -80277,7 +80277,7 @@ export interface AccessApplicationsUpdateRequestSaasAppOIDCSaaSApp {
   /** The application client id */
   clientId?: string | undefined;
   /** The application client secret, only returned on POST request. */
-  clientSecret?: string | undefined;
+  clientSecret?: string | Redacted.Redacted<string> | undefined;
   customClaims?: AccessApplicationsUpdateRequestSaasAppOIDCSaaSAppCustomClaimsList | undefined;
   /** The OIDC flows supported by this application */
   grantTypes?: AccessApplicationsUpdateRequestSaasAppOIDCSaaSAppGrantTypesList | undefined;
@@ -81629,7 +81629,7 @@ export type AccessApplicationsUpdateResultSelfHostedApplicationScimConfigAuthent
   "httpbasic";
 export interface AccessApplicationsUpdateResultSelfHostedApplicationScimConfigAuthenticationSCIMConfigAuthenticationHTTPBasic {
   /** Password used to authenticate with the remote SCIM service. */
-  password: string;
+  password: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsUpdateResultSelfHostedApplicationScimConfigAuthenticationSCIMConfigAuthenticationHTTPBasicScheme;
   /** User name used to authenticate with the remote SCIM service. */
@@ -81639,7 +81639,7 @@ export type AccessApplicationsUpdateResultSelfHostedApplicationScimConfigAuthent
   "oauthbearertoken";
 export interface AccessApplicationsUpdateResultSelfHostedApplicationScimConfigAuthenticationSCIMConfigAuthenticationOAuthBearerToken {
   /** Token used to authenticate with the remote SCIM service. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsUpdateResultSelfHostedApplicationScimConfigAuthenticationSCIMConfigAuthenticationOAuthBearerTokenScheme;
 }
@@ -81653,7 +81653,7 @@ export interface AccessApplicationsUpdateResultSelfHostedApplicationScimConfigAu
   /** Client ID used to authenticate when generating a token for authenticating with the remote SCIM service. */
   clientId: string;
   /** Secret used to authenticate when generating a token for authenticating with the remove SCIM service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsUpdateResultSelfHostedApplicationScimConfigAuthenticationSCIMConfigAuthenticationOauth2Scheme;
   /** URL used to generate the token used to authenticate with the remote SCIM service. */
@@ -81670,7 +81670,7 @@ export interface AccessApplicationsUpdateResultSelfHostedApplicationScimConfigAu
   /** Client ID of the Access service token used to authenticate with the remote service. */
   clientId: string;
   /** Client secret of the Access service token used to authenticate with the remote service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsUpdateResultSelfHostedApplicationScimConfigAuthenticationAccessSCIMConfigAuthenticationAccessServiceTokenScheme;
 }
@@ -81678,7 +81678,7 @@ export type AccessApplicationsUpdateResultSelfHostedApplicationScimConfigAuthent
   "httpbasic";
 export interface AccessApplicationsUpdateResultSelfHostedApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationHTTPBasic {
   /** Password used to authenticate with the remote SCIM service. */
-  password: string;
+  password: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsUpdateResultSelfHostedApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationHTTPBasicScheme;
   /** User name used to authenticate with the remote SCIM service. */
@@ -81688,7 +81688,7 @@ export type AccessApplicationsUpdateResultSelfHostedApplicationScimConfigAuthent
   "oauthbearertoken";
 export interface AccessApplicationsUpdateResultSelfHostedApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOAuthBearerToken {
   /** Token used to authenticate with the remote SCIM service. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsUpdateResultSelfHostedApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOAuthBearerTokenScheme;
 }
@@ -81702,7 +81702,7 @@ export interface AccessApplicationsUpdateResultSelfHostedApplicationScimConfigAu
   /** Client ID used to authenticate when generating a token for authenticating with the remote SCIM service. */
   clientId: string;
   /** Secret used to authenticate when generating a token for authenticating with the remove SCIM service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsUpdateResultSelfHostedApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOauth2Scheme;
   /** URL used to generate the token used to authenticate with the remote SCIM service. */
@@ -81719,7 +81719,7 @@ export interface AccessApplicationsUpdateResultSelfHostedApplicationScimConfigAu
   /** Client ID of the Access service token used to authenticate with the remote service. */
   clientId: string;
   /** Client secret of the Access service token used to authenticate with the remote service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsUpdateResultSelfHostedApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemAccessSCIMConfigAuthenticationAccessServiceTokenScheme;
 }
@@ -82559,7 +82559,7 @@ export interface AccessApplicationsUpdateResultSaaSApplicationSaasAppOIDCSaaSApp
   /** The application client id */
   clientId?: string | null | undefined;
   /** The application client secret, only returned on POST request. */
-  clientSecret?: string | null | undefined;
+  clientSecret?: string | Redacted.Redacted<string> | null | undefined;
   customClaims?:
     | AccessApplicationsUpdateResultSaaSApplicationSaasAppOIDCSaaSAppCustomClaimsList
     | null
@@ -82599,7 +82599,7 @@ export type AccessApplicationsUpdateResultSaaSApplicationScimConfigAuthenticatio
   "httpbasic";
 export interface AccessApplicationsUpdateResultSaaSApplicationScimConfigAuthenticationSCIMConfigAuthenticationHTTPBasic {
   /** Password used to authenticate with the remote SCIM service. */
-  password: string;
+  password: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsUpdateResultSaaSApplicationScimConfigAuthenticationSCIMConfigAuthenticationHTTPBasicScheme;
   /** User name used to authenticate with the remote SCIM service. */
@@ -82609,7 +82609,7 @@ export type AccessApplicationsUpdateResultSaaSApplicationScimConfigAuthenticatio
   "oauthbearertoken";
 export interface AccessApplicationsUpdateResultSaaSApplicationScimConfigAuthenticationSCIMConfigAuthenticationOAuthBearerToken {
   /** Token used to authenticate with the remote SCIM service. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsUpdateResultSaaSApplicationScimConfigAuthenticationSCIMConfigAuthenticationOAuthBearerTokenScheme;
 }
@@ -82623,7 +82623,7 @@ export interface AccessApplicationsUpdateResultSaaSApplicationScimConfigAuthenti
   /** Client ID used to authenticate when generating a token for authenticating with the remote SCIM service. */
   clientId: string;
   /** Secret used to authenticate when generating a token for authenticating with the remove SCIM service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsUpdateResultSaaSApplicationScimConfigAuthenticationSCIMConfigAuthenticationOauth2Scheme;
   /** URL used to generate the token used to authenticate with the remote SCIM service. */
@@ -82640,7 +82640,7 @@ export interface AccessApplicationsUpdateResultSaaSApplicationScimConfigAuthenti
   /** Client ID of the Access service token used to authenticate with the remote service. */
   clientId: string;
   /** Client secret of the Access service token used to authenticate with the remote service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsUpdateResultSaaSApplicationScimConfigAuthenticationAccessSCIMConfigAuthenticationAccessServiceTokenScheme;
 }
@@ -82648,7 +82648,7 @@ export type AccessApplicationsUpdateResultSaaSApplicationScimConfigAuthenticatio
   "httpbasic";
 export interface AccessApplicationsUpdateResultSaaSApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationHTTPBasic {
   /** Password used to authenticate with the remote SCIM service. */
-  password: string;
+  password: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsUpdateResultSaaSApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationHTTPBasicScheme;
   /** User name used to authenticate with the remote SCIM service. */
@@ -82658,7 +82658,7 @@ export type AccessApplicationsUpdateResultSaaSApplicationScimConfigAuthenticatio
   "oauthbearertoken";
 export interface AccessApplicationsUpdateResultSaaSApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOAuthBearerToken {
   /** Token used to authenticate with the remote SCIM service. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsUpdateResultSaaSApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOAuthBearerTokenScheme;
 }
@@ -82672,7 +82672,7 @@ export interface AccessApplicationsUpdateResultSaaSApplicationScimConfigAuthenti
   /** Client ID used to authenticate when generating a token for authenticating with the remote SCIM service. */
   clientId: string;
   /** Secret used to authenticate when generating a token for authenticating with the remove SCIM service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsUpdateResultSaaSApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOauth2Scheme;
   /** URL used to generate the token used to authenticate with the remote SCIM service. */
@@ -82689,7 +82689,7 @@ export interface AccessApplicationsUpdateResultSaaSApplicationScimConfigAuthenti
   /** Client ID of the Access service token used to authenticate with the remote service. */
   clientId: string;
   /** Client secret of the Access service token used to authenticate with the remote service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsUpdateResultSaaSApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemAccessSCIMConfigAuthenticationAccessServiceTokenScheme;
 }
@@ -83620,7 +83620,7 @@ export type AccessApplicationsUpdateResultBrowserSSHApplicationScimConfigAuthent
   "httpbasic";
 export interface AccessApplicationsUpdateResultBrowserSSHApplicationScimConfigAuthenticationSCIMConfigAuthenticationHTTPBasic {
   /** Password used to authenticate with the remote SCIM service. */
-  password: string;
+  password: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsUpdateResultBrowserSSHApplicationScimConfigAuthenticationSCIMConfigAuthenticationHTTPBasicScheme;
   /** User name used to authenticate with the remote SCIM service. */
@@ -83630,7 +83630,7 @@ export type AccessApplicationsUpdateResultBrowserSSHApplicationScimConfigAuthent
   "oauthbearertoken";
 export interface AccessApplicationsUpdateResultBrowserSSHApplicationScimConfigAuthenticationSCIMConfigAuthenticationOAuthBearerToken {
   /** Token used to authenticate with the remote SCIM service. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsUpdateResultBrowserSSHApplicationScimConfigAuthenticationSCIMConfigAuthenticationOAuthBearerTokenScheme;
 }
@@ -83644,7 +83644,7 @@ export interface AccessApplicationsUpdateResultBrowserSSHApplicationScimConfigAu
   /** Client ID used to authenticate when generating a token for authenticating with the remote SCIM service. */
   clientId: string;
   /** Secret used to authenticate when generating a token for authenticating with the remove SCIM service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsUpdateResultBrowserSSHApplicationScimConfigAuthenticationSCIMConfigAuthenticationOauth2Scheme;
   /** URL used to generate the token used to authenticate with the remote SCIM service. */
@@ -83661,7 +83661,7 @@ export interface AccessApplicationsUpdateResultBrowserSSHApplicationScimConfigAu
   /** Client ID of the Access service token used to authenticate with the remote service. */
   clientId: string;
   /** Client secret of the Access service token used to authenticate with the remote service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsUpdateResultBrowserSSHApplicationScimConfigAuthenticationAccessSCIMConfigAuthenticationAccessServiceTokenScheme;
 }
@@ -83669,7 +83669,7 @@ export type AccessApplicationsUpdateResultBrowserSSHApplicationScimConfigAuthent
   "httpbasic";
 export interface AccessApplicationsUpdateResultBrowserSSHApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationHTTPBasic {
   /** Password used to authenticate with the remote SCIM service. */
-  password: string;
+  password: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsUpdateResultBrowserSSHApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationHTTPBasicScheme;
   /** User name used to authenticate with the remote SCIM service. */
@@ -83679,7 +83679,7 @@ export type AccessApplicationsUpdateResultBrowserSSHApplicationScimConfigAuthent
   "oauthbearertoken";
 export interface AccessApplicationsUpdateResultBrowserSSHApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOAuthBearerToken {
   /** Token used to authenticate with the remote SCIM service. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsUpdateResultBrowserSSHApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOAuthBearerTokenScheme;
 }
@@ -83693,7 +83693,7 @@ export interface AccessApplicationsUpdateResultBrowserSSHApplicationScimConfigAu
   /** Client ID used to authenticate when generating a token for authenticating with the remote SCIM service. */
   clientId: string;
   /** Secret used to authenticate when generating a token for authenticating with the remove SCIM service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsUpdateResultBrowserSSHApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOauth2Scheme;
   /** URL used to generate the token used to authenticate with the remote SCIM service. */
@@ -83710,7 +83710,7 @@ export interface AccessApplicationsUpdateResultBrowserSSHApplicationScimConfigAu
   /** Client ID of the Access service token used to authenticate with the remote service. */
   clientId: string;
   /** Client secret of the Access service token used to authenticate with the remote service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsUpdateResultBrowserSSHApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemAccessSCIMConfigAuthenticationAccessServiceTokenScheme;
 }
@@ -84683,7 +84683,7 @@ export type AccessApplicationsUpdateResultBrowserVNCApplicationScimConfigAuthent
   "httpbasic";
 export interface AccessApplicationsUpdateResultBrowserVNCApplicationScimConfigAuthenticationSCIMConfigAuthenticationHTTPBasic {
   /** Password used to authenticate with the remote SCIM service. */
-  password: string;
+  password: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsUpdateResultBrowserVNCApplicationScimConfigAuthenticationSCIMConfigAuthenticationHTTPBasicScheme;
   /** User name used to authenticate with the remote SCIM service. */
@@ -84693,7 +84693,7 @@ export type AccessApplicationsUpdateResultBrowserVNCApplicationScimConfigAuthent
   "oauthbearertoken";
 export interface AccessApplicationsUpdateResultBrowserVNCApplicationScimConfigAuthenticationSCIMConfigAuthenticationOAuthBearerToken {
   /** Token used to authenticate with the remote SCIM service. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsUpdateResultBrowserVNCApplicationScimConfigAuthenticationSCIMConfigAuthenticationOAuthBearerTokenScheme;
 }
@@ -84707,7 +84707,7 @@ export interface AccessApplicationsUpdateResultBrowserVNCApplicationScimConfigAu
   /** Client ID used to authenticate when generating a token for authenticating with the remote SCIM service. */
   clientId: string;
   /** Secret used to authenticate when generating a token for authenticating with the remove SCIM service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsUpdateResultBrowserVNCApplicationScimConfigAuthenticationSCIMConfigAuthenticationOauth2Scheme;
   /** URL used to generate the token used to authenticate with the remote SCIM service. */
@@ -84724,7 +84724,7 @@ export interface AccessApplicationsUpdateResultBrowserVNCApplicationScimConfigAu
   /** Client ID of the Access service token used to authenticate with the remote service. */
   clientId: string;
   /** Client secret of the Access service token used to authenticate with the remote service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsUpdateResultBrowserVNCApplicationScimConfigAuthenticationAccessSCIMConfigAuthenticationAccessServiceTokenScheme;
 }
@@ -84732,7 +84732,7 @@ export type AccessApplicationsUpdateResultBrowserVNCApplicationScimConfigAuthent
   "httpbasic";
 export interface AccessApplicationsUpdateResultBrowserVNCApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationHTTPBasic {
   /** Password used to authenticate with the remote SCIM service. */
-  password: string;
+  password: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsUpdateResultBrowserVNCApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationHTTPBasicScheme;
   /** User name used to authenticate with the remote SCIM service. */
@@ -84742,7 +84742,7 @@ export type AccessApplicationsUpdateResultBrowserVNCApplicationScimConfigAuthent
   "oauthbearertoken";
 export interface AccessApplicationsUpdateResultBrowserVNCApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOAuthBearerToken {
   /** Token used to authenticate with the remote SCIM service. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsUpdateResultBrowserVNCApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOAuthBearerTokenScheme;
 }
@@ -84756,7 +84756,7 @@ export interface AccessApplicationsUpdateResultBrowserVNCApplicationScimConfigAu
   /** Client ID used to authenticate when generating a token for authenticating with the remote SCIM service. */
   clientId: string;
   /** Secret used to authenticate when generating a token for authenticating with the remove SCIM service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsUpdateResultBrowserVNCApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOauth2Scheme;
   /** URL used to generate the token used to authenticate with the remote SCIM service. */
@@ -84773,7 +84773,7 @@ export interface AccessApplicationsUpdateResultBrowserVNCApplicationScimConfigAu
   /** Client ID of the Access service token used to authenticate with the remote service. */
   clientId: string;
   /** Client secret of the Access service token used to authenticate with the remote service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsUpdateResultBrowserVNCApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemAccessSCIMConfigAuthenticationAccessServiceTokenScheme;
 }
@@ -89598,7 +89598,7 @@ export type AccessApplicationsUpdateResultBrowserRDPApplicationScimConfigAuthent
   "httpbasic";
 export interface AccessApplicationsUpdateResultBrowserRDPApplicationScimConfigAuthenticationSCIMConfigAuthenticationHTTPBasic {
   /** Password used to authenticate with the remote SCIM service. */
-  password: string;
+  password: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsUpdateResultBrowserRDPApplicationScimConfigAuthenticationSCIMConfigAuthenticationHTTPBasicScheme;
   /** User name used to authenticate with the remote SCIM service. */
@@ -89608,7 +89608,7 @@ export type AccessApplicationsUpdateResultBrowserRDPApplicationScimConfigAuthent
   "oauthbearertoken";
 export interface AccessApplicationsUpdateResultBrowserRDPApplicationScimConfigAuthenticationSCIMConfigAuthenticationOAuthBearerToken {
   /** Token used to authenticate with the remote SCIM service. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsUpdateResultBrowserRDPApplicationScimConfigAuthenticationSCIMConfigAuthenticationOAuthBearerTokenScheme;
 }
@@ -89622,7 +89622,7 @@ export interface AccessApplicationsUpdateResultBrowserRDPApplicationScimConfigAu
   /** Client ID used to authenticate when generating a token for authenticating with the remote SCIM service. */
   clientId: string;
   /** Secret used to authenticate when generating a token for authenticating with the remove SCIM service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsUpdateResultBrowserRDPApplicationScimConfigAuthenticationSCIMConfigAuthenticationOauth2Scheme;
   /** URL used to generate the token used to authenticate with the remote SCIM service. */
@@ -89639,7 +89639,7 @@ export interface AccessApplicationsUpdateResultBrowserRDPApplicationScimConfigAu
   /** Client ID of the Access service token used to authenticate with the remote service. */
   clientId: string;
   /** Client secret of the Access service token used to authenticate with the remote service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsUpdateResultBrowserRDPApplicationScimConfigAuthenticationAccessSCIMConfigAuthenticationAccessServiceTokenScheme;
 }
@@ -89647,7 +89647,7 @@ export type AccessApplicationsUpdateResultBrowserRDPApplicationScimConfigAuthent
   "httpbasic";
 export interface AccessApplicationsUpdateResultBrowserRDPApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationHTTPBasic {
   /** Password used to authenticate with the remote SCIM service. */
-  password: string;
+  password: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsUpdateResultBrowserRDPApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationHTTPBasicScheme;
   /** User name used to authenticate with the remote SCIM service. */
@@ -89657,7 +89657,7 @@ export type AccessApplicationsUpdateResultBrowserRDPApplicationScimConfigAuthent
   "oauthbearertoken";
 export interface AccessApplicationsUpdateResultBrowserRDPApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOAuthBearerToken {
   /** Token used to authenticate with the remote SCIM service. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsUpdateResultBrowserRDPApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOAuthBearerTokenScheme;
 }
@@ -89671,7 +89671,7 @@ export interface AccessApplicationsUpdateResultBrowserRDPApplicationScimConfigAu
   /** Client ID used to authenticate when generating a token for authenticating with the remote SCIM service. */
   clientId: string;
   /** Secret used to authenticate when generating a token for authenticating with the remove SCIM service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsUpdateResultBrowserRDPApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOauth2Scheme;
   /** URL used to generate the token used to authenticate with the remote SCIM service. */
@@ -89688,7 +89688,7 @@ export interface AccessApplicationsUpdateResultBrowserRDPApplicationScimConfigAu
   /** Client ID of the Access service token used to authenticate with the remote service. */
   clientId: string;
   /** Client secret of the Access service token used to authenticate with the remote service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsUpdateResultBrowserRDPApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemAccessSCIMConfigAuthenticationAccessServiceTokenScheme;
 }
@@ -90602,7 +90602,7 @@ export type AccessApplicationsUpdateResultMcpServerApplicationScimConfigAuthenti
   "httpbasic";
 export interface AccessApplicationsUpdateResultMcpServerApplicationScimConfigAuthenticationSCIMConfigAuthenticationHTTPBasic {
   /** Password used to authenticate with the remote SCIM service. */
-  password: string;
+  password: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsUpdateResultMcpServerApplicationScimConfigAuthenticationSCIMConfigAuthenticationHTTPBasicScheme;
   /** User name used to authenticate with the remote SCIM service. */
@@ -90612,7 +90612,7 @@ export type AccessApplicationsUpdateResultMcpServerApplicationScimConfigAuthenti
   "oauthbearertoken";
 export interface AccessApplicationsUpdateResultMcpServerApplicationScimConfigAuthenticationSCIMConfigAuthenticationOAuthBearerToken {
   /** Token used to authenticate with the remote SCIM service. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsUpdateResultMcpServerApplicationScimConfigAuthenticationSCIMConfigAuthenticationOAuthBearerTokenScheme;
 }
@@ -90626,7 +90626,7 @@ export interface AccessApplicationsUpdateResultMcpServerApplicationScimConfigAut
   /** Client ID used to authenticate when generating a token for authenticating with the remote SCIM service. */
   clientId: string;
   /** Secret used to authenticate when generating a token for authenticating with the remove SCIM service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsUpdateResultMcpServerApplicationScimConfigAuthenticationSCIMConfigAuthenticationOauth2Scheme;
   /** URL used to generate the token used to authenticate with the remote SCIM service. */
@@ -90643,7 +90643,7 @@ export interface AccessApplicationsUpdateResultMcpServerApplicationScimConfigAut
   /** Client ID of the Access service token used to authenticate with the remote service. */
   clientId: string;
   /** Client secret of the Access service token used to authenticate with the remote service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsUpdateResultMcpServerApplicationScimConfigAuthenticationAccessSCIMConfigAuthenticationAccessServiceTokenScheme;
 }
@@ -90651,7 +90651,7 @@ export type AccessApplicationsUpdateResultMcpServerApplicationScimConfigAuthenti
   "httpbasic";
 export interface AccessApplicationsUpdateResultMcpServerApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationHTTPBasic {
   /** Password used to authenticate with the remote SCIM service. */
-  password: string;
+  password: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsUpdateResultMcpServerApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationHTTPBasicScheme;
   /** User name used to authenticate with the remote SCIM service. */
@@ -90661,7 +90661,7 @@ export type AccessApplicationsUpdateResultMcpServerApplicationScimConfigAuthenti
   "oauthbearertoken";
 export interface AccessApplicationsUpdateResultMcpServerApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOAuthBearerToken {
   /** Token used to authenticate with the remote SCIM service. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsUpdateResultMcpServerApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOAuthBearerTokenScheme;
 }
@@ -90675,7 +90675,7 @@ export interface AccessApplicationsUpdateResultMcpServerApplicationScimConfigAut
   /** Client ID used to authenticate when generating a token for authenticating with the remote SCIM service. */
   clientId: string;
   /** Secret used to authenticate when generating a token for authenticating with the remove SCIM service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsUpdateResultMcpServerApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOauth2Scheme;
   /** URL used to generate the token used to authenticate with the remote SCIM service. */
@@ -90692,7 +90692,7 @@ export interface AccessApplicationsUpdateResultMcpServerApplicationScimConfigAut
   /** Client ID of the Access service token used to authenticate with the remote service. */
   clientId: string;
   /** Client secret of the Access service token used to authenticate with the remote service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsUpdateResultMcpServerApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemAccessSCIMConfigAuthenticationAccessServiceTokenScheme;
 }
@@ -91575,7 +91575,7 @@ export type AccessApplicationsUpdateResultMcpServerPortalApplicationScimConfigAu
   "httpbasic";
 export interface AccessApplicationsUpdateResultMcpServerPortalApplicationScimConfigAuthenticationSCIMConfigAuthenticationHTTPBasic {
   /** Password used to authenticate with the remote SCIM service. */
-  password: string;
+  password: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsUpdateResultMcpServerPortalApplicationScimConfigAuthenticationSCIMConfigAuthenticationHTTPBasicScheme;
   /** User name used to authenticate with the remote SCIM service. */
@@ -91585,7 +91585,7 @@ export type AccessApplicationsUpdateResultMcpServerPortalApplicationScimConfigAu
   "oauthbearertoken";
 export interface AccessApplicationsUpdateResultMcpServerPortalApplicationScimConfigAuthenticationSCIMConfigAuthenticationOAuthBearerToken {
   /** Token used to authenticate with the remote SCIM service. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsUpdateResultMcpServerPortalApplicationScimConfigAuthenticationSCIMConfigAuthenticationOAuthBearerTokenScheme;
 }
@@ -91599,7 +91599,7 @@ export interface AccessApplicationsUpdateResultMcpServerPortalApplicationScimCon
   /** Client ID used to authenticate when generating a token for authenticating with the remote SCIM service. */
   clientId: string;
   /** Secret used to authenticate when generating a token for authenticating with the remove SCIM service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsUpdateResultMcpServerPortalApplicationScimConfigAuthenticationSCIMConfigAuthenticationOauth2Scheme;
   /** URL used to generate the token used to authenticate with the remote SCIM service. */
@@ -91616,7 +91616,7 @@ export interface AccessApplicationsUpdateResultMcpServerPortalApplicationScimCon
   /** Client ID of the Access service token used to authenticate with the remote service. */
   clientId: string;
   /** Client secret of the Access service token used to authenticate with the remote service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsUpdateResultMcpServerPortalApplicationScimConfigAuthenticationAccessSCIMConfigAuthenticationAccessServiceTokenScheme;
 }
@@ -91624,7 +91624,7 @@ export type AccessApplicationsUpdateResultMcpServerPortalApplicationScimConfigAu
   "httpbasic";
 export interface AccessApplicationsUpdateResultMcpServerPortalApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationHTTPBasic {
   /** Password used to authenticate with the remote SCIM service. */
-  password: string;
+  password: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsUpdateResultMcpServerPortalApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationHTTPBasicScheme;
   /** User name used to authenticate with the remote SCIM service. */
@@ -91634,7 +91634,7 @@ export type AccessApplicationsUpdateResultMcpServerPortalApplicationScimConfigAu
   "oauthbearertoken";
 export interface AccessApplicationsUpdateResultMcpServerPortalApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOAuthBearerToken {
   /** Token used to authenticate with the remote SCIM service. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsUpdateResultMcpServerPortalApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOAuthBearerTokenScheme;
 }
@@ -91648,7 +91648,7 @@ export interface AccessApplicationsUpdateResultMcpServerPortalApplicationScimCon
   /** Client ID used to authenticate when generating a token for authenticating with the remote SCIM service. */
   clientId: string;
   /** Secret used to authenticate when generating a token for authenticating with the remove SCIM service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsUpdateResultMcpServerPortalApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemSCIMConfigAuthenticationOauth2Scheme;
   /** URL used to generate the token used to authenticate with the remote SCIM service. */
@@ -91665,7 +91665,7 @@ export interface AccessApplicationsUpdateResultMcpServerPortalApplicationScimCon
   /** Client ID of the Access service token used to authenticate with the remote service. */
   clientId: string;
   /** Client secret of the Access service token used to authenticate with the remote service. */
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   /** The authentication scheme to use when making SCIM requests to this application. */
   scheme: AccessApplicationsUpdateResultMcpServerPortalApplicationScimConfigAuthenticationAccessSCIMConfigMultiAuthenticationItemAccessSCIMConfigAuthenticationAccessServiceTokenScheme;
 }
@@ -95526,7 +95526,7 @@ export interface UpdateCasbPostureWebhookRequest {
   /** List of custom headers to include in webhook requests. */
   headers?: UpdateCasbPostureWebhookRequestHeadersList | undefined;
   /** Secret key used for HMAC signing when authentication_type is "HMAC-Signing". */
-  signingSecret?: string | undefined;
+  signingSecret?: string | Redacted.Redacted<string> | undefined;
 }
 export type UpdateCasbPostureWebhookResponseAuthenticationType =
   | "Basic Auth"
@@ -114228,7 +114228,7 @@ function __c49(j: number): any {
           encodingVersion: S.Number.pipe(T.Body("encoding_version")),
           maxCells: S.Number.pipe(T.Body("max_cells")),
           version: S.Number,
-          secret: S.optional(S.NullOr(S.String)),
+          secret: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "CreateDlpDatasetResponse" });
   }
@@ -114287,7 +114287,7 @@ function __c52(j: number): any {
           version: S.Number,
           caseSensitive: S.optional(S.NullOr(S.Boolean).pipe(T.Body("case_sensitive"))),
           columns: S.optional(S.NullOr(__S(1601, __c50, 1))),
-          secret: S.optional(S.NullOr(S.String)),
+          secret: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "CreateDlpDatasetUploadResponse" });
   }
@@ -114496,7 +114496,10 @@ function __c61(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          addinIdentifierToken: S.String.pipe(T.Body("addin_identifier_token")),
+          addinIdentifierToken: S.String.pipe(
+            T.Body("addin_identifier_token"),
+            T.SensitiveValue({}),
+          ),
           authRequirements: __S(1954, __c61, 2).pipe(T.Body("auth_requirements")),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "CreateDlpEmailAccountMappingResponse" });
@@ -116548,7 +116551,7 @@ function __c122(j: number): any {
           accountId: S.String.pipe(T.Label("account_id")),
           name: S.String,
           configSrc: S.optional(S.String.pipe(T.Body("config_src"))),
-          tunnelSecret: S.optional(S.String.pipe(T.Body("tunnel_secret"))),
+          tunnelSecret: S.optional(S.String.pipe(T.Body("tunnel_secret"), T.SensitiveValue({}))),
         })
           .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/cfd_tunnel", code: 200 }))
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
@@ -122584,7 +122587,10 @@ function __c349(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          addinIdentifierToken: S.String.pipe(T.Body("addin_identifier_token")),
+          addinIdentifierToken: S.String.pipe(
+            T.Body("addin_identifier_token"),
+            T.SensitiveValue({}),
+          ),
           authRequirements: __S(11169, __c349, 1).pipe(T.Body("auth_requirements")),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetDlpEmailAccountMappingResponse" });
@@ -132593,7 +132599,7 @@ function __c598(j: number): any {
           accountId: S.String.pipe(T.Label("account_id")),
           tunnelId: S.String.pipe(T.Label("tunnel_id")),
           name: S.optional(S.String),
-          tunnelSecret: S.optional(S.String.pipe(T.Body("tunnel_secret"))),
+          tunnelSecret: S.optional(S.String.pipe(T.Body("tunnel_secret"), T.SensitiveValue({}))),
         })
           .pipe(
             T.Http({
@@ -132614,7 +132620,7 @@ function __c599(j: number): any {
           accountId: S.String.pipe(T.Label("account_id")),
           tunnelId: S.String.pipe(T.Label("tunnel_id")),
           name: S.optional(S.String),
-          tunnelSecret: S.optional(S.String.pipe(T.Body("tunnel_secret"))),
+          tunnelSecret: S.optional(S.String.pipe(T.Body("tunnel_secret"), T.SensitiveValue({}))),
         })
           .pipe(
             T.Http({
@@ -134059,7 +134065,7 @@ function __c654(j: number): any {
           authenticationType: S.String.pipe(T.Body("authentication_type")),
           destinationUrl: S.String.pipe(T.Body("destination_url")),
           headers: S.optional(__S(20993, __c656, 1)),
-          signingSecret: S.optional(S.String.pipe(T.Body("signing_secret"))),
+          signingSecret: S.optional(S.String.pipe(T.Body("signing_secret"), T.SensitiveValue({}))),
         })
           .pipe(
             T.Http({
@@ -134200,8 +134206,10 @@ function __c661(j: number): any {
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
           id: S.String.pipe(T.Label()),
-          authCredentials: S.optional(S.String.pipe(T.Body("auth_credentials"))),
-          clientSecret: S.optional(S.String.pipe(T.Body("client_secret"))),
+          authCredentials: S.optional(
+            S.String.pipe(T.Body("auth_credentials"), T.SensitiveValue({})),
+          ),
+          clientSecret: S.optional(S.String.pipe(T.Body("client_secret"), T.SensitiveValue({}))),
           description: S.optional(S.String),
           isSharedOauthCallbackEnabled: S.optional(
             S.Boolean.pipe(T.Body("is_shared_oauth_callback_enabled")),
@@ -136058,7 +136066,7 @@ function __c694(j: number): any {
           label: S.String,
           status: S.String,
           headers: S.optional(__S(20993, __c656, 1)),
-          signingSecret: S.optional(S.String.pipe(T.Body("signing_secret"))),
+          signingSecret: S.optional(S.String.pipe(T.Body("signing_secret"), T.SensitiveValue({}))),
         })
           .pipe(
             T.Http({
@@ -136156,8 +136164,10 @@ function __c698(j: number): any {
           authType: S.String.pipe(T.Body("auth_type")),
           hostname: S.String,
           name: S.String,
-          authCredentials: S.optional(S.String.pipe(T.Body("auth_credentials"))),
-          clientSecret: S.optional(S.String.pipe(T.Body("client_secret"))),
+          authCredentials: S.optional(
+            S.String.pipe(T.Body("auth_credentials"), T.SensitiveValue({})),
+          ),
+          clientSecret: S.optional(S.String.pipe(T.Body("client_secret"), T.SensitiveValue({}))),
           description: S.optional(S.String),
           isSharedOauthCallbackEnabled: S.optional(
             S.Boolean.pipe(T.Body("is_shared_oauth_callback_enabled")),
@@ -139605,7 +139615,9 @@ function __c777(j: number): any {
         S.Struct({
           id: S.optional(S.NullOr(S.String)),
           clientId: S.optional(S.NullOr(S.String).pipe(T.Body("client_id"))),
-          clientSecret: S.optional(S.NullOr(S.String).pipe(T.Body("client_secret"))),
+          clientSecret: S.optional(
+            S.NullOr(S.String).pipe(T.Body("client_secret"), T.SensitiveValue({})),
+          ),
           duration: S.optional(S.NullOr(S.String)),
           enabled: S.optional(S.NullOr(S.Boolean)),
           name: S.optional(S.NullOr(S.String)),
@@ -140184,7 +140196,7 @@ function __c801(j: number): any {
           destinationUrl: S.String.pipe(T.Body("destination_url")),
           label: S.String,
           headers: S.optional(__S(20993, __c656, 1)),
-          signingSecret: S.optional(S.String.pipe(T.Body("signing_secret"))),
+          signingSecret: S.optional(S.String.pipe(T.Body("signing_secret"), T.SensitiveValue({}))),
           status: S.optional(S.String),
         })
           .pipe(
@@ -140332,7 +140344,7 @@ function __c807(j: number): any {
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
           credentialId: S.String.pipe(T.Label("credential_id")),
-          password: S.String,
+          password: S.String.pipe(T.SensitiveValue({})),
           expiresAt: S.optional(S.String.pipe(T.Body("expires_at"))),
         })
           .pipe(

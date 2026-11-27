@@ -1,0 +1,25 @@
+{
+  "description": "`ownership_validation_token` is the BYOIP ownership token that the account publishes in its IRR, RPKI or DNS records to prove it owns the prefix, so it is not a secret. The shared secret-name rule marks names that end in `token`; this removes the mark.",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.addressing#CreatePrefixResponse/members/ownership_validation_token/traits/smithy.api#sensitive"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.addressing#GetPrefixResponse/members/ownership_validation_token/traits/smithy.api#sensitive"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.addressing#PrefixesListResultItem/members/ownership_validation_token/traits/smithy.api#sensitive"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.addressing#PrefixesEditResponse/members/ownership_validation_token/traits/smithy.api#sensitive"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.addressing#PrefixesValidateResponse/members/ownership_validation_token/traits/smithy.api#sensitive"
+    }
+  ]
+}
