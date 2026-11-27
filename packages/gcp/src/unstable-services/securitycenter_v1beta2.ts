@@ -87,6 +87,11 @@ export interface CalculateFoldersContainerThreatDetectionSettingsRequest {
   name: string;
   showEligibleModulesOnly?: boolean | undefined;
 }
+export type ContainerThreatDetectionSettingsServiceEnablementStateEnum =
+  | "ENABLEMENT_STATE_UNSPECIFIED"
+  | "INHERITED"
+  | "ENABLED"
+  | "DISABLED";
 export type ConfigModuleEnablementStateEnum =
   | "ENABLEMENT_STATE_UNSPECIFIED"
   | "INHERITED"
@@ -98,24 +103,19 @@ export interface Config {
   value?: DocumentMap | undefined;
 }
 export type ConfigMap = { [key: string]: Config | undefined };
-export type ContainerThreatDetectionSettingsServiceEnablementStateEnum =
-  | "ENABLEMENT_STATE_UNSPECIFIED"
-  | "INHERITED"
-  | "ENABLED"
-  | "DISABLED";
 export interface ContainerThreatDetectionSettings {
-  name?: string | undefined;
-  modules?: ConfigMap | undefined;
-  updateTime?: string | undefined;
   serviceEnablementState?:
     | ContainerThreatDetectionSettingsServiceEnablementStateEnum
     | (string & {})
     | undefined;
+  updateTime?: string | undefined;
   serviceAccount?: string | undefined;
+  name?: string | undefined;
+  modules?: ConfigMap | undefined;
 }
 export interface CalculateFoldersEventThreatDetectionSettingsRequest {
-  name: string;
   showEligibleModulesOnly?: boolean | undefined;
+  name: string;
 }
 export type EventThreatDetectionSettingsServiceEnablementStateEnum =
   | "ENABLEMENT_STATE_UNSPECIFIED"
@@ -123,13 +123,13 @@ export type EventThreatDetectionSettingsServiceEnablementStateEnum =
   | "ENABLED"
   | "DISABLED";
 export interface EventThreatDetectionSettings {
-  modules?: ConfigMap | undefined;
   updateTime?: string | undefined;
-  name?: string | undefined;
   serviceEnablementState?:
     | EventThreatDetectionSettingsServiceEnablementStateEnum
     | (string & {})
     | undefined;
+  name?: string | undefined;
+  modules?: ConfigMap | undefined;
 }
 export interface CalculateFoldersRapidVulnerabilityDetectionSettingsRequest {
   name: string;
@@ -140,13 +140,13 @@ export type RapidVulnerabilityDetectionSettingsServiceEnablementStateEnum =
   | "ENABLED"
   | "DISABLED";
 export interface RapidVulnerabilityDetectionSettings {
-  updateTime?: string | undefined;
   modules?: ConfigMap | undefined;
-  name?: string | undefined;
   serviceEnablementState?:
     | RapidVulnerabilityDetectionSettingsServiceEnablementStateEnum
     | (string & {})
     | undefined;
+  updateTime?: string | undefined;
+  name?: string | undefined;
 }
 export interface CalculateFoldersSecurityHealthAnalyticsSettingsRequest {
   showEligibleModulesOnly?: boolean | undefined;
@@ -158,14 +158,14 @@ export type SecurityHealthAnalyticsSettingsServiceEnablementStateEnum =
   | "ENABLED"
   | "DISABLED";
 export interface SecurityHealthAnalyticsSettings {
+  modules?: ConfigMap | undefined;
+  serviceAccount?: string | undefined;
+  updateTime?: string | undefined;
+  name?: string | undefined;
   serviceEnablementState?:
     | SecurityHealthAnalyticsSettingsServiceEnablementStateEnum
     | (string & {})
     | undefined;
-  serviceAccount?: string | undefined;
-  name?: string | undefined;
-  updateTime?: string | undefined;
-  modules?: ConfigMap | undefined;
 }
 export interface CalculateFoldersVirtualMachineThreatDetectionSettingsRequest {
   name: string;
@@ -177,13 +177,13 @@ export type VirtualMachineThreatDetectionSettingsServiceEnablementStateEnum =
   | "ENABLED"
   | "DISABLED";
 export interface VirtualMachineThreatDetectionSettings {
+  serviceAccount?: string | undefined;
+  modules?: ConfigMap | undefined;
+  updateTime?: string | undefined;
   serviceEnablementState?:
     | VirtualMachineThreatDetectionSettingsServiceEnablementStateEnum
     | (string & {})
     | undefined;
-  modules?: ConfigMap | undefined;
-  serviceAccount?: string | undefined;
-  updateTime?: string | undefined;
   name?: string | undefined;
 }
 export interface CalculateFoldersWebSecurityScannerSettingsRequest {
@@ -196,13 +196,13 @@ export type WebSecurityScannerSettingsServiceEnablementStateEnum =
   | "ENABLED"
   | "DISABLED";
 export interface WebSecurityScannerSettings {
+  updateTime?: string | undefined;
+  modules?: ConfigMap | undefined;
+  name?: string | undefined;
   serviceEnablementState?:
     | WebSecurityScannerSettingsServiceEnablementStateEnum
     | (string & {})
     | undefined;
-  name?: string | undefined;
-  modules?: ConfigMap | undefined;
-  updateTime?: string | undefined;
 }
 export interface CalculateOrganizationsContainerThreatDetectionSettingsRequest {
   showEligibleModulesOnly?: boolean | undefined;
@@ -216,20 +216,20 @@ export interface CalculateOrganizationsRapidVulnerabilityDetectionSettingsReques
   name: string;
 }
 export interface CalculateOrganizationsSecurityHealthAnalyticsSettingsRequest {
-  name: string;
   showEligibleModulesOnly?: boolean | undefined;
+  name: string;
 }
 export interface CalculateOrganizationsVirtualMachineThreatDetectionSettingsRequest {
-  showEligibleModulesOnly?: boolean | undefined;
   name: string;
+  showEligibleModulesOnly?: boolean | undefined;
 }
 export interface CalculateOrganizationsWebSecurityScannerSettingsRequest {
-  name: string;
   showEligibleModulesOnly?: boolean | undefined;
+  name: string;
 }
 export interface CalculateProjectsContainerThreatDetectionSettingsRequest {
-  name: string;
   showEligibleModulesOnly?: boolean | undefined;
+  name: string;
 }
 export interface CalculateProjectsEventThreatDetectionSettingsRequest {
   name: string;
@@ -251,8 +251,8 @@ export interface CalculateProjectsVirtualMachineThreatDetectionSettingsRequest {
   showEligibleModulesOnly?: boolean | undefined;
 }
 export interface CalculateProjectsWebSecurityScannerSettingsRequest {
-  name: string;
   showEligibleModulesOnly?: boolean | undefined;
+  name: string;
 }
 export interface GetContainerThreatDetectionSettingsFoldersRequest {
   name: string;
@@ -288,11 +288,11 @@ export interface GetSecurityCenterSettingsFoldersRequest {
   name: string;
 }
 export interface SecurityCenterSettings {
-  logSinkProject?: string | undefined;
-  name?: string | undefined;
   orgServiceAccount?: string | undefined;
-  onboardingTime?: string | undefined;
+  name?: string | undefined;
+  logSinkProject?: string | undefined;
   cryptoKeyName?: string | undefined;
+  onboardingTime?: string | undefined;
 }
 export interface GetSecurityCenterSettingsOrganizationsRequest {
   name: string;
@@ -312,12 +312,6 @@ export interface GetSecurityHealthAnalyticsSettingsProjectsRequest {
 export interface GetSubscriptionOrganizationsRequest {
   name: string;
 }
-export type SubscriptionTierEnum =
-  | "TIER_UNSPECIFIED"
-  | "STANDARD"
-  | "PREMIUM"
-  | "ENTERPRISE"
-  | "ENTERPRISE_MC";
 export type DetailsTypeEnum =
   | "TYPE_UNSPECIFIED"
   | "STANDARD"
@@ -330,13 +324,19 @@ export type DetailsTypeEnum =
   | "SUB_BASE_OVERAGE";
 export interface Details {
   startTime?: string | undefined;
-  endTime?: string | undefined;
   type?: DetailsTypeEnum | undefined;
+  endTime?: string | undefined;
 }
+export type SubscriptionTierEnum =
+  | "TIER_UNSPECIFIED"
+  | "STANDARD"
+  | "PREMIUM"
+  | "ENTERPRISE"
+  | "ENTERPRISE_MC";
 export interface Subscription {
   name?: string | undefined;
-  tier?: SubscriptionTierEnum | undefined;
   details?: Details | undefined;
+  tier?: SubscriptionTierEnum | undefined;
 }
 export interface GetVirtualMachineThreatDetectionSettingsFoldersRequest {
   name: string;
@@ -367,8 +367,8 @@ export interface UpdateContainerThreatDetectionSettingsOrganizationsRequest exte
   ContainerThreatDetectionSettings,
   "name"
 > {
-  name: string;
   updateMask?: string | undefined;
+  name: string;
 }
 export interface UpdateContainerThreatDetectionSettingsProjectsRequest extends Omit<
   ContainerThreatDetectionSettings,
@@ -381,43 +381,43 @@ export interface UpdateContainerThreatDetectionSettingsProjectsLocationsClusters
   ContainerThreatDetectionSettings,
   "name"
 > {
-  updateMask?: string | undefined;
   name: string;
+  updateMask?: string | undefined;
 }
 export interface UpdateEventThreatDetectionSettingsFoldersRequest extends Omit<
   EventThreatDetectionSettings,
   "name"
 > {
-  name: string;
   updateMask?: string | undefined;
+  name: string;
 }
 export interface UpdateEventThreatDetectionSettingsOrganizationsRequest extends Omit<
   EventThreatDetectionSettings,
   "name"
 > {
-  updateMask?: string | undefined;
   name: string;
+  updateMask?: string | undefined;
 }
 export interface UpdateEventThreatDetectionSettingsProjectsRequest extends Omit<
   EventThreatDetectionSettings,
   "name"
 > {
-  updateMask?: string | undefined;
   name: string;
+  updateMask?: string | undefined;
 }
 export interface UpdateRapidVulnerabilityDetectionSettingsFoldersRequest extends Omit<
   RapidVulnerabilityDetectionSettings,
   "name"
 > {
-  name: string;
   updateMask?: string | undefined;
+  name: string;
 }
 export interface UpdateRapidVulnerabilityDetectionSettingsOrganizationsRequest extends Omit<
   RapidVulnerabilityDetectionSettings,
   "name"
 > {
-  updateMask?: string | undefined;
   name: string;
+  updateMask?: string | undefined;
 }
 export interface UpdateRapidVulnerabilityDetectionSettingsProjectsRequest extends Omit<
   RapidVulnerabilityDetectionSettings,
@@ -437,15 +437,15 @@ export interface UpdateSecurityHealthAnalyticsSettingsOrganizationsRequest exten
   SecurityHealthAnalyticsSettings,
   "name"
 > {
-  updateMask?: string | undefined;
   name: string;
+  updateMask?: string | undefined;
 }
 export interface UpdateSecurityHealthAnalyticsSettingsProjectsRequest extends Omit<
   SecurityHealthAnalyticsSettings,
   "name"
 > {
-  updateMask?: string | undefined;
   name: string;
+  updateMask?: string | undefined;
 }
 export interface UpdateVirtualMachineThreatDetectionSettingsFoldersRequest extends Omit<
   VirtualMachineThreatDetectionSettings,
@@ -458,8 +458,8 @@ export interface UpdateVirtualMachineThreatDetectionSettingsOrganizationsRequest
   VirtualMachineThreatDetectionSettings,
   "name"
 > {
-  name: string;
   updateMask?: string | undefined;
+  name: string;
 }
 export interface UpdateVirtualMachineThreatDetectionSettingsProjectsRequest extends Omit<
   VirtualMachineThreatDetectionSettings,
@@ -472,8 +472,8 @@ export interface UpdateWebSecurityScannerSettingsFoldersRequest extends Omit<
   WebSecurityScannerSettings,
   "name"
 > {
-  name: string;
   updateMask?: string | undefined;
+  name: string;
 }
 export interface UpdateWebSecurityScannerSettingsOrganizationsRequest extends Omit<
   WebSecurityScannerSettings,
@@ -486,8 +486,8 @@ export interface UpdateWebSecurityScannerSettingsProjectsRequest extends Omit<
   WebSecurityScannerSettings,
   "name"
 > {
-  updateMask?: string | undefined;
   name: string;
+  updateMask?: string | undefined;
 }
 export type CalculateFoldersContainerThreatDetectionSettingsError =
   | NotFound
@@ -1893,8 +1893,8 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           showEligibleModulesOnly: S.optional(S.Boolean.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1910,8 +1910,8 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          showEligibleModulesOnly: S.optional(S.Boolean.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          showEligibleModulesOnly: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1929,8 +1929,8 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           showEligibleModulesOnly: S.optional(S.Boolean.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1946,8 +1946,8 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           showEligibleModulesOnly: S.optional(S.Boolean.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2049,8 +2049,8 @@ function __c12(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           showEligibleModulesOnly: S.optional(S.Boolean.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2244,11 +2244,11 @@ function __c24(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          logSinkProject: S.optional(S.String),
-          name: S.optional(S.String),
           orgServiceAccount: S.optional(S.String),
-          onboardingTime: S.optional(S.String),
+          name: S.optional(S.String),
+          logSinkProject: S.optional(S.String),
           cryptoKeyName: S.optional(S.String),
+          onboardingTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "SecurityCenterSettings" });
   }
@@ -2351,16 +2351,16 @@ function __c30(j: number): any {
       return S.suspend(() =>
         S.Struct({
           startTime: S.optional(S.String),
-          endTime: S.optional(S.String),
           type: S.optional(S.String),
+          endTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "Details" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          tier: S.optional(S.String),
           details: S.optional(__S(121, __c30, 1)),
+          tier: S.optional(S.String),
         }),
       ).annotate({ identifier: "Subscription" });
   }
@@ -2387,11 +2387,11 @@ function __c32(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          serviceEnablementState: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          serviceAccount: S.optional(S.String),
           name: S.optional(S.String),
           modules: S.optional(__S(134, __c33, 2)),
-          updateTime: S.optional(S.String),
-          serviceEnablementState: S.optional(S.String),
-          serviceAccount: S.optional(S.String),
         }),
       ).annotate({ identifier: "ContainerThreatDetectionSettings" });
   }
@@ -2534,8 +2534,8 @@ function __c41(j: number): any {
         S.Extend(
           __S(128, __c32, 0),
           S.Struct({
-            name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -2574,8 +2574,8 @@ function __c43(j: number): any {
         S.Extend(
           __S(128, __c32, 0),
           S.Struct({
-            updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -2594,8 +2594,8 @@ function __c44(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           showEligibleModulesOnly: S.optional(S.Boolean.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2611,10 +2611,10 @@ function __c45(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          modules: S.optional(__S(134, __c33, 2)),
           updateTime: S.optional(S.String),
-          name: S.optional(S.String),
           serviceEnablementState: S.optional(S.String),
+          name: S.optional(S.String),
+          modules: S.optional(__S(134, __c33, 2)),
         }),
       ).annotate({ identifier: "EventThreatDetectionSettings" });
   }
@@ -2626,8 +2626,8 @@ function __c46(j: number): any {
         S.Extend(
           __S(180, __c45, 0),
           S.Struct({
-            name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -2646,8 +2646,8 @@ function __c47(j: number): any {
         S.Extend(
           __S(180, __c45, 0),
           S.Struct({
-            updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -2666,8 +2666,8 @@ function __c48(j: number): any {
         S.Extend(
           __S(180, __c45, 0),
           S.Struct({
-            updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -2686,8 +2686,8 @@ function __c49(j: number): any {
         S.Extend(
           __S(228, __c57, 0),
           S.Struct({
-            name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -2706,8 +2706,8 @@ function __c50(j: number): any {
         S.Extend(
           __S(228, __c57, 0),
           S.Struct({
-            updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -2766,8 +2766,8 @@ function __c53(j: number): any {
         S.Extend(
           __S(256, __c64, 0),
           S.Struct({
-            updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -2786,8 +2786,8 @@ function __c54(j: number): any {
         S.Extend(
           __S(256, __c64, 0),
           S.Struct({
-            updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -2840,10 +2840,10 @@ function __c57(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          updateTime: S.optional(S.String),
           modules: S.optional(__S(134, __c33, 2)),
-          name: S.optional(S.String),
           serviceEnablementState: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "RapidVulnerabilityDetectionSettings" });
   }
@@ -2855,8 +2855,8 @@ function __c58(j: number): any {
         S.Extend(
           __S(264, __c66, 0),
           S.Struct({
-            name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -2895,8 +2895,8 @@ function __c60(j: number): any {
         S.Extend(
           __S(272, __c68, 0),
           S.Struct({
-            name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -2935,8 +2935,8 @@ function __c62(j: number): any {
         S.Extend(
           __S(272, __c68, 0),
           S.Struct({
-            updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -2970,11 +2970,11 @@ function __c64(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          serviceEnablementState: S.optional(S.String),
-          serviceAccount: S.optional(S.String),
-          name: S.optional(S.String),
-          updateTime: S.optional(S.String),
           modules: S.optional(__S(134, __c33, 2)),
+          serviceAccount: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          name: S.optional(S.String),
+          serviceEnablementState: S.optional(S.String),
         }),
       ).annotate({ identifier: "SecurityHealthAnalyticsSettings" });
   }
@@ -3001,10 +3001,10 @@ function __c66(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          serviceEnablementState: S.optional(S.String),
-          modules: S.optional(__S(134, __c33, 2)),
           serviceAccount: S.optional(S.String),
+          modules: S.optional(__S(134, __c33, 2)),
           updateTime: S.optional(S.String),
+          serviceEnablementState: S.optional(S.String),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "VirtualMachineThreatDetectionSettings" });
@@ -3032,10 +3032,10 @@ function __c68(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          serviceEnablementState: S.optional(S.String),
-          name: S.optional(S.String),
-          modules: S.optional(__S(134, __c33, 2)),
           updateTime: S.optional(S.String),
+          modules: S.optional(__S(134, __c33, 2)),
+          name: S.optional(S.String),
+          serviceEnablementState: S.optional(S.String),
         }),
       ).annotate({ identifier: "WebSecurityScannerSettings" });
   }

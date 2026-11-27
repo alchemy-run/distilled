@@ -84,15 +84,6 @@ export class NotFound
   ) {}
 
 export type StringMap = { [key: string]: string | undefined };
-export type RepositoryFormatEnum =
-  | "FORMAT_UNSPECIFIED"
-  | "DOCKER"
-  | "MAVEN"
-  | "NPM"
-  | "APT"
-  | "YUM"
-  | "GOOGET"
-  | "PYTHON";
 export type MavenRepositoryConfigVersionPolicyEnum =
   | "VERSION_POLICY_UNSPECIFIED"
   | "RELEASE"
@@ -104,30 +95,39 @@ export interface MavenRepositoryConfig {
   /** Version policy defines the versions that the registry will accept. */
   versionPolicy?: MavenRepositoryConfigVersionPolicyEnum | (string & {}) | undefined;
 }
+export type RepositoryFormatEnum =
+  | "FORMAT_UNSPECIFIED"
+  | "DOCKER"
+  | "MAVEN"
+  | "NPM"
+  | "APT"
+  | "YUM"
+  | "GOOGET"
+  | "PYTHON";
 /** A Repository for storing artifacts with a specific format. */
 export interface Repository {
-  /** The Cloud KMS resource name of the customer managed encryption key that's used to encrypt the contents of the Repository. Has the form: `projects/my-project/locations/my-region/keyRings/my-kr/cryptoKeys/my-key`. This value may not be changed after the Repository has been created. */
-  kmsKeyName?: string | undefined;
-  /** The name of the repository, for example: `projects/p1/locations/us-central1/repositories/repo1`. For each location in a project, repository names must be unique. */
-  name?: string | undefined;
-  /** Output only. The time when the repository was created. */
-  createTime?: string | undefined;
-  /** Labels with user-defined metadata. This field may contain up to 64 entries. Label keys and values may be no longer than 63 characters. Label keys must begin with a lowercase letter and may only contain lowercase letters, numeric characters, underscores, and dashes. */
-  labels?: StringMap | undefined;
   /** Output only. The time when the repository was last updated. */
   updateTime?: string | undefined;
-  /** Output only. Whether or not this repository satisfies PZS. */
-  satisfiesPzs?: boolean | undefined;
-  /** The user-provided description of the repository. */
-  description?: string | undefined;
-  /** Optional. The format of packages that are stored in the repository. */
-  format?: RepositoryFormatEnum | (string & {}) | undefined;
+  /** The Cloud KMS resource name of the customer managed encryption key that's used to encrypt the contents of the Repository. Has the form: `projects/my-project/locations/my-region/keyRings/my-kr/cryptoKeys/my-key`. This value may not be changed after the Repository has been created. */
+  kmsKeyName?: string | undefined;
   /** Output only. Whether or not this repository satisfies PZI. */
   satisfiesPzi?: boolean | undefined;
+  /** The user-provided description of the repository. */
+  description?: string | undefined;
+  /** Labels with user-defined metadata. This field may contain up to 64 entries. Label keys and values may be no longer than 63 characters. Label keys must begin with a lowercase letter and may only contain lowercase letters, numeric characters, underscores, and dashes. */
+  labels?: StringMap | undefined;
+  /** Output only. The time when the repository was created. */
+  createTime?: string | undefined;
+  /** Output only. Whether or not this repository satisfies PZS. */
+  satisfiesPzs?: boolean | undefined;
   /** Output only. The size, in bytes, of all artifact storage in this repository. Repositories that are generally available or in public preview use this to calculate storage costs. */
   sizeBytes?: string | undefined;
+  /** The name of the repository, for example: `projects/p1/locations/us-central1/repositories/repo1`. For each location in a project, repository names must be unique. */
+  name?: string | undefined;
   /** Maven repository config contains repository level configuration for the repositories of maven type. */
   mavenConfig?: MavenRepositoryConfig | undefined;
+  /** Optional. The format of packages that are stored in the repository. */
+  format?: RepositoryFormatEnum | (string & {}) | undefined;
 }
 export interface CreateProjectsLocationsRepositoriesRequest extends Repository {
   /** Required. The name of the parent resource where the repository will be created. */
@@ -139,25 +139,25 @@ export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
+  /** The status code, which should be an enum value of google.rpc.Code. */
+  code?: number | undefined;
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
   message?: string | undefined;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
   details?: DocumentMapList | undefined;
-  /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
-  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean | undefined;
-  /** The error result of the operation in case of failure or cancellation. */
-  error?: Status | undefined;
-  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap | undefined;
-  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string | undefined;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
   response?: DocumentMap | undefined;
+  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
+  metadata?: DocumentMap | undefined;
+  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
+  done?: boolean | undefined;
+  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
+  name?: string | undefined;
+  /** The error result of the operation in case of failure or cancellation. */
+  error?: Status | undefined;
 }
 /** Tags point to a version and represent an alternative name that can be used to access the version. */
 export interface Tag {
@@ -187,10 +187,10 @@ export interface DeleteProjectsLocationsRepositoriesPackagesTagsRequest {
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
 export interface DeleteProjectsLocationsRepositoriesPackagesVersionsRequest {
-  /** The name of the version to delete. */
-  name: string;
   /** By default, a version that is tagged may not be deleted. If force=true, the version and any tags pointing to the version are deleted. */
   force?: boolean | undefined;
+  /** The name of the version to delete. */
+  name: string;
 }
 export interface DownloadProjectsLocationsRepositoriesFilesRequest {
   /** Required. The name of the file to download. */
@@ -206,14 +206,14 @@ export interface GetIamPolicyProjectsLocationsRepositoriesRequest {
 }
 /** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
 export interface Expr {
-  /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
-  description?: string | undefined;
   /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
   location?: string | undefined;
-  /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
-  title?: string | undefined;
   /** Textual representation of an expression in Common Expression Language syntax. */
   expression?: string | undefined;
+  /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
+  title?: string | undefined;
+  /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
+  description?: string | undefined;
 }
 export type StringList = Array<string>;
 /** Associates `members`, or principals, with a `role`. */
@@ -228,12 +228,12 @@ export interface Binding {
 export type BindingList = Array<Binding>;
 /** An Identity and Access Management (IAM) policy, which specifies access controls for Google Cloud resources. A `Policy` is a collection of `bindings`. A `binding` binds one or more `members`, or principals, to a single `role`. Principals can be user accounts, service accounts, Google groups, and domains (such as G Suite). A `role` is a named list of permissions; each `role` can be an IAM predefined role or a user-created custom role. For some types of Google Cloud resources, a `binding` can also specify a `condition`, which is a logical expression that allows access to a resource only if the expression evaluates to `true`. A condition can add constraints based on attributes of the request, the resource, or both. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). **JSON example:** ``` { "bindings": [ { "role": "roles/resourcemanager.organizationAdmin", "members": [ "user:mike@example.com", "group:admins@example.com", "domain:google.com", "serviceAccount:my-project-id@appspot.gserviceaccount.com" ] }, { "role": "roles/resourcemanager.organizationViewer", "members": [ "user:eve@example.com" ], "condition": { "title": "expirable access", "description": "Does not grant access after Sep 2020", "expression": "request.time < timestamp('2020-10-01T00:00:00.000Z')", } } ], "etag": "BwWWja0YfJA=", "version": 3 } ``` **YAML example:** ``` bindings: - members: - user:mike@example.com - group:admins@example.com - domain:google.com - serviceAccount:my-project-id@appspot.gserviceaccount.com role: roles/resourcemanager.organizationAdmin - members: - user:eve@example.com role: roles/resourcemanager.organizationViewer condition: title: expirable access description: Does not grant access after Sep 2020 expression: request.time < timestamp('2020-10-01T00:00:00.000Z') etag: BwWWja0YfJA= version: 3 ``` For a description of IAM and its features, see the [IAM documentation](https://cloud.google.com/iam/docs/). */
 export interface Policy {
+  /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
+  bindings?: BindingList | undefined;
   /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   version?: number | undefined;
   /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
   etag?: string | undefined;
-  /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
-  bindings?: BindingList | undefined;
 }
 export interface GetProjectSettingsProjectsRequest {
   /** Required. The name of the projectSettings resource. */
@@ -248,12 +248,12 @@ export type ProjectSettingsLegacyRedirectionStateEnum =
   | "REDIRECTION_FROM_GCR_IO_PARTIAL_AND_COPYING";
 /** The Artifact Registry settings that apply to a Project. */
 export interface ProjectSettings {
-  /** The name of the project's settings. Always of the form: projects/{project-id}/projectSettings In update request: never set In response: always set */
-  name?: string | undefined;
   /** The redirection state of the legacy repositories in this project. */
   legacyRedirectionState?: ProjectSettingsLegacyRedirectionStateEnum | (string & {}) | undefined;
   /** The percentage of pull traffic to redirect from GCR to AR when using partial redirection. */
   pullPercent?: number | undefined;
+  /** The name of the project's settings. Always of the form: projects/{project-id}/projectSettings In update request: never set In response: always set */
+  name?: string | undefined;
 }
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
@@ -261,16 +261,16 @@ export interface GetProjectsLocationsRequest {
 }
 /** A resource that represents a Google Cloud location. */
 export interface Location {
-  /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
-  displayName?: string | undefined;
-  /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
-  labels?: StringMap | undefined;
-  /** The canonical id for this location. For example: `"us-east1"`. */
-  locationId?: string | undefined;
   /** Service-specific metadata. For example the available capacity at the given location. */
   metadata?: DocumentMap | undefined;
   /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
   name?: string | undefined;
+  /** The canonical id for this location. For example: `"us-east1"`. */
+  locationId?: string | undefined;
+  /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
+  displayName?: string | undefined;
+  /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
+  labels?: StringMap | undefined;
 }
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
@@ -295,18 +295,18 @@ export interface Hash {
 export type HashList = Array<Hash>;
 /** Files store content that is potentially associated with Packages or Versions. */
 export interface GoogleDevtoolsArtifactregistryV1beta2File {
-  /** The name of the file, for example: `projects/p1/locations/us-central1/repositories/repo1/files/a%2Fb%2Fc.txt`. If the file ID part contains slashes, they are escaped. */
-  name?: string | undefined;
-  /** The name of the Package or Version that owns this file, if any. */
-  owner?: string | undefined;
-  /** The hashes of the file content. */
-  hashes?: HashList | undefined;
-  /** Output only. The time when the File was created. */
-  createTime?: string | undefined;
   /** The size of the File in bytes. */
   sizeBytes?: string | undefined;
+  /** The name of the Package or Version that owns this file, if any. */
+  owner?: string | undefined;
+  /** Output only. The time when the File was created. */
+  createTime?: string | undefined;
   /** Output only. The time when the File was last updated. */
   updateTime?: string | undefined;
+  /** The name of the file, for example: `projects/p1/locations/us-central1/repositories/repo1/files/a%2Fb%2Fc.txt`. If the file ID part contains slashes, they are escaped. */
+  name?: string | undefined;
+  /** The hashes of the file content. */
+  hashes?: HashList | undefined;
 }
 export interface GetProjectsLocationsRepositoriesPackagesRequest {
   /** Required. The name of the package to retrieve. */
@@ -314,12 +314,12 @@ export interface GetProjectsLocationsRepositoriesPackagesRequest {
 }
 /** Packages are named collections of versions. */
 export interface Package {
+  /** The time when the package was created. */
+  createTime?: string | undefined;
   /** The time when the package was last updated. This includes publishing a new version of the package. */
   updateTime?: string | undefined;
   /** The display name of the package. */
   displayName?: string | undefined;
-  /** The time when the package was created. */
-  createTime?: string | undefined;
   /** The name of the package, for example: `projects/p1/locations/us-central1/repositories/repo1/packages/pkg1`. If the package ID part contains slashes, the slashes are escaped. */
   name?: string | undefined;
   /** Optional. Client specified annotations. */
@@ -342,25 +342,25 @@ export interface GetProjectsLocationsRepositoriesPackagesVersionsRequest {
 export type TagList = Array<Tag>;
 /** The body of a version resource. A version resource represents a collection of components, such as files and other data. This may correspond to a version in many package management schemes. */
 export interface Version {
-  /** Output only. Repository-specific Metadata stored against this version. The fields returned are defined by the underlying repository-specific resource. Currently, the resources could be: DockerImage MavenArtifact */
-  metadata?: DocumentMap | undefined;
   /** The name of the version, for example: `projects/p1/locations/us-central1/repositories/repo1/packages/pkg1/versions/art1`. If the package or version ID parts contain slashes, the slashes are escaped. */
   name?: string | undefined;
-  /** The time when the version was last updated. */
-  updateTime?: string | undefined;
-  /** Output only. A list of related tags. Will contain up to 100 tags that reference this version. */
-  relatedTags?: TagList | undefined;
   /** The time when the version was created. */
   createTime?: string | undefined;
+  /** The time when the version was last updated. */
+  updateTime?: string | undefined;
+  /** Output only. Repository-specific Metadata stored against this version. The fields returned are defined by the underlying repository-specific resource. Currently, the resources could be: DockerImage MavenArtifact */
+  metadata?: DocumentMap | undefined;
   /** Optional. Description of the version, as specified in its metadata. */
   description?: string | undefined;
+  /** Output only. A list of related tags. Will contain up to 100 tags that reference this version. */
+  relatedTags?: TagList | undefined;
 }
 /** Google Cloud Storage location where the artifacts currently reside. */
 export interface ImportAptArtifactsGcsSource {
-  /** Supports URI wildcards for matching multiple objects from a single URI. */
-  useWildcards?: boolean | undefined;
   /** Cloud Storage paths URI (e.g., gs://my_bucket//my_object). */
   uris?: StringList | undefined;
+  /** Supports URI wildcards for matching multiple objects from a single URI. */
+  useWildcards?: boolean | undefined;
 }
 /** The request to import new apt artifacts. */
 export interface ImportAptArtifactsRequest {
@@ -372,32 +372,24 @@ export interface ImportProjectsLocationsRepositoriesAptArtifactsRequest extends 
   parent: string;
 }
 /** Google Cloud Storage location where the artifacts currently reside. */
-export interface ImportYumArtifactsGcsSource {
-  /** Cloud Storage paths URI (e.g., gs://my_bucket//my_object). */
-  uris?: StringList | undefined;
-  /** Supports URI wildcards for matching multiple objects from a single URI. */
-  useWildcards?: boolean | undefined;
-}
+export type ImportYumArtifactsGcsSource = ImportAptArtifactsGcsSource;
 /** The request to import new yum artifacts. */
-export interface ImportYumArtifactsRequest {
-  /** Google Cloud Storage location where input content is located. */
-  gcsSource?: ImportYumArtifactsGcsSource | undefined;
-}
-export interface ImportProjectsLocationsRepositoriesYumArtifactsRequest extends ImportYumArtifactsRequest {
+export type ImportYumArtifactsRequest = ImportAptArtifactsRequest;
+export interface ImportProjectsLocationsRepositoriesYumArtifactsRequest extends ImportAptArtifactsRequest {
   /** The name of the parent resource where the artifacts will be imported. */
   parent: string;
 }
 export interface ListProjectsLocationsRequest {
-  /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
-  filter?: string | undefined;
-  /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number | undefined;
-  /** The resource that owns the locations collection, if applicable. */
-  name: string;
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
   pageToken?: string | undefined;
+  /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
+  filter?: string | undefined;
   /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
   extraLocationTypes?: StringList | undefined;
+  /** The resource that owns the locations collection, if applicable. */
+  name: string;
+  /** The maximum number of results to return. If not set, the service selects a default. */
+  pageSize?: number | undefined;
 }
 export type LocationList = Array<Location>;
 /** The response message for Locations.ListLocations. */
@@ -408,10 +400,10 @@ export interface ListLocationsResponse {
   locations?: LocationList | undefined;
 }
 export interface ListProjectsLocationsRepositoriesRequest {
-  /** The next_page_token value returned from a previous list request, if any. */
-  pageToken?: string | undefined;
   /** The maximum number of repositories to return. Maximum page size is 1,000. */
   pageSize?: number | undefined;
+  /** The next_page_token value returned from a previous list request, if any. */
+  pageToken?: string | undefined;
   /** Required. The name of the parent resource whose repositories will be listed. */
   parent: string;
   /** Optional. The field to order the results by. */
@@ -428,72 +420,72 @@ export interface ListRepositoriesResponse {
 export interface ListProjectsLocationsRepositoriesFilesRequest {
   /** Required. The name of the repository whose files will be listed. For example: "projects/p1/locations/us-central1/repositories/repo1 */
   parent: string;
+  /** The next_page_token value returned from a previous list request, if any. */
+  pageToken?: string | undefined;
   /** An expression for filtering the results of the request. Filter rules are case insensitive. The fields eligible for filtering are: * `name` * `owner` * `annotations` Examples of using a filter: To filter the results of your request to files with the name `my_file.txt` in project `my-project` in the `us-central` region, in repository `my-repo`, append the following filter expression to your request: * `name="projects/my-project/locations/us-central1/repositories/my-repo/files/my-file.txt"` You can also use wildcards to match any number of characters before or after the value: * `name="projects/my-project/locations/us-central1/repositories/my-repo/files/my-*"` * `name="projects/my-project/locations/us-central1/repositories/my-repo/files/*file.txt"` * `name="projects/my-project/locations/us-central1/repositories/my-repo/files/*file*"` To filter the results of your request to files owned by the version `1.0` in package `pkg1`, append the following filter expression to your request: * `owner="projects/my-project/locations/us-central1/repositories/my-repo/packages/my-package/versions/1.0"` To filter the results of your request to files with the annotation key-value pair [`external_link`: `external_link_value`], append the following filter expression to your request: * `"annotations.external_link:external_link_value"` To filter just for a specific annotation key `external_link`, append the following filter expression to your request: * `"annotations.external_link"` If the annotation key or value contains special characters, you can escape them by surrounding the value with backticks. For example, to filter the results of your request to files with the annotation key-value pair [`external.link`:`https://example.com/my-file`], append the following filter expression to your request: * `` "annotations.`external.link`:`https://example.com/my-file`" `` You can also filter with annotations with a wildcard to match any number of characters before or after the value: * `` "annotations.*_link:`*example.com*`" `` */
   filter?: string | undefined;
   /** The maximum number of files to return. Maximum page size is 1,000. */
   pageSize?: number | undefined;
-  /** The next_page_token value returned from a previous list request, if any. */
-  pageToken?: string | undefined;
 }
 export type GoogleDevtoolsArtifactregistryV1beta2FileList =
   Array<GoogleDevtoolsArtifactregistryV1beta2File>;
 /** The response from listing files. */
 export interface ListFilesResponse {
-  /** The files returned. */
-  files?: GoogleDevtoolsArtifactregistryV1beta2FileList | undefined;
   /** The token to retrieve the next page of files, or empty if there are no more files to return. */
   nextPageToken?: string | undefined;
+  /** The files returned. */
+  files?: GoogleDevtoolsArtifactregistryV1beta2FileList | undefined;
 }
 export interface ListProjectsLocationsRepositoriesPackagesRequest {
-  /** The next_page_token value returned from a previous list request, if any. */
-  pageToken?: string | undefined;
   /** Required. The name of the parent resource whose packages will be listed. */
   parent: string;
   /** The maximum number of packages to return. Maximum page size is 1,000. */
   pageSize?: number | undefined;
   /** Optional. The field to order the results by. */
   orderBy?: string | undefined;
+  /** The next_page_token value returned from a previous list request, if any. */
+  pageToken?: string | undefined;
 }
 export type PackageList = Array<Package>;
 /** The response from listing packages. */
 export interface ListPackagesResponse {
-  /** The token to retrieve the next page of packages, or empty if there are no more packages to return. */
-  nextPageToken?: string | undefined;
   /** The packages returned. */
   packages?: PackageList | undefined;
+  /** The token to retrieve the next page of packages, or empty if there are no more packages to return. */
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsRepositoriesPackagesTagsRequest {
+  /** The next_page_token value returned from a previous list request, if any. */
+  pageToken?: string | undefined;
+  /** An expression for filtering the results of the request. Filter rules are case insensitive. The fields eligible for filtering are: * `name` * `version` Examples of using a filter: To filter the results of your request to tags with the name `my-tag` in package `my-package` in repository `my-repo` in project "`y-project` in the us-central region, append the following filter expression to your request: * `name="projects/my-project/locations/us-central1/repositories/my-repo/packages/my-package/tags/my-tag"` You can also use wildcards to match any number of characters before or after the value: * `name="projects/my-project/locations/us-central1/repositories/my-repo/packages/my-package/tags/my*"` * `name="projects/my-project/locations/us-central1/repositories/my-repo/packages/my-package/tags/*tag"` * `name="projects/my-project/locations/us-central1/repositories/my-repo/packages/my-package/tags/*tag*"` To filter the results of your request to tags applied to the version `1.0` in package `my-package`, append the following filter expression to your request: * `version="projects/my-project/locations/us-central1/repositories/my-repo/packages/my-package/versions/1.0"` */
+  filter?: string | undefined;
   /** The maximum number of tags to return. Maximum page size is 1,000. */
   pageSize?: number | undefined;
   /** The name of the parent package whose tags will be listed. For example: `projects/p1/locations/us-central1/repositories/repo1/packages/pkg1`. */
   parent: string;
-  /** An expression for filtering the results of the request. Filter rules are case insensitive. The fields eligible for filtering are: * `name` * `version` Examples of using a filter: To filter the results of your request to tags with the name `my-tag` in package `my-package` in repository `my-repo` in project "`y-project` in the us-central region, append the following filter expression to your request: * `name="projects/my-project/locations/us-central1/repositories/my-repo/packages/my-package/tags/my-tag"` You can also use wildcards to match any number of characters before or after the value: * `name="projects/my-project/locations/us-central1/repositories/my-repo/packages/my-package/tags/my*"` * `name="projects/my-project/locations/us-central1/repositories/my-repo/packages/my-package/tags/*tag"` * `name="projects/my-project/locations/us-central1/repositories/my-repo/packages/my-package/tags/*tag*"` To filter the results of your request to tags applied to the version `1.0` in package `my-package`, append the following filter expression to your request: * `version="projects/my-project/locations/us-central1/repositories/my-repo/packages/my-package/versions/1.0"` */
-  filter?: string | undefined;
-  /** The next_page_token value returned from a previous list request, if any. */
-  pageToken?: string | undefined;
 }
 /** The response from listing tags. */
 export interface ListTagsResponse {
-  /** The tags returned. */
-  tags?: TagList | undefined;
   /** The token to retrieve the next page of tags, or empty if there are no more tags to return. */
   nextPageToken?: string | undefined;
+  /** The tags returned. */
+  tags?: TagList | undefined;
 }
 export type ListProjectsLocationsRepositoriesPackagesVersionsViewEnum =
   | "VERSION_VIEW_UNSPECIFIED"
   | "BASIC"
   | "FULL";
 export interface ListProjectsLocationsRepositoriesPackagesVersionsRequest {
-  /** Optional. The field to order the results by. */
-  orderBy?: string | undefined;
-  /** The name of the parent resource whose versions will be listed. */
-  parent: string;
-  /** The next_page_token value returned from a previous list request, if any. */
-  pageToken?: string | undefined;
-  /** The maximum number of versions to return. Maximum page size is 1,000. */
-  pageSize?: number | undefined;
   /** The view that should be returned in the response. */
   view?: ListProjectsLocationsRepositoriesPackagesVersionsViewEnum | (string & {}) | undefined;
+  /** The name of the parent resource whose versions will be listed. */
+  parent: string;
+  /** The maximum number of versions to return. Maximum page size is 1,000. */
+  pageSize?: number | undefined;
+  /** Optional. The field to order the results by. */
+  orderBy?: string | undefined;
+  /** The next_page_token value returned from a previous list request, if any. */
+  pageToken?: string | undefined;
 }
 export type VersionList = Array<Version>;
 /** The response from listing versions. */
@@ -504,16 +496,16 @@ export interface ListVersionsResponse {
   versions?: VersionList | undefined;
 }
 export interface PatchProjectsLocationsRepositoriesRequest extends Omit<Repository, "name"> {
+  /** The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
+  updateMask?: string | undefined;
   /** The name of the repository, for example: `projects/p1/locations/us-central1/repositories/repo1`. For each location in a project, repository names must be unique. */
   name: string;
-  /** The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
-  updateMask?: string | undefined;
 }
 export interface PatchProjectsLocationsRepositoriesPackagesRequest extends Omit<Package, "name"> {
-  /** The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
-  updateMask?: string | undefined;
   /** The name of the package, for example: `projects/p1/locations/us-central1/repositories/repo1/packages/pkg1`. If the package ID part contains slashes, the slashes are escaped. */
   name: string;
+  /** The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
+  updateMask?: string | undefined;
 }
 export interface PatchProjectsLocationsRepositoriesPackagesTagsRequest extends Omit<Tag, "name"> {
   /** The name of the tag, for example: "projects/p1/locations/us-central1/repositories/repo1/packages/pkg1/tags/tag1". If the package part contains slashes, the slashes are escaped. The tag part can only have characters in [a-zA-Z0-9\-._~:@], anything else must be URL encoded. */
@@ -545,10 +537,10 @@ export interface TestIamPermissionsResponse {
   permissions?: StringList | undefined;
 }
 export interface UpdateProjectSettingsProjectsRequest extends Omit<ProjectSettings, "name"> {
-  /** The name of the project's settings. Always of the form: projects/{project-id}/projectSettings In update request: never set In response: always set */
-  name: string;
   /** Field mask to support partial updates. */
   updateMask?: string | undefined;
+  /** The name of the project's settings. Always of the form: projects/{project-id}/projectSettings In update request: never set In response: always set */
+  name: string;
 }
 /** The request to upload an artifact. */
 export interface UploadAptArtifactRequest {}
@@ -589,8 +581,8 @@ export const createProjectsLocationsRepositories: API.OperationMethod<
   CreateProjectsLocationsRepositoriesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(140, __c35, 0) as any as S.Schema<CreateProjectsLocationsRepositoriesRequest>,
-  output: __S(158, __c39, 2) as any as S.Schema<Operation>,
+  input: __S(144, __c36, 0) as any as S.Schema<CreateProjectsLocationsRepositoriesRequest>,
+  output: __S(162, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -614,11 +606,11 @@ export const createProjectsLocationsRepositoriesPackagesTags: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    160,
-    __c40,
+    164,
+    __c41,
     0,
   ) as any as S.Schema<CreateProjectsLocationsRepositoriesPackagesTagsRequest>,
-  output: __S(164, __c41, 0) as any as S.Schema<Tag>,
+  output: __S(168, __c42, 0) as any as S.Schema<Tag>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -641,8 +633,8 @@ export const deleteProjectsLocationsRepositories: API.OperationMethod<
   DeleteProjectsLocationsRepositoriesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(168, __c42, 0) as any as S.Schema<DeleteProjectsLocationsRepositoriesRequest>,
-  output: __S(158, __c39, 2) as any as S.Schema<Operation>,
+  input: __S(172, __c43, 0) as any as S.Schema<DeleteProjectsLocationsRepositoriesRequest>,
+  output: __S(162, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -664,8 +656,8 @@ export const deleteProjectsLocationsRepositoriesPackages: API.OperationMethod<
   DeleteProjectsLocationsRepositoriesPackagesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(172, __c43, 0) as any as S.Schema<DeleteProjectsLocationsRepositoriesPackagesRequest>,
-  output: __S(158, __c39, 2) as any as S.Schema<Operation>,
+  input: __S(176, __c44, 0) as any as S.Schema<DeleteProjectsLocationsRepositoriesPackagesRequest>,
+  output: __S(162, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -688,11 +680,11 @@ export const deleteProjectsLocationsRepositoriesPackagesTags: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    176,
-    __c44,
+    180,
+    __c45,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsRepositoriesPackagesTagsRequest>,
-  output: __S(180, __c45, 0) as any as S.Schema<Empty>,
+  output: __S(184, __c46, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -715,11 +707,11 @@ export const deleteProjectsLocationsRepositoriesPackagesVersions: API.OperationM
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    184,
-    __c46,
+    188,
+    __c47,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsRepositoriesPackagesVersionsRequest>,
-  output: __S(158, __c39, 2) as any as S.Schema<Operation>,
+  output: __S(162, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -737,7 +729,7 @@ export const downloadProjectsLocationsRepositoriesFiles: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<DownloadProjectsLocationsRepositoriesFilesRequest>,
-  output: __S(180, __c45, 0) as any as S.Schema<DownloadFileResponse>,
+  output: __S(184, __c46, 0) as any as S.Schema<DownloadFileResponse>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -809,7 +801,7 @@ export const getProjectsLocationsOperations: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c8, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
-  output: __S(158, __c39, 2) as any as S.Schema<Operation>,
+  output: __S(162, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -827,7 +819,7 @@ export const getProjectsLocationsRepositories: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(36, __c9, 0) as any as S.Schema<GetProjectsLocationsRepositoriesRequest>,
-  output: __S(149, __c37, 1) as any as S.Schema<Repository>,
+  output: __S(153, __c38, 1) as any as S.Schema<Repository>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -881,7 +873,7 @@ export const getProjectsLocationsRepositoriesPackagesTags: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56, __c14, 0) as any as S.Schema<GetProjectsLocationsRepositoriesPackagesTagsRequest>,
-  output: __S(164, __c41, 0) as any as S.Schema<Tag>,
+  output: __S(168, __c42, 0) as any as S.Schema<Tag>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -929,11 +921,11 @@ export const importProjectsLocationsRepositoriesAptArtifacts: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    74,
+    72,
     __c18,
-    2,
+    0,
   ) as any as S.Schema<ImportProjectsLocationsRepositoriesAptArtifactsRequest>,
-  output: __S(158, __c39, 2) as any as S.Schema<Operation>,
+  output: __S(162, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -956,11 +948,11 @@ export const importProjectsLocationsRepositoriesYumArtifacts: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    78,
-    __c19,
-    2,
+    80,
+    __c20,
+    0,
   ) as any as S.Schema<ImportProjectsLocationsRepositoriesYumArtifactsRequest>,
-  output: __S(158, __c39, 2) as any as S.Schema<Operation>,
+  output: __S(162, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -978,8 +970,8 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListLocationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(80, __c20, 0) as any as S.Schema<ListProjectsLocationsRequest>,
-  output: __S(82, __c20, 2) as any as S.Schema<ListLocationsResponse>,
+  input: __S(84, __c21, 0) as any as S.Schema<ListProjectsLocationsRequest>,
+  output: __S(86, __c21, 2) as any as S.Schema<ListLocationsResponse>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -998,8 +990,8 @@ export const listProjectsLocationsRepositories: API.PaginatedOperationMethod<
   GcpOpContext,
   ListRepositoriesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(84, __c21, 0) as any as S.Schema<ListProjectsLocationsRepositoriesRequest>,
-  output: __S(86, __c21, 2) as any as S.Schema<ListRepositoriesResponse>,
+  input: __S(88, __c22, 0) as any as S.Schema<ListProjectsLocationsRepositoriesRequest>,
+  output: __S(90, __c22, 2) as any as S.Schema<ListRepositoriesResponse>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -1018,8 +1010,8 @@ export const listProjectsLocationsRepositoriesFiles: API.PaginatedOperationMetho
   GcpOpContext,
   ListFilesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(88, __c22, 0) as any as S.Schema<ListProjectsLocationsRepositoriesFilesRequest>,
-  output: __S(90, __c22, 2) as any as S.Schema<ListFilesResponse>,
+  input: __S(92, __c23, 0) as any as S.Schema<ListProjectsLocationsRepositoriesFilesRequest>,
+  output: __S(94, __c23, 2) as any as S.Schema<ListFilesResponse>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -1038,8 +1030,8 @@ export const listProjectsLocationsRepositoriesPackages: API.PaginatedOperationMe
   GcpOpContext,
   ListPackagesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(92, __c23, 0) as any as S.Schema<ListProjectsLocationsRepositoriesPackagesRequest>,
-  output: __S(94, __c23, 2) as any as S.Schema<ListPackagesResponse>,
+  input: __S(96, __c24, 0) as any as S.Schema<ListProjectsLocationsRepositoriesPackagesRequest>,
+  output: __S(98, __c24, 2) as any as S.Schema<ListPackagesResponse>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -1058,8 +1050,12 @@ export const listProjectsLocationsRepositoriesPackagesTags: API.PaginatedOperati
   GcpOpContext,
   ListTagsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(96, __c24, 0) as any as S.Schema<ListProjectsLocationsRepositoriesPackagesTagsRequest>,
-  output: __S(97, __c24, 1) as any as S.Schema<ListTagsResponse>,
+  input: __S(
+    100,
+    __c25,
+    0,
+  ) as any as S.Schema<ListProjectsLocationsRepositoriesPackagesTagsRequest>,
+  output: __S(101, __c25, 1) as any as S.Schema<ListTagsResponse>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -1082,11 +1078,11 @@ export const listProjectsLocationsRepositoriesPackagesVersions: API.PaginatedOpe
   ListVersionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    100,
-    __c25,
+    104,
+    __c26,
     0,
   ) as any as S.Schema<ListProjectsLocationsRepositoriesPackagesVersionsRequest>,
-  output: __S(102, __c25, 2) as any as S.Schema<ListVersionsResponse>,
+  output: __S(106, __c26, 2) as any as S.Schema<ListVersionsResponse>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -1109,8 +1105,8 @@ export const patchProjectsLocationsRepositories: API.OperationMethod<
   PatchProjectsLocationsRepositoriesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c26, 0) as any as S.Schema<PatchProjectsLocationsRepositoriesRequest>,
-  output: __S(149, __c37, 1) as any as S.Schema<Repository>,
+  input: __S(108, __c27, 0) as any as S.Schema<PatchProjectsLocationsRepositoriesRequest>,
+  output: __S(153, __c38, 1) as any as S.Schema<Repository>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -1133,7 +1129,7 @@ export const patchProjectsLocationsRepositoriesPackages: API.OperationMethod<
   PatchProjectsLocationsRepositoriesPackagesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(108, __c27, 0) as any as S.Schema<PatchProjectsLocationsRepositoriesPackagesRequest>,
+  input: __S(112, __c28, 0) as any as S.Schema<PatchProjectsLocationsRepositoriesPackagesRequest>,
   output: __S(52, __c13, 0) as any as S.Schema<Package>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
@@ -1157,11 +1153,11 @@ export const patchProjectsLocationsRepositoriesPackagesTags: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    112,
-    __c28,
+    116,
+    __c29,
     0,
   ) as any as S.Schema<PatchProjectsLocationsRepositoriesPackagesTagsRequest>,
-  output: __S(164, __c41, 0) as any as S.Schema<Tag>,
+  output: __S(168, __c42, 0) as any as S.Schema<Tag>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -1184,7 +1180,7 @@ export const setIamPolicyProjectsLocationsRepositories: API.OperationMethod<
   SetIamPolicyProjectsLocationsRepositoriesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(117, __c29, 1) as any as S.Schema<SetIamPolicyProjectsLocationsRepositoriesRequest>,
+  input: __S(121, __c30, 1) as any as S.Schema<SetIamPolicyProjectsLocationsRepositoriesRequest>,
   output: __S(15, __c3, 3) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
@@ -1208,11 +1204,11 @@ export const testIamPermissionsProjectsLocationsRepositories: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    121,
-    __c30,
+    125,
+    __c31,
     1,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsRepositoriesRequest>,
-  output: __S(120, __c30, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(124, __c31, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -1235,7 +1231,7 @@ export const updateProjectSettingsProjects: API.OperationMethod<
   UpdateProjectSettingsProjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(124, __c31, 0) as any as S.Schema<UpdateProjectSettingsProjectsRequest>,
+  input: __S(128, __c32, 0) as any as S.Schema<UpdateProjectSettingsProjectsRequest>,
   output: __S(20, __c5, 0) as any as S.Schema<ProjectSettings>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
@@ -1259,11 +1255,11 @@ export const uploadProjectsLocationsRepositoriesAptArtifacts: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    128,
-    __c32,
+    132,
+    __c33,
     0,
   ) as any as S.Schema<UploadProjectsLocationsRepositoriesAptArtifactsRequest>,
-  output: __S(132, __c33, 0) as any as S.Schema<UploadAptArtifactMediaResponse>,
+  output: __S(136, __c34, 0) as any as S.Schema<UploadAptArtifactMediaResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -1286,11 +1282,11 @@ export const uploadProjectsLocationsRepositoriesYumArtifacts: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    136,
-    __c34,
+    140,
+    __c35,
     0,
   ) as any as S.Schema<UploadProjectsLocationsRepositoriesYumArtifactsRequest>,
-  output: __S(132, __c33, 0) as any as S.Schema<UploadYumArtifactMediaResponse>,
+  output: __S(136, __c34, 0) as any as S.Schema<UploadYumArtifactMediaResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -1344,10 +1340,10 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          description: S.optional(S.String),
           location: S.optional(S.String),
-          title: S.optional(S.String),
           expression: S.optional(S.String),
+          title: S.optional(S.String),
+          description: S.optional(S.String),
         }),
       ).annotate({ identifier: "Expr" });
     case 1:
@@ -1363,9 +1359,9 @@ function __c3(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
+          bindings: S.optional(__S(14, __c3, 2)),
           version: S.optional(S.Number),
           etag: S.optional(S.String),
-          bindings: S.optional(__S(14, __c3, 2)),
         }),
       ).annotate({ identifier: "Policy" });
   }
@@ -1391,9 +1387,9 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
           legacyRedirectionState: S.optional(S.String),
           pullPercent: S.optional(S.Number),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "ProjectSettings" });
   }
@@ -1419,11 +1415,11 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          displayName: S.optional(S.String),
-          labels: S.optional(__S(144, __c36, 0)),
-          locationId: S.optional(S.String),
-          metadata: S.optional(__S(152, __c38, 0)),
+          metadata: S.optional(__S(156, __c39, 0)),
           name: S.optional(S.String),
+          locationId: S.optional(S.String),
+          displayName: S.optional(S.String),
+          labels: S.optional(__S(148, __c37, 0)),
         }),
       ).annotate({ identifier: "Location" });
   }
@@ -1490,12 +1486,12 @@ function __c11(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          owner: S.optional(S.String),
-          hashes: S.optional(__S(45, __c11, 1)),
-          createTime: S.optional(S.String),
           sizeBytes: S.optional(S.String),
+          owner: S.optional(S.String),
+          createTime: S.optional(S.String),
           updateTime: S.optional(S.String),
+          name: S.optional(S.String),
+          hashes: S.optional(__S(45, __c11, 1)),
         }),
       ).annotate({ identifier: "GoogleDevtoolsArtifactregistryV1beta2File" });
   }
@@ -1521,11 +1517,11 @@ function __c13(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          createTime: S.optional(S.String),
           updateTime: S.optional(S.String),
           displayName: S.optional(S.String),
-          createTime: S.optional(S.String),
           name: S.optional(S.String),
-          annotations: S.optional(__S(144, __c36, 0)),
+          annotations: S.optional(__S(148, __c37, 0)),
         }),
       ).annotate({ identifier: "Package" });
   }
@@ -1566,7 +1562,7 @@ function __c15(j: number): any {
 function __c16(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(164, __c41, 0));
+      return S.Array(__S(168, __c42, 0));
   }
 }
 function __c17(j: number): any {
@@ -1574,12 +1570,12 @@ function __c17(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          metadata: S.optional(__S(152, __c38, 0)),
           name: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          relatedTags: S.optional(__S(64, __c16, 0)),
           createTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          metadata: S.optional(__S(156, __c39, 0)),
           description: S.optional(S.String),
+          relatedTags: S.optional(__S(64, __c16, 0)),
         }),
       ).annotate({ identifier: "Version" });
   }
@@ -1588,21 +1584,8 @@ function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          useWildcards: S.optional(S.Boolean),
-          uris: S.optional(__S(8, __c2, 0)),
-        }),
-      ).annotate({ identifier: "ImportAptArtifactsGcsSource" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          gcsSource: S.optional(__S(72, __c18, 0)),
-        }),
-      ).annotate({ identifier: "ImportAptArtifactsRequest" });
-    case 2:
-      return S.suspend(() =>
         S.Extend(
-          __S(73, __c18, 1),
+          __S(77, __c19, 1),
           S.Struct({
             parent: S.String.pipe(T.Label()),
           }),
@@ -1624,14 +1607,18 @@ function __c19(j: number): any {
           uris: S.optional(__S(8, __c2, 0)),
           useWildcards: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "ImportYumArtifactsGcsSource" });
+      ).annotate({ identifier: "ImportAptArtifactsGcsSource" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           gcsSource: S.optional(__S(76, __c19, 0)),
         }),
-      ).annotate({ identifier: "ImportYumArtifactsRequest" });
-    case 2:
+      ).annotate({ identifier: "ImportAptArtifactsRequest" });
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Extend(
           __S(77, __c19, 1),
@@ -1648,16 +1635,16 @@ function __c19(j: number): any {
       ).annotate({ identifier: "ImportProjectsLocationsRepositoriesYumArtifactsRequest" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
           extraLocationTypes: S.optional(__S(8, __c2, 0).pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1672,18 +1659,18 @@ function __c20(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          locations: S.optional(__S(81, __c20, 1)),
+          locations: S.optional(__S(85, __c21, 1)),
         }),
       ).annotate({ identifier: "ListLocationsResponse" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           orderBy: S.optional(S.String.pipe(T.Query())),
         }).pipe(
@@ -1695,25 +1682,25 @@ function __c21(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsRepositoriesRequest" });
     case 1:
-      return S.Array(__S(149, __c37, 1));
+      return S.Array(__S(153, __c38, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          repositories: S.optional(__S(85, __c21, 1)),
+          repositories: S.optional(__S(89, __c22, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListRepositoriesResponse" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1727,21 +1714,21 @@ function __c22(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          files: S.optional(__S(89, __c22, 1)),
           nextPageToken: S.optional(S.String),
+          files: S.optional(__S(93, __c23, 1)),
         }),
       ).annotate({ identifier: "ListFilesResponse" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1755,21 +1742,21 @@ function __c23(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          packages: S.optional(__S(97, __c24, 1)),
           nextPageToken: S.optional(S.String),
-          packages: S.optional(__S(93, __c23, 1)),
         }),
       ).annotate({ identifier: "ListPackagesResponse" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          filter: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1781,22 +1768,22 @@ function __c24(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          tags: S.optional(__S(64, __c16, 0)),
           nextPageToken: S.optional(S.String),
+          tags: S.optional(__S(64, __c16, 0)),
         }),
       ).annotate({ identifier: "ListTagsResponse" });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          orderBy: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           view: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1811,20 +1798,20 @@ function __c25(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          versions: S.optional(__S(101, __c25, 1)),
+          versions: S.optional(__S(105, __c26, 1)),
         }),
       ).annotate({ identifier: "ListVersionsResponse" });
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(149, __c37, 1),
+          __S(153, __c38, 1),
           S.Struct({
-            name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -1836,15 +1823,15 @@ function __c26(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsRepositoriesRequest" });
   }
 }
-function __c27(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
           __S(52, __c13, 0),
           S.Struct({
-            updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -1856,12 +1843,12 @@ function __c27(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsRepositoriesPackagesRequest" });
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(164, __c41, 0),
+          __S(168, __c42, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
@@ -1876,7 +1863,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsRepositoriesPackagesTagsRequest" });
   }
 }
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1887,7 +1874,7 @@ function __c29(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Extend(
-          __S(116, __c29, 0),
+          __S(120, __c30, 0),
           S.Struct({
             resource: S.String.pipe(T.Label()),
           }),
@@ -1901,7 +1888,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsRepositoriesRequest" });
   }
 }
-function __c30(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1912,7 +1899,7 @@ function __c30(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Extend(
-          __S(120, __c30, 0),
+          __S(124, __c31, 0),
           S.Struct({
             resource: S.String.pipe(T.Label()),
           }),
@@ -1926,15 +1913,15 @@ function __c30(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsRepositoriesRequest" });
   }
 }
-function __c31(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
           __S(20, __c5, 0),
           S.Struct({
-            name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -1946,13 +1933,13 @@ function __c31(j: number): any {
       ).annotate({ identifier: "UpdateProjectSettingsProjectsRequest" });
   }
 }
-function __c32(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(180, __c45, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(184, __c46, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1963,23 +1950,23 @@ function __c32(j: number): any {
       ).annotate({ identifier: "UploadProjectsLocationsRepositoriesAptArtifactsRequest" });
   }
 }
-function __c33(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          operation: S.optional(__S(158, __c39, 2)),
-        }),
-      ).annotate({ identifier: "UploadAptArtifactMediaResponse" });
-  }
-}
 function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          operation: S.optional(__S(162, __c40, 2)),
+        }),
+      ).annotate({ identifier: "UploadAptArtifactMediaResponse" });
+  }
+}
+function __c35(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(180, __c45, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(184, __c46, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1990,12 +1977,12 @@ function __c34(j: number): any {
       ).annotate({ identifier: "UploadProjectsLocationsRepositoriesYumArtifactsRequest" });
   }
 }
-function __c35(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(149, __c37, 1),
+          __S(153, __c38, 1),
           S.Struct({
             parent: S.String.pipe(T.Label()),
             repositoryId: S.optional(S.String.pipe(T.Query())),
@@ -2010,13 +1997,13 @@ function __c35(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsRepositoriesRequest" });
   }
 }
-function __c36(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c37(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2028,57 +2015,57 @@ function __c37(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          kmsKeyName: S.optional(S.String),
-          name: S.optional(S.String),
-          createTime: S.optional(S.String),
-          labels: S.optional(__S(144, __c36, 0)),
           updateTime: S.optional(S.String),
-          satisfiesPzs: S.optional(S.Boolean),
-          description: S.optional(S.String),
-          format: S.optional(S.String),
+          kmsKeyName: S.optional(S.String),
           satisfiesPzi: S.optional(S.Boolean),
+          description: S.optional(S.String),
+          labels: S.optional(__S(148, __c37, 0)),
+          createTime: S.optional(S.String),
+          satisfiesPzs: S.optional(S.Boolean),
           sizeBytes: S.optional(S.String),
-          mavenConfig: S.optional(__S(148, __c37, 0)),
+          name: S.optional(S.String),
+          mavenConfig: S.optional(__S(152, __c38, 0)),
+          format: S.optional(S.String),
         }),
       ).annotate({ identifier: "Repository" });
-  }
-}
-function __c38(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.Unknown);
   }
 }
 function __c39(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(152, __c38, 0));
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          message: S.optional(S.String),
-          details: S.optional(__S(156, __c39, 0)),
-          code: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "Status" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          done: S.optional(S.Boolean),
-          error: S.optional(__S(157, __c39, 1)),
-          metadata: S.optional(__S(152, __c38, 0)),
-          name: S.optional(S.String),
-          response: S.optional(__S(152, __c38, 0)),
-        }),
-      ).annotate({ identifier: "Operation" });
+      return S.Record(S.String, S.Unknown);
   }
 }
 function __c40(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(__S(156, __c39, 0));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.optional(S.Number),
+          message: S.optional(S.String),
+          details: S.optional(__S(160, __c40, 0)),
+        }),
+      ).annotate({ identifier: "Status" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          response: S.optional(__S(156, __c39, 0)),
+          metadata: S.optional(__S(156, __c39, 0)),
+          done: S.optional(S.Boolean),
+          name: S.optional(S.String),
+          error: S.optional(__S(161, __c40, 1)),
+        }),
+      ).annotate({ identifier: "Operation" });
+  }
+}
+function __c41(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(164, __c41, 0),
+          __S(168, __c42, 0),
           S.Struct({
             tagId: S.optional(S.String.pipe(T.Query())),
             parent: S.String.pipe(T.Label()),
@@ -2093,7 +2080,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsRepositoriesPackagesTagsRequest" });
   }
 }
-function __c41(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2102,22 +2089,6 @@ function __c41(j: number): any {
           version: S.optional(S.String),
         }),
       ).annotate({ identifier: "Tag" });
-  }
-}
-function __c42(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "v1beta2/{+name}",
-            baseUrl: "https://artifactregistry.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "DeleteProjectsLocationsRepositoriesRequest" });
   }
 }
 function __c43(j: number): any {
@@ -2133,7 +2104,7 @@ function __c43(j: number): any {
             baseUrl: "https://artifactregistry.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "DeleteProjectsLocationsRepositoriesPackagesRequest" });
+      ).annotate({ identifier: "DeleteProjectsLocationsRepositoriesRequest" });
   }
 }
 function __c44(j: number): any {
@@ -2149,22 +2120,38 @@ function __c44(j: number): any {
             baseUrl: "https://artifactregistry.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "DeleteProjectsLocationsRepositoriesPackagesTagsRequest" });
+      ).annotate({ identifier: "DeleteProjectsLocationsRepositoriesPackagesRequest" });
   }
 }
 function __c45(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({})).annotate({ identifier: "Empty" });
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "v1beta2/{+name}",
+            baseUrl: "https://artifactregistry.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "DeleteProjectsLocationsRepositoriesPackagesTagsRequest" });
   }
 }
 function __c46(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "Empty" });
+  }
+}
+function __c47(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           force: S.optional(S.Boolean.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",

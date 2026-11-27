@@ -83,11 +83,89 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-/** A list of filters. */
-export interface FilterList {
-  /** Required. A list of filters. */
-  filters?: FilterList_ | undefined;
-}
+export type ReportDefinitionDimensionsItemEnum =
+  | "DIMENSION_UNSPECIFIED"
+  | "ADVERTISER_DOMAIN"
+  | "AGENCY_ACCOUNT_ID"
+  | "AGENCY_ACCOUNT_NAME"
+  | "BID_FILTERING_REASON"
+  | "BID_FILTERING_REASON_NAME"
+  | "BUYER_SDK"
+  | "CAMPAIGN_ID"
+  | "CAMPAIGN_NAME"
+  | "COUNTRY"
+  | "CREATIVE_FORMAT"
+  | "CREATIVE_ID"
+  | "CREATIVE_POLICIES"
+  | "CREATIVE_POLICIES_NAME"
+  | "CREATIVE_SIZE"
+  | "CURATION_DATA_SEGMENT_ID"
+  | "CURATION_PARTNER_NAME"
+  | "CURATOR_FEE_TYPE"
+  | "DATE"
+  | "DEAL_ID"
+  | "DEAL_NAME"
+  | "DETECTED_ADVERTISER_NAME"
+  | "DSP_NAME"
+  | "DSP_SEAT_ID"
+  | "ENVIRONMENT"
+  | "ENVIRONMENT_NAME"
+  | "GMA_SDK"
+  | "HOUR"
+  | "MOBILE_APP_ID"
+  | "MOBILE_APP_NAME"
+  | "MOBILE_OS"
+  | "MONTH"
+  | "PACKAGE_FEE_VISIBILITY"
+  | "PLACEMENT_ID"
+  | "PLATFORM"
+  | "PUBLISHER_DOMAIN"
+  | "PUBLISHER_ID"
+  | "PUBLISHER_NAME"
+  | "PUBLISHER_PROTECTIONS"
+  | "PUBLISHER_PROTECTIONS_NAME"
+  | "SELLER_AUTHORIZATION"
+  | "SELLER_AUTHORIZATION_NAME"
+  | "SUPPLY_PATH_TYPE"
+  | "SUPPLY_PATH_TYPE_NAME"
+  | "TRANSACTION_TYPE"
+  | "VAST_ERROR_CODE"
+  | "WEEK";
+export type ReportDefinitionDimensionsItemEnumList = Array<
+  ReportDefinitionDimensionsItemEnum | (string & {})
+>;
+export type ReportDefinitionMetricsItemEnum =
+  | "METRIC_UNSPECIFIED"
+  | "ACTIVE_VIEW_MEASURABILITY_RATE"
+  | "ACTIVE_VIEW_MEASURABLE"
+  | "ACTIVE_VIEW_VIEWABILITY_RATE"
+  | "ACTIVE_VIEW_VIEWABLE"
+  | "AUCTIONS_WON"
+  | "BIDS"
+  | "BIDS_IN_AUCTION"
+  | "CLICKS"
+  | "CPC"
+  | "CPM"
+  | "CURATION_PARTNER_FEE"
+  | "DISCOUNT_AMOUNT"
+  | "EFFECTIVE_DISCOUNT_RATE"
+  | "ENGAGED_VIEWS"
+  | "IMPRESSIONS"
+  | "PRE_DISCOUNT_SPEND"
+  | "PRE_DISCOUNT_SPEND_WITHOUT_CURATION_PARTNER_FEE"
+  | "REACHED_QUERIES"
+  | "SPEND"
+  | "SPEND_WITHOUT_CURATION_PARTNER_FEE"
+  | "VAST_ERROR_COUNT"
+  | "VIDEO_COMPLETE"
+  | "VIDEO_FIRST_QUARTILE"
+  | "VIDEO_MIDPOINT"
+  | "VIDEO_START"
+  | "VIDEO_THIRD_QUARTILE"
+  | "VIDEO_VTR";
+export type ReportDefinitionMetricsItemEnumList = Array<
+  ReportDefinitionMetricsItemEnum | (string & {})
+>;
 export type FieldDimensionEnum =
   | "DIMENSION_UNSPECIFIED"
   | "ADVERTISER_DOMAIN"
@@ -172,73 +250,6 @@ export interface Field {
   /** The metric this field represents. */
   metric?: FieldMetricEnum | (string & {}) | undefined;
 }
-export type FieldFilterOperationEnum =
-  | "IN"
-  | "NOT_IN"
-  | "CONTAINS"
-  | "NOT_CONTAINS"
-  | "LESS_THAN"
-  | "LESS_THAN_EQUALS"
-  | "GREATER_THAN"
-  | "GREATER_THAN_EQUALS"
-  | "BETWEEN"
-  | "MATCHES"
-  | "NOT_MATCHES";
-export type DoubleList_ = Array<number>;
-/** A list of double values. */
-export interface DoubleList {
-  /** The values */
-  values?: DoubleList_ | undefined;
-}
-export type StringList_ = Array<string>;
-/** A list of integer values. */
-export interface IntList {
-  /** The values */
-  values?: StringList_ | undefined;
-}
-/** A list of string values. */
-export type StringList = IntList;
-/** Represents a single value in a report. */
-export interface ReportValue {
-  /** For integer values. */
-  intValue?: string | undefined;
-  /** For boolean values. */
-  boolValue?: boolean | undefined;
-  /** For lists of double values. */
-  doubleListValue?: DoubleList | undefined;
-  /** For lists of integer values. */
-  intListValue?: IntList | undefined;
-  /** For string values. */
-  stringValue?: string | undefined;
-  /** For bytes values. */
-  bytesValue?: string | undefined;
-  /** For double values. */
-  doubleValue?: number | undefined;
-  /** For lists of string values. */
-  stringListValue?: IntList | undefined;
-}
-export type ReportValueList = Array<ReportValue>;
-/** A filter on a specific field. */
-export interface FieldFilter {
-  /** Required. The field to filter on. */
-  field?: Field | undefined;
-  /** Required. The operation of this filter. */
-  operation?: FieldFilterOperationEnum | (string & {}) | undefined;
-  /** Required. Values to filter to. */
-  values?: ReportValueList | undefined;
-}
-/** A filter over one or more fields. */
-export interface Filter {
-  /** A list of filters whose results are AND-ed. */
-  andFilter?: FilterList | undefined;
-  /** A filter on a single field. */
-  fieldFilter?: FieldFilter | undefined;
-  /** A list of filters whose results are OR-ed. */
-  orFilter?: FilterList | undefined;
-  /** A filter whose result is negated. */
-  notFilter?: Filter | undefined;
-}
-export type FilterList_ = Array<Filter>;
 /** Represents a sorting in a report. */
 export interface Sort {
   /** Optional. The sort order. If true the sort will be descending. */
@@ -249,12 +260,12 @@ export interface Sort {
 export type SortList = Array<Sort>;
 /** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
 export interface Agenciesandbrands_Date {
+  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
+  year?: number | undefined;
   /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
   month?: number | undefined;
   /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
   day?: number | undefined;
-  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  year?: number | undefined;
 }
 /** A date range between two fixed dates (inclusive of end date). */
 export interface FixedDateRange {
@@ -299,89 +310,78 @@ export interface DateRange {
   /** A relative date range. */
   relative?: DateRangeRelativeEnum | (string & {}) | undefined;
 }
-export type ReportDefinitionDimensionsItemEnum =
-  | "DIMENSION_UNSPECIFIED"
-  | "ADVERTISER_DOMAIN"
-  | "AGENCY_ACCOUNT_ID"
-  | "AGENCY_ACCOUNT_NAME"
-  | "BID_FILTERING_REASON"
-  | "BID_FILTERING_REASON_NAME"
-  | "BUYER_SDK"
-  | "CAMPAIGN_ID"
-  | "CAMPAIGN_NAME"
-  | "COUNTRY"
-  | "CREATIVE_FORMAT"
-  | "CREATIVE_ID"
-  | "CREATIVE_POLICIES"
-  | "CREATIVE_POLICIES_NAME"
-  | "CREATIVE_SIZE"
-  | "CURATION_DATA_SEGMENT_ID"
-  | "CURATION_PARTNER_NAME"
-  | "CURATOR_FEE_TYPE"
-  | "DATE"
-  | "DEAL_ID"
-  | "DEAL_NAME"
-  | "DETECTED_ADVERTISER_NAME"
-  | "DSP_NAME"
-  | "DSP_SEAT_ID"
-  | "ENVIRONMENT"
-  | "ENVIRONMENT_NAME"
-  | "GMA_SDK"
-  | "HOUR"
-  | "MOBILE_APP_ID"
-  | "MOBILE_APP_NAME"
-  | "MOBILE_OS"
-  | "MONTH"
-  | "PACKAGE_FEE_VISIBILITY"
-  | "PLACEMENT_ID"
-  | "PLATFORM"
-  | "PUBLISHER_DOMAIN"
-  | "PUBLISHER_ID"
-  | "PUBLISHER_NAME"
-  | "PUBLISHER_PROTECTIONS"
-  | "PUBLISHER_PROTECTIONS_NAME"
-  | "SELLER_AUTHORIZATION"
-  | "SELLER_AUTHORIZATION_NAME"
-  | "SUPPLY_PATH_TYPE"
-  | "SUPPLY_PATH_TYPE_NAME"
-  | "TRANSACTION_TYPE"
-  | "VAST_ERROR_CODE"
-  | "WEEK";
-export type ReportDefinitionDimensionsItemEnumList = Array<
-  ReportDefinitionDimensionsItemEnum | (string & {})
->;
-export type ReportDefinitionMetricsItemEnum =
-  | "METRIC_UNSPECIFIED"
-  | "ACTIVE_VIEW_MEASURABILITY_RATE"
-  | "ACTIVE_VIEW_MEASURABLE"
-  | "ACTIVE_VIEW_VIEWABILITY_RATE"
-  | "ACTIVE_VIEW_VIEWABLE"
-  | "AUCTIONS_WON"
-  | "BIDS"
-  | "BIDS_IN_AUCTION"
-  | "CLICKS"
-  | "CPC"
-  | "CPM"
-  | "CURATION_PARTNER_FEE"
-  | "DISCOUNT_AMOUNT"
-  | "EFFECTIVE_DISCOUNT_RATE"
-  | "ENGAGED_VIEWS"
-  | "IMPRESSIONS"
-  | "PRE_DISCOUNT_SPEND"
-  | "PRE_DISCOUNT_SPEND_WITHOUT_CURATION_PARTNER_FEE"
-  | "REACHED_QUERIES"
-  | "SPEND"
-  | "SPEND_WITHOUT_CURATION_PARTNER_FEE"
-  | "VAST_ERROR_COUNT"
-  | "VIDEO_COMPLETE"
-  | "VIDEO_FIRST_QUARTILE"
-  | "VIDEO_MIDPOINT"
-  | "VIDEO_START"
-  | "VIDEO_THIRD_QUARTILE"
-  | "VIDEO_VTR";
-export type ReportDefinitionMetricsItemEnumList = Array<
-  ReportDefinitionMetricsItemEnum | (string & {})
->;
+export type DoubleList_ = Array<number>;
+/** A list of double values. */
+export interface DoubleList {
+  /** The values */
+  values?: DoubleList_ | undefined;
+}
+export type StringList_ = Array<string>;
+/** A list of integer values. */
+export interface IntList {
+  /** The values */
+  values?: StringList_ | undefined;
+}
+/** A list of string values. */
+export type StringList = IntList;
+/** Represents a single value in a report. */
+export interface ReportValue {
+  /** For boolean values. */
+  boolValue?: boolean | undefined;
+  /** For lists of double values. */
+  doubleListValue?: DoubleList | undefined;
+  /** For double values. */
+  doubleValue?: number | undefined;
+  /** For string values. */
+  stringValue?: string | undefined;
+  /** For integer values. */
+  intValue?: string | undefined;
+  /** For bytes values. */
+  bytesValue?: string | undefined;
+  /** For lists of integer values. */
+  intListValue?: IntList | undefined;
+  /** For lists of string values. */
+  stringListValue?: IntList | undefined;
+}
+export type ReportValueList = Array<ReportValue>;
+export type FieldFilterOperationEnum =
+  | "IN"
+  | "NOT_IN"
+  | "CONTAINS"
+  | "NOT_CONTAINS"
+  | "LESS_THAN"
+  | "LESS_THAN_EQUALS"
+  | "GREATER_THAN"
+  | "GREATER_THAN_EQUALS"
+  | "BETWEEN"
+  | "MATCHES"
+  | "NOT_MATCHES";
+/** A filter on a specific field. */
+export interface FieldFilter {
+  /** Required. The field to filter on. */
+  field?: Field | undefined;
+  /** Required. Values to filter to. */
+  values?: ReportValueList | undefined;
+  /** Required. The operation of this filter. */
+  operation?: FieldFilterOperationEnum | (string & {}) | undefined;
+}
+/** A list of filters. */
+export interface FilterList {
+  /** Required. A list of filters. */
+  filters?: FilterList_ | undefined;
+}
+/** A filter over one or more fields. */
+export interface Filter {
+  /** A filter whose result is negated. */
+  notFilter?: Filter | undefined;
+  /** A filter on a single field. */
+  fieldFilter?: FieldFilter | undefined;
+  /** A list of filters whose results are OR-ed. */
+  orFilter?: FilterList | undefined;
+  /** A list of filters whose results are AND-ed. */
+  andFilter?: FilterList | undefined;
+}
+export type FilterList_ = Array<Filter>;
 export type ReportDefinitionTimeZoneSourceEnum =
   | "TIME_ZONE_SOURCE_UNSPECIFIED"
   | "AD_EXCHANGE"
@@ -390,39 +390,39 @@ export type ReportDefinitionTimeZoneSourceEnum =
   | "AGENCY";
 /** The definition of how a report should be run. */
 export interface ReportDefinition {
-  /** Optional. The filters for this report. */
-  filters?: FilterList_ | undefined;
-  /** Optional. Default sorts to apply to this report. */
-  sorts?: SortList | undefined;
-  /** Required. The primary date range of this report. */
-  dateRange?: DateRange | undefined;
   /** Required. The list of dimensions to report on. If empty, the report will have no dimensions, and any metrics will be totals. */
   dimensions?: ReportDefinitionDimensionsItemEnumList | undefined;
-  /** Optional. If time_zone_source is PROVIDED, this is the time zone to use for this report. Leave empty for any other time zone source. Time zone in IANA format. For example, "America/New_York". */
-  timeZone?: string | undefined;
   /** Required. The list of metrics to report on. If empty, the report will have no metrics. */
   metrics?: ReportDefinitionMetricsItemEnumList | undefined;
+  /** Optional. Default sorts to apply to this report. */
+  sorts?: SortList | undefined;
+  /** Optional. If time_zone_source is PROVIDED, this is the time zone to use for this report. Leave empty for any other time zone source. Time zone in IANA format. For example, "America/New_York". */
+  timeZone?: string | undefined;
+  /** Required. The primary date range of this report. */
+  dateRange?: DateRange | undefined;
   /** Optional. The ISO 4217 currency code for this report. Defaults to account currency code if not specified. */
   currencyCode?: string | undefined;
+  /** Optional. The filters for this report. */
+  filters?: FilterList_ | undefined;
   /** Optional. Where to get the time zone for this report. Defaults to using the Pacific time zone (PT). If source is PROVIDED, the time_zone field in the report definition must also set a time zone. */
   timeZoneSource?: ReportDefinitionTimeZoneSourceEnum | (string & {}) | undefined;
 }
 /** The `Report` resource. */
 export interface Report {
-  /** Output only. Report ID. */
-  reportId?: string | undefined;
-  /** Identifier. The resource name of the report. Report resource name have the form: `agencies/{account_id}/reports/{report_id}` */
-  name?: string | undefined;
   /** Output only. The instant this report was last modified. */
   updateTime?: string | undefined;
-  /** Output only. The instant this report was created. */
-  createTime?: string | undefined;
   /** Required. The report definition of the report. */
   reportDefinition?: ReportDefinition | undefined;
-  /** Output only. The locale of this report. Locale is set from the user's locale at the time of the request. Locale can't be modified. */
-  locale?: string | undefined;
+  /** Identifier. The resource name of the report. Report resource name have the form: `agencies/{account_id}/reports/{report_id}` */
+  name?: string | undefined;
+  /** Output only. Report ID. */
+  reportId?: string | undefined;
   /** Optional. Display name for the report. */
   displayName?: string | undefined;
+  /** Output only. The locale of this report. Locale is set from the user's locale at the time of the request. Locale can't be modified. */
+  locale?: string | undefined;
+  /** Output only. The instant this report was created. */
+  createTime?: string | undefined;
 }
 export interface CreateAgenciesReportsRequest extends Report {
   /** Required. The parent resource where this `Report` will be created. Format: `agencies/{account_id}` */
@@ -463,12 +463,12 @@ export interface FetchReportResultRowsResponse {
   rows?: RowList | undefined;
   /** The computed fixed date ranges this report includes. Only returned with the first page of results (when page_token is not included in the request). */
   dateRanges?: FixedDateRangeList | undefined;
-  /** The time at which the report was scheduled to run. For non-scheduled reports, this is the time at which the report was requested to be run. */
-  runTime?: string | undefined;
-  /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string | undefined;
   /** The total number of rows available from this report. Useful for pagination. Only returned with the first page of results (when page_token is not included in the request). */
   totalRowCount?: number | undefined;
+  /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string | undefined;
+  /** The time at which the report was scheduled to run. For non-scheduled reports, this is the time at which the report was requested to be run. */
+  runTime?: string | undefined;
 }
 export interface GetAgenciesReportsRequest {
   /** Required. The resource name of the report. Format: `agencies/{account_id}/reports/{report_id}` */
@@ -482,49 +482,49 @@ export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
-  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList | undefined;
   /** The status code, which should be an enum value of google.rpc.Code. */
   code?: number | undefined;
+  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
+  details?: DocumentMapList | undefined;
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
   message?: string | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
-  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap | undefined;
+  /** The error result of the operation in case of failure or cancellation. */
+  error?: Status | undefined;
+  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
+  done?: boolean | undefined;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
   name?: string | undefined;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
   metadata?: DocumentMap | undefined;
-  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean | undefined;
-  /** The error result of the operation in case of failure or cancellation. */
-  error?: Status | undefined;
+  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
+  response?: DocumentMap | undefined;
 }
 export interface ListAgenciesReportsRequest {
-  /** Optional. Expression to specify sorting order. See syntax details at https://developers.google.com/ad-manager/api/beta/filters#order */
-  orderBy?: string | undefined;
   /** Required. The parent, which owns this collection of reports. Format: `agencies/{account_id}` */
   parent: string;
-  /** Optional. Number of individual resources to skip while paginating. */
-  skip?: number | undefined;
+  /** Optional. Expression to specify sorting order. See syntax details at https://developers.google.com/ad-manager/api/beta/filters#order */
+  orderBy?: string | undefined;
   /** Optional. Expression to filter the response. See syntax details at https://developers.google.com/ad-manager/api/beta/filters */
   filter?: string | undefined;
-  /** Optional. The maximum number of `Reports` to return. The service may return fewer than this value. If unspecified, at most 50 `Reports` will be returned. The maximum value is 1000; values greater than 1000 will be coerced to 1000. */
-  pageSize?: number | undefined;
   /** Optional. A page token, received from a previous `ListReports` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListReports` must match the call that provided the page token. */
   pageToken?: string | undefined;
+  /** Optional. Number of individual resources to skip while paginating. */
+  skip?: number | undefined;
+  /** Optional. The maximum number of `Reports` to return. The service may return fewer than this value. If unspecified, at most 50 `Reports` will be returned. The maximum value is 1000; values greater than 1000 will be coerced to 1000. */
+  pageSize?: number | undefined;
 }
 export type ReportList = Array<Report>;
 /** Response object for `ListReportsResponse` containing matching `Report` objects. */
 export interface ListReportsResponse {
-  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string | undefined;
   /** The `Report` objects from the specified network. */
   reports?: ReportList | undefined;
   /** Total number of `Report` objects. If a filter was included in the request, this reflects the total number after the filtering is applied. `total_size` won't be calculated in the response unless it has been included in a response field mask. The response field mask can be provided to the method by using the URL parameter `$fields` or `fields`, or by using the HTTP/gRPC header `X-Goog-FieldMask`. For more information, see https://developers.google.com/ad-manager/api/beta/field-masks */
   totalSize?: number | undefined;
+  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string | undefined;
 }
 export interface PatchAgenciesReportsRequest extends Omit<Report, "name"> {
   /** Identifier. The resource name of the report. Report resource name have the form: `agencies/{account_id}/reports/{report_id}` */
@@ -748,61 +748,57 @@ function __c2(j: number): any {
 function __c3(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.Number);
+      return S.suspend(() =>
+        S.Struct({
+          year: S.optional(S.Number),
+          month: S.optional(S.Number),
+          day: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "Agenciesandbrands_Date" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          values: S.optional(__S(48, __c3, 0)),
+          endDate: S.optional(__S(48, __c3, 0)),
+          startDate: S.optional(__S(48, __c3, 0)),
         }),
-      ).annotate({ identifier: "DoubleList" });
+      ).annotate({ identifier: "FixedDateRange" });
     case 2:
-      return S.Array(S.String);
+      return S.Array(S.Number);
     case 3:
       return S.suspend(() =>
         S.Struct({
           values: S.optional(__S(50, __c3, 2)),
         }),
-      ).annotate({ identifier: "IntList" });
+      ).annotate({ identifier: "DoubleList" });
     case 4:
+      return S.Array(S.String);
+    case 5:
       return S.suspend(() =>
         S.Struct({
-          intValue: S.optional(S.String),
-          boolValue: S.optional(S.Boolean),
-          doubleListValue: S.optional(__S(49, __c3, 1)),
-          intListValue: S.optional(__S(51, __c3, 3)),
-          stringValue: S.optional(S.String),
-          bytesValue: S.optional(S.String),
-          doubleValue: S.optional(S.Number),
-          stringListValue: S.optional(__S(51, __c3, 3)),
+          values: S.optional(__S(52, __c3, 4)),
         }),
-      ).annotate({ identifier: "ReportValue" });
-    case 5:
-      return S.Array(__S(52, __c3, 4));
+      ).annotate({ identifier: "IntList" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          month: S.optional(S.Number),
-          day: S.optional(S.Number),
-          year: S.optional(S.Number),
+          boolValue: S.optional(S.Boolean),
+          doubleListValue: S.optional(__S(51, __c3, 3)),
+          doubleValue: S.optional(S.Number),
+          stringValue: S.optional(S.String),
+          intValue: S.optional(S.String),
+          bytesValue: S.optional(S.String),
+          intListValue: S.optional(__S(53, __c3, 5)),
+          stringListValue: S.optional(__S(53, __c3, 5)),
         }),
-      ).annotate({ identifier: "Agenciesandbrands_Date" });
+      ).annotate({ identifier: "ReportValue" });
     case 7:
-      return S.suspend(() =>
-        S.Struct({
-          endDate: S.optional(__S(54, __c3, 6)),
-          startDate: S.optional(__S(54, __c3, 6)),
-        }),
-      ).annotate({ identifier: "FixedDateRange" });
+      return S.Array(__S(54, __c3, 6));
   }
 }
 function __c4(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          filters: S.optional(S.suspend(() => __S(68, __c4, 4))),
-        }),
-      ).annotate({ identifier: "FilterList" });
+      return S.Array(S.String);
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -813,63 +809,67 @@ function __c4(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          field: S.optional(__S(65, __c4, 1)),
-          operation: S.optional(S.String),
-          values: S.optional(__S(53, __c3, 5)),
-        }),
-      ).annotate({ identifier: "FieldFilter" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          andFilter: S.optional(__S(64, __c4, 0)),
-          fieldFilter: S.optional(__S(66, __c4, 2)),
-          orFilter: S.optional(__S(64, __c4, 0)),
-          notFilter: S.optional(__S(67, __c4, 3)),
-        }),
-      ).annotate({ identifier: "Filter" });
-    case 4:
-      return S.Array(__S(67, __c4, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
           descending: S.optional(S.Boolean),
           field: S.optional(__S(65, __c4, 1)),
         }),
       ).annotate({ identifier: "Sort" });
-    case 6:
-      return S.Array(__S(69, __c4, 5));
-    case 7:
+    case 3:
+      return S.Array(__S(66, __c4, 2));
+    case 4:
       return S.suspend(() =>
         S.Struct({
-          fixed: S.optional(__S(55, __c3, 7)),
+          fixed: S.optional(__S(49, __c3, 1)),
           relative: S.optional(S.String),
         }),
       ).annotate({ identifier: "DateRange" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          field: S.optional(__S(65, __c4, 1)),
+          values: S.optional(__S(55, __c3, 7)),
+          operation: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "FieldFilter" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          filters: S.optional(S.suspend(() => __S(72, __c4, 8))),
+        }),
+      ).annotate({ identifier: "FilterList" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          notFilter: S.optional(__S(71, __c4, 7)),
+          fieldFilter: S.optional(__S(69, __c4, 5)),
+          orFilter: S.optional(__S(70, __c4, 6)),
+          andFilter: S.optional(__S(70, __c4, 6)),
+        }),
+      ).annotate({ identifier: "Filter" });
     case 8:
-      return S.Array(S.String);
+      return S.Array(__S(71, __c4, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          filters: S.optional(__S(68, __c4, 4)),
-          sorts: S.optional(__S(70, __c4, 6)),
-          dateRange: S.optional(__S(71, __c4, 7)),
-          dimensions: S.optional(__S(72, __c4, 8)),
+          dimensions: S.optional(__S(64, __c4, 0)),
+          metrics: S.optional(__S(64, __c4, 0)),
+          sorts: S.optional(__S(67, __c4, 3)),
           timeZone: S.optional(S.String),
-          metrics: S.optional(__S(72, __c4, 8)),
+          dateRange: S.optional(__S(68, __c4, 4)),
           currencyCode: S.optional(S.String),
+          filters: S.optional(__S(72, __c4, 8)),
           timeZoneSource: S.optional(S.String),
         }),
       ).annotate({ identifier: "ReportDefinition" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          reportId: S.optional(S.String),
-          name: S.optional(S.String),
           updateTime: S.optional(S.String),
-          createTime: S.optional(S.String),
           reportDefinition: S.optional(__S(73, __c4, 9)),
-          locale: S.optional(S.String),
+          name: S.optional(S.String),
+          reportId: S.optional(S.String),
           displayName: S.optional(S.String),
+          locale: S.optional(S.String),
+          createTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "Report" });
   }
@@ -915,7 +915,7 @@ function __c7(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          primaryValues: S.optional(__S(53, __c3, 5)),
+          primaryValues: S.optional(__S(55, __c3, 7)),
         }),
       ).annotate({ identifier: "MetricValueGroup" });
     case 2:
@@ -924,21 +924,21 @@ function __c7(j: number): any {
       return S.suspend(() =>
         S.Struct({
           metricValueGroups: S.optional(__S(114, __c7, 2)),
-          dimensionValues: S.optional(__S(53, __c3, 5)),
+          dimensionValues: S.optional(__S(55, __c3, 7)),
         }),
       ).annotate({ identifier: "Row" });
     case 4:
       return S.Array(__S(115, __c7, 3));
     case 5:
-      return S.Array(__S(55, __c3, 7));
+      return S.Array(__S(49, __c3, 1));
     case 6:
       return S.suspend(() =>
         S.Struct({
           rows: S.optional(__S(116, __c7, 4)),
           dateRanges: S.optional(__S(117, __c7, 5)),
-          runTime: S.optional(S.String),
-          nextPageToken: S.optional(S.String),
           totalRowCount: S.optional(S.Number),
+          nextPageToken: S.optional(S.String),
+          runTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "FetchReportResultRowsResponse" });
   }
@@ -984,19 +984,19 @@ function __c10(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          details: S.optional(__S(161, __c10, 1)),
           code: S.optional(S.Number),
+          details: S.optional(__S(161, __c10, 1)),
           message: S.optional(S.String),
         }),
       ).annotate({ identifier: "Status" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          response: S.optional(__S(160, __c10, 0)),
+          error: S.optional(__S(162, __c10, 2)),
+          done: S.optional(S.Boolean),
           name: S.optional(S.String),
           metadata: S.optional(__S(160, __c10, 0)),
-          done: S.optional(S.Boolean),
-          error: S.optional(__S(162, __c10, 2)),
+          response: S.optional(__S(160, __c10, 0)),
         }),
       ).annotate({ identifier: "Operation" });
   }
@@ -1006,12 +1006,12 @@ function __c11(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          orderBy: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          skip: S.optional(S.Number.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          skip: S.optional(S.Number.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1025,9 +1025,9 @@ function __c11(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           reports: S.optional(__S(177, __c11, 1)),
           totalSize: S.optional(S.Number),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListReportsResponse" });
   }

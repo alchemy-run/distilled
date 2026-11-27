@@ -83,15 +83,6 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-export type ProfileProfileTypeEnum =
-  | "PROFILE_TYPE_UNSPECIFIED"
-  | "CPU"
-  | "WALL"
-  | "HEAP"
-  | "THREADS"
-  | "CONTENTION"
-  | "PEAK_HEAP"
-  | "HEAP_ALLOC";
 export type StringMap = { [key: string]: string | undefined };
 /** Deployment contains the deployment identification information. */
 export interface Deployment {
@@ -102,22 +93,31 @@ export interface Deployment {
   /** Project ID is the ID of a cloud project. Validation regex: `^a-z{4,61}[a-z0-9]$`. */
   projectId?: string | undefined;
 }
+export type ProfileProfileTypeEnum =
+  | "PROFILE_TYPE_UNSPECIFIED"
+  | "CPU"
+  | "WALL"
+  | "HEAP"
+  | "THREADS"
+  | "CONTENTION"
+  | "PEAK_HEAP"
+  | "HEAP_ALLOC";
 /** Profile resource. */
 export interface Profile {
-  /** Input only. Profile bytes, as a gzip compressed serialized proto, the format is https://github.com/google/pprof/blob/master/proto/profile.proto. */
-  profileBytes?: string | undefined;
   /** Output only. Start time for the profile. This output is only present in response from the ListProfiles method. */
   startTime?: string | undefined;
+  /** Input only. Labels associated to this specific profile. These labels will get merged with the deployment labels for the final data set. See documentation on deployment labels for validation rules and limits. */
+  labels?: StringMap | undefined;
+  /** Deployment this profile corresponds to. */
+  deployment?: Deployment | undefined;
   /** Output only. Opaque, server-assigned, unique ID for this profile. */
   name?: string | undefined;
   /** Type of profile. For offline mode, this must be specified when creating the profile. For online mode it is assigned and returned by the server. */
   profileType?: ProfileProfileTypeEnum | (string & {}) | undefined;
   /** Duration of the profiling session. Input (for the offline mode) or output (for the online mode). The field represents requested profiling duration. It may slightly differ from the effective profiling duration, which is recorded in the profile data, in case the profiling can't be stopped immediately (e.g. in case stopping the profiling is handled asynchronously). */
   duration?: string | undefined;
-  /** Deployment this profile corresponds to. */
-  deployment?: Deployment | undefined;
-  /** Input only. Labels associated to this specific profile. These labels will get merged with the deployment labels for the final data set. See documentation on deployment labels for validation rules and limits. */
-  labels?: StringMap | undefined;
+  /** Input only. Profile bytes, as a gzip compressed serialized proto, the format is https://github.com/google/pprof/blob/master/proto/profile.proto. */
+  profileBytes?: string | undefined;
 }
 export interface CreateOfflineProjectsProfilesRequest extends Profile {
   /** Parent project to create the profile in. */
@@ -165,10 +165,10 @@ export interface ListProfilesResponse {
   skippedProfiles?: number | undefined;
 }
 export interface PatchProjectsProfilesRequest extends Omit<Profile, "name"> {
-  /** Field mask used to specify the fields to be overwritten. Currently only profile_bytes and labels fields are supported by UpdateProfile, so only those fields can be specified in the mask. When no mask is provided, all fields are overwritten. */
-  updateMask?: string | undefined;
   /** Output only. Opaque, server-assigned, unique ID for this profile. */
   name: string;
+  /** Field mask used to specify the fields to be overwritten. Currently only profile_bytes and labels fields are supported by UpdateProfile, so only those fields can be specified in the mask. When no mask is provided, all fields are overwritten. */
+  updateMask?: string | undefined;
 }
 export type CreateOfflineProjectsProfilesError =
   | NotFound
@@ -287,13 +287,13 @@ function __c1(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          profileBytes: S.optional(S.String),
           startTime: S.optional(S.String),
+          labels: S.optional(__S(4, __c1, 0)),
+          deployment: S.optional(__S(5, __c1, 1)),
           name: S.optional(S.String),
           profileType: S.optional(S.String),
           duration: S.optional(S.String),
-          deployment: S.optional(__S(5, __c1, 1)),
-          labels: S.optional(__S(4, __c1, 0)),
+          profileBytes: S.optional(S.String),
         }),
       ).annotate({ identifier: "Profile" });
   }
@@ -361,8 +361,8 @@ function __c4(j: number): any {
         S.Extend(
           __S(6, __c1, 2),
           S.Struct({
-            updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({

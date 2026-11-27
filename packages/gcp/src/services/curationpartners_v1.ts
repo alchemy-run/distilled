@@ -92,38 +92,35 @@ export interface ActivateCuratorsCuratedPackagesRequest {
   body?: ActivateCuratedPackageRequest | undefined;
 }
 export type StringList_ = Array<string>;
-/** Settings for controlling access to a curated package. */
-export interface AccessControlSettings {
-  /** Required. Immutable. The list of media planners that are explicitly granted access to the curated package. Eligible media planners can be found in the mediaPlanners.list method. Only a single media planner may be allowlisted at this time. Format: `mediaPlanners/{mediaPlannerAccountId}` */
-  allowlistedMediaPlanners?: StringList_ | undefined;
+export type StringTargetingDimensionSelectionTypeEnum =
+  | "SELECTION_TYPE_UNSPECIFIED"
+  | "SELECTION_TYPE_INCLUDE"
+  | "SELECTION_TYPE_EXCLUDE";
+/** Generic targeting with string values. */
+export interface StringTargetingDimension {
+  /** Required. How the items in this list should be targeted. */
+  selectionType?: StringTargetingDimensionSelectionTypeEnum | (string & {}) | undefined;
+  /** Required. The values specified. */
+  values?: StringList_ | undefined;
 }
-/** Represents an amount of money with its currency type. */
-export interface Money {
-  /** The three-letter currency code defined in ISO 4217. */
-  currencyCode?: string | undefined;
-  /** Number of nano (10^-9) units of the amount. The value must be between -999,999,999 and +999,999,999 inclusive. If `units` is positive, `nanos` must be positive or zero. If `units` is zero, `nanos` can be positive, zero, or negative. If `units` is negative, `nanos` must be negative or zero. For example $-1.75 is represented as `units`=-1 and `nanos`=-750,000,000. */
-  nanos?: number | undefined;
-  /** The whole units of the amount. For example if `currencyCode` is `"USD"`, then 1 unit is one US dollar. */
-  units?: string | undefined;
-}
-export type CuratedPackageCurationFeeVisibilityEnum =
-  | "CURATION_FEE_VISIBILITY_UNSPECIFIED"
-  | "DISCLOSED"
-  | "NON_DISCLOSED";
-export type PackageTargetingIncludedDeviceTypesItemEnum =
-  | "DEVICE_TYPE_UNSPECIFIED"
-  | "DEVICE_TYPE_PERSONAL_COMPUTER"
-  | "DEVICE_TYPE_CONNECTED_TV"
-  | "DEVICE_TYPE_PHONE"
-  | "DEVICE_TYPE_TABLET";
-export type PackageTargetingIncludedDeviceTypesItemEnumList = Array<
-  PackageTargetingIncludedDeviceTypesItemEnum | (string & {})
+export type PackageTargetingIncludedAuthorizedSellerStatusesItemEnum =
+  | "AUTHORIZED_SELLER_STATUS_UNSPECIFIED"
+  | "AUTHORIZED_SELLER_STATUS_DIRECT"
+  | "AUTHORIZED_SELLER_STATUS_RESELLER";
+export type PackageTargetingIncludedAuthorizedSellerStatusesItemEnumList = Array<
+  PackageTargetingIncludedAuthorizedSellerStatusesItemEnum | (string & {})
 >;
-export type PackageTargetingIncludedAcceleratedMobilePageTypeEnum =
-  | "ACCELERATED_MOBILE_PAGE_TYPE_UNSPECIFIED"
-  | "ACCELERATED_MOBILE_PAGE_TYPE_NON_AMP"
-  | "ACCELERATED_MOBILE_PAGE_TYPE_AMP"
-  | "ACCELERATED_MOBILE_PAGE_TYPE_AMP_STORY";
+export type AdSizeTypeEnum = "TYPE_UNSPECIFIED" | "PIXEL" | "INTERSTITIAL" | "NATIVE" | "FLUID";
+/** Represents size of a single ad slot, or a creative. */
+export interface AdSize {
+  /** The height of the ad slot in pixels. This field will be present only when size type is `PIXEL`. */
+  height?: string | undefined;
+  /** The type of the ad slot size. */
+  type?: AdSizeTypeEnum | (string & {}) | undefined;
+  /** The width of the ad slot in pixels. This field will be present only when size type is `PIXEL`. */
+  width?: string | undefined;
+}
+export type AdSizeList = Array<AdSize>;
 /** Generic targeting used for targeting dimensions that contains a list of included and excluded numeric IDs. This cannot be filtered using list filter syntax. */
 export interface CriteriaTargeting {
   /** A list of numeric IDs to be included. */
@@ -131,24 +128,11 @@ export interface CriteriaTargeting {
   /** A list of numeric IDs to be excluded. */
   excludedCriteriaIds?: StringList_ | undefined;
 }
-/** Represents the size of the video player that can be targeted. Both width and height are required to be set to non-zero values. */
-export interface VideoPlayerSizeTargeting {
-  /** Required. The minimum height of the video player in pixels. */
-  minimumHeight?: string | undefined;
-  /** Required. The minimum width of the video player in pixels. */
-  minimumWidth?: string | undefined;
-}
-export type PackageVideoTargetingIncludedMimeTypesItemEnum =
-  | "VIDEO_MIME_TYPE_UNSPECIFIED"
-  | "VIDEO_MIME_TYPE_THREEGPP"
-  | "VIDEO_MIME_TYPE_APPLICATION_MPEGURL"
-  | "VIDEO_MIME_TYPE_MP4"
-  | "VIDEO_MIME_TYPE_APPLICATION_MPEGDASH"
-  | "VIDEO_MIME_TYPE_APPLICATION_JAVASCRIPT"
-  | "VIDEO_MIME_TYPE_WEBM";
-export type PackageVideoTargetingIncludedMimeTypesItemEnumList = Array<
-  PackageVideoTargetingIncludedMimeTypesItemEnum | (string & {})
->;
+export type PackageTargetingIncludedAcceleratedMobilePageTypeEnum =
+  | "ACCELERATED_MOBILE_PAGE_TYPE_UNSPECIFIED"
+  | "ACCELERATED_MOBILE_PAGE_TYPE_NON_AMP"
+  | "ACCELERATED_MOBILE_PAGE_TYPE_AMP"
+  | "ACCELERATED_MOBILE_PAGE_TYPE_AMP_STORY";
 export type PackageVideoTargetingIncludedPlaybackMethodsItemEnum =
   | "PLAYBACK_METHOD_UNSPECIFIED"
   | "PLAYBACK_METHOD_AUTO_PLAY_SOUND_ON"
@@ -169,6 +153,28 @@ export type PackageVideoTargetingIncludedContentDeliveryMethodEnum =
   | "CONTENT_DELIVERY_METHOD_UNSPECIFIED"
   | "CONTENT_DELIVERY_METHOD_STREAMING"
   | "CONTENT_DELIVERY_METHOD_PROGRESSIVE";
+/** Represents the size of the video player that can be targeted. Both width and height are required to be set to non-zero values. */
+export interface VideoPlayerSizeTargeting {
+  /** Required. The minimum height of the video player in pixels. */
+  minimumHeight?: string | undefined;
+  /** Required. The minimum width of the video player in pixels. */
+  minimumWidth?: string | undefined;
+}
+export type PackageVideoTargetingIncludedMimeTypesItemEnum =
+  | "VIDEO_MIME_TYPE_UNSPECIFIED"
+  | "VIDEO_MIME_TYPE_THREEGPP"
+  | "VIDEO_MIME_TYPE_APPLICATION_MPEGURL"
+  | "VIDEO_MIME_TYPE_MP4"
+  | "VIDEO_MIME_TYPE_APPLICATION_MPEGDASH"
+  | "VIDEO_MIME_TYPE_APPLICATION_JAVASCRIPT"
+  | "VIDEO_MIME_TYPE_WEBM";
+export type PackageVideoTargetingIncludedMimeTypesItemEnumList = Array<
+  PackageVideoTargetingIncludedMimeTypesItemEnum | (string & {})
+>;
+export type VideoPlcmtTargetingSelectionTypeEnum =
+  | "SELECTION_TYPE_UNSPECIFIED"
+  | "SELECTION_TYPE_INCLUDE"
+  | "SELECTION_TYPE_EXCLUDE";
 export type VideoPlcmtTargetingVideoPlcmtTypesItemEnum =
   | "VIDEO_PLCMT_TYPE_UNSPECIFIED"
   | "INSTREAM"
@@ -178,16 +184,12 @@ export type VideoPlcmtTargetingVideoPlcmtTypesItemEnum =
 export type VideoPlcmtTargetingVideoPlcmtTypesItemEnumList = Array<
   VideoPlcmtTargetingVideoPlcmtTypesItemEnum | (string & {})
 >;
-export type VideoPlcmtTargetingSelectionTypeEnum =
-  | "SELECTION_TYPE_UNSPECIFIED"
-  | "SELECTION_TYPE_INCLUDE"
-  | "SELECTION_TYPE_EXCLUDE";
 /** Defines targeting criteria based on the video placement type, often corresponding to the IAB OpenRTB 'plcmt' field. */
 export interface VideoPlcmtTargeting {
-  /** Required. The list of targeted video plcmts types. If empty, inventory will be targeted regardless of video plcmt type. */
-  videoPlcmtTypes?: VideoPlcmtTargetingVideoPlcmtTypesItemEnumList | undefined;
   /** Required. The selection type for the list of video plcmts. */
   selectionType?: VideoPlcmtTargetingSelectionTypeEnum | (string & {}) | undefined;
+  /** Required. The list of targeted video plcmts types. If empty, inventory will be targeted regardless of video plcmt type. */
+  videoPlcmtTypes?: VideoPlcmtTargetingVideoPlcmtTypesItemEnumList | undefined;
 }
 export type PackageVideoTargetingIncludedPositionTypesItemEnum =
   | "POSITION_TYPE_UNSPECIFIED"
@@ -199,29 +201,33 @@ export type PackageVideoTargetingIncludedPositionTypesItemEnumList = Array<
 >;
 /** Video specific targeting criteria. */
 export interface PackageVideoTargeting {
-  /** Optional. The targeted video player size. If unset, inventory will be targeted regardless of video player size. */
-  includedPlayerSizeTargeting?: VideoPlayerSizeTargeting | undefined;
-  /** Optional. The list of targeted video mime types using the IANA published MIME type strings (https://www.iana.org/assignments/media-types/media-types.xhtml). If empty, inventory will be targeted regardless of video mime type. */
-  includedMimeTypes?: PackageVideoTargetingIncludedMimeTypesItemEnumList | undefined;
   /** Optional. The list of targeted video playback methods. If empty, inventory will be targeted regardless of video playback method. */
   includedPlaybackMethods?: PackageVideoTargetingIncludedPlaybackMethodsItemEnumList | undefined;
-  /** Optional. The targeted minimum predicted completion rate percentage. This value must be a multiple of 10 between 10 and 90 (inclusive). For example, 10 is valid, but 0, 15, and 100 are not. A value of 10 means that the configuration will only match adslots for which we predict at least 10% completion rate. An unset value indicates inventory will be targeted regardless of predicted completion rate. */
-  minimumPredictedCompletionRatePercentage?: string | undefined;
   /** Optional. The targeted maximum video ad duration. If unset, inventory will be targeted regardless of maximum video ad duration. */
   includedMaximumAdDurationTargeting?:
     | PackageVideoTargetingIncludedMaximumAdDurationTargetingEnum
     | (string & {})
     | undefined;
+  /** Optional. The targeted minimum predicted completion rate percentage. This value must be a multiple of 10 between 10 and 90 (inclusive). For example, 10 is valid, but 0, 15, and 100 are not. A value of 10 means that the configuration will only match adslots for which we predict at least 10% completion rate. An unset value indicates inventory will be targeted regardless of predicted completion rate. */
+  minimumPredictedCompletionRatePercentage?: string | undefined;
   /** Optional. The targeted video delivery method. If unset, inventory will be targeted regardless of video delivery method. */
   includedContentDeliveryMethod?:
     | PackageVideoTargetingIncludedContentDeliveryMethodEnum
     | (string & {})
     | undefined;
+  /** Optional. The targeted video player size. If unset, inventory will be targeted regardless of video player size. */
+  includedPlayerSizeTargeting?: VideoPlayerSizeTargeting | undefined;
+  /** Optional. The list of targeted video mime types using the IANA published MIME type strings (https://www.iana.org/assignments/media-types/media-types.xhtml). If empty, inventory will be targeted regardless of video mime type. */
+  includedMimeTypes?: PackageVideoTargetingIncludedMimeTypesItemEnumList | undefined;
   /** Optional. The targeted video plcmt types. If unset, inventory will be targeted regardless of video plcmt type. */
   plcmtTargeting?: VideoPlcmtTargeting | undefined;
   /** Optional. The targeted video ad position types. If empty, inventory will be targeted regardless of video ad position type. */
   includedPositionTypes?: PackageVideoTargetingIncludedPositionTypesItemEnumList | undefined;
 }
+export type PackageTargetingIncludedEnvironmentEnum =
+  | "ENVIRONMENT_UNSPECIFIED"
+  | "ENVIRONMENT_SITE"
+  | "ENVIRONMENT_APP";
 export type PackageTargetingIncludedNativeInventoryTypesItemEnum =
   | "NATIVE_INVENTORY_TYPE_UNSPECIFIED"
   | "NATIVE_INVENTORY_TYPE_NATIVE_ONLY"
@@ -229,64 +235,15 @@ export type PackageTargetingIncludedNativeInventoryTypesItemEnum =
 export type PackageTargetingIncludedNativeInventoryTypesItemEnumList = Array<
   PackageTargetingIncludedNativeInventoryTypesItemEnum | (string & {})
 >;
-export type StringTargetingDimensionSelectionTypeEnum =
-  | "SELECTION_TYPE_UNSPECIFIED"
-  | "SELECTION_TYPE_INCLUDE"
-  | "SELECTION_TYPE_EXCLUDE";
-/** Generic targeting with string values. */
-export interface StringTargetingDimension {
-  /** Required. How the items in this list should be targeted. */
-  selectionType?: StringTargetingDimensionSelectionTypeEnum | (string & {}) | undefined;
-  /** Required. The values specified. */
-  values?: StringList_ | undefined;
-}
-/** Defines targeting criteria for handling the IAB audience and content Taxonomy ID space. */
-export interface TaxonomyTargeting {
-  /** Optional. The list of excluded content taxonomy IDs. */
-  excludedTaxonomyIds?: StringList_ | undefined;
-  /** Optional. The list of targeted content taxonomy IDs. */
-  targetedTaxonomyIds?: StringList_ | undefined;
-}
-/** Represents targeting about publisher provided signals. Different publisher provided signals types will be logically OR'ed. */
-export interface PackagePublisherProvidedSignalsTargeting {
-  /** Optional. The list of targeted or excluded content IDs. Based off of IAB Content Taxonomy version 2.2 (https://github.com/InteractiveAdvertisingBureau/Taxonomies/blob/main/Content%20Taxonomies/Content%20Taxonomy%202.2.tsv) */
-  contentTargeting?: TaxonomyTargeting | undefined;
-  /** Optional. The list of targeted and excluded video and audio signals IDs. These are additional signals supported by publisher provided signals. */
-  videoAndAudioSignalsTargeting?: StringTargetingDimension | undefined;
-  /** Optional. The list of targeted or excluded audience IDs. Based off of IAB Audience Taxonomy version 1.1 (https://github.com/InteractiveAdvertisingBureau/Taxonomies/blob/main/Audience%20Taxonomies/Audience%20Taxonomy%201.1.tsv) */
-  audienceTargeting?: TaxonomyTargeting | undefined;
-}
-export type PackageTargetingIncludedAuthorizedSellerStatusesItemEnum =
-  | "AUTHORIZED_SELLER_STATUS_UNSPECIFIED"
-  | "AUTHORIZED_SELLER_STATUS_DIRECT"
-  | "AUTHORIZED_SELLER_STATUS_RESELLER";
-export type PackageTargetingIncludedAuthorizedSellerStatusesItemEnumList = Array<
-  PackageTargetingIncludedAuthorizedSellerStatusesItemEnum | (string & {})
+export type PackageTargetingIncludedDeviceTypesItemEnum =
+  | "DEVICE_TYPE_UNSPECIFIED"
+  | "DEVICE_TYPE_PERSONAL_COMPUTER"
+  | "DEVICE_TYPE_CONNECTED_TV"
+  | "DEVICE_TYPE_PHONE"
+  | "DEVICE_TYPE_TABLET";
+export type PackageTargetingIncludedDeviceTypesItemEnumList = Array<
+  PackageTargetingIncludedDeviceTypesItemEnum | (string & {})
 >;
-export type PackageTargetingIncludedRewardedTypeEnum =
-  | "REWARDED_TYPE_UNSPECIFIED"
-  | "REWARDED_TYPE_NON_REWARDED"
-  | "REWARDED_TYPE_REWARDED";
-/** Represents targeting about where the ads can appear, for example, certain sites or mobile applications. Different placement targeting types will be logically OR'ed. */
-export interface PackagePlacementTargeting {
-  /** Optional. The list of targeted or excluded mobile application IDs that publishers own. Currently, only Android and Apple apps are supported. Android App ID, for example, com.google.android.apps.maps, can be found in Google Play Store URL. iOS App ID (which is a number) can be found at the end of iTunes store URL. First party mobile applications is either included or excluded. */
-  mobileAppTargeting?: StringTargetingDimension | undefined;
-  /** Optional. The list of targeted or excluded URLs. The domains should have the http/https stripped (for example, google.com), and can contain a max of 5 paths per url. */
-  uriTargeting?: StringTargetingDimension | undefined;
-  /** Optional. The list of targeted mobile app categories. */
-  includedMobileAppCategoryTargeting?: StringList_ | undefined;
-}
-export type PackageTargetingIncludedOpenMeasurementTypesItemEnum =
-  | "OPEN_MEASUREMENT_TYPE_UNSPECIFIED"
-  | "OPEN_MEASUREMENT_TYPE_OMID_V1";
-export type PackageTargetingIncludedOpenMeasurementTypesItemEnumList = Array<
-  PackageTargetingIncludedOpenMeasurementTypesItemEnum | (string & {})
->;
-export type PackageTargetingIncludedCreativeFormatEnum =
-  | "CREATIVE_FORMAT_UNSPECIFIED"
-  | "CREATIVE_FORMAT_DISPLAY"
-  | "CREATIVE_FORMAT_VIDEO"
-  | "CREATIVE_FORMAT_AUDIO";
 export type PackageTargetingIncludedRestrictedCategoriesItemEnum =
   | "RESTRICTED_CATEGORY_UNSPECIFIED"
   | "RESTRICTED_CATEGORY_ALCOHOL"
@@ -294,102 +251,145 @@ export type PackageTargetingIncludedRestrictedCategoriesItemEnum =
 export type PackageTargetingIncludedRestrictedCategoriesItemEnumList = Array<
   PackageTargetingIncludedRestrictedCategoriesItemEnum | (string & {})
 >;
-export type PackageTargetingIncludedEnvironmentEnum =
-  | "ENVIRONMENT_UNSPECIFIED"
-  | "ENVIRONMENT_SITE"
-  | "ENVIRONMENT_APP";
-export type AdSizeTypeEnum = "TYPE_UNSPECIFIED" | "PIXEL" | "INTERSTITIAL" | "NATIVE" | "FLUID";
-/** Represents size of a single ad slot, or a creative. */
-export interface AdSize {
-  /** The type of the ad slot size. */
-  type?: AdSizeTypeEnum | (string & {}) | undefined;
-  /** The width of the ad slot in pixels. This field will be present only when size type is `PIXEL`. */
-  width?: string | undefined;
-  /** The height of the ad slot in pixels. This field will be present only when size type is `PIXEL`. */
-  height?: string | undefined;
+export type PackageTargetingIncludedCreativeFormatEnum =
+  | "CREATIVE_FORMAT_UNSPECIFIED"
+  | "CREATIVE_FORMAT_DISPLAY"
+  | "CREATIVE_FORMAT_VIDEO"
+  | "CREATIVE_FORMAT_AUDIO";
+export type PackageTargetingIncludedRewardedTypeEnum =
+  | "REWARDED_TYPE_UNSPECIFIED"
+  | "REWARDED_TYPE_NON_REWARDED"
+  | "REWARDED_TYPE_REWARDED";
+/** Defines targeting criteria for handling the IAB audience and content Taxonomy ID space. */
+export interface TaxonomyTargeting {
+  /** Optional. The list of targeted content taxonomy IDs. */
+  targetedTaxonomyIds?: StringList_ | undefined;
+  /** Optional. The list of excluded content taxonomy IDs. */
+  excludedTaxonomyIds?: StringList_ | undefined;
 }
-export type AdSizeList = Array<AdSize>;
+/** Represents targeting about publisher provided signals. Different publisher provided signals types will be logically OR'ed. */
+export interface PackagePublisherProvidedSignalsTargeting {
+  /** Optional. The list of targeted or excluded audience IDs. Based off of IAB Audience Taxonomy version 1.1 (https://github.com/InteractiveAdvertisingBureau/Taxonomies/blob/main/Audience%20Taxonomies/Audience%20Taxonomy%201.1.tsv) */
+  audienceTargeting?: TaxonomyTargeting | undefined;
+  /** Optional. The list of targeted and excluded video and audio signals IDs. These are additional signals supported by publisher provided signals. */
+  videoAndAudioSignalsTargeting?: StringTargetingDimension | undefined;
+  /** Optional. The list of targeted or excluded content IDs. Based off of IAB Content Taxonomy version 2.2 (https://github.com/InteractiveAdvertisingBureau/Taxonomies/blob/main/Content%20Taxonomies/Content%20Taxonomy%202.2.tsv) */
+  contentTargeting?: TaxonomyTargeting | undefined;
+}
+export type PackageTargetingIncludedOpenMeasurementTypesItemEnum =
+  | "OPEN_MEASUREMENT_TYPE_UNSPECIFIED"
+  | "OPEN_MEASUREMENT_TYPE_OMID_V1";
+export type PackageTargetingIncludedOpenMeasurementTypesItemEnumList = Array<
+  PackageTargetingIncludedOpenMeasurementTypesItemEnum | (string & {})
+>;
+/** Represents targeting about where the ads can appear, for example, certain sites or mobile applications. Different placement targeting types will be logically OR'ed. */
+export interface PackagePlacementTargeting {
+  /** Optional. The list of targeted mobile app categories. */
+  includedMobileAppCategoryTargeting?: StringList_ | undefined;
+  /** Optional. The list of targeted or excluded mobile application IDs that publishers own. Currently, only Android and Apple apps are supported. Android App ID, for example, com.google.android.apps.maps, can be found in Google Play Store URL. iOS App ID (which is a number) can be found at the end of iTunes store URL. First party mobile applications is either included or excluded. */
+  mobileAppTargeting?: StringTargetingDimension | undefined;
+  /** Optional. The list of targeted or excluded URLs. The domains should have the http/https stripped (for example, google.com), and can contain a max of 5 paths per url. */
+  uriTargeting?: StringTargetingDimension | undefined;
+}
 /** Targeting criteria for curated and auction packages. */
 export interface PackageTargeting {
-  /** Optional. The list of included device types to target. If empty, all device types are targeted. */
-  includedDeviceTypes?: PackageTargetingIncludedDeviceTypesItemEnumList | undefined;
+  /** Optional. The active data segments to be targeted. If unset, inventory will be targeted regardless of data segments. Format: `curators/{account_id}/dataSegments/{data_segment_id}` */
+  includedDataSegments?: StringList_ | undefined;
+  /** Optional. The targeted publishers. If unset, inventory will be targeted regardless of publisher. Publishers are identified by their publisher ID from ads.txt / app-ads.txt. See https://iabtechlab.com/ads-txt/ and https://iabtechlab.com/app-ads-txt/ for more details. */
+  publisherTargeting?: StringTargetingDimension | undefined;
+  /** Optional. The included list of targeted authorized seller statuses. If empty, inventory will be targeted regardless of seller status. */
+  includedAuthorizedSellerStatuses?:
+    | PackageTargetingIncludedAuthorizedSellerStatusesItemEnumList
+    | undefined;
+  /** Optional. The list of ad sizes to target. If unset, inventory will be targeted regardless of ad size. Curated packages supports `PIXEL` and `INTERSTITIAL` ad sizes. */
+  includedAdSizes?: AdSizeList | undefined;
+  /** Optional. The languages to target. If unset, inventory will be targeted regardless of language. See https://developers.google.com/google-ads/api/data/codes-formats#languages for the list of supported language codes. */
+  languageTargeting?: StringTargetingDimension | undefined;
+  /** Optional. The verticals included or excluded as defined in https://developers.google.com/authorized-buyers/rtb/downloads/publisher-verticals. If unset, inventory will be targeted regardless of vertical. */
+  verticalTargeting?: CriteriaTargeting | undefined;
   /** Optional. The targeted accelerated mobile page type. If unset, inventory will be targeted regardless of AMP status. */
   includedAcceleratedMobilePageType?:
     | PackageTargetingIncludedAcceleratedMobilePageTypeEnum
     | (string & {})
     | undefined;
-  /** Optional. The geo criteria IDs to be included or excluded as defined in https://storage.googleapis.com/adx-rtb-dictionaries/geo-table.csv. If unset, inventory will be targeted regardless of geo. */
-  geoTargeting?: CriteriaTargeting | undefined;
-  /** Optional. The verticals included or excluded as defined in https://developers.google.com/authorized-buyers/rtb/downloads/publisher-verticals. If unset, inventory will be targeted regardless of vertical. */
-  verticalTargeting?: CriteriaTargeting | undefined;
-  /** Optional. The targeted minimum predicted viewability percentage. This value must be a multiple of 10 between 10 and 90 (inclusive). For example, 10 is valid, but 0, 15, and 100 are not. A value of 10 means that the configuration will only match adslots for which we predict at least 10% viewability. An unset value indicates inventory will be targeted regardless of predicted viewability. */
-  minimumPredictedViewabilityPercentage?: string | undefined;
   /** Optional. Video specific targeting criteria. */
   videoTargeting?: PackageVideoTargeting | undefined;
+  /** Optional. The targeted minimum predicted viewability percentage. This value must be a multiple of 10 between 10 and 90 (inclusive). For example, 10 is valid, but 0, 15, and 100 are not. A value of 10 means that the configuration will only match adslots for which we predict at least 10% viewability. An unset value indicates inventory will be targeted regardless of predicted viewability. */
+  minimumPredictedViewabilityPercentage?: string | undefined;
+  /** Optional. The environment to target. If unspecified, all environments are targeted. */
+  includedEnvironment?: PackageTargetingIncludedEnvironmentEnum | (string & {}) | undefined;
   /** Optional. The targeted native inventory types. If empty, inventory will be targeted regardless of native inventory type. */
   includedNativeInventoryTypes?:
     | PackageTargetingIncludedNativeInventoryTypesItemEnumList
     | undefined;
-  /** Optional. The languages to target. If unset, inventory will be targeted regardless of language. See https://developers.google.com/google-ads/api/data/codes-formats#languages for the list of supported language codes. */
-  languageTargeting?: StringTargetingDimension | undefined;
-  /** Optional. The publisher provided signals to target. If unset, inventory will be targeted regardless of publisher provided signals. */
-  publisherProvidedSignalsTargeting?: PackagePublisherProvidedSignalsTargeting | undefined;
-  /** Optional. The included list of targeted authorized seller statuses. If empty, inventory will be targeted regardless of seller status. */
-  includedAuthorizedSellerStatuses?:
-    | PackageTargetingIncludedAuthorizedSellerStatusesItemEnumList
-    | undefined;
-  /** Optional. The targeted rewarded type. If unset, inventory will be targeted regardless of rewarded type. */
-  includedRewardedType?: PackageTargetingIncludedRewardedTypeEnum | (string & {}) | undefined;
-  /** Optional. Placement targeting information, for example, URL, mobile applications. */
-  placementTargeting?: PackagePlacementTargeting | undefined;
-  /** Optional. The list of targeted open measurement types. If empty, inventory will be targeted regardless of Open Measurement support. */
-  includedOpenMeasurementTypes?:
-    | PackageTargetingIncludedOpenMeasurementTypesItemEnumList
-    | undefined;
-  /** Optional. The targeted minimum predicted click through rate, ranging in values [10, 10000] (0.01% - 10%). A value of 50 means that the configuration will only match adslots for which we predict at least 0.05% click through rate. An unset value indicates inventory will be targeted regardless of predicted click through rate. */
-  minimumPredictedClickThroughRatePercentageMillis?: string | undefined;
-  /** Optional. The creative format to target. If unset, all creative markup types are targeted. */
-  includedCreativeFormat?: PackageTargetingIncludedCreativeFormatEnum | (string & {}) | undefined;
+  /** Optional. The list of included device types to target. If empty, all device types are targeted. */
+  includedDeviceTypes?: PackageTargetingIncludedDeviceTypesItemEnumList | undefined;
   /** Optional. The list of targeted restricted categories. If empty, inventory will be targeted regardless of restricted categories. */
   includedRestrictedCategories?:
     | PackageTargetingIncludedRestrictedCategoriesItemEnumList
     | undefined;
-  /** Optional. The environment to target. If unspecified, all environments are targeted. */
-  includedEnvironment?: PackageTargetingIncludedEnvironmentEnum | (string & {}) | undefined;
-  /** Optional. The active data segments to be targeted. If unset, inventory will be targeted regardless of data segments. Format: `curators/{account_id}/dataSegments/{data_segment_id}` */
-  includedDataSegments?: StringList_ | undefined;
-  /** Optional. The list of ad sizes to target. If unset, inventory will be targeted regardless of ad size. Curated packages supports `PIXEL` and `INTERSTITIAL` ad sizes. */
-  includedAdSizes?: AdSizeList | undefined;
-  /** Optional. The targeted publishers. If unset, inventory will be targeted regardless of publisher. Publishers are identified by their publisher ID from ads.txt / app-ads.txt. See https://iabtechlab.com/ads-txt/ and https://iabtechlab.com/app-ads-txt/ for more details. */
-  publisherTargeting?: StringTargetingDimension | undefined;
+  /** Optional. The creative format to target. If unset, all creative markup types are targeted. */
+  includedCreativeFormat?: PackageTargetingIncludedCreativeFormatEnum | (string & {}) | undefined;
+  /** Optional. The targeted rewarded type. If unset, inventory will be targeted regardless of rewarded type. */
+  includedRewardedType?: PackageTargetingIncludedRewardedTypeEnum | (string & {}) | undefined;
+  /** Optional. The targeted minimum predicted click through rate, ranging in values [10, 10000] (0.01% - 10%). A value of 50 means that the configuration will only match adslots for which we predict at least 0.05% click through rate. An unset value indicates inventory will be targeted regardless of predicted click through rate. */
+  minimumPredictedClickThroughRatePercentageMillis?: string | undefined;
+  /** Optional. The geo criteria IDs to be included or excluded as defined in https://storage.googleapis.com/adx-rtb-dictionaries/geo-table.csv. If unset, inventory will be targeted regardless of geo. */
+  geoTargeting?: CriteriaTargeting | undefined;
+  /** Optional. The publisher provided signals to target. If unset, inventory will be targeted regardless of publisher provided signals. */
+  publisherProvidedSignalsTargeting?: PackagePublisherProvidedSignalsTargeting | undefined;
+  /** Optional. The list of targeted open measurement types. If empty, inventory will be targeted regardless of Open Measurement support. */
+  includedOpenMeasurementTypes?:
+    | PackageTargetingIncludedOpenMeasurementTypesItemEnumList
+    | undefined;
+  /** Optional. Placement targeting information, for example, URL, mobile applications. */
+  placementTargeting?: PackagePlacementTargeting | undefined;
 }
+/** Represents an amount of money with its currency type. */
+export interface Money {
+  /** Number of nano (10^-9) units of the amount. The value must be between -999,999,999 and +999,999,999 inclusive. If `units` is positive, `nanos` must be positive or zero. If `units` is zero, `nanos` can be positive, zero, or negative. If `units` is negative, `nanos` must be negative or zero. For example $-1.75 is represented as `units`=-1 and `nanos`=-750,000,000. */
+  nanos?: number | undefined;
+  /** The three-letter currency code defined in ISO 4217. */
+  currencyCode?: string | undefined;
+  /** The whole units of the amount. For example if `currencyCode` is `"USD"`, then 1 unit is one US dollar. */
+  units?: string | undefined;
+}
+export type CuratedPackageCurationFeeVisibilityEnum =
+  | "CURATION_FEE_VISIBILITY_UNSPECIFIED"
+  | "DISCLOSED"
+  | "NON_DISCLOSED";
 export type CuratedPackageStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "INACTIVE";
+/** Settings for controlling access to a curated package. */
+export interface AccessControlSettings {
+  /** Required. Immutable. The list of media planners that are explicitly granted access to the curated package. Eligible media planners can be found in the mediaPlanners.list method. Only a single media planner may be allowlisted at this time. Format: `mediaPlanners/{mediaPlannerAccountId}` */
+  allowlistedMediaPlanners?: StringList_ | undefined;
+}
 /** Represents a curated package of inventory created and managed by a Curator. */
 export interface CuratedPackage {
-  /** Required. Settings for controlling access to the curated package. Access to this curated package is limited to the allowlisted media planners and the creator. Buyers and bidders can not be allowlisted for or have direct access to this resource. */
-  accessSettings?: AccessControlSettings | undefined;
-  /** Required. The display name assigned to the curated package by the curator. Can be used to filter the response of the curatedPackages.list method. */
-  displayName?: string | undefined;
+  /** Optional. Targeting criteria for the curated package. */
+  targeting?: PackageTargeting | undefined;
   /** Optional. The minimum CPM a buyer has to bid to participate in auctions for inventory in this curated package. Can be used to filter the response of the curatedPackages.list method. */
   floorPriceCpm?: Money | undefined;
   /** Optional. The fee will be charged as a percentage of the impression cost, represented in millipercent. For example, 1% is represented as 1000. */
   millipercentOfMediaFee?: string | undefined;
+  /** Optional. Immutable. The visibility of the combined curation package fee and data segment fees (the total curation fee). */
+  curationFeeVisibility?: CuratedPackageCurationFeeVisibilityEnum | (string & {}) | undefined;
+  /** Output only. The state of the curated package. Can be used to filter the response of the curatedPackages.list method. */
+  state?: CuratedPackageStateEnum | (string & {}) | undefined;
+  /** Optional. A description of the curated package, provided by the curator. */
+  description?: string | undefined;
+  /** Required. The display name assigned to the curated package by the curator. Can be used to filter the response of the curatedPackages.list method. */
+  displayName?: string | undefined;
   /** Output only. The timestamp when the curated package was last updated. Can be used to filter the response of the curatedPackages.list method. */
   updateTime?: string | undefined;
   /** Optional. The CPM fee charged by the curator to buyers using this curated package. Can be used to filter the response of the curatedPackages.list method. */
   feeCpm?: Money | undefined;
   /** Identifier. The unique resource name for the curated package. Format: `curators/{accountId}/curatedPackages/{curatedPackageId}` */
   name?: string | undefined;
-  /** Optional. Immutable. The visibility of the combined curation package fee and data segment fees (the total curation fee). */
-  curationFeeVisibility?: CuratedPackageCurationFeeVisibilityEnum | (string & {}) | undefined;
+  /** Required. Settings for controlling access to the curated package. Access to this curated package is limited to the allowlisted media planners and the creator. Buyers and bidders can not be allowlisted for or have direct access to this resource. */
+  accessSettings?: AccessControlSettings | undefined;
   /** Output only. The timestamp when the curated package was created. Can be used to filter the response of the curatedPackages.list method. */
   createTime?: string | undefined;
-  /** Optional. Targeting criteria for the curated package. */
-  targeting?: PackageTargeting | undefined;
-  /** Output only. The state of the curated package. Can be used to filter the response of the curatedPackages.list method. */
-  state?: CuratedPackageStateEnum | (string & {}) | undefined;
-  /** Optional. A description of the curated package, provided by the curator. */
-  description?: string | undefined;
 }
 /** Request message for activating a data segment */
 export type ActivateDataSegmentRequest = ActivateCuratedPackageRequest;
@@ -402,20 +402,20 @@ export interface ActivateCuratorsDataSegmentsRequest {
 export type DataSegmentStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "INACTIVE" | "SUSPENDED";
 /** Defines an identifier for a segment of inventory that can be targeted by curators or media planners in the deals or auction packages UI. Curation of inventory is done by curators on external platforms. -- Next ID: 9 -- */
 export interface DataSegment {
-  /** Optional. A fixed fee charged per thousand impressions. Once set, the currency code cannot be changed. */
-  cpmFee?: Money | undefined;
+  /** Output only. Time the data segment was created. */
+  createTime?: string | undefined;
   /** Optional. Immutable. The ID of the User List wrapped by this Data Segment. Curators with a linked Data Partner account can create a data segment that wraps a user list owned by the linked Data Partner account. User lists can be uploaded and managed using the [Data Manager API](https://developers.google.com/data-manager/api/data-partners/audiences). Linking a user list to a data segment lets you define a segment of inventory that is based on an audience you create. */
   userListId?: string | undefined;
   /** Immutable. Identifier. The unique identifier for the data segment. Account ID corresponds to the account ID that created the segment. Format: `curators/{curatorAccountId}/dataSegments/{curatorDataSegmentId}` */
   name?: string | undefined;
-  /** Output only. Time the data segment was last updated. */
-  updateTime?: string | undefined;
-  /** Output only. Time the data segment was created. */
-  createTime?: string | undefined;
   /** Output only. The state of the data segment. */
   state?: DataSegmentStateEnum | (string & {}) | undefined;
   /** Optional. The fee will be charged as a percentage of the impression cost, represented in millipercent. For example, 1% is represented as 1000. */
   millipercentOfMediaFee?: string | undefined;
+  /** Optional. A fixed fee charged per thousand impressions. Once set, the currency code cannot be changed. */
+  cpmFee?: Money | undefined;
+  /** Output only. Time the data segment was last updated. */
+  updateTime?: string | undefined;
 }
 export interface CreateCuratorsCuratedPackagesRequest extends CuratedPackage {
   /** Required. The parent curator account where this curated package will be created. Format: `curators/{accountId}` */
@@ -425,6 +425,44 @@ export interface CreateCuratorsDataSegmentsRequest extends DataSegment {
   /** Required. The parent resource where this data segment will be created. Format: `curators/{accountId}` */
   parent: string;
 }
+export type ReportDefinitionMetricsItemEnum =
+  | "METRIC_UNSPECIFIED"
+  | "ACTIVE_VIEW_MEASURABILITY_RATE"
+  | "ACTIVE_VIEW_MEASURABLE"
+  | "ACTIVE_VIEW_VIEWABILITY_RATE"
+  | "ACTIVE_VIEW_VIEWABLE"
+  | "AUCTIONS_WON"
+  | "BIDS"
+  | "BIDS_IN_AUCTION"
+  | "BID_REQUESTS"
+  | "CLICKS"
+  | "CURATION_PARTNER_FEE"
+  | "DATA_SEGMENT_REQUESTS"
+  | "IMPRESSIONS"
+  | "SPEND";
+export type ReportDefinitionMetricsItemEnumList = Array<
+  ReportDefinitionMetricsItemEnum | (string & {})
+>;
+/** A list of filters. */
+export interface FilterList {
+  /** Required. A list of filters. */
+  filters?: FilterList_ | undefined;
+}
+export type FieldMetricEnum =
+  | "METRIC_UNSPECIFIED"
+  | "ACTIVE_VIEW_MEASURABILITY_RATE"
+  | "ACTIVE_VIEW_MEASURABLE"
+  | "ACTIVE_VIEW_VIEWABILITY_RATE"
+  | "ACTIVE_VIEW_VIEWABLE"
+  | "AUCTIONS_WON"
+  | "BIDS"
+  | "BIDS_IN_AUCTION"
+  | "BID_REQUESTS"
+  | "CLICKS"
+  | "CURATION_PARTNER_FEE"
+  | "DATA_SEGMENT_REQUESTS"
+  | "IMPRESSIONS"
+  | "SPEND";
 export type FieldDimensionEnum =
   | "DIMENSION_UNSPECIFIED"
   | "ADVERTISER_DOMAIN"
@@ -453,71 +491,13 @@ export type FieldDimensionEnum =
   | "PUBLISHER_ID"
   | "PUBLISHER_NAME"
   | "WEEK";
-export type FieldMetricEnum =
-  | "METRIC_UNSPECIFIED"
-  | "ACTIVE_VIEW_MEASURABILITY_RATE"
-  | "ACTIVE_VIEW_MEASURABLE"
-  | "ACTIVE_VIEW_VIEWABILITY_RATE"
-  | "ACTIVE_VIEW_VIEWABLE"
-  | "AUCTIONS_WON"
-  | "BIDS"
-  | "BIDS_IN_AUCTION"
-  | "BID_REQUESTS"
-  | "CLICKS"
-  | "CURATION_PARTNER_FEE"
-  | "DATA_SEGMENT_REQUESTS"
-  | "IMPRESSIONS"
-  | "SPEND";
 /** A dimension or a metric in a report. */
 export interface Field {
-  /** The dimension this field represents. */
-  dimension?: FieldDimensionEnum | (string & {}) | undefined;
   /** The metric this field represents. */
   metric?: FieldMetricEnum | (string & {}) | undefined;
+  /** The dimension this field represents. */
+  dimension?: FieldDimensionEnum | (string & {}) | undefined;
 }
-/** Represents a sorting in a report. */
-export interface Sort {
-  /** Optional. The sort order. If true the sort will be descending. */
-  descending?: boolean | undefined;
-  /** Required. A field (dimension or metric) to sort by. */
-  field?: Field | undefined;
-}
-export type SortList = Array<Sort>;
-export type ReportDefinitionMetricsItemEnum =
-  | "METRIC_UNSPECIFIED"
-  | "ACTIVE_VIEW_MEASURABILITY_RATE"
-  | "ACTIVE_VIEW_MEASURABLE"
-  | "ACTIVE_VIEW_VIEWABILITY_RATE"
-  | "ACTIVE_VIEW_VIEWABLE"
-  | "AUCTIONS_WON"
-  | "BIDS"
-  | "BIDS_IN_AUCTION"
-  | "BID_REQUESTS"
-  | "CLICKS"
-  | "CURATION_PARTNER_FEE"
-  | "DATA_SEGMENT_REQUESTS"
-  | "IMPRESSIONS"
-  | "SPEND";
-export type ReportDefinitionMetricsItemEnumList = Array<
-  ReportDefinitionMetricsItemEnum | (string & {})
->;
-/** A list of filters. */
-export interface FilterList {
-  /** Required. A list of filters. */
-  filters?: FilterList_ | undefined;
-}
-export type FieldFilterOperationEnum =
-  | "IN"
-  | "NOT_IN"
-  | "CONTAINS"
-  | "NOT_CONTAINS"
-  | "LESS_THAN"
-  | "LESS_THAN_EQUALS"
-  | "GREATER_THAN"
-  | "GREATER_THAN_EQUALS"
-  | "BETWEEN"
-  | "MATCHES"
-  | "NOT_MATCHES";
 /** A list of integer values. */
 export interface IntList {
   /** The values */
@@ -533,97 +513,57 @@ export interface DoubleList {
 }
 /** Represents a single value in a report. */
 export interface ReportValue {
-  /** For lists of integer values. */
-  intListValue?: IntList | undefined;
   /** For integer values. */
   intValue?: string | undefined;
-  /** For double values. */
-  doubleValue?: number | undefined;
-  /** For lists of string values. */
-  stringListValue?: IntList | undefined;
-  /** For string values. */
-  stringValue?: string | undefined;
   /** For boolean values. */
   boolValue?: boolean | undefined;
-  /** For lists of double values. */
-  doubleListValue?: DoubleList | undefined;
+  /** For lists of integer values. */
+  intListValue?: IntList | undefined;
+  /** For lists of string values. */
+  stringListValue?: IntList | undefined;
+  /** For double values. */
+  doubleValue?: number | undefined;
   /** For bytes values. */
   bytesValue?: string | undefined;
+  /** For string values. */
+  stringValue?: string | undefined;
+  /** For lists of double values. */
+  doubleListValue?: DoubleList | undefined;
 }
 export type ReportValueList = Array<ReportValue>;
+export type FieldFilterOperationEnum =
+  | "IN"
+  | "NOT_IN"
+  | "CONTAINS"
+  | "NOT_CONTAINS"
+  | "LESS_THAN"
+  | "LESS_THAN_EQUALS"
+  | "GREATER_THAN"
+  | "GREATER_THAN_EQUALS"
+  | "BETWEEN"
+  | "MATCHES"
+  | "NOT_MATCHES";
 /** A filter on a specific field. */
 export interface FieldFilter {
-  /** Required. The operation of this filter. */
-  operation?: FieldFilterOperationEnum | (string & {}) | undefined;
-  /** Required. Values to filter to. */
-  values?: ReportValueList | undefined;
   /** Required. The field to filter on. */
   field?: Field | undefined;
+  /** Required. Values to filter to. */
+  values?: ReportValueList | undefined;
+  /** Required. The operation of this filter. */
+  operation?: FieldFilterOperationEnum | (string & {}) | undefined;
 }
 /** A filter over one or more fields. */
 export interface Filter {
   /** A list of filters whose results are AND-ed. */
   andFilter?: FilterList | undefined;
-  /** A filter on a single field. */
-  fieldFilter?: FieldFilter | undefined;
   /** A filter whose result is negated. */
   notFilter?: Filter | undefined;
+  /** A filter on a single field. */
+  fieldFilter?: FieldFilter | undefined;
   /** A list of filters whose results are OR-ed. */
   orFilter?: FilterList | undefined;
 }
 export type FilterList_ = Array<Filter>;
-export type DateRangeRelativeEnum =
-  | "RELATIVE_DATE_RANGE_UNSPECIFIED"
-  | "TODAY"
-  | "YESTERDAY"
-  | "THIS_WEEK_TO_DATE"
-  | "THIS_WEEK_TO_YESTERDAY"
-  | "THIS_MONTH_TO_DATE"
-  | "THIS_MONTH_TO_YESTERDAY"
-  | "THIS_QUARTER_TO_DATE"
-  | "THIS_QUARTER_TO_YESTERDAY"
-  | "THIS_YEAR_TO_DATE"
-  | "THIS_YEAR_TO_YESTERDAY"
-  | "LAST_WEEK"
-  | "LAST_WEEK_STARTING_SUNDAY"
-  | "LAST_MONTH"
-  | "LAST_QUARTER"
-  | "LAST_YEAR"
-  | "LAST_7_DAYS"
-  | "LAST_30_DAYS"
-  | "LAST_60_DAYS"
-  | "LAST_90_DAYS"
-  | "LAST_93_DAYS"
-  | "LAST_180_DAYS"
-  | "LAST_360_DAYS"
-  | "LAST_365_DAYS"
-  | "LAST_3_MONTHS"
-  | "LAST_6_MONTHS"
-  | "LAST_12_MONTHS"
-  | "ALL_AVAILABLE";
-/** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
-export interface Curationpartners_Date {
-  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  year?: number | undefined;
-  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  day?: number | undefined;
-  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  month?: number | undefined;
-}
-/** A date range between two fixed dates (inclusive of end date). */
-export interface FixedDateRange {
-  /** Required. The start date of this date range. */
-  startDate?: Curationpartners_Date | undefined;
-  /** Required. The end date (inclusive) of this date range. */
-  endDate?: Curationpartners_Date | undefined;
-}
-/** A date range for a report. */
-export interface DateRange {
-  /** A relative date range. */
-  relative?: DateRangeRelativeEnum | (string & {}) | undefined;
-  /** A fixed date range. */
-  fixed?: FixedDateRange | undefined;
-}
 export type ReportDefinitionDimensionsItemEnum =
   | "DIMENSION_UNSPECIFIED"
   | "ADVERTISER_DOMAIN"
@@ -655,47 +595,107 @@ export type ReportDefinitionDimensionsItemEnum =
 export type ReportDefinitionDimensionsItemEnumList = Array<
   ReportDefinitionDimensionsItemEnum | (string & {})
 >;
+/** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
+export interface Curationpartners_Date {
+  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
+  month?: number | undefined;
+  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
+  year?: number | undefined;
+  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
+  day?: number | undefined;
+}
+/** A date range between two fixed dates (inclusive of end date). */
+export interface FixedDateRange {
+  /** Required. The start date of this date range. */
+  startDate?: Curationpartners_Date | undefined;
+  /** Required. The end date (inclusive) of this date range. */
+  endDate?: Curationpartners_Date | undefined;
+}
+export type DateRangeRelativeEnum =
+  | "RELATIVE_DATE_RANGE_UNSPECIFIED"
+  | "TODAY"
+  | "YESTERDAY"
+  | "THIS_WEEK_TO_DATE"
+  | "THIS_WEEK_TO_YESTERDAY"
+  | "THIS_MONTH_TO_DATE"
+  | "THIS_MONTH_TO_YESTERDAY"
+  | "THIS_QUARTER_TO_DATE"
+  | "THIS_QUARTER_TO_YESTERDAY"
+  | "THIS_YEAR_TO_DATE"
+  | "THIS_YEAR_TO_YESTERDAY"
+  | "LAST_WEEK"
+  | "LAST_WEEK_STARTING_SUNDAY"
+  | "LAST_MONTH"
+  | "LAST_QUARTER"
+  | "LAST_YEAR"
+  | "LAST_7_DAYS"
+  | "LAST_30_DAYS"
+  | "LAST_60_DAYS"
+  | "LAST_90_DAYS"
+  | "LAST_93_DAYS"
+  | "LAST_180_DAYS"
+  | "LAST_360_DAYS"
+  | "LAST_365_DAYS"
+  | "LAST_3_MONTHS"
+  | "LAST_6_MONTHS"
+  | "LAST_12_MONTHS"
+  | "ALL_AVAILABLE";
+/** A date range for a report. */
+export interface DateRange {
+  /** A fixed date range. */
+  fixed?: FixedDateRange | undefined;
+  /** A relative date range. */
+  relative?: DateRangeRelativeEnum | (string & {}) | undefined;
+}
 export type ReportDefinitionTimeZoneSourceEnum =
   | "TIME_ZONE_SOURCE_UNSPECIFIED"
   | "AD_EXCHANGE"
   | "UTC"
   | "PROVIDED"
   | "CURATOR";
+/** Represents a sorting in a report. */
+export interface Sort {
+  /** Required. A field (dimension or metric) to sort by. */
+  field?: Field | undefined;
+  /** Optional. The sort order. If true the sort will be descending. */
+  descending?: boolean | undefined;
+}
+export type SortList = Array<Sort>;
 /** The definition of how a report should be run. */
 export interface ReportDefinition {
-  /** Optional. Default sorts to apply to this report. */
-  sorts?: SortList | undefined;
   /** Required. The list of metrics to report on. If empty, the report will have no metrics. */
   metrics?: ReportDefinitionMetricsItemEnumList | undefined;
   /** Optional. The filters for this report. */
   filters?: FilterList_ | undefined;
+  /** Required. The list of dimensions to report on. If empty, the report will have no dimensions, and any metrics will be totals. */
+  dimensions?: ReportDefinitionDimensionsItemEnumList | undefined;
   /** Optional. The ISO 4217 currency code for this report. Defaults to account currency code if not specified. */
   currencyCode?: string | undefined;
   /** Required. The primary date range of this report. */
   dateRange?: DateRange | undefined;
-  /** Required. The list of dimensions to report on. If empty, the report will have no dimensions, and any metrics will be totals. */
-  dimensions?: ReportDefinitionDimensionsItemEnumList | undefined;
-  /** Optional. If time_zone_source is PROVIDED, this is the time zone to use for this report. Leave empty for any other time zone source. Time zone in IANA format. For example, "America/New_York". */
-  timeZone?: string | undefined;
   /** Optional. Where to get the time zone for this report. Defaults to using the Pacific time zone (PT). If source is PROVIDED, the time_zone field in the report definition must also set a time zone. */
   timeZoneSource?: ReportDefinitionTimeZoneSourceEnum | (string & {}) | undefined;
+  /** Optional. Default sorts to apply to this report. */
+  sorts?: SortList | undefined;
+  /** Optional. If time_zone_source is PROVIDED, this is the time zone to use for this report. Leave empty for any other time zone source. Time zone in IANA format. For example, "America/New_York". */
+  timeZone?: string | undefined;
 }
 /** The `Report` resource. */
 export interface Report {
-  /** Output only. Report ID. */
-  reportId?: string | undefined;
-  /** Output only. The instant this report was created. */
-  createTime?: string | undefined;
-  /** Output only. The locale of this report. Locale is set from the user's locale at the time of the request. Locale can't be modified. */
-  locale?: string | undefined;
   /** Output only. The instant this report was last modified. */
   updateTime?: string | undefined;
-  /** Optional. Display name for the report. */
-  displayName?: string | undefined;
   /** Identifier. The resource name of the report. Report resource name have the form: `curators/{account_id}/reports/{report_id}` */
   name?: string | undefined;
+  /** Output only. The locale of this report. Locale is set from the user's locale at the time of the request. Locale can't be modified. */
+  locale?: string | undefined;
+  /** Optional. Display name for the report. */
+  displayName?: string | undefined;
+  /** Output only. Report ID. */
+  reportId?: string | undefined;
   /** Required. The report definition of the report. */
   reportDefinition?: ReportDefinition | undefined;
+  /** Output only. The instant this report was created. */
+  createTime?: string | undefined;
 }
 export interface CreateCuratorsReportsRequest extends Report {
   /** Required. The parent resource where this `Report` will be created. Format: `curators/{account_id}` */
@@ -731,7 +731,6 @@ export interface FetchRowsCuratorsReportsResultsRequest {
   /** The report result being fetched. Format: `curators/{account_id}/reports/{report_id}/results/{report_result_id}` */
   name: string;
 }
-export type FixedDateRangeList = Array<FixedDateRange>;
 /** Contains all metric values requested for a single date range and set of column dimension values (returned in the columns field of the response). The order of the metrics in each field corresponds to the order of the metrics specified in the request. */
 export interface MetricValueGroup {
   /** Data for the PRIMARY MetricValueType. */
@@ -740,24 +739,25 @@ export interface MetricValueGroup {
 export type MetricValueGroupList = Array<MetricValueGroup>;
 /** A row of report data. */
 export interface Row {
-  /** The order of the dimension values is the same as the order of the dimensions specified in the request. */
-  dimensionValues?: ReportValueList | undefined;
   /** The length of the metric_value_groups field will be equal to the length of the date_ranges field in the fetch response. The metric_value_groups field is ordered such that each index corresponds to the date_range at the same index. For example, given date_ranges [x, y], metric_value_groups will have a length of two. The first entry in metric_value_groups represents the metrics for date x and the second entry in metric_value_groups represents the metrics for date y. */
   metricValueGroups?: MetricValueGroupList | undefined;
+  /** The order of the dimension values is the same as the order of the dimensions specified in the request. */
+  dimensionValues?: ReportValueList | undefined;
 }
 export type RowList = Array<Row>;
+export type FixedDateRangeList = Array<FixedDateRange>;
 /** The response message for the fetch report result rows endpoint. */
 export interface FetchReportResultRowsResponse {
-  /** The computed fixed date ranges this report includes. Only returned with the first page of results (when page_token is not included in the request). */
-  dateRanges?: FixedDateRangeList | undefined;
-  /** The total number of rows available from this report. Useful for pagination. Only returned with the first page of results (when page_token is not included in the request). */
-  totalRowCount?: number | undefined;
-  /** The time at which the report was scheduled to run. For non-scheduled reports, this is the time at which the report was requested to be run. */
-  runTime?: string | undefined;
   /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string | undefined;
   /** Up to `page_size` rows of report data. */
   rows?: RowList | undefined;
+  /** The time at which the report was scheduled to run. For non-scheduled reports, this is the time at which the report was requested to be run. */
+  runTime?: string | undefined;
+  /** The total number of rows available from this report. Useful for pagination. Only returned with the first page of results (when page_token is not included in the request). */
+  totalRowCount?: number | undefined;
+  /** The computed fixed date ranges this report includes. Only returned with the first page of results (when page_token is not included in the request). */
+  dateRanges?: FixedDateRangeList | undefined;
 }
 export interface GetCuratorsCuratedPackagesRequest {
   /** Required. The name of the curated package to retrieve. Format: `curators/{accountId}/curatedPackages/{curatedPackageId}` */
@@ -779,35 +779,35 @@ export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
+  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
+  message?: string | undefined;
   /** The status code, which should be an enum value of google.rpc.Code. */
   code?: number | undefined;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
   details?: DocumentMapList | undefined;
-  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
-  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean | undefined;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
   metadata?: DocumentMap | undefined;
+  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
+  response?: DocumentMap | undefined;
+  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
+  done?: boolean | undefined;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
   name?: string | undefined;
   /** The error result of the operation in case of failure or cancellation. */
   error?: Status | undefined;
-  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap | undefined;
 }
 export interface ListCuratorsCuratedPackagesRequest {
-  /** Optional. Optional query string using the [Cloud API list filtering syntax](/authorized-buyers/apis/guides/list-filters). Supported columns for filtering are: * displayName * createTime * updateTime * state * feeCpm.currencyCode * feeCpm.units * feeCpm.nanos * floorPriceCpm.currencyCode * floorPriceCpm.units * floorPriceCpm.nanos */
-  filter?: string | undefined;
-  /** Required. The parent curator account which owns this collection of curated packages. Format: `curators/{accountId}` */
-  parent: string;
-  /** Optional. A page token, received from a previous `ListCuratedPackages` call. Provide this to retrieve the subsequent page. */
-  pageToken?: string | undefined;
   /** Optional. Requested page size. The server may return fewer results than requested. Max allowed page size is 500. If unspecified, the server will default to 500. */
   pageSize?: number | undefined;
+  /** Optional. A page token, received from a previous `ListCuratedPackages` call. Provide this to retrieve the subsequent page. */
+  pageToken?: string | undefined;
+  /** Required. The parent curator account which owns this collection of curated packages. Format: `curators/{accountId}` */
+  parent: string;
+  /** Optional. Optional query string using the [Cloud API list filtering syntax](/authorized-buyers/apis/guides/list-filters). Supported columns for filtering are: * displayName * createTime * updateTime * state * feeCpm.currencyCode * feeCpm.units * feeCpm.nanos * floorPriceCpm.currencyCode * floorPriceCpm.units * floorPriceCpm.nanos */
+  filter?: string | undefined;
 }
 export type CuratedPackageList = Array<CuratedPackage>;
 /** Response message for ListCuratedPackages. */
@@ -818,12 +818,12 @@ export interface ListCuratedPackagesResponse {
   nextPageToken?: string | undefined;
 }
 export interface ListCuratorsDataSegmentsRequest {
-  /** Optional. The page token as returned. ListDataSegmentsResponse.nextPageToken */
-  pageToken?: string | undefined;
   /** Required. Name of the parent curator that can access the data segment. Format: `curators/{accountId}` */
   parent: string;
   /** Optional. Requested page size. The server may return fewer results than requested. Max allowed page size is 500. If unspecified, the server will default to 500. */
   pageSize?: number | undefined;
+  /** Optional. The page token as returned. ListDataSegmentsResponse.nextPageToken */
+  pageToken?: string | undefined;
 }
 export type DataSegmentList = Array<DataSegment>;
 /** Response message for listing data segments. */
@@ -834,43 +834,43 @@ export interface ListDataSegmentsResponse {
   nextPageToken?: string | undefined;
 }
 export interface ListCuratorsReportsRequest {
-  /** Optional. Expression to specify sorting order. See syntax details at https://developers.google.com/ad-manager/api/beta/filters#order */
-  orderBy?: string | undefined;
-  /** Required. The parent, which owns this collection of reports. Format: `curators/{account_id}` */
-  parent: string;
-  /** Optional. A page token, received from a previous `ListReports` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListReports` must match the call that provided the page token. */
-  pageToken?: string | undefined;
-  /** Optional. The maximum number of `Reports` to return. The service may return fewer than this value. If unspecified, at most 50 `Reports` will be returned. The maximum value is 1000; values greater than 1000 will be coerced to 1000. */
-  pageSize?: number | undefined;
   /** Optional. Expression to filter the response. See syntax details at https://developers.google.com/ad-manager/api/beta/filters */
   filter?: string | undefined;
   /** Optional. Number of individual resources to skip while paginating. */
   skip?: number | undefined;
+  /** Optional. The maximum number of `Reports` to return. The service may return fewer than this value. If unspecified, at most 50 `Reports` will be returned. The maximum value is 1000; values greater than 1000 will be coerced to 1000. */
+  pageSize?: number | undefined;
+  /** Optional. A page token, received from a previous `ListReports` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListReports` must match the call that provided the page token. */
+  pageToken?: string | undefined;
+  /** Optional. Expression to specify sorting order. See syntax details at https://developers.google.com/ad-manager/api/beta/filters#order */
+  orderBy?: string | undefined;
+  /** Required. The parent, which owns this collection of reports. Format: `curators/{account_id}` */
+  parent: string;
 }
 export type ReportList = Array<Report>;
 /** Response object for `ListReportsResponse` containing matching `Report` objects. */
 export interface ListReportsResponse {
-  /** Total number of `Report` objects. If a filter was included in the request, this reflects the total number after the filtering is applied. `total_size` won't be calculated in the response unless it has been included in a response field mask. The response field mask can be provided to the method by using the URL parameter `$fields` or `fields`, or by using the HTTP/gRPC header `X-Goog-FieldMask`. For more information, see https://developers.google.com/ad-manager/api/beta/field-masks */
-  totalSize?: number | undefined;
-  /** The `Report` objects from the specified network. */
-  reports?: ReportList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string | undefined;
+  /** The `Report` objects from the specified network. */
+  reports?: ReportList | undefined;
+  /** Total number of `Report` objects. If a filter was included in the request, this reflects the total number after the filtering is applied. `total_size` won't be calculated in the response unless it has been included in a response field mask. The response field mask can be provided to the method by using the URL parameter `$fields` or `fields`, or by using the HTTP/gRPC header `X-Goog-FieldMask`. For more information, see https://developers.google.com/ad-manager/api/beta/field-masks */
+  totalSize?: number | undefined;
 }
 export interface ListMediaPlannersRequest {
-  /** Optional query string using the [Cloud API list filtering syntax](/authorized-buyers/apis/guides/list-filters). Supported columns for filtering are: * `name` * `displayName` * `ancestorNames` */
-  filter?: string | undefined;
-  /** The maximum number of media planners to return. If unspecified, at most 100 media planners will be returned. The maximum value is 500; values above 500 will be coerced to 500. */
-  pageSize?: number | undefined;
   /** Optional. A token identifying a page of results the server should return.This value is received from a previous `ListMediaPlanners` call in ListMediaPlannersResponse.nextPageToken. */
   pageToken?: string | undefined;
+  /** The maximum number of media planners to return. If unspecified, at most 100 media planners will be returned. The maximum value is 500; values above 500 will be coerced to 500. */
+  pageSize?: number | undefined;
+  /** Optional query string using the [Cloud API list filtering syntax](/authorized-buyers/apis/guides/list-filters). Supported columns for filtering are: * `name` * `displayName` * `ancestorNames` */
+  filter?: string | undefined;
 }
 /** Represents a media planner account. */
 export interface MediaPlanner {
-  /** Output only. Account ID of the media planner. */
-  accountId?: string | undefined;
   /** Output only. The ancestor names of the media planner. Format: `mediaPlanners/{mediaPlannerAccountId}`. Can be used to filter the response of the mediaPlanners.list method. */
   ancestorNames?: StringList_ | undefined;
+  /** Output only. Account ID of the media planner. */
+  accountId?: string | undefined;
   /** Identifier. The unique resource name of the media planner. Format: `mediaPlanners/{mediaPlannerAccountId}`. Can be used to filter the response of the mediaPlanners.list method. */
   name?: string | undefined;
   /** Output only. The display name of the media planner. Can be used to filter the response of the mediaPlanners.list method. */
@@ -879,22 +879,22 @@ export interface MediaPlanner {
 export type MediaPlannerList = Array<MediaPlanner>;
 /** A response containing media planner account information. */
 export interface ListMediaPlannersResponse {
-  /** A token which can be passed to a subsequent call to the ListMediaPlanners method to retrieve the next page of results in ListMediaPlannersRequest.page_token. */
-  nextPageToken?: string | undefined;
   /** List of media planners. */
   mediaPlanners?: MediaPlannerList | undefined;
+  /** A token which can be passed to a subsequent call to the ListMediaPlanners method to retrieve the next page of results in ListMediaPlannersRequest.page_token. */
+  nextPageToken?: string | undefined;
 }
 export interface PatchCuratorsCuratedPackagesRequest extends Omit<CuratedPackage, "name"> {
-  /** Optional. List of fields to be updated. If empty or unspecified, the service will update all fields populated in the update request excluding the output only fields and primitive fields with default value. Note that explicit field mask is required in order to reset a primitive field back to its default value, for example, false for boolean fields, 0 for integer fields. A special field mask consisting of a single path "*" can be used to indicate full replacement (the equivalent of PUT method), updatable fields unset or unspecified in the input will be cleared or set to default value. Output only fields will be ignored regardless of the value of updateMask. */
-  updateMask?: string | undefined;
   /** Identifier. The unique resource name for the curated package. Format: `curators/{accountId}/curatedPackages/{curatedPackageId}` */
   name: string;
+  /** Optional. List of fields to be updated. If empty or unspecified, the service will update all fields populated in the update request excluding the output only fields and primitive fields with default value. Note that explicit field mask is required in order to reset a primitive field back to its default value, for example, false for boolean fields, 0 for integer fields. A special field mask consisting of a single path "*" can be used to indicate full replacement (the equivalent of PUT method), updatable fields unset or unspecified in the input will be cleared or set to default value. Output only fields will be ignored regardless of the value of updateMask. */
+  updateMask?: string | undefined;
 }
 export interface PatchCuratorsDataSegmentsRequest extends Omit<DataSegment, "name"> {
-  /** Optional. List of fields to be updated. If empty or unspecified, the service will update all fields populated in the update request excluding the output only fields and primitive fields with default value. Note that explicit field mask is required in order to reset a primitive field back to its default value, for example, false for boolean fields, 0 for integer fields. A special field mask consisting of a single path "*" can be used to indicate full replacement(the equivalent of PUT method), updatable fields unset or unspecified in the input will be cleared or set to default value. Output only fields will be ignored regardless of the value of updateMask. */
-  updateMask?: string | undefined;
   /** Immutable. Identifier. The unique identifier for the data segment. Account ID corresponds to the account ID that created the segment. Format: `curators/{curatorAccountId}/dataSegments/{curatorDataSegmentId}` */
   name: string;
+  /** Optional. List of fields to be updated. If empty or unspecified, the service will update all fields populated in the update request excluding the output only fields and primitive fields with default value. Note that explicit field mask is required in order to reset a primitive field back to its default value, for example, false for boolean fields, 0 for integer fields. A special field mask consisting of a single path "*" can be used to indicate full replacement(the equivalent of PUT method), updatable fields unset or unspecified in the input will be cleared or set to default value. Output only fields will be ignored regardless of the value of updateMask. */
+  updateMask?: string | undefined;
 }
 export interface PatchCuratorsReportsRequest extends Omit<Report, "name"> {
   /** Identifier. The resource name of the report. Report resource name have the form: `curators/{account_id}/reports/{report_id}` */
@@ -911,12 +911,12 @@ export interface RunCuratorsReportsRequest {
   body?: ActivateCuratedPackageRequest | undefined;
 }
 export interface SearchMediaPlannersRequest {
-  /** Optional. The maximum number of media planners to return. If unspecified, at most 100 media planners will be returned. The maximum value is 500; values above 500 will be coerced to 500. */
-  pageSize?: number | undefined;
   /** Required. The DSP seat ID to search for. The DSP seat ID is provided by the media planner. */
   dspSeatId?: string | undefined;
   /** Optional. A token identifying a page of results the server should return. This value is received from a previous `SearchMediaPlanners` call in SearchMediaPlannersResponse.nextPageToken. */
   pageToken?: string | undefined;
+  /** Optional. The maximum number of media planners to return. If unspecified, at most 100 media planners will be returned. The maximum value is 500; values above 500 will be coerced to 500. */
+  pageSize?: number | undefined;
 }
 /** A response containing media planner account information from a search. */
 export interface SearchMediaPlannersResponse {
@@ -1261,7 +1261,7 @@ export const listMediaPlanners: API.PaginatedOperationMethod<
   ListMediaPlannersResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(176, __c11, 0) as any as S.Schema<ListMediaPlannersRequest>,
-  output: __S(177, __c11, 1) as any as S.Schema<ListMediaPlannersResponse>,
+  output: __S(194, __c12, 2) as any as S.Schema<ListMediaPlannersResponse>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -1363,7 +1363,7 @@ export const searchMediaPlanners: API.PaginatedOperationMethod<
   SearchMediaPlannersResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(272, __c17, 0) as any as S.Schema<SearchMediaPlannersRequest>,
-  output: __S(273, __c17, 1) as any as S.Schema<SearchMediaPlannersResponse>,
+  output: __S(194, __c12, 2) as any as S.Schema<SearchMediaPlannersResponse>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -1424,32 +1424,32 @@ function __c2(j: number): any {
         ),
       ).annotate({ identifier: "FetchRowsCuratorsReportsResultsRequest" });
     case 1:
-      return S.Array(__S(470, __c29, 6));
-    case 2:
       return S.suspend(() =>
         S.Struct({
           primaryValues: S.optional(__S(468, __c29, 4)),
         }),
       ).annotate({ identifier: "MetricValueGroup" });
+    case 2:
+      return S.Array(__S(33, __c2, 1));
     case 3:
-      return S.Array(__S(34, __c2, 2));
-    case 4:
       return S.suspend(() =>
         S.Struct({
+          metricValueGroups: S.optional(__S(34, __c2, 2)),
           dimensionValues: S.optional(__S(468, __c29, 4)),
-          metricValueGroups: S.optional(__S(35, __c2, 3)),
         }),
       ).annotate({ identifier: "Row" });
+    case 4:
+      return S.Array(__S(35, __c2, 3));
     case 5:
-      return S.Array(__S(36, __c2, 4));
+      return S.Array(__S(470, __c29, 6));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          dateRanges: S.optional(__S(33, __c2, 1)),
-          totalRowCount: S.optional(S.Number),
-          runTime: S.optional(S.String),
           nextPageToken: S.optional(S.String),
-          rows: S.optional(__S(37, __c2, 5)),
+          rows: S.optional(__S(36, __c2, 4)),
+          runTime: S.optional(S.String),
+          totalRowCount: S.optional(S.Number),
+          dateRanges: S.optional(__S(37, __c2, 5)),
         }),
       ).annotate({ identifier: "FetchReportResultRowsResponse" });
   }
@@ -1527,19 +1527,19 @@ function __c7(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          message: S.optional(S.String),
           code: S.optional(S.Number),
           details: S.optional(__S(113, __c7, 1)),
-          message: S.optional(S.String),
         }),
       ).annotate({ identifier: "Status" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          done: S.optional(S.Boolean),
           metadata: S.optional(__S(112, __c7, 0)),
+          response: S.optional(__S(112, __c7, 0)),
+          done: S.optional(S.Boolean),
           name: S.optional(S.String),
           error: S.optional(__S(114, __c7, 2)),
-          response: S.optional(__S(112, __c7, 0)),
         }),
       ).annotate({ identifier: "Operation" });
   }
@@ -1549,10 +1549,10 @@ function __c8(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1577,9 +1577,9 @@ function __c9(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1604,12 +1604,12 @@ function __c10(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          orderBy: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
           skip: S.optional(S.Number.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1623,9 +1623,9 @@ function __c10(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          totalSize: S.optional(S.Number),
-          reports: S.optional(__S(161, __c10, 1)),
           nextPageToken: S.optional(S.String),
+          reports: S.optional(__S(161, __c10, 1)),
+          totalSize: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ListReportsResponse" });
   }
@@ -1635,9 +1635,9 @@ function __c11(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1646,13 +1646,6 @@ function __c11(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ListMediaPlannersRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          nextPageToken: S.optional(S.String),
-          mediaPlanners: S.optional(__S(193, __c12, 1)),
-        }),
-      ).annotate({ identifier: "ListMediaPlannersResponse" });
   }
 }
 function __c12(j: number): any {
@@ -1660,14 +1653,21 @@ function __c12(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          accountId: S.optional(S.String),
           ancestorNames: S.optional(__S(336, __c21, 0)),
+          accountId: S.optional(S.String),
           name: S.optional(S.String),
           displayName: S.optional(S.String),
         }),
       ).annotate({ identifier: "MediaPlanner" });
     case 1:
       return S.Array(__S(192, __c12, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          mediaPlanners: S.optional(__S(193, __c12, 1)),
+          nextPageToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListMediaPlannersResponse" });
   }
 }
 function __c13(j: number): any {
@@ -1677,8 +1677,8 @@ function __c13(j: number): any {
         S.Extend(
           __S(380, __c23, 12),
           S.Struct({
-            updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -1697,8 +1697,8 @@ function __c14(j: number): any {
         S.Extend(
           __S(400, __c25, 0),
           S.Struct({
-            updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -1752,9 +1752,9 @@ function __c17(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           dspSeatId: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1763,13 +1763,6 @@ function __c17(j: number): any {
           }),
         ),
       ).annotate({ identifier: "SearchMediaPlannersRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          mediaPlanners: S.optional(__S(193, __c12, 1)),
-          nextPageToken: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SearchMediaPlannersResponse" });
   }
 }
 function __c18(j: number): any {
@@ -1794,8 +1787,8 @@ function __c19(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          currencyCode: S.optional(S.String),
           nanos: S.optional(S.Number),
+          currencyCode: S.optional(S.String),
           units: S.optional(S.String),
         }),
       ).annotate({ identifier: "Money" });
@@ -1826,123 +1819,123 @@ function __c23(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          allowlistedMediaPlanners: S.optional(__S(336, __c21, 0)),
+          selectionType: S.optional(S.String),
+          values: S.optional(__S(336, __c21, 0)),
         }),
-      ).annotate({ identifier: "AccessControlSettings" });
+      ).annotate({ identifier: "StringTargetingDimension" });
     case 1:
+      return S.suspend(() =>
+        S.Struct({
+          height: S.optional(S.String),
+          type: S.optional(S.String),
+          width: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AdSize" });
+    case 2:
+      return S.Array(__S(369, __c23, 1));
+    case 3:
       return S.suspend(() =>
         S.Struct({
           targetedCriteriaIds: S.optional(__S(336, __c21, 0)),
           excludedCriteriaIds: S.optional(__S(336, __c21, 0)),
         }),
       ).annotate({ identifier: "CriteriaTargeting" });
-    case 2:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           minimumHeight: S.optional(S.String),
           minimumWidth: S.optional(S.String),
         }),
       ).annotate({ identifier: "VideoPlayerSizeTargeting" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          videoPlcmtTypes: S.optional(__S(352, __c22, 0)),
-          selectionType: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "VideoPlcmtTargeting" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          includedPlayerSizeTargeting: S.optional(__S(370, __c23, 2)),
-          includedMimeTypes: S.optional(__S(352, __c22, 0)),
-          includedPlaybackMethods: S.optional(__S(352, __c22, 0)),
-          minimumPredictedCompletionRatePercentage: S.optional(S.String),
-          includedMaximumAdDurationTargeting: S.optional(S.String),
-          includedContentDeliveryMethod: S.optional(S.String),
-          plcmtTargeting: S.optional(__S(371, __c23, 3)),
-          includedPositionTypes: S.optional(__S(352, __c22, 0)),
-        }),
-      ).annotate({ identifier: "PackageVideoTargeting" });
     case 5:
       return S.suspend(() =>
         S.Struct({
           selectionType: S.optional(S.String),
-          values: S.optional(__S(336, __c21, 0)),
+          videoPlcmtTypes: S.optional(__S(352, __c22, 0)),
         }),
-      ).annotate({ identifier: "StringTargetingDimension" });
+      ).annotate({ identifier: "VideoPlcmtTargeting" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          excludedTaxonomyIds: S.optional(__S(336, __c21, 0)),
-          targetedTaxonomyIds: S.optional(__S(336, __c21, 0)),
+          includedPlaybackMethods: S.optional(__S(352, __c22, 0)),
+          includedMaximumAdDurationTargeting: S.optional(S.String),
+          minimumPredictedCompletionRatePercentage: S.optional(S.String),
+          includedContentDeliveryMethod: S.optional(S.String),
+          includedPlayerSizeTargeting: S.optional(__S(372, __c23, 4)),
+          includedMimeTypes: S.optional(__S(352, __c22, 0)),
+          plcmtTargeting: S.optional(__S(373, __c23, 5)),
+          includedPositionTypes: S.optional(__S(352, __c22, 0)),
         }),
-      ).annotate({ identifier: "TaxonomyTargeting" });
+      ).annotate({ identifier: "PackageVideoTargeting" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          contentTargeting: S.optional(__S(374, __c23, 6)),
-          videoAndAudioSignalsTargeting: S.optional(__S(373, __c23, 5)),
-          audienceTargeting: S.optional(__S(374, __c23, 6)),
+          targetedTaxonomyIds: S.optional(__S(336, __c21, 0)),
+          excludedTaxonomyIds: S.optional(__S(336, __c21, 0)),
         }),
-      ).annotate({ identifier: "PackagePublisherProvidedSignalsTargeting" });
+      ).annotate({ identifier: "TaxonomyTargeting" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          mobileAppTargeting: S.optional(__S(373, __c23, 5)),
-          uriTargeting: S.optional(__S(373, __c23, 5)),
-          includedMobileAppCategoryTargeting: S.optional(__S(336, __c21, 0)),
+          audienceTargeting: S.optional(__S(375, __c23, 7)),
+          videoAndAudioSignalsTargeting: S.optional(__S(368, __c23, 0)),
+          contentTargeting: S.optional(__S(375, __c23, 7)),
         }),
-      ).annotate({ identifier: "PackagePlacementTargeting" });
+      ).annotate({ identifier: "PackagePublisherProvidedSignalsTargeting" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          type: S.optional(S.String),
-          width: S.optional(S.String),
-          height: S.optional(S.String),
+          includedMobileAppCategoryTargeting: S.optional(__S(336, __c21, 0)),
+          mobileAppTargeting: S.optional(__S(368, __c23, 0)),
+          uriTargeting: S.optional(__S(368, __c23, 0)),
         }),
-      ).annotate({ identifier: "AdSize" });
+      ).annotate({ identifier: "PackagePlacementTargeting" });
     case 10:
-      return S.Array(__S(377, __c23, 9));
+      return S.suspend(() =>
+        S.Struct({
+          includedDataSegments: S.optional(__S(336, __c21, 0)),
+          publisherTargeting: S.optional(__S(368, __c23, 0)),
+          includedAuthorizedSellerStatuses: S.optional(__S(352, __c22, 0)),
+          includedAdSizes: S.optional(__S(370, __c23, 2)),
+          languageTargeting: S.optional(__S(368, __c23, 0)),
+          verticalTargeting: S.optional(__S(371, __c23, 3)),
+          includedAcceleratedMobilePageType: S.optional(S.String),
+          videoTargeting: S.optional(__S(374, __c23, 6)),
+          minimumPredictedViewabilityPercentage: S.optional(S.String),
+          includedEnvironment: S.optional(S.String),
+          includedNativeInventoryTypes: S.optional(__S(352, __c22, 0)),
+          includedDeviceTypes: S.optional(__S(352, __c22, 0)),
+          includedRestrictedCategories: S.optional(__S(352, __c22, 0)),
+          includedCreativeFormat: S.optional(S.String),
+          includedRewardedType: S.optional(S.String),
+          minimumPredictedClickThroughRatePercentageMillis: S.optional(S.String),
+          geoTargeting: S.optional(__S(371, __c23, 3)),
+          publisherProvidedSignalsTargeting: S.optional(__S(376, __c23, 8)),
+          includedOpenMeasurementTypes: S.optional(__S(352, __c22, 0)),
+          placementTargeting: S.optional(__S(377, __c23, 9)),
+        }),
+      ).annotate({ identifier: "PackageTargeting" });
     case 11:
       return S.suspend(() =>
         S.Struct({
-          includedDeviceTypes: S.optional(__S(352, __c22, 0)),
-          includedAcceleratedMobilePageType: S.optional(S.String),
-          geoTargeting: S.optional(__S(369, __c23, 1)),
-          verticalTargeting: S.optional(__S(369, __c23, 1)),
-          minimumPredictedViewabilityPercentage: S.optional(S.String),
-          videoTargeting: S.optional(__S(372, __c23, 4)),
-          includedNativeInventoryTypes: S.optional(__S(352, __c22, 0)),
-          languageTargeting: S.optional(__S(373, __c23, 5)),
-          publisherProvidedSignalsTargeting: S.optional(__S(375, __c23, 7)),
-          includedAuthorizedSellerStatuses: S.optional(__S(352, __c22, 0)),
-          includedRewardedType: S.optional(S.String),
-          placementTargeting: S.optional(__S(376, __c23, 8)),
-          includedOpenMeasurementTypes: S.optional(__S(352, __c22, 0)),
-          minimumPredictedClickThroughRatePercentageMillis: S.optional(S.String),
-          includedCreativeFormat: S.optional(S.String),
-          includedRestrictedCategories: S.optional(__S(352, __c22, 0)),
-          includedEnvironment: S.optional(S.String),
-          includedDataSegments: S.optional(__S(336, __c21, 0)),
-          includedAdSizes: S.optional(__S(378, __c23, 10)),
-          publisherTargeting: S.optional(__S(373, __c23, 5)),
+          allowlistedMediaPlanners: S.optional(__S(336, __c21, 0)),
         }),
-      ).annotate({ identifier: "PackageTargeting" });
+      ).annotate({ identifier: "AccessControlSettings" });
     case 12:
       return S.suspend(() =>
         S.Struct({
-          accessSettings: S.optional(__S(368, __c23, 0)),
-          displayName: S.optional(S.String),
+          targeting: S.optional(__S(378, __c23, 10)),
           floorPriceCpm: S.optional(__S(304, __c19, 0)),
           millipercentOfMediaFee: S.optional(S.String),
+          curationFeeVisibility: S.optional(S.String),
+          state: S.optional(S.String),
+          description: S.optional(S.String),
+          displayName: S.optional(S.String),
           updateTime: S.optional(S.String),
           feeCpm: S.optional(__S(304, __c19, 0)),
           name: S.optional(S.String),
-          curationFeeVisibility: S.optional(S.String),
+          accessSettings: S.optional(__S(379, __c23, 11)),
           createTime: S.optional(S.String),
-          targeting: S.optional(__S(379, __c23, 11)),
-          state: S.optional(S.String),
-          description: S.optional(S.String),
         }),
       ).annotate({ identifier: "CuratedPackage" });
   }
@@ -1969,13 +1962,13 @@ function __c25(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          cpmFee: S.optional(__S(304, __c19, 0)),
+          createTime: S.optional(S.String),
           userListId: S.optional(S.String),
           name: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          createTime: S.optional(S.String),
           state: S.optional(S.String),
           millipercentOfMediaFee: S.optional(S.String),
+          cpmFee: S.optional(__S(304, __c19, 0)),
+          updateTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "DataSegment" });
   }
@@ -2056,14 +2049,14 @@ function __c29(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          intListValue: S.optional(__S(464, __c29, 0)),
           intValue: S.optional(S.String),
-          doubleValue: S.optional(S.Number),
-          stringListValue: S.optional(__S(464, __c29, 0)),
-          stringValue: S.optional(S.String),
           boolValue: S.optional(S.Boolean),
-          doubleListValue: S.optional(__S(466, __c29, 2)),
+          intListValue: S.optional(__S(464, __c29, 0)),
+          stringListValue: S.optional(__S(464, __c29, 0)),
+          doubleValue: S.optional(S.Number),
           bytesValue: S.optional(S.String),
+          stringValue: S.optional(S.String),
+          doubleListValue: S.optional(__S(466, __c29, 2)),
         }),
       ).annotate({ identifier: "ReportValue" });
     case 4:
@@ -2071,9 +2064,9 @@ function __c29(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
+          month: S.optional(S.Number),
           year: S.optional(S.Number),
           day: S.optional(S.Number),
-          month: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Curationpartners_Date" });
     case 6:
@@ -2090,74 +2083,74 @@ function __c30(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          dimension: S.optional(S.String),
-          metric: S.optional(S.String),
+          filters: S.optional(S.suspend(() => __S(484, __c30, 4))),
         }),
-      ).annotate({ identifier: "Field" });
+      ).annotate({ identifier: "FilterList" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          descending: S.optional(S.Boolean),
-          field: S.optional(__S(480, __c30, 0)),
+          metric: S.optional(S.String),
+          dimension: S.optional(S.String),
         }),
-      ).annotate({ identifier: "Sort" });
+      ).annotate({ identifier: "Field" });
     case 2:
-      return S.Array(__S(481, __c30, 1));
+      return S.suspend(() =>
+        S.Struct({
+          field: S.optional(__S(481, __c30, 1)),
+          values: S.optional(__S(468, __c29, 4)),
+          operation: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "FieldFilter" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          filters: S.optional(S.suspend(() => __S(486, __c30, 6))),
+          andFilter: S.optional(__S(480, __c30, 0)),
+          notFilter: S.optional(__S(483, __c30, 3)),
+          fieldFilter: S.optional(__S(482, __c30, 2)),
+          orFilter: S.optional(__S(480, __c30, 0)),
         }),
-      ).annotate({ identifier: "FilterList" });
+      ).annotate({ identifier: "Filter" });
     case 4:
-      return S.suspend(() =>
-        S.Struct({
-          operation: S.optional(S.String),
-          values: S.optional(__S(468, __c29, 4)),
-          field: S.optional(__S(480, __c30, 0)),
-        }),
-      ).annotate({ identifier: "FieldFilter" });
+      return S.Array(__S(483, __c30, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          andFilter: S.optional(__S(483, __c30, 3)),
-          fieldFilter: S.optional(__S(484, __c30, 4)),
-          notFilter: S.optional(__S(485, __c30, 5)),
-          orFilter: S.optional(__S(483, __c30, 3)),
-        }),
-      ).annotate({ identifier: "Filter" });
-    case 6:
-      return S.Array(__S(485, __c30, 5));
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          relative: S.optional(S.String),
           fixed: S.optional(__S(470, __c29, 6)),
+          relative: S.optional(S.String),
         }),
       ).annotate({ identifier: "DateRange" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          field: S.optional(__S(481, __c30, 1)),
+          descending: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "Sort" });
+    case 7:
+      return S.Array(__S(486, __c30, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          sorts: S.optional(__S(482, __c30, 2)),
           metrics: S.optional(__S(352, __c22, 0)),
-          filters: S.optional(__S(486, __c30, 6)),
-          currencyCode: S.optional(S.String),
-          dateRange: S.optional(__S(487, __c30, 7)),
+          filters: S.optional(__S(484, __c30, 4)),
           dimensions: S.optional(__S(352, __c22, 0)),
-          timeZone: S.optional(S.String),
+          currencyCode: S.optional(S.String),
+          dateRange: S.optional(__S(485, __c30, 5)),
           timeZoneSource: S.optional(S.String),
+          sorts: S.optional(__S(487, __c30, 7)),
+          timeZone: S.optional(S.String),
         }),
       ).annotate({ identifier: "ReportDefinition" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          reportId: S.optional(S.String),
-          createTime: S.optional(S.String),
-          locale: S.optional(S.String),
           updateTime: S.optional(S.String),
-          displayName: S.optional(S.String),
           name: S.optional(S.String),
+          locale: S.optional(S.String),
+          displayName: S.optional(S.String),
+          reportId: S.optional(S.String),
           reportDefinition: S.optional(__S(488, __c30, 8)),
+          createTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "Report" });
   }

@@ -106,25 +106,25 @@ export interface Status {
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
-  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string | undefined;
-  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap | undefined;
-  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap | undefined;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
   done?: boolean | undefined;
   /** The error result of the operation in case of failure or cancellation. */
   error?: Status | undefined;
+  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
+  name?: string | undefined;
+  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
+  response?: DocumentMap | undefined;
+  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
+  metadata?: DocumentMap | undefined;
 }
 /** Request message for AuthorizeEnvironment. */
 export interface AuthorizeEnvironmentRequest {
-  /** The time when the credentials expire. If not set, defaults to one hour from when the server received the request. */
-  expireTime?: string | undefined;
   /** The OAuth ID token that should be sent to the environment. */
   idToken?: string | Redacted.Redacted<string> | undefined;
   /** The OAuth access token that should be sent to the environment. */
   accessToken?: string | Redacted.Redacted<string> | undefined;
+  /** The time when the credentials expire. If not set, defaults to one hour from when the server received the request. */
+  expireTime?: string | undefined;
 }
 export interface AuthorizeUsersEnvironmentsRequest extends AuthorizeEnvironmentRequest {
   /** Name of the resource that should receive the credentials, for example `users/me/environments/default` or `users/someone@example.com/environments/default`. */
@@ -145,12 +145,12 @@ export interface DeleteOperationsRequest {
   name: string;
 }
 export interface GenerateAccessTokenUsersEnvironmentsRequest {
+  /** Desired lifetime duration of the access token. This value must be at most 24 hours. If a value is not specified, the token's lifetime will be set to a default value of 1 hour. */
+  ttl?: string | undefined;
   /** Desired expiration time of the access token. This value must be at most 24 hours in the future. If a value is not specified, the token's expiration time will be set to a default value of 1 hour in the future. */
   expireTime?: string | undefined;
   /** Required. The environment to generate the access token for. */
   environment: string;
-  /** Desired lifetime duration of the access token. This value must be at most 24 hours. If a value is not specified, the token's lifetime will be set to a default value of 1 hour. */
-  ttl?: string | undefined;
 }
 /** Response message for GenerateAccessToken. */
 export interface GenerateAccessTokenResponse {
@@ -165,55 +165,55 @@ export interface GetUsersEnvironmentsRequest {
   /** Required. Name of the requested resource, for example `users/me/environments/default` or `users/someone@example.com/environments/default`. */
   name: string;
 }
+export type StringList = Array<string>;
 export type EnvironmentStateEnum =
   | "STATE_UNSPECIFIED"
   | "SUSPENDED"
   | "PENDING"
   | "RUNNING"
   | "DELETING";
-export type StringList = Array<string>;
 /** A Cloud Shell environment, which is defined as the combination of a Docker image specifying what is installed on the environment and a home directory containing the user's data that will remain across sessions. Each user has at least an environment with the ID "default". */
 export interface Environment {
-  /** Output only. Port to which clients can connect to initiate SSH sessions with the environment. */
-  sshPort?: number | undefined;
   /** Output only. The environment's identifier, unique among the user's environments. */
   id?: string | undefined;
-  /** Output only. Host to which clients can connect to initiate HTTPS or WSS connections with the environment. */
-  webHost?: string | undefined;
-  /** Output only. Username that clients should use when initiating SSH sessions with the environment. */
-  sshUsername?: string | undefined;
   /** Required. Immutable. Full path to the Docker image used to run this environment, e.g. "gcr.io/dev-con/cloud-devshell:latest". */
   dockerImage?: string | undefined;
-  /** Output only. Current execution state of this environment. */
-  state?: EnvironmentStateEnum | undefined;
-  /** Immutable. Full name of this resource, in the format `users/{owner_email}/environments/{environment_id}`. `{owner_email}` is the email address of the user to whom this environment belongs, and `{environment_id}` is the identifier of this environment. For example, `users/someone@example.com/environments/default`. */
-  name?: string | undefined;
+  /** Output only. Username that clients should use when initiating SSH sessions with the environment. */
+  sshUsername?: string | undefined;
+  /** Output only. Host to which clients can connect to initiate HTTPS or WSS connections with the environment. */
+  webHost?: string | undefined;
   /** Output only. Public keys associated with the environment. Clients can connect to this environment via SSH only if they possess a private key corresponding to at least one of these public keys. Keys can be added to or removed from the environment using the AddPublicKey and RemovePublicKey methods. */
   publicKeys?: StringList | undefined;
+  /** Immutable. Full name of this resource, in the format `users/{owner_email}/environments/{environment_id}`. `{owner_email}` is the email address of the user to whom this environment belongs, and `{environment_id}` is the identifier of this environment. For example, `users/someone@example.com/environments/default`. */
+  name?: string | undefined;
+  /** Output only. Port to which clients can connect to initiate SSH sessions with the environment. */
+  sshPort?: number | undefined;
+  /** Output only. Current execution state of this environment. */
+  state?: EnvironmentStateEnum | undefined;
   /** Output only. Host to which clients can connect to initiate SSH sessions with the environment. */
   sshHost?: string | undefined;
 }
 export interface ListOperationsRequest {
-  /** The standard list filter. */
-  filter?: string | undefined;
-  /** The standard list page token. */
-  pageToken?: string | undefined;
   /** The standard list page size. */
   pageSize?: number | undefined;
-  /** The name of the operation's parent resource. */
-  name: string;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
   returnPartialSuccess?: boolean | undefined;
+  /** The name of the operation's parent resource. */
+  name: string;
+  /** The standard list page token. */
+  pageToken?: string | undefined;
+  /** The standard list filter. */
+  filter?: string | undefined;
 }
 export type OperationList = Array<Operation>;
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
-  /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
-  unreachable?: StringList | undefined;
-  /** A list of operations that matches the specified filter in the request. */
-  operations?: OperationList | undefined;
   /** The standard List next-page token. */
   nextPageToken?: string | undefined;
+  /** A list of operations that matches the specified filter in the request. */
+  operations?: OperationList | undefined;
+  /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
+  unreachable?: StringList | undefined;
 }
 /** Request message for RemovePublicKey. */
 export interface RemovePublicKeyRequest {
@@ -226,10 +226,10 @@ export interface RemovePublicKeyUsersEnvironmentsRequest extends RemovePublicKey
 }
 /** Request message for StartEnvironment. */
 export interface StartEnvironmentRequest {
-  /** Public keys that should be added to the environment before it is started. */
-  publicKeys?: StringList | undefined;
   /** The initial access token passed to the environment. If this is present and valid, the environment will be pre-authenticated with gcloud so that the user can run gcloud commands in Cloud Shell without having to log in. This code can be updated later by calling AuthorizeEnvironment. */
   accessToken?: string | Redacted.Redacted<string> | undefined;
+  /** Public keys that should be added to the environment before it is started. */
+  publicKeys?: StringList | undefined;
 }
 export interface StartUsersEnvironmentsRequest extends StartEnvironmentRequest {
   /** Name of the resource that should be started, for example `users/me/environments/default` or `users/someone@example.com/environments/default`. */
@@ -454,14 +454,14 @@ function __c0(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          sshPort: S.optional(S.Number),
           id: S.optional(S.String),
-          webHost: S.optional(S.String),
-          sshUsername: S.optional(S.String),
           dockerImage: S.optional(S.String),
-          state: S.optional(S.String),
-          name: S.optional(S.String),
+          sshUsername: S.optional(S.String),
+          webHost: S.optional(S.String),
           publicKeys: S.optional(__S(4, __c1, 0)),
+          name: S.optional(S.String),
+          sshPort: S.optional(S.Number),
+          state: S.optional(S.String),
           sshHost: S.optional(S.String),
         }),
       ).annotate({ identifier: "Environment" });
@@ -478,11 +478,11 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
           returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -496,9 +496,9 @@ function __c2(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(4, __c1, 0)),
-          operations: S.optional(__S(9, __c2, 1)),
           nextPageToken: S.optional(S.String),
+          operations: S.optional(__S(9, __c2, 1)),
+          unreachable: S.optional(__S(4, __c1, 0)),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
@@ -527,8 +527,8 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          publicKeys: S.optional(__S(4, __c1, 0)),
           accessToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          publicKeys: S.optional(__S(4, __c1, 0)),
         }),
       ).annotate({ identifier: "StartEnvironmentRequest" });
     case 1:
@@ -594,11 +594,11 @@ function __c7(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          metadata: S.optional(__S(28, __c7, 0)),
-          response: S.optional(__S(28, __c7, 0)),
           done: S.optional(S.Boolean),
           error: S.optional(__S(30, __c7, 2)),
+          name: S.optional(S.String),
+          response: S.optional(__S(28, __c7, 0)),
+          metadata: S.optional(__S(28, __c7, 0)),
         }),
       ).annotate({ identifier: "Operation" });
   }
@@ -608,9 +608,9 @@ function __c8(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          expireTime: S.optional(S.String),
           idToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           accessToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          expireTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "AuthorizeEnvironmentRequest" });
     case 1:
@@ -674,9 +674,9 @@ function __c12(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          ttl: S.optional(S.String.pipe(T.Query())),
           expireTime: S.optional(S.String.pipe(T.Query())),
           environment: S.String.pipe(T.Label()),
-          ttl: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",

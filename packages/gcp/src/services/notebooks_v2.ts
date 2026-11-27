@@ -106,12 +106,12 @@ export interface CheckAuthorizationProjectsLocationsInstancesRequest extends Che
 }
 /** Response message for checking authorization for the instance owner. */
 export interface CheckAuthorizationResponse {
-  /** Output only. Timestamp when this Authorization request was created. */
-  createTime?: string | undefined;
-  /** If the user has not completed OAuth consent, then the oauth_url is returned. Otherwise, this field is not set. */
-  oauth_uri?: string | undefined;
   /** Success indicates that the user completed OAuth consent and access tokens can be generated. */
   success?: boolean | undefined;
+  /** If the user has not completed OAuth consent, then the oauth_url is returned. Otherwise, this field is not set. */
+  oauth_uri?: string | undefined;
+  /** Output only. Timestamp when this Authorization request was created. */
+  createTime?: string | undefined;
 }
 export interface CheckUpgradabilityProjectsLocationsInstancesRequest {
   /** Required. Format: `projects/{project_id}/locations/{location}/instances/{instance_id}` */
@@ -119,16 +119,15 @@ export interface CheckUpgradabilityProjectsLocationsInstancesRequest {
 }
 /** Response for checking if a notebook instance is upgradeable. */
 export interface CheckInstanceUpgradabilityResponse {
-  /** Additional information about upgrade. */
-  upgradeInfo?: string | undefined;
-  /** The version this instance will be upgraded to if calling the upgrade endpoint. This field will only be populated if field upgradeable is true. */
-  upgradeVersion?: string | undefined;
   /** The new image self link this instance will be upgraded to if calling the upgrade endpoint. This field will only be populated if field upgradeable is true. */
   upgradeImage?: string | undefined;
+  /** The version this instance will be upgraded to if calling the upgrade endpoint. This field will only be populated if field upgradeable is true. */
+  upgradeVersion?: string | undefined;
+  /** Additional information about upgrade. */
+  upgradeInfo?: string | undefined;
   /** If an instance is upgradeable. */
   upgradeable?: boolean | undefined;
 }
-export type StringList = Array<string>;
 export type InstanceHealthStateEnum =
   | "HEALTH_STATE_UNSPECIFIED"
   | "HEALTHY"
@@ -152,26 +151,38 @@ export type UpgradeHistoryEntryActionEnum = "ACTION_UNSPECIFIED" | "UPGRADE" | "
 export type UpgradeHistoryEntryStateEnum = "STATE_UNSPECIFIED" | "STARTED" | "SUCCEEDED" | "FAILED";
 /** The entry of VM image upgrade history. */
 export interface UpgradeHistoryEntry {
-  /** Optional. Action. Rolloback or Upgrade. */
-  action?: UpgradeHistoryEntryActionEnum | (string & {}) | undefined;
   /** Optional. The version of the notebook instance before this upgrade. */
   version?: string | undefined;
-  /** Optional. The container image before this instance upgrade. */
-  containerImage?: string | undefined;
-  /** Optional. The framework of this notebook instance. */
-  framework?: string | undefined;
   /** Immutable. The time that this instance upgrade history entry is created. */
   createTime?: string | undefined;
+  /** Optional. The container image before this instance upgrade. */
+  containerImage?: string | undefined;
   /** Optional. The VM image before this instance upgrade. */
   vmImage?: string | undefined;
-  /** Output only. The state of this instance upgrade history entry. */
-  state?: UpgradeHistoryEntryStateEnum | (string & {}) | undefined;
-  /** Optional. Target VM Version, like m63. */
-  targetVersion?: string | undefined;
   /** Optional. The snapshot of the boot disk of this notebook instance before upgrade. */
   snapshot?: string | undefined;
+  /** Optional. Action. Rolloback or Upgrade. */
+  action?: UpgradeHistoryEntryActionEnum | (string & {}) | undefined;
+  /** Optional. Target VM Version, like m63. */
+  targetVersion?: string | undefined;
+  /** Output only. The state of this instance upgrade history entry. */
+  state?: UpgradeHistoryEntryStateEnum | (string & {}) | undefined;
+  /** Optional. The framework of this notebook instance. */
+  framework?: string | undefined;
 }
 export type UpgradeHistoryEntryList = Array<UpgradeHistoryEntry>;
+export type ConfidentialInstanceConfigConfidentialInstanceTypeEnum =
+  | "CONFIDENTIAL_INSTANCE_TYPE_UNSPECIFIED"
+  | "SEV";
+/** A set of Confidential Instance options. */
+export interface ConfidentialInstanceConfig {
+  /** Optional. Defines the type of technology used by the confidential instance. */
+  confidentialInstanceType?:
+    | ConfidentialInstanceConfigConfidentialInstanceTypeEnum
+    | (string & {})
+    | undefined;
+}
+export type StringList = Array<string>;
 /** A service account that acts as an identity. */
 export interface ServiceAccount {
   /** Output only. The list of scopes to be made available for this service account. Set by the CLH to https://www.googleapis.com/auth/cloud-platform */
@@ -180,7 +191,29 @@ export interface ServiceAccount {
   email?: string | undefined;
 }
 export type ServiceAccountList = Array<ServiceAccount>;
-export type BootDiskDiskTypeEnum =
+/** An access configuration attached to an instance's network interface. */
+export interface AccessConfig {
+  /** Optional. An external IP address associated with this instance. Specify an unused static external IP address available to the project or leave this field undefined to use an IP from a shared ephemeral IP address pool. If you specify a static external IP address, it must live in the same region as the zone of the instance. */
+  externalIp?: string | undefined;
+}
+export type AccessConfigList = Array<AccessConfig>;
+export type NetworkInterfaceNicTypeEnum = "NIC_TYPE_UNSPECIFIED" | "VIRTIO_NET" | "GVNIC";
+/** The definition of a network interface resource attached to a VM. */
+export interface NetworkInterface {
+  /** Optional. The name of the VPC that this VM instance is in. Format: `projects/{project_id}/global/networks/{network_id}` */
+  network?: string | undefined;
+  /** Optional. An array of configurations for this interface. Currently, only one access config, ONE_TO_ONE_NAT, is supported. If no accessConfigs specified, the instance will have an external internet access through an ephemeral external IP address. */
+  accessConfigs?: AccessConfigList | undefined;
+  /** Optional. The name of the subnet that this VM instance is in. Format: `projects/{project_id}/regions/{region}/subnetworks/{subnetwork_id}` */
+  subnet?: string | undefined;
+  /** Optional. The type of vNIC to be used on this interface. This may be gVNIC or VirtioNet. */
+  nicType?: NetworkInterfaceNicTypeEnum | (string & {}) | undefined;
+  /** Optional. An internal IP address associated with this instance. Specify an unused static internal IP address available to the subnet this instance is in, or leave this field undefined to use an IP from the subnet's ephemeral range. */
+  internalIp?: string | undefined;
+}
+export type NetworkInterfaceList = Array<NetworkInterface>;
+export type DataDiskDiskEncryptionEnum = "DISK_ENCRYPTION_UNSPECIFIED" | "GMEK" | "CMEK";
+export type DataDiskDiskTypeEnum =
   | "DISK_TYPE_UNSPECIFIED"
   | "PD_STANDARD"
   | "PD_SSD"
@@ -191,70 +224,41 @@ export type BootDiskDiskTypeEnum =
   | "HYPERDISK_THROUGHPUT"
   | "HYPERDISK_BALANCED_HIGH_AVAILABILITY"
   | "HYPERDISK_ML";
-export type BootDiskDiskEncryptionEnum = "DISK_ENCRYPTION_UNSPECIFIED" | "GMEK" | "CMEK";
-/** The definition of a boot disk. */
-export interface BootDisk {
-  /** Optional. Indicates the type of the disk. */
-  diskType?: BootDiskDiskTypeEnum | (string & {}) | undefined;
+/** An instance-attached disk resource. */
+export interface DataDisk {
+  /** Optional. The resource policies to apply to the data disk. */
+  resourcePolicies?: StringList | undefined;
+  /** Optional. Disk encryption method used on the boot and data disks, defaults to GMEK. */
+  diskEncryption?: DataDiskDiskEncryptionEnum | (string & {}) | undefined;
   /** Optional. The KMS key used to encrypt the disks, only applicable if disk_encryption is CMEK. Format: `projects/{project_id}/locations/{location}/keyRings/{key_ring_id}/cryptoKeys/{key_id}` Learn more about using your own encryption keys. */
   kmsKey?: string | undefined;
-  /** Optional. Disk encryption method used on the boot and data disks, defaults to GMEK. */
-  diskEncryption?: BootDiskDiskEncryptionEnum | (string & {}) | undefined;
-  /** Optional. The size of the boot disk in GB attached to this instance, up to a maximum of 64000 GB (64 TB). If not specified, this defaults to the recommended value of 150GB. */
+  /** Optional. Indicates the type of the disk. */
+  diskType?: DataDiskDiskTypeEnum | (string & {}) | undefined;
+  /** Optional. The size of the disk in GB attached to this VM instance, up to a maximum of 64000 GB (64 TB). If not specified, this defaults to 100. */
   diskSizeGb?: string | undefined;
 }
-/** Definition of a container image for starting a notebook instance with the environment installed in a container. */
-export interface ContainerImage {
-  /** Optional. The tag of the container image. If not specified, this defaults to the latest tag. */
-  tag?: string | undefined;
-  /** Required. The path to the container image repository. For example: `gcr.io/{project_id}/{image_name}` */
-  repository?: string | undefined;
-}
-/** A set of Shielded Instance options. See [Images using supported Shielded VM features](https://cloud.google.com/compute/docs/instances/modifying-shielded-vm). Not all combinations are valid. */
-export interface ShieldedInstanceConfig {
-  /** Optional. Defines whether the VM instance has the vTPM enabled. */
-  enableVtpm?: boolean | undefined;
-  /** Optional. Defines whether the VM instance has Secure Boot enabled. Secure Boot helps ensure that the system only runs authentic software by verifying the digital signature of all boot components, and halting the boot process if signature verification fails. Disabled by default. */
-  enableSecureBoot?: boolean | undefined;
-  /** Optional. Defines whether the VM instance has integrity monitoring enabled. Enables monitoring and attestation of the boot integrity of the VM instance. The attestation is performed against the integrity policy baseline. This baseline is initially derived from the implicitly trusted boot image when the VM instance is created. */
-  enableIntegrityMonitoring?: boolean | undefined;
-}
+export type DataDiskList = Array<DataDisk>;
 /** Definition of a custom Compute Engine virtual machine image for starting a notebook instance with the environment installed directly on the VM. */
 export interface VmImage {
-  /** Required. The name of the Google Cloud project that this VM image belongs to. Format: `{project_id}` */
-  project?: string | undefined;
-  /** Optional. Use this VM image family to find the image; the newest image in this family will be used. */
-  family?: string | undefined;
   /** Optional. Use VM image name to find the image. */
   name?: string | undefined;
+  /** Optional. Use this VM image family to find the image; the newest image in this family will be used. */
+  family?: string | undefined;
   /** Output only. A human-readable description of the image running on the instance (for example, "Debian 11, Python 3.10"), derived at read time from the image release configuration (the source of truth). Set to "Custom" for unrecognized boot-disk images. */
   imageDescription?: string | undefined;
   /** Output only. The ID of the specific Compute Engine VM image the instance is currently running (for example, "workbench-instances-2603-20260918-2130-rc0"). */
   imageId?: string | undefined;
+  /** Required. The name of the Google Cloud project that this VM image belongs to. Format: `{project_id}` */
+  project?: string | undefined;
 }
-/** A GPU driver configuration */
-export interface GPUDriverConfig {
-  /** Optional. Specify a custom Cloud Storage path where the GPU driver is stored. If not specified, we'll automatically choose from official GPU drivers. */
-  customGpuDriverPath?: string | undefined;
-  /** Optional. Whether the end user authorizes Google Cloud to install GPU driver on this VM instance. If this field is empty or set to false, the GPU driver won't be installed. Only applicable to instances with GPUs. */
-  enableGpuDriver?: boolean | undefined;
-}
-export type ReservationAffinityConsumeReservationTypeEnum =
-  | "RESERVATION_UNSPECIFIED"
-  | "RESERVATION_NONE"
-  | "RESERVATION_ANY"
-  | "RESERVATION_SPECIFIC";
-/** A reservation that an instance can consume from. */
-export interface ReservationAffinity {
-  /** Required. Specifies the type of reservation from which this instance can consume resources: RESERVATION_ANY (default), RESERVATION_SPECIFIC, or RESERVATION_NONE. See Consuming reserved instances for examples. */
-  consumeReservationType?:
-    | ReservationAffinityConsumeReservationTypeEnum
-    | (string & {})
-    | undefined;
-  /** Optional. Corresponds to the label values of a reservation resource. This can be either a name to a reservation in the same project or "projects/different-project/reservations/some-reservation-name" to target a shared reservation in the same zone but in a different project. */
-  values?: StringList | undefined;
-  /** Optional. Corresponds to the label key of a reservation resource. To target a RESERVATION_SPECIFIC by name, use compute.googleapis.com/reservation-name as the key and specify the name of your reservation as its value. */
-  key?: string | undefined;
+/** A set of Shielded Instance options. See [Images using supported Shielded VM features](https://cloud.google.com/compute/docs/instances/modifying-shielded-vm). Not all combinations are valid. */
+export interface ShieldedInstanceConfig {
+  /** Optional. Defines whether the VM instance has Secure Boot enabled. Secure Boot helps ensure that the system only runs authentic software by verifying the digital signature of all boot components, and halting the boot process if signature verification fails. Disabled by default. */
+  enableSecureBoot?: boolean | undefined;
+  /** Optional. Defines whether the VM instance has integrity monitoring enabled. Enables monitoring and attestation of the boot integrity of the VM instance. The attestation is performed against the integrity policy baseline. This baseline is initially derived from the implicitly trusted boot image when the VM instance is created. */
+  enableIntegrityMonitoring?: boolean | undefined;
+  /** Optional. Defines whether the VM instance has the vTPM enabled. */
+  enableVtpm?: boolean | undefined;
 }
 export type AcceleratorConfigTypeEnum =
   | "ACCELERATOR_TYPE_UNSPECIFIED"
@@ -281,7 +285,7 @@ export interface AcceleratorConfig {
   coreCount?: string | undefined;
 }
 export type AcceleratorConfigList = Array<AcceleratorConfig>;
-export type DataDiskDiskTypeEnum =
+export type BootDiskDiskTypeEnum =
   | "DISK_TYPE_UNSPECIFIED"
   | "PD_STANDARD"
   | "PD_SSD"
@@ -292,136 +296,132 @@ export type DataDiskDiskTypeEnum =
   | "HYPERDISK_THROUGHPUT"
   | "HYPERDISK_BALANCED_HIGH_AVAILABILITY"
   | "HYPERDISK_ML";
-export type DataDiskDiskEncryptionEnum = "DISK_ENCRYPTION_UNSPECIFIED" | "GMEK" | "CMEK";
-/** An instance-attached disk resource. */
-export interface DataDisk {
-  /** Optional. The size of the disk in GB attached to this VM instance, up to a maximum of 64000 GB (64 TB). If not specified, this defaults to 100. */
-  diskSizeGb?: string | undefined;
-  /** Optional. The resource policies to apply to the data disk. */
-  resourcePolicies?: StringList | undefined;
-  /** Optional. Indicates the type of the disk. */
-  diskType?: DataDiskDiskTypeEnum | (string & {}) | undefined;
-  /** Optional. Disk encryption method used on the boot and data disks, defaults to GMEK. */
-  diskEncryption?: DataDiskDiskEncryptionEnum | (string & {}) | undefined;
+export type BootDiskDiskEncryptionEnum = "DISK_ENCRYPTION_UNSPECIFIED" | "GMEK" | "CMEK";
+/** The definition of a boot disk. */
+export interface BootDisk {
   /** Optional. The KMS key used to encrypt the disks, only applicable if disk_encryption is CMEK. Format: `projects/{project_id}/locations/{location}/keyRings/{key_ring_id}/cryptoKeys/{key_id}` Learn more about using your own encryption keys. */
   kmsKey?: string | undefined;
+  /** Optional. The size of the boot disk in GB attached to this instance, up to a maximum of 64000 GB (64 TB). If not specified, this defaults to the recommended value of 150GB. */
+  diskSizeGb?: string | undefined;
+  /** Optional. Indicates the type of the disk. */
+  diskType?: BootDiskDiskTypeEnum | (string & {}) | undefined;
+  /** Optional. Disk encryption method used on the boot and data disks, defaults to GMEK. */
+  diskEncryption?: BootDiskDiskEncryptionEnum | (string & {}) | undefined;
 }
-export type DataDiskList = Array<DataDisk>;
-export type ConfidentialInstanceConfigConfidentialInstanceTypeEnum =
-  | "CONFIDENTIAL_INSTANCE_TYPE_UNSPECIFIED"
-  | "SEV";
-/** A set of Confidential Instance options. */
-export interface ConfidentialInstanceConfig {
-  /** Optional. Defines the type of technology used by the confidential instance. */
-  confidentialInstanceType?:
-    | ConfidentialInstanceConfigConfidentialInstanceTypeEnum
+export type ReservationAffinityConsumeReservationTypeEnum =
+  | "RESERVATION_UNSPECIFIED"
+  | "RESERVATION_NONE"
+  | "RESERVATION_ANY"
+  | "RESERVATION_SPECIFIC";
+/** A reservation that an instance can consume from. */
+export interface ReservationAffinity {
+  /** Optional. Corresponds to the label key of a reservation resource. To target a RESERVATION_SPECIFIC by name, use compute.googleapis.com/reservation-name as the key and specify the name of your reservation as its value. */
+  key?: string | undefined;
+  /** Required. Specifies the type of reservation from which this instance can consume resources: RESERVATION_ANY (default), RESERVATION_SPECIFIC, or RESERVATION_NONE. See Consuming reserved instances for examples. */
+  consumeReservationType?:
+    | ReservationAffinityConsumeReservationTypeEnum
     | (string & {})
     | undefined;
+  /** Optional. Corresponds to the label values of a reservation resource. This can be either a name to a reservation in the same project or "projects/different-project/reservations/some-reservation-name" to target a shared reservation in the same zone but in a different project. */
+  values?: StringList | undefined;
 }
-/** An access configuration attached to an instance's network interface. */
-export interface AccessConfig {
-  /** Optional. An external IP address associated with this instance. Specify an unused static external IP address available to the project or leave this field undefined to use an IP from a shared ephemeral IP address pool. If you specify a static external IP address, it must live in the same region as the zone of the instance. */
-  externalIp?: string | undefined;
+/** A GPU driver configuration */
+export interface GPUDriverConfig {
+  /** Optional. Whether the end user authorizes Google Cloud to install GPU driver on this VM instance. If this field is empty or set to false, the GPU driver won't be installed. Only applicable to instances with GPUs. */
+  enableGpuDriver?: boolean | undefined;
+  /** Optional. Specify a custom Cloud Storage path where the GPU driver is stored. If not specified, we'll automatically choose from official GPU drivers. */
+  customGpuDriverPath?: string | undefined;
 }
-export type AccessConfigList = Array<AccessConfig>;
-export type NetworkInterfaceNicTypeEnum = "NIC_TYPE_UNSPECIFIED" | "VIRTIO_NET" | "GVNIC";
-/** The definition of a network interface resource attached to a VM. */
-export interface NetworkInterface {
-  /** Optional. An internal IP address associated with this instance. Specify an unused static internal IP address available to the subnet this instance is in, or leave this field undefined to use an IP from the subnet's ephemeral range. */
-  internalIp?: string | undefined;
-  /** Optional. The name of the VPC that this VM instance is in. Format: `projects/{project_id}/global/networks/{network_id}` */
-  network?: string | undefined;
-  /** Optional. The name of the subnet that this VM instance is in. Format: `projects/{project_id}/regions/{region}/subnetworks/{subnetwork_id}` */
-  subnet?: string | undefined;
-  /** Optional. An array of configurations for this interface. Currently, only one access config, ONE_TO_ONE_NAT, is supported. If no accessConfigs specified, the instance will have an external internet access through an ephemeral external IP address. */
-  accessConfigs?: AccessConfigList | undefined;
-  /** Optional. The type of vNIC to be used on this interface. This may be gVNIC or VirtioNet. */
-  nicType?: NetworkInterfaceNicTypeEnum | (string & {}) | undefined;
+/** Definition of a container image for starting a notebook instance with the environment installed in a container. */
+export interface ContainerImage {
+  /** Optional. The tag of the container image. If not specified, this defaults to the latest tag. */
+  tag?: string | undefined;
+  /** Required. The path to the container image repository. For example: `gcr.io/{project_id}/{image_name}` */
+  repository?: string | undefined;
 }
-export type NetworkInterfaceList = Array<NetworkInterface>;
 /** The definition of how to configure a VM instance outside of Resources and Identity. */
 export interface GceSetup {
+  /** Output only. The unique ID of the Compute Engine instance resource. */
+  instanceId?: string | undefined;
+  /** Optional. Confidential instance configuration. */
+  confidentialInstanceConfig?: ConfidentialInstanceConfig | undefined;
   /** Output only. Represents system-managed metadata for this instance: the subset of `metadata` whose keys are recognized Workbench system keys. */
   systemMetadata?: StringMap | undefined;
   /** Optional. The service account that serves as an identity for the VM instance. Currently supports only one service account. */
   serviceAccounts?: ServiceAccountList | undefined;
-  /** Optional. The Compute Engine network tags to add to runtime (see [Add network tags](https://cloud.google.com/vpc/docs/add-remove-network-tags)). */
-  tags?: StringList | undefined;
-  /** Optional. The boot disk for the VM. */
-  bootDisk?: BootDisk | undefined;
-  /** Optional. The machine type of the VM instance. https://cloud.google.com/compute/docs/machine-resource */
-  machineType?: string | undefined;
-  /** Optional. Use a container image to start the notebook instance. */
-  containerImage?: ContainerImage | undefined;
-  /** Optional. Shielded VM configuration. [Images using supported Shielded VM features](https://cloud.google.com/compute/docs/instances/modifying-shielded-vm). */
-  shieldedInstanceConfig?: ShieldedInstanceConfig | undefined;
-  /** Optional. Custom metadata to apply to this instance. */
-  metadata?: StringMap | undefined;
-  /** Optional. Use a Compute Engine VM image to start the notebook instance. */
-  vmImage?: VmImage | undefined;
-  /** Optional. Configuration for GPU drivers. */
-  gpuDriverConfig?: GPUDriverConfig | undefined;
-  /** Optional. Specifies the reservations that this instance can consume from. */
-  reservationAffinity?: ReservationAffinity | undefined;
-  /** Optional. The hardware accelerators used on this instance. If you use accelerators, make sure that your configuration has [enough vCPUs and memory to support the `machine_type` you have selected](https://cloud.google.com/compute/docs/gpus/#gpus-list). Currently supports only one accelerator configuration. */
-  acceleratorConfigs?: AcceleratorConfigList | undefined;
   /** Optional. If true, no external IP will be assigned to this VM instance. */
   disablePublicIp?: boolean | undefined;
-  /** Optional. Data disks attached to the VM instance. Currently supports only one data disk. */
-  dataDisks?: DataDiskList | undefined;
-  /** Optional. The minimum CPU platform to use for this instance. The list of valid values can be found in https://cloud.google.com/compute/docs/instances/specify-min-cpu-platform#availablezones */
-  minCpuPlatform?: string | undefined;
-  /** Optional. Flag to enable ip forwarding or not, default false/off. https://cloud.google.com/vpc/docs/using-routes#canipforward */
-  enableIpForwarding?: boolean | undefined;
-  /** Optional. Confidential instance configuration. */
-  confidentialInstanceConfig?: ConfidentialInstanceConfig | undefined;
-  /** Output only. The unique ID of the Compute Engine instance resource. */
-  instanceId?: string | undefined;
   /** Optional. The network interfaces for the VM. Supports only one interface. */
   networkInterfaces?: NetworkInterfaceList | undefined;
+  /** Optional. Data disks attached to the VM instance. Currently supports only one data disk. */
+  dataDisks?: DataDiskList | undefined;
+  /** Optional. The machine type of the VM instance. https://cloud.google.com/compute/docs/machine-resource */
+  machineType?: string | undefined;
+  /** Optional. Use a Compute Engine VM image to start the notebook instance. */
+  vmImage?: VmImage | undefined;
+  /** Optional. Shielded VM configuration. [Images using supported Shielded VM features](https://cloud.google.com/compute/docs/instances/modifying-shielded-vm). */
+  shieldedInstanceConfig?: ShieldedInstanceConfig | undefined;
+  /** Optional. The hardware accelerators used on this instance. If you use accelerators, make sure that your configuration has [enough vCPUs and memory to support the `machine_type` you have selected](https://cloud.google.com/compute/docs/gpus/#gpus-list). Currently supports only one accelerator configuration. */
+  acceleratorConfigs?: AcceleratorConfigList | undefined;
+  /** Optional. Flag to enable ip forwarding or not, default false/off. https://cloud.google.com/vpc/docs/using-routes#canipforward */
+  enableIpForwarding?: boolean | undefined;
+  /** Optional. The boot disk for the VM. */
+  bootDisk?: BootDisk | undefined;
+  /** Optional. Specifies the reservations that this instance can consume from. */
+  reservationAffinity?: ReservationAffinity | undefined;
+  /** Optional. Configuration for GPU drivers. */
+  gpuDriverConfig?: GPUDriverConfig | undefined;
+  /** Optional. The Compute Engine network tags to add to runtime (see [Add network tags](https://cloud.google.com/vpc/docs/add-remove-network-tags)). */
+  tags?: StringList | undefined;
+  /** Optional. Use a container image to start the notebook instance. */
+  containerImage?: ContainerImage | undefined;
+  /** Optional. Custom metadata to apply to this instance. */
+  metadata?: StringMap | undefined;
+  /** Optional. The minimum CPU platform to use for this instance. The list of valid values can be found in https://cloud.google.com/compute/docs/instances/specify-min-cpu-platform#availablezones */
+  minCpuPlatform?: string | undefined;
 }
 /** The definition of a notebook instance. */
 export interface Instance {
-  /** Output only. Instance creation time. */
-  createTime?: string | undefined;
+  /** Optional. Flag that specifies that a notebook can be accessed with third party identity provider. */
+  enableThirdPartyIdentity?: boolean | undefined;
+  /** Output only. Unique ID of the resource. */
+  id?: string | undefined;
+  /** Output only. Instance health_state. */
+  healthState?: InstanceHealthStateEnum | (string & {}) | undefined;
   /** Output only. Reserved for future use for Zone Separation. */
   satisfiesPzs?: boolean | undefined;
   /** Output only. Reserved for future use for Zone Isolation. */
   satisfiesPzi?: boolean | undefined;
-  /** Output only. The proxy endpoint that is used to access the Jupyter notebook. */
-  proxyUri?: string | undefined;
-  /** Optional. Labels to apply to this instance. These can be later modified by the UpdateInstance method. */
-  labels?: StringMap | undefined;
-  /** Optional. Flag that specifies that a notebook can be accessed with third party identity provider. */
-  enableThirdPartyIdentity?: boolean | undefined;
+  /** Output only. The workforce pools proxy endpoint that is used to access the Jupyter notebook. */
+  thirdPartyProxyUrl?: string | undefined;
+  /** Output only. The state of this instance. */
+  state?: InstanceStateEnum | (string & {}) | undefined;
+  /** Output only. Instance creation time. */
+  createTime?: string | undefined;
+  /** Output only. Additional information about instance health. Example: healthInfo": { "docker_proxy_agent_status": "1", "docker_status": "1", "jupyterlab_api_status": "-1", "jupyterlab_status": "-1", "updated": "2020-10-18 09:40:03.573409" } */
+  healthInfo?: StringMap | undefined;
+  /** Optional. If true, the notebook instance will not register with the proxy. */
+  disableProxyAccess?: boolean | undefined;
+  /** Output only. The upgrade history of this instance. */
+  upgradeHistory?: UpgradeHistoryEntryList | undefined;
+  /** Optional. If true, deletion protection will be enabled for this Workbench Instance. If false, deletion protection will be disabled for this Workbench Instance. */
+  enableDeletionProtection?: boolean | undefined;
+  /** Optional. Compute Engine setup for the notebook. Uses notebook-defined fields. */
+  gceSetup?: GceSetup | undefined;
+  /** Output only. Instance update time. */
+  updateTime?: string | undefined;
   /** Optional. The owner of this instance after creation. Format: `alias@example.com` Currently supports one owner only. If not specified, all of the service account users of your VM instance's service account can use the instance. */
   instanceOwners?: StringList | undefined;
-  /** Output only. Instance health_state. */
-  healthState?: InstanceHealthStateEnum | (string & {}) | undefined;
+  /** Optional. Labels to apply to this instance. These can be later modified by the UpdateInstance method. */
+  labels?: StringMap | undefined;
+  /** Output only. Email address of entity that sent original CreateInstance request. */
+  creator?: string | undefined;
+  /** Output only. The proxy endpoint that is used to access the Jupyter notebook. */
+  proxyUri?: string | undefined;
   /** Optional. Flag to enable managed end user credentials for the instance. */
   enableManagedEuc?: boolean | undefined;
   /** Output only. Identifier. The name of this notebook instance. Format: `projects/{project_id}/locations/{location}/instances/{instance_id}` */
   name?: string | undefined;
-  /** Output only. The state of this instance. */
-  state?: InstanceStateEnum | (string & {}) | undefined;
-  /** Output only. Additional information about instance health. Example: healthInfo": { "docker_proxy_agent_status": "1", "docker_status": "1", "jupyterlab_api_status": "-1", "jupyterlab_status": "-1", "updated": "2020-10-18 09:40:03.573409" } */
-  healthInfo?: StringMap | undefined;
-  /** Output only. The upgrade history of this instance. */
-  upgradeHistory?: UpgradeHistoryEntryList | undefined;
-  /** Output only. Instance update time. */
-  updateTime?: string | undefined;
-  /** Optional. If true, the notebook instance will not register with the proxy. */
-  disableProxyAccess?: boolean | undefined;
-  /** Output only. Email address of entity that sent original CreateInstance request. */
-  creator?: string | undefined;
-  /** Optional. Compute Engine setup for the notebook. Uses notebook-defined fields. */
-  gceSetup?: GceSetup | undefined;
-  /** Output only. The workforce pools proxy endpoint that is used to access the Jupyter notebook. */
-  thirdPartyProxyUrl?: string | undefined;
-  /** Output only. Unique ID of the resource. */
-  id?: string | undefined;
-  /** Optional. If true, deletion protection will be enabled for this Workbench Instance. If false, deletion protection will be disabled for this Workbench Instance. */
-  enableDeletionProtection?: boolean | undefined;
 }
 export interface CreateProjectsLocationsInstancesRequest extends Instance {
   /** Optional. Idempotent request UUID. */
@@ -435,12 +435,12 @@ export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
+  /** The status code, which should be an enum value of google.rpc.Code. */
+  code?: number | undefined;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
   details?: DocumentMapList | undefined;
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
   message?: string | undefined;
-  /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
@@ -448,18 +448,18 @@ export interface Operation {
   metadata?: DocumentMap | undefined;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
   name?: string | undefined;
+  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
+  response?: DocumentMap | undefined;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
   done?: boolean | undefined;
   /** The error result of the operation in case of failure or cancellation. */
   error?: Status | undefined;
-  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap | undefined;
 }
 export interface DeleteProjectsLocationsInstancesRequest {
-  /** Required. Format: `projects/{project_id}/locations/{location}/instances/{instance_id}` */
-  name: string;
   /** Optional. Idempotent request UUID. */
   requestId?: string | undefined;
+  /** Required. Format: `projects/{project_id}/locations/{location}/instances/{instance_id}` */
+  name: string;
 }
 export interface DeleteProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
@@ -469,21 +469,21 @@ export interface DeleteProjectsLocationsOperationsRequest {
 export interface DiagnosticConfig {
   /** Optional. Enables flag to repair service for instance */
   enableRepairFlag?: boolean | undefined;
-  /** Optional. Enables flag to capture packets from the instance for 30 seconds */
-  enablePacketCaptureFlag?: boolean | undefined;
-  /** Required. User Cloud Storage bucket location (REQUIRED). Must be formatted with path prefix (`gs://$GCS_BUCKET`). Permissions: User Managed Notebooks: - storage.buckets.writer: Must be given to the project's service account attached to VM. Google Managed Notebooks: - storage.buckets.writer: Must be given to the project's service account or user credentials attached to VM depending on authentication mode. Cloud Storage bucket Log file will be written to `gs://$GCS_BUCKET/$RELATIVE_PATH/$VM_DATE_$TIME.tar.gz` */
-  gcsBucket?: string | undefined;
   /** Optional. Enables flag to copy all `/home/jupyter` folder contents */
   enableCopyHomeFilesFlag?: boolean | undefined;
+  /** Required. User Cloud Storage bucket location (REQUIRED). Must be formatted with path prefix (`gs://$GCS_BUCKET`). Permissions: User Managed Notebooks: - storage.buckets.writer: Must be given to the project's service account attached to VM. Google Managed Notebooks: - storage.buckets.writer: Must be given to the project's service account or user credentials attached to VM depending on authentication mode. Cloud Storage bucket Log file will be written to `gs://$GCS_BUCKET/$RELATIVE_PATH/$VM_DATE_$TIME.tar.gz` */
+  gcsBucket?: string | undefined;
+  /** Optional. Enables flag to capture packets from the instance for 30 seconds */
+  enablePacketCaptureFlag?: boolean | undefined;
   /** Optional. Defines the relative storage path in the Cloud Storage bucket where the diagnostic logs will be written: Default path will be the root directory of the Cloud Storage bucket (`gs://$GCS_BUCKET/$DATE_$TIME.tar.gz`) Example of full path where Log file will be written: `gs://$GCS_BUCKET/$RELATIVE_PATH/` */
   relativePath?: string | undefined;
 }
 /** Request for creating a notebook instance diagnostic file. */
 export interface DiagnoseInstanceRequest {
-  /** Optional. Maximum amount of time in minutes before the operation times out. */
-  timeoutMinutes?: number | undefined;
   /** Required. Defines flags that are used to run the diagnostic tool */
   diagnosticConfig?: DiagnosticConfig | undefined;
+  /** Optional. Maximum amount of time in minutes before the operation times out. */
+  timeoutMinutes?: number | undefined;
 }
 export interface DiagnoseProjectsLocationsInstancesRequest extends DiagnoseInstanceRequest {
   /** Required. Format: `projects/{project_id}/locations/{location}/instances/{instance_id}` */
@@ -500,14 +500,14 @@ export interface GenerateAccessTokenProjectsLocationsInstancesRequest extends Ge
 }
 /** Response message for generating an EUC for the instance owner. */
 export interface GenerateAccessTokenResponse {
-  /** Space-separated list of scopes contained in the returned token. https://cloud.google.com/docs/authentication/token-types#access-contents */
-  scope?: string | undefined;
   /** The time in seconds when the access token expires. Typically that's 3600. */
   expires_in?: number | undefined;
-  /** Type of the returned access token (e.g. "Bearer"). It specifies how the token must be used. Bearer tokens may be used by any entity without proof of identity. */
-  token_type?: string | undefined;
   /** Short-lived access token string which may be used to access Google APIs. */
   access_token?: string | Redacted.Redacted<string> | undefined;
+  /** Type of the returned access token (e.g. "Bearer"). It specifies how the token must be used. Bearer tokens may be used by any entity without proof of identity. */
+  token_type?: string | undefined;
+  /** Space-separated list of scopes contained in the returned token. https://cloud.google.com/docs/authentication/token-types#access-contents */
+  scope?: string | undefined;
 }
 export interface GetConfigProjectsLocationsInstancesRequest {
   /** Required. Format: `projects/{project_id}/locations/{location}` */
@@ -515,27 +515,27 @@ export interface GetConfigProjectsLocationsInstancesRequest {
 }
 /** ConfigImage represents an image release available to create a WbI */
 export interface ImageRelease {
-  /** Output only. The description of the image. */
-  description?: string | undefined;
   /** Output only. The release of the image of the form m123 */
   releaseName?: string | undefined;
-  /** Output only. The image family of the image. (ex: workbench-instances or workbench-2603) */
-  imageFamily?: string | undefined;
   /** Output only. The name of the image of the form workbench-instances-vYYYYmmdd-- */
   imageName?: string | undefined;
+  /** Output only. The description of the image. */
+  description?: string | undefined;
+  /** Output only. The image family of the image. (ex: workbench-instances or workbench-2603) */
+  imageFamily?: string | undefined;
 }
 export type ImageReleaseList = Array<ImageRelease>;
+/** SupportedValues represents the values supported by the configuration. */
+export interface SupportedValues {
+  /** Output only. The accelerator types supported by WbI. */
+  acceleratorTypes?: StringList | undefined;
+  /** Output only. The machine types supported by WbI. */
+  machineTypes?: StringList | undefined;
+}
 /** DefaultValues represents the default configuration values. */
 export interface DefaultValues {
   /** Output only. The default machine type used by the backend if not provided by the user. */
   machineType?: string | undefined;
-}
-/** SupportedValues represents the values supported by the configuration. */
-export interface SupportedValues {
-  /** Output only. The machine types supported by WbI. */
-  machineTypes?: StringList | undefined;
-  /** Output only. The accelerator types supported by WbI. */
-  acceleratorTypes?: StringList | undefined;
 }
 /** Response for getting WbI configurations in a location */
 export interface Config {
@@ -543,10 +543,10 @@ export interface Config {
   availableImages?: ImageReleaseList | undefined;
   /** Output only. Flag to disable the creation of legacy Workbench notebooks (User-managed notebooks and Google-managed notebooks). */
   disableWorkbenchLegacyCreation?: boolean | undefined;
-  /** Output only. The default values for configuration. */
-  defaultValues?: DefaultValues | undefined;
   /** Output only. The supported values for configuration. */
   supportedValues?: SupportedValues | undefined;
+  /** Output only. The default values for configuration. */
+  defaultValues?: DefaultValues | undefined;
 }
 export interface GetIamPolicyProjectsLocationsInstancesRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
@@ -556,14 +556,14 @@ export interface GetIamPolicyProjectsLocationsInstancesRequest {
 }
 /** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
 export interface Expr {
-  /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
-  description?: string | undefined;
-  /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
-  title?: string | undefined;
-  /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
-  location?: string | undefined;
   /** Textual representation of an expression in Common Expression Language syntax. */
   expression?: string | undefined;
+  /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
+  description?: string | undefined;
+  /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
+  location?: string | undefined;
+  /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
+  title?: string | undefined;
 }
 /** Associates `members`, or principals, with a `role`. */
 export interface Binding {
@@ -577,12 +577,12 @@ export interface Binding {
 export type BindingList = Array<Binding>;
 /** An Identity and Access Management (IAM) policy, which specifies access controls for Google Cloud resources. A `Policy` is a collection of `bindings`. A `binding` binds one or more `members`, or principals, to a single `role`. Principals can be user accounts, service accounts, Google groups, and domains (such as G Suite). A `role` is a named list of permissions; each `role` can be an IAM predefined role or a user-created custom role. For some types of Google Cloud resources, a `binding` can also specify a `condition`, which is a logical expression that allows access to a resource only if the expression evaluates to `true`. A condition can add constraints based on attributes of the request, the resource, or both. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). **JSON example:** ``` { "bindings": [ { "role": "roles/resourcemanager.organizationAdmin", "members": [ "user:mike@example.com", "group:admins@example.com", "domain:google.com", "serviceAccount:my-project-id@appspot.gserviceaccount.com" ] }, { "role": "roles/resourcemanager.organizationViewer", "members": [ "user:eve@example.com" ], "condition": { "title": "expirable access", "description": "Does not grant access after Sep 2020", "expression": "request.time < timestamp('2020-10-01T00:00:00.000Z')", } } ], "etag": "BwWWja0YfJA=", "version": 3 } ``` **YAML example:** ``` bindings: - members: - user:mike@example.com - group:admins@example.com - domain:google.com - serviceAccount:my-project-id@appspot.gserviceaccount.com role: roles/resourcemanager.organizationAdmin - members: - user:eve@example.com role: roles/resourcemanager.organizationViewer condition: title: expirable access description: Does not grant access after Sep 2020 expression: request.time < timestamp('2020-10-01T00:00:00.000Z') etag: BwWWja0YfJA= version: 3 ``` For a description of IAM and its features, see the [IAM documentation](https://cloud.google.com/iam/docs/). */
 export interface Policy {
+  /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
+  etag?: string | undefined;
   /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
   bindings?: BindingList | undefined;
   /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   version?: number | undefined;
-  /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
-  etag?: string | undefined;
 }
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
@@ -590,16 +590,16 @@ export interface GetProjectsLocationsRequest {
 }
 /** A resource that represents a Google Cloud location. */
 export interface Location {
+  /** The canonical id for this location. For example: `"us-east1"`. */
+  locationId?: string | undefined;
+  /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
+  displayName?: string | undefined;
+  /** Service-specific metadata. For example the available capacity at the given location. */
+  metadata?: DocumentMap | undefined;
   /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
   name?: string | undefined;
   /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
   labels?: StringMap | undefined;
-  /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
-  displayName?: string | undefined;
-  /** The canonical id for this location. For example: `"us-east1"`. */
-  locationId?: string | undefined;
-  /** Service-specific metadata. For example the available capacity at the given location. */
-  metadata?: DocumentMap | undefined;
 }
 export interface GetProjectsLocationsInstancesRequest {
   /** Required. Format: `projects/{project_id}/locations/{location}/instances/{instance_id}` */
@@ -610,16 +610,16 @@ export interface GetProjectsLocationsOperationsRequest {
   name: string;
 }
 export interface ListProjectsLocationsRequest {
-  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string | undefined;
-  /** The resource that owns the locations collection, if applicable. */
-  name: string;
-  /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number | undefined;
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
   filter?: string | undefined;
+  /** The maximum number of results to return. If not set, the service selects a default. */
+  pageSize?: number | undefined;
+  /** The resource that owns the locations collection, if applicable. */
+  name: string;
   /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
   extraLocationTypes?: StringList | undefined;
+  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
+  pageToken?: string | undefined;
 }
 export type LocationList = Array<Location>;
 /** The response message for Locations.ListLocations. */
@@ -630,38 +630,38 @@ export interface ListLocationsResponse {
   nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsInstancesRequest {
-  /** Optional. List filter. */
-  filter?: string | undefined;
-  /** Optional. A previous returned page token that can be used to continue listing from the last result. */
-  pageToken?: string | undefined;
-  /** Required. The parent of the instance. Formats: - `projects/{project_id}/locations/{location}` to list instances in a specific zone. - `projects/{project_id}/locations/-` to list instances in all locations. */
-  parent: string;
-  /** Optional. Sort results. Supported values are "name", "name desc" or "" (unsorted). */
-  orderBy?: string | undefined;
   /** Optional. Maximum return size of the list call. */
   pageSize?: number | undefined;
+  /** Optional. List filter. */
+  filter?: string | undefined;
+  /** Optional. Sort results. Supported values are "name", "name desc" or "" (unsorted). */
+  orderBy?: string | undefined;
+  /** Required. The parent of the instance. Formats: - `projects/{project_id}/locations/{location}` to list instances in a specific zone. - `projects/{project_id}/locations/-` to list instances in all locations. */
+  parent: string;
+  /** Optional. A previous returned page token that can be used to continue listing from the last result. */
+  pageToken?: string | undefined;
 }
 export type InstanceList = Array<Instance>;
 /** Response for listing notebook instances. */
 export interface ListInstancesResponse {
-  /** Page token that can be used to continue listing from the last result in the next list call. */
-  nextPageToken?: string | undefined;
   /** Unordered list. Locations that could not be reached. For example, ['projects/{project_id}/locations/us-west1-a', 'projects/{project_id}/locations/us-central1-b']. A ListInstancesResponse will only contain either instances or unreachables, */
   unreachable?: StringList | undefined;
+  /** Page token that can be used to continue listing from the last result in the next list call. */
+  nextPageToken?: string | undefined;
   /** A list of returned instances. */
   instances?: InstanceList | undefined;
 }
 export interface ListProjectsLocationsOperationsRequest {
-  /** The name of the operation's parent resource. */
-  name: string;
-  /** The standard list filter. */
-  filter?: string | undefined;
-  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean | undefined;
-  /** The standard list page token. */
-  pageToken?: string | undefined;
   /** The standard list page size. */
   pageSize?: number | undefined;
+  /** The name of the operation's parent resource. */
+  name: string;
+  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
+  returnPartialSuccess?: boolean | undefined;
+  /** The standard list filter. */
+  filter?: string | undefined;
+  /** The standard list page token. */
+  pageToken?: string | undefined;
 }
 export type OperationList = Array<Operation>;
 /** The response message for Operations.ListOperations. */
@@ -676,10 +676,10 @@ export interface ListOperationsResponse {
 export interface PatchProjectsLocationsInstancesRequest extends Omit<Instance, "name"> {
   /** Output only. Identifier. The name of this notebook instance. Format: `projects/{project_id}/locations/{location}/instances/{instance_id}` */
   name: string;
-  /** Optional. Idempotent request UUID. */
-  requestId?: string | undefined;
   /** Required. Mask used to update an instance. Updatable fields: * `labels` * `gce_setup.min_cpu_platform` * `gce_setup.metadata` * `gce_setup.machine_type` * `gce_setup.accelerator_configs` * `gce_setup.accelerator_configs.type` * `gce_setup.accelerator_configs.core_count` * `gce_setup.gpu_driver_config` * `gce_setup.gpu_driver_config.enable_gpu_driver` * `gce_setup.gpu_driver_config.custom_gpu_driver_path` * `gce_setup.shielded_instance_config` * `gce_setup.shielded_instance_config.enable_secure_boot` * `gce_setup.shielded_instance_config.enable_vtpm` * `gce_setup.shielded_instance_config.enable_integrity_monitoring` * `gce_setup.reservation_affinity` * `gce_setup.reservation_affinity.consume_reservation_type` * `gce_setup.reservation_affinity.key` * `gce_setup.reservation_affinity.values` * `gce_setup.tags` * `gce_setup.container_image` * `gce_setup.container_image.repository` * `gce_setup.container_image.tag` * `gce_setup.disable_public_ip` * `disable_proxy_access` Note: `gce_setup.disable_public_ip` and `disable_proxy_access` are one-way on update -- they can only be used to *disable* the feature (set the field to `true`). Requests that set either field back to `false` (re-enabling the external IP or proxy access) are rejected with `INVALID_ARGUMENT`. */
   updateMask?: string | undefined;
+  /** Optional. Idempotent request UUID. */
+  requestId?: string | undefined;
 }
 export type EventTypeEnum =
   | "EVENT_TYPE_UNSPECIFIED"
@@ -692,10 +692,10 @@ export type EventTypeEnum =
 export interface Event {
   /** Optional. Event type. */
   type?: EventTypeEnum | (string & {}) | undefined;
-  /** Optional. Event details. This field is used to pass event information. */
-  details?: StringMap | undefined;
   /** Optional. Event report time. */
   reportTime?: string | undefined;
+  /** Optional. Event details. This field is used to pass event information. */
+  details?: StringMap | undefined;
 }
 /** Request for notebook instances to report information to Notebooks API. */
 export interface ReportInstanceInfoSystemRequest {
@@ -718,10 +718,10 @@ export interface ResetProjectsLocationsInstancesRequest {
 }
 /** Request for resizing the notebook instance disks */
 export interface ResizeDiskRequest {
-  /** Required. The boot disk to be resized. Only disk_size_gb will be used. */
-  bootDisk?: BootDisk | undefined;
   /** Required. The data disk to be resized. Only disk_size_gb will be used. */
   dataDisk?: DataDisk | undefined;
+  /** Required. The boot disk to be resized. Only disk_size_gb will be used. */
+  bootDisk?: BootDisk | undefined;
 }
 export interface ResizeDiskProjectsLocationsInstancesRequest extends ResizeDiskRequest {
   /** Required. Format: `projects/{project_id}/locations/{location}/instances/{instance_id}` */
@@ -745,10 +745,10 @@ export interface RestoreProjectsLocationsInstancesRequest extends RestoreInstanc
 }
 /** Request for rollbacking a notebook instance */
 export interface RollbackInstanceRequest {
-  /** Required. The snapshot for rollback. Example: "projects/test-project/global/snapshots/krwlzipynril". */
-  targetSnapshot?: string | undefined;
   /** Required. Output only. Revision Id */
   revisionId?: string | undefined;
+  /** Required. The snapshot for rollback. Example: "projects/test-project/global/snapshots/krwlzipynril". */
+  targetSnapshot?: string | undefined;
 }
 export interface RollbackProjectsLocationsInstancesRequest extends RollbackInstanceRequest {
   /** Required. Format: `projects/{project_id}/locations/{location}/instances/{instance_id}` */
@@ -1430,17 +1430,17 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           enableRepairFlag: S.optional(S.Boolean),
-          enablePacketCaptureFlag: S.optional(S.Boolean),
-          gcsBucket: S.optional(S.String),
           enableCopyHomeFilesFlag: S.optional(S.Boolean),
+          gcsBucket: S.optional(S.String),
+          enablePacketCaptureFlag: S.optional(S.Boolean),
           relativePath: S.optional(S.String),
         }),
       ).annotate({ identifier: "DiagnosticConfig" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          timeoutMinutes: S.optional(S.Number),
           diagnosticConfig: S.optional(__S(0, __c0, 0)),
+          timeoutMinutes: S.optional(S.Number),
         }),
       ).annotate({ identifier: "DiagnoseInstanceRequest" });
     case 2:
@@ -1486,10 +1486,10 @@ function __c1(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          scope: S.optional(S.String),
           expires_in: S.optional(S.Number),
-          token_type: S.optional(S.String),
           access_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          token_type: S.optional(S.String),
+          scope: S.optional(S.String),
         }),
       ).annotate({ identifier: "GenerateAccessTokenResponse" });
   }
@@ -1511,10 +1511,10 @@ function __c2(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          description: S.optional(S.String),
           releaseName: S.optional(S.String),
-          imageFamily: S.optional(S.String),
           imageName: S.optional(S.String),
+          description: S.optional(S.String),
+          imageFamily: S.optional(S.String),
         }),
       ).annotate({ identifier: "ImageRelease" });
     case 2:
@@ -1522,23 +1522,23 @@ function __c2(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          machineType: S.optional(S.String),
+          acceleratorTypes: S.optional(__S(960, __c30, 0)),
+          machineTypes: S.optional(__S(960, __c30, 0)),
         }),
-      ).annotate({ identifier: "DefaultValues" });
+      ).annotate({ identifier: "SupportedValues" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          machineTypes: S.optional(__S(960, __c30, 0)),
-          acceleratorTypes: S.optional(__S(960, __c30, 0)),
+          machineType: S.optional(S.String),
         }),
-      ).annotate({ identifier: "SupportedValues" });
+      ).annotate({ identifier: "DefaultValues" });
     case 5:
       return S.suspend(() =>
         S.Struct({
           availableImages: S.optional(__S(66, __c2, 2)),
           disableWorkbenchLegacyCreation: S.optional(S.Boolean),
-          defaultValues: S.optional(__S(67, __c2, 3)),
-          supportedValues: S.optional(__S(68, __c2, 4)),
+          supportedValues: S.optional(__S(67, __c2, 3)),
+          defaultValues: S.optional(__S(68, __c2, 4)),
         }),
       ).annotate({ identifier: "Config" });
   }
@@ -1565,10 +1565,10 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          description: S.optional(S.String),
-          title: S.optional(S.String),
-          location: S.optional(S.String),
           expression: S.optional(S.String),
+          description: S.optional(S.String),
+          location: S.optional(S.String),
+          title: S.optional(S.String),
         }),
       ).annotate({ identifier: "Expr" });
     case 1:
@@ -1584,9 +1584,9 @@ function __c4(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
+          etag: S.optional(S.String),
           bindings: S.optional(__S(130, __c4, 2)),
           version: S.optional(S.Number),
-          etag: S.optional(S.String),
         }),
       ).annotate({ identifier: "Policy" });
   }
@@ -1612,11 +1612,11 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          locationId: S.optional(S.String),
+          displayName: S.optional(S.String),
+          metadata: S.optional(__S(1056, __c33, 0)),
           name: S.optional(S.String),
           labels: S.optional(__S(864, __c27, 0)),
-          displayName: S.optional(S.String),
-          locationId: S.optional(S.String),
-          metadata: S.optional(__S(1056, __c33, 0)),
         }),
       ).annotate({ identifier: "Location" });
   }
@@ -1658,11 +1658,11 @@ function __c9(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
           extraLocationTypes: S.optional(__S(960, __c30, 0).pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1687,11 +1687,11 @@ function __c10(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          orderBy: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1705,8 +1705,8 @@ function __c10(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           unreachable: S.optional(__S(960, __c30, 0)),
+          nextPageToken: S.optional(S.String),
           instances: S.optional(__S(321, __c10, 1)),
         }),
       ).annotate({ identifier: "ListInstancesResponse" });
@@ -1717,11 +1717,11 @@ function __c11(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
-          filter: S.optional(S.String.pipe(T.Query())),
-          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
+          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1750,8 +1750,8 @@ function __c12(j: number): any {
           __S(1010, __c31, 18),
           S.Struct({
             name: S.String.pipe(T.Label()),
-            requestId: S.optional(S.String.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -1769,8 +1769,8 @@ function __c13(j: number): any {
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          details: S.optional(__S(864, __c27, 0)),
           reportTime: S.optional(S.String),
+          details: S.optional(__S(864, __c27, 0)),
         }),
       ).annotate({ identifier: "Event" });
     case 1:
@@ -1819,8 +1819,8 @@ function __c15(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          bootDisk: S.optional(__S(1024, __c32, 0)),
-          dataDisk: S.optional(__S(1025, __c32, 1)),
+          dataDisk: S.optional(__S(1024, __c32, 0)),
+          bootDisk: S.optional(__S(1025, __c32, 1)),
         }),
       ).annotate({ identifier: "ResizeDiskRequest" });
     case 1:
@@ -1877,8 +1877,8 @@ function __c17(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          targetSnapshot: S.optional(S.String),
           revisionId: S.optional(S.String),
+          targetSnapshot: S.optional(S.String),
         }),
       ).annotate({ identifier: "RollbackInstanceRequest" });
     case 1:
@@ -2081,9 +2081,9 @@ function __c26(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          createTime: S.optional(S.String),
-          oauth_uri: S.optional(S.String),
           success: S.optional(S.Boolean),
+          oauth_uri: S.optional(S.String),
+          createTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "CheckAuthorizationResponse" });
   }
@@ -2111,9 +2111,9 @@ function __c28(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          upgradeInfo: S.optional(S.String),
-          upgradeVersion: S.optional(S.String),
           upgradeImage: S.optional(S.String),
+          upgradeVersion: S.optional(S.String),
+          upgradeInfo: S.optional(S.String),
           upgradeable: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "CheckInstanceUpgradabilityResponse" });
@@ -2151,15 +2151,15 @@ function __c31(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          action: S.optional(S.String),
           version: S.optional(S.String),
-          containerImage: S.optional(S.String),
-          framework: S.optional(S.String),
           createTime: S.optional(S.String),
+          containerImage: S.optional(S.String),
           vmImage: S.optional(S.String),
-          state: S.optional(S.String),
-          targetVersion: S.optional(S.String),
           snapshot: S.optional(S.String),
+          action: S.optional(S.String),
+          targetVersion: S.optional(S.String),
+          state: S.optional(S.String),
+          framework: S.optional(S.String),
         }),
       ).annotate({ identifier: "UpgradeHistoryEntry" });
     case 1:
@@ -2167,136 +2167,136 @@ function __c31(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          confidentialInstanceType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ConfidentialInstanceConfig" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
           scopes: S.optional(__S(960, __c30, 0)),
           email: S.optional(S.String),
         }),
       ).annotate({ identifier: "ServiceAccount" });
-    case 3:
-      return S.Array(__S(994, __c31, 2));
     case 4:
-      return S.suspend(() =>
-        S.Struct({
-          tag: S.optional(S.String),
-          repository: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ContainerImage" });
+      return S.Array(__S(995, __c31, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          enableVtpm: S.optional(S.Boolean),
-          enableSecureBoot: S.optional(S.Boolean),
-          enableIntegrityMonitoring: S.optional(S.Boolean),
+          externalIp: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ShieldedInstanceConfig" });
+      ).annotate({ identifier: "AccessConfig" });
     case 6:
-      return S.suspend(() =>
-        S.Struct({
-          project: S.optional(S.String),
-          family: S.optional(S.String),
-          name: S.optional(S.String),
-          imageDescription: S.optional(S.String),
-          imageId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "VmImage" });
+      return S.Array(__S(997, __c31, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          customGpuDriverPath: S.optional(S.String),
-          enableGpuDriver: S.optional(S.Boolean),
+          network: S.optional(S.String),
+          accessConfigs: S.optional(__S(998, __c31, 6)),
+          subnet: S.optional(S.String),
+          nicType: S.optional(S.String),
+          internalIp: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GPUDriverConfig" });
+      ).annotate({ identifier: "NetworkInterface" });
     case 8:
+      return S.Array(__S(999, __c31, 7));
+    case 9:
+      return S.Array(__S(1024, __c32, 0));
+    case 10:
       return S.suspend(() =>
         S.Struct({
-          consumeReservationType: S.optional(S.String),
-          values: S.optional(__S(960, __c30, 0)),
-          key: S.optional(S.String),
+          name: S.optional(S.String),
+          family: S.optional(S.String),
+          imageDescription: S.optional(S.String),
+          imageId: S.optional(S.String),
+          project: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ReservationAffinity" });
-    case 9:
+      ).annotate({ identifier: "VmImage" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          enableSecureBoot: S.optional(S.Boolean),
+          enableIntegrityMonitoring: S.optional(S.Boolean),
+          enableVtpm: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "ShieldedInstanceConfig" });
+    case 12:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
           coreCount: S.optional(S.String),
         }),
       ).annotate({ identifier: "AcceleratorConfig" });
-    case 10:
-      return S.Array(__S(1001, __c31, 9));
-    case 11:
-      return S.Array(__S(1025, __c32, 1));
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          confidentialInstanceType: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ConfidentialInstanceConfig" });
     case 13:
+      return S.Array(__S(1004, __c31, 12));
+    case 14:
       return S.suspend(() =>
         S.Struct({
-          externalIp: S.optional(S.String),
+          key: S.optional(S.String),
+          consumeReservationType: S.optional(S.String),
+          values: S.optional(__S(960, __c30, 0)),
         }),
-      ).annotate({ identifier: "AccessConfig" });
-    case 14:
-      return S.Array(__S(1005, __c31, 13));
+      ).annotate({ identifier: "ReservationAffinity" });
     case 15:
       return S.suspend(() =>
         S.Struct({
-          internalIp: S.optional(S.String),
-          network: S.optional(S.String),
-          subnet: S.optional(S.String),
-          accessConfigs: S.optional(__S(1006, __c31, 14)),
-          nicType: S.optional(S.String),
+          enableGpuDriver: S.optional(S.Boolean),
+          customGpuDriverPath: S.optional(S.String),
         }),
-      ).annotate({ identifier: "NetworkInterface" });
+      ).annotate({ identifier: "GPUDriverConfig" });
     case 16:
-      return S.Array(__S(1007, __c31, 15));
+      return S.suspend(() =>
+        S.Struct({
+          tag: S.optional(S.String),
+          repository: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ContainerImage" });
     case 17:
       return S.suspend(() =>
         S.Struct({
-          systemMetadata: S.optional(__S(864, __c27, 0)),
-          serviceAccounts: S.optional(__S(995, __c31, 3)),
-          tags: S.optional(__S(960, __c30, 0)),
-          bootDisk: S.optional(__S(1024, __c32, 0)),
-          machineType: S.optional(S.String),
-          containerImage: S.optional(__S(996, __c31, 4)),
-          shieldedInstanceConfig: S.optional(__S(997, __c31, 5)),
-          metadata: S.optional(__S(864, __c27, 0)),
-          vmImage: S.optional(__S(998, __c31, 6)),
-          gpuDriverConfig: S.optional(__S(999, __c31, 7)),
-          reservationAffinity: S.optional(__S(1000, __c31, 8)),
-          acceleratorConfigs: S.optional(__S(1002, __c31, 10)),
-          disablePublicIp: S.optional(S.Boolean),
-          dataDisks: S.optional(__S(1003, __c31, 11)),
-          minCpuPlatform: S.optional(S.String),
-          enableIpForwarding: S.optional(S.Boolean),
-          confidentialInstanceConfig: S.optional(__S(1004, __c31, 12)),
           instanceId: S.optional(S.String),
-          networkInterfaces: S.optional(__S(1008, __c31, 16)),
+          confidentialInstanceConfig: S.optional(__S(994, __c31, 2)),
+          systemMetadata: S.optional(__S(864, __c27, 0)),
+          serviceAccounts: S.optional(__S(996, __c31, 4)),
+          disablePublicIp: S.optional(S.Boolean),
+          networkInterfaces: S.optional(__S(1000, __c31, 8)),
+          dataDisks: S.optional(__S(1001, __c31, 9)),
+          machineType: S.optional(S.String),
+          vmImage: S.optional(__S(1002, __c31, 10)),
+          shieldedInstanceConfig: S.optional(__S(1003, __c31, 11)),
+          acceleratorConfigs: S.optional(__S(1005, __c31, 13)),
+          enableIpForwarding: S.optional(S.Boolean),
+          bootDisk: S.optional(__S(1025, __c32, 1)),
+          reservationAffinity: S.optional(__S(1006, __c31, 14)),
+          gpuDriverConfig: S.optional(__S(1007, __c31, 15)),
+          tags: S.optional(__S(960, __c30, 0)),
+          containerImage: S.optional(__S(1008, __c31, 16)),
+          metadata: S.optional(__S(864, __c27, 0)),
+          minCpuPlatform: S.optional(S.String),
         }),
       ).annotate({ identifier: "GceSetup" });
     case 18:
       return S.suspend(() =>
         S.Struct({
-          createTime: S.optional(S.String),
+          enableThirdPartyIdentity: S.optional(S.Boolean),
+          id: S.optional(S.String),
+          healthState: S.optional(S.String),
           satisfiesPzs: S.optional(S.Boolean),
           satisfiesPzi: S.optional(S.Boolean),
-          proxyUri: S.optional(S.String),
-          labels: S.optional(__S(864, __c27, 0)),
-          enableThirdPartyIdentity: S.optional(S.Boolean),
+          thirdPartyProxyUrl: S.optional(S.String),
+          state: S.optional(S.String),
+          createTime: S.optional(S.String),
+          healthInfo: S.optional(__S(864, __c27, 0)),
+          disableProxyAccess: S.optional(S.Boolean),
+          upgradeHistory: S.optional(__S(993, __c31, 1)),
+          enableDeletionProtection: S.optional(S.Boolean),
+          gceSetup: S.optional(__S(1009, __c31, 17)),
+          updateTime: S.optional(S.String),
           instanceOwners: S.optional(__S(960, __c30, 0)),
-          healthState: S.optional(S.String),
+          labels: S.optional(__S(864, __c27, 0)),
+          creator: S.optional(S.String),
+          proxyUri: S.optional(S.String),
           enableManagedEuc: S.optional(S.Boolean),
           name: S.optional(S.String),
-          state: S.optional(S.String),
-          healthInfo: S.optional(__S(864, __c27, 0)),
-          upgradeHistory: S.optional(__S(993, __c31, 1)),
-          updateTime: S.optional(S.String),
-          disableProxyAccess: S.optional(S.Boolean),
-          creator: S.optional(S.String),
-          gceSetup: S.optional(__S(1009, __c31, 17)),
-          thirdPartyProxyUrl: S.optional(S.String),
-          id: S.optional(S.String),
-          enableDeletionProtection: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "Instance" });
   }
@@ -2306,22 +2306,22 @@ function __c32(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          diskType: S.optional(S.String),
-          kmsKey: S.optional(S.String),
+          resourcePolicies: S.optional(__S(960, __c30, 0)),
           diskEncryption: S.optional(S.String),
+          kmsKey: S.optional(S.String),
+          diskType: S.optional(S.String),
           diskSizeGb: S.optional(S.String),
         }),
-      ).annotate({ identifier: "BootDisk" });
+      ).annotate({ identifier: "DataDisk" });
     case 1:
       return S.suspend(() =>
         S.Struct({
+          kmsKey: S.optional(S.String),
           diskSizeGb: S.optional(S.String),
-          resourcePolicies: S.optional(__S(960, __c30, 0)),
           diskType: S.optional(S.String),
           diskEncryption: S.optional(S.String),
-          kmsKey: S.optional(S.String),
         }),
-      ).annotate({ identifier: "DataDisk" });
+      ).annotate({ identifier: "BootDisk" });
   }
 }
 function __c33(j: number): any {
@@ -2337,9 +2337,9 @@ function __c34(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          code: S.optional(S.Number),
           details: S.optional(__S(1088, __c34, 0)),
           message: S.optional(S.String),
-          code: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Status" });
     case 2:
@@ -2347,9 +2347,9 @@ function __c34(j: number): any {
         S.Struct({
           metadata: S.optional(__S(1056, __c33, 0)),
           name: S.optional(S.String),
+          response: S.optional(__S(1056, __c33, 0)),
           done: S.optional(S.Boolean),
           error: S.optional(__S(1089, __c34, 1)),
-          response: S.optional(__S(1056, __c33, 0)),
         }),
       ).annotate({ identifier: "Operation" });
   }
@@ -2359,8 +2359,8 @@ function __c35(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           requestId: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",

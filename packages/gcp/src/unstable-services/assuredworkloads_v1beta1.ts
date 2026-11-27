@@ -93,20 +93,20 @@ export type GoogleCloudAssuredworkloadsV1beta1AcknowledgeViolationRequestViewEnu
   | "VIOLATION_VIEW_DATA_BOUNDARY";
 /** Request message for acknowledging a violation. */
 export interface GoogleCloudAssuredworkloadsV1beta1AcknowledgeViolationRequest {
-  /** Required. The business justification for acknowledging the violation. The comment can't be empty or contain only whitespace characters. */
-  comment?: string | undefined;
-  /** Optional. Deprecated: This field is deprecated and will be removed in a future version of the API. The service identifies the violation to acknowledge by `name`, and ignores this field. Don't set this field. The name of the organization policy that was modified with a non-compliant change and resulted in this violation. Formats: * `projects/{project_number}/policies/{constraint_name}` * `folders/{folder_id}/policies/{constraint_name}` * `organizations/{organization_id}/policies/{constraint_name}` */
-  nonCompliantOrgPolicy?: string | undefined;
   /** Optional. The scope of the acknowledgement for the specified violation. If not specified, `SINGLE_VIOLATION` is used. */
   acknowledgeType?:
     | GoogleCloudAssuredworkloadsV1beta1AcknowledgeViolationRequestAcknowledgeTypeEnum
     | (string & {})
     | undefined;
+  /** Optional. Deprecated: This field is deprecated and will be removed in a future version of the API. The service identifies the violation to acknowledge by `name`, and ignores this field. Don't set this field. The name of the organization policy that was modified with a non-compliant change and resulted in this violation. Formats: * `projects/{project_number}/policies/{constraint_name}` * `folders/{folder_id}/policies/{constraint_name}` * `organizations/{organization_id}/policies/{constraint_name}` */
+  nonCompliantOrgPolicy?: string | undefined;
   /** Optional. The violation view (`VIOLATION_VIEW_ASSURED_WORKLOADS` or `VIOLATION_VIEW_DATA_BOUNDARY`) that the violation belongs to. If not specified, `VIOLATION_VIEW_ASSURED_WORKLOADS` is used. */
   view?:
     | GoogleCloudAssuredworkloadsV1beta1AcknowledgeViolationRequestViewEnum
     | (string & {})
     | undefined;
+  /** Required. The business justification for acknowledging the violation. The comment can't be empty or contain only whitespace characters. */
+  comment?: string | undefined;
 }
 export interface AcknowledgeOrganizationsLocationsWorkloadsViolationsRequest extends GoogleCloudAssuredworkloadsV1beta1AcknowledgeViolationRequest {
   /** Required. The resource name of the violation to acknowledge. Format: `organizations/{organization}/locations/{location}/workloads/{workload}/violations/{violation}` */
@@ -116,27 +116,16 @@ export interface AcknowledgeOrganizationsLocationsWorkloadsViolationsRequest ext
 export interface GoogleCloudAssuredworkloadsV1beta1AcknowledgeViolationResponse {}
 export type StringList = Array<string>;
 export interface AnalyzeWorkloadMoveOrganizationsLocationsWorkloadsRequest {
-  /** The source type is a project. Specify the project's relative resource name, formatted as either a project number or a project ID: "projects/{PROJECT_NUMBER}" or "projects/{PROJECT_ID}" For example: "projects/951040570662" when specifying a project number, or "projects/my-project-123" when specifying a project ID. */
-  project?: string | undefined;
   /** Optional. Page size. If a value is not specified, the default value of 10 is used. The maximum value is 50. */
   pageSize?: number | undefined;
   /** Required. The resource name of the folder-based destination workload. This workload is where the source resource will hypothetically be moved to. Specify the workload's relative resource name, formatted as: "organizations/{ORGANIZATION_ID}/locations/{LOCATION_ID}/workloads/{WORKLOAD_ID}" For example: "organizations/123/locations/us-east1/workloads/assured-workload-2" */
   target: string;
+  /** The source type is a project. Specify the project's relative resource name, formatted as either a project number or a project ID: "projects/{PROJECT_NUMBER}" or "projects/{PROJECT_ID}" For example: "projects/951040570662" when specifying a project number, or "projects/my-project-123" when specifying a project ID. */
+  project?: string | undefined;
   /** Optional. The page token from the previous response. It needs to be passed in the second and following requests. */
   pageToken?: string | undefined;
   /** Optional. List of asset types to be analyzed, including and under the source resource. If empty, all assets are analyzed. The complete list of asset types is available [here](https://cloud.google.com/asset-inventory/docs/supported-asset-types). */
   assetTypes?: StringList | undefined;
-}
-export type DocumentMap = { [key: string]: unknown | undefined };
-export type DocumentMapList = Array<DocumentMap>;
-/** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
-export interface GoogleRpcStatus {
-  /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number | undefined;
-  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string | undefined;
-  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList | undefined;
 }
 /** Represents the impact of moving the asset to the target. */
 export interface GoogleCloudAssuredworkloadsV1beta1MoveImpact {
@@ -152,25 +141,36 @@ export interface GoogleCloudAssuredworkloadsV1beta1MoveAnalysisResult {
   /** List of blockers. If not resolved, these will result in compliance violations in the target. */
   blockers?: GoogleCloudAssuredworkloadsV1beta1MoveImpactList | undefined;
 }
+export type DocumentMap = { [key: string]: unknown | undefined };
+export type DocumentMapList = Array<DocumentMap>;
+/** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
+export interface GoogleRpcStatus {
+  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
+  details?: DocumentMapList | undefined;
+  /** The status code, which should be an enum value of google.rpc.Code. */
+  code?: number | undefined;
+  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
+  message?: string | undefined;
+}
 /** Represents a logical group of checks performed for an asset. If successful, the group contains the analysis result, otherwise it contains an error with the failure reason. */
 export interface GoogleCloudAssuredworkloadsV1beta1MoveAnalysisGroup {
+  /** Result of a successful analysis. */
+  analysisResult?: GoogleCloudAssuredworkloadsV1beta1MoveAnalysisResult | undefined;
   /** Name of the analysis group. */
   displayName?: string | undefined;
   /** Error details for a failed analysis. */
   error?: GoogleRpcStatus | undefined;
-  /** Result of a successful analysis. */
-  analysisResult?: GoogleCloudAssuredworkloadsV1beta1MoveAnalysisResult | undefined;
 }
 export type GoogleCloudAssuredworkloadsV1beta1MoveAnalysisGroupList =
   Array<GoogleCloudAssuredworkloadsV1beta1MoveAnalysisGroup>;
 /** Represents move analysis results for an asset. */
 export interface GoogleCloudAssuredworkloadsV1beta1AssetMoveAnalysis {
-  /** Type of the asset being analyzed. Possible values will be among the ones listed [here](https://cloud.google.com/asset-inventory/docs/supported-asset-types). */
-  assetType?: string | undefined;
-  /** The full resource name of the asset being analyzed. Example: //compute.googleapis.com/projects/my_project_123/zones/zone1/instances/instance1 */
-  asset?: string | undefined;
   /** List of eligible analyses performed for the asset. */
   analysisGroups?: GoogleCloudAssuredworkloadsV1beta1MoveAnalysisGroupList | undefined;
+  /** The full resource name of the asset being analyzed. Example: //compute.googleapis.com/projects/my_project_123/zones/zone1/instances/instance1 */
+  asset?: string | undefined;
+  /** Type of the asset being analyzed. Possible values will be among the ones listed [here](https://cloud.google.com/asset-inventory/docs/supported-asset-types). */
+  assetType?: string | undefined;
 }
 export type GoogleCloudAssuredworkloadsV1beta1AssetMoveAnalysisList =
   Array<GoogleCloudAssuredworkloadsV1beta1AssetMoveAnalysis>;
@@ -198,69 +198,16 @@ export interface ApplyOrganizationsLocationsWorkloadsUpdatesRequest extends Goog
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface GoogleLongrunningOperation {
-  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean | undefined;
-  /** The error result of the operation in case of failure or cancellation. */
-  error?: GoogleRpcStatus | undefined;
-  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap | undefined;
-  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string | undefined;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
   metadata?: DocumentMap | undefined;
-}
-export type GoogleCloudAssuredworkloadsV1beta1WorkloadResourceInfoResourceTypeEnum =
-  | "RESOURCE_TYPE_UNSPECIFIED"
-  | "CONSUMER_PROJECT"
-  | "CONSUMER_FOLDER"
-  | "ENCRYPTION_KEYS_PROJECT"
-  | "KEYRING";
-/** Represent the resources that are children of this Workload. */
-export interface GoogleCloudAssuredworkloadsV1beta1WorkloadResourceInfo {
-  /** Output only. Resource identifier. For a project this represents project_number. */
-  resourceId?: string | undefined;
-  /** Indicates the type of resource. */
-  resourceType?:
-    | GoogleCloudAssuredworkloadsV1beta1WorkloadResourceInfoResourceTypeEnum
-    | (string & {})
-    | undefined;
-}
-export type GoogleCloudAssuredworkloadsV1beta1WorkloadResourceInfoList =
-  Array<GoogleCloudAssuredworkloadsV1beta1WorkloadResourceInfo>;
-export type GoogleCloudAssuredworkloadsV1beta1WorkloadEkmProvisioningResponseEkmProvisioningErrorMappingEnum =
-  | "EKM_PROVISIONING_ERROR_MAPPING_UNSPECIFIED"
-  | "INVALID_SERVICE_ACCOUNT"
-  | "MISSING_METRICS_SCOPE_ADMIN_PERMISSION"
-  | "MISSING_EKM_CONNECTION_ADMIN_PERMISSION";
-export type GoogleCloudAssuredworkloadsV1beta1WorkloadEkmProvisioningResponseEkmProvisioningStateEnum =
-  | "EKM_PROVISIONING_STATE_UNSPECIFIED"
-  | "EKM_PROVISIONING_STATE_PENDING"
-  | "EKM_PROVISIONING_STATE_FAILED"
-  | "EKM_PROVISIONING_STATE_COMPLETED";
-export type GoogleCloudAssuredworkloadsV1beta1WorkloadEkmProvisioningResponseEkmProvisioningErrorDomainEnum =
-  | "EKM_PROVISIONING_ERROR_DOMAIN_UNSPECIFIED"
-  | "UNSPECIFIED_ERROR"
-  | "GOOGLE_SERVER_ERROR"
-  | "EXTERNAL_USER_ERROR"
-  | "EXTERNAL_PARTNER_ERROR"
-  | "TIMEOUT_ERROR";
-/** External key management systems(EKM) Provisioning response */
-export interface GoogleCloudAssuredworkloadsV1beta1WorkloadEkmProvisioningResponse {
-  /** Detailed error message if Ekm provisioning fails */
-  ekmProvisioningErrorMapping?:
-    | GoogleCloudAssuredworkloadsV1beta1WorkloadEkmProvisioningResponseEkmProvisioningErrorMappingEnum
-    | (string & {})
-    | undefined;
-  /** Output only. Indicates Ekm enrollment Provisioning of a given workload. */
-  ekmProvisioningState?:
-    | GoogleCloudAssuredworkloadsV1beta1WorkloadEkmProvisioningResponseEkmProvisioningStateEnum
-    | (string & {})
-    | undefined;
-  /** Indicates Ekm provisioning error if any. */
-  ekmProvisioningErrorDomain?:
-    | GoogleCloudAssuredworkloadsV1beta1WorkloadEkmProvisioningResponseEkmProvisioningErrorDomainEnum
-    | (string & {})
-    | undefined;
+  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
+  name?: string | undefined;
+  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
+  done?: boolean | undefined;
+  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
+  response?: DocumentMap | undefined;
+  /** The error result of the operation in case of failure or cancellation. */
+  error?: GoogleRpcStatus | undefined;
 }
 export type GoogleCloudAssuredworkloadsV1beta1WorkloadWorkloadOptionsKajEnrollmentTypeEnum =
   | "KAJ_ENROLLMENT_TYPE_UNSPECIFIED"
@@ -273,26 +220,48 @@ export interface GoogleCloudAssuredworkloadsV1beta1WorkloadWorkloadOptions {
     | (string & {})
     | undefined;
 }
-export type GoogleCloudAssuredworkloadsV1beta1WorkloadResourceSettingsResourceTypeEnum =
-  | "RESOURCE_TYPE_UNSPECIFIED"
-  | "CONSUMER_PROJECT"
-  | "CONSUMER_FOLDER"
-  | "ENCRYPTION_KEYS_PROJECT"
-  | "KEYRING";
-/** Represent the custom settings for the resources to be created. */
-export interface GoogleCloudAssuredworkloadsV1beta1WorkloadResourceSettings {
-  /** Indicates the type of resource. This field should be specified to correspond the id to the right project type (CONSUMER_PROJECT or ENCRYPTION_KEYS_PROJECT) */
-  resourceType?:
-    | GoogleCloudAssuredworkloadsV1beta1WorkloadResourceSettingsResourceTypeEnum
-    | (string & {})
-    | undefined;
-  /** Resource identifier. For a project this represents project_id. If the project is already taken, the workload creation will fail. For KeyRing, this represents the keyring_id. For a folder, don't set this value as folder_id is assigned by Google. */
-  resourceId?: string | undefined;
-  /** User-assigned resource display name. If not empty it will be used to create a resource with the specified name. */
-  displayName?: string | undefined;
+export type StringMap = { [key: string]: string | undefined };
+/** Settings specific to the Key Management Service. */
+export interface GoogleCloudAssuredworkloadsV1beta1WorkloadKMSSettings {
+  /** Required. Input only. Immutable. [next_rotation_time] will be advanced by this period when the Key Management Service automatically rotates a key. Must be at least 24 hours and at most 876,000 hours. */
+  rotationPeriod?: string | undefined;
+  /** Required. Input only. Immutable. The time at which the Key Management Service will automatically create a new version of the crypto key and mark it as the primary. */
+  nextRotationTime?: string | undefined;
 }
-export type GoogleCloudAssuredworkloadsV1beta1WorkloadResourceSettingsList =
-  Array<GoogleCloudAssuredworkloadsV1beta1WorkloadResourceSettings>;
+export type GoogleCloudAssuredworkloadsV1beta1WorkloadKajEnrollmentStateEnum =
+  | "KAJ_ENROLLMENT_STATE_UNSPECIFIED"
+  | "KAJ_ENROLLMENT_STATE_PENDING"
+  | "KAJ_ENROLLMENT_STATE_COMPLETE";
+/** Permissions granted to the AW Partner SA account for the customer workload */
+export interface GoogleCloudAssuredworkloadsV1beta1WorkloadPartnerPermissions {
+  /** Optional. Allow partner to view access approval logs. */
+  serviceAccessApprover?: boolean | undefined;
+  /** Optional. Allow the partner to view inspectability logs and monitoring violations. */
+  dataLogsViewer?: boolean | undefined;
+  /** Optional. Allow partner to view support case details for an AXT log */
+  accessTransparencyLogsSupportCaseViewer?: boolean | undefined;
+  /** Optional. Allow partner to view violation alerts. */
+  assuredWorkloadsMonitoring?: boolean | undefined;
+}
+/** Represents the Compliance Status of this workload */
+export interface GoogleCloudAssuredworkloadsV1beta1WorkloadComplianceStatus {
+  /** Number of current resource violations which are acknowledged. */
+  activeResourceViolationCount?: number | undefined;
+  /** Number of current orgPolicy violations which are acknowledged. */
+  acknowledgedViolationCount?: number | undefined;
+  /** Number of current resource violations which are not acknowledged. */
+  acknowledgedResourceViolationCount?: number | undefined;
+  /** Number of current orgPolicy violations which are not acknowledged. */
+  activeViolationCount?: number | undefined;
+}
+/** Settings specific to resources needed for CJIS. */
+export interface GoogleCloudAssuredworkloadsV1beta1WorkloadCJISSettings {
+  /** Input only. Immutable. Settings used to create a CMEK crypto key. */
+  kmsSettings?: GoogleCloudAssuredworkloadsV1beta1WorkloadKMSSettings | undefined;
+}
+/** Settings specific to resources needed for IL4. */
+export type GoogleCloudAssuredworkloadsV1beta1WorkloadIL4Settings =
+  GoogleCloudAssuredworkloadsV1beta1WorkloadCJISSettings;
 export type GoogleCloudAssuredworkloadsV1beta1WorkloadPartnerEnum =
   | "PARTNER_UNSPECIFIED"
   | "LOCAL_CONTROLS_BY_S3NS"
@@ -302,18 +271,6 @@ export type GoogleCloudAssuredworkloadsV1beta1WorkloadPartnerEnum =
   | "SOVEREIGN_CONTROLS_BY_CNTXT"
   | "SOVEREIGN_CONTROLS_BY_CNTXT_NO_EKM"
   | "SPAIN_DATA_BOUNDARY_BY_TELEFONICA";
-/** Settings specific to the Key Management Service. */
-export interface GoogleCloudAssuredworkloadsV1beta1WorkloadKMSSettings {
-  /** Required. Input only. Immutable. The time at which the Key Management Service will automatically create a new version of the crypto key and mark it as the primary. */
-  nextRotationTime?: string | undefined;
-  /** Required. Input only. Immutable. [next_rotation_time] will be advanced by this period when the Key Management Service automatically rotates a key. Must be at least 24 hours and at most 876,000 hours. */
-  rotationPeriod?: string | undefined;
-}
-/** Settings specific to resources needed for FedRAMP High. */
-export interface GoogleCloudAssuredworkloadsV1beta1WorkloadFedrampHighSettings {
-  /** Input only. Immutable. Settings used to create a CMEK crypto key. */
-  kmsSettings?: GoogleCloudAssuredworkloadsV1beta1WorkloadKMSSettings | undefined;
-}
 export type GoogleCloudAssuredworkloadsV1beta1WorkloadComplianceRegimeEnum =
   | "COMPLIANCE_REGIME_UNSPECIFIED"
   | "ASSURED_WORKLOADS_FOR_PARTNERS"
@@ -361,7 +318,6 @@ export type GoogleCloudAssuredworkloadsV1beta1WorkloadComplianceRegimeEnum =
   | "KSA_REGIONS_AND_SUPPORT_WITH_SOVEREIGNTY_CONTROLS"
   | "REGIONAL_CONTROLS"
   | "US_REGIONAL_ACCESS";
-export type StringMap = { [key: string]: string | undefined };
 export type GoogleCloudAssuredworkloadsV1beta1WorkloadSaaEnrollmentResponseSetupStatusEnum =
   | "SETUP_STATE_UNSPECIFIED"
   | "STATUS_PENDING"
@@ -389,106 +345,91 @@ export interface GoogleCloudAssuredworkloadsV1beta1WorkloadSaaEnrollmentResponse
     | GoogleCloudAssuredworkloadsV1beta1WorkloadSaaEnrollmentResponseSetupErrorsItemEnumList
     | undefined;
 }
-/** Settings specific to resources needed for CJIS. */
-export type GoogleCloudAssuredworkloadsV1beta1WorkloadCJISSettings =
-  GoogleCloudAssuredworkloadsV1beta1WorkloadFedrampHighSettings;
-/** Permissions granted to the AW Partner SA account for the customer workload */
-export interface GoogleCloudAssuredworkloadsV1beta1WorkloadPartnerPermissions {
-  /** Optional. Allow the partner to view inspectability logs and monitoring violations. */
-  dataLogsViewer?: boolean | undefined;
-  /** Optional. Allow partner to view access approval logs. */
-  serviceAccessApprover?: boolean | undefined;
-  /** Optional. Allow partner to view violation alerts. */
-  assuredWorkloadsMonitoring?: boolean | undefined;
-  /** Optional. Allow partner to view support case details for an AXT log */
-  accessTransparencyLogsSupportCaseViewer?: boolean | undefined;
-}
-/** Settings specific to resources needed for IL4. */
-export type GoogleCloudAssuredworkloadsV1beta1WorkloadIL4Settings =
-  GoogleCloudAssuredworkloadsV1beta1WorkloadFedrampHighSettings;
-/** Represents the Compliance Status of this workload */
-export interface GoogleCloudAssuredworkloadsV1beta1WorkloadComplianceStatus {
-  /** Number of current orgPolicy violations which are acknowledged. */
-  acknowledgedViolationCount?: number | undefined;
-  /** Number of current orgPolicy violations which are not acknowledged. */
-  activeViolationCount?: number | undefined;
-  /** Number of current resource violations which are acknowledged. */
-  activeResourceViolationCount?: number | undefined;
-  /** Number of current resource violations which are not acknowledged. */
-  acknowledgedResourceViolationCount?: number | undefined;
-}
+/** Settings specific to resources needed for FedRAMP High. */
+export type GoogleCloudAssuredworkloadsV1beta1WorkloadFedrampHighSettings =
+  GoogleCloudAssuredworkloadsV1beta1WorkloadCJISSettings;
 /** Settings specific to resources needed for FedRAMP Moderate. */
 export type GoogleCloudAssuredworkloadsV1beta1WorkloadFedrampModerateSettings =
-  GoogleCloudAssuredworkloadsV1beta1WorkloadFedrampHighSettings;
-export type GoogleCloudAssuredworkloadsV1beta1WorkloadKajEnrollmentStateEnum =
-  | "KAJ_ENROLLMENT_STATE_UNSPECIFIED"
-  | "KAJ_ENROLLMENT_STATE_PENDING"
-  | "KAJ_ENROLLMENT_STATE_COMPLETE";
-/** A Workload object for managing highly regulated workloads of cloud customers. */
-export interface GoogleCloudAssuredworkloadsV1beta1Workload {
-  /** Output only. Indicates whether resource monitoring is enabled for workload or not. It is true when Resource feed is subscribed to AWM topic and AWM Service Agent Role is binded to AW Service Account for resource Assured workload. */
-  resourceMonitoringEnabled?: boolean | undefined;
-  /** Optional. Billing account necessary for purchasing services from Sovereign Partners. This field is required for creating SIA/PSN/CNTXT/Telefonica partner workloads. The caller should have 'billing.resourceAssociations.create' IAM permission on this billing-account. The format of this string is billingAccounts/AAAAAA-BBBBBB-CCCCCC */
-  partnerServicesBillingAccount?: string | undefined;
-  /** Output only. The resources associated with this workload. These resources will be created when creating the workload. If any of the projects already exist, the workload creation will fail. Always read only. */
-  resources?: GoogleCloudAssuredworkloadsV1beta1WorkloadResourceInfoList | undefined;
-  /** Optional. Indicates whether the e-mail notification for a violation is enabled for a workload. This value will be by default True, and if not present will be considered as true. This should only be updated via updateWorkload call. Any Changes to this field during the createWorkload call will not be honored. This will always be true while creating the workload. */
-  violationNotificationsEnabled?: boolean | undefined;
-  /** Optional. The resource name of the workload. Format: organizations/{organization}/locations/{location}/workloads/{workload} Read-only. */
-  name?: string | undefined;
-  /** Output only. Represents the Ekm Provisioning State of the given workload. */
-  ekmProvisioningResponse?:
-    | GoogleCloudAssuredworkloadsV1beta1WorkloadEkmProvisioningResponse
-    | undefined;
-  /** Optional. Options to be set for the given created workload. */
-  workloadOptions?: GoogleCloudAssuredworkloadsV1beta1WorkloadWorkloadOptions | undefined;
-  /** Input only. The parent resource for the resources managed by this Assured Workload. May be either empty or a folder resource which is a child of the Workload parent. If not specified all resources are created under the parent organization. Format: folders/{folder_id} */
-  provisionedResourcesParent?: string | undefined;
-  /** Input only. Resource properties that are used to customize workload resources. These properties (such as custom project id) will be used to create workload resources if possible. This field is optional. */
-  resourceSettings?: GoogleCloudAssuredworkloadsV1beta1WorkloadResourceSettingsList | undefined;
-  /** Required. The user-assigned display name of the Workload. When present it must be between 4 to 30 characters. Allowed characters are: lowercase and uppercase letters, numbers, hyphen, and spaces. Example: My Workload */
-  displayName?: string | undefined;
-  /** Optional. Partner regime associated with this workload. */
-  partner?: GoogleCloudAssuredworkloadsV1beta1WorkloadPartnerEnum | (string & {}) | undefined;
-  /** Output only. Urls for services which are compliant for this Assured Workload, but which are currently disallowed by the ResourceUsageRestriction org policy. Invoke RestrictAllowedResources endpoint to allow your project developers to use these services in their environment. */
-  compliantButDisallowedServices?: StringList | undefined;
-  /** Output only. Indicates whether the compliance updates feature is enabled for a workload. The compliance updates feature can be enabled via the EnableComplianceUpdates endpoint. */
-  complianceUpdatesEnabled?: boolean | undefined;
-  /** Input only. Immutable. Settings specific to resources needed for FedRAMP High. */
-  fedrampHighSettings?: GoogleCloudAssuredworkloadsV1beta1WorkloadFedrampHighSettings | undefined;
-  /** Required. Immutable. Compliance Regime associated with this workload. */
-  complianceRegime?:
-    | GoogleCloudAssuredworkloadsV1beta1WorkloadComplianceRegimeEnum
+  GoogleCloudAssuredworkloadsV1beta1WorkloadCJISSettings;
+export type GoogleCloudAssuredworkloadsV1beta1WorkloadResourceInfoResourceTypeEnum =
+  | "RESOURCE_TYPE_UNSPECIFIED"
+  | "CONSUMER_PROJECT"
+  | "CONSUMER_FOLDER"
+  | "ENCRYPTION_KEYS_PROJECT"
+  | "KEYRING";
+/** Represent the resources that are children of this Workload. */
+export interface GoogleCloudAssuredworkloadsV1beta1WorkloadResourceInfo {
+  /** Indicates the type of resource. */
+  resourceType?:
+    | GoogleCloudAssuredworkloadsV1beta1WorkloadResourceInfoResourceTypeEnum
     | (string & {})
     | undefined;
-  /** Output only. Immutable. The Workload creation timestamp. */
-  createTime?: string | undefined;
-  /** Optional. ETag of the workload, it is calculated on the basis of the Workload contents. It will be used in Update & Delete operations. */
-  etag?: string | undefined;
+  /** Output only. Resource identifier. For a project this represents project_number. */
+  resourceId?: string | undefined;
+}
+export type GoogleCloudAssuredworkloadsV1beta1WorkloadResourceInfoList =
+  Array<GoogleCloudAssuredworkloadsV1beta1WorkloadResourceInfo>;
+export type GoogleCloudAssuredworkloadsV1beta1WorkloadResourceSettingsResourceTypeEnum =
+  | "RESOURCE_TYPE_UNSPECIFIED"
+  | "CONSUMER_PROJECT"
+  | "CONSUMER_FOLDER"
+  | "ENCRYPTION_KEYS_PROJECT"
+  | "KEYRING";
+/** Represent the custom settings for the resources to be created. */
+export interface GoogleCloudAssuredworkloadsV1beta1WorkloadResourceSettings {
+  /** User-assigned resource display name. If not empty it will be used to create a resource with the specified name. */
+  displayName?: string | undefined;
+  /** Indicates the type of resource. This field should be specified to correspond the id to the right project type (CONSUMER_PROJECT or ENCRYPTION_KEYS_PROJECT) */
+  resourceType?:
+    | GoogleCloudAssuredworkloadsV1beta1WorkloadResourceSettingsResourceTypeEnum
+    | (string & {})
+    | undefined;
+  /** Resource identifier. For a project this represents project_id. If the project is already taken, the workload creation will fail. For KeyRing, this represents the keyring_id. For a folder, don't set this value as folder_id is assigned by Google. */
+  resourceId?: string | undefined;
+}
+export type GoogleCloudAssuredworkloadsV1beta1WorkloadResourceSettingsList =
+  Array<GoogleCloudAssuredworkloadsV1beta1WorkloadResourceSettings>;
+export type GoogleCloudAssuredworkloadsV1beta1WorkloadEkmProvisioningResponseEkmProvisioningStateEnum =
+  | "EKM_PROVISIONING_STATE_UNSPECIFIED"
+  | "EKM_PROVISIONING_STATE_PENDING"
+  | "EKM_PROVISIONING_STATE_FAILED"
+  | "EKM_PROVISIONING_STATE_COMPLETED";
+export type GoogleCloudAssuredworkloadsV1beta1WorkloadEkmProvisioningResponseEkmProvisioningErrorMappingEnum =
+  | "EKM_PROVISIONING_ERROR_MAPPING_UNSPECIFIED"
+  | "INVALID_SERVICE_ACCOUNT"
+  | "MISSING_METRICS_SCOPE_ADMIN_PERMISSION"
+  | "MISSING_EKM_CONNECTION_ADMIN_PERMISSION";
+export type GoogleCloudAssuredworkloadsV1beta1WorkloadEkmProvisioningResponseEkmProvisioningErrorDomainEnum =
+  | "EKM_PROVISIONING_ERROR_DOMAIN_UNSPECIFIED"
+  | "UNSPECIFIED_ERROR"
+  | "GOOGLE_SERVER_ERROR"
+  | "EXTERNAL_USER_ERROR"
+  | "EXTERNAL_PARTNER_ERROR"
+  | "TIMEOUT_ERROR";
+/** External key management systems(EKM) Provisioning response */
+export interface GoogleCloudAssuredworkloadsV1beta1WorkloadEkmProvisioningResponse {
+  /** Output only. Indicates Ekm enrollment Provisioning of a given workload. */
+  ekmProvisioningState?:
+    | GoogleCloudAssuredworkloadsV1beta1WorkloadEkmProvisioningResponseEkmProvisioningStateEnum
+    | (string & {})
+    | undefined;
+  /** Detailed error message if Ekm provisioning fails */
+  ekmProvisioningErrorMapping?:
+    | GoogleCloudAssuredworkloadsV1beta1WorkloadEkmProvisioningResponseEkmProvisioningErrorMappingEnum
+    | (string & {})
+    | undefined;
+  /** Indicates Ekm provisioning error if any. */
+  ekmProvisioningErrorDomain?:
+    | GoogleCloudAssuredworkloadsV1beta1WorkloadEkmProvisioningResponseEkmProvisioningErrorDomainEnum
+    | (string & {})
+    | undefined;
+}
+/** A Workload object for managing highly regulated workloads of cloud customers. */
+export interface GoogleCloudAssuredworkloadsV1beta1Workload {
+  /** Optional. Options to be set for the given created workload. */
+  workloadOptions?: GoogleCloudAssuredworkloadsV1beta1WorkloadWorkloadOptions | undefined;
   /** Optional. Labels applied to the workload. */
   labels?: StringMap | undefined;
-  /** Output only. Represents the SAA enrollment response of the given workload. SAA enrollment response is queried during GetWorkload call. In failure cases, user friendly error message is shown in SAA details page. */
-  saaEnrollmentResponse?:
-    | GoogleCloudAssuredworkloadsV1beta1WorkloadSaaEnrollmentResponse
-    | undefined;
-  /** Optional. The billing account used for the resources which are direct children of workload. This billing account is initially associated with the resources created as part of Workload creation. After the initial creation of these resources, the customer can change the assigned billing account. The resource name has the form `billingAccounts/{billing_account_id}`. For example, `billingAccounts/012345-567890-ABCDEF`. */
-  billingAccount?: string | undefined;
-  /** Optional. Indicates the sovereignty status of the given workload. Currently meant to be used by Europe/Canada customers. */
-  enableSovereignControls?: boolean | undefined;
-  /** Input only. Immutable. Settings specific to resources needed for CJIS. */
-  cjisSettings?: GoogleCloudAssuredworkloadsV1beta1WorkloadFedrampHighSettings | undefined;
-  /** Output only. The number of updates available for the workload. */
-  availableUpdates?: number | undefined;
-  /** Optional. Permissions granted to the AW Partner SA account for the customer workload */
-  partnerPermissions?: GoogleCloudAssuredworkloadsV1beta1WorkloadPartnerPermissions | undefined;
-  /** Input only. Immutable. Settings specific to resources needed for IL4. */
-  il4Settings?: GoogleCloudAssuredworkloadsV1beta1WorkloadFedrampHighSettings | undefined;
-  /** Output only. Count of active Violations in the Workload. */
-  complianceStatus?: GoogleCloudAssuredworkloadsV1beta1WorkloadComplianceStatus | undefined;
-  /** Input only. Immutable. Settings specific to resources needed for FedRAMP Moderate. */
-  fedrampModerateSettings?:
-    | GoogleCloudAssuredworkloadsV1beta1WorkloadFedrampHighSettings
-    | undefined;
   /** Input only. Settings used to create a CMEK crypto key. When set, a project with a KMS CMEK key is provisioned. This field is deprecated as of Feb 28, 2022. In order to create a Keyring, callers should specify, ENCRYPTION_KEYS_PROJECT or KEYRING in ResourceSettings.resource_type field. */
   kmsSettings?: GoogleCloudAssuredworkloadsV1beta1WorkloadKMSSettings | undefined;
   /** Output only. Represents the KAJ enrollment state of the given workload. */
@@ -496,12 +437,69 @@ export interface GoogleCloudAssuredworkloadsV1beta1Workload {
     | GoogleCloudAssuredworkloadsV1beta1WorkloadKajEnrollmentStateEnum
     | (string & {})
     | undefined;
+  /** Optional. Permissions granted to the AW Partner SA account for the customer workload */
+  partnerPermissions?: GoogleCloudAssuredworkloadsV1beta1WorkloadPartnerPermissions | undefined;
+  /** Optional. Indicates the sovereignty status of the given workload. Currently meant to be used by Europe/Canada customers. */
+  enableSovereignControls?: boolean | undefined;
+  /** Output only. Indicates whether the compliance updates feature is enabled for a workload. The compliance updates feature can be enabled via the EnableComplianceUpdates endpoint. */
+  complianceUpdatesEnabled?: boolean | undefined;
+  /** Input only. The parent resource for the resources managed by this Assured Workload. May be either empty or a folder resource which is a child of the Workload parent. If not specified all resources are created under the parent organization. Format: folders/{folder_id} */
+  provisionedResourcesParent?: string | undefined;
+  /** Output only. Count of active Violations in the Workload. */
+  complianceStatus?: GoogleCloudAssuredworkloadsV1beta1WorkloadComplianceStatus | undefined;
+  /** Required. The user-assigned display name of the Workload. When present it must be between 4 to 30 characters. Allowed characters are: lowercase and uppercase letters, numbers, hyphen, and spaces. Example: My Workload */
+  displayName?: string | undefined;
+  /** Output only. The number of updates available for the workload. */
+  availableUpdates?: number | undefined;
+  /** Input only. Immutable. Settings specific to resources needed for CJIS. */
+  cjisSettings?: GoogleCloudAssuredworkloadsV1beta1WorkloadCJISSettings | undefined;
+  /** Input only. Immutable. Settings specific to resources needed for IL4. */
+  il4Settings?: GoogleCloudAssuredworkloadsV1beta1WorkloadCJISSettings | undefined;
+  /** Optional. Partner regime associated with this workload. */
+  partner?: GoogleCloudAssuredworkloadsV1beta1WorkloadPartnerEnum | (string & {}) | undefined;
+  /** Optional. The resource name of the workload. Format: organizations/{organization}/locations/{location}/workloads/{workload} Read-only. */
+  name?: string | undefined;
+  /** Required. Immutable. Compliance Regime associated with this workload. */
+  complianceRegime?:
+    | GoogleCloudAssuredworkloadsV1beta1WorkloadComplianceRegimeEnum
+    | (string & {})
+    | undefined;
+  /** Output only. Indicates whether resource monitoring is enabled for workload or not. It is true when Resource feed is subscribed to AWM topic and AWM Service Agent Role is binded to AW Service Account for resource Assured workload. */
+  resourceMonitoringEnabled?: boolean | undefined;
+  /** Optional. ETag of the workload, it is calculated on the basis of the Workload contents. It will be used in Update & Delete operations. */
+  etag?: string | undefined;
+  /** Output only. Urls for services which are compliant for this Assured Workload, but which are currently disallowed by the ResourceUsageRestriction org policy. Invoke RestrictAllowedResources endpoint to allow your project developers to use these services in their environment. */
+  compliantButDisallowedServices?: StringList | undefined;
+  /** Output only. Represents the SAA enrollment response of the given workload. SAA enrollment response is queried during GetWorkload call. In failure cases, user friendly error message is shown in SAA details page. */
+  saaEnrollmentResponse?:
+    | GoogleCloudAssuredworkloadsV1beta1WorkloadSaaEnrollmentResponse
+    | undefined;
+  /** Optional. The billing account used for the resources which are direct children of workload. This billing account is initially associated with the resources created as part of Workload creation. After the initial creation of these resources, the customer can change the assigned billing account. The resource name has the form `billingAccounts/{billing_account_id}`. For example, `billingAccounts/012345-567890-ABCDEF`. */
+  billingAccount?: string | undefined;
+  /** Input only. Immutable. Settings specific to resources needed for FedRAMP High. */
+  fedrampHighSettings?: GoogleCloudAssuredworkloadsV1beta1WorkloadCJISSettings | undefined;
+  /** Input only. Immutable. Settings specific to resources needed for FedRAMP Moderate. */
+  fedrampModerateSettings?: GoogleCloudAssuredworkloadsV1beta1WorkloadCJISSettings | undefined;
+  /** Optional. Billing account necessary for purchasing services from Sovereign Partners. This field is required for creating SIA/PSN/CNTXT/Telefonica partner workloads. The caller should have 'billing.resourceAssociations.create' IAM permission on this billing-account. The format of this string is billingAccounts/AAAAAA-BBBBBB-CCCCCC */
+  partnerServicesBillingAccount?: string | undefined;
+  /** Output only. The resources associated with this workload. These resources will be created when creating the workload. If any of the projects already exist, the workload creation will fail. Always read only. */
+  resources?: GoogleCloudAssuredworkloadsV1beta1WorkloadResourceInfoList | undefined;
+  /** Input only. Resource properties that are used to customize workload resources. These properties (such as custom project id) will be used to create workload resources if possible. This field is optional. */
+  resourceSettings?: GoogleCloudAssuredworkloadsV1beta1WorkloadResourceSettingsList | undefined;
+  /** Output only. Immutable. The Workload creation timestamp. */
+  createTime?: string | undefined;
+  /** Output only. Represents the Ekm Provisioning State of the given workload. */
+  ekmProvisioningResponse?:
+    | GoogleCloudAssuredworkloadsV1beta1WorkloadEkmProvisioningResponse
+    | undefined;
+  /** Optional. Indicates whether the e-mail notification for a violation is enabled for a workload. This value will be by default True, and if not present will be considered as true. This should only be updated via updateWorkload call. Any Changes to this field during the createWorkload call will not be honored. This will always be true while creating the workload. */
+  violationNotificationsEnabled?: boolean | undefined;
 }
 export interface CreateOrganizationsLocationsWorkloadsRequest extends GoogleCloudAssuredworkloadsV1beta1Workload {
-  /** Required. The resource name of the new Workload's parent. Must be of the form `organizations/{org_id}/locations/{location_id}`. */
-  parent: string;
   /** Optional. A identifier associated with the workload and underlying projects which allows for the break down of billing costs for a workload. The value provided for the identifier will add a label to the workload and contained projects with the identifier as the value. */
   externalId?: string | undefined;
+  /** Required. The resource name of the new Workload's parent. Must be of the form `organizations/{org_id}/locations/{location_id}`. */
+  parent: string;
 }
 export interface DeleteOrganizationsLocationsWorkloadsRequest {
   /** Optional. The etag of the workload. If this is provided, it must match the server's etag. */
@@ -536,51 +534,48 @@ export type GetOrganizationsLocationsWorkloadsViolationsViewEnum =
   | "VIOLATION_VIEW_ASSURED_WORKLOADS"
   | "VIOLATION_VIEW_DATA_BOUNDARY";
 export interface GetOrganizationsLocationsWorkloadsViolationsRequest {
-  /** Required. The resource name of the violation to retrieve (that is, the value of `Violation.name`). Format: `organizations/{organization}/locations/{location}/workloads/{workload}/violations/{violation}` */
-  name: string;
   /** Optional. The violation view (`VIOLATION_VIEW_ASSURED_WORKLOADS` or `VIOLATION_VIEW_DATA_BOUNDARY`) that the violation belongs to. If not specified, `VIOLATION_VIEW_ASSURED_WORKLOADS` is used. */
   view?: GetOrganizationsLocationsWorkloadsViolationsViewEnum | (string & {}) | undefined;
+  /** Required. The resource name of the violation to retrieve (that is, the value of `Violation.name`). Format: `organizations/{organization}/locations/{location}/workloads/{workload}/violations/{violation}` */
+  name: string;
 }
+export type GoogleCloudAssuredworkloadsV1beta1ViolationStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "RESOLVED"
+  | "UNRESOLVED"
+  | "EXCEPTION";
+export type GoogleCloudAssuredworkloadsV1beta1ViolationViolationTypeEnum =
+  | "VIOLATION_TYPE_UNSPECIFIED"
+  | "ORG_POLICY"
+  | "RESOURCE";
 /** Details about an acknowledgement (exception) of a violation. */
 export interface GoogleCloudAssuredworkloadsV1beta1ViolationExceptionContext {
-  /** The time when the violation was acknowledged. */
-  acknowledgementTime?: string | undefined;
   /** The name of the user (or service account) who acknowledged the violation. */
   userName?: string | undefined;
+  /** The time when the violation was acknowledged. */
+  acknowledgementTime?: string | undefined;
   /** The business justification that was provided when the violation was acknowledged. */
   comment?: string | undefined;
 }
 export type GoogleCloudAssuredworkloadsV1beta1ViolationExceptionContextList =
   Array<GoogleCloudAssuredworkloadsV1beta1ViolationExceptionContext>;
-export type GoogleCloudAssuredworkloadsV1beta1ViolationViolationTypeEnum =
-  | "VIOLATION_TYPE_UNSPECIFIED"
-  | "ORG_POLICY"
-  | "RESOURCE";
-export type GoogleCloudAssuredworkloadsV1beta1ViolationRemediationRemediationTypeEnum =
-  | "REMEDIATION_TYPE_UNSPECIFIED"
-  | "REMEDIATION_BOOLEAN_ORG_POLICY_VIOLATION"
-  | "REMEDIATION_LIST_ALLOWED_VALUES_ORG_POLICY_VIOLATION"
-  | "REMEDIATION_LIST_DENIED_VALUES_ORG_POLICY_VIOLATION"
-  | "REMEDIATION_RESTRICT_CMEK_CRYPTO_KEY_PROJECTS_ORG_POLICY_VIOLATION"
-  | "REMEDIATION_RESOURCE_VIOLATION"
-  | "REMEDIATION_RESOURCE_VIOLATION_NON_CMEK_SERVICES";
 /** Instructions to remediate a violation by using the Google Cloud console. */
 export interface GoogleCloudAssuredworkloadsV1beta1ViolationRemediationInstructionsConsole {
-  /** Additional URLs with more information about the steps. */
-  additionalLinks?: StringList | undefined;
   /** Links to the Google Cloud console pages where the violation can be resolved. */
   consoleUris?: StringList | undefined;
+  /** Additional URLs with more information about the steps. */
+  additionalLinks?: StringList | undefined;
   /** The steps to resolve the violation by using the Google Cloud console. */
   steps?: StringList | undefined;
 }
 /** Instructions to remediate a violation by using the Google Cloud CLI. */
 export interface GoogleCloudAssuredworkloadsV1beta1ViolationRemediationInstructionsGcloud {
-  /** The steps to resolve the violation by using the gcloud CLI. */
-  steps?: StringList | undefined;
-  /** The gcloud CLI commands that resolve the violation. */
-  gcloudCommands?: StringList | undefined;
   /** Additional URLs with more information about the steps. */
   additionalLinks?: StringList | undefined;
+  /** The gcloud CLI commands that resolve the violation. */
+  gcloudCommands?: StringList | undefined;
+  /** The steps to resolve the violation by using the gcloud CLI. */
+  steps?: StringList | undefined;
 }
 /** Instructions to remediate a violation. */
 export interface GoogleCloudAssuredworkloadsV1beta1ViolationRemediationInstructions {
@@ -593,120 +588,128 @@ export interface GoogleCloudAssuredworkloadsV1beta1ViolationRemediationInstructi
     | GoogleCloudAssuredworkloadsV1beta1ViolationRemediationInstructionsGcloud
     | undefined;
 }
+export type GoogleCloudAssuredworkloadsV1beta1ViolationRemediationRemediationTypeEnum =
+  | "REMEDIATION_TYPE_UNSPECIFIED"
+  | "REMEDIATION_BOOLEAN_ORG_POLICY_VIOLATION"
+  | "REMEDIATION_LIST_ALLOWED_VALUES_ORG_POLICY_VIOLATION"
+  | "REMEDIATION_LIST_DENIED_VALUES_ORG_POLICY_VIOLATION"
+  | "REMEDIATION_RESTRICT_CMEK_CRYPTO_KEY_PROJECTS_ORG_POLICY_VIOLATION"
+  | "REMEDIATION_RESOURCE_VIOLATION"
+  | "REMEDIATION_RESOURCE_VIOLATION_NON_CMEK_SERVICES";
 /** Remediation guidance to resolve a compliance violation. */
 export interface GoogleCloudAssuredworkloadsV1beta1ViolationRemediation {
+  /** Required. The instructions to resolve the violation. */
+  instructions?: GoogleCloudAssuredworkloadsV1beta1ViolationRemediationInstructions | undefined;
   /** Output only. The remediation type, which is based on the type of organization policy values that were violated. */
   remediationType?:
     | GoogleCloudAssuredworkloadsV1beta1ViolationRemediationRemediationTypeEnum
     | undefined;
-  /** Required. The instructions to resolve the violation. */
-  instructions?: GoogleCloudAssuredworkloadsV1beta1ViolationRemediationInstructions | undefined;
   /** The values that can resolve the violation. For example, for list organization policy violations, this field contains the list of allowed or denied values. */
   compliantValues?: StringList | undefined;
 }
-export type GoogleCloudAssuredworkloadsV1beta1ViolationStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "RESOLVED"
-  | "UNRESOLVED"
-  | "EXCEPTION";
 /** A compliance violation that's detected by Assured Workloads monitoring. A violation is created when an organization policy or a resource in a workload (or a Data Boundary scope) changes in a way that doesn't comply with the controls of the applicable compliance regime or framework. */
 export interface GoogleCloudAssuredworkloadsV1beta1Violation {
-  /** Output only. Immutable. The name of the organization policy that was modified with a non-compliant change and resulted in this violation. Formats: * `projects/{project_number}/policies/{constraint_name}` * `folders/{folder_id}/policies/{constraint_name}` * `organizations/{organization_id}/policies/{constraint_name}` */
-  nonCompliantOrgPolicy?: string | undefined;
-  /** Output only. The details of all of the acknowledgements (exceptions) for the violation. */
-  exceptionContexts?: GoogleCloudAssuredworkloadsV1beta1ViolationExceptionContextList | undefined;
-  /** Output only. The remediation instructions for the violation, in Markdown format. This field is only populated by `GetViolation` when using `VIOLATION_VIEW_DATA_BOUNDARY`. When this field isn't populated, see `remediation` instead. */
-  remediationMarkdown?: string | undefined;
-  /** Optional. Output only. For resource violations, the full resource name of the non-compliant resource. For example, `//storage.googleapis.com/myprojectxyz-testbucket`. This field is empty for organization policy violations. */
-  resourceName?: string | undefined;
-  /** Output only. A description of the violation. For example, `OrgPolicy gcp.resourceLocations has non compliant value.` */
-  description?: string | undefined;
-  /** Output only. Immutable. A link to the Cloud Audit Logs entries that contain the business justification that was provided when the violation was acknowledged. Format: `https://console.cloud.google.com/logs/query;query={logName}{protoPayload.resourceName}{protoPayload.methodName}{timeRange}{organization}` */
-  exceptionAuditLogLink?: string | undefined;
-  /** Output only. The type of the violation. */
-  violationType?: GoogleCloudAssuredworkloadsV1beta1ViolationViolationTypeEnum | undefined;
-  /** Output only. The remediation guidance for the violation. */
-  remediation?: GoogleCloudAssuredworkloadsV1beta1ViolationRemediation | undefined;
-  /** Output only. The time of the event that triggered the violation. */
-  beginTime?: string | undefined;
-  /** Output only. The IDs of the compliance frameworks that are affected by this violation. For example, `builtin-fedramp-high`. This field is only populated when using `VIOLATION_VIEW_DATA_BOUNDARY`. */
-  affectedFrameworks?: StringList | undefined;
-  /** Whether the violation has been acknowledged. */
-  acknowledged?: boolean | undefined;
-  /** Optional. Output only. For resource violations, the number of the project that contains the non-compliant resource. This field is empty for organization policy violations. */
-  parentProjectNumber?: string | undefined;
-  /** Output only. Immutable. Deprecated: This field is deprecated and might be removed in a future version of the API. Use `non_compliant_org_policy` instead, which contains the full resource name of the organization policy, including the constraint name. The organization policy constraint that was changed in a non-compliant way, which resulted in this violation. */
-  orgPolicyConstraint?: string | undefined;
-  /** Optional. Output only. For resource violations, the type of the non-compliant resource. For example, `compute.googleapis.com/Disk`. This field is empty for organization policy violations. */
-  resourceType?: string | undefined;
-  /** Output only. The state of the violation. */
-  state?: GoogleCloudAssuredworkloadsV1beta1ViolationStateEnum | undefined;
-  /** Output only. Immutable. A link to the Cloud Audit Logs entries for the violated resource. Format: `https://console.cloud.google.com/logs/query;query={logName}{protoPayload.resourceName}{timeRange}{folder}` */
-  auditLogLink?: string | undefined;
-  /** Output only. The time when the violation record was last updated. */
-  updateTime?: string | undefined;
-  /** Optional. Output only. For resource violations, the ID of the organization policy violation that caused this resource violation. This field is empty for organization policy violations. */
-  associatedOrgPolicyViolationId?: string | undefined;
-  /** Output only. The category that the violation is mapped to. For example, `Location`, `Service Usage`, `Access`, or `Encryption`. */
-  category?: string | undefined;
-  /** Output only. The time of the event that resolved the violation. This field is empty if the violation is unresolved. */
-  resolveTime?: string | undefined;
-  /** Optional. The time when the violation was first acknowledged. To find the most recent time that the violation was acknowledged, check `exception_contexts`. This field is absent when `acknowledged` is `false`. */
-  acknowledgementTime?: string | undefined;
-  /** Optional. Output only. For organization policy violations, the number of resource violations that are associated with this violation. This field is `0` for resource violations. */
-  childResourceViolationCount?: number | undefined;
   /** Output only. Immutable. The resource name of the violation. Format: `organizations/{organization}/locations/{location}/workloads/{workload_id}/violations/{violations_id}` */
   name?: string | undefined;
+  /** Output only. The state of the violation. */
+  state?: GoogleCloudAssuredworkloadsV1beta1ViolationStateEnum | undefined;
+  /** Output only. Immutable. A link to the Cloud Audit Logs entries that contain the business justification that was provided when the violation was acknowledged. Format: `https://console.cloud.google.com/logs/query;query={logName}{protoPayload.resourceName}{protoPayload.methodName}{timeRange}{organization}` */
+  exceptionAuditLogLink?: string | undefined;
+  /** Optional. Output only. For organization policy violations, the number of resource violations that are associated with this violation. This field is `0` for resource violations. */
+  childResourceViolationCount?: number | undefined;
+  /** Output only. The type of the violation. */
+  violationType?: GoogleCloudAssuredworkloadsV1beta1ViolationViolationTypeEnum | undefined;
+  /** Optional. Output only. For resource violations, the full resource name of the non-compliant resource. For example, `//storage.googleapis.com/myprojectxyz-testbucket`. This field is empty for organization policy violations. */
+  resourceName?: string | undefined;
+  /** Output only. The details of all of the acknowledgements (exceptions) for the violation. */
+  exceptionContexts?: GoogleCloudAssuredworkloadsV1beta1ViolationExceptionContextList | undefined;
+  /** Optional. The time when the violation was first acknowledged. To find the most recent time that the violation was acknowledged, check `exception_contexts`. This field is absent when `acknowledged` is `false`. */
+  acknowledgementTime?: string | undefined;
+  /** Optional. Output only. For resource violations, the type of the non-compliant resource. For example, `compute.googleapis.com/Disk`. This field is empty for organization policy violations. */
+  resourceType?: string | undefined;
+  /** Output only. A description of the violation. For example, `OrgPolicy gcp.resourceLocations has non compliant value.` */
+  description?: string | undefined;
+  /** Output only. The remediation guidance for the violation. */
+  remediation?: GoogleCloudAssuredworkloadsV1beta1ViolationRemediation | undefined;
+  /** Output only. The time when the violation record was last updated. */
+  updateTime?: string | undefined;
+  /** Optional. Output only. For resource violations, the number of the project that contains the non-compliant resource. This field is empty for organization policy violations. */
+  parentProjectNumber?: string | undefined;
+  /** Output only. Immutable. A link to the Cloud Audit Logs entries for the violated resource. Format: `https://console.cloud.google.com/logs/query;query={logName}{protoPayload.resourceName}{timeRange}{folder}` */
+  auditLogLink?: string | undefined;
+  /** Output only. The IDs of the compliance frameworks that are affected by this violation. For example, `builtin-fedramp-high`. This field is only populated when using `VIOLATION_VIEW_DATA_BOUNDARY`. */
+  affectedFrameworks?: StringList | undefined;
+  /** Output only. Immutable. Deprecated: This field is deprecated and might be removed in a future version of the API. Use `non_compliant_org_policy` instead, which contains the full resource name of the organization policy, including the constraint name. The organization policy constraint that was changed in a non-compliant way, which resulted in this violation. */
+  orgPolicyConstraint?: string | undefined;
+  /** Optional. Output only. For resource violations, the ID of the organization policy violation that caused this resource violation. This field is empty for organization policy violations. */
+  associatedOrgPolicyViolationId?: string | undefined;
+  /** Output only. Immutable. The name of the organization policy that was modified with a non-compliant change and resulted in this violation. Formats: * `projects/{project_number}/policies/{constraint_name}` * `folders/{folder_id}/policies/{constraint_name}` * `organizations/{organization_id}/policies/{constraint_name}` */
+  nonCompliantOrgPolicy?: string | undefined;
+  /** Output only. The category that the violation is mapped to. For example, `Location`, `Service Usage`, `Access`, or `Encryption`. */
+  category?: string | undefined;
+  /** Output only. The remediation instructions for the violation, in Markdown format. This field is only populated by `GetViolation` when using `VIOLATION_VIEW_DATA_BOUNDARY`. When this field isn't populated, see `remediation` instead. */
+  remediationMarkdown?: string | undefined;
+  /** Output only. The time of the event that resolved the violation. This field is empty if the violation is unresolved. */
+  resolveTime?: string | undefined;
+  /** Output only. The time of the event that triggered the violation. */
+  beginTime?: string | undefined;
+  /** Whether the violation has been acknowledged. */
+  acknowledged?: boolean | undefined;
 }
 export interface ListOrganizationsLocationsOperationsRequest {
   /** The standard list page size. */
   pageSize?: number | undefined;
   /** The name of the operation's parent resource. */
   name: string;
-  /** The standard list page token. */
-  pageToken?: string | undefined;
-  /** The standard list filter. */
-  filter?: string | undefined;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
   returnPartialSuccess?: boolean | undefined;
+  /** The standard list filter. */
+  filter?: string | undefined;
+  /** The standard list page token. */
+  pageToken?: string | undefined;
 }
 export type GoogleLongrunningOperationList = Array<GoogleLongrunningOperation>;
 /** The response message for Operations.ListOperations. */
 export interface GoogleLongrunningListOperationsResponse {
+  /** A list of operations that matches the specified filter in the request. */
+  operations?: GoogleLongrunningOperationList | undefined;
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
   unreachable?: StringList | undefined;
   /** The standard List next-page token. */
   nextPageToken?: string | undefined;
-  /** A list of operations that matches the specified filter in the request. */
-  operations?: GoogleLongrunningOperationList | undefined;
 }
 export interface ListOrganizationsLocationsWorkloadsRequest {
+  /** Optional. A custom filter for filtering by properties of a workload. At this time, only filtering by labels is supported. */
+  filter?: string | undefined;
   /** Optional. Page token returned from previous request. Page token contains context from previous request. Page token needs to be passed in the second and following requests. */
   pageToken?: string | undefined;
   /** Optional. Page size. */
   pageSize?: number | undefined;
   /** Required. Parent Resource to list workloads from. Must be of the form `organizations/{org_id}/locations/{location}`. */
   parent: string;
-  /** Optional. A custom filter for filtering by properties of a workload. At this time, only filtering by labels is supported. */
-  filter?: string | undefined;
 }
 export type GoogleCloudAssuredworkloadsV1beta1WorkloadList =
   Array<GoogleCloudAssuredworkloadsV1beta1Workload>;
 /** Response of ListWorkloads endpoint. */
 export interface GoogleCloudAssuredworkloadsV1beta1ListWorkloadsResponse {
-  /** The next page token. Return empty if reached the last page. */
-  nextPageToken?: string | undefined;
   /** List of Workloads under a given parent. */
   workloads?: GoogleCloudAssuredworkloadsV1beta1WorkloadList | undefined;
+  /** The next page token. Return empty if reached the last page. */
+  nextPageToken?: string | undefined;
 }
 export interface ListOrganizationsLocationsWorkloadsUpdatesRequest {
-  /** Required. organizations/{org_id}/locations/{location_id}/workloads/{workload_id} */
-  parent: string;
   /** Page token returned from previous request. */
   pageToken?: string | undefined;
   /** Page size. The default value is 20 and the max allowed value is 100. */
   pageSize?: number | undefined;
+  /** Required. organizations/{org_id}/locations/{location_id}/workloads/{workload_id} */
+  parent: string;
 }
+export type GoogleCloudAssuredworkloadsV1beta1WorkloadUpdateStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "AVAILABLE"
+  | "APPLIED"
+  | "WITHDRAWN";
 /** The values allowed for a ListPolicy. */
 export interface GoogleCloudAssuredworkloadsV1beta1OrgPolicyPolicyRuleStringValues {
   /** List of values allowed at this resource. */
@@ -716,27 +719,27 @@ export interface GoogleCloudAssuredworkloadsV1beta1OrgPolicyPolicyRuleStringValu
 }
 /** A rule used to express this policy. */
 export interface GoogleCloudAssuredworkloadsV1beta1OrgPolicyPolicyRule {
-  /** ListPolicy only when custom values are specified. */
-  values?: GoogleCloudAssuredworkloadsV1beta1OrgPolicyPolicyRuleStringValues | undefined;
   /** ListPolicy only when all values are allowed. */
   allowAll?: boolean | undefined;
-  /** ListPolicy only when all values are denied. */
-  denyAll?: boolean | undefined;
+  /** ListPolicy only when custom values are specified. */
+  values?: GoogleCloudAssuredworkloadsV1beta1OrgPolicyPolicyRuleStringValues | undefined;
   /** BooleanPolicy only. */
   enforce?: boolean | undefined;
+  /** ListPolicy only when all values are denied. */
+  denyAll?: boolean | undefined;
 }
 /** This assured workload service object is used to represent the org policy attached to a resource. It servces the same purpose as the orgpolicy.v2.Policy object but with functionality that is limited to what is supported by Assured Workloads(e.g. only one rule under one OrgPolicy object, no conditions, etc). */
 export interface GoogleCloudAssuredworkloadsV1beta1OrgPolicy {
-  /** The rule of the OrgPolicy. */
-  rule?: GoogleCloudAssuredworkloadsV1beta1OrgPolicyPolicyRule | undefined;
-  /** Resource that the OrgPolicy attaches to. Format: folders/123" projects/123". */
-  resource?: string | undefined;
   /** If `inherit` is true, policy rules of the lowest ancestor in the resource hierarchy chain are inherited. If it is false, policy rules are not inherited. */
   inherit?: boolean | undefined;
+  /** The rule of the OrgPolicy. */
+  rule?: GoogleCloudAssuredworkloadsV1beta1OrgPolicyPolicyRule | undefined;
   /** Ignores policies set above this resource and restores to the `constraint_default` value. `reset` can only be true when `rules` is empty and `inherit` is false. */
   reset?: boolean | undefined;
   /** The constraint name of the OrgPolicy. e.g. "constraints/gcp.resourceLocations". */
   constraint?: string | undefined;
+  /** Resource that the OrgPolicy attaches to. Format: folders/123" projects/123". */
+  resource?: string | undefined;
 }
 /** Represents an update for an org policy control applied on an Assured Workload resource. The inherited org policy is not considered. */
 export interface GoogleCloudAssuredworkloadsV1beta1OrgPolicyUpdate {
@@ -750,21 +753,16 @@ export interface GoogleCloudAssuredworkloadsV1beta1UpdateDetails {
   /** Update to one org policy, e.g. gcp.resourceLocation. */
   orgPolicyUpdate?: GoogleCloudAssuredworkloadsV1beta1OrgPolicyUpdate | undefined;
 }
-export type GoogleCloudAssuredworkloadsV1beta1WorkloadUpdateStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "AVAILABLE"
-  | "APPLIED"
-  | "WITHDRAWN";
 /** A workload update is a change to the workload's compliance configuration. */
 export interface GoogleCloudAssuredworkloadsV1beta1WorkloadUpdate {
-  /** The time the update was created. */
-  createTime?: string | undefined;
-  /** The details of the update. */
-  details?: GoogleCloudAssuredworkloadsV1beta1UpdateDetails | undefined;
-  /** The time the update was last updated. */
-  updateTime?: string | undefined;
   /** Output only. The state of the update. */
   state?: GoogleCloudAssuredworkloadsV1beta1WorkloadUpdateStateEnum | undefined;
+  /** The details of the update. */
+  details?: GoogleCloudAssuredworkloadsV1beta1UpdateDetails | undefined;
+  /** The time the update was created. */
+  createTime?: string | undefined;
+  /** The time the update was last updated. */
+  updateTime?: string | undefined;
   /** Output only. Immutable. Identifier. Resource name of the WorkloadUpdate. Format: organizations/{organization}/locations/{location}/workloads/{workload}/updates/{update} */
   name?: string | undefined;
 }
@@ -772,32 +770,32 @@ export type GoogleCloudAssuredworkloadsV1beta1WorkloadUpdateList =
   Array<GoogleCloudAssuredworkloadsV1beta1WorkloadUpdate>;
 /** Response of listing the compliance updates per workload with pagination. */
 export interface GoogleCloudAssuredworkloadsV1beta1ListWorkloadUpdatesResponse {
-  /** The list of workload updates for a given workload. */
-  workloadUpdates?: GoogleCloudAssuredworkloadsV1beta1WorkloadUpdateList | undefined;
   /** The next page token. Return empty if reached the last page. */
   nextPageToken?: string | undefined;
+  /** The list of workload updates for a given workload. */
+  workloadUpdates?: GoogleCloudAssuredworkloadsV1beta1WorkloadUpdateList | undefined;
 }
 export type ListOrganizationsLocationsWorkloadsViolationsViewEnum =
   | "VIOLATION_VIEW_UNSPECIFIED"
   | "VIOLATION_VIEW_ASSURED_WORKLOADS"
   | "VIOLATION_VIEW_DATA_BOUNDARY";
 export interface ListOrganizationsLocationsWorkloadsViolationsRequest {
-  /** The start of the time window. */
-  "interval.startTime"?: string | undefined;
-  /** The end of the time window. */
-  "interval.endTime"?: string | undefined;
-  /** Optional. A filter expression that restricts the violations that are returned. The syntax follows [AIP-160](https://google.aip.dev/160). Only the equality operator (`=`) is supported, and expressions can be combined with `AND`, `OR`, and `NOT`. When `view` is `VIOLATION_VIEW_DATA_BOUNDARY`, the following fields are supported: `violationId`, `category`, `state` (`UNRESOLVED`, `RESOLVED`, or `EXCEPTION`), `violationType` (`ORG_POLICY` or `RESOURCE`), `resourceType`, `resourceName`, `project`, `associatedOrgPolicyViolationId`, `cloudControlName`, `workloadDisplayName`, and `complianceType` (a framework ID). Example: `state = "UNRESOLVED" AND complianceType = "builtin-fedramp-high"` */
-  filter?: string | undefined;
-  /** Optional. The maximum number of violations to return. The service might return fewer violations than this value. If unspecified, at most 100 violations are returned. The maximum value is 1000; values above 1000 are coerced to 1000. */
-  pageSize?: number | undefined;
-  /** Optional. A comma-separated list of fields to sort the results by. The default sort order is ascending; to sort in descending order, append ` desc` to the field name. For example, `update_time desc,category`. When `view` is `VIOLATION_VIEW_DATA_BOUNDARY`, the following fields are supported: `begin_time`, `update_time`, `resource_type`, `state`, and `category`. If not specified, results are sorted by `begin_time` in descending order. */
-  orderBy?: string | undefined;
-  /** Required. The workload to list violations for. To list violations across all workloads in an organization, use `-` as the workload ID. When `view` is `VIOLATION_VIEW_DATA_BOUNDARY`, violations are listed for the entire organization and location, and the workload ID is ignored. Format: `organizations/{organization}/locations/{location}/workloads/{workload}` */
-  parent: string;
   /** Optional. The violation view (`VIOLATION_VIEW_ASSURED_WORKLOADS` or `VIOLATION_VIEW_DATA_BOUNDARY`) to list violations for. If not specified, `VIOLATION_VIEW_ASSURED_WORKLOADS` is used. */
   view?: ListOrganizationsLocationsWorkloadsViolationsViewEnum | (string & {}) | undefined;
+  /** Optional. A comma-separated list of fields to sort the results by. The default sort order is ascending; to sort in descending order, append ` desc` to the field name. For example, `update_time desc,category`. When `view` is `VIOLATION_VIEW_DATA_BOUNDARY`, the following fields are supported: `begin_time`, `update_time`, `resource_type`, `state`, and `category`. If not specified, results are sorted by `begin_time` in descending order. */
+  orderBy?: string | undefined;
   /** Optional. A page token, received from a previous `ListViolations` call. Provide this token to retrieve the subsequent page. When paginating, all other parameters that are provided to `ListViolations` must match the call that provided the page token. */
   pageToken?: string | undefined;
+  /** The start of the time window. */
+  "interval.startTime"?: string | undefined;
+  /** Optional. The maximum number of violations to return. The service might return fewer violations than this value. If unspecified, at most 100 violations are returned. The maximum value is 1000; values above 1000 are coerced to 1000. */
+  pageSize?: number | undefined;
+  /** The end of the time window. */
+  "interval.endTime"?: string | undefined;
+  /** Required. The workload to list violations for. To list violations across all workloads in an organization, use `-` as the workload ID. When `view` is `VIOLATION_VIEW_DATA_BOUNDARY`, violations are listed for the entire organization and location, and the workload ID is ignored. Format: `organizations/{organization}/locations/{location}/workloads/{workload}` */
+  parent: string;
+  /** Optional. A filter expression that restricts the violations that are returned. The syntax follows [AIP-160](https://google.aip.dev/160). Only the equality operator (`=`) is supported, and expressions can be combined with `AND`, `OR`, and `NOT`. When `view` is `VIOLATION_VIEW_DATA_BOUNDARY`, the following fields are supported: `violationId`, `category`, `state` (`UNRESOLVED`, `RESOLVED`, or `EXCEPTION`), `violationType` (`ORG_POLICY` or `RESOURCE`), `resourceType`, `resourceName`, `project`, `associatedOrgPolicyViolationId`, `cloudControlName`, `workloadDisplayName`, and `complianceType` (a framework ID). Example: `state = "UNRESOLVED" AND complianceType = "builtin-fedramp-high"` */
+  filter?: string | undefined;
 }
 export type GoogleCloudAssuredworkloadsV1beta1ViolationList =
   Array<GoogleCloudAssuredworkloadsV1beta1Violation>;
@@ -805,19 +803,19 @@ export type GoogleCloudAssuredworkloadsV1beta1ViolationList =
 export interface GoogleCloudAssuredworkloadsV1beta1ListViolationsResponse {
   /** The total number of violations that match the request, across all pages. This field might not be populated for all requests; when it's not populated, its value is `0`. */
   totalSize?: number | undefined;
-  /** A token that can be sent as `page_token` to retrieve the next page. If this field is empty, there are no subsequent pages. */
-  nextPageToken?: string | undefined;
   /** The list of violations. */
   violations?: GoogleCloudAssuredworkloadsV1beta1ViolationList | undefined;
+  /** A token that can be sent as `page_token` to retrieve the next page. If this field is empty, there are no subsequent pages. */
+  nextPageToken?: string | undefined;
 }
 export interface PatchOrganizationsLocationsWorkloadsRequest extends Omit<
   GoogleCloudAssuredworkloadsV1beta1Workload,
   "name"
 > {
-  /** Required. The list of fields to be updated. */
-  updateMask?: string | undefined;
   /** Optional. The resource name of the workload. Format: organizations/{organization}/locations/{location}/workloads/{workload} Read-only. */
   name: string;
+  /** Required. The list of fields to be updated. */
+  updateMask?: string | undefined;
 }
 export type GoogleCloudAssuredworkloadsV1beta1RestrictAllowedResourcesRequestRestrictionTypeEnum =
   | "RESTRICTION_TYPE_UNSPECIFIED"
@@ -1287,8 +1285,8 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           view: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1304,8 +1302,8 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          acknowledgementTime: S.optional(S.String),
           userName: S.optional(S.String),
+          acknowledgementTime: S.optional(S.String),
           comment: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudAssuredworkloadsV1beta1ViolationExceptionContext" });
@@ -1314,8 +1312,8 @@ function __c4(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          additionalLinks: S.optional(__S(240, __c15, 0)),
           consoleUris: S.optional(__S(240, __c15, 0)),
+          additionalLinks: S.optional(__S(240, __c15, 0)),
           steps: S.optional(__S(240, __c15, 0)),
         }),
       ).annotate({
@@ -1324,9 +1322,9 @@ function __c4(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          steps: S.optional(__S(240, __c15, 0)),
-          gcloudCommands: S.optional(__S(240, __c15, 0)),
           additionalLinks: S.optional(__S(240, __c15, 0)),
+          gcloudCommands: S.optional(__S(240, __c15, 0)),
+          steps: S.optional(__S(240, __c15, 0)),
         }),
       ).annotate({
         identifier: "GoogleCloudAssuredworkloadsV1beta1ViolationRemediationInstructionsGcloud",
@@ -1343,37 +1341,37 @@ function __c4(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          remediationType: S.optional(S.String),
           instructions: S.optional(__S(68, __c4, 4)),
+          remediationType: S.optional(S.String),
           compliantValues: S.optional(__S(240, __c15, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudAssuredworkloadsV1beta1ViolationRemediation" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          nonCompliantOrgPolicy: S.optional(S.String),
-          exceptionContexts: S.optional(__S(65, __c4, 1)),
-          remediationMarkdown: S.optional(S.String),
-          resourceName: S.optional(S.String),
-          description: S.optional(S.String),
-          exceptionAuditLogLink: S.optional(S.String),
-          violationType: S.optional(S.String),
-          remediation: S.optional(__S(69, __c4, 5)),
-          beginTime: S.optional(S.String),
-          affectedFrameworks: S.optional(__S(240, __c15, 0)),
-          acknowledged: S.optional(S.Boolean),
-          parentProjectNumber: S.optional(S.String),
-          orgPolicyConstraint: S.optional(S.String),
-          resourceType: S.optional(S.String),
-          state: S.optional(S.String),
-          auditLogLink: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          associatedOrgPolicyViolationId: S.optional(S.String),
-          category: S.optional(S.String),
-          resolveTime: S.optional(S.String),
-          acknowledgementTime: S.optional(S.String),
-          childResourceViolationCount: S.optional(S.Number),
           name: S.optional(S.String),
+          state: S.optional(S.String),
+          exceptionAuditLogLink: S.optional(S.String),
+          childResourceViolationCount: S.optional(S.Number),
+          violationType: S.optional(S.String),
+          resourceName: S.optional(S.String),
+          exceptionContexts: S.optional(__S(65, __c4, 1)),
+          acknowledgementTime: S.optional(S.String),
+          resourceType: S.optional(S.String),
+          description: S.optional(S.String),
+          remediation: S.optional(__S(69, __c4, 5)),
+          updateTime: S.optional(S.String),
+          parentProjectNumber: S.optional(S.String),
+          auditLogLink: S.optional(S.String),
+          affectedFrameworks: S.optional(__S(240, __c15, 0)),
+          orgPolicyConstraint: S.optional(S.String),
+          associatedOrgPolicyViolationId: S.optional(S.String),
+          nonCompliantOrgPolicy: S.optional(S.String),
+          category: S.optional(S.String),
+          remediationMarkdown: S.optional(S.String),
+          resolveTime: S.optional(S.String),
+          beginTime: S.optional(S.String),
+          acknowledged: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "GoogleCloudAssuredworkloadsV1beta1Violation" });
   }
@@ -1385,9 +1383,9 @@ function __c5(j: number): any {
         S.Struct({
           pageSize: S.optional(S.Number.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
           returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1401,9 +1399,9 @@ function __c5(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          operations: S.optional(__S(81, __c5, 1)),
           unreachable: S.optional(__S(240, __c15, 0)),
           nextPageToken: S.optional(S.String),
-          operations: S.optional(__S(81, __c5, 1)),
         }),
       ).annotate({ identifier: "GoogleLongrunningListOperationsResponse" });
   }
@@ -1413,10 +1411,10 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          filter: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1430,8 +1428,8 @@ function __c6(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           workloads: S.optional(__S(97, __c6, 1)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudAssuredworkloadsV1beta1ListWorkloadsResponse" });
   }
@@ -1441,9 +1439,9 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1464,20 +1462,20 @@ function __c7(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          values: S.optional(__S(113, __c7, 1)),
           allowAll: S.optional(S.Boolean),
-          denyAll: S.optional(S.Boolean),
+          values: S.optional(__S(113, __c7, 1)),
           enforce: S.optional(S.Boolean),
+          denyAll: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "GoogleCloudAssuredworkloadsV1beta1OrgPolicyPolicyRule" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          rule: S.optional(__S(114, __c7, 2)),
-          resource: S.optional(S.String),
           inherit: S.optional(S.Boolean),
+          rule: S.optional(__S(114, __c7, 2)),
           reset: S.optional(S.Boolean),
           constraint: S.optional(S.String),
+          resource: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudAssuredworkloadsV1beta1OrgPolicy" });
     case 4:
@@ -1496,10 +1494,10 @@ function __c7(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          createTime: S.optional(S.String),
-          details: S.optional(__S(117, __c7, 5)),
-          updateTime: S.optional(S.String),
           state: S.optional(S.String),
+          details: S.optional(__S(117, __c7, 5)),
+          createTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudAssuredworkloadsV1beta1WorkloadUpdate" });
@@ -1508,8 +1506,8 @@ function __c7(j: number): any {
     case 8:
       return S.suspend(() =>
         S.Struct({
-          workloadUpdates: S.optional(__S(119, __c7, 7)),
           nextPageToken: S.optional(S.String),
+          workloadUpdates: S.optional(__S(119, __c7, 7)),
         }),
       ).annotate({ identifier: "GoogleCloudAssuredworkloadsV1beta1ListWorkloadUpdatesResponse" });
   }
@@ -1519,14 +1517,14 @@ function __c8(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          "interval.startTime": S.optional(S.String.pipe(T.Query())),
-          "interval.endTime": S.optional(S.String.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          orderBy: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           view: S.optional(S.String.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          "interval.startTime": S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          "interval.endTime": S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1541,8 +1539,8 @@ function __c8(j: number): any {
       return S.suspend(() =>
         S.Struct({
           totalSize: S.optional(S.Number),
-          nextPageToken: S.optional(S.String),
           violations: S.optional(__S(129, __c8, 1)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudAssuredworkloadsV1beta1ListViolationsResponse" });
   }
@@ -1554,8 +1552,8 @@ function __c9(j: number): any {
         S.Extend(
           __S(317, __c19, 13),
           S.Struct({
-            updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -1599,10 +1597,10 @@ function __c11(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          comment: S.optional(S.String),
-          nonCompliantOrgPolicy: S.optional(S.String),
           acknowledgeType: S.optional(S.String),
+          nonCompliantOrgPolicy: S.optional(S.String),
           view: S.optional(S.String),
+          comment: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudAssuredworkloadsV1beta1AcknowledgeViolationRequest" });
     case 1:
@@ -1635,9 +1633,9 @@ function __c13(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          project: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           target: S.String.pipe(T.Label()),
+          project: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           assetTypes: S.optional(__S(240, __c15, 0).pipe(T.Query())),
         }).pipe(
@@ -1666,9 +1664,9 @@ function __c13(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
+          analysisResult: S.optional(__S(211, __c13, 3)),
           displayName: S.optional(S.String),
           error: S.optional(__S(226, __c14, 2)),
-          analysisResult: S.optional(__S(211, __c13, 3)),
         }),
       ).annotate({ identifier: "GoogleCloudAssuredworkloadsV1beta1MoveAnalysisGroup" });
     case 5:
@@ -1676,9 +1674,9 @@ function __c13(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          assetType: S.optional(S.String),
-          asset: S.optional(S.String),
           analysisGroups: S.optional(__S(213, __c13, 5)),
+          asset: S.optional(S.String),
+          assetType: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudAssuredworkloadsV1beta1AssetMoveAnalysis" });
     case 7:
@@ -1701,9 +1699,9 @@ function __c14(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          details: S.optional(__S(225, __c14, 1)),
           code: S.optional(S.Number),
           message: S.optional(S.String),
-          details: S.optional(__S(225, __c14, 1)),
         }),
       ).annotate({ identifier: "GoogleRpcStatus" });
   }
@@ -1744,11 +1742,11 @@ function __c17(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          done: S.optional(S.Boolean),
-          error: S.optional(__S(226, __c14, 2)),
-          response: S.optional(__S(224, __c14, 0)),
-          name: S.optional(S.String),
           metadata: S.optional(__S(224, __c14, 0)),
+          name: S.optional(S.String),
+          done: S.optional(S.Boolean),
+          response: S.optional(__S(224, __c14, 0)),
+          error: S.optional(__S(226, __c14, 2)),
         }),
       ).annotate({ identifier: "GoogleLongrunningOperation" });
   }
@@ -1760,8 +1758,8 @@ function __c18(j: number): any {
         S.Extend(
           __S(317, __c19, 13),
           S.Struct({
-            parent: S.String.pipe(T.Label()),
             externalId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -1778,112 +1776,112 @@ function __c19(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resourceId: S.optional(S.String),
-          resourceType: S.optional(S.String),
+          kajEnrollmentType: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GoogleCloudAssuredworkloadsV1beta1WorkloadResourceInfo" });
+      ).annotate({ identifier: "GoogleCloudAssuredworkloadsV1beta1WorkloadWorkloadOptions" });
     case 1:
-      return S.Array(__S(304, __c19, 0));
+      return S.Record(S.String, S.String);
     case 2:
       return S.suspend(() =>
         S.Struct({
-          ekmProvisioningErrorMapping: S.optional(S.String),
+          rotationPeriod: S.optional(S.String),
+          nextRotationTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudAssuredworkloadsV1beta1WorkloadKMSSettings" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          serviceAccessApprover: S.optional(S.Boolean),
+          dataLogsViewer: S.optional(S.Boolean),
+          accessTransparencyLogsSupportCaseViewer: S.optional(S.Boolean),
+          assuredWorkloadsMonitoring: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "GoogleCloudAssuredworkloadsV1beta1WorkloadPartnerPermissions" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          activeResourceViolationCount: S.optional(S.Number),
+          acknowledgedViolationCount: S.optional(S.Number),
+          acknowledgedResourceViolationCount: S.optional(S.Number),
+          activeViolationCount: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "GoogleCloudAssuredworkloadsV1beta1WorkloadComplianceStatus" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          kmsSettings: S.optional(__S(306, __c19, 2)),
+        }),
+      ).annotate({ identifier: "GoogleCloudAssuredworkloadsV1beta1WorkloadCJISSettings" });
+    case 6:
+      return S.Array(S.String);
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          setupStatus: S.optional(S.String),
+          setupErrors: S.optional(__S(310, __c19, 6)),
+        }),
+      ).annotate({ identifier: "GoogleCloudAssuredworkloadsV1beta1WorkloadSaaEnrollmentResponse" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          resourceType: S.optional(S.String),
+          resourceId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudAssuredworkloadsV1beta1WorkloadResourceInfo" });
+    case 9:
+      return S.Array(__S(312, __c19, 8));
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          displayName: S.optional(S.String),
+          resourceType: S.optional(S.String),
+          resourceId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudAssuredworkloadsV1beta1WorkloadResourceSettings" });
+    case 11:
+      return S.Array(__S(314, __c19, 10));
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
           ekmProvisioningState: S.optional(S.String),
+          ekmProvisioningErrorMapping: S.optional(S.String),
           ekmProvisioningErrorDomain: S.optional(S.String),
         }),
       ).annotate({
         identifier: "GoogleCloudAssuredworkloadsV1beta1WorkloadEkmProvisioningResponse",
       });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          kajEnrollmentType: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudAssuredworkloadsV1beta1WorkloadWorkloadOptions" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          resourceType: S.optional(S.String),
-          resourceId: S.optional(S.String),
-          displayName: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudAssuredworkloadsV1beta1WorkloadResourceSettings" });
-    case 5:
-      return S.Array(__S(308, __c19, 4));
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          nextRotationTime: S.optional(S.String),
-          rotationPeriod: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudAssuredworkloadsV1beta1WorkloadKMSSettings" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          kmsSettings: S.optional(__S(310, __c19, 6)),
-        }),
-      ).annotate({ identifier: "GoogleCloudAssuredworkloadsV1beta1WorkloadFedrampHighSettings" });
-    case 8:
-      return S.Record(S.String, S.String);
-    case 9:
-      return S.Array(S.String);
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          setupStatus: S.optional(S.String),
-          setupErrors: S.optional(__S(313, __c19, 9)),
-        }),
-      ).annotate({ identifier: "GoogleCloudAssuredworkloadsV1beta1WorkloadSaaEnrollmentResponse" });
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          dataLogsViewer: S.optional(S.Boolean),
-          serviceAccessApprover: S.optional(S.Boolean),
-          assuredWorkloadsMonitoring: S.optional(S.Boolean),
-          accessTransparencyLogsSupportCaseViewer: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "GoogleCloudAssuredworkloadsV1beta1WorkloadPartnerPermissions" });
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          acknowledgedViolationCount: S.optional(S.Number),
-          activeViolationCount: S.optional(S.Number),
-          activeResourceViolationCount: S.optional(S.Number),
-          acknowledgedResourceViolationCount: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "GoogleCloudAssuredworkloadsV1beta1WorkloadComplianceStatus" });
     case 13:
       return S.suspend(() =>
         S.Struct({
-          resourceMonitoringEnabled: S.optional(S.Boolean),
-          partnerServicesBillingAccount: S.optional(S.String),
-          resources: S.optional(__S(305, __c19, 1)),
-          violationNotificationsEnabled: S.optional(S.Boolean),
-          name: S.optional(S.String),
-          ekmProvisioningResponse: S.optional(__S(306, __c19, 2)),
-          workloadOptions: S.optional(__S(307, __c19, 3)),
-          provisionedResourcesParent: S.optional(S.String),
-          resourceSettings: S.optional(__S(309, __c19, 5)),
-          displayName: S.optional(S.String),
-          partner: S.optional(S.String),
-          compliantButDisallowedServices: S.optional(__S(240, __c15, 0)),
-          complianceUpdatesEnabled: S.optional(S.Boolean),
-          fedrampHighSettings: S.optional(__S(311, __c19, 7)),
-          complianceRegime: S.optional(S.String),
-          createTime: S.optional(S.String),
-          etag: S.optional(S.String),
-          labels: S.optional(__S(312, __c19, 8)),
-          saaEnrollmentResponse: S.optional(__S(314, __c19, 10)),
-          billingAccount: S.optional(S.String),
-          enableSovereignControls: S.optional(S.Boolean),
-          cjisSettings: S.optional(__S(311, __c19, 7)),
-          availableUpdates: S.optional(S.Number),
-          partnerPermissions: S.optional(__S(315, __c19, 11)),
-          il4Settings: S.optional(__S(311, __c19, 7)),
-          complianceStatus: S.optional(__S(316, __c19, 12)),
-          fedrampModerateSettings: S.optional(__S(311, __c19, 7)),
-          kmsSettings: S.optional(__S(310, __c19, 6)),
+          workloadOptions: S.optional(__S(304, __c19, 0)),
+          labels: S.optional(__S(305, __c19, 1)),
+          kmsSettings: S.optional(__S(306, __c19, 2)),
           kajEnrollmentState: S.optional(S.String),
+          partnerPermissions: S.optional(__S(307, __c19, 3)),
+          enableSovereignControls: S.optional(S.Boolean),
+          complianceUpdatesEnabled: S.optional(S.Boolean),
+          provisionedResourcesParent: S.optional(S.String),
+          complianceStatus: S.optional(__S(308, __c19, 4)),
+          displayName: S.optional(S.String),
+          availableUpdates: S.optional(S.Number),
+          cjisSettings: S.optional(__S(309, __c19, 5)),
+          il4Settings: S.optional(__S(309, __c19, 5)),
+          partner: S.optional(S.String),
+          name: S.optional(S.String),
+          complianceRegime: S.optional(S.String),
+          resourceMonitoringEnabled: S.optional(S.Boolean),
+          etag: S.optional(S.String),
+          compliantButDisallowedServices: S.optional(__S(240, __c15, 0)),
+          saaEnrollmentResponse: S.optional(__S(311, __c19, 7)),
+          billingAccount: S.optional(S.String),
+          fedrampHighSettings: S.optional(__S(309, __c19, 5)),
+          fedrampModerateSettings: S.optional(__S(309, __c19, 5)),
+          partnerServicesBillingAccount: S.optional(S.String),
+          resources: S.optional(__S(313, __c19, 9)),
+          resourceSettings: S.optional(__S(315, __c19, 11)),
+          createTime: S.optional(S.String),
+          ekmProvisioningResponse: S.optional(__S(316, __c19, 12)),
+          violationNotificationsEnabled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "GoogleCloudAssuredworkloadsV1beta1Workload" });
   }

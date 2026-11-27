@@ -87,145 +87,19 @@ export type StringList = Array<string>;
 export interface BatchGetProjectsAppsEventsRequest {
   /** Required. The firebase application. Format: "projects/{project}/apps/{app_id}". */
   parent: string;
-  /** Optional. The list of Event fields to include in the response. If omitted, the full event is returned. */
-  readMask?: string | undefined;
   /** Required. The resource names of the desired events. A maximum of 100 events can be retrieved in a batch. Format: "projects/{project}/apps/{app_id}/events/{event_id}". The app_id and event_id are required, but project may be "-" to conserve space in long URIs. */
   names?: StringList | undefined;
-}
-export type PlayTrackTypeEnum =
-  | "TRACK_TYPE_UNSPECIFIED"
-  | "TRACK_TYPE_PROD"
-  | "TRACK_TYPE_INTERNAL"
-  | "TRACK_TYPE_OPEN_TESTING"
-  | "TRACK_TYPE_CLOSED_TESTING"
-  | "TRACK_TYPE_EARLY_ACCESS";
-/** Describes a release track in the Play Developer Console. */
-export interface PlayTrack {
-  /** The type of track (prod, internal, etc...). */
-  type?: PlayTrackTypeEnum | undefined;
-  /** User-generated or auto-generated name of the track. PROD and INTERNAL track types always have auto-generated names, e.g. "prod" and "internal" respectively. Tracks of type EARLY_ACCESS always have a user-generated name. Other track types do not have any guarantees, might have user-generated or auto-generated names. */
-  title?: string | undefined;
-}
-export type PlayTrackList = Array<PlayTrack>;
-/** Application software version. */
-export interface Version {
-  /** Compound readable string containing both display and build versions. Format: "display_version (build_version)" e.g. "1.2.3 (456)". This string can be used for filtering with the VersionFilter.display_name field. */
-  displayName?: string | undefined;
-  /** Indicates releases which have artifacts that are currently available in the Play Store to the target audience of the track. Versions may be available in multiple tracks. */
-  tracks?: PlayTrackList | undefined;
-  /** Mobile only. One display_version can have many build_version. On Android, strictly the same as "version code". On iOS, strictly the same as "build number" or CFBundleVersion. */
-  buildVersion?: string | undefined;
-  /** Readable version string, e.g. "1.2.3". On Android, strictly the same as "version name". On iOS, strictly the same as "version number" or CFBundleShortVersionString. */
-  displayVersion?: string | undefined;
-}
-/** Mobile device disk/flash usage. Not reported for all devices. */
-export interface Storage {
-  /** Bytes used. */
-  used?: string | undefined;
-  /** Bytes free. */
-  free?: string | undefined;
-}
-/** A frame in a stacktrace. */
-export interface Frame {
-  /** The byte offset into the binary image that contains the code. Present for native frames. */
-  offset?: string | undefined;
-  /** The frame symbol after it has been deobfuscated or symbolicated. The raw symbol from the device if it could not be hydrated. */
-  symbol?: string | undefined;
-  /** The column on the line. */
-  column?: string | undefined;
-  /** The name of the source file in which the frame is found. */
-  file?: string | undefined;
-  /** The address in the binary image which contains the code. Present for native frames. */
-  address?: string | undefined;
-  /** True when the Crashlytics analysis has determined that this frame is likely to be the cause of the error. */
-  blamed?: boolean | undefined;
-  /** One of DEVELOPER, VENDOR, RUNTIME, PLATFORM, or SYSTEM. */
-  owner?: string | undefined;
-  /** The line number in the file of the frame. */
-  line?: string | undefined;
-  /** The display name of the library that includes the frame. */
-  library?: string | undefined;
-}
-export type DeviceFormFactorEnum =
-  | "FORM_FACTOR_UNSPECIFIED"
-  | "PHONE"
-  | "TABLET"
-  | "DESKTOP"
-  | "TV"
-  | "WATCH";
-/** Mobile device metadata. */
-export interface Device {
-  /** An invariant name of the manufacturer that submitted this product in its most recognizable public form, e.g. "Google". */
-  companyName?: string | undefined;
-  /** Marketing name, most recognizable public form, e.g. "Pixel 6". */
-  marketingName?: string | undefined;
-  /** See FormFactor message. */
-  formFactor?: DeviceFormFactorEnum | undefined;
-  /** Device processor architecture. */
-  architecture?: string | undefined;
-  /** The model name which is consistent with android.os.Build.MODEL, e.g. ("SPH-L710", "GT-I9300"). */
-  model?: string | undefined;
-  /** Device brand name which is consistent with android.os.Build.BRAND. */
-  manufacturer?: string | undefined;
-  /** Full device name, suitable for passing to DeviceFilter. Format: "manufacturer (model)". */
-  displayName?: string | undefined;
-}
-export type FrameList = Array<Frame>;
-/** A Java or Javascript exception and its stacktrace. Only from Android or web apps. */
-export interface Exception {
-  /** A message associated with the exception. */
-  exceptionMessage?: string | undefined;
-  /** The subtitle of the exception. */
-  subtitle?: string | undefined;
-  /** The exception type e.g. java.lang.IllegalStateException. */
-  type?: string | undefined;
-  /** True when the Crashlytics analysis has determined that this thread is where the fault occurred. */
-  blamed?: boolean | undefined;
-  /** The frames in the exception's stacktrace. */
-  frames?: FrameList | undefined;
-  /** True for all but the last-thrown exception (i.e. the first record). */
-  nested?: boolean | undefined;
-  /** The title of the exception. */
-  title?: string | undefined;
-}
-export type ExceptionList = Array<Exception>;
-/** Developer-provided end user identifiers. */
-export interface User {
-  /** User id if provided by the app developer. */
-  id?: string | undefined;
+  /** Optional. The list of Event fields to include in the response. If omitted, the full event is returned. */
+  readMask?: string | undefined;
 }
 /** A variant is a subgroup of an issue where all events have very similar stack traces. Issues may contain one or more variants. */
 export interface IssueVariant {
-  /** Output only. Immutable. Distinct identifier for the variant. */
-  id?: string | undefined;
   /** Output only. The resource name for a sample event in this variant. */
   sampleEvent?: string | undefined;
+  /** Output only. Immutable. Distinct identifier for the variant. */
+  id?: string | undefined;
   /** Output only. Provides a link to the variant on the Firebase console. When this variant is obtained as part of a Report, then the link will be configured with the same time interval and filters as the request. */
   uri?: string | undefined;
-}
-/** Mobile device operating system metadata. */
-export interface OperatingSystem {
-  /** Operating system display version number. */
-  displayVersion?: string | undefined;
-  /** Name and version number. Formatted to be suitable for passing to OperatingSystemFilter. */
-  displayName?: string | undefined;
-  /** The OS type on Apple platforms (iOS, iPadOS, etc.). */
-  type?: string | undefined;
-  /** Indicates if the OS has been modified or "jailbroken". */
-  modificationState?: string | undefined;
-  /** The device category (mobile, tablet, desktop). */
-  deviceType?: string | undefined;
-  /** Operating system name. */
-  os?: string | undefined;
-}
-/** Web browser metadata. */
-export interface Browser {
-  /** Browser display version number. */
-  displayVersion?: string | undefined;
-  /** Browser name and version number. Formatted to be suitable for passing to BrowserFilter. */
-  displayName?: string | undefined;
-  /** Browser name. */
-  browser?: string | undefined;
 }
 export type IssueVariantList = Array<IssueVariant>;
 export type IssueStateEnum = "STATE_UNSPECIFIED" | "OPEN" | "CLOSED" | "MUTED";
@@ -246,38 +120,163 @@ export type IssueSignalsList = Array<IssueSignals>;
 export type IssueErrorTypeEnum = "ERROR_TYPE_UNSPECIFIED" | "FATAL" | "NON_FATAL" | "ANR";
 /** An issue describes a set of similar events that have been analyzed by Crashlytics and grouped together. All events within an issue will be of the same error_type: crash, non-fatal exception or ANR. All events within an issue will contain similar stack traces in their blamed thread. */
 export interface Issue {
+  /** Required. Output only. Immutable. Identifier. The name of the issue resource. Format: "projects/{project}/apps/{app}/issues/{issue}". */
+  name?: string | undefined;
+  /** Output only. Immutable. Caption subtitle. This is usually a symbol or an exception message. */
+  subtitle?: string | undefined;
+  /** Output only. The most recent app display_version in which this issue was seen, populated for mobile issues only. */
+  lastSeenVersion?: string | undefined;
   /** Output only. Immutable. Caption title. This is usually a source file or method name. */
   title?: string | undefined;
+  /** Output only. Immutable. The top 12 variants (subgroups) within the issue. Variants group events within an issue that are very similar. A single result implies that the variant is the same as the parent issue. This field will be empty when multiple issues are requested. Request a single issue to list variants. */
+  variants?: IssueVariantList | undefined;
+  /** Output only. Immutable. Unique identifier for the issue. */
+  id?: string | undefined;
+  /** Output only. Indicates whether this issue is open, closed or muted. For details on how issue states change without user actions, see [Regressed Issues](https://firebase.google.com/docs/crashlytics/troubleshooting?platform=ios#regressed-issues). */
+  state?: IssueStateEnum | (string & {}) | undefined;
+  /** Output only. Immutable. The first time this issue was seen. */
+  firstSeenTime?: string | undefined;
+  /** Output only. The number of notes attached to an issue. */
+  notesCount?: string | undefined;
+  /** Output only. The resource name for a sample event in this issue. */
+  sampleEvent?: string | undefined;
+  /** Output only. Immutable. Distinctive characteristics assigned by the Crashlytics analyzer. */
+  signals?: IssueSignalsList | undefined;
   /** Output only. The most recent time this issue was seen. */
   lastSeenTime?: string | undefined;
   /** Output only. Provides a link to the Issue on the Firebase console. When this Issue is obtained as part of a Report, then the link will be configured with the same time interval and filters as the request. */
   uri?: string | undefined;
-  /** Output only. Immutable. The top 12 variants (subgroups) within the issue. Variants group events within an issue that are very similar. A single result implies that the variant is the same as the parent issue. This field will be empty when multiple issues are requested. Request a single issue to list variants. */
-  variants?: IssueVariantList | undefined;
-  /** Output only. Indicates whether this issue is open, closed or muted. For details on how issue states change without user actions, see [Regressed Issues](https://firebase.google.com/docs/crashlytics/troubleshooting?platform=ios#regressed-issues). */
-  state?: IssueStateEnum | (string & {}) | undefined;
-  /** Output only. The number of notes attached to an issue. */
-  notesCount?: string | undefined;
   /** Output only. The time at which the issue state was last changed. */
   stateUpdateTime?: string | undefined;
-  /** Output only. Immutable. Distinctive characteristics assigned by the Crashlytics analyzer. */
-  signals?: IssueSignalsList | undefined;
-  /** Required. Output only. Immutable. Identifier. The name of the issue resource. Format: "projects/{project}/apps/{app}/issues/{issue}". */
-  name?: string | undefined;
-  /** Output only. Immutable. Unique identifier for the issue. */
-  id?: string | undefined;
-  /** Output only. Immutable. The first time this issue was seen. */
-  firstSeenTime?: string | undefined;
-  /** Output only. The most recent app display_version in which this issue was seen, populated for mobile issues only. */
-  lastSeenVersion?: string | undefined;
   /** Output only. Immutable. The first app display_version in which this issue was seen, populated for mobile issues only. */
   firstSeenVersion?: string | undefined;
-  /** Output only. Immutable. Caption subtitle. This is usually a symbol or an exception message. */
-  subtitle?: string | undefined;
   /** Output only. Immutable. Indicates whether this issue is a crash, non-fatal exception, or ANR. */
   errorType?: IssueErrorTypeEnum | (string & {}) | undefined;
-  /** Output only. The resource name for a sample event in this issue. */
-  sampleEvent?: string | undefined;
+}
+export type StringMap = { [key: string]: string | undefined };
+/** Analytics events recorded during the session. */
+export interface Breadcrumb {
+  /** Event parameters. */
+  params?: StringMap | undefined;
+  /** Device timestamp for the event. */
+  eventTime?: string | undefined;
+  /** Analytic event name. */
+  title?: string | undefined;
+}
+export type BreadcrumbList = Array<Breadcrumb>;
+/** A frame in a stacktrace. */
+export interface Frame {
+  /** True when the Crashlytics analysis has determined that this frame is likely to be the cause of the error. */
+  blamed?: boolean | undefined;
+  /** The frame symbol after it has been deobfuscated or symbolicated. The raw symbol from the device if it could not be hydrated. */
+  symbol?: string | undefined;
+  /** The byte offset into the binary image that contains the code. Present for native frames. */
+  offset?: string | undefined;
+  /** The line number in the file of the frame. */
+  line?: string | undefined;
+  /** One of DEVELOPER, VENDOR, RUNTIME, PLATFORM, or SYSTEM. */
+  owner?: string | undefined;
+  /** The address in the binary image which contains the code. Present for native frames. */
+  address?: string | undefined;
+  /** The column on the line. */
+  column?: string | undefined;
+  /** The name of the source file in which the frame is found. */
+  file?: string | undefined;
+  /** The display name of the library that includes the frame. */
+  library?: string | undefined;
+}
+export type FrameList = Array<Frame>;
+/** A non-fatal error and its stacktrace, only from Apple apps. */
+export interface Firebasecrashlytics_Error {
+  /** True when the Crashlytics analysis has determined that the stacktrace in this error is where the fault occurred. */
+  blamed?: boolean | undefined;
+  /** The title of the error. */
+  title?: string | undefined;
+  /** The subtitle of the error. */
+  subtitle?: string | undefined;
+  /** The queue on which the thread was running. */
+  queue?: string | undefined;
+  /** The frames in the error's stacktrace. */
+  frames?: FrameList | undefined;
+  /** Error code associated with the app's custom logged NSError. */
+  code?: string | undefined;
+}
+export type Firebasecrashlytics_ErrorList = Array<Firebasecrashlytics_Error>;
+/** Mobile device operating system metadata. */
+export interface OperatingSystem {
+  /** The device category (mobile, tablet, desktop). */
+  deviceType?: string | undefined;
+  /** Indicates if the OS has been modified or "jailbroken". */
+  modificationState?: string | undefined;
+  /** The OS type on Apple platforms (iOS, iPadOS, etc.). */
+  type?: string | undefined;
+  /** Operating system name. */
+  os?: string | undefined;
+  /** Operating system display version number. */
+  displayVersion?: string | undefined;
+  /** Name and version number. Formatted to be suitable for passing to OperatingSystemFilter. */
+  displayName?: string | undefined;
+}
+export type DeviceFormFactorEnum =
+  | "FORM_FACTOR_UNSPECIFIED"
+  | "PHONE"
+  | "TABLET"
+  | "DESKTOP"
+  | "TV"
+  | "WATCH";
+/** Mobile device metadata. */
+export interface Device {
+  /** Device processor architecture. */
+  architecture?: string | undefined;
+  /** An invariant name of the manufacturer that submitted this product in its most recognizable public form, e.g. "Google". */
+  companyName?: string | undefined;
+  /** Marketing name, most recognizable public form, e.g. "Pixel 6". */
+  marketingName?: string | undefined;
+  /** Device brand name which is consistent with android.os.Build.BRAND. */
+  manufacturer?: string | undefined;
+  /** The model name which is consistent with android.os.Build.MODEL, e.g. ("SPH-L710", "GT-I9300"). */
+  model?: string | undefined;
+  /** See FormFactor message. */
+  formFactor?: DeviceFormFactorEnum | undefined;
+  /** Full device name, suitable for passing to DeviceFilter. Format: "manufacturer (model)". */
+  displayName?: string | undefined;
+}
+/** Developer-provided end user identifiers. */
+export interface User {
+  /** User id if provided by the app developer. */
+  id?: string | undefined;
+}
+/** A Java or Javascript exception and its stacktrace. Only from Android or web apps. */
+export interface Exception {
+  /** True for all but the last-thrown exception (i.e. the first record). */
+  nested?: boolean | undefined;
+  /** The subtitle of the exception. */
+  subtitle?: string | undefined;
+  /** The title of the exception. */
+  title?: string | undefined;
+  /** True when the Crashlytics analysis has determined that this thread is where the fault occurred. */
+  blamed?: boolean | undefined;
+  /** The frames in the exception's stacktrace. */
+  frames?: FrameList | undefined;
+  /** A message associated with the exception. */
+  exceptionMessage?: string | undefined;
+  /** The exception type e.g. java.lang.IllegalStateException. */
+  type?: string | undefined;
+}
+export type ExceptionList = Array<Exception>;
+/** Mobile device memory usage. */
+export interface Memory {
+  /** Bytes in use. */
+  used?: string | undefined;
+  /** Bytes free. */
+  free?: string | undefined;
+}
+/** Mobile device disk/flash usage. Not reported for all devices. */
+export interface Storage {
+  /** Bytes used. */
+  used?: string | undefined;
+  /** Bytes free. */
+  free?: string | undefined;
 }
 /** Developer-provided log lines recorded during the session. */
 export interface Log {
@@ -287,6 +286,15 @@ export interface Log {
   message?: string | undefined;
 }
 export type LogList = Array<Log>;
+/** Web browser metadata. */
+export interface Browser {
+  /** Browser display version number. */
+  displayVersion?: string | undefined;
+  /** Browser name. */
+  browser?: string | undefined;
+  /** Browser name and version number. Formatted to be suitable for passing to BrowserFilter. */
+  displayName?: string | undefined;
+}
 export type ThreadThreadStateEnum =
   | "STATE_UNSPECIFIED"
   | "THREAD_STATE_TERMINATED"
@@ -299,136 +307,128 @@ export type ThreadThreadStateEnum =
   | "THREAD_STATE_NATIVE_WAITING";
 /** An application thread. */
 export interface Thread {
-  /** The id of the thread, only available for ANR threads. */
-  threadId?: string | undefined;
   /** The name of the thread. */
   name?: string | undefined;
-  /** True when the Crashlytics analysis has determined that the stacktrace in this thread is where the fault occurred. */
-  blamed?: boolean | undefined;
-  /** The frames in the thread's stacktrace. */
-  frames?: FrameList | undefined;
   /** The title of the thread. */
   title?: string | undefined;
+  /** Output only. The state of the thread at the time the ANR occurred. */
+  threadState?: ThreadThreadStateEnum | undefined;
+  /** The subtitle of the thread. */
+  subtitle?: string | undefined;
+  /** The system id of the thread, only available for ANR threads. */
+  sysThreadId?: string | undefined;
+  /** The code of the signal that caused the app to crash. Only present on crashed native threads. */
+  signalCode?: string | undefined;
+  /** The queue on which the thread was running. */
+  queue?: string | undefined;
   /** True when the thread has crashed. */
   crashed?: boolean | undefined;
   /** The name of the signal that caused the app to crash. Only present on crashed native threads. */
   signal?: string | undefined;
-  /** Output only. The state of the thread at the time the ANR occurred. */
-  threadState?: ThreadThreadStateEnum | undefined;
-  /** The queue on which the thread was running. */
-  queue?: string | undefined;
-  /** The subtitle of the thread. */
-  subtitle?: string | undefined;
-  /** The code of the signal that caused the app to crash. Only present on crashed native threads. */
-  signalCode?: string | undefined;
+  /** True when the Crashlytics analysis has determined that the stacktrace in this thread is where the fault occurred. */
+  blamed?: boolean | undefined;
+  /** The id of the thread, only available for ANR threads. */
+  threadId?: string | undefined;
   /** The address of the signal that caused the application to crash. Only present on crashed native threads. */
   crashAddress?: string | undefined;
-  /** The system id of the thread, only available for ANR threads. */
-  sysThreadId?: string | undefined;
+  /** The frames in the thread's stacktrace. */
+  frames?: FrameList | undefined;
 }
 export type ThreadList = Array<Thread>;
-export type StringMap = { [key: string]: string | undefined };
-/** A non-fatal error and its stacktrace, only from Apple apps. */
-export interface Firebasecrashlytics_Error {
-  /** Error code associated with the app's custom logged NSError. */
-  code?: string | undefined;
-  /** The queue on which the thread was running. */
-  queue?: string | undefined;
-  /** The title of the error. */
+export type PlayTrackTypeEnum =
+  | "TRACK_TYPE_UNSPECIFIED"
+  | "TRACK_TYPE_PROD"
+  | "TRACK_TYPE_INTERNAL"
+  | "TRACK_TYPE_OPEN_TESTING"
+  | "TRACK_TYPE_CLOSED_TESTING"
+  | "TRACK_TYPE_EARLY_ACCESS";
+/** Describes a release track in the Play Developer Console. */
+export interface PlayTrack {
+  /** The type of track (prod, internal, etc...). */
+  type?: PlayTrackTypeEnum | undefined;
+  /** User-generated or auto-generated name of the track. PROD and INTERNAL track types always have auto-generated names, e.g. "prod" and "internal" respectively. Tracks of type EARLY_ACCESS always have a user-generated name. Other track types do not have any guarantees, might have user-generated or auto-generated names. */
   title?: string | undefined;
-  /** True when the Crashlytics analysis has determined that the stacktrace in this error is where the fault occurred. */
-  blamed?: boolean | undefined;
-  /** The frames in the error's stacktrace. */
-  frames?: FrameList | undefined;
-  /** The subtitle of the error. */
-  subtitle?: string | undefined;
 }
-export type Firebasecrashlytics_ErrorList = Array<Firebasecrashlytics_Error>;
-/** Mobile device memory usage. */
-export interface Memory {
-  /** Bytes in use. */
-  used?: string | undefined;
-  /** Bytes free. */
-  free?: string | undefined;
+export type PlayTrackList = Array<PlayTrack>;
+/** Application software version. */
+export interface Version {
+  /** Readable version string, e.g. "1.2.3". On Android, strictly the same as "version name". On iOS, strictly the same as "version number" or CFBundleShortVersionString. */
+  displayVersion?: string | undefined;
+  /** Compound readable string containing both display and build versions. Format: "display_version (build_version)" e.g. "1.2.3 (456)". This string can be used for filtering with the VersionFilter.display_name field. */
+  displayName?: string | undefined;
+  /** Indicates releases which have artifacts that are currently available in the Play Store to the target audience of the track. Versions may be available in multiple tracks. */
+  tracks?: PlayTrackList | undefined;
+  /** Mobile only. One display_version can have many build_version. On Android, strictly the same as "version code". On iOS, strictly the same as "build number" or CFBundleVersion. */
+  buildVersion?: string | undefined;
 }
-/** Analytics events recorded during the session. */
-export interface Breadcrumb {
-  /** Analytic event name. */
-  title?: string | undefined;
-  /** Event parameters. */
-  params?: StringMap | undefined;
-  /** Device timestamp for the event. */
-  eventTime?: string | undefined;
-}
-export type BreadcrumbList = Array<Breadcrumb>;
 /** The message describing a single Crashlytics event. Related to BigQuery export schema, which can be found at [Export Crashlytics data to BigQuery](https://firebase.google.com/docs/crashlytics/bigquery-export#dataset-schema-crashlytics) */
 export interface Event {
-  /** Required. Output only. Immutable. Identifier. The name of the event resource. Format: "projects/{project}/apps/{app_id}/events/{event}". */
-  name?: string | undefined;
-  /** The title of the issue in which the event was grouped. This is usually a source file or method name. */
-  issueTitle?: string | undefined;
-  /** Mobile application version. */
-  version?: Version | undefined;
-  /** Unique identifier for the device-app installation. This field is used to compute the unique number of impacted users. */
-  installationUuid?: string | undefined;
-  /** The state of the app process at the time of the event. */
-  processState?: string | undefined;
-  /** Mobile device disk/flash usage. */
-  storage?: Storage | undefined;
-  /** Crashlytics SDK version. */
-  crashlyticsSdkVersion?: string | undefined;
-  /** Unique identifier for the Firebase session. */
-  sessionId?: string | undefined;
+  /** Details for the [Issue] assigned to this [Event]. */
+  issue?: Issue | undefined;
+  /** Device orientation at the time of the crash (portrait or landscape). */
+  deviceOrientation?: string | undefined;
+  /** Analytics events recorded by the analytics SDK during the session. */
+  breadcrumbs?: BreadcrumbList | undefined;
+  /** Output only. Immutable. The unique event identifier is assigned during processing. */
+  eventId?: string | undefined;
   /** The stack trace frame blamed by Crashlytics processing. May not be present in future analyzer. */
   blameFrame?: Frame | undefined;
-  /** Device timestamp that the event was recorded. */
-  eventTime?: string | undefined;
+  /** Apple only. A non-fatal error captured by the iOS SDK and its stacktrace. */
+  errors?: Firebasecrashlytics_ErrorList | undefined;
+  /** Output only. Web only. The route path of the web application when the event occurred, excluding query parameters and fragment. */
+  routePath?: string | undefined;
+  /** Operating system and version. */
+  operatingSystem?: OperatingSystem | undefined;
   /** Mobile device metadata. */
   device?: Device | undefined;
-  /** Android and web only. Exceptions that occurred during this event. Nested exceptions are presented in reverse chronological order, so that the last record is the first exception thrown. */
-  exceptions?: ExceptionList | undefined;
-  /** ANDROID, IOS, or WEB. */
-  platform?: string | undefined;
   /** Metadata provided by the app's build system, including version control repository info. */
   buildStamp?: string | undefined;
   /** End user identifiers for the device owner. */
   user?: User | undefined;
-  /** Details for the [IssueVariant] assigned to this [Event]. */
-  issueVariant?: IssueVariant | undefined;
-  /** The subtitle of the issue in which the event was grouped. This is usually a symbol or an exception message. */
-  issueSubtitle?: string | undefined;
-  /** The bundle name for iOS apps or the package name of Android apps. Format: "com.mycompany.myapp". */
-  bundleOrPackage?: string | undefined;
-  /** Operating system and version. */
-  operatingSystem?: OperatingSystem | undefined;
-  /** Browser and version. */
-  browser?: Browser | undefined;
-  /** Details for the [Issue] assigned to this [Event]. */
-  issue?: Issue | undefined;
-  /** Log messages recorded by the developer during the session. */
-  logs?: LogList | undefined;
-  /** Application threads present at the time the event was recorded. Each contains a stacktrace. One thread will be blamed for the error. */
-  threads?: ThreadList | undefined;
-  /** Device orientation at the time of the crash (portrait or landscape). */
-  deviceOrientation?: string | undefined;
-  /** Output only. Immutable. The unique event identifier is assigned during processing. */
-  eventId?: string | undefined;
+  /** ANDROID, IOS, or WEB. */
+  platform?: string | undefined;
   /** Custom keys set by the developer during the session. */
   customKeys?: StringMap | undefined;
-  /** Server timestamp that the event was received by Crashlytics. */
-  receivedTime?: string | undefined;
-  /** Apple only. A non-fatal error captured by the iOS SDK and its stacktrace. */
-  errors?: Firebasecrashlytics_ErrorList | undefined;
-  /** App orientation at the time of the crash (portrait or landscape). */
-  appOrientation?: string | undefined;
+  /** Unique identifier for the device-app installation. This field is used to compute the unique number of impacted users. */
+  installationUuid?: string | undefined;
+  /** Android and web only. Exceptions that occurred during this event. Nested exceptions are presented in reverse chronological order, so that the last record is the first exception thrown. */
+  exceptions?: ExceptionList | undefined;
   /** Mobile device memory usage. */
   memory?: Memory | undefined;
-  /** Output only. Web only. The route path of the web application when the event occurred, excluding query parameters and fragment. */
-  routePath?: string | undefined;
-  /** Analytics events recorded by the analytics SDK during the session. */
-  breadcrumbs?: BreadcrumbList | undefined;
   /** Output only. Mobile only. Unique identifier for the Crashlytics device session. */
   crashlyticsSessionId?: string | undefined;
+  /** Mobile device disk/flash usage. */
+  storage?: Storage | undefined;
+  /** Unique identifier for the Firebase session. */
+  sessionId?: string | undefined;
+  /** Details for the [IssueVariant] assigned to this [Event]. */
+  issueVariant?: IssueVariant | undefined;
+  /** Server timestamp that the event was received by Crashlytics. */
+  receivedTime?: string | undefined;
+  /** The title of the issue in which the event was grouped. This is usually a source file or method name. */
+  issueTitle?: string | undefined;
+  /** Crashlytics SDK version. */
+  crashlyticsSdkVersion?: string | undefined;
+  /** App orientation at the time of the crash (portrait or landscape). */
+  appOrientation?: string | undefined;
+  /** The bundle name for iOS apps or the package name of Android apps. Format: "com.mycompany.myapp". */
+  bundleOrPackage?: string | undefined;
+  /** The subtitle of the issue in which the event was grouped. This is usually a symbol or an exception message. */
+  issueSubtitle?: string | undefined;
+  /** Log messages recorded by the developer during the session. */
+  logs?: LogList | undefined;
+  /** The state of the app process at the time of the event. */
+  processState?: string | undefined;
+  /** Required. Output only. Immutable. Identifier. The name of the event resource. Format: "projects/{project}/apps/{app_id}/events/{event}". */
+  name?: string | undefined;
+  /** Browser and version. */
+  browser?: Browser | undefined;
+  /** Application threads present at the time the event was recorded. Each contains a stacktrace. One thread will be blamed for the error. */
+  threads?: ThreadList | undefined;
+  /** Device timestamp that the event was recorded. */
+  eventTime?: string | undefined;
+  /** Mobile application version. */
+  version?: Version | undefined;
 }
 export type EventList = Array<Event>;
 /** Response message for the BatchGetEvents method. */
@@ -446,10 +446,10 @@ export interface UpdateIssueRequest {
 export type UpdateIssueRequestList = Array<UpdateIssueRequest>;
 /** Request message for the BatchUpdateIssues method. */
 export interface BatchUpdateIssuesRequest {
-  /** Required. The request message specifying the resources to update. A maximum of 100 issues can be modified in a batch. */
-  requests?: UpdateIssueRequestList | undefined;
   /** Optional. The list of Issue fields to update. If this is set, the update_mask field in the UpdateIssueRequest messages must either be empty or match this field. */
   updateMask?: string | undefined;
+  /** Required. The request message specifying the resources to update. A maximum of 100 issues can be modified in a batch. */
+  requests?: UpdateIssueRequestList | undefined;
 }
 export interface BatchUpdateProjectsAppsIssuesRequest extends BatchUpdateIssuesRequest {
   /** Required. The parent resource shared by all issues being updated. Format: projects/{project}/apps/{app}. If this is set, the parent field in the UpdateIssueRequest messages must either be empty or match this field. */
@@ -463,14 +463,14 @@ export interface BatchUpdateIssuesResponse {
 }
 /** Developer notes for an issue. */
 export interface Note {
-  /** Output only. The email of the author of the note. */
-  author?: string | undefined;
+  /** Output only. Time when the note was created. */
+  createTime?: string | undefined;
   /** Output only. Identifier. Format: "projects/{project}/apps/app/issues/{issue}/notes/{note}". */
   name?: string | undefined;
   /** Immutable. The body of the note. */
   body?: string | undefined;
-  /** Output only. Time when the note was created. */
-  createTime?: string | undefined;
+  /** Output only. The email of the author of the note. */
+  author?: string | undefined;
 }
 export interface CreateProjectsAppsIssuesNotesRequest extends Note {
   /** Required. The parent resource where this note will be created. Format: "projects/{project}/apps/{app}/issues/{issue}". */
@@ -495,19 +495,19 @@ export type GenerateAlertPolicyRequestAlertTypeEnum =
   | "ALERT_TYPE_UNSPECIFIED"
   | "ALERT_TYPE_NEW_ISSUE"
   | "ALERT_TYPE_REGRESSED_ISSUE";
+export type GenerateAlertPolicyRequestLanguageEnum = "USER_PREFERENCE" | "EN_US";
 export type GenerateAlertPolicyRequestChannelFormatEnum =
   | "CHANNEL_FORMAT_UNSPECIFIED"
   | "EMAIL"
   | "INTEGRATION";
-export type GenerateAlertPolicyRequestLanguageEnum = "USER_PREFERENCE" | "EN_US";
 /** Request message for the GenerateAlertPolicy method. */
 export interface GenerateAlertPolicyRequest {
   /** Required. The type of alert to create. */
   alertType?: GenerateAlertPolicyRequestAlertTypeEnum | (string & {}) | undefined;
-  /** Optional. Channel format to generate the alert policy for, which determines both the template format and language. `EMAIL` always uses the requester's language preference with a rich HTML template, and `INTEGRATION` always uses en-US with a concise Markdown template. Defaults to EMAIL behavior when unspecified. */
-  channelFormat?: GenerateAlertPolicyRequestChannelFormatEnum | (string & {}) | undefined;
   /** Optional. Deprecated: Prefer `channel_format`, which determines both the template format and language (`EMAIL` always uses the requester's language preference with a rich HTML template, and `INTEGRATION` always uses en-US with a concise Markdown template). Optional. Language to use for the alert policy. Defaults to USER_PREFERENCE. */
   language?: GenerateAlertPolicyRequestLanguageEnum | (string & {}) | undefined;
+  /** Optional. Channel format to generate the alert policy for, which determines both the template format and language. `EMAIL` always uses the requester's language preference with a rich HTML template, and `INTEGRATION` always uses en-US with a concise Markdown template. Defaults to EMAIL behavior when unspecified. */
+  channelFormat?: GenerateAlertPolicyRequestChannelFormatEnum | (string & {}) | undefined;
 }
 export interface GenerateAlertPolicyProjectsAppsRequest extends GenerateAlertPolicyRequest {
   /** Required. The firebase application. Format: "projects/{project}/apps/{app_id}". */
@@ -535,14 +535,15 @@ export interface GetProjectsAppsIssuesRequest {
   /** Required. The name of the issue to retrieve. Format: "projects/{project}/apps/{app}/issues/{issue}". */
   name: string;
 }
-export type GetProjectsAppsReportsFilter_issue_errorTypesEnum =
-  | "ERROR_TYPE_UNSPECIFIED"
-  | "FATAL"
-  | "NON_FATAL"
-  | "ANR";
-export type GetProjectsAppsReportsFilter_issue_errorTypesEnumList = Array<
-  GetProjectsAppsReportsFilter_issue_errorTypesEnum | (string & {})
->;
+export type GetProjectsAppsReportsFilter_issue_stateEnum =
+  | "STATE_UNSPECIFIED"
+  | "OPEN"
+  | "CLOSED"
+  | "MUTED";
+export type GetProjectsAppsReportsViewEnum =
+  | "REPORT_VIEW_UNSPECIFIED"
+  | "REPORT_VIEW_BASIC"
+  | "REPORT_VIEW_FULL";
 export type GetProjectsAppsReportsFilter_issue_statesEnum =
   | "STATE_UNSPECIFIED"
   | "OPEN"
@@ -551,24 +552,18 @@ export type GetProjectsAppsReportsFilter_issue_statesEnum =
 export type GetProjectsAppsReportsFilter_issue_statesEnumList = Array<
   GetProjectsAppsReportsFilter_issue_statesEnum | (string & {})
 >;
-export type GetProjectsAppsReportsFilter_issue_stateEnum =
-  | "STATE_UNSPECIFIED"
-  | "OPEN"
-  | "CLOSED"
-  | "MUTED";
-export type GetProjectsAppsReportsFilter_issue_signalsEnum =
-  | "SIGNAL_UNSPECIFIED"
-  | "SIGNAL_EARLY"
-  | "SIGNAL_FRESH"
-  | "SIGNAL_REGRESSED"
-  | "SIGNAL_REPETITIVE";
-export type GetProjectsAppsReportsFilter_issue_signalsEnumList = Array<
-  GetProjectsAppsReportsFilter_issue_signalsEnum | (string & {})
+export type GetProjectsAppsReportsFilter_issue_errorTypesEnum =
+  | "ERROR_TYPE_UNSPECIFIED"
+  | "FATAL"
+  | "NON_FATAL"
+  | "ANR";
+export type GetProjectsAppsReportsFilter_issue_errorTypesEnumList = Array<
+  GetProjectsAppsReportsFilter_issue_errorTypesEnum | (string & {})
 >;
-export type GetProjectsAppsReportsViewEnum =
-  | "REPORT_VIEW_UNSPECIFIED"
-  | "REPORT_VIEW_BASIC"
-  | "REPORT_VIEW_FULL";
+export type GetProjectsAppsReportsMetricsModeEnum =
+  | "METRICS_MODE_UNSPECIFIED"
+  | "METRICS_MODE_OBSERVED"
+  | "METRICS_MODE_EXTRAPOLATED";
 export type GetProjectsAppsReportsFilter_device_formFactorsEnum =
   | "FORM_FACTOR_UNSPECIFIED"
   | "PHONE"
@@ -584,92 +579,101 @@ export type GetProjectsAppsReportsGranularityEnum =
   | "TIME_GRANULARITY_NONE"
   | "TIME_GRANULARITY_HOUR"
   | "TIME_GRANULARITY_DAY";
-export type GetProjectsAppsReportsMetricsModeEnum =
-  | "METRICS_MODE_UNSPECIFIED"
-  | "METRICS_MODE_OBSERVED"
-  | "METRICS_MODE_EXTRAPOLATED";
+export type GetProjectsAppsReportsFilter_issue_signalsEnum =
+  | "SIGNAL_UNSPECIFIED"
+  | "SIGNAL_EARLY"
+  | "SIGNAL_FRESH"
+  | "SIGNAL_REGRESSED"
+  | "SIGNAL_REPETITIVE";
+export type GetProjectsAppsReportsFilter_issue_signalsEnumList = Array<
+  GetProjectsAppsReportsFilter_issue_signalsEnum | (string & {})
+>;
 export interface GetProjectsAppsReportsRequest {
-  /** Optional. Filters the events counted in the report by custom keys. Not all reports support this filter. It is currently only supported for web apps; see the report's `usage` field for whether `filter_expression` is supported. Requests for other apps or unsupported reports that set this field are rejected with `INVALID_ARGUMENT`. Supported forms: * Equality: `custom_keys.level = "vip"` * Has: `custom_keys.level:"vip"` (matches the same events as equality) * Presence: `custom_keys.level:*` * OR across values of one key: `custom_keys.level = "vip" OR custom_keys.level = "enterprise"` * AND across different keys: `custom_keys.level = "vip" AND custom_keys.region = "us"` Keys are case-sensitive. Keys and values containing spaces must be double-quoted, for example `custom_keys."app state" = "background"`. OR across different keys, repeating a key within an AND, NOT, and comparators other than `=` and `:` are rejected with INVALID_ARGUMENT. Wildcards are not supported in values; use `custom_keys.:*` to match events that set a key to any value. This filter expression applies in addition to the `filter` field above. The syntax is a subset of AIP-160 (https://google.aip.dev/160). */
-  filterExpression?: string | undefined;
-  /** Optional. Only count events from the given browser. This string matches Browser.display_name. Format: "name (display_version)" e.g. "Chrome (123)", or just "name" for all possible versions, e.g. simply "Chrome". */
-  "filter.browser.displayNames"?: StringList | undefined;
-  /** Optional. Exclusive end of the interval. If specified, a Timestamp matching this interval will have to be before the end. */
-  "filter.interval.endTime"?: string | undefined;
-  /** Optional. Only counts events of the given error types. This field matches [Issue.error_type]. */
-  "filter.issue.errorTypes"?: GetProjectsAppsReportsFilter_issue_errorTypesEnumList | undefined;
-  /** Optional. A space separated list of filter terms matched against the contents of the issue. Contents include the title and the stack trace. Matches must begin at alphanumeric tokens, i.e., 'util.Sorted' matches 'java.util.SortedSet' but not 'myutil.SortedArray'. The filter matches if all filter terms match. All non-alphanumeric characters are ignored for matching. Filtering is assumed to be prefix-search and order-independent unless phrases are surrounded by "". Any terms contained in quotes are searched using exact-match (given filter term "foo", we will not return "foobar"), and must appear in the order given exactly. To get order-dependence but prefix-search, use a * within the quotes ("abc foo*" will match "abc foobar", but not "foo abc" "abcd foobar", or "abc xyz foobar"). */
-  "filter.issue.content"?: string | undefined;
-  /** Optional. A page token, received from a previous call. The page token is only valid for the exact same set of filters, which must also be sent in subsequent requests. This token is valid for 10 minutes after the first request. */
-  pageToken?: string | undefined;
-  /** Required. The report name. Format: "projects/{project}/apps/{app_id}/reports/{report}". */
-  name: string;
-  /** Only counts events from the given Device model. This string matches Device.display_name. Format: "manufacturer (model)" e.g. "Google (Pixel 6)", or just "manufacturer" for all possible models, e.g. simply "Google". Note that a device's marketing_name field can not be used for filtering. */
-  "filter.device.displayNames"?: StringList | undefined;
-  /** Optional. Only counts events for the given issue variant ID. This field matches [IssueVariant.id]. */
-  "filter.issue.variantId"?: string | undefined;
-  /** Optional. Only includes events for issues with the given issue states. Only available for `topIssues` reports. */
-  "filter.issue.states"?: GetProjectsAppsReportsFilter_issue_statesEnumList | undefined;
-  /** Optional. Only counts events in the given issue ID. This field matches [Issue.id]. */
-  "filter.issue.id"?: string | undefined;
   /** Optional. Deprecated: Prefer `states` field. Only includes events for issues with the given issue state. Only available for `topIssues` reports. */
   "filter.issue.state"?: GetProjectsAppsReportsFilter_issue_stateEnum | (string & {}) | undefined;
-  /** Optional. Only returns issues currently marked with the given signals. This field matches [Issue.signals.signal]. */
-  "filter.issue.signals"?: GetProjectsAppsReportsFilter_issue_signalsEnumList | undefined;
   /** Optional. Response view. If not set, defaults to `REPORT_VIEW_FULL`. */
   view?: GetProjectsAppsReportsViewEnum | (string & {}) | undefined;
-  /** Only counts events from devices with the given form factor (e.g. phone or tablet). */
-  "filter.device.formFactors"?: GetProjectsAppsReportsFilter_device_formFactorsEnumList | undefined;
-  /** Optional. The report response will contain one data point per time grain. If omitted, the report will contain a single data point for the complete interval. */
-  granularity?: GetProjectsAppsReportsGranularityEnum | (string & {}) | undefined;
-  /** Optional. The maximum number of result groups to return. The maximum value is 100; values above 100 will be coerced to 100. If omitted, defaults to 25. */
-  pageSize?: number | undefined;
-  /** Optional. Inclusive start of the interval. If specified, a Timestamp matching this interval will have to be the same or after the start. */
-  "filter.interval.startTime"?: string | undefined;
+  /** Optional. Only includes events for issues with the given issue states. Only available for `topIssues` reports. */
+  "filter.issue.states"?: GetProjectsAppsReportsFilter_issue_statesEnumList | undefined;
+  /** Optional. Only counts events of the given error types. This field matches [Issue.error_type]. */
+  "filter.issue.errorTypes"?: GetProjectsAppsReportsFilter_issue_errorTypesEnumList | undefined;
+  /** Required. The report name. Format: "projects/{project}/apps/{app_id}/reports/{report}". */
+  name: string;
   /** Optional. Controls whether metrics are raw observed values (mobile and web) or extrapolated values (web only). If omitted, defaults to OBSERVED. */
   metricsMode?: GetProjectsAppsReportsMetricsModeEnum | (string & {}) | undefined;
   /** Only counts events in the given operating system and version. This string matches OperatingSystem.display_name. Format: "osName (osVersion)" e.g. "Android (11)". or just "osName" for all versions, e.g. simply "iPadOS". */
   "filter.operatingSystem.displayNames"?: StringList | undefined;
+  /** Only counts events from the given Device model. This string matches Device.display_name. Format: "manufacturer (model)" e.g. "Google (Pixel 6)", or just "manufacturer" for all possible models, e.g. simply "Google". Note that a device's marketing_name field can not be used for filtering. */
+  "filter.device.displayNames"?: StringList | undefined;
   /** Only counts events in the given app version. This string matches Version.display_name. Format: "display_version (build_version)" e.g. "1.2.3 (456)". */
   "filter.version.displayNames"?: StringList | undefined;
+  /** Optional. Filters the events counted in the report by custom keys. Not all reports support this filter. It is currently only supported for web apps; see the report's `usage` field for whether `filter_expression` is supported. Requests for other apps or unsupported reports that set this field are rejected with `INVALID_ARGUMENT`. Supported forms: * Equality: `custom_keys.level = "vip"` * Has: `custom_keys.level:"vip"` (matches the same events as equality) * Presence: `custom_keys.level:*` * OR across values of one key: `custom_keys.level = "vip" OR custom_keys.level = "enterprise"` * AND across different keys: `custom_keys.level = "vip" AND custom_keys.region = "us"` Keys are case-sensitive. Keys and values containing spaces must be double-quoted, for example `custom_keys."app state" = "background"`. OR across different keys, repeating a key within an AND, NOT, and comparators other than `=` and `:` are rejected with INVALID_ARGUMENT. Wildcards are not supported in values; use `custom_keys.:*` to match events that set a key to any value. This filter expression applies in addition to the `filter` field above. The syntax is a subset of AIP-160 (https://google.aip.dev/160). */
+  filterExpression?: string | undefined;
+  /** Only counts events from devices with the given form factor (e.g. phone or tablet). */
+  "filter.device.formFactors"?: GetProjectsAppsReportsFilter_device_formFactorsEnumList | undefined;
+  /** Optional. Inclusive start of the interval. If specified, a Timestamp matching this interval will have to be the same or after the start. */
+  "filter.interval.startTime"?: string | undefined;
+  /** Optional. The maximum number of result groups to return. The maximum value is 100; values above 100 will be coerced to 100. If omitted, defaults to 25. */
+  pageSize?: number | undefined;
+  /** Optional. Only counts events in the given issue ID. This field matches [Issue.id]. */
+  "filter.issue.id"?: string | undefined;
+  /** Optional. A page token, received from a previous call. The page token is only valid for the exact same set of filters, which must also be sent in subsequent requests. This token is valid for 10 minutes after the first request. */
+  pageToken?: string | undefined;
+  /** Optional. Exclusive end of the interval. If specified, a Timestamp matching this interval will have to be before the end. */
+  "filter.interval.endTime"?: string | undefined;
+  /** Optional. Only counts events for the given issue variant ID. This field matches [IssueVariant.id]. */
+  "filter.issue.variantId"?: string | undefined;
+  /** Optional. The report response will contain one data point per time grain. If omitted, the report will contain a single data point for the complete interval. */
+  granularity?: GetProjectsAppsReportsGranularityEnum | (string & {}) | undefined;
+  /** Optional. Only returns issues currently marked with the given signals. This field matches [Issue.signals.signal]. */
+  "filter.issue.signals"?: GetProjectsAppsReportsFilter_issue_signalsEnumList | undefined;
+  /** Optional. A space separated list of filter terms matched against the contents of the issue. Contents include the title and the stack trace. Matches must begin at alphanumeric tokens, i.e., 'util.Sorted' matches 'java.util.SortedSet' but not 'myutil.SortedArray'. The filter matches if all filter terms match. All non-alphanumeric characters are ignored for matching. Filtering is assumed to be prefix-search and order-independent unless phrases are surrounded by "". Any terms contained in quotes are searched using exact-match (given filter term "foo", we will not return "foobar"), and must appear in the order given exactly. To get order-dependence but prefix-search, use a * within the quotes ("abc foo*" will match "abc foobar", but not "foo abc" "abcd foobar", or "abc xyz foobar"). */
+  "filter.issue.content"?: string | undefined;
+  /** Optional. Only count events from the given browser. This string matches Browser.display_name. Format: "name (display_version)" e.g. "Chrome (123)", or just "name" for all possible versions, e.g. simply "Chrome". */
+  "filter.browser.displayNames"?: StringList | undefined;
 }
-/** A set of computed metric values for a time interval */
-export interface IntervalMetrics {
-  /** The number of distinct sessions. */
-  totalSessionsCount?: string | undefined;
-  /** The start of the interval covered by the computation. */
-  startTime?: string | undefined;
-  /** Mobile only. Percentage of crash-free sessions. (total_sessions_count - impacted_sessions_count) / total_sessions_count * 100. */
-  crashFreeSessionsPercentage?: number | undefined;
-  /** The end of the interval covered by the computation. */
-  endTime?: string | undefined;
-  /** The number of distinct users in the set of events. */
-  impactedUsersCount?: string | undefined;
-  /** Deprecated: Prefer `impacted_sessions_count`. The number of distinct sessions in the set of events. */
-  sessionsCount?: string | undefined;
-  /** The total count of events in the interval. */
-  eventsCount?: string | undefined;
-  /** Mobile only. Percentage of crash-free users. (total_users_count - impacted_users_count) / total_users_count * 100 */
-  crashFreeUsersPercentage?: number | undefined;
-  /** The number of distinct sessions in the set of events. */
-  impactedSessionsCount?: string | undefined;
-  /** The number of distinct users. */
-  totalUsersCount?: string | undefined;
-}
-export type IntervalMetricsList = Array<IntervalMetrics>;
 /** Represents a grouping for metrics specific to web applications. */
 export interface WebMetricsGroup {
   /** The id of the web metrics group */
   id?: string | undefined;
 }
+/** A set of computed metric values for a time interval */
+export interface IntervalMetrics {
+  /** The number of distinct sessions in the set of events. */
+  impactedSessionsCount?: string | undefined;
+  /** Mobile only. Percentage of crash-free users. (total_users_count - impacted_users_count) / total_users_count * 100 */
+  crashFreeUsersPercentage?: number | undefined;
+  /** Deprecated: Prefer `impacted_sessions_count`. The number of distinct sessions in the set of events. */
+  sessionsCount?: string | undefined;
+  /** The number of distinct users. */
+  totalUsersCount?: string | undefined;
+  /** The number of distinct sessions. */
+  totalSessionsCount?: string | undefined;
+  /** The end of the interval covered by the computation. */
+  endTime?: string | undefined;
+  /** Mobile only. Percentage of crash-free sessions. (total_sessions_count - impacted_sessions_count) / total_sessions_count * 100. */
+  crashFreeSessionsPercentage?: number | undefined;
+  /** The start of the interval covered by the computation. */
+  startTime?: string | undefined;
+  /** The total count of events in the interval. */
+  eventsCount?: string | undefined;
+  /** The number of distinct users in the set of events. */
+  impactedUsersCount?: string | undefined;
+}
+export type IntervalMetricsList = Array<IntervalMetrics>;
 /** Developer-provided custom key-value pair metadata. */
 export interface CustomAttribute {
-  /** Output only. Custom attribute value. */
-  value?: string | undefined;
   /** Output only. Custom attribute key name. */
   key?: string | undefined;
+  /** Output only. Custom attribute value. */
+  value?: string | undefined;
 }
 /** A group of results in an EventReport. In any report, the group_parent field is strictly the same type for all of the groups in any collection. */
 export interface ReportGroup {
+  /** Web metrics group. */
+  webMetricsGroup?: WebMetricsGroup | undefined;
+  /** Version metrics group. */
+  version?: Version | undefined;
   /** Issue variant metrics group. */
   variant?: IssueVariant | undefined;
   /** Browser metrics group. */
@@ -678,52 +682,31 @@ export interface ReportGroup {
   metrics?: IntervalMetricsList | undefined;
   /** When applicable, this field contains additional nested groupings. For example, events can be grouped by operating system and by operating system version. */
   subgroups?: ReportGroupList | undefined;
-  /** Operating system metrics group. */
-  operatingSystem?: OperatingSystem | undefined;
-  /** Version metrics group. */
-  version?: Version | undefined;
   /** Device metrics group. */
   device?: Device | undefined;
-  /** Web metrics group. */
-  webMetricsGroup?: WebMetricsGroup | undefined;
-  /** Custom attribute metrics group. */
-  customAttribute?: CustomAttribute | undefined;
   /** Issue metrics group. */
   issue?: Issue | undefined;
+  /** Custom attribute metrics group. */
+  customAttribute?: CustomAttribute | undefined;
+  /** Operating system metrics group. */
+  operatingSystem?: OperatingSystem | undefined;
 }
 export type ReportGroupList = Array<ReportGroup>;
 /** Response message for the GetReport method. A report consists of the results of a query over an application's events. The events may be filtered by various criteria defined in the filters proto. The result will consist of a number of paginated groups, of a type relevant to the report such as issues or device models. */
 export interface Report {
-  /** Output only. The displayable title of the report. */
-  displayName?: string | undefined;
-  /** Aggregate event statistics in the report will be grouped by a dimension, such as by issue or by version. The response contains one element per group, and all ReportGroup messages will have the same parent field. */
-  groups?: ReportGroupList | undefined;
-  /** The name of the report. Format: "projects/{project}/apps/{app_id}/reports/{report}". */
-  name?: string | undefined;
   /** Output only. The total number of groups retrievable by the request. */
   totalSize?: number | undefined;
+  /** The name of the report. Format: "projects/{project}/apps/{app_id}/reports/{report}". */
+  name?: string | undefined;
   /** Usage instructions for the report with a description of the result metrics. This field contains a description of the underlying query and describes the expected response data with any known caveats. This string can be displayed in the UI of any integration that offers comprehensive access to all Crashlytics reports. */
   usage?: string | undefined;
   /** Output only. A page token used to retrieve additional report groups. If this field is not present, there are no subsequent pages available to retrieve. */
   nextPageToken?: string | undefined;
+  /** Output only. The displayable title of the report. */
+  displayName?: string | undefined;
+  /** Aggregate event statistics in the report will be grouped by a dimension, such as by issue or by version. The response contains one element per group, and all ReportGroup messages will have the same parent field. */
+  groups?: ReportGroupList | undefined;
 }
-export type ListProjectsAppsEventsFilter_issue_errorTypesEnum =
-  | "ERROR_TYPE_UNSPECIFIED"
-  | "FATAL"
-  | "NON_FATAL"
-  | "ANR";
-export type ListProjectsAppsEventsFilter_issue_errorTypesEnumList = Array<
-  ListProjectsAppsEventsFilter_issue_errorTypesEnum | (string & {})
->;
-export type ListProjectsAppsEventsFilter_issue_signalsEnum =
-  | "SIGNAL_UNSPECIFIED"
-  | "SIGNAL_EARLY"
-  | "SIGNAL_FRESH"
-  | "SIGNAL_REGRESSED"
-  | "SIGNAL_REPETITIVE";
-export type ListProjectsAppsEventsFilter_issue_signalsEnumList = Array<
-  ListProjectsAppsEventsFilter_issue_signalsEnum | (string & {})
->;
 export type ListProjectsAppsEventsFilter_device_formFactorsEnum =
   | "FORM_FACTOR_UNSPECIFIED"
   | "PHONE"
@@ -734,11 +717,14 @@ export type ListProjectsAppsEventsFilter_device_formFactorsEnum =
 export type ListProjectsAppsEventsFilter_device_formFactorsEnumList = Array<
   ListProjectsAppsEventsFilter_device_formFactorsEnum | (string & {})
 >;
-export type ListProjectsAppsEventsFilter_issue_stateEnum =
-  | "STATE_UNSPECIFIED"
-  | "OPEN"
-  | "CLOSED"
-  | "MUTED";
+export type ListProjectsAppsEventsFilter_issue_errorTypesEnum =
+  | "ERROR_TYPE_UNSPECIFIED"
+  | "FATAL"
+  | "NON_FATAL"
+  | "ANR";
+export type ListProjectsAppsEventsFilter_issue_errorTypesEnumList = Array<
+  ListProjectsAppsEventsFilter_issue_errorTypesEnum | (string & {})
+>;
 export type ListProjectsAppsEventsFilter_issue_statesEnum =
   | "STATE_UNSPECIFIED"
   | "OPEN"
@@ -747,45 +733,59 @@ export type ListProjectsAppsEventsFilter_issue_statesEnum =
 export type ListProjectsAppsEventsFilter_issue_statesEnumList = Array<
   ListProjectsAppsEventsFilter_issue_statesEnum | (string & {})
 >;
+export type ListProjectsAppsEventsFilter_issue_signalsEnum =
+  | "SIGNAL_UNSPECIFIED"
+  | "SIGNAL_EARLY"
+  | "SIGNAL_FRESH"
+  | "SIGNAL_REGRESSED"
+  | "SIGNAL_REPETITIVE";
+export type ListProjectsAppsEventsFilter_issue_signalsEnumList = Array<
+  ListProjectsAppsEventsFilter_issue_signalsEnum | (string & {})
+>;
+export type ListProjectsAppsEventsFilter_issue_stateEnum =
+  | "STATE_UNSPECIFIED"
+  | "OPEN"
+  | "CLOSED"
+  | "MUTED";
 export interface ListProjectsAppsEventsRequest {
-  /** Optional. Only count events from the given browser. This string matches Browser.display_name. Format: "name (display_version)" e.g. "Chrome (123)", or just "name" for all possible versions, e.g. simply "Chrome". */
-  "filter.browser.displayNames"?: StringList | undefined;
-  /** Optional. Exclusive end of the interval. If specified, a Timestamp matching this interval will have to be before the end. */
-  "filter.interval.endTime"?: string | undefined;
-  /** Optional. Only counts events in the given issue ID. This field matches [Issue.id]. */
-  "filter.issue.id"?: string | undefined;
-  /** Optional. Only counts events of the given error types. This field matches [Issue.error_type]. */
-  "filter.issue.errorTypes"?: ListProjectsAppsEventsFilter_issue_errorTypesEnumList | undefined;
-  /** Optional. A page token, received from a previous calls. */
-  pageToken?: string | undefined;
-  /** Optional. A space separated list of filter terms matched against the contents of the issue. Contents include the title and the stack trace. Matches must begin at alphanumeric tokens, i.e., 'util.Sorted' matches 'java.util.SortedSet' but not 'myutil.SortedArray'. The filter matches if all filter terms match. All non-alphanumeric characters are ignored for matching. Filtering is assumed to be prefix-search and order-independent unless phrases are surrounded by "". Any terms contained in quotes are searched using exact-match (given filter term "foo", we will not return "foobar"), and must appear in the order given exactly. To get order-dependence but prefix-search, use a * within the quotes ("abc foo*" will match "abc foobar", but not "foo abc" "abcd foobar", or "abc xyz foobar"). */
-  "filter.issue.content"?: string | undefined;
   /** Only counts events in the given operating system and version. This string matches OperatingSystem.display_name. Format: "osName (osVersion)" e.g. "Android (11)". or just "osName" for all versions, e.g. simply "iPadOS". */
   "filter.operatingSystem.displayNames"?: StringList | undefined;
-  /** Only counts events from the given Device model. This string matches Device.display_name. Format: "manufacturer (model)" e.g. "Google (Pixel 6)", or just "manufacturer" for all possible models, e.g. simply "Google". Note that a device's marketing_name field can not be used for filtering. */
-  "filter.device.displayNames"?: StringList | undefined;
-  /** Optional. Only counts events for the given issue variant ID. This field matches [IssueVariant.id]. */
-  "filter.issue.variantId"?: string | undefined;
-  /** Optional. Only returns issues currently marked with the given signals. This field matches [Issue.signals.signal]. */
-  "filter.issue.signals"?: ListProjectsAppsEventsFilter_issue_signalsEnumList | undefined;
-  /** Required. The Firebase application. Format: "projects/{project}/apps/{app_id}". */
-  parent: string;
-  /** Optional. The list of Event fields to include in the response. If omitted, the full event is returned. */
-  readMask?: string | undefined;
   /** Only counts events from devices with the given form factor (e.g. phone or tablet). */
   "filter.device.formFactors"?: ListProjectsAppsEventsFilter_device_formFactorsEnumList | undefined;
-  /** Optional. Deprecated: Prefer `states` field. Only includes events for issues with the given issue state. Only available for `topIssues` reports. */
-  "filter.issue.state"?: ListProjectsAppsEventsFilter_issue_stateEnum | (string & {}) | undefined;
-  /** Optional. The maximum number of events per page. If omitted, defaults to 10. */
-  pageSize?: number | undefined;
-  /** Optional. Inclusive start of the interval. If specified, a Timestamp matching this interval will have to be the same or after the start. */
-  "filter.interval.startTime"?: string | undefined;
-  /** Optional. Only includes events for issues with the given issue states. Only available for `topIssues` reports. */
-  "filter.issue.states"?: ListProjectsAppsEventsFilter_issue_statesEnumList | undefined;
-  /** Optional. Filters events by `crashlytics_session_id` and/or `custom_keys` (https://firebase.google.com/docs/crashlytics/customize-crash-reports#add-keys). Supported fields and forms: * `crashlytics_session_id` (mobile apps only; matches Event.crashlytics_session_id): * Equality: `crashlytics_session_id = "abc"` * Has: `crashlytics_session_id:"abc"` (matches the same events as equality) * OR across session IDs: `crashlytics_session_id = "abc" OR crashlytics_session_id = "def"` * `custom_keys.` (matches Event.custom_keys): * Equality: `custom_keys.level = "vip"` * Has: `custom_keys.level:"vip"` (matches the same events as equality) * Presence: `custom_keys.level:*` * OR across values of one key: `custom_keys.level = "vip" OR custom_keys.level = "enterprise"` * AND across different fields or custom keys: * `(crashlytics_session_id = "abc" OR crashlytics_session_id = "def") AND custom_keys.level = "vip"` * `custom_keys.level = "vip" AND custom_keys.region = "us"` Filtering by `crashlytics_session_id` is supported only for mobile apps; requests for web apps that specify `crashlytics_session_id` are rejected with INVALID_ARGUMENT. Custom keys and values are case-sensitive. Keys and values containing spaces must be double-quoted, for example `custom_keys."app state" = "background"`. Empty `crashlytics_session_id` values, OR across different fields or keys, repeating the same field or key within an AND, NOT, and comparators other than `=` and `:` are rejected with INVALID_ARGUMENT. Wildcards are not supported in values; for custom keys, use `custom_keys.:*` to match events that set a key to any value. This filter expression applies in addition to the `filter` field above. The syntax is a subset of AIP-160 (https://google.aip.dev/160). */
-  filterExpression?: string | undefined;
+  /** Optional. Only counts events of the given error types. This field matches [Issue.error_type]. */
+  "filter.issue.errorTypes"?: ListProjectsAppsEventsFilter_issue_errorTypesEnumList | undefined;
   /** Only counts events in the given app version. This string matches Version.display_name. Format: "display_version (build_version)" e.g. "1.2.3 (456)". */
   "filter.version.displayNames"?: StringList | undefined;
+  /** Optional. Filters events by `crashlytics_session_id` and/or `custom_keys` (https://firebase.google.com/docs/crashlytics/customize-crash-reports#add-keys). Supported fields and forms: * `crashlytics_session_id` (mobile apps only; matches Event.crashlytics_session_id): * Equality: `crashlytics_session_id = "abc"` * Has: `crashlytics_session_id:"abc"` (matches the same events as equality) * OR across session IDs: `crashlytics_session_id = "abc" OR crashlytics_session_id = "def"` * `custom_keys.` (matches Event.custom_keys): * Equality: `custom_keys.level = "vip"` * Has: `custom_keys.level:"vip"` (matches the same events as equality) * Presence: `custom_keys.level:*` * OR across values of one key: `custom_keys.level = "vip" OR custom_keys.level = "enterprise"` * AND across different fields or custom keys: * `(crashlytics_session_id = "abc" OR crashlytics_session_id = "def") AND custom_keys.level = "vip"` * `custom_keys.level = "vip" AND custom_keys.region = "us"` Filtering by `crashlytics_session_id` is supported only for mobile apps; requests for web apps that specify `crashlytics_session_id` are rejected with INVALID_ARGUMENT. Custom keys and values are case-sensitive. Keys and values containing spaces must be double-quoted, for example `custom_keys."app state" = "background"`. Empty `crashlytics_session_id` values, OR across different fields or keys, repeating the same field or key within an AND, NOT, and comparators other than `=` and `:` are rejected with INVALID_ARGUMENT. Wildcards are not supported in values; for custom keys, use `custom_keys.:*` to match events that set a key to any value. This filter expression applies in addition to the `filter` field above. The syntax is a subset of AIP-160 (https://google.aip.dev/160). */
+  filterExpression?: string | undefined;
+  /** Optional. The list of Event fields to include in the response. If omitted, the full event is returned. */
+  readMask?: string | undefined;
+  /** Required. The Firebase application. Format: "projects/{project}/apps/{app_id}". */
+  parent: string;
+  /** Optional. Only includes events for issues with the given issue states. Only available for `topIssues` reports. */
+  "filter.issue.states"?: ListProjectsAppsEventsFilter_issue_statesEnumList | undefined;
+  /** Optional. Only counts events for the given issue variant ID. This field matches [IssueVariant.id]. */
+  "filter.issue.variantId"?: string | undefined;
+  /** Optional. Exclusive end of the interval. If specified, a Timestamp matching this interval will have to be before the end. */
+  "filter.interval.endTime"?: string | undefined;
+  /** Optional. Only returns issues currently marked with the given signals. This field matches [Issue.signals.signal]. */
+  "filter.issue.signals"?: ListProjectsAppsEventsFilter_issue_signalsEnumList | undefined;
+  /** Optional. Only count events from the given browser. This string matches Browser.display_name. Format: "name (display_version)" e.g. "Chrome (123)", or just "name" for all possible versions, e.g. simply "Chrome". */
+  "filter.browser.displayNames"?: StringList | undefined;
+  /** Optional. The maximum number of events per page. If omitted, defaults to 10. */
+  pageSize?: number | undefined;
+  /** Only counts events from the given Device model. This string matches Device.display_name. Format: "manufacturer (model)" e.g. "Google (Pixel 6)", or just "manufacturer" for all possible models, e.g. simply "Google". Note that a device's marketing_name field can not be used for filtering. */
+  "filter.device.displayNames"?: StringList | undefined;
+  /** Optional. A page token, received from a previous calls. */
+  pageToken?: string | undefined;
+  /** Optional. Only counts events in the given issue ID. This field matches [Issue.id]. */
+  "filter.issue.id"?: string | undefined;
+  /** Optional. A space separated list of filter terms matched against the contents of the issue. Contents include the title and the stack trace. Matches must begin at alphanumeric tokens, i.e., 'util.Sorted' matches 'java.util.SortedSet' but not 'myutil.SortedArray'. The filter matches if all filter terms match. All non-alphanumeric characters are ignored for matching. Filtering is assumed to be prefix-search and order-independent unless phrases are surrounded by "". Any terms contained in quotes are searched using exact-match (given filter term "foo", we will not return "foobar"), and must appear in the order given exactly. To get order-dependence but prefix-search, use a * within the quotes ("abc foo*" will match "abc foobar", but not "foo abc" "abcd foobar", or "abc xyz foobar"). */
+  "filter.issue.content"?: string | undefined;
+  /** Optional. Deprecated: Prefer `states` field. Only includes events for issues with the given issue state. Only available for `topIssues` reports. */
+  "filter.issue.state"?: ListProjectsAppsEventsFilter_issue_stateEnum | (string & {}) | undefined;
+  /** Optional. Inclusive start of the interval. If specified, a Timestamp matching this interval will have to be the same or after the start. */
+  "filter.interval.startTime"?: string | undefined;
 }
 /** Response message for the ListEvents method. */
 export interface ListEventsResponse {
@@ -795,20 +795,20 @@ export interface ListEventsResponse {
   nextPageToken?: string | undefined;
 }
 export interface ListProjectsAppsIssuesNotesRequest {
-  /** Optional. The maximum number of notes per page. If omitted, defaults to 10. */
-  pageSize?: number | undefined;
-  /** Optional. A page token, received from a previous calls. */
-  pageToken?: string | undefined;
   /** Required. The issue the notes belongs to. Format: "projects/{project}/apps/{app}/issues/{issue}". */
   parent: string;
+  /** Optional. A page token, received from a previous calls. */
+  pageToken?: string | undefined;
+  /** Optional. The maximum number of notes per page. If omitted, defaults to 10. */
+  pageSize?: number | undefined;
 }
 export type NoteList = Array<Note>;
 /** Response message for the ListNotes method. */
 export interface ListNotesResponse {
-  /** Returns notes ordered descending by the timestamp. */
-  notes?: NoteList | undefined;
   /** A pagination token to retrieve the next page of notes. If this field is not present, there are no subsequent notes. */
   nextPageToken?: string | undefined;
+  /** Returns notes ordered descending by the timestamp. */
+  notes?: NoteList | undefined;
 }
 export type ListProjectsAppsReportsViewEnum =
   | "REPORT_VIEW_UNSPECIFIED"
@@ -836,10 +836,10 @@ export interface UpdateProfilingManagerConfigProjectsAppsRequest extends Omit<
   ProfilingManagerConfig,
   "name"
 > {
-  /** Identifier. The resource name of the Profiling Manager configuration. Format: "projects/{project}/apps/{app}/profilingManagerConfig". */
-  name: string;
   /** Optional. The list of ProfilingManagerConfig fields to update (`gcs_bucket`, `heap_dump_collection_enabled`). If omitted, all populated (non-default) fields are updated; specify an explicit `update_mask` (or `*`) when clearing a field to its default value (such as `""` or `false`). */
   updateMask?: string | undefined;
+  /** Identifier. The resource name of the Profiling Manager configuration. Format: "projects/{project}/apps/{app}/profilingManagerConfig". */
+  name: string;
 }
 export type BatchGetProjectsAppsEventsError = NotFound | Forbidden | GcpOpError;
 /** Fetch a batch of up to 100 events by name. */
@@ -1184,27 +1184,27 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filterExpression: S.optional(S.String.pipe(T.Query())),
-          "filter.browser.displayNames": S.optional(__S(192, __c12, 0).pipe(T.Query())),
-          "filter.interval.endTime": S.optional(S.String.pipe(T.Query())),
-          "filter.issue.errorTypes": S.optional(__S(64, __c4, 0).pipe(T.Query())),
-          "filter.issue.content": S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          "filter.device.displayNames": S.optional(__S(192, __c12, 0).pipe(T.Query())),
-          "filter.issue.variantId": S.optional(S.String.pipe(T.Query())),
-          "filter.issue.states": S.optional(__S(64, __c4, 0).pipe(T.Query())),
-          "filter.issue.id": S.optional(S.String.pipe(T.Query())),
           "filter.issue.state": S.optional(S.String.pipe(T.Query())),
-          "filter.issue.signals": S.optional(__S(64, __c4, 0).pipe(T.Query())),
           view: S.optional(S.String.pipe(T.Query())),
-          "filter.device.formFactors": S.optional(__S(64, __c4, 0).pipe(T.Query())),
-          granularity: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          "filter.interval.startTime": S.optional(S.String.pipe(T.Query())),
+          "filter.issue.states": S.optional(__S(64, __c4, 0).pipe(T.Query())),
+          "filter.issue.errorTypes": S.optional(__S(64, __c4, 0).pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
           metricsMode: S.optional(S.String.pipe(T.Query())),
           "filter.operatingSystem.displayNames": S.optional(__S(192, __c12, 0).pipe(T.Query())),
+          "filter.device.displayNames": S.optional(__S(192, __c12, 0).pipe(T.Query())),
           "filter.version.displayNames": S.optional(__S(192, __c12, 0).pipe(T.Query())),
+          filterExpression: S.optional(S.String.pipe(T.Query())),
+          "filter.device.formFactors": S.optional(__S(64, __c4, 0).pipe(T.Query())),
+          "filter.interval.startTime": S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          "filter.issue.id": S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          "filter.interval.endTime": S.optional(S.String.pipe(T.Query())),
+          "filter.issue.variantId": S.optional(S.String.pipe(T.Query())),
+          granularity: S.optional(S.String.pipe(T.Query())),
+          "filter.issue.signals": S.optional(__S(64, __c4, 0).pipe(T.Query())),
+          "filter.issue.content": S.optional(S.String.pipe(T.Query())),
+          "filter.browser.displayNames": S.optional(__S(192, __c12, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1226,16 +1226,16 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          totalSessionsCount: S.optional(S.String),
-          startTime: S.optional(S.String),
-          crashFreeSessionsPercentage: S.optional(S.Number),
-          endTime: S.optional(S.String),
-          impactedUsersCount: S.optional(S.String),
-          sessionsCount: S.optional(S.String),
-          eventsCount: S.optional(S.String),
-          crashFreeUsersPercentage: S.optional(S.Number),
           impactedSessionsCount: S.optional(S.String),
+          crashFreeUsersPercentage: S.optional(S.Number),
+          sessionsCount: S.optional(S.String),
           totalUsersCount: S.optional(S.String),
+          totalSessionsCount: S.optional(S.String),
+          endTime: S.optional(S.String),
+          crashFreeSessionsPercentage: S.optional(S.Number),
+          startTime: S.optional(S.String),
+          eventsCount: S.optional(S.String),
+          impactedUsersCount: S.optional(S.String),
         }),
       ).annotate({ identifier: "IntervalMetrics" });
     case 1:
@@ -1243,23 +1243,23 @@ function __c5(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(S.String),
           key: S.optional(S.String),
+          value: S.optional(S.String),
         }),
       ).annotate({ identifier: "CustomAttribute" });
     case 3:
       return S.suspend(() =>
         S.Struct({
+          webMetricsGroup: S.optional(__S(210, __c13, 2)),
+          version: S.optional(__S(214, __c13, 6)),
           variant: S.optional(__S(240, __c15, 0)),
-          browser: S.optional(__S(214, __c13, 6)),
+          browser: S.optional(__S(211, __c13, 3)),
           metrics: S.optional(__S(81, __c5, 1)),
           subgroups: S.optional(S.suspend(() => __S(84, __c5, 4))),
-          operatingSystem: S.optional(__S(213, __c13, 5)),
-          version: S.optional(__S(210, __c13, 2)),
-          device: S.optional(__S(211, __c13, 3)),
-          webMetricsGroup: S.optional(__S(212, __c13, 4)),
-          customAttribute: S.optional(__S(82, __c5, 2)),
+          device: S.optional(__S(209, __c13, 1)),
           issue: S.optional(__S(244, __c15, 4)),
+          customAttribute: S.optional(__S(82, __c5, 2)),
+          operatingSystem: S.optional(__S(208, __c13, 0)),
         }),
       ).annotate({ identifier: "ReportGroup" });
     case 4:
@@ -1267,12 +1267,12 @@ function __c5(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          displayName: S.optional(S.String),
-          groups: S.optional(__S(84, __c5, 4)),
-          name: S.optional(S.String),
           totalSize: S.optional(S.Number),
+          name: S.optional(S.String),
           usage: S.optional(S.String),
           nextPageToken: S.optional(S.String),
+          displayName: S.optional(S.String),
+          groups: S.optional(__S(84, __c5, 4)),
         }),
       ).annotate({ identifier: "Report" });
   }
@@ -1282,25 +1282,25 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          "filter.browser.displayNames": S.optional(__S(192, __c12, 0).pipe(T.Query())),
-          "filter.interval.endTime": S.optional(S.String.pipe(T.Query())),
-          "filter.issue.id": S.optional(S.String.pipe(T.Query())),
-          "filter.issue.errorTypes": S.optional(__S(64, __c4, 0).pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          "filter.issue.content": S.optional(S.String.pipe(T.Query())),
           "filter.operatingSystem.displayNames": S.optional(__S(192, __c12, 0).pipe(T.Query())),
-          "filter.device.displayNames": S.optional(__S(192, __c12, 0).pipe(T.Query())),
-          "filter.issue.variantId": S.optional(S.String.pipe(T.Query())),
-          "filter.issue.signals": S.optional(__S(64, __c4, 0).pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          readMask: S.optional(S.String.pipe(T.Query())),
           "filter.device.formFactors": S.optional(__S(64, __c4, 0).pipe(T.Query())),
-          "filter.issue.state": S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          "filter.interval.startTime": S.optional(S.String.pipe(T.Query())),
-          "filter.issue.states": S.optional(__S(64, __c4, 0).pipe(T.Query())),
-          filterExpression: S.optional(S.String.pipe(T.Query())),
+          "filter.issue.errorTypes": S.optional(__S(64, __c4, 0).pipe(T.Query())),
           "filter.version.displayNames": S.optional(__S(192, __c12, 0).pipe(T.Query())),
+          filterExpression: S.optional(S.String.pipe(T.Query())),
+          readMask: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          "filter.issue.states": S.optional(__S(64, __c4, 0).pipe(T.Query())),
+          "filter.issue.variantId": S.optional(S.String.pipe(T.Query())),
+          "filter.interval.endTime": S.optional(S.String.pipe(T.Query())),
+          "filter.issue.signals": S.optional(__S(64, __c4, 0).pipe(T.Query())),
+          "filter.browser.displayNames": S.optional(__S(192, __c12, 0).pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          "filter.device.displayNames": S.optional(__S(192, __c12, 0).pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          "filter.issue.id": S.optional(S.String.pipe(T.Query())),
+          "filter.issue.content": S.optional(S.String.pipe(T.Query())),
+          "filter.issue.state": S.optional(S.String.pipe(T.Query())),
+          "filter.interval.startTime": S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1323,9 +1323,9 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1339,8 +1339,8 @@ function __c7(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          notes: S.optional(__S(113, __c7, 1)),
           nextPageToken: S.optional(S.String),
+          notes: S.optional(__S(113, __c7, 1)),
         }),
       ).annotate({ identifier: "ListNotesResponse" });
   }
@@ -1397,8 +1397,8 @@ function __c10(j: number): any {
         S.Extend(
           __S(16, __c1, 0),
           S.Struct({
-            name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -1416,8 +1416,8 @@ function __c11(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          readMask: S.optional(S.String.pipe(T.Query())),
           names: S.optional(__S(192, __c12, 0).pipe(T.Query())),
+          readMask: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1445,189 +1445,189 @@ function __c13(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          deviceType: S.optional(S.String),
+          modificationState: S.optional(S.String),
           type: S.optional(S.String),
-          title: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PlayTrack" });
-    case 1:
-      return S.Array(__S(208, __c13, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          displayName: S.optional(S.String),
-          tracks: S.optional(__S(209, __c13, 1)),
-          buildVersion: S.optional(S.String),
+          os: S.optional(S.String),
           displayVersion: S.optional(S.String),
+          displayName: S.optional(S.String),
         }),
-      ).annotate({ identifier: "Version" });
-    case 3:
+      ).annotate({ identifier: "OperatingSystem" });
+    case 1:
       return S.suspend(() =>
         S.Struct({
+          architecture: S.optional(S.String),
           companyName: S.optional(S.String),
           marketingName: S.optional(S.String),
-          formFactor: S.optional(S.String),
-          architecture: S.optional(S.String),
-          model: S.optional(S.String),
           manufacturer: S.optional(S.String),
+          model: S.optional(S.String),
+          formFactor: S.optional(S.String),
           displayName: S.optional(S.String),
         }),
       ).annotate({ identifier: "Device" });
-    case 4:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
         }),
       ).annotate({ identifier: "User" });
-    case 5:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           displayVersion: S.optional(S.String),
+          browser: S.optional(S.String),
           displayName: S.optional(S.String),
-          type: S.optional(S.String),
-          modificationState: S.optional(S.String),
-          deviceType: S.optional(S.String),
-          os: S.optional(S.String),
         }),
-      ).annotate({ identifier: "OperatingSystem" });
+      ).annotate({ identifier: "Browser" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String),
+          title: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PlayTrack" });
+    case 5:
+      return S.Array(__S(212, __c13, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           displayVersion: S.optional(S.String),
           displayName: S.optional(S.String),
-          browser: S.optional(S.String),
+          tracks: S.optional(__S(213, __c13, 5)),
+          buildVersion: S.optional(S.String),
         }),
-      ).annotate({ identifier: "Browser" });
+      ).annotate({ identifier: "Version" });
   }
 }
 function __c14(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          used: S.optional(S.String),
-          free: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Storage" });
+      return S.Record(S.String, S.String);
     case 1:
       return S.suspend(() =>
         S.Struct({
-          offset: S.optional(S.String),
-          symbol: S.optional(S.String),
-          column: S.optional(S.String),
-          file: S.optional(S.String),
-          address: S.optional(S.String),
-          blamed: S.optional(S.Boolean),
-          owner: S.optional(S.String),
-          line: S.optional(S.String),
-          library: S.optional(S.String),
+          params: S.optional(__S(224, __c14, 0)),
+          eventTime: S.optional(S.String),
+          title: S.optional(S.String),
         }),
-      ).annotate({ identifier: "Frame" });
+      ).annotate({ identifier: "Breadcrumb" });
     case 2:
       return S.Array(__S(225, __c14, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          exceptionMessage: S.optional(S.String),
-          subtitle: S.optional(S.String),
-          type: S.optional(S.String),
           blamed: S.optional(S.Boolean),
-          frames: S.optional(__S(226, __c14, 2)),
-          nested: S.optional(S.Boolean),
-          title: S.optional(S.String),
+          symbol: S.optional(S.String),
+          offset: S.optional(S.String),
+          line: S.optional(S.String),
+          owner: S.optional(S.String),
+          address: S.optional(S.String),
+          column: S.optional(S.String),
+          file: S.optional(S.String),
+          library: S.optional(S.String),
         }),
-      ).annotate({ identifier: "Exception" });
+      ).annotate({ identifier: "Frame" });
     case 4:
       return S.Array(__S(227, __c14, 3));
     case 5:
+      return S.suspend(() =>
+        S.Struct({
+          blamed: S.optional(S.Boolean),
+          title: S.optional(S.String),
+          subtitle: S.optional(S.String),
+          queue: S.optional(S.String),
+          frames: S.optional(__S(228, __c14, 4)),
+          code: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Firebasecrashlytics_Error" });
+    case 6:
+      return S.Array(__S(229, __c14, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          nested: S.optional(S.Boolean),
+          subtitle: S.optional(S.String),
+          title: S.optional(S.String),
+          blamed: S.optional(S.Boolean),
+          frames: S.optional(__S(228, __c14, 4)),
+          exceptionMessage: S.optional(S.String),
+          type: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Exception" });
+    case 8:
+      return S.Array(__S(231, __c14, 7));
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          used: S.optional(S.String),
+          free: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Memory" });
+    case 10:
       return S.suspend(() =>
         S.Struct({
           logTime: S.optional(S.String),
           message: S.optional(S.String),
         }),
       ).annotate({ identifier: "Log" });
-    case 6:
-      return S.Array(__S(229, __c14, 5));
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          threadId: S.optional(S.String),
-          name: S.optional(S.String),
-          blamed: S.optional(S.Boolean),
-          frames: S.optional(__S(226, __c14, 2)),
-          title: S.optional(S.String),
-          crashed: S.optional(S.Boolean),
-          signal: S.optional(S.String),
-          threadState: S.optional(S.String),
-          queue: S.optional(S.String),
-          subtitle: S.optional(S.String),
-          signalCode: S.optional(S.String),
-          crashAddress: S.optional(S.String),
-          sysThreadId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Thread" });
-    case 8:
-      return S.Array(__S(231, __c14, 7));
-    case 9:
-      return S.Record(S.String, S.String);
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          code: S.optional(S.String),
-          queue: S.optional(S.String),
-          title: S.optional(S.String),
-          blamed: S.optional(S.Boolean),
-          frames: S.optional(__S(226, __c14, 2)),
-          subtitle: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Firebasecrashlytics_Error" });
     case 11:
       return S.Array(__S(234, __c14, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
+          name: S.optional(S.String),
           title: S.optional(S.String),
-          params: S.optional(__S(233, __c14, 9)),
-          eventTime: S.optional(S.String),
+          threadState: S.optional(S.String),
+          subtitle: S.optional(S.String),
+          sysThreadId: S.optional(S.String),
+          signalCode: S.optional(S.String),
+          queue: S.optional(S.String),
+          crashed: S.optional(S.Boolean),
+          signal: S.optional(S.String),
+          blamed: S.optional(S.Boolean),
+          threadId: S.optional(S.String),
+          crashAddress: S.optional(S.String),
+          frames: S.optional(__S(228, __c14, 4)),
         }),
-      ).annotate({ identifier: "Breadcrumb" });
+      ).annotate({ identifier: "Thread" });
     case 13:
       return S.Array(__S(236, __c14, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          issueTitle: S.optional(S.String),
-          version: S.optional(__S(210, __c13, 2)),
-          installationUuid: S.optional(S.String),
-          processState: S.optional(S.String),
-          storage: S.optional(__S(224, __c14, 0)),
-          crashlyticsSdkVersion: S.optional(S.String),
-          sessionId: S.optional(S.String),
-          blameFrame: S.optional(__S(225, __c14, 1)),
-          eventTime: S.optional(S.String),
-          device: S.optional(__S(211, __c13, 3)),
-          exceptions: S.optional(__S(228, __c14, 4)),
-          platform: S.optional(S.String),
-          buildStamp: S.optional(S.String),
-          user: S.optional(__S(212, __c13, 4)),
-          issueVariant: S.optional(__S(240, __c15, 0)),
-          issueSubtitle: S.optional(S.String),
-          bundleOrPackage: S.optional(S.String),
-          operatingSystem: S.optional(__S(213, __c13, 5)),
-          browser: S.optional(__S(214, __c13, 6)),
           issue: S.optional(__S(244, __c15, 4)),
-          logs: S.optional(__S(230, __c14, 6)),
-          threads: S.optional(__S(232, __c14, 8)),
           deviceOrientation: S.optional(S.String),
+          breadcrumbs: S.optional(__S(226, __c14, 2)),
           eventId: S.optional(S.String),
-          customKeys: S.optional(__S(233, __c14, 9)),
-          receivedTime: S.optional(S.String),
-          errors: S.optional(__S(235, __c14, 11)),
-          appOrientation: S.optional(S.String),
-          memory: S.optional(__S(224, __c14, 0)),
+          blameFrame: S.optional(__S(227, __c14, 3)),
+          errors: S.optional(__S(230, __c14, 6)),
           routePath: S.optional(S.String),
-          breadcrumbs: S.optional(__S(237, __c14, 13)),
+          operatingSystem: S.optional(__S(208, __c13, 0)),
+          device: S.optional(__S(209, __c13, 1)),
+          buildStamp: S.optional(S.String),
+          user: S.optional(__S(210, __c13, 2)),
+          platform: S.optional(S.String),
+          customKeys: S.optional(__S(224, __c14, 0)),
+          installationUuid: S.optional(S.String),
+          exceptions: S.optional(__S(232, __c14, 8)),
+          memory: S.optional(__S(233, __c14, 9)),
           crashlyticsSessionId: S.optional(S.String),
+          storage: S.optional(__S(233, __c14, 9)),
+          sessionId: S.optional(S.String),
+          issueVariant: S.optional(__S(240, __c15, 0)),
+          receivedTime: S.optional(S.String),
+          issueTitle: S.optional(S.String),
+          crashlyticsSdkVersion: S.optional(S.String),
+          appOrientation: S.optional(S.String),
+          bundleOrPackage: S.optional(S.String),
+          issueSubtitle: S.optional(S.String),
+          logs: S.optional(__S(235, __c14, 11)),
+          processState: S.optional(S.String),
+          name: S.optional(S.String),
+          browser: S.optional(__S(211, __c13, 3)),
+          threads: S.optional(__S(237, __c14, 13)),
+          eventTime: S.optional(S.String),
+          version: S.optional(__S(214, __c13, 6)),
         }),
       ).annotate({ identifier: "Event" });
     case 15:
@@ -1639,8 +1639,8 @@ function __c15(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          id: S.optional(S.String),
           sampleEvent: S.optional(S.String),
+          id: S.optional(S.String),
           uri: S.optional(S.String),
         }),
       ).annotate({ identifier: "IssueVariant" });
@@ -1658,22 +1658,22 @@ function __c15(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
+          name: S.optional(S.String),
+          subtitle: S.optional(S.String),
+          lastSeenVersion: S.optional(S.String),
           title: S.optional(S.String),
+          variants: S.optional(__S(241, __c15, 1)),
+          id: S.optional(S.String),
+          state: S.optional(S.String),
+          firstSeenTime: S.optional(S.String),
+          notesCount: S.optional(S.String),
+          sampleEvent: S.optional(S.String),
+          signals: S.optional(__S(243, __c15, 3)),
           lastSeenTime: S.optional(S.String),
           uri: S.optional(S.String),
-          variants: S.optional(__S(241, __c15, 1)),
-          state: S.optional(S.String),
-          notesCount: S.optional(S.String),
           stateUpdateTime: S.optional(S.String),
-          signals: S.optional(__S(243, __c15, 3)),
-          name: S.optional(S.String),
-          id: S.optional(S.String),
-          firstSeenTime: S.optional(S.String),
-          lastSeenVersion: S.optional(S.String),
           firstSeenVersion: S.optional(S.String),
-          subtitle: S.optional(S.String),
           errorType: S.optional(S.String),
-          sampleEvent: S.optional(S.String),
         }),
       ).annotate({ identifier: "Issue" });
   }
@@ -1692,8 +1692,8 @@ function __c16(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          requests: S.optional(__S(257, __c16, 1)),
           updateMask: S.optional(S.String),
+          requests: S.optional(__S(257, __c16, 1)),
         }),
       ).annotate({ identifier: "BatchUpdateIssuesRequest" });
     case 3:
@@ -1745,10 +1745,10 @@ function __c18(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          author: S.optional(S.String),
+          createTime: S.optional(S.String),
           name: S.optional(S.String),
           body: S.optional(S.String),
-          createTime: S.optional(S.String),
+          author: S.optional(S.String),
         }),
       ).annotate({ identifier: "Note" });
   }
@@ -1799,8 +1799,8 @@ function __c21(j: number): any {
       return S.suspend(() =>
         S.Struct({
           alertType: S.optional(S.String),
-          channelFormat: S.optional(S.String),
           language: S.optional(S.String),
+          channelFormat: S.optional(S.String),
         }),
       ).annotate({ identifier: "GenerateAlertPolicyRequest" });
     case 1:

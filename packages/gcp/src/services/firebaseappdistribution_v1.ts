@@ -112,12 +112,12 @@ export interface BatchAddProjectsTestersRequest extends GoogleFirebaseAppdistroV
 export interface GoogleFirebaseAppdistroV1Tester {
   /** The resource names of the groups this tester belongs to. */
   groups?: StringList | undefined;
+  /** The name of the tester resource. Format: `projects/{project_number}/testers/{email_address}` */
+  name?: string | undefined;
   /** Output only. The time the tester was last active. This is the most recent time the tester installed one of the apps. If they've never installed one or if the release no longer exists, this is the time the tester was added to the project. */
   lastActivityTime?: string | undefined;
   /** The name of the tester associated with the Google account used to accept the tester invitation. */
   displayName?: string | undefined;
-  /** The name of the tester resource. Format: `projects/{project_number}/testers/{email_address}` */
-  name?: string | undefined;
 }
 export type GoogleFirebaseAppdistroV1TesterList = Array<GoogleFirebaseAppdistroV1Tester>;
 /** The Response message for `BatchAddTesters`. */
@@ -180,22 +180,22 @@ export interface CancelProjectsAppsReleasesOperationsRequest {
 }
 /** A group which can contain testers. A group can be invited to test apps in a Firebase project. */
 export interface GoogleFirebaseAppdistroV1Group {
-  /** The name of the group resource. Format: `projects/{project_number}/groups/{group_alias}` */
-  name?: string | undefined;
+  /** Output only. The number of invite links for this group. */
+  inviteLinkCount?: number | undefined;
   /** Required. The display name of the group. */
   displayName?: string | undefined;
   /** Output only. The number of releases this group is permitted to access. */
   releaseCount?: number | undefined;
-  /** Output only. The number of invite links for this group. */
-  inviteLinkCount?: number | undefined;
+  /** The name of the group resource. Format: `projects/{project_number}/groups/{group_alias}` */
+  name?: string | undefined;
   /** Output only. The number of testers who are members of this group. */
   testerCount?: number | undefined;
 }
 export interface CreateProjectsGroupsRequest extends GoogleFirebaseAppdistroV1Group {
-  /** Optional. The "alias" to use for the group, which will become the final component of the group's resource name. This value must be unique per project. The field is named `groupId` to comply with AIP guidance for user-specified IDs. This value should be 4-63 characters, and valid characters are `/a-z-/`. If not set, it will be generated based on the display name. */
-  groupId?: string | undefined;
   /** Required. The name of the project resource, which is the parent of the group resource. Format: `projects/{project_number}` */
   parent: string;
+  /** Optional. The "alias" to use for the group, which will become the final component of the group's resource name. This value must be unique per project. The field is named `groupId` to comply with AIP guidance for user-specified IDs. This value should be 4-63 characters, and valid characters are `/a-z-/`. If not set, it will be generated based on the display name. */
+  groupId?: string | undefined;
 }
 export interface DeleteProjectsAppsReleasesFeedbackReportsRequest {
   /** Required. The name of the feedback report to delete. Format: projects/{project_number}/apps/{app}/releases/{release}/feedbackReports/{feedback_report} */
@@ -240,10 +240,10 @@ export type GoogleFirebaseAppdistroV1AabInfoIntegrationStateEnum =
   | "PLAY_ANDROID_DEVELOPER_CONSOLE_PACKAGE_NOT_FOUND";
 /** App bundle test certificate */
 export interface GoogleFirebaseAppdistroV1TestCertificate {
-  /** Hex string of SHA256 hash of the test certificate used to resign the AAB */
-  hashSha256?: string | undefined;
   /** Hex string of MD5 hash of the test certificate used to resign the AAB */
   hashMd5?: string | undefined;
+  /** Hex string of SHA256 hash of the test certificate used to resign the AAB */
+  hashSha256?: string | undefined;
   /** Hex string of SHA1 hash of the test certificate used to resign the AAB */
   hashSha1?: string | undefined;
 }
@@ -251,20 +251,20 @@ export interface GoogleFirebaseAppdistroV1TestCertificate {
 export interface GoogleFirebaseAppdistroV1AabInfo {
   /** App bundle integration state. Only valid for android apps. */
   integrationState?: GoogleFirebaseAppdistroV1AabInfoIntegrationStateEnum | undefined;
-  /** App bundle test certificate generated for the app. Set after the first app bundle is uploaded for this app. */
-  testCertificate?: GoogleFirebaseAppdistroV1TestCertificate | undefined;
   /** The name of the `AabInfo` resource. Format: `projects/{project_number}/apps/{app}/aabInfo` */
   name?: string | undefined;
+  /** App bundle test certificate generated for the app. Set after the first app bundle is uploaded for this app. */
+  testCertificate?: GoogleFirebaseAppdistroV1TestCertificate | undefined;
 }
 export interface GetProjectsAppsReleasesRequest {
   /** Required. The name of the release resource to retrieve. Format: projects/{project_number}/apps/{app}/releases/{release} */
   name: string;
 }
-/** Notes that belong to a release. */
-export interface GoogleFirebaseAppdistroV1ReleaseNotes {
-  /** The text of the release notes. */
-  text?: string | undefined;
-}
+export type GoogleFirebaseAppdistroV1ReleaseBinaryTypeEnum =
+  | "BINARY_TYPE_UNSPECIFIED"
+  | "IPA"
+  | "APK"
+  | "AAB";
 export type GoogleFirebaseAppdistroV1ReleaseTestStateEnum =
   | "TEST_STATE_UNSPECIFIED"
   | "NO_TESTS_REQUESTED"
@@ -272,11 +272,11 @@ export type GoogleFirebaseAppdistroV1ReleaseTestStateEnum =
   | "PASSED"
   | "FAILED"
   | "INCONCLUSIVE";
-export type GoogleFirebaseAppdistroV1ReleaseBinaryTypeEnum =
-  | "BINARY_TYPE_UNSPECIFIED"
-  | "IPA"
-  | "APK"
-  | "AAB";
+/** Notes that belong to a release. */
+export interface GoogleFirebaseAppdistroV1ReleaseNotes {
+  /** The text of the release notes. */
+  text?: string | undefined;
+}
 export type GoogleFirebaseAppdistroV1ReleaseAndroidPackageRegistrationStateEnum =
   | "ANDROID_PACKAGE_REGISTRATION_STATE_UNSPECIFIED"
   | "REGISTERED"
@@ -284,43 +284,43 @@ export type GoogleFirebaseAppdistroV1ReleaseAndroidPackageRegistrationStateEnum 
   | "REGISTERED_WITH_ANOTHER_CERTIFICATE_FINGERPRINT";
 /** A release of a Firebase app. */
 export interface GoogleFirebaseAppdistroV1Release {
-  /** Output only. Number of testers who were invited (incl. expired invitations), but did not (yet) accept the invitation. */
-  openInvitationCount?: number | undefined;
-  /** Notes about the release. */
-  releaseNotes?: GoogleFirebaseAppdistroV1ReleaseNotes | undefined;
   /** Output only. The time the release was created. */
   createTime?: string | undefined;
-  /** Output only. The overall state of tests run on this release */
-  testState?: GoogleFirebaseAppdistroV1ReleaseTestStateEnum | (string & {}) | undefined;
-  /** Output only. Display version of the release. For an Android release, the display version is the `versionName`. For an iOS release, the display version is the `CFBundleShortVersionString`. */
-  displayVersion?: string | undefined;
+  /** Output only. Build version of the release. For an Android release, the build version is the `versionCode`. For an iOS release, the build version is the `CFBundleVersion`. */
+  buildVersion?: string | undefined;
+  /** Output only. A signed link (which expires in one hour) to directly download the app binary (IPA/APK/AAB) file. */
+  binaryDownloadUri?: string | undefined;
+  /** Output only. Number of testers who were invited (incl. expired invitations), but did not (yet) accept the invitation. */
+  openInvitationCount?: number | undefined;
   /** Output only. Number of feedback reports left by testers. */
   feedbackCount?: number | undefined;
-  /** Output only. A link to the Firebase console displaying a single release. */
-  firebaseConsoleUri?: string | undefined;
+  /** Output only. Number of testers who have downloaded this release. */
+  installationCount?: number | undefined;
   /** The name of the release resource. Format: `projects/{project_number}/apps/{app}/releases/{release}` */
   name?: string | undefined;
+  /** Output only. A link to the Firebase console displaying a single release. */
+  firebaseConsoleUri?: string | undefined;
   /** Output only. A link to the release in the tester web clip or Android app that lets testers (which were granted access to the app) view release notes and install the app onto their devices. */
   testingUri?: string | undefined;
   /** Output only. The time the release will expire. */
   expireTime?: string | undefined;
   /** Output only. Type of binary. */
   binaryType?: GoogleFirebaseAppdistroV1ReleaseBinaryTypeEnum | (string & {}) | undefined;
+  /** Output only. Number of testers with accepted invitations. */
+  acceptedInvitationCount?: number | undefined;
+  /** Output only. The overall state of tests run on this release */
+  testState?: GoogleFirebaseAppdistroV1ReleaseTestStateEnum | (string & {}) | undefined;
+  /** Notes about the release. */
+  releaseNotes?: GoogleFirebaseAppdistroV1ReleaseNotes | undefined;
+  /** Output only. The time the release was last updated. */
+  updateTime?: string | undefined;
   /** Output only. Registration state of the Android package (BinaryType.APK). */
   androidPackageRegistrationState?:
     | GoogleFirebaseAppdistroV1ReleaseAndroidPackageRegistrationStateEnum
     | (string & {})
     | undefined;
-  /** Output only. The time the release was last updated. */
-  updateTime?: string | undefined;
-  /** Output only. Number of testers who have downloaded this release. */
-  installationCount?: number | undefined;
-  /** Output only. A signed link (which expires in one hour) to directly download the app binary (IPA/APK/AAB) file. */
-  binaryDownloadUri?: string | undefined;
-  /** Output only. Build version of the release. For an Android release, the build version is the `versionCode`. For an iOS release, the build version is the `CFBundleVersion`. */
-  buildVersion?: string | undefined;
-  /** Output only. Number of testers with accepted invitations. */
-  acceptedInvitationCount?: number | undefined;
+  /** Output only. Display version of the release. For an Android release, the display version is the `versionName`. For an iOS release, the display version is the `CFBundleShortVersionString`. */
+  displayVersion?: string | undefined;
 }
 export interface GetProjectsAppsReleasesFeedbackReportsRequest {
   /** Required. The name of the feedback report to retrieve. Format: projects/{project_number}/apps/{app}/releases/{release}/feedbackReports/{feedback_report} */
@@ -328,18 +328,18 @@ export interface GetProjectsAppsReleasesFeedbackReportsRequest {
 }
 /** A feedback report submitted by a tester for a release. */
 export interface GoogleFirebaseAppdistroV1FeedbackReport {
-  /** Output only. The text of the feedback report. */
-  text?: string | undefined;
-  /** Output only. A signed link (which expires in one hour) that lets you directly download the screenshot. */
-  screenshotUri?: string | undefined;
-  /** Output only. A link to the Firebase console displaying the feedback report. */
-  firebaseConsoleUri?: string | undefined;
-  /** Output only. The time when the feedback report was created. */
-  createTime?: string | undefined;
   /** The name of the feedback report resource. Format: `projects/{project_number}/apps/{app}/releases/{release}/feedbackReports/{feedback_report}` */
   name?: string | undefined;
+  /** Output only. A link to the Firebase console displaying the feedback report. */
+  firebaseConsoleUri?: string | undefined;
+  /** Output only. A signed link (which expires in one hour) that lets you directly download the screenshot. */
+  screenshotUri?: string | undefined;
   /** Output only. The resource name of the tester who submitted the feedback report. */
   tester?: string | undefined;
+  /** Output only. The time when the feedback report was created. */
+  createTime?: string | undefined;
+  /** Output only. The text of the feedback report. */
+  text?: string | undefined;
 }
 export interface GetProjectsAppsReleasesOperationsRequest {
   /** The name of the operation resource. */
@@ -349,10 +349,10 @@ export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface GoogleRpcStatus {
-  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string | undefined;
   /** The status code, which should be an enum value of google.rpc.Code. */
   code?: number | undefined;
+  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
+  message?: string | undefined;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
   details?: DocumentMapList | undefined;
 }
@@ -380,28 +380,28 @@ export interface ListProjectsAppsReleasesRequest {
   filter?: string | undefined;
   /** Optional. The fields used to order releases. Supported fields: - `create_time` (or `createTime`) - `update_time` (or `updateTime`) - `expire_time` (or `expireTime`) To specify descending order for a field, append a "desc" suffix, for example, `createTime desc`. If this parameter is not set, releases are ordered by `createTime` in descending order. */
   orderBy?: string | undefined;
-  /** Optional. The maximum number of releases to return. The service may return fewer than this value. The valid range is [1-100]; If unspecified (0), at most 25 releases are returned. Values above 100 are coerced to 100. */
-  pageSize?: number | undefined;
   /** Optional. A page token, received from a previous `ListReleases` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListReleases` must match the call that provided the page token. */
   pageToken?: string | undefined;
+  /** Optional. The maximum number of releases to return. The service may return fewer than this value. The valid range is [1-100]; If unspecified (0), at most 25 releases are returned. Values above 100 are coerced to 100. */
+  pageSize?: number | undefined;
 }
 export type GoogleFirebaseAppdistroV1ReleaseList = Array<GoogleFirebaseAppdistroV1Release>;
 /** The response message for `ListReleases`. */
 export interface GoogleFirebaseAppdistroV1ListReleasesResponse {
-  /** A short-lived token, which can be sent as `pageToken` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string | undefined;
   /** The releases */
   releases?: GoogleFirebaseAppdistroV1ReleaseList | undefined;
+  /** A short-lived token, which can be sent as `pageToken` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string | undefined;
   /** The total number of releases. */
   totalSize?: number | undefined;
 }
 export interface ListProjectsAppsReleasesFeedbackReportsRequest {
+  /** Output only. A page token, received from a previous `ListFeedbackReports` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListFeedbackReports` must match the call that provided the page token. */
+  pageToken?: string | undefined;
   /** Required. The name of the release resource, which is the parent of the feedback report resources. Format: `projects/{project_number}/apps/{app}/releases/{release}` */
   parent: string;
   /** Output only. The maximum number of feedback reports to return. The service may return fewer than this value. The valid range is [1-100]; If unspecified (0), at most 25 feedback reports are returned. Values above 100 are coerced to 100. */
   pageSize?: number | undefined;
-  /** Output only. A page token, received from a previous `ListFeedbackReports` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListFeedbackReports` must match the call that provided the page token. */
-  pageToken?: string | undefined;
 }
 export type GoogleFirebaseAppdistroV1FeedbackReportList =
   Array<GoogleFirebaseAppdistroV1FeedbackReport>;
@@ -413,59 +413,59 @@ export interface GoogleFirebaseAppdistroV1ListFeedbackReportsResponse {
   feedbackReports?: GoogleFirebaseAppdistroV1FeedbackReportList | undefined;
 }
 export interface ListProjectsAppsReleasesOperationsRequest {
+  /** The standard list page token. */
+  pageToken?: string | undefined;
+  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
+  returnPartialSuccess?: boolean | undefined;
+  /** The standard list filter. */
+  filter?: string | undefined;
   /** The name of the operation's parent resource. */
   name: string;
   /** The standard list page size. */
   pageSize?: number | undefined;
-  /** The standard list page token. */
-  pageToken?: string | undefined;
-  /** The standard list filter. */
-  filter?: string | undefined;
-  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean | undefined;
 }
 export type GoogleLongrunningOperationList = Array<GoogleLongrunningOperation>;
 /** The response message for Operations.ListOperations. */
 export interface GoogleLongrunningListOperationsResponse {
-  /** The standard List next-page token. */
-  nextPageToken?: string | undefined;
   /** A list of operations that matches the specified filter in the request. */
   operations?: GoogleLongrunningOperationList | undefined;
+  /** The standard List next-page token. */
+  nextPageToken?: string | undefined;
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
   unreachable?: StringList | undefined;
 }
 export interface ListProjectsGroupsRequest {
-  /** Optional. The maximum number of groups to return. The service may return fewer than this value. The valid range is [1-1000]; If unspecified (0), at most 25 groups are returned. Values above 1000 are coerced to 1000. */
-  pageSize?: number | undefined;
   /** Optional. A page token, received from a previous `ListGroups` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListGroups` must match the call that provided the page token. */
   pageToken?: string | undefined;
   /** Required. The name of the project resource, which is the parent of the group resources. Format: `projects/{project_number}` */
   parent: string;
+  /** Optional. The maximum number of groups to return. The service may return fewer than this value. The valid range is [1-1000]; If unspecified (0), at most 25 groups are returned. Values above 1000 are coerced to 1000. */
+  pageSize?: number | undefined;
 }
 export type GoogleFirebaseAppdistroV1GroupList = Array<GoogleFirebaseAppdistroV1Group>;
 /** The response message for `ListGroups`. */
 export interface GoogleFirebaseAppdistroV1ListGroupsResponse {
-  /** A short-lived token, which can be sent as `pageToken` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string | undefined;
   /** The groups listed. */
   groups?: GoogleFirebaseAppdistroV1GroupList | undefined;
+  /** A short-lived token, which can be sent as `pageToken` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsTestersRequest {
   /** Optional. A page token, received from a previous `ListTesters` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListTesters` must match the call that provided the page token. */
   pageToken?: string | undefined;
+  /** Optional. The maximum number of testers to return. The service may return fewer than this value. The valid range is [1-1000]; If unspecified (0), at most 10 testers are returned. Values above 1000 are coerced to 1000. */
+  pageSize?: number | undefined;
   /** Required. The name of the project resource, which is the parent of the tester resources. Format: `projects/{project_number}` */
   parent: string;
   /** Optional. The expression to filter testers listed in the response. To learn more about filtering, refer to [Google's AIP-160 standard](http://aip.dev/160). Supported fields: - `name` - `displayName` - `groups` Example: - `name = "projects/-/testers/*@example.com"` - `displayName = "Joe Sixpack"` - `groups = "projects/*\/groups/qa-team"` */
   filter?: string | undefined;
-  /** Optional. The maximum number of testers to return. The service may return fewer than this value. The valid range is [1-1000]; If unspecified (0), at most 10 testers are returned. Values above 1000 are coerced to 1000. */
-  pageSize?: number | undefined;
 }
 /** The response message for `ListTesters`. */
 export interface GoogleFirebaseAppdistroV1ListTestersResponse {
-  /** The testers listed. */
-  testers?: GoogleFirebaseAppdistroV1TesterList | undefined;
   /** A short-lived token, which can be sent as `pageToken` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string | undefined;
+  /** The testers listed. */
+  testers?: GoogleFirebaseAppdistroV1TesterList | undefined;
 }
 export interface PatchProjectsAppsReleasesRequest extends Omit<
   GoogleFirebaseAppdistroV1Release,
@@ -488,6 +488,23 @@ export interface PatchProjectsTestersRequest extends Omit<GoogleFirebaseAppdistr
   /** The name of the tester resource. Format: `projects/{project_number}/testers/{email_address}` */
   name: string;
 }
+/** Information to read/write to blobstore2. */
+export interface GdataBlobstore2Info {
+  /** A serialized External Read Token passed from Bigstore -> Scotty for a GCS download. This field must never be consumed outside of Bigstore, and is not applicable to non-GCS media uploads. */
+  downloadExternalReadToken?: string | Redacted.Redacted<string> | undefined;
+  /** The blob read token. Needed to read blobs that have not been replicated. Might not be available until the final call. */
+  readToken?: string | Redacted.Redacted<string> | undefined;
+  /** A serialized Object Fragment List Creation Info passed from Bigstore -> Scotty for a GCS upload. This field must never be consumed outside of Bigstore, and is not applicable to non-GCS media uploads. */
+  uploadFragmentListCreationInfo?: string | undefined;
+  /** The blob id, e.g., /blobstore/prod/playground/scotty */
+  blobId?: string | undefined;
+  /** Metadata passed from Blobstore -> Scotty for a new GCS upload. This is a signed, serialized blobstore2.BlobMetadataContainer proto which must never be consumed outside of Bigstore, and is not applicable to non-GCS media uploads. */
+  uploadMetadataContainer?: string | undefined;
+  /** The blob generation id. */
+  blobGeneration?: string | undefined;
+  /** Read handle passed from Bigstore -> Scotty for a GCS download. This is a signed, serialized blobstore2.ReadHandle proto which must never be set outside of Bigstore, and is not applicable to non-GCS media downloads. */
+  downloadReadHandle?: string | undefined;
+}
 export type GdataCompositeMediaReferenceTypeEnum =
   | "PATH"
   | "BLOB_REF"
@@ -496,54 +513,75 @@ export type GdataCompositeMediaReferenceTypeEnum =
   | "COSMO_BINARY_REFERENCE";
 /** This is a copy of the tech.blob.ObjectId proto, which could not be used directly here due to transitive closure issues with JavaScript support; see http://b/8801763. */
 export interface GdataObjectId {
-  /** Generation of the object. Generations are monotonically increasing across writes, allowing them to be be compared to determine which generation is newer. If this is omitted in a request, then you are requesting the live object. See http://go/bigstore-versions */
-  generation?: string | undefined;
-  /** The name of the object. */
-  objectName?: string | undefined;
   /** The name of the bucket to which this object belongs. */
   bucketName?: string | undefined;
-}
-/** Information to read/write to blobstore2. */
-export interface GdataBlobstore2Info {
-  /** Metadata passed from Blobstore -> Scotty for a new GCS upload. This is a signed, serialized blobstore2.BlobMetadataContainer proto which must never be consumed outside of Bigstore, and is not applicable to non-GCS media uploads. */
-  uploadMetadataContainer?: string | undefined;
-  /** The blob id, e.g., /blobstore/prod/playground/scotty */
-  blobId?: string | undefined;
-  /** The blob read token. Needed to read blobs that have not been replicated. Might not be available until the final call. */
-  readToken?: string | Redacted.Redacted<string> | undefined;
-  /** The blob generation id. */
-  blobGeneration?: string | undefined;
-  /** A serialized Object Fragment List Creation Info passed from Bigstore -> Scotty for a GCS upload. This field must never be consumed outside of Bigstore, and is not applicable to non-GCS media uploads. */
-  uploadFragmentListCreationInfo?: string | undefined;
-  /** A serialized External Read Token passed from Bigstore -> Scotty for a GCS download. This field must never be consumed outside of Bigstore, and is not applicable to non-GCS media uploads. */
-  downloadExternalReadToken?: string | Redacted.Redacted<string> | undefined;
-  /** Read handle passed from Bigstore -> Scotty for a GCS download. This is a signed, serialized blobstore2.ReadHandle proto which must never be set outside of Bigstore, and is not applicable to non-GCS media downloads. */
-  downloadReadHandle?: string | undefined;
+  /** The name of the object. */
+  objectName?: string | undefined;
+  /** Generation of the object. Generations are monotonically increasing across writes, allowing them to be be compared to determine which generation is newer. If this is omitted in a request, then you are requesting the live object. See http://go/bigstore-versions */
+  generation?: string | undefined;
 }
 /** A sequence of media data references representing composite data. Introduced to support Bigstore composite objects. For details, visit http://go/bigstore-composites. */
 export interface GdataCompositeMedia {
-  /** Path to the data, set if reference_type is PATH */
-  path?: string | undefined;
-  /** Describes what the field reference contains. */
-  referenceType?: GdataCompositeMediaReferenceTypeEnum | (string & {}) | undefined;
-  /** Blobstore v1 reference, set if reference_type is BLOBSTORE_REF This should be the byte representation of a blobstore.BlobRef. Since Blobstore is deprecating v1, use blobstore2_info instead. For now, any v2 blob will also be represented in this field as v1 BlobRef. */
-  blobRef?: string | undefined;
-  /** Reference to a TI Blob, set if reference_type is BIGSTORE_REF. */
-  objectId?: GdataObjectId | undefined;
-  /** Media data, set if reference_type is INLINE */
-  inline?: string | undefined;
-  /** Size of the data, in bytes */
-  length?: string | undefined;
-  /** SHA-1 hash for the payload. */
-  sha1Hash?: string | undefined;
-  /** crc32.c hash for the payload. */
-  crc32cHash?: number | undefined;
-  /** Blobstore v2 info, set if reference_type is BLOBSTORE_REF and it refers to a v2 blob. */
-  blobstore2Info?: GdataBlobstore2Info | undefined;
-  /** MD5 hash for the payload. */
-  md5Hash?: string | undefined;
   /** A binary data reference for a media download. Serves as a technology-agnostic binary reference in some Google infrastructure. This value is a serialized storage_cosmo.BinaryReference proto. Storing it as bytes is a hack to get around the fact that the cosmo proto (as well as others it includes) doesn't support JavaScript. This prevents us from including the actual type of this field. */
   cosmoBinaryReference?: string | undefined;
+  /** Blobstore v2 info, set if reference_type is BLOBSTORE_REF and it refers to a v2 blob. */
+  blobstore2Info?: GdataBlobstore2Info | undefined;
+  /** SHA-1 hash for the payload. */
+  sha1Hash?: string | undefined;
+  /** Blobstore v1 reference, set if reference_type is BLOBSTORE_REF This should be the byte representation of a blobstore.BlobRef. Since Blobstore is deprecating v1, use blobstore2_info instead. For now, any v2 blob will also be represented in this field as v1 BlobRef. */
+  blobRef?: string | undefined;
+  /** Describes what the field reference contains. */
+  referenceType?: GdataCompositeMediaReferenceTypeEnum | (string & {}) | undefined;
+  /** Path to the data, set if reference_type is PATH */
+  path?: string | undefined;
+  /** Size of the data, in bytes */
+  length?: string | undefined;
+  /** crc32.c hash for the payload. */
+  crc32cHash?: number | undefined;
+  /** Media data, set if reference_type is INLINE */
+  inline?: string | undefined;
+  /** Reference to a TI Blob, set if reference_type is BIGSTORE_REF. */
+  objectId?: GdataObjectId | undefined;
+  /** MD5 hash for the payload. */
+  md5Hash?: string | undefined;
+}
+export type GdataCompositeMediaList = Array<GdataCompositeMedia>;
+/** Detailed Content-Type information from Scotty. The Content-Type of the media will typically be filled in by the header or Scotty's best_guess, but this extended information provides the backend with more information so that it can make a better decision if needed. This is only used on media upload requests from Scotty. */
+export interface GdataContentTypeInfo {
+  /** The content type of the file detected by Fusion ID. go/fusionid */
+  fromFusionId?: string | undefined;
+  /** The content type of the file as specified in the request headers, multipart headers, or RUPIO start request. */
+  fromHeader?: string | undefined;
+  /** The content type of the file derived from the file extension of the URL path. The URL path is assumed to represent a file name (which is typically only true for agents that are providing a REST API). */
+  fromUrlPath?: string | undefined;
+  /** The content type of the file derived by looking at specific bytes (i.e. "magic bytes") of the actual file. */
+  fromBytes?: string | undefined;
+  /** Scotty's best guess of what the content type of the file is. */
+  bestGuess?: string | undefined;
+  /** The content type of the file derived from the file extension of the original file name used by the client. */
+  fromFileName?: string | undefined;
+  /** Metadata information from Fusion ID detection. Serialized FusionIdDetectionMetadata proto. Only set if from_fusion_id is set. */
+  fusionIdDetectionMetadata?: string | undefined;
+}
+/** Parameters specific to media downloads. */
+export interface GdataDownloadParameters {
+  /** A boolean to be returned in the response to Scotty. Allows/disallows gzip encoding of the payload content when the server thinks it's advantageous (hence, does not guarantee compression) which allows Scotty to GZip the response to the client. */
+  allowGzipCompression?: boolean | undefined;
+  /** Determining whether or not Apiary should skip the inclusion of any Content-Range header on its response to Scotty. */
+  ignoreRange?: boolean | undefined;
+}
+/** Backend response for a Diff get checksums response. For details on the Scotty Diff protocol, visit http://go/scotty-diff-protocol. */
+export interface GdataDiffChecksumsResponse {
+  /** The chunk size of checksums. Must be a multiple of 256KB. */
+  chunkSizeBytes?: string | undefined;
+  /** If set, calculate the checksums based on the contents and return them to the caller. */
+  objectLocation?: GdataCompositeMedia | undefined;
+  /** The total size of the server object. */
+  objectSizeBytes?: string | undefined;
+  /** The object version of the object the checksums are being returned for. */
+  objectVersion?: string | undefined;
+  /** Exactly one of these fields must be populated. If checksums_location is filled, the server will return the corresponding contents to the user. If object_location is filled, the server will calculate the checksums based on the content there and return that to the user. For details on the format of the checksums, see http://go/scotty-diff-protocol. */
+  checksumsLocation?: GdataCompositeMedia | undefined;
 }
 /** A Diff upload request. For details on the Scotty Diff protocol, visit http://go/scotty-diff-protocol. */
 export interface GdataDiffUploadRequest {
@@ -553,63 +591,6 @@ export interface GdataDiffUploadRequest {
   objectInfo?: GdataCompositeMedia | undefined;
   /** The location of the checksums for the new object. Agents must clone the object located here, as the upload server will delete the contents once a response is received. For details on the format of the checksums, see http://go/scotty-diff-protocol. */
   checksumsInfo?: GdataCompositeMedia | undefined;
-}
-/** Parameters specific to media downloads. */
-export interface GdataDownloadParameters {
-  /** Determining whether or not Apiary should skip the inclusion of any Content-Range header on its response to Scotty. */
-  ignoreRange?: boolean | undefined;
-  /** A boolean to be returned in the response to Scotty. Allows/disallows gzip encoding of the payload content when the server thinks it's advantageous (hence, does not guarantee compression) which allows Scotty to GZip the response to the client. */
-  allowGzipCompression?: boolean | undefined;
-}
-/** Backend response for a Diff get checksums response. For details on the Scotty Diff protocol, visit http://go/scotty-diff-protocol. */
-export interface GdataDiffChecksumsResponse {
-  /** The object version of the object the checksums are being returned for. */
-  objectVersion?: string | undefined;
-  /** Exactly one of these fields must be populated. If checksums_location is filled, the server will return the corresponding contents to the user. If object_location is filled, the server will calculate the checksums based on the content there and return that to the user. For details on the format of the checksums, see http://go/scotty-diff-protocol. */
-  checksumsLocation?: GdataCompositeMedia | undefined;
-  /** The chunk size of checksums. Must be a multiple of 256KB. */
-  chunkSizeBytes?: string | undefined;
-  /** The total size of the server object. */
-  objectSizeBytes?: string | undefined;
-  /** If set, calculate the checksums based on the contents and return them to the caller. */
-  objectLocation?: GdataCompositeMedia | undefined;
-}
-/** Backend response for a Diff download response. For details on the Scotty Diff protocol, visit http://go/scotty-diff-protocol. */
-export interface GdataDiffDownloadResponse {
-  /** The original object location. */
-  objectLocation?: GdataCompositeMedia | undefined;
-}
-export type GdataCompositeMediaList = Array<GdataCompositeMedia>;
-/** Backend response for a Diff get version response. For details on the Scotty Diff protocol, visit http://go/scotty-diff-protocol. */
-export interface GdataDiffVersionResponse {
-  /** The total size of the server object. */
-  objectSizeBytes?: string | undefined;
-  /** The version of the object stored at the server. */
-  objectVersion?: string | undefined;
-}
-/** Detailed Content-Type information from Scotty. The Content-Type of the media will typically be filled in by the header or Scotty's best_guess, but this extended information provides the backend with more information so that it can make a better decision if needed. This is only used on media upload requests from Scotty. */
-export interface GdataContentTypeInfo {
-  /** The content type of the file detected by Fusion ID. go/fusionid */
-  fromFusionId?: string | undefined;
-  /** Scotty's best guess of what the content type of the file is. */
-  bestGuess?: string | undefined;
-  /** The content type of the file derived from the file extension of the URL path. The URL path is assumed to represent a file name (which is typically only true for agents that are providing a REST API). */
-  fromUrlPath?: string | undefined;
-  /** The content type of the file as specified in the request headers, multipart headers, or RUPIO start request. */
-  fromHeader?: string | undefined;
-  /** Metadata information from Fusion ID detection. Serialized FusionIdDetectionMetadata proto. Only set if from_fusion_id is set. */
-  fusionIdDetectionMetadata?: string | undefined;
-  /** The content type of the file derived from the file extension of the original file name used by the client. */
-  fromFileName?: string | undefined;
-  /** The content type of the file derived by looking at specific bytes (i.e. "magic bytes") of the actual file. */
-  fromBytes?: string | undefined;
-}
-/** Backend response for a Diff upload request. For details on the Scotty Diff protocol, visit http://go/scotty-diff-protocol. */
-export interface GdataDiffUploadResponse {
-  /** The location of the original file for a diff upload request. Must be filled in if responding to an upload start notification. */
-  originalObject?: GdataCompositeMedia | undefined;
-  /** The object version of the object at the server. Must be included in the end notification response. The version in the end notification response must correspond to the new version of the object that is now stored at the server, after the upload. */
-  objectVersion?: string | undefined;
 }
 export type GdataMediaReferenceTypeEnum =
   | "PATH"
@@ -625,70 +606,89 @@ export type GdataMediaReferenceTypeEnum =
   | "DIFF_UPLOAD_RESPONSE"
   | "COSMO_BINARY_REFERENCE"
   | "ARBITRARY_BYTES";
+/** Backend response for a Diff get version response. For details on the Scotty Diff protocol, visit http://go/scotty-diff-protocol. */
+export interface GdataDiffVersionResponse {
+  /** The total size of the server object. */
+  objectSizeBytes?: string | undefined;
+  /** The version of the object stored at the server. */
+  objectVersion?: string | undefined;
+}
+/** Backend response for a Diff download response. For details on the Scotty Diff protocol, visit http://go/scotty-diff-protocol. */
+export interface GdataDiffDownloadResponse {
+  /** The original object location. */
+  objectLocation?: GdataCompositeMedia | undefined;
+}
+/** Backend response for a Diff upload request. For details on the Scotty Diff protocol, visit http://go/scotty-diff-protocol. */
+export interface GdataDiffUploadResponse {
+  /** The object version of the object at the server. Must be included in the end notification response. The version in the end notification response must correspond to the new version of the object that is now stored at the server, after the upload. */
+  objectVersion?: string | undefined;
+  /** The location of the original file for a diff upload request. Must be filled in if responding to an upload start notification. */
+  originalObject?: GdataCompositeMedia | undefined;
+}
 /** A reference to data stored on the filesystem, on GFS or in blobstore. */
 export interface GdataMedia {
-  /** Set if reference_type is DIFF_UPLOAD_REQUEST. */
-  diffUploadRequest?: GdataDiffUploadRequest | undefined;
+  /** A composite media composed of one or more media objects, set if reference_type is COMPOSITE_MEDIA. The media length field must be set to the sum of the lengths of all composite media objects. Note: All composite media must have length specified. */
+  compositeMedia?: GdataCompositeMediaList | undefined;
+  /** Reference to a TI Blob, set if reference_type is BIGSTORE_REF. */
+  objectId?: GdataObjectId | undefined;
+  /** Deprecated, use one of explicit hash type fields instead. These two hash related fields will only be populated on Scotty based media uploads and will contain the content of the hash group in the NotificationRequest: http://cs/#google3/blobstore2/api/scotty/service/proto/upload_listener.proto&q=class:Hash Hex encoded hash value of the uploaded media. */
+  hash?: string | undefined;
+  /** |is_potential_retry| is set false only when Scotty is certain that it has not sent the request before. When a client resumes an upload, this field must be set true in agent calls, because Scotty cannot be certain that it has never sent the request before due to potential failure in the session state persistence. */
+  isPotentialRetry?: boolean | undefined;
+  /** Scotty-provided MD5 hash for an upload. */
+  md5Hash?: string | undefined;
+  /** A unique fingerprint/version id for the media data */
+  token?: string | undefined;
+  /** Use object_id instead. */
+  bigstoreObjectRef?: string | undefined;
+  /** For Scotty uploads only. If a user sends a hash code and the backend has requested that Scotty verify the upload against the client hash, Scotty will perform the check on behalf of the backend and will reject it if the hashes don't match. This is set to true if Scotty performed this verification. */
+  hashVerified?: boolean | undefined;
+  /** Scotty-provided SHA1 hash for an upload. */
+  sha1Hash?: string | undefined;
+  /** MIME type of the data */
+  contentType?: string | undefined;
+  /** Extended content type information provided for Scotty uploads. */
+  contentTypeInfo?: GdataContentTypeInfo | undefined;
   /** Parameters for a media download. */
   downloadParameters?: GdataDownloadParameters | undefined;
   /** Set if reference_type is DIFF_CHECKSUMS_RESPONSE. */
   diffChecksumsResponse?: GdataDiffChecksumsResponse | undefined;
-  /** |is_potential_retry| is set false only when Scotty is certain that it has not sent the request before. When a client resumes an upload, this field must be set true in agent calls, because Scotty cannot be certain that it has never sent the request before due to potential failure in the session state persistence. */
-  isPotentialRetry?: boolean | undefined;
-  /** Blobstore v1 reference, set if reference_type is BLOBSTORE_REF This should be the byte representation of a blobstore.BlobRef. Since Blobstore is deprecating v1, use blobstore2_info instead. For now, any v2 blob will also be represented in this field as v1 BlobRef. */
-  blobRef?: string | undefined;
-  /** Time at which the media data was last updated, in milliseconds since UNIX epoch */
-  timestamp?: string | undefined;
-  /** A unique fingerprint/version id for the media data */
-  token?: string | undefined;
-  /** Media id to forward to the operation GetMedia. Can be set if reference_type is GET_MEDIA. */
-  mediaId?: string | undefined;
-  /** A binary data reference for a media download. Serves as a technology-agnostic binary reference in some Google infrastructure. This value is a serialized storage_cosmo.BinaryReference proto. Storing it as bytes is a hack to get around the fact that the cosmo proto (as well as others it includes) doesn't support JavaScript. This prevents us from including the actual type of this field. */
-  cosmoBinaryReference?: string | undefined;
-  /** Path to the data, set if reference_type is PATH */
-  path?: string | undefined;
-  /** Set if reference_type is DIFF_DOWNLOAD_RESPONSE. */
-  diffDownloadResponse?: GdataDiffDownloadResponse | undefined;
-  /** Original file name */
-  filename?: string | undefined;
-  /** A composite media composed of one or more media objects, set if reference_type is COMPOSITE_MEDIA. The media length field must be set to the sum of the lengths of all composite media objects. Note: All composite media must have length specified. */
-  compositeMedia?: GdataCompositeMediaList | undefined;
-  /** Deprecated, use one of explicit hash type fields instead. Algorithm used for calculating the hash. As of 2011/01/21, "MD5" is the only possible value for this field. New values may be added at any time. */
-  algorithm?: string | undefined;
-  /** Set if reference_type is DIFF_VERSION_RESPONSE. */
-  diffVersionResponse?: GdataDiffVersionResponse | undefined;
-  /** Reference to a TI Blob, set if reference_type is BIGSTORE_REF. */
-  objectId?: GdataObjectId | undefined;
-  /** Extended content type information provided for Scotty uploads. */
-  contentTypeInfo?: GdataContentTypeInfo | undefined;
   /** Size of the data, in bytes */
   length?: string | undefined;
-  /** Deprecated, use one of explicit hash type fields instead. These two hash related fields will only be populated on Scotty based media uploads and will contain the content of the hash group in the NotificationRequest: http://cs/#google3/blobstore2/api/scotty/service/proto/upload_listener.proto&q=class:Hash Hex encoded hash value of the uploaded media. */
-  hash?: string | undefined;
-  /** Use object_id instead. */
-  bigstoreObjectRef?: string | undefined;
-  /** Blobstore v2 info, set if reference_type is BLOBSTORE_REF and it refers to a v2 blob. */
-  blobstore2Info?: GdataBlobstore2Info | undefined;
-  /** Scotty-provided SHA256 hash for an upload. */
-  sha256Hash?: string | undefined;
-  /** For Scotty uploads only. If a user sends a hash code and the backend has requested that Scotty verify the upload against the client hash, Scotty will perform the check on behalf of the backend and will reject it if the hashes don't match. This is set to true if Scotty performed this verification. */
-  hashVerified?: boolean | undefined;
+  /** Deprecated, use one of explicit hash type fields instead. Algorithm used for calculating the hash. As of 2011/01/21, "MD5" is the only possible value for this field. New values may be added at any time. */
+  algorithm?: string | undefined;
+  /** Set if reference_type is DIFF_UPLOAD_REQUEST. */
+  diffUploadRequest?: GdataDiffUploadRequest | undefined;
   /** For Scotty Uploads: Scotty-provided hashes for uploads For Scotty Downloads: (WARNING: DO NOT USE WITHOUT PERMISSION FROM THE SCOTTY TEAM.) A Hash provided by the agent to be used to verify the data being downloaded. Currently only supported for inline payloads. Further, only crc32c_hash is currently supported. */
   crc32cHash?: number | undefined;
-  /** Scotty-provided SHA1 hash for an upload. */
-  sha1Hash?: string | undefined;
-  /** Set if reference_type is DIFF_UPLOAD_RESPONSE. */
-  diffUploadResponse?: GdataDiffUploadResponse | undefined;
-  /** Scotty-provided SHA512 hash for an upload. */
-  sha512Hash?: string | undefined;
-  /** Media data, set if reference_type is INLINE */
-  inline?: string | undefined;
-  /** Scotty-provided MD5 hash for an upload. */
-  md5Hash?: string | undefined;
+  /** Scotty-provided SHA256 hash for an upload. */
+  sha256Hash?: string | undefined;
   /** Describes what the field reference contains. */
   referenceType?: GdataMediaReferenceTypeEnum | (string & {}) | undefined;
-  /** MIME type of the data */
-  contentType?: string | undefined;
+  /** A binary data reference for a media download. Serves as a technology-agnostic binary reference in some Google infrastructure. This value is a serialized storage_cosmo.BinaryReference proto. Storing it as bytes is a hack to get around the fact that the cosmo proto (as well as others it includes) doesn't support JavaScript. This prevents us from including the actual type of this field. */
+  cosmoBinaryReference?: string | undefined;
+  /** Media data, set if reference_type is INLINE */
+  inline?: string | undefined;
+  /** Path to the data, set if reference_type is PATH */
+  path?: string | undefined;
+  /** Time at which the media data was last updated, in milliseconds since UNIX epoch */
+  timestamp?: string | undefined;
+  /** Scotty-provided SHA512 hash for an upload. */
+  sha512Hash?: string | undefined;
+  /** Set if reference_type is DIFF_VERSION_RESPONSE. */
+  diffVersionResponse?: GdataDiffVersionResponse | undefined;
+  /** Blobstore v2 info, set if reference_type is BLOBSTORE_REF and it refers to a v2 blob. */
+  blobstore2Info?: GdataBlobstore2Info | undefined;
+  /** Blobstore v1 reference, set if reference_type is BLOBSTORE_REF This should be the byte representation of a blobstore.BlobRef. Since Blobstore is deprecating v1, use blobstore2_info instead. For now, any v2 blob will also be represented in this field as v1 BlobRef. */
+  blobRef?: string | undefined;
+  /** Original file name */
+  filename?: string | undefined;
+  /** Set if reference_type is DIFF_DOWNLOAD_RESPONSE. */
+  diffDownloadResponse?: GdataDiffDownloadResponse | undefined;
+  /** Media id to forward to the operation GetMedia. Can be set if reference_type is GET_MEDIA. */
+  mediaId?: string | undefined;
+  /** Set if reference_type is DIFF_UPLOAD_RESPONSE. */
+  diffUploadResponse?: GdataDiffUploadResponse | undefined;
 }
 /** Request message for `UploadRelease`. */
 export interface GoogleFirebaseAppdistroV1UploadReleaseRequest {
@@ -1331,8 +1331,8 @@ function __c1(j: number): any {
         S.Extend(
           __S(32, __c2, 0),
           S.Struct({
-            groupId: S.optional(S.String.pipe(T.Query())),
             parent: S.String.pipe(T.Label()),
+            groupId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -1349,10 +1349,10 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
+          inviteLinkCount: S.optional(S.Number),
           displayName: S.optional(S.String),
           releaseCount: S.optional(S.Number),
-          inviteLinkCount: S.optional(S.Number),
+          name: S.optional(S.String),
           testerCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GoogleFirebaseAppdistroV1Group" });
@@ -1449,8 +1449,8 @@ function __c7(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          hashSha256: S.optional(S.String),
           hashMd5: S.optional(S.String),
+          hashSha256: S.optional(S.String),
           hashSha1: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleFirebaseAppdistroV1TestCertificate" });
@@ -1458,8 +1458,8 @@ function __c7(j: number): any {
       return S.suspend(() =>
         S.Struct({
           integrationState: S.optional(S.String),
-          testCertificate: S.optional(__S(113, __c7, 1)),
           name: S.optional(S.String),
+          testCertificate: S.optional(__S(113, __c7, 1)),
         }),
       ).annotate({ identifier: "GoogleFirebaseAppdistroV1AabInfo" });
   }
@@ -1491,23 +1491,23 @@ function __c9(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          openInvitationCount: S.optional(S.Number),
-          releaseNotes: S.optional(__S(144, __c9, 0)),
           createTime: S.optional(S.String),
-          testState: S.optional(S.String),
-          displayVersion: S.optional(S.String),
+          buildVersion: S.optional(S.String),
+          binaryDownloadUri: S.optional(S.String),
+          openInvitationCount: S.optional(S.Number),
           feedbackCount: S.optional(S.Number),
-          firebaseConsoleUri: S.optional(S.String),
+          installationCount: S.optional(S.Number),
           name: S.optional(S.String),
+          firebaseConsoleUri: S.optional(S.String),
           testingUri: S.optional(S.String),
           expireTime: S.optional(S.String),
           binaryType: S.optional(S.String),
-          androidPackageRegistrationState: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          installationCount: S.optional(S.Number),
-          binaryDownloadUri: S.optional(S.String),
-          buildVersion: S.optional(S.String),
           acceptedInvitationCount: S.optional(S.Number),
+          testState: S.optional(S.String),
+          releaseNotes: S.optional(__S(144, __c9, 0)),
+          updateTime: S.optional(S.String),
+          androidPackageRegistrationState: S.optional(S.String),
+          displayVersion: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleFirebaseAppdistroV1Release" });
   }
@@ -1533,12 +1533,12 @@ function __c11(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          text: S.optional(S.String),
-          screenshotUri: S.optional(S.String),
-          firebaseConsoleUri: S.optional(S.String),
-          createTime: S.optional(S.String),
           name: S.optional(S.String),
+          firebaseConsoleUri: S.optional(S.String),
+          screenshotUri: S.optional(S.String),
           tester: S.optional(S.String),
+          createTime: S.optional(S.String),
+          text: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleFirebaseAppdistroV1FeedbackReport" });
   }
@@ -1568,8 +1568,8 @@ function __c13(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          message: S.optional(S.String),
           code: S.optional(S.Number),
+          message: S.optional(S.String),
           details: S.optional(__S(209, __c13, 1)),
         }),
       ).annotate({ identifier: "GoogleRpcStatus" });
@@ -1609,8 +1609,8 @@ function __c15(j: number): any {
           parent: S.String.pipe(T.Label()),
           filter: S.optional(S.String.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1624,8 +1624,8 @@ function __c15(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           releases: S.optional(__S(241, __c15, 1)),
+          nextPageToken: S.optional(S.String),
           totalSize: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GoogleFirebaseAppdistroV1ListReleasesResponse" });
@@ -1636,9 +1636,9 @@ function __c16(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1663,11 +1663,11 @@ function __c17(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
-          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1681,8 +1681,8 @@ function __c17(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           operations: S.optional(__S(273, __c17, 1)),
+          nextPageToken: S.optional(S.String),
           unreachable: S.optional(__S(448, __c28, 0)),
         }),
       ).annotate({ identifier: "GoogleLongrunningListOperationsResponse" });
@@ -1693,9 +1693,9 @@ function __c18(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1709,8 +1709,8 @@ function __c18(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           groups: S.optional(__S(289, __c18, 1)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleFirebaseAppdistroV1ListGroupsResponse" });
   }
@@ -1721,9 +1721,9 @@ function __c19(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           filter: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1735,8 +1735,8 @@ function __c19(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          testers: S.optional(__S(416, __c26, 0)),
           nextPageToken: S.optional(S.String),
+          testers: S.optional(__S(416, __c26, 0)),
         }),
       ).annotate({ identifier: "GoogleFirebaseAppdistroV1ListTestersResponse" });
   }
@@ -1806,40 +1806,71 @@ function __c23(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          generation: S.optional(S.String),
-          objectName: S.optional(S.String),
-          bucketName: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GdataObjectId" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          uploadMetadataContainer: S.optional(S.String),
-          blobId: S.optional(S.String),
-          readToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          blobGeneration: S.optional(S.String),
-          uploadFragmentListCreationInfo: S.optional(S.String),
           downloadExternalReadToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          readToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          uploadFragmentListCreationInfo: S.optional(S.String),
+          blobId: S.optional(S.String),
+          uploadMetadataContainer: S.optional(S.String),
+          blobGeneration: S.optional(S.String),
           downloadReadHandle: S.optional(S.String),
         }),
       ).annotate({ identifier: "GdataBlobstore2Info" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          bucketName: S.optional(S.String),
+          objectName: S.optional(S.String),
+          generation: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GdataObjectId" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          path: S.optional(S.String),
-          referenceType: S.optional(S.String),
-          blobRef: S.optional(S.String),
-          objectId: S.optional(__S(368, __c23, 0)),
-          inline: S.optional(S.String),
-          length: S.optional(S.String),
-          sha1Hash: S.optional(S.String),
-          crc32cHash: S.optional(S.Number),
-          blobstore2Info: S.optional(__S(369, __c23, 1)),
-          md5Hash: S.optional(S.String),
           cosmoBinaryReference: S.optional(S.String),
+          blobstore2Info: S.optional(__S(368, __c23, 0)),
+          sha1Hash: S.optional(S.String),
+          blobRef: S.optional(S.String),
+          referenceType: S.optional(S.String),
+          path: S.optional(S.String),
+          length: S.optional(S.String),
+          crc32cHash: S.optional(S.Number),
+          inline: S.optional(S.String),
+          objectId: S.optional(__S(369, __c23, 1)),
+          md5Hash: S.optional(S.String),
         }),
       ).annotate({ identifier: "GdataCompositeMedia" });
     case 3:
+      return S.Array(__S(370, __c23, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          fromFusionId: S.optional(S.String),
+          fromHeader: S.optional(S.String),
+          fromUrlPath: S.optional(S.String),
+          fromBytes: S.optional(S.String),
+          bestGuess: S.optional(S.String),
+          fromFileName: S.optional(S.String),
+          fusionIdDetectionMetadata: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GdataContentTypeInfo" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          allowGzipCompression: S.optional(S.Boolean),
+          ignoreRange: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "GdataDownloadParameters" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          chunkSizeBytes: S.optional(S.String),
+          objectLocation: S.optional(__S(370, __c23, 2)),
+          objectSizeBytes: S.optional(S.String),
+          objectVersion: S.optional(S.String),
+          checksumsLocation: S.optional(__S(370, __c23, 2)),
+        }),
+      ).annotate({ identifier: "GdataDiffChecksumsResponse" });
+    case 7:
       return S.suspend(() =>
         S.Struct({
           objectVersion: S.optional(S.String),
@@ -1847,31 +1878,6 @@ function __c23(j: number): any {
           checksumsInfo: S.optional(__S(370, __c23, 2)),
         }),
       ).annotate({ identifier: "GdataDiffUploadRequest" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          ignoreRange: S.optional(S.Boolean),
-          allowGzipCompression: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "GdataDownloadParameters" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          objectVersion: S.optional(S.String),
-          checksumsLocation: S.optional(__S(370, __c23, 2)),
-          chunkSizeBytes: S.optional(S.String),
-          objectSizeBytes: S.optional(S.String),
-          objectLocation: S.optional(__S(370, __c23, 2)),
-        }),
-      ).annotate({ identifier: "GdataDiffChecksumsResponse" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          objectLocation: S.optional(__S(370, __c23, 2)),
-        }),
-      ).annotate({ identifier: "GdataDiffDownloadResponse" });
-    case 7:
-      return S.Array(__S(370, __c23, 2));
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -1882,56 +1888,50 @@ function __c23(j: number): any {
     case 9:
       return S.suspend(() =>
         S.Struct({
-          fromFusionId: S.optional(S.String),
-          bestGuess: S.optional(S.String),
-          fromUrlPath: S.optional(S.String),
-          fromHeader: S.optional(S.String),
-          fusionIdDetectionMetadata: S.optional(S.String),
-          fromFileName: S.optional(S.String),
-          fromBytes: S.optional(S.String),
+          objectLocation: S.optional(__S(370, __c23, 2)),
         }),
-      ).annotate({ identifier: "GdataContentTypeInfo" });
+      ).annotate({ identifier: "GdataDiffDownloadResponse" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          originalObject: S.optional(__S(370, __c23, 2)),
           objectVersion: S.optional(S.String),
+          originalObject: S.optional(__S(370, __c23, 2)),
         }),
       ).annotate({ identifier: "GdataDiffUploadResponse" });
     case 11:
       return S.suspend(() =>
         S.Struct({
-          diffUploadRequest: S.optional(__S(371, __c23, 3)),
-          downloadParameters: S.optional(__S(372, __c23, 4)),
-          diffChecksumsResponse: S.optional(__S(373, __c23, 5)),
-          isPotentialRetry: S.optional(S.Boolean),
-          blobRef: S.optional(S.String),
-          timestamp: S.optional(S.String),
-          token: S.optional(S.String),
-          mediaId: S.optional(S.String),
-          cosmoBinaryReference: S.optional(S.String),
-          path: S.optional(S.String),
-          diffDownloadResponse: S.optional(__S(374, __c23, 6)),
-          filename: S.optional(S.String),
-          compositeMedia: S.optional(__S(375, __c23, 7)),
-          algorithm: S.optional(S.String),
-          diffVersionResponse: S.optional(__S(376, __c23, 8)),
-          objectId: S.optional(__S(368, __c23, 0)),
-          contentTypeInfo: S.optional(__S(377, __c23, 9)),
-          length: S.optional(S.String),
+          compositeMedia: S.optional(__S(371, __c23, 3)),
+          objectId: S.optional(__S(369, __c23, 1)),
           hash: S.optional(S.String),
-          bigstoreObjectRef: S.optional(S.String),
-          blobstore2Info: S.optional(__S(369, __c23, 1)),
-          sha256Hash: S.optional(S.String),
-          hashVerified: S.optional(S.Boolean),
-          crc32cHash: S.optional(S.Number),
-          sha1Hash: S.optional(S.String),
-          diffUploadResponse: S.optional(__S(378, __c23, 10)),
-          sha512Hash: S.optional(S.String),
-          inline: S.optional(S.String),
+          isPotentialRetry: S.optional(S.Boolean),
           md5Hash: S.optional(S.String),
-          referenceType: S.optional(S.String),
+          token: S.optional(S.String),
+          bigstoreObjectRef: S.optional(S.String),
+          hashVerified: S.optional(S.Boolean),
+          sha1Hash: S.optional(S.String),
           contentType: S.optional(S.String),
+          contentTypeInfo: S.optional(__S(372, __c23, 4)),
+          downloadParameters: S.optional(__S(373, __c23, 5)),
+          diffChecksumsResponse: S.optional(__S(374, __c23, 6)),
+          length: S.optional(S.String),
+          algorithm: S.optional(S.String),
+          diffUploadRequest: S.optional(__S(375, __c23, 7)),
+          crc32cHash: S.optional(S.Number),
+          sha256Hash: S.optional(S.String),
+          referenceType: S.optional(S.String),
+          cosmoBinaryReference: S.optional(S.String),
+          inline: S.optional(S.String),
+          path: S.optional(S.String),
+          timestamp: S.optional(S.String),
+          sha512Hash: S.optional(S.String),
+          diffVersionResponse: S.optional(__S(376, __c23, 8)),
+          blobstore2Info: S.optional(__S(368, __c23, 0)),
+          blobRef: S.optional(S.String),
+          filename: S.optional(S.String),
+          diffDownloadResponse: S.optional(__S(377, __c23, 9)),
+          mediaId: S.optional(S.String),
+          diffUploadResponse: S.optional(__S(378, __c23, 10)),
         }),
       ).annotate({ identifier: "GdataMedia" });
     case 12:
@@ -2019,9 +2019,9 @@ function __c27(j: number): any {
       return S.suspend(() =>
         S.Struct({
           groups: S.optional(__S(448, __c28, 0)),
+          name: S.optional(S.String),
           lastActivityTime: S.optional(S.String),
           displayName: S.optional(S.String),
-          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleFirebaseAppdistroV1Tester" });
   }

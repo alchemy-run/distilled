@@ -97,14 +97,18 @@ export interface GetAchievementConfigurationsRequest {
   /** The ID of the achievement used by this method. */
   achievementId: string;
 }
+export type AchievementConfigurationAchievementTypeEnum =
+  | "ACHIEVEMENT_TYPE_UNSPECIFIED"
+  | "STANDARD"
+  | "INCREMENTAL";
 /** A localized string resource. */
 export interface LocalizedString {
   /** The locale string. */
   locale?: string | undefined;
-  /** The string value. */
-  value?: string | undefined;
   /** Uniquely identifies the type of this resource. Value is always the fixed string `gamesConfiguration#localizedString`. */
   kind?: string | undefined;
+  /** The string value. */
+  value?: string | undefined;
 }
 export type LocalizedStringList = Array<LocalizedString>;
 /** A localized string bundle resource. */
@@ -118,14 +122,14 @@ export interface LocalizedStringBundle {
 export interface AchievementConfigurationDetail {
   /** Localized strings for the achievement description. */
   description?: LocalizedStringBundle | undefined;
-  /** Point value for the achievement. */
-  pointValue?: number | undefined;
   /** Uniquely identifies the type of this resource. Value is always the fixed string `gamesConfiguration#achievementConfigurationDetail`. */
   kind?: string | undefined;
-  /** Localized strings for the achievement name. */
-  name?: LocalizedStringBundle | undefined;
   /** The icon url of this achievement. Writes to this field are ignored. */
   iconUrl?: string | undefined;
+  /** Point value for the achievement. */
+  pointValue?: number | undefined;
+  /** Localized strings for the achievement name. */
+  name?: LocalizedStringBundle | undefined;
   /** The sort rank of this achievement. Writes to this field are ignored. */
   sortRank?: number | undefined;
 }
@@ -133,14 +137,14 @@ export type AchievementConfigurationInitialStateEnum =
   | "INITIAL_STATE_UNSPECIFIED"
   | "HIDDEN"
   | "REVEALED";
-export type AchievementConfigurationAchievementTypeEnum =
-  | "ACHIEVEMENT_TYPE_UNSPECIFIED"
-  | "STANDARD"
-  | "INCREMENTAL";
 /** An achievement configuration resource. */
 export interface AchievementConfiguration {
+  /** The type of the achievement. */
+  achievementType?: AchievementConfigurationAchievementTypeEnum | (string & {}) | undefined;
   /** The read-only published data of the achievement. */
   published?: AchievementConfigurationDetail | undefined;
+  /** Uniquely identifies the type of this resource. Value is always the fixed string `gamesConfiguration#achievementConfiguration`. */
+  kind?: string | undefined;
   /** The ID of the achievement. */
   id?: string | undefined;
   /** The draft data of the achievement. */
@@ -151,10 +155,6 @@ export interface AchievementConfiguration {
   initialState?: AchievementConfigurationInitialStateEnum | (string & {}) | undefined;
   /** The token for this resource. */
   token?: string | undefined;
-  /** Uniquely identifies the type of this resource. Value is always the fixed string `gamesConfiguration#achievementConfiguration`. */
-  kind?: string | undefined;
-  /** The type of the achievement. */
-  achievementType?: AchievementConfigurationAchievementTypeEnum | (string & {}) | undefined;
 }
 export interface GetLeaderboardConfigurationsRequest {
   /** The ID of the leaderboard. */
@@ -186,23 +186,23 @@ export interface GamesNumberFormatConfiguration {
   suffix?: GamesNumberAffixConfiguration | undefined;
   /** The curreny code string. Only used for CURRENCY format type. */
   currencyCode?: string | undefined;
-  /** The number of decimal places for number. Only used for NUMERIC format type. */
-  numDecimalPlaces?: number | undefined;
   /** The formatting for the number. */
   numberFormatType?: GamesNumberFormatConfigurationNumberFormatTypeEnum | (string & {}) | undefined;
+  /** The number of decimal places for number. Only used for NUMERIC format type. */
+  numDecimalPlaces?: number | undefined;
 }
 /** A leaderboard configuration detail. */
 export interface LeaderboardConfigurationDetail {
-  /** The sort rank of this leaderboard. Writes to this field are ignored. */
-  sortRank?: number | undefined;
   /** The icon url of this leaderboard. Writes to this field are ignored. */
   iconUrl?: string | undefined;
+  /** Uniquely identifies the type of this resource. Value is always the fixed string `gamesConfiguration#leaderboardConfigurationDetail`. */
+  kind?: string | undefined;
+  /** The sort rank of this leaderboard. Writes to this field are ignored. */
+  sortRank?: number | undefined;
   /** The score formatting for the leaderboard. */
   scoreFormat?: GamesNumberFormatConfiguration | undefined;
   /** Localized strings for the leaderboard name. */
   name?: LocalizedStringBundle | undefined;
-  /** Uniquely identifies the type of this resource. Value is always the fixed string `gamesConfiguration#leaderboardConfigurationDetail`. */
-  kind?: string | undefined;
 }
 export type LeaderboardConfigurationScoreOrderEnum =
   | "SCORE_ORDER_UNSPECIFIED"
@@ -210,20 +210,20 @@ export type LeaderboardConfigurationScoreOrderEnum =
   | "SMALLER_IS_BETTER";
 /** An leaderboard configuration resource. */
 export interface LeaderboardConfiguration {
-  /** The draft data of the leaderboard. */
-  draft?: LeaderboardConfigurationDetail | undefined;
-  /** Uniquely identifies the type of this resource. Value is always the fixed string `gamesConfiguration#leaderboardConfiguration`. */
-  kind?: string | undefined;
-  /** The read-only published data of the leaderboard. */
-  published?: LeaderboardConfigurationDetail | undefined;
-  /** The token for this resource. */
-  token?: string | undefined;
-  /** The ID of the leaderboard. */
-  id?: string | undefined;
   /** Minimum score that can be posted to this leaderboard. */
   scoreMin?: string | undefined;
+  /** The read-only published data of the leaderboard. */
+  published?: LeaderboardConfigurationDetail | undefined;
+  /** The ID of the leaderboard. */
+  id?: string | undefined;
   /** Maximum score that can be posted to this leaderboard. */
   scoreMax?: string | undefined;
+  /** The draft data of the leaderboard. */
+  draft?: LeaderboardConfigurationDetail | undefined;
+  /** The token for this resource. */
+  token?: string | undefined;
+  /** Uniquely identifies the type of this resource. Value is always the fixed string `gamesConfiguration#leaderboardConfiguration`. */
+  kind?: string | undefined;
   scoreOrder?: LeaderboardConfigurationScoreOrderEnum | (string & {}) | undefined;
 }
 export interface InsertAchievementConfigurationsRequest extends AchievementConfiguration {
@@ -237,36 +237,36 @@ export interface InsertLeaderboardConfigurationsRequest extends LeaderboardConfi
 export interface ListAchievementConfigurationsRequest {
   /** The application ID from the Google Play developer console. */
   applicationId: string;
-  /** The maximum number of resource configurations to return in the response, used for paging. For any response, the actual number of resources returned may be less than the specified `maxResults`. */
-  maxResults?: number | undefined;
   /** The token returned by the previous request. */
   pageToken?: string | undefined;
+  /** The maximum number of resource configurations to return in the response, used for paging. For any response, the actual number of resources returned may be less than the specified `maxResults`. */
+  maxResults?: number | undefined;
 }
 export type AchievementConfigurationList = Array<AchievementConfiguration>;
 /** A ListConfigurations response. */
 export interface AchievementConfigurationListResponse {
-  /** The achievement configurations. */
-  items: AchievementConfigurationList;
-  /** Uniquely identifies the type of this resource. Value is always the fixed string `gamesConfiguration#achievementConfigurationListResponse`. */
-  kind?: string | undefined;
   /** The pagination token for the next page of results. */
   nextPageToken?: string | undefined;
+  /** Uniquely identifies the type of this resource. Value is always the fixed string `gamesConfiguration#achievementConfigurationListResponse`. */
+  kind?: string | undefined;
+  /** The achievement configurations. */
+  items: AchievementConfigurationList;
 }
 export interface ListLeaderboardConfigurationsRequest {
+  /** The token returned by the previous request. */
+  pageToken?: string | undefined;
   /** The maximum number of resource configurations to return in the response, used for paging. For any response, the actual number of resources returned may be less than the specified `maxResults`. */
   maxResults?: number | undefined;
   /** The application ID from the Google Play developer console. */
   applicationId: string;
-  /** The token returned by the previous request. */
-  pageToken?: string | undefined;
 }
 export type LeaderboardConfigurationList = Array<LeaderboardConfiguration>;
 /** A ListConfigurations response. */
 export interface LeaderboardConfigurationListResponse {
-  /** The leaderboard configurations. */
-  items: LeaderboardConfigurationList;
   /** The pagination token for the next page of results. */
   nextPageToken?: string | undefined;
+  /** The leaderboard configurations. */
+  items: LeaderboardConfigurationList;
   /** Uniquely identifies the type of this resource. Value is always the fixed string `gamesConfiguration#leaderboardConfigurationListResponse`. */
   kind?: string | undefined;
 }
@@ -499,8 +499,8 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           applicationId: S.String.pipe(T.Label()),
-          maxResults: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          maxResults: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -514,9 +514,9 @@ function __c0(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: __S(1, __c0, 1),
-          kind: S.optional(S.String),
           nextPageToken: S.optional(S.String),
+          kind: S.optional(S.String),
+          items: __S(1, __c0, 1),
         }),
       ).annotate({ identifier: "AchievementConfigurationListResponse" });
   }
@@ -526,9 +526,9 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          pageToken: S.optional(S.String.pipe(T.Query())),
           maxResults: S.optional(S.Number.pipe(T.Query())),
           applicationId: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -542,8 +542,8 @@ function __c1(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: __S(5, __c1, 1),
           nextPageToken: S.optional(S.String),
+          items: __S(5, __c1, 1),
           kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "LeaderboardConfigurationListResponse" });
@@ -649,8 +649,8 @@ function __c8(j: number): any {
       return S.suspend(() =>
         S.Struct({
           locale: S.optional(S.String),
-          value: S.optional(S.String),
           kind: S.optional(S.String),
+          value: S.optional(S.String),
         }),
       ).annotate({ identifier: "LocalizedString" });
     case 1:
@@ -670,24 +670,24 @@ function __c9(j: number): any {
       return S.suspend(() =>
         S.Struct({
           description: S.optional(__S(34, __c8, 2)),
-          pointValue: S.optional(S.Number),
           kind: S.optional(S.String),
-          name: S.optional(__S(34, __c8, 2)),
           iconUrl: S.optional(S.String),
+          pointValue: S.optional(S.Number),
+          name: S.optional(__S(34, __c8, 2)),
           sortRank: S.optional(S.Number),
         }),
       ).annotate({ identifier: "AchievementConfigurationDetail" });
     case 1:
       return S.suspend(() =>
         S.Struct({
+          achievementType: S.optional(S.String),
           published: S.optional(__S(36, __c9, 0)),
+          kind: S.optional(S.String),
           id: S.optional(S.String),
           draft: S.optional(__S(36, __c9, 0)),
           stepsToUnlock: S.optional(S.Number),
           initialState: S.optional(S.String),
           token: S.optional(S.String),
-          kind: S.optional(S.String),
-          achievementType: S.optional(S.String),
         }),
       ).annotate({ identifier: "AchievementConfiguration" });
   }
@@ -726,30 +726,30 @@ function __c11(j: number): any {
         S.Struct({
           suffix: S.optional(__S(44, __c11, 0)),
           currencyCode: S.optional(S.String),
-          numDecimalPlaces: S.optional(S.Number),
           numberFormatType: S.optional(S.String),
+          numDecimalPlaces: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GamesNumberFormatConfiguration" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          sortRank: S.optional(S.Number),
           iconUrl: S.optional(S.String),
+          kind: S.optional(S.String),
+          sortRank: S.optional(S.Number),
           scoreFormat: S.optional(__S(45, __c11, 1)),
           name: S.optional(__S(34, __c8, 2)),
-          kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "LeaderboardConfigurationDetail" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          draft: S.optional(__S(46, __c11, 2)),
-          kind: S.optional(S.String),
-          published: S.optional(__S(46, __c11, 2)),
-          token: S.optional(S.String),
-          id: S.optional(S.String),
           scoreMin: S.optional(S.String),
+          published: S.optional(__S(46, __c11, 2)),
+          id: S.optional(S.String),
           scoreMax: S.optional(S.String),
+          draft: S.optional(__S(46, __c11, 2)),
+          token: S.optional(S.String),
+          kind: S.optional(S.String),
           scoreOrder: S.optional(S.String),
         }),
       ).annotate({ identifier: "LeaderboardConfiguration" });

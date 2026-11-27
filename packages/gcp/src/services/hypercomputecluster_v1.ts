@@ -93,20 +93,6 @@ export interface CancelProjectsLocationsOperationsRequest {
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
-/** A reference to a [VPC network](https://cloud.google.com/vpc/docs/vpc) in Google Compute Engine. */
-export interface NetworkReference {
-  /** Output only. Name of the network, in the format `projects/{project}/global/networks/{network}`. */
-  network?: string | undefined;
-  /** Output only. Name of the particular subnetwork being used by the cluster, in the format `projects/{project}/regions/{region}/subnetworks/{subnetwork}`. */
-  subnetwork?: string | undefined;
-}
-/** When set in a NetworkResourceConfig, indicates that an existing network should be imported. */
-export interface ExistingNetworkConfig {
-  /** Required. Immutable. Particular subnetwork to use, in the format `projects/{project}/regions/{region}/subnetworks/{subnetwork}`. */
-  subnetwork?: string | undefined;
-  /** Required. Immutable. Name of the network to import, in the format `projects/{project}/global/networks/{network}`. */
-  network?: string | undefined;
-}
 /** When set in a NetworkResourceConfig, indicates that a new network should be created. */
 export interface NewNetworkConfig {
   /** Optional. Immutable. Description of the network. Maximum of 2048 characters. */
@@ -114,21 +100,163 @@ export interface NewNetworkConfig {
   /** Required. Immutable. Name of the network to create, in the format `projects/{project}/global/networks/{network}`. */
   network?: string | undefined;
 }
+/** When set in a NetworkResourceConfig, indicates that an existing network should be imported. */
+export interface ExistingNetworkConfig {
+  /** Required. Immutable. Name of the network to import, in the format `projects/{project}/global/networks/{network}`. */
+  network?: string | undefined;
+  /** Required. Immutable. Particular subnetwork to use, in the format `projects/{project}/regions/{region}/subnetworks/{subnetwork}`. */
+  subnetwork?: string | undefined;
+}
 /** Describes how a network resource should be initialized. Each network resource can either be imported from an existing Google Cloud resource or initialized when the cluster is created. */
 export interface NetworkResourceConfig {
-  /** Optional. Immutable. If set, indicates that an existing network should be imported. */
-  existingNetwork?: ExistingNetworkConfig | undefined;
   /** Optional. Immutable. If set, indicates that a new network should be created. */
   newNetwork?: NewNetworkConfig | undefined;
+  /** Optional. Immutable. If set, indicates that an existing network should be imported. */
+  existingNetwork?: ExistingNetworkConfig | undefined;
+}
+/** A reference to a [VPC network](https://cloud.google.com/vpc/docs/vpc) in Google Compute Engine. */
+export interface NetworkReference {
+  /** Output only. Name of the network, in the format `projects/{project}/global/networks/{network}`. */
+  network?: string | undefined;
+  /** Output only. Name of the particular subnetwork being used by the cluster, in the format `projects/{project}/regions/{region}/subnetworks/{subnetwork}`. */
+  subnetwork?: string | undefined;
 }
 /** A resource representing a network that connects the various components of a cluster together. */
 export interface NetworkResource {
-  /** Output only. A reference to a network in Google Compute Engine. */
-  network?: NetworkReference | undefined;
   /** Immutable. Configuration for this network resource, which describes how it should be created or imported. This field only controls how the network resource is initially created or imported. Subsequent changes to the network resource should be made via the resource's API and will not be reflected in the configuration. */
   config?: NetworkResourceConfig | undefined;
+  /** Output only. A reference to a network in Google Compute Engine. */
+  network?: NetworkReference | undefined;
 }
 export type NetworkResourceMap = { [key: string]: NetworkResource | undefined };
+/** A reference to a [Managed Lustre](https://cloud.google.com/products/managed-lustre) instance. */
+export interface LustreReference {
+  /** Output only. Name of the Managed Lustre instance, in the format `projects/{project}/locations/{location}/instances/{instance}` */
+  lustre?: string | undefined;
+}
+/** A reference to a [Filestore](https://cloud.google.com/filestore) instance. */
+export interface FilestoreReference {
+  /** Output only. Name of the Filestore instance, in the format `projects/{project}/locations/{location}/instances/{instance}` */
+  filestore?: string | undefined;
+}
+/** A reference to a [Google Cloud Storage](https://cloud.google.com/storage) bucket. */
+export interface BucketReference {
+  /** Output only. Name of the bucket. */
+  bucket?: string | undefined;
+}
+/** When set in a StorageResourceConfig, indicates that an existing [Managed Lustre](https://cloud.google.com/products/managed-lustre) instance should be imported. */
+export interface ExistingLustreConfig {
+  /** Required. Immutable. Name of the Managed Lustre instance to import, in the format `projects/{project}/locations/{location}/instances/{instance}` */
+  lustre?: string | undefined;
+}
+/** When set in a StorageResourceConfig, indicates that an existing [Filestore](https://cloud.google.com/filestore) instance should be imported. */
+export interface ExistingFilestoreConfig {
+  /** Required. Immutable. Name of the Filestore instance to import, in the format `projects/{project}/locations/{location}/instances/{instance}` */
+  filestore?: string | undefined;
+}
+/** When set in a StorageResourceConfig, indicates that a new [Managed Lustre](https://cloud.google.com/products/managed-lustre) instance should be created. */
+export interface NewLustreConfig {
+  /** Required. Immutable. Filesystem name for this instance. This name is used by client-side tools, including when mounting the instance. Must be 8 characters or less and can only contain letters and numbers. */
+  filesystem?: string | undefined;
+  /** Optional. Immutable. Throughput of the instance in MB/s/TiB. Valid values are 125, 250, 500, 1000. See [Performance tiers and maximum storage capacities](https://cloud.google.com/managed-lustre/docs/create-instance#performance-tiers) for more information. */
+  perUnitStorageThroughput?: string | undefined;
+  /** Required. Immutable. Name of the Managed Lustre instance to create, in the format `projects/{project}/locations/{location}/instances/{instance}` */
+  lustre?: string | undefined;
+  /** Optional. Immutable. Description of the Managed Lustre instance. Maximum of 2048 characters. */
+  description?: string | undefined;
+  /** Required. Immutable. Storage capacity of the instance in gibibytes (GiB). Allowed values are between 18000 and 7632000. */
+  capacityGb?: string | undefined;
+}
+/** When set in a StorageResourceConfig, indicates that an existing [Google Cloud Storage](https://cloud.google.com/storage) bucket should be imported. */
+export interface ExistingBucketConfig {
+  /** Required. Immutable. Name of the Cloud Storage bucket to import. */
+  bucket?: string | undefined;
+}
+export type GcsAutoclassConfigTerminalStorageClassEnum =
+  | "TERMINAL_STORAGE_CLASS_UNSPECIFIED"
+  | "NEARLINE"
+  | "ARCHIVE";
+/** Message describing Google Cloud Storage autoclass configuration */
+export interface GcsAutoclassConfig {
+  /** Required. Enables Auto-class feature. */
+  enabled?: boolean | undefined;
+  /** Optional. Terminal storage class of the autoclass bucket */
+  terminalStorageClass?: GcsAutoclassConfigTerminalStorageClassEnum | (string & {}) | undefined;
+}
+export type NewBucketConfigStorageClassEnum =
+  | "STORAGE_CLASS_UNSPECIFIED"
+  | "STANDARD"
+  | "NEARLINE"
+  | "COLDLINE"
+  | "ARCHIVE"
+  | "RAPID";
+/** Message describing Google Cloud Storage hierarchical namespace configuration */
+export interface GcsHierarchicalNamespaceConfig {
+  /** Required. Enables hierarchical namespace setup for the bucket. */
+  enabled?: boolean | undefined;
+}
+/** When set in a StorageResourceConfig, indicates that a new [Google Cloud Storage](https://cloud.google.com/storage) bucket should be created. */
+export interface NewBucketConfig {
+  /** Required. Immutable. Name of the Cloud Storage bucket to create. */
+  bucket?: string | undefined;
+  /** Optional. Immutable. If set, indicates that the bucket should use [Autoclass](https://cloud.google.com/storage/docs/autoclass). */
+  autoclass?: GcsAutoclassConfig | undefined;
+  /** Optional. Immutable. If set, uses the provided storage class as the bucket's default storage class. */
+  storageClass?: NewBucketConfigStorageClassEnum | (string & {}) | undefined;
+  /** Optional. Immutable. If set, indicates that the bucket should use [hierarchical namespaces](https://cloud.google.com/storage/docs/hns-overview). */
+  hierarchicalNamespace?: GcsHierarchicalNamespaceConfig | undefined;
+}
+/** Message describing filestore configuration */
+export interface FileShareConfig {
+  /** Required. Filestore share location */
+  fileShare?: string | undefined;
+  /** Required. Size of the filestore in GB. Must be between 1024 and 102400, and must meet scalability requirements described at https://cloud.google.com/filestore/docs/service-tiers. */
+  capacityGb?: string | undefined;
+}
+export type FileShareConfigList = Array<FileShareConfig>;
+export type NewFilestoreConfigTierEnum = "TIER_UNSPECIFIED" | "ZONAL" | "REGIONAL";
+export type NewFilestoreConfigProtocolEnum = "PROTOCOL_UNSPECIFIED" | "NFSV3" | "NFSV41";
+/** When set in a StorageResourceConfig, indicates that a new [Filestore](https://cloud.google.com/filestore) instance should be created. */
+export interface NewFilestoreConfig {
+  /** Optional. Immutable. Description of the instance. Maximum of 2048 characters. */
+  description?: string | undefined;
+  /** Required. Immutable. File system shares on the instance. Exactly one file share must be specified. */
+  fileShares?: FileShareConfigList | undefined;
+  /** Required. Immutable. Service tier to use for the instance. */
+  tier?: NewFilestoreConfigTierEnum | (string & {}) | undefined;
+  /** Required. Immutable. Name of the Filestore instance to create, in the format `projects/{project}/locations/{location}/instances/{instance}`. */
+  filestore?: string | undefined;
+  /** Optional. Immutable. Access protocol to use for all file shares in the instance. Defaults to NFS V3 if not set. */
+  protocol?: NewFilestoreConfigProtocolEnum | (string & {}) | undefined;
+}
+/** Describes how a storage resource should be initialized. Each storage resource can either be imported from an existing Google Cloud resource or initialized when the cluster is created. */
+export interface StorageResourceConfig {
+  /** Optional. Immutable. If set, indicates that an existing Managed Lustre instance should be imported. */
+  existingLustre?: ExistingLustreConfig | undefined;
+  /** Optional. Immutable. If set, indicates that an existing Filestore instance should be imported. */
+  existingFilestore?: ExistingFilestoreConfig | undefined;
+  /** Optional. Immutable. If set, indicates that a new Managed Lustre instance should be created. */
+  newLustre?: NewLustreConfig | undefined;
+  /** Optional. Immutable. If set, indicates that an existing Cloud Storage bucket should be imported. */
+  existingBucket?: ExistingBucketConfig | undefined;
+  /** Optional. Immutable. If set, indicates that a new Cloud Storage bucket should be created. */
+  newBucket?: NewBucketConfig | undefined;
+  /** Optional. Immutable. If set, indicates that a new Filestore instance should be created. */
+  newFilestore?: NewFilestoreConfig | undefined;
+}
+/** Represents a form of persistent storage that you can mount onto compute resources in the cluster. */
+export interface StorageResource {
+  /** Output only. A reference to a Managed Lustre instance. Populated if and only if the storage resource was configured to use Managed Lustre. */
+  lustre?: LustreReference | undefined;
+  /** Output only. A reference to a Filestore instance. Populated if and only if the storage resource was configured to use Filestore. */
+  filestore?: FilestoreReference | undefined;
+  /** Output only. A reference to a Google Cloud Storage bucket. Populated if and only if the storage resource was configured to use Google Cloud Storage. */
+  bucket?: BucketReference | undefined;
+  /** Required. Immutable. Configuration for this storage resource, which describes how it should be created or imported. This field only controls how the storage resource is initially created or imported. Subsequent changes to the storage resource should be made via the resource's API and will not be reflected in the configuration. */
+  config?: StorageResourceConfig | undefined;
+}
+export type StorageResourceMap = { [key: string]: StorageResource | undefined };
+export type StringMap = { [key: string]: string | undefined };
 /** When set in a ComputeResourceConfig, indicates that VM instances should be created from a [reservation](https://cloud.google.com/compute/docs/instances/reservations-overview). */
 export interface NewReservedInstancesConfig {
   /** Optional. Immutable. Name of the reservation from which VM instances should be created, in the format `projects/{project}/zones/{zone}/reservations/{reservation}`. */
@@ -143,12 +271,12 @@ export interface NewOnDemandInstancesConfig {
 }
 /** When set in a ComputeResourceConfig, indicates that VM instances should be created using [Flex Start](https://cloud.google.com/compute/docs/instances/provisioning-models). */
 export interface NewFlexStartInstancesConfig {
-  /** Required. Immutable. Name of the zone in which VM instances should run, e.g., `us-central1-a`. Must be in the same region as the cluster, and must match the zone of any other resources specified in the cluster. */
-  zone?: string | undefined;
   /** Required. Immutable. Name of the Compute Engine [machine type](https://cloud.google.com/compute/docs/machine-resource) to use, e.g. `n2-standard-2`. */
   machineType?: string | undefined;
   /** Required. Immutable. Specifies the time limit for created instances. Instances will be terminated at the end of this duration. */
   maxDuration?: string | undefined;
+  /** Required. Immutable. Name of the zone in which VM instances should run, e.g., `us-central1-a`. Must be in the same region as the cluster, and must match the zone of any other resources specified in the cluster. */
+  zone?: string | undefined;
 }
 export type NewSpotInstancesConfigTerminationActionEnum =
   | "TERMINATION_ACTION_UNSPECIFIED"
@@ -180,23 +308,6 @@ export interface ComputeResource {
   config?: ComputeResourceConfig | undefined;
 }
 export type ComputeResourceMap = { [key: string]: ComputeResource | undefined };
-export type StringMap = { [key: string]: string | undefined };
-/** A [Persistent disk](https://cloud.google.com/compute/docs/disks) used as the boot disk for a Compute Engine VM instance. */
-export interface BootDisk {
-  /** Optional. [Persistent disk type](https://cloud.google.com/compute/docs/disks#disk-types), in the format `projects/{project}/zones/{zone}/diskTypes/{disk_type}`. */
-  type?: string | undefined;
-  /** Optional. The size of the disk in gigabytes (GB), which must be at least 40 GB. */
-  sizeGb?: string | undefined;
-}
-/** When set in a SlurmNodeSet, indicates that the nodeset should be backed by Compute Engine VM instances. */
-export interface ComputeInstanceSlurmNodeSet {
-  /** Optional. Boot disk for the compute instance */
-  bootDisk?: BootDisk | undefined;
-  /** Optional. [Labels](https://cloud.google.com/compute/docs/labeling-resources) that should be applied to each VM instance in the nodeset. */
-  labels?: StringMap | undefined;
-  /** Optional. [Startup script](https://cloud.google.com/compute/docs/instances/startup-scripts/linux) to be run on each VM instance in the nodeset. Max 256KB. */
-  startupScript?: string | undefined;
-}
 /** Description of how a storage resource should be mounted on a VM instance. */
 export interface StorageConfig {
   /** Required. ID of the storage resource to mount, which must match a key in the cluster's storage_resources. */
@@ -205,6 +316,19 @@ export interface StorageConfig {
   localMount?: string | undefined;
 }
 export type StorageConfigList = Array<StorageConfig>;
+/** A [Persistent disk](https://cloud.google.com/compute/docs/disks) used as the boot disk for a Compute Engine VM instance. */
+export interface BootDisk {
+  /** Optional. The size of the disk in gigabytes (GB), which must be at least 40 GB. */
+  sizeGb?: string | undefined;
+  /** Optional. [Persistent disk type](https://cloud.google.com/compute/docs/disks#disk-types), in the format `projects/{project}/zones/{zone}/diskTypes/{disk_type}`. */
+  type?: string | undefined;
+}
+/** Details about a Compute Engine [instance](https://cloud.google.com/compute/docs/instances). */
+export interface ComputeInstance {
+  /** Output only. Name of the VM instance, in the format `projects/{project}/zones/{zone}/instances/{instance}`. */
+  instance?: string | undefined;
+}
+export type ComputeInstanceList = Array<ComputeInstance>;
 export type StringList = Array<string>;
 /** Service account email and scopes */
 export interface ServiceAccount {
@@ -213,54 +337,30 @@ export interface ServiceAccount {
   /** Optional. Service account scopes */
   scopes?: StringList | undefined;
 }
-/** Configuration for Slurm nodesets in the cluster. Nodesets are groups of compute nodes used by Slurm that are responsible for running workloads submitted to the cluster. */
-export interface SlurmNodeSet {
-  /** Optional. If set, indicates that the nodeset should be backed by Compute Engine instances. */
-  computeInstance?: ComputeInstanceSlurmNodeSet | undefined;
-  /** Optional. How storage resources should be mounted on each compute node. */
-  storageConfigs?: StorageConfigList | undefined;
-  /** Optional. Immutable. Service account to be used by instances in the nodeset. */
-  serviceAccount?: ServiceAccount | undefined;
-  /** Required. The ID of the compute resource on which this nodeset runs. Must match a key in the cluster's compute_resources. */
-  computeId?: string | undefined;
-  /** Optional. Controls how many additional nodes a cluster can bring online to handle workloads. Set this value to enable dynamic node creation and limit the number of additional nodes the cluster can bring online. Leave empty if you do not want the cluster to create nodes dynamically, and instead rely only on static nodes. */
-  maxDynamicNodeCount?: string | undefined;
-  /** Required. The ID for the nodeset, which allows it to be referenced by cluster partitions. The nodeset ID must start with a lowercase letter (`a`-`z`), use only lowercase letters or numbers, and contain up to 15 characters. For example, specify `nodeset001`. */
-  id?: string | undefined;
-  /** Optional. Number of nodes to be statically created for this nodeset. The cluster will attempt to ensure that at least this many nodes exist at all times. */
-  staticNodeCount?: string | undefined;
-}
-export type SlurmNodeSetList = Array<SlurmNodeSet>;
-/** Details about a Compute Engine [instance](https://cloud.google.com/compute/docs/instances). */
-export interface ComputeInstance {
-  /** Output only. Name of the VM instance, in the format `projects/{project}/zones/{zone}/instances/{instance}`. */
-  instance?: string | undefined;
-}
-export type ComputeInstanceList = Array<ComputeInstance>;
 /** Configuration for Slurm [login nodes](https://slurm.schedmd.com/quickstart_admin.html#login) in the cluster. Login nodes are Compute Engine VM instances that allow users to access the cluster over SSH. */
 export interface SlurmLoginNodes {
-  /** Optional. Boot disk for the login node. */
-  bootDisk?: BootDisk | undefined;
-  /** Optional. [Labels](https://cloud.google.com/compute/docs/labeling-resources) that should be applied to each login node instance. */
-  labels?: StringMap | undefined;
-  /** Optional. Whether [OS Login](https://cloud.google.com/compute/docs/oslogin) should be enabled on login node instances. */
-  enableOsLogin?: boolean | undefined;
-  /** Output only. Information about the login node instances that were created in Compute Engine. */
-  instances?: ComputeInstanceList | undefined;
   /** Optional. Whether login node instances should be assigned [external IP addresses](https://cloud.google.com/compute/docs/ip-addresses#externaladdresses). */
   enablePublicIps?: boolean | undefined;
-  /** Optional. [Startup script](https://cloud.google.com/compute/docs/instances/startup-scripts/linux) to be run on each login node instance. Max 256KB. The script must complete within the system-defined default timeout of 5 minutes. For tasks that require more time, consider running them in the background using methods such as `&` or `nohup`. */
-  startupScript?: string | undefined;
-  /** Optional. How storage resources should be mounted on each login node. */
-  storageConfigs?: StorageConfigList | undefined;
-  /** Optional. Service account to be used by login node instances. */
-  serviceAccount?: ServiceAccount | undefined;
   /** Required. Number of login node instances to create. */
   count?: string | undefined;
-  /** Required. Name of the Compute Engine [machine type](https://cloud.google.com/compute/docs/machine-resource) to use for login nodes, e.g. `n2-standard-2`. */
-  machineType?: string | undefined;
+  /** Optional. How storage resources should be mounted on each login node. */
+  storageConfigs?: StorageConfigList | undefined;
+  /** Optional. [Startup script](https://cloud.google.com/compute/docs/instances/startup-scripts/linux) to be run on each login node instance. Max 256KB. The script must complete within the system-defined default timeout of 5 minutes. For tasks that require more time, consider running them in the background using methods such as `&` or `nohup`. */
+  startupScript?: string | undefined;
+  /** Optional. [Labels](https://cloud.google.com/compute/docs/labeling-resources) that should be applied to each login node instance. */
+  labels?: StringMap | undefined;
+  /** Optional. Boot disk for the login node. */
+  bootDisk?: BootDisk | undefined;
+  /** Output only. Information about the login node instances that were created in Compute Engine. */
+  instances?: ComputeInstanceList | undefined;
+  /** Optional. Service account to be used by login node instances. */
+  serviceAccount?: ServiceAccount | undefined;
   /** Required. Name of the zone in which login nodes should run, e.g., `us-central1-a`. Must be in the same region as the cluster, and must match the zone of any other resources specified in the cluster. */
   zone?: string | undefined;
+  /** Optional. Whether [OS Login](https://cloud.google.com/compute/docs/oslogin) should be enabled on login node instances. */
+  enableOsLogin?: boolean | undefined;
+  /** Required. Name of the Compute Engine [machine type](https://cloud.google.com/compute/docs/machine-resource) to use for login nodes, e.g. `n2-standard-2`. */
+  machineType?: string | undefined;
 }
 /** Configuration for Slurm partitions in the cluster. Partitions are groups of nodesets, and are how clients specify where their workloads should be run. */
 export interface SlurmPartition {
@@ -270,185 +370,85 @@ export interface SlurmPartition {
   id?: string | undefined;
 }
 export type SlurmPartitionList = Array<SlurmPartition>;
+/** When set in a SlurmNodeSet, indicates that the nodeset should be backed by Compute Engine VM instances. */
+export interface ComputeInstanceSlurmNodeSet {
+  /** Optional. Boot disk for the compute instance */
+  bootDisk?: BootDisk | undefined;
+  /** Optional. [Startup script](https://cloud.google.com/compute/docs/instances/startup-scripts/linux) to be run on each VM instance in the nodeset. Max 256KB. */
+  startupScript?: string | undefined;
+  /** Optional. [Labels](https://cloud.google.com/compute/docs/labeling-resources) that should be applied to each VM instance in the nodeset. */
+  labels?: StringMap | undefined;
+}
+/** Configuration for Slurm nodesets in the cluster. Nodesets are groups of compute nodes used by Slurm that are responsible for running workloads submitted to the cluster. */
+export interface SlurmNodeSet {
+  /** Required. The ID for the nodeset, which allows it to be referenced by cluster partitions. The nodeset ID must start with a lowercase letter (`a`-`z`), use only lowercase letters or numbers, and contain up to 15 characters. For example, specify `nodeset001`. */
+  id?: string | undefined;
+  /** Optional. Immutable. Service account to be used by instances in the nodeset. */
+  serviceAccount?: ServiceAccount | undefined;
+  /** Optional. How storage resources should be mounted on each compute node. */
+  storageConfigs?: StorageConfigList | undefined;
+  /** Optional. If set, indicates that the nodeset should be backed by Compute Engine instances. */
+  computeInstance?: ComputeInstanceSlurmNodeSet | undefined;
+  /** Required. The ID of the compute resource on which this nodeset runs. Must match a key in the cluster's compute_resources. */
+  computeId?: string | undefined;
+  /** Optional. Number of nodes to be statically created for this nodeset. The cluster will attempt to ensure that at least this many nodes exist at all times. */
+  staticNodeCount?: string | undefined;
+  /** Optional. Controls how many additional nodes a cluster can bring online to handle workloads. Set this value to enable dynamic node creation and limit the number of additional nodes the cluster can bring online. Leave empty if you do not want the cluster to create nodes dynamically, and instead rely only on static nodes. */
+  maxDynamicNodeCount?: string | undefined;
+}
+export type SlurmNodeSetList = Array<SlurmNodeSet>;
 /** When set in Orchestrator, indicates that the cluster should use [Slurm](https://slurm.schedmd.com/) as the orchestrator. */
 export interface SlurmOrchestrator {
-  /** Optional. Default partition to use for submitted jobs that do not explicitly specify a partition. Required if and only if there is more than one partition, in which case it must match the id of one of the partitions. */
-  defaultPartition?: string | undefined;
-  /** Optional. Compute resource configuration for the Slurm nodesets in your cluster. If not specified, the cluster won't create any nodes. */
-  nodeSets?: SlurmNodeSetList | undefined;
   /** Required. Configuration for login nodes, which allow users to access the cluster over SSH. */
   loginNodes?: SlurmLoginNodes | undefined;
   /** Optional. Slurm [epilog scripts](https://slurm.schedmd.com/prolog_epilog.html), which will be executed by compute nodes whenever a node finishes running a job. Values must not be empty. */
   epilogBashScripts?: StringList | undefined;
   /** Optional. Slurm [prolog scripts](https://slurm.schedmd.com/prolog_epilog.html), which will be executed by compute nodes before a node begins running a new job. Values must not be empty. */
   prologBashScripts?: StringList | undefined;
+  /** Optional. Default partition to use for submitted jobs that do not explicitly specify a partition. Required if and only if there is more than one partition, in which case it must match the id of one of the partitions. */
+  defaultPartition?: string | undefined;
   /** Optional. Configuration for the Slurm partitions in your cluster. Each partition can contain one or more nodesets, and you can submit separate jobs on each partition. If you don't specify at least one partition in your cluster, you can't submit jobs to the cluster. */
   partitions?: SlurmPartitionList | undefined;
+  /** Optional. Compute resource configuration for the Slurm nodesets in your cluster. If not specified, the cluster won't create any nodes. */
+  nodeSets?: SlurmNodeSetList | undefined;
 }
 /** The component responsible for scheduling and running workloads on the cluster as well as providing the user interface for interacting with the cluster at runtime. */
 export interface Orchestrator {
   /** Optional. If set, indicates that the cluster should use Slurm as the orchestrator. */
   slurm?: SlurmOrchestrator | undefined;
 }
-/** A reference to a [Managed Lustre](https://cloud.google.com/products/managed-lustre) instance. */
-export interface LustreReference {
-  /** Output only. Name of the Managed Lustre instance, in the format `projects/{project}/locations/{location}/instances/{instance}` */
-  lustre?: string | undefined;
-}
-/** When set in a StorageResourceConfig, indicates that an existing [Filestore](https://cloud.google.com/filestore) instance should be imported. */
-export interface ExistingFilestoreConfig {
-  /** Required. Immutable. Name of the Filestore instance to import, in the format `projects/{project}/locations/{location}/instances/{instance}` */
-  filestore?: string | undefined;
-}
-export type NewFilestoreConfigTierEnum = "TIER_UNSPECIFIED" | "ZONAL" | "REGIONAL";
-/** Message describing filestore configuration */
-export interface FileShareConfig {
-  /** Required. Filestore share location */
-  fileShare?: string | undefined;
-  /** Required. Size of the filestore in GB. Must be between 1024 and 102400, and must meet scalability requirements described at https://cloud.google.com/filestore/docs/service-tiers. */
-  capacityGb?: string | undefined;
-}
-export type FileShareConfigList = Array<FileShareConfig>;
-export type NewFilestoreConfigProtocolEnum = "PROTOCOL_UNSPECIFIED" | "NFSV3" | "NFSV41";
-/** When set in a StorageResourceConfig, indicates that a new [Filestore](https://cloud.google.com/filestore) instance should be created. */
-export interface NewFilestoreConfig {
-  /** Required. Immutable. Service tier to use for the instance. */
-  tier?: NewFilestoreConfigTierEnum | (string & {}) | undefined;
-  /** Required. Immutable. Name of the Filestore instance to create, in the format `projects/{project}/locations/{location}/instances/{instance}`. */
-  filestore?: string | undefined;
-  /** Optional. Immutable. Description of the instance. Maximum of 2048 characters. */
-  description?: string | undefined;
-  /** Required. Immutable. File system shares on the instance. Exactly one file share must be specified. */
-  fileShares?: FileShareConfigList | undefined;
-  /** Optional. Immutable. Access protocol to use for all file shares in the instance. Defaults to NFS V3 if not set. */
-  protocol?: NewFilestoreConfigProtocolEnum | (string & {}) | undefined;
-}
-/** When set in a StorageResourceConfig, indicates that an existing [Managed Lustre](https://cloud.google.com/products/managed-lustre) instance should be imported. */
-export interface ExistingLustreConfig {
-  /** Required. Immutable. Name of the Managed Lustre instance to import, in the format `projects/{project}/locations/{location}/instances/{instance}` */
-  lustre?: string | undefined;
-}
-/** When set in a StorageResourceConfig, indicates that a new [Managed Lustre](https://cloud.google.com/products/managed-lustre) instance should be created. */
-export interface NewLustreConfig {
-  /** Required. Immutable. Filesystem name for this instance. This name is used by client-side tools, including when mounting the instance. Must be 8 characters or less and can only contain letters and numbers. */
-  filesystem?: string | undefined;
-  /** Required. Immutable. Name of the Managed Lustre instance to create, in the format `projects/{project}/locations/{location}/instances/{instance}` */
-  lustre?: string | undefined;
-  /** Required. Immutable. Storage capacity of the instance in gibibytes (GiB). Allowed values are between 18000 and 7632000. */
-  capacityGb?: string | undefined;
-  /** Optional. Immutable. Throughput of the instance in MB/s/TiB. Valid values are 125, 250, 500, 1000. See [Performance tiers and maximum storage capacities](https://cloud.google.com/managed-lustre/docs/create-instance#performance-tiers) for more information. */
-  perUnitStorageThroughput?: string | undefined;
-  /** Optional. Immutable. Description of the Managed Lustre instance. Maximum of 2048 characters. */
-  description?: string | undefined;
-}
-export type GcsAutoclassConfigTerminalStorageClassEnum =
-  | "TERMINAL_STORAGE_CLASS_UNSPECIFIED"
-  | "NEARLINE"
-  | "ARCHIVE";
-/** Message describing Google Cloud Storage autoclass configuration */
-export interface GcsAutoclassConfig {
-  /** Optional. Terminal storage class of the autoclass bucket */
-  terminalStorageClass?: GcsAutoclassConfigTerminalStorageClassEnum | (string & {}) | undefined;
-  /** Required. Enables Auto-class feature. */
-  enabled?: boolean | undefined;
-}
-export type NewBucketConfigStorageClassEnum =
-  | "STORAGE_CLASS_UNSPECIFIED"
-  | "STANDARD"
-  | "NEARLINE"
-  | "COLDLINE"
-  | "ARCHIVE"
-  | "RAPID";
-/** Message describing Google Cloud Storage hierarchical namespace configuration */
-export interface GcsHierarchicalNamespaceConfig {
-  /** Required. Enables hierarchical namespace setup for the bucket. */
-  enabled?: boolean | undefined;
-}
-/** When set in a StorageResourceConfig, indicates that a new [Google Cloud Storage](https://cloud.google.com/storage) bucket should be created. */
-export interface NewBucketConfig {
-  /** Optional. Immutable. If set, indicates that the bucket should use [Autoclass](https://cloud.google.com/storage/docs/autoclass). */
-  autoclass?: GcsAutoclassConfig | undefined;
-  /** Optional. Immutable. If set, uses the provided storage class as the bucket's default storage class. */
-  storageClass?: NewBucketConfigStorageClassEnum | (string & {}) | undefined;
-  /** Optional. Immutable. If set, indicates that the bucket should use [hierarchical namespaces](https://cloud.google.com/storage/docs/hns-overview). */
-  hierarchicalNamespace?: GcsHierarchicalNamespaceConfig | undefined;
-  /** Required. Immutable. Name of the Cloud Storage bucket to create. */
-  bucket?: string | undefined;
-}
-/** When set in a StorageResourceConfig, indicates that an existing [Google Cloud Storage](https://cloud.google.com/storage) bucket should be imported. */
-export interface ExistingBucketConfig {
-  /** Required. Immutable. Name of the Cloud Storage bucket to import. */
-  bucket?: string | undefined;
-}
-/** Describes how a storage resource should be initialized. Each storage resource can either be imported from an existing Google Cloud resource or initialized when the cluster is created. */
-export interface StorageResourceConfig {
-  /** Optional. Immutable. If set, indicates that an existing Filestore instance should be imported. */
-  existingFilestore?: ExistingFilestoreConfig | undefined;
-  /** Optional. Immutable. If set, indicates that a new Filestore instance should be created. */
-  newFilestore?: NewFilestoreConfig | undefined;
-  /** Optional. Immutable. If set, indicates that an existing Managed Lustre instance should be imported. */
-  existingLustre?: ExistingLustreConfig | undefined;
-  /** Optional. Immutable. If set, indicates that a new Managed Lustre instance should be created. */
-  newLustre?: NewLustreConfig | undefined;
-  /** Optional. Immutable. If set, indicates that a new Cloud Storage bucket should be created. */
-  newBucket?: NewBucketConfig | undefined;
-  /** Optional. Immutable. If set, indicates that an existing Cloud Storage bucket should be imported. */
-  existingBucket?: ExistingBucketConfig | undefined;
-}
-/** A reference to a [Filestore](https://cloud.google.com/filestore) instance. */
-export interface FilestoreReference {
-  /** Output only. Name of the Filestore instance, in the format `projects/{project}/locations/{location}/instances/{instance}` */
-  filestore?: string | undefined;
-}
-/** A reference to a [Google Cloud Storage](https://cloud.google.com/storage) bucket. */
-export interface BucketReference {
-  /** Output only. Name of the bucket. */
-  bucket?: string | undefined;
-}
-/** Represents a form of persistent storage that you can mount onto compute resources in the cluster. */
-export interface StorageResource {
-  /** Output only. A reference to a Managed Lustre instance. Populated if and only if the storage resource was configured to use Managed Lustre. */
-  lustre?: LustreReference | undefined;
-  /** Required. Immutable. Configuration for this storage resource, which describes how it should be created or imported. This field only controls how the storage resource is initially created or imported. Subsequent changes to the storage resource should be made via the resource's API and will not be reflected in the configuration. */
-  config?: StorageResourceConfig | undefined;
-  /** Output only. A reference to a Filestore instance. Populated if and only if the storage resource was configured to use Filestore. */
-  filestore?: FilestoreReference | undefined;
-  /** Output only. A reference to a Google Cloud Storage bucket. Populated if and only if the storage resource was configured to use Google Cloud Storage. */
-  bucket?: BucketReference | undefined;
-}
-export type StorageResourceMap = { [key: string]: StorageResource | undefined };
 /** A collection of virtual machines and connected resources forming a high-performance computing cluster capable of running large-scale, tightly coupled workloads. A cluster combines a set a compute resources that perform computations, storage resources that contain inputs and store outputs, an orchestrator that is responsible for assigning jobs to compute resources, and network resources that connect everything together. */
 export interface Cluster {
-  /** Optional. Network resources available to the cluster. Must contain exactly one value. Keys specify the ID of the network resource by which it can be referenced elsewhere, and must conform to [RFC-1034](https://datatracker.ietf.org/doc/html/rfc1034) (lower-case, alphanumeric, and at most 63 characters). */
-  networkResources?: NetworkResourceMap | undefined;
   /** Output only. Time that the cluster was originally created. */
   createTime?: string | undefined;
-  /** Output only. Time that the cluster was most recently updated. */
-  updateTime?: string | undefined;
-  /** Optional. Compute resources available to the cluster. Keys specify the ID of the compute resource by which it can be referenced elsewhere, and must conform to [RFC-1034](https://datatracker.ietf.org/doc/html/rfc1034) (lower-case, alphanumeric, and at most 63 characters). */
-  computeResources?: ComputeResourceMap | undefined;
-  /** Optional. [Labels](https://cloud.google.com/compute/docs/labeling-resources) applied to the cluster. Labels can be used to organize clusters and to filter them in queries. */
-  labels?: StringMap | undefined;
-  /** Output only. The globally unique identifier for this Cluster. */
-  uid?: string | undefined;
-  /** Optional. Orchestrator that is responsible for scheduling and running jobs on the cluster. */
-  orchestrator?: Orchestrator | undefined;
+  /** Optional. Network resources available to the cluster. Must contain exactly one value. Keys specify the ID of the network resource by which it can be referenced elsewhere, and must conform to [RFC-1034](https://datatracker.ietf.org/doc/html/rfc1034) (lower-case, alphanumeric, and at most 63 characters). */
+  networkResources?: NetworkResourceMap | undefined;
   /** Optional. Storage resources available to the cluster. Keys specify the ID of the storage resource by which it can be referenced elsewhere, and must conform to [RFC-1034](https://datatracker.ietf.org/doc/html/rfc1034) (lower-case, alphanumeric, and at most 63 characters). */
   storageResources?: StorageResourceMap | undefined;
+  /** Output only. The globally unique identifier for this Cluster. */
+  uid?: string | undefined;
+  /** Optional. [Labels](https://cloud.google.com/compute/docs/labeling-resources) applied to the cluster. Labels can be used to organize clusters and to filter them in queries. */
+  labels?: StringMap | undefined;
+  /** Optional. Compute resources available to the cluster. Keys specify the ID of the compute resource by which it can be referenced elsewhere, and must conform to [RFC-1034](https://datatracker.ietf.org/doc/html/rfc1034) (lower-case, alphanumeric, and at most 63 characters). */
+  computeResources?: ComputeResourceMap | undefined;
+  /** Optional. Orchestrator that is responsible for scheduling and running jobs on the cluster. */
+  orchestrator?: Orchestrator | undefined;
+  /** Output only. Time that the cluster was most recently updated. */
+  updateTime?: string | undefined;
+  /** Identifier. [Relative resource name](https://google.aip.dev/122) of the cluster, in the format `projects/{project}/locations/{location}/clusters/{cluster}`. */
+  name?: string | undefined;
   /** Optional. A description for your cluster. You can use up to 2,048 characters. */
   description?: string | undefined;
   /** Output only. Indicates whether changes to the cluster are currently in flight. If this is `true`, then the current state might not match the cluster's intended state. */
   reconciling?: boolean | undefined;
-  /** Identifier. [Relative resource name](https://google.aip.dev/122) of the cluster, in the format `projects/{project}/locations/{location}/clusters/{cluster}`. */
-  name?: string | undefined;
 }
 export interface CreateProjectsLocationsClustersRequest extends Cluster {
-  /** Required. The ID of the cluster to create. The cluster ID must start with a lowercase letter (`a`-`z`), use only lowercase letters or numbers, and contain up to 10 characters. For example, specify `cluster001`. */
-  clusterId?: string | undefined;
   /** Optional. A unique identifier for this request. A random UUID is recommended. This request is idempotent if and only if `request_id` is provided. */
   requestId?: string | undefined;
   /** Required. Parent location in which the cluster should be created, in the format `projects/{project}/locations/{location}`. */
   parent: string;
+  /** Required. The ID of the cluster to create. The cluster ID must start with a lowercase letter (`a`-`z`), use only lowercase letters or numbers, and contain up to 10 characters. For example, specify `cluster001`. */
+  clusterId?: string | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -456,29 +456,29 @@ export type DocumentMapList = Array<DocumentMap>;
 export interface Status {
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
   message?: string | undefined;
-  /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number | undefined;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
   details?: DocumentMapList | undefined;
+  /** The status code, which should be an enum value of google.rpc.Code. */
+  code?: number | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
-  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap | undefined;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
   metadata?: DocumentMap | undefined;
-  /** The error result of the operation in case of failure or cancellation. */
-  error?: Status | undefined;
-  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string | undefined;
+  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
+  response?: DocumentMap | undefined;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
   done?: boolean | undefined;
+  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
+  name?: string | undefined;
+  /** The error result of the operation in case of failure or cancellation. */
+  error?: Status | undefined;
 }
 export interface DeleteProjectsLocationsClustersRequest {
-  /** Optional. A unique identifier for this request. A random UUID is recommended. This request is idempotent if and only if `request_id` is provided. */
-  requestId?: string | undefined;
   /** Required. Name of the cluster to delete, in the format `projects/{project}/locations/{location}/clusters/{cluster}`. */
   name: string;
+  /** Optional. A unique identifier for this request. A random UUID is recommended. This request is idempotent if and only if `request_id` is provided. */
+  requestId?: string | undefined;
 }
 export interface DeleteProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
@@ -490,6 +490,8 @@ export interface GetProjectsLocationsRequest {
 }
 /** A resource that represents a Google Cloud location. */
 export interface Location {
+  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
+  name?: string | undefined;
   /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
   displayName?: string | undefined;
   /** Service-specific metadata. For example the available capacity at the given location. */
@@ -498,8 +500,6 @@ export interface Location {
   locationId?: string | undefined;
   /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
   labels?: StringMap | undefined;
-  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
-  name?: string | undefined;
 }
 export interface GetProjectsLocationsClustersRequest {
   /** Required. Name of the cluster to retrieve, in the format `projects/{project}/locations/{location}/clusters/{cluster}`. */
@@ -510,76 +510,76 @@ export interface GetProjectsLocationsOperationsRequest {
   name: string;
 }
 export interface ListProjectsLocationsRequest {
-  /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number | undefined;
-  /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
-  extraLocationTypes?: StringList | undefined;
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
   filter?: string | undefined;
-  /** The resource that owns the locations collection, if applicable. */
-  name: string;
+  /** The maximum number of results to return. If not set, the service selects a default. */
+  pageSize?: number | undefined;
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
   pageToken?: string | undefined;
+  /** The resource that owns the locations collection, if applicable. */
+  name: string;
+  /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
+  extraLocationTypes?: StringList | undefined;
 }
 export type LocationList = Array<Location>;
 /** The response message for Locations.ListLocations. */
 export interface ListLocationsResponse {
-  /** A list of locations that matches the specified filter in the request. */
-  locations?: LocationList | undefined;
   /** The standard List next-page token. */
   nextPageToken?: string | undefined;
+  /** A list of locations that matches the specified filter in the request. */
+  locations?: LocationList | undefined;
 }
 export interface ListProjectsLocationsClustersRequest {
-  /** Required. Parent location of the clusters to list, in the format `projects/{project}/locations/{location}`. */
-  parent: string;
-  /** Optional. [Filter](https://google.aip.dev/160) to apply to the returned results. */
-  filter?: string | undefined;
-  /** Optional. A page token received from a previous `ListClusters` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListClusters` must match the call that provided the page token. */
-  pageToken?: string | undefined;
-  /** Optional. How to order the resulting clusters. Must be one of the following strings: * `name` * `name desc` * `create_time` * `create_time desc` If not specified, clusters will be returned in an arbitrary order. */
-  orderBy?: string | undefined;
   /** Optional. Maximum number of clusters to return. The service may return fewer than this value. */
   pageSize?: number | undefined;
+  /** Optional. A page token received from a previous `ListClusters` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListClusters` must match the call that provided the page token. */
+  pageToken?: string | undefined;
+  /** Optional. [Filter](https://google.aip.dev/160) to apply to the returned results. */
+  filter?: string | undefined;
+  /** Required. Parent location of the clusters to list, in the format `projects/{project}/locations/{location}`. */
+  parent: string;
+  /** Optional. How to order the resulting clusters. Must be one of the following strings: * `name` * `name desc` * `create_time` * `create_time desc` If not specified, clusters will be returned in an arbitrary order. */
+  orderBy?: string | undefined;
 }
 export type ClusterList = Array<Cluster>;
 /** Response message for ListClusters. */
 export interface ListClustersResponse {
-  /** Locations that could not be reached. */
-  unreachable?: StringList | undefined;
   /** Clusters in the specified location. */
   clusters?: ClusterList | undefined;
   /** A token that can be sent as `page_token` to retrieve the next page. If this field is absent, there are no subsequent pages. */
   nextPageToken?: string | undefined;
+  /** Locations that could not be reached. */
+  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsOperationsRequest {
-  /** The standard list page size. */
-  pageSize?: number | undefined;
-  /** The name of the operation's parent resource. */
-  name: string;
-  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean | undefined;
   /** The standard list page token. */
   pageToken?: string | undefined;
+  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
+  returnPartialSuccess?: boolean | undefined;
+  /** The standard list page size. */
+  pageSize?: number | undefined;
   /** The standard list filter. */
   filter?: string | undefined;
+  /** The name of the operation's parent resource. */
+  name: string;
 }
 export type OperationList = Array<Operation>;
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
-  /** The standard List next-page token. */
-  nextPageToken?: string | undefined;
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
   unreachable?: StringList | undefined;
+  /** The standard List next-page token. */
+  nextPageToken?: string | undefined;
   /** A list of operations that matches the specified filter in the request. */
   operations?: OperationList | undefined;
 }
 export interface PatchProjectsLocationsClustersRequest extends Omit<Cluster, "name"> {
-  /** Optional. A unique identifier for this request. A random UUID is recommended. This request is idempotent if and only if `request_id` is provided. */
-  requestId?: string | undefined;
   /** Identifier. [Relative resource name](https://google.aip.dev/122) of the cluster, in the format `projects/{project}/locations/{location}/clusters/{cluster}`. */
   name: string;
   /** Optional. Mask specifying which fields in the cluster to update. All paths must be specified explicitly - wildcards are not supported. At least one path must be provided. */
   updateMask?: string | undefined;
+  /** Optional. A unique identifier for this request. A random UUID is recommended. This request is idempotent if and only if `request_id` is provided. */
+  requestId?: string | undefined;
 }
 export type CancelProjectsLocationsOperationsError =
   | NotFound
@@ -702,7 +702,7 @@ export const getProjectsLocationsClusters: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c18, 0) as any as S.Schema<GetProjectsLocationsClustersRequest>,
-  output: __S(424, __c13, 8) as any as S.Schema<Cluster>,
+  output: __S(423, __c13, 7) as any as S.Schema<Cluster>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -835,11 +835,11 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          extraLocationTypes: S.optional(__S(352, __c11, 0).pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
+          extraLocationTypes: S.optional(__S(352, __c11, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -853,8 +853,8 @@ function __c1(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          locations: S.optional(__S(33, __c1, 1)),
           nextPageToken: S.optional(S.String),
+          locations: S.optional(__S(33, __c1, 1)),
         }),
       ).annotate({ identifier: "ListLocationsResponse" });
   }
@@ -864,11 +864,11 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
-          filter: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          orderBy: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          orderBy: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -878,13 +878,13 @@ function __c2(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsClustersRequest" });
     case 1:
-      return S.Array(__S(424, __c13, 8));
+      return S.Array(__S(423, __c13, 7));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(352, __c11, 0)),
           clusters: S.optional(__S(65, __c2, 1)),
           nextPageToken: S.optional(S.String),
+          unreachable: S.optional(__S(352, __c11, 0)),
         }),
       ).annotate({ identifier: "ListClustersResponse" });
   }
@@ -894,11 +894,11 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -912,8 +912,8 @@ function __c3(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           unreachable: S.optional(__S(352, __c11, 0)),
+          nextPageToken: S.optional(S.String),
           operations: S.optional(__S(97, __c3, 1)),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
@@ -924,11 +924,11 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(424, __c13, 8),
+          __S(423, __c13, 7),
           S.Struct({
-            requestId: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -968,11 +968,11 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(424, __c13, 8),
+          __S(423, __c13, 7),
           S.Struct({
-            clusterId: S.optional(S.String.pipe(T.Query())),
             requestId: S.optional(S.String.pipe(T.Query())),
             parent: S.String.pipe(T.Label()),
+            clusterId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -992,18 +992,18 @@ function __c8(j: number): any {
       return S.suspend(() =>
         S.Struct({
           message: S.optional(S.String),
-          code: S.optional(S.Number),
           details: S.optional(__S(256, __c8, 0)),
+          code: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Status" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          response: S.optional(__S(288, __c9, 0)),
           metadata: S.optional(__S(288, __c9, 0)),
-          error: S.optional(__S(257, __c8, 1)),
-          name: S.optional(S.String),
+          response: S.optional(__S(288, __c9, 0)),
           done: S.optional(S.Boolean),
+          name: S.optional(S.String),
+          error: S.optional(__S(257, __c8, 1)),
         }),
       ).annotate({ identifier: "Operation" });
   }
@@ -1031,62 +1031,146 @@ function __c12(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          description: S.optional(S.String),
           network: S.optional(S.String),
-          subnetwork: S.optional(S.String),
         }),
-      ).annotate({ identifier: "NetworkReference" });
+      ).annotate({ identifier: "NewNetworkConfig" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          subnetwork: S.optional(S.String),
           network: S.optional(S.String),
+          subnetwork: S.optional(S.String),
         }),
       ).annotate({ identifier: "ExistingNetworkConfig" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          description: S.optional(S.String),
-          network: S.optional(S.String),
+          newNetwork: S.optional(__S(384, __c12, 0)),
+          existingNetwork: S.optional(__S(385, __c12, 1)),
         }),
-      ).annotate({ identifier: "NewNetworkConfig" });
+      ).annotate({ identifier: "NetworkResourceConfig" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          existingNetwork: S.optional(__S(385, __c12, 1)),
-          newNetwork: S.optional(__S(386, __c12, 2)),
-        }),
-      ).annotate({ identifier: "NetworkResourceConfig" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          network: S.optional(__S(384, __c12, 0)),
-          config: S.optional(__S(387, __c12, 3)),
+          config: S.optional(__S(386, __c12, 2)),
+          network: S.optional(__S(385, __c12, 1)),
         }),
       ).annotate({ identifier: "NetworkResource" });
+    case 4:
+      return S.Record(S.String, __S(387, __c12, 3));
     case 5:
-      return S.Record(S.String, __S(388, __c12, 4));
+      return S.suspend(() =>
+        S.Struct({
+          lustre: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "LustreReference" });
     case 6:
+      return S.suspend(() =>
+        S.Struct({
+          filestore: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "FilestoreReference" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          bucket: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "BucketReference" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          filesystem: S.optional(S.String),
+          perUnitStorageThroughput: S.optional(S.String),
+          lustre: S.optional(S.String),
+          description: S.optional(S.String),
+          capacityGb: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "NewLustreConfig" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          enabled: S.optional(S.Boolean),
+          terminalStorageClass: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GcsAutoclassConfig" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          enabled: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "GcsHierarchicalNamespaceConfig" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          bucket: S.optional(S.String),
+          autoclass: S.optional(__S(393, __c12, 9)),
+          storageClass: S.optional(S.String),
+          hierarchicalNamespace: S.optional(__S(394, __c12, 10)),
+        }),
+      ).annotate({ identifier: "NewBucketConfig" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          fileShare: S.optional(S.String),
+          capacityGb: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "FileShareConfig" });
+    case 13:
+      return S.Array(__S(396, __c12, 12));
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          description: S.optional(S.String),
+          fileShares: S.optional(__S(397, __c12, 13)),
+          tier: S.optional(S.String),
+          filestore: S.optional(S.String),
+          protocol: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "NewFilestoreConfig" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          existingLustre: S.optional(__S(389, __c12, 5)),
+          existingFilestore: S.optional(__S(390, __c12, 6)),
+          newLustre: S.optional(__S(392, __c12, 8)),
+          existingBucket: S.optional(__S(391, __c12, 7)),
+          newBucket: S.optional(__S(395, __c12, 11)),
+          newFilestore: S.optional(__S(398, __c12, 14)),
+        }),
+      ).annotate({ identifier: "StorageResourceConfig" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          lustre: S.optional(__S(389, __c12, 5)),
+          filestore: S.optional(__S(390, __c12, 6)),
+          bucket: S.optional(__S(391, __c12, 7)),
+          config: S.optional(__S(399, __c12, 15)),
+        }),
+      ).annotate({ identifier: "StorageResource" });
+    case 17:
+      return S.Record(S.String, __S(400, __c12, 16));
+    case 18:
       return S.suspend(() =>
         S.Struct({
           reservation: S.optional(S.String),
         }),
       ).annotate({ identifier: "NewReservedInstancesConfig" });
-    case 7:
+    case 19:
       return S.suspend(() =>
         S.Struct({
           machineType: S.optional(S.String),
           zone: S.optional(S.String),
         }),
       ).annotate({ identifier: "NewOnDemandInstancesConfig" });
-    case 8:
+    case 20:
       return S.suspend(() =>
         S.Struct({
-          zone: S.optional(S.String),
           machineType: S.optional(S.String),
           maxDuration: S.optional(S.String),
+          zone: S.optional(S.String),
         }),
       ).annotate({ identifier: "NewFlexStartInstancesConfig" });
-    case 9:
+    case 21:
       return S.suspend(() =>
         S.Struct({
           machineType: S.optional(S.String),
@@ -1094,149 +1178,70 @@ function __c12(j: number): any {
           zone: S.optional(S.String),
         }),
       ).annotate({ identifier: "NewSpotInstancesConfig" });
-    case 10:
+    case 22:
       return S.suspend(() =>
         S.Struct({
-          newReservedInstances: S.optional(__S(390, __c12, 6)),
-          newOnDemandInstances: S.optional(__S(391, __c12, 7)),
-          newFlexStartInstances: S.optional(__S(392, __c12, 8)),
-          newSpotInstances: S.optional(__S(393, __c12, 9)),
+          newReservedInstances: S.optional(__S(402, __c12, 18)),
+          newOnDemandInstances: S.optional(__S(403, __c12, 19)),
+          newFlexStartInstances: S.optional(__S(404, __c12, 20)),
+          newSpotInstances: S.optional(__S(405, __c12, 21)),
         }),
       ).annotate({ identifier: "ComputeResourceConfig" });
-    case 11:
+    case 23:
       return S.suspend(() =>
         S.Struct({
-          config: S.optional(__S(394, __c12, 10)),
+          config: S.optional(__S(406, __c12, 22)),
         }),
       ).annotate({ identifier: "ComputeResource" });
-    case 12:
-      return S.Record(S.String, __S(395, __c12, 11));
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.optional(S.String),
-          sizeGb: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "BootDisk" });
-    case 14:
-      return S.suspend(() =>
-        S.Struct({
-          bootDisk: S.optional(__S(397, __c12, 13)),
-          labels: S.optional(__S(320, __c10, 0)),
-          startupScript: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ComputeInstanceSlurmNodeSet" });
-    case 15:
+    case 24:
+      return S.Record(S.String, __S(407, __c12, 23));
+    case 25:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           localMount: S.optional(S.String),
         }),
       ).annotate({ identifier: "StorageConfig" });
-    case 16:
-      return S.Array(__S(399, __c12, 15));
-    case 17:
+    case 26:
+      return S.Array(__S(409, __c12, 25));
+    case 27:
+      return S.suspend(() =>
+        S.Struct({
+          sizeGb: S.optional(S.String),
+          type: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "BootDisk" });
+    case 28:
+      return S.suspend(() =>
+        S.Struct({
+          instance: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ComputeInstance" });
+    case 29:
+      return S.Array(__S(412, __c12, 28));
+    case 30:
       return S.suspend(() =>
         S.Struct({
           email: S.optional(S.String),
           scopes: S.optional(__S(352, __c11, 0)),
         }),
       ).annotate({ identifier: "ServiceAccount" });
-    case 18:
-      return S.suspend(() =>
-        S.Struct({
-          computeInstance: S.optional(__S(398, __c12, 14)),
-          storageConfigs: S.optional(__S(400, __c12, 16)),
-          serviceAccount: S.optional(__S(401, __c12, 17)),
-          computeId: S.optional(S.String),
-          maxDynamicNodeCount: S.optional(S.String),
-          id: S.optional(S.String),
-          staticNodeCount: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SlurmNodeSet" });
-    case 19:
-      return S.Array(__S(402, __c12, 18));
-    case 20:
-      return S.suspend(() =>
-        S.Struct({
-          instance: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ComputeInstance" });
-    case 21:
-      return S.Array(__S(404, __c12, 20));
-    case 22:
-      return S.suspend(() =>
-        S.Struct({
-          bootDisk: S.optional(__S(397, __c12, 13)),
-          labels: S.optional(__S(320, __c10, 0)),
-          enableOsLogin: S.optional(S.Boolean),
-          instances: S.optional(__S(405, __c12, 21)),
-          enablePublicIps: S.optional(S.Boolean),
-          startupScript: S.optional(S.String),
-          storageConfigs: S.optional(__S(400, __c12, 16)),
-          serviceAccount: S.optional(__S(401, __c12, 17)),
-          count: S.optional(S.String),
-          machineType: S.optional(S.String),
-          zone: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SlurmLoginNodes" });
-    case 23:
-      return S.suspend(() =>
-        S.Struct({
-          nodeSetIds: S.optional(__S(352, __c11, 0)),
-          id: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SlurmPartition" });
-    case 24:
-      return S.Array(__S(407, __c12, 23));
-    case 25:
-      return S.suspend(() =>
-        S.Struct({
-          defaultPartition: S.optional(S.String),
-          nodeSets: S.optional(__S(403, __c12, 19)),
-          loginNodes: S.optional(__S(406, __c12, 22)),
-          epilogBashScripts: S.optional(__S(352, __c11, 0)),
-          prologBashScripts: S.optional(__S(352, __c11, 0)),
-          partitions: S.optional(__S(408, __c12, 24)),
-        }),
-      ).annotate({ identifier: "SlurmOrchestrator" });
-    case 26:
-      return S.suspend(() =>
-        S.Struct({
-          slurm: S.optional(__S(409, __c12, 25)),
-        }),
-      ).annotate({ identifier: "Orchestrator" });
-    case 27:
-      return S.suspend(() =>
-        S.Struct({
-          lustre: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "LustreReference" });
-    case 28:
-      return S.suspend(() =>
-        S.Struct({
-          filestore: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ExistingFilestoreConfig" });
-    case 29:
-      return S.suspend(() =>
-        S.Struct({
-          fileShare: S.optional(S.String),
-          capacityGb: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "FileShareConfig" });
-    case 30:
-      return S.Array(__S(413, __c12, 29));
     case 31:
       return S.suspend(() =>
         S.Struct({
-          tier: S.optional(S.String),
-          filestore: S.optional(S.String),
-          description: S.optional(S.String),
-          fileShares: S.optional(__S(414, __c12, 30)),
-          protocol: S.optional(S.String),
+          enablePublicIps: S.optional(S.Boolean),
+          count: S.optional(S.String),
+          storageConfigs: S.optional(__S(410, __c12, 26)),
+          startupScript: S.optional(S.String),
+          labels: S.optional(__S(320, __c10, 0)),
+          bootDisk: S.optional(__S(411, __c12, 27)),
+          instances: S.optional(__S(413, __c12, 29)),
+          serviceAccount: S.optional(__S(414, __c12, 30)),
+          zone: S.optional(S.String),
+          enableOsLogin: S.optional(S.Boolean),
+          machineType: S.optional(S.String),
         }),
-      ).annotate({ identifier: "NewFilestoreConfig" });
+      ).annotate({ identifier: "SlurmLoginNodes" });
   }
 }
 function __c13(j: number): any {
@@ -1244,77 +1249,65 @@ function __c13(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filesystem: S.optional(S.String),
-          lustre: S.optional(S.String),
-          capacityGb: S.optional(S.String),
-          perUnitStorageThroughput: S.optional(S.String),
-          description: S.optional(S.String),
+          nodeSetIds: S.optional(__S(352, __c11, 0)),
+          id: S.optional(S.String),
         }),
-      ).annotate({ identifier: "NewLustreConfig" });
+      ).annotate({ identifier: "SlurmPartition" });
     case 1:
-      return S.suspend(() =>
-        S.Struct({
-          terminalStorageClass: S.optional(S.String),
-          enabled: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "GcsAutoclassConfig" });
+      return S.Array(__S(416, __c13, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          enabled: S.optional(S.Boolean),
+          bootDisk: S.optional(__S(411, __c12, 27)),
+          startupScript: S.optional(S.String),
+          labels: S.optional(__S(320, __c10, 0)),
         }),
-      ).annotate({ identifier: "GcsHierarchicalNamespaceConfig" });
+      ).annotate({ identifier: "ComputeInstanceSlurmNodeSet" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          autoclass: S.optional(__S(417, __c13, 1)),
-          storageClass: S.optional(S.String),
-          hierarchicalNamespace: S.optional(__S(418, __c13, 2)),
-          bucket: S.optional(S.String),
+          id: S.optional(S.String),
+          serviceAccount: S.optional(__S(414, __c12, 30)),
+          storageConfigs: S.optional(__S(410, __c12, 26)),
+          computeInstance: S.optional(__S(418, __c13, 2)),
+          computeId: S.optional(S.String),
+          staticNodeCount: S.optional(S.String),
+          maxDynamicNodeCount: S.optional(S.String),
         }),
-      ).annotate({ identifier: "NewBucketConfig" });
+      ).annotate({ identifier: "SlurmNodeSet" });
     case 4:
-      return S.suspend(() =>
-        S.Struct({
-          bucket: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ExistingBucketConfig" });
+      return S.Array(__S(419, __c13, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          existingFilestore: S.optional(__S(412, __c12, 28)),
-          newFilestore: S.optional(__S(415, __c12, 31)),
-          existingLustre: S.optional(__S(411, __c12, 27)),
-          newLustre: S.optional(__S(416, __c13, 0)),
-          newBucket: S.optional(__S(419, __c13, 3)),
-          existingBucket: S.optional(__S(420, __c13, 4)),
+          loginNodes: S.optional(__S(415, __c12, 31)),
+          epilogBashScripts: S.optional(__S(352, __c11, 0)),
+          prologBashScripts: S.optional(__S(352, __c11, 0)),
+          defaultPartition: S.optional(S.String),
+          partitions: S.optional(__S(417, __c13, 1)),
+          nodeSets: S.optional(__S(420, __c13, 4)),
         }),
-      ).annotate({ identifier: "StorageResourceConfig" });
+      ).annotate({ identifier: "SlurmOrchestrator" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          lustre: S.optional(__S(411, __c12, 27)),
-          config: S.optional(__S(421, __c13, 5)),
-          filestore: S.optional(__S(412, __c12, 28)),
-          bucket: S.optional(__S(420, __c13, 4)),
+          slurm: S.optional(__S(421, __c13, 5)),
         }),
-      ).annotate({ identifier: "StorageResource" });
+      ).annotate({ identifier: "Orchestrator" });
     case 7:
-      return S.Record(S.String, __S(422, __c13, 6));
-    case 8:
       return S.suspend(() =>
         S.Struct({
-          networkResources: S.optional(__S(389, __c12, 5)),
           createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          computeResources: S.optional(__S(396, __c12, 12)),
-          labels: S.optional(__S(320, __c10, 0)),
+          networkResources: S.optional(__S(388, __c12, 4)),
+          storageResources: S.optional(__S(401, __c12, 17)),
           uid: S.optional(S.String),
-          orchestrator: S.optional(__S(410, __c12, 26)),
-          storageResources: S.optional(__S(423, __c13, 7)),
+          labels: S.optional(__S(320, __c10, 0)),
+          computeResources: S.optional(__S(408, __c12, 24)),
+          orchestrator: S.optional(__S(422, __c13, 6)),
+          updateTime: S.optional(S.String),
+          name: S.optional(S.String),
           description: S.optional(S.String),
           reconciling: S.optional(S.Boolean),
-          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Cluster" });
   }
@@ -1324,8 +1317,8 @@ function __c14(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          requestId: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -1373,11 +1366,11 @@ function __c17(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.optional(S.String),
           displayName: S.optional(S.String),
           metadata: S.optional(__S(288, __c9, 0)),
           locationId: S.optional(S.String),
           labels: S.optional(__S(320, __c10, 0)),
-          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Location" });
   }

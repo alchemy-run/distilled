@@ -85,10 +85,10 @@ export class NotFound
 
 export type GetItemsProjectionEnum = "DRAFT" | "PUBLISHED";
 export interface GetItemsRequest {
-  /** Determines which subset of the item information to return. */
-  projection?: GetItemsProjectionEnum | (string & {}) | undefined;
   /** Unique identifier representing the Chrome App, Chrome Extension, or the Chrome Theme. */
   itemId: string;
+  /** Determines which subset of the item information to return. */
+  projection?: GetItemsProjectionEnum | (string & {}) | undefined;
 }
 /** Error of the item */
 export interface ItemError {
@@ -99,18 +99,18 @@ export interface ItemError {
 }
 export type ItemErrorList = Array<ItemError>;
 export interface Item {
-  /** The CRX version of the item. If the projection is draft, then it is the draft's CRX version. */
-  crxVersion?: string | undefined;
   /** Detail human-readable status of the operation, in English only. Same error messages are displayed when you upload your app to the Chrome Web Store. */
   itemError?: ItemErrorList | undefined;
-  /** Unique ID of the item. */
-  id?: string | undefined;
-  /** Public key of this item. */
-  publicKey?: string | undefined;
-  /** Status of the operation. Possible values are: - \"FAILURE\" - \"IN_PROGRESS\" - \"NOT_FOUND\" - \"SUCCESS\" */
-  uploadState?: string | undefined;
   /** Identifies this resource as an Item. Value: the fixed string "chromewebstore#item". */
   kind?: string | undefined;
+  /** Status of the operation. Possible values are: - \"FAILURE\" - \"IN_PROGRESS\" - \"NOT_FOUND\" - \"SUCCESS\" */
+  uploadState?: string | undefined;
+  /** The CRX version of the item. If the projection is draft, then it is the draft's CRX version. */
+  crxVersion?: string | undefined;
+  /** Public key of this item. */
+  publicKey?: string | undefined;
+  /** Unique ID of the item. */
+  id?: string | undefined;
 }
 export interface InsertItemsRequest {
   /** The email of the publisher who owns the items. Defaults to the caller's email address. */
@@ -128,10 +128,10 @@ export interface PublishItemsRequest extends Omit<
   PublishRequest,
   "reviewExemption" | "deployPercentage"
 > {
-  /** The deploy percentage you want to set for your item. Valid values are [0, 100]. If set to any number less than 100, only that many percentage of users will be allowed to get the update. */
-  deployPercentage?: number | undefined;
   /** Provide defined publishTarget in URL (case sensitive): publishTarget="trustedTesters" or publishTarget="default". Defaults to publishTarget="default". */
   publishTarget?: string | undefined;
+  /** The deploy percentage you want to set for your item. Valid values are [0, 100]. If set to any number less than 100, only that many percentage of users will be allowed to get the update. */
+  deployPercentage?: number | undefined;
   /** Optional. The caller request to exempt the review and directly publish because the update is within the list that we can automatically validate. The API will check if the exemption can be granted using real time data. */
   reviewExemption?: boolean | undefined;
   /** The ID of the item to publish. */
@@ -139,12 +139,12 @@ export interface PublishItemsRequest extends Omit<
 }
 export type StringList = Array<string>;
 export interface Item2 {
+  /** Static string value is always "chromewebstore#item". */
+  kind?: string | undefined;
   /** The ID of this item. */
   item_id?: string | undefined;
   /** Detailed human-comprehensible explanation of the status code above. */
   statusDetail?: StringList | undefined;
-  /** Static string value is always "chromewebstore#item". */
-  kind?: string | undefined;
   /** The status code of this publish operation. It may contain multiple elements from the following list: NOT_AUTHORIZED, INVALID_DEVELOPER, DEVELOPER_NO_OWNERSHIP, DEVELOPER_SUSPENDED, ITEM_NOT_FOUND, ITEM_PENDING_REVIEW, ITEM_TAKEN_DOWN, PUBLISHER_SUSPENDED. */
   status?: StringList | undefined;
 }
@@ -226,8 +226,8 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          projection: S.optional(S.String.pipe(T.Query())),
           itemId: S.String.pipe(T.Label()),
+          projection: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -252,12 +252,12 @@ function __c1(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          crxVersion: S.optional(S.String),
           itemError: S.optional(__S(5, __c1, 1)),
-          id: S.optional(S.String),
-          publicKey: S.optional(S.String),
-          uploadState: S.optional(S.String),
           kind: S.optional(S.String),
+          uploadState: S.optional(S.String),
+          crxVersion: S.optional(S.String),
+          publicKey: S.optional(S.String),
+          id: S.optional(S.String),
         }),
       ).annotate({ identifier: "Item" });
   }
@@ -293,8 +293,8 @@ function __c3(j: number): any {
         S.Extend(
           __S(12, __c3, 0),
           S.Struct({
-            deployPercentage: S.optional(S.Number.pipe(T.Query())),
             publishTarget: S.optional(S.String.pipe(T.Query())),
+            deployPercentage: S.optional(S.Number.pipe(T.Query())),
             reviewExemption: S.optional(S.Boolean.pipe(T.Query())),
             itemId: S.String.pipe(T.Label()),
           }),
@@ -311,9 +311,9 @@ function __c3(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
+          kind: S.optional(S.String),
           item_id: S.optional(S.String),
           statusDetail: S.optional(__S(14, __c3, 2)),
-          kind: S.optional(S.String),
           status: S.optional(__S(14, __c3, 2)),
         }),
       ).annotate({ identifier: "Item2" });

@@ -92,19 +92,19 @@ export type UrlNotificationTypeEnum =
   | "URL_DELETED";
 /** `UrlNotification` is the resource used in all Indexing API calls. It describes one event in the life cycle of a Web Document. */
 export interface UrlNotification {
-  /** The URL life cycle event that Google is being notified about. */
-  type?: UrlNotificationTypeEnum | (string & {}) | undefined;
-  /** Creation timestamp for this notification. Users should _not_ specify it, the field is ignored at the request time. */
-  notifyTime?: string | undefined;
   /** The object of this notification. The URL must be owned by the publisher of this notification and, in case of `URL_UPDATED` notifications, it _must_ be crawlable by Google. */
   url?: string | undefined;
+  /** Creation timestamp for this notification. Users should _not_ specify it, the field is ignored at the request time. */
+  notifyTime?: string | undefined;
+  /** The URL life cycle event that Google is being notified about. */
+  type?: UrlNotificationTypeEnum | (string & {}) | undefined;
 }
 /** Summary of the most recent Indexing API notifications successfully received, for a given URL. */
 export interface UrlNotificationMetadata {
-  /** Latest notification received with type `URL_REMOVED`. */
-  latestRemove?: UrlNotification | undefined;
   /** Latest notification received with type `URL_UPDATED`. */
   latestUpdate?: UrlNotification | undefined;
+  /** Latest notification received with type `URL_REMOVED`. */
+  latestRemove?: UrlNotification | undefined;
   /** URL to which this metadata refers. */
   url?: string | undefined;
 }
@@ -177,16 +177,16 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          type: S.optional(S.String),
-          notifyTime: S.optional(S.String),
           url: S.optional(S.String),
+          notifyTime: S.optional(S.String),
+          type: S.optional(S.String),
         }),
       ).annotate({ identifier: "UrlNotification" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          latestRemove: S.optional(__S(2, __c1, 0)),
           latestUpdate: S.optional(__S(2, __c1, 0)),
+          latestRemove: S.optional(__S(2, __c1, 0)),
           url: S.optional(S.String),
         }),
       ).annotate({ identifier: "UrlNotificationMetadata" });

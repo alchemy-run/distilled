@@ -83,6 +83,7 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
+export type StringList = Array<string>;
 export type ConnectorStateEnum =
   | "STATE_UNSPECIFIED"
   | "READY"
@@ -90,38 +91,37 @@ export type ConnectorStateEnum =
   | "DELETING"
   | "ERROR"
   | "UPDATING";
-export type StringList = Array<string>;
 /** The subnet in which to house the connector */
 export interface Subnet {
-  /** Optional. Subnet name (relative, not fully qualified). E.g. if the full subnet selfLink is https://compute.googleapis.com/compute/v1/projects/{project}/regions/{region}/subnetworks/{subnetName} the correct input for this field would be {subnetName} */
-  name?: string | undefined;
   /** Optional. Project in which the subnet exists. If not set, this project is assumed to be the project for which the connector create request was issued. */
   projectId?: string | undefined;
+  /** Optional. Subnet name (relative, not fully qualified). E.g. if the full subnet selfLink is https://compute.googleapis.com/compute/v1/projects/{project}/regions/{region}/subnetworks/{subnetName} the correct input for this field would be {subnetName} */
+  name?: string | undefined;
 }
 /** Definition of a Serverless VPC Access connector. */
 export interface Connector {
-  /** Minimum value of instances in autoscaling group underlying the connector. */
-  minInstances?: number | undefined;
-  /** Output only. State of the VPC access connector. */
-  state?: ConnectorStateEnum | (string & {}) | undefined;
   /** Optional. The range of internal addresses that follows RFC 4632 notation. Example: `10.132.0.0/28`. */
   ipCidrRange?: string | undefined;
-  /** Machine type of VM Instance underlying connector. Default is e2-micro */
-  machineType?: string | undefined;
-  /** Output only. List of projects using the connector. */
-  connectedProjects?: StringList | undefined;
-  /** The resource name in the format `projects/*\/locations/*\/connectors/*`. */
-  name?: string | undefined;
-  /** Maximum throughput of the connector in Mbps. Refers to the expected throughput when using an `e2-micro` machine type. Value must be a multiple of 100 from 300 through 1000. Must be higher than the value specified by --min-throughput. If both max-throughput and max-instances are provided, max-instances takes precedence over max-throughput. The use of `max-throughput` is discouraged in favor of `max-instances`. */
-  maxThroughput?: number | undefined;
-  /** Optional. The subnet in which to house the VPC Access Connector. */
-  subnet?: Subnet | undefined;
-  /** Minimum throughput of the connector in Mbps. Refers to the expected throughput when using an `e2-micro` machine type. Value must be a multiple of 100 from 200 through 900. Must be lower than the value specified by --max-throughput. If both min-throughput and min-instances are provided, min-instances takes precedence over min-throughput. The use of `min-throughput` is discouraged in favor of `min-instances`. */
-  minThroughput?: number | undefined;
-  /** Maximum value of instances in autoscaling group underlying the connector. */
-  maxInstances?: number | undefined;
   /** Optional. Name of a VPC network. */
   network?: string | undefined;
+  /** Output only. List of projects using the connector. */
+  connectedProjects?: StringList | undefined;
+  /** Output only. State of the VPC access connector. */
+  state?: ConnectorStateEnum | (string & {}) | undefined;
+  /** Minimum value of instances in autoscaling group underlying the connector. */
+  minInstances?: number | undefined;
+  /** Maximum throughput of the connector in Mbps. Refers to the expected throughput when using an `e2-micro` machine type. Value must be a multiple of 100 from 300 through 1000. Must be higher than the value specified by --min-throughput. If both max-throughput and max-instances are provided, max-instances takes precedence over max-throughput. The use of `max-throughput` is discouraged in favor of `max-instances`. */
+  maxThroughput?: number | undefined;
+  /** The resource name in the format `projects/*\/locations/*\/connectors/*`. */
+  name?: string | undefined;
+  /** Minimum throughput of the connector in Mbps. Refers to the expected throughput when using an `e2-micro` machine type. Value must be a multiple of 100 from 200 through 900. Must be lower than the value specified by --max-throughput. If both min-throughput and min-instances are provided, min-instances takes precedence over min-throughput. The use of `min-throughput` is discouraged in favor of `min-instances`. */
+  minThroughput?: number | undefined;
+  /** Optional. The subnet in which to house the VPC Access Connector. */
+  subnet?: Subnet | undefined;
+  /** Maximum value of instances in autoscaling group underlying the connector. */
+  maxInstances?: number | undefined;
+  /** Machine type of VM Instance underlying connector. Default is e2-micro */
+  machineType?: string | undefined;
 }
 export interface CreateProjectsLocationsConnectorsRequest extends Connector {
   /** Required. The project ID and location in which the configuration should be created, specified in the format `projects/*\/locations/*`. */
@@ -144,14 +144,14 @@ export interface Status {
 export interface Operation {
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
   done?: boolean | undefined;
+  /** The error result of the operation in case of failure or cancellation. */
+  error?: Status | undefined;
+  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
+  name?: string | undefined;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
   metadata?: DocumentMap | undefined;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
   response?: DocumentMap | undefined;
-  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string | undefined;
-  /** The error result of the operation in case of failure or cancellation. */
-  error?: Status | undefined;
 }
 export interface DeleteProjectsLocationsConnectorsRequest {
   /** Required. Name of a Serverless VPC Access connector to delete. */
@@ -166,66 +166,66 @@ export interface GetProjectsLocationsOperationsRequest {
   name: string;
 }
 export interface ListProjectsLocationsRequest {
-  /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
-  extraLocationTypes?: StringList | undefined;
-  /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number | undefined;
-  /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
-  filter?: string | undefined;
-  /** The resource that owns the locations collection, if applicable. */
-  name: string;
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
   pageToken?: string | undefined;
+  /** The resource that owns the locations collection, if applicable. */
+  name: string;
+  /** The maximum number of results to return. If not set, the service selects a default. */
+  pageSize?: number | undefined;
+  /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
+  extraLocationTypes?: StringList | undefined;
+  /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
+  filter?: string | undefined;
 }
 export type StringMap = { [key: string]: string | undefined };
 /** A resource that represents a Google Cloud location. */
 export interface Location {
   /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
   displayName?: string | undefined;
-  /** The canonical id for this location. For example: `"us-east1"`. */
-  locationId?: string | undefined;
   /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
   labels?: StringMap | undefined;
-  /** Service-specific metadata. For example the available capacity at the given location. */
-  metadata?: DocumentMap | undefined;
+  /** The canonical id for this location. For example: `"us-east1"`. */
+  locationId?: string | undefined;
   /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
   name?: string | undefined;
+  /** Service-specific metadata. For example the available capacity at the given location. */
+  metadata?: DocumentMap | undefined;
 }
 export type LocationList = Array<Location>;
 /** The response message for Locations.ListLocations. */
 export interface ListLocationsResponse {
-  /** The standard List next-page token. */
-  nextPageToken?: string | undefined;
   /** A list of locations that matches the specified filter in the request. */
   locations?: LocationList | undefined;
+  /** The standard List next-page token. */
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsConnectorsRequest {
-  /** Continuation token. */
-  pageToken?: string | undefined;
   /** Maximum number of functions to return per call. */
   pageSize?: number | undefined;
+  /** Continuation token. */
+  pageToken?: string | undefined;
   /** Required. The project and location from which the routes should be listed. */
   parent: string;
 }
 export type ConnectorList = Array<Connector>;
 /** Response for listing Serverless VPC Access connectors. */
 export interface ListConnectorsResponse {
-  /** List of Serverless VPC Access connectors. */
-  connectors?: ConnectorList | undefined;
   /** Continuation token. */
   nextPageToken?: string | undefined;
+  /** List of Serverless VPC Access connectors. */
+  connectors?: ConnectorList | undefined;
 }
 export interface ListProjectsLocationsOperationsRequest {
   /** The standard list page token. */
   pageToken?: string | undefined;
-  /** The standard list filter. */
-  filter?: string | undefined;
   /** The name of the operation's parent resource. */
   name: string;
   /** The standard list page size. */
   pageSize?: number | undefined;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
   returnPartialSuccess?: boolean | undefined;
+  /** The standard list filter. */
+  filter?: string | undefined;
 }
 export type OperationList = Array<Operation>;
 /** The response message for Operations.ListOperations. */
@@ -417,10 +417,10 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pageToken: S.optional(S.String.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -497,10 +497,10 @@ function __c3(j: number): any {
       return S.suspend(() =>
         S.Struct({
           done: S.optional(S.Boolean),
+          error: S.optional(__S(25, __c3, 1)),
+          name: S.optional(S.String),
           metadata: S.optional(__S(32, __c4, 0)),
           response: S.optional(__S(32, __c4, 0)),
-          name: S.optional(S.String),
-          error: S.optional(__S(25, __c3, 1)),
         }),
       ).annotate({ identifier: "Operation" });
   }
@@ -522,24 +522,24 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
           projectId: S.optional(S.String),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Subnet" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          minInstances: S.optional(S.Number),
-          state: S.optional(S.String),
           ipCidrRange: S.optional(S.String),
-          machineType: S.optional(S.String),
-          connectedProjects: S.optional(__S(40, __c5, 0)),
-          name: S.optional(S.String),
-          maxThroughput: S.optional(S.Number),
-          subnet: S.optional(__S(48, __c6, 0)),
-          minThroughput: S.optional(S.Number),
-          maxInstances: S.optional(S.Number),
           network: S.optional(S.String),
+          connectedProjects: S.optional(__S(40, __c5, 0)),
+          state: S.optional(S.String),
+          minInstances: S.optional(S.Number),
+          maxThroughput: S.optional(S.Number),
+          name: S.optional(S.String),
+          minThroughput: S.optional(S.Number),
+          subnet: S.optional(__S(48, __c6, 0)),
+          maxInstances: S.optional(S.Number),
+          machineType: S.optional(S.String),
         }),
       ).annotate({ identifier: "Connector" });
   }
@@ -597,11 +597,11 @@ function __c10(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          extraLocationTypes: S.optional(__S(40, __c5, 0).pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          extraLocationTypes: S.optional(__S(40, __c5, 0).pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -616,10 +616,10 @@ function __c10(j: number): any {
       return S.suspend(() =>
         S.Struct({
           displayName: S.optional(S.String),
-          locationId: S.optional(S.String),
           labels: S.optional(__S(81, __c10, 1)),
-          metadata: S.optional(__S(32, __c4, 0)),
+          locationId: S.optional(S.String),
           name: S.optional(S.String),
+          metadata: S.optional(__S(32, __c4, 0)),
         }),
       ).annotate({ identifier: "Location" });
     case 3:
@@ -627,8 +627,8 @@ function __c10(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           locations: S.optional(__S(83, __c10, 3)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListLocationsResponse" });
   }
@@ -638,8 +638,8 @@ function __c11(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -654,8 +654,8 @@ function __c11(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          connectors: S.optional(__S(89, __c11, 1)),
           nextPageToken: S.optional(S.String),
+          connectors: S.optional(__S(89, __c11, 1)),
         }),
       ).annotate({ identifier: "ListConnectorsResponse" });
   }

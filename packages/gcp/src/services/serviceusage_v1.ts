@@ -97,25 +97,25 @@ export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
-  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string | undefined;
-  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList | undefined;
   /** The status code, which should be an enum value of google.rpc.Code. */
   code?: number | undefined;
+  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
+  details?: DocumentMapList | undefined;
+  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
+  message?: string | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
+  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
+  done?: boolean | undefined;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
   metadata?: DocumentMap | undefined;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
   name?: string | undefined;
-  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap | undefined;
-  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean | undefined;
   /** The error result of the operation in case of failure or cancellation. */
   error?: Status | undefined;
+  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
+  response?: DocumentMap | undefined;
 }
 export interface BatchGetServicesRequest {
   /** Parent to retrieve services from. If this is set, the parent of all of the services specified in `names` must match this field. An example name would be: `projects/123` where `123` is the project number. The `BatchGetServices` method currently only supports projects. */
@@ -123,53 +123,72 @@ export interface BatchGetServicesRequest {
   /** Names of the services to retrieve. An example name would be: `projects/123/services/serviceusage.googleapis.com` where `123` is the project number. A single request can get a maximum of 30 services at a time. */
   names?: StringList | undefined;
 }
+/** Usage configuration rules for the service. */
+export interface UsageRule {
+  /** Use this rule to configure unregistered calls for the service. Unregistered calls are calls that do not contain consumer project identity. (Example: calls that do not contain an API key). WARNING: By default, API methods do not allow unregistered calls, and each method call must be identified by a consumer project identity. */
+  allowUnregisteredCalls?: boolean | undefined;
+  /** Selects the methods to which this rule applies. Use '*' to indicate all methods in all APIs. Refer to selector for syntax details. */
+  selector?: string | undefined;
+  /** If true, the selected method should skip service control and the control plane features, such as quota and billing, will not be available. This flag is used by Google Cloud Endpoints to bypass checks for internal methods, such as service health check methods. */
+  skipServiceControl?: boolean | undefined;
+}
+export type UsageRuleList = Array<UsageRule>;
+/** Configuration controlling usage of a service. */
+export interface Usage {
+  /** The full resource name of a channel used for sending notifications to the service producer. Google Service Management currently only supports [Google Cloud Pub/Sub](https://cloud.google.com/pubsub) as a notification channel. To use Google Cloud Pub/Sub as the channel, this must be the name of a Cloud Pub/Sub topic that uses the Cloud Pub/Sub topic name format documented in https://cloud.google.com/pubsub/docs/overview. */
+  producerNotificationChannel?: string | undefined;
+  /** Requirements that must be satisfied before a consumer project can use the service. Each requirement is of the form /; for example 'serviceusage.googleapis.com/billing-enabled'. For Google APIs, a Terms of Service requirement must be included here. Google Cloud APIs must include "serviceusage.googleapis.com/tos/cloud". Other Google APIs should include "serviceusage.googleapis.com/tos/universal". Additional ToS can be included based on the business needs. */
+  requirements?: StringList | undefined;
+  /** A list of usage rules that apply to individual API methods. **NOTE:** All service configuration rules follow "last one wins" order. */
+  rules?: UsageRuleList | undefined;
+}
 /** Represents a documentation page. A page can contain subpages to represent nested documentation set structure. */
 export interface Page {
-  /** Subpages of this page. The order of subpages specified here will be honored in the generated docset. */
-  subpages?: PageList | undefined;
-  /** The Markdown content of the page. You can use ```(== include {path} ==)``` to include content from a Markdown file. The content can be used to produce the documentation page such as HTML format page. */
-  content?: string | undefined;
   /** The name of the page. It will be used as an identity of the page to generate URI of the page, text of the link to this page in navigation, etc. The full page name (start from the root page name to this page concatenated with `.`) can be used as reference to the page in your documentation. For example: pages: - name: Tutorial content: (== include tutorial.md ==) subpages: - name: Java content: (== include tutorial_java.md ==) You can reference `Java` page using Markdown reference link syntax: `Java`. */
   name?: string | undefined;
+  /** The Markdown content of the page. You can use ```(== include {path} ==)``` to include content from a Markdown file. The content can be used to produce the documentation page such as HTML format page. */
+  content?: string | undefined;
+  /** Subpages of this page. The order of subpages specified here will be honored in the generated docset. */
+  subpages?: PageList | undefined;
 }
 export type PageList = Array<Page>;
 /** A documentation rule provides information about individual API elements. */
 export interface DocumentationRule {
+  /** The selector is a comma-separated list of patterns for any element such as a method, a field, an enum value. Each pattern is a qualified name of the element which may end in "*", indicating a wildcard. Wildcards are only allowed at the end and for a whole component of the qualified name, i.e. "foo.*" is ok, but not "foo.b*" or "foo.*.bar". A wildcard will match one or more components. To specify a default for all applicable elements, the whole pattern "*" is used. */
+  selector?: string | undefined;
   /** Description of the selected proto element (e.g. a message, a method, a 'service' definition, or a field). Defaults to leading & trailing comments taken from the proto source definition of the proto element. */
   description?: string | undefined;
   /** Deprecation description of the selected element(s). It can be provided if an element is marked as `deprecated`. */
   deprecationDescription?: string | undefined;
-  /** The selector is a comma-separated list of patterns for any element such as a method, a field, an enum value. Each pattern is a qualified name of the element which may end in "*", indicating a wildcard. Wildcards are only allowed at the end and for a whole component of the qualified name, i.e. "foo.*" is ok, but not "foo.b*" or "foo.*.bar". A wildcard will match one or more components. To specify a default for all applicable elements, the whole pattern "*" is used. */
-  selector?: string | undefined;
   /** String of comma or space separated case-sensitive words for which method/field name replacement will be disabled. */
   disableReplacementWords?: string | undefined;
 }
 export type DocumentationRuleList = Array<DocumentationRule>;
 /** `Documentation` provides the information for describing a service. Example: documentation: summary: > The Google Calendar API gives access to most calendar features. pages: - name: Overview content: (== include google/foo/overview.md ==) - name: Tutorial content: (== include google/foo/tutorial.md ==) subpages: - name: Java content: (== include google/foo/tutorial_java.md ==) rules: - selector: google.calendar.Calendar.Get description: > ... - selector: google.calendar.Calendar.Put description: > ... Documentation is provided in markdown syntax. In addition to standard markdown features, definition lists, tables and fenced code blocks are supported. Section headers can be provided and are interpreted relative to the section nesting of the context where a documentation fragment is embedded. Documentation from the IDL is merged with documentation defined via the config at normalization time, where documentation provided by config rules overrides IDL provided. A number of constructs specific to the API platform are supported in documentation text. In order to reference a proto element, the following notation can be used: [fully.qualified.proto.name][] To override the display text used for the link, this can be used: [display text][fully.qualified.proto.name] Text can be excluded from doc using the following notation: (-- internal comment --) A few directives are available in documentation. Note that directives must appear on a single line to be properly identified. The `include` directive includes a markdown file from an external source: (== include path/to/file ==) The `resource_for` directive marks a message to be the resource of a collection in REST view. If it is not specified, tools attempt to infer the resource from the operations in a collection: (== resource_for v1.shelves.books ==) The directive `suppress_warning` does not directly affect documentation and is documented together with service config validation. */
 export interface Documentation {
+  /** Declares a single overview page. For example: documentation: summary: ... overview: (== include overview.md ==) This is a shortcut for the following declaration (using pages style): documentation: summary: ... pages: - name: Overview content: (== include overview.md ==) Note: you cannot specify both `overview` field and `pages` field. */
+  overview?: string | undefined;
+  /** Specifies the service root url if the default one (the service name from the yaml file) is not suitable. This can be seen in any fully specified service urls as well as sections that show a base that other urls are relative to. */
+  serviceRootUrl?: string | undefined;
   /** Specifies section and content to override the boilerplate content. Currently overrides following sections: 1. rest.service.client_libraries */
   sectionOverrides?: PageList | undefined;
   /** A short description of what the service does. The summary must be plain text. It becomes the overview of the service displayed in Google Cloud Console. NOTE: This field is equivalent to the standard field `description`. */
   summary?: string | undefined;
-  /** A list of documentation rules that apply to individual API elements. **NOTE:** All service configuration rules follow "last one wins" order. */
-  rules?: DocumentationRuleList | undefined;
   /** Optional information about the IAM configuration. This is typically used to link to documentation about a product's IAM roles and permissions. */
   additionalIamInfo?: string | undefined;
-  /** Declares a single overview page. For example: documentation: summary: ... overview: (== include overview.md ==) This is a shortcut for the following declaration (using pages style): documentation: summary: ... pages: - name: Overview content: (== include overview.md ==) Note: you cannot specify both `overview` field and `pages` field. */
-  overview?: string | undefined;
   /** The URL to the root of documentation. */
   documentationRootUrl?: string | undefined;
   /** The top level pages for the documentation set. */
   pages?: PageList | undefined;
-  /** Specifies the service root url if the default one (the service name from the yaml file) is not suitable. This can be seen in any fully specified service urls as well as sections that show a base that other urls are relative to. */
-  serviceRootUrl?: string | undefined;
+  /** A list of documentation rules that apply to individual API elements. **NOTE:** All service configuration rules follow "last one wins" order. */
+  rules?: DocumentationRuleList | undefined;
 }
 /** Configuration of a specific monitoring destination (the producer project or the consumer project). */
 export interface MonitoringDestination {
-  /** The monitored resource type. The type must be defined in Service.monitored_resources section. */
-  monitoredResource?: string | undefined;
   /** Types of the metrics to report to this monitoring destination. Each type must be defined in Service.metrics section. */
   metrics?: StringList | undefined;
+  /** The monitored resource type. The type must be defined in Service.monitored_resources section. */
+  monitoredResource?: string | undefined;
 }
 export type MonitoringDestinationList = Array<MonitoringDestination>;
 /** Monitoring configuration of the service. The example below shows how to configure monitored resources and metrics for monitoring. In the example, a monitored resource and two metrics are defined. The `library.googleapis.com/book/returned_count` metric is sent to both producer and consumer projects, whereas the `library.googleapis.com/book/num_overdue` metric is only sent to the consumer project. monitored_resources: - type: library.googleapis.com/Branch display_name: "Library Branch" description: "A branch of a library." launch_stage: GA labels: - key: resource_container description: "The Cloud container (ie. project id) for the Branch." - key: location description: "The location of the library branch." - key: branch_id description: "The id of the branch." metrics: - name: library.googleapis.com/book/returned_count display_name: "Books Returned" description: "The count of books that have been returned." launch_stage: GA metric_kind: DELTA value_type: INT64 unit: "1" labels: - key: customer_id description: "The id of the customer." - name: library.googleapis.com/book/num_overdue display_name: "Books Overdue" description: "The current number of overdue books." launch_stage: GA metric_kind: GAUGE value_type: INT64 unit: "1" labels: - key: customer_id description: "The id of the customer." monitoring: producer_destinations: - monitored_resource: library.googleapis.com/Branch metrics: - library.googleapis.com/book/returned_count consumer_destinations: - monitored_resource: library.googleapis.com/Branch metrics: - library.googleapis.com/book/returned_count - library.googleapis.com/book/num_overdue */
@@ -179,104 +198,142 @@ export interface Monitoring {
   /** Monitoring configurations for sending metrics to the consumer project. There can be multiple consumer destinations. A monitored resource type may appear in multiple monitoring destinations if different aggregations are needed for different sets of metrics associated with that monitored resource type. A monitored resource and metric pair may only be used once in the Monitoring configuration. */
   consumerDestinations?: MonitoringDestinationList | undefined;
 }
-export type LabelDescriptorValueTypeEnum = "STRING" | "BOOL" | "INT64";
-/** A description of a label. */
-export interface LabelDescriptor {
-  /** A human-readable description for the label. */
-  description?: string | undefined;
-  /** The type of data that can be assigned to the label. */
-  valueType?: LabelDescriptorValueTypeEnum | undefined;
-  /** The label key. */
-  key?: string | undefined;
-}
-export type LabelDescriptorList = Array<LabelDescriptor>;
-export type MonitoredResourceDescriptorLaunchStageEnum =
-  | "LAUNCH_STAGE_UNSPECIFIED"
-  | "UNIMPLEMENTED"
-  | "PRELAUNCH"
-  | "EARLY_ACCESS"
-  | "ALPHA"
-  | "BETA"
-  | "GA"
-  | "DEPRECATED";
-/** An object that describes the schema of a MonitoredResource object using a type name and a set of labels. For example, the monitored resource descriptor for Google Compute Engine VM instances has a type of `"gce_instance"` and specifies the use of the labels `"instance_id"` and `"zone"` to identify particular VM instances. Different APIs can support different monitored resource types. APIs generally provide a `list` method that returns the monitored resource descriptors used by the API. */
-export interface MonitoredResourceDescriptor {
-  /** Optional. The resource name of the monitored resource descriptor: `"projects/{project_id}/monitoredResourceDescriptors/{type}"` where {type} is the value of the `type` field in this object and {project_id} is a project ID that provides API-specific context for accessing the type. APIs that do not use project information can use the resource name format `"monitoredResourceDescriptors/{type}"`. */
+/** A protocol buffer option, which can be attached to a message, field, enumeration, etc. New usages of this message as an alternative to FileOptions, MessageOptions, FieldOptions, EnumOptions, EnumValueOptions, ServiceOptions, or MethodOptions are strongly discouraged. */
+export interface Option {
+  /** The option's name. For protobuf built-in options (options defined in descriptor.proto), this is the short name. For example, `"map_entry"`. For custom options, it should be the fully-qualified name. For example, `"google.api.http"`. */
   name?: string | undefined;
-  /** Optional. A concise name for the monitored resource type that might be displayed in user interfaces. It should be a Title Cased Noun Phrase, without any article or other determiners. For example, `"Google Cloud SQL Database"`. */
-  displayName?: string | undefined;
-  /** Optional. A detailed description of the monitored resource type that might be used in documentation. */
-  description?: string | undefined;
-  /** Required. A set of labels used to describe instances of this monitored resource type. For example, an individual Google Cloud SQL database is identified by values for the labels `"database_id"` and `"zone"`. */
-  labels?: LabelDescriptorList | undefined;
-  /** Optional. The launch stage of the monitored resource definition. */
-  launchStage?: MonitoredResourceDescriptorLaunchStageEnum | undefined;
-  /** Required. The monitored resource type. For example, the type `"cloudsql_database"` represents databases in Google Cloud SQL. For a list of types, see [Monitored resource types](https://cloud.google.com/monitoring/api/resources) and [Logging resource types](https://cloud.google.com/logging/docs/api/v2/resource-list). */
-  type?: string | undefined;
+  /** The option's value packed in an Any message. If the value is a primitive, the corresponding wrapper type defined in google/protobuf/wrappers.proto should be used. If the value is an enum, it should be stored as an int32 value using the google.protobuf.Int32Value type. */
+  value?: DocumentMap | undefined;
 }
-export type MonitoredResourceDescriptorList = Array<MonitoredResourceDescriptor>;
+export type OptionList = Array<Option>;
+export type MethodSyntaxEnum = "SYNTAX_PROTO2" | "SYNTAX_PROTO3" | "SYNTAX_EDITIONS";
+/** Method represents a method of an API interface. New usages of this message as an alternative to MethodDescriptorProto are strongly discouraged. This message does not reliability preserve all information necessary to model the schema and preserve semantics. Instead make use of FileDescriptorSet which preserves the necessary information. */
+export interface Method {
+  /** A URL of the input message type. */
+  requestTypeUrl?: string | undefined;
+  /** If true, the response is streamed. */
+  responseStreaming?: boolean | undefined;
+  /** The source syntax of this method. This field should be ignored, instead the syntax should be inherited from Api. This is similar to Field and EnumValue. */
+  syntax?: MethodSyntaxEnum | undefined;
+  /** If true, the request is streamed. */
+  requestStreaming?: boolean | undefined;
+  /** Any metadata attached to the method. */
+  options?: OptionList | undefined;
+  /** The source edition string, only valid when syntax is SYNTAX_EDITIONS. This field should be ignored, instead the edition should be inherited from Api. This is similar to Field and EnumValue. */
+  edition?: string | undefined;
+  /** The simple name of this method. */
+  name?: string | undefined;
+  /** The URL of the output message type. */
+  responseTypeUrl?: string | undefined;
+}
+export type MethodList = Array<Method>;
+export type ApiSyntaxEnum = "SYNTAX_PROTO2" | "SYNTAX_PROTO3" | "SYNTAX_EDITIONS";
+/** Declares an API Interface to be included in this interface. The including interface must redeclare all the methods from the included interface, but documentation and options are inherited as follows: - If after comment and whitespace stripping, the documentation string of the redeclared method is empty, it will be inherited from the original method. - Each annotation belonging to the service config (http, visibility) which is not set in the redeclared method will be inherited. - If an http annotation is inherited, the path pattern will be modified as follows. Any version prefix will be replaced by the version of the including interface plus the root path if specified. Example of a simple mixin: package google.acl.v1; service AccessControl { // Get the underlying ACL object. rpc GetAcl(GetAclRequest) returns (Acl) { option (google.api.http).get = "/v1/{resource=**}:getAcl"; } } package google.storage.v2; service Storage { // rpc GetAcl(GetAclRequest) returns (Acl); // Get a data record. rpc GetData(GetDataRequest) returns (Data) { option (google.api.http).get = "/v2/{resource=**}"; } } Example of a mixin configuration: apis: - name: google.storage.v2.Storage mixins: - name: google.acl.v1.AccessControl The mixin construct implies that all methods in `AccessControl` are also declared with same name and request/response types in `Storage`. A documentation generator or annotation processor will see the effective `Storage.GetAcl` method after inheriting documentation and annotations as follows: service Storage { // Get the underlying ACL object. rpc GetAcl(GetAclRequest) returns (Acl) { option (google.api.http).get = "/v2/{resource=**}:getAcl"; } ... } Note how the version in the path pattern changed from `v1` to `v2`. If the `root` field in the mixin is specified, it should be a relative path under which inherited HTTP paths are placed. Example: apis: - name: google.storage.v2.Storage mixins: - name: google.acl.v1.AccessControl root: acls This implies the following inherited HTTP annotation: service Storage { // Get the underlying ACL object. rpc GetAcl(GetAclRequest) returns (Acl) { option (google.api.http).get = "/v2/acls/{resource=**}:getAcl"; } ... } */
+export interface Mixin {
+  /** The fully qualified name of the interface which is included. */
+  name?: string | undefined;
+  /** If non-empty specifies a path under which inherited HTTP paths are rooted. */
+  root?: string | undefined;
+}
+export type MixinList = Array<Mixin>;
+/** `SourceContext` represents information about the source of a protobuf element, like the file in which it is defined. */
+export interface SourceContext {
+  /** The path-qualified name of the .proto file that contained the associated protobuf element. For example: `"google/protobuf/source_context.proto"`. */
+  fileName?: string | undefined;
+}
+/** Api is a light-weight descriptor for an API Interface. Interfaces are also described as "protocol buffer services" in some contexts, such as by the "service" keyword in a .proto file, but they are different from API Services, which represent a concrete implementation of an interface as opposed to simply a description of methods and bindings. They are also sometimes simply referred to as "APIs" in other contexts, such as the name of this message itself. See https://cloud.google.com/apis/design/glossary for detailed terminology. New usages of this message as an alternative to ServiceDescriptorProto are strongly discouraged. This message does not reliability preserve all information necessary to model the schema and preserve semantics. Instead make use of FileDescriptorSet which preserves the necessary information. */
+export interface Api {
+  /** Any metadata attached to the interface. */
+  options?: OptionList | undefined;
+  /** The source edition string, only valid when syntax is SYNTAX_EDITIONS. */
+  edition?: string | undefined;
+  /** The methods of this interface, in unspecified order. */
+  methods?: MethodList | undefined;
+  /** The source syntax of the service. */
+  syntax?: ApiSyntaxEnum | undefined;
+  /** The fully qualified name of this interface, including package name followed by the interface's simple name. */
+  name?: string | undefined;
+  /** A version string for this interface. If specified, must have the form `major-version.minor-version`, as in `1.10`. If the minor version is omitted, it defaults to zero. If the entire version field is empty, the major version is derived from the package name, as outlined below. If the field is not empty, the version in the package name will be verified to be consistent with what is provided here. The versioning schema uses [semantic versioning](http://semver.org) where the major version number indicates a breaking change and the minor version an additive, non-breaking change. Both version numbers are signals to users what to expect from different versions, and should be carefully chosen based on the product plan. The major version is also reflected in the package name of the interface, which must end in `v`, as in `google.feature.v1`. For major versions 0 and 1, the suffix can be omitted. Zero major versions must only be used for experimental, non-GA interfaces. */
+  version?: string | undefined;
+  /** Included interfaces. See Mixin. */
+  mixins?: MixinList | undefined;
+  /** Source context for the protocol buffer service represented by this message. */
+  sourceContext?: SourceContext | undefined;
+}
+export type ApiList = Array<Api>;
 /** `Endpoint` describes a network address of a service that serves a set of APIs. It is commonly known as a service endpoint. A service may expose any number of service endpoints, and all service endpoints share the same service definition, such as quota limits and monitoring metrics. Example: type: google.api.Service name: library-example.googleapis.com endpoints: # Declares network address `https://library-example.googleapis.com` # for service `library-example.googleapis.com`. The `https` scheme # is implicit for all service endpoints. Other schemes may be # supported in the future. - name: library-example.googleapis.com allow_cors: false - name: content-staging-library-example.googleapis.com # Allows HTTP OPTIONS calls to be passed to the API frontend, for it # to decide whether the subsequent cross-origin request is allowed # to proceed. allow_cors: true */
 export interface Endpoint {
-  /** Aliases for this endpoint, these will be served by the same UrlMap as the parent endpoint, and will be provisioned in the GCP stack for the Regional Endpoints. */
-  aliases?: StringList | undefined;
-  /** The canonical name of this endpoint. */
-  name?: string | undefined;
   /** Allowing [CORS](https://en.wikipedia.org/wiki/Cross-origin_resource_sharing), aka cross-domain traffic, would allow the backends served from this endpoint to receive and respond to HTTP OPTIONS requests. The response will be used by the browser to determine whether the subsequent cross-origin request is allowed to proceed. */
   allowCors?: boolean | undefined;
+  /** The canonical name of this endpoint. */
+  name?: string | undefined;
+  /** Aliases for this endpoint, these will be served by the same UrlMap as the parent endpoint, and will be provisioned in the GCP stack for the Regional Endpoints. */
+  aliases?: StringList | undefined;
   /** The specification of an Internet routable address of API frontend that will handle requests to this [API Endpoint](https://cloud.google.com/apis/design/glossary). It should be either a valid IPv4 address or a fully-qualified domain name. For example, "8.8.8.8" or "myservice.appspot.com". */
   target?: string | undefined;
 }
 export type EndpointList = Array<Endpoint>;
-/** Usage configuration rules for the service. */
-export interface UsageRule {
-  /** Selects the methods to which this rule applies. Use '*' to indicate all methods in all APIs. Refer to selector for syntax details. */
+/** Specifies a location to extract JWT from an API request. */
+export interface JwtLocation {
+  /** Specifies HTTP header name to extract JWT token. */
+  header?: string | undefined;
+  /** Specifies URL query parameter name to extract JWT token. */
+  query?: string | undefined;
+  /** Specifies cookie name to extract JWT token. */
+  cookie?: string | undefined;
+  /** The value prefix. The value format is "value_prefix{token}" Only applies to "in" header type. Must be empty for "in" query type. If not empty, the header value has to match (case sensitive) this prefix. If not matched, JWT will not be extracted. If matched, JWT will be extracted after the prefix is removed. For example, for "Authorization: Bearer {JWT}", value_prefix="Bearer " with a space at the end. */
+  valuePrefix?: string | undefined;
+}
+export type JwtLocationList = Array<JwtLocation>;
+/** Configuration for an authentication provider, including support for [JSON Web Token (JWT)](https://tools.ietf.org/html/draft-ietf-oauth-json-web-token-32). */
+export interface AuthProvider {
+  /** Redirect URL if JWT token is required but not present or is expired. Implement authorizationUrl of securityDefinitions in OpenAPI spec. */
+  authorizationUrl?: string | undefined;
+  /** The list of JWT [audiences](https://tools.ietf.org/html/draft-ietf-oauth-json-web-token-32#section-4.1.3). that are allowed to access. A JWT containing any of these audiences will be accepted. When this setting is absent, JWTs with audiences: - "https://[service.name]/[google.protobuf.Api.name]" - "https://[service.name]/" will be accepted. For example, if no audiences are in the setting, LibraryService API will accept JWTs with the following audiences: - https://library-example.googleapis.com/google.example.library.v1.LibraryService - https://library-example.googleapis.com/ Example: audiences: bookstore_android.apps.googleusercontent.com, bookstore_web.apps.googleusercontent.com */
+  audiences?: string | undefined;
+  /** URL of the provider's public key set to validate signature of the JWT. See [OpenID Discovery](https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata). Optional if the key set document: - can be retrieved from [OpenID Discovery](https://openid.net/specs/openid-connect-discovery-1_0.html) of the issuer. - can be inferred from the email domain of the issuer (e.g. a Google service account). Example: https://www.googleapis.com/oauth2/v1/certs */
+  jwksUri?: string | undefined;
+  /** Identifies the principal that issued the JWT. See https://tools.ietf.org/html/draft-ietf-oauth-json-web-token-32#section-4.1.1 Usually a URL or an email address. Example: https://securetoken.google.com Example: 1234567-compute@developer.gserviceaccount.com */
+  issuer?: string | undefined;
+  /** Defines the locations to extract the JWT. For now it is only used by the Cloud Endpoints to store the OpenAPI extension [x-google-jwt-locations] (https://cloud.google.com/endpoints/docs/openapi/openapi-extensions#x-google-jwt-locations) JWT locations can be one of HTTP headers, URL query parameters or cookies. The rule is that the first match wins. If not specified, default to use following 3 locations: 1) Authorization: Bearer 2) x-goog-iap-jwt-assertion 3) access_token query parameter Default locations can be specified as followings: jwt_locations: - header: Authorization value_prefix: "Bearer " - header: x-goog-iap-jwt-assertion - query: access_token */
+  jwtLocations?: JwtLocationList | undefined;
+  /** The unique identifier of the auth provider. It will be referred to by `AuthRequirement.provider_id`. Example: "bookstore_auth". */
+  id?: string | undefined;
+}
+export type AuthProviderList = Array<AuthProvider>;
+/** OAuth scopes are a way to define data and permissions on data. For example, there are scopes defined for "Read-only access to Google Calendar" and "Access to Cloud Platform". Users can consent to a scope for an application, giving it permission to access that data on their behalf. OAuth scope specifications should be fairly coarse grained; a user will need to see and understand the text description of what your scope means. In most cases: use one or at most two OAuth scopes for an entire family of products. If your product has multiple APIs, you should probably be sharing the OAuth scope across all of those APIs. When you need finer grained OAuth consent screens: talk with your product management about how developers will use them in practice. Please note that even though each of the canonical scopes is enough for a request to be accepted and passed to the backend, a request can still fail due to the backend requiring additional scopes or permissions. */
+export interface OAuthRequirements {
+  /** The list of publicly documented OAuth scopes that are allowed access. An OAuth token containing any of these scopes will be accepted. Example: canonical_scopes: https://www.googleapis.com/auth/calendar, https://www.googleapis.com/auth/calendar.read */
+  canonicalScopes?: string | undefined;
+}
+/** User-defined authentication requirements, including support for [JSON Web Token (JWT)](https://tools.ietf.org/html/draft-ietf-oauth-json-web-token-32). */
+export interface AuthRequirement {
+  /** id from authentication provider. Example: provider_id: bookstore_auth */
+  providerId?: string | undefined;
+  /** NOTE: This will be deprecated soon, once AuthProvider.audiences is implemented and accepted in all the runtime components. The list of JWT [audiences](https://tools.ietf.org/html/draft-ietf-oauth-json-web-token-32#section-4.1.3). that are allowed to access. A JWT containing any of these audiences will be accepted. When this setting is absent, only JWTs with audience "https://Service_name/API_name" will be accepted. For example, if no audiences are in the setting, LibraryService API will only accept JWTs with the following audience "https://library-example.googleapis.com/google.example.library.v1.LibraryService". Example: audiences: bookstore_android.apps.googleusercontent.com, bookstore_web.apps.googleusercontent.com */
+  audiences?: string | undefined;
+}
+export type AuthRequirementList = Array<AuthRequirement>;
+/** Authentication rules for the service. By default, if a method has any authentication requirements, every request must include a valid credential matching one of the requirements. It's an error to include more than one kind of credential in a single request. If a method doesn't have any auth requirements, request credentials will be ignored. */
+export interface AuthenticationRule {
+  /** The requirements for OAuth credentials. */
+  oauth?: OAuthRequirements | undefined;
+  /** Selects the methods to which this rule applies. Refer to selector for syntax details. */
   selector?: string | undefined;
-  /** Use this rule to configure unregistered calls for the service. Unregistered calls are calls that do not contain consumer project identity. (Example: calls that do not contain an API key). WARNING: By default, API methods do not allow unregistered calls, and each method call must be identified by a consumer project identity. */
-  allowUnregisteredCalls?: boolean | undefined;
-  /** If true, the selected method should skip service control and the control plane features, such as quota and billing, will not be available. This flag is used by Google Cloud Endpoints to bypass checks for internal methods, such as service health check methods. */
-  skipServiceControl?: boolean | undefined;
+  /** If true, the service accepts API keys without any other credential. This flag only applies to HTTP and gRPC requests. */
+  allowWithoutCredential?: boolean | undefined;
+  /** Requirements for additional authentication providers. */
+  requirements?: AuthRequirementList | undefined;
 }
-export type UsageRuleList = Array<UsageRule>;
-/** Configuration controlling usage of a service. */
-export interface Usage {
-  /** A list of usage rules that apply to individual API methods. **NOTE:** All service configuration rules follow "last one wins" order. */
-  rules?: UsageRuleList | undefined;
-  /** Requirements that must be satisfied before a consumer project can use the service. Each requirement is of the form /; for example 'serviceusage.googleapis.com/billing-enabled'. For Google APIs, a Terms of Service requirement must be included here. Google Cloud APIs must include "serviceusage.googleapis.com/tos/cloud". Other Google APIs should include "serviceusage.googleapis.com/tos/universal". Additional ToS can be included based on the business needs. */
-  requirements?: StringList | undefined;
-  /** The full resource name of a channel used for sending notifications to the service producer. Google Service Management currently only supports [Google Cloud Pub/Sub](https://cloud.google.com/pubsub) as a notification channel. To use Google Cloud Pub/Sub as the channel, this must be the name of a Cloud Pub/Sub topic that uses the Cloud Pub/Sub topic name format documented in https://cloud.google.com/pubsub/docs/overview. */
-  producerNotificationChannel?: string | undefined;
+export type AuthenticationRuleList = Array<AuthenticationRule>;
+/** `Authentication` defines the authentication configuration for API methods provided by an API service. Example: name: calendar.googleapis.com authentication: providers: - id: google_calendar_auth jwks_uri: https://www.googleapis.com/oauth2/v1/certs issuer: https://securetoken.google.com rules: - selector: "*" requirements: provider_id: google_calendar_auth - selector: google.calendar.Delegate oauth: canonical_scopes: https://www.googleapis.com/auth/calendar.read */
+export interface Authentication {
+  /** Defines a set of authentication providers that a service supports. */
+  providers?: AuthProviderList | undefined;
+  /** A list of authentication rules that apply to individual API methods. **NOTE:** All service configuration rules follow "last one wins" order. */
+  rules?: AuthenticationRuleList | undefined;
 }
-export type QuotaLimitTrafficSourceEnum =
-  | "TRAFFIC_SOURCE_UNSPECIFIED"
-  | "TRAFFIC_SOURCE_NONAGENTIC"
-  | "TRAFFIC_SOURCE_AGENTIC";
 export type StringMap = { [key: string]: string | undefined };
-/** `QuotaLimit` defines a specific limit that applies over a specified duration for a limit type. There can be at most one limit for a duration and limit type combination defined within a `QuotaGroup`. */
-export interface QuotaLimit {
-  /** The name of the metric this quota limit applies to. The quota limits with the same metric will be checked together during runtime. The metric must be defined within the service config. */
-  metric?: string | undefined;
-  /** Optional. User-visible, extended description for this quota limit. Should be used only when more context is needed to understand this limit than provided by the limit's display name (see: `display_name`). */
-  description?: string | undefined;
-  /** User-visible display name for this limit. Optional. If not set, the UI will provide a default display name based on the quota configuration. This field can be used to override the default display name generated from the configuration. */
-  displayName?: string | undefined;
-  /** Specify the unit of the quota limit. It uses the same syntax as MetricDescriptor.unit. The supported unit kinds are determined by the quota backend system. Here are some examples: * "1/min/{project}" for quota per minute per project. Note: the order of unit components is insignificant. The "1" at the beginning is required to follow the metric unit syntax. */
-  unit?: string | undefined;
-  /** Duration of this limit in textual notation. Must be "100s" or "1d". Used by group-based quotas only. */
-  duration?: string | undefined;
-  /** Default number of tokens that can be consumed during the specified duration. This is the number of tokens assigned when a client application developer activates the service for his/her project. Specifying a value of 0 will block all requests. This can be used if you are provisioning quota to selected consumers and blocking others. Similarly, a value of -1 will indicate an unlimited quota. No other negative values are allowed. Used by group-based quotas only. */
-  defaultLimit?: string | undefined;
-  /** Name of the quota limit. The name must be provided, and it must be unique within the service. The name can only include alphanumeric characters as well as '-'. The maximum length of the limit name is 64 characters. */
-  name?: string | undefined;
-  /** Optional. This is only informational, the logic to allocate the quota to the correct metric (such as in `metric_rules`) should identify which quota metrics to allocate to. */
-  trafficSource?: QuotaLimitTrafficSourceEnum | undefined;
-  /** Maximum number of tokens that can be consumed during the specified duration. Client application developers can override the default limit up to this maximum. If specified, this value cannot be set to a value less than the default limit. If not specified, it is set to the default limit. To allow clients to apply overrides with no upper bound, set this to -1, indicating unlimited maximum quota. Used by group-based quotas only. */
-  maxLimit?: string | undefined;
-  /** Free tier value displayed in the Developers Console for this limit. The free tier is the number of tokens that will be subtracted from the billed amount when billing is enabled. This field can only be set on a limit with duration "1d", in a billable group; it is invalid on any other limit. If this field is not set, it defaults to 0, indicating that there is no free tier for this service. Used by group-based quotas only. */
-  freeTier?: string | undefined;
-  /** Tiered limit values. You must specify this as a key:value pair, with an integer value that is the maximum number of requests allowed for the specified unit. Currently only STANDARD is supported. */
-  values?: StringMap | undefined;
-}
-export type QuotaLimitList = Array<QuotaLimit>;
 /** Bind API methods to metrics. Binding a method to a metric causes that metric's configured quota behaviors to apply to the method call. */
 export interface MetricRule {
   /** Optional. Metrics to update when the selected methods are called, and the associated cost applied to each metric, iff the source of the call is an agent. The key of the map is the metric name, and the values are the amount increased for the metric against which the quota limits are defined. The value must not be negative. */
@@ -289,166 +346,109 @@ export interface MetricRule {
   selector?: string | undefined;
 }
 export type MetricRuleList = Array<MetricRule>;
+export type QuotaLimitTrafficSourceEnum =
+  | "TRAFFIC_SOURCE_UNSPECIFIED"
+  | "TRAFFIC_SOURCE_NONAGENTIC"
+  | "TRAFFIC_SOURCE_AGENTIC";
+/** `QuotaLimit` defines a specific limit that applies over a specified duration for a limit type. There can be at most one limit for a duration and limit type combination defined within a `QuotaGroup`. */
+export interface QuotaLimit {
+  /** Optional. User-visible, extended description for this quota limit. Should be used only when more context is needed to understand this limit than provided by the limit's display name (see: `display_name`). */
+  description?: string | undefined;
+  /** Tiered limit values. You must specify this as a key:value pair, with an integer value that is the maximum number of requests allowed for the specified unit. Currently only STANDARD is supported. */
+  values?: StringMap | undefined;
+  /** Name of the quota limit. The name must be provided, and it must be unique within the service. The name can only include alphanumeric characters as well as '-'. The maximum length of the limit name is 64 characters. */
+  name?: string | undefined;
+  /** Default number of tokens that can be consumed during the specified duration. This is the number of tokens assigned when a client application developer activates the service for his/her project. Specifying a value of 0 will block all requests. This can be used if you are provisioning quota to selected consumers and blocking others. Similarly, a value of -1 will indicate an unlimited quota. No other negative values are allowed. Used by group-based quotas only. */
+  defaultLimit?: string | undefined;
+  /** Optional. This is only informational, the logic to allocate the quota to the correct metric (such as in `metric_rules`) should identify which quota metrics to allocate to. */
+  trafficSource?: QuotaLimitTrafficSourceEnum | undefined;
+  /** Specify the unit of the quota limit. It uses the same syntax as MetricDescriptor.unit. The supported unit kinds are determined by the quota backend system. Here are some examples: * "1/min/{project}" for quota per minute per project. Note: the order of unit components is insignificant. The "1" at the beginning is required to follow the metric unit syntax. */
+  unit?: string | undefined;
+  /** Duration of this limit in textual notation. Must be "100s" or "1d". Used by group-based quotas only. */
+  duration?: string | undefined;
+  /** User-visible display name for this limit. Optional. If not set, the UI will provide a default display name based on the quota configuration. This field can be used to override the default display name generated from the configuration. */
+  displayName?: string | undefined;
+  /** Free tier value displayed in the Developers Console for this limit. The free tier is the number of tokens that will be subtracted from the billed amount when billing is enabled. This field can only be set on a limit with duration "1d", in a billable group; it is invalid on any other limit. If this field is not set, it defaults to 0, indicating that there is no free tier for this service. Used by group-based quotas only. */
+  freeTier?: string | undefined;
+  /** Maximum number of tokens that can be consumed during the specified duration. Client application developers can override the default limit up to this maximum. If specified, this value cannot be set to a value less than the default limit. If not specified, it is set to the default limit. To allow clients to apply overrides with no upper bound, set this to -1, indicating unlimited maximum quota. Used by group-based quotas only. */
+  maxLimit?: string | undefined;
+  /** The name of the metric this quota limit applies to. The quota limits with the same metric will be checked together during runtime. The metric must be defined within the service config. */
+  metric?: string | undefined;
+}
+export type QuotaLimitList = Array<QuotaLimit>;
 /** Quota configuration helps to achieve fairness and budgeting in service usage. The metric based quota configuration works this way: - The service configuration defines a set of metrics. - For API calls, the quota.metric_rules maps methods to metrics with corresponding costs. - The quota.limits defines limits on the metrics, which will be used for quota checks at runtime. An example quota configuration in yaml format: quota: limits: - name: apiWriteQpsPerProject metric: library.googleapis.com/write_calls unit: "1/min/{project}" # rate limit for consumer projects values: STANDARD: 10000 (The metric rules bind all methods to the read_calls metric, except for the UpdateBook and DeleteBook methods. These two methods are mapped to the write_calls metric, with the UpdateBook method consuming at twice rate as the DeleteBook method.) metric_rules: - selector: "*" metric_costs: library.googleapis.com/read_calls: 1 - selector: google.example.library.v1.LibraryService.UpdateBook metric_costs: library.googleapis.com/write_calls: 2 - selector: google.example.library.v1.LibraryService.DeleteBook metric_costs: library.googleapis.com/write_calls: 1 Corresponding Metric definition: metrics: - name: library.googleapis.com/read_calls display_name: Read requests metric_kind: DELTA value_type: INT64 - name: library.googleapis.com/write_calls display_name: Write requests metric_kind: DELTA value_type: INT64 */
 export interface Quota {
-  /** List of QuotaLimit definitions for the service. */
-  limits?: QuotaLimitList | undefined;
   /** List of MetricRule definitions, each one mapping a selected method to one or more metrics. */
   metricRules?: MetricRuleList | undefined;
+  /** List of QuotaLimit definitions for the service. */
+  limits?: QuotaLimitList | undefined;
 }
-/** Specifies a location to extract JWT from an API request. */
-export interface JwtLocation {
-  /** Specifies cookie name to extract JWT token. */
-  cookie?: string | undefined;
-  /** Specifies HTTP header name to extract JWT token. */
-  header?: string | undefined;
-  /** Specifies URL query parameter name to extract JWT token. */
-  query?: string | undefined;
-  /** The value prefix. The value format is "value_prefix{token}" Only applies to "in" header type. Must be empty for "in" query type. If not empty, the header value has to match (case sensitive) this prefix. If not matched, JWT will not be extracted. If matched, JWT will be extracted after the prefix is removed. For example, for "Authorization: Bearer {JWT}", value_prefix="Bearer " with a space at the end. */
-  valuePrefix?: string | undefined;
+export type MonitoredResourceDescriptorLaunchStageEnum =
+  | "LAUNCH_STAGE_UNSPECIFIED"
+  | "UNIMPLEMENTED"
+  | "PRELAUNCH"
+  | "EARLY_ACCESS"
+  | "ALPHA"
+  | "BETA"
+  | "GA"
+  | "DEPRECATED";
+export type LabelDescriptorValueTypeEnum = "STRING" | "BOOL" | "INT64";
+/** A description of a label. */
+export interface LabelDescriptor {
+  /** The type of data that can be assigned to the label. */
+  valueType?: LabelDescriptorValueTypeEnum | undefined;
+  /** The label key. */
+  key?: string | undefined;
+  /** A human-readable description for the label. */
+  description?: string | undefined;
 }
-export type JwtLocationList = Array<JwtLocation>;
-/** Configuration for an authentication provider, including support for [JSON Web Token (JWT)](https://tools.ietf.org/html/draft-ietf-oauth-json-web-token-32). */
-export interface AuthProvider {
-  /** URL of the provider's public key set to validate signature of the JWT. See [OpenID Discovery](https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata). Optional if the key set document: - can be retrieved from [OpenID Discovery](https://openid.net/specs/openid-connect-discovery-1_0.html) of the issuer. - can be inferred from the email domain of the issuer (e.g. a Google service account). Example: https://www.googleapis.com/oauth2/v1/certs */
-  jwksUri?: string | undefined;
-  /** Defines the locations to extract the JWT. For now it is only used by the Cloud Endpoints to store the OpenAPI extension [x-google-jwt-locations] (https://cloud.google.com/endpoints/docs/openapi/openapi-extensions#x-google-jwt-locations) JWT locations can be one of HTTP headers, URL query parameters or cookies. The rule is that the first match wins. If not specified, default to use following 3 locations: 1) Authorization: Bearer 2) x-goog-iap-jwt-assertion 3) access_token query parameter Default locations can be specified as followings: jwt_locations: - header: Authorization value_prefix: "Bearer " - header: x-goog-iap-jwt-assertion - query: access_token */
-  jwtLocations?: JwtLocationList | undefined;
-  /** Redirect URL if JWT token is required but not present or is expired. Implement authorizationUrl of securityDefinitions in OpenAPI spec. */
-  authorizationUrl?: string | undefined;
-  /** The unique identifier of the auth provider. It will be referred to by `AuthRequirement.provider_id`. Example: "bookstore_auth". */
-  id?: string | undefined;
-  /** Identifies the principal that issued the JWT. See https://tools.ietf.org/html/draft-ietf-oauth-json-web-token-32#section-4.1.1 Usually a URL or an email address. Example: https://securetoken.google.com Example: 1234567-compute@developer.gserviceaccount.com */
-  issuer?: string | undefined;
-  /** The list of JWT [audiences](https://tools.ietf.org/html/draft-ietf-oauth-json-web-token-32#section-4.1.3). that are allowed to access. A JWT containing any of these audiences will be accepted. When this setting is absent, JWTs with audiences: - "https://[service.name]/[google.protobuf.Api.name]" - "https://[service.name]/" will be accepted. For example, if no audiences are in the setting, LibraryService API will accept JWTs with the following audiences: - https://library-example.googleapis.com/google.example.library.v1.LibraryService - https://library-example.googleapis.com/ Example: audiences: bookstore_android.apps.googleusercontent.com, bookstore_web.apps.googleusercontent.com */
-  audiences?: string | undefined;
-}
-export type AuthProviderList = Array<AuthProvider>;
-/** User-defined authentication requirements, including support for [JSON Web Token (JWT)](https://tools.ietf.org/html/draft-ietf-oauth-json-web-token-32). */
-export interface AuthRequirement {
-  /** id from authentication provider. Example: provider_id: bookstore_auth */
-  providerId?: string | undefined;
-  /** NOTE: This will be deprecated soon, once AuthProvider.audiences is implemented and accepted in all the runtime components. The list of JWT [audiences](https://tools.ietf.org/html/draft-ietf-oauth-json-web-token-32#section-4.1.3). that are allowed to access. A JWT containing any of these audiences will be accepted. When this setting is absent, only JWTs with audience "https://Service_name/API_name" will be accepted. For example, if no audiences are in the setting, LibraryService API will only accept JWTs with the following audience "https://library-example.googleapis.com/google.example.library.v1.LibraryService". Example: audiences: bookstore_android.apps.googleusercontent.com, bookstore_web.apps.googleusercontent.com */
-  audiences?: string | undefined;
-}
-export type AuthRequirementList = Array<AuthRequirement>;
-/** OAuth scopes are a way to define data and permissions on data. For example, there are scopes defined for "Read-only access to Google Calendar" and "Access to Cloud Platform". Users can consent to a scope for an application, giving it permission to access that data on their behalf. OAuth scope specifications should be fairly coarse grained; a user will need to see and understand the text description of what your scope means. In most cases: use one or at most two OAuth scopes for an entire family of products. If your product has multiple APIs, you should probably be sharing the OAuth scope across all of those APIs. When you need finer grained OAuth consent screens: talk with your product management about how developers will use them in practice. Please note that even though each of the canonical scopes is enough for a request to be accepted and passed to the backend, a request can still fail due to the backend requiring additional scopes or permissions. */
-export interface OAuthRequirements {
-  /** The list of publicly documented OAuth scopes that are allowed access. An OAuth token containing any of these scopes will be accepted. Example: canonical_scopes: https://www.googleapis.com/auth/calendar, https://www.googleapis.com/auth/calendar.read */
-  canonicalScopes?: string | undefined;
-}
-/** Authentication rules for the service. By default, if a method has any authentication requirements, every request must include a valid credential matching one of the requirements. It's an error to include more than one kind of credential in a single request. If a method doesn't have any auth requirements, request credentials will be ignored. */
-export interface AuthenticationRule {
-  /** Selects the methods to which this rule applies. Refer to selector for syntax details. */
-  selector?: string | undefined;
-  /** Requirements for additional authentication providers. */
-  requirements?: AuthRequirementList | undefined;
-  /** If true, the service accepts API keys without any other credential. This flag only applies to HTTP and gRPC requests. */
-  allowWithoutCredential?: boolean | undefined;
-  /** The requirements for OAuth credentials. */
-  oauth?: OAuthRequirements | undefined;
-}
-export type AuthenticationRuleList = Array<AuthenticationRule>;
-/** `Authentication` defines the authentication configuration for API methods provided by an API service. Example: name: calendar.googleapis.com authentication: providers: - id: google_calendar_auth jwks_uri: https://www.googleapis.com/oauth2/v1/certs issuer: https://securetoken.google.com rules: - selector: "*" requirements: provider_id: google_calendar_auth - selector: google.calendar.Delegate oauth: canonical_scopes: https://www.googleapis.com/auth/calendar.read */
-export interface Authentication {
-  /** Defines a set of authentication providers that a service supports. */
-  providers?: AuthProviderList | undefined;
-  /** A list of authentication rules that apply to individual API methods. **NOTE:** All service configuration rules follow "last one wins" order. */
-  rules?: AuthenticationRuleList | undefined;
-}
-/** Declares an API Interface to be included in this interface. The including interface must redeclare all the methods from the included interface, but documentation and options are inherited as follows: - If after comment and whitespace stripping, the documentation string of the redeclared method is empty, it will be inherited from the original method. - Each annotation belonging to the service config (http, visibility) which is not set in the redeclared method will be inherited. - If an http annotation is inherited, the path pattern will be modified as follows. Any version prefix will be replaced by the version of the including interface plus the root path if specified. Example of a simple mixin: package google.acl.v1; service AccessControl { // Get the underlying ACL object. rpc GetAcl(GetAclRequest) returns (Acl) { option (google.api.http).get = "/v1/{resource=**}:getAcl"; } } package google.storage.v2; service Storage { // rpc GetAcl(GetAclRequest) returns (Acl); // Get a data record. rpc GetData(GetDataRequest) returns (Data) { option (google.api.http).get = "/v2/{resource=**}"; } } Example of a mixin configuration: apis: - name: google.storage.v2.Storage mixins: - name: google.acl.v1.AccessControl The mixin construct implies that all methods in `AccessControl` are also declared with same name and request/response types in `Storage`. A documentation generator or annotation processor will see the effective `Storage.GetAcl` method after inheriting documentation and annotations as follows: service Storage { // Get the underlying ACL object. rpc GetAcl(GetAclRequest) returns (Acl) { option (google.api.http).get = "/v2/{resource=**}:getAcl"; } ... } Note how the version in the path pattern changed from `v1` to `v2`. If the `root` field in the mixin is specified, it should be a relative path under which inherited HTTP paths are placed. Example: apis: - name: google.storage.v2.Storage mixins: - name: google.acl.v1.AccessControl root: acls This implies the following inherited HTTP annotation: service Storage { // Get the underlying ACL object. rpc GetAcl(GetAclRequest) returns (Acl) { option (google.api.http).get = "/v2/acls/{resource=**}:getAcl"; } ... } */
-export interface Mixin {
-  /** If non-empty specifies a path under which inherited HTTP paths are rooted. */
-  root?: string | undefined;
-  /** The fully qualified name of the interface which is included. */
+export type LabelDescriptorList = Array<LabelDescriptor>;
+/** An object that describes the schema of a MonitoredResource object using a type name and a set of labels. For example, the monitored resource descriptor for Google Compute Engine VM instances has a type of `"gce_instance"` and specifies the use of the labels `"instance_id"` and `"zone"` to identify particular VM instances. Different APIs can support different monitored resource types. APIs generally provide a `list` method that returns the monitored resource descriptors used by the API. */
+export interface MonitoredResourceDescriptor {
+  /** Optional. A detailed description of the monitored resource type that might be used in documentation. */
+  description?: string | undefined;
+  /** Optional. The launch stage of the monitored resource definition. */
+  launchStage?: MonitoredResourceDescriptorLaunchStageEnum | undefined;
+  /** Optional. The resource name of the monitored resource descriptor: `"projects/{project_id}/monitoredResourceDescriptors/{type}"` where {type} is the value of the `type` field in this object and {project_id} is a project ID that provides API-specific context for accessing the type. APIs that do not use project information can use the resource name format `"monitoredResourceDescriptors/{type}"`. */
   name?: string | undefined;
+  /** Optional. A concise name for the monitored resource type that might be displayed in user interfaces. It should be a Title Cased Noun Phrase, without any article or other determiners. For example, `"Google Cloud SQL Database"`. */
+  displayName?: string | undefined;
+  /** Required. The monitored resource type. For example, the type `"cloudsql_database"` represents databases in Google Cloud SQL. For a list of types, see [Monitored resource types](https://cloud.google.com/monitoring/api/resources) and [Logging resource types](https://cloud.google.com/logging/docs/api/v2/resource-list). */
+  type?: string | undefined;
+  /** Required. A set of labels used to describe instances of this monitored resource type. For example, an individual Google Cloud SQL database is identified by values for the labels `"database_id"` and `"zone"`. */
+  labels?: LabelDescriptorList | undefined;
 }
-export type MixinList = Array<Mixin>;
-export type ApiSyntaxEnum = "SYNTAX_PROTO2" | "SYNTAX_PROTO3" | "SYNTAX_EDITIONS";
-/** A protocol buffer option, which can be attached to a message, field, enumeration, etc. New usages of this message as an alternative to FileOptions, MessageOptions, FieldOptions, EnumOptions, EnumValueOptions, ServiceOptions, or MethodOptions are strongly discouraged. */
-export interface Option {
-  /** The option's name. For protobuf built-in options (options defined in descriptor.proto), this is the short name. For example, `"map_entry"`. For custom options, it should be the fully-qualified name. For example, `"google.api.http"`. */
-  name?: string | undefined;
-  /** The option's value packed in an Any message. If the value is a primitive, the corresponding wrapper type defined in google/protobuf/wrappers.proto should be used. If the value is an enum, it should be stored as an int32 value using the google.protobuf.Int32Value type. */
-  value?: DocumentMap | undefined;
-}
-export type OptionList = Array<Option>;
-export type MethodSyntaxEnum = "SYNTAX_PROTO2" | "SYNTAX_PROTO3" | "SYNTAX_EDITIONS";
-/** Method represents a method of an API interface. New usages of this message as an alternative to MethodDescriptorProto are strongly discouraged. This message does not reliability preserve all information necessary to model the schema and preserve semantics. Instead make use of FileDescriptorSet which preserves the necessary information. */
-export interface Method {
-  /** Any metadata attached to the method. */
-  options?: OptionList | undefined;
-  /** The simple name of this method. */
-  name?: string | undefined;
-  /** The URL of the output message type. */
-  responseTypeUrl?: string | undefined;
-  /** If true, the response is streamed. */
-  responseStreaming?: boolean | undefined;
-  /** If true, the request is streamed. */
-  requestStreaming?: boolean | undefined;
-  /** The source syntax of this method. This field should be ignored, instead the syntax should be inherited from Api. This is similar to Field and EnumValue. */
-  syntax?: MethodSyntaxEnum | undefined;
-  /** A URL of the input message type. */
-  requestTypeUrl?: string | undefined;
-  /** The source edition string, only valid when syntax is SYNTAX_EDITIONS. This field should be ignored, instead the edition should be inherited from Api. This is similar to Field and EnumValue. */
-  edition?: string | undefined;
-}
-export type MethodList = Array<Method>;
-/** `SourceContext` represents information about the source of a protobuf element, like the file in which it is defined. */
-export interface SourceContext {
-  /** The path-qualified name of the .proto file that contained the associated protobuf element. For example: `"google/protobuf/source_context.proto"`. */
-  fileName?: string | undefined;
-}
-/** Api is a light-weight descriptor for an API Interface. Interfaces are also described as "protocol buffer services" in some contexts, such as by the "service" keyword in a .proto file, but they are different from API Services, which represent a concrete implementation of an interface as opposed to simply a description of methods and bindings. They are also sometimes simply referred to as "APIs" in other contexts, such as the name of this message itself. See https://cloud.google.com/apis/design/glossary for detailed terminology. New usages of this message as an alternative to ServiceDescriptorProto are strongly discouraged. This message does not reliability preserve all information necessary to model the schema and preserve semantics. Instead make use of FileDescriptorSet which preserves the necessary information. */
-export interface Api {
-  /** Included interfaces. See Mixin. */
-  mixins?: MixinList | undefined;
-  /** The source edition string, only valid when syntax is SYNTAX_EDITIONS. */
-  edition?: string | undefined;
-  /** A version string for this interface. If specified, must have the form `major-version.minor-version`, as in `1.10`. If the minor version is omitted, it defaults to zero. If the entire version field is empty, the major version is derived from the package name, as outlined below. If the field is not empty, the version in the package name will be verified to be consistent with what is provided here. The versioning schema uses [semantic versioning](http://semver.org) where the major version number indicates a breaking change and the minor version an additive, non-breaking change. Both version numbers are signals to users what to expect from different versions, and should be carefully chosen based on the product plan. The major version is also reflected in the package name of the interface, which must end in `v`, as in `google.feature.v1`. For major versions 0 and 1, the suffix can be omitted. Zero major versions must only be used for experimental, non-GA interfaces. */
-  version?: string | undefined;
-  /** The source syntax of the service. */
-  syntax?: ApiSyntaxEnum | undefined;
-  /** The methods of this interface, in unspecified order. */
-  methods?: MethodList | undefined;
-  /** The fully qualified name of this interface, including package name followed by the interface's simple name. */
-  name?: string | undefined;
-  /** Any metadata attached to the interface. */
-  options?: OptionList | undefined;
-  /** Source context for the protocol buffer service represented by this message. */
-  sourceContext?: SourceContext | undefined;
-}
-export type ApiList = Array<Api>;
+export type MonitoredResourceDescriptorList = Array<MonitoredResourceDescriptor>;
 /** The configuration of the service. */
 export interface GoogleApiServiceusageV1ServiceConfig {
-  /** Additional API documentation. Contains only the summary and the documentation URL. */
-  documentation?: Documentation | undefined;
-  /** Monitoring configuration. This should not include the 'producer_destinations' field. */
-  monitoring?: Monitoring | undefined;
-  /** Defines the monitored resources used by this service. This is required by the Service.monitoring and Service.logging configurations. */
-  monitoredResources?: MonitoredResourceDescriptorList | undefined;
-  /** Configuration for network endpoints. Contains only the names and aliases of the endpoints. */
-  endpoints?: EndpointList | undefined;
   /** Configuration controlling usage of this service. */
   usage?: Usage | undefined;
-  /** Quota configuration. */
-  quota?: Quota | undefined;
-  /** The DNS address at which this service is available. An example DNS address would be: `calendar.googleapis.com`. */
-  name?: string | undefined;
-  /** Auth configuration. Contains only the OAuth rules. */
-  authentication?: Authentication | undefined;
-  /** A list of API interfaces exported by this service. Contains only the names, versions, and method names of the interfaces. */
-  apis?: ApiList | undefined;
   /** The product title for this service. */
   title?: string | undefined;
+  /** Additional API documentation. Contains only the summary and the documentation URL. */
+  documentation?: Documentation | undefined;
+  /** The DNS address at which this service is available. An example DNS address would be: `calendar.googleapis.com`. */
+  name?: string | undefined;
+  /** Monitoring configuration. This should not include the 'producer_destinations' field. */
+  monitoring?: Monitoring | undefined;
+  /** A list of API interfaces exported by this service. Contains only the names, versions, and method names of the interfaces. */
+  apis?: ApiList | undefined;
+  /** Configuration for network endpoints. Contains only the names and aliases of the endpoints. */
+  endpoints?: EndpointList | undefined;
+  /** Auth configuration. Contains only the OAuth rules. */
+  authentication?: Authentication | undefined;
+  /** Quota configuration. */
+  quota?: Quota | undefined;
+  /** Defines the monitored resources used by this service. This is required by the Service.monitoring and Service.logging configurations. */
+  monitoredResources?: MonitoredResourceDescriptorList | undefined;
 }
 export type GoogleApiServiceusageV1ServiceStateEnum = "STATE_UNSPECIFIED" | "DISABLED" | "ENABLED";
 /** A service that is available for use by the consumer. */
 export interface GoogleApiServiceusageV1Service {
-  /** The service configuration of the available service. Some fields may be filtered out of the configuration in responses to the `ListServices` method. These fields are present only in responses to the `GetService` method. */
-  config?: GoogleApiServiceusageV1ServiceConfig | undefined;
   /** The resource name of the consumer. A valid name would be: - projects/123 */
   parent?: string | undefined;
+  /** The service configuration of the available service. Some fields may be filtered out of the configuration in responses to the `ListServices` method. These fields are present only in responses to the `GetService` method. */
+  config?: GoogleApiServiceusageV1ServiceConfig | undefined;
   /** Whether or not the service has been enabled for use by the consumer. */
   state?: GoogleApiServiceusageV1ServiceStateEnum | undefined;
   /** The resource name of the consumer and service. A valid name would be: - projects/123/services/serviceusage.googleapis.com */
@@ -509,12 +509,12 @@ export interface GetServicesRequest {
   name: string;
 }
 export interface ListOperationsRequest {
-  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean | undefined;
   /** The standard list page size. */
   pageSize?: number | undefined;
   /** The standard list filter. */
   filter?: string | undefined;
+  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
+  returnPartialSuccess?: boolean | undefined;
   /** The standard list page token. */
   pageToken?: string | undefined;
   /** The name of the operation's parent resource. */
@@ -531,21 +531,21 @@ export interface ListOperationsResponse {
   operations?: OperationList | undefined;
 }
 export interface ListServicesRequest {
-  /** Requested size of the next page of data. Requested page size cannot exceed 200. If not set, the default page size is 50. */
-  pageSize?: number | undefined;
   /** Only list services that conform to the given filter. The allowed filter strings are `state:ENABLED` and `state:DISABLED`. */
   filter?: string | undefined;
-  /** Token identifying which result to start with, which is returned by a previous list call. */
-  pageToken?: string | undefined;
   /** Parent to search for services on. An example name would be: `projects/123` where `123` is the project number. */
   parent: string;
+  /** Requested size of the next page of data. Requested page size cannot exceed 200. If not set, the default page size is 50. */
+  pageSize?: number | undefined;
+  /** Token identifying which result to start with, which is returned by a previous list call. */
+  pageToken?: string | undefined;
 }
 /** Response message for the `ListServices` method. */
 export interface ListServicesResponse {
-  /** Token that can be passed to `ListServices` to resume a paginated query. */
-  nextPageToken?: string | undefined;
   /** The available services for the requested project. */
   services?: GoogleApiServiceusageV1ServiceList | undefined;
+  /** Token that can be passed to `ListServices` to resume a paginated query. */
+  nextPageToken?: string | undefined;
 }
 export type BatchEnableServicesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Enable multiple services on a project. The operation is atomic: if enabling any service fails, then the entire batch fails, and no state changes occur. To enable a single service, use the `EnableService` method instead. */
@@ -769,9 +769,9 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           name: S.optional(S.String.pipe(T.Query())),
         }).pipe(
@@ -799,10 +799,10 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -814,8 +814,8 @@ function __c3(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           services: S.optional(__S(352, __c11, 0)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListServicesResponse" });
   }
@@ -864,19 +864,19 @@ function __c7(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          message: S.optional(S.String),
-          details: S.optional(__S(224, __c7, 0)),
           code: S.optional(S.Number),
+          details: S.optional(__S(224, __c7, 0)),
+          message: S.optional(S.String),
         }),
       ).annotate({ identifier: "Status" });
     case 2:
       return S.suspend(() =>
         S.Struct({
+          done: S.optional(S.Boolean),
           metadata: S.optional(__S(192, __c6, 0)),
           name: S.optional(S.String),
-          response: S.optional(__S(192, __c6, 0)),
-          done: S.optional(S.Boolean),
           error: S.optional(__S(225, __c7, 1)),
+          response: S.optional(__S(192, __c6, 0)),
         }),
       ).annotate({ identifier: "Operation" });
   }
@@ -909,167 +909,166 @@ function __c9(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          subpages: S.optional(S.suspend(() => __S(289, __c9, 1))),
-          content: S.optional(S.String),
-          name: S.optional(S.String),
+          allowUnregisteredCalls: S.optional(S.Boolean),
+          selector: S.optional(S.String),
+          skipServiceControl: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "Page" });
+      ).annotate({ identifier: "UsageRule" });
     case 1:
       return S.Array(__S(288, __c9, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          description: S.optional(S.String),
-          deprecationDescription: S.optional(S.String),
-          selector: S.optional(S.String),
-          disableReplacementWords: S.optional(S.String),
+          producerNotificationChannel: S.optional(S.String),
+          requirements: S.optional(__S(160, __c5, 0)),
+          rules: S.optional(__S(289, __c9, 1)),
         }),
-      ).annotate({ identifier: "DocumentationRule" });
+      ).annotate({ identifier: "Usage" });
     case 3:
-      return S.Array(__S(290, __c9, 2));
-    case 4:
       return S.suspend(() =>
         S.Struct({
-          sectionOverrides: S.optional(__S(289, __c9, 1)),
-          summary: S.optional(S.String),
-          rules: S.optional(__S(291, __c9, 3)),
-          additionalIamInfo: S.optional(S.String),
-          overview: S.optional(S.String),
-          documentationRootUrl: S.optional(S.String),
-          pages: S.optional(__S(289, __c9, 1)),
-          serviceRootUrl: S.optional(S.String),
+          name: S.optional(S.String),
+          content: S.optional(S.String),
+          subpages: S.optional(S.suspend(() => __S(292, __c9, 4))),
         }),
-      ).annotate({ identifier: "Documentation" });
+      ).annotate({ identifier: "Page" });
+    case 4:
+      return S.Array(__S(291, __c9, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          monitoredResource: S.optional(S.String),
-          metrics: S.optional(__S(160, __c5, 0)),
+          selector: S.optional(S.String),
+          description: S.optional(S.String),
+          deprecationDescription: S.optional(S.String),
+          disableReplacementWords: S.optional(S.String),
         }),
-      ).annotate({ identifier: "MonitoringDestination" });
+      ).annotate({ identifier: "DocumentationRule" });
     case 6:
       return S.Array(__S(293, __c9, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          producerDestinations: S.optional(__S(294, __c9, 6)),
-          consumerDestinations: S.optional(__S(294, __c9, 6)),
+          overview: S.optional(S.String),
+          serviceRootUrl: S.optional(S.String),
+          sectionOverrides: S.optional(__S(292, __c9, 4)),
+          summary: S.optional(S.String),
+          additionalIamInfo: S.optional(S.String),
+          documentationRootUrl: S.optional(S.String),
+          pages: S.optional(__S(292, __c9, 4)),
+          rules: S.optional(__S(294, __c9, 6)),
         }),
-      ).annotate({ identifier: "Monitoring" });
+      ).annotate({ identifier: "Documentation" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          description: S.optional(S.String),
-          valueType: S.optional(S.String),
-          key: S.optional(S.String),
+          metrics: S.optional(__S(160, __c5, 0)),
+          monitoredResource: S.optional(S.String),
         }),
-      ).annotate({ identifier: "LabelDescriptor" });
+      ).annotate({ identifier: "MonitoringDestination" });
     case 9:
       return S.Array(__S(296, __c9, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          displayName: S.optional(S.String),
-          description: S.optional(S.String),
-          labels: S.optional(__S(297, __c9, 9)),
-          launchStage: S.optional(S.String),
-          type: S.optional(S.String),
+          producerDestinations: S.optional(__S(297, __c9, 9)),
+          consumerDestinations: S.optional(__S(297, __c9, 9)),
         }),
-      ).annotate({ identifier: "MonitoredResourceDescriptor" });
+      ).annotate({ identifier: "Monitoring" });
     case 11:
-      return S.Array(__S(298, __c9, 10));
-    case 12:
       return S.suspend(() =>
         S.Struct({
-          aliases: S.optional(__S(160, __c5, 0)),
           name: S.optional(S.String),
-          allowCors: S.optional(S.Boolean),
-          target: S.optional(S.String),
+          value: S.optional(__S(192, __c6, 0)),
         }),
-      ).annotate({ identifier: "Endpoint" });
+      ).annotate({ identifier: "Option" });
+    case 12:
+      return S.Array(__S(299, __c9, 11));
     case 13:
-      return S.Array(__S(300, __c9, 12));
+      return S.suspend(() =>
+        S.Struct({
+          requestTypeUrl: S.optional(S.String),
+          responseStreaming: S.optional(S.Boolean),
+          syntax: S.optional(S.String),
+          requestStreaming: S.optional(S.Boolean),
+          options: S.optional(__S(300, __c9, 12)),
+          edition: S.optional(S.String),
+          name: S.optional(S.String),
+          responseTypeUrl: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Method" });
     case 14:
-      return S.suspend(() =>
-        S.Struct({
-          selector: S.optional(S.String),
-          allowUnregisteredCalls: S.optional(S.Boolean),
-          skipServiceControl: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "UsageRule" });
+      return S.Array(__S(301, __c9, 13));
     case 15:
-      return S.Array(__S(302, __c9, 14));
-    case 16:
       return S.suspend(() =>
         S.Struct({
-          rules: S.optional(__S(303, __c9, 15)),
-          requirements: S.optional(__S(160, __c5, 0)),
-          producerNotificationChannel: S.optional(S.String),
+          name: S.optional(S.String),
+          root: S.optional(S.String),
         }),
-      ).annotate({ identifier: "Usage" });
+      ).annotate({ identifier: "Mixin" });
+    case 16:
+      return S.Array(__S(303, __c9, 15));
     case 17:
-      return S.Record(S.String, S.String);
+      return S.suspend(() =>
+        S.Struct({
+          fileName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SourceContext" });
     case 18:
       return S.suspend(() =>
         S.Struct({
-          metric: S.optional(S.String),
-          description: S.optional(S.String),
-          displayName: S.optional(S.String),
-          unit: S.optional(S.String),
-          duration: S.optional(S.String),
-          defaultLimit: S.optional(S.String),
+          options: S.optional(__S(300, __c9, 12)),
+          edition: S.optional(S.String),
+          methods: S.optional(__S(302, __c9, 14)),
+          syntax: S.optional(S.String),
           name: S.optional(S.String),
-          trafficSource: S.optional(S.String),
-          maxLimit: S.optional(S.String),
-          freeTier: S.optional(S.String),
-          values: S.optional(__S(305, __c9, 17)),
+          version: S.optional(S.String),
+          mixins: S.optional(__S(304, __c9, 16)),
+          sourceContext: S.optional(__S(305, __c9, 17)),
         }),
-      ).annotate({ identifier: "QuotaLimit" });
+      ).annotate({ identifier: "Api" });
     case 19:
       return S.Array(__S(306, __c9, 18));
     case 20:
       return S.suspend(() =>
         S.Struct({
-          agenticMetricCosts: S.optional(__S(305, __c9, 17)),
-          nonagenticMetricCosts: S.optional(__S(305, __c9, 17)),
-          metricCosts: S.optional(__S(305, __c9, 17)),
-          selector: S.optional(S.String),
+          allowCors: S.optional(S.Boolean),
+          name: S.optional(S.String),
+          aliases: S.optional(__S(160, __c5, 0)),
+          target: S.optional(S.String),
         }),
-      ).annotate({ identifier: "MetricRule" });
+      ).annotate({ identifier: "Endpoint" });
     case 21:
       return S.Array(__S(308, __c9, 20));
     case 22:
       return S.suspend(() =>
         S.Struct({
-          limits: S.optional(__S(307, __c9, 19)),
-          metricRules: S.optional(__S(309, __c9, 21)),
-        }),
-      ).annotate({ identifier: "Quota" });
-    case 23:
-      return S.suspend(() =>
-        S.Struct({
-          cookie: S.optional(S.String),
           header: S.optional(S.String),
           query: S.optional(S.String),
+          cookie: S.optional(S.String),
           valuePrefix: S.optional(S.String),
         }),
       ).annotate({ identifier: "JwtLocation" });
+    case 23:
+      return S.Array(__S(310, __c9, 22));
     case 24:
-      return S.Array(__S(311, __c9, 23));
-    case 25:
       return S.suspend(() =>
         S.Struct({
-          jwksUri: S.optional(S.String),
-          jwtLocations: S.optional(__S(312, __c9, 24)),
           authorizationUrl: S.optional(S.String),
-          id: S.optional(S.String),
-          issuer: S.optional(S.String),
           audiences: S.optional(S.String),
+          jwksUri: S.optional(S.String),
+          issuer: S.optional(S.String),
+          jwtLocations: S.optional(__S(311, __c9, 23)),
+          id: S.optional(S.String),
         }),
       ).annotate({ identifier: "AuthProvider" });
+    case 25:
+      return S.Array(__S(312, __c9, 24));
     case 26:
-      return S.Array(__S(313, __c9, 25));
+      return S.suspend(() =>
+        S.Struct({
+          canonicalScopes: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "OAuthRequirements" });
     case 27:
       return S.suspend(() =>
         S.Struct({
@@ -1082,105 +1081,106 @@ function __c9(j: number): any {
     case 29:
       return S.suspend(() =>
         S.Struct({
-          canonicalScopes: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "OAuthRequirements" });
-    case 30:
-      return S.suspend(() =>
-        S.Struct({
+          oauth: S.optional(__S(314, __c9, 26)),
           selector: S.optional(S.String),
-          requirements: S.optional(__S(316, __c9, 28)),
           allowWithoutCredential: S.optional(S.Boolean),
-          oauth: S.optional(__S(317, __c9, 29)),
+          requirements: S.optional(__S(316, __c9, 28)),
         }),
       ).annotate({ identifier: "AuthenticationRule" });
+    case 30:
+      return S.Array(__S(317, __c9, 29));
     case 31:
-      return S.Array(__S(318, __c9, 30));
+      return S.suspend(() =>
+        S.Struct({
+          providers: S.optional(__S(313, __c9, 25)),
+          rules: S.optional(__S(318, __c9, 30)),
+        }),
+      ).annotate({ identifier: "Authentication" });
   }
 }
 function __c10(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          providers: S.optional(__S(314, __c9, 26)),
-          rules: S.optional(__S(319, __c9, 31)),
-        }),
-      ).annotate({ identifier: "Authentication" });
+      return S.Record(S.String, S.String);
     case 1:
       return S.suspend(() =>
         S.Struct({
-          root: S.optional(S.String),
-          name: S.optional(S.String),
+          agenticMetricCosts: S.optional(__S(320, __c10, 0)),
+          nonagenticMetricCosts: S.optional(__S(320, __c10, 0)),
+          metricCosts: S.optional(__S(320, __c10, 0)),
+          selector: S.optional(S.String),
         }),
-      ).annotate({ identifier: "Mixin" });
+      ).annotate({ identifier: "MetricRule" });
     case 2:
       return S.Array(__S(321, __c10, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
+          description: S.optional(S.String),
+          values: S.optional(__S(320, __c10, 0)),
           name: S.optional(S.String),
-          value: S.optional(__S(192, __c6, 0)),
+          defaultLimit: S.optional(S.String),
+          trafficSource: S.optional(S.String),
+          unit: S.optional(S.String),
+          duration: S.optional(S.String),
+          displayName: S.optional(S.String),
+          freeTier: S.optional(S.String),
+          maxLimit: S.optional(S.String),
+          metric: S.optional(S.String),
         }),
-      ).annotate({ identifier: "Option" });
+      ).annotate({ identifier: "QuotaLimit" });
     case 4:
       return S.Array(__S(323, __c10, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          options: S.optional(__S(324, __c10, 4)),
-          name: S.optional(S.String),
-          responseTypeUrl: S.optional(S.String),
-          responseStreaming: S.optional(S.Boolean),
-          requestStreaming: S.optional(S.Boolean),
-          syntax: S.optional(S.String),
-          requestTypeUrl: S.optional(S.String),
-          edition: S.optional(S.String),
+          metricRules: S.optional(__S(322, __c10, 2)),
+          limits: S.optional(__S(324, __c10, 4)),
         }),
-      ).annotate({ identifier: "Method" });
+      ).annotate({ identifier: "Quota" });
     case 6:
-      return S.Array(__S(325, __c10, 5));
-    case 7:
       return S.suspend(() =>
         S.Struct({
-          fileName: S.optional(S.String),
+          valueType: S.optional(S.String),
+          key: S.optional(S.String),
+          description: S.optional(S.String),
         }),
-      ).annotate({ identifier: "SourceContext" });
+      ).annotate({ identifier: "LabelDescriptor" });
+    case 7:
+      return S.Array(__S(326, __c10, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          mixins: S.optional(__S(322, __c10, 2)),
-          edition: S.optional(S.String),
-          version: S.optional(S.String),
-          syntax: S.optional(S.String),
-          methods: S.optional(__S(326, __c10, 6)),
+          description: S.optional(S.String),
+          launchStage: S.optional(S.String),
           name: S.optional(S.String),
-          options: S.optional(__S(324, __c10, 4)),
-          sourceContext: S.optional(__S(327, __c10, 7)),
+          displayName: S.optional(S.String),
+          type: S.optional(S.String),
+          labels: S.optional(__S(327, __c10, 7)),
         }),
-      ).annotate({ identifier: "Api" });
+      ).annotate({ identifier: "MonitoredResourceDescriptor" });
     case 9:
       return S.Array(__S(328, __c10, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
-          documentation: S.optional(__S(292, __c9, 4)),
-          monitoring: S.optional(__S(295, __c9, 7)),
-          monitoredResources: S.optional(__S(299, __c9, 11)),
-          endpoints: S.optional(__S(301, __c9, 13)),
-          usage: S.optional(__S(304, __c9, 16)),
-          quota: S.optional(__S(310, __c9, 22)),
-          name: S.optional(S.String),
-          authentication: S.optional(__S(320, __c10, 0)),
-          apis: S.optional(__S(329, __c10, 9)),
+          usage: S.optional(__S(290, __c9, 2)),
           title: S.optional(S.String),
+          documentation: S.optional(__S(295, __c9, 7)),
+          name: S.optional(S.String),
+          monitoring: S.optional(__S(298, __c9, 10)),
+          apis: S.optional(__S(307, __c9, 19)),
+          endpoints: S.optional(__S(309, __c9, 21)),
+          authentication: S.optional(__S(319, __c9, 31)),
+          quota: S.optional(__S(325, __c10, 5)),
+          monitoredResources: S.optional(__S(329, __c10, 9)),
         }),
       ).annotate({ identifier: "GoogleApiServiceusageV1ServiceConfig" });
     case 11:
       return S.suspend(() =>
         S.Struct({
-          config: S.optional(__S(330, __c10, 10)),
           parent: S.optional(S.String),
+          config: S.optional(__S(330, __c10, 10)),
           state: S.optional(S.String),
           name: S.optional(S.String),
         }),

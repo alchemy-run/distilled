@@ -99,23 +99,23 @@ export type DocumentMapList = Array<DocumentMap>;
 export interface Status {
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
   details?: DocumentMapList | undefined;
-  /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number | undefined;
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
   message?: string | undefined;
+  /** The status code, which should be an enum value of google.rpc.Code. */
+  code?: number | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
-  /** The error result of the operation in case of failure or cancellation. */
-  error?: Status | undefined;
-  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean | undefined;
-  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string | undefined;
-  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap | undefined;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
   response?: DocumentMap | undefined;
+  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
+  done?: boolean | undefined;
+  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
+  metadata?: DocumentMap | undefined;
+  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
+  name?: string | undefined;
+  /** The error result of the operation in case of failure or cancellation. */
+  error?: Status | undefined;
 }
 export type CreateServicesConsumerQuotaMetricsLimitsAdminOverridesForceOnlyEnum =
   | "QUOTA_SAFETY_CHECK_UNSPECIFIED"
@@ -127,26 +127,26 @@ export type CreateServicesConsumerQuotaMetricsLimitsAdminOverridesForceOnlyEnumL
 export type StringMap = { [key: string]: string | undefined };
 /** A quota override */
 export interface QuotaOverride {
+  /** If this map is nonempty, then this override applies only to specific values for dimensions defined in the limit unit. For example, an override on a limit with the unit `1/{project}/{region}` could contain an entry with the key `region` and the value `us-east-1`; the override is only applied to quota consumed in that region. This map has the following restrictions: * Keys that are not defined in the limit's unit are not valid keys. Any string appearing in `{brackets}` in the unit (besides `{project}` or `{user}`) is a defined key. * `project` is not a valid key; the project is already specified in the parent resource name. * `user` is not a valid key; the API does not support quota overrides that apply only to a specific user. * If `region` appears as a key, its value must be a valid Cloud region. * If `zone` appears as a key, its value must be a valid Cloud zone. * If any valid key other than `region` or `zone` appears in the map, then all valid keys other than `region` or `zone` must also appear in the map. */
+  dimensions?: StringMap | undefined;
   /** The limit unit of the limit to which this override applies. An example unit would be: `1/{project}/{region}` Note that `{project}` and `{region}` are not placeholders in this example; the literal characters `{` and `}` occur in the string. */
   unit?: string | undefined;
+  /** The resource name of the ancestor that requested the override. For example: `organizations/12345` or `folders/67890`. Used by admin overrides only. */
+  adminOverrideAncestor?: string | undefined;
+  /** The overriding quota limit value. Can be any nonnegative integer, or -1 (unlimited quota). */
+  overrideValue?: string | undefined;
   /** The resource name of the override. This name is generated by the server when the override is created. Example names would be: `projects/123/services/compute.googleapis.com/consumerQuotaMetrics/compute.googleapis.com%2Fcpus/limits/%2Fproject%2Fregion/adminOverrides/4a3f2c1d` `projects/123/services/compute.googleapis.com/consumerQuotaMetrics/compute.googleapis.com%2Fcpus/limits/%2Fproject%2Fregion/consumerOverrides/4a3f2c1d` The resource name is intended to be opaque and should not be parsed for its component strings, since its representation could change in the future. */
   name?: string | undefined;
   /** The name of the metric to which this override applies. An example name would be: `compute.googleapis.com/cpus` */
   metric?: string | undefined;
-  /** The overriding quota limit value. Can be any nonnegative integer, or -1 (unlimited quota). */
-  overrideValue?: string | undefined;
-  /** If this map is nonempty, then this override applies only to specific values for dimensions defined in the limit unit. For example, an override on a limit with the unit `1/{project}/{region}` could contain an entry with the key `region` and the value `us-east-1`; the override is only applied to quota consumed in that region. This map has the following restrictions: * Keys that are not defined in the limit's unit are not valid keys. Any string appearing in `{brackets}` in the unit (besides `{project}` or `{user}`) is a defined key. * `project` is not a valid key; the project is already specified in the parent resource name. * `user` is not a valid key; the API does not support quota overrides that apply only to a specific user. * If `region` appears as a key, its value must be a valid Cloud region. * If `zone` appears as a key, its value must be a valid Cloud zone. * If any valid key other than `region` or `zone` appears in the map, then all valid keys other than `region` or `zone` must also appear in the map. */
-  dimensions?: StringMap | undefined;
-  /** The resource name of the ancestor that requested the override. For example: `organizations/12345` or `folders/67890`. Used by admin overrides only. */
-  adminOverrideAncestor?: string | undefined;
 }
 export interface CreateServicesConsumerQuotaMetricsLimitsAdminOverridesRequest extends QuotaOverride {
-  /** Whether to force the creation of the quota override. Setting the force parameter to 'true' ignores all quota safety checks that would fail the request. QuotaSafetyCheck lists all such validations. If force is set to true, it is recommended to include a case id in "X-Goog-Request-Reason" header when sending the request. */
-  force?: boolean | undefined;
-  /** The resource name of the parent quota limit, returned by a ListConsumerQuotaMetrics or GetConsumerQuotaMetric call. An example name would be: `projects/123/services/compute.googleapis.com/consumerQuotaMetrics/compute.googleapis.com%2Fcpus/limits/%2Fproject%2Fregion` */
-  parent: string;
   /** The list of quota safety checks to ignore before the override mutation. Unlike 'force' field that ignores all the quota safety checks, the 'force_only' field ignores only the specified checks; other checks are still enforced. The 'force' and 'force_only' fields cannot both be set. If force_only is specified, it is recommended to include a case id in "X-Goog-Request-Reason" header when sending the request. */
   forceOnly?: CreateServicesConsumerQuotaMetricsLimitsAdminOverridesForceOnlyEnumList | undefined;
+  /** The resource name of the parent quota limit, returned by a ListConsumerQuotaMetrics or GetConsumerQuotaMetric call. An example name would be: `projects/123/services/compute.googleapis.com/consumerQuotaMetrics/compute.googleapis.com%2Fcpus/limits/%2Fproject%2Fregion` */
+  parent: string;
+  /** Whether to force the creation of the quota override. Setting the force parameter to 'true' ignores all quota safety checks that would fail the request. QuotaSafetyCheck lists all such validations. If force is set to true, it is recommended to include a case id in "X-Goog-Request-Reason" header when sending the request. */
+  force?: boolean | undefined;
 }
 export type CreateServicesConsumerQuotaMetricsLimitsConsumerOverridesForceOnlyEnum =
   | "QUOTA_SAFETY_CHECK_UNSPECIFIED"
@@ -173,10 +173,10 @@ export type DeleteServicesConsumerQuotaMetricsLimitsAdminOverridesForceOnlyEnumL
   DeleteServicesConsumerQuotaMetricsLimitsAdminOverridesForceOnlyEnum | (string & {})
 >;
 export interface DeleteServicesConsumerQuotaMetricsLimitsAdminOverridesRequest {
-  /** Whether to force the deletion of the quota override. Setting the force parameter to 'true' ignores all quota safety checks that would fail the request. QuotaSafetyCheck lists all such validations. If force is set to true, it is recommended to include a case id in "X-Goog-Request-Reason" header when sending the request. */
-  force?: boolean | undefined;
   /** The resource name of the override to delete. An example name would be: `projects/123/services/compute.googleapis.com/consumerQuotaMetrics/compute.googleapis.com%2Fcpus/limits/%2Fproject%2Fregion/adminOverrides/4a3f2c1d` */
   name: string;
+  /** Whether to force the deletion of the quota override. Setting the force parameter to 'true' ignores all quota safety checks that would fail the request. QuotaSafetyCheck lists all such validations. If force is set to true, it is recommended to include a case id in "X-Goog-Request-Reason" header when sending the request. */
+  force?: boolean | undefined;
   /** The list of quota safety checks to ignore before the override mutation. Unlike 'force' field that ignores all the quota safety checks, the 'force_only' field ignores only the specified checks; other checks are still enforced. The 'force' and 'force_only' fields cannot both be set. If force_only is specified, it is recommended to include a case id in "X-Goog-Request-Reason" header when sending the request. */
   forceOnly?: DeleteServicesConsumerQuotaMetricsLimitsAdminOverridesForceOnlyEnumList | undefined;
 }
@@ -188,14 +188,14 @@ export type DeleteServicesConsumerQuotaMetricsLimitsConsumerOverridesForceOnlyEn
   DeleteServicesConsumerQuotaMetricsLimitsConsumerOverridesForceOnlyEnum | (string & {})
 >;
 export interface DeleteServicesConsumerQuotaMetricsLimitsConsumerOverridesRequest {
+  /** Whether to force the deletion of the quota override. Setting the force parameter to 'true' ignores all quota safety checks that would fail the request. QuotaSafetyCheck lists all such validations. If force is set to true, it is recommended to include a case id in "X-Goog-Request-Reason" header when sending the request. */
+  force?: boolean | undefined;
   /** The list of quota safety checks to ignore before the override mutation. Unlike 'force' field that ignores all the quota safety checks, the 'force_only' field ignores only the specified checks; other checks are still enforced. The 'force' and 'force_only' fields cannot both be set. If force_only is specified, it is recommended to include a case id in "X-Goog-Request-Reason" header when sending the request. */
   forceOnly?:
     | DeleteServicesConsumerQuotaMetricsLimitsConsumerOverridesForceOnlyEnumList
     | undefined;
   /** The resource name of the override to delete. An example name would be: `projects/123/services/compute.googleapis.com/consumerQuotaMetrics/compute.googleapis.com%2Fcpus/limits/%2Fproject%2Fregion/consumerOverrides/4a3f2c1d` */
   name: string;
-  /** Whether to force the deletion of the quota override. Setting the force parameter to 'true' ignores all quota safety checks that would fail the request. QuotaSafetyCheck lists all such validations. If force is set to true, it is recommended to include a case id in "X-Goog-Request-Reason" header when sending the request. */
-  force?: boolean | undefined;
 }
 /** Request message for the `DisableService` method. */
 export interface DisableServiceRequest {}
@@ -225,66 +225,22 @@ export interface GetServicesRequest {
   /** Name of the consumer and service to get the `ConsumerState` for. An example name would be: `projects/123/services/serviceusage.googleapis.com` where `123` is the project number (not project ID). */
   name: string;
 }
-/** OAuth scopes are a way to define data and permissions on data. For example, there are scopes defined for "Read-only access to Google Calendar" and "Access to Cloud Platform". Users can consent to a scope for an application, giving it permission to access that data on their behalf. OAuth scope specifications should be fairly coarse grained; a user will need to see and understand the text description of what your scope means. In most cases: use one or at most two OAuth scopes for an entire family of products. If your product has multiple APIs, you should probably be sharing the OAuth scope across all of those APIs. When you need finer grained OAuth consent screens: talk with your product management about how developers will use them in practice. Please note that even though each of the canonical scopes is enough for a request to be accepted and passed to the backend, a request can still fail due to the backend requiring additional scopes or permissions. */
-export interface OAuthRequirements {
-  /** The list of publicly documented OAuth scopes that are allowed access. An OAuth token containing any of these scopes will be accepted. Example: canonical_scopes: https://www.googleapis.com/auth/calendar, https://www.googleapis.com/auth/calendar.read */
-  canonicalScopes?: string | undefined;
+/** Configuration of a specific monitoring destination (the producer project or the consumer project). */
+export interface MonitoringDestination {
+  /** Types of the metrics to report to this monitoring destination. Each type must be defined in Service.metrics section. */
+  metrics?: StringList | undefined;
+  /** The monitored resource type. The type must be defined in Service.monitored_resources section. */
+  monitoredResource?: string | undefined;
 }
-/** User-defined authentication requirements, including support for [JSON Web Token (JWT)](https://tools.ietf.org/html/draft-ietf-oauth-json-web-token-32). */
-export interface AuthRequirement {
-  /** id from authentication provider. Example: provider_id: bookstore_auth */
-  providerId?: string | undefined;
-  /** NOTE: This will be deprecated soon, once AuthProvider.audiences is implemented and accepted in all the runtime components. The list of JWT [audiences](https://tools.ietf.org/html/draft-ietf-oauth-json-web-token-32#section-4.1.3). that are allowed to access. A JWT containing any of these audiences will be accepted. When this setting is absent, only JWTs with audience "https://Service_name/API_name" will be accepted. For example, if no audiences are in the setting, LibraryService API will only accept JWTs with the following audience "https://library-example.googleapis.com/google.example.library.v1.LibraryService". Example: audiences: bookstore_android.apps.googleusercontent.com, bookstore_web.apps.googleusercontent.com */
-  audiences?: string | undefined;
+export type MonitoringDestinationList = Array<MonitoringDestination>;
+/** Monitoring configuration of the service. The example below shows how to configure monitored resources and metrics for monitoring. In the example, a monitored resource and two metrics are defined. The `library.googleapis.com/book/returned_count` metric is sent to both producer and consumer projects, whereas the `library.googleapis.com/book/num_overdue` metric is only sent to the consumer project. monitored_resources: - type: library.googleapis.com/Branch display_name: "Library Branch" description: "A branch of a library." launch_stage: GA labels: - key: resource_container description: "The Cloud container (ie. project id) for the Branch." - key: location description: "The location of the library branch." - key: branch_id description: "The id of the branch." metrics: - name: library.googleapis.com/book/returned_count display_name: "Books Returned" description: "The count of books that have been returned." launch_stage: GA metric_kind: DELTA value_type: INT64 unit: "1" labels: - key: customer_id description: "The id of the customer." - name: library.googleapis.com/book/num_overdue display_name: "Books Overdue" description: "The current number of overdue books." launch_stage: GA metric_kind: GAUGE value_type: INT64 unit: "1" labels: - key: customer_id description: "The id of the customer." monitoring: producer_destinations: - monitored_resource: library.googleapis.com/Branch metrics: - library.googleapis.com/book/returned_count consumer_destinations: - monitored_resource: library.googleapis.com/Branch metrics: - library.googleapis.com/book/returned_count - library.googleapis.com/book/num_overdue */
+export interface Monitoring {
+  /** Monitoring configurations for sending metrics to the producer project. There can be multiple producer destinations. A monitored resource type may appear in multiple monitoring destinations if different aggregations are needed for different sets of metrics associated with that monitored resource type. A monitored resource and metric pair may only be used once in the Monitoring configuration. */
+  producerDestinations?: MonitoringDestinationList | undefined;
+  /** Monitoring configurations for sending metrics to the consumer project. There can be multiple consumer destinations. A monitored resource type may appear in multiple monitoring destinations if different aggregations are needed for different sets of metrics associated with that monitored resource type. A monitored resource and metric pair may only be used once in the Monitoring configuration. */
+  consumerDestinations?: MonitoringDestinationList | undefined;
 }
-export type AuthRequirementList = Array<AuthRequirement>;
-/** Authentication rules for the service. By default, if a method has any authentication requirements, every request must include a valid credential matching one of the requirements. It's an error to include more than one kind of credential in a single request. If a method doesn't have any auth requirements, request credentials will be ignored. */
-export interface AuthenticationRule {
-  /** If true, the service accepts API keys without any other credential. This flag only applies to HTTP and gRPC requests. */
-  allowWithoutCredential?: boolean | undefined;
-  /** The requirements for OAuth credentials. */
-  oauth?: OAuthRequirements | undefined;
-  /** Requirements for additional authentication providers. */
-  requirements?: AuthRequirementList | undefined;
-  /** Selects the methods to which this rule applies. Refer to selector for syntax details. */
-  selector?: string | undefined;
-}
-export type AuthenticationRuleList = Array<AuthenticationRule>;
-/** Specifies a location to extract JWT from an API request. */
-export interface JwtLocation {
-  /** Specifies cookie name to extract JWT token. */
-  cookie?: string | undefined;
-  /** The value prefix. The value format is "value_prefix{token}" Only applies to "in" header type. Must be empty for "in" query type. If not empty, the header value has to match (case sensitive) this prefix. If not matched, JWT will not be extracted. If matched, JWT will be extracted after the prefix is removed. For example, for "Authorization: Bearer {JWT}", value_prefix="Bearer " with a space at the end. */
-  valuePrefix?: string | undefined;
-  /** Specifies URL query parameter name to extract JWT token. */
-  query?: string | undefined;
-  /** Specifies HTTP header name to extract JWT token. */
-  header?: string | undefined;
-}
-export type JwtLocationList = Array<JwtLocation>;
-/** Configuration for an authentication provider, including support for [JSON Web Token (JWT)](https://tools.ietf.org/html/draft-ietf-oauth-json-web-token-32). */
-export interface AuthProvider {
-  /** Identifies the principal that issued the JWT. See https://tools.ietf.org/html/draft-ietf-oauth-json-web-token-32#section-4.1.1 Usually a URL or an email address. Example: https://securetoken.google.com Example: 1234567-compute@developer.gserviceaccount.com */
-  issuer?: string | undefined;
-  /** Redirect URL if JWT token is required but not present or is expired. Implement authorizationUrl of securityDefinitions in OpenAPI spec. */
-  authorizationUrl?: string | undefined;
-  /** The unique identifier of the auth provider. It will be referred to by `AuthRequirement.provider_id`. Example: "bookstore_auth". */
-  id?: string | undefined;
-  /** URL of the provider's public key set to validate signature of the JWT. See [OpenID Discovery](https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata). Optional if the key set document: - can be retrieved from [OpenID Discovery](https://openid.net/specs/openid-connect-discovery-1_0.html) of the issuer. - can be inferred from the email domain of the issuer (e.g. a Google service account). Example: https://www.googleapis.com/oauth2/v1/certs */
-  jwksUri?: string | undefined;
-  /** Defines the locations to extract the JWT. For now it is only used by the Cloud Endpoints to store the OpenAPI extension [x-google-jwt-locations] (https://cloud.google.com/endpoints/docs/openapi/openapi-extensions#x-google-jwt-locations) JWT locations can be one of HTTP headers, URL query parameters or cookies. The rule is that the first match wins. If not specified, default to use following 3 locations: 1) Authorization: Bearer 2) x-goog-iap-jwt-assertion 3) access_token query parameter Default locations can be specified as followings: jwt_locations: - header: Authorization value_prefix: "Bearer " - header: x-goog-iap-jwt-assertion - query: access_token */
-  jwtLocations?: JwtLocationList | undefined;
-  /** The list of JWT [audiences](https://tools.ietf.org/html/draft-ietf-oauth-json-web-token-32#section-4.1.3). that are allowed to access. A JWT containing any of these audiences will be accepted. When this setting is absent, JWTs with audiences: - "https://[service.name]/[google.protobuf.Api.name]" - "https://[service.name]/" will be accepted. For example, if no audiences are in the setting, LibraryService API will accept JWTs with the following audiences: - https://library-example.googleapis.com/google.example.library.v1.LibraryService - https://library-example.googleapis.com/ Example: audiences: bookstore_android.apps.googleusercontent.com, bookstore_web.apps.googleusercontent.com */
-  audiences?: string | undefined;
-}
-export type AuthProviderList = Array<AuthProvider>;
-/** `Authentication` defines the authentication configuration for API methods provided by an API service. Example: name: calendar.googleapis.com authentication: providers: - id: google_calendar_auth jwks_uri: https://www.googleapis.com/oauth2/v1/certs issuer: https://securetoken.google.com rules: - selector: "*" requirements: provider_id: google_calendar_auth - selector: google.calendar.Delegate oauth: canonical_scopes: https://www.googleapis.com/auth/calendar.read */
-export interface Authentication {
-  /** A list of authentication rules that apply to individual API methods. **NOTE:** All service configuration rules follow "last one wins" order. */
-  rules?: AuthenticationRuleList | undefined;
-  /** Defines a set of authentication providers that a service supports. */
-  providers?: AuthProviderList | undefined;
-}
+export type ApiSyntaxEnum = "SYNTAX_PROTO2" | "SYNTAX_PROTO3" | "SYNTAX_EDITIONS";
 /** A protocol buffer option, which can be attached to a message, field, enumeration, etc. New usages of this message as an alternative to FileOptions, MessageOptions, FieldOptions, EnumOptions, EnumValueOptions, ServiceOptions, or MethodOptions are strongly discouraged. */
 export interface Option {
   /** The option's value packed in an Any message. If the value is a primitive, the corresponding wrapper type defined in google/protobuf/wrappers.proto should be used. If the value is an enum, it should be stored as an int32 value using the google.protobuf.Int32Value type. */
@@ -293,33 +249,25 @@ export interface Option {
   name?: string | undefined;
 }
 export type OptionList = Array<Option>;
-/** Declares an API Interface to be included in this interface. The including interface must redeclare all the methods from the included interface, but documentation and options are inherited as follows: - If after comment and whitespace stripping, the documentation string of the redeclared method is empty, it will be inherited from the original method. - Each annotation belonging to the service config (http, visibility) which is not set in the redeclared method will be inherited. - If an http annotation is inherited, the path pattern will be modified as follows. Any version prefix will be replaced by the version of the including interface plus the root path if specified. Example of a simple mixin: package google.acl.v1; service AccessControl { // Get the underlying ACL object. rpc GetAcl(GetAclRequest) returns (Acl) { option (google.api.http).get = "/v1/{resource=**}:getAcl"; } } package google.storage.v2; service Storage { // rpc GetAcl(GetAclRequest) returns (Acl); // Get a data record. rpc GetData(GetDataRequest) returns (Data) { option (google.api.http).get = "/v2/{resource=**}"; } } Example of a mixin configuration: apis: - name: google.storage.v2.Storage mixins: - name: google.acl.v1.AccessControl The mixin construct implies that all methods in `AccessControl` are also declared with same name and request/response types in `Storage`. A documentation generator or annotation processor will see the effective `Storage.GetAcl` method after inheriting documentation and annotations as follows: service Storage { // Get the underlying ACL object. rpc GetAcl(GetAclRequest) returns (Acl) { option (google.api.http).get = "/v2/{resource=**}:getAcl"; } ... } Note how the version in the path pattern changed from `v1` to `v2`. If the `root` field in the mixin is specified, it should be a relative path under which inherited HTTP paths are placed. Example: apis: - name: google.storage.v2.Storage mixins: - name: google.acl.v1.AccessControl root: acls This implies the following inherited HTTP annotation: service Storage { // Get the underlying ACL object. rpc GetAcl(GetAclRequest) returns (Acl) { option (google.api.http).get = "/v2/acls/{resource=**}:getAcl"; } ... } */
-export interface Mixin {
-  /** If non-empty specifies a path under which inherited HTTP paths are rooted. */
-  root?: string | undefined;
-  /** The fully qualified name of the interface which is included. */
-  name?: string | undefined;
-}
-export type MixinList = Array<Mixin>;
 export type MethodSyntaxEnum = "SYNTAX_PROTO2" | "SYNTAX_PROTO3" | "SYNTAX_EDITIONS";
 /** Method represents a method of an API interface. New usages of this message as an alternative to MethodDescriptorProto are strongly discouraged. This message does not reliability preserve all information necessary to model the schema and preserve semantics. Instead make use of FileDescriptorSet which preserves the necessary information. */
 export interface Method {
-  /** The source edition string, only valid when syntax is SYNTAX_EDITIONS. This field should be ignored, instead the edition should be inherited from Api. This is similar to Field and EnumValue. */
-  edition?: string | undefined;
-  /** The source syntax of this method. This field should be ignored, instead the syntax should be inherited from Api. This is similar to Field and EnumValue. */
-  syntax?: MethodSyntaxEnum | undefined;
-  /** The URL of the output message type. */
-  responseTypeUrl?: string | undefined;
-  /** The simple name of this method. */
-  name?: string | undefined;
-  /** If true, the response is streamed. */
-  responseStreaming?: boolean | undefined;
-  /** A URL of the input message type. */
-  requestTypeUrl?: string | undefined;
   /** Any metadata attached to the method. */
   options?: OptionList | undefined;
+  /** The URL of the output message type. */
+  responseTypeUrl?: string | undefined;
+  /** A URL of the input message type. */
+  requestTypeUrl?: string | undefined;
+  /** The source syntax of this method. This field should be ignored, instead the syntax should be inherited from Api. This is similar to Field and EnumValue. */
+  syntax?: MethodSyntaxEnum | undefined;
+  /** The simple name of this method. */
+  name?: string | undefined;
   /** If true, the request is streamed. */
   requestStreaming?: boolean | undefined;
+  /** The source edition string, only valid when syntax is SYNTAX_EDITIONS. This field should be ignored, instead the edition should be inherited from Api. This is similar to Field and EnumValue. */
+  edition?: string | undefined;
+  /** If true, the response is streamed. */
+  responseStreaming?: boolean | undefined;
 }
 export type MethodList = Array<Method>;
 /** `SourceContext` represents information about the source of a protobuf element, like the file in which it is defined. */
@@ -327,98 +275,74 @@ export interface SourceContext {
   /** The path-qualified name of the .proto file that contained the associated protobuf element. For example: `"google/protobuf/source_context.proto"`. */
   fileName?: string | undefined;
 }
-export type ApiSyntaxEnum = "SYNTAX_PROTO2" | "SYNTAX_PROTO3" | "SYNTAX_EDITIONS";
+/** Declares an API Interface to be included in this interface. The including interface must redeclare all the methods from the included interface, but documentation and options are inherited as follows: - If after comment and whitespace stripping, the documentation string of the redeclared method is empty, it will be inherited from the original method. - Each annotation belonging to the service config (http, visibility) which is not set in the redeclared method will be inherited. - If an http annotation is inherited, the path pattern will be modified as follows. Any version prefix will be replaced by the version of the including interface plus the root path if specified. Example of a simple mixin: package google.acl.v1; service AccessControl { // Get the underlying ACL object. rpc GetAcl(GetAclRequest) returns (Acl) { option (google.api.http).get = "/v1/{resource=**}:getAcl"; } } package google.storage.v2; service Storage { // rpc GetAcl(GetAclRequest) returns (Acl); // Get a data record. rpc GetData(GetDataRequest) returns (Data) { option (google.api.http).get = "/v2/{resource=**}"; } } Example of a mixin configuration: apis: - name: google.storage.v2.Storage mixins: - name: google.acl.v1.AccessControl The mixin construct implies that all methods in `AccessControl` are also declared with same name and request/response types in `Storage`. A documentation generator or annotation processor will see the effective `Storage.GetAcl` method after inheriting documentation and annotations as follows: service Storage { // Get the underlying ACL object. rpc GetAcl(GetAclRequest) returns (Acl) { option (google.api.http).get = "/v2/{resource=**}:getAcl"; } ... } Note how the version in the path pattern changed from `v1` to `v2`. If the `root` field in the mixin is specified, it should be a relative path under which inherited HTTP paths are placed. Example: apis: - name: google.storage.v2.Storage mixins: - name: google.acl.v1.AccessControl root: acls This implies the following inherited HTTP annotation: service Storage { // Get the underlying ACL object. rpc GetAcl(GetAclRequest) returns (Acl) { option (google.api.http).get = "/v2/acls/{resource=**}:getAcl"; } ... } */
+export interface Mixin {
+  /** The fully qualified name of the interface which is included. */
+  name?: string | undefined;
+  /** If non-empty specifies a path under which inherited HTTP paths are rooted. */
+  root?: string | undefined;
+}
+export type MixinList = Array<Mixin>;
 /** Api is a light-weight descriptor for an API Interface. Interfaces are also described as "protocol buffer services" in some contexts, such as by the "service" keyword in a .proto file, but they are different from API Services, which represent a concrete implementation of an interface as opposed to simply a description of methods and bindings. They are also sometimes simply referred to as "APIs" in other contexts, such as the name of this message itself. See https://cloud.google.com/apis/design/glossary for detailed terminology. New usages of this message as an alternative to ServiceDescriptorProto are strongly discouraged. This message does not reliability preserve all information necessary to model the schema and preserve semantics. Instead make use of FileDescriptorSet which preserves the necessary information. */
 export interface Api {
-  /** Any metadata attached to the interface. */
-  options?: OptionList | undefined;
-  /** Included interfaces. See Mixin. */
-  mixins?: MixinList | undefined;
-  /** The fully qualified name of this interface, including package name followed by the interface's simple name. */
-  name?: string | undefined;
-  /** The methods of this interface, in unspecified order. */
-  methods?: MethodList | undefined;
   /** The source edition string, only valid when syntax is SYNTAX_EDITIONS. */
   edition?: string | undefined;
-  /** Source context for the protocol buffer service represented by this message. */
-  sourceContext?: SourceContext | undefined;
   /** The source syntax of the service. */
   syntax?: ApiSyntaxEnum | undefined;
+  /** The methods of this interface, in unspecified order. */
+  methods?: MethodList | undefined;
+  /** Source context for the protocol buffer service represented by this message. */
+  sourceContext?: SourceContext | undefined;
+  /** The fully qualified name of this interface, including package name followed by the interface's simple name. */
+  name?: string | undefined;
+  /** Included interfaces. See Mixin. */
+  mixins?: MixinList | undefined;
+  /** Any metadata attached to the interface. */
+  options?: OptionList | undefined;
   /** A version string for this interface. If specified, must have the form `major-version.minor-version`, as in `1.10`. If the minor version is omitted, it defaults to zero. If the entire version field is empty, the major version is derived from the package name, as outlined below. If the field is not empty, the version in the package name will be verified to be consistent with what is provided here. The versioning schema uses [semantic versioning](http://semver.org) where the major version number indicates a breaking change and the minor version an additive, non-breaking change. Both version numbers are signals to users what to expect from different versions, and should be carefully chosen based on the product plan. The major version is also reflected in the package name of the interface, which must end in `v`, as in `google.feature.v1`. For major versions 0 and 1, the suffix can be omitted. Zero major versions must only be used for experimental, non-GA interfaces. */
   version?: string | undefined;
 }
 export type ApiList = Array<Api>;
-/** Usage configuration rules for the service. */
-export interface UsageRule {
-  /** Selects the methods to which this rule applies. Use '*' to indicate all methods in all APIs. Refer to selector for syntax details. */
-  selector?: string | undefined;
-  /** If true, the selected method should skip service control and the control plane features, such as quota and billing, will not be available. This flag is used by Google Cloud Endpoints to bypass checks for internal methods, such as service health check methods. */
-  skipServiceControl?: boolean | undefined;
-  /** Use this rule to configure unregistered calls for the service. Unregistered calls are calls that do not contain consumer project identity. (Example: calls that do not contain an API key). WARNING: By default, API methods do not allow unregistered calls, and each method call must be identified by a consumer project identity. */
-  allowUnregisteredCalls?: boolean | undefined;
-}
-export type UsageRuleList = Array<UsageRule>;
-/** Configuration controlling usage of a service. */
-export interface Usage {
-  /** A list of usage rules that apply to individual API methods. **NOTE:** All service configuration rules follow "last one wins" order. */
-  rules?: UsageRuleList | undefined;
-  /** Requirements that must be satisfied before a consumer project can use the service. Each requirement is of the form /; for example 'serviceusage.googleapis.com/billing-enabled'. For Google APIs, a Terms of Service requirement must be included here. Google Cloud APIs must include "serviceusage.googleapis.com/tos/cloud". Other Google APIs should include "serviceusage.googleapis.com/tos/universal". Additional ToS can be included based on the business needs. */
-  requirements?: StringList | undefined;
-  /** The full resource name of a channel used for sending notifications to the service producer. Google Service Management currently only supports [Google Cloud Pub/Sub](https://cloud.google.com/pubsub) as a notification channel. To use Google Cloud Pub/Sub as the channel, this must be the name of a Cloud Pub/Sub topic that uses the Cloud Pub/Sub topic name format documented in https://cloud.google.com/pubsub/docs/overview. */
-  producerNotificationChannel?: string | undefined;
-}
-/** `Endpoint` describes a network address of a service that serves a set of APIs. It is commonly known as a service endpoint. A service may expose any number of service endpoints, and all service endpoints share the same service definition, such as quota limits and monitoring metrics. Example: type: google.api.Service name: library-example.googleapis.com endpoints: # Declares network address `https://library-example.googleapis.com` # for service `library-example.googleapis.com`. The `https` scheme # is implicit for all service endpoints. Other schemes may be # supported in the future. - name: library-example.googleapis.com allow_cors: false - name: content-staging-library-example.googleapis.com # Allows HTTP OPTIONS calls to be passed to the API frontend, for it # to decide whether the subsequent cross-origin request is allowed # to proceed. allow_cors: true */
-export interface Endpoint {
-  /** The specification of an Internet routable address of API frontend that will handle requests to this [API Endpoint](https://cloud.google.com/apis/design/glossary). It should be either a valid IPv4 address or a fully-qualified domain name. For example, "8.8.8.8" or "myservice.appspot.com". */
-  target?: string | undefined;
-  /** The canonical name of this endpoint. */
-  name?: string | undefined;
-  /** Aliases for this endpoint, these will be served by the same UrlMap as the parent endpoint, and will be provisioned in the GCP stack for the Regional Endpoints. */
-  aliases?: StringList | undefined;
-  /** Allowing [CORS](https://en.wikipedia.org/wiki/Cross-origin_resource_sharing), aka cross-domain traffic, would allow the backends served from this endpoint to receive and respond to HTTP OPTIONS requests. The response will be used by the browser to determine whether the subsequent cross-origin request is allowed to proceed. */
-  allowCors?: boolean | undefined;
-}
-export type EndpointList = Array<Endpoint>;
 /** A documentation rule provides information about individual API elements. */
 export interface DocumentationRule {
   /** Description of the selected proto element (e.g. a message, a method, a 'service' definition, or a field). Defaults to leading & trailing comments taken from the proto source definition of the proto element. */
   description?: string | undefined;
-  /** Deprecation description of the selected element(s). It can be provided if an element is marked as `deprecated`. */
-  deprecationDescription?: string | undefined;
-  /** The selector is a comma-separated list of patterns for any element such as a method, a field, an enum value. Each pattern is a qualified name of the element which may end in "*", indicating a wildcard. Wildcards are only allowed at the end and for a whole component of the qualified name, i.e. "foo.*" is ok, but not "foo.b*" or "foo.*.bar". A wildcard will match one or more components. To specify a default for all applicable elements, the whole pattern "*" is used. */
-  selector?: string | undefined;
   /** String of comma or space separated case-sensitive words for which method/field name replacement will be disabled. */
   disableReplacementWords?: string | undefined;
+  /** The selector is a comma-separated list of patterns for any element such as a method, a field, an enum value. Each pattern is a qualified name of the element which may end in "*", indicating a wildcard. Wildcards are only allowed at the end and for a whole component of the qualified name, i.e. "foo.*" is ok, but not "foo.b*" or "foo.*.bar". A wildcard will match one or more components. To specify a default for all applicable elements, the whole pattern "*" is used. */
+  selector?: string | undefined;
+  /** Deprecation description of the selected element(s). It can be provided if an element is marked as `deprecated`. */
+  deprecationDescription?: string | undefined;
 }
 export type DocumentationRuleList = Array<DocumentationRule>;
 /** Represents a documentation page. A page can contain subpages to represent nested documentation set structure. */
 export interface Page {
   /** Subpages of this page. The order of subpages specified here will be honored in the generated docset. */
   subpages?: PageList | undefined;
-  /** The name of the page. It will be used as an identity of the page to generate URI of the page, text of the link to this page in navigation, etc. The full page name (start from the root page name to this page concatenated with `.`) can be used as reference to the page in your documentation. For example: pages: - name: Tutorial content: (== include tutorial.md ==) subpages: - name: Java content: (== include tutorial_java.md ==) You can reference `Java` page using Markdown reference link syntax: `Java`. */
-  name?: string | undefined;
   /** The Markdown content of the page. You can use ```(== include {path} ==)``` to include content from a Markdown file. The content can be used to produce the documentation page such as HTML format page. */
   content?: string | undefined;
+  /** The name of the page. It will be used as an identity of the page to generate URI of the page, text of the link to this page in navigation, etc. The full page name (start from the root page name to this page concatenated with `.`) can be used as reference to the page in your documentation. For example: pages: - name: Tutorial content: (== include tutorial.md ==) subpages: - name: Java content: (== include tutorial_java.md ==) You can reference `Java` page using Markdown reference link syntax: `Java`. */
+  name?: string | undefined;
 }
 export type PageList = Array<Page>;
 /** `Documentation` provides the information for describing a service. Example: documentation: summary: > The Google Calendar API gives access to most calendar features. pages: - name: Overview content: (== include google/foo/overview.md ==) - name: Tutorial content: (== include google/foo/tutorial.md ==) subpages: - name: Java content: (== include google/foo/tutorial_java.md ==) rules: - selector: google.calendar.Calendar.Get description: > ... - selector: google.calendar.Calendar.Put description: > ... Documentation is provided in markdown syntax. In addition to standard markdown features, definition lists, tables and fenced code blocks are supported. Section headers can be provided and are interpreted relative to the section nesting of the context where a documentation fragment is embedded. Documentation from the IDL is merged with documentation defined via the config at normalization time, where documentation provided by config rules overrides IDL provided. A number of constructs specific to the API platform are supported in documentation text. In order to reference a proto element, the following notation can be used: [fully.qualified.proto.name][] To override the display text used for the link, this can be used: [display text][fully.qualified.proto.name] Text can be excluded from doc using the following notation: (-- internal comment --) A few directives are available in documentation. Note that directives must appear on a single line to be properly identified. The `include` directive includes a markdown file from an external source: (== include path/to/file ==) The `resource_for` directive marks a message to be the resource of a collection in REST view. If it is not specified, tools attempt to infer the resource from the operations in a collection: (== resource_for v1.shelves.books ==) The directive `suppress_warning` does not directly affect documentation and is documented together with service config validation. */
 export interface Documentation {
-  /** Specifies the service root url if the default one (the service name from the yaml file) is not suitable. This can be seen in any fully specified service urls as well as sections that show a base that other urls are relative to. */
-  serviceRootUrl?: string | undefined;
+  /** Declares a single overview page. For example: documentation: summary: ... overview: (== include overview.md ==) This is a shortcut for the following declaration (using pages style): documentation: summary: ... pages: - name: Overview content: (== include overview.md ==) Note: you cannot specify both `overview` field and `pages` field. */
+  overview?: string | undefined;
   /** A list of documentation rules that apply to individual API elements. **NOTE:** All service configuration rules follow "last one wins" order. */
   rules?: DocumentationRuleList | undefined;
-  /** Specifies section and content to override the boilerplate content. Currently overrides following sections: 1. rest.service.client_libraries */
-  sectionOverrides?: PageList | undefined;
+  /** Specifies the service root url if the default one (the service name from the yaml file) is not suitable. This can be seen in any fully specified service urls as well as sections that show a base that other urls are relative to. */
+  serviceRootUrl?: string | undefined;
   /** The top level pages for the documentation set. */
   pages?: PageList | undefined;
+  /** Specifies section and content to override the boilerplate content. Currently overrides following sections: 1. rest.service.client_libraries */
+  sectionOverrides?: PageList | undefined;
+  /** The URL to the root of documentation. */
+  documentationRootUrl?: string | undefined;
   /** A short description of what the service does. The summary must be plain text. It becomes the overview of the service displayed in Google Cloud Console. NOTE: This field is equivalent to the standard field `description`. */
   summary?: string | undefined;
   /** Optional information about the IAM configuration. This is typically used to link to documentation about a product's IAM roles and permissions. */
   additionalIamInfo?: string | undefined;
-  /** Declares a single overview page. For example: documentation: summary: ... overview: (== include overview.md ==) This is a shortcut for the following declaration (using pages style): documentation: summary: ... pages: - name: Overview content: (== include overview.md ==) Note: you cannot specify both `overview` field and `pages` field. */
-  overview?: string | undefined;
-  /** The URL to the root of documentation. */
-  documentationRootUrl?: string | undefined;
 }
 export type LabelDescriptorValueTypeEnum = "STRING" | "BOOL" | "INT64";
 /** A description of a label. */
@@ -446,26 +370,26 @@ export interface MonitoredResourceDescriptor {
   description?: string | undefined;
   /** Optional. The resource name of the monitored resource descriptor: `"projects/{project_id}/monitoredResourceDescriptors/{type}"` where {type} is the value of the `type` field in this object and {project_id} is a project ID that provides API-specific context for accessing the type. APIs that do not use project information can use the resource name format `"monitoredResourceDescriptors/{type}"`. */
   name?: string | undefined;
-  /** Required. A set of labels used to describe instances of this monitored resource type. For example, an individual Google Cloud SQL database is identified by values for the labels `"database_id"` and `"zone"`. */
-  labels?: LabelDescriptorList | undefined;
   /** Required. The monitored resource type. For example, the type `"cloudsql_database"` represents databases in Google Cloud SQL. For a list of types, see [Monitored resource types](https://cloud.google.com/monitoring/api/resources) and [Logging resource types](https://cloud.google.com/logging/docs/api/v2/resource-list). */
   type?: string | undefined;
   /** Optional. A concise name for the monitored resource type that might be displayed in user interfaces. It should be a Title Cased Noun Phrase, without any article or other determiners. For example, `"Google Cloud SQL Database"`. */
   displayName?: string | undefined;
+  /** Required. A set of labels used to describe instances of this monitored resource type. For example, an individual Google Cloud SQL database is identified by values for the labels `"database_id"` and `"zone"`. */
+  labels?: LabelDescriptorList | undefined;
   /** Optional. The launch stage of the monitored resource definition. */
   launchStage?: MonitoredResourceDescriptorLaunchStageEnum | undefined;
 }
 export type MonitoredResourceDescriptorList = Array<MonitoredResourceDescriptor>;
 /** Bind API methods to metrics. Binding a method to a metric causes that metric's configured quota behaviors to apply to the method call. */
 export interface MetricRule {
-  /** Optional. Metrics to update when the selected methods are called, and the associated cost applied to each metric, iff the source of the call is an agent. The key of the map is the metric name, and the values are the amount increased for the metric against which the quota limits are defined. The value must not be negative. */
-  agenticMetricCosts?: StringMap | undefined;
-  /** Optional. Metrics to update when the selected methods are called, and the associated cost applied to each metric, iff the source of the call is not an agent. The key of the map is the metric name, and the values are the amount increased for the metric against which the quota limits are defined. The value must not be negative. */
-  nonagenticMetricCosts?: StringMap | undefined;
   /** Selects the methods to which this rule applies. Refer to selector for syntax details. */
   selector?: string | undefined;
+  /** Optional. Metrics to update when the selected methods are called, and the associated cost applied to each metric, iff the source of the call is an agent. The key of the map is the metric name, and the values are the amount increased for the metric against which the quota limits are defined. The value must not be negative. */
+  agenticMetricCosts?: StringMap | undefined;
   /** Metrics to update when the selected methods are called, and the associated cost applied to each metric. The key of the map is the metric name, and the values are the amount increased for the metric against which the quota limits are defined. The value must not be negative. */
   metricCosts?: StringMap | undefined;
+  /** Optional. Metrics to update when the selected methods are called, and the associated cost applied to each metric, iff the source of the call is not an agent. The key of the map is the metric name, and the values are the amount increased for the metric against which the quota limits are defined. The value must not be negative. */
+  nonagenticMetricCosts?: StringMap | undefined;
 }
 export type MetricRuleList = Array<MetricRule>;
 export type QuotaLimitTrafficSourceEnum =
@@ -474,28 +398,28 @@ export type QuotaLimitTrafficSourceEnum =
   | "TRAFFIC_SOURCE_AGENTIC";
 /** `QuotaLimit` defines a specific limit that applies over a specified duration for a limit type. There can be at most one limit for a duration and limit type combination defined within a `QuotaGroup`. */
 export interface QuotaLimit {
+  /** Default number of tokens that can be consumed during the specified duration. This is the number of tokens assigned when a client application developer activates the service for his/her project. Specifying a value of 0 will block all requests. This can be used if you are provisioning quota to selected consumers and blocking others. Similarly, a value of -1 will indicate an unlimited quota. No other negative values are allowed. Used by group-based quotas only. */
+  defaultLimit?: string | undefined;
+  /** The name of the metric this quota limit applies to. The quota limits with the same metric will be checked together during runtime. The metric must be defined within the service config. */
+  metric?: string | undefined;
+  /** Free tier value displayed in the Developers Console for this limit. The free tier is the number of tokens that will be subtracted from the billed amount when billing is enabled. This field can only be set on a limit with duration "1d", in a billable group; it is invalid on any other limit. If this field is not set, it defaults to 0, indicating that there is no free tier for this service. Used by group-based quotas only. */
+  freeTier?: string | undefined;
   /** Maximum number of tokens that can be consumed during the specified duration. Client application developers can override the default limit up to this maximum. If specified, this value cannot be set to a value less than the default limit. If not specified, it is set to the default limit. To allow clients to apply overrides with no upper bound, set this to -1, indicating unlimited maximum quota. Used by group-based quotas only. */
   maxLimit?: string | undefined;
-  /** Duration of this limit in textual notation. Must be "100s" or "1d". Used by group-based quotas only. */
-  duration?: string | undefined;
   /** Name of the quota limit. The name must be provided, and it must be unique within the service. The name can only include alphanumeric characters as well as '-'. The maximum length of the limit name is 64 characters. */
   name?: string | undefined;
+  /** Optional. This is only informational, the logic to allocate the quota to the correct metric (such as in `metric_rules`) should identify which quota metrics to allocate to. */
+  trafficSource?: QuotaLimitTrafficSourceEnum | undefined;
+  /** Specify the unit of the quota limit. It uses the same syntax as MetricDescriptor.unit. The supported unit kinds are determined by the quota backend system. Here are some examples: * "1/min/{project}" for quota per minute per project. Note: the order of unit components is insignificant. The "1" at the beginning is required to follow the metric unit syntax. */
+  unit?: string | undefined;
+  /** Duration of this limit in textual notation. Must be "100s" or "1d". Used by group-based quotas only. */
+  duration?: string | undefined;
+  /** Tiered limit values. You must specify this as a key:value pair, with an integer value that is the maximum number of requests allowed for the specified unit. Currently only STANDARD is supported. */
+  values?: StringMap | undefined;
   /** User-visible display name for this limit. Optional. If not set, the UI will provide a default display name based on the quota configuration. This field can be used to override the default display name generated from the configuration. */
   displayName?: string | undefined;
   /** Optional. User-visible, extended description for this quota limit. Should be used only when more context is needed to understand this limit than provided by the limit's display name (see: `display_name`). */
   description?: string | undefined;
-  /** Default number of tokens that can be consumed during the specified duration. This is the number of tokens assigned when a client application developer activates the service for his/her project. Specifying a value of 0 will block all requests. This can be used if you are provisioning quota to selected consumers and blocking others. Similarly, a value of -1 will indicate an unlimited quota. No other negative values are allowed. Used by group-based quotas only. */
-  defaultLimit?: string | undefined;
-  /** Specify the unit of the quota limit. It uses the same syntax as MetricDescriptor.unit. The supported unit kinds are determined by the quota backend system. Here are some examples: * "1/min/{project}" for quota per minute per project. Note: the order of unit components is insignificant. The "1" at the beginning is required to follow the metric unit syntax. */
-  unit?: string | undefined;
-  /** Optional. This is only informational, the logic to allocate the quota to the correct metric (such as in `metric_rules`) should identify which quota metrics to allocate to. */
-  trafficSource?: QuotaLimitTrafficSourceEnum | undefined;
-  /** Tiered limit values. You must specify this as a key:value pair, with an integer value that is the maximum number of requests allowed for the specified unit. Currently only STANDARD is supported. */
-  values?: StringMap | undefined;
-  /** Free tier value displayed in the Developers Console for this limit. The free tier is the number of tokens that will be subtracted from the billed amount when billing is enabled. This field can only be set on a limit with duration "1d", in a billable group; it is invalid on any other limit. If this field is not set, it defaults to 0, indicating that there is no free tier for this service. Used by group-based quotas only. */
-  freeTier?: string | undefined;
-  /** The name of the metric this quota limit applies to. The quota limits with the same metric will be checked together during runtime. The metric must be defined within the service config. */
-  metric?: string | undefined;
 }
 export type QuotaLimitList = Array<QuotaLimit>;
 /** Quota configuration helps to achieve fairness and budgeting in service usage. The metric based quota configuration works this way: - The service configuration defines a set of metrics. - For API calls, the quota.metric_rules maps methods to metrics with corresponding costs. - The quota.limits defines limits on the metrics, which will be used for quota checks at runtime. An example quota configuration in yaml format: quota: limits: - name: apiWriteQpsPerProject metric: library.googleapis.com/write_calls unit: "1/min/{project}" # rate limit for consumer projects values: STANDARD: 10000 (The metric rules bind all methods to the read_calls metric, except for the UpdateBook and DeleteBook methods. These two methods are mapped to the write_calls metric, with the UpdateBook method consuming at twice rate as the DeleteBook method.) metric_rules: - selector: "*" metric_costs: library.googleapis.com/read_calls: 1 - selector: google.example.library.v1.LibraryService.UpdateBook metric_costs: library.googleapis.com/write_calls: 2 - selector: google.example.library.v1.LibraryService.DeleteBook metric_costs: library.googleapis.com/write_calls: 1 Corresponding Metric definition: metrics: - name: library.googleapis.com/read_calls display_name: Read requests metric_kind: DELTA value_type: INT64 - name: library.googleapis.com/write_calls display_name: Write requests metric_kind: DELTA value_type: INT64 */
@@ -505,55 +429,131 @@ export interface Quota {
   /** List of QuotaLimit definitions for the service. */
   limits?: QuotaLimitList | undefined;
 }
-/** Configuration of a specific monitoring destination (the producer project or the consumer project). */
-export interface MonitoringDestination {
-  /** The monitored resource type. The type must be defined in Service.monitored_resources section. */
-  monitoredResource?: string | undefined;
-  /** Types of the metrics to report to this monitoring destination. Each type must be defined in Service.metrics section. */
-  metrics?: StringList | undefined;
+/** `Endpoint` describes a network address of a service that serves a set of APIs. It is commonly known as a service endpoint. A service may expose any number of service endpoints, and all service endpoints share the same service definition, such as quota limits and monitoring metrics. Example: type: google.api.Service name: library-example.googleapis.com endpoints: # Declares network address `https://library-example.googleapis.com` # for service `library-example.googleapis.com`. The `https` scheme # is implicit for all service endpoints. Other schemes may be # supported in the future. - name: library-example.googleapis.com allow_cors: false - name: content-staging-library-example.googleapis.com # Allows HTTP OPTIONS calls to be passed to the API frontend, for it # to decide whether the subsequent cross-origin request is allowed # to proceed. allow_cors: true */
+export interface Endpoint {
+  /** Allowing [CORS](https://en.wikipedia.org/wiki/Cross-origin_resource_sharing), aka cross-domain traffic, would allow the backends served from this endpoint to receive and respond to HTTP OPTIONS requests. The response will be used by the browser to determine whether the subsequent cross-origin request is allowed to proceed. */
+  allowCors?: boolean | undefined;
+  /** The canonical name of this endpoint. */
+  name?: string | undefined;
+  /** Aliases for this endpoint, these will be served by the same UrlMap as the parent endpoint, and will be provisioned in the GCP stack for the Regional Endpoints. */
+  aliases?: StringList | undefined;
+  /** The specification of an Internet routable address of API frontend that will handle requests to this [API Endpoint](https://cloud.google.com/apis/design/glossary). It should be either a valid IPv4 address or a fully-qualified domain name. For example, "8.8.8.8" or "myservice.appspot.com". */
+  target?: string | undefined;
 }
-export type MonitoringDestinationList = Array<MonitoringDestination>;
-/** Monitoring configuration of the service. The example below shows how to configure monitored resources and metrics for monitoring. In the example, a monitored resource and two metrics are defined. The `library.googleapis.com/book/returned_count` metric is sent to both producer and consumer projects, whereas the `library.googleapis.com/book/num_overdue` metric is only sent to the consumer project. monitored_resources: - type: library.googleapis.com/Branch display_name: "Library Branch" description: "A branch of a library." launch_stage: GA labels: - key: resource_container description: "The Cloud container (ie. project id) for the Branch." - key: location description: "The location of the library branch." - key: branch_id description: "The id of the branch." metrics: - name: library.googleapis.com/book/returned_count display_name: "Books Returned" description: "The count of books that have been returned." launch_stage: GA metric_kind: DELTA value_type: INT64 unit: "1" labels: - key: customer_id description: "The id of the customer." - name: library.googleapis.com/book/num_overdue display_name: "Books Overdue" description: "The current number of overdue books." launch_stage: GA metric_kind: GAUGE value_type: INT64 unit: "1" labels: - key: customer_id description: "The id of the customer." monitoring: producer_destinations: - monitored_resource: library.googleapis.com/Branch metrics: - library.googleapis.com/book/returned_count consumer_destinations: - monitored_resource: library.googleapis.com/Branch metrics: - library.googleapis.com/book/returned_count - library.googleapis.com/book/num_overdue */
-export interface Monitoring {
-  /** Monitoring configurations for sending metrics to the producer project. There can be multiple producer destinations. A monitored resource type may appear in multiple monitoring destinations if different aggregations are needed for different sets of metrics associated with that monitored resource type. A monitored resource and metric pair may only be used once in the Monitoring configuration. */
-  producerDestinations?: MonitoringDestinationList | undefined;
-  /** Monitoring configurations for sending metrics to the consumer project. There can be multiple consumer destinations. A monitored resource type may appear in multiple monitoring destinations if different aggregations are needed for different sets of metrics associated with that monitored resource type. A monitored resource and metric pair may only be used once in the Monitoring configuration. */
-  consumerDestinations?: MonitoringDestinationList | undefined;
+export type EndpointList = Array<Endpoint>;
+/** Specifies a location to extract JWT from an API request. */
+export interface JwtLocation {
+  /** Specifies cookie name to extract JWT token. */
+  cookie?: string | undefined;
+  /** The value prefix. The value format is "value_prefix{token}" Only applies to "in" header type. Must be empty for "in" query type. If not empty, the header value has to match (case sensitive) this prefix. If not matched, JWT will not be extracted. If matched, JWT will be extracted after the prefix is removed. For example, for "Authorization: Bearer {JWT}", value_prefix="Bearer " with a space at the end. */
+  valuePrefix?: string | undefined;
+  /** Specifies HTTP header name to extract JWT token. */
+  header?: string | undefined;
+  /** Specifies URL query parameter name to extract JWT token. */
+  query?: string | undefined;
+}
+export type JwtLocationList = Array<JwtLocation>;
+/** Configuration for an authentication provider, including support for [JSON Web Token (JWT)](https://tools.ietf.org/html/draft-ietf-oauth-json-web-token-32). */
+export interface AuthProvider {
+  /** URL of the provider's public key set to validate signature of the JWT. See [OpenID Discovery](https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata). Optional if the key set document: - can be retrieved from [OpenID Discovery](https://openid.net/specs/openid-connect-discovery-1_0.html) of the issuer. - can be inferred from the email domain of the issuer (e.g. a Google service account). Example: https://www.googleapis.com/oauth2/v1/certs */
+  jwksUri?: string | undefined;
+  /** Defines the locations to extract the JWT. For now it is only used by the Cloud Endpoints to store the OpenAPI extension [x-google-jwt-locations] (https://cloud.google.com/endpoints/docs/openapi/openapi-extensions#x-google-jwt-locations) JWT locations can be one of HTTP headers, URL query parameters or cookies. The rule is that the first match wins. If not specified, default to use following 3 locations: 1) Authorization: Bearer 2) x-goog-iap-jwt-assertion 3) access_token query parameter Default locations can be specified as followings: jwt_locations: - header: Authorization value_prefix: "Bearer " - header: x-goog-iap-jwt-assertion - query: access_token */
+  jwtLocations?: JwtLocationList | undefined;
+  /** Redirect URL if JWT token is required but not present or is expired. Implement authorizationUrl of securityDefinitions in OpenAPI spec. */
+  authorizationUrl?: string | undefined;
+  /** The list of JWT [audiences](https://tools.ietf.org/html/draft-ietf-oauth-json-web-token-32#section-4.1.3). that are allowed to access. A JWT containing any of these audiences will be accepted. When this setting is absent, JWTs with audiences: - "https://[service.name]/[google.protobuf.Api.name]" - "https://[service.name]/" will be accepted. For example, if no audiences are in the setting, LibraryService API will accept JWTs with the following audiences: - https://library-example.googleapis.com/google.example.library.v1.LibraryService - https://library-example.googleapis.com/ Example: audiences: bookstore_android.apps.googleusercontent.com, bookstore_web.apps.googleusercontent.com */
+  audiences?: string | undefined;
+  /** The unique identifier of the auth provider. It will be referred to by `AuthRequirement.provider_id`. Example: "bookstore_auth". */
+  id?: string | undefined;
+  /** Identifies the principal that issued the JWT. See https://tools.ietf.org/html/draft-ietf-oauth-json-web-token-32#section-4.1.1 Usually a URL or an email address. Example: https://securetoken.google.com Example: 1234567-compute@developer.gserviceaccount.com */
+  issuer?: string | undefined;
+}
+export type AuthProviderList = Array<AuthProvider>;
+/** User-defined authentication requirements, including support for [JSON Web Token (JWT)](https://tools.ietf.org/html/draft-ietf-oauth-json-web-token-32). */
+export interface AuthRequirement {
+  /** id from authentication provider. Example: provider_id: bookstore_auth */
+  providerId?: string | undefined;
+  /** NOTE: This will be deprecated soon, once AuthProvider.audiences is implemented and accepted in all the runtime components. The list of JWT [audiences](https://tools.ietf.org/html/draft-ietf-oauth-json-web-token-32#section-4.1.3). that are allowed to access. A JWT containing any of these audiences will be accepted. When this setting is absent, only JWTs with audience "https://Service_name/API_name" will be accepted. For example, if no audiences are in the setting, LibraryService API will only accept JWTs with the following audience "https://library-example.googleapis.com/google.example.library.v1.LibraryService". Example: audiences: bookstore_android.apps.googleusercontent.com, bookstore_web.apps.googleusercontent.com */
+  audiences?: string | undefined;
+}
+export type AuthRequirementList = Array<AuthRequirement>;
+/** OAuth scopes are a way to define data and permissions on data. For example, there are scopes defined for "Read-only access to Google Calendar" and "Access to Cloud Platform". Users can consent to a scope for an application, giving it permission to access that data on their behalf. OAuth scope specifications should be fairly coarse grained; a user will need to see and understand the text description of what your scope means. In most cases: use one or at most two OAuth scopes for an entire family of products. If your product has multiple APIs, you should probably be sharing the OAuth scope across all of those APIs. When you need finer grained OAuth consent screens: talk with your product management about how developers will use them in practice. Please note that even though each of the canonical scopes is enough for a request to be accepted and passed to the backend, a request can still fail due to the backend requiring additional scopes or permissions. */
+export interface OAuthRequirements {
+  /** The list of publicly documented OAuth scopes that are allowed access. An OAuth token containing any of these scopes will be accepted. Example: canonical_scopes: https://www.googleapis.com/auth/calendar, https://www.googleapis.com/auth/calendar.read */
+  canonicalScopes?: string | undefined;
+}
+/** Authentication rules for the service. By default, if a method has any authentication requirements, every request must include a valid credential matching one of the requirements. It's an error to include more than one kind of credential in a single request. If a method doesn't have any auth requirements, request credentials will be ignored. */
+export interface AuthenticationRule {
+  /** Selects the methods to which this rule applies. Refer to selector for syntax details. */
+  selector?: string | undefined;
+  /** If true, the service accepts API keys without any other credential. This flag only applies to HTTP and gRPC requests. */
+  allowWithoutCredential?: boolean | undefined;
+  /** Requirements for additional authentication providers. */
+  requirements?: AuthRequirementList | undefined;
+  /** The requirements for OAuth credentials. */
+  oauth?: OAuthRequirements | undefined;
+}
+export type AuthenticationRuleList = Array<AuthenticationRule>;
+/** `Authentication` defines the authentication configuration for API methods provided by an API service. Example: name: calendar.googleapis.com authentication: providers: - id: google_calendar_auth jwks_uri: https://www.googleapis.com/oauth2/v1/certs issuer: https://securetoken.google.com rules: - selector: "*" requirements: provider_id: google_calendar_auth - selector: google.calendar.Delegate oauth: canonical_scopes: https://www.googleapis.com/auth/calendar.read */
+export interface Authentication {
+  /** Defines a set of authentication providers that a service supports. */
+  providers?: AuthProviderList | undefined;
+  /** A list of authentication rules that apply to individual API methods. **NOTE:** All service configuration rules follow "last one wins" order. */
+  rules?: AuthenticationRuleList | undefined;
+}
+/** Usage configuration rules for the service. */
+export interface UsageRule {
+  /** Use this rule to configure unregistered calls for the service. Unregistered calls are calls that do not contain consumer project identity. (Example: calls that do not contain an API key). WARNING: By default, API methods do not allow unregistered calls, and each method call must be identified by a consumer project identity. */
+  allowUnregisteredCalls?: boolean | undefined;
+  /** If true, the selected method should skip service control and the control plane features, such as quota and billing, will not be available. This flag is used by Google Cloud Endpoints to bypass checks for internal methods, such as service health check methods. */
+  skipServiceControl?: boolean | undefined;
+  /** Selects the methods to which this rule applies. Use '*' to indicate all methods in all APIs. Refer to selector for syntax details. */
+  selector?: string | undefined;
+}
+export type UsageRuleList = Array<UsageRule>;
+/** Configuration controlling usage of a service. */
+export interface Usage {
+  /** The full resource name of a channel used for sending notifications to the service producer. Google Service Management currently only supports [Google Cloud Pub/Sub](https://cloud.google.com/pubsub) as a notification channel. To use Google Cloud Pub/Sub as the channel, this must be the name of a Cloud Pub/Sub topic that uses the Cloud Pub/Sub topic name format documented in https://cloud.google.com/pubsub/docs/overview. */
+  producerNotificationChannel?: string | undefined;
+  /** Requirements that must be satisfied before a consumer project can use the service. Each requirement is of the form /; for example 'serviceusage.googleapis.com/billing-enabled'. For Google APIs, a Terms of Service requirement must be included here. Google Cloud APIs must include "serviceusage.googleapis.com/tos/cloud". Other Google APIs should include "serviceusage.googleapis.com/tos/universal". Additional ToS can be included based on the business needs. */
+  requirements?: StringList | undefined;
+  /** A list of usage rules that apply to individual API methods. **NOTE:** All service configuration rules follow "last one wins" order. */
+  rules?: UsageRuleList | undefined;
 }
 /** The configuration of the service. */
 export interface ServiceConfig {
-  /** Auth configuration. Contains only the OAuth rules. */
-  authentication?: Authentication | undefined;
+  /** Monitoring configuration. This should not include the 'producer_destinations' field. */
+  monitoring?: Monitoring | undefined;
+  /** The product title for this service. */
+  title?: string | undefined;
   /** A list of API interfaces exported by this service. Contains only the names, versions, and method names of the interfaces. */
   apis?: ApiList | undefined;
-  /** Configuration controlling usage of this service. */
-  usage?: Usage | undefined;
-  /** Configuration for network endpoints. Contains only the names and aliases of the endpoints. */
-  endpoints?: EndpointList | undefined;
   /** Additional API documentation. Contains only the summary and the documentation URL. */
   documentation?: Documentation | undefined;
   /** Defines the monitored resources used by this service. This is required by the Service.monitoring and Service.logging configurations. */
   monitoredResources?: MonitoredResourceDescriptorList | undefined;
   /** Quota configuration. */
   quota?: Quota | undefined;
-  /** The product title for this service. */
-  title?: string | undefined;
+  /** Configuration for network endpoints. Contains only the names and aliases of the endpoints. */
+  endpoints?: EndpointList | undefined;
+  /** Auth configuration. Contains only the OAuth rules. */
+  authentication?: Authentication | undefined;
   /** The DNS address at which this service is available. An example DNS address would be: `calendar.googleapis.com`. */
   name?: string | undefined;
-  /** Monitoring configuration. This should not include the 'producer_destinations' field. */
-  monitoring?: Monitoring | undefined;
+  /** Configuration controlling usage of this service. */
+  usage?: Usage | undefined;
 }
 export type ServiceStateEnum = "STATE_UNSPECIFIED" | "DISABLED" | "ENABLED";
 /** A service that is available for use by the consumer. */
 export interface Service {
-  /** The resource name of the consumer and service. A valid name would be: - `projects/123/services/serviceusage.googleapis.com` */
-  name?: string | undefined;
   /** The service configuration of the available service. Some fields may be filtered out of the configuration in responses to the `ListServices` method. These fields are present only in responses to the `GetService` method. */
   config?: ServiceConfig | undefined;
-  /** Whether or not the service has been enabled for use by the consumer. */
-  state?: ServiceStateEnum | undefined;
   /** The resource name of the consumer. A valid name would be: - `projects/123` */
   parent?: string | undefined;
+  /** The resource name of the consumer and service. A valid name would be: - `projects/123/services/serviceusage.googleapis.com` */
+  name?: string | undefined;
+  /** Whether or not the service has been enabled for use by the consumer. */
+  state?: ServiceStateEnum | undefined;
 }
 export type GetServicesConsumerQuotaMetricsViewEnum = "QUOTA_VIEW_UNSPECIFIED" | "BASIC" | "FULL";
 export interface GetServicesConsumerQuotaMetricsRequest {
@@ -573,61 +573,65 @@ export interface RolloutInfo {
 }
 /** Quota policy created by service producer. */
 export interface ProducerQuotaPolicy {
-  /** The limit unit of the limit to which this policy applies. An example unit would be: `1/{project}/{region}` Note that `{project}` and `{region}` are not placeholders in this example; the literal characters `{` and `}` occur in the string. */
-  unit?: string | undefined;
-  /** The resource name of the policy. This name is generated by the server when the policy is created. Example names would be: `organizations/123/services/compute.googleapis.com/consumerQuotaMetrics/compute.googleapis.com%2Fcpus/limits/%2Fproject%2Fregion/producerQuotaPolicies/4a3f2c1d` */
-  name?: string | undefined;
-  /** If this map is nonempty, then this policy applies only to specific values for dimensions defined in the limit unit. For example, a policy on a limit with the unit `1/{project}/{region}` could contain an entry with the key `region` and the value `us-east-1`; the policy is only applied to quota consumed in that region. This map has the following restrictions: * Keys that are not defined in the limit's unit are not valid keys. Any string appearing in {brackets} in the unit (besides {project} or {user}) is a defined key. * `project` is not a valid key; the project is already specified in the parent resource name. * `user` is not a valid key; the API does not support quota policies that apply only to a specific user. * If `region` appears as a key, its value must be a valid Cloud region. * If `zone` appears as a key, its value must be a valid Cloud zone. * If any valid key other than `region` or `zone` appears in the map, then all valid keys other than `region` or `zone` must also appear in the map. */
-  dimensions?: StringMap | undefined;
   /** The name of the metric to which this policy applies. An example name would be: `compute.googleapis.com/cpus` */
   metric?: string | undefined;
-  /** The cloud resource container at which the quota policy is created. The format is `{container_type}/{container_number}` */
-  container?: string | undefined;
+  /** The limit unit of the limit to which this policy applies. An example unit would be: `1/{project}/{region}` Note that `{project}` and `{region}` are not placeholders in this example; the literal characters `{` and `}` occur in the string. */
+  unit?: string | undefined;
+  /** If this map is nonempty, then this policy applies only to specific values for dimensions defined in the limit unit. For example, a policy on a limit with the unit `1/{project}/{region}` could contain an entry with the key `region` and the value `us-east-1`; the policy is only applied to quota consumed in that region. This map has the following restrictions: * Keys that are not defined in the limit's unit are not valid keys. Any string appearing in {brackets} in the unit (besides {project} or {user}) is a defined key. * `project` is not a valid key; the project is already specified in the parent resource name. * `user` is not a valid key; the API does not support quota policies that apply only to a specific user. * If `region` appears as a key, its value must be a valid Cloud region. * If `zone` appears as a key, its value must be a valid Cloud zone. * If any valid key other than `region` or `zone` appears in the map, then all valid keys other than `region` or `zone` must also appear in the map. */
+  dimensions?: StringMap | undefined;
   /** The quota policy value. Can be any nonnegative integer, or -1 (unlimited quota). */
   policyValue?: string | undefined;
+  /** The cloud resource container at which the quota policy is created. The format is `{container_type}/{container_number}` */
+  container?: string | undefined;
+  /** The resource name of the policy. This name is generated by the server when the policy is created. Example names would be: `organizations/123/services/compute.googleapis.com/consumerQuotaMetrics/compute.googleapis.com%2Fcpus/limits/%2Fproject%2Fregion/producerQuotaPolicies/4a3f2c1d` */
+  name?: string | undefined;
 }
 /** A quota bucket is a quota provisioning unit for a specific set of dimensions. */
 export interface QuotaBucket {
-  /** Producer override on this quota bucket. */
-  producerOverride?: QuotaOverride | undefined;
-  /** Consumer override on this quota bucket. */
-  consumerOverride?: QuotaOverride | undefined;
   /** Admin override on this quota bucket. */
   adminOverride?: QuotaOverride | undefined;
-  /** The dimensions of this quota bucket. If this map is empty, this is the global bucket, which is the default quota value applied to all requests that do not have a more specific override. If this map is nonempty, the default limit, effective limit, and quota overrides apply only to requests that have the dimensions given in the map. For example, if the map has key `region` and value `us-east-1`, then the specified effective limit is only effective in that region, and the specified overrides apply only in that region. */
-  dimensions?: StringMap | undefined;
-  /** The default limit of this quota bucket, as specified by the service configuration. */
-  defaultLimit?: string | undefined;
-  /** The effective limit of this quota bucket. Equal to default_limit if there are no overrides. */
-  effectiveLimit?: string | undefined;
+  /** Consumer override on this quota bucket. */
+  consumerOverride?: QuotaOverride | undefined;
   /** Rollout information of this quota bucket. This field is present only if the effective limit will change due to the ongoing rollout of the service config. */
   rolloutInfo?: RolloutInfo | undefined;
   /** Producer policy inherited from the closet ancestor of the current consumer. */
   producerQuotaPolicy?: ProducerQuotaPolicy | undefined;
+  /** The default limit of this quota bucket, as specified by the service configuration. */
+  defaultLimit?: string | undefined;
+  /** Producer override on this quota bucket. */
+  producerOverride?: QuotaOverride | undefined;
+  /** The dimensions of this quota bucket. If this map is empty, this is the global bucket, which is the default quota value applied to all requests that do not have a more specific override. If this map is nonempty, the default limit, effective limit, and quota overrides apply only to requests that have the dimensions given in the map. For example, if the map has key `region` and value `us-east-1`, then the specified effective limit is only effective in that region, and the specified overrides apply only in that region. */
+  dimensions?: StringMap | undefined;
+  /** The effective limit of this quota bucket. Equal to default_limit if there are no overrides. */
+  effectiveLimit?: string | undefined;
 }
 export type QuotaBucketList = Array<QuotaBucket>;
 /** Consumer quota settings for a quota limit. */
 export interface ConsumerQuotaLimit {
-  /** The limit unit. An example unit would be `1/{project}/{region}` Note that `{project}` and `{region}` are not placeholders in this example; the literal characters `{` and `}` occur in the string. */
-  unit?: string | undefined;
-  /** Whether admin overrides are allowed on this limit */
-  allowsAdminOverrides?: boolean | undefined;
   /** Whether this limit is precise or imprecise. */
   isPrecise?: boolean | undefined;
-  /** The name of the parent metric of this limit. An example name would be: `compute.googleapis.com/cpus` */
-  metric?: string | undefined;
   /** The resource name of the quota limit. An example name would be: `projects/123/services/compute.googleapis.com/consumerQuotaMetrics/compute.googleapis.com%2Fcpus/limits/%2Fproject%2Fregion` The resource name is intended to be opaque and should not be parsed for its component strings, since its representation could change in the future. */
   name?: string | undefined;
-  /** List of all supported locations. This field is present only if the limit has a {region} or {zone} dimension. */
-  supportedLocations?: StringList | undefined;
   /** Indicates the traffic type attribution for this quota limit (e.g. agentic). This is an informational field used to categorize and filter the quota limits. */
   trafficSource?: ConsumerQuotaLimitTrafficSourceEnum | undefined;
   /** Summary of the enforced quota buckets, organized by quota dimension, ordered from least specific to most specific (for example, the global default bucket, with no quota dimensions, will always appear first). */
   quotaBuckets?: QuotaBucketList | undefined;
+  /** The name of the parent metric of this limit. An example name would be: `compute.googleapis.com/cpus` */
+  metric?: string | undefined;
+  /** The limit unit. An example unit would be `1/{project}/{region}` Note that `{project}` and `{region}` are not placeholders in this example; the literal characters `{` and `}` occur in the string. */
+  unit?: string | undefined;
+  /** List of all supported locations. This field is present only if the limit has a {region} or {zone} dimension. */
+  supportedLocations?: StringList | undefined;
+  /** Whether admin overrides are allowed on this limit */
+  allowsAdminOverrides?: boolean | undefined;
 }
 export type ConsumerQuotaLimitList = Array<ConsumerQuotaLimit>;
 /** Consumer quota settings for a quota metric. */
 export interface ConsumerQuotaMetric {
+  /** The consumer quota for each quota limit defined on the metric. */
+  consumerQuotaLimits?: ConsumerQuotaLimitList | undefined;
+  /** The units in which the metric value is reported. */
+  unit?: string | undefined;
   /** The display name of the metric. An example name would be: `CPUs` */
   displayName?: string | undefined;
   /** The name of the metric. An example name would be: `compute.googleapis.com/cpus` */
@@ -636,10 +640,6 @@ export interface ConsumerQuotaMetric {
   descendantConsumerQuotaLimits?: ConsumerQuotaLimitList | undefined;
   /** The resource name of the quota settings on this metric for this consumer. An example name would be: `projects/123/services/compute.googleapis.com/consumerQuotaMetrics/compute.googleapis.com%2Fcpus` The resource name is intended to be opaque and should not be parsed for its component strings, since its representation could change in the future. */
   name?: string | undefined;
-  /** The consumer quota for each quota limit defined on the metric. */
-  consumerQuotaLimits?: ConsumerQuotaLimitList | undefined;
-  /** The units in which the metric value is reported. */
-  unit?: string | undefined;
 }
 export type GetServicesConsumerQuotaMetricsLimitsViewEnum =
   | "QUOTA_VIEW_UNSPECIFIED"
@@ -686,10 +686,10 @@ export type ImportConsumerOverridesRequestForceOnlyItemEnumList = Array<
 >;
 /** Request message for ImportConsumerOverrides */
 export interface ImportConsumerOverridesRequest {
-  /** The list of quota safety checks to ignore before the override mutation. Unlike 'force' field that ignores all the quota safety checks, the 'force_only' field ignores only the specified checks; other checks are still enforced. The 'force' and 'force_only' fields cannot both be set. If force_only is specified, it is recommended to include a case id in "X-Goog-Request-Reason" header when sending the request. */
-  forceOnly?: ImportConsumerOverridesRequestForceOnlyItemEnumList | undefined;
   /** Whether to force the creation of the quota overrides. Setting the force parameter to 'true' ignores all quota safety checks that would fail the request. QuotaSafetyCheck lists all such validations. If force is set to true, it is recommended to include a case id in "X-Goog-Request-Reason" header when sending the request. */
   force?: boolean | undefined;
+  /** The list of quota safety checks to ignore before the override mutation. Unlike 'force' field that ignores all the quota safety checks, the 'force_only' field ignores only the specified checks; other checks are still enforced. The 'force' and 'force_only' fields cannot both be set. If force_only is specified, it is recommended to include a case id in "X-Goog-Request-Reason" header when sending the request. */
+  forceOnly?: ImportConsumerOverridesRequestForceOnlyItemEnumList | undefined;
   /** The import data is specified in the request message itself */
   inlineSource?: OverrideInlineSource | undefined;
 }
@@ -698,16 +698,16 @@ export interface ImportConsumerOverridesServicesConsumerQuotaMetricsRequest exte
   parent: string;
 }
 export interface ListOperationsRequest {
-  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean | undefined;
-  /** The standard list filter. */
-  filter?: string | undefined;
-  /** The standard list page size. */
-  pageSize?: number | undefined;
   /** The name of the operation's parent resource. */
   name?: string | undefined;
+  /** The standard list filter. */
+  filter?: string | undefined;
   /** The standard list page token. */
   pageToken?: string | undefined;
+  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
+  returnPartialSuccess?: boolean | undefined;
+  /** The standard list page size. */
+  pageSize?: number | undefined;
 }
 export type OperationList = Array<Operation>;
 /** The response message for Operations.ListOperations. */
@@ -722,12 +722,12 @@ export interface ListOperationsResponse {
 export interface ListServicesRequest {
   /** Requested size of the next page of data. Requested page size cannot exceed 200. If not set, the default page size is 50. */
   pageSize?: number | undefined;
-  /** Only list services that conform to the given filter. The allowed filter strings are `state:ENABLED` and `state:DISABLED`. */
-  filter?: string | undefined;
-  /** Token identifying which result to start with, which is returned by a previous list call. */
-  pageToken?: string | undefined;
   /** Parent to search for services on. An example name would be: `projects/123` where `123` is the project number (not project ID). */
   parent: string;
+  /** Token identifying which result to start with, which is returned by a previous list call. */
+  pageToken?: string | undefined;
+  /** Only list services that conform to the given filter. The allowed filter strings are `state:ENABLED` and `state:DISABLED`. */
+  filter?: string | undefined;
 }
 export type ServiceList = Array<Service>;
 /** Response message for the `ListServices` method. */
@@ -739,52 +739,52 @@ export interface ListServicesResponse {
 }
 export type ListServicesConsumerQuotaMetricsViewEnum = "QUOTA_VIEW_UNSPECIFIED" | "BASIC" | "FULL";
 export interface ListServicesConsumerQuotaMetricsRequest {
-  /** Requested size of the next page of data. */
-  pageSize?: number | undefined;
-  /** Parent of the quotas resource. Some example names would be: `projects/123/services/serviceconsumermanagement.googleapis.com` `folders/345/services/serviceconsumermanagement.googleapis.com` `organizations/456/services/serviceconsumermanagement.googleapis.com` */
-  parent: string;
   /** Specifies the level of detail for quota information in the response. */
   view?: ListServicesConsumerQuotaMetricsViewEnum | (string & {}) | undefined;
+  /** Parent of the quotas resource. Some example names would be: `projects/123/services/serviceconsumermanagement.googleapis.com` `folders/345/services/serviceconsumermanagement.googleapis.com` `organizations/456/services/serviceconsumermanagement.googleapis.com` */
+  parent: string;
+  /** Requested size of the next page of data. */
+  pageSize?: number | undefined;
   /** Token identifying which result to start with; returned by a previous list call. */
   pageToken?: string | undefined;
 }
 export type ConsumerQuotaMetricList = Array<ConsumerQuotaMetric>;
 /** Response message for ListConsumerQuotaMetrics */
 export interface ListConsumerQuotaMetricsResponse {
-  /** Quota settings for the consumer, organized by quota metric. */
-  metrics?: ConsumerQuotaMetricList | undefined;
   /** Token identifying which result to start with; returned by a previous list call. */
   nextPageToken?: string | undefined;
+  /** Quota settings for the consumer, organized by quota metric. */
+  metrics?: ConsumerQuotaMetricList | undefined;
 }
 export interface ListServicesConsumerQuotaMetricsLimitsAdminOverridesRequest {
   /** Requested size of the next page of data. */
   pageSize?: number | undefined;
-  /** The resource name of the parent quota limit, returned by a ListConsumerQuotaMetrics or GetConsumerQuotaMetric call. An example name would be: `projects/123/services/compute.googleapis.com/consumerQuotaMetrics/compute.googleapis.com%2Fcpus/limits/%2Fproject%2Fregion` */
-  parent: string;
   /** Token identifying which result to start with; returned by a previous list call. */
   pageToken?: string | undefined;
+  /** The resource name of the parent quota limit, returned by a ListConsumerQuotaMetrics or GetConsumerQuotaMetric call. An example name would be: `projects/123/services/compute.googleapis.com/consumerQuotaMetrics/compute.googleapis.com%2Fcpus/limits/%2Fproject%2Fregion` */
+  parent: string;
 }
 /** Response message for ListAdminOverrides. */
 export interface ListAdminOverridesResponse {
-  /** Admin overrides on this limit. */
-  overrides?: QuotaOverrideList | undefined;
   /** Token identifying which result to start with; returned by a previous list call. */
   nextPageToken?: string | undefined;
+  /** Admin overrides on this limit. */
+  overrides?: QuotaOverrideList | undefined;
 }
 export interface ListServicesConsumerQuotaMetricsLimitsConsumerOverridesRequest {
-  /** Requested size of the next page of data. */
-  pageSize?: number | undefined;
   /** Token identifying which result to start with; returned by a previous list call. */
   pageToken?: string | undefined;
   /** The resource name of the parent quota limit, returned by a ListConsumerQuotaMetrics or GetConsumerQuotaMetric call. An example name would be: `projects/123/services/compute.googleapis.com/consumerQuotaMetrics/compute.googleapis.com%2Fcpus/limits/%2Fproject%2Fregion` */
   parent: string;
+  /** Requested size of the next page of data. */
+  pageSize?: number | undefined;
 }
 /** Response message for ListConsumerOverrides. */
 export interface ListConsumerOverridesResponse {
-  /** Token identifying which result to start with; returned by a previous list call. */
-  nextPageToken?: string | undefined;
   /** Consumer overrides on this limit. */
   overrides?: QuotaOverrideList | undefined;
+  /** Token identifying which result to start with; returned by a previous list call. */
+  nextPageToken?: string | undefined;
 }
 export type PatchServicesConsumerQuotaMetricsLimitsAdminOverridesForceOnlyEnum =
   | "QUOTA_SAFETY_CHECK_UNSPECIFIED"
@@ -797,14 +797,14 @@ export interface PatchServicesConsumerQuotaMetricsLimitsAdminOverridesRequest ex
   QuotaOverride,
   "name"
 > {
-  /** Whether to force the update of the quota override. Setting the force parameter to 'true' ignores all quota safety checks that would fail the request. QuotaSafetyCheck lists all such validations. If force is set to true, it is recommended to include a case id in "X-Goog-Request-Reason" header when sending the request. */
-  force?: boolean | undefined;
-  /** The resource name of the override to update. An example name would be: `projects/123/services/compute.googleapis.com/consumerQuotaMetrics/compute.googleapis.com%2Fcpus/limits/%2Fproject%2Fregion/adminOverrides/4a3f2c1d` */
-  name: string;
   /** The list of quota safety checks to ignore before the override mutation. Unlike 'force' field that ignores all the quota safety checks, the 'force_only' field ignores only the specified checks; other checks are still enforced. The 'force' and 'force_only' fields cannot both be set. If force_only is specified, it is recommended to include a case id in "X-Goog-Request-Reason" header when sending the request. */
   forceOnly?: PatchServicesConsumerQuotaMetricsLimitsAdminOverridesForceOnlyEnumList | undefined;
   /** Update only the specified fields of the override. If unset, all fields will be updated. */
   updateMask?: string | undefined;
+  /** Whether to force the update of the quota override. Setting the force parameter to 'true' ignores all quota safety checks that would fail the request. QuotaSafetyCheck lists all such validations. If force is set to true, it is recommended to include a case id in "X-Goog-Request-Reason" header when sending the request. */
+  force?: boolean | undefined;
+  /** The resource name of the override to update. An example name would be: `projects/123/services/compute.googleapis.com/consumerQuotaMetrics/compute.googleapis.com%2Fcpus/limits/%2Fproject%2Fregion/adminOverrides/4a3f2c1d` */
+  name: string;
 }
 export type PatchServicesConsumerQuotaMetricsLimitsConsumerOverridesForceOnlyEnum =
   | "QUOTA_SAFETY_CHECK_UNSPECIFIED"
@@ -819,12 +819,12 @@ export interface PatchServicesConsumerQuotaMetricsLimitsConsumerOverridesRequest
 > {
   /** The resource name of the override to update. An example name would be: `projects/123/services/compute.googleapis.com/consumerQuotaMetrics/compute.googleapis.com%2Fcpus/limits/%2Fproject%2Fregion/consumerOverrides/4a3f2c1d` */
   name: string;
-  /** The list of quota safety checks to ignore before the override mutation. Unlike 'force' field that ignores all the quota safety checks, the 'force_only' field ignores only the specified checks; other checks are still enforced. The 'force' and 'force_only' fields cannot both be set. If force_only is specified, it is recommended to include a case id in "X-Goog-Request-Reason" header when sending the request. */
-  forceOnly?: PatchServicesConsumerQuotaMetricsLimitsConsumerOverridesForceOnlyEnumList | undefined;
-  /** Whether to force the update of the quota override. Setting the force parameter to 'true' ignores all quota safety checks that would fail the request. QuotaSafetyCheck lists all such validations. If force is set to true, it is recommended to include a case id in "X-Goog-Request-Reason" header when sending the request. */
-  force?: boolean | undefined;
   /** Update only the specified fields of the override. If unset, all fields will be updated. */
   updateMask?: string | undefined;
+  /** Whether to force the update of the quota override. Setting the force parameter to 'true' ignores all quota safety checks that would fail the request. QuotaSafetyCheck lists all such validations. If force is set to true, it is recommended to include a case id in "X-Goog-Request-Reason" header when sending the request. */
+  force?: boolean | undefined;
+  /** The list of quota safety checks to ignore before the override mutation. Unlike 'force' field that ignores all the quota safety checks, the 'force_only' field ignores only the specified checks; other checks are still enforced. The 'force' and 'force_only' fields cannot both be set. If force_only is specified, it is recommended to include a case id in "X-Goog-Request-Reason" header when sending the request. */
+  forceOnly?: PatchServicesConsumerQuotaMetricsLimitsConsumerOverridesForceOnlyEnumList | undefined;
 }
 export type BatchEnableServicesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Enables multiple services on a project. The operation is atomic: if enabling any service fails, then the entire batch fails, and no state changes occur. Operation response type: `google.protobuf.Empty` */
@@ -1097,9 +1097,9 @@ export const importAdminOverridesServicesConsumerQuotaMetrics: API.OperationMeth
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    320,
+    321,
     __c10,
-    0,
+    1,
   ) as any as S.Schema<ImportAdminOverridesServicesConsumerQuotaMetricsRequest>,
   output: __S(770, __c24, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
@@ -1124,9 +1124,9 @@ export const importConsumerOverridesServicesConsumerQuotaMetrics: API.OperationM
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    416,
+    417,
     __c13,
-    0,
+    1,
   ) as any as S.Schema<ImportConsumerOverridesServicesConsumerQuotaMetricsRequest>,
   output: __S(770, __c24, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
@@ -1376,178 +1376,108 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          canonicalScopes: S.optional(S.String),
+          metrics: S.optional(__S(704, __c22, 0)),
+          monitoredResource: S.optional(S.String),
         }),
-      ).annotate({ identifier: "OAuthRequirements" });
+      ).annotate({ identifier: "MonitoringDestination" });
     case 1:
-      return S.suspend(() =>
-        S.Struct({
-          providerId: S.optional(S.String),
-          audiences: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AuthRequirement" });
+      return S.Array(__S(128, __c4, 0));
     case 2:
-      return S.Array(__S(129, __c4, 1));
+      return S.suspend(() =>
+        S.Struct({
+          producerDestinations: S.optional(__S(129, __c4, 1)),
+          consumerDestinations: S.optional(__S(129, __c4, 1)),
+        }),
+      ).annotate({ identifier: "Monitoring" });
     case 3:
-      return S.suspend(() =>
-        S.Struct({
-          allowWithoutCredential: S.optional(S.Boolean),
-          oauth: S.optional(__S(128, __c4, 0)),
-          requirements: S.optional(__S(130, __c4, 2)),
-          selector: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AuthenticationRule" });
-    case 4:
-      return S.Array(__S(131, __c4, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          cookie: S.optional(S.String),
-          valuePrefix: S.optional(S.String),
-          query: S.optional(S.String),
-          header: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "JwtLocation" });
-    case 6:
-      return S.Array(__S(133, __c4, 5));
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          issuer: S.optional(S.String),
-          authorizationUrl: S.optional(S.String),
-          id: S.optional(S.String),
-          jwksUri: S.optional(S.String),
-          jwtLocations: S.optional(__S(134, __c4, 6)),
-          audiences: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AuthProvider" });
-    case 8:
-      return S.Array(__S(135, __c4, 7));
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          rules: S.optional(__S(132, __c4, 4)),
-          providers: S.optional(__S(136, __c4, 8)),
-        }),
-      ).annotate({ identifier: "Authentication" });
-    case 10:
       return S.suspend(() =>
         S.Struct({
           value: S.optional(__S(736, __c23, 0)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Option" });
-    case 11:
-      return S.Array(__S(138, __c4, 10));
-    case 12:
+    case 4:
+      return S.Array(__S(131, __c4, 3));
+    case 5:
       return S.suspend(() =>
         S.Struct({
-          root: S.optional(S.String),
-          name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Mixin" });
-    case 13:
-      return S.Array(__S(140, __c4, 12));
-    case 14:
-      return S.suspend(() =>
-        S.Struct({
-          edition: S.optional(S.String),
-          syntax: S.optional(S.String),
+          options: S.optional(__S(132, __c4, 4)),
           responseTypeUrl: S.optional(S.String),
-          name: S.optional(S.String),
-          responseStreaming: S.optional(S.Boolean),
           requestTypeUrl: S.optional(S.String),
-          options: S.optional(__S(139, __c4, 11)),
+          syntax: S.optional(S.String),
+          name: S.optional(S.String),
           requestStreaming: S.optional(S.Boolean),
+          edition: S.optional(S.String),
+          responseStreaming: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "Method" });
-    case 15:
-      return S.Array(__S(142, __c4, 14));
-    case 16:
+    case 6:
+      return S.Array(__S(133, __c4, 5));
+    case 7:
       return S.suspend(() =>
         S.Struct({
           fileName: S.optional(S.String),
         }),
       ).annotate({ identifier: "SourceContext" });
-    case 17:
+    case 8:
       return S.suspend(() =>
         S.Struct({
-          options: S.optional(__S(139, __c4, 11)),
-          mixins: S.optional(__S(141, __c4, 13)),
           name: S.optional(S.String),
-          methods: S.optional(__S(143, __c4, 15)),
+          root: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Mixin" });
+    case 9:
+      return S.Array(__S(136, __c4, 8));
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
           edition: S.optional(S.String),
-          sourceContext: S.optional(__S(144, __c4, 16)),
           syntax: S.optional(S.String),
+          methods: S.optional(__S(134, __c4, 6)),
+          sourceContext: S.optional(__S(135, __c4, 7)),
+          name: S.optional(S.String),
+          mixins: S.optional(__S(137, __c4, 9)),
+          options: S.optional(__S(132, __c4, 4)),
           version: S.optional(S.String),
         }),
       ).annotate({ identifier: "Api" });
-    case 18:
-      return S.Array(__S(145, __c4, 17));
-    case 19:
-      return S.suspend(() =>
-        S.Struct({
-          selector: S.optional(S.String),
-          skipServiceControl: S.optional(S.Boolean),
-          allowUnregisteredCalls: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "UsageRule" });
-    case 20:
-      return S.Array(__S(147, __c4, 19));
-    case 21:
-      return S.suspend(() =>
-        S.Struct({
-          rules: S.optional(__S(148, __c4, 20)),
-          requirements: S.optional(__S(704, __c22, 0)),
-          producerNotificationChannel: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Usage" });
-    case 22:
-      return S.suspend(() =>
-        S.Struct({
-          target: S.optional(S.String),
-          name: S.optional(S.String),
-          aliases: S.optional(__S(704, __c22, 0)),
-          allowCors: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "Endpoint" });
-    case 23:
-      return S.Array(__S(150, __c4, 22));
-    case 24:
+    case 11:
+      return S.Array(__S(138, __c4, 10));
+    case 12:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
-          deprecationDescription: S.optional(S.String),
-          selector: S.optional(S.String),
           disableReplacementWords: S.optional(S.String),
+          selector: S.optional(S.String),
+          deprecationDescription: S.optional(S.String),
         }),
       ).annotate({ identifier: "DocumentationRule" });
-    case 25:
-      return S.Array(__S(152, __c4, 24));
-    case 26:
+    case 13:
+      return S.Array(__S(140, __c4, 12));
+    case 14:
       return S.suspend(() =>
         S.Struct({
-          subpages: S.optional(S.suspend(() => __S(155, __c4, 27))),
-          name: S.optional(S.String),
+          subpages: S.optional(S.suspend(() => __S(143, __c4, 15))),
           content: S.optional(S.String),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Page" });
-    case 27:
-      return S.Array(__S(154, __c4, 26));
-    case 28:
+    case 15:
+      return S.Array(__S(142, __c4, 14));
+    case 16:
       return S.suspend(() =>
         S.Struct({
+          overview: S.optional(S.String),
+          rules: S.optional(__S(141, __c4, 13)),
           serviceRootUrl: S.optional(S.String),
-          rules: S.optional(__S(153, __c4, 25)),
-          sectionOverrides: S.optional(__S(155, __c4, 27)),
-          pages: S.optional(__S(155, __c4, 27)),
+          pages: S.optional(__S(143, __c4, 15)),
+          sectionOverrides: S.optional(__S(143, __c4, 15)),
+          documentationRootUrl: S.optional(S.String),
           summary: S.optional(S.String),
           additionalIamInfo: S.optional(S.String),
-          overview: S.optional(S.String),
-          documentationRootUrl: S.optional(S.String),
         }),
       ).annotate({ identifier: "Documentation" });
-    case 29:
+    case 17:
       return S.suspend(() =>
         S.Struct({
           valueType: S.optional(S.String),
@@ -1555,99 +1485,169 @@ function __c4(j: number): any {
           description: S.optional(S.String),
         }),
       ).annotate({ identifier: "LabelDescriptor" });
-    case 30:
-      return S.Array(__S(157, __c4, 29));
-    case 31:
+    case 18:
+      return S.Array(__S(145, __c4, 17));
+    case 19:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
           name: S.optional(S.String),
-          labels: S.optional(__S(158, __c4, 30)),
           type: S.optional(S.String),
           displayName: S.optional(S.String),
+          labels: S.optional(__S(146, __c4, 18)),
           launchStage: S.optional(S.String),
         }),
       ).annotate({ identifier: "MonitoredResourceDescriptor" });
+    case 20:
+      return S.Array(__S(147, __c4, 19));
+    case 21:
+      return S.suspend(() =>
+        S.Struct({
+          selector: S.optional(S.String),
+          agenticMetricCosts: S.optional(__S(832, __c26, 0)),
+          metricCosts: S.optional(__S(832, __c26, 0)),
+          nonagenticMetricCosts: S.optional(__S(832, __c26, 0)),
+        }),
+      ).annotate({ identifier: "MetricRule" });
+    case 22:
+      return S.Array(__S(149, __c4, 21));
+    case 23:
+      return S.suspend(() =>
+        S.Struct({
+          defaultLimit: S.optional(S.String),
+          metric: S.optional(S.String),
+          freeTier: S.optional(S.String),
+          maxLimit: S.optional(S.String),
+          name: S.optional(S.String),
+          trafficSource: S.optional(S.String),
+          unit: S.optional(S.String),
+          duration: S.optional(S.String),
+          values: S.optional(__S(832, __c26, 0)),
+          displayName: S.optional(S.String),
+          description: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "QuotaLimit" });
+    case 24:
+      return S.Array(__S(151, __c4, 23));
+    case 25:
+      return S.suspend(() =>
+        S.Struct({
+          metricRules: S.optional(__S(150, __c4, 22)),
+          limits: S.optional(__S(152, __c4, 24)),
+        }),
+      ).annotate({ identifier: "Quota" });
+    case 26:
+      return S.suspend(() =>
+        S.Struct({
+          allowCors: S.optional(S.Boolean),
+          name: S.optional(S.String),
+          aliases: S.optional(__S(704, __c22, 0)),
+          target: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Endpoint" });
+    case 27:
+      return S.Array(__S(154, __c4, 26));
+    case 28:
+      return S.suspend(() =>
+        S.Struct({
+          cookie: S.optional(S.String),
+          valuePrefix: S.optional(S.String),
+          header: S.optional(S.String),
+          query: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "JwtLocation" });
+    case 29:
+      return S.Array(__S(156, __c4, 28));
+    case 30:
+      return S.suspend(() =>
+        S.Struct({
+          jwksUri: S.optional(S.String),
+          jwtLocations: S.optional(__S(157, __c4, 29)),
+          authorizationUrl: S.optional(S.String),
+          audiences: S.optional(S.String),
+          id: S.optional(S.String),
+          issuer: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AuthProvider" });
+    case 31:
+      return S.Array(__S(158, __c4, 30));
   }
 }
 function __c5(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(159, __c4, 31));
-    case 1:
       return S.suspend(() =>
         S.Struct({
-          agenticMetricCosts: S.optional(__S(832, __c26, 0)),
-          nonagenticMetricCosts: S.optional(__S(832, __c26, 0)),
-          selector: S.optional(S.String),
-          metricCosts: S.optional(__S(832, __c26, 0)),
+          providerId: S.optional(S.String),
+          audiences: S.optional(S.String),
         }),
-      ).annotate({ identifier: "MetricRule" });
+      ).annotate({ identifier: "AuthRequirement" });
+    case 1:
+      return S.Array(__S(160, __c5, 0));
     case 2:
-      return S.Array(__S(161, __c5, 1));
+      return S.suspend(() =>
+        S.Struct({
+          canonicalScopes: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "OAuthRequirements" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          maxLimit: S.optional(S.String),
-          duration: S.optional(S.String),
-          name: S.optional(S.String),
-          displayName: S.optional(S.String),
-          description: S.optional(S.String),
-          defaultLimit: S.optional(S.String),
-          unit: S.optional(S.String),
-          trafficSource: S.optional(S.String),
-          values: S.optional(__S(832, __c26, 0)),
-          freeTier: S.optional(S.String),
-          metric: S.optional(S.String),
+          selector: S.optional(S.String),
+          allowWithoutCredential: S.optional(S.Boolean),
+          requirements: S.optional(__S(161, __c5, 1)),
+          oauth: S.optional(__S(162, __c5, 2)),
         }),
-      ).annotate({ identifier: "QuotaLimit" });
+      ).annotate({ identifier: "AuthenticationRule" });
     case 4:
       return S.Array(__S(163, __c5, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          metricRules: S.optional(__S(162, __c5, 2)),
-          limits: S.optional(__S(164, __c5, 4)),
+          providers: S.optional(__S(159, __c4, 31)),
+          rules: S.optional(__S(164, __c5, 4)),
         }),
-      ).annotate({ identifier: "Quota" });
+      ).annotate({ identifier: "Authentication" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          monitoredResource: S.optional(S.String),
-          metrics: S.optional(__S(704, __c22, 0)),
+          allowUnregisteredCalls: S.optional(S.Boolean),
+          skipServiceControl: S.optional(S.Boolean),
+          selector: S.optional(S.String),
         }),
-      ).annotate({ identifier: "MonitoringDestination" });
+      ).annotate({ identifier: "UsageRule" });
     case 7:
       return S.Array(__S(166, __c5, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          producerDestinations: S.optional(__S(167, __c5, 7)),
-          consumerDestinations: S.optional(__S(167, __c5, 7)),
+          producerNotificationChannel: S.optional(S.String),
+          requirements: S.optional(__S(704, __c22, 0)),
+          rules: S.optional(__S(167, __c5, 7)),
         }),
-      ).annotate({ identifier: "Monitoring" });
+      ).annotate({ identifier: "Usage" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          authentication: S.optional(__S(137, __c4, 9)),
-          apis: S.optional(__S(146, __c4, 18)),
-          usage: S.optional(__S(149, __c4, 21)),
-          endpoints: S.optional(__S(151, __c4, 23)),
-          documentation: S.optional(__S(156, __c4, 28)),
-          monitoredResources: S.optional(__S(160, __c5, 0)),
-          quota: S.optional(__S(165, __c5, 5)),
+          monitoring: S.optional(__S(130, __c4, 2)),
           title: S.optional(S.String),
+          apis: S.optional(__S(139, __c4, 11)),
+          documentation: S.optional(__S(144, __c4, 16)),
+          monitoredResources: S.optional(__S(148, __c4, 20)),
+          quota: S.optional(__S(153, __c4, 25)),
+          endpoints: S.optional(__S(155, __c4, 27)),
+          authentication: S.optional(__S(165, __c5, 5)),
           name: S.optional(S.String),
-          monitoring: S.optional(__S(168, __c5, 8)),
+          usage: S.optional(__S(168, __c5, 8)),
         }),
       ).annotate({ identifier: "ServiceConfig" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
           config: S.optional(__S(169, __c5, 9)),
-          state: S.optional(S.String),
           parent: S.optional(S.String),
+          name: S.optional(S.String),
+          state: S.optional(S.String),
         }),
       ).annotate({ identifier: "Service" });
   }
@@ -1680,25 +1680,25 @@ function __c7(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          unit: S.optional(S.String),
-          name: S.optional(S.String),
-          dimensions: S.optional(__S(832, __c26, 0)),
           metric: S.optional(S.String),
-          container: S.optional(S.String),
+          unit: S.optional(S.String),
+          dimensions: S.optional(__S(832, __c26, 0)),
           policyValue: S.optional(S.String),
+          container: S.optional(S.String),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "ProducerQuotaPolicy" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          producerOverride: S.optional(__S(864, __c27, 0)),
-          consumerOverride: S.optional(__S(864, __c27, 0)),
           adminOverride: S.optional(__S(864, __c27, 0)),
-          dimensions: S.optional(__S(832, __c26, 0)),
-          defaultLimit: S.optional(S.String),
-          effectiveLimit: S.optional(S.String),
+          consumerOverride: S.optional(__S(864, __c27, 0)),
           rolloutInfo: S.optional(__S(224, __c7, 0)),
           producerQuotaPolicy: S.optional(__S(225, __c7, 1)),
+          defaultLimit: S.optional(S.String),
+          producerOverride: S.optional(__S(864, __c27, 0)),
+          dimensions: S.optional(__S(832, __c26, 0)),
+          effectiveLimit: S.optional(S.String),
         }),
       ).annotate({ identifier: "QuotaBucket" });
     case 3:
@@ -1706,14 +1706,14 @@ function __c7(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          unit: S.optional(S.String),
-          allowsAdminOverrides: S.optional(S.Boolean),
           isPrecise: S.optional(S.Boolean),
-          metric: S.optional(S.String),
           name: S.optional(S.String),
-          supportedLocations: S.optional(__S(704, __c22, 0)),
           trafficSource: S.optional(S.String),
           quotaBuckets: S.optional(__S(227, __c7, 3)),
+          metric: S.optional(S.String),
+          unit: S.optional(S.String),
+          supportedLocations: S.optional(__S(704, __c22, 0)),
+          allowsAdminOverrides: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "ConsumerQuotaLimit" });
   }
@@ -1725,12 +1725,12 @@ function __c8(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          consumerQuotaLimits: S.optional(__S(256, __c8, 0)),
+          unit: S.optional(S.String),
           displayName: S.optional(S.String),
           metric: S.optional(S.String),
           descendantConsumerQuotaLimits: S.optional(__S(256, __c8, 0)),
           name: S.optional(S.String),
-          consumerQuotaLimits: S.optional(__S(256, __c8, 0)),
-          unit: S.optional(S.String),
         }),
       ).annotate({ identifier: "ConsumerQuotaMetric" });
   }
@@ -1756,8 +1756,16 @@ function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
+        S.Struct({
+          forceOnly: S.optional(__S(896, __c28, 0)),
+          force: S.optional(S.Boolean),
+          inlineSource: S.optional(__S(352, __c11, 0)),
+        }),
+      ).annotate({ identifier: "ImportAdminOverridesRequest" });
+    case 1:
+      return S.suspend(() =>
         S.Extend(
-          __S(353, __c11, 1),
+          __S(320, __c10, 0),
           S.Struct({
             parent: S.String.pipe(T.Label()),
           }),
@@ -1779,14 +1787,6 @@ function __c11(j: number): any {
           overrides: S.optional(__S(384, __c12, 0)),
         }),
       ).annotate({ identifier: "OverrideInlineSource" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          forceOnly: S.optional(__S(896, __c28, 0)),
-          force: S.optional(S.Boolean),
-          inlineSource: S.optional(__S(352, __c11, 0)),
-        }),
-      ).annotate({ identifier: "ImportAdminOverridesRequest" });
   }
 }
 function __c12(j: number): any {
@@ -1799,8 +1799,16 @@ function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
+        S.Struct({
+          force: S.optional(S.Boolean),
+          forceOnly: S.optional(__S(896, __c28, 0)),
+          inlineSource: S.optional(__S(352, __c11, 0)),
+        }),
+      ).annotate({ identifier: "ImportConsumerOverridesRequest" });
+    case 1:
+      return S.suspend(() =>
         S.Extend(
-          __S(353, __c11, 1),
+          __S(416, __c13, 0),
           S.Struct({
             parent: S.String.pipe(T.Label()),
           }),
@@ -1819,11 +1827,11 @@ function __c14(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           name: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1850,9 +1858,9 @@ function __c15(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1877,9 +1885,9 @@ function __c16(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           view: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -1894,8 +1902,8 @@ function __c16(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          metrics: S.optional(__S(513, __c16, 1)),
           nextPageToken: S.optional(S.String),
+          metrics: S.optional(__S(513, __c16, 1)),
         }),
       ).annotate({ identifier: "ListConsumerQuotaMetricsResponse" });
   }
@@ -1906,8 +1914,8 @@ function __c17(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1919,8 +1927,8 @@ function __c17(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          overrides: S.optional(__S(384, __c12, 0)),
           nextPageToken: S.optional(S.String),
+          overrides: S.optional(__S(384, __c12, 0)),
         }),
       ).annotate({ identifier: "ListAdminOverridesResponse" });
   }
@@ -1930,9 +1938,9 @@ function __c18(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1944,8 +1952,8 @@ function __c18(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           overrides: S.optional(__S(384, __c12, 0)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListConsumerOverridesResponse" });
   }
@@ -1957,10 +1965,10 @@ function __c19(j: number): any {
         S.Extend(
           __S(864, __c27, 0),
           S.Struct({
-            force: S.optional(S.Boolean.pipe(T.Query())),
-            name: S.String.pipe(T.Label()),
             forceOnly: S.optional(__S(896, __c28, 0).pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            force: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -1980,9 +1988,9 @@ function __c20(j: number): any {
           __S(864, __c27, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
-            forceOnly: S.optional(__S(896, __c28, 0).pipe(T.Query())),
-            force: S.optional(S.Boolean.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            force: S.optional(S.Boolean.pipe(T.Query())),
+            forceOnly: S.optional(__S(896, __c28, 0).pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -2039,18 +2047,18 @@ function __c24(j: number): any {
       return S.suspend(() =>
         S.Struct({
           details: S.optional(__S(768, __c24, 0)),
-          code: S.optional(S.Number),
           message: S.optional(S.String),
+          code: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Status" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          error: S.optional(__S(769, __c24, 1)),
-          done: S.optional(S.Boolean),
-          name: S.optional(S.String),
-          metadata: S.optional(__S(736, __c23, 0)),
           response: S.optional(__S(736, __c23, 0)),
+          done: S.optional(S.Boolean),
+          metadata: S.optional(__S(736, __c23, 0)),
+          name: S.optional(S.String),
+          error: S.optional(__S(769, __c24, 1)),
         }),
       ).annotate({ identifier: "Operation" });
   }
@@ -2062,9 +2070,9 @@ function __c25(j: number): any {
         S.Extend(
           __S(864, __c27, 0),
           S.Struct({
-            force: S.optional(S.Boolean.pipe(T.Query())),
-            parent: S.String.pipe(T.Label()),
             forceOnly: S.optional(__S(896, __c28, 0).pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            force: S.optional(S.Boolean.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -2087,12 +2095,12 @@ function __c27(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          dimensions: S.optional(__S(832, __c26, 0)),
           unit: S.optional(S.String),
+          adminOverrideAncestor: S.optional(S.String),
+          overrideValue: S.optional(S.String),
           name: S.optional(S.String),
           metric: S.optional(S.String),
-          overrideValue: S.optional(S.String),
-          dimensions: S.optional(__S(832, __c26, 0)),
-          adminOverrideAncestor: S.optional(S.String),
         }),
       ).annotate({ identifier: "QuotaOverride" });
   }
@@ -2131,8 +2139,8 @@ function __c30(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          force: S.optional(S.Boolean.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          force: S.optional(S.Boolean.pipe(T.Query())),
           forceOnly: S.optional(__S(896, __c28, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -2149,9 +2157,9 @@ function __c31(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          force: S.optional(S.Boolean.pipe(T.Query())),
           forceOnly: S.optional(__S(896, __c28, 0).pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          force: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "DELETE",
