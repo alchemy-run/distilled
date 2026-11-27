@@ -1609,7 +1609,7 @@ export interface AgentRun {
   error: string;
   startedAtMs: string;
   endedAtMs: string;
-  /** Model calls (Claude Code) or tool calls (Codex) in the turn. */
+  /** Model calls (Claude Code) or tool calls (Codex, Antigravity) in the turn. */
   steps: number;
   usage?: AgentUsage | undefined;
   /** The session's reasoning effort; empty: the agent's default. */
@@ -1836,7 +1836,7 @@ export interface ListHarnessesRequest {
 }
 /** --- Coding agents (machines.agents) --- A coding agent a machine can run. */
 export interface Harness {
-  /** `claude-code` or `codex`. */
+  /** `claude-code`, `codex` or `antigravity`. */
   id: string;
   /** The version installed on the machine; empty when it isn't installed. */
   version: string;
@@ -1844,8 +1844,10 @@ export interface Harness {
   midTurnInput: boolean;
   /** Models the agent accepts in `StartAgentSessionRequest.model`; empty when the agent doesn't list them. */
   models: StringList;
-  /** Reasoning efforts the agent accepts in `StartAgentSessionRequest.effort`, least to most: Claude Code `low` to `max`, Codex `minimal` to `xhigh` (a model may support fewer). */
+  /** Reasoning efforts the agent accepts in `StartAgentSessionRequest.effort`, least to most: Claude Code `low` to `max`, Codex `minimal` to `xhigh`, Antigravity `low` to `max` (a model may support fewer). */
   efforts: StringList;
+  /** The API key variable in the machine's env that this agent's sessions there sign in with: `ANTHROPIC_API_KEY`, `OPENAI_API_KEY` or `GEMINI_API_KEY`. Empty when the machine has none: its sessions then use your sign-in (GetAgentLogin). With a key they use the key, also on a machine that gets your sign-in. Only the variable's name, never the key. */
+  apiKeyEnv: string;
 }
 export type HarnessList = Array<Harness>;
 export interface ListHarnessesResponse {
@@ -2165,7 +2167,7 @@ export interface SendToAgentRequest {
   sessionId?: string | undefined;
   text?: string | undefined;
   when?: AgentSendWhen | (string & {}) | undefined;
-  /** For a turn this message starts: interrupt it after this many seconds, or after this many agent steps: calls to the model for Claude Code, tool calls for Codex (which reports no model calls). 0: no limit. They don't apply to a running turn the message joins. */
+  /** For a turn this message starts: interrupt it after this many seconds, or after this many agent steps: calls to the model for Claude Code, tool calls for Codex and Antigravity (which report no model calls). 0: no limit. They don't apply to a running turn the message joins. */
   timeoutSecs?: number | undefined;
   maxSteps?: number | undefined;
   /** Optional: an id of your choosing that makes retrying safe. A second message with the same `request_id` in this session (a retry after a network error, say) isn't sent again: it gets the first one's answer. The session remembers its last 1,000. Use a new one for every message you mean to send. The SDKs and CLIs make one up for each call they retry. */
@@ -2419,7 +2421,7 @@ export interface StartAgentLoginResponse {
 export interface StartAgentSessionRequest {
   /** machine name or id */
   vmId?: string | undefined;
-  /** `claude-code` or `codex` (ListHarnesses). */
+  /** `claude-code`, `codex` or `antigravity` (ListHarnesses). */
   harness?: string | undefined;
   /** Empty: the agent's own default. */
   model?: string | undefined;
@@ -3998,7 +4000,7 @@ export const listExposedPorts: API.OperationMethod<
 }));
 
 export type ListHarnessesError = BoxdOpError;
-/** Coding agents: drive Claude Code, Codex or OpenCode inside a machine the same way, through sessions, turns and one typed event stream. The agent runs in the machine and keeps working when the caller disconnects; the caller catches up with AgentEvents from the last `seq` it saw. A session is one conversation with one agent. A message sent to it starts a turn, joins the running turn, or waits for it to end (SendToAgent `when`). A session runs one turn at a time; a machine's sessions run side by side. */
+/** Coding agents: drive Claude Code, Codex or Antigravity inside a machine the same way, through sessions, turns and one typed event stream. The agent runs in the machine and keeps working when the caller disconnects; the caller catches up with AgentEvents from the last `seq` it saw. A session is one conversation with one agent. A message sent to it starts a turn, joins the running turn, or waits for it to end (SendToAgent `when`). A session runs one turn at a time; a machine's sessions run side by side. */
 export const listHarnesses: API.OperationMethod<
   ListHarnessesRequest & MaxMessageBytesInput,
   ListHarnessesResponse,
@@ -8291,6 +8293,7 @@ function __c153(j: number): any {
           midTurnInput: S.Boolean,
           models: __S(992, __c62, 0),
           efforts: __S(992, __c62, 0),
+          apiKeyEnv: S.String,
         }),
       ).annotate({ identifier: "Harness" });
     case 2:
