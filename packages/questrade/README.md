@@ -55,9 +55,11 @@ API Centre (**API centre → Personal apps → New manual authorization**) and s
 | `QUESTRADE_LOGIN_URL` | Optional. Default `https://login.questrade.com`; `https://practicelogin.questrade.com` for a practice account. |
 | `QUESTRADE_ACCESS_TOKEN` + `QUESTRADE_API_SERVER` | Optional. Use a token you already hold; no refresh. |
 
-The SDK redeems the refresh token at `GET /oauth2/token` through the
-program's `HttpClient`, sends the access token as `Authorization: Bearer`,
-and calls the `api_server` the redemption names. The access token lives 30
+The SDK redeems the refresh token at `POST /oauth2/token` (the token goes in
+the form body, never the URL) through the program's `HttpClient`, sends the
+access token as `Authorization: Bearer`, and calls the `api_server` the
+redemption names. It refuses an `api_server` that is not `https:` on a
+`questrade.com` host. The access token lives 30
 minutes; the SDK redeems again shortly before it expires. A failed redemption
 fails the call with `TokenRequestFailed`, which carries the login server's
 `status`.
