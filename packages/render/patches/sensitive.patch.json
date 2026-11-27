@@ -1,0 +1,55 @@
+{
+  "description": "Environment variable values and secret file contents hold secrets (database URLs, API keys, private keys), but their members are named `value` and `content`, which the shared secret-name rule can't read. The spec treats them as secrets: it omits env vars and secret files from an environment group 'if the caller doesn't have the permission to read the environment group's secret values', and audit logs record a `ViewEnvVarValuesEvent`. Mark them sensitive on both sides: the outputs EnvVar.value (getEnvVar, getEnvVarsForService, the environment group operations) and SecretFile.content, and the inputs EnvVarValue.value (updateEnvVar), SchemaItemCase0.value and its twin UpdateEnvVarsForServiceRequestBodyItemCase0.value (the env var lists of createService, createEnvGroup, createBuildSource, updateEnvVarsForService and updateEnvVarsForBuildSource), Items.content and its twin UpdateSecretFilesForServiceRequestBodyItem.content (secret file lists), and the content of addOrUpdateSecretFile, addOrUpdateBuildSourceSecretFile and updateEnvGroupSecretFile. Not every env var is a secret; the mark errs on the safe side, as Vercel's env `value` does. Source: the OpenAPI document in spec-mirror-render (2026-11-26).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.render.api#EnvVar/members/value/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.render.api#SecretFile/members/content/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.render.api#EnvVarValue/members/value/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.render.api#SchemaItemCase0/members/value/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.render.api#UpdateEnvVarsForServiceRequestBodyItemCase0/members/value/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.render.api#Items/members/content/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.render.api#UpdateSecretFilesForServiceRequestBodyItem/members/content/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.render.api#AddOrUpdateSecretFileRequest/members/content/traits",
+      "value": { "smithy.api#sensitive": {} }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.render.api#AddOrUpdateBuildSourceSecretFileRequest/members/content/traits",
+      "value": { "smithy.api#sensitive": {} }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.render.api#UpdateEnvGroupSecretFileRequest/members/content/traits",
+      "value": { "smithy.api#sensitive": {} }
+    }
+  ]
+}
