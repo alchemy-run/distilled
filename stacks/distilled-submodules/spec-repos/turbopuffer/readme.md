@@ -3,7 +3,7 @@
 A git mirror of the turbopuffer [OpenAPI spec](https://github.com/turbopuffer/turbopuffer-openapi), reduced to exactly the file the
 [`@distilled.cloud/turbopuffer`](https://github.com/alchemy-run/distilled) generator reads:
 
-- `specs/openapi.json` — `openapi.yml` from the `next` branch, converted to JSON
+- `specs/openapi.json` — `openapi.yml` from the `main` branch, converted to JSON
 
 Vendor API docs from [turbopuffer.com/docs](https://turbopuffer.com/docs/overview) are snapshotted alongside the spec so convert/generate never crawl live pages.
 
