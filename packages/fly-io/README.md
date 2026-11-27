@@ -75,4 +75,6 @@ Every root carries the errors in [`patches/graphql/`](patches/graphql/):
 
 ## Auth
 
-Required: `FLY_API_TOKEN`, `FLY_IO_API_KEY`, `SPRITES_TOKEN`. Optional: `FLY_API_HOSTNAME`. Sent as `Authorization: Bearer`.
+Required: `FLY_API_TOKEN` (or `FLY_IO_API_KEY`). Optional: `FLY_API_HOSTNAME`, `SPRITES_TOKEN`. Sent as `Authorization: Bearer`.
+
+Sprites needs its own token. Set `SPRITES_TOKEN` (or pass `spritesToken` to `credentials`) to a token from [sprites.dev/account](https://sprites.dev/account) or `sprite login`. Without one, the SDK mints a Sprites token from `FLY_API_TOKEN` once per `Credentials` layer value. Fly has no API to revoke it, so each process that mints leaves a "distilled Sprites token" in the organization.

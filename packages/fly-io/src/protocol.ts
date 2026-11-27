@@ -35,16 +35,17 @@ import { refreshing } from "@distilled.cloud/core/token-cache";
  * `api.machines.dev` (routes carry the `/v1` prefix). MPG (`FlyApiProtocol`) is the same token against
  * `https://api.fly.io`.
  *
- * Sprites (`SpritesProtocol`) also resolve `FLY_API_TOKEN` (same
- * {@link Credentials} as Machines). Sprite CRUD rejects a Fly macaroon as
- * Bearer, so the protocol mints a Sprites bearer once:
+ * Sprites (`SpritesProtocol`) use the same {@link Credentials} as Machines.
+ * Sprite CRUD rejects a Fly macaroon (401 with `FlyV1` or `Bearer`), so it
+ * needs a Sprites bearer. With `spritesToken` (`SPRITES_TOKEN`) set, the
+ * protocol sends that. Otherwise it mints one per `Credentials` layer value:
  *
  *   POST https://api.sprites.dev/v1/organizations/{org}/tokens
  *   Authorization: FlyV1 {FLY_API_TOKEN}
  *
  * Org slug comes from Machines `GET /tokens/current` (GraphQL fallback).
- * The minted token is cached per `Credentials` layer value, then sent as
- * `Authorization: Bearer` on sprite ops. There is no `SPRITES_TOKEN`.
+ * The minted token is cached in memory only, and Fly has no API to revoke
+ * it, so every process that mints leaves one token in the organization.
  */
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
@@ -417,7 +418,7 @@ const mintOnce = (fly: Config) =>
         "Content-Type": "application/json",
       }),
       HttpClientRequest.bodyJsonUnsafe({
-        description: "Alchemy Sprites token",
+        description: "distilled Sprites token",
       }),
     );
     const response = yield* http.execute(request);
@@ -506,7 +507,7 @@ const encodeSpritesRequest = ({ input, inputAst }: EncodeArgs) =>
     if (mint) {
       authorization = `FlyV1 ${stripFlyAuthScheme(Redacted.value(fly.apiKey))}`;
     } else {
-      const token = yield* mintSpritesToken(credentials, fly);
+      const token = fly.spritesToken ?? (yield* mintSpritesToken(credentials, fly));
       authorization = `Bearer ${Redacted.value(token)}`;
     }
     return yield* buildRequest({

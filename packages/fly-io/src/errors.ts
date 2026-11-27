@@ -52,8 +52,8 @@ export class FlyIoParseError
  * Sprites is not enabled for the Fly organization that owns `FLY_API_TOKEN`.
  *
  * Returned by `POST /v1/organizations/{org}/tokens` as HTTP 401 with a
- * message matching `sprites not enabled`. Sprite CRUD never sees a
- * `SPRITES_TOKEN` -- this is the mint-time entitlement signal.
+ * message matching `sprites not enabled`. This is the mint-time
+ * entitlement signal; a call with `SPRITES_TOKEN` set mints nothing.
  */
 export class SpritesNotEnabled
   extends /*@__PURE__*/ Schema.TaggedError<SpritesNotEnabled>()("SpritesNotEnabled", {
