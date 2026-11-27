@@ -19,5 +19,5 @@
   // `yaml`, `graphql`, `parse5` and `@distilled.cloud/aws` are devDependencies of this
   // stack purely so this project resolves; keep them in step with the mirror
   // package.json files.
-  "include": ["spec-repos/*/fetch-specs.ts"]
+  "include": ["spec-repos/*/fetch-specs.ts", "scaffold/report-issues.ts"]
 }

@@ -78,6 +78,7 @@ Every mirror gets exactly:
 .github/workflows/update-specs.yml   # shared — refetch + commit, daily
 .gitignore                           # shared
 .meta/tsconfig.json                  # shared
+.meta/report-issues.ts               # shared — issues in alchemy-run/distilled
 .meta/fetch-specs.ts                 # per repo
 .meta/package.json                   # per repo
 readme.md                            # per repo
@@ -123,6 +124,26 @@ to the fetch step. Only `spec-mirror-aws` holds them; every other mirror sees
 them empty. They are minted and written by
 [`stacks/distilled-monorepo`](../distilled-monorepo), not by this stack: its
 token has no Secrets permission, and minting an AWS key is an admin deploy.
+
+### Issues in alchemy-run/distilled
+
+Each mirror reports to `alchemy-run/distilled` itself. The last steps of
+`update-specs.yml` mint a token from the spec-mirror GitHub App (Issues:
+write on that one repository; client id and key written by
+`stacks/distilled-monorepo`) and run `.meta/report-issues.ts`:
+
+- a failed run opens `Nightly spec fetch failed: spec-mirror-<pkg>`, or
+  comments on it if it is open, or reopens it if it is closed, with links to
+  the run and the failed step;
+- a passing run closes that issue if it is open;
+- a run that pushes new specs opens `Spec updated: spec-mirror-<pkg>` with the
+  commit and its changed files, or comments on the open one.
+
+A mirror without the App's secrets skips these steps and warns. A disabled
+workflow can't report itself, and GitHub disables a schedule after 60 days
+without a commit, so the `enable-schedules` job of
+`deploy-submodules-stack.yml` turns any schedule disabled for inactivity
+back on, on every push to `main`.
 
 ## Working on a mirror locally
 
@@ -172,5 +193,7 @@ deploy with `--force` to make the stack reassert the file set.
 The token needs to be a fine-grained PAT owned by the `distilled-mirror` org,
 scoped to **All repositories**, with **Administration: Read and write** (create
 repositories, settings, topics), **Contents: Read and write** (commit the
-scaffold) and **Workflows: Read and write** (the scaffold includes
-`.github/workflows/update-specs.yml`). No organization permissions are needed.
+scaffold), **Workflows: Read and write** (the scaffold includes
+`.github/workflows/update-specs.yml`) and **Actions: Read and write** (turn
+a mirror's schedule back on after GitHub disables it). No organization
+permissions are needed.
