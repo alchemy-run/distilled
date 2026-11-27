@@ -3,7 +3,7 @@ import * as Redacted from "effect/Redacted";
 import { describe, expect, it } from "vitest";
 import { ParseError } from "../../src/errors.ts";
 import { SensitiveString } from "../../src/sensitive.ts";
-import { decode, holdsSensitive, inputEncoderSync } from "../../src/util/codec.ts";
+import { decodeOrThrow, holdsSensitive, inputEncoderSync } from "../../src/util/codec.ts";
 
 const Secret = SensitiveString as unknown as L.Lite;
 
@@ -38,10 +38,11 @@ describe("lenient decode", () => {
   });
 
   it("wraps a value that does not fit in Redacted when its type can hold a secret", () => {
-    const out = decode(Output.ast, { name: "n", credentials: "secret-text", tags: "t" }) as Record<
-      string,
-      unknown
-    >;
+    const out = decodeOrThrow(Output.ast, {
+      name: "n",
+      credentials: "secret-text",
+      tags: "t",
+    }) as Record<string, unknown>;
     expect(Redacted.isRedacted(out.credentials)).toBe(true);
     expect(Redacted.value(out.credentials as Redacted.Redacted<unknown>)).toBe("secret-text");
     expect(out.tags).toBe("t");
@@ -49,7 +50,7 @@ describe("lenient decode", () => {
   });
 
   it("keeps a sensitive member Redacted when it arrives in the wrong shape", () => {
-    const out = decode(Output.ast, { credentials: { id: "i", secret: ["x"] } }) as {
+    const out = decodeOrThrow(Output.ast, { credentials: { id: "i", secret: ["x"] } }) as {
       credentials: Record<string, unknown>;
     };
     expect(Redacted.isRedacted(out.credentials.secret)).toBe(true);

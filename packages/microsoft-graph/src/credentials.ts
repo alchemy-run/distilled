@@ -123,7 +123,7 @@ const clientSecretCredentials = (
   if (tenant instanceof InvalidInput) {
     return Effect.fail(
       new ConfigError({
-        message: `The configured tenantId ${JSON.stringify(config.tenantId)} cannot be a URL path segment`,
+        message: `The configured tenantId ${JSON.stringify(String(config.tenantId))} cannot be a URL path segment`,
       }),
     );
   }

@@ -161,7 +161,7 @@ export const redeemRefreshToken = (
     }
     if (!isQuestradeApiServer(api_server)) {
       return yield* tokenError(
-        `the answer names api_server ${JSON.stringify(api_server)}, ` +
+        `the answer names api_server ${JSON.stringify(String(api_server))}, ` +
           "which is not an https: URL on a questrade.com host",
         response.status,
       );

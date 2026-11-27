@@ -74,7 +74,7 @@ import {
 } from "./protocol-common.ts";
 import {
   binaryBodyMember,
-  decodeXmlBody,
+  decodeXmlBodyOrThrow,
   encodeXmlBody,
   hasPayloadValue,
   isXmlShaped,
@@ -196,7 +196,8 @@ const encode = ({ input, inputAst }: EncodeArgs) =>
     if (token !== undefined) {
       authorization =
         http?.authScheme === "cosmos-aad"
-          ? encodeURIComponent(`type=aad&ver=1.0&sig=${Redacted.value(token)}`)
+          ? // oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- the token is the credentials' own; one with a lone surrogate is no Entra token, and the defect boundary reports it as `SdkError`
+            encodeURIComponent(`type=aad&ver=1.0&sig=${Redacted.value(token)}`)
           : `Bearer ${Redacted.value(token)}`;
     }
 
@@ -227,6 +228,7 @@ const encode = ({ input, inputAst }: EncodeArgs) =>
         http.apiVersionHeader === undefined &&
         !/[?&]api-version=/.test(url)
       ) {
+        // oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- `apiVersion` is the SDK's own data: the version the generator put in the operation's Http trait
         url += `${url.includes("?") ? "&" : "?"}api-version=${encodeURIComponent(http.apiVersion)}`;
       }
       if (sas !== undefined && !/[?&]sig=/.test(url)) {
@@ -290,10 +292,12 @@ const encode = ({ input, inputAst }: EncodeArgs) =>
       if (path.includes("{")) url = path.replace(/\{[^}/]+\}/g, "") + (q >= 0 ? url.slice(q) : "");
     }
     for (const [key, value] of Object.entries(http?.query ?? {})) {
+      // oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- `http.query` is the SDK's own data: the constant query a patch declares on the operation
       const pair = value === "" ? encodeURIComponent(key) : `${key}=${encodeURIComponent(value)}`;
       url += `${url.includes("?") ? "&" : "?"}${pair}`;
     }
     if (http?.apiVersion && http.apiVersionHeader === undefined && !/[?&]api-version=/.test(url)) {
+      // oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- `apiVersion` is the SDK's own data: the version the generator put in the operation's Http trait
       url += `${url.includes("?") ? "&" : "?"}api-version=${encodeURIComponent(http.apiVersion)}`;
     }
     if (sas !== undefined) url += `${url.includes("?") ? "&" : "?"}${sas}`;
@@ -565,6 +569,7 @@ const buildHost = (http: HttpTrait, input: unknown): string | InvalidInput => {
       return "";
     }
     const text = String(value);
+    // oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- the value is the caller's input, and the defect boundary reports one with a lone surrogate as `SdkError`
     return http.hostRaw?.includes(name) ? text.replace(/\/+$/, "") : encodeURIComponent(text);
   });
   if (missing.length > 0) {
@@ -608,6 +613,7 @@ const takeJsonHeaders = (
   for (const m of members) {
     const value = rest[m.key];
     delete rest[m.key];
+    // oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- the value is the caller's input, and the defect boundary reports one JSON cannot carry as `SdkError`
     if (value !== undefined) headers[m.header] = JSON.stringify(mapKeys(m.type, value, "encode"));
   }
   return { input: rest, headers };
@@ -713,7 +719,7 @@ const decode = ({ response, outputAst, errors }: DecodeArgs) =>
       );
     } else if (nonJson && text.trimStart().startsWith("<") && isXmlShaped(outputAst)) {
       const xml = yield* Effect.try({
-        try: () => decodeXmlBody(outputAst, text),
+        try: () => decodeXmlBodyOrThrow(outputAst, text),
         catch: (cause) => new AzureParseError({ body: text, cause }),
       });
       body = xml;

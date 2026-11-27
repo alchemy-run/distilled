@@ -153,6 +153,7 @@ function readEnvelopeWith<Failure>(
     case "2fa-required":
       return failed(build(TwoFactorAuthRequired, { message }), message);
     default:
+      // oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- `json` is what `JSON.parse` returned above, and parsed JSON always serializes
       return unknownError(`Unknown status ${JSON.stringify(json.status)}`);
   }
 }

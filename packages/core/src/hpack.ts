@@ -137,7 +137,7 @@ const buildHuffmanTree = (): number[] => {
 let huffmanTree: number[] | undefined;
 
 /** Decode a Huffman-coded string (RFC 7541 section 5.2). */
-export const huffmanDecode = (bytes: Uint8Array): Uint8Array => {
+export const huffmanDecodeOrThrow = (bytes: Uint8Array): Uint8Array => {
   const tree = (huffmanTree ??= buildHuffmanTree());
   const out: number[] = [];
   let node = 0;
@@ -187,7 +187,7 @@ interface Entry {
 /** Reads the header blocks of one connection, in the order they arrive. */
 export interface HpackDecoder {
   /** The fields of one complete header block. */
-  decode(block: Uint8Array): HeaderField[];
+  decodeOrThrow(block: Uint8Array): HeaderField[];
 }
 
 /**
@@ -210,12 +210,13 @@ export const makeDecoder = (maxTableSize = 4096): HpackDecoder => {
       return { name, value };
     }
     const entry = dynamic[index - STATIC_TABLE.length - 1];
+    // oxlint-disable-next-line distilled/or-throw -- lookup is private to makeDecoder and used only inside decodeOrThrow
     if (entry === undefined) throw new HpackError(`no header at index ${index}`);
     return entry;
   };
 
   return {
-    decode(block) {
+    decodeOrThrow(block) {
       const fields: HeaderField[] = [];
       let at = 0;
 
@@ -241,7 +242,7 @@ export const makeDecoder = (maxTableSize = 4096): HpackDecoder => {
         if (at + length > block.length) throw new HpackError("header block ends inside a string");
         const raw = block.subarray(at, at + length);
         at += length;
-        const bytes = huffman ? huffmanDecode(raw) : raw;
+        const bytes = huffman ? huffmanDecodeOrThrow(raw) : raw;
         return { text: textOf(bytes), octets: bytes.length };
       };
 

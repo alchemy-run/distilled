@@ -26,6 +26,7 @@ export const signV2 = (
   fullPath: string,
   credentials: ResolvedCredentials,
 ): Effect.Effect<HttpClientRequest.HttpClientRequest, CryptoError> => {
+  /* oxlint-disable distilled/no-unguarded-throwing-builtin -- signV2 runs under toHttpRequest in a call: the body is the form the query protocol just encoded, toHttpRequest parsed the URL just before (it fails one that does not parse with InvalidSigningUrl), and a credential that cannot be encoded reaches the defect boundary */
   const rfc3986 = (s: string) =>
     encodeURIComponent(s).replace(
       /[!'()*]/g,
@@ -56,6 +57,7 @@ export const signV2 = (
     .map(([k, v]) => `${k}=${v}`)
     .join("&");
   const requestUrl = new URL(`${endpoint}${fullPath}`);
+  /* oxlint-enable distilled/no-unguarded-throwing-builtin */
   const stringToSign = [
     resolvedRequest.method,
     requestUrl.host,

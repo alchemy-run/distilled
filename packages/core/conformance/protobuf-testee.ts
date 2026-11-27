@@ -9,9 +9,9 @@
  * suite's own `.proto` files.
  *
  * The codec transcodes proto3 JSON values and binary, so:
- * - binary in -> `decodeMessage` -> binary out (`encodeMessage`) or JSON out
+ * - binary in -> `decodeMessageOrThrow` -> binary out (`encodeMessageOrThrow`) or JSON out
  *   (`JSON.stringify`);
- * - JSON in -> `JSON.parse` -> `encodeMessage` -> binary out, or the decoded
+ * - JSON in -> `JSON.parse` -> `encodeMessageOrThrow` -> binary out, or the decoded
  *   value back to JSON.
  * Proto2, editions, JSPB and text format are skipped: the converter reads
  * proto3 only, and SDKs speak only binary and JSON.
@@ -20,8 +20,8 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { parseProto, protoDescriptors } from "../../dev/src/codegen/proto.ts";
 import {
-  decodeMessage,
-  encodeMessage,
+  decodeMessageOrThrow,
+  encodeMessageOrThrow,
   ProtobufJsonRangeError,
   type ProtoDescriptors,
 } from "../src/protobuf.ts";
@@ -72,11 +72,11 @@ const handle = (request: Request): Record<string, unknown> => {
   try {
     value =
       request.protobufPayload !== undefined
-        ? decodeMessage(d, PROTO3, Buffer.from(request.protobufPayload, "base64"))
+        ? decodeMessageOrThrow(d, PROTO3, Buffer.from(request.protobufPayload, "base64"))
         : JSON.parse(request.jsonPayload ?? "{}");
     if (request.protobufPayload === undefined) {
       // Validate the JSON by encoding it, as a parser would.
-      value = decodeMessage(d, PROTO3, encodeMessage(d, PROTO3, value));
+      value = decodeMessageOrThrow(d, PROTO3, encodeMessageOrThrow(d, PROTO3, value));
     }
   } catch (error) {
     // Decoding is also where binary becomes proto3 JSON: a value JSON can't
@@ -87,7 +87,7 @@ const handle = (request: Request): Record<string, unknown> => {
   }
   try {
     return request.requestedOutputFormat === "PROTOBUF"
-      ? { protobufPayload: Buffer.from(encodeMessage(d, PROTO3, value)).toString("base64") }
+      ? { protobufPayload: Buffer.from(encodeMessageOrThrow(d, PROTO3, value)).toString("base64") }
       : { jsonPayload: JSON.stringify(value, proto3Json) };
   } catch (error) {
     return { serializeError: messageOf(error) };
@@ -104,11 +104,13 @@ process.stdin.on("data", (chunk: Buffer) => {
     buffer = buffer.subarray(4 + length);
     let response: Record<string, unknown>;
     try {
-      response = handle(decodeMessage(d, "conformance.ConformanceRequest", payload) as Request);
+      response = handle(
+        decodeMessageOrThrow(d, "conformance.ConformanceRequest", payload) as Request,
+      );
     } catch (error) {
       response = { runtimeError: messageOf(error) };
     }
-    const out = encodeMessage(d, "conformance.ConformanceResponse", response);
+    const out = encodeMessageOrThrow(d, "conformance.ConformanceResponse", response);
     const header = Buffer.alloc(4);
     header.writeUInt32LE(out.length, 0);
     process.stdout.write(Buffer.concat([header, out]));

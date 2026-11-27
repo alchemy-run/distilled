@@ -50,6 +50,7 @@ import { fromNode, type Lite } from "@distilled.cloud/core/schema-lite-impl";
  * authoritative on which indexes exist.
  */
 export const FamilyKey = (prefix: string): Lite => {
+  // oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- `prefix` is the SDK's own data: a family name the generator writes into the schema (`T.FamilyKey("net")`)
   const pattern = new RegExp(`^${prefix}\\d+$`);
   return fromNode({
     _tag: "Declaration",

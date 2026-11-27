@@ -34,12 +34,14 @@ export const base64url = (bytes: Uint8Array | ArrayBuffer): string => {
 
 export const base64urlDecode = (text: string): Uint8Array => {
   const padded = text.replaceAll("-", "+").replaceAll("_", "/");
+  // oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- a public name, so it keeps it; `signExternalAccountBinding`, its one caller here, runs it inside Effect.tryPromise and fails with JoseError
   const binary = atob(padded + "=".repeat((4 - (padded.length % 4)) % 4));
   const out = new Uint8Array(binary.length);
   for (let i = 0; i < binary.length; i++) out[i] = binary.charCodeAt(i);
   return out;
 };
 
+// oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- private to this file; `signRequest` and `signExternalAccountBinding`, its callers, run it inside Effect.tryPromise and fail with JoseError
 const base64urlJson = (value: unknown): string => base64url(encoder.encode(JSON.stringify(value)));
 
 const sha256 = (data: Uint8Array | string): Effect.Effect<Uint8Array, JoseError> =>
@@ -107,6 +109,7 @@ export const publicJwk = (jwk: Jwk): Jwk =>
 
 /** RFC 7638 JWK thumbprint (base64url SHA-256 of the canonical public JWK). */
 export const thumbprint = (jwk: Jwk): Effect.Effect<string, JoseError> =>
+  // oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- the public JWK is the key's `kty`, `n`, `e`, `crv`, `x` and `y`: strings by their type (`Jwk`), which always serialize
   sha256(JSON.stringify(publicJwk(jwk))).pipe(Effect.map(base64url));
 
 /** `<token>.<thumbprint>` -- what a challenge proves the client holds. */

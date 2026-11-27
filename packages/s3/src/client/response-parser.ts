@@ -34,7 +34,7 @@ import {
   type SyntheticErrorTrait,
 } from "../traits.ts";
 import { getIdentifier, getPropertySignatures, isBooleanAST, isNumberAST } from "../util/ast.ts";
-import { decode, decodeFailure, errorBody, holdsSensitive } from "../util/codec.ts";
+import { decodeFailure, decodeOrThrow, errorBody, holdsSensitive } from "../util/codec.ts";
 import type { Operation } from "./operation.ts";
 import { loadHandler, readResponse, Unreadable, type Protocol } from "./protocol.ts";
 import type { Response } from "./response.ts";
@@ -92,6 +92,7 @@ const matchesMessage = (matcher: SyntheticErrorTrait["message"], message: string
   const { includes, matches } = matcher;
   if (includes === undefined && matches === undefined) return false;
   if (includes !== undefined && !message.includes(includes)) return false;
+  // oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- the pattern is the SDK's own, from a spec patch
   if (matches !== undefined && !new RegExp(matches).test(message)) return false;
   return true;
 };
@@ -131,7 +132,8 @@ export const makeSuccessDecoder = (
     try {
       // Decoding keeps only modeled members, so strict mode rejects the
       // others here; the check below sees the decoded value.
-      decoded = decode(outputAst, read, mode === "strict" ? "closed" : true);
+      // oxlint-disable-next-line distilled/or-throw -- a plain try: Effect.try would add an Effect step to every response
+      decoded = decodeOrThrow(outputAst, read, mode === "strict" ? "closed" : true);
     } catch (error) {
       return strict
         ? {
@@ -140,7 +142,8 @@ export const makeSuccessDecoder = (
               message: `${what} response does not match its output schema: ${decodeFailure(error, holdsSensitive(outputAst))}`,
             }),
           }
-        : { ok: true, value: decode(outputAst, read) };
+        : // oxlint-disable-next-line distilled/or-throw -- lenient: it keeps a value that does not fit as read, and throws nothing
+          { ok: true, value: decodeOrThrow(outputAst, read) };
     }
     const invalid = strict ? checkResponse(context, outputAst as any, decoded) : undefined;
     return invalid === undefined
@@ -182,6 +185,7 @@ export const makeResponseParser = <A>(
   // Discover protocol factory from annotations or use override (done once)
   const protocolFactory = options?.protocol ?? getProtocol(inputAst);
   if (!protocolFactory) {
+    // oxlint-disable-next-line distilled/or-throw -- an SDK bug: the SDK always passes its protocol (parserOf), and a throw under a call reaches the defect boundary
     throw new Error("No protocol found on input schema");
   }
 
@@ -328,6 +332,7 @@ export const makeResponseParser = <A>(
         return yield* new InternalError();
       } else {
         return yield* new ParseError({
+          // oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- `data` is what the protocol parsed from the error body: plain values, which always serialize
           message: `No error code found in response and ${statusMatches.length} declared errors match status ${response.status}. Data: ${errorBody(operation, JSON.stringify(data))}`,
         });
       }
@@ -384,7 +389,10 @@ export const makeResponseParser = <A>(
       try {
         const saved = suppressStack();
         try {
-          decoded = new errorSchema(decode(errorSchema.ast, data, true) as Record<string, unknown>);
+          decoded = new errorSchema(
+            // oxlint-disable-next-line distilled/or-throw -- a plain try: its catch keeps the data as a plain tagged object, it fails with nothing
+            decodeOrThrow(errorSchema.ast, data, true) as Record<string, unknown>,
+          );
         } finally {
           restoreStack(saved);
         }
@@ -393,7 +401,8 @@ export const makeResponseParser = <A>(
         // so the cast states what callers match on.
         decoded = {
           _tag: schemaTag,
-          ...(decode(errorSchema.ast, data) as Record<string, unknown>),
+          // oxlint-disable-next-line distilled/or-throw -- lenient: it keeps a value that does not fit as read, and throws nothing
+          ...(decodeOrThrow(errorSchema.ast, data) as Record<string, unknown>),
         } as unknown as DeclaredError;
       }
       // Ensure the JS `Error.message` carries the service's message. The

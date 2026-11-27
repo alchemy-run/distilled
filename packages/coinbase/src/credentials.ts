@@ -78,7 +78,7 @@ export const check = (config: Config): Effect.Effect<CheckedConfig, ConfigError>
       }))
     : Effect.fail(
         new ConfigError({
-          message: `Coinbase apiBaseUrl must be an absolute URL such as ${DEFAULT_API_BASE_URL}; got ${JSON.stringify(config.apiBaseUrl)}`,
+          message: `Coinbase apiBaseUrl must be an absolute URL such as ${DEFAULT_API_BASE_URL}; got ${JSON.stringify(String(config.apiBaseUrl))}`,
         }),
       );
 

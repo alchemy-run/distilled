@@ -214,7 +214,7 @@ export const makeAuthService = () =>
           return yield* new InvalidSSOProfile({
             profile: profileName,
             missingFields: [],
-            message: `Profile ${profileName} sets sso_region = ${JSON.stringify(profile.sso_region)}, which is not a region: it must be one DNS label, such as "us-east-1".`,
+            message: `Profile ${profileName} sets sso_region = ${JSON.stringify(String(profile.sso_region))}, which is not a region: it must be one DNS label, such as "us-east-1".`,
           });
         }
         // Every field in `ssoFields` was just checked to be present.
@@ -333,6 +333,7 @@ export const makeAuthService = () =>
       };
       // Other processes (the AWS CLI, other SDKs) read the same file. A
       // failed write still leaves this process with a valid token.
+      // oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- the token is what JSON.parse read from the cache file, with strings set here: it always serializes
       yield* writePrivateFile(ssoTokenFilepath, JSON.stringify(updated, null, 2)).pipe(
         Effect.ignore,
       );
@@ -475,6 +476,7 @@ export const makeAuthService = () =>
           : ssoToken.accessToken;
 
         const response = yield* client.get(
+          // oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- the profile's values are read from the AWS config file as UTF-8 text, which holds no lone surrogate
           `https://portal.sso.${profile.sso_region}.${dnsSuffix(profile.sso_region!)}/federation/credentials?account_id=${encodeURIComponent(profile.sso_account_id!)}&role_name=${encodeURIComponent(profile.sso_role_name!)}`,
           {
             headers: {
@@ -515,6 +517,7 @@ export const makeAuthService = () =>
 
         yield* writePrivateFile(
           cachedCredsFilePath,
+          // oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- the fields are values of the portal's JSON response and of the profile: they always serialize
           JSON.stringify({
             accessKeyId: credentials.accessKeyId,
             secretAccessKey: credentials.secretAccessKey,

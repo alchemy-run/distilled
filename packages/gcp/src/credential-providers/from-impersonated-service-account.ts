@@ -71,6 +71,7 @@ export const impersonatedServiceAccountSource = (
       step,
       HttpClientRequest.post(url).pipe(
         HttpClientRequest.bearerToken(Redacted.value(source.accessToken)),
+        // oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- `claims` is the strings and numbers that `jwtBearerClaims` builds
         HttpClientRequest.bodyJsonUnsafe({ payload: JSON.stringify(claims) }),
       ),
     );

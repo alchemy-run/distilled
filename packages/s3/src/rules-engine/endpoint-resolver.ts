@@ -115,7 +115,8 @@ export const makeEndpointResolver = (operation: Operation) => {
     if (hit === undefined) {
       const dns = template!.exceptions.includes(region) ? undefined : regionDnsSuffix(region);
       hit = dns
-        ? JSON.parse(template!.template.replaceAll("{R}", region).replaceAll("{D}", dns))
+        ? // oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- the generator's own JSON template; the region passed invalidRegion (one DNS label) before any endpoint is resolved
+          JSON.parse(template!.template.replaceAll("{R}", region).replaceAll("{D}", dns))
         : null;
       templated!.set(region, hit!);
     }

@@ -31,6 +31,7 @@ export interface Config {
 export class Credentials
   extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()("RivetCredentials") {}
 
+/* oxlint-disable distilled/no-unguarded-throwing-builtin -- `parseEndpoint` is private to this file; `fromEnvironment`, its one caller, runs it inside Effect.try and fails with ConfigError */
 /**
  * Split an endpoint URL into its base URL and the token in its userinfo
  * password, if any (`https://<namespace>:<token>@host`).
@@ -47,6 +48,7 @@ const parseEndpoint = (
   url.password = "";
   return { endpoint: url.toString().replace(/\/+$/, ""), token };
 };
+/* oxlint-enable distilled/no-unguarded-throwing-builtin */
 
 const envConfig = /*@__PURE__*/ EffectConfig.all({
   token: /*@__PURE__*/ EffectConfig.Redacted("RIVET_TOKEN").pipe(EffectConfig.option),

@@ -163,6 +163,7 @@ const decoder = /*@__PURE__*/ new TextDecoder();
 
 /** Frames a JSON message as one Connect envelope. */
 export const encodeEnvelope = (message: unknown): Uint8Array => {
+  // oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- `serverStream`, its one caller here, catches a message JSON cannot carry and fails with `BadRequest`
   const payload = encoder.encode(JSON.stringify(message));
   const frame = new Uint8Array(HEADER_BYTES + payload.length);
   new DataView(frame.buffer).setUint32(1, payload.length, false);
@@ -346,13 +347,18 @@ export const serverStream = (
           Option.getOrUndefined(yield* Effect.serviceOption(RunAsUser));
         if (username !== undefined) headers.Authorization = basicAuthorization(username);
       }
+      let body: Uint8Array;
+      try {
+        body = encodeEnvelope(wireRequest(request));
+      } catch (cause) {
+        // The caller's request holds a value JSON cannot carry: an invalid
+        // argument, like the ones envd refuses. No defect boundary runs here.
+        return yield* new BadRequest({ message: String(cause) });
+      }
       const response = yield* client.execute(
         HttpClientRequest.post(`${envdBaseUrlFor(sandbox)}/${method}`).pipe(
           HttpClientRequest.setHeaders(headers),
-          HttpClientRequest.bodyUint8Array(
-            encodeEnvelope(wireRequest(request)),
-            "application/connect+json",
-          ),
+          HttpClientRequest.bodyUint8Array(body, "application/connect+json"),
         ),
       );
       if (response.status < 200 || response.status >= 300) {
@@ -405,7 +411,8 @@ export const serverStream = (
 
 const fromBase64 = (value: unknown): Uint8Array =>
   typeof value === "string"
-    ? Uint8Array.from(atob(value), (c) => c.charCodeAt(0))
+    ? // oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- `value` is a proto `bytes` field of an envd message, which envd writes as standard base64 (proto3 JSON)
+      Uint8Array.from(atob(value), (c) => c.charCodeAt(0))
     : new Uint8Array(0);
 
 const isRecord = (value: unknown): value is Record<string, any> =>

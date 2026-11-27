@@ -20,6 +20,7 @@ export const paginateNextPage: Pagination.PaginationStrategy = (operation, input
         Pagination.getPath(page, outputToken) as string | null | undefined,
       ).pipe(
         Option.flatMap((url) =>
+          // oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- `.pages()` and `.items()` run under the defect boundary (core/api `streamsOf`), which fails the stream with `SdkError` for a `next_page` that is not a URL
           Option.fromNullishOr(new URL(url, "http://_").searchParams.get(inputToken)),
         ),
         Option.filter((cursor) => cursor !== "" && cursor !== request[inputToken]),

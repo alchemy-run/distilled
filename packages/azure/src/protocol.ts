@@ -147,7 +147,8 @@ const encode = ({ input, inputAst }: EncodeArgs) =>
     if (nextUrl !== undefined) {
       const url =
         http?.apiVersion && !/[?&]api-version=/.test(nextUrl)
-          ? withQuery(nextUrl, `api-version=${encodeURIComponent(http.apiVersion)}`)
+          ? // oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- `apiVersion` is the SDK's own data: the version the generator put in the operation's Http trait
+            withQuery(nextUrl, `api-version=${encodeURIComponent(http.apiVersion)}`)
           : nextUrl;
       return HttpClientRequest.setHeaders(HttpClientRequest.get(url), headers);
     }
@@ -171,10 +172,12 @@ const encode = ({ input, inputAst }: EncodeArgs) =>
     for (const [key, value] of Object.entries(http?.query ?? {})) {
       url = withQuery(
         url,
+        // oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- `http.query` is the SDK's own data: the constant query a patch declares on the operation
         value === "" ? encodeURIComponent(key) : `${key}=${encodeURIComponent(value)}`,
       );
     }
     if (http?.apiVersion && !/[?&]api-version=/.test(url)) {
+      // oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- `apiVersion` is the SDK's own data: the version the generator put in the operation's Http trait
       url = withQuery(url, `api-version=${encodeURIComponent(http.apiVersion)}`);
     }
     if (url !== request.url) {

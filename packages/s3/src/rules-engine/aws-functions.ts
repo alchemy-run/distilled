@@ -58,6 +58,7 @@ export function partition(region: RulesValue): PartitionInfo | undefined {
 
   // Check for region that matches a regionRegex pattern
   for (const { regionRegex, outputs } of partitions.partitions) {
+    // oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- regionRegex is from the SDK's own partitions data
     if (new RegExp(regionRegex).test(region)) {
       return toPartitionInfo(outputs);
     }

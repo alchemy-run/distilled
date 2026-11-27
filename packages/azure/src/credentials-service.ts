@@ -137,6 +137,6 @@ export const check = (config: Config): Effect.Effect<Checked<Config>, ConfigErro
       Effect.succeed(config as Checked<Config>)
     : Effect.fail(
         new ConfigError({
-          message: `The configured subscriptionId ${JSON.stringify(config.subscriptionId)} cannot be a URL path segment`,
+          message: `The configured subscriptionId ${JSON.stringify(String(config.subscriptionId))} cannot be a URL path segment`,
         }),
       );

@@ -41,7 +41,7 @@ import * as NeonCredentials from "@distilled.cloud/neon/Credentials";
 import * as Neon from "@distilled.cloud/neon/neon";
 import { CredentialsFromToken, GraphQLLive, Railway } from "@distilled.cloud/railway";
 import { encodeEvent } from "@distilled.cloud/s3/eventstream/codec";
-import { serializeInputEvent } from "@distilled.cloud/s3/eventstream/serializer";
+import { serializeInputEventOrThrow } from "@distilled.cloud/s3/eventstream/serializer";
 import * as SlackChat from "@distilled.cloud/slack/chat";
 import * as SlackCredentials from "@distilled.cloud/slack/Credentials";
 import * as StripeCredentials from "@distilled.cloud/stripe/Credentials";
@@ -274,7 +274,7 @@ const converseEvents = await Promise.all(
         metrics: { latencyMs: 560 },
       },
     },
-  ].map((event) => Effect.runPromise(encodeEvent(serializeInputEvent(event)))),
+  ].map((event) => Effect.runPromise(encodeEvent(serializeInputEventOrThrow(event)))),
 );
 
 // The caller reads an S3 object body in its own traced function.

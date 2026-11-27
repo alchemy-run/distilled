@@ -505,7 +505,8 @@ export const paginateLink = <Input extends Record<string, unknown>, Output, E, R
       const token =
         next === undefined
           ? undefined
-          : (new URL(next, "http://_").searchParams.get(inputToken) ?? undefined);
+          : // oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- `.pages()` and `.items()` run under the defect boundary (core/api `streamsOf`), which fails the stream with `SdkError` for a `next` link that is not a URL
+            (new URL(next, "http://_").searchParams.get(inputToken) ?? undefined);
 
       const nextState: State = {
         token,

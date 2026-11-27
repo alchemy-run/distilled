@@ -39,7 +39,12 @@ import {
   labelSymbol,
   querySymbol,
 } from "@distilled.cloud/core/trait";
-import { escapeXml, parseXmlSync, type XmlObject, type XmlValue } from "@distilled.cloud/core/xml";
+import {
+  escapeXml,
+  parseXmlOrThrow,
+  type XmlObject,
+  type XmlValue,
+} from "@distilled.cloud/core/xml";
 import type * as AST from "effect/SchemaAST";
 import {
   headerPrefixSymbol,
@@ -320,8 +325,8 @@ const decodeObject = (ast: AST.AST, obj: XmlObject): Record<string, unknown> => 
  * root element is the output (a struct, or a bare list such as
  * `<QueueMessagesList>`). Throws `XmlParseError` on malformed XML.
  */
-export const decodeXmlBody = (outputAst: AST.AST, xml: string): unknown => {
-  const doc = parseXmlSync(xml);
+export const decodeXmlBodyOrThrow = (outputAst: AST.AST, xml: string): unknown => {
+  const doc = parseXmlOrThrow(xml);
   const [rootValue] = Object.values(doc);
   const node = resolveNode(outputAst);
   if (node._tag === "Arrays") return decodeValue(node, rootValue);
@@ -338,7 +343,8 @@ export const isXmlShaped = (outputAst: AST.AST): boolean => {
 export const parseXmlError = (xml: string): { code?: string; message?: string } | undefined => {
   let doc: XmlObject;
   try {
-    doc = parseXmlSync(xml);
+    // oxlint-disable-next-line distilled/or-throw -- a body that is not XML names no error: a plain `try` answers `undefined` for it, with no Effect step
+    doc = parseXmlOrThrow(xml);
   } catch {
     return undefined;
   }

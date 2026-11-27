@@ -306,11 +306,13 @@ const transform = (rule: AttributeRule, raw: unknown): unknown => {
     case "arn":
       return typeof value === "string" && value.startsWith("arn:") ? value : undefined;
     case "jsonList":
+      /* oxlint-disable distilled/no-unguarded-throwing-builtin -- a value JSON cannot carry (a BigInt, an object that contains itself) throws here; an operation's rules run under its defect boundary (core/api `failed`), which fails the call with `SdkError` */
       return Array.isArray(value)
         ? value.map((v) => JSON.stringify(v))
         : typeof value === "object"
           ? [JSON.stringify(value)]
           : undefined;
+    /* oxlint-enable distilled/no-unguarded-throwing-builtin */
   }
 };
 

@@ -119,6 +119,7 @@ function createAwsJsonProtocol(version: "1.0" | "1.1"): ProtocolImpl {
       };
       if (queryCompatible) request.headers["x-amzn-query-mode"] = "true";
 
+      // oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- serialize runs under the plain try of the request builder's callers (encodeWith, serializeEffect): what throws here fails the call with InvalidInput
       request.body = JSON.stringify(encoded ?? {});
 
       return request;
@@ -201,6 +202,7 @@ function createAwsJsonProtocol(version: "1.0" | "1.1"): ProtocolImpl {
 
         if (!rawErrorCode) {
           return yield* new ParseError({
+            // oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- response.headers is a record of strings: it always serializes
             message: `No error code found in response. Headers: ${JSON.stringify(response.headers)}, Body: ${errorBody(operation, bodyText)}`,
           });
         }

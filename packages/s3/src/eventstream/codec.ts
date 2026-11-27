@@ -266,6 +266,7 @@ function encodeHeaderValue(value: HeaderValue): Uint8Array {
       const buf = new Uint8Array(9);
       buf[0] = value.type;
       // Timestamp is milliseconds since epoch
+      // oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- an invalid Date throws here; the frames are the request body of a call: a throw here fails that call (the defect boundary), and Effect.try would add an Effect step to every event
       new DataView(buf.buffer).setBigInt64(1, BigInt(value.value.getTime()), false);
       return buf;
     }

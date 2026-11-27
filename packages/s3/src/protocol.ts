@@ -380,9 +380,11 @@ const toHttpRequest = (
       // Handle arrays as repeated query parameters (e.g., tagKeys=A&tagKeys=B)
       if (Array.isArray(v)) {
         return v.map((item) =>
+          // oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- the loop above refused a name or value with a lone surrogate
           item ? `${encodeURIComponent(k)}=${encodeURIComponent(item)}` : encodeURIComponent(k),
         );
       }
+      // oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- the loop above refused a name or value with a lone surrogate
       return v ? `${encodeURIComponent(k)}=${encodeURIComponent(v)}` : encodeURIComponent(k);
     })
     .join("&");

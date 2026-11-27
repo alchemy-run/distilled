@@ -176,7 +176,15 @@ const connect = Effect.fn(function* (sid: string, request: Record<string, unknow
         });
         return;
       }
-      const event = JSON.parse(message.data) as Event;
+      let event: Event;
+      try {
+        event = JSON.parse(message.data) as Event;
+      } catch {
+        // Not JSON: nothing more can be read from this connection. Closing
+        // it fails the process through the `close` listener below.
+        socket.close();
+        return;
+      }
       switch (event.type) {
         case "started":
         case "attached":
@@ -208,6 +216,7 @@ const connect = Effect.fn(function* (sid: string, request: Record<string, unknow
         );
       }
     });
+    // oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- the request holds the caller's strings, numbers and booleans, by their types (`RunOptions`, a process id, an offset, a size): they always serialize
     socket.send(JSON.stringify(request));
   });
 
@@ -235,7 +244,7 @@ const connect = Effect.fn(function* (sid: string, request: Record<string, unknow
         yield* send(bytes.subarray(offset, offset + STDIN_CHUNK_BYTES));
       }
     }),
-    closeStdin: send(JSON.stringify({ type: "close_stdin" })),
+    closeStdin: send('{"type":"close_stdin"}'),
   };
   return process;
 });
@@ -279,7 +288,15 @@ const control = Effect.fn(function* (
         socket.addEventListener(
           "message",
           (message) => {
-            const event = JSON.parse(String(message.data)) as Event;
+            let event: Event;
+            try {
+              event = JSON.parse(String(message.data)) as Event;
+            } catch {
+              // Not JSON: closing the connection fails the call through the
+              // `close` listener below.
+              socket.close();
+              return;
+            }
             if (event.type === "error") {
               resume(Effect.fail(new ProcessError({ message: event.message, error: event.error })));
             } else if (event.type !== expected) {
@@ -299,6 +316,7 @@ const control = Effect.fn(function* (
             Effect.fail(new ProcessError({ message: `Process ${request.type} connection closed` })),
           ),
         );
+        // oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- the request holds the caller's strings, numbers and booleans, by their types (`RunOptions`, a process id, an offset, a size): they always serialize
         socket.send(JSON.stringify(request));
       });
     }),

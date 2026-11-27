@@ -59,7 +59,7 @@ export const isEcsHostUrl = (url: URL): boolean =>
   url.protocol === "http:" && url.host === CMDS_IP && url.username === "" && url.password === "";
 
 export const notEcsHostMessage = (relative: string): string =>
-  `${ENV_CMDS_RELATIVE_URI} ${JSON.stringify(relative)} does not name a path on ${CMDS_IP}`;
+  `${ENV_CMDS_RELATIVE_URI} ${JSON.stringify(String(relative))} does not name a path on ${CMDS_IP}`;
 
 const validateToken = (token: string) =>
   token.includes("\r\n")

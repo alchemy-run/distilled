@@ -3,7 +3,7 @@
  */
 
 import { setOwnKey } from "@distilled.cloud/core/plain-values";
-import { parseXmlSync, type XmlObject } from "@distilled.cloud/core/xml";
+import { parseXmlOrThrow, type XmlObject } from "@distilled.cloud/core/xml";
 import * as Effect from "effect/Effect";
 import type * as AST from "effect/SchemaAST";
 import { Unreadable } from "../client/protocol.ts";
@@ -13,7 +13,7 @@ import { isBooleanAST, isNumberAST } from "./ast.ts";
 export {
   escapeXml,
   wrapTag,
-  parseXmlSync,
+  parseXmlOrThrow,
   XmlParseError,
   type XmlObject,
   type XmlValue,
@@ -32,7 +32,8 @@ export const parseXml = (xml: string): Effect.Effect<XmlObject, ParseError> => {
  */
 export const readXml = (xml: string): XmlObject | Unreadable => {
   try {
-    return parseXmlSync(xml);
+    // oxlint-disable-next-line distilled/or-throw -- a plain try: Effect.try would add an Effect step to every response
+    return parseXmlOrThrow(xml);
   } catch (error) {
     // Any parser failure (malformed XML, a stack overflow on deep nesting)
     // leaves the body unreadable.

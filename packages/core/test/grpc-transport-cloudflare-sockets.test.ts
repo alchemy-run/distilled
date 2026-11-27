@@ -16,10 +16,10 @@ import { API_ERRORS } from "../src/errors.ts";
 import * as CloudflareSockets from "../src/grpc-transport-cloudflare-sockets.ts";
 import { trailersOf } from "../src/grpc-transport.ts";
 import {
-  decodeMessage,
-  encodeMessage,
+  decodeMessageOrThrow,
+  encodeMessageOrThrow,
   frame,
-  unframe,
+  unframeOrThrow,
   type ProtoDescriptors,
 } from "../src/protobuf.ts";
 import { grpcProtocol } from "../src/protocol-grpc.ts";
@@ -75,14 +75,14 @@ const server = http.createServer((req, res) => {
   const chunks: Buffer[] = [];
   req.on("data", (chunk: Buffer) => chunks.push(chunk));
   req.on("end", async () => {
-    const [payload] = unframe(new Uint8Array(Buffer.concat(chunks)));
-    const { count } = decodeMessage(descriptors, "test.Req", payload!) as { count: number };
+    const [payload] = unframeOrThrow(new Uint8Array(Buffer.concat(chunks)));
+    const { count } = decodeMessageOrThrow(descriptors, "test.Req", payload!) as { count: number };
     res.writeHead(200, {
       "content-type": "application/grpc",
       trailer: "grpc-status, grpc-message",
     });
     for (let i = 1; i <= Math.max(count, 1); i++) {
-      const bytes = frame(encodeMessage(descriptors, "test.Reply", { index: i }));
+      const bytes = frame(encodeMessageOrThrow(descriptors, "test.Reply", { index: i }));
       res.write(bytes.subarray(0, 3));
       await new Promise((resolve) => setTimeout(resolve, 5));
       res.write(bytes.subarray(3));

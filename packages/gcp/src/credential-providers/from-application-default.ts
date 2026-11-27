@@ -278,6 +278,7 @@ const fileSource = (json: Json, path: string, scopes?: ReadonlyArray<string>): T
         break;
       default:
         return yield* fail(
+          // oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- `json` is what `JSON.parse` read from the credentials file (`readCredentialsFile`), which always serializes
           `The credentials file ${path} has type ${JSON.stringify(json.type)}; expected authorized_user, service_account, external_account or impersonated_service_account.`,
         );
     }

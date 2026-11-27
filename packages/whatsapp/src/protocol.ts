@@ -54,6 +54,7 @@ const graphError = (body: unknown): { code?: number; message?: string } | undefi
  * credentials layer is built (`check` in ./credentials.ts).
  */
 const baseUrlFor = (creds: Checked<Config>): string =>
+  // oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- `check` (./credentials.ts) refused a version with a lone surrogate when the layer was built
   `${creds.apiBaseUrl}/${encodeURIComponent(creds.apiVersion)}`;
 
 export const WhatsAppProtocol = /*@__PURE__*/ restProtocol({

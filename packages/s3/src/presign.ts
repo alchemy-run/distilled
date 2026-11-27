@@ -126,8 +126,8 @@ export const presignUrl: (
 );
 
 /**
- * `path` under the bucket's URL: virtual-hosted
- * (`https://{bucket}.s3.{region}.{dnsSuffix}/{path}`), or path-style under a
+ * The bucket's URL, with the key as its path when `withKey`: virtual-hosted
+ * (`https://{bucket}.s3.{region}.{dnsSuffix}/{key}`), or path-style under a
  * custom {@link Endpoint.Endpoint}. Fails with `InvalidInput` for a region
  * that is not a DNS label, or a bucket or key that would address another
  * resource.
@@ -136,7 +136,7 @@ const objectUrl = (
   bucket: string,
   key: string,
   region: string,
-  path: string,
+  withKey: boolean,
 ): Effect.Effect<URL, InvalidInput | SigV4.InvalidSigningUrl> =>
   Effect.flatMap(
     Effect.flatten(
@@ -156,6 +156,8 @@ const objectUrl = (
           ? invalidHostLabel("bucket", bucket, true)
           : undefined);
       if (invalid !== undefined) return Effect.fail(invalid);
+      // Encoded after the checks: they refuse a key that cannot be encoded.
+      const path = withKey ? encodeGreedyLabel(key) : "";
       return parseUrl(
         customEndpoint
           ? `${customEndpoint.replace(/\/+$/, "")}/${encodeLabel(bucket)}/${path}`
@@ -236,12 +238,7 @@ export const presignS3Url: (
 ) => Effect.Effect<string, PresignError, PresignContext> = /*@__PURE__*/ Effect.fnUntraced(
   function* (options: PresignS3UrlOptions) {
     const region = options.region ?? (yield* yield* Region.Region);
-    const url = yield* objectUrl(
-      options.bucket,
-      options.key,
-      region,
-      encodeGreedyLabel(options.key),
-    );
+    const url = yield* objectUrl(options.bucket, options.key, region, true);
     if (options.versionId !== undefined) {
       url.searchParams.set("versionId", options.versionId);
     }
@@ -535,7 +532,7 @@ export const presignPost: (
   function* (options: PresignPostOptions) {
     const credentials = yield* yield* Credentials.Credentials;
     const region = options.region ?? (yield* yield* Region.Region);
-    const url = yield* objectUrl(options.bucket, options.key, region, "");
+    const url = yield* objectUrl(options.bucket, options.key, region, false);
 
     const datetime = options.datetime ?? amzDate(yield* Clock.currentTimeMillis);
     const date = datetime.slice(0, 8);
@@ -560,6 +557,7 @@ export const presignPost: (
       fields["X-Amz-Security-Token"] = Redacted.value(credentials.sessionToken);
     }
     const filename = options.key.lastIndexOf("${filename}");
+    // oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- by their types, the conditions and the fields hold only strings and numbers, which always serialize
     const policy = JSON.stringify({
       expiration,
       conditions: [

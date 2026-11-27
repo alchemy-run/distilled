@@ -15,7 +15,7 @@ import {
   isStringAST,
   unwrapUnion,
 } from "./ast.ts";
-import { fromBase64, toBase64 } from "./base64.ts";
+import { fromBase64OrThrow, toBase64 } from "./base64.ts";
 
 /** The header value of a `@mediaType` string: its UTF-8 bytes in base64. */
 export const toBase64Header = (value: string): string => toBase64(new TextEncoder().encode(value));
@@ -27,7 +27,8 @@ const BASE64 = /^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$
 
 /** The text of a `@mediaType` header, or {@link notBase64}. */
 const fromBase64Header = (value: string): string | typeof notBase64 =>
-  BASE64.test(value) ? new TextDecoder().decode(fromBase64(value)) : notBase64;
+  // oxlint-disable-next-line distilled/or-throw -- the value just matched BASE64, so atob accepts it; this runs on every response
+  BASE64.test(value) ? new TextDecoder().decode(fromBase64OrThrow(value)) : notBase64;
 
 /**
  * The header value of a list: its elements joined with ", ". With `quote`,

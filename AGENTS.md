@@ -34,9 +34,19 @@ number.
    - `throw` inside an `Effect.*` / `Stream.*` / `Layer.*` callback or an
      `Effect.gen` / `Effect.fn` generator. Use `yield* new SomeError(...)`;
    - an empty or comment-only `catch`;
-   - `new Function`, `Function(...)` and `eval`.
+   - `new Function`, `Function(...)` and `eval`;
+   - a `throw` in a function whose name does not end in `OrThrow`, and a use
+     of an `...OrThrow` function outside another one or the callback of
+     `Effect.try` / `Effect.tryPromise`. A plain `try` around it does not
+     count;
+   - `JSON.parse`, `JSON.stringify`, `new URL`, `encodeURIComponent`,
+     `decodeURIComponent`, `BigInt`, `atob` and `new RegExp` where nothing
+     catches: outside a `try` block, `Effect.try` and an `...OrThrow`
+     function, unless the call can't throw (`JSON.stringify(String(id))`,
+     `new URL(x)` after `URL.canParse(x)`).
 
-   Lint can't follow calls between functions. A plain helper may throw only
+   Lint can't follow calls between functions, so a function that throws says
+   so in its name (`decodeOrThrow`). A plain helper may throw only
    if every Effect caller wraps it in `Effect.try` / `Effect.tryPromise`.
    A `catch` that turns a failure into a value hides it. Do not add a lint
    disable comment without a reason in the PR body. A generator that meets a

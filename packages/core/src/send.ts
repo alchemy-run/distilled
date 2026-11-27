@@ -109,6 +109,7 @@ const nextHop = (
     // A 307 or 308 sends the body again, and the caller's stream is spent.
     return undefined;
   }
+  // oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- `Url.fromString(location, request.url)` above parsed `request.url` as its base, so it is a URL
   if (url.origin !== new URL(request.url).origin) {
     headers = Headers.fromInput(
       Object.entries(headers).filter(([name]) => CROSS_ORIGIN_HEADERS.has(name)),

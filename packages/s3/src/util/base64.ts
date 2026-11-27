@@ -12,7 +12,7 @@ export const toBase64 = (bytes: Uint8Array): string => {
  * The bytes of a base64 string. Throws, as `atob` does, on a string that is
  * not base64.
  */
-export const fromBase64 = (base64: string): Uint8Array => {
+export const fromBase64OrThrow = (base64: string): Uint8Array => {
   // A loop: `Uint8Array.from(binary, mapFn)` calls mapFn once per byte and is
   // about 20x slower.
   const binary = atob(base64);

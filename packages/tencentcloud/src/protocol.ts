@@ -155,6 +155,7 @@ const encode = ({ input, inputAst }: EncodeArgs) =>
       const region = Option.getOrUndefined(layerRegion) ?? creds.region;
       if (region !== undefined && region !== "") headers["x-tc-region"] = region;
     }
+    // oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- the value is the caller's input, and the defect boundary reports one JSON cannot carry as `SdkError`
     const payload = JSON.stringify(plan.verbatim ? body : mapKeys(inputAst, body, "encode"));
 
     const host = `${service}.${creds.rootDomain}`;

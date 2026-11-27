@@ -1178,6 +1178,7 @@ const evalEntry = (src: Source, j: number): any => {
         do {
           const k = tok(TOKEN);
           p++;
+          // oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- an entry is the SDK's own generated data: text in it that does not parse is an SDK bug
           v[k[0] === '"' ? JSON.parse(k) : k] = expr();
         } while (s[p++] !== "}");
     } else if (c === "[") v = list("]");
@@ -1201,11 +1202,13 @@ const evalEntry = (src: Source, j: number): any => {
     } else {
       p--;
       const t = tok(TOKEN);
+      // oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- an entry is the SDK's own generated data: text in it that does not parse is an SDK bug
       v = t === "u" ? undefined : JSON.parse(t);
     }
     for (;;) {
       const d = s[p++];
       if (d === "(") v = v(...list(")"));
+      // oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- an entry is the SDK's own generated data: text in it that does not parse is an SDK bug
       else if (d === "@") v = v.annotate({ identifier: JSON.parse(tok(TOKEN)) });
       else if (d === ".") {
         const name = tok();
@@ -1399,7 +1402,7 @@ interface LazyService {
 /** The stub letter of each operation kind (see {@link lazyService}). */
 const KIND_LETTERS = ["o", "p", "", "s"] as const;
 
-const define = (svc: LazyService, fn: DataFn, kind: 0 | 1 | 2 | 3): any => {
+const defineOrThrow = (svc: LazyService, fn: DataFn, kind: 0 | 1 | 2 | 3): any => {
   if (kind === 2) {
     const i = svc.ei++;
     if (i >= svc.e.length) throw new Error(`distilled: ${svc.spec}: error ${i} has no stub`);
@@ -1413,13 +1416,13 @@ const define = (svc: LazyService, fn: DataFn, kind: 0 | 1 | 2 | 3): any => {
   return svc.o[i];
 };
 
-const load = (svc: LazyService): void => {
+const loadOrThrow = (svc: LazyService): void => {
   if (svc.od) return;
   svc.od = [];
   svc.ed = [];
   try {
     defining(
-      (fn, kind) => define(svc, fn, kind),
+      (fn, kind) => defineOrThrow(svc, fn, kind),
       () =>
         (globalThis as any).process.getBuiltinModule("node:module").createRequire(svc.url)(
           svc.spec,
@@ -1503,7 +1506,8 @@ const fileOf = (svc: LazyService): string =>
   // A plain POSIX file URL is its path (URL parsing costs ~0.1 ms the first time).
   /^file:\/\/\/[^%?#]*$/.test(svc.url) && (globalThis as any).process.platform !== "win32"
     ? svc.url.slice(7, svc.url.lastIndexOf("/") + 1) + svc.spec
-    : node("node:url").fileURLToPath(new URL(svc.spec, svc.url));
+    : // oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- the stub's own `import.meta.url` and the path its generator wrote (the SDK's own data); `sliced`, the one caller, calls this in its `try`
+      node("node:url").fileURLToPath(new URL(svc.spec, svc.url));
 
 const sliced = (svc: LazyService): SliceIndex | false => {
   if (svc.ix !== undefined) return svc.ix;
@@ -1707,12 +1711,12 @@ const slot = (svc: LazyService, ix: SliceIndex, k: number, own: boolean): any =>
 const valueOf = (svc: LazyService, ix: SliceIndex, k: number): unknown => slot(svc, ix, k, false);
 
 /** The data function of placeholder `i` (`kind` 0: operation, 1: error class). */
-const dataOf = (svc: LazyService, kind: 0 | 1, i: number): DataFn => {
+const dataOfOrThrow = (svc: LazyService, kind: 0 | 1, i: number): DataFn => {
   const loaded = kind === 0 ? svc.od : svc.ed;
   if (loaded?.[i]) return loaded[i]!;
   const ix = sliced(svc);
   if (!ix) {
-    load(svc);
+    loadOrThrow(svc);
     return (kind === 0 ? svc.od : svc.ed)![i]!;
   }
   return ((kind === 0 ? svc.od : svc.ed)![i] = slot(
@@ -1743,7 +1747,8 @@ export const lazyService = (
     o: () => {
       const kind = kinds[svc.o.length];
       const f: DataFn = function op(x) {
-        return x === D ? dataOf(svc, 0, svc.o.indexOf(op))(D) : call(op, x);
+        // oxlint-disable-next-line distilled/or-throw -- the stub exports this placeholder, so it keeps its name; a load that fails on the operation's first call is caught in `prepareOr`
+        return x === D ? dataOfOrThrow(svc, 0, svc.o.indexOf(op))(D) : call(op, x);
       };
       svc.o.push(kind === "p" ? asOpPaginated(f) : kind === "s" ? asOpStreaming(f) : asOp(f));
       return f;
@@ -1754,7 +1759,8 @@ export const lazyService = (
         [name]: function (this: unknown, x: unknown) {
           return new.target
             ? newError(x, new.target, undefined)
-            : dataOf(svc, 1, svc.e.indexOf(this))(x);
+            : // oxlint-disable-next-line distilled/or-throw -- the stub exports this placeholder under the error's name; it runs in no Effect, and a load that fails under a call reaches the defect boundary
+              dataOfOrThrow(svc, 1, svc.e.indexOf(this))(x);
         },
       }[name]!;
       svc.e.push(asError(f));

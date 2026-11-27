@@ -440,7 +440,8 @@ const exchange = (
         if ((flags & END_HEADERS) === 0) return;
         const complete = block;
         block = undefined;
-        const fields = yield* attempt(() => hpack.decode(concat(complete.fragments)));
+        // oxlint-disable-next-line distilled/or-throw -- `attempt` is Effect.try: a throw fails the exchange with the HpackError
+        const fields = yield* attempt(() => hpack.decodeOrThrow(concat(complete.fragments)));
         onHeaders(fields, complete.endStream);
       });
 

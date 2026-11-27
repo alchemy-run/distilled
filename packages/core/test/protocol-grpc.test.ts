@@ -14,10 +14,10 @@ import * as API from "../src/api.ts";
 import { API_ERRORS } from "../src/errors.ts";
 import * as NodeHttp2 from "../src/grpc-transport-node-http2.ts";
 import {
-  decodeMessage,
-  encodeMessage,
+  decodeMessageOrThrow,
+  encodeMessageOrThrow,
   frame,
-  unframe,
+  unframeOrThrow,
   type ProtoDescriptors,
 } from "../src/protobuf.ts";
 import { Deadline, grpcProtocol } from "../src/protocol-grpc.ts";
@@ -90,8 +90,8 @@ const onStream = (stream: http2.ServerHttp2Stream, headers: http2.IncomingHttpHe
   const chunks: Buffer[] = [];
   stream.on("data", (chunk: Buffer) => chunks.push(chunk));
   stream.on("end", () => {
-    const [payload] = unframe(new Uint8Array(Buffer.concat(chunks)));
-    const request = decodeMessage(descriptors, "test.EchoRequest", payload!) as Request;
+    const [payload] = unframeOrThrow(new Uint8Array(Buffer.concat(chunks)));
+    const request = decodeMessageOrThrow(descriptors, "test.EchoRequest", payload!) as Request;
     let started = false;
     const start = () => {
       if (started) return;
@@ -105,7 +105,7 @@ const onStream = (stream: http2.ServerHttp2Stream, headers: http2.IncomingHttpHe
       message: (reply) => {
         start();
         if (!stream.destroyed)
-          stream.write(frame(encodeMessage(descriptors, "test.EchoReply", reply)));
+          stream.write(frame(encodeMessageOrThrow(descriptors, "test.EchoReply", reply)));
       },
       end: (status, message) => {
         start();
@@ -154,8 +154,8 @@ const h1Server = http.createServer((req, res) => {
   const chunks: Buffer[] = [];
   req.on("data", (chunk: Buffer) => chunks.push(chunk));
   req.on("end", () => {
-    const [payload] = unframe(new Uint8Array(Buffer.concat(chunks)));
-    const request = decodeMessage(descriptors, "test.EchoRequest", payload!) as Request;
+    const [payload] = unframeOrThrow(new Uint8Array(Buffer.concat(chunks)));
+    const request = decodeMessageOrThrow(descriptors, "test.EchoRequest", payload!) as Request;
     if (request.text === "missing") {
       res.writeHead(200, {
         "content-type": "application/grpc",
@@ -167,7 +167,7 @@ const h1Server = http.createServer((req, res) => {
     res.writeHead(200, { "content-type": "application/grpc" });
     res.end(
       frame(
-        encodeMessage(descriptors, "test.EchoReply", {
+        encodeMessageOrThrow(descriptors, "test.EchoReply", {
           text: request.text.toUpperCase(),
           index: 1,
         }),
@@ -194,10 +194,10 @@ const webServer = http.createServer((req, res) => {
   const chunks: Buffer[] = [];
   req.on("data", (chunk: Buffer) => chunks.push(chunk));
   req.on("end", () => {
-    const [payload] = unframe(new Uint8Array(Buffer.concat(chunks)));
-    const request = decodeMessage(descriptors, "test.EchoRequest", payload!) as Request;
+    const [payload] = unframeOrThrow(new Uint8Array(Buffer.concat(chunks)));
+    const request = decodeMessageOrThrow(descriptors, "test.EchoRequest", payload!) as Request;
     const reply = (index: number) =>
-      frame(encodeMessage(descriptors, "test.EchoReply", { text: request.text, index }));
+      frame(encodeMessageOrThrow(descriptors, "test.EchoReply", { text: request.text, index }));
     if (request.text === "missing") {
       res.writeHead(200, {
         "content-type": "application/grpc-web+proto",

@@ -143,7 +143,9 @@ const generateJwt = (
     uri: `${method} ${uri}`,
   };
 
+  // oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- `header` is four strings: the algorithm, the key id of the credentials, "JWT" and a hex nonce
   const headerB64 = base64url(Buffer.from(JSON.stringify(header)));
+  // oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- `payload` holds only strings and numbers: the key id, constants, the clock and the request's method and URL
   const payloadB64 = base64url(Buffer.from(JSON.stringify(payload)));
   const signingInput = `${headerB64}.${payloadB64}`;
 
@@ -203,6 +205,7 @@ const matchError = (
   // Without the envelope, the start of the raw body is the best message.
   const message =
     parsed?.errorMessage ??
+    // oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- `errorBody` is what `JSON.parse` returned in `decode` (or the body text, or `undefined`), which always serializes
     (typeof errorBody === "string" ? errorBody : (JSON.stringify(errorBody) ?? "")).slice(0, 200);
   const errorProps = {
     errorType: parsed?.errorType,

@@ -18,6 +18,7 @@ const toBase64 = (text: string): string => {
 };
 
 const fromBase64 = (text: string): string =>
+  // oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- `injectLambdaClientContext`, the one caller, calls this in its `try`: a value that is not base64 stays as it was
   new TextDecoder().decode(Uint8Array.from(atob(text), (c) => c.charCodeAt(0)));
 
 /**

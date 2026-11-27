@@ -528,6 +528,12 @@ const appendQuery = (query: URLSearchParams, name: string, value: unknown): void
 
 export interface BuildRequestOptions {
   readonly input: unknown;
+  /**
+   * Applied to `input` first, inside the builder's `try`: the REST protocol
+   * passes `unwrapRedactedDeep`, whose walk overflows the stack on an input
+   * that contains itself. Leave it out for an input that is already plain.
+   */
+  readonly unwrap?: (input: unknown) => unknown;
   readonly inputAst: AST.AST;
   /** Base URL the operation's URI template is appended to. */
   readonly baseUrl: string;
@@ -571,6 +577,7 @@ export interface BuildRequestOptions {
  * Leading slashes are dropped because the URI template already supplies one.
  */
 export const encodeGreedyLabel = (value: string): string =>
+  // oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- `encodeLabel`, its one caller, has refused a lone surrogate (`invalidLabel`), the one value this throws on
   value.replace(/^\/+/, "").split("/").map(encodeURIComponent).join("/");
 
 /**
@@ -745,19 +752,6 @@ export class InvalidInput
 export const unsendable = (cause: unknown): InvalidInput =>
   new InvalidInput({ member: "input", message: `The input cannot be sent: ${String(cause)}` });
 
-/** `value` as the JSON body of `request`, or the refusal for a value JSON cannot carry. */
-const withJsonBody = (
-  request: HttpClientRequest.HttpClientRequest,
-  value: unknown,
-  contentType: string | undefined,
-): HttpClientRequest.HttpClientRequest | InvalidInput => {
-  try {
-    return HttpClientRequest.setBody(request, HttpBody.jsonUnsafe(value, contentType));
-  } catch (cause) {
-    return unsendable(cause);
-  }
-};
-
 /**
  * The refusal for a path label value that would address another resource,
  * or `undefined`. The URL parser resolves a `.` or `..` segment,
@@ -786,14 +780,14 @@ export const invalidLabel = (
   if (!text.isWellFormed()) {
     return new InvalidInput({
       member,
-      message: `Input member ${member} cannot be ${JSON.stringify(text)}: it has a lone UTF-16 surrogate, which a URL cannot carry`,
+      message: `Input member ${member} cannot be ${JSON.stringify(String(value))}: it has a lone UTF-16 surrogate, which a URL cannot carry`,
     });
   }
   return (text === "" && !optional) ||
     (greedy ? text.split("/") : [text]).some((s) => s === "." || s === "..")
     ? new InvalidInput({
         member,
-        message: `Input member ${member} cannot be ${JSON.stringify(text)}: as a path label it would address another resource`,
+        message: `Input member ${member} cannot be ${JSON.stringify(String(value))}: as a path label it would address another resource`,
       })
     : undefined;
 };
@@ -811,6 +805,7 @@ export const encodeLabel = (
   optional?: boolean,
 ): string | InvalidInput =>
   invalidLabel(member, value, greedy, optional) ??
+  // oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- `invalidLabel` has refused a lone surrogate, the one value this throws on
   (greedy ? encodeGreedyLabel(String(value)) : encodeURIComponent(String(value)));
 
 /** One RFC 1123 DNS label: 1-63 letters, digits and `-`, no `-` at either end. */
@@ -875,7 +870,7 @@ export const originFromConfig = (
   defaultScheme: "https" | "http" = "https",
 ): string | ConfigError => {
   const refuse = (reason: string) =>
-    new ConfigError({ message: `${name} ${JSON.stringify(value)} ${reason}` });
+    new ConfigError({ message: `${name} ${JSON.stringify(String(value))} ${reason}` });
   const trimmed = value.replace(/\/+$/, "");
   const candidate = /^[a-z][a-z0-9+.-]*:\/\//i.test(trimmed)
     ? trimmed
@@ -912,22 +907,30 @@ export const originFromConfig = (
  * Fails with {@link InvalidInput}, before anything is sent, when a label is
  * `.` or `..` (for a greedy `{name+}` label, when any of its segments is),
  * is `""` and the schema marks it required, or has a lone UTF-16 surrogate,
- * and when a JSON body holds a value JSON cannot carry (a `BigInt`, an
- * object that contains itself).
+ * and when building the request throws ({@link unsendable}): a JSON body or
+ * a multipart part holds a value JSON cannot carry (a `BigInt`, an object
+ * that contains itself), or `unwrap` throws on the input.
  * Fails with {@link SdkError} when the input schema is missing the `Http()`
  * trait (a codegen bug the generator refuses).
  */
 export const buildRequest = (
   options: BuildRequestOptions,
 ): Effect.Effect<HttpClientRequest.HttpClientRequest, InvalidInput | SdkError> => {
-  const request = requestOrInvalid(options);
+  let request: HttpClientRequest.HttpClientRequest | InvalidInput | SdkError;
+  try {
+    // oxlint-disable-next-line distilled/or-throw -- per-call path: this one plain `try` turns whatever the request builder throws into `InvalidInput`, with no Effect step
+    request = requestOrThrow(options);
+  } catch (cause) {
+    request = unsendable(cause);
+  }
   return request instanceof InvalidInput || request instanceof SdkError
     ? Effect.fail(request)
     : Effect.succeed(request);
 };
 
-const requestOrInvalid = ({
+const requestOrThrow = ({
   input,
+  unwrap,
   inputAst,
   baseUrl,
   headers: baseHeaders,
@@ -936,7 +939,7 @@ const requestOrInvalid = ({
   emptyJsonBody,
   queryStyle,
 }: BuildRequestOptions): HttpClientRequest.HttpClientRequest | InvalidInput | SdkError => {
-  const inputObj = (input ?? {}) as Record<string, unknown>;
+  const inputObj = ((unwrap ? unwrap(input) : input) ?? {}) as Record<string, unknown>;
   const plan = planFor(inputAst);
   if (plan instanceof SdkError) return plan;
   const { http, rootDict, members, known } = plan;
@@ -1157,7 +1160,7 @@ const requestOrInvalid = ({
           : HttpBody.uint8Array(rawBody as Uint8Array, contentType),
       );
     }
-    return withJsonBody(request, rawBody, memberContentType);
+    return HttpClientRequest.setBody(request, HttpBody.jsonUnsafe(rawBody, memberContentType));
   }
   if (
     // A GET/HEAD sends a body only when body members actually carry values.
@@ -1176,7 +1179,7 @@ const requestOrInvalid = ({
     // some endpoints reject a missing JSON body outright. A Content-Type
     // member names the JSON media type, as for a whole body above (a
     // Kubernetes merge patch is `application/merge-patch+json`).
-    return withJsonBody(request, body, memberContentType);
+    return HttpClientRequest.setBody(request, HttpBody.jsonUnsafe(body, memberContentType));
   }
   return request;
 };
@@ -1202,6 +1205,7 @@ const matchesText = (matcher: ErrorTextMatcher, value: unknown): boolean => {
   return (
     (includes !== undefined || matches !== undefined) &&
     (includes === undefined || value.includes(includes)) &&
+    // oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- the pattern is the SDK's own data (an error matcher from a patch): one that does not compile is an SDK bug
     (matches === undefined || new RegExp(matches).test(value))
   );
 };
