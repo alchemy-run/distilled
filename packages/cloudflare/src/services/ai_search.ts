@@ -1199,6 +1199,11 @@ export interface InstancesCreateRequestSourceParamsWebCrawlerDiscoverOptions {
     | (string & {})
     | undefined;
 }
+export type InstancesCreateRequestSourceParamsWebCrawlerParseOptionsBrowserRenderingWaitUntil =
+  | "load"
+  | "domcontentloaded"
+  | "networkidle0"
+  | "networkidle2";
 export interface InstancesCreateRequestSourceParamsWebCrawlerParseOptionsContentSelectorItem {
   /** Glob pattern to match against the page URL path. Uses standard glob syntax: * matches within a segment, ** crosses directories. */
   path: string;
@@ -1213,6 +1218,11 @@ export type InstancesCreateRequestSourceParamsWebCrawlerParseOptionsIncludeHeade
 export type InstancesCreateRequestSourceParamsWebCrawlerParseOptionsSpecificSitemapsList =
   Array<string>;
 export interface InstancesCreateRequestSourceParamsWebCrawlerParseOptions {
+  /** Page load event Browser Rendering waits for before capturing content. Defaults to `networkidle2` when omitted. Use `load` or `domcontentloaded` for pages that keep network connections open and never reach network idle. Ignored when `use_browser_rendering` is false. */
+  browserRenderingWaitUntil?:
+    | InstancesCreateRequestSourceParamsWebCrawlerParseOptionsBrowserRenderingWaitUntil
+    | (string & {})
+    | undefined;
   /** List of path-to-selector mappings for extracting specific content from crawled pages. Each entry pairs a URL glob pattern with a CSS selector. The first matching path wins. The crawler stores and indexes only the matched HTML fragment. Omit the field to disable content selection; the API rejects empty arrays. */
   contentSelector?:
     | InstancesCreateRequestSourceParamsWebCrawlerParseOptionsContentSelectorList
@@ -1452,6 +1462,11 @@ export interface InstancesCreateResponseSourceParamsWebCrawlerDiscoverOptions {
   /** Where the crawler looks for URLs: 'sitemaps' reads sitemap XML only, 'links' follows page links only, 'all' does both. */
   source?: InstancesCreateResponseSourceParamsWebCrawlerDiscoverOptionsSource | null | undefined;
 }
+export type InstancesCreateResponseSourceParamsWebCrawlerParseOptionsBrowserRenderingWaitUntil =
+  | "load"
+  | "domcontentloaded"
+  | "networkidle0"
+  | "networkidle2";
 export type InstancesCreateResponseSourceParamsWebCrawlerParseOptionsContentSelectorItem =
   InstancesCreateRequestSourceParamsWebCrawlerParseOptionsContentSelectorItem;
 export type InstancesCreateResponseSourceParamsWebCrawlerParseOptionsContentSelectorList =
@@ -1462,6 +1477,11 @@ export type InstancesCreateResponseSourceParamsWebCrawlerParseOptionsIncludeHead
 export type InstancesCreateResponseSourceParamsWebCrawlerParseOptionsSpecificSitemapsList =
   Array<string>;
 export interface InstancesCreateResponseSourceParamsWebCrawlerParseOptions {
+  /** Page load event Browser Rendering waits for before capturing content. Defaults to `networkidle2` when omitted. Use `load` or `domcontentloaded` for pages that keep network connections open and never reach network idle. Ignored when `use_browser_rendering` is false. */
+  browserRenderingWaitUntil?:
+    | InstancesCreateResponseSourceParamsWebCrawlerParseOptionsBrowserRenderingWaitUntil
+    | null
+    | undefined;
   /** List of path-to-selector mappings for extracting specific content from crawled pages. Each entry pairs a URL glob pattern with a CSS selector. The first matching path wins. The crawler stores and indexes only the matched HTML fragment. Omit the field to disable content selection; the API rejects empty arrays. */
   contentSelector?:
     | InstancesCreateResponseSourceParamsWebCrawlerParseOptionsContentSelectorList
@@ -1816,6 +1836,11 @@ export interface NamespacesInstancesCreateRequestSourceParamsWebCrawlerDiscoverO
     | (string & {})
     | undefined;
 }
+export type NamespacesInstancesCreateRequestSourceParamsWebCrawlerParseOptionsBrowserRenderingWaitUntil =
+  | "load"
+  | "domcontentloaded"
+  | "networkidle0"
+  | "networkidle2";
 export type NamespacesInstancesCreateRequestSourceParamsWebCrawlerParseOptionsContentSelectorItem =
   InstancesCreateRequestSourceParamsWebCrawlerParseOptionsContentSelectorItem;
 export type NamespacesInstancesCreateRequestSourceParamsWebCrawlerParseOptionsContentSelectorList =
@@ -1826,6 +1851,11 @@ export type NamespacesInstancesCreateRequestSourceParamsWebCrawlerParseOptionsIn
 export type NamespacesInstancesCreateRequestSourceParamsWebCrawlerParseOptionsSpecificSitemapsList =
   Array<string>;
 export interface NamespacesInstancesCreateRequestSourceParamsWebCrawlerParseOptions {
+  /** Page load event Browser Rendering waits for before capturing content. Defaults to `networkidle2` when omitted. Use `load` or `domcontentloaded` for pages that keep network connections open and never reach network idle. Ignored when `use_browser_rendering` is false. */
+  browserRenderingWaitUntil?:
+    | NamespacesInstancesCreateRequestSourceParamsWebCrawlerParseOptionsBrowserRenderingWaitUntil
+    | (string & {})
+    | undefined;
   /** List of path-to-selector mappings for extracting specific content from crawled pages. Each entry pairs a URL glob pattern with a CSS selector. The first matching path wins. The crawler stores and indexes only the matched HTML fragment. Omit the field to disable content selection; the API rejects empty arrays. */
   contentSelector?:
     | NamespacesInstancesCreateRequestSourceParamsWebCrawlerParseOptionsContentSelectorList
@@ -2079,6 +2109,11 @@ export interface NamespacesInstancesCreateResponseSourceParamsWebCrawlerDiscover
     | null
     | undefined;
 }
+export type NamespacesInstancesCreateResponseSourceParamsWebCrawlerParseOptionsBrowserRenderingWaitUntil =
+  | "load"
+  | "domcontentloaded"
+  | "networkidle0"
+  | "networkidle2";
 export type NamespacesInstancesCreateResponseSourceParamsWebCrawlerParseOptionsContentSelectorItem =
   InstancesCreateRequestSourceParamsWebCrawlerParseOptionsContentSelectorItem;
 export type NamespacesInstancesCreateResponseSourceParamsWebCrawlerParseOptionsContentSelectorList =
@@ -2089,6 +2124,11 @@ export type NamespacesInstancesCreateResponseSourceParamsWebCrawlerParseOptionsI
 export type NamespacesInstancesCreateResponseSourceParamsWebCrawlerParseOptionsSpecificSitemapsList =
   Array<string>;
 export interface NamespacesInstancesCreateResponseSourceParamsWebCrawlerParseOptions {
+  /** Page load event Browser Rendering waits for before capturing content. Defaults to `networkidle2` when omitted. Use `load` or `domcontentloaded` for pages that keep network connections open and never reach network idle. Ignored when `use_browser_rendering` is false. */
+  browserRenderingWaitUntil?:
+    | NamespacesInstancesCreateResponseSourceParamsWebCrawlerParseOptionsBrowserRenderingWaitUntil
+    | null
+    | undefined;
   /** List of path-to-selector mappings for extracting specific content from crawled pages. Each entry pairs a URL glob pattern with a CSS selector. The first matching path wins. The crawler stores and indexes only the matched HTML fragment. Omit the field to disable content selection; the API rejects empty arrays. */
   contentSelector?:
     | NamespacesInstancesCreateResponseSourceParamsWebCrawlerParseOptionsContentSelectorList
@@ -2415,6 +2455,11 @@ export interface InstancesDeleteResponseSourceParamsWebCrawlerDiscoverOptions {
   /** Where the crawler looks for URLs: 'sitemaps' reads sitemap XML only, 'links' follows page links only, 'all' does both. */
   source?: InstancesDeleteResponseSourceParamsWebCrawlerDiscoverOptionsSource | null | undefined;
 }
+export type InstancesDeleteResponseSourceParamsWebCrawlerParseOptionsBrowserRenderingWaitUntil =
+  | "load"
+  | "domcontentloaded"
+  | "networkidle0"
+  | "networkidle2";
 export type InstancesDeleteResponseSourceParamsWebCrawlerParseOptionsContentSelectorItem =
   InstancesCreateRequestSourceParamsWebCrawlerParseOptionsContentSelectorItem;
 export type InstancesDeleteResponseSourceParamsWebCrawlerParseOptionsContentSelectorList =
@@ -2425,6 +2470,11 @@ export type InstancesDeleteResponseSourceParamsWebCrawlerParseOptionsIncludeHead
 export type InstancesDeleteResponseSourceParamsWebCrawlerParseOptionsSpecificSitemapsList =
   Array<string>;
 export interface InstancesDeleteResponseSourceParamsWebCrawlerParseOptions {
+  /** Page load event Browser Rendering waits for before capturing content. Defaults to `networkidle2` when omitted. Use `load` or `domcontentloaded` for pages that keep network connections open and never reach network idle. Ignored when `use_browser_rendering` is false. */
+  browserRenderingWaitUntil?:
+    | InstancesDeleteResponseSourceParamsWebCrawlerParseOptionsBrowserRenderingWaitUntil
+    | null
+    | undefined;
   /** List of path-to-selector mappings for extracting specific content from crawled pages. Each entry pairs a URL glob pattern with a CSS selector. The first matching path wins. The crawler stores and indexes only the matched HTML fragment. Omit the field to disable content selection; the API rejects empty arrays. */
   contentSelector?:
     | InstancesDeleteResponseSourceParamsWebCrawlerParseOptionsContentSelectorList
@@ -2693,6 +2743,11 @@ export interface NamespacesInstancesDeleteResponseSourceParamsWebCrawlerDiscover
     | null
     | undefined;
 }
+export type NamespacesInstancesDeleteResponseSourceParamsWebCrawlerParseOptionsBrowserRenderingWaitUntil =
+  | "load"
+  | "domcontentloaded"
+  | "networkidle0"
+  | "networkidle2";
 export type NamespacesInstancesDeleteResponseSourceParamsWebCrawlerParseOptionsContentSelectorItem =
   InstancesCreateRequestSourceParamsWebCrawlerParseOptionsContentSelectorItem;
 export type NamespacesInstancesDeleteResponseSourceParamsWebCrawlerParseOptionsContentSelectorList =
@@ -2703,6 +2758,11 @@ export type NamespacesInstancesDeleteResponseSourceParamsWebCrawlerParseOptionsI
 export type NamespacesInstancesDeleteResponseSourceParamsWebCrawlerParseOptionsSpecificSitemapsList =
   Array<string>;
 export interface NamespacesInstancesDeleteResponseSourceParamsWebCrawlerParseOptions {
+  /** Page load event Browser Rendering waits for before capturing content. Defaults to `networkidle2` when omitted. Use `load` or `domcontentloaded` for pages that keep network connections open and never reach network idle. Ignored when `use_browser_rendering` is false. */
+  browserRenderingWaitUntil?:
+    | NamespacesInstancesDeleteResponseSourceParamsWebCrawlerParseOptionsBrowserRenderingWaitUntil
+    | null
+    | undefined;
   /** List of path-to-selector mappings for extracting specific content from crawled pages. Each entry pairs a URL glob pattern with a CSS selector. The first matching path wins. The crawler stores and indexes only the matched HTML fragment. Omit the field to disable content selection; the API rejects empty arrays. */
   contentSelector?:
     | NamespacesInstancesDeleteResponseSourceParamsWebCrawlerParseOptionsContentSelectorList
@@ -3082,6 +3142,11 @@ export interface InstancesListResultItemSourceParamsWebCrawlerDiscoverOptions {
   maxAge?: number | null | undefined;
   source?: InstancesListResultItemSourceParamsWebCrawlerDiscoverOptionsSource | null | undefined;
 }
+export type InstancesListResultItemSourceParamsWebCrawlerParseOptionsBrowserRenderingWaitUntil =
+  | "load"
+  | "domcontentloaded"
+  | "networkidle0"
+  | "networkidle2";
 export interface InstancesListResultItemSourceParamsWebCrawlerParseOptionsContentSelectorItem {
   path: string;
   selector: string;
@@ -3094,6 +3159,10 @@ export type InstancesListResultItemSourceParamsWebCrawlerParseOptionsIncludeHead
 export type InstancesListResultItemSourceParamsWebCrawlerParseOptionsSpecificSitemapsList =
   Array<string>;
 export interface InstancesListResultItemSourceParamsWebCrawlerParseOptions {
+  browserRenderingWaitUntil?:
+    | InstancesListResultItemSourceParamsWebCrawlerParseOptionsBrowserRenderingWaitUntil
+    | null
+    | undefined;
   contentSelector?:
     | InstancesListResultItemSourceParamsWebCrawlerParseOptionsContentSelectorList
     | null
@@ -3446,6 +3515,11 @@ export interface NamespacesInstancesListResultItemSourceParamsWebCrawlerDiscover
     | null
     | undefined;
 }
+export type NamespacesInstancesListResultItemSourceParamsWebCrawlerParseOptionsBrowserRenderingWaitUntil =
+  | "load"
+  | "domcontentloaded"
+  | "networkidle0"
+  | "networkidle2";
 export type NamespacesInstancesListResultItemSourceParamsWebCrawlerParseOptionsContentSelectorItem =
   InstancesListResultItemSourceParamsWebCrawlerParseOptionsContentSelectorItem;
 export type NamespacesInstancesListResultItemSourceParamsWebCrawlerParseOptionsContentSelectorList =
@@ -3456,6 +3530,10 @@ export type NamespacesInstancesListResultItemSourceParamsWebCrawlerParseOptionsI
 export type NamespacesInstancesListResultItemSourceParamsWebCrawlerParseOptionsSpecificSitemapsList =
   Array<string>;
 export interface NamespacesInstancesListResultItemSourceParamsWebCrawlerParseOptions {
+  browserRenderingWaitUntil?:
+    | NamespacesInstancesListResultItemSourceParamsWebCrawlerParseOptionsBrowserRenderingWaitUntil
+    | null
+    | undefined;
   contentSelector?:
     | NamespacesInstancesListResultItemSourceParamsWebCrawlerParseOptionsContentSelectorList
     | null
@@ -3862,6 +3940,11 @@ export interface InstancesReadResponseSourceParamsWebCrawlerDiscoverOptions {
   /** Where the crawler looks for URLs: 'sitemaps' reads sitemap XML only, 'links' follows page links only, 'all' does both. */
   source?: InstancesReadResponseSourceParamsWebCrawlerDiscoverOptionsSource | null | undefined;
 }
+export type InstancesReadResponseSourceParamsWebCrawlerParseOptionsBrowserRenderingWaitUntil =
+  | "load"
+  | "domcontentloaded"
+  | "networkidle0"
+  | "networkidle2";
 export type InstancesReadResponseSourceParamsWebCrawlerParseOptionsContentSelectorItem =
   InstancesCreateRequestSourceParamsWebCrawlerParseOptionsContentSelectorItem;
 export type InstancesReadResponseSourceParamsWebCrawlerParseOptionsContentSelectorList =
@@ -3872,6 +3955,11 @@ export type InstancesReadResponseSourceParamsWebCrawlerParseOptionsIncludeHeader
 export type InstancesReadResponseSourceParamsWebCrawlerParseOptionsSpecificSitemapsList =
   Array<string>;
 export interface InstancesReadResponseSourceParamsWebCrawlerParseOptions {
+  /** Page load event Browser Rendering waits for before capturing content. Defaults to `networkidle2` when omitted. Use `load` or `domcontentloaded` for pages that keep network connections open and never reach network idle. Ignored when `use_browser_rendering` is false. */
+  browserRenderingWaitUntil?:
+    | InstancesReadResponseSourceParamsWebCrawlerParseOptionsBrowserRenderingWaitUntil
+    | null
+    | undefined;
   /** List of path-to-selector mappings for extracting specific content from crawled pages. Each entry pairs a URL glob pattern with a CSS selector. The first matching path wins. The crawler stores and indexes only the matched HTML fragment. Omit the field to disable content selection; the API rejects empty arrays. */
   contentSelector?:
     | InstancesReadResponseSourceParamsWebCrawlerParseOptionsContentSelectorList
@@ -4183,6 +4271,11 @@ export interface NamespacesInstancesReadResponseSourceParamsWebCrawlerDiscoverOp
     | null
     | undefined;
 }
+export type NamespacesInstancesReadResponseSourceParamsWebCrawlerParseOptionsBrowserRenderingWaitUntil =
+  | "load"
+  | "domcontentloaded"
+  | "networkidle0"
+  | "networkidle2";
 export type NamespacesInstancesReadResponseSourceParamsWebCrawlerParseOptionsContentSelectorItem =
   InstancesCreateRequestSourceParamsWebCrawlerParseOptionsContentSelectorItem;
 export type NamespacesInstancesReadResponseSourceParamsWebCrawlerParseOptionsContentSelectorList =
@@ -4193,6 +4286,11 @@ export type NamespacesInstancesReadResponseSourceParamsWebCrawlerParseOptionsInc
 export type NamespacesInstancesReadResponseSourceParamsWebCrawlerParseOptionsSpecificSitemapsList =
   Array<string>;
 export interface NamespacesInstancesReadResponseSourceParamsWebCrawlerParseOptions {
+  /** Page load event Browser Rendering waits for before capturing content. Defaults to `networkidle2` when omitted. Use `load` or `domcontentloaded` for pages that keep network connections open and never reach network idle. Ignored when `use_browser_rendering` is false. */
+  browserRenderingWaitUntil?:
+    | NamespacesInstancesReadResponseSourceParamsWebCrawlerParseOptionsBrowserRenderingWaitUntil
+    | null
+    | undefined;
   /** List of path-to-selector mappings for extracting specific content from crawled pages. Each entry pairs a URL glob pattern with a CSS selector. The first matching path wins. The crawler stores and indexes only the matched HTML fragment. Omit the field to disable content selection; the API rejects empty arrays. */
   contentSelector?:
     | NamespacesInstancesReadResponseSourceParamsWebCrawlerParseOptionsContentSelectorList
@@ -5083,6 +5181,11 @@ export interface InstancesUpdateRequestSourceParamsWebCrawlerDiscoverOptions {
     | (string & {})
     | undefined;
 }
+export type InstancesUpdateRequestSourceParamsWebCrawlerParseOptionsBrowserRenderingWaitUntil =
+  | "load"
+  | "domcontentloaded"
+  | "networkidle0"
+  | "networkidle2";
 export type InstancesUpdateRequestSourceParamsWebCrawlerParseOptionsContentSelectorItem =
   InstancesCreateRequestSourceParamsWebCrawlerParseOptionsContentSelectorItem;
 export type InstancesUpdateRequestSourceParamsWebCrawlerParseOptionsContentSelectorList =
@@ -5093,6 +5196,11 @@ export type InstancesUpdateRequestSourceParamsWebCrawlerParseOptionsIncludeHeade
 export type InstancesUpdateRequestSourceParamsWebCrawlerParseOptionsSpecificSitemapsList =
   Array<string>;
 export interface InstancesUpdateRequestSourceParamsWebCrawlerParseOptions {
+  /** Page load event Browser Rendering waits for before capturing content. Defaults to `networkidle2` when omitted. Use `load` or `domcontentloaded` for pages that keep network connections open and never reach network idle. Ignored when `use_browser_rendering` is false. */
+  browserRenderingWaitUntil?:
+    | InstancesUpdateRequestSourceParamsWebCrawlerParseOptionsBrowserRenderingWaitUntil
+    | (string & {})
+    | undefined;
   /** List of path-to-selector mappings for extracting specific content from crawled pages. Each entry pairs a URL glob pattern with a CSS selector. The first matching path wins. The crawler stores and indexes only the matched HTML fragment. Omit the field to disable content selection; the API rejects empty arrays. */
   contentSelector?:
     | InstancesUpdateRequestSourceParamsWebCrawlerParseOptionsContentSelectorList
@@ -5318,6 +5426,11 @@ export interface InstancesUpdateResponseSourceParamsWebCrawlerDiscoverOptions {
   /** Where the crawler looks for URLs: 'sitemaps' reads sitemap XML only, 'links' follows page links only, 'all' does both. */
   source?: InstancesUpdateResponseSourceParamsWebCrawlerDiscoverOptionsSource | null | undefined;
 }
+export type InstancesUpdateResponseSourceParamsWebCrawlerParseOptionsBrowserRenderingWaitUntil =
+  | "load"
+  | "domcontentloaded"
+  | "networkidle0"
+  | "networkidle2";
 export type InstancesUpdateResponseSourceParamsWebCrawlerParseOptionsContentSelectorItem =
   InstancesCreateRequestSourceParamsWebCrawlerParseOptionsContentSelectorItem;
 export type InstancesUpdateResponseSourceParamsWebCrawlerParseOptionsContentSelectorList =
@@ -5328,6 +5441,11 @@ export type InstancesUpdateResponseSourceParamsWebCrawlerParseOptionsIncludeHead
 export type InstancesUpdateResponseSourceParamsWebCrawlerParseOptionsSpecificSitemapsList =
   Array<string>;
 export interface InstancesUpdateResponseSourceParamsWebCrawlerParseOptions {
+  /** Page load event Browser Rendering waits for before capturing content. Defaults to `networkidle2` when omitted. Use `load` or `domcontentloaded` for pages that keep network connections open and never reach network idle. Ignored when `use_browser_rendering` is false. */
+  browserRenderingWaitUntil?:
+    | InstancesUpdateResponseSourceParamsWebCrawlerParseOptionsBrowserRenderingWaitUntil
+    | null
+    | undefined;
   /** List of path-to-selector mappings for extracting specific content from crawled pages. Each entry pairs a URL glob pattern with a CSS selector. The first matching path wins. The crawler stores and indexes only the matched HTML fragment. Omit the field to disable content selection; the API rejects empty arrays. */
   contentSelector?:
     | InstancesUpdateResponseSourceParamsWebCrawlerParseOptionsContentSelectorList
@@ -5665,6 +5783,11 @@ export interface NamespacesInstancesUpdateRequestSourceParamsWebCrawlerDiscoverO
     | (string & {})
     | undefined;
 }
+export type NamespacesInstancesUpdateRequestSourceParamsWebCrawlerParseOptionsBrowserRenderingWaitUntil =
+  | "load"
+  | "domcontentloaded"
+  | "networkidle0"
+  | "networkidle2";
 export type NamespacesInstancesUpdateRequestSourceParamsWebCrawlerParseOptionsContentSelectorItem =
   InstancesCreateRequestSourceParamsWebCrawlerParseOptionsContentSelectorItem;
 export type NamespacesInstancesUpdateRequestSourceParamsWebCrawlerParseOptionsContentSelectorList =
@@ -5675,6 +5798,11 @@ export type NamespacesInstancesUpdateRequestSourceParamsWebCrawlerParseOptionsIn
 export type NamespacesInstancesUpdateRequestSourceParamsWebCrawlerParseOptionsSpecificSitemapsList =
   Array<string>;
 export interface NamespacesInstancesUpdateRequestSourceParamsWebCrawlerParseOptions {
+  /** Page load event Browser Rendering waits for before capturing content. Defaults to `networkidle2` when omitted. Use `load` or `domcontentloaded` for pages that keep network connections open and never reach network idle. Ignored when `use_browser_rendering` is false. */
+  browserRenderingWaitUntil?:
+    | NamespacesInstancesUpdateRequestSourceParamsWebCrawlerParseOptionsBrowserRenderingWaitUntil
+    | (string & {})
+    | undefined;
   /** List of path-to-selector mappings for extracting specific content from crawled pages. Each entry pairs a URL glob pattern with a CSS selector. The first matching path wins. The crawler stores and indexes only the matched HTML fragment. Omit the field to disable content selection; the API rejects empty arrays. */
   contentSelector?:
     | NamespacesInstancesUpdateRequestSourceParamsWebCrawlerParseOptionsContentSelectorList
@@ -5931,6 +6059,11 @@ export interface NamespacesInstancesUpdateResponseSourceParamsWebCrawlerDiscover
     | null
     | undefined;
 }
+export type NamespacesInstancesUpdateResponseSourceParamsWebCrawlerParseOptionsBrowserRenderingWaitUntil =
+  | "load"
+  | "domcontentloaded"
+  | "networkidle0"
+  | "networkidle2";
 export type NamespacesInstancesUpdateResponseSourceParamsWebCrawlerParseOptionsContentSelectorItem =
   InstancesCreateRequestSourceParamsWebCrawlerParseOptionsContentSelectorItem;
 export type NamespacesInstancesUpdateResponseSourceParamsWebCrawlerParseOptionsContentSelectorList =
@@ -5941,6 +6074,11 @@ export type NamespacesInstancesUpdateResponseSourceParamsWebCrawlerParseOptionsI
 export type NamespacesInstancesUpdateResponseSourceParamsWebCrawlerParseOptionsSpecificSitemapsList =
   Array<string>;
 export interface NamespacesInstancesUpdateResponseSourceParamsWebCrawlerParseOptions {
+  /** Page load event Browser Rendering waits for before capturing content. Defaults to `networkidle2` when omitted. Use `load` or `domcontentloaded` for pages that keep network connections open and never reach network idle. Ignored when `use_browser_rendering` is false. */
+  browserRenderingWaitUntil?:
+    | NamespacesInstancesUpdateResponseSourceParamsWebCrawlerParseOptionsBrowserRenderingWaitUntil
+    | null
+    | undefined;
   /** List of path-to-selector mappings for extracting specific content from crawled pages. Each entry pairs a URL glob pattern with a CSS selector. The first matching path wins. The crawler stores and indexes only the matched HTML fragment. Omit the field to disable content selection; the API rejects empty arrays. */
   contentSelector?:
     | NamespacesInstancesUpdateResponseSourceParamsWebCrawlerParseOptionsContentSelectorList
@@ -7825,6 +7963,9 @@ function __c15(j: number): any {
     case 12:
       return S.suspend(() =>
         S.Struct({
+          browserRenderingWaitUntil: S.optional(
+            S.NullOr(S.String).pipe(T.Body("browser_rendering_wait_until")),
+          ),
           contentSelector: S.optional(
             S.NullOr(__S(245, __c15, 5)).pipe(T.Body("content_selector")),
           ),
@@ -7999,6 +8140,9 @@ function __c17(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
+          browserRenderingWaitUntil: S.optional(
+            S.String.pipe(T.Body("browser_rendering_wait_until")),
+          ),
           contentSelector: S.optional(__S(245, __c15, 5).pipe(T.Body("content_selector"))),
           includeHeaders: S.optional(__S(246, __c15, 6).pipe(T.Body("include_headers"))),
           includeImages: S.optional(S.Boolean.pipe(T.Body("include_images"))),
