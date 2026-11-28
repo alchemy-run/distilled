@@ -84,74 +84,19 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-/** Configuration for the Compute Engine PD CSI driver. */
-export interface GcePersistentDiskCsiDriverConfig {
-  /** Whether the Compute Engine PD CSI driver is enabled for this cluster. */
+/** Configuration options for the Config Connector add-on. */
+export interface ConfigConnectorConfig {
+  /** Whether Cloud Connector is enabled for this cluster. */
   enabled?: boolean | undefined;
-}
-/** Configuration for the Kubernetes Dashboard. */
-export interface KubernetesDashboard {
-  /** Whether the Kubernetes Dashboard is enabled for this cluster. */
-  disabled?: boolean | undefined;
-}
-/** Configuration for NetworkPolicy. This only tracks whether the addon is enabled or not on the Master, it does not track whether network policy is enabled for the nodes. */
-export interface NetworkPolicyConfig {
-  /** Whether NetworkPolicy is enabled for this cluster. */
-  disabled?: boolean | undefined;
 }
 /** Configuration for the Slice Controller. */
 export interface SliceControllerConfig {
   /** Optional. Indicates whether Slice Controller is enabled in the cluster. */
   enabled?: boolean | undefined;
 }
-/** Configuration for the Cloud Storage Fuse CSI driver. */
-export interface GcsFuseCsiDriverConfig {
-  /** Whether the Cloud Storage Fuse CSI driver is enabled for this cluster. */
-  enabled?: boolean | undefined;
-}
-/** Configuration for the Lustre CSI driver. */
-export interface LustreCsiDriverConfig {
-  /** If set to true, the Lustre CSI driver will install Lustre kernel modules using port 6988. This serves as a workaround for a port conflict with the gke-metadata-server. This field is required ONLY under the following conditions: 1. The GKE node version is older than 1.33.2-gke.4655000. 2. You're connecting to a Lustre instance that has the 'gke-support-enabled' flag. Deprecated: This flag is no longer required as of GKE node version 1.33.2-gke.4655000, unless you are connecting to a Lustre instance that has the `gke-support-enabled` flag. */
-  enableLegacyLustrePort?: boolean | undefined;
-  /** Whether the Lustre CSI driver is enabled for this cluster. */
-  enabled?: boolean | undefined;
-  /** When set to true, this disables multi-NIC support for the Lustre CSI driver. By default, GKE enables multi-NIC support, which allows the Lustre CSI driver to automatically detect and configure all suitable network interfaces on a node to maximize I/O performance for demanding workloads. */
-  disableMultiNic?: boolean | undefined;
-}
-/** Configuration for NodeLocal DNSCache */
-export interface DnsCacheConfig {
-  /** Whether NodeLocal DNSCache is enabled for this cluster. */
-  enabled?: boolean | undefined;
-}
-/** Configuration for the Slurm Operator. */
-export interface SlurmOperatorConfig {
-  /** Whether the Slurm Operator is enabled in the cluster. */
-  enabled?: boolean | undefined;
-}
-/** Configuration for the AgentSandbox addon. */
-export interface AgentSandboxConfig {
-  /** Optional. Whether AgentSandbox is enabled for this cluster. */
-  enabled?: boolean | undefined;
-}
-export type CloudRunConfigLoadBalancerTypeEnum =
-  | "LOAD_BALANCER_TYPE_UNSPECIFIED"
-  | "LOAD_BALANCER_TYPE_EXTERNAL"
-  | "LOAD_BALANCER_TYPE_INTERNAL";
-/** Configuration options for the Cloud Run feature. */
-export interface CloudRunConfig {
-  /** Whether Cloud Run addon is enabled for this cluster. */
-  disabled?: boolean | undefined;
-  /** Which load balancer type is installed for Cloud Run. */
-  loadBalancerType?: CloudRunConfigLoadBalancerTypeEnum | (string & {}) | undefined;
-}
-/** Configuration options for the Config Connector add-on. */
-export interface ConfigConnectorConfig {
-  /** Whether Cloud Connector is enabled for this cluster. */
-  enabled?: boolean | undefined;
-}
-/** Configuration for the Backup for GKE Agent. */
-export interface GkeBackupAgentConfig {
-  /** Whether the Backup for GKE agent is enabled for this cluster. */
+/** Configuration for the Stateful HA add-on. */
+export interface StatefulHAConfig {
+  /** Whether the Stateful HA add-on is enabled for this cluster. */
   enabled?: boolean | undefined;
 }
 /** RayClusterLoggingConfig specifies logging configuration for Ray clusters. */
@@ -166,21 +111,86 @@ export interface RayClusterMonitoringConfig {
 }
 /** Configuration options for the Ray Operator add-on. */
 export interface RayOperatorConfig {
-  /** Whether the Ray addon is enabled for this cluster. */
-  enabled?: boolean | undefined;
   /** Optional. Logging configuration for Ray clusters. */
   rayClusterLoggingConfig?: RayClusterLoggingConfig | undefined;
+  /** Whether the Ray addon is enabled for this cluster. */
+  enabled?: boolean | undefined;
   /** Optional. Monitoring configuration for Ray clusters. */
   rayClusterMonitoringConfig?: RayClusterMonitoringConfig | undefined;
+}
+/** Configuration for the Lustre CSI driver. */
+export interface LustreCsiDriverConfig {
+  /** Whether the Lustre CSI driver is enabled for this cluster. */
+  enabled?: boolean | undefined;
+  /** If set to true, the Lustre CSI driver will install Lustre kernel modules using port 6988. This serves as a workaround for a port conflict with the gke-metadata-server. This field is required ONLY under the following conditions: 1. The GKE node version is older than 1.33.2-gke.4655000. 2. You're connecting to a Lustre instance that has the 'gke-support-enabled' flag. Deprecated: This flag is no longer required as of GKE node version 1.33.2-gke.4655000, unless you are connecting to a Lustre instance that has the `gke-support-enabled` flag. */
+  enableLegacyLustrePort?: boolean | undefined;
+  /** When set to true, this disables multi-NIC support for the Lustre CSI driver. By default, GKE enables multi-NIC support, which allows the Lustre CSI driver to automatically detect and configure all suitable network interfaces on a node to maximize I/O performance for demanding workloads. */
+  disableMultiNic?: boolean | undefined;
+}
+/** Configuration options for the horizontal pod autoscaling feature, which increases or decreases the number of replica pods a replication controller has based on the resource usage of the existing pods. */
+export interface HorizontalPodAutoscaling {
+  /** Whether the Horizontal Pod Autoscaling feature is enabled in the cluster. When enabled, it ensures that metrics are collected into Stackdriver Monitoring. */
+  disabled?: boolean | undefined;
+}
+/** Configuration for the Compute Engine PD CSI driver. */
+export interface GcePersistentDiskCsiDriverConfig {
+  /** Whether the Compute Engine PD CSI driver is enabled for this cluster. */
+  enabled?: boolean | undefined;
+}
+/** Configuration for the Wiz Sensor add-on. */
+export interface WizSensorConfig {
+  /** Optional. The GCP Secret Manager URI for the Wiz proxy configuration. Format: "projects/{project_id}/secrets/{secret_name}/versions/{version}" or Format: "projects/{project_id}/locations/{location_id}/secrets/{secret_name}/versions/{version}" */
+  proxySecretUri?: string | undefined;
+  /** Optional. The GCP Secret Manager URI for the Wiz API key secret. Format: "projects/{project_id}/secrets/{secret_name}/versions/{version}" or Format: "projects/{project_id}/locations/{location_id}/secrets/{secret_name}/versions/{version}" */
+  apiKeySecretUri?: string | undefined;
+  /** Optional. Whether the Wiz Sensor add-on is enabled for this cluster. */
+  enabled?: boolean | undefined;
+  /** Optional. The GCP Secret Manager URI for the Wiz registry secret. Format: "projects/{project_id}/secrets/{secret_name}/versions/{version}" or Format: "projects/{project_id}/locations/{location_id}/secrets/{secret_name}/versions/{version}" */
+  registrySecretUri?: string | undefined;
+}
+/** Deprecated: The Parallelstore CSI driver is no longer supported. Configuration for the Cloud Storage Parallelstore CSI driver. */
+export interface ParallelstoreCsiDriverConfig {
+  /** Whether the Cloud Storage Parallelstore CSI driver is enabled for this cluster. */
+  enabled?: boolean | undefined;
+}
+/** Configuration for the High Scale Checkpointing. */
+export interface HighScaleCheckpointingConfig {
+  /** Whether the High Scale Checkpointing is enabled for this cluster. */
+  enabled?: boolean | undefined;
+}
+/** Configuration for the AgentSandbox addon. */
+export interface AgentSandboxConfig {
+  /** Optional. Whether AgentSandbox is enabled for this cluster. */
+  enabled?: boolean | undefined;
+}
+/** Configuration for NetworkPolicy. This only tracks whether the addon is enabled or not on the Master, it does not track whether network policy is enabled for the nodes. */
+export interface NetworkPolicyConfig {
+  /** Whether NetworkPolicy is enabled for this cluster. */
+  disabled?: boolean | undefined;
+}
+/** Configuration for NodeLocal DNSCache */
+export interface DnsCacheConfig {
+  /** Whether NodeLocal DNSCache is enabled for this cluster. */
+  enabled?: boolean | undefined;
+}
+/** Configuration for the Kubernetes Dashboard. */
+export interface KubernetesDashboard {
+  /** Whether the Kubernetes Dashboard is enabled for this cluster. */
+  disabled?: boolean | undefined;
+}
+/** Configuration for the GKE Node Readiness Controller. */
+export interface NodeReadinessConfig {
+  /** Optional. Whether the GKE Node Readiness Controller is enabled for this cluster. */
+  enabled?: boolean | undefined;
 }
 /** Configuration for the Filestore CSI driver. */
 export interface GcpFilestoreCsiDriverConfig {
   /** Whether the Filestore CSI driver is enabled for this cluster. */
   enabled?: boolean | undefined;
 }
-/** PodSnapshotConfig is the configuration for GKE Pod Snapshots feature. */
-export interface PodSnapshotConfig {
-  /** Whether or not the Pod Snapshots feature is enabled. */
+/** Configuration for the Cloud Storage Fuse CSI driver. */
+export interface GcsFuseCsiDriverConfig {
+  /** Whether the Cloud Storage Fuse CSI driver is enabled for this cluster. */
   enabled?: boolean | undefined;
 }
 /** Configuration options for the KALM addon. */
@@ -188,129 +198,119 @@ export interface KalmConfig {
   /** Whether KALM is enabled for this cluster. */
   enabled?: boolean | undefined;
 }
-/** Configuration for the GKE Node Readiness Controller. */
-export interface NodeReadinessConfig {
-  /** Optional. Whether the GKE Node Readiness Controller is enabled for this cluster. */
+/** Configuration for the Slurm Operator. */
+export interface SlurmOperatorConfig {
+  /** Whether the Slurm Operator is enabled in the cluster. */
   enabled?: boolean | undefined;
-}
-/** Configuration options for the horizontal pod autoscaling feature, which increases or decreases the number of replica pods a replication controller has based on the resource usage of the existing pods. */
-export interface HorizontalPodAutoscaling {
-  /** Whether the Horizontal Pod Autoscaling feature is enabled in the cluster. When enabled, it ensures that metrics are collected into Stackdriver Monitoring. */
-  disabled?: boolean | undefined;
-}
-/** Configuration for the High Scale Checkpointing. */
-export interface HighScaleCheckpointingConfig {
-  /** Whether the High Scale Checkpointing is enabled for this cluster. */
-  enabled?: boolean | undefined;
-}
-/** Configuration for the Stateful HA add-on. */
-export interface StatefulHAConfig {
-  /** Whether the Stateful HA add-on is enabled for this cluster. */
-  enabled?: boolean | undefined;
-}
-export type IstioConfigAuthEnum = "AUTH_NONE" | "AUTH_MUTUAL_TLS";
-/** Configuration options for Istio addon. */
-export interface IstioConfig {
-  /** Whether Istio is enabled for this cluster. */
-  disabled?: boolean | undefined;
-  /** The specified Istio auth mode, either none, or mutual TLS. */
-  auth?: IstioConfigAuthEnum | (string & {}) | undefined;
 }
 /** Configuration options for the HTTP (L7) load balancing controller addon, which makes it easy to set up HTTP load balancers for services in a cluster. */
 export interface HttpLoadBalancing {
   /** Whether the HTTP Load Balancing controller is enabled in the cluster. When enabled, it runs a small pod in the cluster that manages the load balancers. */
   disabled?: boolean | undefined;
 }
-/** Configuration for the Wiz Sensor add-on. */
-export interface WizSensorConfig {
-  /** Optional. The GCP Secret Manager URI for the Wiz registry secret. Format: "projects/{project_id}/secrets/{secret_name}/versions/{version}" or Format: "projects/{project_id}/locations/{location_id}/secrets/{secret_name}/versions/{version}" */
-  registrySecretUri?: string | undefined;
-  /** Optional. The GCP Secret Manager URI for the Wiz proxy configuration. Format: "projects/{project_id}/secrets/{secret_name}/versions/{version}" or Format: "projects/{project_id}/locations/{location_id}/secrets/{secret_name}/versions/{version}" */
-  proxySecretUri?: string | undefined;
-  /** Optional. The GCP Secret Manager URI for the Wiz API key secret. Format: "projects/{project_id}/secrets/{secret_name}/versions/{version}" or Format: "projects/{project_id}/locations/{location_id}/secrets/{secret_name}/versions/{version}" */
-  apiKeySecretUri?: string | undefined;
-  /** Optional. Whether the Wiz Sensor add-on is enabled for this cluster. */
+/** Configuration for the Backup for GKE Agent. */
+export interface GkeBackupAgentConfig {
+  /** Whether the Backup for GKE agent is enabled for this cluster. */
   enabled?: boolean | undefined;
 }
-/** Deprecated: The Parallelstore CSI driver is no longer supported. Configuration for the Cloud Storage Parallelstore CSI driver. */
-export interface ParallelstoreCsiDriverConfig {
-  /** Whether the Cloud Storage Parallelstore CSI driver is enabled for this cluster. */
+export type IstioConfigAuthEnum = "AUTH_NONE" | "AUTH_MUTUAL_TLS";
+/** Configuration options for Istio addon. */
+export interface IstioConfig {
+  /** The specified Istio auth mode, either none, or mutual TLS. */
+  auth?: IstioConfigAuthEnum | (string & {}) | undefined;
+  /** Whether Istio is enabled for this cluster. */
+  disabled?: boolean | undefined;
+}
+export type CloudRunConfigLoadBalancerTypeEnum =
+  | "LOAD_BALANCER_TYPE_UNSPECIFIED"
+  | "LOAD_BALANCER_TYPE_EXTERNAL"
+  | "LOAD_BALANCER_TYPE_INTERNAL";
+/** Configuration options for the Cloud Run feature. */
+export interface CloudRunConfig {
+  /** Which load balancer type is installed for Cloud Run. */
+  loadBalancerType?: CloudRunConfigLoadBalancerTypeEnum | (string & {}) | undefined;
+  /** Whether Cloud Run addon is enabled for this cluster. */
+  disabled?: boolean | undefined;
+}
+/** PodSnapshotConfig is the configuration for GKE Pod Snapshots feature. */
+export interface PodSnapshotConfig {
+  /** Whether or not the Pod Snapshots feature is enabled. */
   enabled?: boolean | undefined;
 }
 /** Configuration for the addons that can be automatically spun up in the cluster, enabling additional functionality. */
 export interface AddonsConfig {
-  /** Configuration for the Compute Engine Persistent Disk CSI driver. */
-  gcePersistentDiskCsiDriverConfig?: GcePersistentDiskCsiDriverConfig | undefined;
-  /** Configuration for the Kubernetes Dashboard. This addon is deprecated, and will be disabled in 1.15. It is recommended to use the Cloud Console to manage and monitor your Kubernetes clusters, workloads and applications. For more information, see: https://cloud.google.com/kubernetes-engine/docs/concepts/dashboards */
-  kubernetesDashboard?: KubernetesDashboard | undefined;
-  /** Configuration for NetworkPolicy. This only tracks whether the addon is enabled or not on the Master, it does not track whether network policy is enabled for the nodes. */
-  networkPolicyConfig?: NetworkPolicyConfig | undefined;
-  /** Optional. Configuration for the slice controller add-on. */
-  sliceControllerConfig?: SliceControllerConfig | undefined;
-  /** Configuration for the Cloud Storage Fuse CSI driver. */
-  gcsFuseCsiDriverConfig?: GcsFuseCsiDriverConfig | undefined;
-  /** Configuration for the Lustre CSI driver. */
-  lustreCsiDriverConfig?: LustreCsiDriverConfig | undefined;
-  /** Configuration for NodeLocalDNS, a dns cache running on cluster nodes */
-  dnsCacheConfig?: DnsCacheConfig | undefined;
-  /** Configuration for the Slurm Operator. */
-  slurmOperatorConfig?: SlurmOperatorConfig | undefined;
-  /** Optional. Configuration for the AgentSandbox addon. */
-  agentSandboxConfig?: AgentSandboxConfig | undefined;
-  /** Configuration for the Cloud Run addon. The `IstioConfig` addon must be enabled in order to enable Cloud Run addon. This option can only be enabled at cluster creation time. */
-  cloudRunConfig?: CloudRunConfig | undefined;
   /** Configuration for the ConfigConnector add-on, a Kubernetes extension to manage hosted Google Cloud services through the Kubernetes API. */
   configConnectorConfig?: ConfigConnectorConfig | undefined;
-  /** Configuration for the Backup for GKE agent addon. */
-  gkeBackupAgentConfig?: GkeBackupAgentConfig | undefined;
-  /** Optional. Configuration for Ray Operator addon. */
-  rayOperatorConfig?: RayOperatorConfig | undefined;
-  /** Configuration for the Filestore CSI driver. */
-  gcpFilestoreCsiDriverConfig?: GcpFilestoreCsiDriverConfig | undefined;
-  /** Configuration for the Pod Snapshot feature. */
-  podSnapshotConfig?: PodSnapshotConfig | undefined;
-  /** Configuration for the KALM addon, which manages the lifecycle of k8s applications. */
-  kalmConfig?: KalmConfig | undefined;
-  /** Optional. Configuration for NodeReadinessController add-on. */
-  nodeReadinessConfig?: NodeReadinessConfig | undefined;
-  /** Configuration for the horizontal pod autoscaling feature, which increases or decreases the number of replica pods a replication controller has based on the resource usage of the existing pods. */
-  horizontalPodAutoscaling?: HorizontalPodAutoscaling | undefined;
-  /** Configuration for the High Scale Checkpointing add-on. */
-  highScaleCheckpointingConfig?: HighScaleCheckpointingConfig | undefined;
+  /** Optional. Configuration for the slice controller add-on. */
+  sliceControllerConfig?: SliceControllerConfig | undefined;
   /** Optional. Configuration for the StatefulHA add-on. */
   statefulHaConfig?: StatefulHAConfig | undefined;
-  /** Configuration for Istio, an open platform to connect, manage, and secure microservices. */
-  istioConfig?: IstioConfig | undefined;
-  /** Configuration for the HTTP (L7) load balancing controller addon, which makes it easy to set up HTTP load balancers for services in a cluster. */
-  httpLoadBalancing?: HttpLoadBalancing | undefined;
+  /** Optional. Configuration for Ray Operator addon. */
+  rayOperatorConfig?: RayOperatorConfig | undefined;
+  /** Configuration for the Lustre CSI driver. */
+  lustreCsiDriverConfig?: LustreCsiDriverConfig | undefined;
+  /** Configuration for the horizontal pod autoscaling feature, which increases or decreases the number of replica pods a replication controller has based on the resource usage of the existing pods. */
+  horizontalPodAutoscaling?: HorizontalPodAutoscaling | undefined;
+  /** Configuration for the Compute Engine Persistent Disk CSI driver. */
+  gcePersistentDiskCsiDriverConfig?: GcePersistentDiskCsiDriverConfig | undefined;
   /** Optional. Configuration for the Wiz Sensor add-on. */
   wizSensorConfig?: WizSensorConfig | undefined;
   /** Deprecated: The Parallelstore CSI driver is no longer supported. Configuration for the Cloud Storage Parallelstore CSI driver. */
   parallelstoreCsiDriverConfig?: ParallelstoreCsiDriverConfig | undefined;
+  /** Configuration for the High Scale Checkpointing add-on. */
+  highScaleCheckpointingConfig?: HighScaleCheckpointingConfig | undefined;
+  /** Optional. Configuration for the AgentSandbox addon. */
+  agentSandboxConfig?: AgentSandboxConfig | undefined;
+  /** Configuration for NetworkPolicy. This only tracks whether the addon is enabled or not on the Master, it does not track whether network policy is enabled for the nodes. */
+  networkPolicyConfig?: NetworkPolicyConfig | undefined;
+  /** Configuration for NodeLocalDNS, a dns cache running on cluster nodes */
+  dnsCacheConfig?: DnsCacheConfig | undefined;
+  /** Configuration for the Kubernetes Dashboard. This addon is deprecated, and will be disabled in 1.15. It is recommended to use the Cloud Console to manage and monitor your Kubernetes clusters, workloads and applications. For more information, see: https://cloud.google.com/kubernetes-engine/docs/concepts/dashboards */
+  kubernetesDashboard?: KubernetesDashboard | undefined;
+  /** Optional. Configuration for NodeReadinessController add-on. */
+  nodeReadinessConfig?: NodeReadinessConfig | undefined;
+  /** Configuration for the Filestore CSI driver. */
+  gcpFilestoreCsiDriverConfig?: GcpFilestoreCsiDriverConfig | undefined;
+  /** Configuration for the Cloud Storage Fuse CSI driver. */
+  gcsFuseCsiDriverConfig?: GcsFuseCsiDriverConfig | undefined;
+  /** Configuration for the KALM addon, which manages the lifecycle of k8s applications. */
+  kalmConfig?: KalmConfig | undefined;
+  /** Configuration for the Slurm Operator. */
+  slurmOperatorConfig?: SlurmOperatorConfig | undefined;
+  /** Configuration for the HTTP (L7) load balancing controller addon, which makes it easy to set up HTTP load balancers for services in a cluster. */
+  httpLoadBalancing?: HttpLoadBalancing | undefined;
+  /** Configuration for the Backup for GKE agent addon. */
+  gkeBackupAgentConfig?: GkeBackupAgentConfig | undefined;
+  /** Configuration for Istio, an open platform to connect, manage, and secure microservices. */
+  istioConfig?: IstioConfig | undefined;
+  /** Configuration for the Cloud Run addon. The `IstioConfig` addon must be enabled in order to enable Cloud Run addon. This option can only be enabled at cluster creation time. */
+  cloudRunConfig?: CloudRunConfig | undefined;
+  /** Configuration for the Pod Snapshot feature. */
+  podSnapshotConfig?: PodSnapshotConfig | undefined;
 }
 /** SetAddonsRequest sets the addons associated with the cluster. */
 export interface SetAddonsConfigRequest {
-  /** Required. The desired configurations for the various addons available to run in the cluster. */
-  addonsConfig?: AddonsConfig | undefined;
-  /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
-  projectId?: string | undefined;
-  /** Deprecated. The name of the cluster to upgrade. This field has been deprecated and replaced by the name field. */
-  clusterId?: string | undefined;
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
   zone?: string | undefined;
+  /** Deprecated. The name of the cluster to upgrade. This field has been deprecated and replaced by the name field. */
+  clusterId?: string | undefined;
+  /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
+  projectId?: string | undefined;
+  /** Required. The desired configurations for the various addons available to run in the cluster. */
+  addonsConfig?: AddonsConfig | undefined;
   /** The name (project, location, cluster) of the cluster to set addons. Specified in the format `projects/*\/locations/*\/clusters/*`. */
   name?: string | undefined;
 }
 export interface AddonsProjectsZonesClustersRequest extends Omit<
   SetAddonsConfigRequest,
-  "projectId" | "clusterId" | "zone"
+  "zone" | "clusterId" | "projectId"
 > {
-  /** Deprecated. The name of the cluster to upgrade. This field has been deprecated and replaced by the name field. */
-  clusterId: string;
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
   projectId: string;
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
   zone: string;
+  /** Deprecated. The name of the cluster to upgrade. This field has been deprecated and replaced by the name field. */
+  clusterId: string;
 }
 export type StatusConditionCanonicalCodeEnum =
   | "OK"
@@ -350,17 +350,6 @@ export interface StatusCondition {
   code?: StatusConditionCodeEnum | (string & {}) | undefined;
 }
 export type StatusConditionList = Array<StatusCondition>;
-export type DocumentMap = { [key: string]: unknown | undefined };
-export type DocumentMapList = Array<DocumentMap>;
-/** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
-export interface Status {
-  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList | undefined;
-  /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number | undefined;
-  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string | undefined;
-}
 export type OperationOperationTypeEnum =
   | "TYPE_UNSPECIFIED"
   | "CREATE_CLUSTER"
@@ -381,35 +370,16 @@ export type OperationOperationTypeEnum =
   | "SET_MAINTENANCE_POLICY"
   | "RESIZE_CLUSTER"
   | "FLEET_FEATURE_UPGRADE";
-export type OperationProgressList = Array<OperationProgress>;
-/** Progress metric is (string, int|float|string) pair. */
-export interface Metric {
-  /** For metrics with custom values (ratios, visual progress, etc.). */
-  stringValue?: string | undefined;
-  /** Required. Metric name, e.g., "nodes total", "percent done". */
-  name?: string | undefined;
-  /** For metrics with floating point value. */
-  doubleValue?: number | undefined;
-  /** For metrics with integer value. */
-  intValue?: string | undefined;
-}
-export type MetricList = Array<Metric>;
-export type OperationProgressStatusEnum =
-  | "STATUS_UNSPECIFIED"
-  | "PENDING"
-  | "RUNNING"
-  | "DONE"
-  | "ABORTING";
-/** Information about operation (or operation stage) progress. */
-export interface OperationProgress {
-  /** Substages of an operation or a stage. */
-  stages?: OperationProgressList | undefined;
-  /** A non-parameterized string describing an operation stage. Unset for single-stage operations. */
-  name?: string | undefined;
-  /** Progress metric bundle, for example: metrics: [{name: "nodes done", int_value: 15}, {name: "nodes total", int_value: 32}] or metrics: [{name: "progress", double_value: 0.56}, {name: "progress scale", double_value: 1.0}] */
-  metrics?: MetricList | undefined;
-  /** Status of an operation stage. Unset for single-stage operations. */
-  status?: OperationProgressStatusEnum | undefined;
+export type DocumentMap = { [key: string]: unknown | undefined };
+export type DocumentMapList = Array<DocumentMap>;
+/** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
+export interface Status {
+  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
+  message?: string | undefined;
+  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
+  details?: DocumentMapList | undefined;
+  /** The status code, which should be an enum value of google.rpc.Code. */
+  code?: number | undefined;
 }
 export type OperationStatusEnum =
   | "STATUS_UNSPECIFIED"
@@ -417,38 +387,68 @@ export type OperationStatusEnum =
   | "RUNNING"
   | "DONE"
   | "ABORTING";
+export type OperationProgressList = Array<OperationProgress>;
+export type OperationProgressStatusEnum =
+  | "STATUS_UNSPECIFIED"
+  | "PENDING"
+  | "RUNNING"
+  | "DONE"
+  | "ABORTING";
+/** Progress metric is (string, int|float|string) pair. */
+export interface Metric {
+  /** For metrics with integer value. */
+  intValue?: string | undefined;
+  /** For metrics with floating point value. */
+  doubleValue?: number | undefined;
+  /** Required. Metric name, e.g., "nodes total", "percent done". */
+  name?: string | undefined;
+  /** For metrics with custom values (ratios, visual progress, etc.). */
+  stringValue?: string | undefined;
+}
+export type MetricList = Array<Metric>;
+/** Information about operation (or operation stage) progress. */
+export interface OperationProgress {
+  /** Substages of an operation or a stage. */
+  stages?: OperationProgressList | undefined;
+  /** A non-parameterized string describing an operation stage. Unset for single-stage operations. */
+  name?: string | undefined;
+  /** Status of an operation stage. Unset for single-stage operations. */
+  status?: OperationProgressStatusEnum | undefined;
+  /** Progress metric bundle, for example: metrics: [{name: "nodes done", int_value: 15}, {name: "nodes total", int_value: 32}] or metrics: [{name: "progress", double_value: 0.56}, {name: "progress scale", double_value: 1.0}] */
+  metrics?: MetricList | undefined;
+}
 /** This operation resource represents operations that may have happened or are happening on the cluster. All fields are output only. */
 export interface Operation {
-  /** Output only. The time the operation completed, in [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format. */
-  endTime?: string | undefined;
-  /** Output only. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/regions-zones/regions-zones#available) or [region](https://cloud.google.com/compute/docs/regions-zones/regions-zones#available) in which the cluster resides. */
-  location?: string | undefined;
-  /** Which conditions caused the current cluster state. Deprecated. Use field error instead. */
-  clusterConditions?: StatusConditionList | undefined;
+  /** Output only. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the operation is taking place. This field is deprecated, use location instead. */
+  zone?: string | undefined;
+  /** Which conditions caused the current node pool state. Deprecated. Use field error instead. */
+  nodepoolConditions?: StatusConditionList | undefined;
   /** Output only. The time the operation started, in [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format. */
   startTime?: string | undefined;
+  /** Output only. The time the operation completed, in [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format. */
+  endTime?: string | undefined;
+  /** Output only. If an error has occurred, a textual description of the error. Deprecated. Use field error instead. */
+  statusMessage?: string | undefined;
+  /** Output only. The operation type. */
+  operationType?: OperationOperationTypeEnum | undefined;
   /** Output only. The server-assigned ID for the operation. */
   name?: string | undefined;
   /** The error result of the operation in case of failure. */
   error?: Status | undefined;
-  /** Output only. Server-defined URI for the operation. Example: `https://container.googleapis.com/v1alpha1/projects/123/locations/us-central1/operations/operation-123`. */
-  selfLink?: string | undefined;
-  /** Output only. The operation type. */
-  operationType?: OperationOperationTypeEnum | undefined;
-  /** Output only. Progress information for an operation. */
-  progress?: OperationProgress | undefined;
-  /** Output only. Detailed operation progress, if available. */
-  detail?: string | undefined;
-  /** Output only. Server-defined URI for the target of the operation. The format of this is a URI to the resource being modified (such as a cluster, node pool, or node). For node pool repairs, there may be multiple nodes being repaired, but only one will be the target. Examples: - ## `https://container.googleapis.com/v1/projects/123/locations/us-central1/clusters/my-cluster` ## `https://container.googleapis.com/v1/projects/123/zones/us-central1-c/clusters/my-cluster/nodePools/my-np` `https://container.googleapis.com/v1/projects/123/zones/us-central1-c/clusters/my-cluster/nodePools/my-np/node/my-node` */
-  targetLink?: string | undefined;
-  /** Which conditions caused the current node pool state. Deprecated. Use field error instead. */
-  nodepoolConditions?: StatusConditionList | undefined;
   /** Output only. The current status of the operation. */
   status?: OperationStatusEnum | undefined;
-  /** Output only. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the operation is taking place. This field is deprecated, use location instead. */
-  zone?: string | undefined;
-  /** Output only. If an error has occurred, a textual description of the error. Deprecated. Use field error instead. */
-  statusMessage?: string | undefined;
+  /** Output only. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/regions-zones/regions-zones#available) or [region](https://cloud.google.com/compute/docs/regions-zones/regions-zones#available) in which the cluster resides. */
+  location?: string | undefined;
+  /** Which conditions caused the current cluster state. Deprecated. Use field error instead. */
+  clusterConditions?: StatusConditionList | undefined;
+  /** Output only. Detailed operation progress, if available. */
+  detail?: string | undefined;
+  /** Output only. Server-defined URI for the operation. Example: `https://container.googleapis.com/v1alpha1/projects/123/locations/us-central1/operations/operation-123`. */
+  selfLink?: string | undefined;
+  /** Output only. Server-defined URI for the target of the operation. The format of this is a URI to the resource being modified (such as a cluster, node pool, or node). For node pool repairs, there may be multiple nodes being repaired, but only one will be the target. Examples: - ## `https://container.googleapis.com/v1/projects/123/locations/us-central1/clusters/my-cluster` ## `https://container.googleapis.com/v1/projects/123/zones/us-central1-c/clusters/my-cluster/nodePools/my-np` `https://container.googleapis.com/v1/projects/123/zones/us-central1-c/clusters/my-cluster/nodePools/my-np/node/my-node` */
+  targetLink?: string | undefined;
+  /** Output only. Progress information for an operation. */
+  progress?: OperationProgress | undefined;
 }
 export type NodePoolAutoscalingLocationPolicyEnum =
   | "LOCATION_POLICY_UNSPECIFIED"
@@ -456,59 +456,59 @@ export type NodePoolAutoscalingLocationPolicyEnum =
   | "ANY";
 /** NodePoolAutoscaling contains information required by cluster autoscaler to adjust the size of the node pool to the current cluster usage. */
 export interface NodePoolAutoscaling {
-  /** Maximum number of nodes for one location in the node pool. Must be >= min_node_count. There has to be enough quota to scale up the cluster. */
-  maxNodeCount?: number | undefined;
   /** Minimum number of nodes for one location in the node pool. Must be greater than or equal to 0 and less than or equal to max_node_count. */
   minNodeCount?: number | undefined;
+  /** Maximum number of nodes for one location in the node pool. Must be >= min_node_count. There has to be enough quota to scale up the cluster. */
+  maxNodeCount?: number | undefined;
   /** Minimum number of nodes in the node pool. Must be greater than or equal to 0 and less than or equal to total_max_node_count. The total_*_node_count fields are mutually exclusive with the *_node_count fields. */
   totalMinNodeCount?: number | undefined;
+  /** Location policy used when scaling up a node pool. */
+  locationPolicy?: NodePoolAutoscalingLocationPolicyEnum | (string & {}) | undefined;
   /** Maximum number of nodes in the node pool. Must be greater than or equal to total_min_node_count. There has to be enough quota to scale up the cluster. The total_*_node_count fields are mutually exclusive with the *_node_count fields. */
   totalMaxNodeCount?: number | undefined;
   /** Can this node pool be deleted automatically. */
   autoprovisioned?: boolean | undefined;
-  /** Location policy used when scaling up a node pool. */
-  locationPolicy?: NodePoolAutoscalingLocationPolicyEnum | (string & {}) | undefined;
   /** Is autoscaling enabled for this node pool. */
   enabled?: boolean | undefined;
 }
 /** SetNodePoolAutoscalingRequest sets the autoscaler settings of a node pool. */
 export interface SetNodePoolAutoscalingRequest {
-  /** Deprecated. The name of the node pool to upgrade. This field has been deprecated and replaced by the name field. */
-  nodePoolId?: string | undefined;
-  /** Required. Autoscaling configuration for the node pool. */
-  autoscaling?: NodePoolAutoscaling | undefined;
-  /** Deprecated. The name of the cluster to upgrade. This field has been deprecated and replaced by the name field. */
-  clusterId?: string | undefined;
-  /** The name (project, location, cluster, node pool) of the node pool to set autoscaler settings. Specified in the format `projects/*\/locations/*\/clusters/*\/nodePools/*`. */
-  name?: string | undefined;
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
   projectId?: string | undefined;
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
   zone?: string | undefined;
+  /** Required. Autoscaling configuration for the node pool. */
+  autoscaling?: NodePoolAutoscaling | undefined;
+  /** The name (project, location, cluster, node pool) of the node pool to set autoscaler settings. Specified in the format `projects/*\/locations/*\/clusters/*\/nodePools/*`. */
+  name?: string | undefined;
+  /** Deprecated. The name of the node pool to upgrade. This field has been deprecated and replaced by the name field. */
+  nodePoolId?: string | undefined;
+  /** Deprecated. The name of the cluster to upgrade. This field has been deprecated and replaced by the name field. */
+  clusterId?: string | undefined;
 }
 export interface AutoscalingProjectsZonesClustersNodePoolsRequest extends Omit<
   SetNodePoolAutoscalingRequest,
-  "nodePoolId" | "clusterId" | "projectId" | "zone"
+  "projectId" | "zone" | "nodePoolId" | "clusterId"
 > {
-  /** Deprecated. The name of the node pool to upgrade. This field has been deprecated and replaced by the name field. */
-  nodePoolId: string;
-  /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
-  projectId: string;
-  /** Deprecated. The name of the cluster to upgrade. This field has been deprecated and replaced by the name field. */
-  clusterId: string;
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
   zone: string;
+  /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
+  projectId: string;
+  /** Deprecated. The name of the node pool to upgrade. This field has been deprecated and replaced by the name field. */
+  nodePoolId: string;
+  /** Deprecated. The name of the cluster to upgrade. This field has been deprecated and replaced by the name field. */
+  clusterId: string;
 }
 /** CancelOperationRequest cancels a single operation. */
 export interface CancelOperationRequest {
+  /** The name (project, location, operation id) of the operation to cancel. Specified in the format `projects/*\/locations/*\/operations/*`. */
+  name?: string | undefined;
   /** Deprecated. The server-assigned `name` of the operation. This field has been deprecated and replaced by the name field. */
   operationId?: string | undefined;
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
   projectId?: string | undefined;
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the operation resides. This field has been deprecated and replaced by the name field. */
   zone?: string | undefined;
-  /** The name (project, location, operation id) of the operation to cancel. Specified in the format `projects/*\/locations/*\/operations/*`. */
-  name?: string | undefined;
 }
 export interface CancelProjectsLocationsOperationsRequest extends Omit<
   CancelOperationRequest,
@@ -523,12 +523,12 @@ export interface CancelProjectsZonesOperationsRequest extends Omit<
   CancelOperationRequest,
   "operationId" | "projectId" | "zone"
 > {
-  /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the operation resides. This field has been deprecated and replaced by the name field. */
-  zone: string;
   /** Deprecated. The server-assigned `name` of the operation. This field has been deprecated and replaced by the name field. */
   operationId: string;
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
   projectId: string;
+  /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the operation resides. This field has been deprecated and replaced by the name field. */
+  zone: string;
 }
 export interface CheckAutopilotCompatibilityProjectsLocationsClustersRequest {
   /** The name (project, location, cluster) of the cluster to retrieve. Specified in the format `projects/*\/locations/*\/clusters/*`. */
@@ -542,18 +542,18 @@ export type AutopilotCompatibilityIssueIncompatibilityTypeEnum =
 export type StringList = Array<string>;
 /** AutopilotCompatibilityIssue contains information about a specific compatibility issue with Autopilot mode. */
 export interface AutopilotCompatibilityIssue {
-  /** The incompatibility type of this issue. */
-  incompatibilityType?: AutopilotCompatibilityIssueIncompatibilityTypeEnum | undefined;
   /** The description of the issue. */
   description?: string | undefined;
-  /** The last time when this issue was observed. */
-  lastObservation?: string | undefined;
-  /** The name of the resources which are subject to this issue. */
-  subjects?: StringList | undefined;
-  /** The constraint type of the issue. */
-  constraintType?: string | undefined;
   /** A URL to a public documentation, which addresses resolving this issue. */
   documentationUrl?: string | undefined;
+  /** The last time when this issue was observed. */
+  lastObservation?: string | undefined;
+  /** The incompatibility type of this issue. */
+  incompatibilityType?: AutopilotCompatibilityIssueIncompatibilityTypeEnum | undefined;
+  /** The constraint type of the issue. */
+  constraintType?: string | undefined;
+  /** The name of the resources which are subject to this issue. */
+  subjects?: StringList | undefined;
 }
 export type AutopilotCompatibilityIssueList = Array<AutopilotCompatibilityIssue>;
 /** CheckAutopilotCompatibilityResponse has a list of compatibility issues. */
@@ -578,14 +578,14 @@ export interface CompleteControlPlaneUpgradeProjectsZonesClustersRequest extends
 }
 /** CompleteIPRotationRequest moves the cluster master back into single-IP mode. */
 export interface CompleteIPRotationRequest {
-  /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
-  zone?: string | undefined;
-  /** The name (project, location, cluster name) of the cluster to complete IP rotation. Specified in the format `projects/*\/locations/*\/clusters/*`. */
-  name?: string | undefined;
   /** Deprecated. The name of the cluster. This field has been deprecated and replaced by the name field. */
   clusterId?: string | undefined;
+  /** The name (project, location, cluster name) of the cluster to complete IP rotation. Specified in the format `projects/*\/locations/*\/clusters/*`. */
+  name?: string | undefined;
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
   projectId?: string | undefined;
+  /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
+  zone?: string | undefined;
 }
 export interface CompleteIpRotationProjectsLocationsClustersRequest extends Omit<
   CompleteIPRotationRequest,
@@ -596,12 +596,12 @@ export interface CompleteIpRotationProjectsLocationsClustersRequest extends Omit
 }
 export interface CompleteIpRotationProjectsZonesClustersRequest extends Omit<
   CompleteIPRotationRequest,
-  "zone" | "clusterId" | "projectId"
+  "clusterId" | "projectId" | "zone"
 > {
-  /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
-  zone: string;
   /** Deprecated. The name of the cluster. This field has been deprecated and replaced by the name field. */
   clusterId: string;
+  /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
+  zone: string;
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
   projectId: string;
 }
@@ -613,436 +613,254 @@ export interface CompleteUpgradeProjectsLocationsClustersNodePoolsRequest {
   /** Request body */
   body?: CompleteNodePoolUpgradeRequest | undefined;
 }
-/** Configuration for direct-path (via ALTS) with workload identity. This feature is not officially supported for external customers in Kubernetes Engine when using Workload Identity. */
-export interface WorkloadALTSConfig {
-  /** enable_alts controls whether the alts handshaker should be enabled or not for direct-path. Requires Workload Identity (workload_pool must be non-empty). */
-  enableAlts?: boolean | undefined;
-}
-export type SecurityPostureConfigVulnerabilityModeEnum =
-  | "VULNERABILITY_MODE_UNSPECIFIED"
-  | "VULNERABILITY_DISABLED"
-  | "VULNERABILITY_BASIC"
-  | "VULNERABILITY_ENTERPRISE";
-export type SecurityPostureConfigModeEnum =
-  | "MODE_UNSPECIFIED"
-  | "DISABLED"
-  | "BASIC"
-  | "ENTERPRISE";
-/** SecurityPostureConfig defines the flags needed to enable/disable features for the Security Posture API. */
-export interface SecurityPostureConfig {
-  /** Deprecated: Vulnerability scanning is no longer supported. For more details, see https://cloud.google.com/kubernetes-engine/docs/deprecations/posture-management-deprecation. Sets which mode to use for vulnerability scanning. */
-  vulnerabilityMode?: SecurityPostureConfigVulnerabilityModeEnum | (string & {}) | undefined;
-  /** Sets which mode to use for Security Posture features. */
-  mode?: SecurityPostureConfigModeEnum | (string & {}) | undefined;
-}
-export type AutopilotConversionStatusStateEnum = "STATE_UNSPECIFIED" | "DONE";
-/** AutopilotConversionStatus represents conversion status. */
-export interface AutopilotConversionStatus {
-  /** Output only. The current state of the conversion. */
-  state?: AutopilotConversionStatusStateEnum | (string & {}) | undefined;
-}
-/** ClusterPolicyConfig stores the configuration for cluster wide policies. */
-export interface ClusterPolicyConfig {
-  /** Denotes that preventing creation and mutation of resources in GKE managed namespaces and cluster-scoped GKE managed resources . */
-  noSystemMutation?: boolean | undefined;
-  /** Denotes preventing impersonation and CSRs for GKE System users. */
-  noSystemImpersonation?: boolean | undefined;
-  /** Denotes preventing standard node pools and requiring only autopilot node pools. */
-  noStandardNodePools?: boolean | undefined;
-  /** Denotes preventing unsafe webhooks. */
-  noUnsafeWebhooks?: boolean | undefined;
-}
-/** PrivilegedAdmissionConfig stores the list of authorized allowlist paths for the cluster. */
-export interface PrivilegedAdmissionConfig {
-  /** The customer allowlist Cloud Storage paths for the cluster. These paths are used with the `--autopilot-privileged-admission` flag to authorize privileged workloads in Autopilot clusters. Paths can be GKE-owned, in the format `gke:////`, or customer-owned, in the format `gs:///`. Wildcards (`*`) are supported to authorize all allowlists under specific paths or directories. Example: `gs://my-bucket/*` will authorize all allowlists under the `my-bucket` bucket. */
-  allowlistPaths?: StringList | undefined;
-}
-/** WorkloadPolicyConfig is the configuration related to GCW workload policy */
-export interface WorkloadPolicyConfig {
-  /** If true, enables the GCW Auditor that audits workloads on standard clusters. */
-  autopilotCompatibilityAuditingEnabled?: boolean | undefined;
-  /** If true, workloads can use NET_ADMIN capability. */
-  allowNetAdmin?: boolean | undefined;
-}
-/** Autopilot is the configuration for Autopilot settings on the cluster. */
-export interface Autopilot {
-  /** Output only. ConversionStatus shows conversion status. */
-  conversionStatus?: AutopilotConversionStatus | undefined;
-  /** Enable Autopilot */
-  enabled?: boolean | undefined;
-  /** ClusterPolicyConfig denotes cluster level policies that are enforced for the cluster. */
-  clusterPolicyConfig?: ClusterPolicyConfig | undefined;
-  /** PrivilegedAdmissionConfig is the configuration related to privileged admission control. */
-  privilegedAdmissionConfig?: PrivilegedAdmissionConfig | undefined;
-  /** WorkloadPolicyConfig is the configuration related to GCW workload policy */
-  workloadPolicyConfig?: WorkloadPolicyConfig | undefined;
-}
-/** RotationConfig is config for secret manager auto rotation. */
-export interface RotationConfig {
-  /** Whether the rotation is enabled. */
-  enabled?: boolean | undefined;
-  /** The interval between two consecutive rotations. Default rotation interval is 2 minutes. */
-  rotationInterval?: string | undefined;
-}
-/** SecretManagerConfig is config for secret manager enablement. */
-export interface SecretManagerConfig {
-  /** Enable/Disable Secret Manager Config. */
-  enabled?: boolean | undefined;
-  /** Rotation config for secret manager. */
-  rotationConfig?: RotationConfig | undefined;
-}
-export type FleetMembershipTypeEnum = "MEMBERSHIP_TYPE_UNSPECIFIED" | "LIGHTWEIGHT";
-/** Fleet is the fleet configuration for the cluster. */
-export interface Fleet {
-  /** Output only. Whether the cluster has been registered through the fleet API. */
-  preRegistered?: boolean | undefined;
-  /** The Fleet host project(project ID or project number) where this cluster will be registered to. This field cannot be changed after the cluster has been registered. */
-  project?: string | undefined;
-  /** The type of the cluster's fleet membership. */
-  membershipType?: FleetMembershipTypeEnum | (string & {}) | undefined;
-  /** Output only. The full resource name of the registered fleet membership of the cluster, in the format `//gkehub.googleapis.com/projects/*\/locations/*\/memberships/*`. */
-  membership?: string | undefined;
+/** Configuration for issuance of mTLS keys and certificates to Kubernetes pods. */
+export interface MeshCertificates {
+  /** enable_certificates controls issuance of workload mTLS certificates. If set, the GKE Workload Identity Certificates controller and node agent will be deployed in the cluster, which can then be configured by creating a WorkloadCertificateConfig Custom Resource. Requires Workload Identity (workload_pool must be non-empty). */
+  enableCertificates?: boolean | undefined;
 }
 /** RollbackSafeUpgrade is the configuration for the rollback safe upgrade. */
 export interface RollbackSafeUpgrade {
   /** A user-defined period for the cluster remains in the rollbackable state. ex: {seconds: 21600}. */
   controlPlaneSoakDuration?: string | undefined;
 }
-export type NetworkTierConfigNetworkTierEnum =
-  | "NETWORK_TIER_UNSPECIFIED"
-  | "NETWORK_TIER_DEFAULT"
-  | "NETWORK_TIER_PREMIUM"
-  | "NETWORK_TIER_STANDARD";
-/** NetworkTierConfig contains network tier information. */
-export interface NetworkTierConfig {
-  /** Network tier configuration. */
-  networkTier?: NetworkTierConfigNetworkTierEnum | (string & {}) | undefined;
+/** Constraints applied to pods. */
+export interface MaxPodsConstraint {
+  /** Constraint enforced on the max num of pods per node. */
+  maxPodsPerNode?: string | undefined;
 }
-export type IPAllocationPolicyStackTypeEnum = "STACK_TYPE_UNSPECIFIED" | "IPV4" | "IPV4_IPV6";
-/** [PRIVATE FIELD] Config for pod CIDR size overprovisioning. */
-export interface PodCIDROverprovisionConfig {
-  /** Whether Pod CIDR overprovisioning is disabled. Note: Pod CIDR overprovisioning is enabled by default. */
-  disable?: boolean | undefined;
+export type LoggingComponentConfigEnableComponentsItemEnum =
+  | "COMPONENT_UNSPECIFIED"
+  | "SYSTEM_COMPONENTS"
+  | "WORKLOADS"
+  | "APISERVER"
+  | "SCHEDULER"
+  | "CONTROLLER_MANAGER"
+  | "KCP_SSHD"
+  | "KCP_CONNECTION"
+  | "KCP_HPA"
+  | "KCP_VPA";
+export type LoggingComponentConfigEnableComponentsItemEnumList = Array<
+  LoggingComponentConfigEnableComponentsItemEnum | (string & {})
+>;
+/** LoggingComponentConfig is cluster logging component configuration. */
+export interface LoggingComponentConfig {
+  /** Select components to collect logs. An empty set would disable all logging. */
+  enableComponents?: LoggingComponentConfigEnableComponentsItemEnumList | undefined;
 }
-export type IPAllocationPolicyIpv6AccessTypeEnum =
-  | "IPV6_ACCESS_TYPE_UNSPECIFIED"
-  | "INTERNAL"
-  | "EXTERNAL";
-/** RangeInfo contains the range name and the range utilization by this cluster. */
-export interface RangeInfo {
-  /** Output only. Name of a range. */
-  rangeName?: string | undefined;
-  /** Output only. The utilization of the range. */
-  utilization?: number | undefined;
+/** LoggingConfig is cluster logging configuration. */
+export interface LoggingConfig {
+  /** Logging components configuration */
+  componentConfig?: LoggingComponentConfig | undefined;
 }
-export type RangeInfoList = Array<RangeInfo>;
-/** AdditionalPodRangesConfig is the configuration for additional pod secondary ranges supporting the ClusterUpdate message. */
-export interface AdditionalPodRangesConfig {
-  /** Output only. Information for additional pod range. */
-  podRangeInfo?: RangeInfoList | undefined;
-  /** Name for pod secondary ipv4 range which has the actual range defined ahead. */
-  podRangeNames?: StringList | undefined;
-}
-export type AdditionalIPRangesConfigStatusEnum = "STATUS_UNSPECIFIED" | "ACTIVE" | "DRAINING";
-/** AdditionalIPRangesConfig is the configuration for individual additional subnetwork attached to the cluster */
-export interface AdditionalIPRangesConfig {
-  /** Draining status of the additional subnet. */
-  status?: AdditionalIPRangesConfigStatusEnum | (string & {}) | undefined;
-  /** Name of the subnetwork. This can be the full path of the subnetwork or just the name. Example1: my-subnet Example2: projects/gke-project/regions/us-central1/subnetworks/my-subnet */
-  subnetwork?: string | undefined;
-  /** List of secondary ranges names within this subnetwork that can be used for pod IPs. Example1: gke-pod-range1 Example2: gke-pod-range1,gke-pod-range2 */
-  podIpv4RangeNames?: StringList | undefined;
-}
-export type AdditionalIPRangesConfigList = Array<AdditionalIPRangesConfig>;
-/** AutoIpamConfig contains all information related to Auto IPAM */
-export interface AutoIpamConfig {
-  /** The flag that enables Auto IPAM on this cluster */
-  enabled?: boolean | undefined;
-}
-/** Configuration for controlling how IPs are allocated in the cluster. */
-export interface IPAllocationPolicy {
-  /** The IP address range of the services IPs in this cluster. If blank, a range will be automatically chosen with the default size. This field is only applicable when `use_ip_aliases` is true. Set to blank to have a range chosen with the default size. Set to /netmask (e.g. `/14`) to have a range chosen with a specific netmask. Set to a [CIDR](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing) notation (e.g. `10.96.0.0/14`) from the RFC-1918 private networks (e.g. `10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`) to pick a specific range to use. */
-  servicesIpv4CidrBlock?: string | undefined;
-  /** The name of the secondary range to be used as for the services CIDR block. The secondary range will be used for service ClusterIPs. This must be an existing secondary range associated with the cluster subnetwork. This field is only applicable with use_ip_aliases and create_subnetwork is false. */
-  servicesSecondaryRangeName?: string | undefined;
-  /** Cluster-level network tier configuration is used to determine the default network tier for external IP addresses on cluster resources, such as node pools and load balancers. */
-  networkTierConfig?: NetworkTierConfig | undefined;
-  /** IP stack type */
-  stackType?: IPAllocationPolicyStackTypeEnum | (string & {}) | undefined;
-  /** Output only. The utilization of the cluster default IPv4 range for the pod. The ratio is Usage/[Total number of IPs in the secondary range], Usage=numNodes*numZones*podIPsPerNode. */
-  defaultPodIpv4RangeUtilization?: number | undefined;
-  /** The IP address range of the Cloud TPUs in this cluster. If unspecified, a range will be automatically chosen with the default size. This field is only applicable when `use_ip_aliases` is true. If unspecified, the range will use the default size. Set to /netmask (e.g. `/14`) to have a range chosen with a specific netmask. Set to a [CIDR](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing) notation (e.g. `10.96.0.0/14`) from the RFC-1918 private networks (e.g. `10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`) to pick a specific range to use. This field is deprecated, use cluster.tpu_config.ipv4_cidr_block instead. */
-  tpuIpv4CidrBlock?: string | undefined;
-  /** Output only. The services IPv6 CIDR block for the cluster. */
-  servicesIpv6CidrBlock?: string | undefined;
-  /** If true, allow allocation of cluster CIDR ranges that overlap with certain kinds of network routes. By default we do not allow cluster CIDR ranges to intersect with any user declared routes. With allow_route_overlap == true, we allow overlapping with CIDR ranges that are larger than the cluster CIDR range. If this field is set to true, then cluster and services CIDRs must be fully-specified (e.g. `10.96.0.0/14`, but not `/14`), which means: 1) When `use_ip_aliases` is true, `cluster_ipv4_cidr_block` and `services_ipv4_cidr_block` must be fully-specified. 2) When `use_ip_aliases` is false, `cluster.cluster_ipv4_cidr` muse be fully-specified. */
-  allowRouteOverlap?: boolean | undefined;
-  /** [PRIVATE FIELD] Pod CIDR size overprovisioning config for the cluster. Pod CIDR size per node depends on max_pods_per_node. By default, the value of max_pods_per_node is doubled and then rounded off to next power of 2 to get the size of pod CIDR block per node. Example: max_pods_per_node of 30 would result in 64 IPs (/26). This config can disable the doubling of IPs (we still round off to next power of 2) Example: max_pods_per_node of 30 will result in 32 IPs (/27) when overprovisioning is disabled. */
-  podCidrOverprovisionConfig?: PodCIDROverprovisionConfig | undefined;
-  /** Whether routes will be used for pod IPs in the cluster. This is used in conjunction with use_ip_aliases. It cannot be true if use_ip_aliases is true. If both use_ip_aliases and use_routes are false, then the server picks the default IP allocation mode */
-  useRoutes?: boolean | undefined;
-  /** This field is deprecated, use node_ipv4_cidr_block. */
-  nodeIpv4Cidr?: string | undefined;
-  /** This field is deprecated, use services_ipv4_cidr_block. */
-  servicesIpv4Cidr?: string | undefined;
-  /** The name of the secondary range to be used for the cluster CIDR block. The secondary range will be used for pod IP addresses. This must be an existing secondary range associated with the cluster subnetwork. This field is only applicable with use_ip_aliases and create_subnetwork is false. */
-  clusterSecondaryRangeName?: string | undefined;
-  /** The ipv6 access type (internal or external) when create_subnetwork is true */
-  ipv6AccessType?: IPAllocationPolicyIpv6AccessTypeEnum | (string & {}) | undefined;
-  /** Whether alias IPs will be used for pod IPs in the cluster. This is used in conjunction with use_routes. It cannot be true if use_routes is true. If both use_ip_aliases and use_routes are false, then the server picks the default IP allocation mode */
-  useIpAliases?: boolean | undefined;
-  /** Output only. The additional pod ranges that are added to the cluster. These pod ranges can be used by new node pools to allocate pod IPs automatically. Once the range is removed it will not show up in IPAllocationPolicy. */
-  additionalPodRangesConfig?: AdditionalPodRangesConfig | undefined;
-  /** Output only. The additional IP ranges that are added to the cluster. These IP ranges can be used by new node pools to allocate node and pod IPs automatically. Each AdditionalIPRangesConfig corresponds to a single subnetwork. Once a range is removed it will not show up in IPAllocationPolicy. */
-  additionalIpRangesConfigs?: AdditionalIPRangesConfigList | undefined;
-  /** Optional. AutoIpamConfig contains all information related to Auto IPAM */
-  autoIpamConfig?: AutoIpamConfig | undefined;
-  /** The IP address range for the cluster pod IPs. If this field is set, then `cluster.cluster_ipv4_cidr` must be left blank. This field is only applicable when `use_ip_aliases` is true. Set to blank to have a range chosen with the default size. Set to /netmask (e.g. `/14`) to have a range chosen with a specific netmask. Set to a [CIDR](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing) notation (e.g. `10.96.0.0/14`) from the RFC-1918 private networks (e.g. `10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`) to pick a specific range to use. */
-  clusterIpv4CidrBlock?: string | undefined;
-  /** This field is deprecated, use cluster_ipv4_cidr_block. */
-  clusterIpv4Cidr?: string | undefined;
-  /** A custom subnetwork name to be used if `create_subnetwork` is true. If this field is empty, then an automatic name will be chosen for the new subnetwork. */
-  subnetworkName?: string | undefined;
-  /** Whether a new subnetwork will be created automatically for the cluster. This field is only applicable when `use_ip_aliases` is true. */
-  createSubnetwork?: boolean | undefined;
-  /** Output only. The subnet's IPv6 CIDR block used by nodes and pods. */
-  subnetIpv6CidrBlock?: string | undefined;
-  /** The IP address range of the instance IPs in this cluster. This is applicable only if `create_subnetwork` is true. Set to blank to have a range chosen with the default size. Set to /netmask (e.g. `/14`) to have a range chosen with a specific netmask. Set to a [CIDR](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing) notation (e.g. `10.96.0.0/14`) from the RFC-1918 private networks (e.g. `10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`) to pick a specific range to use. */
-  nodeIpv4CidrBlock?: string | undefined;
-}
-export type ManagedOpenTelemetryConfigScopeEnum =
-  | "SCOPE_UNSPECIFIED"
-  | "NONE"
-  | "COLLECTION_AND_INSTRUMENTATION_COMPONENTS";
-/** ManagedOpenTelemetryConfig is the configuration for the GKE Managed OpenTelemetry pipeline. */
-export interface ManagedOpenTelemetryConfig {
-  /** Scope of the Managed OpenTelemetry pipeline. */
-  scope?: ManagedOpenTelemetryConfigScopeEnum | (string & {}) | undefined;
-}
-export type NetworkPolicyProviderEnum = "PROVIDER_UNSPECIFIED" | "CALICO";
-/** Configuration options for the NetworkPolicy feature. https://kubernetes.io/docs/concepts/services-networking/networkpolicies/ */
-export interface NetworkPolicy {
-  /** The selected network policy provider. */
-  provider?: NetworkPolicyProviderEnum | (string & {}) | undefined;
-  /** Whether network policy is enabled on the cluster. */
-  enabled?: boolean | undefined;
-}
-export type DataplaneV2ConfigScalabilityModeEnum =
-  | "SCALABILITY_MODE_UNSPECIFIED"
-  | "DISABLED"
-  | "SCALE_OPTIMIZED";
-/** DataplaneV2Config is the configuration for DPv2. */
-export interface DataplaneV2Config {
-  /** Optional. Scalability mode for the cluster. */
-  scalabilityMode?: DataplaneV2ConfigScalabilityModeEnum | (string & {}) | undefined;
-}
-/** Config to block services with externalIPs field. */
-export interface ServiceExternalIPsConfig {
-  /** Whether Services with ExternalIPs field are allowed or not. */
-  enabled?: boolean | undefined;
-}
-export type DNSConfigClusterDnsScopeEnum = "DNS_SCOPE_UNSPECIFIED" | "CLUSTER_SCOPE" | "VPC_SCOPE";
-export type DNSConfigClusterDnsEnum =
-  | "PROVIDER_UNSPECIFIED"
-  | "PLATFORM_DEFAULT"
-  | "CLOUD_DNS"
-  | "KUBE_DNS";
-/** DNSConfig contains the desired set of options for configuring clusterDNS. */
-export interface DNSConfig {
-  /** cluster_dns_scope indicates the scope of access to cluster DNS records. */
-  clusterDnsScope?: DNSConfigClusterDnsScopeEnum | (string & {}) | undefined;
-  /** cluster_dns_domain is the suffix used for all cluster service records. */
-  clusterDnsDomain?: string | undefined;
-  /** cluster_dns indicates which in-cluster DNS provider should be used. */
-  clusterDns?: DNSConfigClusterDnsEnum | (string & {}) | undefined;
-  /** Optional. The domain used in Additive VPC scope. */
-  additiveVpcScopeDnsDomain?: string | undefined;
-}
-export type GatewayAPIConfigChannelEnum =
-  | "CHANNEL_UNSPECIFIED"
-  | "CHANNEL_DISABLED"
-  | "CHANNEL_EXPERIMENTAL"
-  | "CHANNEL_STANDARD";
-/** GatewayAPIConfig contains the desired config of Gateway API on this cluster. */
-export interface GatewayAPIConfig {
-  /** The Gateway API release channel to use for Gateway API. */
-  channel?: GatewayAPIConfigChannelEnum | (string & {}) | undefined;
-}
-export type ClusterNetworkPerformanceConfigTotalEgressBandwidthTierEnum =
-  | "TIER_UNSPECIFIED"
-  | "TIER_1";
-/** Configuration of all network bandwidth tiers */
-export interface ClusterNetworkPerformanceConfig {
-  /** Specifies the total network bandwidth tier for the NodePool. */
-  totalEgressBandwidthTier?:
-    | ClusterNetworkPerformanceConfigTotalEgressBandwidthTierEnum
-    | (string & {})
-    | undefined;
-}
-/** AmbientNetworkingConfig contains the desired config of Ambient Networking on this cluster. */
-export interface AmbientNetworkingConfig {
-  /** Optional. If true, enable ambient networking for this cluster. */
-  enabled?: boolean | undefined;
-}
-export type NetworkConfigPrivateIpv6GoogleAccessEnum =
-  | "PRIVATE_IPV6_GOOGLE_ACCESS_UNSPECIFIED"
-  | "PRIVATE_IPV6_GOOGLE_ACCESS_DISABLED"
-  | "PRIVATE_IPV6_GOOGLE_ACCESS_TO_GOOGLE"
-  | "PRIVATE_IPV6_GOOGLE_ACCESS_BIDIRECTIONAL";
-/** DefaultSnatStatus contains the desired state of whether default sNAT should be disabled on the cluster. */
-export interface DefaultSnatStatus {
-  /** Disables cluster default sNAT rules. */
-  disabled?: boolean | undefined;
-}
-export type NetworkConfigDatapathProviderEnum =
-  | "DATAPATH_PROVIDER_UNSPECIFIED"
-  | "LEGACY_DATAPATH"
-  | "ADVANCED_DATAPATH"
-  | "MIGRATE_TO_ADVANCED_DATAPATH"
-  | "MIGRATE_TO_LEGACY_DATAPATH";
-export type NetworkConfigInTransitEncryptionConfigEnum =
-  | "IN_TRANSIT_ENCRYPTION_CONFIG_UNSPECIFIED"
-  | "IN_TRANSIT_ENCRYPTION_DISABLED"
-  | "IN_TRANSIT_ENCRYPTION_INTER_NODE_TRANSPARENT";
-/** NetworkConfig reports the relative names of network & subnetwork. */
-export interface NetworkConfig {
-  /** Disable L4 load balancer VPC firewalls to enable firewall policies. */
-  disableL4LbFirewallReconciliation?: boolean | undefined;
-  /** Whether L4ILB Subsetting is enabled for this cluster. */
-  enableL4ilbSubsetting?: boolean | undefined;
-  /** Optional. DataplaneV2Config specifies the DPv2 configuration. */
-  dataplaneV2Config?: DataplaneV2Config | undefined;
-  /** ServiceExternalIPsConfig specifies if services with externalIPs field are blocked or not. */
-  serviceExternalIpsConfig?: ServiceExternalIPsConfig | undefined;
-  /** DNSConfig contains clusterDNS config for this cluster. */
-  dnsConfig?: DNSConfig | undefined;
-  /** Output only. The relative name of the Google Compute Engine [subnetwork](https://cloud.google.com/compute/docs/vpc) to which the cluster is connected. Example: projects/my-project/regions/us-central1/subnetworks/my-subnet */
-  subnetwork?: string | undefined;
-  /** Controls whether by default nodes have private IP addresses only. It is invalid to specify both PrivateClusterConfig.enablePrivateNodes and this field at the same time. To update the default setting, use ClusterUpdate.desired_default_enable_private_nodes */
-  defaultEnablePrivateNodes?: boolean | undefined;
-  /** GatewayAPIConfig contains the desired config of Gateway API on this cluster. */
-  gatewayApiConfig?: GatewayAPIConfig | undefined;
-  /** Network bandwidth tier configuration. */
-  networkPerformanceConfig?: ClusterNetworkPerformanceConfig | undefined;
-  /** Optional. Contains the desired config of Ambient Networking mode on this cluster. */
-  ambientNetworkingConfig?: AmbientNetworkingConfig | undefined;
-  /** Output only. The relative name of the Google Compute Engine [network](https://cloud.google.com/compute/docs/networks-and-firewalls#networks) to which the cluster is connected. Example: projects/my-project/global/networks/my-network */
-  network?: string | undefined;
-  /** Whether Intra-node visibility is enabled for this cluster. This makes same node pod to pod traffic visible for VPC network. */
-  enableIntraNodeVisibility?: boolean | undefined;
-  /** Whether CiliumClusterWideNetworkPolicy is enabled on this cluster. */
-  enableCiliumClusterwideNetworkPolicy?: boolean | undefined;
-  /** The desired state of IPv6 connectivity to Google Services. By default, no private IPv6 access to or from Google Services (all access will be via IPv4) */
-  privateIpv6GoogleAccess?: NetworkConfigPrivateIpv6GoogleAccessEnum | (string & {}) | undefined;
-  /** Whether the cluster disables default in-node sNAT rules. In-node sNAT rules will be disabled when default_snat_status is disabled. When disabled is set to false, default IP masquerade rules will be applied to the nodes to prevent sNAT on cluster internal traffic. */
-  defaultSnatStatus?: DefaultSnatStatus | undefined;
-  /** Whether FQDN Network Policy is enabled on this cluster. */
-  enableFqdnNetworkPolicy?: boolean | undefined;
-  /** Whether multi-networking is enabled for this cluster. */
-  enableMultiNetworking?: boolean | undefined;
-  /** The desired datapath provider for this cluster. By default, uses the IPTables-based kube-proxy implementation. */
-  datapathProvider?: NetworkConfigDatapathProviderEnum | (string & {}) | undefined;
-  /** Specify the details of in-transit encryption. */
-  inTransitEncryptionConfig?:
-    | NetworkConfigInTransitEncryptionConfigEnum
-    | (string & {})
-    | undefined;
-}
-/** Configuration for the use of Kubernetes Service Accounts in IAM policies. */
-export interface WorkloadIdentityConfig {
-  /** The workload pool to attach all Kubernetes service accounts to. */
-  workloadPool?: string | undefined;
-  /** IAM Identity Namespace to attach all Kubernetes Service Accounts to. */
-  identityNamespace?: string | undefined;
-  /** identity provider is the third party identity provider. */
-  identityProvider?: string | undefined;
+/** NodePoolUpgradeConcurrencyConfig is the configuration for the node pool auto upgrade concurrency. */
+export interface NodePoolUpgradeConcurrencyConfig {
+  /** If set, no more than max_count node pools can be upgraded concurrently. */
+  maxCount?: string | undefined;
 }
 export type StringMap = { [key: string]: string | undefined };
-/** ParentProductConfig is the configuration of the parent product of the cluster. This field is used by Google internal products that are built on top of a GKE cluster and take the ownership of the cluster. */
-export interface ParentProductConfig {
-  /** Labels contain the configuration of the parent product. */
-  labels?: StringMap | undefined;
-  /** Name of the parent product associated with the cluster. */
-  productName?: string | undefined;
+/** Hugepages amount in both 2m and 1g size */
+export interface HugepagesConfig {
+  /** Optional. Amount of 1G hugepages */
+  hugepageSize1g?: number | undefined;
+  /** Optional. Amount of 2M hugepages */
+  hugepageSize2m?: number | undefined;
 }
-/** LocalNvmeSsdBlockConfig contains configuration for using raw-block local NVMe SSDs */
-export interface LocalNvmeSsdBlockConfig {
-  /** Number of local NVMe SSDs to use. The limit for this value is dependent upon the maximum number of disk available on a machine per zone. See: https://cloud.google.com/compute/docs/disks/local-ssd for more information. A zero (or unset) value has different meanings depending on machine type being used: 1. For pre-Gen3 machines, which support flexible numbers of local ssds, zero (or unset) means to disable using local SSDs as ephemeral storage. 2. For Gen3 machines which dictate a specific number of local ssds, zero (or unset) means to use the default number of local ssds that goes with that machine type. For example, for a c3-standard-8-lssd machine, 2 local ssds would be provisioned. For c3-standard-8 (which doesn't support local ssds), 0 will be provisioned. See https://cloud.google.com/compute/docs/disks/local-ssd#choose_number_local_ssds for more info. */
-  localSsdCount?: number | undefined;
+export type LinuxNodeConfigCgroupModeEnum =
+  | "CGROUP_MODE_UNSPECIFIED"
+  | "CGROUP_MODE_V1"
+  | "CGROUP_MODE_V2";
+/** Additional entries to be added to resolved.conf. */
+export interface ResolvedConfEntry {
+  /** Optional. The value of resolved.conf */
+  value?: StringList | undefined;
+  /** The key of resolved.conf */
+  key?: string | undefined;
 }
-export type GPUSharingConfigGpuSharingStrategyEnum =
-  | "GPU_SHARING_STRATEGY_UNSPECIFIED"
-  | "TIME_SHARING"
-  | "MPS";
-/** GPUSharingConfig represents the GPU sharing configuration for Hardware Accelerators. */
-export interface GPUSharingConfig {
-  /** The max number of containers that can share a physical GPU. */
-  maxSharedClientsPerGpu?: string | undefined;
-  /** The type of GPU sharing strategy to enable on the GPU node. */
-  gpuSharingStrategy?: GPUSharingConfigGpuSharingStrategyEnum | (string & {}) | undefined;
+export type ResolvedConfEntryList = Array<ResolvedConfEntry>;
+/** Additional entries to be added to /etc/hosts. */
+export interface EtcHostsEntry {
+  /** The hostname of the host. */
+  host?: string | undefined;
+  /** The IPv4 or IPv6 address of the host. */
+  ip?: string | undefined;
 }
-export type GPUDriverInstallationConfigGpuDriverVersionEnum =
-  | "GPU_DRIVER_VERSION_UNSPECIFIED"
-  | "INSTALLATION_DISABLED"
-  | "DEFAULT"
-  | "LATEST"
-  | "SPECIFIC";
-/** GPUDriverInstallationConfig specifies the version of GPU driver to be auto installed. */
-export interface GPUDriverInstallationConfig {
-  /** Optional. The specific version of the GPU driver to install. Use this field only with gpu_driver_version set to SPECIFIC. Otherwise, an error will be returned. */
-  specificVersion?: string | undefined;
-  /** Mode for how the GPU driver is installed. */
-  gpuDriverVersion?: GPUDriverInstallationConfigGpuDriverVersionEnum | (string & {}) | undefined;
+export type EtcHostsEntryList = Array<EtcHostsEntry>;
+/** Defines encryption settings for the swap space. */
+export interface EncryptionConfig {
+  /** Optional. If true, swap space will not be encrypted. Defaults to false (encrypted). */
+  disabled?: boolean | undefined;
 }
-/** AcceleratorConfig represents a Hardware Accelerator request. */
-export interface AcceleratorConfig {
-  /** The configuration for GPU sharing options. */
-  gpuSharingConfig?: GPUSharingConfig | undefined;
-  /** The number of time-shared GPU resources to expose for each physical GPU. */
-  maxTimeSharedClientsPerGpu?: string | undefined;
-  /** The accelerator type resource name. List of supported accelerators [here](https://cloud.google.com/compute/docs/gpus) */
-  acceleratorType?: string | undefined;
-  /** The number of the accelerator cards exposed to an instance. */
-  acceleratorCount?: string | undefined;
-  /** Size of partitions to create on the GPU. Valid values are described in the NVIDIA [mig user guide](https://docs.nvidia.com/datacenter/tesla/mig-user-guide/#partitioning). */
-  gpuPartitionSize?: string | undefined;
-  /** The configuration for auto installation of GPU driver. */
-  gpuDriverInstallationConfig?: GPUDriverInstallationConfig | undefined;
+/** Provisions a new, separate local NVMe SSD exclusively for swap. */
+export interface DedicatedLocalSsdProfile {
+  /** The number of physical local NVMe SSD disks to attach. */
+  diskCount?: string | undefined;
 }
-export type AcceleratorConfigList = Array<AcceleratorConfig>;
-/** GCPSecretManagerCertificateConfig configures a secret from [Secret Manager](https://cloud.google.com/secret-manager). */
-export interface GCPSecretManagerCertificateConfig {
-  /** Secret URI, in the form "projects/$PROJECT_ID/secrets/$SECRET_NAME/versions/$VERSION". Version can be fixed (e.g. "2") or "latest" */
-  secretUri?: string | undefined;
+/** Swap on the local SSD shared with pod ephemeral storage. */
+export interface EphemeralLocalSsdProfile {
+  /** Specifies the size of the swap space as a percentage of the ephemeral local SSD capacity. */
+  swapSizePercent?: number | undefined;
+  /** Specifies the size of the swap space in gibibytes (GiB). */
+  swapSizeGib?: string | undefined;
 }
-/** CertificateAuthorityDomainConfig configures one or more fully qualified domain names (FQDN) to a specific certificate. */
-export interface CertificateAuthorityDomainConfig {
-  /** Secret Manager certificate configuration. */
-  gcpSecretManagerCertificateConfig?: GCPSecretManagerCertificateConfig | undefined;
-  /** List of fully qualified domain names (FQDN). Specifying port is supported. Wildcards are NOT supported. Examples: - `my.customdomain.com` - `10.0.1.2:5000` */
-  fqdns?: StringList | undefined;
+/** Swap on the node's boot disk. */
+export interface BootDiskProfile {
+  /** Specifies the size of the swap space in gibibytes (GiB). */
+  swapSizeGib?: string | undefined;
+  /** Specifies the size of the swap space as a percentage of the boot disk size. */
+  swapSizePercent?: number | undefined;
 }
-export type CertificateAuthorityDomainConfigList = Array<CertificateAuthorityDomainConfig>;
-/** PrivateRegistryAccessConfig contains access configuration for private container registries. */
-export interface PrivateRegistryAccessConfig {
-  /** Private registry access configuration. */
-  certificateAuthorityDomainConfig?: CertificateAuthorityDomainConfigList | undefined;
-  /** Private registry access is enabled. */
+/** Configuration for swap memory on a node pool. */
+export interface SwapConfig {
+  /** Optional. If omitted, swap space is encrypted by default. */
+  encryptionConfig?: EncryptionConfig | undefined;
+  /** Optional. Enables or disables swap for the node pool. */
   enabled?: boolean | undefined;
+  /** Provisions a new, separate local NVMe SSD exclusively for swap. */
+  dedicatedLocalSsdProfile?: DedicatedLocalSsdProfile | undefined;
+  /** Swap on the local SSD shared with pod ephemeral storage. */
+  ephemeralLocalSsdProfile?: EphemeralLocalSsdProfile | undefined;
+  /** Swap on the node's boot disk. */
+  bootDiskProfile?: BootDiskProfile | undefined;
+}
+/** InitScript provide a simply bash script to be executed on the node. */
+export interface InitScript {
+  /** The Cloud Storage URI for storing the init script. Format: gs://BUCKET_NAME/OBJECT_NAME The service account on the node pool must have read access to the object. User can't configure both gcs_uri and gcp_secret_manager_secret_uri. */
+  gcsUri?: string | undefined;
+  /** Optional. The optional arguments line to be passed to the init script. */
+  args?: StringList | undefined;
+  /** The resource name of the secret manager secret hosting the init script. Both global and regional secrets are supported with format below: Global secret: projects/{project}/secrets/{secret}/versions/{version} Regional secret: projects/{project}/locations/{location}/secrets/{secret}/versions/{version} Example: projects/1234567890/secrets/script_1/versions/1. Accept version number only, not support version alias. User can't configure both gcp_secret_manager_secret_uri and gcs_uri. */
+  gcpSecretManagerSecretUri?: string | undefined;
+  /** The generation of the init script stored in Gloud Storage. This is the required field to identify the version of the init script. User can get the genetaion from `gcloud storage objects describe gs://BUCKET_NAME/OBJECT_NAME --format="value(generation)"` or from the "Version history" tab of the object in the Cloud Console UI. */
+  gcsGeneration?: string | undefined;
+}
+/** Support for running custom init code while bootstrapping nodes. */
+export interface CustomNodeInit {
+  /** Optional. The init script to be executed on the node. */
+  initScript?: InitScript | undefined;
+}
+export type LinuxNodeConfigTransparentHugepageDefragEnum =
+  | "TRANSPARENT_HUGEPAGE_DEFRAG_UNSPECIFIED"
+  | "TRANSPARENT_HUGEPAGE_DEFRAG_ALWAYS"
+  | "TRANSPARENT_HUGEPAGE_DEFRAG_DEFER"
+  | "TRANSPARENT_HUGEPAGE_DEFRAG_DEFER_WITH_MADVISE"
+  | "TRANSPARENT_HUGEPAGE_DEFRAG_MADVISE"
+  | "TRANSPARENT_HUGEPAGE_DEFRAG_NEVER";
+export type LinuxNodeConfigTransparentHugepageEnabledEnum =
+  | "TRANSPARENT_HUGEPAGE_ENABLED_UNSPECIFIED"
+  | "TRANSPARENT_HUGEPAGE_ENABLED_ALWAYS"
+  | "TRANSPARENT_HUGEPAGE_ENABLED_MADVISE"
+  | "TRANSPARENT_HUGEPAGE_ENABLED_NEVER";
+/** AccurateTimeConfig contains configuration for the accurate time synchronization feature. */
+export interface AccurateTimeConfig {
+  /** Enables enhanced time synchronization using PTP-KVM. */
+  enablePtpKvmTimeSync?: boolean | undefined;
+}
+export type NodeKernelModuleLoadingPolicyEnum =
+  | "POLICY_UNSPECIFIED"
+  | "ENFORCE_SIGNED_MODULES"
+  | "DO_NOT_ENFORCE_SIGNED_MODULES";
+/** Configuration for kernel module loading on nodes. */
+export interface NodeKernelModuleLoading {
+  /** Set the node module loading policy for nodes in the node pool. */
+  policy?: NodeKernelModuleLoadingPolicyEnum | (string & {}) | undefined;
+}
+/** DiskIoScheduler contains the configuration for the disk IO scheduler. */
+export interface DiskIoScheduler {
+  /** Optional. Configures the IO scheduler for the boot disk or ephemeral lssd that runs node system workloads. Supported values are `mq-deadline`, `bfq`, `kyber`, `none`. */
+  nodeSystemIoScheduler?: string | undefined;
+  /** Optional. Configures the IO scheduler for the attached disks. Supported values are `mq-deadline`, `bfq`, `kyber`, `none`. */
+  nodeAttachedDiskIoScheduler?: string | undefined;
+}
+export type KernelCommandlineOverridesInitOnAllocEnum =
+  | "INIT_ON_ALLOC_UNSPECIFIED"
+  | "INIT_ON_ALLOC_OFF";
+export type KernelCommandlineOverridesSpecRstackOverflowEnum =
+  | "SPEC_RSTACK_OVERFLOW_UNSPECIFIED"
+  | "SPEC_RSTACK_OVERFLOW_OFF";
+/** Definition of possible additional kernel command line arguments to be configured to the kernel. */
+export interface KernelCommandlineOverrides {
+  /** Optional. Defines the change of init_on_alloc. */
+  initOnAlloc?: KernelCommandlineOverridesInitOnAllocEnum | (string & {}) | undefined;
+  /** Optional. Defines the change of spec_rstack_overflow. */
+  specRstackOverflow?: KernelCommandlineOverridesSpecRstackOverflowEnum | (string & {}) | undefined;
+}
+/** lrugen (Multi-Gen LRU) options See https://docs.kernel.org/admin-guide/mm/multigen_lru.html */
+export interface LRUGen {
+  /** Optional. Users can write N to min_ttl_ms to prevent the working set of N milliseconds from getting evicted. */
+  minTtlMs?: number | undefined;
+  /** Optional. Enable lrugen. */
+  enabled?: boolean | undefined;
+}
+/** Parameters that can be configured on the kernel. */
+export interface KernelOverrides {
+  /** Optional. Allow setting for optional kernel command line arguments overrides. */
+  kernelCommandlineOverrides?: KernelCommandlineOverrides | undefined;
+  /** Optional. lrugen (Multi-Gen LRU) options */
+  lruGen?: LRUGen | undefined;
+}
+/** Configuration settings for VFIO (Virtual Function I/O) on a node. VFIO allows safe, unprivileged, userspace drivers to access I/O devices. */
+export interface NodeVfioConfig {
+  /** Optional. Specifies the maximum number of DMA entries (pages) that can be mapped by the VFIO IOMMU type 1 driver for a container. This limit affects the total amount of host memory that can be pinned for direct device access, which is often critical for high-performance devices like TPUs and GPUs. This setting corresponds to the kernel parameter at: `/sys/module/vfio_iommu_type1/parameters/dma_entry_limit`. The default value in the kernel is `65535`. Higher values may be needed for workloads mapping large memory regions. Supported values are integers between `65535` and `4194304`. */
+  dmaEntryLimit?: number | undefined;
+}
+/** Parameters that can be configured on Linux nodes. */
+export interface LinuxNodeConfig {
+  /** Optional. Amounts for 2M and 1G hugepages */
+  hugepages?: HugepagesConfig | undefined;
+  /** cgroup_mode specifies the cgroup mode to be used on the node. */
+  cgroupMode?: LinuxNodeConfigCgroupModeEnum | (string & {}) | undefined;
+  /** Optional. Additional entries to be added to /etc/systemd/resolved.conf. */
+  additionalEtcSystemdResolvedConf?: ResolvedConfEntryList | undefined;
+  /** Optional. Additional entries to be added to /etc/hosts. */
+  additionalEtcHosts?: EtcHostsEntryList | undefined;
+  /** Optional. Enables and configures swap space on nodes. If omitted, swap is disabled. */
+  swapConfig?: SwapConfig | undefined;
+  /** Optional. Allow users to run arbitrary bash script or container on the node. */
+  customNodeInit?: CustomNodeInit | undefined;
+  /** Optional. Defines the transparent hugepage defrag configuration on the node. VM hugepage allocation can be managed by either limiting defragmentation for delayed allocation or skipping it entirely for immediate allocation only. See https://docs.kernel.org/admin-guide/mm/transhuge.html for more details. */
+  transparentHugepageDefrag?:
+    | LinuxNodeConfigTransparentHugepageDefragEnum
+    | (string & {})
+    | undefined;
+  /** The Linux kernel parameters to be applied to the nodes and all pods running on the nodes. The following parameters are supported. net.core.busy_poll net.core.busy_read net.core.netdev_max_backlog net.core.rmem_max net.core.rmem_default net.core.wmem_default net.core.wmem_max net.core.optmem_max net.core.somaxconn net.ipv4.neigh.default.gc_thresh1 net.ipv4.neigh.default.gc_thresh2 net.ipv4.neigh.default.gc_thresh3 net.ipv4.tcp_rmem net.ipv4.tcp_wmem net.ipv4.tcp_tw_reuse net.ipv4.tcp_mtu_probing net.ipv4.tcp_max_orphans net.ipv4.tcp_max_tw_buckets net.ipv4.tcp_syn_retries net.ipv4.tcp_ecn net.ipv4.tcp_congestion_control net.netfilter.nf_conntrack_max net.netfilter.nf_conntrack_buckets net.netfilter.nf_conntrack_tcp_timeout_close_wait net.netfilter.nf_conntrack_tcp_timeout_time_wait net.netfilter.nf_conntrack_tcp_timeout_established net.netfilter.nf_conntrack_acct kernel.keys.maxkeys kernel.keys.maxbytes kernel.shmmni kernel.shmmax kernel.shmall kernel.core_pattern kernel.perf_event_paranoid kernel.sched_rt_runtime_us kernel.softlockup_panic kernel.yama.ptrace_scope kernel.kptr_restrict kernel.dmesg_restrict kernel.sysrq fs.aio-max-nr fs.file-max fs.inotify.max_user_instances fs.inotify.max_user_watches fs.nr_open vm.dirty_background_ratio vm.dirty_background_bytes vm.dirty_expire_centisecs vm.dirty_ratio vm.dirty_bytes vm.dirty_writeback_centisecs vm.max_map_count vm.overcommit_memory vm.overcommit_ratio vm.vfs_cache_pressure vm.swappiness vm.watermark_scale_factor vm.min_free_kbytes */
+  sysctls?: StringMap | undefined;
+  /** Optional. Additional entries to be added to /etc/resolv.conf. */
+  additionalEtcResolvConf?: ResolvedConfEntryList | undefined;
+  /** Optional. Transparent hugepage support for anonymous memory can be entirely disabled (mostly for debugging purposes) or only enabled inside MADV_HUGEPAGE regions (to avoid the risk of consuming more memory resources) or enabled system wide. See https://docs.kernel.org/admin-guide/mm/transhuge.html for more details. */
+  transparentHugepageEnabled?:
+    | LinuxNodeConfigTransparentHugepageEnabledEnum
+    | (string & {})
+    | undefined;
+  /** Optional. The accurate time configuration for the node pool. */
+  accurateTimeConfig?: AccurateTimeConfig | undefined;
+  /** Optional. Configuration for kernel module loading on nodes. When enabled, the node pool will be provisioned with a Container-Optimized OS image that enforces kernel module signature verification. */
+  nodeKernelModuleLoading?: NodeKernelModuleLoading | undefined;
+  /** Optional. Controls the configuration for the disk IO scheduler. */
+  diskIoScheduler?: DiskIoScheduler | undefined;
+  /** Optional. Configures the timezone of the node. */
+  timeZone?: string | undefined;
+  /** Optional. Defines the kernel overrides to be applied to the nodes. Note: sysctl changes are defined separately in the sysctls fields. */
+  kernelOverrides?: KernelOverrides | undefined;
+  /** Optional. Contains VFIO-related configurations for this node. */
+  nodeVfioConfig?: NodeVfioConfig | undefined;
+}
+/** A map of resource manager tag keys and values to be attached to the nodes for managing Compute Engine firewalls using Network Firewall Policies. Tags must be according to specifications in https://cloud.google.com/vpc/docs/tags-firewalls-overview#specifications. A maximum of 5 tag key-value pairs can be specified. Existing tags will be replaced with new values. */
+export interface ResourceManagerTags {
+  /** Tags must be in one of the following formats ([KEY]=[VALUE]) 1. `tagKeys/{tag_key_id}=tagValues/{tag_value_id}` 2. `{org_id}/{tag_key_name}={tag_value_name}` 3. `{project_id}/{tag_key_name}={tag_value_name}` */
+  tags?: StringMap | undefined;
+}
+/** CustomImageConfig contains the information r */
+export interface CustomImageConfig {
+  /** The name of the image to use for this node. */
+  image?: string | undefined;
+  /** The project containing the image to use for this node. */
+  imageProject?: string | undefined;
 }
 /** Defines writable cgroups configuration. */
 export interface WritableCgroups {
   /** Optional. Whether writable cgroups is enabled. */
   enabled?: boolean | undefined;
 }
-export type HostConfigCapabilitiesItemEnum =
-  | "HOST_CAPABILITY_UNSPECIFIED"
-  | "HOST_CAPABILITY_PULL"
-  | "HOST_CAPABILITY_RESOLVE"
-  | "HOST_CAPABILITY_PUSH";
-export type HostConfigCapabilitiesItemEnumList = Array<
-  HostConfigCapabilitiesItemEnum | (string & {})
->;
 /** CertificateConfig configures certificate for the registry. */
 export interface CertificateConfig {
   /** The URI configures a secret from [Secret Manager](https://cloud.google.com/secret-manager) in the format "projects/$PROJECT_ID/secrets/$SECRET_NAME/versions/$VERSION" for global secret or "projects/$PROJECT_ID/locations/$REGION/secrets/$SECRET_NAME/versions/$VERSION" for regional secret. Version can be fixed (e.g. "2") or "latest" */
@@ -1058,27 +876,35 @@ export interface CertificateConfigPair {
 export type CertificateConfigPairList = Array<CertificateConfigPair>;
 /** RegistryHeader configures headers for the registry. */
 export interface RegistryHeader {
-  /** Value configures the header value. */
-  value?: StringList | undefined;
   /** Key configures the header key. */
   key?: string | undefined;
+  /** Value configures the header value. */
+  value?: StringList | undefined;
 }
 export type RegistryHeaderList = Array<RegistryHeader>;
+export type HostConfigCapabilitiesItemEnum =
+  | "HOST_CAPABILITY_UNSPECIFIED"
+  | "HOST_CAPABILITY_PULL"
+  | "HOST_CAPABILITY_RESOLVE"
+  | "HOST_CAPABILITY_PUSH";
+export type HostConfigCapabilitiesItemEnumList = Array<
+  HostConfigCapabilitiesItemEnum | (string & {})
+>;
 export type CertificateConfigList = Array<CertificateConfig>;
 /** HostConfig configures the registry host under a given Server. */
 export interface HostConfig {
-  /** Specifies the maximum duration allowed for a connection attempt to complete. A shorter timeout helps reduce delays when falling back to the original registry if the mirror is unreachable. Maximum allowed value is 180s. If not set, containerd sets default 30s. The value should be a decimal number of seconds with an `s` suffix. */
-  dialTimeout?: string | undefined;
-  /** Capabilities represent the capabilities of the registry host, specifying what operations a host is capable of performing. If not set, containerd enables all capabilities by default. */
-  capabilities?: HostConfigCapabilitiesItemEnumList | undefined;
   /** Client configures the registry host client certificate and key. */
   client?: CertificateConfigPairList | undefined;
   /** OverridePath is used to indicate the host's API root endpoint is defined in the URL path rather than by the API specification. This may be used with non-compliant OCI registries which are missing the /v2 prefix. If not set, containerd sets default false. */
   overridePath?: boolean | undefined;
-  /** Header configures the registry host headers. */
-  header?: RegistryHeaderList | undefined;
   /** Host configures the registry host/mirror. It supports fully qualified domain names (FQDNs) and IP addresses. Specifying scheme, port or path is supported. Scheme can only be http or https. Wildcards are NOT supported. Examples: - `my.customdomain.com` - `https://my.customdomain.com/path` - `10.0.1.2:5000` */
   host?: string | undefined;
+  /** Header configures the registry host headers. */
+  header?: RegistryHeaderList | undefined;
+  /** Specifies the maximum duration allowed for a connection attempt to complete. A shorter timeout helps reduce delays when falling back to the original registry if the mirror is unreachable. Maximum allowed value is 180s. If not set, containerd sets default 30s. The value should be a decimal number of seconds with an `s` suffix. */
+  dialTimeout?: string | undefined;
+  /** Capabilities represent the capabilities of the registry host, specifying what operations a host is capable of performing. If not set, containerd enables all capabilities by default. */
+  capabilities?: HostConfigCapabilitiesItemEnumList | undefined;
   /** CA configures the registry host certificate. */
   ca?: CertificateConfigList | undefined;
 }
@@ -1091,95 +917,34 @@ export interface RegistryHostConfig {
   server?: string | undefined;
 }
 export type RegistryHostConfigList = Array<RegistryHostConfig>;
+/** GCPSecretManagerCertificateConfig configures a secret from [Secret Manager](https://cloud.google.com/secret-manager). */
+export interface GCPSecretManagerCertificateConfig {
+  /** Secret URI, in the form "projects/$PROJECT_ID/secrets/$SECRET_NAME/versions/$VERSION". Version can be fixed (e.g. "2") or "latest" */
+  secretUri?: string | undefined;
+}
+/** CertificateAuthorityDomainConfig configures one or more fully qualified domain names (FQDN) to a specific certificate. */
+export interface CertificateAuthorityDomainConfig {
+  /** Secret Manager certificate configuration. */
+  gcpSecretManagerCertificateConfig?: GCPSecretManagerCertificateConfig | undefined;
+  /** List of fully qualified domain names (FQDN). Specifying port is supported. Wildcards are NOT supported. Examples: - `my.customdomain.com` - `10.0.1.2:5000` */
+  fqdns?: StringList | undefined;
+}
+export type CertificateAuthorityDomainConfigList = Array<CertificateAuthorityDomainConfig>;
+/** PrivateRegistryAccessConfig contains access configuration for private container registries. */
+export interface PrivateRegistryAccessConfig {
+  /** Private registry access is enabled. */
+  enabled?: boolean | undefined;
+  /** Private registry access configuration. */
+  certificateAuthorityDomainConfig?: CertificateAuthorityDomainConfigList | undefined;
+}
 /** ContainerdConfig contains configuration to customize containerd. */
 export interface ContainerdConfig {
-  /** PrivateRegistryAccessConfig is used to configure access configuration for private container registries. */
-  privateRegistryAccessConfig?: PrivateRegistryAccessConfig | undefined;
   /** Optional. WritableCgroups defines writable cgroups configuration for the node pool. */
   writableCgroups?: WritableCgroups | undefined;
   /** RegistryHostConfig configures containerd registry host configuration. Each registry_hosts represents a hosts.toml file. At most 25 registry_hosts are allowed. */
   registryHosts?: RegistryHostConfigList | undefined;
-}
-/** Strategy that will trigger maintenance on behalf of the customer. */
-export interface OpportunisticMaintenanceStrategy {
-  /** The minimum nodes required to be available in a pool. Blocks maintenance if it would cause the number of running nodes to dip below this value. */
-  minNodesPerPool?: string | undefined;
-  /** The window of time that opportunistic maintenance can run. Example: A setting of 14 days implies that opportunistic maintenance can only be ran in the 2 weeks leading up to the scheduled maintenance date. Setting 28 days allows opportunistic maintenance to run at any time in the scheduled maintenance window (all `PERIODIC` maintenance is set 28 days in advance). */
-  maintenanceAvailabilityWindow?: string | undefined;
-  /** The amount of time that a node can remain idle (no customer owned workloads running), before triggering maintenance. */
-  nodeIdleTimeWindow?: string | undefined;
-}
-export type HostMaintenancePolicyMaintenanceIntervalEnum =
-  | "MAINTENANCE_INTERVAL_UNSPECIFIED"
-  | "AS_NEEDED"
-  | "PERIODIC";
-/** HostMaintenancePolicy contains the maintenance policy for the hosts on which the GKE VMs run on. */
-export interface HostMaintenancePolicy {
-  /** Strategy that will trigger maintenance on behalf of the customer. */
-  opportunisticMaintenanceStrategy?: OpportunisticMaintenanceStrategy | undefined;
-  /** Specifies the frequency of planned maintenance events. */
-  maintenanceInterval?: HostMaintenancePolicyMaintenanceIntervalEnum | (string & {}) | undefined;
-}
-/** SecondaryBootDiskUpdateStrategy is a placeholder which will be extended in the future to define different options for updating secondary boot disks. */
-export type SecondaryBootDiskUpdateStrategy = CompleteNodePoolUpgradeRequest;
-/** BootDisk specifies the boot disk configuration for node pools. */
-export interface BootDisk {
-  /** For Hyperdisk-Balanced only, the provisioned IOPS config value. */
-  provisionedIops?: string | undefined;
-  /** Disk type of the boot disk. (i.e. Hyperdisk-Balanced, PD-Balanced, etc.) */
-  diskType?: string | undefined;
-  /** For Hyperdisk-Balanced only, the provisioned throughput config value. */
-  provisionedThroughput?: string | undefined;
-  /** Disk size in GB. Replaces NodeConfig.disk_size_gb */
-  sizeGb?: string | undefined;
-}
-export type WorkloadMetadataConfigModeEnum = "MODE_UNSPECIFIED" | "GCE_METADATA" | "GKE_METADATA";
-export type WorkloadMetadataConfigNodeMetadataEnum =
-  | "UNSPECIFIED"
-  | "SECURE"
-  | "EXPOSE"
-  | "GKE_METADATA_SERVER";
-/** WorkloadMetadataConfig defines the metadata configuration to expose to workloads on the node pool. */
-export interface WorkloadMetadataConfig {
-  /** Mode is the configuration for how to expose metadata to workloads running on the node pool. */
-  mode?: WorkloadMetadataConfigModeEnum | (string & {}) | undefined;
-  /** NodeMetadata is the configuration for how to expose metadata to the workloads running on the node. */
-  nodeMetadata?: WorkloadMetadataConfigNodeMetadataEnum | (string & {}) | undefined;
-}
-export type NodeAffinityOperatorEnum = "OPERATOR_UNSPECIFIED" | "IN" | "NOT_IN";
-/** Specifies the NodeAffinity key, values, and affinity operator according to [shared sole tenant node group affinities](https://cloud.google.com/compute/docs/nodes/sole-tenant-nodes#node_affinity_and_anti-affinity). */
-export interface NodeAffinity {
-  /** Key for NodeAffinity. */
-  key?: string | undefined;
-  /** Operator for NodeAffinity. */
-  operator?: NodeAffinityOperatorEnum | (string & {}) | undefined;
-  /** Values for NodeAffinity. */
-  values?: StringList | undefined;
-}
-export type NodeAffinityList = Array<NodeAffinity>;
-/** SoleTenantConfig contains the NodeAffinities to specify what shared sole tenant node groups should back the node pool. */
-export interface SoleTenantConfig {
-  /** NodeAffinities used to match to a shared sole tenant node group. */
-  nodeAffinities?: NodeAffinityList | undefined;
-  /** Optional. The minimum number of virtual CPUs this instance will consume when running on a sole-tenant node. This field can only be set if the node pool is created in a shared sole-tenant node group. */
-  minNodeCpus?: number | undefined;
-}
-export type AdvancedMachineFeaturesPerformanceMonitoringUnitEnum =
-  | "PERFORMANCE_MONITORING_UNIT_UNSPECIFIED"
-  | "ARCHITECTURAL"
-  | "STANDARD"
-  | "ENHANCED";
-/** Specifies options for controlling advanced machine features. */
-export interface AdvancedMachineFeatures {
-  /** The number of threads per physical core. To disable simultaneous multithreading (SMT) set this to 1. If unset, the maximum number of threads supported per core by the underlying processor is assumed. */
-  threadsPerCore?: string | undefined;
-  /** Whether or not to enable nested virtualization (defaults to false). */
-  enableNestedVirtualization?: boolean | undefined;
-  /** Type of Performance Monitoring Unit (PMU) requested on node pool instances. If unset, PMU will not be available to the node. */
-  performanceMonitoringUnit?:
-    | AdvancedMachineFeaturesPerformanceMonitoringUnitEnum
-    | (string & {})
-    | undefined;
+  /** PrivateRegistryAccessConfig is used to configure access configuration for private container registries. */
+  privateRegistryAccessConfig?: PrivateRegistryAccessConfig | undefined;
 }
 /** EphemeralStorageLocalSsdConfig contains configuration for the node ephemeral storage using Local SSDs. */
 export interface EphemeralStorageLocalSsdConfig {
@@ -1190,81 +955,6 @@ export interface EphemeralStorageLocalSsdConfig {
   /** Capacity set aside for Ephemeral Storage if using mixed Local SSD modes. The remaining capacity is Raw Block. */
   ephemeralCapacityGb?: string | undefined;
 }
-export type TaintConfigArchitectureTaintBehaviorEnum =
-  | "ARCHITECTURE_TAINT_BEHAVIOR_UNSPECIFIED"
-  | "NONE"
-  | "ARM";
-/** TaintConfig contains the configuration for the taints of the node pool. */
-export interface TaintConfig {
-  /** Optional. Controls architecture tainting behavior. */
-  architectureTaintBehavior?: TaintConfigArchitectureTaintBehaviorEnum | (string & {}) | undefined;
-}
-/** A set of Shielded Instance options. */
-export interface ShieldedInstanceConfig {
-  /** Defines whether the instance has integrity monitoring enabled. Enables monitoring and attestation of the boot integrity of the instance. The attestation is performed against the integrity policy baseline. This baseline is initially derived from the implicitly trusted boot image when the instance is created. */
-  enableIntegrityMonitoring?: boolean | undefined;
-  /** Defines whether the instance has Secure Boot enabled. Secure Boot helps ensure that the system only runs authentic software by verifying the digital signature of all boot components, and halting the boot process if signature verification fails. */
-  enableSecureBoot?: boolean | undefined;
-}
-/** EphemeralStorageConfig contains configuration for the ephemeral storage filesystem. */
-export interface EphemeralStorageConfig {
-  /** Number of local SSDs to use to back ephemeral storage. Uses NVMe interfaces. The limit for this value is dependent upon the maximum number of disk available on a machine per zone. See: https://cloud.google.com/compute/docs/disks/local-ssd for more information. A zero (or unset) value has different meanings depending on machine type being used: 1. For pre-Gen3 machines, which support flexible numbers of local ssds, zero (or unset) means to disable using local SSDs as ephemeral storage. 2. For Gen3 machines which dictate a specific number of local ssds, zero (or unset) means to use the default number of local ssds that goes with that machine type. For example, for a c3-standard-8-lssd machine, 2 local ssds would be provisioned. For c3-standard-8 (which doesn't support local ssds), 0 will be provisioned. See https://cloud.google.com/compute/docs/disks/local-ssd#choose_number_local_ssds for more info. */
-  localSsdCount?: number | undefined;
-}
-export type GPUDirectConfigGpuDirectStrategyEnum = "GPU_DIRECT_STRATEGY_UNSPECIFIED" | "RDMA";
-/** GPUDirectConfig specifies the GPU direct strategy on the node pool. */
-export interface GPUDirectConfig {
-  /** The type of GPU direct strategy to enable on the node pool. */
-  gpuDirectStrategy?: GPUDirectConfigGpuDirectStrategyEnum | (string & {}) | undefined;
-}
-/** A map of resource manager tag keys and values to be attached to the nodes for managing Compute Engine firewalls using Network Firewall Policies. Tags must be according to specifications in https://cloud.google.com/vpc/docs/tags-firewalls-overview#specifications. A maximum of 5 tag key-value pairs can be specified. Existing tags will be replaced with new values. */
-export interface ResourceManagerTags {
-  /** Tags must be in one of the following formats ([KEY]=[VALUE]) 1. `tagKeys/{tag_key_id}=tagValues/{tag_value_id}` 2. `{org_id}/{tag_key_name}={tag_value_name}` 3. `{project_id}/{tag_key_name}={tag_value_name}` */
-  tags?: StringMap | undefined;
-}
-export type WindowsNodeConfigOsVersionEnum =
-  | "OS_VERSION_UNSPECIFIED"
-  | "OS_VERSION_LTSC2019"
-  | "OS_VERSION_LTSC2022";
-/** Parameters that can be configured on Windows nodes. Windows Node Config that define the parameters that will be used to configure the Windows node pool settings. */
-export interface WindowsNodeConfig {
-  /** OSVersion specifies the Windows node config to be used on the node. */
-  osVersion?: WindowsNodeConfigOsVersionEnum | (string & {}) | undefined;
-}
-export type SandboxConfigTypeEnum = "UNSPECIFIED" | "GVISOR" | "MICROVM";
-/** SandboxConfig contains configurations of the sandbox to use for the node. */
-export interface SandboxConfig {
-  /** Type of the sandbox to use for the node (e.g. 'gvisor') */
-  sandboxType?: string | undefined;
-  /** Type of the sandbox to use for the node. */
-  type?: SandboxConfigTypeEnum | (string & {}) | undefined;
-}
-export type NodeConfigLocalSsdEncryptionModeEnum =
-  | "LOCAL_SSD_ENCRYPTION_MODE_UNSPECIFIED"
-  | "STANDARD_ENCRYPTION"
-  | "EPHEMERAL_KEY_ENCRYPTION";
-export type NodeTaintEffectEnum =
-  | "EFFECT_UNSPECIFIED"
-  | "NO_SCHEDULE"
-  | "PREFER_NO_SCHEDULE"
-  | "NO_EXECUTE";
-/** Kubernetes taint is composed of three fields: key, value, and effect. Effect can only be one of three types: NoSchedule, PreferNoSchedule or NoExecute. See [here](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration) for more information, including usage and the valid values. */
-export interface NodeTaint {
-  /** Effect for taint. */
-  effect?: NodeTaintEffectEnum | (string & {}) | undefined;
-  /** Key for taint. */
-  key?: string | undefined;
-  /** Value for taint. */
-  value?: string | undefined;
-}
-export type NodeTaintList = Array<NodeTaint>;
-/** CustomImageConfig contains the information r */
-export interface CustomImageConfig {
-  /** The name of the image to use for this node. */
-  image?: string | undefined;
-  /** The project containing the image to use for this node. */
-  imageProject?: string | undefined;
-}
 export type SecondaryBootDiskModeEnum = "MODE_UNSPECIFIED" | "CONTAINER_IMAGE_CACHE";
 /** SecondaryBootDisk represents a persistent disk attached to a node with special configurations based on its mode. */
 export interface SecondaryBootDisk {
@@ -1274,192 +964,57 @@ export interface SecondaryBootDisk {
   diskImage?: string | undefined;
 }
 export type SecondaryBootDiskList = Array<SecondaryBootDisk>;
-/** Additional entries to be added to resolved.conf. */
-export interface ResolvedConfEntry {
-  /** Optional. The value of resolved.conf */
-  value?: StringList | undefined;
-  /** The key of resolved.conf */
-  key?: string | undefined;
+/** BootDisk specifies the boot disk configuration for node pools. */
+export interface BootDisk {
+  /** Disk size in GB. Replaces NodeConfig.disk_size_gb */
+  sizeGb?: string | undefined;
+  /** For Hyperdisk-Balanced only, the provisioned throughput config value. */
+  provisionedThroughput?: string | undefined;
+  /** Disk type of the boot disk. (i.e. Hyperdisk-Balanced, PD-Balanced, etc.) */
+  diskType?: string | undefined;
+  /** For Hyperdisk-Balanced only, the provisioned IOPS config value. */
+  provisionedIops?: string | undefined;
 }
-export type ResolvedConfEntryList = Array<ResolvedConfEntry>;
-/** AccurateTimeConfig contains configuration for the accurate time synchronization feature. */
-export interface AccurateTimeConfig {
-  /** Enables enhanced time synchronization using PTP-KVM. */
-  enablePtpKvmTimeSync?: boolean | undefined;
+export type GPUDriverInstallationConfigGpuDriverVersionEnum =
+  | "GPU_DRIVER_VERSION_UNSPECIFIED"
+  | "INSTALLATION_DISABLED"
+  | "DEFAULT"
+  | "LATEST"
+  | "SPECIFIC";
+/** GPUDriverInstallationConfig specifies the version of GPU driver to be auto installed. */
+export interface GPUDriverInstallationConfig {
+  /** Mode for how the GPU driver is installed. */
+  gpuDriverVersion?: GPUDriverInstallationConfigGpuDriverVersionEnum | (string & {}) | undefined;
+  /** Optional. The specific version of the GPU driver to install. Use this field only with gpu_driver_version set to SPECIFIC. Otherwise, an error will be returned. */
+  specificVersion?: string | undefined;
 }
-/** Swap on the node's boot disk. */
-export interface BootDiskProfile {
-  /** Specifies the size of the swap space as a percentage of the boot disk size. */
-  swapSizePercent?: number | undefined;
-  /** Specifies the size of the swap space in gibibytes (GiB). */
-  swapSizeGib?: string | undefined;
+export type GPUSharingConfigGpuSharingStrategyEnum =
+  | "GPU_SHARING_STRATEGY_UNSPECIFIED"
+  | "TIME_SHARING"
+  | "MPS";
+/** GPUSharingConfig represents the GPU sharing configuration for Hardware Accelerators. */
+export interface GPUSharingConfig {
+  /** The type of GPU sharing strategy to enable on the GPU node. */
+  gpuSharingStrategy?: GPUSharingConfigGpuSharingStrategyEnum | (string & {}) | undefined;
+  /** The max number of containers that can share a physical GPU. */
+  maxSharedClientsPerGpu?: string | undefined;
 }
-/** Swap on the local SSD shared with pod ephemeral storage. */
-export interface EphemeralLocalSsdProfile {
-  /** Specifies the size of the swap space as a percentage of the ephemeral local SSD capacity. */
-  swapSizePercent?: number | undefined;
-  /** Specifies the size of the swap space in gibibytes (GiB). */
-  swapSizeGib?: string | undefined;
+/** AcceleratorConfig represents a Hardware Accelerator request. */
+export interface AcceleratorConfig {
+  /** The accelerator type resource name. List of supported accelerators [here](https://cloud.google.com/compute/docs/gpus) */
+  acceleratorType?: string | undefined;
+  /** Size of partitions to create on the GPU. Valid values are described in the NVIDIA [mig user guide](https://docs.nvidia.com/datacenter/tesla/mig-user-guide/#partitioning). */
+  gpuPartitionSize?: string | undefined;
+  /** The configuration for auto installation of GPU driver. */
+  gpuDriverInstallationConfig?: GPUDriverInstallationConfig | undefined;
+  /** The number of time-shared GPU resources to expose for each physical GPU. */
+  maxTimeSharedClientsPerGpu?: string | undefined;
+  /** The number of the accelerator cards exposed to an instance. */
+  acceleratorCount?: string | undefined;
+  /** The configuration for GPU sharing options. */
+  gpuSharingConfig?: GPUSharingConfig | undefined;
 }
-/** Defines encryption settings for the swap space. */
-export interface EncryptionConfig {
-  /** Optional. If true, swap space will not be encrypted. Defaults to false (encrypted). */
-  disabled?: boolean | undefined;
-}
-/** Provisions a new, separate local NVMe SSD exclusively for swap. */
-export interface DedicatedLocalSsdProfile {
-  /** The number of physical local NVMe SSD disks to attach. */
-  diskCount?: string | undefined;
-}
-/** Configuration for swap memory on a node pool. */
-export interface SwapConfig {
-  /** Swap on the node's boot disk. */
-  bootDiskProfile?: BootDiskProfile | undefined;
-  /** Swap on the local SSD shared with pod ephemeral storage. */
-  ephemeralLocalSsdProfile?: EphemeralLocalSsdProfile | undefined;
-  /** Optional. If omitted, swap space is encrypted by default. */
-  encryptionConfig?: EncryptionConfig | undefined;
-  /** Optional. Enables or disables swap for the node pool. */
-  enabled?: boolean | undefined;
-  /** Provisions a new, separate local NVMe SSD exclusively for swap. */
-  dedicatedLocalSsdProfile?: DedicatedLocalSsdProfile | undefined;
-}
-/** DiskIoScheduler contains the configuration for the disk IO scheduler. */
-export interface DiskIoScheduler {
-  /** Optional. Configures the IO scheduler for the boot disk or ephemeral lssd that runs node system workloads. Supported values are `mq-deadline`, `bfq`, `kyber`, `none`. */
-  nodeSystemIoScheduler?: string | undefined;
-  /** Optional. Configures the IO scheduler for the attached disks. Supported values are `mq-deadline`, `bfq`, `kyber`, `none`. */
-  nodeAttachedDiskIoScheduler?: string | undefined;
-}
-/** Additional entries to be added to /etc/hosts. */
-export interface EtcHostsEntry {
-  /** The hostname of the host. */
-  host?: string | undefined;
-  /** The IPv4 or IPv6 address of the host. */
-  ip?: string | undefined;
-}
-export type EtcHostsEntryList = Array<EtcHostsEntry>;
-/** lrugen (Multi-Gen LRU) options See https://docs.kernel.org/admin-guide/mm/multigen_lru.html */
-export interface LRUGen {
-  /** Optional. Enable lrugen. */
-  enabled?: boolean | undefined;
-  /** Optional. Users can write N to min_ttl_ms to prevent the working set of N milliseconds from getting evicted. */
-  minTtlMs?: number | undefined;
-}
-export type KernelCommandlineOverridesInitOnAllocEnum =
-  | "INIT_ON_ALLOC_UNSPECIFIED"
-  | "INIT_ON_ALLOC_OFF";
-export type KernelCommandlineOverridesSpecRstackOverflowEnum =
-  | "SPEC_RSTACK_OVERFLOW_UNSPECIFIED"
-  | "SPEC_RSTACK_OVERFLOW_OFF";
-/** Definition of possible additional kernel command line arguments to be configured to the kernel. */
-export interface KernelCommandlineOverrides {
-  /** Optional. Defines the change of init_on_alloc. */
-  initOnAlloc?: KernelCommandlineOverridesInitOnAllocEnum | (string & {}) | undefined;
-  /** Optional. Defines the change of spec_rstack_overflow. */
-  specRstackOverflow?: KernelCommandlineOverridesSpecRstackOverflowEnum | (string & {}) | undefined;
-}
-/** Parameters that can be configured on the kernel. */
-export interface KernelOverrides {
-  /** Optional. lrugen (Multi-Gen LRU) options */
-  lruGen?: LRUGen | undefined;
-  /** Optional. Allow setting for optional kernel command line arguments overrides. */
-  kernelCommandlineOverrides?: KernelCommandlineOverrides | undefined;
-}
-export type LinuxNodeConfigCgroupModeEnum =
-  | "CGROUP_MODE_UNSPECIFIED"
-  | "CGROUP_MODE_V1"
-  | "CGROUP_MODE_V2";
-export type NodeKernelModuleLoadingPolicyEnum =
-  | "POLICY_UNSPECIFIED"
-  | "ENFORCE_SIGNED_MODULES"
-  | "DO_NOT_ENFORCE_SIGNED_MODULES";
-/** Configuration for kernel module loading on nodes. */
-export interface NodeKernelModuleLoading {
-  /** Set the node module loading policy for nodes in the node pool. */
-  policy?: NodeKernelModuleLoadingPolicyEnum | (string & {}) | undefined;
-}
-export type LinuxNodeConfigTransparentHugepageDefragEnum =
-  | "TRANSPARENT_HUGEPAGE_DEFRAG_UNSPECIFIED"
-  | "TRANSPARENT_HUGEPAGE_DEFRAG_ALWAYS"
-  | "TRANSPARENT_HUGEPAGE_DEFRAG_DEFER"
-  | "TRANSPARENT_HUGEPAGE_DEFRAG_DEFER_WITH_MADVISE"
-  | "TRANSPARENT_HUGEPAGE_DEFRAG_MADVISE"
-  | "TRANSPARENT_HUGEPAGE_DEFRAG_NEVER";
-/** InitScript provide a simply bash script to be executed on the node. */
-export interface InitScript {
-  /** The resource name of the secret manager secret hosting the init script. Both global and regional secrets are supported with format below: Global secret: projects/{project}/secrets/{secret}/versions/{version} Regional secret: projects/{project}/locations/{location}/secrets/{secret}/versions/{version} Example: projects/1234567890/secrets/script_1/versions/1. Accept version number only, not support version alias. User can't configure both gcp_secret_manager_secret_uri and gcs_uri. */
-  gcpSecretManagerSecretUri?: string | undefined;
-  /** The generation of the init script stored in Gloud Storage. This is the required field to identify the version of the init script. User can get the genetaion from `gcloud storage objects describe gs://BUCKET_NAME/OBJECT_NAME --format="value(generation)"` or from the "Version history" tab of the object in the Cloud Console UI. */
-  gcsGeneration?: string | undefined;
-  /** Optional. The optional arguments line to be passed to the init script. */
-  args?: StringList | undefined;
-  /** The Cloud Storage URI for storing the init script. Format: gs://BUCKET_NAME/OBJECT_NAME The service account on the node pool must have read access to the object. User can't configure both gcs_uri and gcp_secret_manager_secret_uri. */
-  gcsUri?: string | undefined;
-}
-/** Support for running custom init code while bootstrapping nodes. */
-export interface CustomNodeInit {
-  /** Optional. The init script to be executed on the node. */
-  initScript?: InitScript | undefined;
-}
-/** Configuration settings for VFIO (Virtual Function I/O) on a node. VFIO allows safe, unprivileged, userspace drivers to access I/O devices. */
-export interface NodeVfioConfig {
-  /** Optional. Specifies the maximum number of DMA entries (pages) that can be mapped by the VFIO IOMMU type 1 driver for a container. This limit affects the total amount of host memory that can be pinned for direct device access, which is often critical for high-performance devices like TPUs and GPUs. This setting corresponds to the kernel parameter at: `/sys/module/vfio_iommu_type1/parameters/dma_entry_limit`. The default value in the kernel is `65535`. Higher values may be needed for workloads mapping large memory regions. Supported values are integers between `65535` and `4194304`. */
-  dmaEntryLimit?: number | undefined;
-}
-/** Hugepages amount in both 2m and 1g size */
-export interface HugepagesConfig {
-  /** Optional. Amount of 2M hugepages */
-  hugepageSize2m?: number | undefined;
-  /** Optional. Amount of 1G hugepages */
-  hugepageSize1g?: number | undefined;
-}
-export type LinuxNodeConfigTransparentHugepageEnabledEnum =
-  | "TRANSPARENT_HUGEPAGE_ENABLED_UNSPECIFIED"
-  | "TRANSPARENT_HUGEPAGE_ENABLED_ALWAYS"
-  | "TRANSPARENT_HUGEPAGE_ENABLED_MADVISE"
-  | "TRANSPARENT_HUGEPAGE_ENABLED_NEVER";
-/** Parameters that can be configured on Linux nodes. */
-export interface LinuxNodeConfig {
-  /** Optional. Additional entries to be added to /etc/systemd/resolved.conf. */
-  additionalEtcSystemdResolvedConf?: ResolvedConfEntryList | undefined;
-  /** Optional. The accurate time configuration for the node pool. */
-  accurateTimeConfig?: AccurateTimeConfig | undefined;
-  /** Optional. Enables and configures swap space on nodes. If omitted, swap is disabled. */
-  swapConfig?: SwapConfig | undefined;
-  /** Optional. Controls the configuration for the disk IO scheduler. */
-  diskIoScheduler?: DiskIoScheduler | undefined;
-  /** Optional. Additional entries to be added to /etc/hosts. */
-  additionalEtcHosts?: EtcHostsEntryList | undefined;
-  /** Optional. Additional entries to be added to /etc/resolv.conf. */
-  additionalEtcResolvConf?: ResolvedConfEntryList | undefined;
-  /** Optional. Defines the kernel overrides to be applied to the nodes. Note: sysctl changes are defined separately in the sysctls fields. */
-  kernelOverrides?: KernelOverrides | undefined;
-  /** The Linux kernel parameters to be applied to the nodes and all pods running on the nodes. The following parameters are supported. net.core.busy_poll net.core.busy_read net.core.netdev_max_backlog net.core.rmem_max net.core.rmem_default net.core.wmem_default net.core.wmem_max net.core.optmem_max net.core.somaxconn net.ipv4.neigh.default.gc_thresh1 net.ipv4.neigh.default.gc_thresh2 net.ipv4.neigh.default.gc_thresh3 net.ipv4.tcp_rmem net.ipv4.tcp_wmem net.ipv4.tcp_tw_reuse net.ipv4.tcp_mtu_probing net.ipv4.tcp_max_orphans net.ipv4.tcp_max_tw_buckets net.ipv4.tcp_syn_retries net.ipv4.tcp_ecn net.ipv4.tcp_congestion_control net.netfilter.nf_conntrack_max net.netfilter.nf_conntrack_buckets net.netfilter.nf_conntrack_tcp_timeout_close_wait net.netfilter.nf_conntrack_tcp_timeout_time_wait net.netfilter.nf_conntrack_tcp_timeout_established net.netfilter.nf_conntrack_acct kernel.keys.maxkeys kernel.keys.maxbytes kernel.shmmni kernel.shmmax kernel.shmall kernel.core_pattern kernel.perf_event_paranoid kernel.sched_rt_runtime_us kernel.softlockup_panic kernel.yama.ptrace_scope kernel.kptr_restrict kernel.dmesg_restrict kernel.sysrq fs.aio-max-nr fs.file-max fs.inotify.max_user_instances fs.inotify.max_user_watches fs.nr_open vm.dirty_background_ratio vm.dirty_background_bytes vm.dirty_expire_centisecs vm.dirty_ratio vm.dirty_bytes vm.dirty_writeback_centisecs vm.max_map_count vm.overcommit_memory vm.overcommit_ratio vm.vfs_cache_pressure vm.swappiness vm.watermark_scale_factor vm.min_free_kbytes */
-  sysctls?: StringMap | undefined;
-  /** cgroup_mode specifies the cgroup mode to be used on the node. */
-  cgroupMode?: LinuxNodeConfigCgroupModeEnum | (string & {}) | undefined;
-  /** Optional. Configuration for kernel module loading on nodes. When enabled, the node pool will be provisioned with a Container-Optimized OS image that enforces kernel module signature verification. */
-  nodeKernelModuleLoading?: NodeKernelModuleLoading | undefined;
-  /** Optional. Defines the transparent hugepage defrag configuration on the node. VM hugepage allocation can be managed by either limiting defragmentation for delayed allocation or skipping it entirely for immediate allocation only. See https://docs.kernel.org/admin-guide/mm/transhuge.html for more details. */
-  transparentHugepageDefrag?:
-    | LinuxNodeConfigTransparentHugepageDefragEnum
-    | (string & {})
-    | undefined;
-  /** Optional. Configures the timezone of the node. */
-  timeZone?: string | undefined;
-  /** Optional. Allow users to run arbitrary bash script or container on the node. */
-  customNodeInit?: CustomNodeInit | undefined;
-  /** Optional. Contains VFIO-related configurations for this node. */
-  nodeVfioConfig?: NodeVfioConfig | undefined;
-  /** Optional. Amounts for 2M and 1G hugepages */
-  hugepages?: HugepagesConfig | undefined;
-  /** Optional. Transparent hugepage support for anonymous memory can be entirely disabled (mostly for debugging purposes) or only enabled inside MADV_HUGEPAGE regions (to avoid the risk of consuming more memory resources) or enabled system wide. See https://docs.kernel.org/admin-guide/mm/transhuge.html for more details. */
-  transparentHugepageEnabled?:
-    | LinuxNodeConfigTransparentHugepageEnabledEnum
-    | (string & {})
-    | undefined;
-}
+export type AcceleratorConfigList = Array<AcceleratorConfig>;
 export type ConfidentialNodesConfidentialInstanceTypeEnum =
   | "CONFIDENTIAL_INSTANCE_TYPE_UNSPECIFIED"
   | "SEV"
@@ -1475,9 +1030,9 @@ export interface ConfidentialNodes {
     | (string & {})
     | undefined;
 }
-/** Configuration of gVNIC feature. */
-export interface VirtualNIC {
-  /** Whether gVNIC features are enabled in the node pool. */
+/** GcfsConfig contains configurations of Google Container File System. */
+export interface GcfsConfig {
+  /** Whether to use GCFS. */
   enabled?: boolean | undefined;
 }
 /** Configuration of Fast Socket feature. */
@@ -1485,10 +1040,170 @@ export interface FastSocket {
   /** Whether Fast Socket features are enabled in the node pool. */
   enabled?: boolean | undefined;
 }
-/** GcfsConfig contains configurations of Google Container File System. */
-export interface GcfsConfig {
-  /** Whether to use GCFS. */
+export type NodeAffinityOperatorEnum = "OPERATOR_UNSPECIFIED" | "IN" | "NOT_IN";
+/** Specifies the NodeAffinity key, values, and affinity operator according to [shared sole tenant node group affinities](https://cloud.google.com/compute/docs/nodes/sole-tenant-nodes#node_affinity_and_anti-affinity). */
+export interface NodeAffinity {
+  /** Values for NodeAffinity. */
+  values?: StringList | undefined;
+  /** Key for NodeAffinity. */
+  key?: string | undefined;
+  /** Operator for NodeAffinity. */
+  operator?: NodeAffinityOperatorEnum | (string & {}) | undefined;
+}
+export type NodeAffinityList = Array<NodeAffinity>;
+/** SoleTenantConfig contains the NodeAffinities to specify what shared sole tenant node groups should back the node pool. */
+export interface SoleTenantConfig {
+  /** Optional. The minimum number of virtual CPUs this instance will consume when running on a sole-tenant node. This field can only be set if the node pool is created in a shared sole-tenant node group. */
+  minNodeCpus?: number | undefined;
+  /** NodeAffinities used to match to a shared sole tenant node group. */
+  nodeAffinities?: NodeAffinityList | undefined;
+}
+export type HostMaintenancePolicyMaintenanceIntervalEnum =
+  | "MAINTENANCE_INTERVAL_UNSPECIFIED"
+  | "AS_NEEDED"
+  | "PERIODIC";
+/** Strategy that will trigger maintenance on behalf of the customer. */
+export interface OpportunisticMaintenanceStrategy {
+  /** The minimum nodes required to be available in a pool. Blocks maintenance if it would cause the number of running nodes to dip below this value. */
+  minNodesPerPool?: string | undefined;
+  /** The amount of time that a node can remain idle (no customer owned workloads running), before triggering maintenance. */
+  nodeIdleTimeWindow?: string | undefined;
+  /** The window of time that opportunistic maintenance can run. Example: A setting of 14 days implies that opportunistic maintenance can only be ran in the 2 weeks leading up to the scheduled maintenance date. Setting 28 days allows opportunistic maintenance to run at any time in the scheduled maintenance window (all `PERIODIC` maintenance is set 28 days in advance). */
+  maintenanceAvailabilityWindow?: string | undefined;
+}
+/** HostMaintenancePolicy contains the maintenance policy for the hosts on which the GKE VMs run on. */
+export interface HostMaintenancePolicy {
+  /** Specifies the frequency of planned maintenance events. */
+  maintenanceInterval?: HostMaintenancePolicyMaintenanceIntervalEnum | (string & {}) | undefined;
+  /** Strategy that will trigger maintenance on behalf of the customer. */
+  opportunisticMaintenanceStrategy?: OpportunisticMaintenanceStrategy | undefined;
+}
+export type WorkloadMetadataConfigNodeMetadataEnum =
+  | "UNSPECIFIED"
+  | "SECURE"
+  | "EXPOSE"
+  | "GKE_METADATA_SERVER";
+export type WorkloadMetadataConfigModeEnum = "MODE_UNSPECIFIED" | "GCE_METADATA" | "GKE_METADATA";
+/** WorkloadMetadataConfig defines the metadata configuration to expose to workloads on the node pool. */
+export interface WorkloadMetadataConfig {
+  /** NodeMetadata is the configuration for how to expose metadata to the workloads running on the node. */
+  nodeMetadata?: WorkloadMetadataConfigNodeMetadataEnum | (string & {}) | undefined;
+  /** Mode is the configuration for how to expose metadata to workloads running on the node pool. */
+  mode?: WorkloadMetadataConfigModeEnum | (string & {}) | undefined;
+}
+export type AdvancedMachineFeaturesPerformanceMonitoringUnitEnum =
+  | "PERFORMANCE_MONITORING_UNIT_UNSPECIFIED"
+  | "ARCHITECTURAL"
+  | "STANDARD"
+  | "ENHANCED";
+/** Specifies options for controlling advanced machine features. */
+export interface AdvancedMachineFeatures {
+  /** The number of threads per physical core. To disable simultaneous multithreading (SMT) set this to 1. If unset, the maximum number of threads supported per core by the underlying processor is assumed. */
+  threadsPerCore?: string | undefined;
+  /** Type of Performance Monitoring Unit (PMU) requested on node pool instances. If unset, PMU will not be available to the node. */
+  performanceMonitoringUnit?:
+    | AdvancedMachineFeaturesPerformanceMonitoringUnitEnum
+    | (string & {})
+    | undefined;
+  /** Whether or not to enable nested virtualization (defaults to false). */
+  enableNestedVirtualization?: boolean | undefined;
+}
+export type GPUDirectConfigGpuDirectStrategyEnum = "GPU_DIRECT_STRATEGY_UNSPECIFIED" | "RDMA";
+/** GPUDirectConfig specifies the GPU direct strategy on the node pool. */
+export interface GPUDirectConfig {
+  /** The type of GPU direct strategy to enable on the node pool. */
+  gpuDirectStrategy?: GPUDirectConfigGpuDirectStrategyEnum | (string & {}) | undefined;
+}
+/** A set of Shielded Instance options. */
+export interface ShieldedInstanceConfig {
+  /** Defines whether the instance has integrity monitoring enabled. Enables monitoring and attestation of the boot integrity of the instance. The attestation is performed against the integrity policy baseline. This baseline is initially derived from the implicitly trusted boot image when the instance is created. */
+  enableIntegrityMonitoring?: boolean | undefined;
+  /** Defines whether the instance has Secure Boot enabled. Secure Boot helps ensure that the system only runs authentic software by verifying the digital signature of all boot components, and halting the boot process if signature verification fails. */
+  enableSecureBoot?: boolean | undefined;
+}
+/** EphemeralStorageConfig contains configuration for the ephemeral storage filesystem. */
+export interface EphemeralStorageConfig {
+  /** Number of local SSDs to use to back ephemeral storage. Uses NVMe interfaces. The limit for this value is dependent upon the maximum number of disk available on a machine per zone. See: https://cloud.google.com/compute/docs/disks/local-ssd for more information. A zero (or unset) value has different meanings depending on machine type being used: 1. For pre-Gen3 machines, which support flexible numbers of local ssds, zero (or unset) means to disable using local SSDs as ephemeral storage. 2. For Gen3 machines which dictate a specific number of local ssds, zero (or unset) means to use the default number of local ssds that goes with that machine type. For example, for a c3-standard-8-lssd machine, 2 local ssds would be provisioned. For c3-standard-8 (which doesn't support local ssds), 0 will be provisioned. See https://cloud.google.com/compute/docs/disks/local-ssd#choose_number_local_ssds for more info. */
+  localSsdCount?: number | undefined;
+}
+/** Configuration of gVNIC feature. */
+export interface VirtualNIC {
+  /** Whether gVNIC features are enabled in the node pool. */
   enabled?: boolean | undefined;
+}
+export type WindowsNodeConfigOsVersionEnum =
+  | "OS_VERSION_UNSPECIFIED"
+  | "OS_VERSION_LTSC2019"
+  | "OS_VERSION_LTSC2022";
+/** Parameters that can be configured on Windows nodes. Windows Node Config that define the parameters that will be used to configure the Windows node pool settings. */
+export interface WindowsNodeConfig {
+  /** OSVersion specifies the Windows node config to be used on the node. */
+  osVersion?: WindowsNodeConfigOsVersionEnum | (string & {}) | undefined;
+}
+/** SecondaryBootDiskUpdateStrategy is a placeholder which will be extended in the future to define different options for updating secondary boot disks. */
+export type SecondaryBootDiskUpdateStrategy = CompleteNodePoolUpgradeRequest;
+/** LocalNvmeSsdBlockConfig contains configuration for using raw-block local NVMe SSDs */
+export interface LocalNvmeSsdBlockConfig {
+  /** Number of local NVMe SSDs to use. The limit for this value is dependent upon the maximum number of disk available on a machine per zone. See: https://cloud.google.com/compute/docs/disks/local-ssd for more information. A zero (or unset) value has different meanings depending on machine type being used: 1. For pre-Gen3 machines, which support flexible numbers of local ssds, zero (or unset) means to disable using local SSDs as ephemeral storage. 2. For Gen3 machines which dictate a specific number of local ssds, zero (or unset) means to use the default number of local ssds that goes with that machine type. For example, for a c3-standard-8-lssd machine, 2 local ssds would be provisioned. For c3-standard-8 (which doesn't support local ssds), 0 will be provisioned. See https://cloud.google.com/compute/docs/disks/local-ssd#choose_number_local_ssds for more info. */
+  localSsdCount?: number | undefined;
+}
+export type NodeConfigLocalSsdEncryptionModeEnum =
+  | "LOCAL_SSD_ENCRYPTION_MODE_UNSPECIFIED"
+  | "STANDARD_ENCRYPTION"
+  | "EPHEMERAL_KEY_ENCRYPTION";
+export type NodeConfigEffectiveCgroupModeEnum =
+  | "EFFECTIVE_CGROUP_MODE_UNSPECIFIED"
+  | "EFFECTIVE_CGROUP_MODE_V1"
+  | "EFFECTIVE_CGROUP_MODE_V2";
+export type ReservationAffinityConsumeReservationTypeEnum =
+  | "UNSPECIFIED"
+  | "NO_RESERVATION"
+  | "ANY_RESERVATION"
+  | "SPECIFIC_RESERVATION"
+  | "ANY_RESERVATION_THEN_FAIL";
+/** [ReservationAffinity](https://cloud.google.com/compute/docs/instances/reserving-zonal-resources) is the configuration of desired reservation which instances could take capacity from. */
+export interface ReservationAffinity {
+  /** Corresponds to the label key of a reservation resource. To target a SPECIFIC_RESERVATION by name, specify "compute.googleapis.com/reservation-name" as the key and specify the name of your reservation as its value. */
+  key?: string | undefined;
+  /** Corresponds to the type of reservation consumption. */
+  consumeReservationType?:
+    | ReservationAffinityConsumeReservationTypeEnum
+    | (string & {})
+    | undefined;
+  /** Corresponds to the label value(s) of reservation resource(s). */
+  values?: StringList | undefined;
+}
+export type NodeTaintEffectEnum =
+  | "EFFECT_UNSPECIFIED"
+  | "NO_SCHEDULE"
+  | "PREFER_NO_SCHEDULE"
+  | "NO_EXECUTE";
+/** Kubernetes taint is composed of three fields: key, value, and effect. Effect can only be one of three types: NoSchedule, PreferNoSchedule or NoExecute. See [here](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration) for more information, including usage and the valid values. */
+export interface NodeTaint {
+  /** Effect for taint. */
+  effect?: NodeTaintEffectEnum | (string & {}) | undefined;
+  /** Value for taint. */
+  value?: string | undefined;
+  /** Key for taint. */
+  key?: string | undefined;
+}
+export type NodeTaintList = Array<NodeTaint>;
+export type TaintConfigArchitectureTaintBehaviorEnum =
+  | "ARCHITECTURE_TAINT_BEHAVIOR_UNSPECIFIED"
+  | "NONE"
+  | "ARM";
+/** TaintConfig contains the configuration for the taints of the node pool. */
+export interface TaintConfig {
+  /** Optional. Controls architecture tainting behavior. */
+  architectureTaintBehavior?: TaintConfigArchitectureTaintBehaviorEnum | (string & {}) | undefined;
+}
+export type SandboxConfigTypeEnum = "UNSPECIFIED" | "GVISOR" | "MICROVM";
+/** SandboxConfig contains configurations of the sandbox to use for the node. */
+export interface SandboxConfig {
+  /** Type of the sandbox to use for the node (e.g. 'gvisor') */
+  sandboxType?: string | undefined;
+  /** Type of the sandbox to use for the node. */
+  type?: SandboxConfigTypeEnum | (string & {}) | undefined;
 }
 export type LoggingVariantConfigVariantEnum = "VARIANT_UNSPECIFIED" | "DEFAULT" | "MAX_THROUGHPUT";
 /** LoggingVariantConfig specifies the behaviour of the logging component. */
@@ -1501,61 +1216,20 @@ export interface NodePoolLoggingConfig {
   /** Logging variant configuration. */
   variantConfig?: LoggingVariantConfig | undefined;
 }
-/** Eviction minimum reclaims are the resource amounts of minimum reclaims for each eviction signal. */
-export interface EvictionMinimumReclaim {
-  /** Optional. Minimum reclaim for eviction due to pid available signal. Only take percentage value for now. Sample format: "10%". Must be <=10%. See https://kubernetes.io/docs/concepts/scheduling-eviction/node-pressure-eviction/#eviction-signals */
-  pidAvailable?: string | undefined;
-  /** Optional. Minimum reclaim for eviction due to nodefs available signal. Only take percentage value for now. Sample format: "10%". Must be <=10%. See https://kubernetes.io/docs/concepts/scheduling-eviction/node-pressure-eviction/#eviction-signals */
-  nodefsAvailable?: string | undefined;
-  /** Optional. Minimum reclaim for eviction due to imagefs inodes free signal. Only take percentage value for now. Sample format: "10%". Must be <=10%. See https://kubernetes.io/docs/concepts/scheduling-eviction/node-pressure-eviction/#eviction-signals */
-  imagefsInodesFree?: string | undefined;
-  /** Optional. Minimum reclaim for eviction due to nodefs inodes free signal. Only take percentage value for now. Sample format: "10%". Must be <=10%. See https://kubernetes.io/docs/concepts/scheduling-eviction/node-pressure-eviction/#eviction-signals */
-  nodefsInodesFree?: string | undefined;
-  /** Optional. Minimum reclaim for eviction due to memory available signal. Only take percentage value for now. Sample format: "10%". Must be <=10%. See https://kubernetes.io/docs/concepts/scheduling-eviction/node-pressure-eviction/#eviction-signals */
-  memoryAvailable?: string | undefined;
-  /** Optional. Minimum reclaim for eviction due to imagefs available signal. Only take percentage value for now. Sample format: "10%". Must be <=10%. See https://kubernetes.io/docs/concepts/scheduling-eviction/node-pressure-eviction/#eviction-signals */
-  imagefsAvailable?: string | undefined;
-}
-/** Eviction grace periods are grace periods for each eviction signal. */
-export interface EvictionGracePeriod {
-  /** Optional. Grace period for eviction due to nodefs inodes free signal. Sample format: "10s". Must be >= 0. See https://kubernetes.io/docs/concepts/scheduling-eviction/node-pressure-eviction/#eviction-signals */
-  nodefsInodesFree?: string | undefined;
-  /** Optional. Grace period for eviction due to imagefs available signal. Sample format: "10s". Must be >= 0. See https://kubernetes.io/docs/concepts/scheduling-eviction/node-pressure-eviction/#eviction-signals */
-  imagefsAvailable?: string | undefined;
-  /** Optional. Grace period for eviction due to nodefs available signal. Sample format: "10s". Must be >= 0. See https://kubernetes.io/docs/concepts/scheduling-eviction/node-pressure-eviction/#eviction-signals */
-  nodefsAvailable?: string | undefined;
-  /** Optional. Grace period for eviction due to pid available signal. Sample format: "10s". Must be >= 0. See https://kubernetes.io/docs/concepts/scheduling-eviction/node-pressure-eviction/#eviction-signals */
-  pidAvailable?: string | undefined;
-  /** Optional. Grace period for eviction due to imagefs inodes free signal. Sample format: "10s". Must be >= 0. See https://kubernetes.io/docs/concepts/scheduling-eviction/node-pressure-eviction/#eviction-signals */
-  imagefsInodesFree?: string | undefined;
-  /** Optional. Grace period for eviction due to memory available signal. Sample format: "10s". Must be >= 0. See https://kubernetes.io/docs/concepts/scheduling-eviction/node-pressure-eviction/#eviction-signals */
-  memoryAvailable?: string | undefined;
-}
 /** Eviction signals are the current state of a particular resource at a specific point in time. The kubelet uses eviction signals to make eviction decisions by comparing the signals to eviction thresholds, which are the minimum amount of the resource that should be available on the node. */
 export interface EvictionSignals {
-  /** Optional. Amount of storage available on filesystem that kubelet uses for volumes, daemon logs, etc. Defines the amount of "nodefs.available" signal in kubelet. Default is unset, if not specified in the kubelet config. Sample format: "30%". Must be >= 10%. See https://kubernetes.io/docs/concepts/scheduling-eviction/node-pressure-eviction/#eviction-signals */
-  nodefsAvailable?: string | undefined;
-  /** Optional. Amount of inodes available on filesystem that container runtime uses for storing images layers. Defines the amount of "imagefs.inodesFree" signal in kubelet. Default is unset, if not specified in the kubelet config. Linux only. Sample format: "30%". Must be >= 5%. See https://kubernetes.io/docs/concepts/scheduling-eviction/node-pressure-eviction/#eviction-signals */
-  imagefsInodesFree?: string | undefined;
-  /** Optional. Amount of storage available on filesystem that container runtime uses for storing images layers. If the container filesystem and image filesystem are not separate, then imagefs can store both image layers and writeable layers. Defines the amount of "imagefs.available" signal in kubelet. Default is unset, if not specified in the kubelet config. Sample format: "30%". Must be >= 15%. See https://kubernetes.io/docs/concepts/scheduling-eviction/node-pressure-eviction/#eviction-signals */
-  imagefsAvailable?: string | undefined;
-  /** Optional. Amount of inodes available on filesystem that kubelet uses for volumes, daemon logs, etc. Defines the amount of "nodefs.inodesFree" signal in kubelet. Default is unset, if not specified in the kubelet config. Linux only. It takses percentage value for now. Sample format: "30%". Must be >= 5% and <= 50%. See https://kubernetes.io/docs/concepts/scheduling-eviction/node-pressure-eviction/#eviction-signals */
-  nodefsInodesFree?: string | undefined;
   /** Optional. Memory available (i.e. capacity - workingSet), in bytes. Defines the amount of "memory.available" signal in kubelet. Default is unset, if not specified in the kubelet config. Format: positive number + unit, e.g. 100Ki, 10Mi, 5Gi. Valid units are Ki, Mi, Gi. Must be >= 100Mi and <= 50% of the node's memory. See https://kubernetes.io/docs/concepts/scheduling-eviction/node-pressure-eviction/#eviction-signals */
   memoryAvailable?: string | undefined;
+  /** Optional. Amount of inodes available on filesystem that kubelet uses for volumes, daemon logs, etc. Defines the amount of "nodefs.inodesFree" signal in kubelet. Default is unset, if not specified in the kubelet config. Linux only. It takses percentage value for now. Sample format: "30%". Must be >= 5% and <= 50%. See https://kubernetes.io/docs/concepts/scheduling-eviction/node-pressure-eviction/#eviction-signals */
+  nodefsInodesFree?: string | undefined;
+  /** Optional. Amount of storage available on filesystem that container runtime uses for storing images layers. If the container filesystem and image filesystem are not separate, then imagefs can store both image layers and writeable layers. Defines the amount of "imagefs.available" signal in kubelet. Default is unset, if not specified in the kubelet config. Sample format: "30%". Must be >= 15%. See https://kubernetes.io/docs/concepts/scheduling-eviction/node-pressure-eviction/#eviction-signals */
+  imagefsAvailable?: string | undefined;
+  /** Optional. Amount of inodes available on filesystem that container runtime uses for storing images layers. Defines the amount of "imagefs.inodesFree" signal in kubelet. Default is unset, if not specified in the kubelet config. Linux only. Sample format: "30%". Must be >= 5%. See https://kubernetes.io/docs/concepts/scheduling-eviction/node-pressure-eviction/#eviction-signals */
+  imagefsInodesFree?: string | undefined;
   /** Optional. Amount of PID available for pod allocation. Defines the amount of "pid.available" signal in kubelet. Default is unset, if not specified in the kubelet config. Sample format: "30%". Must be >= 10%. See https://kubernetes.io/docs/concepts/scheduling-eviction/node-pressure-eviction/#eviction-signals */
   pidAvailable?: string | undefined;
-}
-/** ReservedResourcesConfig contains the configuration for the reserved resources on the node. */
-export interface ReservedResourcesConfig {
-  /** Optional. The amount of memory to reserve for system daemons (in MiB). This is a user-specified value. If unspecified, GKE decides the default based on node version using different formula. */
-  memoryReservedMib?: string | undefined;
-  /** Optional. The amount of CPU to reserve for system daemons. This is a user-specified value. If unspecified, GKE decides the default based on node version using different formula. */
-  cpuReservedMillicore?: string | undefined;
-  /** Output only. The effective amount of CPU reserved for system daemons. If `cpu_reserved_millicore` is specified, user-specified value is used. Otherwise the GKE default is applied. */
-  effectiveCpuReservedMillicore?: string | undefined;
-  /** Output only. The effective amount of memory reserved for system daemons. If `memory_reserved_mib` is specified, the user-specified value is used. Otherwise the GKE default is applied. */
-  effectiveMemoryReservedMib?: string | undefined;
+  /** Optional. Amount of storage available on filesystem that kubelet uses for volumes, daemon logs, etc. Defines the amount of "nodefs.available" signal in kubelet. Default is unset, if not specified in the kubelet config. Sample format: "30%". Must be >= 10%. See https://kubernetes.io/docs/concepts/scheduling-eviction/node-pressure-eviction/#eviction-signals */
+  nodefsAvailable?: string | undefined;
 }
 /** TopologyManager defines the configuration options for the [`kubelet` Topology Manager component](https://kubernetes.io/docs/tasks/administer-cluster/topology-manager/). For more information about the supported machine types and versions for the Topology Manager in GKE, see [Customizing node system configuration](https://docs.cloud.google.com/kubernetes-engine/docs/how-to/node-system-config#kubelet-resource-managers). */
 export interface TopologyManager {
@@ -1569,204 +1243,213 @@ export interface CrashLoopBackOffConfig {
   /** Optional. The maximum duration the backoff delay can accrue to for container restarts, minimum 1 second, maximum 300 seconds. If not set, defaults to the internal crashloopbackoff maximum. The string must be a sequence of decimal numbers, each with optional fraction and a unit suffix, such as "300ms". Valid time units are "ns", "us" (or "µs"), "ms", "s", "m", "h". See https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#configurable-container-restart-delay for more details. */
   maxContainerRestartPeriod?: string | undefined;
 }
+/** Eviction grace periods are grace periods for each eviction signal. */
+export interface EvictionGracePeriod {
+  /** Optional. Grace period for eviction due to pid available signal. Sample format: "10s". Must be >= 0. See https://kubernetes.io/docs/concepts/scheduling-eviction/node-pressure-eviction/#eviction-signals */
+  pidAvailable?: string | undefined;
+  /** Optional. Grace period for eviction due to imagefs available signal. Sample format: "10s". Must be >= 0. See https://kubernetes.io/docs/concepts/scheduling-eviction/node-pressure-eviction/#eviction-signals */
+  imagefsAvailable?: string | undefined;
+  /** Optional. Grace period for eviction due to memory available signal. Sample format: "10s". Must be >= 0. See https://kubernetes.io/docs/concepts/scheduling-eviction/node-pressure-eviction/#eviction-signals */
+  memoryAvailable?: string | undefined;
+  /** Optional. Grace period for eviction due to nodefs available signal. Sample format: "10s". Must be >= 0. See https://kubernetes.io/docs/concepts/scheduling-eviction/node-pressure-eviction/#eviction-signals */
+  nodefsAvailable?: string | undefined;
+  /** Optional. Grace period for eviction due to nodefs inodes free signal. Sample format: "10s". Must be >= 0. See https://kubernetes.io/docs/concepts/scheduling-eviction/node-pressure-eviction/#eviction-signals */
+  nodefsInodesFree?: string | undefined;
+  /** Optional. Grace period for eviction due to imagefs inodes free signal. Sample format: "10s". Must be >= 0. See https://kubernetes.io/docs/concepts/scheduling-eviction/node-pressure-eviction/#eviction-signals */
+  imagefsInodesFree?: string | undefined;
+}
+/** ReservedResourcesConfig contains the configuration for the reserved resources on the node. */
+export interface ReservedResourcesConfig {
+  /** Output only. The effective amount of memory reserved for system daemons. If `memory_reserved_mib` is specified, the user-specified value is used. Otherwise the GKE default is applied. */
+  effectiveMemoryReservedMib?: string | undefined;
+  /** Optional. The amount of CPU to reserve for system daemons. This is a user-specified value. If unspecified, GKE decides the default based on node version using different formula. */
+  cpuReservedMillicore?: string | undefined;
+  /** Output only. The effective amount of CPU reserved for system daemons. If `cpu_reserved_millicore` is specified, user-specified value is used. Otherwise the GKE default is applied. */
+  effectiveCpuReservedMillicore?: string | undefined;
+  /** Optional. The amount of memory to reserve for system daemons (in MiB). This is a user-specified value. If unspecified, GKE decides the default based on node version using different formula. */
+  memoryReservedMib?: string | undefined;
+}
 /** The option enables the Kubernetes NUMA-aware Memory Manager feature. Detailed description about the feature can be found [here](https://kubernetes.io/docs/tasks/administer-cluster/memory-manager/). */
 export interface MemoryManager {
   /** Controls the memory management policy on the Node. See https://kubernetes.io/docs/tasks/administer-cluster/memory-manager/#policies The following values are allowed. * "none" * "static" The default value is 'none' if unspecified. */
   policy?: string | undefined;
 }
+/** Eviction minimum reclaims are the resource amounts of minimum reclaims for each eviction signal. */
+export interface EvictionMinimumReclaim {
+  /** Optional. Minimum reclaim for eviction due to nodefs inodes free signal. Only take percentage value for now. Sample format: "10%". Must be <=10%. See https://kubernetes.io/docs/concepts/scheduling-eviction/node-pressure-eviction/#eviction-signals */
+  nodefsInodesFree?: string | undefined;
+  /** Optional. Minimum reclaim for eviction due to memory available signal. Only take percentage value for now. Sample format: "10%". Must be <=10%. See https://kubernetes.io/docs/concepts/scheduling-eviction/node-pressure-eviction/#eviction-signals */
+  memoryAvailable?: string | undefined;
+  /** Optional. Minimum reclaim for eviction due to imagefs available signal. Only take percentage value for now. Sample format: "10%". Must be <=10%. See https://kubernetes.io/docs/concepts/scheduling-eviction/node-pressure-eviction/#eviction-signals */
+  imagefsAvailable?: string | undefined;
+  /** Optional. Minimum reclaim for eviction due to nodefs available signal. Only take percentage value for now. Sample format: "10%". Must be <=10%. See https://kubernetes.io/docs/concepts/scheduling-eviction/node-pressure-eviction/#eviction-signals */
+  nodefsAvailable?: string | undefined;
+  /** Optional. Minimum reclaim for eviction due to imagefs inodes free signal. Only take percentage value for now. Sample format: "10%". Must be <=10%. See https://kubernetes.io/docs/concepts/scheduling-eviction/node-pressure-eviction/#eviction-signals */
+  imagefsInodesFree?: string | undefined;
+  /** Optional. Minimum reclaim for eviction due to pid available signal. Only take percentage value for now. Sample format: "10%". Must be <=10%. See https://kubernetes.io/docs/concepts/scheduling-eviction/node-pressure-eviction/#eviction-signals */
+  pidAvailable?: string | undefined;
+}
 /** Node kubelet configs. */
 export interface NodeKubeletConfig {
-  /** Optional. Defines the maximum size of the container log file before it is rotated. See https://kubernetes.io/docs/concepts/cluster-administration/logging/#log-rotation Valid format is positive number + unit, e.g. 100Ki, 10Mi. Valid units are Ki, Mi, Gi. The value must be between 10Mi and 500Mi, inclusive. Note that the total container log size (container_log_max_size * container_log_max_files) cannot exceed 1% of the total storage of the node, to avoid disk pressure caused by log files. The default value is 10Mi if unspecified. */
-  containerLogMaxSize?: string | undefined;
   /** Optional. Defines the percent of disk usage after which image garbage collection is always run. The percent is calculated as this field value out of 100. The value must be between 10 and 85, inclusive and greater than image_gc_low_threshold_percent. The default value is 85 if unspecified. */
   imageGcHighThresholdPercent?: number | undefined;
-  /** Optional. eviction_max_pod_grace_period_seconds is the maximum allowed grace period (in seconds) to use when terminating pods in response to a soft eviction threshold being met. This value effectively caps the Pod's terminationGracePeriodSeconds value during soft evictions. Default: 0. Range: [0, 300]. */
-  evictionMaxPodGracePeriodSeconds?: number | undefined;
-  /** Optional. Defines the percent of disk usage before which image garbage collection is never run. Lowest disk usage to garbage collect to. The percent is calculated as this field value out of 100. The value must be between 10 and 85, inclusive and smaller than image_gc_high_threshold_percent. The default value is 80 if unspecified. */
-  imageGcLowThresholdPercent?: number | undefined;
-  /** Enable or disable Kubelet read only port. */
-  insecureKubeletReadonlyPortEnabled?: boolean | undefined;
-  /** Enable CPU CFS quota enforcement for containers that specify CPU limits. This option is enabled by default which makes kubelet use CFS quota (https://www.kernel.org/doc/Documentation/scheduler/sched-bwc.txt) to enforce container CPU limits. Otherwise, CPU limits will not be enforced at all. Disable this option to mitigate CPU throttling problems while still having your pods to be in Guaranteed QoS class by specifying the CPU limits. The default value is 'true' if unspecified. */
-  cpuCfsQuota?: boolean | undefined;
-  /** Optional. eviction_minimum_reclaim is a map of signal names to quantities that defines minimum reclaims, which describe the minimum amount of a given resource the kubelet will reclaim when performing a pod eviction while that resource is under pressure. */
-  evictionMinimumReclaim?: EvictionMinimumReclaim | undefined;
-  /** Control the CPU management policy on the node. See https://kubernetes.io/docs/tasks/administer-cluster/cpu-management-policies/ The following values are allowed. * "none": the default, which represents the existing scheduling behavior. * "static": allows pods with certain resource characteristics to be granted increased CPU affinity and exclusivity on the node. The default value is 'none' if unspecified. */
-  cpuManagerPolicy?: string | undefined;
   /** Optional. Defines a comma-separated allowlist of unsafe sysctls or sysctl patterns (ending in `*`). The unsafe namespaced sysctl groups are `kernel.shm*`, `kernel.msg*`, `kernel.sem`, `fs.mqueue.*`, and `net.*`. Leaving this allowlist empty means they cannot be set on Pods. To allow certain sysctls or sysctl patterns to be set on Pods, list them separated by commas. For example: `kernel.msg*,net.ipv4.route.min_pmtu`. See https://kubernetes.io/docs/tasks/administer-cluster/sysctl-cluster/ for more details. */
   allowedUnsafeSysctls?: StringList | undefined;
-  /** Optional. eviction_soft_grace_period is a map of signal names to quantities that defines grace periods for each soft eviction signal. The grace period is the amount of time that a pod must be under pressure before an eviction occurs. */
-  evictionSoftGracePeriod?: EvictionGracePeriod | undefined;
+  /** Optional. eviction_max_pod_grace_period_seconds is the maximum allowed grace period (in seconds) to use when terminating pods in response to a soft eviction threshold being met. This value effectively caps the Pod's terminationGracePeriodSeconds value during soft evictions. Default: 0. Range: [0, 300]. */
+  evictionMaxPodGracePeriodSeconds?: number | undefined;
   /** Optional. eviction_soft is a map of signal names to quantities that defines soft eviction thresholds. Each signal is compared to its corresponding threshold to determine if a pod eviction should occur. */
   evictionSoft?: EvictionSignals | undefined;
-  /** Optional. Controls the reserved resources on the node. Only included if any fields are specified. */
-  reservedResourcesConfig?: ReservedResourcesConfig | undefined;
-  /** Optional. shutdown_grace_period_seconds is the maximum allowed grace period (in seconds) the total duration that the node should delay the shutdown during a graceful shutdown. This is the total grace period for pod termination for both regular and critical pods. https://kubernetes.io/docs/concepts/cluster-administration/node-shutdown/ If set to 0, node will not enable the graceful node shutdown functionality. This field is only valid for Spot VMs. Allowed values: 0, 30, 120. */
-  shutdownGracePeriodSeconds?: number | undefined;
-  /** Set the CPU CFS quota period value 'cpu.cfs_period_us'. The string must be a sequence of decimal numbers, each with optional fraction and a unit suffix, such as "300ms". Valid time units are "ns", "us" (or "µs"), "ms", "s", "m", "h". The value must be a positive duration between 1ms and 1 second, inclusive. */
-  cpuCfsQuotaPeriod?: string | undefined;
-  /** Optional. Defines the maximum number of concurrent workers to rotate container log files. See https://kubernetes.io/docs/concepts/cluster-administration/logging/#log-rotation The value must be an integer between 1 and 10, inclusive. The default value is 1 if unspecified. */
-  containerLogMaxWorkers?: number | undefined;
+  /** Optional. Defines the maximum number of container log files that can be present for a container. See https://kubernetes.io/docs/concepts/cluster-administration/logging/#log-rotation The value must be an integer between 2 and 10, inclusive. The default value is 5 if unspecified. */
+  containerLogMaxFiles?: number | undefined;
+  /** Optional. shutdown_grace_period_critical_pods_seconds is the maximum allowed grace period (in seconds) used to terminate critical pods during a node shutdown. This value should be <= shutdown_grace_period_seconds, and is only valid if shutdown_grace_period_seconds is set. https://kubernetes.io/docs/concepts/cluster-administration/node-shutdown/ Range: [0, 120]. */
+  shutdownGracePeriodCriticalPodsSeconds?: number | undefined;
+  /** Optional. The reserved_system_cpus option specifies the CPU list reserved for the host system services. Format: a list of CPU IDs (e.g. "0-3", "0,1") that can be parsed as a cpuset. */
+  reservedSystemCpus?: string | undefined;
+  /** Optional. Defines the maximum size of the container log file before it is rotated. See https://kubernetes.io/docs/concepts/cluster-administration/logging/#log-rotation Valid format is positive number + unit, e.g. 100Ki, 10Mi. Valid units are Ki, Mi, Gi. The value must be between 10Mi and 500Mi, inclusive. Note that the total container log size (container_log_max_size * container_log_max_files) cannot exceed 1% of the total storage of the node, to avoid disk pressure caused by log files. The default value is 10Mi if unspecified. */
+  containerLogMaxSize?: string | undefined;
+  /** Optional. Defines the maximum number of image pulls in parallel. The range is 2 to 5, inclusive. The default value is 2 or 3 depending on the disk type. See https://kubernetes.io/docs/concepts/containers/images/#maximum-parallel-image-pulls for more details. */
+  maxParallelImagePulls?: number | undefined;
+  /** Optional. Defines the maximum age an image can be unused before it is garbage collected. The string must be a sequence of decimal numbers, each with optional fraction and a unit suffix, such as "300s", "1.5h", and "2h45m". Valid time units are "ns", "us" (or "µs"), "ms", "s", "m", "h". The value must be a positive duration greater than image_minimum_gc_age or "0s". The default value is "0s" if unspecified, which disables this field, meaning images won't be garbage collected based on being unused for too long. */
+  imageMaximumGcAge?: string | undefined;
   /** Optional. Controls Topology Manager configuration on the node. For more information, see: https://kubernetes.io/docs/tasks/administer-cluster/topology-manager/ */
   topologyManager?: TopologyManager | undefined;
   /** Optional. Contains configuration options to modify node-level parameters for container restart behavior. */
   crashLoopBackOff?: CrashLoopBackOffConfig | undefined;
-  /** Optional. shutdown_grace_period_critical_pods_seconds is the maximum allowed grace period (in seconds) used to terminate critical pods during a node shutdown. This value should be <= shutdown_grace_period_seconds, and is only valid if shutdown_grace_period_seconds is set. https://kubernetes.io/docs/concepts/cluster-administration/node-shutdown/ Range: [0, 120]. */
-  shutdownGracePeriodCriticalPodsSeconds?: number | undefined;
-  /** Optional. Defines the maximum age an image can be unused before it is garbage collected. The string must be a sequence of decimal numbers, each with optional fraction and a unit suffix, such as "300s", "1.5h", and "2h45m". Valid time units are "ns", "us" (or "µs"), "ms", "s", "m", "h". The value must be a positive duration greater than image_minimum_gc_age or "0s". The default value is "0s" if unspecified, which disables this field, meaning images won't be garbage collected based on being unused for too long. */
-  imageMaximumGcAge?: string | undefined;
-  /** Optional. Defines the maximum number of container log files that can be present for a container. See https://kubernetes.io/docs/concepts/cluster-administration/logging/#log-rotation The value must be an integer between 2 and 10, inclusive. The default value is 5 if unspecified. */
-  containerLogMaxFiles?: number | undefined;
+  /** Optional. Defines the maximum number of concurrent workers to rotate container log files. See https://kubernetes.io/docs/concepts/cluster-administration/logging/#log-rotation The value must be an integer between 1 and 10, inclusive. The default value is 1 if unspecified. */
+  containerLogMaxWorkers?: number | undefined;
+  /** Optional. shutdown_grace_period_seconds is the maximum allowed grace period (in seconds) the total duration that the node should delay the shutdown during a graceful shutdown. This is the total grace period for pod termination for both regular and critical pods. https://kubernetes.io/docs/concepts/cluster-administration/node-shutdown/ If set to 0, node will not enable the graceful node shutdown functionality. This field is only valid for Spot VMs. Allowed values: 0, 30, 120. */
+  shutdownGracePeriodSeconds?: number | undefined;
   /** Optional. Defines the minimum age for an unused image before it is garbage collected. The string must be a sequence of decimal numbers, each with optional fraction and a unit suffix, such as "300s", "1.5h", and "2h45m". Valid time units are "ns", "us" (or "µs"), "ms", "s", "m", "h". The value must be a positive duration less than or equal to 2 minutes. The default value is "2m0s" if unspecified. */
   imageMinimumGcAge?: string | undefined;
-  /** Set the Pod PID limits. See https://kubernetes.io/docs/concepts/policy/pid-limiting/#pod-pid-limits Controls the maximum number of processes allowed to run in a pod. The value must be greater than or equal to 1024 and less than 4194304. */
-  podPidsLimit?: string | undefined;
+  /** Optional. eviction_soft_grace_period is a map of signal names to quantities that defines grace periods for each soft eviction signal. The grace period is the amount of time that a pod must be under pressure before an eviction occurs. */
+  evictionSoftGracePeriod?: EvictionGracePeriod | undefined;
+  /** Set the CPU CFS quota period value 'cpu.cfs_period_us'. The string must be a sequence of decimal numbers, each with optional fraction and a unit suffix, such as "300ms". Valid time units are "ns", "us" (or "µs"), "ms", "s", "m", "h". The value must be a positive duration between 1ms and 1 second, inclusive. */
+  cpuCfsQuotaPeriod?: string | undefined;
+  /** Optional. Defines the percent of disk usage before which image garbage collection is never run. Lowest disk usage to garbage collect to. The percent is calculated as this field value out of 100. The value must be between 10 and 85, inclusive and smaller than image_gc_high_threshold_percent. The default value is 80 if unspecified. */
+  imageGcLowThresholdPercent?: number | undefined;
   /** Optional. Defines whether to enable single process OOM killer. If true, will prevent the memory.oom.group flag from being set for container cgroups in cgroups v2. This causes processes in the container to be OOM killed individually instead of as a group. */
   singleProcessOomKill?: boolean | undefined;
-  /** Optional. Defines the maximum number of image pulls in parallel. The range is 2 to 5, inclusive. The default value is 2 or 3 depending on the disk type. See https://kubernetes.io/docs/concepts/containers/images/#maximum-parallel-image-pulls for more details. */
-  maxParallelImagePulls?: number | undefined;
-  /** Optional. Specifies the interval at which the container logs are monitored for performing the log rotate operation. The value must be a positive interval between 3s and 300s, inclusive. The default value is "10s" if unspecified. */
-  containerLogMonitorInterval?: string | undefined;
-  /** Optional. The reserved_system_cpus option specifies the CPU list reserved for the host system services. Format: a list of CPU IDs (e.g. "0-3", "0,1") that can be parsed as a cpuset. */
-  reservedSystemCpus?: string | undefined;
+  /** Enable CPU CFS quota enforcement for containers that specify CPU limits. This option is enabled by default which makes kubelet use CFS quota (https://www.kernel.org/doc/Documentation/scheduler/sched-bwc.txt) to enforce container CPU limits. Otherwise, CPU limits will not be enforced at all. Disable this option to mitigate CPU throttling problems while still having your pods to be in Guaranteed QoS class by specifying the CPU limits. The default value is 'true' if unspecified. */
+  cpuCfsQuota?: boolean | undefined;
+  /** Optional. Controls the reserved resources on the node. Only included if any fields are specified. */
+  reservedResourcesConfig?: ReservedResourcesConfig | undefined;
   /** Optional. Controls NUMA-aware Memory Manager configuration on the node. For more information, see: https://kubernetes.io/docs/tasks/administer-cluster/memory-manager/ */
   memoryManager?: MemoryManager | undefined;
+  /** Set the Pod PID limits. See https://kubernetes.io/docs/concepts/policy/pid-limiting/#pod-pid-limits Controls the maximum number of processes allowed to run in a pod. The value must be greater than or equal to 1024 and less than 4194304. */
+  podPidsLimit?: string | undefined;
+  /** Enable or disable Kubelet read only port. */
+  insecureKubeletReadonlyPortEnabled?: boolean | undefined;
+  /** Control the CPU management policy on the node. See https://kubernetes.io/docs/tasks/administer-cluster/cpu-management-policies/ The following values are allowed. * "none": the default, which represents the existing scheduling behavior. * "static": allows pods with certain resource characteristics to be granted increased CPU affinity and exclusivity on the node. The default value is 'none' if unspecified. */
+  cpuManagerPolicy?: string | undefined;
+  /** Optional. eviction_minimum_reclaim is a map of signal names to quantities that defines minimum reclaims, which describe the minimum amount of a given resource the kubelet will reclaim when performing a pod eviction while that resource is under pressure. */
+  evictionMinimumReclaim?: EvictionMinimumReclaim | undefined;
+  /** Optional. Specifies the interval at which the container logs are monitored for performing the log rotate operation. The value must be a positive interval between 3s and 300s, inclusive. The default value is "10s" if unspecified. */
+  containerLogMonitorInterval?: string | undefined;
 }
-export type ReservationAffinityConsumeReservationTypeEnum =
-  | "UNSPECIFIED"
-  | "NO_RESERVATION"
-  | "ANY_RESERVATION"
-  | "SPECIFIC_RESERVATION"
-  | "ANY_RESERVATION_THEN_FAIL";
-/** [ReservationAffinity](https://cloud.google.com/compute/docs/instances/reserving-zonal-resources) is the configuration of desired reservation which instances could take capacity from. */
-export interface ReservationAffinity {
-  /** Corresponds to the label value(s) of reservation resource(s). */
-  values?: StringList | undefined;
-  /** Corresponds to the type of reservation consumption. */
-  consumeReservationType?:
-    | ReservationAffinityConsumeReservationTypeEnum
-    | (string & {})
-    | undefined;
-  /** Corresponds to the label key of a reservation resource. To target a SPECIFIC_RESERVATION by name, specify "compute.googleapis.com/reservation-name" as the key and specify the name of your reservation as its value. */
-  key?: string | undefined;
-}
-export type NodeConfigEffectiveCgroupModeEnum =
-  | "EFFECTIVE_CGROUP_MODE_UNSPECIFIED"
-  | "EFFECTIVE_CGROUP_MODE_V1"
-  | "EFFECTIVE_CGROUP_MODE_V2";
 /** Parameters that describe the nodes in a cluster. GKE Autopilot clusters do not recognize parameters in `NodeConfig`. Use AutoprovisioningNodePoolDefaults instead. */
 export interface NodeConfig {
-  /** The image type to use for this node. Note that for a given image type, the latest version of it will be used. Please see https://cloud.google.com/kubernetes-engine/docs/concepts/node-images for available image types. */
-  imageType?: string | undefined;
-  /** Parameters for using raw-block Local NVMe SSDs. */
-  localNvmeSsdBlockConfig?: LocalNvmeSsdBlockConfig | undefined;
-  /** A list of hardware accelerators to be attached to each node. See https://cloud.google.com/compute/docs/gpus for more information about support for GPUs. */
-  accelerators?: AcceleratorConfigList | undefined;
-  /** The resource labels for the node pool to use to annotate any related Google Compute Engine resources. */
-  resourceLabels?: StringMap | undefined;
-  /** The Customer Managed Encryption Key used to encrypt the boot disk attached to each node in the node pool. This should be of the form projects/[KEY_PROJECT_ID]/locations/[LOCATION]/keyRings/[RING_NAME]/cryptoKeys/[KEY_NAME]. For more information about protecting resources with Cloud KMS Keys please see: https://cloud.google.com/compute/docs/disks/customer-managed-encryption */
-  bootDiskKmsKey?: string | undefined;
-  /** Spot flag for enabling Spot VM, which is a rebrand of the existing preemptible flag. */
-  spot?: boolean | undefined;
-  /** Parameters for containerd customization. */
-  containerdConfig?: ContainerdConfig | undefined;
-  /** Minimum CPU platform to be used by this instance. The instance may be scheduled on the specified or newer CPU platform. Applicable values are the friendly names of CPU platforms, such as `minCpuPlatform: "Intel Haswell"` or `minCpuPlatform: "Intel Sandy Bridge"`. For more information, read [how to specify min CPU platform](https://cloud.google.com/compute/docs/instances/specify-min-cpu-platform). */
-  minCpuPlatform?: string | undefined;
-  /** HostMaintenancePolicy contains the desired maintenance policy for the Google Compute Engine hosts. */
-  hostMaintenancePolicy?: HostMaintenancePolicy | undefined;
-  /** The Google Cloud Platform Service Account to be used by the node VMs. Specify the email address of the Service Account; otherwise, if no Service Account is specified, the "default" service account is used. */
-  serviceAccount?: string | undefined;
-  /** Secondary boot disk update strategy. */
-  secondaryBootDiskUpdateStrategy?: CompleteNodePoolUpgradeRequest | undefined;
-  /** Boot disk configuration for the node pool. */
-  bootDisk?: BootDisk | undefined;
-  /** The workload metadata configuration for this node. */
-  workloadMetadataConfig?: WorkloadMetadataConfig | undefined;
-  /** Parameters for node pools to be backed by shared sole tenant node groups. */
-  soleTenantConfig?: SoleTenantConfig | undefined;
-  /** Size of the disk attached to each node, specified in GB. The smallest allowed disk size is 15 GB for node pools running GKE versions 1.36.2-gke.2933000 or later. Or, for earlier versions, the smallest allowed disk size is 12 GB. If unspecified, the default disk size is 100GB. */
-  diskSizeGb?: number | undefined;
+  /** The Kubernetes labels (key/value pairs) to apply to each node. The values in this field are added to the set of default labels Kubernetes applies to nodes. This field has the following restrictions: * Labels must use a valid Kubernetes syntax and character set, as defined in https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#syntax-and-character-set. * This field supports up to 1,024 total characters in a single request. Depending on the Kubernetes version, keys in this field might conflict with the keys of the default labels, which might change which of your labels are applied to the nodes. Assume that the behavior is unpredictable and avoid label key conflicts. For more information about the default labels, see: https://kubernetes.io/docs/reference/labels-annotations-taints/ */
+  labels?: StringMap | undefined;
+  /** Parameters that can be configured on Linux nodes. */
+  linuxNodeConfig?: LinuxNodeConfig | undefined;
   /** The metadata key/value pairs assigned to instances in the cluster. Keys must conform to the regexp `[a-zA-Z0-9-_]+` and be less than 128 bytes in length. These are reflected as part of a URL in the metadata server. Additionally, to avoid ambiguity, keys must not conflict with any other metadata keys for the project or be one of the reserved keys: - "cluster-location" - "cluster-name" - "cluster-uid" - "configure-sh" - "containerd-configure-sh" - "enable-oslogin" - "gci-ensure-gke-docker" - "gci-metrics-enabled" - "gci-update-strategy" - "instance-template" - "kube-env" - "startup-script" - "user-data" - "disable-address-manager" - "windows-startup-script-ps1" - "common-psm1" - "k8s-node-setup-psm1" - "install-ssh-psm1" - "user-profile-psm1" Values are free-form strings, and only have meaning as interpreted by the image running in the instance. The only restriction placed on them is that each value's size must be less than or equal to 32 KB. The total size of all keys and values must be less than 512 KB. */
   metadata?: StringMap | undefined;
-  /** Whether the nodes are created as preemptible VM instances. See: https://cloud.google.com/compute/docs/instances/preemptible for more information about preemptible VM instances. */
-  preemptible?: boolean | undefined;
-  /** Advanced features for the Compute Engine VM. */
-  advancedMachineFeatures?: AdvancedMachineFeatures | undefined;
-  /** Consolidation delay defines duration after which the Cluster Autoscaler can scale down underutilized nodes. If not set, nodes are scaled down by default behavior, i.e. according to the chosen autoscaling profile. */
-  consolidationDelay?: string | undefined;
-  /** List of Storage Pools where boot disks are provisioned. */
-  storagePools?: StringList | undefined;
+  /** A map of resource manager tag keys and values to be attached to the nodes. */
+  resourceManagerTags?: ResourceManagerTags | undefined;
+  /** The node image configuration to use for this node pool. Note that this is only applicable for node pools using image_type=CUSTOM. */
+  nodeImageConfig?: CustomImageConfig | undefined;
+  /** The Customer Managed Encryption Key used to encrypt the boot disk attached to each node in the node pool. This should be of the form projects/[KEY_PROJECT_ID]/locations/[LOCATION]/keyRings/[RING_NAME]/cryptoKeys/[KEY_NAME]. For more information about protecting resources with Cloud KMS Keys please see: https://cloud.google.com/compute/docs/disks/customer-managed-encryption */
+  bootDiskKmsKey?: string | undefined;
   /** The set of Google API scopes to be made available on all of the node VMs under the "default" service account. The following scopes are recommended, but not required, and by default are not included: * `https://www.googleapis.com/auth/compute` is required for mounting persistent storage on your nodes. * `https://www.googleapis.com/auth/devstorage.read_only` is required for communicating with **gcr.io** (the [Artifact Registry](https://cloud.google.com/artifact-registry/)). If unspecified, no scopes are added, unless Cloud Logging or Cloud Monitoring are enabled, in which case their required scopes will be added. */
   oauthScopes?: StringList | undefined;
+  /** Parameters for containerd customization. */
+  containerdConfig?: ContainerdConfig | undefined;
   /** Parameters for the node ephemeral storage using Local SSDs. If unspecified, ephemeral storage is backed by the boot disk. This field is functionally equivalent to the ephemeral_storage_config */
   ephemeralStorageLocalSsdConfig?: EphemeralStorageLocalSsdConfig | undefined;
-  /** Optional. The taint configuration for the node pool. */
-  taintConfig?: TaintConfig | undefined;
-  /** The number of local SSD disks to be attached to the node. The limit for this value is dependent upon the maximum number of disks available on a machine per zone. See: https://cloud.google.com/compute/docs/disks/local-ssd for more information. */
-  localSsdCount?: number | undefined;
+  /** List of secondary boot disks attached to the nodes. */
+  secondaryBootDisks?: SecondaryBootDiskList | undefined;
+  /** Whether the nodes are created as preemptible VM instances. See: https://cloud.google.com/compute/docs/instances/preemptible for more information about preemptible VM instances. */
+  preemptible?: boolean | undefined;
+  /** Boot disk configuration for the node pool. */
+  bootDisk?: BootDisk | undefined;
+  /** A list of hardware accelerators to be attached to each node. See https://cloud.google.com/compute/docs/gpus for more information about support for GPUs. */
+  accelerators?: AcceleratorConfigList | undefined;
+  /** The Google Cloud Platform Service Account to be used by the node VMs. Specify the email address of the Service Account; otherwise, if no Service Account is specified, the "default" service account is used. */
+  serviceAccount?: string | undefined;
+  /** Size of the disk attached to each node, specified in GB. The smallest allowed disk size is 15 GB for node pools running GKE versions 1.36.2-gke.2933000 or later. Or, for earlier versions, the smallest allowed disk size is 12 GB. If unspecified, the default disk size is 100GB. */
+  diskSizeGb?: number | undefined;
+  /** Confidential nodes config. All the nodes in the node pool will be Confidential VM once enabled. */
+  confidentialNodes?: ConfidentialNodes | undefined;
+  /** Optional. Reserved for future use. */
+  enableConfidentialStorage?: boolean | undefined;
+  /** GCFS (Google Container File System) configs. */
+  gcfsConfig?: GcfsConfig | undefined;
+  /** Enable or disable NCCL fast socket for the node pool. */
+  fastSocket?: FastSocket | undefined;
+  /** Parameters for node pools to be backed by shared sole tenant node groups. */
+  soleTenantConfig?: SoleTenantConfig | undefined;
+  /** The resource labels for the node pool to use to annotate any related Google Compute Engine resources. */
+  resourceLabels?: StringMap | undefined;
+  /** HostMaintenancePolicy contains the desired maintenance policy for the Google Compute Engine hosts. */
+  hostMaintenancePolicy?: HostMaintenancePolicy | undefined;
+  /** Flex Start flag for enabling Flex Start VM. */
+  flexStart?: boolean | undefined;
+  /** The workload metadata configuration for this node. */
+  workloadMetadataConfig?: WorkloadMetadataConfig | undefined;
+  /** Advanced features for the Compute Engine VM. */
+  advancedMachineFeatures?: AdvancedMachineFeatures | undefined;
+  /** The configuration for GPU Direct */
+  gpuDirectConfig?: GPUDirectConfig | undefined;
+  /** Minimum CPU platform to be used by this instance. The instance may be scheduled on the specified or newer CPU platform. Applicable values are the friendly names of CPU platforms, such as `minCpuPlatform: "Intel Haswell"` or `minCpuPlatform: "Intel Sandy Bridge"`. For more information, read [how to specify min CPU platform](https://cloud.google.com/compute/docs/instances/specify-min-cpu-platform). */
+  minCpuPlatform?: string | undefined;
   /** Shielded Instance options. */
   shieldedInstanceConfig?: ShieldedInstanceConfig | undefined;
   /** Parameters for the ephemeral storage filesystem. If unspecified, ephemeral storage is backed by the boot disk. */
   ephemeralStorageConfig?: EphemeralStorageConfig | undefined;
-  /** The configuration for GPU Direct */
-  gpuDirectConfig?: GPUDirectConfig | undefined;
-  /** A map of resource manager tag keys and values to be attached to the nodes. */
-  resourceManagerTags?: ResourceManagerTags | undefined;
-  /** The Kubernetes labels (key/value pairs) to apply to each node. The values in this field are added to the set of default labels Kubernetes applies to nodes. This field has the following restrictions: * Labels must use a valid Kubernetes syntax and character set, as defined in https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#syntax-and-character-set. * This field supports up to 1,024 total characters in a single request. Depending on the Kubernetes version, keys in this field might conflict with the keys of the default labels, which might change which of your labels are applied to the nodes. Assume that the behavior is unpredictable and avoid label key conflicts. For more information about the default labels, see: https://kubernetes.io/docs/reference/labels-annotations-taints/ */
-  labels?: StringMap | undefined;
-  /** Parameters that can be configured on Windows nodes. */
-  windowsNodeConfig?: WindowsNodeConfig | undefined;
-  /** Sandbox configuration for this node. */
-  sandboxConfig?: SandboxConfig | undefined;
-  /** Specifies which method should be used for encrypting the Local SSDs attached to the node. */
-  localSsdEncryptionMode?: NodeConfigLocalSsdEncryptionModeEnum | (string & {}) | undefined;
-  /** The list of instance tags applied to all nodes. Tags are used to identify valid sources or targets for network firewalls and are specified by the client during cluster or node pool creation. Each tag within the list must comply with RFC1035. */
-  tags?: StringList | undefined;
-  /** Type of the disk attached to each node (e.g. 'pd-standard', 'pd-ssd' or 'pd-balanced') If unspecified, the default disk type is 'pd-standard' */
-  diskType?: string | undefined;
+  /** The number of local SSD disks to be attached to the node. The limit for this value is dependent upon the maximum number of disks available on a machine per zone. See: https://cloud.google.com/compute/docs/disks/local-ssd for more information. */
+  localSsdCount?: number | undefined;
   /** The maximum duration for the nodes to exist. If unspecified, the nodes can exist indefinitely. */
   maxRunDuration?: string | undefined;
-  /** List of kubernetes taints to be applied to each node. For more information, including usage and the valid values, see: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/ */
-  taints?: NodeTaintList | undefined;
-  /** The node image configuration to use for this node pool. Note that this is only applicable for node pools using image_type=CUSTOM. */
-  nodeImageConfig?: CustomImageConfig | undefined;
-  /** List of secondary boot disks attached to the nodes. */
-  secondaryBootDisks?: SecondaryBootDiskList | undefined;
-  /** Parameters that can be configured on Linux nodes. */
-  linuxNodeConfig?: LinuxNodeConfig | undefined;
-  /** Confidential nodes config. All the nodes in the node pool will be Confidential VM once enabled. */
-  confidentialNodes?: ConfidentialNodes | undefined;
   /** Enable or disable gvnic on the node pool. */
   gvnic?: VirtualNIC | undefined;
-  /** Enable or disable NCCL fast socket for the node pool. */
-  fastSocket?: FastSocket | undefined;
-  /** The name of a Google Compute Engine [machine type](https://cloud.google.com/compute/docs/machine-types). If unspecified, the default machine type is `e2-medium`. */
-  machineType?: string | undefined;
-  /** GCFS (Google Container File System) configs. */
-  gcfsConfig?: GcfsConfig | undefined;
-  /** Setting this field will assign instances of this pool to run on the specified node group. This is useful for running workloads on [sole tenant nodes](https://cloud.google.com/compute/docs/nodes/sole-tenant-nodes). */
-  nodeGroup?: string | undefined;
-  /** Logging configuration. */
-  loggingConfig?: NodePoolLoggingConfig | undefined;
-  /** Optional. Reserved for future use. */
-  enableConfidentialStorage?: boolean | undefined;
-  /** Flex Start flag for enabling Flex Start VM. */
-  flexStart?: boolean | undefined;
-  /** Node kubelet configs. */
-  kubeletConfig?: NodeKubeletConfig | undefined;
-  /** The optional reservation affinity. Setting this field will apply the specified [Zonal Compute Reservation](https://cloud.google.com/compute/docs/instances/reserving-zonal-resources) to this node pool. */
-  reservationAffinity?: ReservationAffinity | undefined;
+  /** List of Storage Pools where boot disks are provisioned. */
+  storagePools?: StringList | undefined;
+  /** The list of instance tags applied to all nodes. Tags are used to identify valid sources or targets for network firewalls and are specified by the client during cluster or node pool creation. Each tag within the list must comply with RFC1035. */
+  tags?: StringList | undefined;
+  /** Parameters that can be configured on Windows nodes. */
+  windowsNodeConfig?: WindowsNodeConfig | undefined;
+  /** Secondary boot disk update strategy. */
+  secondaryBootDiskUpdateStrategy?: CompleteNodePoolUpgradeRequest | undefined;
+  /** Parameters for using raw-block Local NVMe SSDs. */
+  localNvmeSsdBlockConfig?: LocalNvmeSsdBlockConfig | undefined;
+  /** Specifies which method should be used for encrypting the Local SSDs attached to the node. */
+  localSsdEncryptionMode?: NodeConfigLocalSsdEncryptionModeEnum | (string & {}) | undefined;
   /** Output only. effective_cgroup_mode is the cgroup mode actually used by the node pool. It is determined by the cgroup mode specified in the LinuxNodeConfig or the default cgroup mode based on the cluster creation version. */
   effectiveCgroupMode?: NodeConfigEffectiveCgroupModeEnum | (string & {}) | undefined;
-}
-/** Configuration for the legacy Attribute Based Access Control authorization mode. */
-export interface LegacyAbac {
-  /** Whether the ABAC authorizer is enabled for this cluster. When enabled, identities in the system, including service accounts, nodes, and controllers, will have statically granted permissions beyond those provided by the RBAC configuration or IAM. */
-  enabled?: boolean | undefined;
-}
-/** Kubernetes open source beta apis enabled on the cluster. */
-export interface K8sBetaAPIConfig {
-  /** api name, e.g. storage.k8s.io/v1beta1/csistoragecapacities. */
-  enabledApis?: StringList | undefined;
+  /** The optional reservation affinity. Setting this field will apply the specified [Zonal Compute Reservation](https://cloud.google.com/compute/docs/instances/reserving-zonal-resources) to this node pool. */
+  reservationAffinity?: ReservationAffinity | undefined;
+  /** List of kubernetes taints to be applied to each node. For more information, including usage and the valid values, see: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/ */
+  taints?: NodeTaintList | undefined;
+  /** Consolidation delay defines duration after which the Cluster Autoscaler can scale down underutilized nodes. If not set, nodes are scaled down by default behavior, i.e. according to the chosen autoscaling profile. */
+  consolidationDelay?: string | undefined;
+  /** Spot flag for enabling Spot VM, which is a rebrand of the existing preemptible flag. */
+  spot?: boolean | undefined;
+  /** Setting this field will assign instances of this pool to run on the specified node group. This is useful for running workloads on [sole tenant nodes](https://cloud.google.com/compute/docs/nodes/sole-tenant-nodes). */
+  nodeGroup?: string | undefined;
+  /** Optional. The taint configuration for the node pool. */
+  taintConfig?: TaintConfig | undefined;
+  /** Sandbox configuration for this node. */
+  sandboxConfig?: SandboxConfig | undefined;
+  /** The image type to use for this node. Note that for a given image type, the latest version of it will be used. Please see https://cloud.google.com/kubernetes-engine/docs/concepts/node-images for available image types. */
+  imageType?: string | undefined;
+  /** Type of the disk attached to each node (e.g. 'pd-standard', 'pd-ssd' or 'pd-balanced') If unspecified, the default disk type is 'pd-standard' */
+  diskType?: string | undefined;
+  /** Logging configuration. */
+  loggingConfig?: NodePoolLoggingConfig | undefined;
+  /** The name of a Google Compute Engine [machine type](https://cloud.google.com/compute/docs/machine-types). If unspecified, the default machine type is `e2-medium`. */
+  machineType?: string | undefined;
+  /** Node kubelet configs. */
+  kubeletConfig?: NodeKubeletConfig | undefined;
 }
 export type ClusterStatusEnum =
   | "STATUS_UNSPECIFIED"
@@ -1776,19 +1459,6 @@ export type ClusterStatusEnum =
   | "STOPPING"
   | "ERROR"
   | "DEGRADED";
-export type ClusterTelemetryTypeEnum = "UNSPECIFIED" | "DISABLED" | "ENABLED" | "SYSTEM_ONLY";
-/** Telemetry integration for the cluster. */
-export interface ClusterTelemetry {
-  /** Type of the integration. */
-  type?: ClusterTelemetryTypeEnum | (string & {}) | undefined;
-}
-/** Configuration for returning group information from authenticators. */
-export interface AuthenticatorGroupsConfig {
-  /** Whether this cluster should return group membership lookups during authentication using a group of security groups. */
-  enabled?: boolean | undefined;
-  /** The name of the security group-of-groups to be used. Only relevant if enabled = true. */
-  securityGroup?: string | undefined;
-}
 export type CompliancePostureConfigModeEnum = "MODE_UNSPECIFIED" | "DISABLED" | "ENABLED";
 /** Defines the details of a compliance standard. */
 export interface ComplianceStandard {
@@ -1803,52 +1473,61 @@ export interface CompliancePostureConfig {
   /** List of enabled compliance standards. */
   complianceStandards?: ComplianceStandardList | undefined;
 }
-export type WorkloadConfigAuditModeEnum =
-  | "MODE_UNSPECIFIED"
-  | "DISABLED"
-  | "BASIC"
-  | "BASELINE"
-  | "RESTRICTED";
-/** WorkloadConfig defines the flags to enable or disable the workload configurations for the cluster. */
-export interface WorkloadConfig {
-  /** Sets which mode of auditing should be used for the cluster's workloads. */
-  auditMode?: WorkloadConfigAuditModeEnum | (string & {}) | undefined;
+/** CompatibilityStatus is the status regarding the control plane's compatibility. */
+export interface CompatibilityStatus {
+  /** Output only. The GKE version that the cluster can be safely downgraded to if the cluster is emulating the previous minor version. It is usually the cluster's previous version before a minor version upgrade. */
+  downgradableVersion?: string | undefined;
+  /** Output only. Last time the control plane became available after a minor version binary upgrade with emulated version set. It indicates the last time the cluster entered the rollback safe mode. */
+  emulatedVersionTime?: string | undefined;
 }
-export type ProtectConfigWorkloadVulnerabilityModeEnum =
-  | "WORKLOAD_VULNERABILITY_MODE_UNSPECIFIED"
-  | "DISABLED"
-  | "BASIC";
-/** ProtectConfig defines the flags needed to enable/disable features for the Protect API. */
-export interface ProtectConfig {
-  /** WorkloadConfig defines which actions are enabled for a cluster's workload configurations. */
-  workloadConfig?: WorkloadConfig | undefined;
-  /** Deprecated: Vulnerability scanning is no longer supported. For more details, see https://cloud.google.com/kubernetes-engine/docs/deprecations/posture-management-deprecation. Sets which mode to use for Protect workload vulnerability scanning feature. */
-  workloadVulnerabilityMode?:
-    | ProtectConfigWorkloadVulnerabilityModeEnum
-    | (string & {})
-    | undefined;
+/** Master is the configuration for components on master. */
+export interface Master {
+  /** Output only. The compatibility status of the control plane. It should be empty if the cluster does not have emulated version. */
+  compatibilityStatus?: CompatibilityStatus | undefined;
 }
-/** Configuration for issuance of mTLS keys and certificates to Kubernetes pods. */
-export interface MeshCertificates {
-  /** enable_certificates controls issuance of workload mTLS certificates. If set, the GKE Workload Identity Certificates controller and node agent will be deployed in the cluster, which can then be configured by creating a WorkloadCertificateConfig Custom Resource. Requires Workload Identity (workload_pool must be non-empty). */
-  enableCertificates?: boolean | undefined;
+/** Configuration for client certificates on the cluster. */
+export interface ClientCertificateConfig {
+  /** Issue a client certificate. */
+  issueClientCertificate?: boolean | undefined;
 }
-/** ManagedMachineLearningDiagnosticsConfig is the configuration for the GKE Managed Machine Learning Diagnostics pipeline. */
-export interface ManagedMachineLearningDiagnosticsConfig {
-  /** Enable/Disable Managed Machine Learning Diagnostics. */
+/** The authentication information for accessing the master endpoint. Authentication can be done using HTTP basic auth or using client certificates. */
+export interface MasterAuth {
+  /** Output only. Base64-encoded public certificate that is the root of trust for the cluster. */
+  clusterCaCertificate?: string | undefined;
+  /** The password to use for HTTP basic authentication to the master endpoint. Because the master endpoint is open to the Internet, you should create a strong password. If a password is provided for cluster creation, username must be non-empty. Warning: basic authentication is deprecated, and will be removed in GKE control plane versions 1.19 and newer. For a list of recommended authentication methods, see: https://cloud.google.com/kubernetes-engine/docs/how-to/api-server-authentication */
+  password?: string | Redacted.Redacted<string> | undefined;
+  /** Output only. Base64-encoded public certificate used by clients to authenticate to the cluster endpoint. Issued only if client_certificate_config is set. */
+  clientCertificate?: string | undefined;
+  /** Configuration for client certificate authentication on the cluster. For clusters before v1.12, if no configuration is specified, a client certificate is issued. */
+  clientCertificateConfig?: ClientCertificateConfig | undefined;
+  /** Output only. Base64-encoded private key used by clients to authenticate to the cluster endpoint. */
+  clientKey?: string | undefined;
+  /** The username to use for HTTP basic authentication to the master endpoint. For clusters v1.6.0 and later, basic authentication can be disabled by leaving username unspecified (or setting it to the empty string). Warning: basic authentication is deprecated, and will be removed in GKE control plane versions 1.19 and newer. For a list of recommended authentication methods, see: https://cloud.google.com/kubernetes-engine/docs/how-to/api-server-authentication */
+  username?: string | undefined;
+}
+/** Configuration for controlling master global access settings. */
+export interface PrivateClusterMasterGlobalAccessConfig {
+  /** Whenever master is accessible globally or not. */
   enabled?: boolean | undefined;
 }
-export type AnonymousAuthenticationConfigModeEnum = "MODE_UNSPECIFIED" | "ENABLED" | "LIMITED";
-/** AnonymousAuthenticationConfig defines the settings needed to limit endpoints that allow anonymous authentication. */
-export interface AnonymousAuthenticationConfig {
-  /** Defines the mode of limiting anonymous access in the cluster. */
-  mode?: AnonymousAuthenticationConfigModeEnum | (string & {}) | undefined;
-}
-export type ReleaseChannelChannelEnum = "UNSPECIFIED" | "RAPID" | "REGULAR" | "STABLE" | "EXTENDED";
-/** ReleaseChannel indicates which release channel a cluster is subscribed to. Release channels are arranged in order of risk. When a cluster is subscribed to a release channel, Google maintains both the master version and the node version. Node auto-upgrade defaults to true and cannot be disabled. */
-export interface ReleaseChannel {
-  /** channel specifies which release channel the cluster is subscribed to. */
-  channel?: ReleaseChannelChannelEnum | (string & {}) | undefined;
+/** Configuration options for private clusters. */
+export interface PrivateClusterConfig {
+  /** Output only. The peering name in the customer VPC used by this cluster. */
+  peeringName?: string | undefined;
+  /** Whether nodes have internal IP addresses only. If enabled, all nodes are given only RFC 1918 private addresses and communicate with the master via private networking. Deprecated: Use NetworkConfig.default_enable_private_nodes instead. */
+  enablePrivateNodes?: boolean | undefined;
+  /** The IP range in CIDR notation to use for the hosted master network. This range will be used for assigning internal IP addresses to the master or set of masters, as well as the ILB VIP. This range must not overlap with any other ranges in use within the cluster's network. */
+  masterIpv4CidrBlock?: string | undefined;
+  /** Whether the master's internal IP address is used as the cluster endpoint. Use ControlPlaneEndpointsConfig.IPEndpointsConfig.enable_public_endpoint instead. Note that the value of enable_public_endpoint is reversed: if enable_private_endpoint is false, then enable_public_endpoint will be true. */
+  enablePrivateEndpoint?: boolean | undefined;
+  /** Output only. The internal IP address of this cluster's master endpoint. Deprecated: Use ControlPlaneEndpointsConfig.IPEndpointsConfig.private_endpoint instead. */
+  privateEndpoint?: string | undefined;
+  /** Controls master global access settings. Deprecated: Use ControlPlaneEndpointsConfig.IPEndpointsConfig.enable_global_access instead. */
+  masterGlobalAccessConfig?: PrivateClusterMasterGlobalAccessConfig | undefined;
+  /** Subnet to provision the master's private endpoint during cluster creation. Specified in projects/*\/regions/*\/subnetworks/* format. Deprecated: Use ControlPlaneEndpointsConfig.IPEndpointsConfig.private_endpoint_subnetwork instead. */
+  privateEndpointSubnetwork?: string | undefined;
+  /** Output only. The external IP address of this cluster's master endpoint. Deprecated: Use ControlPlaneEndpointsConfig.IPEndpointsConfig.public_endpoint instead. */
+  publicEndpoint?: string | undefined;
 }
 export type GkeAutoUpgradeConfigPatchModeEnum = "PATCH_MODE_UNSPECIFIED" | "ACCELERATED";
 /** GkeAutoUpgradeConfig is the configuration for GKE auto upgrades. */
@@ -1856,286 +1535,45 @@ export interface GkeAutoUpgradeConfig {
   /** PatchMode specifies how auto upgrade patch builds should be selected. */
   patchMode?: GkeAutoUpgradeConfigPatchModeEnum | (string & {}) | undefined;
 }
-/** CidrBlock contains an optional name and one CIDR block. */
-export interface CidrBlock {
-  /** cidr_block must be specified in CIDR notation. */
-  cidrBlock?: string | undefined;
-  /** display_name is an optional field for users to identify CIDR blocks. */
-  displayName?: string | undefined;
+/** Contains information about amount of some resource in the cluster. For memory, value should be in GB. */
+export interface ResourceLimit {
+  /** Minimum amount of the resource in the cluster. */
+  minimum?: string | undefined;
+  /** Maximum amount of the resource in the cluster. */
+  maximum?: string | undefined;
+  /** Resource name "cpu", "memory" or gpu-specific string. */
+  resourceType?: string | undefined;
 }
-export type CidrBlockList = Array<CidrBlock>;
-/** Configuration options for the master authorized networks feature. Enabled master authorized networks will disallow all external traffic to access Kubernetes master through HTTPS except traffic from the given CIDR blocks, Google Compute Engine Public IPs and Google Prod IPs. */
-export interface MasterAuthorizedNetworksConfig {
-  /** Whether or not master authorized networks is enabled. */
-  enabled?: boolean | undefined;
-  /** Whether master authorized networks is enforced on private endpoint or not. */
-  privateEndpointEnforcementEnabled?: boolean | undefined;
-  /** Whether master is accessible via Google Compute Engine Public IP addresses. */
-  gcpPublicCidrsAccessEnabled?: boolean | undefined;
-  /** cidr_blocks define up to 10 external networks that could access Kubernetes master through HTTPS. */
-  cidrBlocks?: CidrBlockList | undefined;
-}
-/** Subset of NodeConfig message that has defaults. */
-export interface NodeConfigDefaults {
-  /** Logging configuration for node pools. */
-  loggingConfig?: NodePoolLoggingConfig | undefined;
-  /** Parameters for containerd customization. */
-  containerdConfig?: ContainerdConfig | undefined;
-  /** HostMaintenancePolicy contains the desired maintenance policy for the Google Compute Engine hosts. */
-  hostMaintenancePolicy?: HostMaintenancePolicy | undefined;
-  /** GCFS (Google Container File System, also known as Riptide) options. */
-  gcfsConfig?: GcfsConfig | undefined;
-  /** NodeKubeletConfig controls the defaults for new node-pools. Currently only `insecure_kubelet_readonly_port_enabled` can be set here. */
-  nodeKubeletConfig?: NodeKubeletConfig | undefined;
-}
-/** Subset of Nodepool message that has defaults. */
-export interface NodePoolDefaults {
-  /** Subset of NodeConfig message that has defaults. */
-  nodeConfigDefaults?: NodeConfigDefaults | undefined;
-}
-export type ControlPlaneEgressModeEnum = "MODE_UNSPECIFIED" | "VIA_CONTROL_PLANE" | "NONE";
-/** ControlPlaneEgress defines the settings needed to enable control plane egress control. */
-export interface ControlPlaneEgress {
-  /** Defines the mode of control plane egress. */
-  mode?: ControlPlaneEgressModeEnum | (string & {}) | undefined;
-}
-/** Describes the configuration of a DNS endpoint. */
-export interface DNSEndpointConfig {
-  /** Controls whether the k8s certs auth is allowed via DNS. */
-  enableK8sCertsViaDns?: boolean | undefined;
-  /** Output only. The cluster's DNS endpoint configuration. A DNS format address. This is accessible from the public internet. Ex: uid.us-central1.gke.goog. Always present, but the behavior may change according to the value of DNSEndpointConfig.allow_external_traffic. */
-  endpoint?: string | undefined;
-  /** Controls whether user traffic is allowed over this endpoint. Note that Google-managed services may still use the endpoint even if this is false. */
-  allowExternalTraffic?: boolean | undefined;
-  /** Controls whether the k8s token auth is allowed via DNS. */
-  enableK8sTokensViaDns?: boolean | undefined;
-}
-/** IP endpoints configuration. */
-export interface IPEndpointsConfig {
-  /** Controls whether the control plane allows access through a public IP. It is invalid to specify both PrivateClusterConfig.enablePrivateEndpoint and this field at the same time. */
-  enablePublicEndpoint?: boolean | undefined;
-  /** Controls whether to allow direct IP access. */
-  enabled?: boolean | undefined;
-  /** Subnet to provision the master's private endpoint during cluster creation. Specified in projects/*\/regions/*\/subnetworks/* format. It is invalid to specify both PrivateClusterConfig.privateEndpointSubnetwork and this field at the same time. */
-  privateEndpointSubnetwork?: string | undefined;
-  /** Controls whether the control plane's private endpoint is accessible from sources in other regions. It is invalid to specify both PrivateClusterMasterGlobalAccessConfig.enabled and this field at the same time. */
-  globalAccess?: boolean | undefined;
-  /** Configuration of authorized networks. If enabled, restricts access to the control plane based on source IP. It is invalid to specify both Cluster.masterAuthorizedNetworksConfig and this field at the same time. */
-  authorizedNetworksConfig?: MasterAuthorizedNetworksConfig | undefined;
-  /** Output only. The internal IP address of this cluster's control plane. Only populated if enabled. */
-  privateEndpoint?: string | undefined;
-  /** Output only. The external IP address of this cluster's control plane. Only populated if enabled. */
-  publicEndpoint?: string | undefined;
-}
-/** Configuration for all of the cluster's control plane endpoints. */
-export interface ControlPlaneEndpointsConfig {
-  /** DNS endpoint configuration. */
-  dnsEndpointConfig?: DNSEndpointConfig | undefined;
-  /** IP endpoints configuration. */
-  ipEndpointsConfig?: IPEndpointsConfig | undefined;
-}
-/** Constraints applied to pods. */
-export interface MaxPodsConstraint {
-  /** Constraint enforced on the max num of pods per node. */
-  maxPodsPerNode?: string | undefined;
-}
-export type MaintenanceExclusionOptionsScopeEnum =
-  | "NO_UPGRADES"
-  | "NO_MINOR_UPGRADES"
-  | "NO_MINOR_OR_NODE_UPGRADES";
-export type MaintenanceExclusionOptionsEndTimeBehaviorEnum =
-  | "END_TIME_BEHAVIOR_UNSPECIFIED"
-  | "UNTIL_END_OF_SUPPORT";
-/** Represents the Maintenance exclusion option. */
-export interface MaintenanceExclusionOptions {
-  /** Scope specifies the upgrade scope which upgrades are blocked by the exclusion. */
-  scope?: MaintenanceExclusionOptionsScopeEnum | (string & {}) | undefined;
-  /** EndTimeBehavior specifies the behavior of the exclusion end time. */
-  endTimeBehavior?: MaintenanceExclusionOptionsEndTimeBehaviorEnum | (string & {}) | undefined;
-}
-/** Represents an arbitrary window of time. */
-export interface TimeWindow {
-  /** MaintenanceExclusionOptions provides maintenance exclusion related options. */
-  maintenanceExclusionOptions?: MaintenanceExclusionOptions | undefined;
-  /** The time that the window ends. The end time should take place after the start time. */
-  endTime?: string | undefined;
-  /** The time that the window first starts. */
-  startTime?: string | undefined;
-}
-export type TimeWindowMap = { [key: string]: TimeWindow | undefined };
-/** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
-export interface Container_Date {
-  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  day?: number | undefined;
-  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  year?: number | undefined;
-  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  month?: number | undefined;
-}
-/** Represents a time of day. The date and time zone are either not significant or are specified elsewhere. An API may choose to allow leap seconds. Related types are google.type.Date and `google.protobuf.Timestamp`. */
-export interface TimeOfDay {
-  /** Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time. */
-  hours?: number | undefined;
-  /** Minutes of an hour. Must be greater than or equal to 0 and less than or equal to 59. */
-  minutes?: number | undefined;
-  /** Fractions of seconds, in nanoseconds. Must be greater than or equal to 0 and less than or equal to 999,999,999. */
-  nanos?: number | undefined;
-  /** Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds. */
-  seconds?: number | undefined;
-}
-/** Represents an arbitrary window of time that recurs. Alternative to RecurringTimeWindow, with renamed fields. */
-export interface RecurringMaintenanceWindow {
-  /** Optional. Windows will not be scheduled before that day. Depending on the recurrence, this may be the date the first window appears. Days are measured in the UTC timezone. This setting must be used when INTERVAL>1 or FREQ=WEEKLY/MONTHLY and no BYDAY specified. */
-  delayUntil?: Container_Date | undefined;
-  /** Required. Start time of the window on days that it is scheduled, assuming UTC timezone. */
-  windowStartTime?: TimeOfDay | undefined;
-  /** Required. An RRULE (https://tools.ietf.org/html/rfc5545#section-3.8.5.3) for how this window reccurs. For example, to have something repeat every weekday, you'd use: `FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR` To repeat some window daily (equivalent to the DailyMaintenanceWindow): `FREQ=DAILY` For the first weekend of every month: `FREQ=MONTHLY;BYSETPOS=1;BYDAY=SA,SU` The FREQ values of HOURLY, MINUTELY, and SECONDLY are not supported. */
-  recurrence?: string | undefined;
-  /** Required. Duration of the window. */
-  windowDuration?: string | undefined;
-}
-/** Represents an arbitrary window of time that recurs. */
-export interface RecurringTimeWindow {
-  /** The window of the first recurrence. */
-  window?: TimeWindow | undefined;
-  /** An RRULE (https://tools.ietf.org/html/rfc5545#section-3.8.5.3) for how this window reccurs. They go on for the span of time between the start and end time. For example, to have something repeat every weekday, you'd use: `FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR` To repeat some window daily (equivalent to the DailyMaintenanceWindow): `FREQ=DAILY` For the first weekend of every month: `FREQ=MONTHLY;BYSETPOS=1;BYDAY=SA,SU` This specifies how frequently the window starts. Eg, if you wanted to have a 9-5 UTC-4 window every weekday, you'd use something like: ``` start time = 2019-01-01T09:00:00-0400 end time = 2019-01-01T17:00:00-0400 recurrence = FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR ``` Windows can span multiple days. Eg, to make the window encompass every weekend from midnight Saturday till the last minute of Sunday UTC: ``` start time = 2019-01-05T00:00:00Z end time = 2019-01-07T23:59:00Z recurrence = FREQ=WEEKLY;BYDAY=SA ``` Note the start and end time's specific dates are largely arbitrary except to specify duration of the window and when it first starts. The FREQ values of HOURLY, MINUTELY, and SECONDLY are not supported. */
-  recurrence?: string | undefined;
-}
-/** Time window specified for daily maintenance operations. */
-export interface DailyMaintenanceWindow {
-  /** Time within the maintenance window to start the maintenance operations. It must be in format "HH:MM", where HH : [00-23] and MM : [00-59] GMT. */
-  startTime?: string | undefined;
-  /** Output only. Duration of the time window, automatically chosen to be smallest possible in the given scenario. */
-  duration?: string | undefined;
-}
-/** MaintenanceWindow defines the maintenance window to be used for the cluster. */
-export interface MaintenanceWindow {
-  /** Exceptions to maintenance window. Non-emergency maintenance should not occur in these windows. */
-  maintenanceExclusions?: TimeWindowMap | undefined;
-  /** RecurringMaintenanceWindow specifies some number of recurring time periods for maintenance to occur. The time windows may be overlapping. If no maintenance windows are set, maintenance can occur at any time. Alternative to RecurringWindow, with renamed fields. */
-  recurringMaintenanceWindow?: RecurringMaintenanceWindow | undefined;
-  /** RecurringWindow specifies some number of recurring time periods for maintenance to occur. The time windows may be overlapping. If no maintenance windows are set, maintenance can occur at any time. */
-  recurringWindow?: RecurringTimeWindow | undefined;
-  /** DailyMaintenanceWindow specifies a daily maintenance operation window. */
-  dailyMaintenanceWindow?: DailyMaintenanceWindow | undefined;
-}
-/** DisruptionBudget defines the upgrade disruption budget for the cluster control plane. */
-export interface DisruptionBudget {
-  /** Optional. The minimum duration between two minor version upgrades of the control plane. */
-  minorVersionDisruptionInterval?: string | undefined;
-  /** Output only. The last time a minor version upgrade was performed on the control plane. */
-  lastMinorVersionDisruptionTime?: string | undefined;
-  /** Output only. The last time a disruption was performed on the control plane. */
-  lastDisruptionTime?: string | undefined;
-  /** Optional. The minimum duration between two patch version upgrades of the control plane. */
-  patchVersionDisruptionInterval?: string | undefined;
-}
-/** MaintenancePolicy defines the maintenance policy to be used for the cluster. */
-export interface MaintenancePolicy {
-  /** Specifies the maintenance window in which maintenance may be performed. */
-  window?: MaintenanceWindow | undefined;
-  /** Optional. The upgrade disruption budget for the cluster control plane. */
-  disruptionBudget?: DisruptionBudget | undefined;
-  /** A hash identifying the version of this policy, so that updates to fields of the policy won't accidentally undo intermediate changes (and so that users of the API unaware of some fields won't accidentally remove other fields). Make a `get()` request to the cluster to get the current resource version and include it with requests to set the policy. */
-  resourceVersion?: string | undefined;
-}
-/** Configuration for issuance of mTLS keys and certificates to Kubernetes pods. */
-export type WorkloadCertificates = MeshCertificates;
-/** IdentityServiceConfig is configuration for Identity Service which allows customers to use external identity providers with the K8S API */
-export interface IdentityServiceConfig {
-  /** Whether to enable the Identity Service component */
+export type ResourceLimitList = Array<ResourceLimit>;
+/** DefaultComputeClassConfig defines default compute class configuration. */
+export interface DefaultComputeClassConfig {
+  /** Enables default compute class. */
   enabled?: boolean | undefined;
 }
-export type PodAutoscalingHpaProfileEnum = "HPA_PROFILE_UNSPECIFIED" | "NONE" | "PERFORMANCE";
-/** PodAutoscaling is used for configuration of parameters for workload autoscaling. */
-export interface PodAutoscaling {
-  /** Selected Horizontal Pod Autoscaling profile. */
-  hpaProfile?: PodAutoscalingHpaProfileEnum | (string & {}) | undefined;
-}
-/** Collection of Compute Engine network tags that can be applied to a node's underlying VM instance. (See `tags` field in [`NodeConfig`](/kubernetes-engine/docs/reference/rest/v1/NodeConfig)). */
-export interface NetworkTags {
-  /** List of network tags. */
-  tags?: StringList | undefined;
-}
-/** node pool configs that apply to all auto-provisioned node pools in autopilot clusters and node auto-provisioning enabled clusters */
-export interface NodePoolAutoConfig {
-  /** Output only. Configuration options for Linux nodes. */
-  linuxNodeConfig?: LinuxNodeConfig | undefined;
-  /** NodeKubeletConfig controls the defaults for autoprovisioned node-pools. Currently only `insecure_kubelet_readonly_port_enabled` can be set here. */
-  nodeKubeletConfig?: NodeKubeletConfig | undefined;
-  /** The list of instance tags applied to all nodes. Tags are used to identify valid sources or targets for network firewalls and are specified by the client during cluster creation. Each tag within the list must comply with RFC1035. */
-  networkTags?: NetworkTags | undefined;
-  /** Resource manager tag keys and values to be attached to the nodes for managing Compute Engine firewalls using Network Firewall Policies. */
-  resourceManagerTags?: ResourceManagerTags | undefined;
-}
-export type FilterEventTypeItemEnum =
-  | "EVENT_TYPE_UNSPECIFIED"
-  | "UPGRADE_AVAILABLE_EVENT"
-  | "UPGRADE_EVENT"
-  | "SECURITY_BULLETIN_EVENT"
-  | "UPGRADE_INFO_EVENT";
-export type FilterEventTypeItemEnumList = Array<FilterEventTypeItemEnum | (string & {})>;
-/** Allows filtering to one or more specific event types. If event types are present, those and only those event types will be transmitted to the cluster. Other types will be skipped. If no filter is specified, or no event types are present, all event types will be sent */
-export interface Filter {
-  /** Event types to allowlist. */
-  eventType?: FilterEventTypeItemEnumList | undefined;
-}
-/** Pub/Sub specific notification config. */
-export interface PubSub {
-  /** Allows filtering to one or more specific event types. If no filter is specified, or if a filter is specified with no event types, all event types will be sent */
-  filter?: Filter | undefined;
-  /** The desired Pub/Sub topic to which notifications will be sent by GKE. Format is `projects/{project}/topics/{topic}`. */
-  topic?: string | undefined;
-  /** Enable notifications for Pub/Sub. */
-  enabled?: boolean | undefined;
-}
-/** NotificationConfig is the configuration of notifications. */
-export interface NotificationConfig {
-  /** Notification config for Pub/Sub. */
-  pubsub?: PubSub | undefined;
-}
-/** Best effort provisioning. */
-export interface BestEffortProvisioning {
-  /** Minimum number of nodes to be provisioned to be considered as succeeded, and the rest of nodes will be provisioned gradually and eventually when stockout issue has been resolved. */
-  minProvisionNodes?: number | undefined;
-  /** When this is enabled, cluster/node pool creations will ignore non-fatal errors like stockout to best provision as many nodes as possible right now and eventually bring up all target number of nodes */
-  enabled?: boolean | undefined;
-}
-export type NodePoolStatusEnum =
-  | "STATUS_UNSPECIFIED"
-  | "PROVISIONING"
-  | "RUNNING"
-  | "RUNNING_WITH_ERROR"
-  | "RECONCILING"
-  | "STOPPING"
-  | "ERROR";
-/** Contains expiry information about the kubelet certificate. */
-export interface KubeletCertInfo {
-  /** Output only. */
-  tpmBootstrapCertExpireTime?: string | undefined;
-  /** Output only. */
-  nonTpmBootstrapCertExpireTime?: string | undefined;
-}
-/** AutopilotConfig contains configuration of autopilot feature for this node pool. */
-export interface AutopilotConfig {
-  /** Denotes that nodes belonging to this node pool are Autopilot nodes. */
-  enabled?: boolean | undefined;
-}
-/** NodeDrainConfig contains the node drain related configurations for this node pool. */
-export interface NodeDrainConfig {
-  /** The duration of the grace termination period for node drain. */
-  graceTerminationDuration?: string | undefined;
-  /** The duration of the PDB timeout period for node drain. */
-  pdbTimeoutDuration?: string | undefined;
-  /** Whether to respect PDB during node pool deletion. */
-  respectPdbDuringNodePoolDeletion?: boolean | undefined;
+export type ClusterAutoscalingAutoscalingProfileEnum =
+  | "PROFILE_UNSPECIFIED"
+  | "OPTIMIZE_UTILIZATION"
+  | "BALANCED";
+export type AutoprovisioningRestrictionConfigServiceAccountPermissionCheckEnum =
+  | "PERMISSION_CHECK_MODE_UNSPECIFIED"
+  | "DISABLED"
+  | "ENABLED";
+/** AutoprovisioningRestrictionConfig configures restrictions related to autoprovisioning settings. */
+export interface AutoprovisioningRestrictionConfig {
+  /** Optional. Contains the list of service accounts allowed for autoprovisioned node pools / Custom ComputeClasses. */
+  authorizedServiceAccounts?: StringList | undefined;
+  /** Optional. Controls whether service account validation checks are enforced for autoprovisioning. */
+  serviceAccountPermissionCheck?:
+    | AutoprovisioningRestrictionConfigServiceAccountPermissionCheckEnum
+    | (string & {})
+    | undefined;
 }
 /** AutoUpgradeOptions defines the set of options for the user to control how the Auto Upgrades will proceed. */
 export interface AutoUpgradeOptions {
-  /** Output only. This field is set when upgrades are about to commence with the approximate start time for the upgrades, in [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format. */
-  autoUpgradeStartTime?: string | undefined;
   /** Output only. This field is set when upgrades are about to commence with the description of the upgrade. */
   description?: string | undefined;
+  /** Output only. This field is set when upgrades are about to commence with the approximate start time for the upgrades, in [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format. */
+  autoUpgradeStartTime?: string | undefined;
 }
 /** NodeManagement defines the set of node management services turned on for the node pool. */
 export interface NodeManagement {
@@ -2146,30 +1584,6 @@ export interface NodeManagement {
   /** Specifies the Auto Upgrade knobs for the node pool. */
   upgradeOptions?: AutoUpgradeOptions | undefined;
 }
-/** Defines the maintenance exclusion for the node pool. */
-export interface ExclusionUntilEndOfSupport {
-  /** Output only. The end time of the maintenance exclusion. It is output only. It is the cluster control plane version's end of support time, or end of extended support time when the cluster is on extended support channel. */
-  endTime?: string | undefined;
-  /** Optional. Indicates whether the exclusion is enabled. */
-  enabled?: boolean | undefined;
-  /** Output only. The start time of the maintenance exclusion. It is output only. It is the exclusion creation time. */
-  startTime?: string | undefined;
-}
-/** Defines the maintenance policy for the node pool. */
-export interface NodePoolMaintenancePolicy {
-  /** Optional. The exclusion until end of support for the node pool. */
-  exclusionUntilEndOfSupport?: ExclusionUntilEndOfSupport | undefined;
-}
-export type PlacementPolicyTypeEnum = "TYPE_UNSPECIFIED" | "COMPACT";
-/** PlacementPolicy defines the placement policy used by the node pool. */
-export interface PlacementPolicy {
-  /** If set, refers to the name of a custom resource policy supplied by the user. The resource policy must be in the same project and region as the node pool. If not found, InvalidArgument error is returned. */
-  policyName?: string | undefined;
-  /** The type of placement. */
-  type?: PlacementPolicyTypeEnum | (string & {}) | undefined;
-  /** TPU placement topology for pod slice node pool. https://cloud.google.com/tpu/docs/types-topologies#tpu_topologies */
-  tpuTopology?: string | undefined;
-}
 /** Autoscaled rollout policy utilizes the cluster autoscaler during blue-green upgrade to scale both the blue and green pools. */
 export interface AutoscaledRolloutPolicy {
   /** Optional. Time to wait after cordoning the blue pool before draining the nodes. Defaults to 3 days. The value can be set between 0 and 7 days, inclusive. */
@@ -2177,12 +1591,12 @@ export interface AutoscaledRolloutPolicy {
 }
 /** Standard rollout policy is the default policy for blue-green. */
 export interface StandardRolloutPolicy {
-  /** Percentage of the blue pool nodes to drain in a batch. The range of this field should be (0.0, 1.0]. */
-  batchPercentage?: number | undefined;
-  /** Soak time after each batch gets drained. Default to zero. */
-  batchSoakDuration?: string | undefined;
   /** Number of blue nodes to drain in a batch. */
   batchNodeCount?: number | undefined;
+  /** Soak time after each batch gets drained. Default to zero. */
+  batchSoakDuration?: string | undefined;
+  /** Percentage of the blue pool nodes to drain in a batch. The range of this field should be (0.0, 1.0]. */
+  batchPercentage?: number | undefined;
 }
 /** Settings for blue-green upgrade. */
 export interface BlueGreenSettings {
@@ -2200,30 +1614,959 @@ export type UpgradeSettingsStrategyEnum =
   | "SHORT_LIVED";
 /** These upgrade settings control the level of parallelism and the level of disruption caused by an upgrade. maxUnavailable controls the number of nodes that can be simultaneously unavailable. maxSurge controls the number of additional nodes that can be added to the node pool temporarily for the time of the upgrade to increase the number of available nodes. (maxUnavailable + maxSurge) determines the level of parallelism (how many nodes are being upgraded at the same time). Note: upgrades inevitably introduce some disruption since workloads need to be moved from old nodes to new, upgraded ones. Even if maxUnavailable=0, this holds true. (Disruption stays within the limits of PodDisruptionBudget, if it is configured.) Consider a hypothetical node pool with 5 nodes having maxSurge=2, maxUnavailable=1. This means the upgrade process upgrades 3 nodes simultaneously. It creates 2 additional (upgraded) nodes, then it brings down 3 old (not yet upgraded) nodes at the same time. This ensures that there are always at least 4 nodes available. These upgrade settings configure the upgrade strategy for the node pool. Use strategy to switch between the strategies applied to the node pool. If the strategy is SURGE, use max_surge and max_unavailable to control the level of parallelism and the level of disruption caused by upgrade. 1. maxSurge controls the number of additional nodes that can be added to the node pool temporarily for the time of the upgrade to increase the number of available nodes. 2. maxUnavailable controls the number of nodes that can be simultaneously unavailable. 3. (maxUnavailable + maxSurge) determines the level of parallelism (how many nodes are being upgraded at the same time). If the strategy is BLUE_GREEN, use blue_green_settings to configure the blue-green upgrade related settings. 1. standard_rollout_policy is the default policy. The policy is used to control the way blue pool gets drained. The draining is executed in the batch mode. The batch size could be specified as either percentage of the node pool size or the number of nodes. batch_soak_duration is the soak time after each batch gets drained. 2. node_pool_soak_duration is the soak time after all blue nodes are drained. After this period, the blue pool nodes will be deleted. */
 export interface UpgradeSettings {
-  /** Settings for blue-green upgrade strategy. */
-  blueGreenSettings?: BlueGreenSettings | undefined;
   /** The maximum number of nodes that can be created beyond the current size of the node pool during the upgrade process. */
   maxSurge?: number | undefined;
+  /** Settings for blue-green upgrade strategy. */
+  blueGreenSettings?: BlueGreenSettings | undefined;
   /** Update strategy of the node pool. */
   strategy?: UpgradeSettingsStrategyEnum | (string & {}) | undefined;
   /** The maximum number of nodes that can be simultaneously unavailable during the upgrade process. A node is considered available if its status is Ready. */
   maxUnavailable?: number | undefined;
+}
+/** AutoprovisioningNodePoolDefaults contains defaults for a node pool created by NAP. */
+export interface AutoprovisioningNodePoolDefaults {
+  /** Type of the disk attached to each node (e.g. 'pd-standard', 'pd-ssd' or 'pd-balanced') If unspecified, the default disk type is 'pd-standard' */
+  diskType?: string | undefined;
+  /** The image type to use for NAP created node. Please see https://cloud.google.com/kubernetes-engine/docs/concepts/node-images for available image types. */
+  imageType?: string | undefined;
+  /** Shielded Instance options. */
+  shieldedInstanceConfig?: ShieldedInstanceConfig | undefined;
+  /** The set of Google API scopes to be made available on all of the node VMs under the "default" service account. The following scopes are recommended, but not required, and by default are not included: * `https://www.googleapis.com/auth/compute` is required for mounting persistent storage on your nodes. * `https://www.googleapis.com/auth/devstorage.read_only` is required for communicating with **gcr.io** (the [Artifact Registry](https://cloud.google.com/artifact-registry/)). If unspecified, no scopes are added, unless Cloud Logging or Cloud Monitoring are enabled, in which case their required scopes will be added. */
+  oauthScopes?: StringList | undefined;
+  /** The Google Cloud Platform Service Account to be used by the node VMs. Specify the email address of the Service Account; otherwise, if no Service Account is specified, the "default" service account is used. */
+  serviceAccount?: string | undefined;
+  /** NodeManagement configuration for this NodePool. */
+  management?: NodeManagement | undefined;
+  /** Size of the disk attached to each node, specified in GB. The smallest allowed disk size is 15 GB for node pools running GKE versions 1.36.3-gke.1480000 or later. Or, for earlier versions, the smallest allowed disk size is 12 GB. If unspecified, the default disk size is 100GB. */
+  diskSizeGb?: number | undefined;
+  /** Upgrade settings control disruption and speed of the upgrade. */
+  upgradeSettings?: UpgradeSettings | undefined;
+  /** Deprecated. Minimum CPU platform to be used for NAP created node pools. The instance may be scheduled on the specified or newer CPU platform. Applicable values are the friendly names of CPU platforms, such as minCpuPlatform: Intel Haswell or minCpuPlatform: Intel Sandy Bridge. For more information, read [how to specify min CPU platform](https://cloud.google.com/compute/docs/instances/specify-min-cpu-platform). This field is deprecated, min_cpu_platform should be specified using `cloud.google.com/requested-min-cpu-platform` label selector on the pod. To unset the min cpu platform field pass "automatic" as field value. */
+  minCpuPlatform?: string | undefined;
+  /** DEPRECATED. Use NodePoolAutoConfig.NodeKubeletConfig instead. */
+  insecureKubeletReadonlyPortEnabled?: boolean | undefined;
+  /** The Customer Managed Encryption Key used to encrypt the boot disk attached to each node in the node pool. This should be of the form projects/[KEY_PROJECT_ID]/locations/[LOCATION]/keyRings/[RING_NAME]/cryptoKeys/[KEY_NAME]. For more information about protecting resources with Cloud KMS Keys please see: https://cloud.google.com/compute/docs/disks/customer-managed-encryption */
+  bootDiskKmsKey?: string | undefined;
+}
+export type ClusterAutoscalingAutopilotGeneralProfileEnum =
+  | "AUTOPILOT_GENERAL_PROFILE_UNSPECIFIED"
+  | "NO_PERFORMANCE"
+  | "NONE";
+/** ClusterAutoscaling contains global, per-cluster information required by Cluster Autoscaler to automatically adjust the size of the cluster and create/delete node pools based on the current needs. */
+export interface ClusterAutoscaling {
+  /** Contains global constraints regarding minimum and maximum amount of resources in the cluster. */
+  resourceLimits?: ResourceLimitList | undefined;
+  /** Default compute class is a configuration for default compute class. */
+  defaultComputeClassConfig?: DefaultComputeClassConfig | undefined;
+  /** Defines autoscaling behaviour. */
+  autoscalingProfile?: ClusterAutoscalingAutoscalingProfileEnum | (string & {}) | undefined;
+  /** Optional. Configures restrictions related to autoprovisioning settings. */
+  autoprovisioningRestrictionConfig?: AutoprovisioningRestrictionConfig | undefined;
+  /** AutoprovisioningNodePoolDefaults contains defaults for a node pool created by NAP. */
+  autoprovisioningNodePoolDefaults?: AutoprovisioningNodePoolDefaults | undefined;
+  /** The list of Google Compute Engine [zones](https://cloud.google.com/compute/docs/zones#available) in which the NodePool's nodes can be created by NAP. */
+  autoprovisioningLocations?: StringList | undefined;
+  /** Autopilot general profile for the cluster, which defines the configuration for the cluster. */
+  autopilotGeneralProfile?:
+    | ClusterAutoscalingAutopilotGeneralProfileEnum
+    | (string & {})
+    | undefined;
+  /** Enables automatic node pool creation and deletion. */
+  enableNodeAutoprovisioning?: boolean | undefined;
+}
+export type AdditionalIPRangesConfigStatusEnum = "STATUS_UNSPECIFIED" | "ACTIVE" | "DRAINING";
+/** AdditionalIPRangesConfig is the configuration for individual additional subnetwork attached to the cluster */
+export interface AdditionalIPRangesConfig {
+  /** Draining status of the additional subnet. */
+  status?: AdditionalIPRangesConfigStatusEnum | (string & {}) | undefined;
+  /** Name of the subnetwork. This can be the full path of the subnetwork or just the name. Example1: my-subnet Example2: projects/gke-project/regions/us-central1/subnetworks/my-subnet */
+  subnetwork?: string | undefined;
+  /** List of secondary ranges names within this subnetwork that can be used for pod IPs. Example1: gke-pod-range1 Example2: gke-pod-range1,gke-pod-range2 */
+  podIpv4RangeNames?: StringList | undefined;
+}
+export type AdditionalIPRangesConfigList = Array<AdditionalIPRangesConfig>;
+export type IPAllocationPolicyStackTypeEnum = "STACK_TYPE_UNSPECIFIED" | "IPV4" | "IPV4_IPV6";
+/** AutoIpamConfig contains all information related to Auto IPAM */
+export interface AutoIpamConfig {
+  /** The flag that enables Auto IPAM on this cluster */
+  enabled?: boolean | undefined;
+}
+/** [PRIVATE FIELD] Config for pod CIDR size overprovisioning. */
+export interface PodCIDROverprovisionConfig {
+  /** Whether Pod CIDR overprovisioning is disabled. Note: Pod CIDR overprovisioning is enabled by default. */
+  disable?: boolean | undefined;
+}
+/** RangeInfo contains the range name and the range utilization by this cluster. */
+export interface RangeInfo {
+  /** Output only. Name of a range. */
+  rangeName?: string | undefined;
+  /** Output only. The utilization of the range. */
+  utilization?: number | undefined;
+}
+export type RangeInfoList = Array<RangeInfo>;
+/** AdditionalPodRangesConfig is the configuration for additional pod secondary ranges supporting the ClusterUpdate message. */
+export interface AdditionalPodRangesConfig {
+  /** Name for pod secondary ipv4 range which has the actual range defined ahead. */
+  podRangeNames?: StringList | undefined;
+  /** Output only. Information for additional pod range. */
+  podRangeInfo?: RangeInfoList | undefined;
+}
+export type IPAllocationPolicyIpv6AccessTypeEnum =
+  | "IPV6_ACCESS_TYPE_UNSPECIFIED"
+  | "INTERNAL"
+  | "EXTERNAL";
+export type NetworkTierConfigNetworkTierEnum =
+  | "NETWORK_TIER_UNSPECIFIED"
+  | "NETWORK_TIER_DEFAULT"
+  | "NETWORK_TIER_PREMIUM"
+  | "NETWORK_TIER_STANDARD";
+/** NetworkTierConfig contains network tier information. */
+export interface NetworkTierConfig {
+  /** Network tier configuration. */
+  networkTier?: NetworkTierConfigNetworkTierEnum | (string & {}) | undefined;
+}
+/** Configuration for controlling how IPs are allocated in the cluster. */
+export interface IPAllocationPolicy {
+  /** Whether routes will be used for pod IPs in the cluster. This is used in conjunction with use_ip_aliases. It cannot be true if use_ip_aliases is true. If both use_ip_aliases and use_routes are false, then the server picks the default IP allocation mode */
+  useRoutes?: boolean | undefined;
+  /** Output only. The additional IP ranges that are added to the cluster. These IP ranges can be used by new node pools to allocate node and pod IPs automatically. Each AdditionalIPRangesConfig corresponds to a single subnetwork. Once a range is removed it will not show up in IPAllocationPolicy. */
+  additionalIpRangesConfigs?: AdditionalIPRangesConfigList | undefined;
+  /** Whether a new subnetwork will be created automatically for the cluster. This field is only applicable when `use_ip_aliases` is true. */
+  createSubnetwork?: boolean | undefined;
+  /** A custom subnetwork name to be used if `create_subnetwork` is true. If this field is empty, then an automatic name will be chosen for the new subnetwork. */
+  subnetworkName?: string | undefined;
+  /** If true, allow allocation of cluster CIDR ranges that overlap with certain kinds of network routes. By default we do not allow cluster CIDR ranges to intersect with any user declared routes. With allow_route_overlap == true, we allow overlapping with CIDR ranges that are larger than the cluster CIDR range. If this field is set to true, then cluster and services CIDRs must be fully-specified (e.g. `10.96.0.0/14`, but not `/14`), which means: 1) When `use_ip_aliases` is true, `cluster_ipv4_cidr_block` and `services_ipv4_cidr_block` must be fully-specified. 2) When `use_ip_aliases` is false, `cluster.cluster_ipv4_cidr` muse be fully-specified. */
+  allowRouteOverlap?: boolean | undefined;
+  /** IP stack type */
+  stackType?: IPAllocationPolicyStackTypeEnum | (string & {}) | undefined;
+  /** Whether alias IPs will be used for pod IPs in the cluster. This is used in conjunction with use_routes. It cannot be true if use_routes is true. If both use_ip_aliases and use_routes are false, then the server picks the default IP allocation mode */
+  useIpAliases?: boolean | undefined;
+  /** Optional. AutoIpamConfig contains all information related to Auto IPAM */
+  autoIpamConfig?: AutoIpamConfig | undefined;
+  /** The IP address range of the instance IPs in this cluster. This is applicable only if `create_subnetwork` is true. Set to blank to have a range chosen with the default size. Set to /netmask (e.g. `/14`) to have a range chosen with a specific netmask. Set to a [CIDR](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing) notation (e.g. `10.96.0.0/14`) from the RFC-1918 private networks (e.g. `10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`) to pick a specific range to use. */
+  nodeIpv4CidrBlock?: string | undefined;
+  /** The IP address range of the services IPs in this cluster. If blank, a range will be automatically chosen with the default size. This field is only applicable when `use_ip_aliases` is true. Set to blank to have a range chosen with the default size. Set to /netmask (e.g. `/14`) to have a range chosen with a specific netmask. Set to a [CIDR](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing) notation (e.g. `10.96.0.0/14`) from the RFC-1918 private networks (e.g. `10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`) to pick a specific range to use. */
+  servicesIpv4CidrBlock?: string | undefined;
+  /** This field is deprecated, use node_ipv4_cidr_block. */
+  nodeIpv4Cidr?: string | undefined;
+  /** Output only. The utilization of the cluster default IPv4 range for the pod. The ratio is Usage/[Total number of IPs in the secondary range], Usage=numNodes*numZones*podIPsPerNode. */
+  defaultPodIpv4RangeUtilization?: number | undefined;
+  /** [PRIVATE FIELD] Pod CIDR size overprovisioning config for the cluster. Pod CIDR size per node depends on max_pods_per_node. By default, the value of max_pods_per_node is doubled and then rounded off to next power of 2 to get the size of pod CIDR block per node. Example: max_pods_per_node of 30 would result in 64 IPs (/26). This config can disable the doubling of IPs (we still round off to next power of 2) Example: max_pods_per_node of 30 will result in 32 IPs (/27) when overprovisioning is disabled. */
+  podCidrOverprovisionConfig?: PodCIDROverprovisionConfig | undefined;
+  /** This field is deprecated, use services_ipv4_cidr_block. */
+  servicesIpv4Cidr?: string | undefined;
+  /** Output only. The subnet's IPv6 CIDR block used by nodes and pods. */
+  subnetIpv6CidrBlock?: string | undefined;
+  /** Output only. The additional pod ranges that are added to the cluster. These pod ranges can be used by new node pools to allocate pod IPs automatically. Once the range is removed it will not show up in IPAllocationPolicy. */
+  additionalPodRangesConfig?: AdditionalPodRangesConfig | undefined;
+  /** The name of the secondary range to be used as for the services CIDR block. The secondary range will be used for service ClusterIPs. This must be an existing secondary range associated with the cluster subnetwork. This field is only applicable with use_ip_aliases and create_subnetwork is false. */
+  servicesSecondaryRangeName?: string | undefined;
+  /** The ipv6 access type (internal or external) when create_subnetwork is true */
+  ipv6AccessType?: IPAllocationPolicyIpv6AccessTypeEnum | (string & {}) | undefined;
+  /** Cluster-level network tier configuration is used to determine the default network tier for external IP addresses on cluster resources, such as node pools and load balancers. */
+  networkTierConfig?: NetworkTierConfig | undefined;
+  /** This field is deprecated, use cluster_ipv4_cidr_block. */
+  clusterIpv4Cidr?: string | undefined;
+  /** Output only. The services IPv6 CIDR block for the cluster. */
+  servicesIpv6CidrBlock?: string | undefined;
+  /** The IP address range of the Cloud TPUs in this cluster. If unspecified, a range will be automatically chosen with the default size. This field is only applicable when `use_ip_aliases` is true. If unspecified, the range will use the default size. Set to /netmask (e.g. `/14`) to have a range chosen with a specific netmask. Set to a [CIDR](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing) notation (e.g. `10.96.0.0/14`) from the RFC-1918 private networks (e.g. `10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`) to pick a specific range to use. This field is deprecated, use cluster.tpu_config.ipv4_cidr_block instead. */
+  tpuIpv4CidrBlock?: string | undefined;
+  /** The IP address range for the cluster pod IPs. If this field is set, then `cluster.cluster_ipv4_cidr` must be left blank. This field is only applicable when `use_ip_aliases` is true. Set to blank to have a range chosen with the default size. Set to /netmask (e.g. `/14`) to have a range chosen with a specific netmask. Set to a [CIDR](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing) notation (e.g. `10.96.0.0/14`) from the RFC-1918 private networks (e.g. `10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`) to pick a specific range to use. */
+  clusterIpv4CidrBlock?: string | undefined;
+  /** The name of the secondary range to be used for the cluster CIDR block. The secondary range will be used for pod IP addresses. This must be an existing secondary range associated with the cluster subnetwork. This field is only applicable with use_ip_aliases and create_subnetwork is false. */
+  clusterSecondaryRangeName?: string | undefined;
+}
+export type NodeCreationConfigNodeCreationModeEnum =
+  | "MODE_UNSPECIFIED"
+  | "VIA_KUBELET"
+  | "VIA_CONTROL_PLANE";
+/** NodeCreationConfig defines the settings of node creation mode. */
+export interface NodeCreationConfig {
+  /** The mode of node creation. */
+  nodeCreationMode?: NodeCreationConfigNodeCreationModeEnum | (string & {}) | undefined;
+}
+/** Kubernetes open source beta apis enabled on the cluster. */
+export interface K8sBetaAPIConfig {
+  /** api name, e.g. storage.k8s.io/v1beta1/csistoragecapacities. */
+  enabledApis?: StringList | undefined;
+}
+/** UserManagedKeysConfig holds the resource address to Keys which are used for signing certs and token that are used for communication within cluster. */
+export interface UserManagedKeysConfig {
+  /** The Cloud KMS cryptoKeyVersions to use for signing service account JWTs issued by this cluster. Format: `projects/{project}/locations/{location}/keyRings/{keyring}/cryptoKeys/{cryptoKey}/cryptoKeyVersions/{cryptoKeyVersion}` */
+  serviceAccountSigningKeys?: StringList | undefined;
+  /** The Cloud KMS cryptoKeyVersions to use for verifying service account JWTs issued by this cluster. Format: `projects/{project}/locations/{location}/keyRings/{keyring}/cryptoKeys/{cryptoKey}/cryptoKeyVersions/{cryptoKeyVersion}` */
+  serviceAccountVerificationKeys?: StringList | undefined;
+  /** Resource path of the Certificate Authority Service caPool to use for the etcd peer CA in this cluster. */
+  etcdPeerCa?: string | undefined;
+  /** The Certificate Authority Service caPool to use for the cluster CA in this cluster. */
+  clusterCa?: string | undefined;
+  /** The Cloud KMS cryptoKey to use for Confidential Hyperdisk on the control plane nodes. */
+  controlPlaneDiskEncryptionKey?: string | undefined;
+  /** Resource path of the Certificate Authority Service caPool to use for the etcd API CA in this cluster. */
+  etcdApiCa?: string | undefined;
+  /** Output only. All of the versions of the Cloud KMS cryptoKey that are used by Confidential Hyperdisks on the control plane nodes. */
+  controlPlaneDiskEncryptionKeyVersions?: StringList | undefined;
+  /** Resource path of the Cloud KMS cryptoKey to use for encryption of internal etcd backups. */
+  gkeopsEtcdBackupEncryptionKey?: string | undefined;
+  /** The Certificate Authority Service caPool to use for the aggregation CA in this cluster. */
+  aggregationCa?: string | undefined;
+}
+/** Parameters for controlling consumption metering. */
+export interface ConsumptionMeteringConfig {
+  /** Whether to enable consumption metering for this cluster. If enabled, a second BigQuery table will be created to hold resource consumption records. */
+  enabled?: boolean | undefined;
+}
+/** Parameters for using BigQuery as the destination of resource usage export. */
+export interface BigQueryDestination {
+  /** The ID of a BigQuery Dataset. */
+  datasetId?: string | undefined;
+}
+/** Configuration for exporting cluster resource usages. */
+export interface ResourceUsageExportConfig {
+  /** Whether to enable network egress metering for this cluster. If enabled, a daemonset will be created in the cluster to meter network egress traffic. */
+  enableNetworkEgressMetering?: boolean | undefined;
+  /** Configuration to enable resource consumption metering. */
+  consumptionMeteringConfig?: ConsumptionMeteringConfig | undefined;
+  /** Configuration to use BigQuery as usage export destination. */
+  bigqueryDestination?: BigQueryDestination | undefined;
+}
+/** RotationConfig is config for secret manager auto rotation. */
+export interface RotationConfig {
+  /** Whether the rotation is enabled. */
+  enabled?: boolean | undefined;
+  /** The interval between two consecutive rotations. Default rotation interval is 2 minutes. */
+  rotationInterval?: string | undefined;
+}
+/** SecretManagerConfig is config for secret manager enablement. */
+export interface SecretManagerConfig {
+  /** Rotation config for secret manager. */
+  rotationConfig?: RotationConfig | undefined;
+  /** Enable/Disable Secret Manager Config. */
+  enabled?: boolean | undefined;
+}
+export type ControlPlaneEgressModeEnum = "MODE_UNSPECIFIED" | "VIA_CONTROL_PLANE" | "NONE";
+/** ControlPlaneEgress defines the settings needed to enable control plane egress control. */
+export interface ControlPlaneEgress {
+  /** Defines the mode of control plane egress. */
+  mode?: ControlPlaneEgressModeEnum | (string & {}) | undefined;
+}
+/** ManagedMachineLearningDiagnosticsConfig is the configuration for the GKE Managed Machine Learning Diagnostics pipeline. */
+export interface ManagedMachineLearningDiagnosticsConfig {
+  /** Enable/Disable Managed Machine Learning Diagnostics. */
+  enabled?: boolean | undefined;
+}
+/** Configuration for issuance of mTLS keys and certificates to Kubernetes pods. */
+export type WorkloadCertificates = MeshCertificates;
+export type BinaryAuthorizationEvaluationModeEnum =
+  | "EVALUATION_MODE_UNSPECIFIED"
+  | "DISABLED"
+  | "PROJECT_SINGLETON_POLICY_ENFORCE"
+  | "POLICY_BINDINGS"
+  | "POLICY_BINDINGS_AND_PROJECT_SINGLETON_POLICY_ENFORCE";
+/** Binauthz policy that applies to this cluster. */
+export interface PolicyBinding {
+  /** The relative resource name of the binauthz platform policy to evaluate. GKE platform policies have the following format: `projects/{project_number}/platforms/gke/policies/{policy_id}`. */
+  name?: string | undefined;
+}
+export type PolicyBindingList = Array<PolicyBinding>;
+/** Configuration for Binary Authorization. */
+export interface BinaryAuthorization {
+  /** Mode of operation for binauthz policy evaluation. If unspecified, defaults to DISABLED. */
+  evaluationMode?: BinaryAuthorizationEvaluationModeEnum | (string & {}) | undefined;
+  /** Optional. Binauthz policies that apply to this cluster. */
+  policyBindings?: PolicyBindingList | undefined;
+  /** This field is deprecated. Leave this unset and instead configure BinaryAuthorization using evaluation_mode. If evaluation_mode is set to anything other than EVALUATION_MODE_UNSPECIFIED, this field is ignored. */
+  enabled?: boolean | undefined;
+}
+/** ClusterPolicyConfig stores the configuration for cluster wide policies. */
+export interface ClusterPolicyConfig {
+  /** Denotes preventing impersonation and CSRs for GKE System users. */
+  noSystemImpersonation?: boolean | undefined;
+  /** Denotes preventing unsafe webhooks. */
+  noUnsafeWebhooks?: boolean | undefined;
+  /** Denotes preventing standard node pools and requiring only autopilot node pools. */
+  noStandardNodePools?: boolean | undefined;
+  /** Denotes that preventing creation and mutation of resources in GKE managed namespaces and cluster-scoped GKE managed resources . */
+  noSystemMutation?: boolean | undefined;
+}
+export type AutopilotConversionStatusStateEnum = "STATE_UNSPECIFIED" | "DONE";
+/** AutopilotConversionStatus represents conversion status. */
+export interface AutopilotConversionStatus {
+  /** Output only. The current state of the conversion. */
+  state?: AutopilotConversionStatusStateEnum | (string & {}) | undefined;
+}
+/** PrivilegedAdmissionConfig stores the list of authorized allowlist paths for the cluster. */
+export interface PrivilegedAdmissionConfig {
+  /** The customer allowlist Cloud Storage paths for the cluster. These paths are used with the `--autopilot-privileged-admission` flag to authorize privileged workloads in Autopilot clusters. Paths can be GKE-owned, in the format `gke:////`, or customer-owned, in the format `gs:///`. Wildcards (`*`) are supported to authorize all allowlists under specific paths or directories. Example: `gs://my-bucket/*` will authorize all allowlists under the `my-bucket` bucket. */
+  allowlistPaths?: StringList | undefined;
+}
+/** WorkloadPolicyConfig is the configuration related to GCW workload policy */
+export interface WorkloadPolicyConfig {
+  /** If true, enables the GCW Auditor that audits workloads on standard clusters. */
+  autopilotCompatibilityAuditingEnabled?: boolean | undefined;
+  /** If true, workloads can use NET_ADMIN capability. */
+  allowNetAdmin?: boolean | undefined;
+}
+/** Autopilot is the configuration for Autopilot settings on the cluster. */
+export interface Autopilot {
+  /** ClusterPolicyConfig denotes cluster level policies that are enforced for the cluster. */
+  clusterPolicyConfig?: ClusterPolicyConfig | undefined;
+  /** Output only. ConversionStatus shows conversion status. */
+  conversionStatus?: AutopilotConversionStatus | undefined;
+  /** PrivilegedAdmissionConfig is the configuration related to privileged admission control. */
+  privilegedAdmissionConfig?: PrivilegedAdmissionConfig | undefined;
+  /** Enable Autopilot */
+  enabled?: boolean | undefined;
+  /** WorkloadPolicyConfig is the configuration related to GCW workload policy */
+  workloadPolicyConfig?: WorkloadPolicyConfig | undefined;
+}
+export type FleetMembershipTypeEnum = "MEMBERSHIP_TYPE_UNSPECIFIED" | "LIGHTWEIGHT";
+/** Fleet is the fleet configuration for the cluster. */
+export interface Fleet {
+  /** Output only. Whether the cluster has been registered through the fleet API. */
+  preRegistered?: boolean | undefined;
+  /** The Fleet host project(project ID or project number) where this cluster will be registered to. This field cannot be changed after the cluster has been registered. */
+  project?: string | undefined;
+  /** The type of the cluster's fleet membership. */
+  membershipType?: FleetMembershipTypeEnum | (string & {}) | undefined;
+  /** Output only. The full resource name of the registered fleet membership of the cluster, in the format `//gkehub.googleapis.com/projects/*\/locations/*\/memberships/*`. */
+  membership?: string | undefined;
+}
+export type NetworkConfigPrivateIpv6GoogleAccessEnum =
+  | "PRIVATE_IPV6_GOOGLE_ACCESS_UNSPECIFIED"
+  | "PRIVATE_IPV6_GOOGLE_ACCESS_DISABLED"
+  | "PRIVATE_IPV6_GOOGLE_ACCESS_TO_GOOGLE"
+  | "PRIVATE_IPV6_GOOGLE_ACCESS_BIDIRECTIONAL";
+export type ClusterNetworkPerformanceConfigTotalEgressBandwidthTierEnum =
+  | "TIER_UNSPECIFIED"
+  | "TIER_1";
+/** Configuration of all network bandwidth tiers */
+export interface ClusterNetworkPerformanceConfig {
+  /** Specifies the total network bandwidth tier for the NodePool. */
+  totalEgressBandwidthTier?:
+    | ClusterNetworkPerformanceConfigTotalEgressBandwidthTierEnum
+    | (string & {})
+    | undefined;
+}
+export type NetworkConfigDatapathProviderEnum =
+  | "DATAPATH_PROVIDER_UNSPECIFIED"
+  | "LEGACY_DATAPATH"
+  | "ADVANCED_DATAPATH"
+  | "MIGRATE_TO_ADVANCED_DATAPATH"
+  | "MIGRATE_TO_LEGACY_DATAPATH";
+export type DNSConfigClusterDnsScopeEnum = "DNS_SCOPE_UNSPECIFIED" | "CLUSTER_SCOPE" | "VPC_SCOPE";
+export type DNSConfigClusterDnsEnum =
+  | "PROVIDER_UNSPECIFIED"
+  | "PLATFORM_DEFAULT"
+  | "CLOUD_DNS"
+  | "KUBE_DNS";
+/** DNSConfig contains the desired set of options for configuring clusterDNS. */
+export interface DNSConfig {
+  /** cluster_dns_domain is the suffix used for all cluster service records. */
+  clusterDnsDomain?: string | undefined;
+  /** cluster_dns_scope indicates the scope of access to cluster DNS records. */
+  clusterDnsScope?: DNSConfigClusterDnsScopeEnum | (string & {}) | undefined;
+  /** cluster_dns indicates which in-cluster DNS provider should be used. */
+  clusterDns?: DNSConfigClusterDnsEnum | (string & {}) | undefined;
+  /** Optional. The domain used in Additive VPC scope. */
+  additiveVpcScopeDnsDomain?: string | undefined;
+}
+/** DefaultSnatStatus contains the desired state of whether default sNAT should be disabled on the cluster. */
+export interface DefaultSnatStatus {
+  /** Disables cluster default sNAT rules. */
+  disabled?: boolean | undefined;
+}
+export type DataplaneV2ConfigScalabilityModeEnum =
+  | "SCALABILITY_MODE_UNSPECIFIED"
+  | "DISABLED"
+  | "SCALE_OPTIMIZED";
+/** DataplaneV2Config is the configuration for DPv2. */
+export interface DataplaneV2Config {
+  /** Optional. Scalability mode for the cluster. */
+  scalabilityMode?: DataplaneV2ConfigScalabilityModeEnum | (string & {}) | undefined;
+}
+/** AmbientNetworkingConfig contains the desired config of Ambient Networking on this cluster. */
+export interface AmbientNetworkingConfig {
+  /** Optional. If true, enable ambient networking for this cluster. */
+  enabled?: boolean | undefined;
+}
+export type GatewayAPIConfigChannelEnum =
+  | "CHANNEL_UNSPECIFIED"
+  | "CHANNEL_DISABLED"
+  | "CHANNEL_EXPERIMENTAL"
+  | "CHANNEL_STANDARD";
+/** GatewayAPIConfig contains the desired config of Gateway API on this cluster. */
+export interface GatewayAPIConfig {
+  /** The Gateway API release channel to use for Gateway API. */
+  channel?: GatewayAPIConfigChannelEnum | (string & {}) | undefined;
+}
+export type NetworkConfigInTransitEncryptionConfigEnum =
+  | "IN_TRANSIT_ENCRYPTION_CONFIG_UNSPECIFIED"
+  | "IN_TRANSIT_ENCRYPTION_DISABLED"
+  | "IN_TRANSIT_ENCRYPTION_INTER_NODE_TRANSPARENT";
+/** Config to block services with externalIPs field. */
+export interface ServiceExternalIPsConfig {
+  /** Whether Services with ExternalIPs field are allowed or not. */
+  enabled?: boolean | undefined;
+}
+/** NetworkConfig reports the relative names of network & subnetwork. */
+export interface NetworkConfig {
+  /** Output only. The relative name of the Google Compute Engine [subnetwork](https://cloud.google.com/compute/docs/vpc) to which the cluster is connected. Example: projects/my-project/regions/us-central1/subnetworks/my-subnet */
+  subnetwork?: string | undefined;
+  /** Controls whether by default nodes have private IP addresses only. It is invalid to specify both PrivateClusterConfig.enablePrivateNodes and this field at the same time. To update the default setting, use ClusterUpdate.desired_default_enable_private_nodes */
+  defaultEnablePrivateNodes?: boolean | undefined;
+  /** Output only. The relative name of the Google Compute Engine [network](https://cloud.google.com/compute/docs/networks-and-firewalls#networks) to which the cluster is connected. Example: projects/my-project/global/networks/my-network */
+  network?: string | undefined;
+  /** The desired state of IPv6 connectivity to Google Services. By default, no private IPv6 access to or from Google Services (all access will be via IPv4) */
+  privateIpv6GoogleAccess?: NetworkConfigPrivateIpv6GoogleAccessEnum | (string & {}) | undefined;
+  /** Whether L4ILB Subsetting is enabled for this cluster. */
+  enableL4ilbSubsetting?: boolean | undefined;
+  /** Whether multi-networking is enabled for this cluster. */
+  enableMultiNetworking?: boolean | undefined;
+  /** Network bandwidth tier configuration. */
+  networkPerformanceConfig?: ClusterNetworkPerformanceConfig | undefined;
+  /** The desired datapath provider for this cluster. By default, uses the IPTables-based kube-proxy implementation. */
+  datapathProvider?: NetworkConfigDatapathProviderEnum | (string & {}) | undefined;
+  /** Whether Intra-node visibility is enabled for this cluster. This makes same node pod to pod traffic visible for VPC network. */
+  enableIntraNodeVisibility?: boolean | undefined;
+  /** DNSConfig contains clusterDNS config for this cluster. */
+  dnsConfig?: DNSConfig | undefined;
+  /** Disable L4 load balancer VPC firewalls to enable firewall policies. */
+  disableL4LbFirewallReconciliation?: boolean | undefined;
+  /** Whether the cluster disables default in-node sNAT rules. In-node sNAT rules will be disabled when default_snat_status is disabled. When disabled is set to false, default IP masquerade rules will be applied to the nodes to prevent sNAT on cluster internal traffic. */
+  defaultSnatStatus?: DefaultSnatStatus | undefined;
+  /** Optional. DataplaneV2Config specifies the DPv2 configuration. */
+  dataplaneV2Config?: DataplaneV2Config | undefined;
+  /** Whether CiliumClusterWideNetworkPolicy is enabled on this cluster. */
+  enableCiliumClusterwideNetworkPolicy?: boolean | undefined;
+  /** Whether FQDN Network Policy is enabled on this cluster. */
+  enableFqdnNetworkPolicy?: boolean | undefined;
+  /** Optional. Contains the desired config of Ambient Networking mode on this cluster. */
+  ambientNetworkingConfig?: AmbientNetworkingConfig | undefined;
+  /** GatewayAPIConfig contains the desired config of Gateway API on this cluster. */
+  gatewayApiConfig?: GatewayAPIConfig | undefined;
+  /** Specify the details of in-transit encryption. */
+  inTransitEncryptionConfig?:
+    | NetworkConfigInTransitEncryptionConfigEnum
+    | (string & {})
+    | undefined;
+  /** ServiceExternalIPsConfig specifies if services with externalIPs field are blocked or not. */
+  serviceExternalIpsConfig?: ServiceExternalIPsConfig | undefined;
+}
+export type ManagedOpenTelemetryConfigScopeEnum =
+  | "SCOPE_UNSPECIFIED"
+  | "NONE"
+  | "COLLECTION_AND_INSTRUMENTATION_COMPONENTS";
+/** ManagedOpenTelemetryConfig is the configuration for the GKE Managed OpenTelemetry pipeline. */
+export interface ManagedOpenTelemetryConfig {
+  /** Scope of the Managed OpenTelemetry pipeline. */
+  scope?: ManagedOpenTelemetryConfigScopeEnum | (string & {}) | undefined;
+}
+/** IdentityServiceConfig is configuration for Identity Service which allows customers to use external identity providers with the K8S API */
+export interface IdentityServiceConfig {
+  /** Whether to enable the Identity Service component */
+  enabled?: boolean | undefined;
+}
+export type NetworkPolicyProviderEnum = "PROVIDER_UNSPECIFIED" | "CALICO";
+/** Configuration options for the NetworkPolicy feature. https://kubernetes.io/docs/concepts/services-networking/networkpolicies/ */
+export interface NetworkPolicy {
+  /** Whether network policy is enabled on the cluster. */
+  enabled?: boolean | undefined;
+  /** The selected network policy provider. */
+  provider?: NetworkPolicyProviderEnum | (string & {}) | undefined;
+}
+/** CidrBlock contains an optional name and one CIDR block. */
+export interface CidrBlock {
+  /** display_name is an optional field for users to identify CIDR blocks. */
+  displayName?: string | undefined;
+  /** cidr_block must be specified in CIDR notation. */
+  cidrBlock?: string | undefined;
+}
+export type CidrBlockList = Array<CidrBlock>;
+/** Configuration options for the master authorized networks feature. Enabled master authorized networks will disallow all external traffic to access Kubernetes master through HTTPS except traffic from the given CIDR blocks, Google Compute Engine Public IPs and Google Prod IPs. */
+export interface MasterAuthorizedNetworksConfig {
+  /** Whether master is accessible via Google Compute Engine Public IP addresses. */
+  gcpPublicCidrsAccessEnabled?: boolean | undefined;
+  /** Whether master authorized networks is enforced on private endpoint or not. */
+  privateEndpointEnforcementEnabled?: boolean | undefined;
+  /** cidr_blocks define up to 10 external networks that could access Kubernetes master through HTTPS. */
+  cidrBlocks?: CidrBlockList | undefined;
+  /** Whether or not master authorized networks is enabled. */
+  enabled?: boolean | undefined;
+}
+export type EnterpriseConfigClusterTierEnum =
+  | "CLUSTER_TIER_UNSPECIFIED"
+  | "STANDARD"
+  | "ENTERPRISE";
+export type EnterpriseConfigDesiredTierEnum =
+  | "CLUSTER_TIER_UNSPECIFIED"
+  | "STANDARD"
+  | "ENTERPRISE";
+/** EnterpriseConfig is the cluster enterprise configuration. Deprecated: GKE Enterprise features are now available without an Enterprise tier. */
+export interface EnterpriseConfig {
+  /** Output only. cluster_tier indicates the effective tier of the cluster. */
+  clusterTier?: EnterpriseConfigClusterTierEnum | (string & {}) | undefined;
+  /** desired_tier specifies the desired tier of the cluster. */
+  desiredTier?: EnterpriseConfigDesiredTierEnum | (string & {}) | undefined;
+}
+export type ProtectConfigWorkloadVulnerabilityModeEnum =
+  | "WORKLOAD_VULNERABILITY_MODE_UNSPECIFIED"
+  | "DISABLED"
+  | "BASIC";
+export type WorkloadConfigAuditModeEnum =
+  | "MODE_UNSPECIFIED"
+  | "DISABLED"
+  | "BASIC"
+  | "BASELINE"
+  | "RESTRICTED";
+/** WorkloadConfig defines the flags to enable or disable the workload configurations for the cluster. */
+export interface WorkloadConfig {
+  /** Sets which mode of auditing should be used for the cluster's workloads. */
+  auditMode?: WorkloadConfigAuditModeEnum | (string & {}) | undefined;
+}
+/** ProtectConfig defines the flags needed to enable/disable features for the Protect API. */
+export interface ProtectConfig {
+  /** Deprecated: Vulnerability scanning is no longer supported. For more details, see https://cloud.google.com/kubernetes-engine/docs/deprecations/posture-management-deprecation. Sets which mode to use for Protect workload vulnerability scanning feature. */
+  workloadVulnerabilityMode?:
+    | ProtectConfigWorkloadVulnerabilityModeEnum
+    | (string & {})
+    | undefined;
+  /** WorkloadConfig defines which actions are enabled for a cluster's workload configurations. */
+  workloadConfig?: WorkloadConfig | undefined;
+}
+/** Configuration for the PodSecurityPolicy feature. */
+export interface PodSecurityPolicyConfig {
+  /** Enable the PodSecurityPolicy controller for this cluster. If enabled, pods must be valid under a PodSecurityPolicy to be created. */
+  enabled?: boolean | undefined;
+}
+export type ClusterTelemetryTypeEnum = "UNSPECIFIED" | "DISABLED" | "ENABLED" | "SYSTEM_ONLY";
+/** Telemetry integration for the cluster. */
+export interface ClusterTelemetry {
+  /** Type of the integration. */
+  type?: ClusterTelemetryTypeEnum | (string & {}) | undefined;
+}
+/** Configuration for Cloud TPU. This message is deprecated due to the deprecation of 2VM TPU. The end of life date for 2VM TPU is 2025-04-25. */
+export interface TpuConfig {
+  /** Whether Cloud TPU integration is enabled or not. */
+  enabled?: boolean | undefined;
+  /** IPv4 CIDR block reserved for Cloud TPU in the VPC. */
+  ipv4CidrBlock?: string | undefined;
+  /** Whether to use service networking for Cloud TPU or not. */
+  useServiceNetworking?: boolean | undefined;
+}
+export type DatabaseEncryptionStateEnum =
+  | "UNKNOWN"
+  | "ENCRYPTED"
+  | "DECRYPTED"
+  | "ALL_OBJECTS_ENCRYPTION_ENABLED";
+export type DatabaseEncryptionCurrentStateEnum =
+  | "CURRENT_STATE_UNSPECIFIED"
+  | "CURRENT_STATE_ENCRYPTED"
+  | "CURRENT_STATE_DECRYPTED"
+  | "CURRENT_STATE_ENCRYPTION_PENDING"
+  | "CURRENT_STATE_ENCRYPTION_ERROR"
+  | "CURRENT_STATE_DECRYPTION_PENDING"
+  | "CURRENT_STATE_DECRYPTION_ERROR"
+  | "CURRENT_STATE_ALL_OBJECTS_ENCRYPTION_ENABLED"
+  | "CURRENT_STATE_ALL_OBJECTS_ENCRYPTION_PENDING"
+  | "CURRENT_STATE_ALL_OBJECTS_ENCRYPTION_ERROR";
+/** OperationError records errors seen from CloudKMS keys encountered during updates to DatabaseEncryption configuration. */
+export interface OperationError {
+  /** Time when the CloudKMS error was seen. */
+  timestamp?: string | undefined;
+  /** Description of the error seen during the operation. */
+  errorMessage?: string | undefined;
+  /** CloudKMS key resource that had the error. */
+  keyName?: string | undefined;
+}
+export type OperationErrorList = Array<OperationError>;
+/** Configuration of etcd encryption. */
+export interface DatabaseEncryption {
+  /** Output only. Keys in use by the cluster for decrypting existing objects, in addition to the key in `key_name`. Each item is a CloudKMS key resource. */
+  decryptionKeys?: StringList | undefined;
+  /** The desired state of etcd encryption. */
+  state?: DatabaseEncryptionStateEnum | (string & {}) | undefined;
+  /** Output only. The current state of etcd encryption. */
+  currentState?: DatabaseEncryptionCurrentStateEnum | (string & {}) | undefined;
+  /** Name of CloudKMS key to use for the encryption of secrets in etcd. Ex. projects/my-project/locations/global/keyRings/my-ring/cryptoKeys/my-key */
+  keyName?: string | undefined;
+  /** Output only. Records errors seen during DatabaseEncryption update operations. */
+  lastOperationErrors?: OperationErrorList | undefined;
+}
+/** Configuration for the use of Kubernetes Service Accounts in IAM policies. */
+export interface WorkloadIdentityConfig {
+  /** The workload pool to attach all Kubernetes service accounts to. */
+  workloadPool?: string | undefined;
+  /** identity provider is the third party identity provider. */
+  identityProvider?: string | undefined;
+  /** IAM Identity Namespace to attach all Kubernetes Service Accounts to. */
+  identityNamespace?: string | undefined;
+}
+export type SecurityPostureConfigModeEnum =
+  | "MODE_UNSPECIFIED"
+  | "DISABLED"
+  | "BASIC"
+  | "ENTERPRISE";
+export type SecurityPostureConfigVulnerabilityModeEnum =
+  | "VULNERABILITY_MODE_UNSPECIFIED"
+  | "VULNERABILITY_DISABLED"
+  | "VULNERABILITY_BASIC"
+  | "VULNERABILITY_ENTERPRISE";
+/** SecurityPostureConfig defines the flags needed to enable/disable features for the Security Posture API. */
+export interface SecurityPostureConfig {
+  /** Sets which mode to use for Security Posture features. */
+  mode?: SecurityPostureConfigModeEnum | (string & {}) | undefined;
+  /** Deprecated: Vulnerability scanning is no longer supported. For more details, see https://cloud.google.com/kubernetes-engine/docs/deprecations/posture-management-deprecation. Sets which mode to use for vulnerability scanning. */
+  vulnerabilityMode?: SecurityPostureConfigVulnerabilityModeEnum | (string & {}) | undefined;
+}
+/** Configuration for fine-grained cost allocation feature. */
+export interface CostManagementConfig {
+  /** Whether the feature is enabled or not. */
+  enabled?: boolean | undefined;
+}
+/** Configuration for returning group information from authenticators. */
+export interface AuthenticatorGroupsConfig {
+  /** Whether this cluster should return group membership lookups during authentication using a group of security groups. */
+  enabled?: boolean | undefined;
+  /** The name of the security group-of-groups to be used. Only relevant if enabled = true. */
+  securityGroup?: string | undefined;
+}
+export type PodAutoscalingHpaProfileEnum = "HPA_PROFILE_UNSPECIFIED" | "NONE" | "PERFORMANCE";
+/** PodAutoscaling is used for configuration of parameters for workload autoscaling. */
+export interface PodAutoscaling {
+  /** Selected Horizontal Pod Autoscaling profile. */
+  hpaProfile?: PodAutoscalingHpaProfileEnum | (string & {}) | undefined;
+}
+/** ParentProductConfig is the configuration of the parent product of the cluster. This field is used by Google internal products that are built on top of a GKE cluster and take the ownership of the cluster. */
+export interface ParentProductConfig {
+  /** Labels contain the configuration of the parent product. */
+  labels?: StringMap | undefined;
+  /** Name of the parent product associated with the cluster. */
+  productName?: string | undefined;
+}
+export type FilterEventTypeItemEnum =
+  | "EVENT_TYPE_UNSPECIFIED"
+  | "UPGRADE_AVAILABLE_EVENT"
+  | "UPGRADE_EVENT"
+  | "SECURITY_BULLETIN_EVENT"
+  | "UPGRADE_INFO_EVENT";
+export type FilterEventTypeItemEnumList = Array<FilterEventTypeItemEnum | (string & {})>;
+/** Allows filtering to one or more specific event types. If event types are present, those and only those event types will be transmitted to the cluster. Other types will be skipped. If no filter is specified, or no event types are present, all event types will be sent */
+export interface Filter {
+  /** Event types to allowlist. */
+  eventType?: FilterEventTypeItemEnumList | undefined;
+}
+/** Pub/Sub specific notification config. */
+export interface PubSub {
+  /** Allows filtering to one or more specific event types. If no filter is specified, or if a filter is specified with no event types, all event types will be sent */
+  filter?: Filter | undefined;
+  /** Enable notifications for Pub/Sub. */
+  enabled?: boolean | undefined;
+  /** The desired Pub/Sub topic to which notifications will be sent by GKE. Format is `projects/{project}/topics/{topic}`. */
+  topic?: string | undefined;
+}
+/** NotificationConfig is the configuration of notifications. */
+export interface NotificationConfig {
+  /** Notification config for Pub/Sub. */
+  pubsub?: PubSub | undefined;
+}
+/** RBACBindingConfig allows user to restrict ClusterRoleBindings an RoleBindings that can be created. */
+export interface RBACBindingConfig {
+  /** Setting this to true will allow any ClusterRoleBinding and RoleBinding with subjects system:authenticated. */
+  enableInsecureBindingSystemAuthenticated?: boolean | undefined;
+  /** Setting this to true will allow any ClusterRoleBinding and RoleBinding with subjets system:anonymous or system:unauthenticated. */
+  enableInsecureBindingSystemUnauthenticated?: boolean | undefined;
+}
+/** Time window specified for daily maintenance operations. */
+export interface DailyMaintenanceWindow {
+  /** Time within the maintenance window to start the maintenance operations. It must be in format "HH:MM", where HH : [00-23] and MM : [00-59] GMT. */
+  startTime?: string | undefined;
+  /** Output only. Duration of the time window, automatically chosen to be smallest possible in the given scenario. */
+  duration?: string | undefined;
+}
+export type MaintenanceExclusionOptionsScopeEnum =
+  | "NO_UPGRADES"
+  | "NO_MINOR_UPGRADES"
+  | "NO_MINOR_OR_NODE_UPGRADES";
+export type MaintenanceExclusionOptionsEndTimeBehaviorEnum =
+  | "END_TIME_BEHAVIOR_UNSPECIFIED"
+  | "UNTIL_END_OF_SUPPORT";
+/** Represents the Maintenance exclusion option. */
+export interface MaintenanceExclusionOptions {
+  /** Scope specifies the upgrade scope which upgrades are blocked by the exclusion. */
+  scope?: MaintenanceExclusionOptionsScopeEnum | (string & {}) | undefined;
+  /** EndTimeBehavior specifies the behavior of the exclusion end time. */
+  endTimeBehavior?: MaintenanceExclusionOptionsEndTimeBehaviorEnum | (string & {}) | undefined;
+}
+/** Represents an arbitrary window of time. */
+export interface TimeWindow {
+  /** The time that the window ends. The end time should take place after the start time. */
+  endTime?: string | undefined;
+  /** The time that the window first starts. */
+  startTime?: string | undefined;
+  /** MaintenanceExclusionOptions provides maintenance exclusion related options. */
+  maintenanceExclusionOptions?: MaintenanceExclusionOptions | undefined;
+}
+/** Represents an arbitrary window of time that recurs. */
+export interface RecurringTimeWindow {
+  /** An RRULE (https://tools.ietf.org/html/rfc5545#section-3.8.5.3) for how this window reccurs. They go on for the span of time between the start and end time. For example, to have something repeat every weekday, you'd use: `FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR` To repeat some window daily (equivalent to the DailyMaintenanceWindow): `FREQ=DAILY` For the first weekend of every month: `FREQ=MONTHLY;BYSETPOS=1;BYDAY=SA,SU` This specifies how frequently the window starts. Eg, if you wanted to have a 9-5 UTC-4 window every weekday, you'd use something like: ``` start time = 2019-01-01T09:00:00-0400 end time = 2019-01-01T17:00:00-0400 recurrence = FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR ``` Windows can span multiple days. Eg, to make the window encompass every weekend from midnight Saturday till the last minute of Sunday UTC: ``` start time = 2019-01-05T00:00:00Z end time = 2019-01-07T23:59:00Z recurrence = FREQ=WEEKLY;BYDAY=SA ``` Note the start and end time's specific dates are largely arbitrary except to specify duration of the window and when it first starts. The FREQ values of HOURLY, MINUTELY, and SECONDLY are not supported. */
+  recurrence?: string | undefined;
+  /** The window of the first recurrence. */
+  window?: TimeWindow | undefined;
+}
+/** Represents a time of day. The date and time zone are either not significant or are specified elsewhere. An API may choose to allow leap seconds. Related types are google.type.Date and `google.protobuf.Timestamp`. */
+export interface TimeOfDay {
+  /** Fractions of seconds, in nanoseconds. Must be greater than or equal to 0 and less than or equal to 999,999,999. */
+  nanos?: number | undefined;
+  /** Minutes of an hour. Must be greater than or equal to 0 and less than or equal to 59. */
+  minutes?: number | undefined;
+  /** Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds. */
+  seconds?: number | undefined;
+  /** Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time. */
+  hours?: number | undefined;
+}
+/** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
+export interface Container_Date {
+  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
+  month?: number | undefined;
+  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
+  year?: number | undefined;
+  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
+  day?: number | undefined;
+}
+/** Represents an arbitrary window of time that recurs. Alternative to RecurringTimeWindow, with renamed fields. */
+export interface RecurringMaintenanceWindow {
+  /** Required. An RRULE (https://tools.ietf.org/html/rfc5545#section-3.8.5.3) for how this window reccurs. For example, to have something repeat every weekday, you'd use: `FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR` To repeat some window daily (equivalent to the DailyMaintenanceWindow): `FREQ=DAILY` For the first weekend of every month: `FREQ=MONTHLY;BYSETPOS=1;BYDAY=SA,SU` The FREQ values of HOURLY, MINUTELY, and SECONDLY are not supported. */
+  recurrence?: string | undefined;
+  /** Required. Start time of the window on days that it is scheduled, assuming UTC timezone. */
+  windowStartTime?: TimeOfDay | undefined;
+  /** Required. Duration of the window. */
+  windowDuration?: string | undefined;
+  /** Optional. Windows will not be scheduled before that day. Depending on the recurrence, this may be the date the first window appears. Days are measured in the UTC timezone. This setting must be used when INTERVAL>1 or FREQ=WEEKLY/MONTHLY and no BYDAY specified. */
+  delayUntil?: Container_Date | undefined;
+}
+export type TimeWindowMap = { [key: string]: TimeWindow | undefined };
+/** MaintenanceWindow defines the maintenance window to be used for the cluster. */
+export interface MaintenanceWindow {
+  /** DailyMaintenanceWindow specifies a daily maintenance operation window. */
+  dailyMaintenanceWindow?: DailyMaintenanceWindow | undefined;
+  /** RecurringWindow specifies some number of recurring time periods for maintenance to occur. The time windows may be overlapping. If no maintenance windows are set, maintenance can occur at any time. */
+  recurringWindow?: RecurringTimeWindow | undefined;
+  /** RecurringMaintenanceWindow specifies some number of recurring time periods for maintenance to occur. The time windows may be overlapping. If no maintenance windows are set, maintenance can occur at any time. Alternative to RecurringWindow, with renamed fields. */
+  recurringMaintenanceWindow?: RecurringMaintenanceWindow | undefined;
+  /** Exceptions to maintenance window. Non-emergency maintenance should not occur in these windows. */
+  maintenanceExclusions?: TimeWindowMap | undefined;
+}
+/** DisruptionBudget defines the upgrade disruption budget for the cluster control plane. */
+export interface DisruptionBudget {
+  /** Optional. The minimum duration between two patch version upgrades of the control plane. */
+  patchVersionDisruptionInterval?: string | undefined;
+  /** Output only. The last time a minor version upgrade was performed on the control plane. */
+  lastMinorVersionDisruptionTime?: string | undefined;
+  /** Output only. The last time a disruption was performed on the control plane. */
+  lastDisruptionTime?: string | undefined;
+  /** Optional. The minimum duration between two minor version upgrades of the control plane. */
+  minorVersionDisruptionInterval?: string | undefined;
+}
+/** MaintenancePolicy defines the maintenance policy to be used for the cluster. */
+export interface MaintenancePolicy {
+  /** A hash identifying the version of this policy, so that updates to fields of the policy won't accidentally undo intermediate changes (and so that users of the API unaware of some fields won't accidentally remove other fields). Make a `get()` request to the cluster to get the current resource version and include it with requests to set the policy. */
+  resourceVersion?: string | undefined;
+  /** Specifies the maintenance window in which maintenance may be performed. */
+  window?: MaintenanceWindow | undefined;
+  /** Optional. The upgrade disruption budget for the cluster control plane. */
+  disruptionBudget?: DisruptionBudget | undefined;
+}
+/** Configuration for direct-path (via ALTS) with workload identity. This feature is not officially supported for external customers in Kubernetes Engine when using Workload Identity. */
+export interface WorkloadALTSConfig {
+  /** enable_alts controls whether the alts handshaker should be enabled or not for direct-path. Requires Workload Identity (workload_pool must be non-empty). */
+  enableAlts?: boolean | undefined;
+}
+/** SyncRotationConfig is config for secret manager auto rotation. */
+export interface SyncRotationConfig {
+  /** The interval between two consecutive rotations. Default rotation interval is 2 minutes. */
+  rotationInterval?: string | undefined;
+  /** Whether the rotation is enabled. */
+  enabled?: boolean | undefined;
+}
+/** Configuration for sync Secret Manager secrets as k8s secrets. */
+export interface SecretSyncConfig {
+  /** Rotation config for secret manager. */
+  rotationConfig?: SyncRotationConfig | undefined;
+  /** Enable/Disable Secret Sync Config. */
+  enabled?: boolean | undefined;
+}
+/** Configuration for scheduled upgrades on the cluster. */
+export interface ScheduleUpgradeConfig {
+  /** Optional. Whether or not scheduled upgrades are enabled. */
+  enabled?: boolean | undefined;
+}
+export type ReleaseChannelChannelEnum = "UNSPECIFIED" | "RAPID" | "REGULAR" | "STABLE" | "EXTENDED";
+/** ReleaseChannel indicates which release channel a cluster is subscribed to. Release channels are arranged in order of risk. When a cluster is subscribed to a release channel, Google maintains both the master version and the node version. Node auto-upgrade defaults to true and cannot be disabled. */
+export interface ReleaseChannel {
+  /** channel specifies which release channel the cluster is subscribed to. */
+  channel?: ReleaseChannelChannelEnum | (string & {}) | undefined;
+}
+/** Configuration for the legacy Attribute Based Access Control authorization mode. */
+export interface LegacyAbac {
+  /** Whether the ABAC authorizer is enabled for this cluster. When enabled, identities in the system, including service accounts, nodes, and controllers, will have statically granted permissions beyond those provided by the RBAC configuration or IAM. */
+  enabled?: boolean | undefined;
+}
+/** VerticalPodAutoscaling contains global, per-cluster information required by Vertical Pod Autoscaler to automatically adjust the resources of pods controlled by it. */
+export interface VerticalPodAutoscaling {
+  /** Enables vertical pod autoscaling. */
+  enabled?: boolean | undefined;
+}
+export type AnonymousAuthenticationConfigModeEnum = "MODE_UNSPECIFIED" | "ENABLED" | "LIMITED";
+/** AnonymousAuthenticationConfig defines the settings needed to limit endpoints that allow anonymous authentication. */
+export interface AnonymousAuthenticationConfig {
+  /** Defines the mode of limiting anonymous access in the cluster. */
+  mode?: AnonymousAuthenticationConfigModeEnum | (string & {}) | undefined;
+}
+/** Describes the configuration of a DNS endpoint. */
+export interface DNSEndpointConfig {
+  /** Controls whether user traffic is allowed over this endpoint. Note that Google-managed services may still use the endpoint even if this is false. */
+  allowExternalTraffic?: boolean | undefined;
+  /** Controls whether the k8s certs auth is allowed via DNS. */
+  enableK8sCertsViaDns?: boolean | undefined;
+  /** Output only. The cluster's DNS endpoint configuration. A DNS format address. This is accessible from the public internet. Ex: uid.us-central1.gke.goog. Always present, but the behavior may change according to the value of DNSEndpointConfig.allow_external_traffic. */
+  endpoint?: string | undefined;
+  /** Controls whether the k8s token auth is allowed via DNS. */
+  enableK8sTokensViaDns?: boolean | undefined;
+}
+/** IP endpoints configuration. */
+export interface IPEndpointsConfig {
+  /** Configuration of authorized networks. If enabled, restricts access to the control plane based on source IP. It is invalid to specify both Cluster.masterAuthorizedNetworksConfig and this field at the same time. */
+  authorizedNetworksConfig?: MasterAuthorizedNetworksConfig | undefined;
+  /** Controls whether to allow direct IP access. */
+  enabled?: boolean | undefined;
+  /** Controls whether the control plane's private endpoint is accessible from sources in other regions. It is invalid to specify both PrivateClusterMasterGlobalAccessConfig.enabled and this field at the same time. */
+  globalAccess?: boolean | undefined;
+  /** Output only. The external IP address of this cluster's control plane. Only populated if enabled. */
+  publicEndpoint?: string | undefined;
+  /** Subnet to provision the master's private endpoint during cluster creation. Specified in projects/*\/regions/*\/subnetworks/* format. It is invalid to specify both PrivateClusterConfig.privateEndpointSubnetwork and this field at the same time. */
+  privateEndpointSubnetwork?: string | undefined;
+  /** Output only. The internal IP address of this cluster's control plane. Only populated if enabled. */
+  privateEndpoint?: string | undefined;
+  /** Controls whether the control plane allows access through a public IP. It is invalid to specify both PrivateClusterConfig.enablePrivateEndpoint and this field at the same time. */
+  enablePublicEndpoint?: boolean | undefined;
+}
+/** Configuration for all of the cluster's control plane endpoints. */
+export interface ControlPlaneEndpointsConfig {
+  /** DNS endpoint configuration. */
+  dnsEndpointConfig?: DNSEndpointConfig | undefined;
+  /** IP endpoints configuration. */
+  ipEndpointsConfig?: IPEndpointsConfig | undefined;
+}
+/** Configuration of Shielded Nodes feature. */
+export interface ShieldedNodes {
+  /** Whether Shielded Nodes features are enabled on all nodes in this cluster. */
+  enabled?: boolean | undefined;
+}
+/** Collection of Compute Engine network tags that can be applied to a node's underlying VM instance. (See `tags` field in [`NodeConfig`](/kubernetes-engine/docs/reference/rest/v1/NodeConfig)). */
+export interface NetworkTags {
+  /** List of network tags. */
+  tags?: StringList | undefined;
+}
+/** node pool configs that apply to all auto-provisioned node pools in autopilot clusters and node auto-provisioning enabled clusters */
+export interface NodePoolAutoConfig {
+  /** The list of instance tags applied to all nodes. Tags are used to identify valid sources or targets for network firewalls and are specified by the client during cluster creation. Each tag within the list must comply with RFC1035. */
+  networkTags?: NetworkTags | undefined;
+  /** Output only. Configuration options for Linux nodes. */
+  linuxNodeConfig?: LinuxNodeConfig | undefined;
+  /** Resource manager tag keys and values to be attached to the nodes for managing Compute Engine firewalls using Network Firewall Policies. */
+  resourceManagerTags?: ResourceManagerTags | undefined;
+  /** NodeKubeletConfig controls the defaults for autoprovisioned node-pools. Currently only `insecure_kubelet_readonly_port_enabled` can be set here. */
+  nodeKubeletConfig?: NodeKubeletConfig | undefined;
+}
+export type BlueGreenInfoPhaseEnum =
+  | "PHASE_UNSPECIFIED"
+  | "UPDATE_STARTED"
+  | "CREATING_GREEN_POOL"
+  | "CORDONING_BLUE_POOL"
+  | "WAITING_TO_DRAIN_BLUE_POOL"
+  | "DRAINING_BLUE_POOL"
+  | "NODE_POOL_SOAKING"
+  | "DELETING_BLUE_POOL"
+  | "ROLLBACK_STARTED";
+/** Information relevant to blue-green upgrade. */
+export interface BlueGreenInfo {
+  /** Current blue-green upgrade phase. */
+  phase?: BlueGreenInfoPhaseEnum | (string & {}) | undefined;
+  /** The resource URLs of the [managed instance groups] (/compute/docs/instance-groups/creating-groups-of-managed-instances) associated with green pool. */
+  greenInstanceGroupUrls?: StringList | undefined;
+  /** Version of green pool. */
+  greenPoolVersion?: string | undefined;
+  /** The resource URLs of the [managed instance groups] (/compute/docs/instance-groups/creating-groups-of-managed-instances) associated with blue pool. */
+  blueInstanceGroupUrls?: StringList | undefined;
+  /** Time to start deleting blue pool to complete blue-green upgrade, in [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format. */
+  bluePoolDeletionStartTime?: string | undefined;
+}
+/** UpdateInfo contains resource (instance groups, etc), status and other intermediate information relevant to a node pool upgrade. */
+export interface UpdateInfo {
+  /** Information of a blue-green upgrade. */
+  blueGreenInfo?: BlueGreenInfo | undefined;
+}
+/** Defines the maintenance exclusion for the node pool. */
+export interface ExclusionUntilEndOfSupport {
+  /** Output only. The start time of the maintenance exclusion. It is output only. It is the exclusion creation time. */
+  startTime?: string | undefined;
+  /** Optional. Indicates whether the exclusion is enabled. */
+  enabled?: boolean | undefined;
+  /** Output only. The end time of the maintenance exclusion. It is output only. It is the cluster control plane version's end of support time, or end of extended support time when the cluster is on extended support channel. */
+  endTime?: string | undefined;
+}
+/** Defines the maintenance policy for the node pool. */
+export interface NodePoolMaintenancePolicy {
+  /** Optional. The exclusion until end of support for the node pool. */
+  exclusionUntilEndOfSupport?: ExclusionUntilEndOfSupport | undefined;
+}
+export type PlacementPolicyTypeEnum = "TYPE_UNSPECIFIED" | "COMPACT";
+/** PlacementPolicy defines the placement policy used by the node pool. */
+export interface PlacementPolicy {
+  /** TPU placement topology for pod slice node pool. https://cloud.google.com/tpu/docs/types-topologies#tpu_topologies */
+  tpuTopology?: string | undefined;
+  /** The type of placement. */
+  type?: PlacementPolicyTypeEnum | (string & {}) | undefined;
+  /** If set, refers to the name of a custom resource policy supplied by the user. The resource policy must be in the same project and region as the node pool. If not found, InvalidArgument error is returned. */
+  policyName?: string | undefined;
+}
+export type NodePoolStatusEnum =
+  | "STATUS_UNSPECIFIED"
+  | "PROVISIONING"
+  | "RUNNING"
+  | "RUNNING_WITH_ERROR"
+  | "RECONCILING"
+  | "STOPPING"
+  | "ERROR";
+/** Contains expiry information about the kubelet certificate. */
+export interface KubeletCertInfo {
+  /** Output only. */
+  nonTpmBootstrapCertExpireTime?: string | undefined;
+  /** Output only. */
+  tpmBootstrapCertExpireTime?: string | undefined;
 }
 /** QueuedProvisioning defines the queued provisioning used by the node pool. */
 export interface QueuedProvisioning {
   /** Denotes that this node pool is QRM specific, meaning nodes can be only obtained through queuing via the Cluster Autoscaler ProvisioningRequest API. */
   enabled?: boolean | undefined;
 }
+export type NodeNetworkConfigDatapathProviderEnum =
+  | "DATAPATH_PROVIDER_UNSPECIFIED"
+  | "LEGACY_DATAPATH"
+  | "ADVANCED_DATAPATH"
+  | "MIGRATE_TO_ADVANCED_DATAPATH"
+  | "MIGRATE_TO_LEGACY_DATAPATH";
 /** AdditionalPodNetworkConfig is the configuration for additional pod networks within the NodeNetworkConfig message */
 export interface AdditionalPodNetworkConfig {
-  /** The name of the secondary range on the subnet which provides IP address for this pod range. */
-  secondaryPodRange?: string | undefined;
-  /** The name of the network attachment for pods to communicate to; cannot be specified along with subnetwork or secondary_pod_range. */
-  networkAttachment?: string | undefined;
   /** The maximum number of pods per node which use this pod network. */
   maxPodsPerNode?: MaxPodsConstraint | undefined;
+  /** The name of the secondary range on the subnet which provides IP address for this pod range. */
+  secondaryPodRange?: string | undefined;
   /** Name of the subnetwork where the additional pod network belongs. */
   subnetwork?: string | undefined;
+  /** The name of the network attachment for pods to communicate to; cannot be specified along with subnetwork or secondary_pod_range. */
+  networkAttachment?: string | undefined;
 }
 export type AdditionalPodNetworkConfigList = Array<AdditionalPodNetworkConfig>;
 export type NetworkPerformanceConfigExternalIpEgressBandwidthTierEnum =
@@ -2250,245 +2593,120 @@ export type AdditionalNodeNetworkConfigStackTypeEnum =
   | "IPV6";
 /** AdditionalNodeNetworkConfig is the configuration for additional node networks within the NodeNetworkConfig message */
 export interface AdditionalNodeNetworkConfig {
-  /** Optional. Additional NIC stack type, configured by the client. */
-  stackType?: AdditionalNodeNetworkConfigStackTypeEnum | (string & {}) | undefined;
   /** Name of the VPC where the additional interface belongs */
   network?: string | undefined;
+  /** Optional. Additional NIC stack type, configured by the client. */
+  stackType?: AdditionalNodeNetworkConfigStackTypeEnum | (string & {}) | undefined;
   /** Name of the subnetwork where the additional interface belongs */
   subnetwork?: string | undefined;
 }
 export type AdditionalNodeNetworkConfigList = Array<AdditionalNodeNetworkConfig>;
-export type NodeNetworkConfigDatapathProviderEnum =
-  | "DATAPATH_PROVIDER_UNSPECIFIED"
-  | "LEGACY_DATAPATH"
-  | "ADVANCED_DATAPATH"
-  | "MIGRATE_TO_ADVANCED_DATAPATH"
-  | "MIGRATE_TO_LEGACY_DATAPATH";
 /** Parameters for node pool-level network config. */
 export interface NodeNetworkConfig {
-  /** We specify the additional pod networks for this node pool using this list. Each pod network corresponds to an additional alias IP range for the node */
-  additionalPodNetworkConfigs?: AdditionalPodNetworkConfigList | undefined;
-  /** Network bandwidth tier configuration. */
-  networkPerformanceConfig?: NetworkPerformanceConfig | undefined;
-  /** Optional. Immutable. The VPC network for the node pool. */
-  network?: string | undefined;
+  /** The datapath provider for this node pool. */
+  datapathProvider?: NodeNetworkConfigDatapathProviderEnum | (string & {}) | undefined;
   /** Input only. Whether to create a new range for pod IPs in this node pool. Defaults are provided for `pod_range` and `pod_ipv4_cidr_block` if they are not specified. If neither `create_pod_range` or `pod_range` are specified, the cluster-level default (`ip_allocation_policy.cluster_ipv4_cidr_block`) is used. Only applicable if `ip_allocation_policy.use_ip_aliases` is true. This field cannot be changed after the node pool has been created. */
   createPodRange?: boolean | undefined;
-  /** Output only. The utilization of the IPv4 range for the pod. The ratio is Usage/[Total number of IPs in the secondary range], Usage=numNodes*numZones*podIPsPerNode. */
-  podIpv4RangeUtilization?: number | undefined;
+  /** We specify the additional pod networks for this node pool using this list. Each pod network corresponds to an additional alias IP range for the node */
+  additionalPodNetworkConfigs?: AdditionalPodNetworkConfigList | undefined;
+  /** The IP address range for pod IPs in this node pool. Only applicable if `create_pod_range` is true. Set to blank to have a range chosen with the default size. Set to /netmask (e.g. `/14`) to have a range chosen with a specific netmask. Set to a [CIDR](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing) notation (e.g. `10.96.0.0/14`) to pick a specific range to use. Only applicable if `ip_allocation_policy.use_ip_aliases` is true. This field cannot be changed after the node pool has been created. */
+  podIpv4CidrBlock?: string | undefined;
+  /** Network bandwidth tier configuration. */
+  networkPerformanceConfig?: NetworkPerformanceConfig | undefined;
+  /** Output only. The network tier configuration for the node pool inherits from the cluster-level configuration and remains immutable throughout the node pool's lifecycle, including during upgrades. */
+  networkTierConfig?: NetworkTierConfig | undefined;
+  /** Optional. Immutable. The VPC network for the node pool. */
+  network?: string | undefined;
+  /** We specify the additional node networks for this node pool using this list. Each node network corresponds to an additional interface */
+  additionalNodeNetworkConfigs?: AdditionalNodeNetworkConfigList | undefined;
+  /** Whether nodes have internal IP addresses only. If enable_private_nodes is not specified, then the value is derived from Cluster.NetworkConfig.default_enable_private_nodes */
+  enablePrivateNodes?: boolean | undefined;
   /** Optional. The subnetwork name/path for the node pool. Format: projects/{project}/regions/{region}/subnetworks/{subnetwork} If the cluster is associated with multiple subnetworks, the subnetwork can be either: - A user supplied subnetwork name during node pool creation (e.g., `my-subnet`). The name must be between 1 and 63 characters long, start with a letter, contain only letters, numbers, and hyphens, and end with a letter or a number. - A full subnetwork path during node pool creation, such as `projects/gke-project/regions/us-central1/subnetworks/my-subnet` - A subnetwork path picked based on the IP utilization during node pool creation and is immutable. */
   subnetwork?: string | undefined;
   /** [PRIVATE FIELD] Pod CIDR size overprovisioning config for the node pool. Pod CIDR size per node depends on max_pods_per_node. By default, the value of max_pods_per_node is rounded off to next power of 2 and we then double that to get the size of pod CIDR block per node. Example: max_pods_per_node of 30 would result in 64 IPs (/26). This config can disable the doubling of IPs (we still round off to next power of 2) Example: max_pods_per_node of 30 will result in 32 IPs (/27) when overprovisioning is disabled. */
   podCidrOverprovisionConfig?: PodCIDROverprovisionConfig | undefined;
-  /** Whether nodes have internal IP addresses only. If enable_private_nodes is not specified, then the value is derived from Cluster.NetworkConfig.default_enable_private_nodes */
-  enablePrivateNodes?: boolean | undefined;
-  /** The IP address range for pod IPs in this node pool. Only applicable if `create_pod_range` is true. Set to blank to have a range chosen with the default size. Set to /netmask (e.g. `/14`) to have a range chosen with a specific netmask. Set to a [CIDR](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing) notation (e.g. `10.96.0.0/14`) to pick a specific range to use. Only applicable if `ip_allocation_policy.use_ip_aliases` is true. This field cannot be changed after the node pool has been created. */
-  podIpv4CidrBlock?: string | undefined;
-  /** We specify the additional node networks for this node pool using this list. Each node network corresponds to an additional interface */
-  additionalNodeNetworkConfigs?: AdditionalNodeNetworkConfigList | undefined;
-  /** Output only. The network tier configuration for the node pool inherits from the cluster-level configuration and remains immutable throughout the node pool's lifecycle, including during upgrades. */
-  networkTierConfig?: NetworkTierConfig | undefined;
   /** Immutable. The accelerator network profile for the node pool. For now the only valid value is "auto". If specified, the network configuration of the nodes in this node pool will be managed by this profile for the supported machine types, zone, etc. */
   acceleratorNetworkProfile?: string | undefined;
   /** The ID of the secondary range for pod IPs. If `create_pod_range` is true, this ID is used for the new range. If `create_pod_range` is false, uses an existing secondary range with this ID. Only applicable if `ip_allocation_policy.use_ip_aliases` is true. This field cannot be changed after the node pool has been created. */
   podRange?: string | undefined;
-  /** The datapath provider for this node pool. */
-  datapathProvider?: NodeNetworkConfigDatapathProviderEnum | (string & {}) | undefined;
+  /** Output only. The utilization of the IPv4 range for the pod. The ratio is Usage/[Total number of IPs in the secondary range], Usage=numNodes*numZones*podIPsPerNode. */
+  podIpv4RangeUtilization?: number | undefined;
 }
-export type BlueGreenInfoPhaseEnum =
-  | "PHASE_UNSPECIFIED"
-  | "UPDATE_STARTED"
-  | "CREATING_GREEN_POOL"
-  | "CORDONING_BLUE_POOL"
-  | "WAITING_TO_DRAIN_BLUE_POOL"
-  | "DRAINING_BLUE_POOL"
-  | "NODE_POOL_SOAKING"
-  | "DELETING_BLUE_POOL"
-  | "ROLLBACK_STARTED";
-/** Information relevant to blue-green upgrade. */
-export interface BlueGreenInfo {
-  /** The resource URLs of the [managed instance groups] (/compute/docs/instance-groups/creating-groups-of-managed-instances) associated with blue pool. */
-  blueInstanceGroupUrls?: StringList | undefined;
-  /** Time to start deleting blue pool to complete blue-green upgrade, in [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format. */
-  bluePoolDeletionStartTime?: string | undefined;
-  /** Current blue-green upgrade phase. */
-  phase?: BlueGreenInfoPhaseEnum | (string & {}) | undefined;
-  /** The resource URLs of the [managed instance groups] (/compute/docs/instance-groups/creating-groups-of-managed-instances) associated with green pool. */
-  greenInstanceGroupUrls?: StringList | undefined;
-  /** Version of green pool. */
-  greenPoolVersion?: string | undefined;
+/** Best effort provisioning. */
+export interface BestEffortProvisioning {
+  /** When this is enabled, cluster/node pool creations will ignore non-fatal errors like stockout to best provision as many nodes as possible right now and eventually bring up all target number of nodes */
+  enabled?: boolean | undefined;
+  /** Minimum number of nodes to be provisioned to be considered as succeeded, and the rest of nodes will be provisioned gradually and eventually when stockout issue has been resolved. */
+  minProvisionNodes?: number | undefined;
 }
-/** UpdateInfo contains resource (instance groups, etc), status and other intermediate information relevant to a node pool upgrade. */
-export interface UpdateInfo {
-  /** Information of a blue-green upgrade. */
-  blueGreenInfo?: BlueGreenInfo | undefined;
+/** NodeDrainConfig contains the node drain related configurations for this node pool. */
+export interface NodeDrainConfig {
+  /** The duration of the PDB timeout period for node drain. */
+  pdbTimeoutDuration?: string | undefined;
+  /** Whether to respect PDB during node pool deletion. */
+  respectPdbDuringNodePoolDeletion?: boolean | undefined;
+  /** The duration of the grace termination period for node drain. */
+  graceTerminationDuration?: string | undefined;
+}
+/** AutopilotConfig contains configuration of autopilot feature for this node pool. */
+export interface AutopilotConfig {
+  /** Denotes that nodes belonging to this node pool are Autopilot nodes. */
+  enabled?: boolean | undefined;
 }
 /** NodePool contains the name and configuration for a cluster's node pool. Node pools are a set of nodes (i.e. VM's), with a common configuration and specification, under the control of the cluster master. They may have a set of Kubernetes labels applied to them, which may be used to reference them during pod scheduling. They may also be resized up or down, to accommodate the workload. */
 export interface NodePool {
-  /** Enable best effort provisioning for nodes */
-  bestEffortProvisioning?: BestEffortProvisioning | undefined;
-  /** The constraint on the maximum number of pods that can be run simultaneously on a node in the node pool. */
-  maxPodsConstraint?: MaxPodsConstraint | undefined;
-  /** Output only. The status of the nodes in this pool instance. */
-  status?: NodePoolStatusEnum | (string & {}) | undefined;
-  /** Output only. Deprecated. Use conditions instead. Additional information about the current status of this node pool instance, if available. */
-  statusMessage?: string | undefined;
-  /** The version of Kubernetes running on this NodePool's nodes. If unspecified, it defaults as described [here](https://cloud.google.com/kubernetes-engine/versioning#specifying_node_version). */
-  version?: string | undefined;
-  /** Output only. Contains expiry information about the kubelet certificate. */
-  kubeletCertInfo?: KubeletCertInfo | undefined;
-  /** Specifies the autopilot configuration for this node pool. This field is exclusively reserved for Cluster Autoscaler. */
-  autopilotConfig?: AutopilotConfig | undefined;
-  /** Specifies the node drain configuration for this node pool. */
-  nodeDrainConfig?: NodeDrainConfig | undefined;
-  /** NodeManagement configuration for this NodePool. */
-  management?: NodeManagement | undefined;
-  /** Optional. Specifies the maintenance policy for the node pool. */
-  maintenancePolicy?: NodePoolMaintenancePolicy | undefined;
-  /** Output only. The pod CIDR block size per node in this node pool. */
-  podIpv4CidrSize?: number | undefined;
-  /** Specifies the node placement policy. */
-  placementPolicy?: PlacementPolicy | undefined;
   /** Output only. Server-defined URL for the resource. */
   selfLink?: string | undefined;
-  /** The node configuration of the pool. */
-  config?: NodeConfig | undefined;
-  /** Upgrade settings control disruption and speed of the upgrade. */
-  upgradeSettings?: UpgradeSettings | undefined;
-  /** The initial node count for the pool. You must ensure that your Compute Engine [resource quota](https://cloud.google.com/compute/quotas) is sufficient for this number of instances. You must also have available firewall and routes quota. */
-  initialNodeCount?: number | undefined;
-  /** Specifies the configuration of queued provisioning. */
-  queuedProvisioning?: QueuedProvisioning | undefined;
-  /** Networking configuration for this NodePool. If specified, it overrides the cluster-level defaults. */
-  networkConfig?: NodeNetworkConfig | undefined;
-  /** The list of Google Compute Engine [zones](https://cloud.google.com/compute/docs/zones#available) in which the NodePool's nodes should be located. If this value is unspecified during node pool creation, the [Cluster.Locations](https://cloud.google.com/kubernetes-engine/docs/reference/rest/v1/projects.locations.clusters#Cluster.FIELDS.locations) value will be used, instead. Warning: changing node pool locations will result in nodes being added and/or removed. */
-  locations?: StringList | undefined;
-  /** The name of the node pool. */
-  name?: string | undefined;
-  /** Which conditions caused the current node pool state. */
-  conditions?: StatusConditionList | undefined;
-  /** Output only. The resource URLs of the [managed instance groups](https://cloud.google.com/compute/docs/instance-groups/creating-groups-of-managed-instances) associated with this node pool. During the node pool blue-green upgrade operation, the URLs contain both blue and green resources. */
-  instanceGroupUrls?: StringList | undefined;
   /** Autoscaler configuration for this NodePool. Autoscaler is enabled only if a valid configuration is present. */
   autoscaling?: NodePoolAutoscaling | undefined;
+  /** Output only. The resource URLs of the [managed instance groups](https://cloud.google.com/compute/docs/instance-groups/creating-groups-of-managed-instances) associated with this node pool. During the node pool blue-green upgrade operation, the URLs contain both blue and green resources. */
+  instanceGroupUrls?: StringList | undefined;
+  /** Output only. Deprecated. Use conditions instead. Additional information about the current status of this node pool instance, if available. */
+  statusMessage?: string | undefined;
   /** Output only. Update info contains relevant information during a node pool update. */
   updateInfo?: UpdateInfo | undefined;
+  /** Which conditions caused the current node pool state. */
+  conditions?: StatusConditionList | undefined;
+  /** The initial node count for the pool. You must ensure that your Compute Engine [resource quota](https://cloud.google.com/compute/quotas) is sufficient for this number of instances. You must also have available firewall and routes quota. */
+  initialNodeCount?: number | undefined;
+  /** Optional. Specifies the maintenance policy for the node pool. */
+  maintenancePolicy?: NodePoolMaintenancePolicy | undefined;
+  /** The version of Kubernetes running on this NodePool's nodes. If unspecified, it defaults as described [here](https://cloud.google.com/kubernetes-engine/versioning#specifying_node_version). */
+  version?: string | undefined;
+  /** Specifies the node placement policy. */
+  placementPolicy?: PlacementPolicy | undefined;
+  /** Output only. The status of the nodes in this pool instance. */
+  status?: NodePoolStatusEnum | (string & {}) | undefined;
+  /** Output only. Contains expiry information about the kubelet certificate. */
+  kubeletCertInfo?: KubeletCertInfo | undefined;
+  /** Specifies the configuration of queued provisioning. */
+  queuedProvisioning?: QueuedProvisioning | undefined;
   /** This checksum is computed by the server based on the value of node pool fields, and may be sent on update requests to ensure the client has an up-to-date value before proceeding. */
   etag?: string | undefined;
+  /** The list of Google Compute Engine [zones](https://cloud.google.com/compute/docs/zones#available) in which the NodePool's nodes should be located. If this value is unspecified during node pool creation, the [Cluster.Locations](https://cloud.google.com/kubernetes-engine/docs/reference/rest/v1/projects.locations.clusters#Cluster.FIELDS.locations) value will be used, instead. Warning: changing node pool locations will result in nodes being added and/or removed. */
+  locations?: StringList | undefined;
+  /** The node configuration of the pool. */
+  config?: NodeConfig | undefined;
+  /** NodeManagement configuration for this NodePool. */
+  management?: NodeManagement | undefined;
+  /** Networking configuration for this NodePool. If specified, it overrides the cluster-level defaults. */
+  networkConfig?: NodeNetworkConfig | undefined;
+  /** Enable best effort provisioning for nodes */
+  bestEffortProvisioning?: BestEffortProvisioning | undefined;
+  /** Output only. The pod CIDR block size per node in this node pool. */
+  podIpv4CidrSize?: number | undefined;
+  /** The name of the node pool. */
+  name?: string | undefined;
+  /** Specifies the node drain configuration for this node pool. */
+  nodeDrainConfig?: NodeDrainConfig | undefined;
+  /** The constraint on the maximum number of pods that can be run simultaneously on a node in the node pool. */
+  maxPodsConstraint?: MaxPodsConstraint | undefined;
+  /** Upgrade settings control disruption and speed of the upgrade. */
+  upgradeSettings?: UpgradeSettings | undefined;
+  /** Specifies the autopilot configuration for this node pool. This field is exclusively reserved for Cluster Autoscaler. */
+  autopilotConfig?: AutopilotConfig | undefined;
 }
 export type NodePoolList = Array<NodePool>;
-/** Configuration for controlling master global access settings. */
-export interface PrivateClusterMasterGlobalAccessConfig {
-  /** Whenever master is accessible globally or not. */
-  enabled?: boolean | undefined;
-}
-/** Configuration options for private clusters. */
-export interface PrivateClusterConfig {
-  /** Output only. The peering name in the customer VPC used by this cluster. */
-  peeringName?: string | undefined;
-  /** Whether the master's internal IP address is used as the cluster endpoint. Use ControlPlaneEndpointsConfig.IPEndpointsConfig.enable_public_endpoint instead. Note that the value of enable_public_endpoint is reversed: if enable_private_endpoint is false, then enable_public_endpoint will be true. */
-  enablePrivateEndpoint?: boolean | undefined;
-  /** Output only. The internal IP address of this cluster's master endpoint. Deprecated: Use ControlPlaneEndpointsConfig.IPEndpointsConfig.private_endpoint instead. */
-  privateEndpoint?: string | undefined;
-  /** Controls master global access settings. Deprecated: Use ControlPlaneEndpointsConfig.IPEndpointsConfig.enable_global_access instead. */
-  masterGlobalAccessConfig?: PrivateClusterMasterGlobalAccessConfig | undefined;
-  /** Output only. The external IP address of this cluster's master endpoint. Deprecated: Use ControlPlaneEndpointsConfig.IPEndpointsConfig.public_endpoint instead. */
-  publicEndpoint?: string | undefined;
-  /** Subnet to provision the master's private endpoint during cluster creation. Specified in projects/*\/regions/*\/subnetworks/* format. Deprecated: Use ControlPlaneEndpointsConfig.IPEndpointsConfig.private_endpoint_subnetwork instead. */
-  privateEndpointSubnetwork?: string | undefined;
-  /** The IP range in CIDR notation to use for the hosted master network. This range will be used for assigning internal IP addresses to the master or set of masters, as well as the ILB VIP. This range must not overlap with any other ranges in use within the cluster's network. */
-  masterIpv4CidrBlock?: string | undefined;
-  /** Whether nodes have internal IP addresses only. If enabled, all nodes are given only RFC 1918 private addresses and communicate with the master via private networking. Deprecated: Use NetworkConfig.default_enable_private_nodes instead. */
-  enablePrivateNodes?: boolean | undefined;
-}
-/** Configuration for fine-grained cost allocation feature. */
-export interface CostManagementConfig {
-  /** Whether the feature is enabled or not. */
-  enabled?: boolean | undefined;
-}
-export type LoggingComponentConfigEnableComponentsItemEnum =
-  | "COMPONENT_UNSPECIFIED"
-  | "SYSTEM_COMPONENTS"
-  | "WORKLOADS"
-  | "APISERVER"
-  | "SCHEDULER"
-  | "CONTROLLER_MANAGER"
-  | "KCP_SSHD"
-  | "KCP_CONNECTION"
-  | "KCP_HPA"
-  | "KCP_VPA";
-export type LoggingComponentConfigEnableComponentsItemEnumList = Array<
-  LoggingComponentConfigEnableComponentsItemEnum | (string & {})
->;
-/** LoggingComponentConfig is cluster logging component configuration. */
-export interface LoggingComponentConfig {
-  /** Select components to collect logs. An empty set would disable all logging. */
-  enableComponents?: LoggingComponentConfigEnableComponentsItemEnumList | undefined;
-}
-/** LoggingConfig is cluster logging configuration. */
-export interface LoggingConfig {
-  /** Logging components configuration */
-  componentConfig?: LoggingComponentConfig | undefined;
-}
-/** Configuration for the PodSecurityPolicy feature. */
-export interface PodSecurityPolicyConfig {
-  /** Enable the PodSecurityPolicy controller for this cluster. If enabled, pods must be valid under a PodSecurityPolicy to be created. */
-  enabled?: boolean | undefined;
-}
-/** CompatibilityStatus is the status regarding the control plane's compatibility. */
-export interface CompatibilityStatus {
-  /** Output only. The GKE version that the cluster can be safely downgraded to if the cluster is emulating the previous minor version. It is usually the cluster's previous version before a minor version upgrade. */
-  downgradableVersion?: string | undefined;
-  /** Output only. Last time the control plane became available after a minor version binary upgrade with emulated version set. It indicates the last time the cluster entered the rollback safe mode. */
-  emulatedVersionTime?: string | undefined;
-}
-/** Master is the configuration for components on master. */
-export interface Master {
-  /** Output only. The compatibility status of the control plane. It should be empty if the cluster does not have emulated version. */
-  compatibilityStatus?: CompatibilityStatus | undefined;
-}
-/** Configuration for scheduled upgrades on the cluster. */
-export interface ScheduleUpgradeConfig {
-  /** Optional. Whether or not scheduled upgrades are enabled. */
-  enabled?: boolean | undefined;
-}
-/** NodePoolUpgradeConcurrencyConfig is the configuration for the node pool auto upgrade concurrency. */
-export interface NodePoolUpgradeConcurrencyConfig {
-  /** If set, no more than max_count node pools can be upgraded concurrently. */
-  maxCount?: string | undefined;
-}
-/** VerticalPodAutoscaling contains global, per-cluster information required by Vertical Pod Autoscaler to automatically adjust the resources of pods controlled by it. */
-export interface VerticalPodAutoscaling {
-  /** Enables vertical pod autoscaling. */
-  enabled?: boolean | undefined;
-}
-export type AdvancedDatapathObservabilityConfigRelayModeEnum =
-  | "RELAY_MODE_UNSPECIFIED"
-  | "DISABLED"
-  | "INTERNAL_VPC_LB"
-  | "EXTERNAL_LB";
-/** AdvancedDatapathObservabilityConfig specifies configuration of observability features of advanced datapath. */
-export interface AdvancedDatapathObservabilityConfig {
-  /** Expose flow metrics on nodes */
-  enableMetrics?: boolean | undefined;
-  /** Enable Relay component */
-  enableRelay?: boolean | undefined;
-  /** Method used to make Relay available */
-  relayMode?: AdvancedDatapathObservabilityConfigRelayModeEnum | (string & {}) | undefined;
-}
-export type AutoMonitoringConfigScopeEnum = "SCOPE_UNSPECIFIED" | "ALL" | "NONE";
-/** AutoMonitoringConfig defines the configuration for GKE Workload Auto-Monitoring. */
-export interface AutoMonitoringConfig {
-  /** Scope for GKE Workload Auto-Monitoring. */
-  scope?: AutoMonitoringConfigScopeEnum | (string & {}) | undefined;
-}
-/** ManagedPrometheusConfig defines the configuration for Google Cloud Managed Service for Prometheus. */
-export interface ManagedPrometheusConfig {
-  /** GKE Workload Auto-Monitoring Configuration. */
-  autoMonitoringConfig?: AutoMonitoringConfig | undefined;
-  /** Enable Managed Collection. */
-  enabled?: boolean | undefined;
-}
 export type MonitoringComponentConfigEnableComponentsItemEnum =
   | "COMPONENT_UNSPECIFIED"
   | "SYSTEM_COMPONENTS"
@@ -2514,485 +2732,267 @@ export interface MonitoringComponentConfig {
   /** Select components to collect metrics. An empty set would disable all monitoring. */
   enableComponents?: MonitoringComponentConfigEnableComponentsItemEnumList | undefined;
 }
+export type AdvancedDatapathObservabilityConfigRelayModeEnum =
+  | "RELAY_MODE_UNSPECIFIED"
+  | "DISABLED"
+  | "INTERNAL_VPC_LB"
+  | "EXTERNAL_LB";
+/** AdvancedDatapathObservabilityConfig specifies configuration of observability features of advanced datapath. */
+export interface AdvancedDatapathObservabilityConfig {
+  /** Expose flow metrics on nodes */
+  enableMetrics?: boolean | undefined;
+  /** Enable Relay component */
+  enableRelay?: boolean | undefined;
+  /** Method used to make Relay available */
+  relayMode?: AdvancedDatapathObservabilityConfigRelayModeEnum | (string & {}) | undefined;
+}
+export type AutoMonitoringConfigScopeEnum = "SCOPE_UNSPECIFIED" | "ALL" | "NONE";
+/** AutoMonitoringConfig defines the configuration for GKE Workload Auto-Monitoring. */
+export interface AutoMonitoringConfig {
+  /** Scope for GKE Workload Auto-Monitoring. */
+  scope?: AutoMonitoringConfigScopeEnum | (string & {}) | undefined;
+}
+/** ManagedPrometheusConfig defines the configuration for Google Cloud Managed Service for Prometheus. */
+export interface ManagedPrometheusConfig {
+  /** Enable Managed Collection. */
+  enabled?: boolean | undefined;
+  /** GKE Workload Auto-Monitoring Configuration. */
+  autoMonitoringConfig?: AutoMonitoringConfig | undefined;
+}
 /** MonitoringConfig is cluster monitoring configuration. */
 export interface MonitoringConfig {
+  /** Monitoring components configuration */
+  componentConfig?: MonitoringComponentConfig | undefined;
   /** Configuration of Advanced Datapath Observability features. */
   advancedDatapathObservabilityConfig?: AdvancedDatapathObservabilityConfig | undefined;
   /** Enable Google Cloud Managed Service for Prometheus in the cluster. */
   managedPrometheusConfig?: ManagedPrometheusConfig | undefined;
-  /** Monitoring components configuration */
-  componentConfig?: MonitoringComponentConfig | undefined;
 }
-/** SyncRotationConfig is config for secret manager auto rotation. */
-export interface SyncRotationConfig {
-  /** The interval between two consecutive rotations. Default rotation interval is 2 minutes. */
-  rotationInterval?: string | undefined;
-  /** Whether the rotation is enabled. */
-  enabled?: boolean | undefined;
+/** Subset of NodeConfig message that has defaults. */
+export interface NodeConfigDefaults {
+  /** Parameters for containerd customization. */
+  containerdConfig?: ContainerdConfig | undefined;
+  /** NodeKubeletConfig controls the defaults for new node-pools. Currently only `insecure_kubelet_readonly_port_enabled` can be set here. */
+  nodeKubeletConfig?: NodeKubeletConfig | undefined;
+  /** Logging configuration for node pools. */
+  loggingConfig?: NodePoolLoggingConfig | undefined;
+  /** GCFS (Google Container File System, also known as Riptide) options. */
+  gcfsConfig?: GcfsConfig | undefined;
+  /** HostMaintenancePolicy contains the desired maintenance policy for the Google Compute Engine hosts. */
+  hostMaintenancePolicy?: HostMaintenancePolicy | undefined;
 }
-/** Configuration for sync Secret Manager secrets as k8s secrets. */
-export interface SecretSyncConfig {
-  /** Rotation config for secret manager. */
-  rotationConfig?: SyncRotationConfig | undefined;
-  /** Enable/Disable Secret Sync Config. */
-  enabled?: boolean | undefined;
-}
-export type NodeCreationConfigNodeCreationModeEnum =
-  | "MODE_UNSPECIFIED"
-  | "VIA_KUBELET"
-  | "VIA_CONTROL_PLANE";
-/** NodeCreationConfig defines the settings of node creation mode. */
-export interface NodeCreationConfig {
-  /** The mode of node creation. */
-  nodeCreationMode?: NodeCreationConfigNodeCreationModeEnum | (string & {}) | undefined;
-}
-export type EnterpriseConfigClusterTierEnum =
-  | "CLUSTER_TIER_UNSPECIFIED"
-  | "STANDARD"
-  | "ENTERPRISE";
-export type EnterpriseConfigDesiredTierEnum =
-  | "CLUSTER_TIER_UNSPECIFIED"
-  | "STANDARD"
-  | "ENTERPRISE";
-/** EnterpriseConfig is the cluster enterprise configuration. Deprecated: GKE Enterprise features are now available without an Enterprise tier. */
-export interface EnterpriseConfig {
-  /** Output only. cluster_tier indicates the effective tier of the cluster. */
-  clusterTier?: EnterpriseConfigClusterTierEnum | (string & {}) | undefined;
-  /** desired_tier specifies the desired tier of the cluster. */
-  desiredTier?: EnterpriseConfigDesiredTierEnum | (string & {}) | undefined;
-}
-/** Configuration for client certificates on the cluster. */
-export interface ClientCertificateConfig {
-  /** Issue a client certificate. */
-  issueClientCertificate?: boolean | undefined;
-}
-/** The authentication information for accessing the master endpoint. Authentication can be done using HTTP basic auth or using client certificates. */
-export interface MasterAuth {
-  /** Output only. Base64-encoded public certificate that is the root of trust for the cluster. */
-  clusterCaCertificate?: string | undefined;
-  /** Output only. Base64-encoded private key used by clients to authenticate to the cluster endpoint. */
-  clientKey?: string | undefined;
-  /** The username to use for HTTP basic authentication to the master endpoint. For clusters v1.6.0 and later, basic authentication can be disabled by leaving username unspecified (or setting it to the empty string). Warning: basic authentication is deprecated, and will be removed in GKE control plane versions 1.19 and newer. For a list of recommended authentication methods, see: https://cloud.google.com/kubernetes-engine/docs/how-to/api-server-authentication */
-  username?: string | undefined;
-  /** Output only. Base64-encoded public certificate used by clients to authenticate to the cluster endpoint. Issued only if client_certificate_config is set. */
-  clientCertificate?: string | undefined;
-  /** Configuration for client certificate authentication on the cluster. For clusters before v1.12, if no configuration is specified, a client certificate is issued. */
-  clientCertificateConfig?: ClientCertificateConfig | undefined;
-  /** The password to use for HTTP basic authentication to the master endpoint. Because the master endpoint is open to the Internet, you should create a strong password. If a password is provided for cluster creation, username must be non-empty. Warning: basic authentication is deprecated, and will be removed in GKE control plane versions 1.19 and newer. For a list of recommended authentication methods, see: https://cloud.google.com/kubernetes-engine/docs/how-to/api-server-authentication */
-  password?: string | Redacted.Redacted<string> | undefined;
-}
-export type BinaryAuthorizationEvaluationModeEnum =
-  | "EVALUATION_MODE_UNSPECIFIED"
-  | "DISABLED"
-  | "PROJECT_SINGLETON_POLICY_ENFORCE"
-  | "POLICY_BINDINGS"
-  | "POLICY_BINDINGS_AND_PROJECT_SINGLETON_POLICY_ENFORCE";
-/** Binauthz policy that applies to this cluster. */
-export interface PolicyBinding {
-  /** The relative resource name of the binauthz platform policy to evaluate. GKE platform policies have the following format: `projects/{project_number}/platforms/gke/policies/{policy_id}`. */
-  name?: string | undefined;
-}
-export type PolicyBindingList = Array<PolicyBinding>;
-/** Configuration for Binary Authorization. */
-export interface BinaryAuthorization {
-  /** This field is deprecated. Leave this unset and instead configure BinaryAuthorization using evaluation_mode. If evaluation_mode is set to anything other than EVALUATION_MODE_UNSPECIFIED, this field is ignored. */
-  enabled?: boolean | undefined;
-  /** Mode of operation for binauthz policy evaluation. If unspecified, defaults to DISABLED. */
-  evaluationMode?: BinaryAuthorizationEvaluationModeEnum | (string & {}) | undefined;
-  /** Optional. Binauthz policies that apply to this cluster. */
-  policyBindings?: PolicyBindingList | undefined;
-}
-/** Configuration for Cloud TPU. This message is deprecated due to the deprecation of 2VM TPU. The end of life date for 2VM TPU is 2025-04-25. */
-export interface TpuConfig {
-  /** Whether Cloud TPU integration is enabled or not. */
-  enabled?: boolean | undefined;
-  /** Whether to use service networking for Cloud TPU or not. */
-  useServiceNetworking?: boolean | undefined;
-  /** IPv4 CIDR block reserved for Cloud TPU in the VPC. */
-  ipv4CidrBlock?: string | undefined;
-}
-/** Contains information about amount of some resource in the cluster. For memory, value should be in GB. */
-export interface ResourceLimit {
-  /** Maximum amount of the resource in the cluster. */
-  maximum?: string | undefined;
-  /** Resource name "cpu", "memory" or gpu-specific string. */
-  resourceType?: string | undefined;
-  /** Minimum amount of the resource in the cluster. */
-  minimum?: string | undefined;
-}
-export type ResourceLimitList = Array<ResourceLimit>;
-/** DefaultComputeClassConfig defines default compute class configuration. */
-export interface DefaultComputeClassConfig {
-  /** Enables default compute class. */
-  enabled?: boolean | undefined;
-}
-export type ClusterAutoscalingAutopilotGeneralProfileEnum =
-  | "AUTOPILOT_GENERAL_PROFILE_UNSPECIFIED"
-  | "NO_PERFORMANCE"
-  | "NONE";
-export type ClusterAutoscalingAutoscalingProfileEnum =
-  | "PROFILE_UNSPECIFIED"
-  | "OPTIMIZE_UTILIZATION"
-  | "BALANCED";
-export type AutoprovisioningRestrictionConfigServiceAccountPermissionCheckEnum =
-  | "PERMISSION_CHECK_MODE_UNSPECIFIED"
-  | "DISABLED"
-  | "ENABLED";
-/** AutoprovisioningRestrictionConfig configures restrictions related to autoprovisioning settings. */
-export interface AutoprovisioningRestrictionConfig {
-  /** Optional. Controls whether service account validation checks are enforced for autoprovisioning. */
-  serviceAccountPermissionCheck?:
-    | AutoprovisioningRestrictionConfigServiceAccountPermissionCheckEnum
-    | (string & {})
-    | undefined;
-  /** Optional. Contains the list of service accounts allowed for autoprovisioned node pools / Custom ComputeClasses. */
-  authorizedServiceAccounts?: StringList | undefined;
-}
-/** AutoprovisioningNodePoolDefaults contains defaults for a node pool created by NAP. */
-export interface AutoprovisioningNodePoolDefaults {
-  /** Size of the disk attached to each node, specified in GB. The smallest allowed disk size is 15 GB for node pools running GKE versions 1.36.3-gke.1480000 or later. Or, for earlier versions, the smallest allowed disk size is 12 GB. If unspecified, the default disk size is 100GB. */
-  diskSizeGb?: number | undefined;
-  /** The Google Cloud Platform Service Account to be used by the node VMs. Specify the email address of the Service Account; otherwise, if no Service Account is specified, the "default" service account is used. */
-  serviceAccount?: string | undefined;
-  /** Shielded Instance options. */
-  shieldedInstanceConfig?: ShieldedInstanceConfig | undefined;
-  /** The Customer Managed Encryption Key used to encrypt the boot disk attached to each node in the node pool. This should be of the form projects/[KEY_PROJECT_ID]/locations/[LOCATION]/keyRings/[RING_NAME]/cryptoKeys/[KEY_NAME]. For more information about protecting resources with Cloud KMS Keys please see: https://cloud.google.com/compute/docs/disks/customer-managed-encryption */
-  bootDiskKmsKey?: string | undefined;
-  /** DEPRECATED. Use NodePoolAutoConfig.NodeKubeletConfig instead. */
-  insecureKubeletReadonlyPortEnabled?: boolean | undefined;
-  /** The set of Google API scopes to be made available on all of the node VMs under the "default" service account. The following scopes are recommended, but not required, and by default are not included: * `https://www.googleapis.com/auth/compute` is required for mounting persistent storage on your nodes. * `https://www.googleapis.com/auth/devstorage.read_only` is required for communicating with **gcr.io** (the [Artifact Registry](https://cloud.google.com/artifact-registry/)). If unspecified, no scopes are added, unless Cloud Logging or Cloud Monitoring are enabled, in which case their required scopes will be added. */
-  oauthScopes?: StringList | undefined;
-  /** The image type to use for NAP created node. Please see https://cloud.google.com/kubernetes-engine/docs/concepts/node-images for available image types. */
-  imageType?: string | undefined;
-  /** NodeManagement configuration for this NodePool. */
-  management?: NodeManagement | undefined;
-  /** Deprecated. Minimum CPU platform to be used for NAP created node pools. The instance may be scheduled on the specified or newer CPU platform. Applicable values are the friendly names of CPU platforms, such as minCpuPlatform: Intel Haswell or minCpuPlatform: Intel Sandy Bridge. For more information, read [how to specify min CPU platform](https://cloud.google.com/compute/docs/instances/specify-min-cpu-platform). This field is deprecated, min_cpu_platform should be specified using `cloud.google.com/requested-min-cpu-platform` label selector on the pod. To unset the min cpu platform field pass "automatic" as field value. */
-  minCpuPlatform?: string | undefined;
-  /** Type of the disk attached to each node (e.g. 'pd-standard', 'pd-ssd' or 'pd-balanced') If unspecified, the default disk type is 'pd-standard' */
-  diskType?: string | undefined;
-  /** Upgrade settings control disruption and speed of the upgrade. */
-  upgradeSettings?: UpgradeSettings | undefined;
-}
-/** ClusterAutoscaling contains global, per-cluster information required by Cluster Autoscaler to automatically adjust the size of the cluster and create/delete node pools based on the current needs. */
-export interface ClusterAutoscaling {
-  /** Enables automatic node pool creation and deletion. */
-  enableNodeAutoprovisioning?: boolean | undefined;
-  /** Contains global constraints regarding minimum and maximum amount of resources in the cluster. */
-  resourceLimits?: ResourceLimitList | undefined;
-  /** Default compute class is a configuration for default compute class. */
-  defaultComputeClassConfig?: DefaultComputeClassConfig | undefined;
-  /** Autopilot general profile for the cluster, which defines the configuration for the cluster. */
-  autopilotGeneralProfile?:
-    | ClusterAutoscalingAutopilotGeneralProfileEnum
-    | (string & {})
-    | undefined;
-  /** Defines autoscaling behaviour. */
-  autoscalingProfile?: ClusterAutoscalingAutoscalingProfileEnum | (string & {}) | undefined;
-  /** Optional. Configures restrictions related to autoprovisioning settings. */
-  autoprovisioningRestrictionConfig?: AutoprovisioningRestrictionConfig | undefined;
-  /** The list of Google Compute Engine [zones](https://cloud.google.com/compute/docs/zones#available) in which the NodePool's nodes can be created by NAP. */
-  autoprovisioningLocations?: StringList | undefined;
-  /** AutoprovisioningNodePoolDefaults contains defaults for a node pool created by NAP. */
-  autoprovisioningNodePoolDefaults?: AutoprovisioningNodePoolDefaults | undefined;
-}
-export type DatabaseEncryptionStateEnum =
-  | "UNKNOWN"
-  | "ENCRYPTED"
-  | "DECRYPTED"
-  | "ALL_OBJECTS_ENCRYPTION_ENABLED";
-export type DatabaseEncryptionCurrentStateEnum =
-  | "CURRENT_STATE_UNSPECIFIED"
-  | "CURRENT_STATE_ENCRYPTED"
-  | "CURRENT_STATE_DECRYPTED"
-  | "CURRENT_STATE_ENCRYPTION_PENDING"
-  | "CURRENT_STATE_ENCRYPTION_ERROR"
-  | "CURRENT_STATE_DECRYPTION_PENDING"
-  | "CURRENT_STATE_DECRYPTION_ERROR"
-  | "CURRENT_STATE_ALL_OBJECTS_ENCRYPTION_ENABLED"
-  | "CURRENT_STATE_ALL_OBJECTS_ENCRYPTION_PENDING"
-  | "CURRENT_STATE_ALL_OBJECTS_ENCRYPTION_ERROR";
-/** OperationError records errors seen from CloudKMS keys encountered during updates to DatabaseEncryption configuration. */
-export interface OperationError {
-  /** Description of the error seen during the operation. */
-  errorMessage?: string | undefined;
-  /** Time when the CloudKMS error was seen. */
-  timestamp?: string | undefined;
-  /** CloudKMS key resource that had the error. */
-  keyName?: string | undefined;
-}
-export type OperationErrorList = Array<OperationError>;
-/** Configuration of etcd encryption. */
-export interface DatabaseEncryption {
-  /** The desired state of etcd encryption. */
-  state?: DatabaseEncryptionStateEnum | (string & {}) | undefined;
-  /** Output only. Keys in use by the cluster for decrypting existing objects, in addition to the key in `key_name`. Each item is a CloudKMS key resource. */
-  decryptionKeys?: StringList | undefined;
-  /** Output only. The current state of etcd encryption. */
-  currentState?: DatabaseEncryptionCurrentStateEnum | (string & {}) | undefined;
-  /** Output only. Records errors seen during DatabaseEncryption update operations. */
-  lastOperationErrors?: OperationErrorList | undefined;
-  /** Name of CloudKMS key to use for the encryption of secrets in etcd. Ex. projects/my-project/locations/global/keyRings/my-ring/cryptoKeys/my-key */
-  keyName?: string | undefined;
-}
-/** RBACBindingConfig allows user to restrict ClusterRoleBindings an RoleBindings that can be created. */
-export interface RBACBindingConfig {
-  /** Setting this to true will allow any ClusterRoleBinding and RoleBinding with subjets system:anonymous or system:unauthenticated. */
-  enableInsecureBindingSystemUnauthenticated?: boolean | undefined;
-  /** Setting this to true will allow any ClusterRoleBinding and RoleBinding with subjects system:authenticated. */
-  enableInsecureBindingSystemAuthenticated?: boolean | undefined;
-}
-/** Parameters for controlling consumption metering. */
-export interface ConsumptionMeteringConfig {
-  /** Whether to enable consumption metering for this cluster. If enabled, a second BigQuery table will be created to hold resource consumption records. */
-  enabled?: boolean | undefined;
-}
-/** Parameters for using BigQuery as the destination of resource usage export. */
-export interface BigQueryDestination {
-  /** The ID of a BigQuery Dataset. */
-  datasetId?: string | undefined;
-}
-/** Configuration for exporting cluster resource usages. */
-export interface ResourceUsageExportConfig {
-  /** Configuration to enable resource consumption metering. */
-  consumptionMeteringConfig?: ConsumptionMeteringConfig | undefined;
-  /** Whether to enable network egress metering for this cluster. If enabled, a daemonset will be created in the cluster to meter network egress traffic. */
-  enableNetworkEgressMetering?: boolean | undefined;
-  /** Configuration to use BigQuery as usage export destination. */
-  bigqueryDestination?: BigQueryDestination | undefined;
-}
-/** UserManagedKeysConfig holds the resource address to Keys which are used for signing certs and token that are used for communication within cluster. */
-export interface UserManagedKeysConfig {
-  /** The Certificate Authority Service caPool to use for the cluster CA in this cluster. */
-  clusterCa?: string | undefined;
-  /** Output only. All of the versions of the Cloud KMS cryptoKey that are used by Confidential Hyperdisks on the control plane nodes. */
-  controlPlaneDiskEncryptionKeyVersions?: StringList | undefined;
-  /** The Cloud KMS cryptoKey to use for Confidential Hyperdisk on the control plane nodes. */
-  controlPlaneDiskEncryptionKey?: string | undefined;
-  /** The Cloud KMS cryptoKeyVersions to use for verifying service account JWTs issued by this cluster. Format: `projects/{project}/locations/{location}/keyRings/{keyring}/cryptoKeys/{cryptoKey}/cryptoKeyVersions/{cryptoKeyVersion}` */
-  serviceAccountVerificationKeys?: StringList | undefined;
-  /** The Certificate Authority Service caPool to use for the aggregation CA in this cluster. */
-  aggregationCa?: string | undefined;
-  /** Resource path of the Cloud KMS cryptoKey to use for encryption of internal etcd backups. */
-  gkeopsEtcdBackupEncryptionKey?: string | undefined;
-  /** Resource path of the Certificate Authority Service caPool to use for the etcd API CA in this cluster. */
-  etcdApiCa?: string | undefined;
-  /** The Cloud KMS cryptoKeyVersions to use for signing service account JWTs issued by this cluster. Format: `projects/{project}/locations/{location}/keyRings/{keyring}/cryptoKeys/{cryptoKey}/cryptoKeyVersions/{cryptoKeyVersion}` */
-  serviceAccountSigningKeys?: StringList | undefined;
-  /** Resource path of the Certificate Authority Service caPool to use for the etcd peer CA in this cluster. */
-  etcdPeerCa?: string | undefined;
-}
-/** Configuration of Shielded Nodes feature. */
-export interface ShieldedNodes {
-  /** Whether Shielded Nodes features are enabled on all nodes in this cluster. */
-  enabled?: boolean | undefined;
+/** Subset of Nodepool message that has defaults. */
+export interface NodePoolDefaults {
+  /** Subset of NodeConfig message that has defaults. */
+  nodeConfigDefaults?: NodeConfigDefaults | undefined;
 }
 /** A Google Kubernetes Engine cluster. */
 export interface Cluster {
-  /** The name of this cluster. The name must be unique within this project and location (e.g. zone or region), and can be up to 40 characters with the following restrictions: * Lowercase letters, numbers, and hyphens only. * Must start with a letter. * Must end with a number or a letter. */
-  name?: string | undefined;
-  /** The list of user specified Kubernetes feature gates. Each string represents the activation status of a feature gate (e.g. "featureX=true" or "featureX=false") */
-  alphaClusterFeatureGates?: StringList | undefined;
-  /** Output only. The time the cluster will be automatically deleted in [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format. */
-  expireTime?: string | undefined;
-  /** Configuration for direct-path (via ALTS) with workload identity. This feature is not officially supported for external customers in Kubernetes Engine when using Workload Identity. */
-  workloadAltsConfig?: WorkloadALTSConfig | undefined;
-  /** Optional. The cluster-level default node version to be used for newly created node pools where the node version is not explicitly specified. The node version is also used to reconcile existing node pools to this version. */
-  targetNodeVersion?: string | undefined;
-  /** Optional. Enable/Disable Security Posture API features for the cluster. */
-  securityPostureConfig?: SecurityPostureConfig | undefined;
-  /** Autopilot configuration for the cluster. */
-  autopilot?: Autopilot | undefined;
-  /** Secret CSI driver configuration. */
-  secretManagerConfig?: SecretManagerConfig | undefined;
-  /** If this is a private cluster setup. Private clusters are clusters that, by default have no external IP addresses on the nodes and where nodes and the master communicate over private IP addresses. This field is deprecated, use private_cluster_config.enable_private_nodes instead. */
-  privateCluster?: boolean | undefined;
-  /** Fleet information for the cluster. */
-  fleet?: Fleet | undefined;
-  /** The rollback safe upgrade information of the cluster. This field is used when user manually triggers a rollback safe upgrade. */
-  rollbackSafeUpgrade?: RollbackSafeUpgrade | undefined;
-  /** Configuration for cluster IP allocation. */
-  ipAllocationPolicy?: IPAllocationPolicy | undefined;
-  /** Configuration for Managed OpenTelemetry pipeline. */
-  managedOpentelemetryConfig?: ManagedOpenTelemetryConfig | undefined;
-  /** Configuration options for the NetworkPolicy feature. */
-  networkPolicy?: NetworkPolicy | undefined;
-  /** The logging service the cluster should use to write logs. Currently available options: * `logging.googleapis.com/kubernetes` - The Cloud Logging service with a Kubernetes-native resource model * `logging.googleapis.com` - The legacy Cloud Logging service (no longer available as of GKE 1.15). * `none` - no logs will be exported from the cluster. If left as an empty string,`logging.googleapis.com/kubernetes` will be used for GKE 1.14+ or `logging.googleapis.com` for earlier versions. */
-  loggingService?: string | undefined;
-  /** Configuration for cluster networking. */
-  networkConfig?: NetworkConfig | undefined;
-  /** Configuration for the use of Kubernetes Service Accounts in IAM policies. */
-  workloadIdentityConfig?: WorkloadIdentityConfig | undefined;
-  /** The configuration of the parent product of the cluster. This field is used by Google internal products that are built on top of the GKE cluster and take the ownership of the cluster. */
-  parentProductConfig?: ParentProductConfig | undefined;
-  /** Parameters used in creating the cluster's nodes. For requests, this field should only be used in lieu of a "node_pool" object, since this configuration (along with the "initial_node_count") will be used to create a "NodePool" object with an auto-generated name. Do not use this and a node_pool at the same time. For responses, this field will be populated with the node configuration of the first node pool. (For configuration of each node pool, see `node_pool.config`) If unspecified, the defaults are used. This field is deprecated, use node_pool.config instead. */
-  nodeConfig?: NodeConfig | undefined;
-  /** Output only. Reserved for future use. */
-  satisfiesPzs?: boolean | undefined;
-  /** Configuration for the legacy ABAC authorization mode. */
-  legacyAbac?: LegacyAbac | undefined;
-  /** Kubernetes open source beta apis enabled on the cluster. Only beta apis. */
-  enableK8sBetaApis?: K8sBetaAPIConfig | undefined;
-  /** Output only. The current status of this cluster. */
-  status?: ClusterStatusEnum | (string & {}) | undefined;
-  /** Telemetry integration for the cluster. */
-  clusterTelemetry?: ClusterTelemetry | undefined;
-  /** Configuration controlling RBAC group membership information. */
-  authenticatorGroupsConfig?: AuthenticatorGroupsConfig | undefined;
-  /** Optional. Deprecated: Compliance Posture is no longer supported. For more details, see https://cloud.google.com/kubernetes-engine/docs/deprecations/posture-management-deprecation. Enable/Disable Compliance Posture features for the cluster. */
-  compliancePostureConfig?: CompliancePostureConfig | undefined;
-  /** The monitoring service the cluster should use to write metrics. Currently available options: * `monitoring.googleapis.com/kubernetes` - The Cloud Monitoring service with a Kubernetes-native resource model * `monitoring.googleapis.com` - The legacy Cloud Monitoring service (no longer available as of GKE 1.15). * `none` - No metrics will be exported from the cluster. If left as an empty string,`monitoring.googleapis.com/kubernetes` will be used for GKE 1.14+ or `monitoring.googleapis.com` for earlier versions. */
-  monitoringService?: string | undefined;
-  /** Deprecated: Use SecurityPostureConfig instead. Enable/Disable Protect API features for the cluster. */
-  protectConfig?: ProtectConfig | undefined;
-  /** Configuration for issuance of mTLS keys and certificates to Kubernetes pods. */
-  meshCertificates?: MeshCertificates | undefined;
-  /** Configuration for managed machine learning diagnostics. */
-  managedMachineLearningDiagnosticsConfig?: ManagedMachineLearningDiagnosticsConfig | undefined;
-  /** Configuration for limiting anonymous access to all endpoints except the health checks. */
-  anonymousAuthenticationConfig?: AnonymousAuthenticationConfig | undefined;
-  /** Release channel configuration. If left unspecified on cluster creation and a version is specified, the cluster is enrolled in the most mature release channel where the version is available (first checking STABLE, then REGULAR, and finally RAPID). Otherwise, if no release channel configuration and no version is specified, the cluster is enrolled in the REGULAR channel with its default version. */
-  releaseChannel?: ReleaseChannel | undefined;
-  /** Configuration for GKE auto upgrades. */
-  gkeAutoUpgradeConfig?: GkeAutoUpgradeConfig | undefined;
-  /** The configuration options for master authorized networks feature. Deprecated: Use ControlPlaneEndpointsConfig.IPEndpointsConfig.authorized_networks_config instead. */
-  masterAuthorizedNetworksConfig?: MasterAuthorizedNetworksConfig | undefined;
-  /** The name of the Google Compute Engine [subnetwork](https://cloud.google.com/compute/docs/subnetworks) to which the cluster is connected. On output this shows the subnetwork ID instead of the name. */
-  subnetwork?: string | undefined;
-  /** Output only. The IP address range of the Cloud TPUs in this cluster, in [CIDR](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing) notation (e.g. `1.2.3.4/29`). This field is deprecated due to the deprecation of 2VM TPU. The end of life date for 2VM TPU is 2025-04-25. */
-  tpuIpv4CidrBlock?: string | undefined;
-  /** Output only. The size of the address space on each node for hosting containers. This is provisioned from within the `container_ipv4_cidr` range. This field will only be set when cluster is in route-based network mode. */
-  nodeIpv4CidrSize?: number | undefined;
-  /** Output only. The current software version of the master endpoint. */
-  currentMasterVersion?: string | undefined;
-  /** The initial Kubernetes version for this cluster. Valid versions are those found in validMasterVersions returned by getServerConfig. The version can be upgraded over time; such upgrades are reflected in currentMasterVersion and currentNodeVersion. Users may specify either explicit versions offered by Kubernetes Engine or version aliases, which have the following behavior: - "latest": picks the highest valid Kubernetes version - "1.X": picks the highest valid patch+gke.N patch in the 1.X version - "1.X.Y": picks the highest valid gke.N patch in the 1.X.Y version - "1.X.Y-gke.N": picks an explicit Kubernetes version - "","-": picks the default Kubernetes version */
-  initialClusterVersion?: string | undefined;
-  /** Default NodePool settings for the entire cluster. These settings are overridden if specified on the specific NodePool object. */
-  nodePoolDefaults?: NodePoolDefaults | undefined;
-  /** Output only. Unique id for the cluster. */
-  id?: string | undefined;
-  /** Configuration for control plane egress control. */
-  controlPlaneEgress?: ControlPlaneEgress | undefined;
-  /** Configuration for all cluster's control plane endpoints. */
-  controlPlaneEndpointsConfig?: ControlPlaneEndpointsConfig | undefined;
-  /** This checksum is computed by the server based on the value of cluster fields, and may be sent on update requests to ensure the client has an up-to-date value before proceeding. */
-  etag?: string | undefined;
-  /** The default constraint on the maximum number of pods that can be run simultaneously on a node in the node pool of this cluster. Only honored if cluster created with IP Alias support. */
-  defaultMaxPodsConstraint?: MaxPodsConstraint | undefined;
-  /** Configure the maintenance policy for this cluster. */
-  maintenancePolicy?: MaintenancePolicy | undefined;
-  /** An optional description of this cluster. */
-  description?: string | undefined;
-  /** Output only. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field is deprecated, use location instead. */
-  zone?: string | undefined;
-  /** Output only. The IP address range of the Kubernetes services in this cluster, in [CIDR](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing) notation (e.g. `1.2.3.4/29`). Service addresses are typically put in the last `/16` from the container CIDR. */
-  servicesIpv4Cidr?: string | undefined;
-  /** Configuration for issuance of mTLS keys and certificates to Kubernetes pods. */
-  workloadCertificates?: MeshCertificates | undefined;
-  /** Configuration for Identity Service component. */
-  identityServiceConfig?: IdentityServiceConfig | undefined;
-  /** The resource labels for the cluster to use to annotate any related Google Compute Engine resources. */
-  resourceLabels?: StringMap | undefined;
   /** The list of Google Compute Engine [zones](https://cloud.google.com/compute/docs/zones#available) in which the cluster's nodes should be located. This field provides a default value if [NodePool.Locations](https://cloud.google.com/kubernetes-engine/docs/reference/rest/v1/projects.locations.clusters.nodePools#NodePool.FIELDS.locations) are not specified during node pool creation. Warning: changing cluster locations will update the [NodePool.Locations](https://cloud.google.com/kubernetes-engine/docs/reference/rest/v1/projects.locations.clusters.nodePools#NodePool.FIELDS.locations) of all node pools and will result in nodes being added and/or removed. */
   locations?: StringList | undefined;
-  /** Output only. Deprecated. Use conditions instead. Additional information about the current status of this cluster, if available. */
-  statusMessage?: string | undefined;
-  /** The config for pod autoscaling. */
-  podAutoscaling?: PodAutoscaling | undefined;
-  /** Output only. Server-defined URL for the resource. */
-  selfLink?: string | undefined;
-  /** Node pool configs that apply to all auto-provisioned node pools in autopilot clusters and node auto-provisioning enabled clusters. */
-  nodePoolAutoConfig?: NodePoolAutoConfig | undefined;
-  /** Notification configuration of the cluster. */
-  notificationConfig?: NotificationConfig | undefined;
-  /** The node pools associated with this cluster. This field should not be set if "node_config" or "initial_node_count" are specified. */
-  nodePools?: NodePoolList | undefined;
-  /** Output only. The time the cluster was created, in [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format. */
-  createTime?: string | undefined;
-  /** Configuration for private cluster. */
-  privateClusterConfig?: PrivateClusterConfig | undefined;
-  /** Configuration for the fine-grained cost allocation feature. */
-  costManagementConfig?: CostManagementConfig | undefined;
+  /** Configuration for issuance of mTLS keys and certificates to Kubernetes pods. */
+  meshCertificates?: MeshCertificates | undefined;
+  /** The rollback safe upgrade information of the cluster. This field is used when user manually triggers a rollback safe upgrade. */
+  rollbackSafeUpgrade?: RollbackSafeUpgrade | undefined;
+  /** The default constraint on the maximum number of pods that can be run simultaneously on a node in the node pool of this cluster. Only honored if cluster created with IP Alias support. */
+  defaultMaxPodsConstraint?: MaxPodsConstraint | undefined;
+  /** Output only. The current software version of the master endpoint. */
+  currentMasterVersion?: string | undefined;
   /** Logging configuration for the cluster. */
   loggingConfig?: LoggingConfig | undefined;
-  /** Configuration for the PodSecurityPolicy feature. */
-  podSecurityPolicyConfig?: PodSecurityPolicyConfig | undefined;
-  /** Configuration for master components. */
-  master?: Master | undefined;
-  /** Which conditions caused the current cluster state. */
-  conditions?: StatusConditionList | undefined;
-  /** Optional. Configuration for scheduled upgrades. */
-  scheduleUpgradeConfig?: ScheduleUpgradeConfig | undefined;
   /** The node pool upgrade concurrency config of the cluster. This field is used for auto upgrade. */
   nodePoolUpgradeConcurrencyConfig?: NodePoolUpgradeConcurrencyConfig | undefined;
-  /** Enable the ability to use Cloud TPUs in this cluster. This field is deprecated, use tpu_config.enabled instead. This field is deprecated due to the deprecation of 2VM TPU. The end of life date for 2VM TPU is 2025-04-25. */
-  enableTpu?: boolean | undefined;
-  /** Cluster-level Vertical Pod Autoscaling configuration. */
-  verticalPodAutoscaling?: VerticalPodAutoscaling | undefined;
-  /** Output only. The number of nodes currently in the cluster. Deprecated. Call Kubernetes API directly to retrieve node information. */
-  currentNodeCount?: number | undefined;
-  /** The name of the Google Compute Engine [network](https://cloud.google.com/compute/docs/networks-and-firewalls#networks) to which the cluster is connected. If left unspecified, the `default` network will be used. On output this shows the network ID instead of the name. */
-  network?: string | undefined;
-  /** Monitoring configuration for the cluster. */
-  monitoringConfig?: MonitoringConfig | undefined;
-  /** Configuration for sync Secret Manager secrets as k8s secrets. */
-  secretSyncConfig?: SecretSyncConfig | undefined;
-  /** Optional. Configuration for Node Creation Mode. */
-  nodeCreationConfig?: NodeCreationConfig | undefined;
-  /** GKE Enterprise Configuration. Deprecated: GKE Enterprise features are now available without an Enterprise tier. */
-  enterpriseConfig?: EnterpriseConfig | undefined;
-  /** The authentication information for accessing the master endpoint. If unspecified, the defaults are used: For clusters before v1.12, if master_auth is unspecified, `username` will be set to "admin", a random password will be generated, and a client certificate will be issued. */
-  masterAuth?: MasterAuth | undefined;
-  /** Configuration for Binary Authorization. */
-  binaryAuthorization?: BinaryAuthorization | undefined;
-  /** Configurations for the various addons available to run in the cluster. */
-  addonsConfig?: AddonsConfig | undefined;
-  /** The IP address range of the container pods in this cluster, in [CIDR](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing) notation (e.g. `10.96.0.0/14`). Leave blank to have one automatically chosen or specify a `/14` block in `10.0.0.0/8`. */
-  clusterIpv4Cidr?: string | undefined;
-  /** Output only. Deprecated. Use node_pools.instance_group_urls. */
-  instanceGroupUrls?: StringList | undefined;
-  /** The fingerprint of the set of labels for this cluster. */
-  labelFingerprint?: string | undefined;
-  /** Configuration for Cloud TPU support; This field is deprecated due to the deprecation of 2VM TPU. The end of life date for 2VM TPU is 2025-04-25. */
-  tpuConfig?: TpuConfig | undefined;
-  /** Configuration of Confidential Nodes. All the nodes in the cluster will be Confidential VM once enabled. */
-  confidentialNodes?: ConfidentialNodes | undefined;
-  /** Cluster-level autoscaling configuration. */
-  autoscaling?: ClusterAutoscaling | undefined;
+  /** Parameters used in creating the cluster's nodes. For requests, this field should only be used in lieu of a "node_pool" object, since this configuration (along with the "initial_node_count") will be used to create a "NodePool" object with an auto-generated name. Do not use this and a node_pool at the same time. For responses, this field will be populated with the node configuration of the first node pool. (For configuration of each node pool, see `node_pool.config`) If unspecified, the defaults are used. This field is deprecated, use node_pool.config instead. */
+  nodeConfig?: NodeConfig | undefined;
+  /** Output only. The current status of this cluster. */
+  status?: ClusterStatusEnum | (string & {}) | undefined;
+  /** Optional. Deprecated: Compliance Posture is no longer supported. For more details, see https://cloud.google.com/kubernetes-engine/docs/deprecations/posture-management-deprecation. Enable/Disable Compliance Posture features for the cluster. */
+  compliancePostureConfig?: CompliancePostureConfig | undefined;
+  /** Configuration for master components. */
+  master?: Master | undefined;
   /** Output only. Reserved for future use. */
   satisfiesPzi?: boolean | undefined;
-  /** Output only. The current emulated version of the master endpoint. The version is in minor version format, e.g. 1.30. No value or empty string means the cluster has no emulated version. */
-  currentEmulatedVersion?: string | undefined;
-  /** Configuration of etcd encryption. */
-  databaseEncryption?: DatabaseEncryption | undefined;
+  /** The authentication information for accessing the master endpoint. If unspecified, the defaults are used: For clusters before v1.12, if master_auth is unspecified, `username` will be set to "admin", a random password will be generated, and a client certificate will be issued. */
+  masterAuth?: MasterAuth | undefined;
+  /** Configuration for private cluster. */
+  privateClusterConfig?: PrivateClusterConfig | undefined;
+  /** Configuration for GKE auto upgrades. */
+  gkeAutoUpgradeConfig?: GkeAutoUpgradeConfig | undefined;
+  /** Cluster-level autoscaling configuration. */
+  autoscaling?: ClusterAutoscaling | undefined;
+  /** Configuration for cluster IP allocation. */
+  ipAllocationPolicy?: IPAllocationPolicy | undefined;
   /** Output only. The IP address of this cluster's master endpoint. The endpoint can be accessed from the internet at `https://username:password@endpoint/`. See the `masterAuth` property of this resource for username and password information. */
   endpoint?: string | undefined;
-  /** Output only. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/regions-zones/regions-zones#available) or [region](https://cloud.google.com/compute/docs/regions-zones/regions-zones#available) in which the cluster resides. */
-  location?: string | undefined;
-  /** The number of nodes to create in this cluster. You must ensure that your Compute Engine [resource quota](https://cloud.google.com/compute/quotas) is sufficient for this number of instances. You must also have available firewall and routes quota. For requests, this field should only be used in lieu of a "node_pool" object, since this configuration (along with the "node_config") will be used to create a "NodePool" object with an auto-generated name. Do not use this and a node_pool at the same time. This field is deprecated, use node_pool.initial_node_count instead. */
-  initialNodeCount?: number | undefined;
-  /** RBACBindingConfig allows user to restrict ClusterRoleBindings an RoleBindings that can be created. */
-  rbacBindingConfig?: RBACBindingConfig | undefined;
-  /** Configuration for exporting resource usages. Resource usage export is disabled when this config unspecified. */
-  resourceUsageExportConfig?: ResourceUsageExportConfig | undefined;
+  /** Optional. Configuration for Node Creation Mode. */
+  nodeCreationConfig?: NodeCreationConfig | undefined;
+  /** The name of the Google Compute Engine [subnetwork](https://cloud.google.com/compute/docs/subnetworks) to which the cluster is connected. On output this shows the subnetwork ID instead of the name. */
+  subnetwork?: string | undefined;
+  /** An optional description of this cluster. */
+  description?: string | undefined;
+  /** This checksum is computed by the server based on the value of cluster fields, and may be sent on update requests to ensure the client has an up-to-date value before proceeding. */
+  etag?: string | undefined;
+  /** Kubernetes open source beta apis enabled on the cluster. Only beta apis. */
+  enableK8sBetaApis?: K8sBetaAPIConfig | undefined;
   /** The Custom keys configuration for the cluster. */
   userManagedKeysConfig?: UserManagedKeysConfig | undefined;
-  /** Output only. Deprecated, use [NodePool.version](https://cloud.google.com/kubernetes-engine/docs/reference/rest/v1beta1/projects.locations.clusters.nodePools) instead. The current version of the node software components. If they are currently at multiple versions because they're in the process of being upgraded, this reflects the minimum version of all nodes. */
-  currentNodeVersion?: string | undefined;
-  /** Kubernetes alpha features are enabled on this cluster. This includes alpha API groups (e.g. v1beta1) and features that may not be production ready in the kubernetes version of the master and nodes. The cluster has no SLA for uptime and master/node upgrades are disabled. Alpha enabled clusters are automatically deleted thirty days after creation. */
-  enableKubernetesAlpha?: boolean | undefined;
+  /** The name of the Google Compute Engine [network](https://cloud.google.com/compute/docs/networks-and-firewalls#networks) to which the cluster is connected. If left unspecified, the `default` network will be used. On output this shows the network ID instead of the name. */
+  network?: string | undefined;
+  /** The monitoring service the cluster should use to write metrics. Currently available options: * `monitoring.googleapis.com/kubernetes` - The Cloud Monitoring service with a Kubernetes-native resource model * `monitoring.googleapis.com` - The legacy Cloud Monitoring service (no longer available as of GKE 1.15). * `none` - No metrics will be exported from the cluster. If left as an empty string,`monitoring.googleapis.com/kubernetes` will be used for GKE 1.14+ or `monitoring.googleapis.com` for earlier versions. */
+  monitoringService?: string | undefined;
+  /** Output only. The time the cluster was created, in [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format. */
+  createTime?: string | undefined;
+  /** The IP address range of the container pods in this cluster, in [CIDR](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing) notation (e.g. `10.96.0.0/14`). Leave blank to have one automatically chosen or specify a `/14` block in `10.0.0.0/8`. */
+  clusterIpv4Cidr?: string | undefined;
+  /** Configuration for exporting resource usages. Resource usage export is disabled when this config unspecified. */
+  resourceUsageExportConfig?: ResourceUsageExportConfig | undefined;
+  /** Secret CSI driver configuration. */
+  secretManagerConfig?: SecretManagerConfig | undefined;
+  /** Configuration for control plane egress control. */
+  controlPlaneEgress?: ControlPlaneEgress | undefined;
+  /** If this is a private cluster setup. Private clusters are clusters that, by default have no external IP addresses on the nodes and where nodes and the master communicate over private IP addresses. This field is deprecated, use private_cluster_config.enable_private_nodes instead. */
+  privateCluster?: boolean | undefined;
+  /** The fingerprint of the set of labels for this cluster. */
+  labelFingerprint?: string | undefined;
+  /** Output only. Unique id for the cluster. */
+  id?: string | undefined;
+  /** The resource labels for the cluster to use to annotate any related Google Compute Engine resources. */
+  resourceLabels?: StringMap | undefined;
+  /** Enable the ability to use Cloud TPUs in this cluster. This field is deprecated, use tpu_config.enabled instead. This field is deprecated due to the deprecation of 2VM TPU. The end of life date for 2VM TPU is 2025-04-25. */
+  enableTpu?: boolean | undefined;
+  /** Optional. The cluster-level default node version to be used for newly created node pools where the node version is not explicitly specified. The node version is also used to reconcile existing node pools to this version. */
+  targetNodeVersion?: string | undefined;
+  /** Configuration for managed machine learning diagnostics. */
+  managedMachineLearningDiagnosticsConfig?: ManagedMachineLearningDiagnosticsConfig | undefined;
+  /** Configuration for issuance of mTLS keys and certificates to Kubernetes pods. */
+  workloadCertificates?: MeshCertificates | undefined;
+  /** Configuration for Binary Authorization. */
+  binaryAuthorization?: BinaryAuthorization | undefined;
+  /** Output only. The IP address range of the Cloud TPUs in this cluster, in [CIDR](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing) notation (e.g. `1.2.3.4/29`). This field is deprecated due to the deprecation of 2VM TPU. The end of life date for 2VM TPU is 2025-04-25. */
+  tpuIpv4CidrBlock?: string | undefined;
+  /** Autopilot configuration for the cluster. */
+  autopilot?: Autopilot | undefined;
+  /** Fleet information for the cluster. */
+  fleet?: Fleet | undefined;
+  /** Configuration for cluster networking. */
+  networkConfig?: NetworkConfig | undefined;
+  /** Configuration for Managed OpenTelemetry pipeline. */
+  managedOpentelemetryConfig?: ManagedOpenTelemetryConfig | undefined;
+  /** Output only. The time the cluster will be automatically deleted in [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format. */
+  expireTime?: string | undefined;
+  /** Configuration for Identity Service component. */
+  identityServiceConfig?: IdentityServiceConfig | undefined;
+  /** Configuration options for the NetworkPolicy feature. */
+  networkPolicy?: NetworkPolicy | undefined;
+  /** Output only. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field is deprecated, use location instead. */
+  zone?: string | undefined;
   /** The IP prefix in CIDR notation to use for the hosted master network. This prefix will be used for assigning private IP addresses to the master or set of masters, as well as the ILB VIP. This field is deprecated, use private_cluster_config.master_ipv4_cidr_block instead. */
   masterIpv4CidrBlock?: string | undefined;
+  /** The configuration options for master authorized networks feature. Deprecated: Use ControlPlaneEndpointsConfig.IPEndpointsConfig.authorized_networks_config instead. */
+  masterAuthorizedNetworksConfig?: MasterAuthorizedNetworksConfig | undefined;
+  /** GKE Enterprise Configuration. Deprecated: GKE Enterprise features are now available without an Enterprise tier. */
+  enterpriseConfig?: EnterpriseConfig | undefined;
+  /** Deprecated: Use SecurityPostureConfig instead. Enable/Disable Protect API features for the cluster. */
+  protectConfig?: ProtectConfig | undefined;
+  /** The name of this cluster. The name must be unique within this project and location (e.g. zone or region), and can be up to 40 characters with the following restrictions: * Lowercase letters, numbers, and hyphens only. * Must start with a letter. * Must end with a number or a letter. */
+  name?: string | undefined;
+  /** Output only. Deprecated. Use conditions instead. Additional information about the current status of this cluster, if available. */
+  statusMessage?: string | undefined;
+  /** Output only. Reserved for future use. */
+  satisfiesPzs?: boolean | undefined;
+  /** The initial Kubernetes version for this cluster. Valid versions are those found in validMasterVersions returned by getServerConfig. The version can be upgraded over time; such upgrades are reflected in currentMasterVersion and currentNodeVersion. Users may specify either explicit versions offered by Kubernetes Engine or version aliases, which have the following behavior: - "latest": picks the highest valid Kubernetes version - "1.X": picks the highest valid patch+gke.N patch in the 1.X version - "1.X.Y": picks the highest valid gke.N patch in the 1.X.Y version - "1.X.Y-gke.N": picks an explicit Kubernetes version - "","-": picks the default Kubernetes version */
+  initialClusterVersion?: string | undefined;
+  /** Configuration for the PodSecurityPolicy feature. */
+  podSecurityPolicyConfig?: PodSecurityPolicyConfig | undefined;
+  /** Telemetry integration for the cluster. */
+  clusterTelemetry?: ClusterTelemetry | undefined;
+  /** Configuration for Cloud TPU support; This field is deprecated due to the deprecation of 2VM TPU. The end of life date for 2VM TPU is 2025-04-25. */
+  tpuConfig?: TpuConfig | undefined;
+  /** Configurations for the various addons available to run in the cluster. */
+  addonsConfig?: AddonsConfig | undefined;
+  /** Configuration of etcd encryption. */
+  databaseEncryption?: DatabaseEncryption | undefined;
+  /** Configuration for the use of Kubernetes Service Accounts in IAM policies. */
+  workloadIdentityConfig?: WorkloadIdentityConfig | undefined;
+  /** Optional. Enable/Disable Security Posture API features for the cluster. */
+  securityPostureConfig?: SecurityPostureConfig | undefined;
+  /** Output only. Server-defined URL for the resource. */
+  selfLink?: string | undefined;
+  /** The logging service the cluster should use to write logs. Currently available options: * `logging.googleapis.com/kubernetes` - The Cloud Logging service with a Kubernetes-native resource model * `logging.googleapis.com` - The legacy Cloud Logging service (no longer available as of GKE 1.15). * `none` - no logs will be exported from the cluster. If left as an empty string,`logging.googleapis.com/kubernetes` will be used for GKE 1.14+ or `logging.googleapis.com` for earlier versions. */
+  loggingService?: string | undefined;
+  /** Configuration for the fine-grained cost allocation feature. */
+  costManagementConfig?: CostManagementConfig | undefined;
+  /** Configuration controlling RBAC group membership information. */
+  authenticatorGroupsConfig?: AuthenticatorGroupsConfig | undefined;
+  /** The config for pod autoscaling. */
+  podAutoscaling?: PodAutoscaling | undefined;
+  /** The configuration of the parent product of the cluster. This field is used by Google internal products that are built on top of the GKE cluster and take the ownership of the cluster. */
+  parentProductConfig?: ParentProductConfig | undefined;
+  /** Output only. The size of the address space on each node for hosting containers. This is provisioned from within the `container_ipv4_cidr` range. This field will only be set when cluster is in route-based network mode. */
+  nodeIpv4CidrSize?: number | undefined;
+  /** Notification configuration of the cluster. */
+  notificationConfig?: NotificationConfig | undefined;
+  /** RBACBindingConfig allows user to restrict ClusterRoleBindings an RoleBindings that can be created. */
+  rbacBindingConfig?: RBACBindingConfig | undefined;
+  /** The number of nodes to create in this cluster. You must ensure that your Compute Engine [resource quota](https://cloud.google.com/compute/quotas) is sufficient for this number of instances. You must also have available firewall and routes quota. For requests, this field should only be used in lieu of a "node_pool" object, since this configuration (along with the "node_config") will be used to create a "NodePool" object with an auto-generated name. Do not use this and a node_pool at the same time. This field is deprecated, use node_pool.initial_node_count instead. */
+  initialNodeCount?: number | undefined;
+  /** The list of user specified Kubernetes feature gates. Each string represents the activation status of a feature gate (e.g. "featureX=true" or "featureX=false") */
+  alphaClusterFeatureGates?: StringList | undefined;
+  /** Configure the maintenance policy for this cluster. */
+  maintenancePolicy?: MaintenancePolicy | undefined;
+  /** Configuration for direct-path (via ALTS) with workload identity. This feature is not officially supported for external customers in Kubernetes Engine when using Workload Identity. */
+  workloadAltsConfig?: WorkloadALTSConfig | undefined;
+  /** Configuration for sync Secret Manager secrets as k8s secrets. */
+  secretSyncConfig?: SecretSyncConfig | undefined;
+  /** Optional. Configuration for scheduled upgrades. */
+  scheduleUpgradeConfig?: ScheduleUpgradeConfig | undefined;
+  /** Release channel configuration. If left unspecified on cluster creation and a version is specified, the cluster is enrolled in the most mature release channel where the version is available (first checking STABLE, then REGULAR, and finally RAPID). Otherwise, if no release channel configuration and no version is specified, the cluster is enrolled in the REGULAR channel with its default version. */
+  releaseChannel?: ReleaseChannel | undefined;
+  /** Output only. The current emulated version of the master endpoint. The version is in minor version format, e.g. 1.30. No value or empty string means the cluster has no emulated version. */
+  currentEmulatedVersion?: string | undefined;
+  /** Output only. Deprecated, use [NodePool.version](https://cloud.google.com/kubernetes-engine/docs/reference/rest/v1beta1/projects.locations.clusters.nodePools) instead. The current version of the node software components. If they are currently at multiple versions because they're in the process of being upgraded, this reflects the minimum version of all nodes. */
+  currentNodeVersion?: string | undefined;
+  /** Output only. Deprecated. Use node_pools.instance_group_urls. */
+  instanceGroupUrls?: StringList | undefined;
+  /** Configuration for the legacy ABAC authorization mode. */
+  legacyAbac?: LegacyAbac | undefined;
+  /** Cluster-level Vertical Pod Autoscaling configuration. */
+  verticalPodAutoscaling?: VerticalPodAutoscaling | undefined;
+  /** Configuration for limiting anonymous access to all endpoints except the health checks. */
+  anonymousAuthenticationConfig?: AnonymousAuthenticationConfig | undefined;
+  /** Configuration for all cluster's control plane endpoints. */
+  controlPlaneEndpointsConfig?: ControlPlaneEndpointsConfig | undefined;
+  /** Output only. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/regions-zones/regions-zones#available) or [region](https://cloud.google.com/compute/docs/regions-zones/regions-zones#available) in which the cluster resides. */
+  location?: string | undefined;
+  /** Kubernetes alpha features are enabled on this cluster. This includes alpha API groups (e.g. v1beta1) and features that may not be production ready in the kubernetes version of the master and nodes. The cluster has no SLA for uptime and master/node upgrades are disabled. Alpha enabled clusters are automatically deleted thirty days after creation. */
+  enableKubernetesAlpha?: boolean | undefined;
   /** Shielded Nodes configuration. */
   shieldedNodes?: ShieldedNodes | undefined;
+  /** Configuration of Confidential Nodes. All the nodes in the cluster will be Confidential VM once enabled. */
+  confidentialNodes?: ConfidentialNodes | undefined;
+  /** Node pool configs that apply to all auto-provisioned node pools in autopilot clusters and node auto-provisioning enabled clusters. */
+  nodePoolAutoConfig?: NodePoolAutoConfig | undefined;
+  /** The node pools associated with this cluster. This field should not be set if "node_config" or "initial_node_count" are specified. */
+  nodePools?: NodePoolList | undefined;
+  /** Monitoring configuration for the cluster. */
+  monitoringConfig?: MonitoringConfig | undefined;
+  /** Which conditions caused the current cluster state. */
+  conditions?: StatusConditionList | undefined;
+  /** Output only. The IP address range of the Kubernetes services in this cluster, in [CIDR](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing) notation (e.g. `1.2.3.4/29`). Service addresses are typically put in the last `/16` from the container CIDR. */
+  servicesIpv4Cidr?: string | undefined;
+  /** Default NodePool settings for the entire cluster. These settings are overridden if specified on the specific NodePool object. */
+  nodePoolDefaults?: NodePoolDefaults | undefined;
+  /** Output only. The number of nodes currently in the cluster. Deprecated. Call Kubernetes API directly to retrieve node information. */
+  currentNodeCount?: number | undefined;
 }
 /** CreateClusterRequest creates a cluster. */
 export interface CreateClusterRequest {
+  /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the parent field. */
+  projectId?: string | undefined;
   /** The parent (project and location) where the cluster will be created. Specified in the format `projects/*\/locations/*`. */
   parent?: string | undefined;
   /** Required. A [cluster resource](https://cloud.google.com/container-engine/reference/rest/v1beta1/projects.locations.clusters) */
   cluster?: Cluster | undefined;
-  /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the parent field. */
-  projectId?: string | undefined;
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the parent field. */
   zone?: string | undefined;
 }
@@ -3005,16 +3005,16 @@ export interface CreateProjectsLocationsClustersRequest extends Omit<
 }
 /** CreateNodePoolRequest creates a node pool for a cluster. */
 export interface CreateNodePoolRequest {
+  /** Deprecated. The name of the cluster. This field has been deprecated and replaced by the parent field. */
+  clusterId?: string | undefined;
   /** The parent (project, location, cluster name) where the node pool will be created. Specified in the format `projects/*\/locations/*\/clusters/*`. */
   parent?: string | undefined;
   /** Required. The node pool to create. */
   nodePool?: NodePool | undefined;
-  /** Deprecated. The name of the cluster. This field has been deprecated and replaced by the parent field. */
-  clusterId?: string | undefined;
-  /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the parent field. */
-  projectId?: string | undefined;
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the parent field. */
   zone?: string | undefined;
+  /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the parent field. */
+  projectId?: string | undefined;
 }
 export interface CreateProjectsLocationsClustersNodePoolsRequest extends Omit<
   CreateNodePoolRequest,
@@ -3034,83 +3034,64 @@ export interface CreateProjectsZonesClustersRequest extends Omit<
 }
 export interface CreateProjectsZonesClustersNodePoolsRequest extends Omit<
   CreateNodePoolRequest,
-  "clusterId" | "projectId" | "zone"
+  "clusterId" | "zone" | "projectId"
 > {
-  /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the parent field. */
-  zone: string;
-  /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the parent field. */
-  projectId: string;
   /** Deprecated. The name of the cluster. This field has been deprecated and replaced by the parent field. */
   clusterId: string;
+  /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the parent field. */
+  projectId: string;
+  /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the parent field. */
+  zone: string;
 }
 export interface DeleteProjectsLocationsClustersRequest {
-  /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
-  projectId?: string | undefined;
   /** Deprecated. The name of the cluster to delete. This field has been deprecated and replaced by the name field. */
   clusterId?: string | undefined;
   /** The name (project, location, cluster) of the cluster to delete. Specified in the format `projects/*\/locations/*\/clusters/*`. */
   name: string;
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
   zone?: string | undefined;
+  /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
+  projectId?: string | undefined;
 }
 export interface DeleteProjectsLocationsClustersNodePoolsRequest {
-  /** Deprecated. The name of the cluster. This field has been deprecated and replaced by the name field. */
-  clusterId?: string | undefined;
   /** Deprecated. The name of the node pool to delete. This field has been deprecated and replaced by the name field. */
   nodePoolId?: string | undefined;
-  /** The name (project, location, cluster, node pool id) of the node pool to delete. Specified in the format `projects/*\/locations/*\/clusters/*\/nodePools/*`. */
-  name: string;
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
   projectId?: string | undefined;
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
   zone?: string | undefined;
+  /** Deprecated. The name of the cluster. This field has been deprecated and replaced by the name field. */
+  clusterId?: string | undefined;
+  /** The name (project, location, cluster, node pool id) of the node pool to delete. Specified in the format `projects/*\/locations/*\/clusters/*\/nodePools/*`. */
+  name: string;
 }
 export interface DeleteProjectsZonesClustersRequest {
-  /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
-  projectId: string;
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
   zone: string;
-  /** The name (project, location, cluster) of the cluster to delete. Specified in the format `projects/*\/locations/*\/clusters/*`. */
-  name?: string | undefined;
   /** Deprecated. The name of the cluster to delete. This field has been deprecated and replaced by the name field. */
   clusterId: string;
-}
-export interface DeleteProjectsZonesClustersNodePoolsRequest {
-  /** Deprecated. The name of the node pool to delete. This field has been deprecated and replaced by the name field. */
-  nodePoolId: string;
-  /** Deprecated. The name of the cluster. This field has been deprecated and replaced by the name field. */
-  clusterId: string;
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
   projectId: string;
-  /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
-  zone: string;
-  /** The name (project, location, cluster, node pool id) of the node pool to delete. Specified in the format `projects/*\/locations/*\/clusters/*\/nodePools/*`. */
+  /** The name (project, location, cluster) of the cluster to delete. Specified in the format `projects/*\/locations/*\/clusters/*`. */
   name?: string | undefined;
 }
+export interface DeleteProjectsZonesClustersNodePoolsRequest {
+  /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
+  zone: string;
+  /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
+  projectId: string;
+  /** Deprecated. The name of the cluster. This field has been deprecated and replaced by the name field. */
+  clusterId: string;
+  /** The name (project, location, cluster, node pool id) of the node pool to delete. Specified in the format `projects/*\/locations/*\/clusters/*\/nodePools/*`. */
+  name?: string | undefined;
+  /** Deprecated. The name of the node pool to delete. This field has been deprecated and replaced by the name field. */
+  nodePoolId: string;
+}
 export interface FetchClusterUpgradeInfoProjectsLocationsClustersRequest {
-  /** Required. The name (project, location, cluster) of the cluster to get. Specified in the format `projects/*\/locations/*\/clusters/*` or `projects/*\/zones/*\/clusters/*`. */
-  name: string;
   /** API request version that initiates this operation. */
   version?: string | undefined;
-}
-export type ClusterUpgradeInfoAutoUpgradeStatusItemEnum =
-  | "UNKNOWN"
-  | "ACTIVE"
-  | "MINOR_UPGRADE_PAUSED"
-  | "UPGRADE_PAUSED";
-export type ClusterUpgradeInfoAutoUpgradeStatusItemEnumList =
-  Array<ClusterUpgradeInfoAutoUpgradeStatusItemEnum>;
-export type RollbackSafeUpgradeStatusModeEnum =
-  | "MODE_UNSPECIFIED"
-  | "KCP_MINOR_UPGRADE_ROLLBACK_SAFE_MODE";
-/** RollbackSafeUpgradeStatus contains the rollback-safe upgrade status of a cluster. */
-export interface RollbackSafeUpgradeStatus {
-  /** The mode of the rollback-safe upgrade. */
-  mode?: RollbackSafeUpgradeStatusModeEnum | undefined;
-  /** The rollback-safe mode expiration time. */
-  controlPlaneUpgradeRollbackEndTime?: string | undefined;
-  /** The GKE version that the cluster previously used before step-one upgrade. */
-  previousVersion?: string | undefined;
+  /** Required. The name (project, location, cluster) of the cluster to get. Specified in the format `projects/*\/locations/*\/clusters/*` or `projects/*\/zones/*\/clusters/*`. */
+  name: string;
 }
 export type ClusterUpgradeInfoPausedReasonItemEnum =
   | "AUTO_UPGRADE_PAUSED_REASON_UNSPECIFIED"
@@ -3122,52 +3103,71 @@ export type ClusterUpgradeInfoPausedReasonItemEnum =
   | "SYSTEM_CONFIG";
 export type ClusterUpgradeInfoPausedReasonItemEnumList =
   Array<ClusterUpgradeInfoPausedReasonItemEnum>;
+export type RollbackSafeUpgradeStatusModeEnum =
+  | "MODE_UNSPECIFIED"
+  | "KCP_MINOR_UPGRADE_ROLLBACK_SAFE_MODE";
+/** RollbackSafeUpgradeStatus contains the rollback-safe upgrade status of a cluster. */
+export interface RollbackSafeUpgradeStatus {
+  /** The mode of the rollback-safe upgrade. */
+  mode?: RollbackSafeUpgradeStatusModeEnum | undefined;
+  /** The GKE version that the cluster previously used before step-one upgrade. */
+  previousVersion?: string | undefined;
+  /** The rollback-safe mode expiration time. */
+  controlPlaneUpgradeRollbackEndTime?: string | undefined;
+}
+export type ClusterUpgradeInfoAutoUpgradeStatusItemEnum =
+  | "UNKNOWN"
+  | "ACTIVE"
+  | "MINOR_UPGRADE_PAUSED"
+  | "UPGRADE_PAUSED";
+export type ClusterUpgradeInfoAutoUpgradeStatusItemEnumList =
+  Array<ClusterUpgradeInfoAutoUpgradeStatusItemEnum>;
 export type UpgradeDetailsStartTypeEnum = "START_TYPE_UNSPECIFIED" | "AUTOMATIC" | "MANUAL";
 export type UpgradeDetailsStateEnum = "UNKNOWN" | "FAILED" | "SUCCEEDED" | "CANCELED" | "RUNNING";
 /** UpgradeDetails contains detailed information of each individual upgrade operation. */
 export interface UpgradeDetails {
-  /** The version after the upgrade. */
-  targetVersion?: string | undefined;
-  /** The end timestamp of the upgrade. */
-  endTime?: string | undefined;
-  /** The version before the upgrade. */
-  initialVersion?: string | undefined;
   /** The start type of the upgrade. */
   startType?: UpgradeDetailsStartTypeEnum | undefined;
-  /** The emulated version after the upgrade. */
-  targetEmulatedVersion?: string | undefined;
+  /** The end timestamp of the upgrade. */
+  endTime?: string | undefined;
   /** The start timestamp of the upgrade. */
   startTime?: string | undefined;
-  /** Output only. The state of the upgrade. */
-  state?: UpgradeDetailsStateEnum | undefined;
+  /** The version after the upgrade. */
+  targetVersion?: string | undefined;
+  /** The emulated version after the upgrade. */
+  targetEmulatedVersion?: string | undefined;
   /** The emulated version before the upgrade. */
   initialEmulatedVersion?: string | undefined;
+  /** The version before the upgrade. */
+  initialVersion?: string | undefined;
+  /** Output only. The state of the upgrade. */
+  state?: UpgradeDetailsStateEnum | undefined;
 }
 export type UpgradeDetailsList = Array<UpgradeDetails>;
 /** ClusterUpgradeInfo contains the upgrade information of a cluster. */
 export interface ClusterUpgradeInfo {
-  /** The auto upgrade status. */
-  autoUpgradeStatus?: ClusterUpgradeInfoAutoUpgradeStatusItemEnumList | undefined;
-  /** The cluster's rollback-safe upgrade status. */
-  rollbackSafeUpgradeStatus?: RollbackSafeUpgradeStatus | undefined;
-  /** The cluster's current minor version's end of extended support timestamp. */
-  endOfExtendedSupportTimestamp?: string | undefined;
   /** The auto upgrade paused reason. */
   pausedReason?: ClusterUpgradeInfoPausedReasonItemEnumList | undefined;
+  /** The cluster's rollback-safe upgrade status. */
+  rollbackSafeUpgradeStatus?: RollbackSafeUpgradeStatus | undefined;
+  /** The auto upgrade status. */
+  autoUpgradeStatus?: ClusterUpgradeInfoAutoUpgradeStatusItemEnumList | undefined;
   /** The cluster's current minor version's end of standard support timestamp. */
   endOfStandardSupportTimestamp?: string | undefined;
-  /** patch_target_version indicates the target version for patch upgrade. */
-  patchTargetVersion?: string | undefined;
   /** minor_target_version indicates the target version for minor upgrade. */
   minorTargetVersion?: string | undefined;
+  /** The cluster's current minor version's end of extended support timestamp. */
+  endOfExtendedSupportTimestamp?: string | undefined;
+  /** patch_target_version indicates the target version for patch upgrade. */
+  patchTargetVersion?: string | undefined;
   /** The list of past auto upgrades. */
   upgradeDetails?: UpgradeDetailsList | undefined;
 }
 export interface FetchClusterUpgradeInfoProjectsZonesClustersRequest {
-  /** API request version that initiates this operation. */
-  version?: string | undefined;
   /** Required. The name (project, location, cluster) of the cluster to get. Specified in the format `projects/*\/locations/*\/clusters/*` or `projects/*\/zones/*\/clusters/*`. */
   name: string;
+  /** API request version that initiates this operation. */
+  version?: string | undefined;
 }
 export interface FetchNodePoolUpgradeInfoProjectsLocationsClustersNodePoolsRequest {
   /** Required. The name (project, location, cluster, node pool) of the node pool to get. Specified in the format `projects/*\/locations/*\/clusters/*\/nodePools/*` or `projects/*\/zones/*\/clusters/*\/nodePools/*`. */
@@ -3175,14 +3175,6 @@ export interface FetchNodePoolUpgradeInfoProjectsLocationsClustersNodePoolsReque
   /** API request version that initiates this operation. */
   version?: string | undefined;
 }
-export type NodePoolUpgradeInfoPausedReasonItemEnum =
-  | "AUTO_UPGRADE_PAUSED_REASON_UNSPECIFIED"
-  | "MAINTENANCE_WINDOW"
-  | "MAINTENANCE_EXCLUSION_NO_UPGRADES"
-  | "MAINTENANCE_EXCLUSION_NO_MINOR_UPGRADES"
-  | "SYSTEM_CONFIG";
-export type NodePoolUpgradeInfoPausedReasonItemEnumList =
-  Array<NodePoolUpgradeInfoPausedReasonItemEnum>;
 export type NodePoolUpgradeInfoAutoUpgradeStatusItemEnum =
   | "UNKNOWN"
   | "ACTIVE"
@@ -3195,24 +3187,32 @@ export interface CustomImageInfo {
   /** Output only. The human-readable upgrade message for the custom image. */
   upgradeMessage?: string | undefined;
 }
+export type NodePoolUpgradeInfoPausedReasonItemEnum =
+  | "AUTO_UPGRADE_PAUSED_REASON_UNSPECIFIED"
+  | "MAINTENANCE_WINDOW"
+  | "MAINTENANCE_EXCLUSION_NO_UPGRADES"
+  | "MAINTENANCE_EXCLUSION_NO_MINOR_UPGRADES"
+  | "SYSTEM_CONFIG";
+export type NodePoolUpgradeInfoPausedReasonItemEnumList =
+  Array<NodePoolUpgradeInfoPausedReasonItemEnum>;
 /** NodePoolUpgradeInfo contains the upgrade information of a node pool. */
 export interface NodePoolUpgradeInfo {
-  /** The list of past auto upgrades. */
-  upgradeDetails?: UpgradeDetailsList | undefined;
-  /** The auto upgrade paused reason. */
-  pausedReason?: NodePoolUpgradeInfoPausedReasonItemEnumList | undefined;
-  /** The node pool's current minor version's end of extended support timestamp. */
-  endOfExtendedSupportTimestamp?: string | undefined;
   /** The auto upgrade status. */
   autoUpgradeStatus?: NodePoolUpgradeInfoAutoUpgradeStatusItemEnumList | undefined;
-  /** patch_target_version indicates the target version for patch upgrade. */
-  patchTargetVersion?: string | undefined;
   /** The node pool's current minor version's end of standard support timestamp. */
   endOfStandardSupportTimestamp?: string | undefined;
+  /** patch_target_version indicates the target version for patch upgrade. */
+  patchTargetVersion?: string | undefined;
   /** minor_target_version indicates the target version for minor upgrade. */
   minorTargetVersion?: string | undefined;
   /** Output only. Upgrade info for the node pool specific to the usage of custom images. */
   customImageInfo?: CustomImageInfo | undefined;
+  /** The list of past auto upgrades. */
+  upgradeDetails?: UpgradeDetailsList | undefined;
+  /** The node pool's current minor version's end of extended support timestamp. */
+  endOfExtendedSupportTimestamp?: string | undefined;
+  /** The auto upgrade paused reason. */
+  pausedReason?: NodePoolUpgradeInfoPausedReasonItemEnumList | undefined;
 }
 export interface FetchNodePoolUpgradeInfoProjectsZonesClustersNodePoolsRequest {
   /** Required. The name (project, location, cluster, node pool) of the node pool to get. Specified in the format `projects/*\/locations/*\/clusters/*\/nodePools/*` or `projects/*\/zones/*\/clusters/*\/nodePools/*`. */
@@ -3224,43 +3224,43 @@ export interface GetJwksProjectsLocationsClustersRequest {
   /** The cluster (project, location, cluster name) to get keys for. Specified in the format `projects/*\/locations/*\/clusters/*`. */
   parent: string;
 }
-/** Jwk is a JSON Web Key as specified in RFC 7517 */
-export interface Jwk {
-  /** Used for ECDSA keys. */
-  crv?: string | undefined;
-  /** Key ID. */
-  kid?: string | undefined;
-  /** Used for RSA keys. */
-  n?: string | undefined;
-  /** Used for ECDSA keys. */
-  y?: string | undefined;
-  /** Permitted uses for the public keys. */
-  use?: string | undefined;
-  /** Key Type. */
-  kty?: string | undefined;
-  /** Used for RSA keys. */
-  e?: string | undefined;
-  /** Used for ECDSA keys. */
-  x?: string | undefined;
-  /** Algorithm. */
-  alg?: string | undefined;
-}
-export type JwkList = Array<Jwk>;
 /** RFC-2616: cache control support */
 export interface HttpCacheControlResponseHeader {
+  /** 14.6 response cache age, in seconds since the response is generated */
+  age?: string | undefined;
   /** 14.9 request and response directives */
   directive?: string | undefined;
   /** 14.21 response cache expires, in RFC 1123 date format */
   expires?: string | undefined;
-  /** 14.6 response cache age, in seconds since the response is generated */
-  age?: string | undefined;
 }
+/** Jwk is a JSON Web Key as specified in RFC 7517 */
+export interface Jwk {
+  /** Used for RSA keys. */
+  n?: string | undefined;
+  /** Used for ECDSA keys. */
+  x?: string | undefined;
+  /** Used for ECDSA keys. */
+  y?: string | undefined;
+  /** Key ID. */
+  kid?: string | undefined;
+  /** Permitted uses for the public keys. */
+  use?: string | undefined;
+  /** Used for RSA keys. */
+  e?: string | undefined;
+  /** Key Type. */
+  kty?: string | undefined;
+  /** Algorithm. */
+  alg?: string | undefined;
+  /** Used for ECDSA keys. */
+  crv?: string | undefined;
+}
+export type JwkList = Array<Jwk>;
 /** GetJSONWebKeysResponse is a valid JSON Web Key Set as specified in rfc 7517 */
 export interface GetJSONWebKeysResponse {
-  /** The public component of the keys used by the cluster to sign token requests. */
-  keys?: JwkList | undefined;
   /** For HTTP requests, this field is automatically extracted into the Cache-Control HTTP header. */
   cacheHeader?: HttpCacheControlResponseHeader | undefined;
+  /** The public component of the keys used by the cluster to sign token requests. */
+  keys?: JwkList | undefined;
 }
 export interface GetOpenid_configurationProjectsLocationsClustersWell_knownRequest {
   /** The cluster (project, location, cluster name) to get the discovery document for. Specified in the format `projects/*\/locations/*\/clusters/*`. */
@@ -3268,62 +3268,62 @@ export interface GetOpenid_configurationProjectsLocationsClustersWell_knownReque
 }
 /** GetOpenIDConfigResponse is an OIDC discovery document for the cluster. See the OpenID Connect Discovery 1.0 specification for details. */
 export interface GetOpenIDConfigResponse {
-  /** Supported grant types. */
-  grant_types?: StringList | undefined;
-  /** supported ID Token signing Algorithms. */
-  id_token_signing_alg_values_supported?: StringList | undefined;
-  /** OIDC Issuer. */
-  issuer?: string | undefined;
-  /** Supported claims. */
-  claims_supported?: StringList | undefined;
-  /** Supported subject types. */
-  subject_types_supported?: StringList | undefined;
-  /** JSON Web Key uri. */
-  jwks_uri?: string | undefined;
   /** For HTTP requests, this field is automatically extracted into the Cache-Control HTTP header. */
   cacheHeader?: HttpCacheControlResponseHeader | undefined;
+  /** Supported subject types. */
+  subject_types_supported?: StringList | undefined;
+  /** OIDC Issuer. */
+  issuer?: string | undefined;
+  /** supported ID Token signing Algorithms. */
+  id_token_signing_alg_values_supported?: StringList | undefined;
+  /** JSON Web Key uri. */
+  jwks_uri?: string | undefined;
   /** Supported response types. */
   response_types_supported?: StringList | undefined;
+  /** Supported claims. */
+  claims_supported?: StringList | undefined;
+  /** Supported grant types. */
+  grant_types?: StringList | undefined;
 }
 export interface GetProjectsLocationsClustersRequest {
-  /** Deprecated. The name of the cluster to retrieve. This field has been deprecated and replaced by the name field. */
-  clusterId?: string | undefined;
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
   projectId?: string | undefined;
   /** The name (project, location, cluster) of the cluster to retrieve. Specified in the format `projects/*\/locations/*\/clusters/*`. */
   name: string;
+  /** Deprecated. The name of the cluster to retrieve. This field has been deprecated and replaced by the name field. */
+  clusterId?: string | undefined;
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
   zone?: string | undefined;
 }
 export interface GetProjectsLocationsClustersNodePoolsRequest {
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
   zone?: string | undefined;
-  /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
-  projectId?: string | undefined;
-  /** Deprecated. The name of the cluster. This field has been deprecated and replaced by the name field. */
-  clusterId?: string | undefined;
-  /** The name (project, location, cluster, node pool id) of the node pool to get. Specified in the format `projects/*\/locations/*\/clusters/*\/nodePools/*`. */
-  name: string;
   /** Deprecated. The name of the node pool. This field has been deprecated and replaced by the name field. */
   nodePoolId?: string | undefined;
+  /** Deprecated. The name of the cluster. This field has been deprecated and replaced by the name field. */
+  clusterId?: string | undefined;
+  /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
+  projectId?: string | undefined;
+  /** The name (project, location, cluster, node pool id) of the node pool to get. Specified in the format `projects/*\/locations/*\/clusters/*\/nodePools/*`. */
+  name: string;
 }
 export interface GetProjectsLocationsOperationsRequest {
+  /** The name (project, location, operation id) of the operation to get. Specified in the format `projects/*\/locations/*\/operations/*`. */
+  name: string;
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
   projectId?: string | undefined;
   /** Deprecated. The server-assigned `name` of the operation. This field has been deprecated and replaced by the name field. */
   operationId?: string | undefined;
-  /** The name (project, location, operation id) of the operation to get. Specified in the format `projects/*\/locations/*\/operations/*`. */
-  name: string;
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
   zone?: string | undefined;
 }
 export interface GetProjectsZonesClustersRequest {
   /** Deprecated. The name of the cluster to retrieve. This field has been deprecated and replaced by the name field. */
   clusterId: string;
-  /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
-  zone: string;
   /** The name (project, location, cluster) of the cluster to retrieve. Specified in the format `projects/*\/locations/*\/clusters/*`. */
   name?: string | undefined;
+  /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
+  zone: string;
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
   projectId: string;
 }
@@ -3332,28 +3332,28 @@ export interface GetProjectsZonesClustersNodePoolsRequest {
   nodePoolId: string;
   /** Deprecated. The name of the cluster. This field has been deprecated and replaced by the name field. */
   clusterId: string;
-  /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
-  projectId: string;
-  /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
-  zone: string;
   /** The name (project, location, cluster, node pool id) of the node pool to get. Specified in the format `projects/*\/locations/*\/clusters/*\/nodePools/*`. */
   name?: string | undefined;
+  /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
+  zone: string;
+  /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
+  projectId: string;
 }
 export interface GetProjectsZonesOperationsRequest {
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
   zone: string;
-  /** The name (project, location, operation id) of the operation to get. Specified in the format `projects/*\/locations/*\/operations/*`. */
-  name?: string | undefined;
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
   projectId: string;
   /** Deprecated. The server-assigned `name` of the operation. This field has been deprecated and replaced by the name field. */
   operationId: string;
+  /** The name (project, location, operation id) of the operation to get. Specified in the format `projects/*\/locations/*\/operations/*`. */
+  name?: string | undefined;
 }
 export interface GetServerConfigProjectsLocationsRequest {
-  /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
-  projectId?: string | undefined;
   /** The name (project and location) of the server config to get, specified in the format `projects/*\/locations/*`. */
   name: string;
+  /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
+  projectId?: string | undefined;
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) to return operations for. This field has been deprecated and replaced by the name field. */
   zone?: string | undefined;
 }
@@ -3373,30 +3373,30 @@ export interface AvailableVersion {
 export type AvailableVersionList = Array<AvailableVersion>;
 /** ReleaseChannelConfig exposes configuration for a release channel. */
 export interface ReleaseChannelConfig {
-  /** The release channel this configuration applies to. */
-  channel?: ReleaseChannelConfigChannelEnum | undefined;
-  /** Output only. List of preview versions for the channel. */
-  previewVersions?: StringList | undefined;
-  /** The auto upgrade target version for clusters on the channel. */
-  upgradeTargetVersion?: string | undefined;
   /** List of valid versions for the channel. */
   validVersions?: StringList | undefined;
-  /** The default version for newly created clusters on the channel. */
-  defaultVersion?: string | undefined;
+  /** The release channel this configuration applies to. */
+  channel?: ReleaseChannelConfigChannelEnum | undefined;
   /** Output only. List of custom versions for the channel. */
   customVersions?: StringList | undefined;
   /** Deprecated. This field has been deprecated and replaced with the valid_versions field. */
   availableVersions?: AvailableVersionList | undefined;
+  /** The auto upgrade target version for clusters on the channel. */
+  upgradeTargetVersion?: string | undefined;
+  /** Output only. List of preview versions for the channel. */
+  previewVersions?: StringList | undefined;
+  /** The default version for newly created clusters on the channel. */
+  defaultVersion?: string | undefined;
 }
 export type ReleaseChannelConfigList = Array<ReleaseChannelConfig>;
 /** Windows server version. */
 export interface WindowsVersion {
+  /** Windows server image type */
+  imageType?: string | undefined;
   /** Windows server build number */
   osVersion?: string | undefined;
   /** Mainstream support end date */
   supportEndDate?: Container_Date | undefined;
-  /** Windows server image type */
-  imageType?: string | undefined;
 }
 export type WindowsVersionList = Array<WindowsVersion>;
 /** Windows server versions. */
@@ -3407,33 +3407,31 @@ export interface WindowsVersions {
 export type WindowsVersionsMap = { [key: string]: WindowsVersions | undefined };
 /** Kubernetes Engine service configuration. */
 export interface ServerConfig {
-  /** List of release channel configurations. */
-  channels?: ReleaseChannelConfigList | undefined;
   /** List of valid image types. */
   validImageTypes?: StringList | undefined;
-  /** Maps of Kubernetes version and supported Windows server versions. */
-  windowsVersionMaps?: WindowsVersionsMap | undefined;
-  /** Default image type. */
-  defaultImageType?: string | undefined;
   /** Version of Kubernetes the service deploys by default. */
   defaultClusterVersion?: string | undefined;
+  /** Default image type. */
+  defaultImageType?: string | undefined;
+  /** List of release channel configurations. */
+  channels?: ReleaseChannelConfigList | undefined;
   /** List of valid master versions, in descending order. */
   validMasterVersions?: StringList | undefined;
+  /** Maps of Kubernetes version and supported Windows server versions. */
+  windowsVersionMaps?: WindowsVersionsMap | undefined;
   /** List of valid node upgrade target versions, in descending order. */
   validNodeVersions?: StringList | undefined;
 }
 export interface GetServerconfigProjectsZonesRequest {
-  /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
-  projectId: string;
-  /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) to return operations for. This field has been deprecated and replaced by the name field. */
-  zone: string;
   /** The name (project and location) of the server config to get, specified in the format `projects/*\/locations/*`. */
   name?: string | undefined;
+  /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) to return operations for. This field has been deprecated and replaced by the name field. */
+  zone: string;
+  /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
+  projectId: string;
 }
 /** SetLegacyAbacRequest enables or disables the ABAC authorization mechanism for a cluster. */
 export interface SetLegacyAbacRequest {
-  /** Required. Whether ABAC authorization will be enabled in the cluster. */
-  enabled?: boolean | undefined;
   /** The name (project, location, cluster name) of the cluster to set legacy abac. Specified in the format `projects/*\/locations/*\/clusters/*`. */
   name?: string | undefined;
   /** Deprecated. The name of the cluster to update. This field has been deprecated and replaced by the name field. */
@@ -3442,27 +3440,29 @@ export interface SetLegacyAbacRequest {
   projectId?: string | undefined;
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
   zone?: string | undefined;
+  /** Required. Whether ABAC authorization will be enabled in the cluster. */
+  enabled?: boolean | undefined;
 }
 export interface LegacyAbacProjectsZonesClustersRequest extends Omit<
   SetLegacyAbacRequest,
   "clusterId" | "projectId" | "zone"
 > {
+  /** Deprecated. The name of the cluster to update. This field has been deprecated and replaced by the name field. */
+  clusterId: string;
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
   zone: string;
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
   projectId: string;
-  /** Deprecated. The name of the cluster to update. This field has been deprecated and replaced by the name field. */
-  clusterId: string;
 }
 export interface ListProjectsAggregatedUsableSubnetworksRequest {
-  /** Filtering currently only supports equality on the networkProjectId and must be in the form: "networkProjectId=[PROJECTID]", where `networkProjectId` is the project which owns the listed subnetworks. This defaults to the parent project ID. */
-  filter?: string | undefined;
-  /** Specifies a page token to use. Set this to the nextPageToken returned by previous list requests to get the next page of results. */
-  pageToken?: string | undefined;
   /** Required. The parent project where subnetworks are usable. Specified in the format `projects/*`. */
   parent: string;
   /** The max number of results per page that should be returned. If the number of available results is larger than `page_size`, a `next_page_token` is returned which can be used to get the next page of results in subsequent requests. Acceptable values are 0 to 500, inclusive. (Default: 500) */
   pageSize?: number | undefined;
+  /** Specifies a page token to use. Set this to the nextPageToken returned by previous list requests to get the next page of results. */
+  pageToken?: string | undefined;
+  /** Filtering currently only supports equality on the networkProjectId and must be in the form: "networkProjectId=[PROJECTID]", where `networkProjectId` is the project which owns the listed subnetworks. This defaults to the parent project ID. */
+  filter?: string | undefined;
 }
 export type UsableSubnetworkSecondaryRangeStatusEnum =
   | "UNKNOWN"
@@ -3472,34 +3472,34 @@ export type UsableSubnetworkSecondaryRangeStatusEnum =
   | "IN_USE_MANAGED_POD";
 /** Secondary IP range of a usable subnetwork. */
 export interface UsableSubnetworkSecondaryRange {
-  /** The name associated with this subnetwork secondary range, used when adding an alias IP range to a VM instance. */
-  rangeName?: string | undefined;
   /** The range of IP addresses belonging to this subnetwork secondary range. */
   ipCidrRange?: string | undefined;
   /** This field is to determine the status of the secondary range programmably. */
   status?: UsableSubnetworkSecondaryRangeStatusEnum | undefined;
+  /** The name associated with this subnetwork secondary range, used when adding an alias IP range to a VM instance. */
+  rangeName?: string | undefined;
 }
 export type UsableSubnetworkSecondaryRangeList = Array<UsableSubnetworkSecondaryRange>;
 /** UsableSubnetwork resource returns the subnetwork name, its associated network and the primary CIDR range. */
 export interface UsableSubnetwork {
-  /** Subnetwork Name. Example: projects/my-project/regions/us-central1/subnetworks/my-subnet */
-  subnetwork?: string | undefined;
-  /** The range of internal addresses that are owned by this subnetwork. */
-  ipCidrRange?: string | undefined;
   /** Secondary IP ranges. */
   secondaryIpRanges?: UsableSubnetworkSecondaryRangeList | undefined;
+  /** The range of internal addresses that are owned by this subnetwork. */
+  ipCidrRange?: string | undefined;
   /** Network Name. Example: projects/my-project/global/networks/my-network */
   network?: string | undefined;
+  /** Subnetwork Name. Example: projects/my-project/regions/us-central1/subnetworks/my-subnet */
+  subnetwork?: string | undefined;
   /** A human readable status message representing the reasons for cases where the caller cannot use the secondary ranges under the subnet. For example if the secondary_ip_ranges is empty due to a permission issue, an insufficient permission message will be given by status_message. */
   statusMessage?: string | undefined;
 }
 export type UsableSubnetworkList = Array<UsableSubnetwork>;
 /** ListUsableSubnetworksResponse is the response of ListUsableSubnetworksRequest. */
 export interface ListUsableSubnetworksResponse {
-  /** A list of usable subnetworks in the specified network project. */
-  subnetworks?: UsableSubnetworkList | undefined;
   /** This token allows you to get the next page of results for list requests. If the number of results is larger than `page_size`, use the `next_page_token` as a value for the query parameter `page_token` in the next request. The value will become empty when there are no more pages. */
   nextPageToken?: string | undefined;
+  /** A list of usable subnetworks in the specified network project. */
+  subnetworks?: UsableSubnetworkList | undefined;
 }
 export interface ListProjectsLocationsRequest {
   /** Required. Contains the name of the resource requested. Specified in the format `projects/*`. */
@@ -3508,12 +3508,12 @@ export interface ListProjectsLocationsRequest {
 export type LocationTypeEnum = "LOCATION_TYPE_UNSPECIFIED" | "ZONE" | "REGION";
 /** Location returns the location name, and if the location is recommended for GKE cluster scheduling. */
 export interface Location {
+  /** Contains the name of the resource requested. Specified in the format `projects/*\/locations/*`. */
+  name?: string | undefined;
   /** Contains the type of location this Location is for. Regional or Zonal. */
   type?: LocationTypeEnum | undefined;
   /** Whether the location is recommended for GKE cluster scheduling. */
   recommended?: boolean | undefined;
-  /** Contains the name of the resource requested. Specified in the format `projects/*\/locations/*`. */
-  name?: string | undefined;
 }
 export type LocationList = Array<Location>;
 /** ListLocationsResponse returns the list of all GKE locations and their recommendation state. */
@@ -3524,12 +3524,12 @@ export interface ListLocationsResponse {
   nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsClustersRequest {
-  /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the parent field. */
-  projectId?: string | undefined;
-  /** The parent (project and location) where the clusters will be listed. Specified in the format `projects/*\/locations/*`. Location "-" matches all zones and all regions. */
-  parent: string;
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides, or "-" for all zones. This field has been deprecated and replaced by the parent field. */
   zone?: string | undefined;
+  /** The parent (project and location) where the clusters will be listed. Specified in the format `projects/*\/locations/*`. Location "-" matches all zones and all regions. */
+  parent: string;
+  /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the parent field. */
+  projectId?: string | undefined;
 }
 export type ClusterList = Array<Cluster>;
 /** ListClustersResponse is the result of ListClustersRequest. */
@@ -3540,14 +3540,14 @@ export interface ListClustersResponse {
   clusters?: ClusterList | undefined;
 }
 export interface ListProjectsLocationsClustersNodePoolsRequest {
-  /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the parent field. */
-  projectId?: string | undefined;
   /** Deprecated. The name of the cluster. This field has been deprecated and replaced by the parent field. */
   clusterId?: string | undefined;
-  /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the parent field. */
-  zone?: string | undefined;
   /** The parent (project, location, cluster name) where the node pools will be listed. Specified in the format `projects/*\/locations/*\/clusters/*`. */
   parent: string;
+  /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the parent field. */
+  projectId?: string | undefined;
+  /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the parent field. */
+  zone?: string | undefined;
 }
 /** ListNodePoolsResponse is the result of ListNodePoolsRequest. */
 export interface ListNodePoolsResponse {
@@ -3555,10 +3555,10 @@ export interface ListNodePoolsResponse {
   nodePools?: NodePoolList | undefined;
 }
 export interface ListProjectsLocationsOperationsRequest {
-  /** The parent (project and location) where the operations will be listed. Specified in the format `projects/*\/locations/*`. Location "-" matches all zones and all regions. */
-  parent: string;
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) to return operations for, or `-` for all zones. This field has been deprecated and replaced by the parent field. */
   zone?: string | undefined;
+  /** The parent (project and location) where the operations will be listed. Specified in the format `projects/*\/locations/*`. Location "-" matches all zones and all regions. */
+  parent: string;
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the parent field. */
   projectId?: string | undefined;
 }
@@ -3571,18 +3571,18 @@ export interface ListOperationsResponse {
   missingZones?: StringList | undefined;
 }
 export interface ListProjectsZonesClustersRequest {
+  /** The parent (project and location) where the clusters will be listed. Specified in the format `projects/*\/locations/*`. Location "-" matches all zones and all regions. */
+  parent?: string | undefined;
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides, or "-" for all zones. This field has been deprecated and replaced by the parent field. */
   zone: string;
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the parent field. */
   projectId: string;
-  /** The parent (project and location) where the clusters will be listed. Specified in the format `projects/*\/locations/*`. Location "-" matches all zones and all regions. */
-  parent?: string | undefined;
 }
 export interface ListProjectsZonesClustersNodePoolsRequest {
-  /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the parent field. */
-  projectId: string;
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the parent field. */
   zone: string;
+  /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the parent field. */
+  projectId: string;
   /** The parent (project, location, cluster name) where the node pools will be listed. Specified in the format `projects/*\/locations/*\/clusters/*`. */
   parent?: string | undefined;
   /** Deprecated. The name of the cluster. This field has been deprecated and replaced by the parent field. */
@@ -3598,68 +3598,68 @@ export interface ListProjectsZonesOperationsRequest {
 }
 /** SetLocationsRequest sets the locations of the cluster. */
 export interface SetLocationsRequest {
-  /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
-  projectId?: string | undefined;
-  /** The name (project, location, cluster) of the cluster to set locations. Specified in the format `projects/*\/locations/*\/clusters/*`. */
-  name?: string | undefined;
   /** Deprecated. The name of the cluster to upgrade. This field has been deprecated and replaced by the name field. */
   clusterId?: string | undefined;
-  /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
-  zone?: string | undefined;
+  /** The name (project, location, cluster) of the cluster to set locations. Specified in the format `projects/*\/locations/*\/clusters/*`. */
+  name?: string | undefined;
   /** Required. The desired list of Google Compute Engine [zones](https://cloud.google.com/compute/docs/zones#available) in which the cluster's nodes should be located. Changing the locations a cluster is in will result in nodes being either created or removed from the cluster, depending on whether locations are being added or removed. This list must always include the cluster's primary zone. */
   locations?: StringList | undefined;
+  /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
+  zone?: string | undefined;
+  /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
+  projectId?: string | undefined;
 }
 export interface LocationsProjectsZonesClustersRequest extends Omit<
   SetLocationsRequest,
-  "projectId" | "clusterId" | "zone"
+  "clusterId" | "zone" | "projectId"
 > {
-  /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
-  projectId: string;
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
   zone: string;
   /** Deprecated. The name of the cluster to upgrade. This field has been deprecated and replaced by the name field. */
   clusterId: string;
+  /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
+  projectId: string;
 }
 /** SetLoggingServiceRequest sets the logging service of a cluster. */
 export interface SetLoggingServiceRequest {
+  /** Deprecated. The name of the cluster to upgrade. This field has been deprecated and replaced by the name field. */
+  clusterId?: string | undefined;
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
   zone?: string | undefined;
+  /** Required. The logging service the cluster should use to write logs. Currently available options: * `logging.googleapis.com/kubernetes` - The Cloud Logging service with a Kubernetes-native resource model * `logging.googleapis.com` - The legacy Cloud Logging service (no longer available as of GKE 1.15). * `none` - no logs will be exported from the cluster. If left as an empty string,`logging.googleapis.com/kubernetes` will be used for GKE 1.14+ or `logging.googleapis.com` for earlier versions. */
+  loggingService?: string | undefined;
   /** The name (project, location, cluster) of the cluster to set logging. Specified in the format `projects/*\/locations/*\/clusters/*`. */
   name?: string | undefined;
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
   projectId?: string | undefined;
-  /** Deprecated. The name of the cluster to upgrade. This field has been deprecated and replaced by the name field. */
-  clusterId?: string | undefined;
-  /** Required. The logging service the cluster should use to write logs. Currently available options: * `logging.googleapis.com/kubernetes` - The Cloud Logging service with a Kubernetes-native resource model * `logging.googleapis.com` - The legacy Cloud Logging service (no longer available as of GKE 1.15). * `none` - no logs will be exported from the cluster. If left as an empty string,`logging.googleapis.com/kubernetes` will be used for GKE 1.14+ or `logging.googleapis.com` for earlier versions. */
-  loggingService?: string | undefined;
 }
 export interface LoggingProjectsZonesClustersRequest extends Omit<
   SetLoggingServiceRequest,
-  "zone" | "projectId" | "clusterId"
+  "clusterId" | "zone" | "projectId"
 > {
-  /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
-  projectId: string;
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
   zone: string;
   /** Deprecated. The name of the cluster to upgrade. This field has been deprecated and replaced by the name field. */
   clusterId: string;
+  /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
+  projectId: string;
 }
 /** UpdateMasterRequest updates the master of the cluster. */
 export interface UpdateMasterRequest {
-  /** The name (project, location, cluster) of the cluster to update. Specified in the format `projects/*\/locations/*\/clusters/*`. */
-  name?: string | undefined;
-  /** Deprecated. The name of the cluster to upgrade. This field has been deprecated and replaced by the name field. */
-  clusterId?: string | undefined;
-  /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
-  projectId?: string | undefined;
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
   zone?: string | undefined;
+  /** Deprecated. The name of the cluster to upgrade. This field has been deprecated and replaced by the name field. */
+  clusterId?: string | undefined;
   /** Required. The Kubernetes version to change the master to. Users may specify either explicit versions offered by Kubernetes Engine or version aliases, which have the following behavior: - "latest": picks the highest valid Kubernetes version - "1.X": picks the highest valid patch+gke.N patch in the 1.X version - "1.X.Y": picks the highest valid gke.N patch in the 1.X.Y version - "1.X.Y-gke.N": picks an explicit Kubernetes version - "-": picks the default Kubernetes version */
   masterVersion?: string | undefined;
+  /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
+  projectId?: string | undefined;
+  /** The name (project, location, cluster) of the cluster to update. Specified in the format `projects/*\/locations/*\/clusters/*`. */
+  name?: string | undefined;
 }
 export interface MasterProjectsZonesClustersRequest extends Omit<
   UpdateMasterRequest,
-  "clusterId" | "projectId" | "zone"
+  "zone" | "clusterId" | "projectId"
 > {
   /** Deprecated. The name of the cluster to upgrade. This field has been deprecated and replaced by the name field. */
   clusterId: string;
@@ -3670,68 +3670,68 @@ export interface MasterProjectsZonesClustersRequest extends Omit<
 }
 /** SetMonitoringServiceRequest sets the monitoring service of a cluster. */
 export interface SetMonitoringServiceRequest {
-  /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
-  projectId?: string | undefined;
-  /** Required. The monitoring service the cluster should use to write metrics. Currently available options: * `monitoring.googleapis.com/kubernetes` - The Cloud Monitoring service with a Kubernetes-native resource model * `monitoring.googleapis.com` - The legacy Cloud Monitoring service (no longer available as of GKE 1.15). * `none` - No metrics will be exported from the cluster. If left as an empty string,`monitoring.googleapis.com/kubernetes` will be used for GKE 1.14+ or `monitoring.googleapis.com` for earlier versions. */
-  monitoringService?: string | undefined;
   /** The name (project, location, cluster) of the cluster to set monitoring. Specified in the format `projects/*\/locations/*\/clusters/*`. */
   name?: string | undefined;
   /** Deprecated. The name of the cluster to upgrade. This field has been deprecated and replaced by the name field. */
   clusterId?: string | undefined;
+  /** Required. The monitoring service the cluster should use to write metrics. Currently available options: * `monitoring.googleapis.com/kubernetes` - The Cloud Monitoring service with a Kubernetes-native resource model * `monitoring.googleapis.com` - The legacy Cloud Monitoring service (no longer available as of GKE 1.15). * `none` - No metrics will be exported from the cluster. If left as an empty string,`monitoring.googleapis.com/kubernetes` will be used for GKE 1.14+ or `monitoring.googleapis.com` for earlier versions. */
+  monitoringService?: string | undefined;
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
   zone?: string | undefined;
+  /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
+  projectId?: string | undefined;
 }
 export interface MonitoringProjectsZonesClustersRequest extends Omit<
   SetMonitoringServiceRequest,
-  "projectId" | "clusterId" | "zone"
+  "clusterId" | "zone" | "projectId"
 > {
-  /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
-  zone: string;
   /** Deprecated. The name of the cluster to upgrade. This field has been deprecated and replaced by the name field. */
   clusterId: string;
+  /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
+  zone: string;
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
   projectId: string;
 }
 /** SetLabelsRequest sets the Google Cloud Platform labels on a Google Container Engine cluster, which will in turn set them for Google Compute Engine resources used by that cluster */
 export interface SetLabelsRequest {
-  /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
-  zone?: string | undefined;
-  /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
-  projectId?: string | undefined;
-  /** Required. The fingerprint of the previous set of labels for this resource, used to detect conflicts. The fingerprint is initially generated by Kubernetes Engine and changes after every request to modify or update labels. You must always provide an up-to-date fingerprint hash when updating or changing labels. Make a `get()` request to the resource to get the latest fingerprint. */
-  labelFingerprint?: string | undefined;
   /** Deprecated. The name of the cluster. This field has been deprecated and replaced by the name field. */
   clusterId?: string | undefined;
-  /** Required. The labels to set for that cluster. */
-  resourceLabels?: StringMap | undefined;
+  /** Required. The fingerprint of the previous set of labels for this resource, used to detect conflicts. The fingerprint is initially generated by Kubernetes Engine and changes after every request to modify or update labels. You must always provide an up-to-date fingerprint hash when updating or changing labels. Make a `get()` request to the resource to get the latest fingerprint. */
+  labelFingerprint?: string | undefined;
   /** The name (project, location, cluster name) of the cluster to set labels. Specified in the format `projects/*\/locations/*\/clusters/*`. */
   name?: string | undefined;
+  /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
+  zone?: string | undefined;
+  /** Required. The labels to set for that cluster. */
+  resourceLabels?: StringMap | undefined;
+  /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
+  projectId?: string | undefined;
 }
 export interface ResourceLabelsProjectsZonesClustersRequest extends Omit<
   SetLabelsRequest,
-  "zone" | "projectId" | "clusterId"
+  "clusterId" | "zone" | "projectId"
 > {
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
   projectId: string;
-  /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
-  zone: string;
   /** Deprecated. The name of the cluster. This field has been deprecated and replaced by the name field. */
   clusterId: string;
+  /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
+  zone: string;
 }
 /** RollbackNodePoolUpgradeRequest rollbacks the previously Aborted or Failed NodePool upgrade. This will be an no-op if the last upgrade successfully completed. */
 export interface RollbackNodePoolUpgradeRequest {
+  /** Deprecated. The name of the node pool to rollback. This field has been deprecated and replaced by the name field. */
+  nodePoolId?: string | undefined;
+  /** The name (project, location, cluster, node pool id) of the node poll to rollback upgrade. Specified in the format `projects/*\/locations/*\/clusters/*\/nodePools/*`. */
+  name?: string | undefined;
   /** Deprecated. The name of the cluster to rollback. This field has been deprecated and replaced by the name field. */
   clusterId?: string | undefined;
   /** Option for rollback to ignore the PodDisruptionBudget. Default value is false. */
   respectPdb?: boolean | undefined;
-  /** The name (project, location, cluster, node pool id) of the node poll to rollback upgrade. Specified in the format `projects/*\/locations/*\/clusters/*\/nodePools/*`. */
-  name?: string | undefined;
-  /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
-  projectId?: string | undefined;
-  /** Deprecated. The name of the node pool to rollback. This field has been deprecated and replaced by the name field. */
-  nodePoolId?: string | undefined;
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
   zone?: string | undefined;
+  /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
+  projectId?: string | undefined;
 }
 export interface RollbackProjectsLocationsClustersNodePoolsRequest extends Omit<
   RollbackNodePoolUpgradeRequest,
@@ -3742,16 +3742,16 @@ export interface RollbackProjectsLocationsClustersNodePoolsRequest extends Omit<
 }
 export interface RollbackProjectsZonesClustersNodePoolsRequest extends Omit<
   RollbackNodePoolUpgradeRequest,
-  "clusterId" | "projectId" | "nodePoolId" | "zone"
+  "nodePoolId" | "clusterId" | "zone" | "projectId"
 > {
-  /** Deprecated. The name of the cluster to rollback. This field has been deprecated and replaced by the name field. */
-  clusterId: string;
+  /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
+  projectId: string;
   /** Deprecated. The name of the node pool to rollback. This field has been deprecated and replaced by the name field. */
   nodePoolId: string;
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
   zone: string;
-  /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
-  projectId: string;
+  /** Deprecated. The name of the cluster to rollback. This field has been deprecated and replaced by the name field. */
+  clusterId: string;
 }
 export interface SetAddonsProjectsLocationsClustersRequest extends Omit<
   SetAddonsConfigRequest,
@@ -3790,10 +3790,10 @@ export interface SetLoggingProjectsLocationsClustersRequest extends Omit<
 }
 /** SetMaintenancePolicyRequest sets the maintenance policy for a cluster. */
 export interface SetMaintenancePolicyRequest {
-  /** Required. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. */
-  zone?: string | undefined;
   /** Required. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). */
   projectId?: string | undefined;
+  /** Required. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. */
+  zone?: string | undefined;
   /** Required. The name of the cluster to update. */
   clusterId?: string | undefined;
   /** The name (project, location, cluster name) of the cluster to set maintenance policy. Specified in the format `projects/*\/locations/*\/clusters/*`. */
@@ -3810,29 +3810,29 @@ export interface SetMaintenancePolicyProjectsLocationsClustersRequest extends Om
 }
 export interface SetMaintenancePolicyProjectsZonesClustersRequest extends Omit<
   SetMaintenancePolicyRequest,
-  "zone" | "projectId" | "clusterId"
+  "projectId" | "zone" | "clusterId"
 > {
-  /** Required. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). */
-  projectId: string;
   /** Required. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. */
   zone: string;
+  /** Required. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). */
+  projectId: string;
   /** Required. The name of the cluster to update. */
   clusterId: string;
 }
 /** SetNodePoolManagementRequest sets the node management properties of a node pool. */
 export interface SetNodePoolManagementRequest {
-  /** Required. NodeManagement configuration for the node pool. */
-  management?: NodeManagement | undefined;
-  /** The name (project, location, cluster, node pool id) of the node pool to set management properties. Specified in the format `projects/*\/locations/*\/clusters/*\/nodePools/*`. */
-  name?: string | undefined;
   /** Deprecated. The name of the node pool to update. This field has been deprecated and replaced by the name field. */
   nodePoolId?: string | undefined;
+  /** Deprecated. The name of the cluster to update. This field has been deprecated and replaced by the name field. */
+  clusterId?: string | undefined;
+  /** The name (project, location, cluster, node pool id) of the node pool to set management properties. Specified in the format `projects/*\/locations/*\/clusters/*\/nodePools/*`. */
+  name?: string | undefined;
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
   zone?: string | undefined;
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
   projectId?: string | undefined;
-  /** Deprecated. The name of the cluster to update. This field has been deprecated and replaced by the name field. */
-  clusterId?: string | undefined;
+  /** Required. NodeManagement configuration for the node pool. */
+  management?: NodeManagement | undefined;
 }
 export interface SetManagementProjectsLocationsClustersNodePoolsRequest extends Omit<
   SetNodePoolManagementRequest,
@@ -3843,7 +3843,7 @@ export interface SetManagementProjectsLocationsClustersNodePoolsRequest extends 
 }
 export interface SetManagementProjectsZonesClustersNodePoolsRequest extends Omit<
   SetNodePoolManagementRequest,
-  "nodePoolId" | "zone" | "projectId" | "clusterId"
+  "nodePoolId" | "clusterId" | "zone" | "projectId"
 > {
   /** Deprecated. The name of the cluster to update. This field has been deprecated and replaced by the name field. */
   clusterId: string;
@@ -3861,16 +3861,16 @@ export type SetMasterAuthRequestActionEnum =
   | "SET_USERNAME";
 /** SetMasterAuthRequest updates the admin password of a cluster. */
 export interface SetMasterAuthRequest {
-  /** Deprecated. The name of the cluster to upgrade. This field has been deprecated and replaced by the name field. */
-  clusterId?: string | undefined;
-  /** The name (project, location, cluster) of the cluster to set auth. Specified in the format `projects/*\/locations/*\/clusters/*`. */
-  name?: string | undefined;
   /** Required. A description of the update. */
   update?: MasterAuth | undefined;
-  /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
-  projectId?: string | undefined;
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
   zone?: string | undefined;
+  /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
+  projectId?: string | undefined;
+  /** The name (project, location, cluster) of the cluster to set auth. Specified in the format `projects/*\/locations/*\/clusters/*`. */
+  name?: string | undefined;
+  /** Deprecated. The name of the cluster to upgrade. This field has been deprecated and replaced by the name field. */
+  clusterId?: string | undefined;
   /** Required. The exact form of action to be taken on the master auth. */
   action?: SetMasterAuthRequestActionEnum | (string & {}) | undefined;
 }
@@ -3883,14 +3883,14 @@ export interface SetMasterAuthProjectsLocationsClustersRequest extends Omit<
 }
 export interface SetMasterAuthProjectsZonesClustersRequest extends Omit<
   SetMasterAuthRequest,
-  "clusterId" | "projectId" | "zone"
+  "zone" | "projectId" | "clusterId"
 > {
-  /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
-  zone: string;
   /** Deprecated. The name of the cluster to upgrade. This field has been deprecated and replaced by the name field. */
   clusterId: string;
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
   projectId: string;
+  /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
+  zone: string;
 }
 export interface SetMonitoringProjectsLocationsClustersRequest extends Omit<
   SetMonitoringServiceRequest,
@@ -3901,16 +3901,16 @@ export interface SetMonitoringProjectsLocationsClustersRequest extends Omit<
 }
 /** SetNetworkPolicyRequest enables/disables network policy for a cluster. */
 export interface SetNetworkPolicyRequest {
-  /** The name (project, location, cluster name) of the cluster to set networking policy. Specified in the format `projects/*\/locations/*\/clusters/*`. */
-  name?: string | undefined;
-  /** Required. Configuration options for the NetworkPolicy feature. */
-  networkPolicy?: NetworkPolicy | undefined;
-  /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
-  projectId?: string | undefined;
-  /** Deprecated. The name of the cluster. This field has been deprecated and replaced by the name field. */
-  clusterId?: string | undefined;
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
   zone?: string | undefined;
+  /** Required. Configuration options for the NetworkPolicy feature. */
+  networkPolicy?: NetworkPolicy | undefined;
+  /** Deprecated. The name of the cluster. This field has been deprecated and replaced by the name field. */
+  clusterId?: string | undefined;
+  /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
+  projectId?: string | undefined;
+  /** The name (project, location, cluster name) of the cluster to set networking policy. Specified in the format `projects/*\/locations/*\/clusters/*`. */
+  name?: string | undefined;
 }
 export interface SetNetworkPolicyProjectsLocationsClustersRequest extends Omit<
   SetNetworkPolicyRequest,
@@ -3921,7 +3921,7 @@ export interface SetNetworkPolicyProjectsLocationsClustersRequest extends Omit<
 }
 export interface SetNetworkPolicyProjectsZonesClustersRequest extends Omit<
   SetNetworkPolicyRequest,
-  "projectId" | "clusterId" | "zone"
+  "zone" | "clusterId" | "projectId"
 > {
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
   zone: string;
@@ -3939,18 +3939,18 @@ export interface SetResourceLabelsProjectsLocationsClustersRequest extends Omit<
 }
 /** SetNodePoolSizeRequest sets the size of a node pool. */
 export interface SetNodePoolSizeRequest {
-  /** The name (project, location, cluster, node pool id) of the node pool to set size. Specified in the format `projects/*\/locations/*\/clusters/*\/nodePools/*`. */
-  name?: string | undefined;
   /** Required. The desired node count for the pool. */
   nodeCount?: number | undefined;
-  /** Deprecated. The name of the node pool to update. This field has been deprecated and replaced by the name field. */
-  nodePoolId?: string | undefined;
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
   zone?: string | undefined;
-  /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
-  projectId?: string | undefined;
   /** Deprecated. The name of the cluster to update. This field has been deprecated and replaced by the name field. */
   clusterId?: string | undefined;
+  /** The name (project, location, cluster, node pool id) of the node pool to set size. Specified in the format `projects/*\/locations/*\/clusters/*\/nodePools/*`. */
+  name?: string | undefined;
+  /** Deprecated. The name of the node pool to update. This field has been deprecated and replaced by the name field. */
+  nodePoolId?: string | undefined;
+  /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
+  projectId?: string | undefined;
 }
 export interface SetSizeProjectsLocationsClustersNodePoolsRequest extends Omit<
   SetNodePoolSizeRequest,
@@ -3961,29 +3961,29 @@ export interface SetSizeProjectsLocationsClustersNodePoolsRequest extends Omit<
 }
 export interface SetSizeProjectsZonesClustersNodePoolsRequest extends Omit<
   SetNodePoolSizeRequest,
-  "nodePoolId" | "zone" | "projectId" | "clusterId"
+  "zone" | "clusterId" | "nodePoolId" | "projectId"
 > {
-  /** Deprecated. The name of the node pool to update. This field has been deprecated and replaced by the name field. */
-  nodePoolId: string;
-  /** Deprecated. The name of the cluster to update. This field has been deprecated and replaced by the name field. */
-  clusterId: string;
-  /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
-  projectId: string;
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
   zone: string;
+  /** Deprecated. The name of the node pool to update. This field has been deprecated and replaced by the name field. */
+  nodePoolId: string;
+  /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
+  projectId: string;
+  /** Deprecated. The name of the cluster to update. This field has been deprecated and replaced by the name field. */
+  clusterId: string;
 }
 /** StartIPRotationRequest creates a new IP for the cluster and then performs a node upgrade on each node pool to point to the new IP. */
 export interface StartIPRotationRequest {
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
   zone?: string | undefined;
-  /** Deprecated. The name of the cluster. This field has been deprecated and replaced by the name field. */
-  clusterId?: string | undefined;
-  /** The name (project, location, cluster name) of the cluster to start IP rotation. Specified in the format `projects/*\/locations/*\/clusters/*`. */
-  name?: string | undefined;
-  /** Whether to rotate credentials during IP rotation. */
-  rotateCredentials?: boolean | undefined;
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
   projectId?: string | undefined;
+  /** Whether to rotate credentials during IP rotation. */
+  rotateCredentials?: boolean | undefined;
+  /** The name (project, location, cluster name) of the cluster to start IP rotation. Specified in the format `projects/*\/locations/*\/clusters/*`. */
+  name?: string | undefined;
+  /** Deprecated. The name of the cluster. This field has been deprecated and replaced by the name field. */
+  clusterId?: string | undefined;
 }
 export interface StartIpRotationProjectsLocationsClustersRequest extends Omit<
   StartIPRotationRequest,
@@ -3994,14 +3994,14 @@ export interface StartIpRotationProjectsLocationsClustersRequest extends Omit<
 }
 export interface StartIpRotationProjectsZonesClustersRequest extends Omit<
   StartIPRotationRequest,
-  "zone" | "clusterId" | "projectId"
+  "zone" | "projectId" | "clusterId"
 > {
+  /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
+  projectId: string;
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
   zone: string;
   /** Deprecated. The name of the cluster. This field has been deprecated and replaced by the name field. */
   clusterId: string;
-  /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
-  projectId: string;
 }
 export interface UpdateMasterProjectsLocationsClustersRequest extends Omit<
   UpdateMasterRequest,
@@ -4009,22 +4009,6 @@ export interface UpdateMasterProjectsLocationsClustersRequest extends Omit<
 > {
   /** The name (project, location, cluster) of the cluster to update. Specified in the format `projects/*\/locations/*\/clusters/*`. */
   name: string;
-}
-export type ClusterUpdateDesiredDatapathProviderEnum =
-  | "DATAPATH_PROVIDER_UNSPECIFIED"
-  | "LEGACY_DATAPATH"
-  | "ADVANCED_DATAPATH"
-  | "MIGRATE_TO_ADVANCED_DATAPATH"
-  | "MIGRATE_TO_LEGACY_DATAPATH";
-/** DesiredAdditionalIPRangesConfig is a wrapper used for cluster update operation and contains multiple AdditionalIPRangesConfigs. */
-export interface DesiredAdditionalIPRangesConfig {
-  /** List of additional IP ranges configs where each AdditionalIPRangesConfig corresponds to one subnetwork's IP ranges */
-  additionalIpRangesConfigs?: AdditionalIPRangesConfigList | undefined;
-}
-/** ILBSubsettingConfig contains the desired config of L4 Internal LoadBalancer subsetting on this cluster. */
-export interface ILBSubsettingConfig {
-  /** Enables l4 ILB subsetting for this cluster */
-  enabled?: boolean | undefined;
 }
 /** IntraNodeVisibilityConfig contains the desired config of the intra-node visibility on this cluster. */
 export interface IntraNodeVisibilityConfig {
@@ -4036,11 +4020,16 @@ export type ClusterUpdateDesiredPrivateIpv6GoogleAccessEnum =
   | "PRIVATE_IPV6_GOOGLE_ACCESS_DISABLED"
   | "PRIVATE_IPV6_GOOGLE_ACCESS_TO_GOOGLE"
   | "PRIVATE_IPV6_GOOGLE_ACCESS_BIDIRECTIONAL";
-export type ClusterUpdateDesiredStackTypeEnum = "STACK_TYPE_UNSPECIFIED" | "IPV4" | "IPV4_IPV6";
-export type ClusterUpdateDesiredInTransitEncryptionConfigEnum =
-  | "IN_TRANSIT_ENCRYPTION_CONFIG_UNSPECIFIED"
-  | "IN_TRANSIT_ENCRYPTION_DISABLED"
-  | "IN_TRANSIT_ENCRYPTION_INTER_NODE_TRANSPARENT";
+/** DesiredAdditionalIPRangesConfig is a wrapper used for cluster update operation and contains multiple AdditionalIPRangesConfigs. */
+export interface DesiredAdditionalIPRangesConfig {
+  /** List of additional IP ranges configs where each AdditionalIPRangesConfig corresponds to one subnetwork's IP ranges */
+  additionalIpRangesConfigs?: AdditionalIPRangesConfigList | undefined;
+}
+/** ILBSubsettingConfig contains the desired config of L4 Internal LoadBalancer subsetting on this cluster. */
+export interface ILBSubsettingConfig {
+  /** Enables l4 ILB subsetting for this cluster */
+  enabled?: boolean | undefined;
+}
 export type DesiredEnterpriseConfigDesiredTierEnum =
   | "CLUSTER_TIER_UNSPECIFIED"
   | "STANDARD"
@@ -4050,219 +4039,230 @@ export interface DesiredEnterpriseConfig {
   /** desired_tier specifies the desired tier of the cluster. */
   desiredTier?: DesiredEnterpriseConfigDesiredTierEnum | (string & {}) | undefined;
 }
+export type ClusterUpdateDesiredDatapathProviderEnum =
+  | "DATAPATH_PROVIDER_UNSPECIFIED"
+  | "LEGACY_DATAPATH"
+  | "ADVANCED_DATAPATH"
+  | "MIGRATE_TO_ADVANCED_DATAPATH"
+  | "MIGRATE_TO_LEGACY_DATAPATH";
+export type ClusterUpdateDesiredInTransitEncryptionConfigEnum =
+  | "IN_TRANSIT_ENCRYPTION_CONFIG_UNSPECIFIED"
+  | "IN_TRANSIT_ENCRYPTION_DISABLED"
+  | "IN_TRANSIT_ENCRYPTION_INTER_NODE_TRANSPARENT";
+export type ClusterUpdateDesiredStackTypeEnum = "STACK_TYPE_UNSPECIFIED" | "IPV4" | "IPV4_IPV6";
 /** ClusterUpdate describes an update to the cluster. Exactly one update can be applied to a cluster with each request, so at most one field can be provided. */
 export interface ClusterUpdate {
-  /** The desired private cluster configuration. Has no effect. Use desired_private_cluster_config instead. */
-  privateClusterConfig?: PrivateClusterConfig | undefined;
-  /** Enable/Disable Multi-Networking for the cluster */
-  desiredEnableMultiNetworking?: boolean | undefined;
-  /** The logging service the cluster should use to write logs. Currently available options: * `logging.googleapis.com/kubernetes` - The Cloud Logging service with a Kubernetes-native resource model * `logging.googleapis.com` - The legacy Cloud Logging service (no longer available as of GKE 1.15). * `none` - no logs will be exported from the cluster. If left as an empty string,`logging.googleapis.com/kubernetes` will be used for GKE 1.14+ or `logging.googleapis.com` for earlier versions. */
-  desiredLoggingService?: string | undefined;
-  /** The desired privileged admission config for the cluster. */
-  desiredPrivilegedAdmissionConfig?: PrivilegedAdmissionConfig | undefined;
-  /** WorkloadPolicyConfig is the configuration related to GCW workload policy */
-  desiredAutopilotWorkloadPolicyConfig?: WorkloadPolicyConfig | undefined;
-  /** ServiceExternalIPsConfig specifies the config for the use of Services with ExternalIPs field. */
-  desiredServiceExternalIpsConfig?: ServiceExternalIPsConfig | undefined;
-  /** Configuration for sync Secret Manager secrets as k8s secrets. */
-  desiredSecretSyncConfig?: SecretSyncConfig | undefined;
+  /** The desired network performance config. */
+  desiredNetworkPerformanceConfig?: ClusterNetworkPerformanceConfig | undefined;
+  /** The desired notification configuration. */
+  desiredNotificationConfig?: NotificationConfig | undefined;
+  /** Configuration for issuance of mTLS keys and certificates to Kubernetes pods. */
+  desiredMeshCertificates?: MeshCertificates | undefined;
+  /** The desired user managed keys config for the cluster. */
+  desiredUserManagedKeysConfig?: UserManagedKeysConfig | undefined;
+  /** Enable/Disable private endpoint for the cluster's master. Deprecated: Use desired_control_plane_endpoints_config.ip_endpoints_config.enable_public_endpoint instead. Note that the value of enable_public_endpoint is reversed: if enable_private_endpoint is false, then enable_public_endpoint will be true. */
+  desiredEnablePrivateEndpoint?: boolean | undefined;
   /** Configurations for the various addons available to run in the cluster. */
   desiredAddonsConfig?: AddonsConfig | undefined;
   /** Configuration of etcd encryption. */
   desiredDatabaseEncryption?: DatabaseEncryption | undefined;
-  /** The desired monitoring configuration. */
-  desiredMonitoringConfig?: MonitoringConfig | undefined;
-  /** The desired name of the image to use for this node. This is used to create clusters using a custom image. */
-  desiredImage?: string | undefined;
   /** The desired release channel configuration. */
   desiredReleaseChannel?: ReleaseChannel | undefined;
-  /** The Kubernetes version to change the nodes to (typically an upgrade). Users may specify either explicit versions offered by Kubernetes Engine or version aliases, which have the following behavior: - "latest": picks the highest valid Kubernetes version - "1.X": picks the highest valid patch+gke.N patch in the 1.X version - "1.X.Y": picks the highest valid gke.N patch in the 1.X.Y version - "1.X.Y-gke.N": picks an explicit Kubernetes version - "-": picks the Kubernetes master version */
-  desiredNodeVersion?: string | undefined;
-  /** The desired configuration for exporting resource usage. */
-  desiredResourceUsageExportConfig?: ResourceUsageExportConfig | undefined;
-  /** The desired image type for the node pool. NOTE: Set the "desired_node_pool" field as well. */
-  desiredImageType?: string | undefined;
-  /** The desired datapath provider for the cluster. */
-  desiredDatapathProvider?: ClusterUpdateDesiredDatapathProviderEnum | (string & {}) | undefined;
-  /** The desired config for additional subnetworks attached to the cluster. */
-  desiredAdditionalIpRangesConfig?: DesiredAdditionalIPRangesConfig | undefined;
-  /** The desired control plane egress control config for the cluster. */
-  desiredControlPlaneEgress?: ControlPlaneEgress | undefined;
-  /** Enable/Disable private endpoint for the cluster's master. Deprecated: Use desired_control_plane_endpoints_config.ip_endpoints_config.enable_public_endpoint instead. Note that the value of enable_public_endpoint is reversed: if enable_private_endpoint is false, then enable_public_endpoint will be true. */
-  desiredEnablePrivateEndpoint?: boolean | undefined;
-  /** The desired network tier configuration for the cluster. */
-  desiredNetworkTierConfig?: NetworkTierConfig | undefined;
-  /** Control plane endpoints configuration. */
-  desiredControlPlaneEndpointsConfig?: ControlPlaneEndpointsConfig | undefined;
-  /** Cluster-level Vertical Pod Autoscaling configuration. */
-  desiredVerticalPodAutoscaling?: VerticalPodAutoscaling | undefined;
-  /** The desired node pool upgrade concurrency configuration. */
-  desiredNodePoolUpgradeConcurrencyConfig?: NodePoolUpgradeConcurrencyConfig | undefined;
-  /** The desired L4 Internal Load Balancer Subsetting configuration. */
-  desiredL4ilbSubsettingConfig?: ILBSubsettingConfig | undefined;
-  /** The desired config for pod autoscaling. */
-  desiredPodAutoscaling?: PodAutoscaling | undefined;
-  /** The desired logging configuration. */
-  desiredLoggingConfig?: LoggingConfig | undefined;
-  /** The desired private cluster configuration. master_global_access_config is the only field that can be changed via this field. See also ClusterUpdate.desired_enable_private_endpoint for modifying other fields within PrivateClusterConfig. Deprecated: Use desired_control_plane_endpoints_config.ip_endpoints_config.global_access instead. */
-  desiredPrivateClusterConfig?: PrivateClusterConfig | undefined;
-  /** Kubernetes open source beta apis enabled on the cluster. Only beta apis */
-  enableK8sBetaApis?: K8sBetaAPIConfig | undefined;
-  /** The desired list of Google Compute Engine [zones](https://cloud.google.com/compute/docs/zones#available) in which the cluster's nodes should be located. This list must always include the cluster's primary zone. Warning: changing cluster locations will update the locations of all node pools and will result in nodes being added and/or removed. */
-  desiredLocations?: StringList | undefined;
+  /** Cluster-level autoscaling configuration. */
+  desiredClusterAutoscaling?: ClusterAutoscaling | undefined;
+  /** The desired configuration options for the PodSecurityPolicy feature. */
+  desiredPodSecurityPolicyConfig?: PodSecurityPolicyConfig | undefined;
   /** The desired config of Intra-node visibility. */
   desiredIntraNodeVisibilityConfig?: IntraNodeVisibilityConfig | undefined;
-  /** Autoscaler configuration for the node pool specified in desired_node_pool_id. If there is only one pool in the cluster and desired_node_pool_id is not provided then the change applies to that single node pool. */
-  desiredNodePoolAutoscaling?: NodePoolAutoscaling | undefined;
-  /** The desired autopilot cluster policies that to be enforced in the cluster. */
-  desiredAutopilotClusterPolicyConfig?: ClusterPolicyConfig | undefined;
-  /** Beta APIs enabled for cluster. */
-  desiredK8sBetaApis?: K8sBetaAPIConfig | undefined;
-  /** Enable/Disable Secret Manager Config. */
-  desiredSecretManagerConfig?: SecretManagerConfig | undefined;
-  /** Optional. The desired NodeCreationConfig for the cluster. */
-  desiredNodeCreationConfig?: NodeCreationConfig | undefined;
-  /** The desired rollback safe upgrade configuration. */
-  desiredRollbackSafeUpgrade?: RollbackSafeUpgrade | undefined;
-  /** The desired parent product config for the cluster. */
-  desiredParentProductConfig?: ParentProductConfig | undefined;
-  /** The Kubernetes version to change the master to. The only valid value is the latest supported version. Users may specify either explicit versions offered by Kubernetes Engine or version aliases, which have the following behavior: - "latest": picks the highest valid Kubernetes version - "1.X": picks the highest valid patch+gke.N patch in the 1.X version - "1.X.Y": picks the highest valid gke.N patch in the 1.X.Y version - "1.X.Y-gke.N": picks an explicit Kubernetes version - "-": picks the default Kubernetes version */
-  desiredMasterVersion?: string | undefined;
-  /** Configuration for direct-path (via ALTS) with workload identity. This feature is not officially supported for external customers in Kubernetes Engine when using Workload Identity. */
-  desiredWorkloadAltsConfig?: WorkloadALTSConfig | undefined;
-  /** Enable/Disable FQDN Network Policy for the cluster. */
-  desiredEnableFqdnNetworkPolicy?: boolean | undefined;
-  /** HostMaintenancePolicy contains the desired maintenance policy for the Google Compute Engine hosts. */
-  desiredHostMaintenancePolicy?: HostMaintenancePolicy | undefined;
-  /** Configuration for Workload Identity. */
-  desiredWorkloadIdentityConfig?: WorkloadIdentityConfig | undefined;
-  /** The desired telemetry integration for the cluster. */
-  desiredClusterTelemetry?: ClusterTelemetry | undefined;
-  /** The desired Linux node config for all auto-provisioned node pools in autopilot clusters and node auto-provisioning enabled clusters. Currently only `cgroup_mode` can be set here. */
-  desiredNodePoolAutoConfigLinuxNodeConfig?: LinuxNodeConfig | undefined;
-  /** The additional pod ranges that are to be removed from the cluster. The pod ranges specified here must have been specified earlier in the 'additional_pod_ranges_config' argument. */
-  removedAdditionalPodRangesConfig?: AdditionalPodRangesConfig | undefined;
-  /** Configuration for Shielded Nodes. */
-  desiredShieldedNodes?: ShieldedNodes | undefined;
-  /** Enable/Disable Cilium Clusterwide Network Policy for the cluster. */
-  desiredEnableCiliumClusterwideNetworkPolicy?: boolean | undefined;
-  /** AuthenticatorGroupsConfig specifies the config for the cluster security groups settings. */
-  desiredAuthenticatorGroupsConfig?: AuthenticatorGroupsConfig | undefined;
-  /** The desired fleet configuration for the cluster. */
-  desiredFleet?: Fleet | undefined;
-  /** The current etag of the cluster. If an etag is provided and does not match the current etag of the cluster, update will be blocked and an ABORTED error will be returned. */
-  etag?: string | undefined;
-  /** The desired node pool logging configuration defaults for the cluster. */
-  desiredNodePoolLoggingConfig?: NodePoolLoggingConfig | undefined;
-  /** The desired managed machine learning diagnostics configuration. */
-  desiredManagedMachineLearningDiagnosticsConfig?:
-    | ManagedMachineLearningDiagnosticsConfig
-    | undefined;
+  /** The desired config for pod autoscaling. */
+  desiredPodAutoscaling?: PodAutoscaling | undefined;
   /** The desired state of IPv6 connectivity to Google Services. */
   desiredPrivateIpv6GoogleAccess?:
     | ClusterUpdateDesiredPrivateIpv6GoogleAccessEnum
     | (string & {})
     | undefined;
-  /** The desired user managed keys config for the cluster. */
-  desiredUserManagedKeysConfig?: UserManagedKeysConfig | undefined;
-  /** AutoIpamConfig contains all information related to Auto IPAM */
-  desiredAutoIpamConfig?: AutoIpamConfig | undefined;
-  /** The node pool to be upgraded. This field is mandatory if "desired_node_version", "desired_image_family", "desired_node_pool_autoscaling", or "desired_workload_metadata_config" is specified and there is more than one node pool on the cluster. */
-  desiredNodePoolId?: string | undefined;
-  /** The desired config of Gateway API on this cluster. */
-  desiredGatewayApiConfig?: GatewayAPIConfig | undefined;
-  /** The additional pod ranges to be added to the cluster. These pod ranges can be used by node pools to allocate pod IPs. */
-  additionalPodRangesConfig?: AdditionalPodRangesConfig | undefined;
-  /** RBACBindingConfig allows user to restrict ClusterRoleBindings an RoleBindings that can be created. */
-  desiredRbacBindingConfig?: RBACBindingConfig | undefined;
-  /** The desired Identity Service component configuration. */
-  desiredIdentityServiceConfig?: IdentityServiceConfig | undefined;
-  /** The desired managed open telemetry configuration. */
-  desiredManagedOpentelemetryConfig?: ManagedOpenTelemetryConfig | undefined;
-  /** Configuration for issuance of mTLS keys and certificates to Kubernetes pods. */
-  desiredMeshCertificates?: MeshCertificates | undefined;
-  /** Configuration for issuance of mTLS keys and certificates to Kubernetes pods. */
-  desiredWorkloadCertificates?: MeshCertificates | undefined;
-  /** The desired configuration options for master authorized networks feature. Deprecated: Use desired_control_plane_endpoints_config.ip_endpoints_config.authorized_networks_config instead. */
-  desiredMasterAuthorizedNetworksConfig?: MasterAuthorizedNetworksConfig | undefined;
-  /** Optional. The desired emulated version for the cluster. */
-  desiredEmulatedVersion?: string | undefined;
-  /** The desired network tags that apply to all auto-provisioned node pools in autopilot clusters and node auto-provisioning enabled clusters. */
-  desiredNodePoolAutoConfigNetworkTags?: NetworkTags | undefined;
-  /** The desired Cloud TPU configuration. This field is deprecated due to the deprecation of 2VM TPU. The end of life date for 2VM TPU is 2025-04-25. */
-  desiredTpuConfig?: TpuConfig | undefined;
-  /** The desired status of whether to disable default sNAT for this cluster. */
-  desiredDefaultSnatStatus?: DefaultSnatStatus | undefined;
-  /** Enable/Disable L4 LB VPC firewall reconciliation for the cluster. */
-  desiredDisableL4LbFirewallReconciliation?: boolean | undefined;
-  /** Configuration for GKE auto upgrade. */
-  gkeAutoUpgradeConfig?: GkeAutoUpgradeConfig | undefined;
-  /** Enable/Disable Security Posture API features for the cluster. */
-  desiredSecurityPostureConfig?: SecurityPostureConfig | undefined;
-  /** Configuration for master components. */
-  desiredMaster?: Master | undefined;
-  /** Configuration for limiting anonymous access to all endpoints except the health checks. */
-  desiredAnonymousAuthenticationConfig?: AnonymousAuthenticationConfig | undefined;
-  /** The Custom keys configuration for the cluster. This field is deprecated. Use ClusterUpdate.desired_user_managed_keys_config instead. */
-  userManagedKeysConfig?: UserManagedKeysConfig | undefined;
+  /** Enable/Disable FQDN Network Policy for the cluster. */
+  desiredEnableFqdnNetworkPolicy?: boolean | undefined;
   /** The desired node kubelet config for all auto-provisioned node pools in autopilot clusters and node auto-provisioning enabled clusters. */
   desiredNodePoolAutoConfigKubeletConfig?: NodeKubeletConfig | undefined;
-  /** Deprecated: Compliance Posture is no longer supported. For more details, see https://cloud.google.com/kubernetes-engine/docs/deprecations/posture-management-deprecation. Enable/Disable Compliance Posture features for the cluster. */
-  desiredCompliancePostureConfig?: CompliancePostureConfig | undefined;
-  /** The desired node kubelet config for the cluster. */
-  desiredNodeKubeletConfig?: NodeKubeletConfig | undefined;
-  /** The desired network performance config. */
-  desiredNetworkPerformanceConfig?: ClusterNetworkPerformanceConfig | undefined;
-  /** The desired containerd config for the cluster. */
-  desiredContainerdConfig?: ContainerdConfig | undefined;
-  /** Override the default setting of whether future created nodes have private IP addresses only, namely NetworkConfig.default_enable_private_nodes */
-  desiredDefaultEnablePrivateNodes?: boolean | undefined;
-  /** The desired configuration options for the Binary Authorization feature. */
-  desiredBinaryAuthorization?: BinaryAuthorization | undefined;
-  /** The desired stack type of the cluster. If a stack type is provided and does not match the current stack type of the cluster, update will attempt to change the stack type to the new type. */
-  desiredStackType?: ClusterUpdateDesiredStackTypeEnum | (string & {}) | undefined;
-  /** Optional. The desired ambient networking configuration. */
-  desiredAmbientNetworkingConfig?: AmbientNetworkingConfig | undefined;
+  /** The desired private cluster configuration. master_global_access_config is the only field that can be changed via this field. See also ClusterUpdate.desired_enable_private_endpoint for modifying other fields within PrivateClusterConfig. Deprecated: Use desired_control_plane_endpoints_config.ip_endpoints_config.global_access instead. */
+  desiredPrivateClusterConfig?: PrivateClusterConfig | undefined;
+  /** The additional pod ranges that are to be removed from the cluster. The pod ranges specified here must have been specified earlier in the 'additional_pod_ranges_config' argument. */
+  removedAdditionalPodRangesConfig?: AdditionalPodRangesConfig | undefined;
+  /** The desired control plane egress control config for the cluster. */
+  desiredControlPlaneEgress?: ControlPlaneEgress | undefined;
+  /** The desired name of the image to use for this node. This is used to create clusters using a custom image. */
+  desiredImage?: string | undefined;
+  /** Kubernetes open source beta apis enabled on the cluster. Only beta apis */
+  enableK8sBetaApis?: K8sBetaAPIConfig | undefined;
+  /** Optional. The desired emulated version for the cluster. */
+  desiredEmulatedVersion?: string | undefined;
+  /** The desired config of Gateway API on this cluster. */
+  desiredGatewayApiConfig?: GatewayAPIConfig | undefined;
   /** The desired configuration for the fine-grained cost allocation feature. */
   desiredCostManagementConfig?: CostManagementConfig | undefined;
-  /** The monitoring service the cluster should use to write metrics. Currently available options: * `monitoring.googleapis.com/kubernetes` - The Cloud Monitoring service with a Kubernetes-native resource model * `monitoring.googleapis.com` - The legacy Cloud Monitoring service (no longer available as of GKE 1.15). * `none` - No metrics will be exported from the cluster. If left as an empty string,`monitoring.googleapis.com/kubernetes` will be used for GKE 1.14+ or `monitoring.googleapis.com` for earlier versions. */
-  desiredMonitoringService?: string | undefined;
+  /** The desired Identity Service component configuration. */
+  desiredIdentityServiceConfig?: IdentityServiceConfig | undefined;
+  /** The desired image type for the node pool. NOTE: Set the "desired_node_pool" field as well. */
+  desiredImageType?: string | undefined;
+  /** Enable/Disable Multi-Networking for the cluster */
+  desiredEnableMultiNetworking?: boolean | undefined;
+  /** Cluster-level Vertical Pod Autoscaling configuration. */
+  desiredVerticalPodAutoscaling?: VerticalPodAutoscaling | undefined;
+  /** DNSConfig contains clusterDNS config for this cluster. */
+  desiredDnsConfig?: DNSConfig | undefined;
+  /** The desired configuration for exporting resource usage. */
+  desiredResourceUsageExportConfig?: ResourceUsageExportConfig | undefined;
+  /** The logging service the cluster should use to write logs. Currently available options: * `logging.googleapis.com/kubernetes` - The Cloud Logging service with a Kubernetes-native resource model * `logging.googleapis.com` - The legacy Cloud Logging service (no longer available as of GKE 1.15). * `none` - no logs will be exported from the cluster. If left as an empty string,`logging.googleapis.com/kubernetes` will be used for GKE 1.14+ or `logging.googleapis.com` for earlier versions. */
+  desiredLoggingService?: string | undefined;
+  /** Enable/Disable Secret Manager Config. */
+  desiredSecretManagerConfig?: SecretManagerConfig | undefined;
+  /** Configuration for sync Secret Manager secrets as k8s secrets. */
+  desiredSecretSyncConfig?: SecretSyncConfig | undefined;
+  /** Beta APIs enabled for cluster. */
+  desiredK8sBetaApis?: K8sBetaAPIConfig | undefined;
+  /** The desired node kubelet config for the cluster. */
+  desiredNodeKubeletConfig?: NodeKubeletConfig | undefined;
+  /** Configuration for master components. */
+  desiredMaster?: Master | undefined;
+  /** The Kubernetes version to change the nodes to (typically an upgrade). Users may specify either explicit versions offered by Kubernetes Engine or version aliases, which have the following behavior: - "latest": picks the highest valid Kubernetes version - "1.X": picks the highest valid patch+gke.N patch in the 1.X version - "1.X.Y": picks the highest valid gke.N patch in the 1.X.Y version - "1.X.Y-gke.N": picks an explicit Kubernetes version - "-": picks the Kubernetes master version */
+  desiredNodeVersion?: string | undefined;
+  /** HostMaintenancePolicy contains the desired maintenance policy for the Google Compute Engine hosts. */
+  desiredHostMaintenancePolicy?: HostMaintenancePolicy | undefined;
+  /** The desired node pool upgrade concurrency configuration. */
+  desiredNodePoolUpgradeConcurrencyConfig?: NodePoolUpgradeConcurrencyConfig | undefined;
+  /** The desired config for additional subnetworks attached to the cluster. */
+  desiredAdditionalIpRangesConfig?: DesiredAdditionalIPRangesConfig | undefined;
+  /** The Kubernetes version to change the master to. The only valid value is the latest supported version. Users may specify either explicit versions offered by Kubernetes Engine or version aliases, which have the following behavior: - "latest": picks the highest valid Kubernetes version - "1.X": picks the highest valid patch+gke.N patch in the 1.X version - "1.X.Y": picks the highest valid gke.N patch in the 1.X.Y version - "1.X.Y-gke.N": picks an explicit Kubernetes version - "-": picks the default Kubernetes version */
+  desiredMasterVersion?: string | undefined;
+  /** The desired Linux node config for all auto-provisioned node pools in autopilot clusters and node auto-provisioning enabled clusters. Currently only `cgroup_mode` can be set here. */
+  desiredNodePoolAutoConfigLinuxNodeConfig?: LinuxNodeConfig | undefined;
+  /** The desired monitoring configuration. */
+  desiredMonitoringConfig?: MonitoringConfig | undefined;
+  /** The current etag of the cluster. If an etag is provided and does not match the current etag of the cluster, update will be blocked and an ABORTED error will be returned. */
+  etag?: string | undefined;
+  /** The desired L4 Internal Load Balancer Subsetting configuration. */
+  desiredL4ilbSubsettingConfig?: ILBSubsettingConfig | undefined;
+  /** The desired network tags that apply to all auto-provisioned node pools in autopilot clusters and node auto-provisioning enabled clusters. */
+  desiredNodePoolAutoConfigNetworkTags?: NetworkTags | undefined;
+  /** The desired containerd config for the cluster. */
+  desiredContainerdConfig?: ContainerdConfig | undefined;
+  /** AuthenticatorGroupsConfig specifies the config for the cluster security groups settings. */
+  desiredAuthenticatorGroupsConfig?: AuthenticatorGroupsConfig | undefined;
+  /** WorkloadPolicyConfig is the configuration related to GCW workload policy */
+  desiredAutopilotWorkloadPolicyConfig?: WorkloadPolicyConfig | undefined;
+  /** The desired network tier configuration for the cluster. */
+  desiredNetworkTierConfig?: NetworkTierConfig | undefined;
+  /** Configuration for Workload Identity. */
+  desiredWorkloadIdentityConfig?: WorkloadIdentityConfig | undefined;
+  /** The desired fleet configuration for the cluster. */
+  desiredFleet?: Fleet | undefined;
+  /** The desired list of Google Compute Engine [zones](https://cloud.google.com/compute/docs/zones#available) in which the cluster's nodes should be located. This list must always include the cluster's primary zone. Warning: changing cluster locations will update the locations of all node pools and will result in nodes being added and/or removed. */
+  desiredLocations?: StringList | undefined;
+  /** The desired privileged admission config for the cluster. */
+  desiredPrivilegedAdmissionConfig?: PrivilegedAdmissionConfig | undefined;
+  /** The node pool to be upgraded. This field is mandatory if "desired_node_version", "desired_image_family", "desired_node_pool_autoscaling", or "desired_workload_metadata_config" is specified and there is more than one node pool on the cluster. */
+  desiredNodePoolId?: string | undefined;
+  /** Configuration for Shielded Nodes. */
+  desiredShieldedNodes?: ShieldedNodes | undefined;
+  /** The desired configuration options for master authorized networks feature. Deprecated: Use desired_control_plane_endpoints_config.ip_endpoints_config.authorized_networks_config instead. */
+  desiredMasterAuthorizedNetworksConfig?: MasterAuthorizedNetworksConfig | undefined;
+  /** The desired rollback safe upgrade configuration. */
+  desiredRollbackSafeUpgrade?: RollbackSafeUpgrade | undefined;
+  /** The desired enterprise configuration for the cluster. Deprecated: GKE Enterprise features are now available without an Enterprise tier. */
+  desiredEnterpriseConfig?: DesiredEnterpriseConfig | undefined;
+  /** Optional. The desired NodeCreationConfig for the cluster. */
+  desiredNodeCreationConfig?: NodeCreationConfig | undefined;
   /** Optional. The desired scheduled upgrades configuration for the cluster. */
   desiredScheduleUpgradeConfig?: ScheduleUpgradeConfig | undefined;
-  /** The desired configuration options for the PodSecurityPolicy feature. */
-  desiredPodSecurityPolicyConfig?: PodSecurityPolicyConfig | undefined;
-  /** Cluster-level autoscaling configuration. */
-  desiredClusterAutoscaling?: ClusterAutoscaling | undefined;
-  /** The project containing the desired image to use for this node. This is used to create clusters using a custom image. */
-  desiredImageProject?: string | undefined;
+  /** Configuration for issuance of mTLS keys and certificates to Kubernetes pods. */
+  desiredWorkloadCertificates?: MeshCertificates | undefined;
+  /** Deprecated: Use DesiredSecurityPostureConfig instead. Enable/Disable Protect API features for the cluster. */
+  desiredProtectConfig?: ProtectConfig | undefined;
+  /** The desired datapath provider for the cluster. */
+  desiredDatapathProvider?: ClusterUpdateDesiredDatapathProviderEnum | (string & {}) | undefined;
+  /** The desired private cluster configuration. Has no effect. Use desired_private_cluster_config instead. */
+  privateClusterConfig?: PrivateClusterConfig | undefined;
+  /** The desired configuration options for the Binary Authorization feature. */
+  desiredBinaryAuthorization?: BinaryAuthorization | undefined;
+  /** Configuration for GKE auto upgrade. */
+  gkeAutoUpgradeConfig?: GkeAutoUpgradeConfig | undefined;
+  /** The desired autopilot cluster policies that to be enforced in the cluster. */
+  desiredAutopilotClusterPolicyConfig?: ClusterPolicyConfig | undefined;
+  /** Enable/Disable L4 LB VPC firewall reconciliation for the cluster. */
+  desiredDisableL4LbFirewallReconciliation?: boolean | undefined;
+  /** The desired parent product config for the cluster. */
+  desiredParentProductConfig?: ParentProductConfig | undefined;
+  /** Configuration for limiting anonymous access to all endpoints except the health checks. */
+  desiredAnonymousAuthenticationConfig?: AnonymousAuthenticationConfig | undefined;
+  /** Enable/Disable Cilium Clusterwide Network Policy for the cluster. */
+  desiredEnableCiliumClusterwideNetworkPolicy?: boolean | undefined;
+  /** The desired managed machine learning diagnostics configuration. */
+  desiredManagedMachineLearningDiagnosticsConfig?:
+    | ManagedMachineLearningDiagnosticsConfig
+    | undefined;
+  /** Autoscaler configuration for the node pool specified in desired_node_pool_id. If there is only one pool in the cluster and desired_node_pool_id is not provided then the change applies to that single node pool. */
+  desiredNodePoolAutoscaling?: NodePoolAutoscaling | undefined;
   /** Specify the details of in-transit encryption. Now named inter-node transparent encryption. */
   desiredInTransitEncryptionConfig?:
     | ClusterUpdateDesiredInTransitEncryptionConfigEnum
     | (string & {})
     | undefined;
-  /** The desired notification configuration. */
-  desiredNotificationConfig?: NotificationConfig | undefined;
-  /** The desired GCFS config for the cluster. */
-  desiredGcfsConfig?: GcfsConfig | undefined;
+  /** ServiceExternalIPsConfig specifies the config for the use of Services with ExternalIPs field. */
+  desiredServiceExternalIpsConfig?: ServiceExternalIPsConfig | undefined;
+  /** The desired Cloud TPU configuration. This field is deprecated due to the deprecation of 2VM TPU. The end of life date for 2VM TPU is 2025-04-25. */
+  desiredTpuConfig?: TpuConfig | undefined;
+  /** Control plane endpoints configuration. */
+  desiredControlPlaneEndpointsConfig?: ControlPlaneEndpointsConfig | undefined;
+  /** Optional. The desired ambient networking configuration. */
+  desiredAmbientNetworkingConfig?: AmbientNetworkingConfig | undefined;
+  /** Enable/Disable Security Posture API features for the cluster. */
+  desiredSecurityPostureConfig?: SecurityPostureConfig | undefined;
+  /** The desired status of whether to disable default sNAT for this cluster. */
+  desiredDefaultSnatStatus?: DefaultSnatStatus | undefined;
+  /** The project containing the desired image to use for this node. This is used to create clusters using a custom image. */
+  desiredImageProject?: string | undefined;
+  /** AutoIpamConfig contains all information related to Auto IPAM */
+  desiredAutoIpamConfig?: AutoIpamConfig | undefined;
+  /** The desired stack type of the cluster. If a stack type is provided and does not match the current stack type of the cluster, update will attempt to change the stack type to the new type. */
+  desiredStackType?: ClusterUpdateDesiredStackTypeEnum | (string & {}) | undefined;
+  /** The desired node pool logging configuration defaults for the cluster. */
+  desiredNodePoolLoggingConfig?: NodePoolLoggingConfig | undefined;
+  /** Configuration for direct-path (via ALTS) with workload identity. This feature is not officially supported for external customers in Kubernetes Engine when using Workload Identity. */
+  desiredWorkloadAltsConfig?: WorkloadALTSConfig | undefined;
+  /** The Custom keys configuration for the cluster. This field is deprecated. Use ClusterUpdate.desired_user_managed_keys_config instead. */
+  userManagedKeysConfig?: UserManagedKeysConfig | undefined;
+  /** RBACBindingConfig allows user to restrict ClusterRoleBindings an RoleBindings that can be created. */
+  desiredRbacBindingConfig?: RBACBindingConfig | undefined;
+  /** The desired managed open telemetry configuration. */
+  desiredManagedOpentelemetryConfig?: ManagedOpenTelemetryConfig | undefined;
+  /** Deprecated: Compliance Posture is no longer supported. For more details, see https://cloud.google.com/kubernetes-engine/docs/deprecations/posture-management-deprecation. Enable/Disable Compliance Posture features for the cluster. */
+  desiredCompliancePostureConfig?: CompliancePostureConfig | undefined;
   /** The desired resource manager tags that apply to all auto-provisioned node pools in autopilot clusters and node auto-provisioning enabled clusters. */
   desiredNodePoolAutoConfigResourceManagerTags?: ResourceManagerTags | undefined;
-  /** The desired enterprise configuration for the cluster. Deprecated: GKE Enterprise features are now available without an Enterprise tier. */
-  desiredEnterpriseConfig?: DesiredEnterpriseConfig | undefined;
-  /** DNSConfig contains clusterDNS config for this cluster. */
-  desiredDnsConfig?: DNSConfig | undefined;
-  /** Deprecated: Use DesiredSecurityPostureConfig instead. Enable/Disable Protect API features for the cluster. */
-  desiredProtectConfig?: ProtectConfig | undefined;
+  /** The monitoring service the cluster should use to write metrics. Currently available options: * `monitoring.googleapis.com/kubernetes` - The Cloud Monitoring service with a Kubernetes-native resource model * `monitoring.googleapis.com` - The legacy Cloud Monitoring service (no longer available as of GKE 1.15). * `none` - No metrics will be exported from the cluster. If left as an empty string,`monitoring.googleapis.com/kubernetes` will be used for GKE 1.14+ or `monitoring.googleapis.com` for earlier versions. */
+  desiredMonitoringService?: string | undefined;
+  /** Override the default setting of whether future created nodes have private IP addresses only, namely NetworkConfig.default_enable_private_nodes */
+  desiredDefaultEnablePrivateNodes?: boolean | undefined;
+  /** The additional pod ranges to be added to the cluster. These pod ranges can be used by node pools to allocate pod IPs. */
+  additionalPodRangesConfig?: AdditionalPodRangesConfig | undefined;
+  /** The desired telemetry integration for the cluster. */
+  desiredClusterTelemetry?: ClusterTelemetry | undefined;
+  /** The desired logging configuration. */
+  desiredLoggingConfig?: LoggingConfig | undefined;
+  /** The desired GCFS config for the cluster. */
+  desiredGcfsConfig?: GcfsConfig | undefined;
 }
 /** UpdateClusterRequest updates the settings of a cluster. */
 export interface UpdateClusterRequest {
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
   zone?: string | undefined;
+  /** Deprecated. The name of the cluster to upgrade. This field has been deprecated and replaced by the name field. */
+  clusterId?: string | undefined;
   /** Required. A description of the update. */
   update?: ClusterUpdate | undefined;
   /** The name (project, location, cluster) of the cluster to update. Specified in the format `projects/*\/locations/*\/clusters/*`. */
   name?: string | undefined;
-  /** Deprecated. The name of the cluster to upgrade. This field has been deprecated and replaced by the name field. */
-  clusterId?: string | undefined;
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
   projectId?: string | undefined;
 }
@@ -4287,92 +4287,92 @@ export interface NodeTaints {
 }
 /** SetNodePoolVersionRequest updates the version of a node pool. */
 export interface UpdateNodePoolRequest {
-  /** Required. The desired image type for the node pool. Please see https://cloud.google.com/kubernetes-engine/docs/concepts/node-images for available image types. */
-  imageType?: string | undefined;
+  /** Parameters that can be configured on Linux nodes. */
+  linuxNodeConfig?: LinuxNodeConfig | undefined;
+  /** A list of hardware accelerators to be attached to each node. See https://cloud.google.com/compute/docs/gpus for more information about support for GPUs. */
+  accelerators?: AcceleratorConfigList | undefined;
   /** The desired name of the image name to use for this node. This is used to create clusters using a custom image. */
   image?: string | undefined;
-  /** The project containing the desired image to use for this node pool. This is used to create clusters using a custom image. */
-  imageProject?: string | undefined;
-  /** Parameters that can be configured on Windows nodes. */
-  windowsNodeConfig?: WindowsNodeConfig | undefined;
+  /** The desired list of Google Compute Engine [zones](https://cloud.google.com/compute/docs/zones#available) in which the node pool's nodes should be located. Changing the locations for a node pool will result in nodes being either created or removed from the node pool, depending on whether locations are being added or removed. Warning: It is recommended to update node pool locations in a standalone API call. Do not combine a location update with changes to other fields (such as `tags`, `labels`, `taints`, etc.) in the same request. Otherwise, the API performs a structural modification where changes to other fields will only apply to newly created nodes and will not be applied to existing nodes in the node pool. To ensure all nodes are updated consistently, use a separate API call for location changes. */
+  locations?: StringList | undefined;
+  /** Specifies the configuration of queued provisioning. */
+  queuedProvisioning?: QueuedProvisioning | undefined;
+  /** Confidential nodes config. All the nodes in the node pool will be Confidential VM once enabled. */
+  confidentialNodes?: ConfidentialNodes | undefined;
+  /** Node network config. */
+  nodeNetworkConfig?: NodeNetworkConfig | undefined;
   /** Optional. The desired disk type for nodes in the node pool. Initiates an upgrade operation that migrates the nodes in the node pool to the specified disk type. */
   diskType?: string | undefined;
-  /** List of Storage Pools where boot disks are provisioned. Existing Storage Pools will be replaced with storage-pools. */
-  storagePools?: StringList | undefined;
   /** Deprecated. The name of the node pool to upgrade. This field has been deprecated and replaced by the name field. */
   nodePoolId?: string | undefined;
-  /** The desired network tags to be applied to all nodes in the node pool. If this field is not present, the tags will not be changed. Otherwise, the existing network tags will be *replaced* with the provided tags. */
-  tags?: NetworkTags | undefined;
-  /** Upgrade settings control disruption and speed of the upgrade. */
-  upgradeSettings?: UpgradeSettings | undefined;
-  /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
-  projectId?: string | undefined;
-  /** Required. The Kubernetes version to change the nodes to (typically an upgrade). Users may specify either explicit versions offered by Kubernetes Engine or version aliases, which have the following behavior: - "latest": picks the highest valid Kubernetes version - "1.X": picks the highest valid patch+gke.N patch in the 1.X version - "1.X.Y": picks the highest valid gke.N patch in the 1.X.Y version - "1.X.Y-gke.N": picks an explicit Kubernetes version - "-": picks the Kubernetes master version */
-  nodeVersion?: string | undefined;
+  /** Flex Start flag for enabling Flex Start VM. */
+  flexStart?: boolean | undefined;
+  /** The taint configuration for the node pool. */
+  taintConfig?: TaintConfig | undefined;
+  /** The desired workload metadata config for the node pool. */
+  workloadMetadataConfig?: WorkloadMetadataConfig | undefined;
+  /** The resource labels for the node pool to use to annotate any related Google Compute Engine resources. */
+  resourceLabels?: ResourceLabels | undefined;
+  /** Deprecated. The name of the cluster to upgrade. This field has been deprecated and replaced by the name field. */
+  clusterId?: string | undefined;
   /** The desired boot disk config for nodes in the node pool. Initiates an upgrade operation that migrates the nodes in the node pool to the specified boot disk config. */
   bootDisk?: BootDisk | undefined;
   /** Consolidation delay defines duration after which the Cluster Autoscaler can scale down underutilized nodes. If not set, nodes are scaled down by default behavior, i.e. according to the chosen autoscaling profile. */
   consolidationDelay?: string | undefined;
-  /** Parameters that can be configured on Linux nodes. */
-  linuxNodeConfig?: LinuxNodeConfig | undefined;
-  /** The desired workload metadata config for the node pool. */
-  workloadMetadataConfig?: WorkloadMetadataConfig | undefined;
-  /** Optional. The nodes to upgrade. The field can only be used together with the node_version field. */
-  nodes?: StringList | undefined;
-  /** The taint configuration for the node pool. */
-  taintConfig?: TaintConfig | undefined;
-  /** Specifies the configuration of queued provisioning. */
-  queuedProvisioning?: QueuedProvisioning | undefined;
-  /** The resource labels for the node pool to use to annotate any related Google Compute Engine resources. */
-  resourceLabels?: ResourceLabels | undefined;
   /** The desired node labels to be applied to all nodes in the node pool. If this field is not present, the labels will not be changed. Otherwise, the existing node labels will be *replaced* with the provided labels. */
   labels?: ResourceLabels | undefined;
-  /** The desired list of Google Compute Engine [zones](https://cloud.google.com/compute/docs/zones#available) in which the node pool's nodes should be located. Changing the locations for a node pool will result in nodes being either created or removed from the node pool, depending on whether locations are being added or removed. Warning: It is recommended to update node pool locations in a standalone API call. Do not combine a location update with changes to other fields (such as `tags`, `labels`, `taints`, etc.) in the same request. Otherwise, the API performs a structural modification where changes to other fields will only apply to newly created nodes and will not be applied to existing nodes in the node pool. To ensure all nodes are updated consistently, use a separate API call for location changes. */
-  locations?: StringList | undefined;
-  /** Confidential nodes config. All the nodes in the node pool will be Confidential VM once enabled. */
-  confidentialNodes?: ConfidentialNodes | undefined;
-  /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
-  zone?: string | undefined;
-  /** Logging configuration. */
-  loggingConfig?: NodePoolLoggingConfig | undefined;
-  /** Enable or disable gvnic on the node pool. */
-  gvnic?: VirtualNIC | undefined;
-  /** GCFS config. */
-  gcfsConfig?: GcfsConfig | undefined;
-  /** Node network config. */
-  nodeNetworkConfig?: NodeNetworkConfig | undefined;
-  /** Desired resource manager tag keys and values to be attached to the nodes for managing Compute Engine firewalls using Network Firewall Policies. Existing tags will be replaced with new values. */
-  resourceManagerTags?: ResourceManagerTags | undefined;
-  /** Optional. The desired disk size for nodes in the node pool. Initiates an upgrade operation that migrates the nodes in the node pool to the specified disk size. */
-  diskSizeGb?: string | undefined;
-  /** A list of hardware accelerators to be attached to each node. See https://cloud.google.com/compute/docs/gpus for more information about support for GPUs. */
-  accelerators?: AcceleratorConfigList | undefined;
-  /** The desired node drain configuration for nodes in the node pool. */
-  nodeDrainConfig?: NodeDrainConfig | undefined;
-  /** Flex Start flag for enabling Flex Start VM. */
-  flexStart?: boolean | undefined;
-  /** The name (project, location, cluster, node pool) of the node pool to update. Specified in the format `projects/*\/locations/*\/clusters/*\/nodePools/*`. */
-  name?: string | undefined;
-  /** The desired containerd config for nodes in the node pool. Initiates an upgrade operation that recreates the nodes with the new config. */
-  containerdConfig?: ContainerdConfig | undefined;
-  /** The current etag of the node pool. If an etag is provided and does not match the current etag of the node pool, update will be blocked and an ABORTED error will be returned. */
-  etag?: string | undefined;
-  /** Optional. Option to specify the rollout strategy to apply node pool configuration updates. If unspecified, standard rolling update strategy with VM recreation is used as the default behavior. */
-  nodeConfigUpdateMode?: UpdateNodePoolRequestNodeConfigUpdateModeEnum | (string & {}) | undefined;
-  /** The maximum duration for the nodes to exist. If unspecified, the nodes can exist indefinitely. */
-  maxRunDuration?: string | undefined;
-  /** Optional. Specifies the maintenance policy for the node pool, including maintenance exclusion options. */
-  maintenancePolicy?: NodePoolMaintenancePolicy | undefined;
   /** Optional. The desired machine type for nodes in the node pool. Initiates an upgrade operation that migrates the nodes in the node pool to the specified machine type. */
   machineType?: string | undefined;
-  /** The desired node taints to be applied to all nodes in the node pool. If this field is not present, the taints will not be changed. Otherwise, the existing node taints will be *replaced* with the provided taints. */
-  taints?: NodeTaints | undefined;
+  /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
+  projectId?: string | undefined;
+  /** The maximum duration for the nodes to exist. If unspecified, the nodes can exist indefinitely. */
+  maxRunDuration?: string | undefined;
+  /** The desired network tags to be applied to all nodes in the node pool. If this field is not present, the tags will not be changed. Otherwise, the existing network tags will be *replaced* with the provided tags. */
+  tags?: NetworkTags | undefined;
+  /** Enable or disable gvnic on the node pool. */
+  gvnic?: VirtualNIC | undefined;
+  /** Optional. The nodes to upgrade. The field can only be used together with the node_version field. */
+  nodes?: StringList | undefined;
+  /** The current etag of the node pool. If an etag is provided and does not match the current etag of the node pool, update will be blocked and an ABORTED error will be returned. */
+  etag?: string | undefined;
+  /** Parameters that can be configured on Windows nodes. */
+  windowsNodeConfig?: WindowsNodeConfig | undefined;
+  /** The project containing the desired image to use for this node pool. This is used to create clusters using a custom image. */
+  imageProject?: string | undefined;
   /** Node kubelet configs. */
   kubeletConfig?: NodeKubeletConfig | undefined;
+  /** Desired resource manager tag keys and values to be attached to the nodes for managing Compute Engine firewalls using Network Firewall Policies. Existing tags will be replaced with new values. */
+  resourceManagerTags?: ResourceManagerTags | undefined;
+  /** List of Storage Pools where boot disks are provisioned. Existing Storage Pools will be replaced with storage-pools. */
+  storagePools?: StringList | undefined;
+  /** Optional. Option to specify the rollout strategy to apply node pool configuration updates. If unspecified, standard rolling update strategy with VM recreation is used as the default behavior. */
+  nodeConfigUpdateMode?: UpdateNodePoolRequestNodeConfigUpdateModeEnum | (string & {}) | undefined;
+  /** Logging configuration. */
+  loggingConfig?: NodePoolLoggingConfig | undefined;
+  /** The desired containerd config for nodes in the node pool. Initiates an upgrade operation that recreates the nodes with the new config. */
+  containerdConfig?: ContainerdConfig | undefined;
+  /** The name (project, location, cluster, node pool) of the node pool to update. Specified in the format `projects/*\/locations/*\/clusters/*\/nodePools/*`. */
+  name?: string | undefined;
+  /** Optional. The desired disk size for nodes in the node pool. Initiates an upgrade operation that migrates the nodes in the node pool to the specified disk size. */
+  diskSizeGb?: string | undefined;
+  /** Upgrade settings control disruption and speed of the upgrade. */
+  upgradeSettings?: UpgradeSettings | undefined;
+  /** Required. The desired image type for the node pool. Please see https://cloud.google.com/kubernetes-engine/docs/concepts/node-images for available image types. */
+  imageType?: string | undefined;
+  /** Required. The Kubernetes version to change the nodes to (typically an upgrade). Users may specify either explicit versions offered by Kubernetes Engine or version aliases, which have the following behavior: - "latest": picks the highest valid Kubernetes version - "1.X": picks the highest valid patch+gke.N patch in the 1.X version - "1.X.Y": picks the highest valid gke.N patch in the 1.X.Y version - "1.X.Y-gke.N": picks an explicit Kubernetes version - "-": picks the Kubernetes master version */
+  nodeVersion?: string | undefined;
+  /** The desired node drain configuration for nodes in the node pool. */
+  nodeDrainConfig?: NodeDrainConfig | undefined;
+  /** GCFS config. */
+  gcfsConfig?: GcfsConfig | undefined;
   /** Enable or disable NCCL fast socket for the node pool. */
   fastSocket?: FastSocket | undefined;
-  /** Deprecated. The name of the cluster to upgrade. This field has been deprecated and replaced by the name field. */
-  clusterId?: string | undefined;
+  /** Optional. Specifies the maintenance policy for the node pool, including maintenance exclusion options. */
+  maintenancePolicy?: NodePoolMaintenancePolicy | undefined;
+  /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
+  zone?: string | undefined;
+  /** The desired node taints to be applied to all nodes in the node pool. If this field is not present, the taints will not be changed. Otherwise, the existing node taints will be *replaced* with the provided taints. */
+  taints?: NodeTaints | undefined;
 }
 export interface UpdateProjectsLocationsClustersNodePoolsRequest extends Omit<
   UpdateNodePoolRequest,
@@ -4385,25 +4385,25 @@ export interface UpdateProjectsZonesClustersRequest extends Omit<
   UpdateClusterRequest,
   "zone" | "clusterId" | "projectId"
 > {
+  /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
+  projectId: string;
+  /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
+  zone: string;
   /** Deprecated. The name of the cluster to upgrade. This field has been deprecated and replaced by the name field. */
   clusterId: string;
+}
+export interface UpdateProjectsZonesClustersNodePoolsRequest extends Omit<
+  UpdateNodePoolRequest,
+  "nodePoolId" | "clusterId" | "projectId" | "zone"
+> {
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
   zone: string;
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
   projectId: string;
-}
-export interface UpdateProjectsZonesClustersNodePoolsRequest extends Omit<
-  UpdateNodePoolRequest,
-  "nodePoolId" | "projectId" | "zone" | "clusterId"
-> {
   /** Deprecated. The name of the node pool to upgrade. This field has been deprecated and replaced by the name field. */
   nodePoolId: string;
   /** Deprecated. The name of the cluster to upgrade. This field has been deprecated and replaced by the name field. */
   clusterId: string;
-  /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
-  zone: string;
-  /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
-  projectId: string;
 }
 export type AddonsProjectsZonesClustersError =
   | NotFound
@@ -6101,10 +6101,10 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          zone: S.optional(S.String),
-          name: S.optional(S.String),
           clusterId: S.optional(S.String),
+          name: S.optional(S.String),
           projectId: S.optional(S.String),
+          zone: S.optional(S.String),
         }),
       ).annotate({ identifier: "CompleteIPRotationRequest" });
   }
@@ -6116,8 +6116,8 @@ function __c3(j: number): any {
         S.Extend(
           __S(64, __c2, 0),
           S.Struct({
-            zone: S.String.pipe(T.Label()),
             clusterId: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
             projectId: S.String.pipe(T.Label()),
           }),
         ).pipe(
@@ -6177,35 +6177,11 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          localSsdCount: S.optional(S.Number),
+          image: S.optional(S.String),
+          imageProject: S.optional(S.String),
         }),
-      ).annotate({ identifier: "LocalNvmeSsdBlockConfig" });
+      ).annotate({ identifier: "CustomImageConfig" });
     case 1:
-      return S.suspend(() =>
-        S.Struct({
-          key: S.optional(S.String),
-          operator: S.optional(S.String),
-          values: S.optional(__S(3968, __c124, 0)),
-        }),
-      ).annotate({ identifier: "NodeAffinity" });
-    case 2:
-      return S.Array(__S(225, __c7, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          nodeAffinities: S.optional(__S(226, __c7, 2)),
-          minNodeCpus: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "SoleTenantConfig" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          threadsPerCore: S.optional(S.String),
-          enableNestedVirtualization: S.optional(S.Boolean),
-          performanceMonitoringUnit: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AdvancedMachineFeatures" });
-    case 5:
       return S.suspend(() =>
         S.Struct({
           localSsdCount: S.optional(S.Number),
@@ -6213,165 +6189,189 @@ function __c7(j: number): any {
           ephemeralCapacityGb: S.optional(S.String),
         }),
       ).annotate({ identifier: "EphemeralStorageLocalSsdConfig" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          gpuDirectStrategy: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GPUDirectConfig" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          sandboxType: S.optional(S.String),
-          type: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SandboxConfig" });
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          image: S.optional(S.String),
-          imageProject: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CustomImageConfig" });
-    case 9:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           mode: S.optional(S.String),
           diskImage: S.optional(S.String),
         }),
       ).annotate({ identifier: "SecondaryBootDisk" });
-    case 10:
-      return S.Array(__S(233, __c7, 9));
-    case 11:
+    case 3:
+      return S.Array(__S(226, __c7, 2));
+    case 4:
       return S.suspend(() =>
         S.Struct({
           values: S.optional(__S(3968, __c124, 0)),
-          consumeReservationType: S.optional(S.String),
           key: S.optional(S.String),
+          operator: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "NodeAffinity" });
+    case 5:
+      return S.Array(__S(228, __c7, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          minNodeCpus: S.optional(S.Number),
+          nodeAffinities: S.optional(__S(229, __c7, 5)),
+        }),
+      ).annotate({ identifier: "SoleTenantConfig" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          threadsPerCore: S.optional(S.String),
+          performanceMonitoringUnit: S.optional(S.String),
+          enableNestedVirtualization: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "AdvancedMachineFeatures" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          gpuDirectStrategy: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GPUDirectConfig" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          localSsdCount: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "EphemeralStorageConfig" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          key: S.optional(S.String),
+          consumeReservationType: S.optional(S.String),
+          values: S.optional(__S(3968, __c124, 0)),
         }),
       ).annotate({ identifier: "ReservationAffinity" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          sandboxType: S.optional(S.String),
+          type: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SandboxConfig" });
     case 12:
       return S.suspend(() =>
         S.Struct({
-          imageType: S.optional(S.String),
-          localNvmeSsdBlockConfig: S.optional(__S(224, __c7, 0)),
-          accelerators: S.optional(__S(420, __c13, 4)),
-          resourceLabels: S.optional(__S(256, __c8, 0)),
-          bootDiskKmsKey: S.optional(S.String),
-          spot: S.optional(S.Boolean),
-          containerdConfig: S.optional(__S(335, __c10, 15)),
-          minCpuPlatform: S.optional(S.String),
-          hostMaintenancePolicy: S.optional(__S(385, __c12, 1)),
-          serviceAccount: S.optional(S.String),
-          secondaryBootDiskUpdateStrategy: S.optional(__S(3168, __c99, 0)),
-          bootDisk: S.optional(__S(421, __c13, 5)),
-          workloadMetadataConfig: S.optional(__S(422, __c13, 6)),
-          soleTenantConfig: S.optional(__S(227, __c7, 3)),
-          diskSizeGb: S.optional(S.Number),
-          metadata: S.optional(__S(256, __c8, 0)),
-          preemptible: S.optional(S.Boolean),
-          advancedMachineFeatures: S.optional(__S(228, __c7, 4)),
-          consolidationDelay: S.optional(S.String),
-          storagePools: S.optional(__S(3968, __c124, 0)),
-          oauthScopes: S.optional(__S(3968, __c124, 0)),
-          ephemeralStorageLocalSsdConfig: S.optional(__S(229, __c7, 5)),
-          taintConfig: S.optional(__S(423, __c13, 7)),
-          localSsdCount: S.optional(S.Number),
-          shieldedInstanceConfig: S.optional(__S(386, __c12, 2)),
-          ephemeralStorageConfig: S.optional(__S(224, __c7, 0)),
-          gpuDirectConfig: S.optional(__S(230, __c7, 6)),
-          resourceManagerTags: S.optional(__S(336, __c10, 16)),
           labels: S.optional(__S(256, __c8, 0)),
-          windowsNodeConfig: S.optional(__S(424, __c13, 8)),
-          sandboxConfig: S.optional(__S(231, __c7, 7)),
-          localSsdEncryptionMode: S.optional(S.String),
-          tags: S.optional(__S(3968, __c124, 0)),
-          diskType: S.optional(S.String),
-          maxRunDuration: S.optional(S.String),
-          taints: S.optional(__S(426, __c13, 10)),
-          nodeImageConfig: S.optional(__S(232, __c7, 8)),
-          secondaryBootDisks: S.optional(__S(234, __c7, 10)),
-          linuxNodeConfig: S.optional(__S(352, __c11, 0)),
-          confidentialNodes: S.optional(__S(427, __c13, 11)),
-          gvnic: S.optional(__S(1888, __c59, 0)),
-          fastSocket: S.optional(__S(1888, __c59, 0)),
-          machineType: S.optional(S.String),
-          gcfsConfig: S.optional(__S(1888, __c59, 0)),
-          nodeGroup: S.optional(S.String),
-          loggingConfig: S.optional(__S(354, __c11, 2)),
+          linuxNodeConfig: S.optional(__S(338, __c10, 18)),
+          metadata: S.optional(__S(256, __c8, 0)),
+          resourceManagerTags: S.optional(__S(339, __c10, 19)),
+          nodeImageConfig: S.optional(__S(224, __c7, 0)),
+          bootDiskKmsKey: S.optional(S.String),
+          oauthScopes: S.optional(__S(3968, __c124, 0)),
+          containerdConfig: S.optional(__S(354, __c11, 2)),
+          ephemeralStorageLocalSsdConfig: S.optional(__S(225, __c7, 1)),
+          secondaryBootDisks: S.optional(__S(227, __c7, 3)),
+          preemptible: S.optional(S.Boolean),
+          bootDisk: S.optional(__S(417, __c13, 1)),
+          accelerators: S.optional(__S(421, __c13, 5)),
+          serviceAccount: S.optional(S.String),
+          diskSizeGb: S.optional(S.Number),
+          confidentialNodes: S.optional(__S(422, __c13, 6)),
           enableConfidentialStorage: S.optional(S.Boolean),
+          gcfsConfig: S.optional(__S(1888, __c59, 0)),
+          fastSocket: S.optional(__S(1888, __c59, 0)),
+          soleTenantConfig: S.optional(__S(230, __c7, 6)),
+          resourceLabels: S.optional(__S(256, __c8, 0)),
+          hostMaintenancePolicy: S.optional(__S(385, __c12, 1)),
           flexStart: S.optional(S.Boolean),
-          kubeletConfig: S.optional(__S(362, __c11, 10)),
-          reservationAffinity: S.optional(__S(235, __c7, 11)),
+          workloadMetadataConfig: S.optional(__S(423, __c13, 7)),
+          advancedMachineFeatures: S.optional(__S(231, __c7, 7)),
+          gpuDirectConfig: S.optional(__S(232, __c7, 8)),
+          minCpuPlatform: S.optional(S.String),
+          shieldedInstanceConfig: S.optional(__S(386, __c12, 2)),
+          ephemeralStorageConfig: S.optional(__S(233, __c7, 9)),
+          localSsdCount: S.optional(S.Number),
+          maxRunDuration: S.optional(S.String),
+          gvnic: S.optional(__S(1888, __c59, 0)),
+          storagePools: S.optional(__S(3968, __c124, 0)),
+          tags: S.optional(__S(3968, __c124, 0)),
+          windowsNodeConfig: S.optional(__S(424, __c13, 8)),
+          secondaryBootDiskUpdateStrategy: S.optional(__S(3168, __c99, 0)),
+          localNvmeSsdBlockConfig: S.optional(__S(233, __c7, 9)),
+          localSsdEncryptionMode: S.optional(S.String),
           effectiveCgroupMode: S.optional(S.String),
+          reservationAffinity: S.optional(__S(234, __c7, 10)),
+          taints: S.optional(__S(426, __c13, 10)),
+          consolidationDelay: S.optional(S.String),
+          spot: S.optional(S.Boolean),
+          nodeGroup: S.optional(S.String),
+          taintConfig: S.optional(__S(427, __c13, 11)),
+          sandboxConfig: S.optional(__S(235, __c7, 11)),
+          imageType: S.optional(S.String),
+          diskType: S.optional(S.String),
+          loggingConfig: S.optional(__S(356, __c11, 4)),
+          machineType: S.optional(S.String),
+          kubeletConfig: S.optional(__S(364, __c11, 12)),
         }),
       ).annotate({ identifier: "NodeConfig" });
     case 13:
       return S.suspend(() =>
         S.Struct({
-          minProvisionNodes: S.optional(S.Number),
-          enabled: S.optional(S.Boolean),
+          phase: S.optional(S.String),
+          greenInstanceGroupUrls: S.optional(__S(3968, __c124, 0)),
+          greenPoolVersion: S.optional(S.String),
+          blueInstanceGroupUrls: S.optional(__S(3968, __c124, 0)),
+          bluePoolDeletionStartTime: S.optional(S.String),
         }),
-      ).annotate({ identifier: "BestEffortProvisioning" });
+      ).annotate({ identifier: "BlueGreenInfo" });
     case 14:
       return S.suspend(() =>
         S.Struct({
-          tpmBootstrapCertExpireTime: S.optional(S.String),
-          nonTpmBootstrapCertExpireTime: S.optional(S.String),
+          blueGreenInfo: S.optional(__S(237, __c7, 13)),
         }),
-      ).annotate({ identifier: "KubeletCertInfo" });
+      ).annotate({ identifier: "UpdateInfo" });
     case 15:
       return S.suspend(() =>
         S.Struct({
-          policyName: S.optional(S.String),
-          type: S.optional(S.String),
           tpuTopology: S.optional(S.String),
+          type: S.optional(S.String),
+          policyName: S.optional(S.String),
         }),
       ).annotate({ identifier: "PlacementPolicy" });
     case 16:
       return S.suspend(() =>
         S.Struct({
-          blueInstanceGroupUrls: S.optional(__S(3968, __c124, 0)),
-          bluePoolDeletionStartTime: S.optional(S.String),
-          phase: S.optional(S.String),
-          greenInstanceGroupUrls: S.optional(__S(3968, __c124, 0)),
-          greenPoolVersion: S.optional(S.String),
+          nonTpmBootstrapCertExpireTime: S.optional(S.String),
+          tpmBootstrapCertExpireTime: S.optional(S.String),
         }),
-      ).annotate({ identifier: "BlueGreenInfo" });
+      ).annotate({ identifier: "KubeletCertInfo" });
     case 17:
       return S.suspend(() =>
         S.Struct({
-          blueGreenInfo: S.optional(__S(240, __c7, 16)),
+          enabled: S.optional(S.Boolean),
+          minProvisionNodes: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "UpdateInfo" });
+      ).annotate({ identifier: "BestEffortProvisioning" });
     case 18:
       return S.suspend(() =>
         S.Struct({
-          bestEffortProvisioning: S.optional(__S(237, __c7, 13)),
-          maxPodsConstraint: S.optional(__S(428, __c13, 12)),
-          status: S.optional(S.String),
-          statusMessage: S.optional(S.String),
-          version: S.optional(S.String),
-          kubeletCertInfo: S.optional(__S(238, __c7, 14)),
-          autopilotConfig: S.optional(__S(1888, __c59, 0)),
-          nodeDrainConfig: S.optional(__S(429, __c13, 13)),
-          management: S.optional(__S(289, __c9, 1)),
-          maintenancePolicy: S.optional(__S(431, __c13, 15)),
-          podIpv4CidrSize: S.optional(S.Number),
-          placementPolicy: S.optional(__S(239, __c7, 15)),
           selfLink: S.optional(S.String),
-          config: S.optional(__S(236, __c7, 12)),
-          upgradeSettings: S.optional(__S(366, __c11, 14)),
-          initialNodeCount: S.optional(S.Number),
-          queuedProvisioning: S.optional(__S(1888, __c59, 0)),
-          networkConfig: S.optional(__S(437, __c13, 21)),
-          locations: S.optional(__S(3968, __c124, 0)),
-          name: S.optional(S.String),
-          conditions: S.optional(__S(1953, __c61, 1)),
-          instanceGroupUrls: S.optional(__S(3968, __c124, 0)),
           autoscaling: S.optional(__S(2624, __c82, 0)),
-          updateInfo: S.optional(__S(241, __c7, 17)),
+          instanceGroupUrls: S.optional(__S(3968, __c124, 0)),
+          statusMessage: S.optional(S.String),
+          updateInfo: S.optional(__S(238, __c7, 14)),
+          conditions: S.optional(__S(1953, __c61, 1)),
+          initialNodeCount: S.optional(S.Number),
+          maintenancePolicy: S.optional(__S(430, __c13, 14)),
+          version: S.optional(S.String),
+          placementPolicy: S.optional(__S(239, __c7, 15)),
+          status: S.optional(S.String),
+          kubeletCertInfo: S.optional(__S(240, __c7, 16)),
+          queuedProvisioning: S.optional(__S(1888, __c59, 0)),
           etag: S.optional(S.String),
+          locations: S.optional(__S(3968, __c124, 0)),
+          config: S.optional(__S(236, __c7, 12)),
+          management: S.optional(__S(289, __c9, 1)),
+          networkConfig: S.optional(__S(436, __c13, 20)),
+          bestEffortProvisioning: S.optional(__S(241, __c7, 17)),
+          podIpv4CidrSize: S.optional(S.Number),
+          name: S.optional(S.String),
+          nodeDrainConfig: S.optional(__S(437, __c13, 21)),
+          maxPodsConstraint: S.optional(__S(416, __c13, 0)),
+          upgradeSettings: S.optional(__S(368, __c11, 16)),
+          autopilotConfig: S.optional(__S(1888, __c59, 0)),
         }),
       ).annotate({ identifier: "NodePool" });
   }
@@ -6387,8 +6387,8 @@ function __c9(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          autoUpgradeStartTime: S.optional(S.String),
           description: S.optional(S.String),
+          autoUpgradeStartTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "AutoUpgradeOptions" });
     case 1:
@@ -6406,355 +6406,371 @@ function __c10(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          networkTier: S.optional(S.String),
+          hugepageSize1g: S.optional(S.Number),
+          hugepageSize2m: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "NetworkTierConfig" });
+      ).annotate({ identifier: "HugepagesConfig" });
     case 1:
-      return S.suspend(() =>
-        S.Struct({
-          secretUri: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GCPSecretManagerCertificateConfig" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          gcpSecretManagerCertificateConfig: S.optional(__S(321, __c10, 1)),
-          fqdns: S.optional(__S(3968, __c124, 0)),
-        }),
-      ).annotate({ identifier: "CertificateAuthorityDomainConfig" });
-    case 3:
-      return S.Array(__S(322, __c10, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          certificateAuthorityDomainConfig: S.optional(__S(323, __c10, 3)),
-          enabled: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "PrivateRegistryAccessConfig" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          gcpSecretManagerSecretUri: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CertificateConfig" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          cert: S.optional(__S(325, __c10, 5)),
-          key: S.optional(__S(325, __c10, 5)),
-        }),
-      ).annotate({ identifier: "CertificateConfigPair" });
-    case 7:
-      return S.Array(__S(326, __c10, 6));
-    case 8:
       return S.suspend(() =>
         S.Struct({
           value: S.optional(__S(3968, __c124, 0)),
           key: S.optional(S.String),
         }),
-      ).annotate({ identifier: "RegistryHeader" });
-    case 9:
-      return S.Array(__S(328, __c10, 8));
-    case 10:
-      return S.Array(__S(325, __c10, 5));
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          dialTimeout: S.optional(S.String),
-          capabilities: S.optional(__S(192, __c6, 0)),
-          client: S.optional(__S(327, __c10, 7)),
-          overridePath: S.optional(S.Boolean),
-          header: S.optional(__S(329, __c10, 9)),
-          host: S.optional(S.String),
-          ca: S.optional(__S(330, __c10, 10)),
-        }),
-      ).annotate({ identifier: "HostConfig" });
-    case 12:
-      return S.Array(__S(331, __c10, 11));
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          hosts: S.optional(__S(332, __c10, 12)),
-          server: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "RegistryHostConfig" });
-    case 14:
-      return S.Array(__S(333, __c10, 13));
-    case 15:
-      return S.suspend(() =>
-        S.Struct({
-          privateRegistryAccessConfig: S.optional(__S(324, __c10, 4)),
-          writableCgroups: S.optional(__S(1888, __c59, 0)),
-          registryHosts: S.optional(__S(334, __c10, 14)),
-        }),
-      ).annotate({ identifier: "ContainerdConfig" });
-    case 16:
-      return S.suspend(() =>
-        S.Struct({
-          tags: S.optional(__S(256, __c8, 0)),
-        }),
-      ).annotate({ identifier: "ResourceManagerTags" });
-    case 17:
-      return S.suspend(() =>
-        S.Struct({
-          enablePtpKvmTimeSync: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "AccurateTimeConfig" });
-    case 18:
-      return S.suspend(() =>
-        S.Struct({
-          swapSizePercent: S.optional(S.Number),
-          swapSizeGib: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "BootDiskProfile" });
-    case 19:
-      return S.suspend(() =>
-        S.Struct({
-          diskCount: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DedicatedLocalSsdProfile" });
-    case 20:
-      return S.suspend(() =>
-        S.Struct({
-          bootDiskProfile: S.optional(__S(338, __c10, 18)),
-          ephemeralLocalSsdProfile: S.optional(__S(338, __c10, 18)),
-          encryptionConfig: S.optional(__S(1889, __c59, 1)),
-          enabled: S.optional(S.Boolean),
-          dedicatedLocalSsdProfile: S.optional(__S(339, __c10, 19)),
-        }),
-      ).annotate({ identifier: "SwapConfig" });
-    case 21:
-      return S.suspend(() =>
-        S.Struct({
-          nodeSystemIoScheduler: S.optional(S.String),
-          nodeAttachedDiskIoScheduler: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DiskIoScheduler" });
-    case 22:
+      ).annotate({ identifier: "ResolvedConfEntry" });
+    case 2:
+      return S.Array(__S(321, __c10, 1));
+    case 3:
       return S.suspend(() =>
         S.Struct({
           host: S.optional(S.String),
           ip: S.optional(S.String),
         }),
       ).annotate({ identifier: "EtcHostsEntry" });
-    case 23:
-      return S.Array(__S(342, __c10, 22));
-    case 24:
+    case 4:
+      return S.Array(__S(323, __c10, 3));
+    case 5:
       return S.suspend(() =>
         S.Struct({
-          enabled: S.optional(S.Boolean),
-          minTtlMs: S.optional(S.Number),
+          diskCount: S.optional(S.String),
         }),
-      ).annotate({ identifier: "LRUGen" });
-    case 25:
+      ).annotate({ identifier: "DedicatedLocalSsdProfile" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          swapSizePercent: S.optional(S.Number),
+          swapSizeGib: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EphemeralLocalSsdProfile" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          swapSizeGib: S.optional(S.String),
+          swapSizePercent: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "BootDiskProfile" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          encryptionConfig: S.optional(__S(1889, __c59, 1)),
+          enabled: S.optional(S.Boolean),
+          dedicatedLocalSsdProfile: S.optional(__S(325, __c10, 5)),
+          ephemeralLocalSsdProfile: S.optional(__S(326, __c10, 6)),
+          bootDiskProfile: S.optional(__S(327, __c10, 7)),
+        }),
+      ).annotate({ identifier: "SwapConfig" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          gcsUri: S.optional(S.String),
+          args: S.optional(__S(3968, __c124, 0)),
+          gcpSecretManagerSecretUri: S.optional(S.String),
+          gcsGeneration: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "InitScript" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          initScript: S.optional(__S(329, __c10, 9)),
+        }),
+      ).annotate({ identifier: "CustomNodeInit" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          enablePtpKvmTimeSync: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "AccurateTimeConfig" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          policy: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "NodeKernelModuleLoading" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          nodeSystemIoScheduler: S.optional(S.String),
+          nodeAttachedDiskIoScheduler: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DiskIoScheduler" });
+    case 14:
       return S.suspend(() =>
         S.Struct({
           initOnAlloc: S.optional(S.String),
           specRstackOverflow: S.optional(S.String),
         }),
       ).annotate({ identifier: "KernelCommandlineOverrides" });
-    case 26:
+    case 15:
       return S.suspend(() =>
         S.Struct({
-          lruGen: S.optional(__S(344, __c10, 24)),
-          kernelCommandlineOverrides: S.optional(__S(345, __c10, 25)),
+          minTtlMs: S.optional(S.Number),
+          enabled: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "LRUGen" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          kernelCommandlineOverrides: S.optional(__S(334, __c10, 14)),
+          lruGen: S.optional(__S(335, __c10, 15)),
         }),
       ).annotate({ identifier: "KernelOverrides" });
-    case 27:
-      return S.suspend(() =>
-        S.Struct({
-          policy: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "NodeKernelModuleLoading" });
-    case 28:
-      return S.suspend(() =>
-        S.Struct({
-          gcpSecretManagerSecretUri: S.optional(S.String),
-          gcsGeneration: S.optional(S.String),
-          args: S.optional(__S(3968, __c124, 0)),
-          gcsUri: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "InitScript" });
-    case 29:
-      return S.suspend(() =>
-        S.Struct({
-          initScript: S.optional(__S(348, __c10, 28)),
-        }),
-      ).annotate({ identifier: "CustomNodeInit" });
-    case 30:
+    case 17:
       return S.suspend(() =>
         S.Struct({
           dmaEntryLimit: S.optional(S.Number),
         }),
       ).annotate({ identifier: "NodeVfioConfig" });
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          hugepages: S.optional(__S(320, __c10, 0)),
+          cgroupMode: S.optional(S.String),
+          additionalEtcSystemdResolvedConf: S.optional(__S(322, __c10, 2)),
+          additionalEtcHosts: S.optional(__S(324, __c10, 4)),
+          swapConfig: S.optional(__S(328, __c10, 8)),
+          customNodeInit: S.optional(__S(330, __c10, 10)),
+          transparentHugepageDefrag: S.optional(S.String),
+          sysctls: S.optional(__S(256, __c8, 0)),
+          additionalEtcResolvConf: S.optional(__S(322, __c10, 2)),
+          transparentHugepageEnabled: S.optional(S.String),
+          accurateTimeConfig: S.optional(__S(331, __c10, 11)),
+          nodeKernelModuleLoading: S.optional(__S(332, __c10, 12)),
+          diskIoScheduler: S.optional(__S(333, __c10, 13)),
+          timeZone: S.optional(S.String),
+          kernelOverrides: S.optional(__S(336, __c10, 16)),
+          nodeVfioConfig: S.optional(__S(337, __c10, 17)),
+        }),
+      ).annotate({ identifier: "LinuxNodeConfig" });
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          tags: S.optional(__S(256, __c8, 0)),
+        }),
+      ).annotate({ identifier: "ResourceManagerTags" });
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          gcpSecretManagerSecretUri: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CertificateConfig" });
+    case 21:
+      return S.suspend(() =>
+        S.Struct({
+          cert: S.optional(__S(340, __c10, 20)),
+          key: S.optional(__S(340, __c10, 20)),
+        }),
+      ).annotate({ identifier: "CertificateConfigPair" });
+    case 22:
+      return S.Array(__S(341, __c10, 21));
+    case 23:
+      return S.suspend(() =>
+        S.Struct({
+          key: S.optional(S.String),
+          value: S.optional(__S(3968, __c124, 0)),
+        }),
+      ).annotate({ identifier: "RegistryHeader" });
+    case 24:
+      return S.Array(__S(343, __c10, 23));
+    case 25:
+      return S.Array(__S(340, __c10, 20));
+    case 26:
+      return S.suspend(() =>
+        S.Struct({
+          client: S.optional(__S(342, __c10, 22)),
+          overridePath: S.optional(S.Boolean),
+          host: S.optional(S.String),
+          header: S.optional(__S(344, __c10, 24)),
+          dialTimeout: S.optional(S.String),
+          capabilities: S.optional(__S(192, __c6, 0)),
+          ca: S.optional(__S(345, __c10, 25)),
+        }),
+      ).annotate({ identifier: "HostConfig" });
+    case 27:
+      return S.Array(__S(346, __c10, 26));
+    case 28:
+      return S.suspend(() =>
+        S.Struct({
+          hosts: S.optional(__S(347, __c10, 27)),
+          server: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RegistryHostConfig" });
+    case 29:
+      return S.Array(__S(348, __c10, 28));
+    case 30:
+      return S.suspend(() =>
+        S.Struct({
+          secretUri: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GCPSecretManagerCertificateConfig" });
     case 31:
       return S.suspend(() =>
         S.Struct({
-          hugepageSize2m: S.optional(S.Number),
-          hugepageSize1g: S.optional(S.Number),
+          gcpSecretManagerCertificateConfig: S.optional(__S(350, __c10, 30)),
+          fqdns: S.optional(__S(3968, __c124, 0)),
         }),
-      ).annotate({ identifier: "HugepagesConfig" });
+      ).annotate({ identifier: "CertificateAuthorityDomainConfig" });
   }
 }
 function __c11(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(__S(351, __c10, 31));
+    case 1:
       return S.suspend(() =>
         S.Struct({
-          additionalEtcSystemdResolvedConf: S.optional(__S(329, __c10, 9)),
-          accurateTimeConfig: S.optional(__S(337, __c10, 17)),
-          swapConfig: S.optional(__S(340, __c10, 20)),
-          diskIoScheduler: S.optional(__S(341, __c10, 21)),
-          additionalEtcHosts: S.optional(__S(343, __c10, 23)),
-          additionalEtcResolvConf: S.optional(__S(329, __c10, 9)),
-          kernelOverrides: S.optional(__S(346, __c10, 26)),
-          sysctls: S.optional(__S(256, __c8, 0)),
-          cgroupMode: S.optional(S.String),
-          nodeKernelModuleLoading: S.optional(__S(347, __c10, 27)),
-          transparentHugepageDefrag: S.optional(S.String),
-          timeZone: S.optional(S.String),
-          customNodeInit: S.optional(__S(349, __c10, 29)),
-          nodeVfioConfig: S.optional(__S(350, __c10, 30)),
-          hugepages: S.optional(__S(351, __c10, 31)),
-          transparentHugepageEnabled: S.optional(S.String),
+          enabled: S.optional(S.Boolean),
+          certificateAuthorityDomainConfig: S.optional(__S(352, __c11, 0)),
         }),
-      ).annotate({ identifier: "LinuxNodeConfig" });
-    case 1:
+      ).annotate({ identifier: "PrivateRegistryAccessConfig" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          writableCgroups: S.optional(__S(1888, __c59, 0)),
+          registryHosts: S.optional(__S(349, __c10, 29)),
+          privateRegistryAccessConfig: S.optional(__S(353, __c11, 1)),
+        }),
+      ).annotate({ identifier: "ContainerdConfig" });
+    case 3:
       return S.suspend(() =>
         S.Struct({
           variant: S.optional(S.String),
         }),
       ).annotate({ identifier: "LoggingVariantConfig" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          variantConfig: S.optional(__S(353, __c11, 1)),
-        }),
-      ).annotate({ identifier: "NodePoolLoggingConfig" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          pidAvailable: S.optional(S.String),
-          nodefsAvailable: S.optional(S.String),
-          imagefsInodesFree: S.optional(S.String),
-          nodefsInodesFree: S.optional(S.String),
-          memoryAvailable: S.optional(S.String),
-          imagefsAvailable: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "EvictionMinimumReclaim" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          nodefsInodesFree: S.optional(S.String),
-          imagefsAvailable: S.optional(S.String),
-          nodefsAvailable: S.optional(S.String),
-          pidAvailable: S.optional(S.String),
-          imagefsInodesFree: S.optional(S.String),
-          memoryAvailable: S.optional(S.String),
+          variantConfig: S.optional(__S(355, __c11, 3)),
         }),
-      ).annotate({ identifier: "EvictionGracePeriod" });
+      ).annotate({ identifier: "NodePoolLoggingConfig" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          nodefsAvailable: S.optional(S.String),
-          imagefsInodesFree: S.optional(S.String),
-          imagefsAvailable: S.optional(S.String),
-          nodefsInodesFree: S.optional(S.String),
           memoryAvailable: S.optional(S.String),
+          nodefsInodesFree: S.optional(S.String),
+          imagefsAvailable: S.optional(S.String),
+          imagefsInodesFree: S.optional(S.String),
           pidAvailable: S.optional(S.String),
+          nodefsAvailable: S.optional(S.String),
         }),
       ).annotate({ identifier: "EvictionSignals" });
     case 6:
-      return S.suspend(() =>
-        S.Struct({
-          memoryReservedMib: S.optional(S.String),
-          cpuReservedMillicore: S.optional(S.String),
-          effectiveCpuReservedMillicore: S.optional(S.String),
-          effectiveMemoryReservedMib: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ReservedResourcesConfig" });
-    case 7:
       return S.suspend(() =>
         S.Struct({
           policy: S.optional(S.String),
           scope: S.optional(S.String),
         }),
       ).annotate({ identifier: "TopologyManager" });
-    case 8:
+    case 7:
       return S.suspend(() =>
         S.Struct({
           maxContainerRestartPeriod: S.optional(S.String),
         }),
       ).annotate({ identifier: "CrashLoopBackOffConfig" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          pidAvailable: S.optional(S.String),
+          imagefsAvailable: S.optional(S.String),
+          memoryAvailable: S.optional(S.String),
+          nodefsAvailable: S.optional(S.String),
+          nodefsInodesFree: S.optional(S.String),
+          imagefsInodesFree: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EvictionGracePeriod" });
     case 9:
+      return S.suspend(() =>
+        S.Struct({
+          effectiveMemoryReservedMib: S.optional(S.String),
+          cpuReservedMillicore: S.optional(S.String),
+          effectiveCpuReservedMillicore: S.optional(S.String),
+          memoryReservedMib: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ReservedResourcesConfig" });
+    case 10:
       return S.suspend(() =>
         S.Struct({
           policy: S.optional(S.String),
         }),
       ).annotate({ identifier: "MemoryManager" });
-    case 10:
+    case 11:
       return S.suspend(() =>
         S.Struct({
-          containerLogMaxSize: S.optional(S.String),
+          nodefsInodesFree: S.optional(S.String),
+          memoryAvailable: S.optional(S.String),
+          imagefsAvailable: S.optional(S.String),
+          nodefsAvailable: S.optional(S.String),
+          imagefsInodesFree: S.optional(S.String),
+          pidAvailable: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EvictionMinimumReclaim" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
           imageGcHighThresholdPercent: S.optional(S.Number),
-          evictionMaxPodGracePeriodSeconds: S.optional(S.Number),
-          imageGcLowThresholdPercent: S.optional(S.Number),
-          insecureKubeletReadonlyPortEnabled: S.optional(S.Boolean),
-          cpuCfsQuota: S.optional(S.Boolean),
-          evictionMinimumReclaim: S.optional(__S(355, __c11, 3)),
-          cpuManagerPolicy: S.optional(S.String),
           allowedUnsafeSysctls: S.optional(__S(3968, __c124, 0)),
-          evictionSoftGracePeriod: S.optional(__S(356, __c11, 4)),
+          evictionMaxPodGracePeriodSeconds: S.optional(S.Number),
           evictionSoft: S.optional(__S(357, __c11, 5)),
-          reservedResourcesConfig: S.optional(__S(358, __c11, 6)),
-          shutdownGracePeriodSeconds: S.optional(S.Number),
-          cpuCfsQuotaPeriod: S.optional(S.String),
-          containerLogMaxWorkers: S.optional(S.Number),
-          topologyManager: S.optional(__S(359, __c11, 7)),
-          crashLoopBackOff: S.optional(__S(360, __c11, 8)),
-          shutdownGracePeriodCriticalPodsSeconds: S.optional(S.Number),
-          imageMaximumGcAge: S.optional(S.String),
           containerLogMaxFiles: S.optional(S.Number),
-          imageMinimumGcAge: S.optional(S.String),
-          podPidsLimit: S.optional(S.String),
-          singleProcessOomKill: S.optional(S.Boolean),
-          maxParallelImagePulls: S.optional(S.Number),
-          containerLogMonitorInterval: S.optional(S.String),
+          shutdownGracePeriodCriticalPodsSeconds: S.optional(S.Number),
           reservedSystemCpus: S.optional(S.String),
-          memoryManager: S.optional(__S(361, __c11, 9)),
+          containerLogMaxSize: S.optional(S.String),
+          maxParallelImagePulls: S.optional(S.Number),
+          imageMaximumGcAge: S.optional(S.String),
+          topologyManager: S.optional(__S(358, __c11, 6)),
+          crashLoopBackOff: S.optional(__S(359, __c11, 7)),
+          containerLogMaxWorkers: S.optional(S.Number),
+          shutdownGracePeriodSeconds: S.optional(S.Number),
+          imageMinimumGcAge: S.optional(S.String),
+          evictionSoftGracePeriod: S.optional(__S(360, __c11, 8)),
+          cpuCfsQuotaPeriod: S.optional(S.String),
+          imageGcLowThresholdPercent: S.optional(S.Number),
+          singleProcessOomKill: S.optional(S.Boolean),
+          cpuCfsQuota: S.optional(S.Boolean),
+          reservedResourcesConfig: S.optional(__S(361, __c11, 9)),
+          memoryManager: S.optional(__S(362, __c11, 10)),
+          podPidsLimit: S.optional(S.String),
+          insecureKubeletReadonlyPortEnabled: S.optional(S.Boolean),
+          cpuManagerPolicy: S.optional(S.String),
+          evictionMinimumReclaim: S.optional(__S(363, __c11, 11)),
+          containerLogMonitorInterval: S.optional(S.String),
         }),
       ).annotate({ identifier: "NodeKubeletConfig" });
-    case 11:
+    case 13:
       return S.suspend(() =>
         S.Struct({
           waitForDrainDuration: S.optional(S.String),
         }),
       ).annotate({ identifier: "AutoscaledRolloutPolicy" });
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          batchPercentage: S.optional(S.Number),
-          batchSoakDuration: S.optional(S.String),
-          batchNodeCount: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "StandardRolloutPolicy" });
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          autoscaledRolloutPolicy: S.optional(__S(363, __c11, 11)),
-          standardRolloutPolicy: S.optional(__S(364, __c11, 12)),
-          nodePoolSoakDuration: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "BlueGreenSettings" });
     case 14:
       return S.suspend(() =>
         S.Struct({
-          blueGreenSettings: S.optional(__S(365, __c11, 13)),
+          batchNodeCount: S.optional(S.Number),
+          batchSoakDuration: S.optional(S.String),
+          batchPercentage: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "StandardRolloutPolicy" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          autoscaledRolloutPolicy: S.optional(__S(365, __c11, 13)),
+          standardRolloutPolicy: S.optional(__S(366, __c11, 14)),
+          nodePoolSoakDuration: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "BlueGreenSettings" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
           maxSurge: S.optional(S.Number),
+          blueGreenSettings: S.optional(__S(367, __c11, 15)),
           strategy: S.optional(S.String),
           maxUnavailable: S.optional(S.Number),
         }),
       ).annotate({ identifier: "UpgradeSettings" });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          networkTier: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "NetworkTierConfig" });
   }
 }
 function __c12(j: number): any {
@@ -6763,15 +6779,15 @@ function __c12(j: number): any {
       return S.suspend(() =>
         S.Struct({
           minNodesPerPool: S.optional(S.String),
-          maintenanceAvailabilityWindow: S.optional(S.String),
           nodeIdleTimeWindow: S.optional(S.String),
+          maintenanceAvailabilityWindow: S.optional(S.String),
         }),
       ).annotate({ identifier: "OpportunisticMaintenanceStrategy" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          opportunisticMaintenanceStrategy: S.optional(__S(384, __c12, 0)),
           maintenanceInterval: S.optional(S.String),
+          opportunisticMaintenanceStrategy: S.optional(__S(384, __c12, 0)),
         }),
       ).annotate({ identifier: "HostMaintenancePolicy" });
     case 2:
@@ -6788,58 +6804,59 @@ function __c13(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          disable: S.optional(S.Boolean),
+          maxPodsPerNode: S.optional(S.String),
         }),
-      ).annotate({ identifier: "PodCIDROverprovisionConfig" });
+      ).annotate({ identifier: "MaxPodsConstraint" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          maxSharedClientsPerGpu: S.optional(S.String),
-          gpuSharingStrategy: S.optional(S.String),
+          sizeGb: S.optional(S.String),
+          provisionedThroughput: S.optional(S.String),
+          diskType: S.optional(S.String),
+          provisionedIops: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GPUSharingConfig" });
+      ).annotate({ identifier: "BootDisk" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          specificVersion: S.optional(S.String),
           gpuDriverVersion: S.optional(S.String),
+          specificVersion: S.optional(S.String),
         }),
       ).annotate({ identifier: "GPUDriverInstallationConfig" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          gpuSharingConfig: S.optional(__S(417, __c13, 1)),
-          maxTimeSharedClientsPerGpu: S.optional(S.String),
-          acceleratorType: S.optional(S.String),
-          acceleratorCount: S.optional(S.String),
-          gpuPartitionSize: S.optional(S.String),
-          gpuDriverInstallationConfig: S.optional(__S(418, __c13, 2)),
+          gpuSharingStrategy: S.optional(S.String),
+          maxSharedClientsPerGpu: S.optional(S.String),
         }),
-      ).annotate({ identifier: "AcceleratorConfig" });
+      ).annotate({ identifier: "GPUSharingConfig" });
     case 4:
-      return S.Array(__S(419, __c13, 3));
-    case 5:
       return S.suspend(() =>
         S.Struct({
-          provisionedIops: S.optional(S.String),
-          diskType: S.optional(S.String),
-          provisionedThroughput: S.optional(S.String),
-          sizeGb: S.optional(S.String),
+          acceleratorType: S.optional(S.String),
+          gpuPartitionSize: S.optional(S.String),
+          gpuDriverInstallationConfig: S.optional(__S(418, __c13, 2)),
+          maxTimeSharedClientsPerGpu: S.optional(S.String),
+          acceleratorCount: S.optional(S.String),
+          gpuSharingConfig: S.optional(__S(419, __c13, 3)),
         }),
-      ).annotate({ identifier: "BootDisk" });
+      ).annotate({ identifier: "AcceleratorConfig" });
+    case 5:
+      return S.Array(__S(420, __c13, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          mode: S.optional(S.String),
-          nodeMetadata: S.optional(S.String),
+          enabled: S.optional(S.Boolean),
+          confidentialInstanceType: S.optional(S.String),
         }),
-      ).annotate({ identifier: "WorkloadMetadataConfig" });
+      ).annotate({ identifier: "ConfidentialNodes" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          architectureTaintBehavior: S.optional(S.String),
+          nodeMetadata: S.optional(S.String),
+          mode: S.optional(S.String),
         }),
-      ).annotate({ identifier: "TaintConfig" });
+      ).annotate({ identifier: "WorkloadMetadataConfig" });
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -6850,8 +6867,8 @@ function __c13(j: number): any {
       return S.suspend(() =>
         S.Struct({
           effect: S.optional(S.String),
-          key: S.optional(S.String),
           value: S.optional(S.String),
+          key: S.optional(S.String),
         }),
       ).annotate({ identifier: "NodeTaint" });
     case 10:
@@ -6859,85 +6876,84 @@ function __c13(j: number): any {
     case 11:
       return S.suspend(() =>
         S.Struct({
-          enabled: S.optional(S.Boolean),
-          confidentialInstanceType: S.optional(S.String),
+          architectureTaintBehavior: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ConfidentialNodes" });
+      ).annotate({ identifier: "TaintConfig" });
     case 12:
       return S.suspend(() =>
         S.Struct({
-          maxPodsPerNode: S.optional(S.String),
+          disable: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "MaxPodsConstraint" });
+      ).annotate({ identifier: "PodCIDROverprovisionConfig" });
     case 13:
       return S.suspend(() =>
         S.Struct({
-          graceTerminationDuration: S.optional(S.String),
-          pdbTimeoutDuration: S.optional(S.String),
-          respectPdbDuringNodePoolDeletion: S.optional(S.Boolean),
+          startTime: S.optional(S.String),
+          enabled: S.optional(S.Boolean),
+          endTime: S.optional(S.String),
         }),
-      ).annotate({ identifier: "NodeDrainConfig" });
+      ).annotate({ identifier: "ExclusionUntilEndOfSupport" });
     case 14:
       return S.suspend(() =>
         S.Struct({
-          endTime: S.optional(S.String),
-          enabled: S.optional(S.Boolean),
-          startTime: S.optional(S.String),
+          exclusionUntilEndOfSupport: S.optional(__S(429, __c13, 13)),
         }),
-      ).annotate({ identifier: "ExclusionUntilEndOfSupport" });
+      ).annotate({ identifier: "NodePoolMaintenancePolicy" });
     case 15:
       return S.suspend(() =>
         S.Struct({
-          exclusionUntilEndOfSupport: S.optional(__S(430, __c13, 14)),
-        }),
-      ).annotate({ identifier: "NodePoolMaintenancePolicy" });
-    case 16:
-      return S.suspend(() =>
-        S.Struct({
+          maxPodsPerNode: S.optional(__S(416, __c13, 0)),
           secondaryPodRange: S.optional(S.String),
-          networkAttachment: S.optional(S.String),
-          maxPodsPerNode: S.optional(__S(428, __c13, 12)),
           subnetwork: S.optional(S.String),
+          networkAttachment: S.optional(S.String),
         }),
       ).annotate({ identifier: "AdditionalPodNetworkConfig" });
+    case 16:
+      return S.Array(__S(431, __c13, 15));
     case 17:
-      return S.Array(__S(432, __c13, 16));
-    case 18:
       return S.suspend(() =>
         S.Struct({
           externalIpEgressBandwidthTier: S.optional(S.String),
           totalEgressBandwidthTier: S.optional(S.String),
         }),
       ).annotate({ identifier: "NetworkPerformanceConfig" });
-    case 19:
+    case 18:
       return S.suspend(() =>
         S.Struct({
-          stackType: S.optional(S.String),
           network: S.optional(S.String),
+          stackType: S.optional(S.String),
           subnetwork: S.optional(S.String),
         }),
       ).annotate({ identifier: "AdditionalNodeNetworkConfig" });
+    case 19:
+      return S.Array(__S(434, __c13, 18));
     case 20:
-      return S.Array(__S(435, __c13, 19));
+      return S.suspend(() =>
+        S.Struct({
+          datapathProvider: S.optional(S.String),
+          createPodRange: S.optional(S.Boolean),
+          additionalPodNetworkConfigs: S.optional(__S(432, __c13, 16)),
+          podIpv4CidrBlock: S.optional(S.String),
+          networkPerformanceConfig: S.optional(__S(433, __c13, 17)),
+          networkTierConfig: S.optional(__S(369, __c11, 17)),
+          network: S.optional(S.String),
+          additionalNodeNetworkConfigs: S.optional(__S(435, __c13, 19)),
+          enablePrivateNodes: S.optional(S.Boolean),
+          subnetwork: S.optional(S.String),
+          podCidrOverprovisionConfig: S.optional(__S(428, __c13, 12)),
+          acceleratorNetworkProfile: S.optional(S.String),
+          podRange: S.optional(S.String),
+          podIpv4RangeUtilization: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "NodeNetworkConfig" });
     case 21:
       return S.suspend(() =>
         S.Struct({
-          additionalPodNetworkConfigs: S.optional(__S(433, __c13, 17)),
-          networkPerformanceConfig: S.optional(__S(434, __c13, 18)),
-          network: S.optional(S.String),
-          createPodRange: S.optional(S.Boolean),
-          podIpv4RangeUtilization: S.optional(S.Number),
-          subnetwork: S.optional(S.String),
-          podCidrOverprovisionConfig: S.optional(__S(416, __c13, 0)),
-          enablePrivateNodes: S.optional(S.Boolean),
-          podIpv4CidrBlock: S.optional(S.String),
-          additionalNodeNetworkConfigs: S.optional(__S(436, __c13, 20)),
-          networkTierConfig: S.optional(__S(320, __c10, 0)),
-          acceleratorNetworkProfile: S.optional(S.String),
-          podRange: S.optional(S.String),
-          datapathProvider: S.optional(S.String),
+          pdbTimeoutDuration: S.optional(S.String),
+          respectPdbDuringNodePoolDeletion: S.optional(S.Boolean),
+          graceTerminationDuration: S.optional(S.String),
         }),
-      ).annotate({ identifier: "NodeNetworkConfig" });
+      ).annotate({ identifier: "NodeDrainConfig" });
   }
 }
 function __c14(j: number): any {
@@ -6945,9 +6961,9 @@ function __c14(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          projectId: S.optional(S.String),
           parent: S.optional(S.String),
           cluster: S.optional(__S(553, __c17, 9)),
-          projectId: S.optional(S.String),
           zone: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateClusterRequest" });
@@ -6958,9 +6974,9 @@ function __c15(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          day: S.optional(S.Number),
-          year: S.optional(S.Number),
           month: S.optional(S.Number),
+          year: S.optional(S.Number),
+          day: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Container_Date" });
   }
@@ -6976,48 +6992,48 @@ function __c17(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          state: S.optional(S.String),
+          useRoutes: S.optional(S.Boolean),
+          additionalIpRangesConfigs: S.optional(__S(722, __c22, 18)),
+          createSubnetwork: S.optional(S.Boolean),
+          subnetworkName: S.optional(S.String),
+          allowRouteOverlap: S.optional(S.Boolean),
+          stackType: S.optional(S.String),
+          useIpAliases: S.optional(S.Boolean),
+          autoIpamConfig: S.optional(__S(1888, __c59, 0)),
+          nodeIpv4CidrBlock: S.optional(S.String),
+          servicesIpv4CidrBlock: S.optional(S.String),
+          nodeIpv4Cidr: S.optional(S.String),
+          defaultPodIpv4RangeUtilization: S.optional(S.Number),
+          podCidrOverprovisionConfig: S.optional(__S(428, __c13, 12)),
+          servicesIpv4Cidr: S.optional(S.String),
+          subnetIpv6CidrBlock: S.optional(S.String),
+          additionalPodRangesConfig: S.optional(__S(725, __c22, 21)),
+          servicesSecondaryRangeName: S.optional(S.String),
+          ipv6AccessType: S.optional(S.String),
+          networkTierConfig: S.optional(__S(369, __c11, 17)),
+          clusterIpv4Cidr: S.optional(S.String),
+          servicesIpv6CidrBlock: S.optional(S.String),
+          tpuIpv4CidrBlock: S.optional(S.String),
+          clusterIpv4CidrBlock: S.optional(S.String),
+          clusterSecondaryRangeName: S.optional(S.String),
         }),
-      ).annotate({ identifier: "AutopilotConversionStatus" });
+      ).annotate({ identifier: "IPAllocationPolicy" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          conversionStatus: S.optional(__S(544, __c17, 0)),
-          enabled: S.optional(S.Boolean),
-          clusterPolicyConfig: S.optional(__S(706, __c22, 2)),
-          privilegedAdmissionConfig: S.optional(__S(707, __c22, 3)),
-          workloadPolicyConfig: S.optional(__S(708, __c22, 4)),
+          state: S.optional(S.String),
         }),
-      ).annotate({ identifier: "Autopilot" });
+      ).annotate({ identifier: "AutopilotConversionStatus" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          servicesIpv4CidrBlock: S.optional(S.String),
-          servicesSecondaryRangeName: S.optional(S.String),
-          networkTierConfig: S.optional(__S(320, __c10, 0)),
-          stackType: S.optional(S.String),
-          defaultPodIpv4RangeUtilization: S.optional(S.Number),
-          tpuIpv4CidrBlock: S.optional(S.String),
-          servicesIpv6CidrBlock: S.optional(S.String),
-          allowRouteOverlap: S.optional(S.Boolean),
-          podCidrOverprovisionConfig: S.optional(__S(416, __c13, 0)),
-          useRoutes: S.optional(S.Boolean),
-          nodeIpv4Cidr: S.optional(S.String),
-          servicesIpv4Cidr: S.optional(S.String),
-          clusterSecondaryRangeName: S.optional(S.String),
-          ipv6AccessType: S.optional(S.String),
-          useIpAliases: S.optional(S.Boolean),
-          additionalPodRangesConfig: S.optional(__S(715, __c22, 11)),
-          additionalIpRangesConfigs: S.optional(__S(717, __c22, 13)),
-          autoIpamConfig: S.optional(__S(1888, __c59, 0)),
-          clusterIpv4CidrBlock: S.optional(S.String),
-          clusterIpv4Cidr: S.optional(S.String),
-          subnetworkName: S.optional(S.String),
-          createSubnetwork: S.optional(S.Boolean),
-          subnetIpv6CidrBlock: S.optional(S.String),
-          nodeIpv4CidrBlock: S.optional(S.String),
+          clusterPolicyConfig: S.optional(__S(737, __c23, 1)),
+          conversionStatus: S.optional(__S(545, __c17, 1)),
+          privilegedAdmissionConfig: S.optional(__S(738, __c23, 2)),
+          enabled: S.optional(S.Boolean),
+          workloadPolicyConfig: S.optional(__S(739, __c23, 3)),
         }),
-      ).annotate({ identifier: "IPAllocationPolicy" });
+      ).annotate({ identifier: "Autopilot" });
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -7027,160 +7043,160 @@ function __c17(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          disableL4LbFirewallReconciliation: S.optional(S.Boolean),
-          enableL4ilbSubsetting: S.optional(S.Boolean),
-          dataplaneV2Config: S.optional(__S(547, __c17, 3)),
-          serviceExternalIpsConfig: S.optional(__S(1888, __c59, 0)),
-          dnsConfig: S.optional(__S(719, __c22, 15)),
           subnetwork: S.optional(S.String),
           defaultEnablePrivateNodes: S.optional(S.Boolean),
-          gatewayApiConfig: S.optional(__S(720, __c22, 16)),
-          networkPerformanceConfig: S.optional(__S(721, __c22, 17)),
-          ambientNetworkingConfig: S.optional(__S(1888, __c59, 0)),
           network: S.optional(S.String),
-          enableIntraNodeVisibility: S.optional(S.Boolean),
-          enableCiliumClusterwideNetworkPolicy: S.optional(S.Boolean),
           privateIpv6GoogleAccess: S.optional(S.String),
-          defaultSnatStatus: S.optional(__S(1889, __c59, 1)),
-          enableFqdnNetworkPolicy: S.optional(S.Boolean),
+          enableL4ilbSubsetting: S.optional(S.Boolean),
           enableMultiNetworking: S.optional(S.Boolean),
+          networkPerformanceConfig: S.optional(__S(741, __c23, 5)),
           datapathProvider: S.optional(S.String),
+          enableIntraNodeVisibility: S.optional(S.Boolean),
+          dnsConfig: S.optional(__S(742, __c23, 6)),
+          disableL4LbFirewallReconciliation: S.optional(S.Boolean),
+          defaultSnatStatus: S.optional(__S(1889, __c59, 1)),
+          dataplaneV2Config: S.optional(__S(547, __c17, 3)),
+          enableCiliumClusterwideNetworkPolicy: S.optional(S.Boolean),
+          enableFqdnNetworkPolicy: S.optional(S.Boolean),
+          ambientNetworkingConfig: S.optional(__S(1888, __c59, 0)),
+          gatewayApiConfig: S.optional(__S(743, __c23, 7)),
           inTransitEncryptionConfig: S.optional(S.String),
+          serviceExternalIpsConfig: S.optional(__S(1888, __c59, 0)),
         }),
       ).annotate({ identifier: "NetworkConfig" });
     case 5:
-      return S.suspend(() =>
-        S.Struct({
-          loggingConfig: S.optional(__S(354, __c11, 2)),
-          containerdConfig: S.optional(__S(335, __c10, 15)),
-          hostMaintenancePolicy: S.optional(__S(385, __c12, 1)),
-          gcfsConfig: S.optional(__S(1888, __c59, 0)),
-          nodeKubeletConfig: S.optional(__S(362, __c11, 10)),
-        }),
-      ).annotate({ identifier: "NodeConfigDefaults" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          nodeConfigDefaults: S.optional(__S(549, __c17, 5)),
-        }),
-      ).annotate({ identifier: "NodePoolDefaults" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          linuxNodeConfig: S.optional(__S(352, __c11, 0)),
-          nodeKubeletConfig: S.optional(__S(362, __c11, 10)),
-          networkTags: S.optional(__S(672, __c21, 0)),
-          resourceManagerTags: S.optional(__S(336, __c10, 16)),
-        }),
-      ).annotate({ identifier: "NodePoolAutoConfig" });
-    case 8:
       return S.suspend(() =>
         S.Struct({
           clusterTier: S.optional(S.String),
           desiredTier: S.optional(S.String),
         }),
       ).annotate({ identifier: "EnterpriseConfig" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          networkTags: S.optional(__S(672, __c21, 0)),
+          linuxNodeConfig: S.optional(__S(338, __c10, 18)),
+          resourceManagerTags: S.optional(__S(339, __c10, 19)),
+          nodeKubeletConfig: S.optional(__S(364, __c11, 12)),
+        }),
+      ).annotate({ identifier: "NodePoolAutoConfig" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          containerdConfig: S.optional(__S(354, __c11, 2)),
+          nodeKubeletConfig: S.optional(__S(364, __c11, 12)),
+          loggingConfig: S.optional(__S(356, __c11, 4)),
+          gcfsConfig: S.optional(__S(1888, __c59, 0)),
+          hostMaintenancePolicy: S.optional(__S(385, __c12, 1)),
+        }),
+      ).annotate({ identifier: "NodeConfigDefaults" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          nodeConfigDefaults: S.optional(__S(551, __c17, 7)),
+        }),
+      ).annotate({ identifier: "NodePoolDefaults" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          alphaClusterFeatureGates: S.optional(__S(3968, __c124, 0)),
-          expireTime: S.optional(S.String),
-          workloadAltsConfig: S.optional(__S(704, __c22, 0)),
-          targetNodeVersion: S.optional(S.String),
-          securityPostureConfig: S.optional(__S(705, __c22, 1)),
-          autopilot: S.optional(__S(545, __c17, 1)),
-          secretManagerConfig: S.optional(__S(710, __c22, 6)),
-          privateCluster: S.optional(S.Boolean),
-          fleet: S.optional(__S(711, __c22, 7)),
-          rollbackSafeUpgrade: S.optional(__S(712, __c22, 8)),
-          ipAllocationPolicy: S.optional(__S(546, __c17, 2)),
-          managedOpentelemetryConfig: S.optional(__S(718, __c22, 14)),
-          networkPolicy: S.optional(__S(640, __c20, 0)),
-          loggingService: S.optional(S.String),
-          networkConfig: S.optional(__S(548, __c17, 4)),
-          workloadIdentityConfig: S.optional(__S(722, __c22, 18)),
-          parentProductConfig: S.optional(__S(723, __c22, 19)),
-          nodeConfig: S.optional(__S(236, __c7, 12)),
-          satisfiesPzs: S.optional(S.Boolean),
-          legacyAbac: S.optional(__S(1888, __c59, 0)),
-          enableK8sBetaApis: S.optional(__S(724, __c22, 20)),
-          status: S.optional(S.String),
-          clusterTelemetry: S.optional(__S(725, __c22, 21)),
-          authenticatorGroupsConfig: S.optional(__S(726, __c22, 22)),
-          compliancePostureConfig: S.optional(__S(729, __c22, 25)),
-          monitoringService: S.optional(S.String),
-          protectConfig: S.optional(__S(731, __c22, 27)),
-          meshCertificates: S.optional(__S(732, __c22, 28)),
-          managedMachineLearningDiagnosticsConfig: S.optional(__S(1888, __c59, 0)),
-          anonymousAuthenticationConfig: S.optional(__S(733, __c22, 29)),
-          releaseChannel: S.optional(__S(720, __c22, 16)),
-          gkeAutoUpgradeConfig: S.optional(__S(734, __c22, 30)),
-          masterAuthorizedNetworksConfig: S.optional(__S(737, __c23, 1)),
-          subnetwork: S.optional(S.String),
-          tpuIpv4CidrBlock: S.optional(S.String),
-          nodeIpv4CidrSize: S.optional(S.Number),
-          currentMasterVersion: S.optional(S.String),
-          initialClusterVersion: S.optional(S.String),
-          nodePoolDefaults: S.optional(__S(550, __c17, 6)),
-          id: S.optional(S.String),
-          controlPlaneEgress: S.optional(__S(733, __c22, 29)),
-          controlPlaneEndpointsConfig: S.optional(__S(740, __c23, 4)),
-          etag: S.optional(S.String),
-          defaultMaxPodsConstraint: S.optional(__S(428, __c13, 12)),
-          maintenancePolicy: S.optional(__S(585, __c18, 9)),
-          description: S.optional(S.String),
-          zone: S.optional(S.String),
-          servicesIpv4Cidr: S.optional(S.String),
-          workloadCertificates: S.optional(__S(732, __c22, 28)),
-          identityServiceConfig: S.optional(__S(1888, __c59, 0)),
-          resourceLabels: S.optional(__S(256, __c8, 0)),
           locations: S.optional(__S(3968, __c124, 0)),
-          statusMessage: S.optional(S.String),
-          podAutoscaling: S.optional(__S(741, __c23, 5)),
-          selfLink: S.optional(S.String),
-          nodePoolAutoConfig: S.optional(__S(551, __c17, 7)),
-          notificationConfig: S.optional(__S(744, __c23, 8)),
-          nodePools: S.optional(__S(512, __c16, 0)),
-          createTime: S.optional(S.String),
-          privateClusterConfig: S.optional(__S(745, __c23, 9)),
-          costManagementConfig: S.optional(__S(1888, __c59, 0)),
-          loggingConfig: S.optional(__S(747, __c23, 11)),
-          podSecurityPolicyConfig: S.optional(__S(1888, __c59, 0)),
-          master: S.optional(__S(749, __c23, 13)),
-          conditions: S.optional(__S(1953, __c61, 1)),
-          scheduleUpgradeConfig: S.optional(__S(1888, __c59, 0)),
-          nodePoolUpgradeConcurrencyConfig: S.optional(__S(750, __c23, 14)),
-          enableTpu: S.optional(S.Boolean),
-          verticalPodAutoscaling: S.optional(__S(1888, __c59, 0)),
-          currentNodeCount: S.optional(S.Number),
-          network: S.optional(S.String),
-          monitoringConfig: S.optional(__S(753, __c23, 17)),
-          secretSyncConfig: S.optional(__S(755, __c23, 19)),
-          nodeCreationConfig: S.optional(__S(756, __c23, 20)),
-          enterpriseConfig: S.optional(__S(552, __c17, 8)),
-          masterAuth: S.optional(__S(609, __c19, 1)),
-          binaryAuthorization: S.optional(__S(759, __c23, 23)),
-          addonsConfig: S.optional(__S(1925, __c60, 5)),
-          clusterIpv4Cidr: S.optional(S.String),
-          instanceGroupUrls: S.optional(__S(3968, __c124, 0)),
-          labelFingerprint: S.optional(S.String),
-          tpuConfig: S.optional(__S(760, __c23, 24)),
-          confidentialNodes: S.optional(__S(427, __c13, 11)),
-          autoscaling: S.optional(__S(765, __c23, 29)),
+          meshCertificates: S.optional(__S(704, __c22, 0)),
+          rollbackSafeUpgrade: S.optional(__S(705, __c22, 1)),
+          defaultMaxPodsConstraint: S.optional(__S(416, __c13, 0)),
+          currentMasterVersion: S.optional(S.String),
+          loggingConfig: S.optional(__S(707, __c22, 3)),
+          nodePoolUpgradeConcurrencyConfig: S.optional(__S(708, __c22, 4)),
+          nodeConfig: S.optional(__S(236, __c7, 12)),
+          status: S.optional(S.String),
+          compliancePostureConfig: S.optional(__S(711, __c22, 7)),
+          master: S.optional(__S(713, __c22, 9)),
           satisfiesPzi: S.optional(S.Boolean),
-          currentEmulatedVersion: S.optional(S.String),
-          databaseEncryption: S.optional(__S(768, __c24, 0)),
+          masterAuth: S.optional(__S(609, __c19, 1)),
+          privateClusterConfig: S.optional(__S(714, __c22, 10)),
+          gkeAutoUpgradeConfig: S.optional(__S(715, __c22, 11)),
+          autoscaling: S.optional(__S(720, __c22, 16)),
+          ipAllocationPolicy: S.optional(__S(544, __c17, 0)),
           endpoint: S.optional(S.String),
-          location: S.optional(S.String),
-          initialNodeCount: S.optional(S.Number),
-          rbacBindingConfig: S.optional(__S(769, __c24, 1)),
-          resourceUsageExportConfig: S.optional(__S(771, __c24, 3)),
-          userManagedKeysConfig: S.optional(__S(772, __c24, 4)),
-          currentNodeVersion: S.optional(S.String),
-          enableKubernetesAlpha: S.optional(S.Boolean),
+          nodeCreationConfig: S.optional(__S(726, __c22, 22)),
+          subnetwork: S.optional(S.String),
+          description: S.optional(S.String),
+          etag: S.optional(S.String),
+          enableK8sBetaApis: S.optional(__S(727, __c22, 23)),
+          userManagedKeysConfig: S.optional(__S(728, __c22, 24)),
+          network: S.optional(S.String),
+          monitoringService: S.optional(S.String),
+          createTime: S.optional(S.String),
+          clusterIpv4Cidr: S.optional(S.String),
+          resourceUsageExportConfig: S.optional(__S(730, __c22, 26)),
+          secretManagerConfig: S.optional(__S(732, __c22, 28)),
+          controlPlaneEgress: S.optional(__S(733, __c22, 29)),
+          privateCluster: S.optional(S.Boolean),
+          labelFingerprint: S.optional(S.String),
+          id: S.optional(S.String),
+          resourceLabels: S.optional(__S(256, __c8, 0)),
+          enableTpu: S.optional(S.Boolean),
+          targetNodeVersion: S.optional(S.String),
+          managedMachineLearningDiagnosticsConfig: S.optional(__S(1888, __c59, 0)),
+          workloadCertificates: S.optional(__S(704, __c22, 0)),
+          binaryAuthorization: S.optional(__S(736, __c23, 0)),
+          tpuIpv4CidrBlock: S.optional(S.String),
+          autopilot: S.optional(__S(546, __c17, 2)),
+          fleet: S.optional(__S(740, __c23, 4)),
+          networkConfig: S.optional(__S(548, __c17, 4)),
+          managedOpentelemetryConfig: S.optional(__S(744, __c23, 8)),
+          expireTime: S.optional(S.String),
+          identityServiceConfig: S.optional(__S(1888, __c59, 0)),
+          networkPolicy: S.optional(__S(640, __c20, 0)),
+          zone: S.optional(S.String),
           masterIpv4CidrBlock: S.optional(S.String),
+          masterAuthorizedNetworksConfig: S.optional(__S(747, __c23, 11)),
+          enterpriseConfig: S.optional(__S(549, __c17, 5)),
+          protectConfig: S.optional(__S(749, __c23, 13)),
+          name: S.optional(S.String),
+          statusMessage: S.optional(S.String),
+          satisfiesPzs: S.optional(S.Boolean),
+          initialClusterVersion: S.optional(S.String),
+          podSecurityPolicyConfig: S.optional(__S(1888, __c59, 0)),
+          clusterTelemetry: S.optional(__S(750, __c23, 14)),
+          tpuConfig: S.optional(__S(751, __c23, 15)),
+          addonsConfig: S.optional(__S(1925, __c60, 5)),
+          databaseEncryption: S.optional(__S(754, __c23, 18)),
+          workloadIdentityConfig: S.optional(__S(755, __c23, 19)),
+          securityPostureConfig: S.optional(__S(756, __c23, 20)),
+          selfLink: S.optional(S.String),
+          loggingService: S.optional(S.String),
+          costManagementConfig: S.optional(__S(1888, __c59, 0)),
+          authenticatorGroupsConfig: S.optional(__S(757, __c23, 21)),
+          podAutoscaling: S.optional(__S(758, __c23, 22)),
+          parentProductConfig: S.optional(__S(759, __c23, 23)),
+          nodeIpv4CidrSize: S.optional(S.Number),
+          notificationConfig: S.optional(__S(762, __c23, 26)),
+          rbacBindingConfig: S.optional(__S(763, __c23, 27)),
+          initialNodeCount: S.optional(S.Number),
+          alphaClusterFeatureGates: S.optional(__S(3968, __c124, 0)),
+          maintenancePolicy: S.optional(__S(585, __c18, 9)),
+          workloadAltsConfig: S.optional(__S(764, __c23, 28)),
+          secretSyncConfig: S.optional(__S(766, __c23, 30)),
+          scheduleUpgradeConfig: S.optional(__S(1888, __c59, 0)),
+          releaseChannel: S.optional(__S(743, __c23, 7)),
+          currentEmulatedVersion: S.optional(S.String),
+          currentNodeVersion: S.optional(S.String),
+          instanceGroupUrls: S.optional(__S(3968, __c124, 0)),
+          legacyAbac: S.optional(__S(1888, __c59, 0)),
+          verticalPodAutoscaling: S.optional(__S(1888, __c59, 0)),
+          anonymousAuthenticationConfig: S.optional(__S(733, __c22, 29)),
+          controlPlaneEndpointsConfig: S.optional(__S(769, __c24, 1)),
+          location: S.optional(S.String),
+          enableKubernetesAlpha: S.optional(S.Boolean),
           shieldedNodes: S.optional(__S(1888, __c59, 0)),
+          confidentialNodes: S.optional(__S(422, __c13, 6)),
+          nodePoolAutoConfig: S.optional(__S(550, __c17, 6)),
+          nodePools: S.optional(__S(512, __c16, 0)),
+          monitoringConfig: S.optional(__S(772, __c24, 4)),
+          conditions: S.optional(__S(1953, __c61, 1)),
+          servicesIpv4Cidr: S.optional(S.String),
+          nodePoolDefaults: S.optional(__S(552, __c17, 8)),
+          currentNodeCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Cluster" });
   }
@@ -7190,76 +7206,76 @@ function __c18(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          scope: S.optional(S.String),
-          endTimeBehavior: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "MaintenanceExclusionOptions" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          maintenanceExclusionOptions: S.optional(__S(576, __c18, 0)),
-          endTime: S.optional(S.String),
-          startTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TimeWindow" });
-    case 2:
-      return S.Record(S.String, __S(577, __c18, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          hours: S.optional(S.Number),
-          minutes: S.optional(S.Number),
-          nanos: S.optional(S.Number),
-          seconds: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "TimeOfDay" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          delayUntil: S.optional(__S(480, __c15, 0)),
-          windowStartTime: S.optional(__S(579, __c18, 3)),
-          recurrence: S.optional(S.String),
-          windowDuration: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "RecurringMaintenanceWindow" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          window: S.optional(__S(577, __c18, 1)),
-          recurrence: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "RecurringTimeWindow" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
           startTime: S.optional(S.String),
           duration: S.optional(S.String),
         }),
       ).annotate({ identifier: "DailyMaintenanceWindow" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          scope: S.optional(S.String),
+          endTimeBehavior: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MaintenanceExclusionOptions" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          endTime: S.optional(S.String),
+          startTime: S.optional(S.String),
+          maintenanceExclusionOptions: S.optional(__S(577, __c18, 1)),
+        }),
+      ).annotate({ identifier: "TimeWindow" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          recurrence: S.optional(S.String),
+          window: S.optional(__S(578, __c18, 2)),
+        }),
+      ).annotate({ identifier: "RecurringTimeWindow" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          nanos: S.optional(S.Number),
+          minutes: S.optional(S.Number),
+          seconds: S.optional(S.Number),
+          hours: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "TimeOfDay" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          recurrence: S.optional(S.String),
+          windowStartTime: S.optional(__S(580, __c18, 4)),
+          windowDuration: S.optional(S.String),
+          delayUntil: S.optional(__S(480, __c15, 0)),
+        }),
+      ).annotate({ identifier: "RecurringMaintenanceWindow" });
+    case 6:
+      return S.Record(S.String, __S(578, __c18, 2));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          maintenanceExclusions: S.optional(__S(578, __c18, 2)),
-          recurringMaintenanceWindow: S.optional(__S(580, __c18, 4)),
-          recurringWindow: S.optional(__S(581, __c18, 5)),
-          dailyMaintenanceWindow: S.optional(__S(582, __c18, 6)),
+          dailyMaintenanceWindow: S.optional(__S(576, __c18, 0)),
+          recurringWindow: S.optional(__S(579, __c18, 3)),
+          recurringMaintenanceWindow: S.optional(__S(581, __c18, 5)),
+          maintenanceExclusions: S.optional(__S(582, __c18, 6)),
         }),
       ).annotate({ identifier: "MaintenanceWindow" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          minorVersionDisruptionInterval: S.optional(S.String),
+          patchVersionDisruptionInterval: S.optional(S.String),
           lastMinorVersionDisruptionTime: S.optional(S.String),
           lastDisruptionTime: S.optional(S.String),
-          patchVersionDisruptionInterval: S.optional(S.String),
+          minorVersionDisruptionInterval: S.optional(S.String),
         }),
       ).annotate({ identifier: "DisruptionBudget" });
     case 9:
       return S.suspend(() =>
         S.Struct({
+          resourceVersion: S.optional(S.String),
           window: S.optional(__S(583, __c18, 7)),
           disruptionBudget: S.optional(__S(584, __c18, 8)),
-          resourceVersion: S.optional(S.String),
         }),
       ).annotate({ identifier: "MaintenancePolicy" });
   }
@@ -7276,11 +7292,11 @@ function __c19(j: number): any {
       return S.suspend(() =>
         S.Struct({
           clusterCaCertificate: S.optional(S.String),
-          clientKey: S.optional(S.String),
-          username: S.optional(S.String),
+          password: S.optional(S.String.pipe(T.SensitiveValue({}))),
           clientCertificate: S.optional(S.String),
           clientCertificateConfig: S.optional(__S(608, __c19, 0)),
-          password: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          clientKey: S.optional(S.String),
+          username: S.optional(S.String),
         }),
       ).annotate({ identifier: "MasterAuth" });
   }
@@ -7290,8 +7306,8 @@ function __c20(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          provider: S.optional(S.String),
           enabled: S.optional(S.Boolean),
+          provider: S.optional(S.String),
         }),
       ).annotate({ identifier: "NetworkPolicy" });
   }
@@ -7311,53 +7327,255 @@ function __c22(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          enableAlts: S.optional(S.Boolean),
+          enableCertificates: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "WorkloadALTSConfig" });
+      ).annotate({ identifier: "MeshCertificates" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          vulnerabilityMode: S.optional(S.String),
-          mode: S.optional(S.String),
+          controlPlaneSoakDuration: S.optional(S.String),
         }),
-      ).annotate({ identifier: "SecurityPostureConfig" });
+      ).annotate({ identifier: "RollbackSafeUpgrade" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          noSystemMutation: S.optional(S.Boolean),
-          noSystemImpersonation: S.optional(S.Boolean),
-          noStandardNodePools: S.optional(S.Boolean),
-          noUnsafeWebhooks: S.optional(S.Boolean),
+          enableComponents: S.optional(__S(192, __c6, 0)),
         }),
-      ).annotate({ identifier: "ClusterPolicyConfig" });
+      ).annotate({ identifier: "LoggingComponentConfig" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          allowlistPaths: S.optional(__S(3968, __c124, 0)),
+          componentConfig: S.optional(__S(706, __c22, 2)),
         }),
-      ).annotate({ identifier: "PrivilegedAdmissionConfig" });
+      ).annotate({ identifier: "LoggingConfig" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          autopilotCompatibilityAuditingEnabled: S.optional(S.Boolean),
-          allowNetAdmin: S.optional(S.Boolean),
+          maxCount: S.optional(S.String),
         }),
-      ).annotate({ identifier: "WorkloadPolicyConfig" });
+      ).annotate({ identifier: "NodePoolUpgradeConcurrencyConfig" });
     case 5:
+      return S.suspend(() =>
+        S.Struct({
+          standard: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ComplianceStandard" });
+    case 6:
+      return S.Array(__S(709, __c22, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          mode: S.optional(S.String),
+          complianceStandards: S.optional(__S(710, __c22, 6)),
+        }),
+      ).annotate({ identifier: "CompliancePostureConfig" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          downgradableVersion: S.optional(S.String),
+          emulatedVersionTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CompatibilityStatus" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          compatibilityStatus: S.optional(__S(712, __c22, 8)),
+        }),
+      ).annotate({ identifier: "Master" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          peeringName: S.optional(S.String),
+          enablePrivateNodes: S.optional(S.Boolean),
+          masterIpv4CidrBlock: S.optional(S.String),
+          enablePrivateEndpoint: S.optional(S.Boolean),
+          privateEndpoint: S.optional(S.String),
+          masterGlobalAccessConfig: S.optional(__S(1888, __c59, 0)),
+          privateEndpointSubnetwork: S.optional(S.String),
+          publicEndpoint: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PrivateClusterConfig" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          patchMode: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GkeAutoUpgradeConfig" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          minimum: S.optional(S.String),
+          maximum: S.optional(S.String),
+          resourceType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ResourceLimit" });
+    case 13:
+      return S.Array(__S(716, __c22, 12));
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          authorizedServiceAccounts: S.optional(__S(3968, __c124, 0)),
+          serviceAccountPermissionCheck: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AutoprovisioningRestrictionConfig" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          diskType: S.optional(S.String),
+          imageType: S.optional(S.String),
+          shieldedInstanceConfig: S.optional(__S(386, __c12, 2)),
+          oauthScopes: S.optional(__S(3968, __c124, 0)),
+          serviceAccount: S.optional(S.String),
+          management: S.optional(__S(289, __c9, 1)),
+          diskSizeGb: S.optional(S.Number),
+          upgradeSettings: S.optional(__S(368, __c11, 16)),
+          minCpuPlatform: S.optional(S.String),
+          insecureKubeletReadonlyPortEnabled: S.optional(S.Boolean),
+          bootDiskKmsKey: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AutoprovisioningNodePoolDefaults" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          resourceLimits: S.optional(__S(717, __c22, 13)),
+          defaultComputeClassConfig: S.optional(__S(1888, __c59, 0)),
+          autoscalingProfile: S.optional(S.String),
+          autoprovisioningRestrictionConfig: S.optional(__S(718, __c22, 14)),
+          autoprovisioningNodePoolDefaults: S.optional(__S(719, __c22, 15)),
+          autoprovisioningLocations: S.optional(__S(3968, __c124, 0)),
+          autopilotGeneralProfile: S.optional(S.String),
+          enableNodeAutoprovisioning: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "ClusterAutoscaling" });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.String),
+          subnetwork: S.optional(S.String),
+          podIpv4RangeNames: S.optional(__S(3968, __c124, 0)),
+        }),
+      ).annotate({ identifier: "AdditionalIPRangesConfig" });
+    case 18:
+      return S.Array(__S(721, __c22, 17));
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          rangeName: S.optional(S.String),
+          utilization: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "RangeInfo" });
+    case 20:
+      return S.Array(__S(723, __c22, 19));
+    case 21:
+      return S.suspend(() =>
+        S.Struct({
+          podRangeNames: S.optional(__S(3968, __c124, 0)),
+          podRangeInfo: S.optional(__S(724, __c22, 20)),
+        }),
+      ).annotate({ identifier: "AdditionalPodRangesConfig" });
+    case 22:
+      return S.suspend(() =>
+        S.Struct({
+          nodeCreationMode: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "NodeCreationConfig" });
+    case 23:
+      return S.suspend(() =>
+        S.Struct({
+          enabledApis: S.optional(__S(3968, __c124, 0)),
+        }),
+      ).annotate({ identifier: "K8sBetaAPIConfig" });
+    case 24:
+      return S.suspend(() =>
+        S.Struct({
+          serviceAccountSigningKeys: S.optional(__S(3968, __c124, 0)),
+          serviceAccountVerificationKeys: S.optional(__S(3968, __c124, 0)),
+          etcdPeerCa: S.optional(S.String),
+          clusterCa: S.optional(S.String),
+          controlPlaneDiskEncryptionKey: S.optional(S.String),
+          etcdApiCa: S.optional(S.String),
+          controlPlaneDiskEncryptionKeyVersions: S.optional(__S(3968, __c124, 0)),
+          gkeopsEtcdBackupEncryptionKey: S.optional(S.String),
+          aggregationCa: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "UserManagedKeysConfig" });
+    case 25:
+      return S.suspend(() =>
+        S.Struct({
+          datasetId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "BigQueryDestination" });
+    case 26:
+      return S.suspend(() =>
+        S.Struct({
+          enableNetworkEgressMetering: S.optional(S.Boolean),
+          consumptionMeteringConfig: S.optional(__S(1888, __c59, 0)),
+          bigqueryDestination: S.optional(__S(729, __c22, 25)),
+        }),
+      ).annotate({ identifier: "ResourceUsageExportConfig" });
+    case 27:
       return S.suspend(() =>
         S.Struct({
           enabled: S.optional(S.Boolean),
           rotationInterval: S.optional(S.String),
         }),
       ).annotate({ identifier: "RotationConfig" });
-    case 6:
+    case 28:
       return S.suspend(() =>
         S.Struct({
+          rotationConfig: S.optional(__S(731, __c22, 27)),
           enabled: S.optional(S.Boolean),
-          rotationConfig: S.optional(__S(709, __c22, 5)),
         }),
       ).annotate({ identifier: "SecretManagerConfig" });
-    case 7:
+    case 29:
+      return S.suspend(() =>
+        S.Struct({
+          mode: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ControlPlaneEgress" });
+    case 30:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PolicyBinding" });
+    case 31:
+      return S.Array(__S(734, __c22, 30));
+  }
+}
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          evaluationMode: S.optional(S.String),
+          policyBindings: S.optional(__S(735, __c22, 31)),
+          enabled: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "BinaryAuthorization" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          noSystemImpersonation: S.optional(S.Boolean),
+          noUnsafeWebhooks: S.optional(S.Boolean),
+          noStandardNodePools: S.optional(S.Boolean),
+          noSystemMutation: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "ClusterPolicyConfig" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          allowlistPaths: S.optional(__S(3968, __c124, 0)),
+        }),
+      ).annotate({ identifier: "PrivilegedAdmissionConfig" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          autopilotCompatibilityAuditingEnabled: S.optional(S.Boolean),
+          allowNetAdmin: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "WorkloadPolicyConfig" });
+    case 4:
       return S.suspend(() =>
         S.Struct({
           preRegistered: S.optional(S.Boolean),
@@ -7366,388 +7584,189 @@ function __c22(j: number): any {
           membership: S.optional(S.String),
         }),
       ).annotate({ identifier: "Fleet" });
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          controlPlaneSoakDuration: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "RollbackSafeUpgrade" });
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          rangeName: S.optional(S.String),
-          utilization: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "RangeInfo" });
-    case 10:
-      return S.Array(__S(713, __c22, 9));
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          podRangeInfo: S.optional(__S(714, __c22, 10)),
-          podRangeNames: S.optional(__S(3968, __c124, 0)),
-        }),
-      ).annotate({ identifier: "AdditionalPodRangesConfig" });
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          status: S.optional(S.String),
-          subnetwork: S.optional(S.String),
-          podIpv4RangeNames: S.optional(__S(3968, __c124, 0)),
-        }),
-      ).annotate({ identifier: "AdditionalIPRangesConfig" });
-    case 13:
-      return S.Array(__S(716, __c22, 12));
-    case 14:
-      return S.suspend(() =>
-        S.Struct({
-          scope: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ManagedOpenTelemetryConfig" });
-    case 15:
-      return S.suspend(() =>
-        S.Struct({
-          clusterDnsScope: S.optional(S.String),
-          clusterDnsDomain: S.optional(S.String),
-          clusterDns: S.optional(S.String),
-          additiveVpcScopeDnsDomain: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DNSConfig" });
-    case 16:
-      return S.suspend(() =>
-        S.Struct({
-          channel: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GatewayAPIConfig" });
-    case 17:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           totalEgressBandwidthTier: S.optional(S.String),
         }),
       ).annotate({ identifier: "ClusterNetworkPerformanceConfig" });
-    case 18:
+    case 6:
       return S.suspend(() =>
         S.Struct({
-          workloadPool: S.optional(S.String),
-          identityNamespace: S.optional(S.String),
-          identityProvider: S.optional(S.String),
+          clusterDnsDomain: S.optional(S.String),
+          clusterDnsScope: S.optional(S.String),
+          clusterDns: S.optional(S.String),
+          additiveVpcScopeDnsDomain: S.optional(S.String),
         }),
-      ).annotate({ identifier: "WorkloadIdentityConfig" });
-    case 19:
+      ).annotate({ identifier: "DNSConfig" });
+    case 7:
       return S.suspend(() =>
         S.Struct({
-          labels: S.optional(__S(256, __c8, 0)),
-          productName: S.optional(S.String),
+          channel: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ParentProductConfig" });
-    case 20:
+      ).annotate({ identifier: "GatewayAPIConfig" });
+    case 8:
       return S.suspend(() =>
         S.Struct({
-          enabledApis: S.optional(__S(3968, __c124, 0)),
+          scope: S.optional(S.String),
         }),
-      ).annotate({ identifier: "K8sBetaAPIConfig" });
-    case 21:
+      ).annotate({ identifier: "ManagedOpenTelemetryConfig" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          displayName: S.optional(S.String),
+          cidrBlock: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CidrBlock" });
+    case 10:
+      return S.Array(__S(745, __c23, 9));
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          gcpPublicCidrsAccessEnabled: S.optional(S.Boolean),
+          privateEndpointEnforcementEnabled: S.optional(S.Boolean),
+          cidrBlocks: S.optional(__S(746, __c23, 10)),
+          enabled: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "MasterAuthorizedNetworksConfig" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          auditMode: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "WorkloadConfig" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          workloadVulnerabilityMode: S.optional(S.String),
+          workloadConfig: S.optional(__S(748, __c23, 12)),
+        }),
+      ).annotate({ identifier: "ProtectConfig" });
+    case 14:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "ClusterTelemetry" });
-    case 22:
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          enabled: S.optional(S.Boolean),
+          ipv4CidrBlock: S.optional(S.String),
+          useServiceNetworking: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "TpuConfig" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          timestamp: S.optional(S.String),
+          errorMessage: S.optional(S.String),
+          keyName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "OperationError" });
+    case 17:
+      return S.Array(__S(752, __c23, 16));
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          decryptionKeys: S.optional(__S(3968, __c124, 0)),
+          state: S.optional(S.String),
+          currentState: S.optional(S.String),
+          keyName: S.optional(S.String),
+          lastOperationErrors: S.optional(__S(753, __c23, 17)),
+        }),
+      ).annotate({ identifier: "DatabaseEncryption" });
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          workloadPool: S.optional(S.String),
+          identityProvider: S.optional(S.String),
+          identityNamespace: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "WorkloadIdentityConfig" });
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          mode: S.optional(S.String),
+          vulnerabilityMode: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SecurityPostureConfig" });
+    case 21:
       return S.suspend(() =>
         S.Struct({
           enabled: S.optional(S.Boolean),
           securityGroup: S.optional(S.String),
         }),
       ).annotate({ identifier: "AuthenticatorGroupsConfig" });
-    case 23:
-      return S.suspend(() =>
-        S.Struct({
-          standard: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ComplianceStandard" });
-    case 24:
-      return S.Array(__S(727, __c22, 23));
-    case 25:
-      return S.suspend(() =>
-        S.Struct({
-          mode: S.optional(S.String),
-          complianceStandards: S.optional(__S(728, __c22, 24)),
-        }),
-      ).annotate({ identifier: "CompliancePostureConfig" });
-    case 26:
-      return S.suspend(() =>
-        S.Struct({
-          auditMode: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "WorkloadConfig" });
-    case 27:
-      return S.suspend(() =>
-        S.Struct({
-          workloadConfig: S.optional(__S(730, __c22, 26)),
-          workloadVulnerabilityMode: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ProtectConfig" });
-    case 28:
-      return S.suspend(() =>
-        S.Struct({
-          enableCertificates: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "MeshCertificates" });
-    case 29:
-      return S.suspend(() =>
-        S.Struct({
-          mode: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AnonymousAuthenticationConfig" });
-    case 30:
-      return S.suspend(() =>
-        S.Struct({
-          patchMode: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GkeAutoUpgradeConfig" });
-    case 31:
-      return S.suspend(() =>
-        S.Struct({
-          cidrBlock: S.optional(S.String),
-          displayName: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CidrBlock" });
-  }
-}
-function __c23(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(735, __c22, 31));
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          enabled: S.optional(S.Boolean),
-          privateEndpointEnforcementEnabled: S.optional(S.Boolean),
-          gcpPublicCidrsAccessEnabled: S.optional(S.Boolean),
-          cidrBlocks: S.optional(__S(736, __c23, 0)),
-        }),
-      ).annotate({ identifier: "MasterAuthorizedNetworksConfig" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          enableK8sCertsViaDns: S.optional(S.Boolean),
-          endpoint: S.optional(S.String),
-          allowExternalTraffic: S.optional(S.Boolean),
-          enableK8sTokensViaDns: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "DNSEndpointConfig" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          enablePublicEndpoint: S.optional(S.Boolean),
-          enabled: S.optional(S.Boolean),
-          privateEndpointSubnetwork: S.optional(S.String),
-          globalAccess: S.optional(S.Boolean),
-          authorizedNetworksConfig: S.optional(__S(737, __c23, 1)),
-          privateEndpoint: S.optional(S.String),
-          publicEndpoint: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "IPEndpointsConfig" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          dnsEndpointConfig: S.optional(__S(738, __c23, 2)),
-          ipEndpointsConfig: S.optional(__S(739, __c23, 3)),
-        }),
-      ).annotate({ identifier: "ControlPlaneEndpointsConfig" });
-    case 5:
+    case 22:
       return S.suspend(() =>
         S.Struct({
           hpaProfile: S.optional(S.String),
         }),
       ).annotate({ identifier: "PodAutoscaling" });
-    case 6:
+    case 23:
+      return S.suspend(() =>
+        S.Struct({
+          labels: S.optional(__S(256, __c8, 0)),
+          productName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ParentProductConfig" });
+    case 24:
       return S.suspend(() =>
         S.Struct({
           eventType: S.optional(__S(192, __c6, 0)),
         }),
       ).annotate({ identifier: "Filter" });
-    case 7:
+    case 25:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(__S(742, __c23, 6)),
-          topic: S.optional(S.String),
+          filter: S.optional(__S(760, __c23, 24)),
           enabled: S.optional(S.Boolean),
+          topic: S.optional(S.String),
         }),
       ).annotate({ identifier: "PubSub" });
-    case 8:
+    case 26:
       return S.suspend(() =>
         S.Struct({
-          pubsub: S.optional(__S(743, __c23, 7)),
+          pubsub: S.optional(__S(761, __c23, 25)),
         }),
       ).annotate({ identifier: "NotificationConfig" });
-    case 9:
+    case 27:
       return S.suspend(() =>
         S.Struct({
-          peeringName: S.optional(S.String),
-          enablePrivateEndpoint: S.optional(S.Boolean),
-          privateEndpoint: S.optional(S.String),
-          masterGlobalAccessConfig: S.optional(__S(1888, __c59, 0)),
-          publicEndpoint: S.optional(S.String),
-          privateEndpointSubnetwork: S.optional(S.String),
-          masterIpv4CidrBlock: S.optional(S.String),
-          enablePrivateNodes: S.optional(S.Boolean),
+          enableInsecureBindingSystemAuthenticated: S.optional(S.Boolean),
+          enableInsecureBindingSystemUnauthenticated: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "PrivateClusterConfig" });
-    case 10:
+      ).annotate({ identifier: "RBACBindingConfig" });
+    case 28:
       return S.suspend(() =>
         S.Struct({
-          enableComponents: S.optional(__S(192, __c6, 0)),
+          enableAlts: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "LoggingComponentConfig" });
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          componentConfig: S.optional(__S(746, __c23, 10)),
-        }),
-      ).annotate({ identifier: "LoggingConfig" });
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          downgradableVersion: S.optional(S.String),
-          emulatedVersionTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CompatibilityStatus" });
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          compatibilityStatus: S.optional(__S(748, __c23, 12)),
-        }),
-      ).annotate({ identifier: "Master" });
-    case 14:
-      return S.suspend(() =>
-        S.Struct({
-          maxCount: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "NodePoolUpgradeConcurrencyConfig" });
-    case 15:
-      return S.suspend(() =>
-        S.Struct({
-          enableMetrics: S.optional(S.Boolean),
-          enableRelay: S.optional(S.Boolean),
-          relayMode: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AdvancedDatapathObservabilityConfig" });
-    case 16:
-      return S.suspend(() =>
-        S.Struct({
-          autoMonitoringConfig: S.optional(__S(718, __c22, 14)),
-          enabled: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "ManagedPrometheusConfig" });
-    case 17:
-      return S.suspend(() =>
-        S.Struct({
-          advancedDatapathObservabilityConfig: S.optional(__S(751, __c23, 15)),
-          managedPrometheusConfig: S.optional(__S(752, __c23, 16)),
-          componentConfig: S.optional(__S(746, __c23, 10)),
-        }),
-      ).annotate({ identifier: "MonitoringConfig" });
-    case 18:
+      ).annotate({ identifier: "WorkloadALTSConfig" });
+    case 29:
       return S.suspend(() =>
         S.Struct({
           rotationInterval: S.optional(S.String),
           enabled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "SyncRotationConfig" });
-    case 19:
-      return S.suspend(() =>
-        S.Struct({
-          rotationConfig: S.optional(__S(754, __c23, 18)),
-          enabled: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "SecretSyncConfig" });
-    case 20:
-      return S.suspend(() =>
-        S.Struct({
-          nodeCreationMode: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "NodeCreationConfig" });
-    case 21:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PolicyBinding" });
-    case 22:
-      return S.Array(__S(757, __c23, 21));
-    case 23:
-      return S.suspend(() =>
-        S.Struct({
-          enabled: S.optional(S.Boolean),
-          evaluationMode: S.optional(S.String),
-          policyBindings: S.optional(__S(758, __c23, 22)),
-        }),
-      ).annotate({ identifier: "BinaryAuthorization" });
-    case 24:
-      return S.suspend(() =>
-        S.Struct({
-          enabled: S.optional(S.Boolean),
-          useServiceNetworking: S.optional(S.Boolean),
-          ipv4CidrBlock: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TpuConfig" });
-    case 25:
-      return S.suspend(() =>
-        S.Struct({
-          maximum: S.optional(S.String),
-          resourceType: S.optional(S.String),
-          minimum: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ResourceLimit" });
-    case 26:
-      return S.Array(__S(761, __c23, 25));
-    case 27:
-      return S.suspend(() =>
-        S.Struct({
-          serviceAccountPermissionCheck: S.optional(S.String),
-          authorizedServiceAccounts: S.optional(__S(3968, __c124, 0)),
-        }),
-      ).annotate({ identifier: "AutoprovisioningRestrictionConfig" });
-    case 28:
-      return S.suspend(() =>
-        S.Struct({
-          diskSizeGb: S.optional(S.Number),
-          serviceAccount: S.optional(S.String),
-          shieldedInstanceConfig: S.optional(__S(386, __c12, 2)),
-          bootDiskKmsKey: S.optional(S.String),
-          insecureKubeletReadonlyPortEnabled: S.optional(S.Boolean),
-          oauthScopes: S.optional(__S(3968, __c124, 0)),
-          imageType: S.optional(S.String),
-          management: S.optional(__S(289, __c9, 1)),
-          minCpuPlatform: S.optional(S.String),
-          diskType: S.optional(S.String),
-          upgradeSettings: S.optional(__S(366, __c11, 14)),
-        }),
-      ).annotate({ identifier: "AutoprovisioningNodePoolDefaults" });
-    case 29:
-      return S.suspend(() =>
-        S.Struct({
-          enableNodeAutoprovisioning: S.optional(S.Boolean),
-          resourceLimits: S.optional(__S(762, __c23, 26)),
-          defaultComputeClassConfig: S.optional(__S(1888, __c59, 0)),
-          autopilotGeneralProfile: S.optional(S.String),
-          autoscalingProfile: S.optional(S.String),
-          autoprovisioningRestrictionConfig: S.optional(__S(763, __c23, 27)),
-          autoprovisioningLocations: S.optional(__S(3968, __c124, 0)),
-          autoprovisioningNodePoolDefaults: S.optional(__S(764, __c23, 28)),
-        }),
-      ).annotate({ identifier: "ClusterAutoscaling" });
     case 30:
       return S.suspend(() =>
         S.Struct({
-          errorMessage: S.optional(S.String),
-          timestamp: S.optional(S.String),
-          keyName: S.optional(S.String),
+          rotationConfig: S.optional(__S(765, __c23, 29)),
+          enabled: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "OperationError" });
+      ).annotate({ identifier: "SecretSyncConfig" });
     case 31:
-      return S.Array(__S(766, __c23, 30));
+      return S.suspend(() =>
+        S.Struct({
+          allowExternalTraffic: S.optional(S.Boolean),
+          enableK8sCertsViaDns: S.optional(S.Boolean),
+          endpoint: S.optional(S.String),
+          enableK8sTokensViaDns: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "DNSEndpointConfig" });
   }
 }
 function __c24(j: number): any {
@@ -7755,48 +7774,45 @@ function __c24(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          state: S.optional(S.String),
-          decryptionKeys: S.optional(__S(3968, __c124, 0)),
-          currentState: S.optional(S.String),
-          lastOperationErrors: S.optional(__S(767, __c23, 31)),
-          keyName: S.optional(S.String),
+          authorizedNetworksConfig: S.optional(__S(747, __c23, 11)),
+          enabled: S.optional(S.Boolean),
+          globalAccess: S.optional(S.Boolean),
+          publicEndpoint: S.optional(S.String),
+          privateEndpointSubnetwork: S.optional(S.String),
+          privateEndpoint: S.optional(S.String),
+          enablePublicEndpoint: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "DatabaseEncryption" });
+      ).annotate({ identifier: "IPEndpointsConfig" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          enableInsecureBindingSystemUnauthenticated: S.optional(S.Boolean),
-          enableInsecureBindingSystemAuthenticated: S.optional(S.Boolean),
+          dnsEndpointConfig: S.optional(__S(767, __c23, 31)),
+          ipEndpointsConfig: S.optional(__S(768, __c24, 0)),
         }),
-      ).annotate({ identifier: "RBACBindingConfig" });
+      ).annotate({ identifier: "ControlPlaneEndpointsConfig" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          datasetId: S.optional(S.String),
+          enableMetrics: S.optional(S.Boolean),
+          enableRelay: S.optional(S.Boolean),
+          relayMode: S.optional(S.String),
         }),
-      ).annotate({ identifier: "BigQueryDestination" });
+      ).annotate({ identifier: "AdvancedDatapathObservabilityConfig" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          consumptionMeteringConfig: S.optional(__S(1888, __c59, 0)),
-          enableNetworkEgressMetering: S.optional(S.Boolean),
-          bigqueryDestination: S.optional(__S(770, __c24, 2)),
+          enabled: S.optional(S.Boolean),
+          autoMonitoringConfig: S.optional(__S(744, __c23, 8)),
         }),
-      ).annotate({ identifier: "ResourceUsageExportConfig" });
+      ).annotate({ identifier: "ManagedPrometheusConfig" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          clusterCa: S.optional(S.String),
-          controlPlaneDiskEncryptionKeyVersions: S.optional(__S(3968, __c124, 0)),
-          controlPlaneDiskEncryptionKey: S.optional(S.String),
-          serviceAccountVerificationKeys: S.optional(__S(3968, __c124, 0)),
-          aggregationCa: S.optional(S.String),
-          gkeopsEtcdBackupEncryptionKey: S.optional(S.String),
-          etcdApiCa: S.optional(S.String),
-          serviceAccountSigningKeys: S.optional(__S(3968, __c124, 0)),
-          etcdPeerCa: S.optional(S.String),
+          componentConfig: S.optional(__S(706, __c22, 2)),
+          advancedDatapathObservabilityConfig: S.optional(__S(770, __c24, 2)),
+          managedPrometheusConfig: S.optional(__S(771, __c24, 3)),
         }),
-      ).annotate({ identifier: "UserManagedKeysConfig" });
+      ).annotate({ identifier: "MonitoringConfig" });
   }
 }
 function __c25(j: number): any {
@@ -7823,11 +7839,11 @@ function __c26(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          clusterId: S.optional(S.String),
           parent: S.optional(S.String),
           nodePool: S.optional(__S(242, __c7, 18)),
-          clusterId: S.optional(S.String),
-          projectId: S.optional(S.String),
           zone: S.optional(S.String),
+          projectId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateNodePoolRequest" });
   }
@@ -7859,9 +7875,9 @@ function __c28(j: number): any {
         S.Extend(
           __S(832, __c26, 0),
           S.Struct({
-            zone: S.String.pipe(T.Label()),
-            projectId: S.String.pipe(T.Label()),
             clusterId: S.String.pipe(T.Label()),
+            projectId: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -7878,10 +7894,10 @@ function __c29(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          projectId: S.optional(S.String.pipe(T.Query())),
           clusterId: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           zone: S.optional(S.String.pipe(T.Query())),
+          projectId: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -7897,11 +7913,11 @@ function __c30(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          clusterId: S.optional(S.String.pipe(T.Query())),
           nodePoolId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
           projectId: S.optional(S.String.pipe(T.Query())),
           zone: S.optional(S.String.pipe(T.Query())),
+          clusterId: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -7917,10 +7933,10 @@ function __c31(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          projectId: S.String.pipe(T.Label()),
           zone: S.String.pipe(T.Label()),
-          name: S.optional(S.String.pipe(T.Query())),
           clusterId: S.String.pipe(T.Label()),
+          projectId: S.String.pipe(T.Label()),
+          name: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -7936,11 +7952,11 @@ function __c32(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          nodePoolId: S.String.pipe(T.Label()),
-          clusterId: S.String.pipe(T.Label()),
-          projectId: S.String.pipe(T.Label()),
           zone: S.String.pipe(T.Label()),
+          projectId: S.String.pipe(T.Label()),
+          clusterId: S.String.pipe(T.Label()),
           name: S.optional(S.String.pipe(T.Query())),
+          nodePoolId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -7956,8 +7972,8 @@ function __c33(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           version: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -7974,20 +7990,20 @@ function __c34(j: number): any {
       return S.suspend(() =>
         S.Struct({
           mode: S.optional(S.String),
-          controlPlaneUpgradeRollbackEndTime: S.optional(S.String),
           previousVersion: S.optional(S.String),
+          controlPlaneUpgradeRollbackEndTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "RollbackSafeUpgradeStatus" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          autoUpgradeStatus: S.optional(__S(192, __c6, 0)),
-          rollbackSafeUpgradeStatus: S.optional(__S(1088, __c34, 0)),
-          endOfExtendedSupportTimestamp: S.optional(S.String),
           pausedReason: S.optional(__S(192, __c6, 0)),
+          rollbackSafeUpgradeStatus: S.optional(__S(1088, __c34, 0)),
+          autoUpgradeStatus: S.optional(__S(192, __c6, 0)),
           endOfStandardSupportTimestamp: S.optional(S.String),
-          patchTargetVersion: S.optional(S.String),
           minorTargetVersion: S.optional(S.String),
+          endOfExtendedSupportTimestamp: S.optional(S.String),
+          patchTargetVersion: S.optional(S.String),
           upgradeDetails: S.optional(__S(1121, __c35, 1)),
         }),
       ).annotate({ identifier: "ClusterUpgradeInfo" });
@@ -7998,14 +8014,14 @@ function __c35(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          targetVersion: S.optional(S.String),
-          endTime: S.optional(S.String),
-          initialVersion: S.optional(S.String),
           startType: S.optional(S.String),
-          targetEmulatedVersion: S.optional(S.String),
+          endTime: S.optional(S.String),
           startTime: S.optional(S.String),
-          state: S.optional(S.String),
+          targetVersion: S.optional(S.String),
+          targetEmulatedVersion: S.optional(S.String),
           initialEmulatedVersion: S.optional(S.String),
+          initialVersion: S.optional(S.String),
+          state: S.optional(S.String),
         }),
       ).annotate({ identifier: "UpgradeDetails" });
     case 1:
@@ -8017,8 +8033,8 @@ function __c36(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          version: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          version: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -8059,14 +8075,14 @@ function __c38(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          upgradeDetails: S.optional(__S(1121, __c35, 1)),
-          pausedReason: S.optional(__S(192, __c6, 0)),
-          endOfExtendedSupportTimestamp: S.optional(S.String),
           autoUpgradeStatus: S.optional(__S(192, __c6, 0)),
-          patchTargetVersion: S.optional(S.String),
           endOfStandardSupportTimestamp: S.optional(S.String),
+          patchTargetVersion: S.optional(S.String),
           minorTargetVersion: S.optional(S.String),
           customImageInfo: S.optional(__S(1216, __c38, 0)),
+          upgradeDetails: S.optional(__S(1121, __c35, 1)),
+          endOfExtendedSupportTimestamp: S.optional(S.String),
+          pausedReason: S.optional(__S(192, __c6, 0)),
         }),
       ).annotate({ identifier: "NodePoolUpgradeInfo" });
   }
@@ -8105,15 +8121,15 @@ function __c40(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          crv: S.optional(S.String),
-          kid: S.optional(S.String),
           n: S.optional(S.String),
-          y: S.optional(S.String),
-          use: S.optional(S.String),
-          kty: S.optional(S.String),
-          e: S.optional(S.String),
           x: S.optional(S.String),
+          y: S.optional(S.String),
+          kid: S.optional(S.String),
+          use: S.optional(S.String),
+          e: S.optional(S.String),
+          kty: S.optional(S.String),
           alg: S.optional(S.String),
+          crv: S.optional(S.String),
         }),
       ).annotate({ identifier: "Jwk" });
     case 2:
@@ -8121,8 +8137,8 @@ function __c40(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          keys: S.optional(__S(1282, __c40, 2)),
           cacheHeader: S.optional(__S(1312, __c41, 0)),
+          keys: S.optional(__S(1282, __c40, 2)),
         }),
       ).annotate({ identifier: "GetJSONWebKeysResponse" });
   }
@@ -8132,9 +8148,9 @@ function __c41(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          age: S.optional(S.String),
           directive: S.optional(S.String),
           expires: S.optional(S.String),
-          age: S.optional(S.String),
         }),
       ).annotate({ identifier: "HttpCacheControlResponseHeader" });
   }
@@ -8158,14 +8174,14 @@ function __c42(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          grant_types: S.optional(__S(3968, __c124, 0)),
-          id_token_signing_alg_values_supported: S.optional(__S(3968, __c124, 0)),
-          issuer: S.optional(S.String),
-          claims_supported: S.optional(__S(3968, __c124, 0)),
-          subject_types_supported: S.optional(__S(3968, __c124, 0)),
-          jwks_uri: S.optional(S.String),
           cacheHeader: S.optional(__S(1312, __c41, 0)),
+          subject_types_supported: S.optional(__S(3968, __c124, 0)),
+          issuer: S.optional(S.String),
+          id_token_signing_alg_values_supported: S.optional(__S(3968, __c124, 0)),
+          jwks_uri: S.optional(S.String),
           response_types_supported: S.optional(__S(3968, __c124, 0)),
+          claims_supported: S.optional(__S(3968, __c124, 0)),
+          grant_types: S.optional(__S(3968, __c124, 0)),
         }),
       ).annotate({ identifier: "GetOpenIDConfigResponse" });
   }
@@ -8175,9 +8191,9 @@ function __c43(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          clusterId: S.optional(S.String.pipe(T.Query())),
           projectId: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          clusterId: S.optional(S.String.pipe(T.Query())),
           zone: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -8195,10 +8211,10 @@ function __c44(j: number): any {
       return S.suspend(() =>
         S.Struct({
           zone: S.optional(S.String.pipe(T.Query())),
-          projectId: S.optional(S.String.pipe(T.Query())),
-          clusterId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
           nodePoolId: S.optional(S.String.pipe(T.Query())),
+          clusterId: S.optional(S.String.pipe(T.Query())),
+          projectId: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -8214,9 +8230,9 @@ function __c45(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.String.pipe(T.Label()),
           projectId: S.optional(S.String.pipe(T.Query())),
           operationId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
           zone: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -8234,8 +8250,8 @@ function __c46(j: number): any {
       return S.suspend(() =>
         S.Struct({
           clusterId: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
           name: S.optional(S.String.pipe(T.Query())),
+          zone: S.String.pipe(T.Label()),
           projectId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -8254,9 +8270,9 @@ function __c47(j: number): any {
         S.Struct({
           nodePoolId: S.String.pipe(T.Label()),
           clusterId: S.String.pipe(T.Label()),
-          projectId: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
           name: S.optional(S.String.pipe(T.Query())),
+          zone: S.String.pipe(T.Label()),
+          projectId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -8273,9 +8289,9 @@ function __c48(j: number): any {
       return S.suspend(() =>
         S.Struct({
           zone: S.String.pipe(T.Label()),
-          name: S.optional(S.String.pipe(T.Query())),
           projectId: S.String.pipe(T.Label()),
           operationId: S.String.pipe(T.Label()),
+          name: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -8291,8 +8307,8 @@ function __c49(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          projectId: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          projectId: S.optional(S.String.pipe(T.Query())),
           zone: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -8318,13 +8334,13 @@ function __c50(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          channel: S.optional(S.String),
-          previewVersions: S.optional(__S(3968, __c124, 0)),
-          upgradeTargetVersion: S.optional(S.String),
           validVersions: S.optional(__S(3968, __c124, 0)),
-          defaultVersion: S.optional(S.String),
+          channel: S.optional(S.String),
           customVersions: S.optional(__S(3968, __c124, 0)),
           availableVersions: S.optional(__S(1601, __c50, 1)),
+          upgradeTargetVersion: S.optional(S.String),
+          previewVersions: S.optional(__S(3968, __c124, 0)),
+          defaultVersion: S.optional(S.String),
         }),
       ).annotate({ identifier: "ReleaseChannelConfig" });
     case 3:
@@ -8332,9 +8348,9 @@ function __c50(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
+          imageType: S.optional(S.String),
           osVersion: S.optional(S.String),
           supportEndDate: S.optional(__S(480, __c15, 0)),
-          imageType: S.optional(S.String),
         }),
       ).annotate({ identifier: "WindowsVersion" });
     case 5:
@@ -8350,12 +8366,12 @@ function __c50(j: number): any {
     case 8:
       return S.suspend(() =>
         S.Struct({
-          channels: S.optional(__S(1603, __c50, 3)),
           validImageTypes: S.optional(__S(3968, __c124, 0)),
-          windowsVersionMaps: S.optional(__S(1607, __c50, 7)),
-          defaultImageType: S.optional(S.String),
           defaultClusterVersion: S.optional(S.String),
+          defaultImageType: S.optional(S.String),
+          channels: S.optional(__S(1603, __c50, 3)),
           validMasterVersions: S.optional(__S(3968, __c124, 0)),
+          windowsVersionMaps: S.optional(__S(1607, __c50, 7)),
           validNodeVersions: S.optional(__S(3968, __c124, 0)),
         }),
       ).annotate({ identifier: "ServerConfig" });
@@ -8366,9 +8382,9 @@ function __c51(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
           name: S.optional(S.String.pipe(T.Query())),
+          zone: S.String.pipe(T.Label()),
+          projectId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -8386,9 +8402,9 @@ function __c52(j: number): any {
         S.Extend(
           __S(1696, __c53, 0),
           S.Struct({
+            clusterId: S.String.pipe(T.Label()),
             zone: S.String.pipe(T.Label()),
             projectId: S.String.pipe(T.Label()),
-            clusterId: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -8405,11 +8421,11 @@ function __c53(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          enabled: S.optional(S.Boolean),
           name: S.optional(S.String),
           clusterId: S.optional(S.String),
           projectId: S.optional(S.String),
           zone: S.optional(S.String),
+          enabled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "SetLegacyAbacRequest" });
   }
@@ -8419,10 +8435,10 @@ function __c54(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -8434,9 +8450,9 @@ function __c54(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          rangeName: S.optional(S.String),
           ipCidrRange: S.optional(S.String),
           status: S.optional(S.String),
+          rangeName: S.optional(S.String),
         }),
       ).annotate({ identifier: "UsableSubnetworkSecondaryRange" });
     case 2:
@@ -8444,10 +8460,10 @@ function __c54(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          subnetwork: S.optional(S.String),
-          ipCidrRange: S.optional(S.String),
           secondaryIpRanges: S.optional(__S(1730, __c54, 2)),
+          ipCidrRange: S.optional(S.String),
           network: S.optional(S.String),
+          subnetwork: S.optional(S.String),
           statusMessage: S.optional(S.String),
         }),
       ).annotate({ identifier: "UsableSubnetwork" });
@@ -8456,8 +8472,8 @@ function __c54(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          subnetworks: S.optional(__S(1732, __c54, 4)),
           nextPageToken: S.optional(S.String),
+          subnetworks: S.optional(__S(1732, __c54, 4)),
         }),
       ).annotate({ identifier: "ListUsableSubnetworksResponse" });
   }
@@ -8479,9 +8495,9 @@ function __c55(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          name: S.optional(S.String),
           type: S.optional(S.String),
           recommended: S.optional(S.Boolean),
-          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Location" });
     case 2:
@@ -8500,9 +8516,9 @@ function __c56(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          projectId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           zone: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          projectId: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -8533,9 +8549,9 @@ function __c58(j: number): any {
         S.Extend(
           __S(2016, __c63, 0),
           S.Struct({
-            clusterId: S.String.pipe(T.Label()),
             projectId: S.String.pipe(T.Label()),
             zone: S.String.pipe(T.Label()),
+            clusterId: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -8554,13 +8570,13 @@ function __c59(j: number): any {
         S.Struct({
           enabled: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "GcePersistentDiskCsiDriverConfig" });
+      ).annotate({ identifier: "ConfigConnectorConfig" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           disabled: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "KubernetesDashboard" });
+      ).annotate({ identifier: "HorizontalPodAutoscaling" });
   }
 }
 function __c60(j: number): any {
@@ -8568,69 +8584,69 @@ function __c60(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          enableLegacyLustrePort: S.optional(S.Boolean),
-          enabled: S.optional(S.Boolean),
-          disableMultiNic: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "LustreCsiDriverConfig" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          disabled: S.optional(S.Boolean),
-          loadBalancerType: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CloudRunConfig" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          enabled: S.optional(S.Boolean),
           rayClusterLoggingConfig: S.optional(__S(1888, __c59, 0)),
+          enabled: S.optional(S.Boolean),
           rayClusterMonitoringConfig: S.optional(__S(1888, __c59, 0)),
         }),
       ).annotate({ identifier: "RayOperatorConfig" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          enabled: S.optional(S.Boolean),
+          enableLegacyLustrePort: S.optional(S.Boolean),
+          disableMultiNic: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "LustreCsiDriverConfig" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          proxySecretUri: S.optional(S.String),
+          apiKeySecretUri: S.optional(S.String),
+          enabled: S.optional(S.Boolean),
+          registrySecretUri: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "WizSensorConfig" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          disabled: S.optional(S.Boolean),
           auth: S.optional(S.String),
+          disabled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "IstioConfig" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          registrySecretUri: S.optional(S.String),
-          proxySecretUri: S.optional(S.String),
-          apiKeySecretUri: S.optional(S.String),
-          enabled: S.optional(S.Boolean),
+          loadBalancerType: S.optional(S.String),
+          disabled: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "WizSensorConfig" });
+      ).annotate({ identifier: "CloudRunConfig" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          gcePersistentDiskCsiDriverConfig: S.optional(__S(1888, __c59, 0)),
-          kubernetesDashboard: S.optional(__S(1889, __c59, 1)),
-          networkPolicyConfig: S.optional(__S(1889, __c59, 1)),
-          sliceControllerConfig: S.optional(__S(1888, __c59, 0)),
-          gcsFuseCsiDriverConfig: S.optional(__S(1888, __c59, 0)),
-          lustreCsiDriverConfig: S.optional(__S(1920, __c60, 0)),
-          dnsCacheConfig: S.optional(__S(1888, __c59, 0)),
-          slurmOperatorConfig: S.optional(__S(1888, __c59, 0)),
-          agentSandboxConfig: S.optional(__S(1888, __c59, 0)),
-          cloudRunConfig: S.optional(__S(1921, __c60, 1)),
           configConnectorConfig: S.optional(__S(1888, __c59, 0)),
-          gkeBackupAgentConfig: S.optional(__S(1888, __c59, 0)),
-          rayOperatorConfig: S.optional(__S(1922, __c60, 2)),
-          gcpFilestoreCsiDriverConfig: S.optional(__S(1888, __c59, 0)),
-          podSnapshotConfig: S.optional(__S(1888, __c59, 0)),
-          kalmConfig: S.optional(__S(1888, __c59, 0)),
-          nodeReadinessConfig: S.optional(__S(1888, __c59, 0)),
-          horizontalPodAutoscaling: S.optional(__S(1889, __c59, 1)),
-          highScaleCheckpointingConfig: S.optional(__S(1888, __c59, 0)),
+          sliceControllerConfig: S.optional(__S(1888, __c59, 0)),
           statefulHaConfig: S.optional(__S(1888, __c59, 0)),
-          istioConfig: S.optional(__S(1923, __c60, 3)),
-          httpLoadBalancing: S.optional(__S(1889, __c59, 1)),
-          wizSensorConfig: S.optional(__S(1924, __c60, 4)),
+          rayOperatorConfig: S.optional(__S(1920, __c60, 0)),
+          lustreCsiDriverConfig: S.optional(__S(1921, __c60, 1)),
+          horizontalPodAutoscaling: S.optional(__S(1889, __c59, 1)),
+          gcePersistentDiskCsiDriverConfig: S.optional(__S(1888, __c59, 0)),
+          wizSensorConfig: S.optional(__S(1922, __c60, 2)),
           parallelstoreCsiDriverConfig: S.optional(__S(1888, __c59, 0)),
+          highScaleCheckpointingConfig: S.optional(__S(1888, __c59, 0)),
+          agentSandboxConfig: S.optional(__S(1888, __c59, 0)),
+          networkPolicyConfig: S.optional(__S(1889, __c59, 1)),
+          dnsCacheConfig: S.optional(__S(1888, __c59, 0)),
+          kubernetesDashboard: S.optional(__S(1889, __c59, 1)),
+          nodeReadinessConfig: S.optional(__S(1888, __c59, 0)),
+          gcpFilestoreCsiDriverConfig: S.optional(__S(1888, __c59, 0)),
+          gcsFuseCsiDriverConfig: S.optional(__S(1888, __c59, 0)),
+          kalmConfig: S.optional(__S(1888, __c59, 0)),
+          slurmOperatorConfig: S.optional(__S(1888, __c59, 0)),
+          httpLoadBalancing: S.optional(__S(1889, __c59, 1)),
+          gkeBackupAgentConfig: S.optional(__S(1888, __c59, 0)),
+          istioConfig: S.optional(__S(1923, __c60, 3)),
+          cloudRunConfig: S.optional(__S(1924, __c60, 4)),
+          podSnapshotConfig: S.optional(__S(1888, __c59, 0)),
         }),
       ).annotate({ identifier: "AddonsConfig" });
   }
@@ -8658,9 +8674,9 @@ function __c62(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          message: S.optional(S.String),
           details: S.optional(__S(1985, __c62, 1)),
           code: S.optional(S.Number),
-          message: S.optional(S.String),
         }),
       ).annotate({ identifier: "Status" });
     case 3:
@@ -8668,10 +8684,10 @@ function __c62(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          stringValue: S.optional(S.String),
-          name: S.optional(S.String),
-          doubleValue: S.optional(S.Number),
           intValue: S.optional(S.String),
+          doubleValue: S.optional(S.Number),
+          name: S.optional(S.String),
+          stringValue: S.optional(S.String),
         }),
       ).annotate({ identifier: "Metric" });
     case 5:
@@ -8681,28 +8697,28 @@ function __c62(j: number): any {
         S.Struct({
           stages: S.optional(__S(1987, __c62, 3)),
           name: S.optional(S.String),
-          metrics: S.optional(__S(1989, __c62, 5)),
           status: S.optional(S.String),
+          metrics: S.optional(__S(1989, __c62, 5)),
         }),
       ).annotate({ identifier: "OperationProgress" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          endTime: S.optional(S.String),
-          location: S.optional(S.String),
-          clusterConditions: S.optional(__S(1953, __c61, 1)),
+          zone: S.optional(S.String),
+          nodepoolConditions: S.optional(__S(1953, __c61, 1)),
           startTime: S.optional(S.String),
+          endTime: S.optional(S.String),
+          statusMessage: S.optional(S.String),
+          operationType: S.optional(S.String),
           name: S.optional(S.String),
           error: S.optional(__S(1986, __c62, 2)),
-          selfLink: S.optional(S.String),
-          operationType: S.optional(S.String),
-          progress: S.optional(__S(1990, __c62, 6)),
-          detail: S.optional(S.String),
-          targetLink: S.optional(S.String),
-          nodepoolConditions: S.optional(__S(1953, __c61, 1)),
           status: S.optional(S.String),
-          zone: S.optional(S.String),
-          statusMessage: S.optional(S.String),
+          location: S.optional(S.String),
+          clusterConditions: S.optional(__S(1953, __c61, 1)),
+          detail: S.optional(S.String),
+          selfLink: S.optional(S.String),
+          targetLink: S.optional(S.String),
+          progress: S.optional(__S(1990, __c62, 6)),
         }),
       ).annotate({ identifier: "Operation" });
   }
@@ -8712,10 +8728,10 @@ function __c63(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          addonsConfig: S.optional(__S(1925, __c60, 5)),
-          projectId: S.optional(S.String),
-          clusterId: S.optional(S.String),
           zone: S.optional(S.String),
+          clusterId: S.optional(S.String),
+          projectId: S.optional(S.String),
+          addonsConfig: S.optional(__S(1925, __c60, 5)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "SetAddonsConfigRequest" });
@@ -8726,10 +8742,10 @@ function __c64(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          projectId: S.optional(S.String.pipe(T.Query())),
           clusterId: S.optional(S.String.pipe(T.Query())),
-          zone: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          projectId: S.optional(S.String.pipe(T.Query())),
+          zone: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -8755,8 +8771,8 @@ function __c66(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           zone: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
           projectId: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -8786,9 +8802,9 @@ function __c68(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          parent: S.optional(S.String.pipe(T.Query())),
           zone: S.String.pipe(T.Label()),
           projectId: S.String.pipe(T.Label()),
-          parent: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -8804,8 +8820,8 @@ function __c69(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          projectId: S.String.pipe(T.Label()),
           zone: S.String.pipe(T.Label()),
+          projectId: S.String.pipe(T.Label()),
           parent: S.optional(S.String.pipe(T.Query())),
           clusterId: S.String.pipe(T.Label()),
         }).pipe(
@@ -8843,9 +8859,9 @@ function __c71(j: number): any {
         S.Extend(
           __S(2304, __c72, 0),
           S.Struct({
-            projectId: S.String.pipe(T.Label()),
             zone: S.String.pipe(T.Label()),
             clusterId: S.String.pipe(T.Label()),
+            projectId: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -8862,11 +8878,11 @@ function __c72(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          projectId: S.optional(S.String),
-          name: S.optional(S.String),
           clusterId: S.optional(S.String),
-          zone: S.optional(S.String),
+          name: S.optional(S.String),
           locations: S.optional(__S(3968, __c124, 0)),
+          zone: S.optional(S.String),
+          projectId: S.optional(S.String),
         }),
       ).annotate({ identifier: "SetLocationsRequest" });
   }
@@ -8878,9 +8894,9 @@ function __c73(j: number): any {
         S.Extend(
           __S(2368, __c74, 0),
           S.Struct({
-            projectId: S.String.pipe(T.Label()),
             zone: S.String.pipe(T.Label()),
             clusterId: S.String.pipe(T.Label()),
+            projectId: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -8897,11 +8913,11 @@ function __c74(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          clusterId: S.optional(S.String),
           zone: S.optional(S.String),
+          loggingService: S.optional(S.String),
           name: S.optional(S.String),
           projectId: S.optional(S.String),
-          clusterId: S.optional(S.String),
-          loggingService: S.optional(S.String),
         }),
       ).annotate({ identifier: "SetLoggingServiceRequest" });
   }
@@ -8932,11 +8948,11 @@ function __c76(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          clusterId: S.optional(S.String),
-          projectId: S.optional(S.String),
           zone: S.optional(S.String),
+          clusterId: S.optional(S.String),
           masterVersion: S.optional(S.String),
+          projectId: S.optional(S.String),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "UpdateMasterRequest" });
   }
@@ -8948,8 +8964,8 @@ function __c77(j: number): any {
         S.Extend(
           __S(2496, __c78, 0),
           S.Struct({
-            zone: S.String.pipe(T.Label()),
             clusterId: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
             projectId: S.String.pipe(T.Label()),
           }),
         ).pipe(
@@ -8967,11 +8983,11 @@ function __c78(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          projectId: S.optional(S.String),
-          monitoringService: S.optional(S.String),
           name: S.optional(S.String),
           clusterId: S.optional(S.String),
+          monitoringService: S.optional(S.String),
           zone: S.optional(S.String),
+          projectId: S.optional(S.String),
         }),
       ).annotate({ identifier: "SetMonitoringServiceRequest" });
   }
@@ -8984,8 +9000,8 @@ function __c79(j: number): any {
           __S(2560, __c80, 0),
           S.Struct({
             projectId: S.String.pipe(T.Label()),
-            zone: S.String.pipe(T.Label()),
             clusterId: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -9002,12 +9018,12 @@ function __c80(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          zone: S.optional(S.String),
-          projectId: S.optional(S.String),
-          labelFingerprint: S.optional(S.String),
           clusterId: S.optional(S.String),
-          resourceLabels: S.optional(__S(256, __c8, 0)),
+          labelFingerprint: S.optional(S.String),
           name: S.optional(S.String),
+          zone: S.optional(S.String),
+          resourceLabels: S.optional(__S(256, __c8, 0)),
+          projectId: S.optional(S.String),
         }),
       ).annotate({ identifier: "SetLabelsRequest" });
   }
@@ -9019,10 +9035,10 @@ function __c81(j: number): any {
         S.Extend(
           __S(2656, __c83, 0),
           S.Struct({
-            nodePoolId: S.String.pipe(T.Label()),
-            projectId: S.String.pipe(T.Label()),
-            clusterId: S.String.pipe(T.Label()),
             zone: S.String.pipe(T.Label()),
+            projectId: S.String.pipe(T.Label()),
+            nodePoolId: S.String.pipe(T.Label()),
+            clusterId: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -9039,12 +9055,12 @@ function __c82(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          maxNodeCount: S.optional(S.Number),
           minNodeCount: S.optional(S.Number),
+          maxNodeCount: S.optional(S.Number),
           totalMinNodeCount: S.optional(S.Number),
+          locationPolicy: S.optional(S.String),
           totalMaxNodeCount: S.optional(S.Number),
           autoprovisioned: S.optional(S.Boolean),
-          locationPolicy: S.optional(S.String),
           enabled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "NodePoolAutoscaling" });
@@ -9055,12 +9071,12 @@ function __c83(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          nodePoolId: S.optional(S.String),
-          autoscaling: S.optional(__S(2624, __c82, 0)),
-          clusterId: S.optional(S.String),
-          name: S.optional(S.String),
           projectId: S.optional(S.String),
           zone: S.optional(S.String),
+          autoscaling: S.optional(__S(2624, __c82, 0)),
+          name: S.optional(S.String),
+          nodePoolId: S.optional(S.String),
+          clusterId: S.optional(S.String),
         }),
       ).annotate({ identifier: "SetNodePoolAutoscalingRequest" });
   }
@@ -9089,12 +9105,12 @@ function __c85(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          nodePoolId: S.optional(S.String),
+          name: S.optional(S.String),
           clusterId: S.optional(S.String),
           respectPdb: S.optional(S.Boolean),
-          name: S.optional(S.String),
-          projectId: S.optional(S.String),
-          nodePoolId: S.optional(S.String),
           zone: S.optional(S.String),
+          projectId: S.optional(S.String),
         }),
       ).annotate({ identifier: "RollbackNodePoolUpgradeRequest" });
   }
@@ -9106,10 +9122,10 @@ function __c86(j: number): any {
         S.Extend(
           __S(2720, __c85, 0),
           S.Struct({
-            clusterId: S.String.pipe(T.Label()),
+            projectId: S.String.pipe(T.Label()),
             nodePoolId: S.String.pipe(T.Label()),
             zone: S.String.pipe(T.Label()),
-            projectId: S.String.pipe(T.Label()),
+            clusterId: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -9240,8 +9256,8 @@ function __c93(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          zone: S.optional(S.String),
           projectId: S.optional(S.String),
+          zone: S.optional(S.String),
           clusterId: S.optional(S.String),
           name: S.optional(S.String),
           maintenancePolicy: S.optional(__S(585, __c18, 9)),
@@ -9256,8 +9272,8 @@ function __c94(j: number): any {
         S.Extend(
           __S(2976, __c93, 0),
           S.Struct({
-            projectId: S.String.pipe(T.Label()),
             zone: S.String.pipe(T.Label()),
+            projectId: S.String.pipe(T.Label()),
             clusterId: S.String.pipe(T.Label()),
           }),
         ).pipe(
@@ -9294,12 +9310,12 @@ function __c96(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          management: S.optional(__S(289, __c9, 1)),
-          name: S.optional(S.String),
           nodePoolId: S.optional(S.String),
+          clusterId: S.optional(S.String),
+          name: S.optional(S.String),
           zone: S.optional(S.String),
           projectId: S.optional(S.String),
-          clusterId: S.optional(S.String),
+          management: S.optional(__S(289, __c9, 1)),
         }),
       ).annotate({ identifier: "SetNodePoolManagementRequest" });
   }
@@ -9328,10 +9344,10 @@ function __c98(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.optional(S.String),
           operationId: S.optional(S.String),
           projectId: S.optional(S.String),
           zone: S.optional(S.String),
-          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "CancelOperationRequest" });
   }
@@ -9388,11 +9404,11 @@ function __c102(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          clusterId: S.optional(S.String),
-          name: S.optional(S.String),
           update: S.optional(__S(609, __c19, 1)),
-          projectId: S.optional(S.String),
           zone: S.optional(S.String),
+          projectId: S.optional(S.String),
+          name: S.optional(S.String),
+          clusterId: S.optional(S.String),
           action: S.optional(S.String),
         }),
       ).annotate({ identifier: "SetMasterAuthRequest" });
@@ -9405,9 +9421,9 @@ function __c103(j: number): any {
         S.Extend(
           __S(3264, __c102, 0),
           S.Struct({
-            zone: S.String.pipe(T.Label()),
             clusterId: S.String.pipe(T.Label()),
             projectId: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -9462,11 +9478,11 @@ function __c106(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          networkPolicy: S.optional(__S(640, __c20, 0)),
-          projectId: S.optional(S.String),
-          clusterId: S.optional(S.String),
           zone: S.optional(S.String),
+          networkPolicy: S.optional(__S(640, __c20, 0)),
+          clusterId: S.optional(S.String),
+          projectId: S.optional(S.String),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "SetNetworkPolicyRequest" });
   }
@@ -9535,12 +9551,12 @@ function __c110(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
           nodeCount: S.optional(S.Number),
-          nodePoolId: S.optional(S.String),
           zone: S.optional(S.String),
-          projectId: S.optional(S.String),
           clusterId: S.optional(S.String),
+          name: S.optional(S.String),
+          nodePoolId: S.optional(S.String),
+          projectId: S.optional(S.String),
         }),
       ).annotate({ identifier: "SetNodePoolSizeRequest" });
   }
@@ -9552,10 +9568,10 @@ function __c111(j: number): any {
         S.Extend(
           __S(3520, __c110, 0),
           S.Struct({
-            nodePoolId: S.String.pipe(T.Label()),
-            clusterId: S.String.pipe(T.Label()),
-            projectId: S.String.pipe(T.Label()),
             zone: S.String.pipe(T.Label()),
+            nodePoolId: S.String.pipe(T.Label()),
+            projectId: S.String.pipe(T.Label()),
+            clusterId: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -9592,10 +9608,10 @@ function __c113(j: number): any {
       return S.suspend(() =>
         S.Struct({
           zone: S.optional(S.String),
-          clusterId: S.optional(S.String),
-          name: S.optional(S.String),
-          rotateCredentials: S.optional(S.Boolean),
           projectId: S.optional(S.String),
+          rotateCredentials: S.optional(S.Boolean),
+          name: S.optional(S.String),
+          clusterId: S.optional(S.String),
         }),
       ).annotate({ identifier: "StartIPRotationRequest" });
   }
@@ -9607,9 +9623,9 @@ function __c114(j: number): any {
         S.Extend(
           __S(3136, __c98, 0),
           S.Struct({
-            zone: S.String.pipe(T.Label()),
             operationId: S.String.pipe(T.Label()),
             projectId: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -9628,9 +9644,9 @@ function __c115(j: number): any {
         S.Extend(
           __S(3616, __c113, 0),
           S.Struct({
+            projectId: S.String.pipe(T.Label()),
             zone: S.String.pipe(T.Label()),
             clusterId: S.String.pipe(T.Label()),
-            projectId: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -9685,7 +9701,7 @@ function __c118(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          additionalIpRangesConfigs: S.optional(__S(717, __c22, 13)),
+          additionalIpRangesConfigs: S.optional(__S(722, __c22, 18)),
         }),
       ).annotate({ identifier: "DesiredAdditionalIPRangesConfig" });
     case 1:
@@ -9697,111 +9713,111 @@ function __c118(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          privateClusterConfig: S.optional(__S(745, __c23, 9)),
-          desiredEnableMultiNetworking: S.optional(S.Boolean),
-          desiredLoggingService: S.optional(S.String),
-          desiredPrivilegedAdmissionConfig: S.optional(__S(707, __c22, 3)),
-          desiredAutopilotWorkloadPolicyConfig: S.optional(__S(708, __c22, 4)),
-          desiredServiceExternalIpsConfig: S.optional(__S(1888, __c59, 0)),
-          desiredSecretSyncConfig: S.optional(__S(755, __c23, 19)),
-          desiredAddonsConfig: S.optional(__S(1925, __c60, 5)),
-          desiredDatabaseEncryption: S.optional(__S(768, __c24, 0)),
-          desiredMonitoringConfig: S.optional(__S(753, __c23, 17)),
-          desiredImage: S.optional(S.String),
-          desiredReleaseChannel: S.optional(__S(720, __c22, 16)),
-          desiredNodeVersion: S.optional(S.String),
-          desiredResourceUsageExportConfig: S.optional(__S(771, __c24, 3)),
-          desiredImageType: S.optional(S.String),
-          desiredDatapathProvider: S.optional(S.String),
-          desiredAdditionalIpRangesConfig: S.optional(__S(3776, __c118, 0)),
-          desiredControlPlaneEgress: S.optional(__S(733, __c22, 29)),
+          desiredNetworkPerformanceConfig: S.optional(__S(741, __c23, 5)),
+          desiredNotificationConfig: S.optional(__S(762, __c23, 26)),
+          desiredMeshCertificates: S.optional(__S(704, __c22, 0)),
+          desiredUserManagedKeysConfig: S.optional(__S(728, __c22, 24)),
           desiredEnablePrivateEndpoint: S.optional(S.Boolean),
-          desiredNetworkTierConfig: S.optional(__S(320, __c10, 0)),
-          desiredControlPlaneEndpointsConfig: S.optional(__S(740, __c23, 4)),
-          desiredVerticalPodAutoscaling: S.optional(__S(1888, __c59, 0)),
-          desiredNodePoolUpgradeConcurrencyConfig: S.optional(__S(750, __c23, 14)),
-          desiredL4ilbSubsettingConfig: S.optional(__S(1888, __c59, 0)),
-          desiredPodAutoscaling: S.optional(__S(741, __c23, 5)),
-          desiredLoggingConfig: S.optional(__S(747, __c23, 11)),
-          desiredPrivateClusterConfig: S.optional(__S(745, __c23, 9)),
-          enableK8sBetaApis: S.optional(__S(724, __c22, 20)),
-          desiredLocations: S.optional(__S(3968, __c124, 0)),
-          desiredIntraNodeVisibilityConfig: S.optional(__S(1888, __c59, 0)),
-          desiredNodePoolAutoscaling: S.optional(__S(2624, __c82, 0)),
-          desiredAutopilotClusterPolicyConfig: S.optional(__S(706, __c22, 2)),
-          desiredK8sBetaApis: S.optional(__S(724, __c22, 20)),
-          desiredSecretManagerConfig: S.optional(__S(710, __c22, 6)),
-          desiredNodeCreationConfig: S.optional(__S(756, __c23, 20)),
-          desiredRollbackSafeUpgrade: S.optional(__S(712, __c22, 8)),
-          desiredParentProductConfig: S.optional(__S(723, __c22, 19)),
-          desiredMasterVersion: S.optional(S.String),
-          desiredWorkloadAltsConfig: S.optional(__S(704, __c22, 0)),
-          desiredEnableFqdnNetworkPolicy: S.optional(S.Boolean),
-          desiredHostMaintenancePolicy: S.optional(__S(385, __c12, 1)),
-          desiredWorkloadIdentityConfig: S.optional(__S(722, __c22, 18)),
-          desiredClusterTelemetry: S.optional(__S(725, __c22, 21)),
-          desiredNodePoolAutoConfigLinuxNodeConfig: S.optional(__S(352, __c11, 0)),
-          removedAdditionalPodRangesConfig: S.optional(__S(715, __c22, 11)),
-          desiredShieldedNodes: S.optional(__S(1888, __c59, 0)),
-          desiredEnableCiliumClusterwideNetworkPolicy: S.optional(S.Boolean),
-          desiredAuthenticatorGroupsConfig: S.optional(__S(726, __c22, 22)),
-          desiredFleet: S.optional(__S(711, __c22, 7)),
-          etag: S.optional(S.String),
-          desiredNodePoolLoggingConfig: S.optional(__S(354, __c11, 2)),
-          desiredManagedMachineLearningDiagnosticsConfig: S.optional(__S(1888, __c59, 0)),
-          desiredPrivateIpv6GoogleAccess: S.optional(S.String),
-          desiredUserManagedKeysConfig: S.optional(__S(772, __c24, 4)),
-          desiredAutoIpamConfig: S.optional(__S(1888, __c59, 0)),
-          desiredNodePoolId: S.optional(S.String),
-          desiredGatewayApiConfig: S.optional(__S(720, __c22, 16)),
-          additionalPodRangesConfig: S.optional(__S(715, __c22, 11)),
-          desiredRbacBindingConfig: S.optional(__S(769, __c24, 1)),
-          desiredIdentityServiceConfig: S.optional(__S(1888, __c59, 0)),
-          desiredManagedOpentelemetryConfig: S.optional(__S(718, __c22, 14)),
-          desiredMeshCertificates: S.optional(__S(732, __c22, 28)),
-          desiredWorkloadCertificates: S.optional(__S(732, __c22, 28)),
-          desiredMasterAuthorizedNetworksConfig: S.optional(__S(737, __c23, 1)),
-          desiredEmulatedVersion: S.optional(S.String),
-          desiredNodePoolAutoConfigNetworkTags: S.optional(__S(672, __c21, 0)),
-          desiredTpuConfig: S.optional(__S(760, __c23, 24)),
-          desiredDefaultSnatStatus: S.optional(__S(1889, __c59, 1)),
-          desiredDisableL4LbFirewallReconciliation: S.optional(S.Boolean),
-          gkeAutoUpgradeConfig: S.optional(__S(734, __c22, 30)),
-          desiredSecurityPostureConfig: S.optional(__S(705, __c22, 1)),
-          desiredMaster: S.optional(__S(749, __c23, 13)),
-          desiredAnonymousAuthenticationConfig: S.optional(__S(733, __c22, 29)),
-          userManagedKeysConfig: S.optional(__S(772, __c24, 4)),
-          desiredNodePoolAutoConfigKubeletConfig: S.optional(__S(362, __c11, 10)),
-          desiredCompliancePostureConfig: S.optional(__S(729, __c22, 25)),
-          desiredNodeKubeletConfig: S.optional(__S(362, __c11, 10)),
-          desiredNetworkPerformanceConfig: S.optional(__S(721, __c22, 17)),
-          desiredContainerdConfig: S.optional(__S(335, __c10, 15)),
-          desiredDefaultEnablePrivateNodes: S.optional(S.Boolean),
-          desiredBinaryAuthorization: S.optional(__S(759, __c23, 23)),
-          desiredStackType: S.optional(S.String),
-          desiredAmbientNetworkingConfig: S.optional(__S(1888, __c59, 0)),
-          desiredCostManagementConfig: S.optional(__S(1888, __c59, 0)),
-          desiredMonitoringService: S.optional(S.String),
-          desiredScheduleUpgradeConfig: S.optional(__S(1888, __c59, 0)),
+          desiredAddonsConfig: S.optional(__S(1925, __c60, 5)),
+          desiredDatabaseEncryption: S.optional(__S(754, __c23, 18)),
+          desiredReleaseChannel: S.optional(__S(743, __c23, 7)),
+          desiredClusterAutoscaling: S.optional(__S(720, __c22, 16)),
           desiredPodSecurityPolicyConfig: S.optional(__S(1888, __c59, 0)),
-          desiredClusterAutoscaling: S.optional(__S(765, __c23, 29)),
-          desiredImageProject: S.optional(S.String),
-          desiredInTransitEncryptionConfig: S.optional(S.String),
-          desiredNotificationConfig: S.optional(__S(744, __c23, 8)),
-          desiredGcfsConfig: S.optional(__S(1888, __c59, 0)),
-          desiredNodePoolAutoConfigResourceManagerTags: S.optional(__S(336, __c10, 16)),
+          desiredIntraNodeVisibilityConfig: S.optional(__S(1888, __c59, 0)),
+          desiredPodAutoscaling: S.optional(__S(758, __c23, 22)),
+          desiredPrivateIpv6GoogleAccess: S.optional(S.String),
+          desiredEnableFqdnNetworkPolicy: S.optional(S.Boolean),
+          desiredNodePoolAutoConfigKubeletConfig: S.optional(__S(364, __c11, 12)),
+          desiredPrivateClusterConfig: S.optional(__S(714, __c22, 10)),
+          removedAdditionalPodRangesConfig: S.optional(__S(725, __c22, 21)),
+          desiredControlPlaneEgress: S.optional(__S(733, __c22, 29)),
+          desiredImage: S.optional(S.String),
+          enableK8sBetaApis: S.optional(__S(727, __c22, 23)),
+          desiredEmulatedVersion: S.optional(S.String),
+          desiredGatewayApiConfig: S.optional(__S(743, __c23, 7)),
+          desiredCostManagementConfig: S.optional(__S(1888, __c59, 0)),
+          desiredIdentityServiceConfig: S.optional(__S(1888, __c59, 0)),
+          desiredImageType: S.optional(S.String),
+          desiredEnableMultiNetworking: S.optional(S.Boolean),
+          desiredVerticalPodAutoscaling: S.optional(__S(1888, __c59, 0)),
+          desiredDnsConfig: S.optional(__S(742, __c23, 6)),
+          desiredResourceUsageExportConfig: S.optional(__S(730, __c22, 26)),
+          desiredLoggingService: S.optional(S.String),
+          desiredSecretManagerConfig: S.optional(__S(732, __c22, 28)),
+          desiredSecretSyncConfig: S.optional(__S(766, __c23, 30)),
+          desiredK8sBetaApis: S.optional(__S(727, __c22, 23)),
+          desiredNodeKubeletConfig: S.optional(__S(364, __c11, 12)),
+          desiredMaster: S.optional(__S(713, __c22, 9)),
+          desiredNodeVersion: S.optional(S.String),
+          desiredHostMaintenancePolicy: S.optional(__S(385, __c12, 1)),
+          desiredNodePoolUpgradeConcurrencyConfig: S.optional(__S(708, __c22, 4)),
+          desiredAdditionalIpRangesConfig: S.optional(__S(3776, __c118, 0)),
+          desiredMasterVersion: S.optional(S.String),
+          desiredNodePoolAutoConfigLinuxNodeConfig: S.optional(__S(338, __c10, 18)),
+          desiredMonitoringConfig: S.optional(__S(772, __c24, 4)),
+          etag: S.optional(S.String),
+          desiredL4ilbSubsettingConfig: S.optional(__S(1888, __c59, 0)),
+          desiredNodePoolAutoConfigNetworkTags: S.optional(__S(672, __c21, 0)),
+          desiredContainerdConfig: S.optional(__S(354, __c11, 2)),
+          desiredAuthenticatorGroupsConfig: S.optional(__S(757, __c23, 21)),
+          desiredAutopilotWorkloadPolicyConfig: S.optional(__S(739, __c23, 3)),
+          desiredNetworkTierConfig: S.optional(__S(369, __c11, 17)),
+          desiredWorkloadIdentityConfig: S.optional(__S(755, __c23, 19)),
+          desiredFleet: S.optional(__S(740, __c23, 4)),
+          desiredLocations: S.optional(__S(3968, __c124, 0)),
+          desiredPrivilegedAdmissionConfig: S.optional(__S(738, __c23, 2)),
+          desiredNodePoolId: S.optional(S.String),
+          desiredShieldedNodes: S.optional(__S(1888, __c59, 0)),
+          desiredMasterAuthorizedNetworksConfig: S.optional(__S(747, __c23, 11)),
+          desiredRollbackSafeUpgrade: S.optional(__S(705, __c22, 1)),
           desiredEnterpriseConfig: S.optional(__S(3777, __c118, 1)),
-          desiredDnsConfig: S.optional(__S(719, __c22, 15)),
-          desiredProtectConfig: S.optional(__S(731, __c22, 27)),
+          desiredNodeCreationConfig: S.optional(__S(726, __c22, 22)),
+          desiredScheduleUpgradeConfig: S.optional(__S(1888, __c59, 0)),
+          desiredWorkloadCertificates: S.optional(__S(704, __c22, 0)),
+          desiredProtectConfig: S.optional(__S(749, __c23, 13)),
+          desiredDatapathProvider: S.optional(S.String),
+          privateClusterConfig: S.optional(__S(714, __c22, 10)),
+          desiredBinaryAuthorization: S.optional(__S(736, __c23, 0)),
+          gkeAutoUpgradeConfig: S.optional(__S(715, __c22, 11)),
+          desiredAutopilotClusterPolicyConfig: S.optional(__S(737, __c23, 1)),
+          desiredDisableL4LbFirewallReconciliation: S.optional(S.Boolean),
+          desiredParentProductConfig: S.optional(__S(759, __c23, 23)),
+          desiredAnonymousAuthenticationConfig: S.optional(__S(733, __c22, 29)),
+          desiredEnableCiliumClusterwideNetworkPolicy: S.optional(S.Boolean),
+          desiredManagedMachineLearningDiagnosticsConfig: S.optional(__S(1888, __c59, 0)),
+          desiredNodePoolAutoscaling: S.optional(__S(2624, __c82, 0)),
+          desiredInTransitEncryptionConfig: S.optional(S.String),
+          desiredServiceExternalIpsConfig: S.optional(__S(1888, __c59, 0)),
+          desiredTpuConfig: S.optional(__S(751, __c23, 15)),
+          desiredControlPlaneEndpointsConfig: S.optional(__S(769, __c24, 1)),
+          desiredAmbientNetworkingConfig: S.optional(__S(1888, __c59, 0)),
+          desiredSecurityPostureConfig: S.optional(__S(756, __c23, 20)),
+          desiredDefaultSnatStatus: S.optional(__S(1889, __c59, 1)),
+          desiredImageProject: S.optional(S.String),
+          desiredAutoIpamConfig: S.optional(__S(1888, __c59, 0)),
+          desiredStackType: S.optional(S.String),
+          desiredNodePoolLoggingConfig: S.optional(__S(356, __c11, 4)),
+          desiredWorkloadAltsConfig: S.optional(__S(764, __c23, 28)),
+          userManagedKeysConfig: S.optional(__S(728, __c22, 24)),
+          desiredRbacBindingConfig: S.optional(__S(763, __c23, 27)),
+          desiredManagedOpentelemetryConfig: S.optional(__S(744, __c23, 8)),
+          desiredCompliancePostureConfig: S.optional(__S(711, __c22, 7)),
+          desiredNodePoolAutoConfigResourceManagerTags: S.optional(__S(339, __c10, 19)),
+          desiredMonitoringService: S.optional(S.String),
+          desiredDefaultEnablePrivateNodes: S.optional(S.Boolean),
+          additionalPodRangesConfig: S.optional(__S(725, __c22, 21)),
+          desiredClusterTelemetry: S.optional(__S(750, __c23, 14)),
+          desiredLoggingConfig: S.optional(__S(707, __c22, 3)),
+          desiredGcfsConfig: S.optional(__S(1888, __c59, 0)),
         }),
       ).annotate({ identifier: "ClusterUpdate" });
     case 3:
       return S.suspend(() =>
         S.Struct({
           zone: S.optional(S.String),
+          clusterId: S.optional(S.String),
           update: S.optional(__S(3778, __c118, 2)),
           name: S.optional(S.String),
-          clusterId: S.optional(S.String),
           projectId: S.optional(S.String),
         }),
       ).annotate({ identifier: "UpdateClusterRequest" });
@@ -9843,49 +9859,49 @@ function __c120(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          imageType: S.optional(S.String),
+          linuxNodeConfig: S.optional(__S(338, __c10, 18)),
+          accelerators: S.optional(__S(421, __c13, 5)),
           image: S.optional(S.String),
-          imageProject: S.optional(S.String),
-          windowsNodeConfig: S.optional(__S(424, __c13, 8)),
-          diskType: S.optional(S.String),
-          storagePools: S.optional(__S(3968, __c124, 0)),
-          nodePoolId: S.optional(S.String),
-          tags: S.optional(__S(672, __c21, 0)),
-          upgradeSettings: S.optional(__S(366, __c11, 14)),
-          projectId: S.optional(S.String),
-          nodeVersion: S.optional(S.String),
-          bootDisk: S.optional(__S(421, __c13, 5)),
-          consolidationDelay: S.optional(S.String),
-          linuxNodeConfig: S.optional(__S(352, __c11, 0)),
-          workloadMetadataConfig: S.optional(__S(422, __c13, 6)),
-          nodes: S.optional(__S(3968, __c124, 0)),
-          taintConfig: S.optional(__S(423, __c13, 7)),
-          queuedProvisioning: S.optional(__S(1888, __c59, 0)),
-          resourceLabels: S.optional(__S(3840, __c120, 0)),
-          labels: S.optional(__S(3840, __c120, 0)),
           locations: S.optional(__S(3968, __c124, 0)),
-          confidentialNodes: S.optional(__S(427, __c13, 11)),
-          zone: S.optional(S.String),
-          loggingConfig: S.optional(__S(354, __c11, 2)),
-          gvnic: S.optional(__S(1888, __c59, 0)),
-          gcfsConfig: S.optional(__S(1888, __c59, 0)),
-          nodeNetworkConfig: S.optional(__S(437, __c13, 21)),
-          resourceManagerTags: S.optional(__S(336, __c10, 16)),
-          diskSizeGb: S.optional(S.String),
-          accelerators: S.optional(__S(420, __c13, 4)),
-          nodeDrainConfig: S.optional(__S(429, __c13, 13)),
+          queuedProvisioning: S.optional(__S(1888, __c59, 0)),
+          confidentialNodes: S.optional(__S(422, __c13, 6)),
+          nodeNetworkConfig: S.optional(__S(436, __c13, 20)),
+          diskType: S.optional(S.String),
+          nodePoolId: S.optional(S.String),
           flexStart: S.optional(S.Boolean),
-          name: S.optional(S.String),
-          containerdConfig: S.optional(__S(335, __c10, 15)),
-          etag: S.optional(S.String),
-          nodeConfigUpdateMode: S.optional(S.String),
-          maxRunDuration: S.optional(S.String),
-          maintenancePolicy: S.optional(__S(431, __c13, 15)),
-          machineType: S.optional(S.String),
-          taints: S.optional(__S(3841, __c120, 1)),
-          kubeletConfig: S.optional(__S(362, __c11, 10)),
-          fastSocket: S.optional(__S(1888, __c59, 0)),
+          taintConfig: S.optional(__S(427, __c13, 11)),
+          workloadMetadataConfig: S.optional(__S(423, __c13, 7)),
+          resourceLabels: S.optional(__S(3840, __c120, 0)),
           clusterId: S.optional(S.String),
+          bootDisk: S.optional(__S(417, __c13, 1)),
+          consolidationDelay: S.optional(S.String),
+          labels: S.optional(__S(3840, __c120, 0)),
+          machineType: S.optional(S.String),
+          projectId: S.optional(S.String),
+          maxRunDuration: S.optional(S.String),
+          tags: S.optional(__S(672, __c21, 0)),
+          gvnic: S.optional(__S(1888, __c59, 0)),
+          nodes: S.optional(__S(3968, __c124, 0)),
+          etag: S.optional(S.String),
+          windowsNodeConfig: S.optional(__S(424, __c13, 8)),
+          imageProject: S.optional(S.String),
+          kubeletConfig: S.optional(__S(364, __c11, 12)),
+          resourceManagerTags: S.optional(__S(339, __c10, 19)),
+          storagePools: S.optional(__S(3968, __c124, 0)),
+          nodeConfigUpdateMode: S.optional(S.String),
+          loggingConfig: S.optional(__S(356, __c11, 4)),
+          containerdConfig: S.optional(__S(354, __c11, 2)),
+          name: S.optional(S.String),
+          diskSizeGb: S.optional(S.String),
+          upgradeSettings: S.optional(__S(368, __c11, 16)),
+          imageType: S.optional(S.String),
+          nodeVersion: S.optional(S.String),
+          nodeDrainConfig: S.optional(__S(437, __c13, 21)),
+          gcfsConfig: S.optional(__S(1888, __c59, 0)),
+          fastSocket: S.optional(__S(1888, __c59, 0)),
+          maintenancePolicy: S.optional(__S(430, __c13, 14)),
+          zone: S.optional(S.String),
+          taints: S.optional(__S(3841, __c120, 1)),
         }),
       ).annotate({ identifier: "UpdateNodePoolRequest" });
   }
@@ -9897,9 +9913,9 @@ function __c121(j: number): any {
         S.Extend(
           __S(3779, __c118, 3),
           S.Struct({
-            clusterId: S.String.pipe(T.Label()),
-            zone: S.String.pipe(T.Label()),
             projectId: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+            clusterId: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -9918,10 +9934,10 @@ function __c122(j: number): any {
         S.Extend(
           __S(3842, __c120, 2),
           S.Struct({
-            nodePoolId: S.String.pipe(T.Label()),
-            clusterId: S.String.pipe(T.Label()),
             zone: S.String.pipe(T.Label()),
             projectId: S.String.pipe(T.Label()),
+            nodePoolId: S.String.pipe(T.Label()),
+            clusterId: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -9950,12 +9966,12 @@ function __c123(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          incompatibilityType: S.optional(S.String),
           description: S.optional(S.String),
-          lastObservation: S.optional(S.String),
-          subjects: S.optional(__S(3968, __c124, 0)),
-          constraintType: S.optional(S.String),
           documentationUrl: S.optional(S.String),
+          lastObservation: S.optional(S.String),
+          incompatibilityType: S.optional(S.String),
+          constraintType: S.optional(S.String),
+          subjects: S.optional(__S(3968, __c124, 0)),
         }),
       ).annotate({ identifier: "AutopilotCompatibilityIssue" });
     case 2:

@@ -86,10 +86,10 @@ export class NotFound
 export type StringList = Array<string>;
 /** Request for ApplyParameters. */
 export interface ApplyParametersRequest {
-  /** Nodes to which the instance-level parameter group is applied. */
-  nodeIds?: StringList | undefined;
   /** Whether to apply instance-level parameter group to all nodes. If set to true, users are restricted from specifying individual nodes, and `ApplyParameters` updates all nodes within the instance. */
   applyAll?: boolean | undefined;
+  /** Nodes to which the instance-level parameter group is applied. */
+  nodeIds?: StringList | undefined;
 }
 export interface ApplyParametersProjectsLocationsInstancesRequest extends ApplyParametersRequest {
   /** Required. Resource name of the Memcached instance for which parameter group updates should be applied. */
@@ -99,32 +99,32 @@ export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
-  /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number | undefined;
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
   message?: string | undefined;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
   details?: DocumentMapList | undefined;
+  /** The status code, which should be an enum value of google.rpc.Code. */
+  code?: number | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
-  /** The error result of the operation in case of failure or cancellation. */
-  error?: Status | undefined;
-  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string | undefined;
-  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean | undefined;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
   metadata?: DocumentMap | undefined;
+  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
+  done?: boolean | undefined;
+  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
+  name?: string | undefined;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
   response?: DocumentMap | undefined;
+  /** The error result of the operation in case of failure or cancellation. */
+  error?: Status | undefined;
 }
 /** Request for ApplySoftwareUpdate. */
 export interface ApplySoftwareUpdateRequest {
-  /** Nodes to which we should apply the update to. Note all the selected nodes are updated in parallel. */
-  nodeIds?: StringList | undefined;
   /** Whether to apply the update to all nodes. If set to true, will explicitly restrict users from specifying any nodes, and apply software update to all nodes (where applicable) within the instance. */
   applyAll?: boolean | undefined;
+  /** Nodes to which we should apply the update to. Note all the selected nodes are updated in parallel. */
+  nodeIds?: StringList | undefined;
 }
 export interface ApplySoftwareUpdateProjectsLocationsInstancesRequest extends ApplySoftwareUpdateRequest {
   /** Required. Resource name of the Memcached instance for which software update should be applied. */
@@ -148,11 +148,6 @@ export type InstanceStateEnum =
   | "DELETING"
   | "PERFORMING_MAINTENANCE"
   | "MEMCACHE_VERSION_UPGRADING";
-export type NodeStateEnum = "STATE_UNSPECIFIED" | "CREATING" | "READY" | "DELETING" | "UPDATING";
-export type NodeMemcacheVersionEnum =
-  | "MEMCACHE_VERSION_UNSPECIFIED"
-  | "MEMCACHE_1_5"
-  | "MEMCACHE_1_6_15";
 export type StringMap = { [key: string]: string | undefined };
 export interface MemcacheParameters {
   /** User defined set of parameters to use in the memcached process. */
@@ -160,25 +155,30 @@ export interface MemcacheParameters {
   /** Output only. The unique ID associated with this set of parameters. Users can use this id to determine if the parameters associated with the instance differ from the parameters associated with the nodes. A discrepancy between parameter ids can inform users that they may need to take action to apply parameters on nodes. */
   id?: string | undefined;
 }
+export type NodeStateEnum = "STATE_UNSPECIFIED" | "CREATING" | "READY" | "DELETING" | "UPDATING";
+export type NodeMemcacheVersionEnum =
+  | "MEMCACHE_VERSION_UNSPECIFIED"
+  | "MEMCACHE_1_5"
+  | "MEMCACHE_1_6_15";
 export interface Node {
-  /** Output only. Current state of the Memcached node. */
-  state?: NodeStateEnum | (string & {}) | undefined;
   /** Output only. The full version of memcached server running on this node. e.g. - memcached-1.5.16 */
   memcacheFullVersion?: string | undefined;
-  /** Output only. Returns true if there is an update waiting to be applied */
-  updateAvailable?: boolean | undefined;
-  /** Output only. Identifier of the Memcached node. The node id does not include project or location like the Memcached instance name. */
-  nodeId?: string | undefined;
-  /** Output only. Location (GCP Zone) for the Memcached node. */
-  zone?: string | undefined;
-  /** Output only. Major version of memcached server running on this node, e.g. MEMCACHE_1_5 */
-  memcacheVersion?: NodeMemcacheVersionEnum | (string & {}) | undefined;
   /** User defined parameters currently applied to the node. */
   parameters?: MemcacheParameters | undefined;
   /** Output only. The port number of the Memcached server on this node. */
   port?: number | undefined;
+  /** Output only. Identifier of the Memcached node. The node id does not include project or location like the Memcached instance name. */
+  nodeId?: string | undefined;
   /** Output only. Hostname or IP address of the Memcached node used by the clients to connect to the Memcached server on this node. */
   host?: string | undefined;
+  /** Output only. Current state of the Memcached node. */
+  state?: NodeStateEnum | (string & {}) | undefined;
+  /** Output only. Major version of memcached server running on this node, e.g. MEMCACHE_1_5 */
+  memcacheVersion?: NodeMemcacheVersionEnum | (string & {}) | undefined;
+  /** Output only. Returns true if there is an update waiting to be applied */
+  updateAvailable?: boolean | undefined;
+  /** Output only. Location (GCP Zone) for the Memcached node. */
+  zone?: string | undefined;
 }
 export type NodeList = Array<Node>;
 /** Configuration for a Memcached Node. */
@@ -188,6 +188,14 @@ export interface NodeConfig {
   /** Required. Number of cpus per Memcached node. */
   cpuCount?: number | undefined;
 }
+export type InstanceMessageCodeEnum = "CODE_UNSPECIFIED" | "ZONE_DISTRIBUTION_UNBALANCED";
+export interface InstanceMessage {
+  /** A code that correspond to one type of user-facing message. */
+  code?: InstanceMessageCodeEnum | (string & {}) | undefined;
+  /** Message on memcached instance which will be exposed to users. */
+  message?: string | undefined;
+}
+export type InstanceMessageList = Array<InstanceMessage>;
 export type WeeklyMaintenanceWindowDayEnum =
   | "DAY_OF_WEEK_UNSPECIFIED"
   | "MONDAY"
@@ -199,109 +207,101 @@ export type WeeklyMaintenanceWindowDayEnum =
   | "SUNDAY";
 /** Represents a time of day. The date and time zone are either not significant or are specified elsewhere. An API may choose to allow leap seconds. Related types are google.type.Date and `google.protobuf.Timestamp`. */
 export interface TimeOfDay {
-  /** Minutes of an hour. Must be greater than or equal to 0 and less than or equal to 59. */
-  minutes?: number | undefined;
-  /** Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds. */
-  seconds?: number | undefined;
   /** Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time. */
   hours?: number | undefined;
   /** Fractions of seconds, in nanoseconds. Must be greater than or equal to 0 and less than or equal to 999,999,999. */
   nanos?: number | undefined;
+  /** Minutes of an hour. Must be greater than or equal to 0 and less than or equal to 59. */
+  minutes?: number | undefined;
+  /** Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds. */
+  seconds?: number | undefined;
 }
 /** Time window specified for weekly operations. */
 export interface WeeklyMaintenanceWindow {
   /** Required. Allows to define schedule that runs specified day of the week. */
   day?: WeeklyMaintenanceWindowDayEnum | (string & {}) | undefined;
-  /** Required. Duration of the time window. */
-  duration?: string | undefined;
   /** Required. Start time of the window in UTC. */
   startTime?: TimeOfDay | undefined;
+  /** Required. Duration of the time window. */
+  duration?: string | undefined;
 }
 export type WeeklyMaintenanceWindowList = Array<WeeklyMaintenanceWindow>;
 /** Maintenance policy per instance. */
 export interface GoogleCloudMemcacheV1beta2MaintenancePolicy {
-  /** Output only. The time when the policy was created. */
-  createTime?: string | undefined;
-  /** Output only. The time when the policy was updated. */
-  updateTime?: string | undefined;
-  /** Description of what this policy is for. Create/Update methods return INVALID_ARGUMENT if the length is greater than 512. */
-  description?: string | undefined;
   /** Required. Maintenance window that is applied to resources covered by this policy. Minimum 1. For the current version, the maximum number of weekly_maintenance_windows is expected to be one. */
   weeklyMaintenanceWindow?: WeeklyMaintenanceWindowList | undefined;
+  /** Output only. The time when the policy was created. */
+  createTime?: string | undefined;
+  /** Description of what this policy is for. Create/Update methods return INVALID_ARGUMENT if the length is greater than 512. */
+  description?: string | undefined;
+  /** Output only. The time when the policy was updated. */
+  updateTime?: string | undefined;
 }
 /** Upcoming maintenance schedule. */
 export interface MaintenanceSchedule {
-  /** Output only. The start time of any upcoming scheduled maintenance for this instance. */
-  startTime?: string | undefined;
-  /** Output only. The deadline that the maintenance schedule start time can not go beyond, including reschedule. */
-  scheduleDeadlineTime?: string | undefined;
   /** Output only. The end time of any upcoming scheduled maintenance for this instance. */
   endTime?: string | undefined;
+  /** Output only. The deadline that the maintenance schedule start time can not go beyond, including reschedule. */
+  scheduleDeadlineTime?: string | undefined;
+  /** Output only. The start time of any upcoming scheduled maintenance for this instance. */
+  startTime?: string | undefined;
 }
 export type InstanceMemcacheVersionEnum =
   | "MEMCACHE_VERSION_UNSPECIFIED"
   | "MEMCACHE_1_5"
   | "MEMCACHE_1_6_15";
-export type InstanceMessageCodeEnum = "CODE_UNSPECIFIED" | "ZONE_DISTRIBUTION_UNBALANCED";
-export interface InstanceMessage {
-  /** A code that correspond to one type of user-facing message. */
-  code?: InstanceMessageCodeEnum | (string & {}) | undefined;
-  /** Message on memcached instance which will be exposed to users. */
-  message?: string | undefined;
-}
-export type InstanceMessageList = Array<InstanceMessage>;
 /** A Memorystore for Memcached instance */
 export interface Instance {
-  /** User provided name for the instance, which is only used for display purposes. Cannot be more than 80 characters. */
-  displayName?: string | undefined;
-  /** Required. Unique name of the resource in this scope including project and location using the form: `projects/{project_id}/locations/{location_id}/instances/{instance_id}` Note: Memcached instances are managed and addressed at the regional level so `location_id` here refers to a Google Cloud region; however, users may choose which zones Memcached nodes should be provisioned in within an instance. Refer to zones field for more details. */
-  name?: string | undefined;
-  /** Output only. The time the instance was created. */
-  createTime?: string | undefined;
-  /** Output only. The state of this Memcached instance. */
-  state?: InstanceStateEnum | (string & {}) | undefined;
-  /** Output only. List of Memcached nodes. Refer to Node message for more details. */
-  memcacheNodes?: NodeList | undefined;
-  /** The full name of the Google Compute Engine [network](https://cloud.google.com/vpc/docs/vpc) to which the instance is connected. If left unspecified, the `default` network will be used. */
-  authorizedNetwork?: string | undefined;
-  /** Required. Configuration for Memcached nodes. */
-  nodeConfig?: NodeConfig | undefined;
-  /** User defined parameters to apply to the memcached process on each node. */
-  parameters?: MemcacheParameters | undefined;
-  /** The maintenance policy for the instance. If not provided, the maintenance event will be performed based on Memorystore internal rollout schedule. */
-  maintenancePolicy?: GoogleCloudMemcacheV1beta2MaintenancePolicy | undefined;
-  /** Output only. The available maintenance versions that can be applied to the instance. */
-  availableMaintenanceVersions?: StringList | undefined;
-  /** Output only. Published maintenance schedule. */
-  maintenanceSchedule?: MaintenanceSchedule | undefined;
   /** Optional. Contains the id of allocated IP address ranges associated with the private service access connection for example, "test-default" associated with IP range 10.0.0.0/29. */
   reservedIpRangeId?: StringList | undefined;
-  /** Zones in which Memcached nodes should be provisioned. Memcached nodes will be equally distributed across these zones. If not provided, the service will by default create nodes in all zones in the region for the instance. */
-  zones?: StringList | undefined;
-  /** Resource labels to represent user-provided metadata. Refer to cloud documentation on labels for more details. https://cloud.google.com/compute/docs/labeling-resources */
-  labels?: StringMap | undefined;
-  /** The major version of Memcached software. If not provided, latest supported version will be used. Currently the latest supported major version is `MEMCACHE_1_5`. The minor version will be automatically determined by our system based on the latest supported minor version. */
-  memcacheVersion?: InstanceMemcacheVersionEnum | (string & {}) | undefined;
-  /** Optional. Last self service update maintenance version triggered by the customer. If it is empty, it means that the maintenance version is not set by the user. */
-  maintenanceVersion?: string | undefined;
   /** Optional. Output only. Reserved for future use. */
   satisfiesPzi?: boolean | undefined;
-  /** Output only. The time the instance was updated. */
-  updateTime?: string | undefined;
-  /** List of messages that describe the current state of the Memcached instance. */
-  instanceMessages?: InstanceMessageList | undefined;
-  /** Optional. Output only. Reserved for future use. */
-  satisfiesPzs?: boolean | undefined;
+  /** Output only. The state of this Memcached instance. */
+  state?: InstanceStateEnum | (string & {}) | undefined;
   /** Required. Number of nodes in the Memcached instance. */
   nodeCount?: number | undefined;
   /** Output only. Endpoint for the Discovery API. */
   discoveryEndpoint?: string | undefined;
-  /** Output only. The effective maintenance version of the instance. */
-  effectiveMaintenanceVersion?: string | undefined;
-  /** Output only. The full version of memcached server running on this instance. System automatically determines the full memcached version for an instance based on the input MemcacheVersion. The full version format will be "memcached-1.5.16". */
-  memcacheFullVersion?: string | undefined;
+  /** User defined parameters to apply to the memcached process on each node. */
+  parameters?: MemcacheParameters | undefined;
+  /** Output only. List of Memcached nodes. Refer to Node message for more details. */
+  memcacheNodes?: NodeList | undefined;
+  /** The full name of the Google Compute Engine [network](https://cloud.google.com/vpc/docs/vpc) to which the instance is connected. If left unspecified, the `default` network will be used. */
+  authorizedNetwork?: string | undefined;
+  /** Optional. Output only. Reserved for future use. */
+  satisfiesPzs?: boolean | undefined;
+  /** Required. Configuration for Memcached nodes. */
+  nodeConfig?: NodeConfig | undefined;
+  /** List of messages that describe the current state of the Memcached instance. */
+  instanceMessages?: InstanceMessageList | undefined;
+  /** Required. Unique name of the resource in this scope including project and location using the form: `projects/{project_id}/locations/{location_id}/instances/{instance_id}` Note: Memcached instances are managed and addressed at the regional level so `location_id` here refers to a Google Cloud region; however, users may choose which zones Memcached nodes should be provisioned in within an instance. Refer to zones field for more details. */
+  name?: string | undefined;
   /** Output only. Returns true if there is an update waiting to be applied */
   updateAvailable?: boolean | undefined;
+  /** Resource labels to represent user-provided metadata. Refer to cloud documentation on labels for more details. https://cloud.google.com/compute/docs/labeling-resources */
+  labels?: StringMap | undefined;
+  /** The maintenance policy for the instance. If not provided, the maintenance event will be performed based on Memorystore internal rollout schedule. */
+  maintenancePolicy?: GoogleCloudMemcacheV1beta2MaintenancePolicy | undefined;
+  /** User provided name for the instance, which is only used for display purposes. Cannot be more than 80 characters. */
+  displayName?: string | undefined;
+  /** Output only. Published maintenance schedule. */
+  maintenanceSchedule?: MaintenanceSchedule | undefined;
+  /** The major version of Memcached software. If not provided, latest supported version will be used. Currently the latest supported major version is `MEMCACHE_1_5`. The minor version will be automatically determined by our system based on the latest supported minor version. */
+  memcacheVersion?: InstanceMemcacheVersionEnum | (string & {}) | undefined;
+  /** Output only. The time the instance was created. */
+  createTime?: string | undefined;
+  /** Optional. Last self service update maintenance version triggered by the customer. If it is empty, it means that the maintenance version is not set by the user. */
+  maintenanceVersion?: string | undefined;
+  /** Zones in which Memcached nodes should be provisioned. Memcached nodes will be equally distributed across these zones. If not provided, the service will by default create nodes in all zones in the region for the instance. */
+  zones?: StringList | undefined;
+  /** Output only. The effective maintenance version of the instance. */
+  effectiveMaintenanceVersion?: string | undefined;
+  /** Output only. The time the instance was updated. */
+  updateTime?: string | undefined;
+  /** Output only. The full version of memcached server running on this instance. System automatically determines the full memcached version for an instance based on the input MemcacheVersion. The full version format will be "memcached-1.5.16". */
+  memcacheFullVersion?: string | undefined;
+  /** Output only. The available maintenance versions that can be applied to the instance. */
+  availableMaintenanceVersions?: StringList | undefined;
 }
 export interface CreateProjectsLocationsInstancesRequest extends Instance {
   /** Required. The logical name of the Memcached instance in the user project with the following restrictions: * Must contain only lowercase letters, numbers, and hyphens. * Must start with a letter. * Must be between 1-40 characters. * Must end with a number or a letter. * Must be unique within the user project / location. If any of the above are not met, the API raises an invalid argument error. */
@@ -323,16 +323,16 @@ export interface GetProjectsLocationsRequest {
 }
 /** A resource that represents a Google Cloud location. */
 export interface Location {
-  /** The canonical id for this location. For example: `"us-east1"`. */
-  locationId?: string | undefined;
-  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
-  name?: string | undefined;
   /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
   displayName?: string | undefined;
+  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
+  name?: string | undefined;
   /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
   labels?: StringMap | undefined;
   /** Service-specific metadata. For example the available capacity at the given location. */
   metadata?: DocumentMap | undefined;
+  /** The canonical id for this location. For example: `"us-east1"`. */
+  locationId?: string | undefined;
 }
 export interface GetProjectsLocationsInstancesRequest {
   /** Required. Memcached instance resource name in the format: `projects/{project_id}/locations/{location_id}/instances/{instance_id}` where `location_id` refers to a GCP region */
@@ -343,16 +343,16 @@ export interface GetProjectsLocationsOperationsRequest {
   name: string;
 }
 export interface ListProjectsLocationsRequest {
+  /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
+  extraLocationTypes?: StringList | undefined;
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
   pageToken?: string | undefined;
+  /** The resource that owns the locations collection, if applicable. */
+  name: string;
   /** The maximum number of results to return. If not set, the service selects a default. */
   pageSize?: number | undefined;
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
   filter?: string | undefined;
-  /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
-  extraLocationTypes?: StringList | undefined;
-  /** The resource that owns the locations collection, if applicable. */
-  name: string;
 }
 export type LocationList = Array<Location>;
 /** The response message for Locations.ListLocations. */
@@ -363,48 +363,48 @@ export interface ListLocationsResponse {
   nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsInstancesRequest {
-  /** Required. The resource name of the instance location using the form: `projects/{project_id}/locations/{location_id}` where `location_id` refers to a GCP region */
-  parent: string;
-  /** The `next_page_token` value returned from a previous List request, if any. */
-  pageToken?: string | undefined;
   /** Sort results. Supported values are "name", "name desc" or "" (unsorted). */
   orderBy?: string | undefined;
   /** List filter. For example, exclude all Memcached instances with name as my-instance by specifying `"name != my-instance"`. */
   filter?: string | undefined;
+  /** The `next_page_token` value returned from a previous List request, if any. */
+  pageToken?: string | undefined;
   /** The maximum number of items to return. If not specified, a default value of 1000 will be used by the service. Regardless of the `page_size` value, the response may include a partial list and a caller should only rely on response's `next_page_token` to determine if there are more instances left to be queried. */
   pageSize?: number | undefined;
+  /** Required. The resource name of the instance location using the form: `projects/{project_id}/locations/{location_id}` where `location_id` refers to a GCP region */
+  parent: string;
 }
 export type InstanceList = Array<Instance>;
 /** Response for ListInstances. */
 export interface ListInstancesResponse {
+  /** Token to retrieve the next page of results, or empty if there are no more results in the list. */
+  nextPageToken?: string | undefined;
   /** A list of Memcached instances in the project in the specified location, or across all locations. If the `location_id` in the parent field of the request is "-", all regions available to the project are queried, and the results aggregated. */
   resources?: InstanceList | undefined;
   /** Locations that could not be reached. */
   unreachable?: StringList | undefined;
-  /** Token to retrieve the next page of results, or empty if there are no more results in the list. */
-  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsOperationsRequest {
-  /** The name of the operation's parent resource. */
-  name: string;
-  /** The standard list page size. */
-  pageSize?: number | undefined;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
   returnPartialSuccess?: boolean | undefined;
   /** The standard list filter. */
   filter?: string | undefined;
   /** The standard list page token. */
   pageToken?: string | undefined;
+  /** The name of the operation's parent resource. */
+  name: string;
+  /** The standard list page size. */
+  pageSize?: number | undefined;
 }
 export type OperationList = Array<Operation>;
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
-  /** A list of operations that matches the specified filter in the request. */
-  operations?: OperationList | undefined;
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
   unreachable?: StringList | undefined;
   /** The standard List next-page token. */
   nextPageToken?: string | undefined;
+  /** A list of operations that matches the specified filter in the request. */
+  operations?: OperationList | undefined;
 }
 export interface PatchProjectsLocationsInstancesRequest extends Omit<Instance, "name"> {
   /** Required. Unique name of the resource in this scope including project and location using the form: `projects/{project_id}/locations/{location_id}/instances/{instance_id}` Note: Memcached instances are managed and addressed at the regional level so `location_id` here refers to a Google Cloud region; however, users may choose which zones Memcached nodes should be provisioned in within an instance. Refer to zones field for more details. */
@@ -419,10 +419,10 @@ export type RescheduleMaintenanceRequestRescheduleTypeEnum =
   | "SPECIFIC_TIME";
 /** Request for RescheduleMaintenance. */
 export interface RescheduleMaintenanceRequest {
-  /** Timestamp when the maintenance shall be rescheduled to if reschedule_type=SPECIFIC_TIME, in RFC 3339 format, for example `2012-11-15T16:19:00.094Z`. */
-  scheduleTime?: string | undefined;
   /** Required. If reschedule type is SPECIFIC_TIME, must set up schedule_time as well. */
   rescheduleType?: RescheduleMaintenanceRequestRescheduleTypeEnum | (string & {}) | undefined;
+  /** Timestamp when the maintenance shall be rescheduled to if reschedule_type=SPECIFIC_TIME, in RFC 3339 format, for example `2012-11-15T16:19:00.094Z`. */
+  scheduleTime?: string | undefined;
 }
 export interface RescheduleMaintenanceProjectsLocationsInstancesRequest extends RescheduleMaintenanceRequest {
   /** Required. Memcache instance resource name using the form: `projects/{project_id}/locations/{location_id}/instances/{instance_id}` where `location_id` refers to a GCP region. */
@@ -430,10 +430,10 @@ export interface RescheduleMaintenanceProjectsLocationsInstancesRequest extends 
 }
 /** Request for UpdateParameters. */
 export interface UpdateParametersRequest {
-  /** Required. Mask of fields to update. */
-  updateMask?: string | undefined;
   /** The parameters to apply to the instance. */
   parameters?: MemcacheParameters | undefined;
+  /** Required. Mask of fields to update. */
+  updateMask?: string | undefined;
 }
 export interface UpdateParametersProjectsLocationsInstancesRequest extends UpdateParametersRequest {
   /** Required. Resource name of the Memcached instance for which the parameters should be updated. */
@@ -829,11 +829,11 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          locationId: S.optional(S.String),
-          name: S.optional(S.String),
           displayName: S.optional(S.String),
+          name: S.optional(S.String),
           labels: S.optional(__S(320, __c20, 0)),
           metadata: S.optional(__S(224, __c14, 0)),
+          locationId: S.optional(S.String),
         }),
       ).annotate({ identifier: "Location" });
   }
@@ -875,11 +875,11 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          extraLocationTypes: S.optional(__S(208, __c13, 0).pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
-          extraLocationTypes: S.optional(__S(208, __c13, 0).pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -904,11 +904,11 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -922,9 +922,9 @@ function __c5(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          nextPageToken: S.optional(S.String),
           resources: S.optional(__S(81, __c5, 1)),
           unreachable: S.optional(__S(208, __c13, 0)),
-          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListInstancesResponse" });
   }
@@ -934,11 +934,11 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -952,9 +952,9 @@ function __c6(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          operations: S.optional(__S(97, __c6, 1)),
           unreachable: S.optional(__S(208, __c13, 0)),
           nextPageToken: S.optional(S.String),
+          operations: S.optional(__S(97, __c6, 1)),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
@@ -984,8 +984,8 @@ function __c8(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          scheduleTime: S.optional(S.String),
           rescheduleType: S.optional(S.String),
+          scheduleTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "RescheduleMaintenanceRequest" });
     case 1:
@@ -1010,8 +1010,8 @@ function __c9(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          updateMask: S.optional(S.String),
           parameters: S.optional(__S(352, __c22, 0)),
+          updateMask: S.optional(S.String),
         }),
       ).annotate({ identifier: "UpdateParametersRequest" });
     case 1:
@@ -1080,8 +1080,8 @@ function __c12(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          nodeIds: S.optional(__S(208, __c13, 0)),
           applyAll: S.optional(S.Boolean),
+          nodeIds: S.optional(__S(208, __c13, 0)),
         }),
       ).annotate({ identifier: "ApplyParametersRequest" });
   }
@@ -1105,19 +1105,19 @@ function __c15(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          code: S.optional(S.Number),
           message: S.optional(S.String),
           details: S.optional(__S(240, __c15, 0)),
+          code: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Status" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          error: S.optional(__S(241, __c15, 1)),
-          name: S.optional(S.String),
-          done: S.optional(S.Boolean),
           metadata: S.optional(__S(224, __c14, 0)),
+          done: S.optional(S.Boolean),
+          name: S.optional(S.String),
           response: S.optional(__S(224, __c14, 0)),
+          error: S.optional(__S(241, __c15, 1)),
         }),
       ).annotate({ identifier: "Operation" });
   }
@@ -1195,15 +1195,15 @@ function __c21(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          state: S.optional(S.String),
           memcacheFullVersion: S.optional(S.String),
-          updateAvailable: S.optional(S.Boolean),
-          nodeId: S.optional(S.String),
-          zone: S.optional(S.String),
-          memcacheVersion: S.optional(S.String),
           parameters: S.optional(__S(352, __c22, 0)),
           port: S.optional(S.Number),
+          nodeId: S.optional(S.String),
           host: S.optional(S.String),
+          state: S.optional(S.String),
+          memcacheVersion: S.optional(S.String),
+          updateAvailable: S.optional(S.Boolean),
+          zone: S.optional(S.String),
         }),
       ).annotate({ identifier: "Node" });
     case 1:
@@ -1218,76 +1218,76 @@ function __c21(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          minutes: S.optional(S.Number),
-          seconds: S.optional(S.Number),
-          hours: S.optional(S.Number),
-          nanos: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "TimeOfDay" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          day: S.optional(S.String),
-          duration: S.optional(S.String),
-          startTime: S.optional(__S(339, __c21, 3)),
-        }),
-      ).annotate({ identifier: "WeeklyMaintenanceWindow" });
-    case 5:
-      return S.Array(__S(340, __c21, 4));
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          description: S.optional(S.String),
-          weeklyMaintenanceWindow: S.optional(__S(341, __c21, 5)),
-        }),
-      ).annotate({ identifier: "GoogleCloudMemcacheV1beta2MaintenancePolicy" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          startTime: S.optional(S.String),
-          scheduleDeadlineTime: S.optional(S.String),
-          endTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "MaintenanceSchedule" });
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
           code: S.optional(S.String),
           message: S.optional(S.String),
         }),
       ).annotate({ identifier: "InstanceMessage" });
+    case 4:
+      return S.Array(__S(339, __c21, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          hours: S.optional(S.Number),
+          nanos: S.optional(S.Number),
+          minutes: S.optional(S.Number),
+          seconds: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "TimeOfDay" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          day: S.optional(S.String),
+          startTime: S.optional(__S(341, __c21, 5)),
+          duration: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "WeeklyMaintenanceWindow" });
+    case 7:
+      return S.Array(__S(342, __c21, 6));
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          weeklyMaintenanceWindow: S.optional(__S(343, __c21, 7)),
+          createTime: S.optional(S.String),
+          description: S.optional(S.String),
+          updateTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudMemcacheV1beta2MaintenancePolicy" });
     case 9:
-      return S.Array(__S(344, __c21, 8));
+      return S.suspend(() =>
+        S.Struct({
+          endTime: S.optional(S.String),
+          scheduleDeadlineTime: S.optional(S.String),
+          startTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MaintenanceSchedule" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          displayName: S.optional(S.String),
-          name: S.optional(S.String),
-          createTime: S.optional(S.String),
-          state: S.optional(S.String),
-          memcacheNodes: S.optional(__S(337, __c21, 1)),
-          authorizedNetwork: S.optional(S.String),
-          nodeConfig: S.optional(__S(338, __c21, 2)),
-          parameters: S.optional(__S(352, __c22, 0)),
-          maintenancePolicy: S.optional(__S(342, __c21, 6)),
-          availableMaintenanceVersions: S.optional(__S(208, __c13, 0)),
-          maintenanceSchedule: S.optional(__S(343, __c21, 7)),
           reservedIpRangeId: S.optional(__S(208, __c13, 0)),
-          zones: S.optional(__S(208, __c13, 0)),
-          labels: S.optional(__S(320, __c20, 0)),
-          memcacheVersion: S.optional(S.String),
-          maintenanceVersion: S.optional(S.String),
           satisfiesPzi: S.optional(S.Boolean),
-          updateTime: S.optional(S.String),
-          instanceMessages: S.optional(__S(345, __c21, 9)),
-          satisfiesPzs: S.optional(S.Boolean),
+          state: S.optional(S.String),
           nodeCount: S.optional(S.Number),
           discoveryEndpoint: S.optional(S.String),
-          effectiveMaintenanceVersion: S.optional(S.String),
-          memcacheFullVersion: S.optional(S.String),
+          parameters: S.optional(__S(352, __c22, 0)),
+          memcacheNodes: S.optional(__S(337, __c21, 1)),
+          authorizedNetwork: S.optional(S.String),
+          satisfiesPzs: S.optional(S.Boolean),
+          nodeConfig: S.optional(__S(338, __c21, 2)),
+          instanceMessages: S.optional(__S(340, __c21, 4)),
+          name: S.optional(S.String),
           updateAvailable: S.optional(S.Boolean),
+          labels: S.optional(__S(320, __c20, 0)),
+          maintenancePolicy: S.optional(__S(344, __c21, 8)),
+          displayName: S.optional(S.String),
+          maintenanceSchedule: S.optional(__S(345, __c21, 9)),
+          memcacheVersion: S.optional(S.String),
+          createTime: S.optional(S.String),
+          maintenanceVersion: S.optional(S.String),
+          zones: S.optional(__S(208, __c13, 0)),
+          effectiveMaintenanceVersion: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          memcacheFullVersion: S.optional(S.String),
+          availableMaintenanceVersions: S.optional(__S(208, __c13, 0)),
         }),
       ).annotate({ identifier: "Instance" });
   }

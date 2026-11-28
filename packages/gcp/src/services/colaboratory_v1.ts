@@ -65,10 +65,10 @@ export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
-  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList | undefined;
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
   message?: string | undefined;
+  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
+  details?: DocumentMapList | undefined;
   /** The status code, which should be an enum value of google.rpc.Code. */
   code?: number | undefined;
 }
@@ -76,34 +76,34 @@ export interface Status {
 export interface Operation {
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
   done?: boolean | undefined;
+  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
+  name?: string | undefined;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
   metadata?: DocumentMap | undefined;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
   response?: DocumentMap | undefined;
-  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string | undefined;
   /** The error result of the operation in case of failure or cancellation. */
   error?: Status | undefined;
 }
 export interface ListOperationsRequest {
-  /** The standard list page token. */
-  pageToken?: string | undefined;
   /** The standard list page size. */
   pageSize?: number | undefined;
+  /** The standard list page token. */
+  pageToken?: string | undefined;
 }
 export type OperationList = Array<Operation>;
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
-  /** A list of operations that matches the specified filter in the request. */
-  operations?: OperationList | undefined;
   /** The standard List next-page token. */
   nextPageToken?: string | undefined;
+  /** A list of operations that matches the specified filter in the request. */
+  operations?: OperationList | undefined;
 }
 export interface WaitOperationsRequest {
-  /** The maximum duration to wait before timing out. If left blank, the wait will be at most the time permitted by the underlying HTTP/RPC protocol. If RPC context deadline is also specified, the shorter one will be used. */
-  timeout?: string | undefined;
   /** The name of the operation resource to wait on. */
   name: string;
+  /** The maximum duration to wait before timing out. If left blank, the wait will be at most the time permitted by the underlying HTTP/RPC protocol. If RPC context deadline is also specified, the shorter one will be used. */
+  timeout?: string | undefined;
 }
 export type GetOperationsError = NotFound | Forbidden | GcpOpError;
 /** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
@@ -187,8 +187,8 @@ function __c1(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          details: S.optional(__S(5, __c1, 1)),
           message: S.optional(S.String),
+          details: S.optional(__S(5, __c1, 1)),
           code: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Status" });
@@ -196,9 +196,9 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           done: S.optional(S.Boolean),
+          name: S.optional(S.String),
           metadata: S.optional(__S(4, __c1, 0)),
           response: S.optional(__S(4, __c1, 0)),
-          name: S.optional(S.String),
           error: S.optional(__S(6, __c1, 2)),
         }),
       ).annotate({ identifier: "Operation" });
@@ -209,8 +209,8 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -224,8 +224,8 @@ function __c2(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          operations: S.optional(__S(9, __c2, 1)),
           nextPageToken: S.optional(S.String),
+          operations: S.optional(__S(9, __c2, 1)),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
@@ -235,8 +235,8 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          timeout: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          timeout: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",

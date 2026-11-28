@@ -92,22 +92,7 @@ export interface AcceptBuyersProposalsRequest extends AcceptProposalRequest {
   /** Name of the proposal. Format: `buyers/{accountId}/proposals/{proposalId}` */
   name: string;
 }
-export type NoteCreatorRoleEnum = "BUYER_SELLER_ROLE_UNSPECIFIED" | "BUYER" | "SELLER";
-/** A text note attached to the proposal to facilitate the communication between buyers and sellers. */
-export interface Note {
-  /** Output only. The role who created the note. */
-  creatorRole?: NoteCreatorRoleEnum | (string & {}) | undefined;
-  /** Output only. When this note was created. */
-  createTime?: string | undefined;
-  /** The text of the note. Maximum length is 1024 characters. */
-  note?: string | undefined;
-}
-export type NoteList = Array<Note>;
-/** Buyers are allowed to store certain types of private data in a proposal. */
-export interface PrivateData {
-  /** A buyer specified reference ID. This can be queried in the list operations (max-length: 1024 unicode code units). */
-  referenceId?: string | undefined;
-}
+export type ProposalOriginatorRoleEnum = "BUYER_SELLER_ROLE_UNSPECIFIED" | "BUYER" | "SELLER";
 /** Contains information on how a buyer or seller can be reached. */
 export interface Contact {
   /** The display_name of the contact. */
@@ -116,12 +101,21 @@ export interface Contact {
   email?: string | undefined;
 }
 export type ContactList = Array<Contact>;
-export type ProposalDealTypeEnum =
-  | "DEAL_TYPE_UNSPECIFIED"
-  | "PREFERRED_DEAL"
-  | "PRIVATE_AUCTION"
-  | "PROGRAMMATIC_GUARANTEED";
-export type ProposalOriginatorRoleEnum = "BUYER_SELLER_ROLE_UNSPECIFIED" | "BUYER" | "SELLER";
+export type ProposalLastUpdaterOrCommentorRoleEnum =
+  | "BUYER_SELLER_ROLE_UNSPECIFIED"
+  | "BUYER"
+  | "SELLER";
+export type NoteCreatorRoleEnum = "BUYER_SELLER_ROLE_UNSPECIFIED" | "BUYER" | "SELLER";
+/** A text note attached to the proposal to facilitate the communication between buyers and sellers. */
+export interface Note {
+  /** Output only. The role who created the note. */
+  creatorRole?: NoteCreatorRoleEnum | (string & {}) | undefined;
+  /** The text of the note. Maximum length is 1024 characters. */
+  note?: string | undefined;
+  /** Output only. When this note was created. */
+  createTime?: string | undefined;
+}
+export type NoteList = Array<Note>;
 export type ProposalStateEnum =
   | "STATE_UNSPECIFIED"
   | "BUYER_REVIEW_REQUESTED"
@@ -129,50 +123,56 @@ export type ProposalStateEnum =
   | "BUYER_ACCEPTANCE_REQUESTED"
   | "FINALIZED"
   | "TERMINATED";
-export type ProposalLastUpdaterOrCommentorRoleEnum =
-  | "BUYER_SELLER_ROLE_UNSPECIFIED"
-  | "BUYER"
-  | "SELLER";
+export type ProposalDealTypeEnum =
+  | "DEAL_TYPE_UNSPECIFIED"
+  | "PREFERRED_DEAL"
+  | "PRIVATE_AUCTION"
+  | "PROGRAMMATIC_GUARANTEED";
+/** Buyers are allowed to store certain types of private data in a proposal. */
+export interface PrivateData {
+  /** A buyer specified reference ID. This can be queried in the list operations (max-length: 1024 unicode code units). */
+  referenceId?: string | undefined;
+}
 /** Represents a proposal in the Marketplace. A proposal is the unit of negotiation between a seller and a buyer. */
 export interface Proposal {
-  /** Output only. Refers to a buyer in The Realtime-bidding API. Format: `buyers/{buyerAccountId}` */
-  buyer?: string | undefined;
-  /** A list of notes from the buyer and the seller attached to this proposal. */
-  notes?: NoteList | undefined;
-  /** Output only. The terms and conditions associated with this proposal. Accepting a proposal implies acceptance of this field. This is created by the seller, the buyer can only view it. */
-  termsAndConditions?: string | undefined;
-  /** Immutable. The name of the proposal serving as a unique identifier. Format: buyers/{accountId}/proposals/{proposalId} */
-  name?: string | undefined;
-  /** Buyer private data (hidden from seller). */
-  buyerPrivateData?: PrivateData | undefined;
-  /** Output only. The descriptive name for the proposal. Maximum length of 255 unicode characters is allowed. Control characters are not allowed. Buyers cannot update this field. Note: Not to be confused with name, which is a unique identifier of the proposal. */
-  displayName?: string | undefined;
-  /** Contact information for the buyer. */
-  buyerContacts?: ContactList | undefined;
-  /** Output only. Contact information for the seller. */
-  sellerContacts?: ContactList | undefined;
-  /** Output only. Type of deal the proposal contains. */
-  dealType?: ProposalDealTypeEnum | (string & {}) | undefined;
-  /** Output only. The revision number for the proposal. Each update to the proposal or deal causes the proposal revision number to auto-increment. The buyer keeps track of the last revision number they know of and pass it in when making an update. If the head revision number on the server has since incremented, then an ABORTED error is returned during the update operation to let the buyer know that a subsequent update was made. */
-  proposalRevision?: string | undefined;
-  /** Output only. Refers to a Client. Format: `buyers/{buyerAccountId}/clients/{clientAccountid}` */
-  client?: string | undefined;
   /** Output only. Indicates whether the buyer/seller created the proposal. */
   originatorRole?: ProposalOriginatorRoleEnum | (string & {}) | undefined;
-  /** Output only. The time when the proposal was last revised. */
-  updateTime?: string | undefined;
-  /** Whether pausing is allowed for the proposal. This is a negotiable term between buyers and publishers. */
-  pausingConsented?: boolean | undefined;
   /** Output only. When the client field is populated, this field refers to the buyer who creates and manages the client buyer and gets billed on behalf of the client buyer; when the buyer field is populated, this field is the same value as buyer. Format : `buyers/{buyerAccountId}` */
   billedBuyer?: string | undefined;
-  /** Output only. Indicates the state of the proposal. */
-  state?: ProposalStateEnum | (string & {}) | undefined;
-  /** Immutable. Reference to the seller on the proposal. Format: `buyers/{buyerAccountId}/publisherProfiles/{publisherProfileId}` Note: This field may be set only when creating the resource. Modifying this field while updating the resource will result in an error. */
-  publisherProfile?: string | undefined;
-  /** Output only. True if the proposal was previously finalized and is now being renegotiated. */
-  isRenegotiating?: boolean | undefined;
+  /** Output only. Refers to a buyer in The Realtime-bidding API. Format: `buyers/{buyerAccountId}` */
+  buyer?: string | undefined;
+  /** Contact information for the buyer. */
+  buyerContacts?: ContactList | undefined;
+  /** Immutable. The name of the proposal serving as a unique identifier. Format: buyers/{accountId}/proposals/{proposalId} */
+  name?: string | undefined;
   /** Output only. The role of the last user that either updated the proposal or left a comment. */
   lastUpdaterOrCommentorRole?: ProposalLastUpdaterOrCommentorRoleEnum | (string & {}) | undefined;
+  /** Output only. The revision number for the proposal. Each update to the proposal or deal causes the proposal revision number to auto-increment. The buyer keeps track of the last revision number they know of and pass it in when making an update. If the head revision number on the server has since incremented, then an ABORTED error is returned during the update operation to let the buyer know that a subsequent update was made. */
+  proposalRevision?: string | undefined;
+  /** A list of notes from the buyer and the seller attached to this proposal. */
+  notes?: NoteList | undefined;
+  /** Output only. Indicates the state of the proposal. */
+  state?: ProposalStateEnum | (string & {}) | undefined;
+  /** Output only. Type of deal the proposal contains. */
+  dealType?: ProposalDealTypeEnum | (string & {}) | undefined;
+  /** Output only. True if the proposal was previously finalized and is now being renegotiated. */
+  isRenegotiating?: boolean | undefined;
+  /** Immutable. Reference to the seller on the proposal. Format: `buyers/{buyerAccountId}/publisherProfiles/{publisherProfileId}` Note: This field may be set only when creating the resource. Modifying this field while updating the resource will result in an error. */
+  publisherProfile?: string | undefined;
+  /** Output only. The time when the proposal was last revised. */
+  updateTime?: string | undefined;
+  /** Output only. The terms and conditions associated with this proposal. Accepting a proposal implies acceptance of this field. This is created by the seller, the buyer can only view it. */
+  termsAndConditions?: string | undefined;
+  /** Output only. Contact information for the seller. */
+  sellerContacts?: ContactList | undefined;
+  /** Buyer private data (hidden from seller). */
+  buyerPrivateData?: PrivateData | undefined;
+  /** Whether pausing is allowed for the proposal. This is a negotiable term between buyers and publishers. */
+  pausingConsented?: boolean | undefined;
+  /** Output only. Refers to a Client. Format: `buyers/{buyerAccountId}/clients/{clientAccountid}` */
+  client?: string | undefined;
+  /** Output only. The descriptive name for the proposal. Maximum length of 255 unicode characters is allowed. Control characters are not allowed. Buyers cannot update this field. Note: Not to be confused with name, which is a unique identifier of the proposal. */
+  displayName?: string | undefined;
 }
 /** Request message for activating a client. */
 export interface ActivateClientRequest {}
@@ -190,18 +190,18 @@ export type ClientRoleEnum =
 export type ClientStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "INACTIVE";
 /** A client represents an agency, a brand, or an advertiser customer of the buyer. Based on the client's role, its client users will have varying levels of restricted access to the Marketplace and certain other sections of the Authorized Buyers UI. */
 export interface Client {
-  /** Arbitrary unique identifier provided by the buyer. This field can be used to associate a client with an identifier in the namespace of the buyer, lookup clients by that identifier and verify whether an Authorized Buyers account of the client already exists. If present, must be unique across all the clients. */
-  partnerClientId?: string | undefined;
   /** Required. The role assigned to the client. Each role implies a set of permissions granted to the client. */
   role?: ClientRoleEnum | (string & {}) | undefined;
-  /** Whether the client will be visible to sellers. */
-  sellerVisible?: boolean | undefined;
-  /** Output only. The state of the client. */
-  state?: ClientStateEnum | (string & {}) | undefined;
   /** Output only. The resource name of the client. Format: `buyers/{accountId}/clients/{clientAccountId}` */
   name?: string | undefined;
+  /** Whether the client will be visible to sellers. */
+  sellerVisible?: boolean | undefined;
   /** Required. Display name shown to publishers. Must be unique for clients without partnerClientId specified. Maximum length of 255 characters is allowed. */
   displayName?: string | undefined;
+  /** Output only. The state of the client. */
+  state?: ClientStateEnum | (string & {}) | undefined;
+  /** Arbitrary unique identifier provided by the buyer. This field can be used to associate a client with an identifier in the namespace of the buyer, lookup clients by that identifier and verify whether an Authorized Buyers account of the client already exists. If present, must be unique across all the clients. */
+  partnerClientId?: string | undefined;
 }
 /** Request message for activating a client user. */
 export type ActivateClientUserRequest = ActivateClientRequest;
@@ -214,12 +214,12 @@ export interface ActivateBuyersClientsUsersRequest {
 export type ClientUserStateEnum = "STATE_UNSPECIFIED" | "INVITED" | "ACTIVE" | "INACTIVE";
 /** A user of a client who has restricted access to the Marketplace and certain other sections of the Authorized Buyers UI based on the role granted to the associated client. */
 export interface ClientUser {
+  /** Output only. The resource name of the client user. Format: `buyers/{accountId}/clients/{clientAccountId}/users/{userId}` */
+  name?: string | undefined;
   /** Output only. The state of the client user. */
   state?: ClientUserStateEnum | (string & {}) | undefined;
   /** Required. The client user's email address that has to be unique across all users for the same client. */
   email?: string | undefined;
-  /** Output only. The resource name of the client user. Format: `buyers/{accountId}/clients/{clientAccountId}/users/{userId}` */
-  name?: string | undefined;
 }
 /** Request message for activating a data segment */
 export type ActivateDataSegmentRequest = ActivateClientRequest;
@@ -229,32 +229,32 @@ export interface ActivateBuyersDataSegmentsRequest {
   /** Request body */
   body?: ActivateClientRequest | undefined;
 }
+export type DataSegmentStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "INACTIVE" | "SUSPENDED";
 /** Represents an amount of money with its currency type. */
 export interface Money {
+  /** Number of nano (10^-9) units of the amount. The value must be between -999,999,999 and +999,999,999 inclusive. If `units` is positive, `nanos` must be positive or zero. If `units` is zero, `nanos` can be positive, zero, or negative. If `units` is negative, `nanos` must be negative or zero. For example $-1.75 is represented as `units`=-1 and `nanos`=-750,000,000. */
+  nanos?: number | undefined;
   /** The whole units of the amount. For example if `currencyCode` is `"USD"`, then 1 unit is one US dollar. */
   units?: string | undefined;
   /** The three-letter currency code defined in ISO 4217. */
   currencyCode?: string | undefined;
-  /** Number of nano (10^-9) units of the amount. The value must be between -999,999,999 and +999,999,999 inclusive. If `units` is positive, `nanos` must be positive or zero. If `units` is zero, `nanos` can be positive, zero, or negative. If `units` is negative, `nanos` must be negative or zero. For example $-1.75 is represented as `units`=-1 and `nanos`=-750,000,000. */
-  nanos?: number | undefined;
 }
-export type DataSegmentStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "INACTIVE" | "SUSPENDED";
 /** Defines an identifier for a segment of inventory that can be targeted by curators or media planners in the deals or auction packages UI. Curation of inventory is done by curators on external platforms. -- Next ID: 9 -- */
 export interface DataSegment {
-  /** Optional. A fixed fee charged per thousand impressions. Once set, the currency code cannot be changed. */
-  cpmFee?: Money | undefined;
-  /** Output only. Time the data segment was last updated. */
-  updateTime?: string | undefined;
   /** Optional. Immutable. The ID of the User List wrapped by this Data Segment. Curators with a linked Data Partner account can create a data segment that wraps a user list owned by the linked Data Partner account. User lists can be uploaded and managed using the [Data Manager API](https://developers.google.com/data-manager/api/data-partners/audiences). Linking a user list to a data segment lets you define a segment of inventory that is based on an audience you create. */
   userListId?: string | undefined;
   /** Output only. The state of the data segment. */
   state?: DataSegmentStateEnum | (string & {}) | undefined;
-  /** Optional. The fee will be charged as a percentage of the impression cost, represented in millipercent. For example, 1% is represented as 1000. */
-  millipercentOfMediaFee?: string | undefined;
   /** Immutable. Identifier. The unique identifier for the data segment. Account ID corresponds to the account ID that created the segment. v1alpha format: `buyers/{accountId}/dataSegments/{curatorDataSegmentId}` v1beta format: `curators/{curatorAccountId}/dataSegments/{curatorDataSegmentId}` */
   name?: string | undefined;
+  /** Optional. A fixed fee charged per thousand impressions. Once set, the currency code cannot be changed. */
+  cpmFee?: Money | undefined;
+  /** Optional. The fee will be charged as a percentage of the impression cost, represented in millipercent. For example, 1% is represented as 1000. */
+  millipercentOfMediaFee?: string | undefined;
   /** Output only. Time the data segment was created. */
   createTime?: string | undefined;
+  /** Output only. Time the data segment was last updated. */
+  updateTime?: string | undefined;
 }
 /** Request message for ActivateCuratedPackage. */
 export type ActivateCuratedPackageRequest = ActivateClientRequest;
@@ -264,79 +264,21 @@ export interface ActivateCuratorsCuratedPackagesRequest {
   /** Request body */
   body?: ActivateClientRequest | undefined;
 }
-export type CuratedPackageStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "INACTIVE";
 export type CuratedPackageCurationFeeVisibilityEnum =
   | "CURATION_FEE_VISIBILITY_UNSPECIFIED"
   | "DISCLOSED"
   | "NON_DISCLOSED";
-export type PackageTargetingIncludedNativeInventoryTypesItemEnum =
-  | "NATIVE_INVENTORY_TYPE_UNSPECIFIED"
-  | "NATIVE_INVENTORY_TYPE_NATIVE_ONLY"
-  | "NATIVE_INVENTORY_TYPE_NATIVE_OR_BANNER";
-export type PackageTargetingIncludedNativeInventoryTypesItemEnumList = Array<
-  PackageTargetingIncludedNativeInventoryTypesItemEnum | (string & {})
->;
-export type PackageTargetingIncludedAcceleratedMobilePageTypeEnum =
-  | "ACCELERATED_MOBILE_PAGE_TYPE_UNSPECIFIED"
-  | "ACCELERATED_MOBILE_PAGE_TYPE_NON_AMP"
-  | "ACCELERATED_MOBILE_PAGE_TYPE_AMP"
-  | "ACCELERATED_MOBILE_PAGE_TYPE_AMP_STORY";
-export type PackageTargetingIncludedEnvironmentEnum =
-  | "ENVIRONMENT_UNSPECIFIED"
-  | "ENVIRONMENT_SITE"
-  | "ENVIRONMENT_APP";
-export type PackageTargetingIncludedAuthorizedSellerStatusesItemEnum =
-  | "AUTHORIZED_SELLER_STATUS_UNSPECIFIED"
-  | "AUTHORIZED_SELLER_STATUS_DIRECT"
-  | "AUTHORIZED_SELLER_STATUS_RESELLER";
-export type PackageTargetingIncludedAuthorizedSellerStatusesItemEnumList = Array<
-  PackageTargetingIncludedAuthorizedSellerStatusesItemEnum | (string & {})
->;
 export type StringList = Array<string>;
-export type StringTargetingDimensionSelectionTypeEnum =
-  | "SELECTION_TYPE_UNSPECIFIED"
-  | "SELECTION_TYPE_INCLUDE"
-  | "SELECTION_TYPE_EXCLUDE";
-/** Generic targeting with string values. */
-export interface StringTargetingDimension {
-  /** Required. The values specified. */
-  values?: StringList | undefined;
-  /** Required. How the items in this list should be targeted. */
-  selectionType?: StringTargetingDimensionSelectionTypeEnum | (string & {}) | undefined;
+/** Settings for controlling access to a curated package. */
+export interface AccessControlSettings {
+  /** Required. Immutable. The list of media planners that are explicitly granted access to the curated package. Eligible media planners can be found in the mediaPlanners.list method. Only a single media planner may be allowlisted at this time. Format: `mediaPlanners/{mediaPlannerAccountId}` */
+  allowlistedMediaPlanners?: StringList | undefined;
 }
-/** Represents targeting about where the ads can appear, for example, certain sites or mobile applications. Different placement targeting types will be logically OR'ed. */
-export interface PackagePlacementTargeting {
-  /** Optional. The list of targeted or excluded mobile application IDs that publishers own. Currently, only Android and Apple apps are supported. Android App ID, for example, com.google.android.apps.maps, can be found in Google Play Store URL. iOS App ID (which is a number) can be found at the end of iTunes store URL. First party mobile applications is either included or excluded. */
-  mobileAppTargeting?: StringTargetingDimension | undefined;
-  /** Optional. The list of targeted mobile app categories. */
-  includedMobileAppCategoryTargeting?: StringList | undefined;
-  /** Optional. The list of targeted or excluded URLs. The domains should have the http/https stripped (for example, google.com), and can contain a max of 5 paths per url. */
-  uriTargeting?: StringTargetingDimension | undefined;
-}
-export type PackageVideoTargetingIncludedPositionTypesItemEnum =
-  | "POSITION_TYPE_UNSPECIFIED"
-  | "POSITION_TYPE_MIDROLL"
-  | "POSITION_TYPE_POSTROLL"
-  | "POSITION_TYPE_PREROLL";
-export type PackageVideoTargetingIncludedPositionTypesItemEnumList = Array<
-  PackageVideoTargetingIncludedPositionTypesItemEnum | (string & {})
->;
-export type PackageVideoTargetingIncludedPlaybackMethodsItemEnum =
-  | "PLAYBACK_METHOD_UNSPECIFIED"
-  | "PLAYBACK_METHOD_AUTO_PLAY_SOUND_ON"
-  | "PLAYBACK_METHOD_AUTO_PLAY_SOUND_OFF"
-  | "PLAYBACK_METHOD_CLICK_TO_PLAY";
-export type PackageVideoTargetingIncludedPlaybackMethodsItemEnumList = Array<
-  PackageVideoTargetingIncludedPlaybackMethodsItemEnum | (string & {})
->;
-export type PackageVideoTargetingIncludedMaximumAdDurationTargetingEnum =
-  | "MAXIMUM_VIDEO_AD_DURATION_UNSPECIFIED"
-  | "MAXIMUM_VIDEO_AD_DURATION_FIFTEEN_SECONDS"
-  | "MAXIMUM_VIDEO_AD_DURATION_TWENTY_SECONDS"
-  | "MAXIMUM_VIDEO_AD_DURATION_THIRTY_SECONDS"
-  | "MAXIMUM_VIDEO_AD_DURATION_SIXTY_SECONDS"
-  | "MAXIMUM_VIDEO_AD_DURATION_NINETY_SECONDS"
-  | "MAXIMUM_VIDEO_AD_DURATION_ONE_HUNDRED_TWENTY_SECONDS";
+export type PackageTargetingIncludedCreativeFormatEnum =
+  | "CREATIVE_FORMAT_UNSPECIFIED"
+  | "CREATIVE_FORMAT_DISPLAY"
+  | "CREATIVE_FORMAT_VIDEO"
+  | "CREATIVE_FORMAT_AUDIO";
 export type PackageVideoTargetingIncludedMimeTypesItemEnum =
   | "VIDEO_MIME_TYPE_UNSPECIFIED"
   | "VIDEO_MIME_TYPE_THREEGPP"
@@ -348,10 +290,34 @@ export type PackageVideoTargetingIncludedMimeTypesItemEnum =
 export type PackageVideoTargetingIncludedMimeTypesItemEnumList = Array<
   PackageVideoTargetingIncludedMimeTypesItemEnum | (string & {})
 >;
-export type VideoPlcmtTargetingSelectionTypeEnum =
-  | "SELECTION_TYPE_UNSPECIFIED"
-  | "SELECTION_TYPE_INCLUDE"
-  | "SELECTION_TYPE_EXCLUDE";
+export type PackageVideoTargetingIncludedContentDeliveryMethodEnum =
+  | "CONTENT_DELIVERY_METHOD_UNSPECIFIED"
+  | "CONTENT_DELIVERY_METHOD_STREAMING"
+  | "CONTENT_DELIVERY_METHOD_PROGRESSIVE";
+export type PackageVideoTargetingIncludedMaximumAdDurationTargetingEnum =
+  | "MAXIMUM_VIDEO_AD_DURATION_UNSPECIFIED"
+  | "MAXIMUM_VIDEO_AD_DURATION_FIFTEEN_SECONDS"
+  | "MAXIMUM_VIDEO_AD_DURATION_TWENTY_SECONDS"
+  | "MAXIMUM_VIDEO_AD_DURATION_THIRTY_SECONDS"
+  | "MAXIMUM_VIDEO_AD_DURATION_SIXTY_SECONDS"
+  | "MAXIMUM_VIDEO_AD_DURATION_NINETY_SECONDS"
+  | "MAXIMUM_VIDEO_AD_DURATION_ONE_HUNDRED_TWENTY_SECONDS";
+export type PackageVideoTargetingIncludedPlaybackMethodsItemEnum =
+  | "PLAYBACK_METHOD_UNSPECIFIED"
+  | "PLAYBACK_METHOD_AUTO_PLAY_SOUND_ON"
+  | "PLAYBACK_METHOD_AUTO_PLAY_SOUND_OFF"
+  | "PLAYBACK_METHOD_CLICK_TO_PLAY";
+export type PackageVideoTargetingIncludedPlaybackMethodsItemEnumList = Array<
+  PackageVideoTargetingIncludedPlaybackMethodsItemEnum | (string & {})
+>;
+export type PackageVideoTargetingIncludedPositionTypesItemEnum =
+  | "POSITION_TYPE_UNSPECIFIED"
+  | "POSITION_TYPE_MIDROLL"
+  | "POSITION_TYPE_POSTROLL"
+  | "POSITION_TYPE_PREROLL";
+export type PackageVideoTargetingIncludedPositionTypesItemEnumList = Array<
+  PackageVideoTargetingIncludedPositionTypesItemEnum | (string & {})
+>;
 export type VideoPlcmtTargetingVideoPlcmtTypesItemEnum =
   | "VIDEO_PLCMT_TYPE_UNSPECIFIED"
   | "INSTREAM"
@@ -361,89 +327,75 @@ export type VideoPlcmtTargetingVideoPlcmtTypesItemEnum =
 export type VideoPlcmtTargetingVideoPlcmtTypesItemEnumList = Array<
   VideoPlcmtTargetingVideoPlcmtTypesItemEnum | (string & {})
 >;
+export type VideoPlcmtTargetingSelectionTypeEnum =
+  | "SELECTION_TYPE_UNSPECIFIED"
+  | "SELECTION_TYPE_INCLUDE"
+  | "SELECTION_TYPE_EXCLUDE";
 /** Defines targeting criteria based on the video placement type, often corresponding to the IAB OpenRTB 'plcmt' field. */
 export interface VideoPlcmtTargeting {
-  /** Required. The selection type for the list of video plcmts. */
-  selectionType?: VideoPlcmtTargetingSelectionTypeEnum | (string & {}) | undefined;
   /** Required. The list of targeted video plcmts types. If empty, inventory will be targeted regardless of video plcmt type. */
   videoPlcmtTypes?: VideoPlcmtTargetingVideoPlcmtTypesItemEnumList | undefined;
+  /** Required. The selection type for the list of video plcmts. */
+  selectionType?: VideoPlcmtTargetingSelectionTypeEnum | (string & {}) | undefined;
 }
 /** Represents the size of the video player that can be targeted. Both width and height are required to be set to non-zero values. */
 export interface VideoPlayerSizeTargeting {
-  /** Required. The minimum width of the video player in pixels. */
-  minimumWidth?: string | undefined;
   /** Required. The minimum height of the video player in pixels. */
   minimumHeight?: string | undefined;
+  /** Required. The minimum width of the video player in pixels. */
+  minimumWidth?: string | undefined;
 }
-export type PackageVideoTargetingIncludedContentDeliveryMethodEnum =
-  | "CONTENT_DELIVERY_METHOD_UNSPECIFIED"
-  | "CONTENT_DELIVERY_METHOD_STREAMING"
-  | "CONTENT_DELIVERY_METHOD_PROGRESSIVE";
 /** Video specific targeting criteria. */
 export interface PackageVideoTargeting {
-  /** Optional. The targeted video ad position types. If empty, inventory will be targeted regardless of video ad position type. */
-  includedPositionTypes?: PackageVideoTargetingIncludedPositionTypesItemEnumList | undefined;
-  /** Optional. The list of targeted video playback methods. If empty, inventory will be targeted regardless of video playback method. */
-  includedPlaybackMethods?: PackageVideoTargetingIncludedPlaybackMethodsItemEnumList | undefined;
-  /** Optional. The targeted maximum video ad duration. If unset, inventory will be targeted regardless of maximum video ad duration. */
-  includedMaximumAdDurationTargeting?:
-    | PackageVideoTargetingIncludedMaximumAdDurationTargetingEnum
-    | (string & {})
-    | undefined;
   /** Optional. The list of targeted video mime types using the IANA published MIME type strings (https://www.iana.org/assignments/media-types/media-types.xhtml). If empty, inventory will be targeted regardless of video mime type. */
   includedMimeTypes?: PackageVideoTargetingIncludedMimeTypesItemEnumList | undefined;
-  /** Optional. The targeted video plcmt types. If unset, inventory will be targeted regardless of video plcmt type. */
-  plcmtTargeting?: VideoPlcmtTargeting | undefined;
-  /** Optional. The targeted minimum predicted completion rate percentage. This value must be a multiple of 10 between 10 and 90 (inclusive). For example, 10 is valid, but 0, 15, and 100 are not. A value of 10 means that the configuration will only match adslots for which we predict at least 10% completion rate. An unset value indicates inventory will be targeted regardless of predicted completion rate. */
-  minimumPredictedCompletionRatePercentage?: string | undefined;
-  /** Optional. The targeted video player size. If unset, inventory will be targeted regardless of video player size. */
-  includedPlayerSizeTargeting?: VideoPlayerSizeTargeting | undefined;
   /** Optional. The targeted video delivery method. If unset, inventory will be targeted regardless of video delivery method. */
   includedContentDeliveryMethod?:
     | PackageVideoTargetingIncludedContentDeliveryMethodEnum
     | (string & {})
     | undefined;
+  /** Optional. The targeted maximum video ad duration. If unset, inventory will be targeted regardless of maximum video ad duration. */
+  includedMaximumAdDurationTargeting?:
+    | PackageVideoTargetingIncludedMaximumAdDurationTargetingEnum
+    | (string & {})
+    | undefined;
+  /** Optional. The list of targeted video playback methods. If empty, inventory will be targeted regardless of video playback method. */
+  includedPlaybackMethods?: PackageVideoTargetingIncludedPlaybackMethodsItemEnumList | undefined;
+  /** Optional. The targeted minimum predicted completion rate percentage. This value must be a multiple of 10 between 10 and 90 (inclusive). For example, 10 is valid, but 0, 15, and 100 are not. A value of 10 means that the configuration will only match adslots for which we predict at least 10% completion rate. An unset value indicates inventory will be targeted regardless of predicted completion rate. */
+  minimumPredictedCompletionRatePercentage?: string | undefined;
+  /** Optional. The targeted video ad position types. If empty, inventory will be targeted regardless of video ad position type. */
+  includedPositionTypes?: PackageVideoTargetingIncludedPositionTypesItemEnumList | undefined;
+  /** Optional. The targeted video plcmt types. If unset, inventory will be targeted regardless of video plcmt type. */
+  plcmtTargeting?: VideoPlcmtTargeting | undefined;
+  /** Optional. The targeted video player size. If unset, inventory will be targeted regardless of video player size. */
+  includedPlayerSizeTargeting?: VideoPlayerSizeTargeting | undefined;
 }
-/** Defines targeting criteria for handling the IAB audience and content Taxonomy ID space. */
-export interface TaxonomyTargeting {
-  /** Optional. The list of targeted content taxonomy IDs. */
-  targetedTaxonomyIds?: StringList | undefined;
-  /** Optional. The list of excluded content taxonomy IDs. */
-  excludedTaxonomyIds?: StringList | undefined;
-}
-/** Represents targeting about publisher provided signals. Different publisher provided signals types will be logically OR'ed. */
-export interface PackagePublisherProvidedSignalsTargeting {
-  /** Optional. The list of targeted or excluded audience IDs. Based off of IAB Audience Taxonomy version 1.1 (https://github.com/InteractiveAdvertisingBureau/Taxonomies/blob/main/Audience%20Taxonomies/Audience%20Taxonomy%201.1.tsv) */
-  audienceTargeting?: TaxonomyTargeting | undefined;
-  /** Optional. The list of targeted and excluded video and audio signals IDs. These are additional signals supported by publisher provided signals. */
-  videoAndAudioSignalsTargeting?: StringTargetingDimension | undefined;
-  /** Optional. The list of targeted or excluded content IDs. Based off of IAB Content Taxonomy version 2.2 (https://github.com/InteractiveAdvertisingBureau/Taxonomies/blob/main/Content%20Taxonomies/Content%20Taxonomy%202.2.tsv) */
-  contentTargeting?: TaxonomyTargeting | undefined;
-}
-export type AdSizeTypeEnum = "TYPE_UNSPECIFIED" | "PIXEL" | "INTERSTITIAL" | "NATIVE" | "FLUID";
-/** Represents size of a single ad slot, or a creative. */
-export interface AdSize {
-  /** The type of the ad slot size. */
-  type?: AdSizeTypeEnum | (string & {}) | undefined;
-  /** The width of the ad slot in pixels. This field will be present only when size type is `PIXEL`. */
-  width?: string | undefined;
-  /** The height of the ad slot in pixels. This field will be present only when size type is `PIXEL`. */
-  height?: string | undefined;
-}
-export type AdSizeList = Array<AdSize>;
-export type PackageTargetingIncludedRestrictedCategoriesItemEnum =
-  | "RESTRICTED_CATEGORY_UNSPECIFIED"
-  | "RESTRICTED_CATEGORY_ALCOHOL"
-  | "RESTRICTED_CATEGORY_GAMBLING";
-export type PackageTargetingIncludedRestrictedCategoriesItemEnumList = Array<
-  PackageTargetingIncludedRestrictedCategoriesItemEnum | (string & {})
->;
 /** Generic targeting used for targeting dimensions that contains a list of included and excluded numeric IDs. This cannot be filtered using list filter syntax. */
 export interface CriteriaTargeting {
   /** A list of numeric IDs to be included. */
   targetedCriteriaIds?: StringList | undefined;
   /** A list of numeric IDs to be excluded. */
   excludedCriteriaIds?: StringList | undefined;
+}
+export type StringTargetingDimensionSelectionTypeEnum =
+  | "SELECTION_TYPE_UNSPECIFIED"
+  | "SELECTION_TYPE_INCLUDE"
+  | "SELECTION_TYPE_EXCLUDE";
+/** Generic targeting with string values. */
+export interface StringTargetingDimension {
+  /** Required. How the items in this list should be targeted. */
+  selectionType?: StringTargetingDimensionSelectionTypeEnum | (string & {}) | undefined;
+  /** Required. The values specified. */
+  values?: StringList | undefined;
+}
+/** Represents targeting about where the ads can appear, for example, certain sites or mobile applications. Different placement targeting types will be logically OR'ed. */
+export interface PackagePlacementTargeting {
+  /** Optional. The list of targeted or excluded URLs. The domains should have the http/https stripped (for example, google.com), and can contain a max of 5 paths per url. */
+  uriTargeting?: StringTargetingDimension | undefined;
+  /** Optional. The list of targeted or excluded mobile application IDs that publishers own. Currently, only Android and Apple apps are supported. Android App ID, for example, com.google.android.apps.maps, can be found in Google Play Store URL. iOS App ID (which is a number) can be found at the end of iTunes store URL. First party mobile applications is either included or excluded. */
+  mobileAppTargeting?: StringTargetingDimension | undefined;
+  /** Optional. The list of targeted mobile app categories. */
+  includedMobileAppCategoryTargeting?: StringList | undefined;
 }
 export type PackageTargetingIncludedDeviceTypesItemEnum =
   | "DEVICE_TYPE_UNSPECIFIED"
@@ -454,106 +406,154 @@ export type PackageTargetingIncludedDeviceTypesItemEnum =
 export type PackageTargetingIncludedDeviceTypesItemEnumList = Array<
   PackageTargetingIncludedDeviceTypesItemEnum | (string & {})
 >;
+export type PackageTargetingIncludedAcceleratedMobilePageTypeEnum =
+  | "ACCELERATED_MOBILE_PAGE_TYPE_UNSPECIFIED"
+  | "ACCELERATED_MOBILE_PAGE_TYPE_NON_AMP"
+  | "ACCELERATED_MOBILE_PAGE_TYPE_AMP"
+  | "ACCELERATED_MOBILE_PAGE_TYPE_AMP_STORY";
+export type PackageTargetingIncludedAuthorizedSellerStatusesItemEnum =
+  | "AUTHORIZED_SELLER_STATUS_UNSPECIFIED"
+  | "AUTHORIZED_SELLER_STATUS_DIRECT"
+  | "AUTHORIZED_SELLER_STATUS_RESELLER";
+export type PackageTargetingIncludedAuthorizedSellerStatusesItemEnumList = Array<
+  PackageTargetingIncludedAuthorizedSellerStatusesItemEnum | (string & {})
+>;
+export type PackageTargetingIncludedRewardedTypeEnum =
+  | "REWARDED_TYPE_UNSPECIFIED"
+  | "REWARDED_TYPE_NON_REWARDED"
+  | "REWARDED_TYPE_REWARDED";
+export type AdSizeTypeEnum = "TYPE_UNSPECIFIED" | "PIXEL" | "INTERSTITIAL" | "NATIVE" | "FLUID";
+/** Represents size of a single ad slot, or a creative. */
+export interface AdSize {
+  /** The height of the ad slot in pixels. This field will be present only when size type is `PIXEL`. */
+  height?: string | undefined;
+  /** The type of the ad slot size. */
+  type?: AdSizeTypeEnum | (string & {}) | undefined;
+  /** The width of the ad slot in pixels. This field will be present only when size type is `PIXEL`. */
+  width?: string | undefined;
+}
+export type AdSizeList = Array<AdSize>;
+/** Defines targeting criteria for handling the IAB audience and content Taxonomy ID space. */
+export interface TaxonomyTargeting {
+  /** Optional. The list of targeted content taxonomy IDs. */
+  targetedTaxonomyIds?: StringList | undefined;
+  /** Optional. The list of excluded content taxonomy IDs. */
+  excludedTaxonomyIds?: StringList | undefined;
+}
+/** Represents targeting about publisher provided signals. Different publisher provided signals types will be logically OR'ed. */
+export interface PackagePublisherProvidedSignalsTargeting {
+  /** Optional. The list of targeted or excluded content IDs. Based off of IAB Content Taxonomy version 2.2 (https://github.com/InteractiveAdvertisingBureau/Taxonomies/blob/main/Content%20Taxonomies/Content%20Taxonomy%202.2.tsv) */
+  contentTargeting?: TaxonomyTargeting | undefined;
+  /** Optional. The list of targeted and excluded video and audio signals IDs. These are additional signals supported by publisher provided signals. */
+  videoAndAudioSignalsTargeting?: StringTargetingDimension | undefined;
+  /** Optional. The list of targeted or excluded audience IDs. Based off of IAB Audience Taxonomy version 1.1 (https://github.com/InteractiveAdvertisingBureau/Taxonomies/blob/main/Audience%20Taxonomies/Audience%20Taxonomy%201.1.tsv) */
+  audienceTargeting?: TaxonomyTargeting | undefined;
+}
+export type PackageTargetingIncludedNativeInventoryTypesItemEnum =
+  | "NATIVE_INVENTORY_TYPE_UNSPECIFIED"
+  | "NATIVE_INVENTORY_TYPE_NATIVE_ONLY"
+  | "NATIVE_INVENTORY_TYPE_NATIVE_OR_BANNER";
+export type PackageTargetingIncludedNativeInventoryTypesItemEnumList = Array<
+  PackageTargetingIncludedNativeInventoryTypesItemEnum | (string & {})
+>;
 export type PackageTargetingIncludedOpenMeasurementTypesItemEnum =
   | "OPEN_MEASUREMENT_TYPE_UNSPECIFIED"
   | "OPEN_MEASUREMENT_TYPE_OMID_V1";
 export type PackageTargetingIncludedOpenMeasurementTypesItemEnumList = Array<
   PackageTargetingIncludedOpenMeasurementTypesItemEnum | (string & {})
 >;
-export type PackageTargetingIncludedCreativeFormatEnum =
-  | "CREATIVE_FORMAT_UNSPECIFIED"
-  | "CREATIVE_FORMAT_DISPLAY"
-  | "CREATIVE_FORMAT_VIDEO"
-  | "CREATIVE_FORMAT_AUDIO";
-export type PackageTargetingIncludedRewardedTypeEnum =
-  | "REWARDED_TYPE_UNSPECIFIED"
-  | "REWARDED_TYPE_NON_REWARDED"
-  | "REWARDED_TYPE_REWARDED";
+export type PackageTargetingIncludedRestrictedCategoriesItemEnum =
+  | "RESTRICTED_CATEGORY_UNSPECIFIED"
+  | "RESTRICTED_CATEGORY_ALCOHOL"
+  | "RESTRICTED_CATEGORY_GAMBLING";
+export type PackageTargetingIncludedRestrictedCategoriesItemEnumList = Array<
+  PackageTargetingIncludedRestrictedCategoriesItemEnum | (string & {})
+>;
+export type PackageTargetingIncludedEnvironmentEnum =
+  | "ENVIRONMENT_UNSPECIFIED"
+  | "ENVIRONMENT_SITE"
+  | "ENVIRONMENT_APP";
 /** Targeting criteria for curated and auction packages. */
 export interface PackageTargeting {
-  /** Optional. The targeted native inventory types. If empty, inventory will be targeted regardless of native inventory type. */
-  includedNativeInventoryTypes?:
-    | PackageTargetingIncludedNativeInventoryTypesItemEnumList
-    | undefined;
+  /** Optional. The creative format to target. If unset, all creative markup types are targeted. */
+  includedCreativeFormat?: PackageTargetingIncludedCreativeFormatEnum | (string & {}) | undefined;
+  /** Optional. Video specific targeting criteria. */
+  videoTargeting?: PackageVideoTargeting | undefined;
+  /** Optional. The verticals included or excluded as defined in https://developers.google.com/authorized-buyers/rtb/downloads/publisher-verticals. If unset, inventory will be targeted regardless of vertical. */
+  verticalTargeting?: CriteriaTargeting | undefined;
+  /** Optional. Placement targeting information, for example, URL, mobile applications. */
+  placementTargeting?: PackagePlacementTargeting | undefined;
+  /** Optional. The list of included device types to target. If empty, all device types are targeted. */
+  includedDeviceTypes?: PackageTargetingIncludedDeviceTypesItemEnumList | undefined;
   /** Optional. The targeted accelerated mobile page type. If unset, inventory will be targeted regardless of AMP status. */
   includedAcceleratedMobilePageType?:
     | PackageTargetingIncludedAcceleratedMobilePageTypeEnum
     | (string & {})
     | undefined;
-  /** Optional. The environment to target. If unspecified, all environments are targeted. */
-  includedEnvironment?: PackageTargetingIncludedEnvironmentEnum | (string & {}) | undefined;
+  /** Optional. The languages to target. If unset, inventory will be targeted regardless of language. See https://developers.google.com/google-ads/api/data/codes-formats#languages for the list of supported language codes. */
+  languageTargeting?: StringTargetingDimension | undefined;
+  /** Optional. The targeted minimum predicted click through rate, ranging in values [10, 10000] (0.01% - 10%). A value of 50 means that the configuration will only match adslots for which we predict at least 0.05% click through rate. An unset value indicates inventory will be targeted regardless of predicted click through rate. */
+  minimumPredictedClickThroughRatePercentageMillis?: string | undefined;
   /** Optional. The included list of targeted authorized seller statuses. If empty, inventory will be targeted regardless of seller status. */
   includedAuthorizedSellerStatuses?:
     | PackageTargetingIncludedAuthorizedSellerStatusesItemEnumList
     | undefined;
-  /** Optional. Placement targeting information, for example, URL, mobile applications. */
-  placementTargeting?: PackagePlacementTargeting | undefined;
-  /** Optional. Video specific targeting criteria. */
-  videoTargeting?: PackageVideoTargeting | undefined;
-  /** Optional. The targeted minimum predicted viewability percentage. This value must be a multiple of 10 between 10 and 90 (inclusive). For example, 10 is valid, but 0, 15, and 100 are not. A value of 10 means that the configuration will only match adslots for which we predict at least 10% viewability. An unset value indicates inventory will be targeted regardless of predicted viewability. */
-  minimumPredictedViewabilityPercentage?: string | undefined;
-  /** Optional. The targeted publishers. If unset, inventory will be targeted regardless of publisher. Publishers are identified by their publisher ID from ads.txt / app-ads.txt. See https://iabtechlab.com/ads-txt/ and https://iabtechlab.com/app-ads-txt/ for more details. */
-  publisherTargeting?: StringTargetingDimension | undefined;
-  /** Optional. The targeted minimum predicted click through rate, ranging in values [10, 10000] (0.01% - 10%). A value of 50 means that the configuration will only match adslots for which we predict at least 0.05% click through rate. An unset value indicates inventory will be targeted regardless of predicted click through rate. */
-  minimumPredictedClickThroughRatePercentageMillis?: string | undefined;
-  /** Optional. The publisher provided signals to target. If unset, inventory will be targeted regardless of publisher provided signals. */
-  publisherProvidedSignalsTargeting?: PackagePublisherProvidedSignalsTargeting | undefined;
-  /** Optional. The list of ad sizes to target. If unset, inventory will be targeted regardless of ad size. Curated packages supports `PIXEL` and `INTERSTITIAL` ad sizes. */
-  includedAdSizes?: AdSizeList | undefined;
-  /** Optional. The list of targeted restricted categories. If empty, inventory will be targeted regardless of restricted categories. */
-  includedRestrictedCategories?:
-    | PackageTargetingIncludedRestrictedCategoriesItemEnumList
-    | undefined;
   /** Optional. The geo criteria IDs to be included or excluded as defined in https://storage.googleapis.com/adx-rtb-dictionaries/geo-table.csv. If unset, inventory will be targeted regardless of geo. */
   geoTargeting?: CriteriaTargeting | undefined;
-  /** Optional. The verticals included or excluded as defined in https://developers.google.com/authorized-buyers/rtb/downloads/publisher-verticals. If unset, inventory will be targeted regardless of vertical. */
-  verticalTargeting?: CriteriaTargeting | undefined;
-  /** Optional. The list of included device types to target. If empty, all device types are targeted. */
-  includedDeviceTypes?: PackageTargetingIncludedDeviceTypesItemEnumList | undefined;
+  /** Optional. The targeted publishers. If unset, inventory will be targeted regardless of publisher. Publishers are identified by their publisher ID from ads.txt / app-ads.txt. See https://iabtechlab.com/ads-txt/ and https://iabtechlab.com/app-ads-txt/ for more details. */
+  publisherTargeting?: StringTargetingDimension | undefined;
+  /** Optional. The targeted minimum predicted viewability percentage. This value must be a multiple of 10 between 10 and 90 (inclusive). For example, 10 is valid, but 0, 15, and 100 are not. A value of 10 means that the configuration will only match adslots for which we predict at least 10% viewability. An unset value indicates inventory will be targeted regardless of predicted viewability. */
+  minimumPredictedViewabilityPercentage?: string | undefined;
+  /** Optional. The targeted rewarded type. If unset, inventory will be targeted regardless of rewarded type. */
+  includedRewardedType?: PackageTargetingIncludedRewardedTypeEnum | (string & {}) | undefined;
+  /** Optional. The list of ad sizes to target. If unset, inventory will be targeted regardless of ad size. Curated packages supports `PIXEL` and `INTERSTITIAL` ad sizes. */
+  includedAdSizes?: AdSizeList | undefined;
+  /** Optional. The publisher provided signals to target. If unset, inventory will be targeted regardless of publisher provided signals. */
+  publisherProvidedSignalsTargeting?: PackagePublisherProvidedSignalsTargeting | undefined;
+  /** Optional. The active data segments to be targeted. If unset, inventory will be targeted regardless of data segments. Format: `curators/{account_id}/dataSegments/{data_segment_id}` */
+  includedDataSegments?: StringList | undefined;
+  /** Optional. The targeted native inventory types. If empty, inventory will be targeted regardless of native inventory type. */
+  includedNativeInventoryTypes?:
+    | PackageTargetingIncludedNativeInventoryTypesItemEnumList
+    | undefined;
   /** Optional. The list of targeted open measurement types. If empty, inventory will be targeted regardless of Open Measurement support. */
   includedOpenMeasurementTypes?:
     | PackageTargetingIncludedOpenMeasurementTypesItemEnumList
     | undefined;
-  /** Optional. The languages to target. If unset, inventory will be targeted regardless of language. See https://developers.google.com/google-ads/api/data/codes-formats#languages for the list of supported language codes. */
-  languageTargeting?: StringTargetingDimension | undefined;
-  /** Optional. The creative format to target. If unset, all creative markup types are targeted. */
-  includedCreativeFormat?: PackageTargetingIncludedCreativeFormatEnum | (string & {}) | undefined;
-  /** Optional. The targeted rewarded type. If unset, inventory will be targeted regardless of rewarded type. */
-  includedRewardedType?: PackageTargetingIncludedRewardedTypeEnum | (string & {}) | undefined;
-  /** Optional. The active data segments to be targeted. If unset, inventory will be targeted regardless of data segments. Format: `curators/{account_id}/dataSegments/{data_segment_id}` */
-  includedDataSegments?: StringList | undefined;
+  /** Optional. The list of targeted restricted categories. If empty, inventory will be targeted regardless of restricted categories. */
+  includedRestrictedCategories?:
+    | PackageTargetingIncludedRestrictedCategoriesItemEnumList
+    | undefined;
+  /** Optional. The environment to target. If unspecified, all environments are targeted. */
+  includedEnvironment?: PackageTargetingIncludedEnvironmentEnum | (string & {}) | undefined;
 }
-/** Settings for controlling access to a curated package. */
-export interface AccessControlSettings {
-  /** Required. Immutable. The list of media planners that are explicitly granted access to the curated package. Eligible media planners can be found in the mediaPlanners.list method. Only a single media planner may be allowlisted at this time. Format: `mediaPlanners/{mediaPlannerAccountId}` */
-  allowlistedMediaPlanners?: StringList | undefined;
-}
+export type CuratedPackageStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "INACTIVE";
 /** Represents a curated package of inventory created and managed by a Curator. */
 export interface CuratedPackage {
-  /** Optional. The minimum CPM a buyer has to bid to participate in auctions for inventory in this curated package. Can be used to filter the response of the curatedPackages.list method. */
-  floorPriceCpm?: Money | undefined;
-  /** Output only. The state of the curated package. Can be used to filter the response of the curatedPackages.list method. */
-  state?: CuratedPackageStateEnum | (string & {}) | undefined;
-  /** Optional. The fee will be charged as a percentage of the impression cost, represented in millipercent. For example, 1% is represented as 1000. */
-  millipercentOfMediaFee?: string | undefined;
   /** Optional. Immutable. The visibility of the combined curation package fee and data segment fees (the total curation fee). */
   curationFeeVisibility?: CuratedPackageCurationFeeVisibilityEnum | (string & {}) | undefined;
-  /** Output only. The timestamp when the curated package was created. Can be used to filter the response of the curatedPackages.list method. */
-  createTime?: string | undefined;
-  /** Identifier. The unique resource name for the curated package. Format: `curators/{accountId}/curatedPackages/{curatedPackageId}` */
-  name?: string | undefined;
-  /** Output only. The timestamp when the curated package was last updated. Can be used to filter the response of the curatedPackages.list method. */
-  updateTime?: string | undefined;
-  /** Optional. The CPM fee charged by the curator to buyers using this curated package. Can be used to filter the response of the curatedPackages.list method. */
-  feeCpm?: Money | undefined;
-  /** Optional. Targeting criteria for the curated package. */
-  targeting?: PackageTargeting | undefined;
   /** Required. Settings for controlling access to the curated package. Access to this curated package is limited to the allowlisted media planners and the creator. Buyers and bidders can not be allowlisted for or have direct access to this resource. */
   accessSettings?: AccessControlSettings | undefined;
-  /** Required. The display name assigned to the curated package by the curator. Can be used to filter the response of the curatedPackages.list method. */
-  displayName?: string | undefined;
+  /** Identifier. The unique resource name for the curated package. Format: `curators/{accountId}/curatedPackages/{curatedPackageId}` */
+  name?: string | undefined;
+  /** Output only. The timestamp when the curated package was created. Can be used to filter the response of the curatedPackages.list method. */
+  createTime?: string | undefined;
+  /** Optional. The fee will be charged as a percentage of the impression cost, represented in millipercent. For example, 1% is represented as 1000. */
+  millipercentOfMediaFee?: string | undefined;
   /** Optional. A description of the curated package, provided by the curator. */
   description?: string | undefined;
+  /** Optional. Targeting criteria for the curated package. */
+  targeting?: PackageTargeting | undefined;
+  /** Output only. The timestamp when the curated package was last updated. Can be used to filter the response of the curatedPackages.list method. */
+  updateTime?: string | undefined;
+  /** Required. The display name assigned to the curated package by the curator. Can be used to filter the response of the curatedPackages.list method. */
+  displayName?: string | undefined;
+  /** Output only. The state of the curated package. Can be used to filter the response of the curatedPackages.list method. */
+  state?: CuratedPackageStateEnum | (string & {}) | undefined;
+  /** Optional. The CPM fee charged by the curator to buyers using this curated package. Can be used to filter the response of the curatedPackages.list method. */
+  feeCpm?: Money | undefined;
+  /** Optional. The minimum CPM a buyer has to bid to participate in auctions for inventory in this curated package. Can be used to filter the response of the curatedPackages.list method. */
+  floorPriceCpm?: Money | undefined;
 }
 /** Request message for adding creative to be used in the bidding process for the finalized deal. */
 export interface AddCreativeRequest {
@@ -564,84 +564,125 @@ export interface AddCreativeBuyersFinalizedDealsRequest extends AddCreativeReque
   /** Required. Name of the finalized deal in the format of: `buyers/{accountId}/finalizedDeals/{dealId}` */
   deal: string;
 }
+/** Real-time bidding metrics. For what each metric means refer to [Report metrics](https://support.google.com/adxbuyer/answer/6115195#report-metrics) */
+export interface RtbMetrics {
+  /** Must bid rate for current month. */
+  mustBidRateCurrentMonth?: number | undefined;
+  /** Bid rate in last 7 days, calculated by (bids / bid requests). */
+  bidRate7Days?: number | undefined;
+  /** Ad impressions in last 7 days. */
+  adImpressions7Days?: string | undefined;
+  /** Bid requests in last 7 days. */
+  bidRequests7Days?: string | undefined;
+  /** Filtered bid rate in last 7 days, calculated by (filtered bids / bids). */
+  filteredBidRate7Days?: number | undefined;
+  /** Bids in last 7 days. */
+  bids7Days?: string | undefined;
+}
+export type DealPausingInfoPauseRoleEnum = "BUYER_SELLER_ROLE_UNSPECIFIED" | "BUYER" | "SELLER";
+/** Information related to deal pausing. */
+export interface DealPausingInfo {
+  /** Whether pausing is consented between buyer and seller for the deal. */
+  pausingConsented?: boolean | undefined;
+  /** The reason for the pausing of the deal; empty for active deals. */
+  pauseReason?: string | undefined;
+  /** The party that first paused the deal; unspecified for active deals. */
+  pauseRole?: DealPausingInfoPauseRoleEnum | undefined;
+}
 export type FinalizedDealDealServingStatusEnum =
   | "DEAL_SERVING_STATUS_UNSPECIFIED"
   | "ACTIVE"
   | "ENDED"
   | "PAUSED_BY_BUYER"
   | "PAUSED_BY_SELLER";
-export type DealPausingInfoPauseRoleEnum = "BUYER_SELLER_ROLE_UNSPECIFIED" | "BUYER" | "SELLER";
-/** Information related to deal pausing. */
-export interface DealPausingInfo {
-  /** Whether pausing is consented between buyer and seller for the deal. */
-  pausingConsented?: boolean | undefined;
-  /** The party that first paused the deal; unspecified for active deals. */
-  pauseRole?: DealPausingInfoPauseRoleEnum | undefined;
-  /** The reason for the pausing of the deal; empty for active deals. */
-  pauseReason?: string | undefined;
-}
-/** Real-time bidding metrics. For what each metric means refer to [Report metrics](https://support.google.com/adxbuyer/answer/6115195#report-metrics) */
-export interface RtbMetrics {
-  /** Ad impressions in last 7 days. */
-  adImpressions7Days?: string | undefined;
-  /** Must bid rate for current month. */
-  mustBidRateCurrentMonth?: number | undefined;
-  /** Bids in last 7 days. */
-  bids7Days?: string | undefined;
-  /** Filtered bid rate in last 7 days, calculated by (filtered bids / bids). */
-  filteredBidRate7Days?: number | undefined;
-  /** Bid rate in last 7 days, calculated by (bids / bid requests). */
-  bidRate7Days?: number | undefined;
-  /** Bid requests in last 7 days. */
-  bidRequests7Days?: string | undefined;
-}
-/** Represents a time zone from the [IANA Time Zone Database](https://www.iana.org/time-zones). */
-export interface TimeZone {
-  /** IANA Time Zone Database time zone. For example "America/New_York". */
-  id?: string | undefined;
-  /** Optional. IANA Time Zone Database version number. For example "2019a". */
-  version?: string | undefined;
-}
-export type DealBuyerPermissionTypeEnum =
-  | "BUYER_PERMISSION_TYPE_UNSPECIFIED"
-  | "NEGOTIATOR_ONLY"
-  | "BIDDER";
-export type ProgrammaticGuaranteedTermsReservationTypeEnum =
-  | "RESERVATION_TYPE_UNSPECIFIED"
-  | "STANDARD"
-  | "SPONSORSHIP";
 export type PriceTypeEnum = "TYPE_UNSPECIFIED" | "CPM" | "CPD";
 /** Represents a price and a pricing type for a deal. */
 export interface Price {
-  /** The actual price with currency specified. */
-  amount?: Money | undefined;
   /** The pricing type for the deal. */
   type?: PriceTypeEnum | (string & {}) | undefined;
+  /** The actual price with currency specified. */
+  amount?: Money | undefined;
 }
-/** Pricing terms for Programmatic Guaranteed Deals. */
-export interface ProgrammaticGuaranteedTerms {
-  /** The reservation type for a Programmatic Guaranteed deal. This indicates whether the number of impressions is fixed, or a percent of available impressions. If not specified, the default reservation type is STANDARD. */
-  reservationType?: ProgrammaticGuaranteedTermsReservationTypeEnum | (string & {}) | undefined;
-  /** Daily minimum looks for CPD deal types. For CPD deals, buyer should negotiate on this field instead of guaranteed_looks. */
-  minimumDailyLooks?: string | undefined;
-  /** Fixed price for the deal. */
-  fixedPrice?: Price | undefined;
-  /** The lifetime impression cap for CPM Sponsorship deals. Deal will stop serving when cap is reached. */
-  impressionCap?: string | undefined;
-  /** Count of guaranteed looks. For CPD deals, buyer changes to guaranteed_looks will be ignored. */
-  guaranteedLooks?: string | undefined;
-  /** For sponsorship deals, this is the percentage of the seller's eligible impressions that the deal will serve until the cap is reached. Valid value is within range 0~100. */
-  percentShareOfVoice?: string | undefined;
+/** Pricing terms for Private Auctions. */
+export interface PrivateAuctionTerms {
+  /** The minimum price buyer has to bid to compete in the private auction. */
+  floorPrice?: Price | undefined;
+  /** Output only. True if open auction buyers are allowed to compete with invited buyers in this private auction. */
+  openAuctionAllowed?: boolean | undefined;
 }
-export type DayPartTargetingTimeZoneTypeEnum = "TIME_ZONE_TYPE_UNSPECIFIED" | "SELLER" | "USER";
+export type CreativeRequirementsCreativePreApprovalPolicyEnum =
+  | "CREATIVE_PRE_APPROVAL_POLICY_UNSPECIFIED"
+  | "SELLER_PRE_APPROVAL_REQUIRED"
+  | "SELLER_PRE_APPROVAL_NOT_REQUIRED";
+export type CreativeRequirementsProgrammaticCreativeSourceEnum =
+  | "PROGRAMMATIC_CREATIVE_SOURCE_UNSPECIFIED"
+  | "ADVERTISER"
+  | "PUBLISHER";
+export type CreativeRequirementsSkippableAdTypeEnum =
+  | "SKIPPABLE_AD_TYPE_UNSPECIFIED"
+  | "SKIPPABLE"
+  | "INSTREAM_SELECT"
+  | "NOT_SKIPPABLE"
+  | "ANY";
+export type CreativeRequirementsCreativeSafeFrameCompatibilityEnum =
+  | "CREATIVE_SAFE_FRAME_COMPATIBILITY_UNSPECIFIED"
+  | "COMPATIBLE"
+  | "INCOMPATIBLE";
+export type CreativeRequirementsCreativeFormatEnum =
+  | "CREATIVE_FORMAT_UNSPECIFIED"
+  | "DISPLAY"
+  | "VIDEO"
+  | "AUDIO";
+/** Message captures data about the creatives in the deal. */
+export interface CreativeRequirements {
+  /** Output only. Specifies the creative pre-approval policy. */
+  creativePreApprovalPolicy?:
+    | CreativeRequirementsCreativePreApprovalPolicyEnum
+    | (string & {})
+    | undefined;
+  /** Output only. Specifies the creative source for programmatic deals. PUBLISHER means creative is provided by seller and ADVERTISER means creative is provided by the buyer. */
+  programmaticCreativeSource?:
+    | CreativeRequirementsProgrammaticCreativeSourceEnum
+    | (string & {})
+    | undefined;
+  /** Output only. Skippable video ads allow viewers to skip ads after 5 seconds. Only applicable for deals with video creatives. */
+  skippableAdType?: CreativeRequirementsSkippableAdTypeEnum | (string & {}) | undefined;
+  /** Output only. The max duration of the video creative in milliseconds. only applicable for deals with video creatives. */
+  maxAdDurationMs?: string | undefined;
+  /** Output only. Specifies whether the creative is safeFrame compatible. */
+  creativeSafeFrameCompatibility?:
+    | CreativeRequirementsCreativeSafeFrameCompatibilityEnum
+    | (string & {})
+    | undefined;
+  /** Output only. The format of the creative, only applicable for programmatic guaranteed and preferred deals. */
+  creativeFormat?: CreativeRequirementsCreativeFormatEnum | (string & {}) | undefined;
+}
+export type DealDealTypeEnum =
+  | "DEAL_TYPE_UNSPECIFIED"
+  | "PREFERRED_DEAL"
+  | "PRIVATE_AUCTION"
+  | "PROGRAMMATIC_GUARANTEED";
+export type InventoryTypeTargetingInventoryTypesItemEnum =
+  | "INVENTORY_TYPE_UNSPECIFIED"
+  | "BROWSER"
+  | "MOBILE_APP"
+  | "VIDEO_PLAYER";
+export type InventoryTypeTargetingInventoryTypesItemEnumList = Array<
+  InventoryTypeTargetingInventoryTypesItemEnum | (string & {})
+>;
+/** Targeting of the inventory types a bid request can originate from. */
+export interface InventoryTypeTargeting {
+  /** The list of targeted inventory types for the bid request. */
+  inventoryTypes?: InventoryTypeTargetingInventoryTypesItemEnumList | undefined;
+}
 /** Represents a time of day. The date and time zone are either not significant or are specified elsewhere. An API may choose to allow leap seconds. Related types are google.type.Date and `google.protobuf.Timestamp`. */
 export interface TimeOfDay {
-  /** Fractions of seconds, in nanoseconds. Must be greater than or equal to 0 and less than or equal to 999,999,999. */
-  nanos?: number | undefined;
-  /** Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time. */
-  hours?: number | undefined;
   /** Minutes of an hour. Must be greater than or equal to 0 and less than or equal to 59. */
   minutes?: number | undefined;
+  /** Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time. */
+  hours?: number | undefined;
+  /** Fractions of seconds, in nanoseconds. Must be greater than or equal to 0 and less than or equal to 999,999,999. */
+  nanos?: number | undefined;
   /** Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds. */
   seconds?: number | undefined;
 }
@@ -657,74 +698,27 @@ export type DayPartDayOfWeekEnum =
 /** Defines targeting for a period of time on a specific week day. */
 export interface DayPart {
   /** Hours in 24 hour time between 0 and 24, inclusive. Note: 24 is logically equivalent to 0, but is supported since in some cases there may need to be differentiation made between midnight on one day and midnight on the next day. Accepted values for minutes are [0, 15, 30, 45]. 0 is the only acceptable minute value for hour 24. Seconds and nanos are ignored. */
+  startTime?: TimeOfDay | undefined;
+  /** Hours in 24 hour time between 0 and 24, inclusive. Note: 24 is logically equivalent to 0, but is supported since in some cases there may need to be differentiation made between midnight on one day and midnight on the next day. Accepted values for minutes are [0, 15, 30, 45]. 0 is the only acceptable minute value for hour 24. Seconds and nanos are ignored. */
   endTime?: TimeOfDay | undefined;
   /** Day of week for the period. */
   dayOfWeek?: DayPartDayOfWeekEnum | (string & {}) | undefined;
-  /** Hours in 24 hour time between 0 and 24, inclusive. Note: 24 is logically equivalent to 0, but is supported since in some cases there may need to be differentiation made between midnight on one day and midnight on the next day. Accepted values for minutes are [0, 15, 30, 45]. 0 is the only acceptable minute value for hour 24. Seconds and nanos are ignored. */
-  startTime?: TimeOfDay | undefined;
 }
 export type DayPartList = Array<DayPart>;
+export type DayPartTargetingTimeZoneTypeEnum = "TIME_ZONE_TYPE_UNSPECIFIED" | "SELLER" | "USER";
 /** Represents Daypart targeting. */
 export interface DayPartTargeting {
-  /** The time zone type of the day parts */
-  timeZoneType?: DayPartTargetingTimeZoneTypeEnum | (string & {}) | undefined;
   /** The targeted weekdays and times */
   dayParts?: DayPartList | undefined;
+  /** The time zone type of the day parts */
+  timeZoneType?: DayPartTargetingTimeZoneTypeEnum | (string & {}) | undefined;
 }
-/** Represents targeting information for operating systems. */
-export interface OperatingSystemTargeting {
-  /** IDs of operating system versions to be included/excluded. */
-  operatingSystemVersionCriteria?: CriteriaTargeting | undefined;
-  /** IDs of operating systems to be included/excluded. */
-  operatingSystemCriteria?: CriteriaTargeting | undefined;
-}
-/** Represents targeting about various types of technology. */
-export interface TechnologyTargeting {
-  /** IDs of device capabilities to be included/excluded. */
-  deviceCapabilityTargeting?: CriteriaTargeting | undefined;
-  /** Operating system related targeting information. */
-  operatingSystemTargeting?: OperatingSystemTargeting | undefined;
-  /** IDs of device categories to be included/excluded. */
-  deviceCategoryTargeting?: CriteriaTargeting | undefined;
-}
-/** Represents a list of targeted and excluded mobile application IDs that publishers own. Android App ID, for example, com.google.android.apps.maps, can be found in Google Play Store URL. iOS App ID (which is a number) can be found at the end of iTunes store URL. First party mobile applications is either included or excluded. */
-export interface FirstPartyMobileApplicationTargeting {
-  /** A list of application IDs to be included. */
-  targetedAppIds?: StringList | undefined;
-  /** A list of application IDs to be excluded. */
-  excludedAppIds?: StringList | undefined;
-}
-/** Mobile application targeting settings. */
-export interface MobileApplicationTargeting {
-  /** Publisher owned apps to be targeted or excluded by the publisher to display the ads in. */
-  firstPartyTargeting?: FirstPartyMobileApplicationTargeting | undefined;
-}
-/** Represents a list of targeted and excluded URLs (for example, google.com). For Private Auction Deals, URLs are either included or excluded. For Programmatic Guaranteed and Preferred Deals, this doesn't apply. */
-export interface UriTargeting {
-  /** A list of URLs to be included. */
-  targetedUris?: StringList | undefined;
-  /** A list of URLs to be excluded. */
-  excludedUris?: StringList | undefined;
-}
-/** Represents targeting about where the ads can appear, for example, certain sites or mobile applications. Different placement targeting types will be logically OR'ed. */
-export interface PlacementTargeting {
-  /** Mobile application targeting information in a deal. This doesn't apply to Auction Packages. */
-  mobileApplicationTargeting?: MobileApplicationTargeting | undefined;
-  /** URLs to be included/excluded. */
-  uriTargeting?: UriTargeting | undefined;
-}
-export type InventoryTypeTargetingInventoryTypesItemEnum =
-  | "INVENTORY_TYPE_UNSPECIFIED"
-  | "BROWSER"
-  | "MOBILE_APP"
-  | "VIDEO_PLAYER";
-export type InventoryTypeTargetingInventoryTypesItemEnumList = Array<
-  InventoryTypeTargetingInventoryTypesItemEnum | (string & {})
->;
-/** Targeting of the inventory types a bid request can originate from. */
-export interface InventoryTypeTargeting {
-  /** The list of targeted inventory types for the bid request. */
-  inventoryTypes?: InventoryTypeTargetingInventoryTypesItemEnumList | undefined;
+/** Represents the size of an ad unit that can be targeted on a bid request. */
+export interface InventorySizeTargeting {
+  /** A list of inventory sizes to be included. */
+  targetedInventorySizes?: AdSizeList | undefined;
+  /** A list of inventory sizes to be excluded. */
+  excludedInventorySizes?: AdSizeList | undefined;
 }
 export type VideoTargetingTargetedPositionTypesItemEnum =
   | "POSITION_TYPE_UNSPECIFIED"
@@ -749,129 +743,101 @@ export interface VideoTargeting {
   /** A list of video positions to be excluded. When this field is populated, the targeted_position_types field must be empty. */
   excludedPositionTypes?: VideoTargetingExcludedPositionTypesItemEnumList | undefined;
 }
-/** Represents the size of an ad unit that can be targeted on a bid request. */
-export interface InventorySizeTargeting {
-  /** A list of inventory sizes to be included. */
-  targetedInventorySizes?: AdSizeList | undefined;
-  /** A list of inventory sizes to be excluded. */
-  excludedInventorySizes?: AdSizeList | undefined;
+/** Represents targeting information for operating systems. */
+export interface OperatingSystemTargeting {
+  /** IDs of operating systems to be included/excluded. */
+  operatingSystemCriteria?: CriteriaTargeting | undefined;
+  /** IDs of operating system versions to be included/excluded. */
+  operatingSystemVersionCriteria?: CriteriaTargeting | undefined;
+}
+/** Represents targeting about various types of technology. */
+export interface TechnologyTargeting {
+  /** IDs of device capabilities to be included/excluded. */
+  deviceCapabilityTargeting?: CriteriaTargeting | undefined;
+  /** Operating system related targeting information. */
+  operatingSystemTargeting?: OperatingSystemTargeting | undefined;
+  /** IDs of device categories to be included/excluded. */
+  deviceCategoryTargeting?: CriteriaTargeting | undefined;
+}
+/** Represents a list of targeted and excluded URLs (for example, google.com). For Private Auction Deals, URLs are either included or excluded. For Programmatic Guaranteed and Preferred Deals, this doesn't apply. */
+export interface UriTargeting {
+  /** A list of URLs to be included. */
+  targetedUris?: StringList | undefined;
+  /** A list of URLs to be excluded. */
+  excludedUris?: StringList | undefined;
+}
+/** Represents a list of targeted and excluded mobile application IDs that publishers own. Android App ID, for example, com.google.android.apps.maps, can be found in Google Play Store URL. iOS App ID (which is a number) can be found at the end of iTunes store URL. First party mobile applications is either included or excluded. */
+export interface FirstPartyMobileApplicationTargeting {
+  /** A list of application IDs to be excluded. */
+  excludedAppIds?: StringList | undefined;
+  /** A list of application IDs to be included. */
+  targetedAppIds?: StringList | undefined;
+}
+/** Mobile application targeting settings. */
+export interface MobileApplicationTargeting {
+  /** Publisher owned apps to be targeted or excluded by the publisher to display the ads in. */
+  firstPartyTargeting?: FirstPartyMobileApplicationTargeting | undefined;
+}
+/** Represents targeting about where the ads can appear, for example, certain sites or mobile applications. Different placement targeting types will be logically OR'ed. */
+export interface PlacementTargeting {
+  /** URLs to be included/excluded. */
+  uriTargeting?: UriTargeting | undefined;
+  /** Mobile application targeting information in a deal. This doesn't apply to Auction Packages. */
+  mobileApplicationTargeting?: MobileApplicationTargeting | undefined;
 }
 /** Targeting represents different criteria that can be used to target deals or auction packages. For example, they can choose to target inventory only if the user is in the US. Multiple types of targeting are always applied as a logical AND, unless noted otherwise. */
 export interface MarketplaceTargeting {
-  /** Buyer user list targeting information. User lists can be uploaded using https://developers.google.com/authorized-buyers/rtb/bulk-uploader. */
-  userListTargeting?: CriteriaTargeting | undefined;
-  /** Daypart targeting information. */
-  daypartTargeting?: DayPartTargeting | undefined;
   /** Output only. The verticals included or excluded as defined in https://developers.google.com/authorized-buyers/rtb/downloads/publisher-verticals */
   verticalTargeting?: CriteriaTargeting | undefined;
-  /** Output only. Technology targeting information, for example, operating system, device category. */
-  technologyTargeting?: TechnologyTargeting | undefined;
-  /** Output only. Placement targeting information, for example, URL, mobile applications. */
-  placementTargeting?: PlacementTargeting | undefined;
   /** Output only. Inventory type targeting information. */
   inventoryTypeTargeting?: InventoryTypeTargeting | undefined;
   /** Output only. Geo criteria IDs to be included/excluded. */
   geoTargeting?: CriteriaTargeting | undefined;
-  /** Output only. Video targeting information. */
-  videoTargeting?: VideoTargeting | undefined;
+  /** Daypart targeting information. */
+  daypartTargeting?: DayPartTargeting | undefined;
   /** Output only. Inventory sizes to be included/excluded. */
   inventorySizeTargeting?: InventorySizeTargeting | undefined;
   /** Output only. The sensitive content category label IDs excluded. Refer to this file https://storage.googleapis.com/adx-rtb-dictionaries/content-labels.txt for category IDs. */
   excludedSensitiveCategoryIds?: StringList | undefined;
+  /** Output only. Video targeting information. */
+  videoTargeting?: VideoTargeting | undefined;
+  /** Buyer user list targeting information. User lists can be uploaded using https://developers.google.com/authorized-buyers/rtb/bulk-uploader. */
+  userListTargeting?: CriteriaTargeting | undefined;
+  /** Output only. Technology targeting information, for example, operating system, device category. */
+  technologyTargeting?: TechnologyTargeting | undefined;
+  /** Output only. Placement targeting information, for example, URL, mobile applications. */
+  placementTargeting?: PlacementTargeting | undefined;
 }
-/** Represents a media planner account. */
-export interface MediaPlanner {
-  /** Output only. The ancestor names of the media planner. Format: `mediaPlanners/{mediaPlannerAccountId}` Can be used to filter the response of the mediaPlanners.list method. */
-  ancestorNames?: StringList | undefined;
-  /** Output only. Account ID of the media planner. */
-  accountId?: string | undefined;
-  /** Identifier. The unique resource name of the media planner. Format: `mediaPlanners/{mediaPlannerAccountId}` Can be used to filter the response of the mediaPlanners.list method. */
-  name?: string | undefined;
-  /** Output only. The display name of the media planner. Can be used to filter the response of the mediaPlanners.list method. */
-  displayName?: string | undefined;
+/** Pricing terms for Preferred Deals. */
+export interface PreferredDealTerms {
+  /** Fixed price for the deal. */
+  fixedPrice?: Price | undefined;
 }
-export type CreativeRequirementsProgrammaticCreativeSourceEnum =
-  | "PROGRAMMATIC_CREATIVE_SOURCE_UNSPECIFIED"
-  | "ADVERTISER"
-  | "PUBLISHER";
-export type CreativeRequirementsCreativePreApprovalPolicyEnum =
-  | "CREATIVE_PRE_APPROVAL_POLICY_UNSPECIFIED"
-  | "SELLER_PRE_APPROVAL_REQUIRED"
-  | "SELLER_PRE_APPROVAL_NOT_REQUIRED";
-export type CreativeRequirementsCreativeFormatEnum =
-  | "CREATIVE_FORMAT_UNSPECIFIED"
-  | "DISPLAY"
-  | "VIDEO"
-  | "AUDIO";
-export type CreativeRequirementsCreativeSafeFrameCompatibilityEnum =
-  | "CREATIVE_SAFE_FRAME_COMPATIBILITY_UNSPECIFIED"
-  | "COMPATIBLE"
-  | "INCOMPATIBLE";
-export type CreativeRequirementsSkippableAdTypeEnum =
-  | "SKIPPABLE_AD_TYPE_UNSPECIFIED"
-  | "SKIPPABLE"
-  | "INSTREAM_SELECT"
-  | "NOT_SKIPPABLE"
-  | "ANY";
-/** Message captures data about the creatives in the deal. */
-export interface CreativeRequirements {
-  /** Output only. Specifies the creative source for programmatic deals. PUBLISHER means creative is provided by seller and ADVERTISER means creative is provided by the buyer. */
-  programmaticCreativeSource?:
-    | CreativeRequirementsProgrammaticCreativeSourceEnum
-    | (string & {})
-    | undefined;
-  /** Output only. Specifies the creative pre-approval policy. */
-  creativePreApprovalPolicy?:
-    | CreativeRequirementsCreativePreApprovalPolicyEnum
-    | (string & {})
-    | undefined;
-  /** Output only. The format of the creative, only applicable for programmatic guaranteed and preferred deals. */
-  creativeFormat?: CreativeRequirementsCreativeFormatEnum | (string & {}) | undefined;
-  /** Output only. Specifies whether the creative is safeFrame compatible. */
-  creativeSafeFrameCompatibility?:
-    | CreativeRequirementsCreativeSafeFrameCompatibilityEnum
-    | (string & {})
-    | undefined;
-  /** Output only. The max duration of the video creative in milliseconds. only applicable for deals with video creatives. */
-  maxAdDurationMs?: string | undefined;
-  /** Output only. Skippable video ads allow viewers to skip ads after 5 seconds. Only applicable for deals with video creatives. */
-  skippableAdType?: CreativeRequirementsSkippableAdTypeEnum | (string & {}) | undefined;
+export type ProgrammaticGuaranteedTermsReservationTypeEnum =
+  | "RESERVATION_TYPE_UNSPECIFIED"
+  | "STANDARD"
+  | "SPONSORSHIP";
+/** Pricing terms for Programmatic Guaranteed Deals. */
+export interface ProgrammaticGuaranteedTerms {
+  /** For sponsorship deals, this is the percentage of the seller's eligible impressions that the deal will serve until the cap is reached. Valid value is within range 0~100. */
+  percentShareOfVoice?: string | undefined;
+  /** Daily minimum looks for CPD deal types. For CPD deals, buyer should negotiate on this field instead of guaranteed_looks. */
+  minimumDailyLooks?: string | undefined;
+  /** The reservation type for a Programmatic Guaranteed deal. This indicates whether the number of impressions is fixed, or a percent of available impressions. If not specified, the default reservation type is STANDARD. */
+  reservationType?: ProgrammaticGuaranteedTermsReservationTypeEnum | (string & {}) | undefined;
+  /** The lifetime impression cap for CPM Sponsorship deals. Deal will stop serving when cap is reached. */
+  impressionCap?: string | undefined;
+  /** Fixed price for the deal. */
+  fixedPrice?: Price | undefined;
+  /** Count of guaranteed looks. For CPD deals, buyer changes to guaranteed_looks will be ignored. */
+  guaranteedLooks?: string | undefined;
 }
-/** Pricing terms for Private Auctions. */
-export interface PrivateAuctionTerms {
-  /** Output only. True if open auction buyers are allowed to compete with invited buyers in this private auction. */
-  openAuctionAllowed?: boolean | undefined;
-  /** The minimum price buyer has to bid to compete in the private auction. */
-  floorPrice?: Price | undefined;
-}
-export type DealDealTypeEnum =
-  | "DEAL_TYPE_UNSPECIFIED"
-  | "PREFERRED_DEAL"
-  | "PRIVATE_AUCTION"
-  | "PROGRAMMATIC_GUARANTEED";
-export type DeliveryControlCompanionDeliveryTypeEnum =
-  | "COMPANION_DELIVERY_TYPE_UNSPECIFIED"
-  | "DELIVERY_OPTIONAL"
-  | "DELIVERY_AT_LEAST_ONE"
-  | "DELIVERY_ALL";
 export type DeliveryControlCreativeRotationTypeEnum =
   | "CREATIVE_ROTATION_TYPE_UNSPECIFIED"
   | "ROTATION_EVEN"
   | "ROTATION_OPTIMIZED"
   | "ROTATION_MANUAL"
   | "ROTATION_SEQUENTIAL";
-export type DeliveryControlRoadblockingTypeEnum =
-  | "ROADBLOCKING_TYPE_UNSPECIFIED"
-  | "ONLY_ONE"
-  | "ONE_OR_MORE"
-  | "AS_MANY_AS_POSSIBLE"
-  | "ALL_ROADBLOCK"
-  | "CREATIVE_SET";
-export type DeliveryControlDeliveryRateTypeEnum =
-  | "DELIVERY_RATE_TYPE_UNSPECIFIED"
-  | "EVENLY"
-  | "FRONT_LOADED"
-  | "AS_FAST_AS_POSSIBLE";
 export type FrequencyCapTimeUnitTypeEnum =
   | "TIME_UNIT_TYPE_UNSPECIFIED"
   | "MINUTE"
@@ -884,97 +850,131 @@ export type FrequencyCapTimeUnitTypeEnum =
   | "STREAM";
 /** Message contains details about publisher-set frequency caps of the delivery. */
 export interface FrequencyCap {
+  /** The time unit. Along with num_time_units defines the amount of time over which impressions per user are counted and capped. */
+  timeUnitType?: FrequencyCapTimeUnitTypeEnum | (string & {}) | undefined;
   /** The maximum number of impressions that can be served to a user within the specified time period. */
   maxImpressions?: number | undefined;
   /** The amount of time, in the units specified by time_unit_type. Defines the amount of time over which impressions per user are counted and capped. */
   timeUnitsCount?: number | undefined;
-  /** The time unit. Along with num_time_units defines the amount of time over which impressions per user are counted and capped. */
-  timeUnitType?: FrequencyCapTimeUnitTypeEnum | (string & {}) | undefined;
 }
 export type FrequencyCapList = Array<FrequencyCap>;
+export type DeliveryControlDeliveryRateTypeEnum =
+  | "DELIVERY_RATE_TYPE_UNSPECIFIED"
+  | "EVENLY"
+  | "FRONT_LOADED"
+  | "AS_FAST_AS_POSSIBLE";
+export type DeliveryControlRoadblockingTypeEnum =
+  | "ROADBLOCKING_TYPE_UNSPECIFIED"
+  | "ONLY_ONE"
+  | "ONE_OR_MORE"
+  | "AS_MANY_AS_POSSIBLE"
+  | "ALL_ROADBLOCK"
+  | "CREATIVE_SET";
+export type DeliveryControlCompanionDeliveryTypeEnum =
+  | "COMPANION_DELIVERY_TYPE_UNSPECIFIED"
+  | "DELIVERY_OPTIONAL"
+  | "DELIVERY_AT_LEAST_ONE"
+  | "DELIVERY_ALL";
 /** Message contains details about how the deal will be paced. */
 export interface DeliveryControl {
-  /** Output only. Specifies roadblocking in a main companion lineitem. */
-  companionDeliveryType?: DeliveryControlCompanionDeliveryTypeEnum | (string & {}) | undefined;
   /** Output only. Specifies strategy to use for selecting a creative when multiple creatives of the same size are available. */
   creativeRotationType?: DeliveryControlCreativeRotationTypeEnum | (string & {}) | undefined;
-  /** Output only. Specifies the roadblocking type in display creatives. */
-  roadblockingType?: DeliveryControlRoadblockingTypeEnum | (string & {}) | undefined;
-  /** Output only. Specifies how the impression delivery will be paced. */
-  deliveryRateType?: DeliveryControlDeliveryRateTypeEnum | (string & {}) | undefined;
   /** Output only. Specifies any frequency caps. Cannot be filtered within ListDealsRequest. */
   frequencyCap?: FrequencyCapList | undefined;
+  /** Output only. Specifies how the impression delivery will be paced. */
+  deliveryRateType?: DeliveryControlDeliveryRateTypeEnum | (string & {}) | undefined;
+  /** Output only. Specifies the roadblocking type in display creatives. */
+  roadblockingType?: DeliveryControlRoadblockingTypeEnum | (string & {}) | undefined;
+  /** Output only. Specifies roadblocking in a main companion lineitem. */
+  companionDeliveryType?: DeliveryControlCompanionDeliveryTypeEnum | (string & {}) | undefined;
 }
-/** Pricing terms for Preferred Deals. */
-export interface PreferredDealTerms {
-  /** Fixed price for the deal. */
-  fixedPrice?: Price | undefined;
+/** Represents a time zone from the [IANA Time Zone Database](https://www.iana.org/time-zones). */
+export interface TimeZone {
+  /** Optional. IANA Time Zone Database version number. For example "2019a". */
+  version?: string | undefined;
+  /** IANA Time Zone Database time zone. For example "America/New_York". */
+  id?: string | undefined;
 }
+/** Represents a media planner account. */
+export interface MediaPlanner {
+  /** Identifier. The unique resource name of the media planner. Format: `mediaPlanners/{mediaPlannerAccountId}` Can be used to filter the response of the mediaPlanners.list method. */
+  name?: string | undefined;
+  /** Output only. Account ID of the media planner. */
+  accountId?: string | undefined;
+  /** Output only. The ancestor names of the media planner. Format: `mediaPlanners/{mediaPlannerAccountId}` Can be used to filter the response of the mediaPlanners.list method. */
+  ancestorNames?: StringList | undefined;
+  /** Output only. The display name of the media planner. Can be used to filter the response of the mediaPlanners.list method. */
+  displayName?: string | undefined;
+}
+export type DealBuyerPermissionTypeEnum =
+  | "BUYER_PERMISSION_TYPE_UNSPECIFIED"
+  | "NEGOTIATOR_ONLY"
+  | "BIDDER";
 /** A deal represents a segment of inventory for displaying ads that contains the terms and targeting information that is used for serving as well as the deal stats and status. Note: A proposal may contain multiple deals. */
 export interface Deal {
-  /** Output only. The name of the deal. Maximum length of 255 unicode characters is allowed. Control characters are not allowed. Buyers cannot update this field. Note: Not to be confused with name, which is a unique identifier of the deal. */
-  displayName?: string | undefined;
-  /** Output only. Time zone of the seller used to mark the boundaries of a day for daypart targeting and CPD billing. */
-  sellerTimeZone?: TimeZone | undefined;
-  /** Output only. The buyer permission type of the deal. */
-  buyerPermissionType?: DealBuyerPermissionTypeEnum | (string & {}) | undefined;
-  /** The terms for programmatic guaranteed deals. */
-  programmaticGuaranteedTerms?: ProgrammaticGuaranteedTerms | undefined;
-  /** Specifies the subset of inventory targeted by the deal. Can be updated by the buyer before the deal is finalized. */
-  targeting?: MarketplaceTargeting | undefined;
-  /** Output only. Refers to a buyer in Real-time Bidding API's Buyer resource. This field represents a media planner (For example, agency or big advertiser). */
-  mediaPlanner?: MediaPlanner | undefined;
-  /** Immutable. The unique identifier of the deal. Auto-generated by the server when a deal is created. Format: buyers/{accountId}/proposals/{proposalId}/deals/{dealId} */
-  name?: string | undefined;
-  /** Output only. Refers to a buyer in Real-time Bidding API's Buyer resource. Format: `buyers/{buyerAccountId}` */
-  buyer?: string | undefined;
-  /** Proposed flight start time of the deal. This will generally be stored in the granularity of one second since deal serving starts at seconds boundary. Any time specified with more granularity (for example, in milliseconds) will be truncated towards the start of time in seconds. */
-  flightStartTime?: string | undefined;
-  /** Proposed flight end time of the deal. This will generally be stored in a granularity of a second. A value is not necessary for Private Auction deals. */
-  flightEndTime?: string | undefined;
-  /** Output only. The time of the deal creation. */
-  createTime?: string | undefined;
-  /** Output only. Metadata about the creatives of this deal. */
-  creativeRequirements?: CreativeRequirements | undefined;
+  /** Output only. If set, this field contains the list of DSP specific seat ids set by media planners that are eligible to transact on this deal. The seat ID is in the calling DSP's namespace. */
+  eligibleSeatIds?: StringList | undefined;
   /** Output only. The time when the deal was last updated. */
   updateTime?: string | undefined;
+  /** Proposed flight end time of the deal. This will generally be stored in a granularity of a second. A value is not necessary for Private Auction deals. */
+  flightEndTime?: string | undefined;
   /** The terms for private auction deals. */
   privateAuctionTerms?: PrivateAuctionTerms | undefined;
-  /** Output only. When the client field is populated, this field refers to the buyer who creates and manages the client buyer and gets billed on behalf of the client buyer; when the buyer field is populated, this field is the same value as buyer; when the deal belongs to a media planner account, this field will be empty. Format : `buyers/{buyerAccountId}` */
-  billedBuyer?: string | undefined;
-  /** Output only. Free text description for the deal terms. */
-  description?: string | undefined;
-  /** Output only. Refers to a Client. Format: `buyers/{buyerAccountId}/clients/{clientAccountid}` */
-  client?: string | undefined;
-  /** Specified by buyers in request for proposal (RFP) to notify publisher the total estimated spend for the proposal. Publishers will receive this information and send back proposed deals accordingly. */
-  estimatedGrossSpend?: Money | undefined;
+  /** Output only. Metadata about the creatives of this deal. */
+  creativeRequirements?: CreativeRequirements | undefined;
   /** Output only. Type of deal. */
   dealType?: DealDealTypeEnum | (string & {}) | undefined;
   /** Immutable. Reference to the seller on the deal. Format: `buyers/{buyerAccountId}/publisherProfiles/{publisherProfileId}` */
   publisherProfile?: string | undefined;
-  /** Output only. If set, this field contains the list of DSP specific seat ids set by media planners that are eligible to transact on this deal. The seat ID is in the calling DSP's namespace. */
-  eligibleSeatIds?: StringList | undefined;
-  /** Output only. The revision number for the proposal and is the same value as proposal.proposal_revision. Each update to deal causes the proposal revision number to auto-increment. The buyer keeps track of the last revision number they know of and pass it in when making an update. If the head revision number on the server has since incremented, then an ABORTED error is returned during the update operation to let the buyer know that a subsequent update was made. */
-  proposalRevision?: string | undefined;
-  /** Output only. Specifies the pacing set by the publisher. */
-  deliveryControl?: DeliveryControl | undefined;
+  /** Specifies the subset of inventory targeted by the deal. Can be updated by the buyer before the deal is finalized. */
+  targeting?: MarketplaceTargeting | undefined;
+  /** Output only. The time of the deal creation. */
+  createTime?: string | undefined;
   /** The terms for preferred deals. */
   preferredDealTerms?: PreferredDealTerms | undefined;
+  /** Output only. When the client field is populated, this field refers to the buyer who creates and manages the client buyer and gets billed on behalf of the client buyer; when the buyer field is populated, this field is the same value as buyer; when the deal belongs to a media planner account, this field will be empty. Format : `buyers/{buyerAccountId}` */
+  billedBuyer?: string | undefined;
+  /** Output only. Free text description for the deal terms. */
+  description?: string | undefined;
+  /** The terms for programmatic guaranteed deals. */
+  programmaticGuaranteedTerms?: ProgrammaticGuaranteedTerms | undefined;
+  /** Specified by buyers in request for proposal (RFP) to notify publisher the total estimated spend for the proposal. Publishers will receive this information and send back proposed deals accordingly. */
+  estimatedGrossSpend?: Money | undefined;
+  /** Output only. The name of the deal. Maximum length of 255 unicode characters is allowed. Control characters are not allowed. Buyers cannot update this field. Note: Not to be confused with name, which is a unique identifier of the deal. */
+  displayName?: string | undefined;
+  /** Output only. Specifies the pacing set by the publisher. */
+  deliveryControl?: DeliveryControl | undefined;
+  /** Output only. Time zone of the seller used to mark the boundaries of a day for daypart targeting and CPD billing. */
+  sellerTimeZone?: TimeZone | undefined;
+  /** Output only. Refers to a buyer in Real-time Bidding API's Buyer resource. Format: `buyers/{buyerAccountId}` */
+  buyer?: string | undefined;
+  /** Proposed flight start time of the deal. This will generally be stored in the granularity of one second since deal serving starts at seconds boundary. Any time specified with more granularity (for example, in milliseconds) will be truncated towards the start of time in seconds. */
+  flightStartTime?: string | undefined;
+  /** Output only. Refers to a Client. Format: `buyers/{buyerAccountId}/clients/{clientAccountid}` */
+  client?: string | undefined;
+  /** Output only. Refers to a buyer in Real-time Bidding API's Buyer resource. This field represents a media planner (For example, agency or big advertiser). */
+  mediaPlanner?: MediaPlanner | undefined;
+  /** Output only. The buyer permission type of the deal. */
+  buyerPermissionType?: DealBuyerPermissionTypeEnum | (string & {}) | undefined;
+  /** Output only. The revision number for the proposal and is the same value as proposal.proposal_revision. Each update to deal causes the proposal revision number to auto-increment. The buyer keeps track of the last revision number they know of and pass it in when making an update. If the head revision number on the server has since incremented, then an ABORTED error is returned during the update operation to let the buyer know that a subsequent update was made. */
+  proposalRevision?: string | undefined;
+  /** Immutable. The unique identifier of the deal. Auto-generated by the server when a deal is created. Format: buyers/{accountId}/proposals/{proposalId}/deals/{dealId} */
+  name?: string | undefined;
 }
 /** A finalized deal is a snapshot of the deal when both buyer and seller accept the deal. The buyer or seller can update the deal after it's been finalized and renegotiate on the deal targeting, terms and other fields, while at the same time the finalized snapshot of the deal can still be retrieved using this API. The finalized deal contains a copy of the deal as it existed when most recently finalized, as well as fields related to deal serving such as pause/resume status, RTB metrics, and more. */
 export interface FinalizedDeal {
+  /** Real-time bidding metrics for this deal. */
+  rtbMetrics?: RtbMetrics | undefined;
+  /** Information related to deal pausing for the deal. */
+  dealPausingInfo?: DealPausingInfo | undefined;
   /** Serving status of the deal. */
   dealServingStatus?: FinalizedDealDealServingStatusEnum | undefined;
   /** The resource name of the finalized deal. Format: `buyers/{accountId}/finalizedDeals/{finalizedDealId}` */
   name?: string | undefined;
-  /** Whether the Programmatic Guaranteed deal is ready for serving. */
-  readyToServe?: boolean | undefined;
-  /** Information related to deal pausing for the deal. */
-  dealPausingInfo?: DealPausingInfo | undefined;
-  /** Real-time bidding metrics for this deal. */
-  rtbMetrics?: RtbMetrics | undefined;
   /** A copy of the Deal made upon finalization. During renegotiation, this will reflect the last finalized deal before renegotiation was initiated. */
   deal?: Deal | undefined;
+  /** Whether the Programmatic Guaranteed deal is ready for serving. */
+  readyToServe?: boolean | undefined;
 }
 /** Request to add a note. */
 export interface AddNoteRequest {
@@ -1079,28 +1079,28 @@ export type MediaPlannerList = Array<MediaPlanner>;
 export interface AuctionPackage {
   /** The display_name assigned to the auction package. */
   displayName?: string | undefined;
-  /** Output only. The buyer that created this auction package. Format: `buyers/{buyerAccountId}` */
-  creator?: string | undefined;
-  /** Immutable. The unique identifier for the auction package. Format: `buyers/{accountId}/auctionPackages/{auctionPackageId}` The auction_package_id part of name is sent in the BidRequest to all RTB bidders and is returned as deal_id by the bidder in the BidResponse. */
-  name?: string | undefined;
-  /** Output only. Time the auction package was created. */
-  createTime?: string | undefined;
-  /** Output only. A description of the auction package. */
-  description?: string | undefined;
-  /** Output only. If set, this field identifies a seat that the media planner selected as the owner of this auction package. This is a seat ID in the DSP's namespace that was provided to the media planner. */
-  eligibleSeatIds?: StringList | undefined;
-  /** Output only. The list of media planners that are subscribed to the AuctionPackage. This field is only populated when calling as a bidder. */
-  subscribedMediaPlanners?: MediaPlannerList | undefined;
-  /** Output only. If set, this field contains the DSP specific seat id set by the media planner account that is considered the owner of this deal. The seat ID is in the calling DSP's namespace. */
-  dealOwnerSeatId?: string | undefined;
   /** Output only. Time the auction package was last updated. This value is only increased when this auction package is updated but never when a buyer subscribed. */
   updateTime?: string | undefined;
-  /** Output only. The minimum price a buyer has to bid to compete in this auction package. If this is field is not populated, there is no floor price. */
-  floorPriceCpm?: Money | undefined;
+  /** Output only. If set, this field identifies a seat that the media planner selected as the owner of this auction package. This is a seat ID in the DSP's namespace that was provided to the media planner. */
+  eligibleSeatIds?: StringList | undefined;
+  /** Output only. If set, this field contains the DSP specific seat id set by the media planner account that is considered the owner of this deal. The seat ID is in the calling DSP's namespace. */
+  dealOwnerSeatId?: string | undefined;
   /** Output only. The list of buyers that are subscribed to the AuctionPackage. This field is only populated when calling as a bidder. Format: `buyers/{buyerAccountId}` */
   subscribedBuyers?: StringList | undefined;
+  /** Output only. The minimum price a buyer has to bid to compete in this auction package. If this is field is not populated, there is no floor price. */
+  floorPriceCpm?: Money | undefined;
   /** Output only. When calling as a buyer, the list of clients of the current buyer that are subscribed to the AuctionPackage. When calling as a bidder, the list of clients that are subscribed to the AuctionPackage owned by the bidder or its buyers. Format: `buyers/{buyerAccountId}/clients/{clientAccountId}` */
   subscribedClients?: StringList | undefined;
+  /** Immutable. The unique identifier for the auction package. Format: `buyers/{accountId}/auctionPackages/{auctionPackageId}` The auction_package_id part of name is sent in the BidRequest to all RTB bidders and is returned as deal_id by the bidder in the BidResponse. */
+  name?: string | undefined;
+  /** Output only. A description of the auction package. */
+  description?: string | undefined;
+  /** Output only. The list of media planners that are subscribed to the AuctionPackage. This field is only populated when calling as a bidder. */
+  subscribedMediaPlanners?: MediaPlannerList | undefined;
+  /** Output only. The buyer that created this auction package. Format: `buyers/{buyerAccountId}` */
+  creator?: string | undefined;
+  /** Output only. Time the auction package was created. */
+  createTime?: string | undefined;
 }
 export interface GetBuyersClientsRequest {
   /** Required. Format: `buyers/{accountId}/clients/{clientAccountId}` */
@@ -1157,72 +1157,72 @@ export interface PublisherProfileMobileApplication {
 export type PublisherProfileMobileApplicationList = Array<PublisherProfileMobileApplication>;
 /** The values in the publisher profile are supplied by the publisher. All fields are not filterable unless stated otherwise. */
 export interface PublisherProfile {
-  /** Indicates if this profile is the parent profile of the seller. A parent profile represents all the inventory from the seller, as opposed to child profile that is created to brand a portion of inventory. One seller has only one parent publisher profile, and can have multiple child profiles. See https://support.google.com/admanager/answer/6035806 for details. Can be used to filter the response of the publisherProfiles.list method by setting the filter to "is_parent: true". */
-  isParent?: boolean | undefined;
-  /** Overview of the publisher. */
-  overview?: string | undefined;
   /** Name of the publisher profile. Format: `buyers/{buyer}/publisherProfiles/{publisher_profile}` */
   name?: string | undefined;
-  /** Description on the publisher's audience. */
-  audienceDescription?: string | undefined;
-  /** Display name of the publisher profile. Can be used to filter the response of the publisherProfiles.list method. */
-  displayName?: string | undefined;
-  /** URL to additional marketing and sales materials. */
-  mediaKitUrl?: string | undefined;
   /** Statement explaining what's unique about publisher's business, and why buyers should partner with the publisher. */
   pitchStatement?: string | undefined;
-  /** Contact information for programmatic deals. This is free text entered by the publisher and may include information like names, phone numbers and email addresses. */
-  programmaticDealsContact?: string | undefined;
-  /** URL to a sample content page. */
-  samplePageUrl?: string | undefined;
-  /** The list of apps represented in this publisher profile. Empty if this is a parent profile. */
-  mobileApps?: PublisherProfileMobileApplicationList | undefined;
-  /** Up to three key metrics and rankings. For example, "#1 Mobile News Site for 20 Straight Months". */
-  topHeadlines?: StringList | undefined;
-  /** The list of domains represented in this publisher profile. Empty if this is a parent profile. These are top private domains, meaning that these will not contain a string like "photos.google.co.uk/123", but will instead contain "google.co.uk". Can be used to filter the response of the publisherProfiles.list method. */
-  domains?: StringList | undefined;
+  /** URL to additional marketing and sales materials. */
+  mediaKitUrl?: string | undefined;
   /** A unique identifying code for the seller. This value is the same for all of the seller's parent and child publisher profiles. Can be used to filter the response of the publisherProfiles.list method. */
   publisherCode?: string | undefined;
-  /** A Google public URL to the logo for this publisher profile. The logo is stored as a PNG, JPG, or GIF image. */
-  logoUrl?: string | undefined;
+  /** Description on the publisher's audience. */
+  audienceDescription?: string | undefined;
+  /** The list of apps represented in this publisher profile. Empty if this is a parent profile. */
+  mobileApps?: PublisherProfileMobileApplicationList | undefined;
   /** Contact information for direct reservation deals. This is free text entered by the publisher and may include information like names, phone numbers and email addresses. */
   directDealsContact?: string | undefined;
+  /** Display name of the publisher profile. Can be used to filter the response of the publisherProfiles.list method. */
+  displayName?: string | undefined;
+  /** Contact information for programmatic deals. This is free text entered by the publisher and may include information like names, phone numbers and email addresses. */
+  programmaticDealsContact?: string | undefined;
+  /** Up to three key metrics and rankings. For example, "#1 Mobile News Site for 20 Straight Months". */
+  topHeadlines?: StringList | undefined;
+  /** A Google public URL to the logo for this publisher profile. The logo is stored as a PNG, JPG, or GIF image. */
+  logoUrl?: string | undefined;
+  /** URL to a sample content page. */
+  samplePageUrl?: string | undefined;
+  /** The list of domains represented in this publisher profile. Empty if this is a parent profile. These are top private domains, meaning that these will not contain a string like "photos.google.co.uk/123", but will instead contain "google.co.uk". Can be used to filter the response of the publisherProfiles.list method. */
+  domains?: StringList | undefined;
+  /** Overview of the publisher. */
+  overview?: string | undefined;
+  /** Indicates if this profile is the parent profile of the seller. A parent profile represents all the inventory from the seller, as opposed to child profile that is created to brand a portion of inventory. One seller has only one parent publisher profile, and can have multiple child profiles. See https://support.google.com/admanager/answer/6035806 for details. Can be used to filter the response of the publisherProfiles.list method by setting the filter to "is_parent: true". */
+  isParent?: boolean | undefined;
 }
 export interface GetCuratorsCuratedPackagesRequest {
   /** Required. The name of the curated package to retrieve. Format: `curators/{accountId}/curatedPackages/{curatedPackageId}` */
   name: string;
 }
 export interface ListBiddersAuctionPackagesRequest {
-  /** Requested page size. The server may return fewer results than requested. Max allowed page size is 500. */
-  pageSize?: number | undefined;
   /** Required. Name of the parent buyer that can access the auction package. Format: `buyers/{accountId}`. When used with a bidder account, the auction packages that the bidder, its media planners, its buyers and clients are subscribed to will be listed, in the format `bidders/{accountId}`. */
   parent: string;
-  /** The page token as returned. ListAuctionPackagesResponse.nextPageToken */
-  pageToken?: string | undefined;
   /** Optional. An optional query string to sort auction packages using the [Cloud API sorting syntax](https://cloud.google.com/apis/design/design_patterns#sorting_order). If no sort order is specified, results will be returned in an arbitrary order. Only supported when parent is bidder. Supported columns for sorting are: * displayName * createTime * updateTime */
   orderBy?: string | undefined;
+  /** The page token as returned. ListAuctionPackagesResponse.nextPageToken */
+  pageToken?: string | undefined;
+  /** Requested page size. The server may return fewer results than requested. Max allowed page size is 500. */
+  pageSize?: number | undefined;
   /** Optional. Optional query string using the [Cloud API list filtering syntax](/authorized-buyers/apis/guides/list-filters). Only supported when parent is bidder. Supported columns for filtering are: * displayName * createTime * updateTime * eligibleSeatIds */
   filter?: string | undefined;
 }
 export type AuctionPackageList = Array<AuctionPackage>;
 /** Response message for listing auction packages. */
 export interface ListAuctionPackagesResponse {
-  /** The list of auction packages. */
-  auctionPackages?: AuctionPackageList | undefined;
   /** Continuation token for fetching the next page of results. Pass this value in the ListAuctionPackagesRequest.pageToken field in the subsequent call to the `ListAuctionPackages` method to retrieve the next page of results. */
   nextPageToken?: string | undefined;
+  /** The list of auction packages. */
+  auctionPackages?: AuctionPackageList | undefined;
 }
 export interface ListBiddersFinalizedDealsRequest {
-  /** Optional query string using the [Cloud API list filtering syntax](https://developers.google.com/authorized-buyers/apis/guides/list-filters) Supported columns for filtering are: * deal.displayName * deal.dealType * deal.createTime * deal.updateTime * deal.flightStartTime * deal.flightEndTime * deal.eligibleSeatIds * dealServingStatus * readyToServe */
-  filter?: string | undefined;
+  /** Required. The buyer to list the finalized deals for, in the format: `buyers/{accountId}`. When used to list finalized deals for a bidder, its buyers and clients, in the format `bidders/{accountId}`. */
+  parent: string;
   /** An optional query string to sort finalized deals using the [Cloud API sorting syntax](https://cloud.google.com/apis/design/design_patterns#sorting_order). If no sort order is specified, results will be returned in an arbitrary order. Supported columns for sorting are: * deal.displayName * deal.createTime * deal.updateTime * deal.flightStartTime * deal.flightEndTime * rtbMetrics.bidRequests7Days * rtbMetrics.bids7Days * rtbMetrics.adImpressions7Days * rtbMetrics.bidRate7Days * rtbMetrics.filteredBidRate7Days * rtbMetrics.mustBidRateCurrentMonth */
   orderBy?: string | undefined;
   /** The page token as returned from ListFinalizedDealsResponse. */
   pageToken?: string | undefined;
   /** Requested page size. The server may return fewer results than requested. If requested more than 500, the server will return 500 results per page. If unspecified, the server will pick a default page size of 100. */
   pageSize?: number | undefined;
-  /** Required. The buyer to list the finalized deals for, in the format: `buyers/{accountId}`. When used to list finalized deals for a bidder, its buyers and clients, in the format `bidders/{accountId}`. */
-  parent: string;
+  /** Optional query string using the [Cloud API list filtering syntax](https://developers.google.com/authorized-buyers/apis/guides/list-filters) Supported columns for filtering are: * deal.displayName * deal.dealType * deal.createTime * deal.updateTime * deal.flightStartTime * deal.flightEndTime * deal.eligibleSeatIds * dealServingStatus * readyToServe */
+  filter?: string | undefined;
 }
 export type FinalizedDealList = Array<FinalizedDeal>;
 /** Response message for listing finalized deals. */
@@ -1235,38 +1235,38 @@ export interface ListFinalizedDealsResponse {
 export interface ListBuyersAuctionPackagesRequest {
   /** Required. Name of the parent buyer that can access the auction package. Format: `buyers/{accountId}`. When used with a bidder account, the auction packages that the bidder, its media planners, its buyers and clients are subscribed to will be listed, in the format `bidders/{accountId}`. */
   parent: string;
-  /** The page token as returned. ListAuctionPackagesResponse.nextPageToken */
-  pageToken?: string | undefined;
   /** Optional. An optional query string to sort auction packages using the [Cloud API sorting syntax](https://cloud.google.com/apis/design/design_patterns#sorting_order). If no sort order is specified, results will be returned in an arbitrary order. Only supported when parent is bidder. Supported columns for sorting are: * displayName * createTime * updateTime */
   orderBy?: string | undefined;
-  /** Optional. Optional query string using the [Cloud API list filtering syntax](/authorized-buyers/apis/guides/list-filters). Only supported when parent is bidder. Supported columns for filtering are: * displayName * createTime * updateTime * eligibleSeatIds */
-  filter?: string | undefined;
+  /** The page token as returned. ListAuctionPackagesResponse.nextPageToken */
+  pageToken?: string | undefined;
   /** Requested page size. The server may return fewer results than requested. Max allowed page size is 500. */
   pageSize?: number | undefined;
+  /** Optional. Optional query string using the [Cloud API list filtering syntax](/authorized-buyers/apis/guides/list-filters). Only supported when parent is bidder. Supported columns for filtering are: * displayName * createTime * updateTime * eligibleSeatIds */
+  filter?: string | undefined;
 }
 export interface ListBuyersClientsRequest {
+  /** Required. The name of the buyer. Format: `buyers/{accountId}` */
+  parent: string;
   /** Query string using the [Filtering Syntax](https://developers.google.com/authorized-buyers/apis/guides/list-filters) Supported fields for filtering are: * partnerClientId Use this field to filter the clients by the partnerClientId. For example, if the partnerClientId of the client is "1234", the value of this field should be `partnerClientId = "1234"`, in order to get only the client whose partnerClientId is "1234" in the response. */
   filter?: string | undefined;
   /** Requested page size. If left blank, a default page size of 500 will be applied. */
   pageSize?: number | undefined;
   /** A token identifying a page of results the server should return. Typically, this is the value of ListClientsResponse.nextPageToken returned from the previous call to the list method. */
   pageToken?: string | undefined;
-  /** Required. The name of the buyer. Format: `buyers/{accountId}` */
-  parent: string;
 }
 export type ClientList = Array<Client>;
 /** Response message for the list method. */
 export interface ListClientsResponse {
-  /** The returned list of clients. */
-  clients?: ClientList | undefined;
   /** A token to retrieve the next page of results. Pass this value in the ListClientsRequest.pageToken field in the subsequent call to the list method to retrieve the next page of results. */
   nextPageToken?: string | undefined;
+  /** The returned list of clients. */
+  clients?: ClientList | undefined;
 }
 export interface ListBuyersClientsUsersRequest {
-  /** Requested page size. If left blank, a default page size of 500 will be applied. */
-  pageSize?: number | undefined;
   /** Required. The name of the client. Format: `buyers/{buyerAccountId}/clients/{clientAccountId}` */
   parent: string;
+  /** Requested page size. If left blank, a default page size of 500 will be applied. */
+  pageSize?: number | undefined;
   /** A token identifying a page of results the server should return. Typically, this is the value of ListClientUsersResponse.nextPageToken returned from the previous call to the list method. */
   pageToken?: string | undefined;
 }
@@ -1279,12 +1279,12 @@ export interface ListClientUsersResponse {
   nextPageToken?: string | undefined;
 }
 export interface ListBuyersDataSegmentsRequest {
-  /** Required. Name of the parent curator that can access the data segment. v1alpha format: `buyers/{accountId}` v1beta format: `curators/{accountId}` */
-  parent: string;
   /** Optional. The page token as returned. ListDataSegmentsResponse.nextPageToken */
   pageToken?: string | undefined;
   /** Optional. Requested page size. The server may return fewer results than requested. Max allowed page size is 500. If unspecified, the server will default to 500. */
   pageSize?: number | undefined;
+  /** Required. Name of the parent curator that can access the data segment. v1alpha format: `buyers/{accountId}` v1beta format: `curators/{accountId}` */
+  parent: string;
 }
 export type DataSegmentList = Array<DataSegment>;
 /** Response message for listing data segments. */
@@ -1295,42 +1295,42 @@ export interface ListDataSegmentsResponse {
   dataSegments?: DataSegmentList | undefined;
 }
 export interface ListBuyersFinalizedDealsRequest {
+  /** The page token as returned from ListFinalizedDealsResponse. */
+  pageToken?: string | undefined;
+  /** Optional query string using the [Cloud API list filtering syntax](https://developers.google.com/authorized-buyers/apis/guides/list-filters) Supported columns for filtering are: * deal.displayName * deal.dealType * deal.createTime * deal.updateTime * deal.flightStartTime * deal.flightEndTime * deal.eligibleSeatIds * dealServingStatus * readyToServe */
+  filter?: string | undefined;
   /** Requested page size. The server may return fewer results than requested. If requested more than 500, the server will return 500 results per page. If unspecified, the server will pick a default page size of 100. */
   pageSize?: number | undefined;
   /** Required. The buyer to list the finalized deals for, in the format: `buyers/{accountId}`. When used to list finalized deals for a bidder, its buyers and clients, in the format `bidders/{accountId}`. */
   parent: string;
-  /** The page token as returned from ListFinalizedDealsResponse. */
-  pageToken?: string | undefined;
   /** An optional query string to sort finalized deals using the [Cloud API sorting syntax](https://cloud.google.com/apis/design/design_patterns#sorting_order). If no sort order is specified, results will be returned in an arbitrary order. Supported columns for sorting are: * deal.displayName * deal.createTime * deal.updateTime * deal.flightStartTime * deal.flightEndTime * rtbMetrics.bidRequests7Days * rtbMetrics.bids7Days * rtbMetrics.adImpressions7Days * rtbMetrics.bidRate7Days * rtbMetrics.filteredBidRate7Days * rtbMetrics.mustBidRateCurrentMonth */
   orderBy?: string | undefined;
-  /** Optional query string using the [Cloud API list filtering syntax](https://developers.google.com/authorized-buyers/apis/guides/list-filters) Supported columns for filtering are: * deal.displayName * deal.dealType * deal.createTime * deal.updateTime * deal.flightStartTime * deal.flightEndTime * deal.eligibleSeatIds * dealServingStatus * readyToServe */
-  filter?: string | undefined;
 }
 export interface ListBuyersProposalsRequest {
+  /** Required. Parent that owns the collection of proposals Format: `buyers/{accountId}` */
+  parent: string;
   /** Requested page size. The server may return fewer results than requested. If unspecified, the server will put a size of 500. */
   pageSize?: number | undefined;
   /** Optional query string using the [Cloud API list filtering syntax](https://developers.google.com/authorized-buyers/apis/guides/list-filters) Supported columns for filtering are: * displayName * dealType * updateTime * state */
   filter?: string | undefined;
-  /** Required. Parent that owns the collection of proposals Format: `buyers/{accountId}` */
-  parent: string;
   /** The page token as returned from ListProposalsResponse. */
   pageToken?: string | undefined;
 }
 export type ProposalList = Array<Proposal>;
 /** Response message for listing proposals. */
 export interface ListProposalsResponse {
-  /** Continuation token for fetching the next page of results. */
-  nextPageToken?: string | undefined;
   /** The list of proposals. */
   proposals?: ProposalList | undefined;
+  /** Continuation token for fetching the next page of results. */
+  nextPageToken?: string | undefined;
 }
 export interface ListBuyersProposalsDealsRequest {
+  /** Required. The name of the proposal containing the deals to retrieve. Format: buyers/{accountId}/proposals/{proposalId} */
+  parent: string;
   /** Requested page size. The server may return fewer results than requested. If requested more than 500, the server will return 500 results per page. If unspecified, the server will pick a default page size of 100. */
   pageSize?: number | undefined;
   /** The page token as returned from ListDealsResponse. */
   pageToken?: string | undefined;
-  /** Required. The name of the proposal containing the deals to retrieve. Format: buyers/{accountId}/proposals/{proposalId} */
-  parent: string;
 }
 /** Response message for listing deals in a proposal. */
 export interface ListDealsResponse {
@@ -1340,12 +1340,12 @@ export interface ListDealsResponse {
   nextPageToken?: string | undefined;
 }
 export interface ListBuyersPublisherProfilesRequest {
-  /** Required. Parent that owns the collection of publisher profiles Format: `buyers/{buyerId}` */
-  parent: string;
-  /** Requested page size. The server may return fewer results than requested. If requested more than 500, the server will return 500 results per page. If unspecified, the server will pick a default page size of 100. */
-  pageSize?: number | undefined;
   /** The page token as returned from a previous ListPublisherProfilesResponse. */
   pageToken?: string | undefined;
+  /** Requested page size. The server may return fewer results than requested. If requested more than 500, the server will return 500 results per page. If unspecified, the server will pick a default page size of 100. */
+  pageSize?: number | undefined;
+  /** Required. Parent that owns the collection of publisher profiles Format: `buyers/{buyerId}` */
+  parent: string;
   /** Optional query string using the [Cloud API list filtering] (https://developers.google.com/authorized-buyers/apis/guides/list-filters) syntax. */
   filter?: string | undefined;
 }
@@ -1358,30 +1358,30 @@ export interface ListPublisherProfilesResponse {
   publisherProfiles?: PublisherProfileList | undefined;
 }
 export interface ListCuratorsCuratedPackagesRequest {
-  /** Required. The parent curator account which owns this collection of curated packages. Format: `curators/{accountId}` */
-  parent: string;
-  /** Optional. Requested page size. The server may return fewer results than requested. Max allowed page size is 500. If unspecified, the server will default to 500. */
-  pageSize?: number | undefined;
-  /** Optional. Optional query string using the [Cloud API list filtering syntax](/authorized-buyers/apis/guides/list-filters). Supported columns for filtering are: * displayName * createTime * updateTime * state * feeCpm.currencyCode * feeCpm.units * feeCpm.nanos * floorPriceCpm.currencyCode * floorPriceCpm.units * floorPriceCpm.nanos */
-  filter?: string | undefined;
   /** Optional. A page token, received from a previous `ListCuratedPackages` call. Provide this to retrieve the subsequent page. */
   pageToken?: string | undefined;
+  /** Optional. Optional query string using the [Cloud API list filtering syntax](/authorized-buyers/apis/guides/list-filters). Supported columns for filtering are: * displayName * createTime * updateTime * state * feeCpm.currencyCode * feeCpm.units * feeCpm.nanos * floorPriceCpm.currencyCode * floorPriceCpm.units * floorPriceCpm.nanos */
+  filter?: string | undefined;
+  /** Optional. Requested page size. The server may return fewer results than requested. Max allowed page size is 500. If unspecified, the server will default to 500. */
+  pageSize?: number | undefined;
+  /** Required. The parent curator account which owns this collection of curated packages. Format: `curators/{accountId}` */
+  parent: string;
 }
 export type CuratedPackageList = Array<CuratedPackage>;
 /** Response message for ListCuratedPackages. */
 export interface ListCuratedPackagesResponse {
-  /** A token to retrieve the next page of results. Pass this value in the ListCuratedPackagesRequest.pageToken field in the subsequent call to `ListCuratedPackages` method to retrieve the next page of results. If empty, then there are no more results. */
-  nextPageToken?: string | undefined;
   /** The list of curated packages. */
   curatedPackages?: CuratedPackageList | undefined;
+  /** A token to retrieve the next page of results. Pass this value in the ListCuratedPackagesRequest.pageToken field in the subsequent call to `ListCuratedPackages` method to retrieve the next page of results. If empty, then there are no more results. */
+  nextPageToken?: string | undefined;
 }
 export interface ListMediaPlannersRequest {
+  /** The maximum number of media planners to return. If unspecified, at most 100 media planners will be returned. The maximum value is 500; values above 500 will be coerced to 500. */
+  pageSize?: number | undefined;
   /** Optional query string using the [Cloud API list filtering syntax](/authorized-buyers/apis/guides/list-filters). Supported columns for filtering are: * `name` * `displayName` * `ancestorNames` */
   filter?: string | undefined;
   /** Optional. A token identifying a page of results the server should return. This value is received from a previous `ListMediaPlanners` call in ListMediaPlannersResponse.nextPageToken. */
   pageToken?: string | undefined;
-  /** The maximum number of media planners to return. If unspecified, at most 100 media planners will be returned. The maximum value is 500; values above 500 will be coerced to 500. */
-  pageSize?: number | undefined;
 }
 /** A response containing media planner account information. */
 export interface ListMediaPlannersResponse {
@@ -1391,10 +1391,10 @@ export interface ListMediaPlannersResponse {
   nextPageToken?: string | undefined;
 }
 export interface PatchBuyersClientsRequest extends Omit<Client, "name"> {
-  /** Output only. The resource name of the client. Format: `buyers/{accountId}/clients/{clientAccountId}` */
-  name: string;
   /** List of fields to be updated. If empty or unspecified, the service will update all fields populated in the update request excluding the output only fields and primitive fields with default value. Note that explicit field mask is required in order to reset a primitive field back to its default value, for example, false for boolean fields, 0 for integer fields. A special field mask consisting of a single path "*" can be used to indicate full replacement(the equivalent of PUT method), updatable fields unset or unspecified in the input will be cleared or set to default value. Output only fields will be ignored regardless of the value of updateMask. */
   updateMask?: string | undefined;
+  /** Output only. The resource name of the client. Format: `buyers/{accountId}/clients/{clientAccountId}` */
+  name: string;
 }
 export interface PatchBuyersDataSegmentsRequest extends Omit<DataSegment, "name"> {
   /** Optional. List of fields to be updated. If empty or unspecified, the service will update all fields populated in the update request excluding the output only fields and primitive fields with default value. Note that explicit field mask is required in order to reset a primitive field back to its default value, for example, false for boolean fields, 0 for integer fields. A special field mask consisting of a single path "*" can be used to indicate full replacement(the equivalent of PUT method), updatable fields unset or unspecified in the input will be cleared or set to default value. Output only fields will be ignored regardless of the value of updateMask. */
@@ -1440,10 +1440,10 @@ export interface ResumeBuyersFinalizedDealsRequest {
 export interface SearchMediaPlannersRequest {
   /** Required. The DSP seat ID to search for. The DSP seat ID is provided by the media planner. */
   dspSeatId?: string | undefined;
-  /** Optional. A token identifying a page of results the server should return. This value is received from a previous `SearchMediaPlanners` call in `SearchMediaPlannersResponse.nextPageToken`. */
-  pageToken?: string | undefined;
   /** Optional. The maximum number of media planners to return. If unspecified, at most 100 media planners will be returned. The maximum value is 500; values above 500 will be coerced to 500. */
   pageSize?: number | undefined;
+  /** Optional. A token identifying a page of results the server should return. This value is received from a previous `SearchMediaPlanners` call in `SearchMediaPlannersResponse.nextPageToken`. */
+  pageToken?: string | undefined;
 }
 /** A response containing media planner account information from a search. */
 export interface SearchMediaPlannersResponse {
@@ -1454,30 +1454,30 @@ export interface SearchMediaPlannersResponse {
 }
 /** Request to send an RFP. All fields in this request are proposed to publisher and subject to changes by publisher during later negotiation. */
 export interface SendRfpRequest {
-  /** Contact information for the buyer. */
-  buyerContacts?: ContactList | undefined;
-  /** Required. Proposed flight end time of the RFP. A timestamp in RFC3339 UTC "Zulu" format. Note that the specified value will be truncated to a granularity of one second. */
-  flightEndTime?: string | undefined;
-  /** Inventory sizes to be targeted. Only PIXEL inventory size type is supported. */
-  inventorySizeTargeting?: InventorySizeTargeting | undefined;
-  /** Specified by buyers in request for proposal (RFP) to notify publisher the total estimated spend for the proposal. Publishers will receive this information and send back proposed deals accordingly. */
-  estimatedGrossSpend?: Money | undefined;
-  /** If the current buyer is sending the RFP on behalf of its client, use this field to specify the name of the client in the format: `buyers/{accountId}/clients/{clientAccountid}`. */
-  client?: string | undefined;
-  /** Required. The profile of the publisher who will receive this RFP in the format: `buyers/{accountId}/publisherProfiles/{publisherProfileId}`. */
-  publisherProfile?: string | undefined;
   /** Geo criteria IDs to be targeted. Refer to Geo tables. */
   geoTargeting?: CriteriaTargeting | undefined;
-  /** The terms for programmatic guaranteed deals. */
-  programmaticGuaranteedTerms?: ProgrammaticGuaranteedTerms | undefined;
-  /** Required. Proposed flight start time of the RFP. A timestamp in RFC3339 UTC "Zulu" format. Note that the specified value will be truncated to a granularity of one second. */
-  flightStartTime?: string | undefined;
   /** Required. The display name of the proposal being created by this RFP. */
   displayName?: string | undefined;
-  /** The terms for preferred deals. */
-  preferredDealTerms?: PreferredDealTerms | undefined;
+  /** Specified by buyers in request for proposal (RFP) to notify publisher the total estimated spend for the proposal. Publishers will receive this information and send back proposed deals accordingly. */
+  estimatedGrossSpend?: Money | undefined;
   /** A message that is sent to the publisher. Maximum length is 1024 characters. */
   note?: string | undefined;
+  /** Contact information for the buyer. */
+  buyerContacts?: ContactList | undefined;
+  /** Inventory sizes to be targeted. Only PIXEL inventory size type is supported. */
+  inventorySizeTargeting?: InventorySizeTargeting | undefined;
+  /** Required. Proposed flight start time of the RFP. A timestamp in RFC3339 UTC "Zulu" format. Note that the specified value will be truncated to a granularity of one second. */
+  flightStartTime?: string | undefined;
+  /** Required. The profile of the publisher who will receive this RFP in the format: `buyers/{accountId}/publisherProfiles/{publisherProfileId}`. */
+  publisherProfile?: string | undefined;
+  /** The terms for preferred deals. */
+  preferredDealTerms?: PreferredDealTerms | undefined;
+  /** If the current buyer is sending the RFP on behalf of its client, use this field to specify the name of the client in the format: `buyers/{accountId}/clients/{clientAccountid}`. */
+  client?: string | undefined;
+  /** The terms for programmatic guaranteed deals. */
+  programmaticGuaranteedTerms?: ProgrammaticGuaranteedTerms | undefined;
+  /** Required. Proposed flight end time of the RFP. A timestamp in RFC3339 UTC "Zulu" format. Note that the specified value will be truncated to a granularity of one second. */
+  flightEndTime?: string | undefined;
 }
 export interface SendRfpBuyersProposalsRequest extends SendRfpRequest {
   /** Required. The current buyer who is sending the RFP in the format: `buyers/{accountId}`. */
@@ -2660,7 +2660,7 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          note: S.optional(__S(1184, __c37, 0)),
+          note: S.optional(__S(1186, __c37, 2)),
         }),
       ).annotate({ identifier: "AddNoteRequest" });
     case 1:
@@ -2931,17 +2931,17 @@ function __c15(j: number): any {
       return S.suspend(() =>
         S.Struct({
           displayName: S.optional(S.String),
-          creator: S.optional(S.String),
-          name: S.optional(S.String),
-          createTime: S.optional(S.String),
-          description: S.optional(S.String),
-          eligibleSeatIds: S.optional(__S(2176, __c68, 0)),
-          subscribedMediaPlanners: S.optional(__S(448, __c14, 0)),
-          dealOwnerSeatId: S.optional(S.String),
           updateTime: S.optional(S.String),
-          floorPriceCpm: S.optional(__S(2080, __c65, 0)),
+          eligibleSeatIds: S.optional(__S(2176, __c68, 0)),
+          dealOwnerSeatId: S.optional(S.String),
           subscribedBuyers: S.optional(__S(2176, __c68, 0)),
+          floorPriceCpm: S.optional(__S(2080, __c65, 0)),
           subscribedClients: S.optional(__S(2176, __c68, 0)),
+          name: S.optional(S.String),
+          description: S.optional(S.String),
+          subscribedMediaPlanners: S.optional(__S(448, __c14, 0)),
+          creator: S.optional(S.String),
+          createTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "AuctionPackage" });
   }
@@ -3073,21 +3073,21 @@ function __c23(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          isParent: S.optional(S.Boolean),
-          overview: S.optional(S.String),
           name: S.optional(S.String),
-          audienceDescription: S.optional(S.String),
-          displayName: S.optional(S.String),
-          mediaKitUrl: S.optional(S.String),
           pitchStatement: S.optional(S.String),
-          programmaticDealsContact: S.optional(S.String),
-          samplePageUrl: S.optional(S.String),
-          mobileApps: S.optional(__S(737, __c23, 1)),
-          topHeadlines: S.optional(__S(2176, __c68, 0)),
-          domains: S.optional(__S(2176, __c68, 0)),
+          mediaKitUrl: S.optional(S.String),
           publisherCode: S.optional(S.String),
-          logoUrl: S.optional(S.String),
+          audienceDescription: S.optional(S.String),
+          mobileApps: S.optional(__S(737, __c23, 1)),
           directDealsContact: S.optional(S.String),
+          displayName: S.optional(S.String),
+          programmaticDealsContact: S.optional(S.String),
+          topHeadlines: S.optional(__S(2176, __c68, 0)),
+          logoUrl: S.optional(S.String),
+          samplePageUrl: S.optional(S.String),
+          domains: S.optional(__S(2176, __c68, 0)),
+          overview: S.optional(S.String),
+          isParent: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "PublisherProfile" });
   }
@@ -3113,10 +3113,10 @@ function __c25(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -3135,8 +3135,8 @@ function __c26(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          auctionPackages: S.optional(__S(832, __c26, 0)),
           nextPageToken: S.optional(S.String),
+          auctionPackages: S.optional(__S(832, __c26, 0)),
         }),
       ).annotate({ identifier: "ListAuctionPackagesResponse" });
   }
@@ -3146,11 +3146,11 @@ function __c27(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
           orderBy: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3180,10 +3180,10 @@ function __c29(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3199,10 +3199,10 @@ function __c30(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          parent: S.String.pipe(T.Label()),
           filter: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3216,8 +3216,8 @@ function __c30(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          clients: S.optional(__S(961, __c30, 1)),
           nextPageToken: S.optional(S.String),
+          clients: S.optional(__S(961, __c30, 1)),
         }),
       ).annotate({ identifier: "ListClientsResponse" });
   }
@@ -3227,8 +3227,8 @@ function __c31(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -3254,9 +3254,9 @@ function __c32(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3281,11 +3281,11 @@ function __c33(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3301,9 +3301,9 @@ function __c34(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -3318,8 +3318,8 @@ function __c34(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           proposals: S.optional(__S(1089, __c34, 1)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListProposalsResponse" });
   }
@@ -3329,9 +3329,9 @@ function __c35(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3379,50 +3379,50 @@ function __c37(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          creatorRole: S.optional(S.String),
-          createTime: S.optional(S.String),
-          note: S.optional(S.String),
+          displayName: S.optional(S.String),
+          email: S.optional(S.String),
         }),
-      ).annotate({ identifier: "Note" });
+      ).annotate({ identifier: "Contact" });
     case 1:
       return S.Array(__S(1184, __c37, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
+          creatorRole: S.optional(S.String),
+          note: S.optional(S.String),
+          createTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Note" });
+    case 3:
+      return S.Array(__S(1186, __c37, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
           referenceId: S.optional(S.String),
         }),
       ).annotate({ identifier: "PrivateData" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          displayName: S.optional(S.String),
-          email: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Contact" });
-    case 4:
-      return S.Array(__S(1187, __c37, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          buyer: S.optional(S.String),
-          notes: S.optional(__S(1185, __c37, 1)),
-          termsAndConditions: S.optional(S.String),
-          name: S.optional(S.String),
-          buyerPrivateData: S.optional(__S(1186, __c37, 2)),
-          displayName: S.optional(S.String),
-          buyerContacts: S.optional(__S(1188, __c37, 4)),
-          sellerContacts: S.optional(__S(1188, __c37, 4)),
-          dealType: S.optional(S.String),
-          proposalRevision: S.optional(S.String),
-          client: S.optional(S.String),
           originatorRole: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          pausingConsented: S.optional(S.Boolean),
           billedBuyer: S.optional(S.String),
-          state: S.optional(S.String),
-          publisherProfile: S.optional(S.String),
-          isRenegotiating: S.optional(S.Boolean),
+          buyer: S.optional(S.String),
+          buyerContacts: S.optional(__S(1185, __c37, 1)),
+          name: S.optional(S.String),
           lastUpdaterOrCommentorRole: S.optional(S.String),
+          proposalRevision: S.optional(S.String),
+          notes: S.optional(__S(1187, __c37, 3)),
+          state: S.optional(S.String),
+          dealType: S.optional(S.String),
+          isRenegotiating: S.optional(S.Boolean),
+          publisherProfile: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          termsAndConditions: S.optional(S.String),
+          sellerContacts: S.optional(__S(1185, __c37, 1)),
+          buyerPrivateData: S.optional(__S(1188, __c37, 4)),
+          pausingConsented: S.optional(S.Boolean),
+          client: S.optional(S.String),
+          displayName: S.optional(S.String),
         }),
       ).annotate({ identifier: "Proposal" });
   }
@@ -3432,9 +3432,9 @@ function __c38(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
           filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -3460,10 +3460,10 @@ function __c39(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3477,8 +3477,8 @@ function __c39(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           curatedPackages: S.optional(__S(1249, __c39, 1)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListCuratedPackagesResponse" });
   }
@@ -3488,9 +3488,9 @@ function __c40(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3519,8 +3519,8 @@ function __c42(j: number): any {
         S.Extend(
           __S(1600, __c50, 0),
           S.Struct({
-            name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -3676,12 +3676,12 @@ function __c50(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          partnerClientId: S.optional(S.String),
           role: S.optional(S.String),
-          sellerVisible: S.optional(S.Boolean),
-          state: S.optional(S.String),
           name: S.optional(S.String),
+          sellerVisible: S.optional(S.Boolean),
           displayName: S.optional(S.String),
+          state: S.optional(S.String),
+          partnerClientId: S.optional(S.String),
         }),
       ).annotate({ identifier: "Client" });
   }
@@ -3698,8 +3698,8 @@ function __c52(j: number): any {
       return S.suspend(() =>
         S.Struct({
           dspSeatId: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3715,18 +3715,18 @@ function __c53(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          buyerContacts: S.optional(__S(1188, __c37, 4)),
-          flightEndTime: S.optional(S.String),
-          inventorySizeTargeting: S.optional(__S(2338, __c73, 2)),
-          estimatedGrossSpend: S.optional(__S(2080, __c65, 0)),
-          client: S.optional(S.String),
-          publisherProfile: S.optional(S.String),
-          geoTargeting: S.optional(__S(2210, __c69, 2)),
-          programmaticGuaranteedTerms: S.optional(__S(2337, __c73, 1)),
-          flightStartTime: S.optional(S.String),
+          geoTargeting: S.optional(__S(2208, __c69, 0)),
           displayName: S.optional(S.String),
-          preferredDealTerms: S.optional(__S(2339, __c73, 3)),
+          estimatedGrossSpend: S.optional(__S(2080, __c65, 0)),
           note: S.optional(S.String),
+          buyerContacts: S.optional(__S(1185, __c37, 1)),
+          inventorySizeTargeting: S.optional(__S(2337, __c73, 1)),
+          flightStartTime: S.optional(S.String),
+          publisherProfile: S.optional(S.String),
+          preferredDealTerms: S.optional(__S(2338, __c73, 2)),
+          client: S.optional(S.String),
+          programmaticGuaranteedTerms: S.optional(__S(2339, __c73, 3)),
+          flightEndTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "SendRfpRequest" });
     case 1:
@@ -3884,9 +3884,9 @@ function __c62(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.optional(S.String),
           state: S.optional(S.String),
           email: S.optional(S.String),
-          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "ClientUser" });
   }
@@ -3913,13 +3913,13 @@ function __c64(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          cpmFee: S.optional(__S(2080, __c65, 0)),
-          updateTime: S.optional(S.String),
           userListId: S.optional(S.String),
           state: S.optional(S.String),
-          millipercentOfMediaFee: S.optional(S.String),
           name: S.optional(S.String),
+          cpmFee: S.optional(__S(2080, __c65, 0)),
+          millipercentOfMediaFee: S.optional(S.String),
           createTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "DataSegment" });
   }
@@ -3929,9 +3929,9 @@ function __c65(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          nanos: S.optional(S.Number),
           units: S.optional(S.String),
           currencyCode: S.optional(S.String),
-          nanos: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Money" });
   }
@@ -3958,106 +3958,106 @@ function __c67(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          values: S.optional(__S(2176, __c68, 0)),
-          selectionType: S.optional(S.String),
+          allowlistedMediaPlanners: S.optional(__S(2176, __c68, 0)),
         }),
-      ).annotate({ identifier: "StringTargetingDimension" });
+      ).annotate({ identifier: "AccessControlSettings" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          mobileAppTargeting: S.optional(__S(2144, __c67, 0)),
-          includedMobileAppCategoryTargeting: S.optional(__S(2176, __c68, 0)),
-          uriTargeting: S.optional(__S(2144, __c67, 0)),
+          videoPlcmtTypes: S.optional(__S(2240, __c70, 0)),
+          selectionType: S.optional(S.String),
         }),
-      ).annotate({ identifier: "PackagePlacementTargeting" });
+      ).annotate({ identifier: "VideoPlcmtTargeting" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          selectionType: S.optional(S.String),
-          videoPlcmtTypes: S.optional(__S(2240, __c70, 0)),
+          minimumHeight: S.optional(S.String),
+          minimumWidth: S.optional(S.String),
         }),
-      ).annotate({ identifier: "VideoPlcmtTargeting" });
+      ).annotate({ identifier: "VideoPlayerSizeTargeting" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          minimumWidth: S.optional(S.String),
-          minimumHeight: S.optional(S.String),
+          includedMimeTypes: S.optional(__S(2240, __c70, 0)),
+          includedContentDeliveryMethod: S.optional(S.String),
+          includedMaximumAdDurationTargeting: S.optional(S.String),
+          includedPlaybackMethods: S.optional(__S(2240, __c70, 0)),
+          minimumPredictedCompletionRatePercentage: S.optional(S.String),
+          includedPositionTypes: S.optional(__S(2240, __c70, 0)),
+          plcmtTargeting: S.optional(__S(2145, __c67, 1)),
+          includedPlayerSizeTargeting: S.optional(__S(2146, __c67, 2)),
         }),
-      ).annotate({ identifier: "VideoPlayerSizeTargeting" });
+      ).annotate({ identifier: "PackageVideoTargeting" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          includedPositionTypes: S.optional(__S(2240, __c70, 0)),
-          includedPlaybackMethods: S.optional(__S(2240, __c70, 0)),
-          includedMaximumAdDurationTargeting: S.optional(S.String),
-          includedMimeTypes: S.optional(__S(2240, __c70, 0)),
-          plcmtTargeting: S.optional(__S(2146, __c67, 2)),
-          minimumPredictedCompletionRatePercentage: S.optional(S.String),
-          includedPlayerSizeTargeting: S.optional(__S(2147, __c67, 3)),
-          includedContentDeliveryMethod: S.optional(S.String),
+          selectionType: S.optional(S.String),
+          values: S.optional(__S(2176, __c68, 0)),
         }),
-      ).annotate({ identifier: "PackageVideoTargeting" });
+      ).annotate({ identifier: "StringTargetingDimension" });
     case 5:
+      return S.suspend(() =>
+        S.Struct({
+          uriTargeting: S.optional(__S(2148, __c67, 4)),
+          mobileAppTargeting: S.optional(__S(2148, __c67, 4)),
+          includedMobileAppCategoryTargeting: S.optional(__S(2176, __c68, 0)),
+        }),
+      ).annotate({ identifier: "PackagePlacementTargeting" });
+    case 6:
       return S.suspend(() =>
         S.Struct({
           targetedTaxonomyIds: S.optional(__S(2176, __c68, 0)),
           excludedTaxonomyIds: S.optional(__S(2176, __c68, 0)),
         }),
       ).annotate({ identifier: "TaxonomyTargeting" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          audienceTargeting: S.optional(__S(2149, __c67, 5)),
-          videoAndAudioSignalsTargeting: S.optional(__S(2144, __c67, 0)),
-          contentTargeting: S.optional(__S(2149, __c67, 5)),
-        }),
-      ).annotate({ identifier: "PackagePublisherProvidedSignalsTargeting" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          includedNativeInventoryTypes: S.optional(__S(2240, __c70, 0)),
-          includedAcceleratedMobilePageType: S.optional(S.String),
-          includedEnvironment: S.optional(S.String),
-          includedAuthorizedSellerStatuses: S.optional(__S(2240, __c70, 0)),
-          placementTargeting: S.optional(__S(2145, __c67, 1)),
-          videoTargeting: S.optional(__S(2148, __c67, 4)),
-          minimumPredictedViewabilityPercentage: S.optional(S.String),
-          publisherTargeting: S.optional(__S(2144, __c67, 0)),
-          minimumPredictedClickThroughRatePercentageMillis: S.optional(S.String),
-          publisherProvidedSignalsTargeting: S.optional(__S(2150, __c67, 6)),
-          includedAdSizes: S.optional(__S(2209, __c69, 1)),
-          includedRestrictedCategories: S.optional(__S(2240, __c70, 0)),
-          geoTargeting: S.optional(__S(2210, __c69, 2)),
-          verticalTargeting: S.optional(__S(2210, __c69, 2)),
-          includedDeviceTypes: S.optional(__S(2240, __c70, 0)),
-          includedOpenMeasurementTypes: S.optional(__S(2240, __c70, 0)),
-          languageTargeting: S.optional(__S(2144, __c67, 0)),
-          includedCreativeFormat: S.optional(S.String),
-          includedRewardedType: S.optional(S.String),
-          includedDataSegments: S.optional(__S(2176, __c68, 0)),
+          contentTargeting: S.optional(__S(2150, __c67, 6)),
+          videoAndAudioSignalsTargeting: S.optional(__S(2148, __c67, 4)),
+          audienceTargeting: S.optional(__S(2150, __c67, 6)),
         }),
-      ).annotate({ identifier: "PackageTargeting" });
+      ).annotate({ identifier: "PackagePublisherProvidedSignalsTargeting" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          allowlistedMediaPlanners: S.optional(__S(2176, __c68, 0)),
+          includedCreativeFormat: S.optional(S.String),
+          videoTargeting: S.optional(__S(2147, __c67, 3)),
+          verticalTargeting: S.optional(__S(2208, __c69, 0)),
+          placementTargeting: S.optional(__S(2149, __c67, 5)),
+          includedDeviceTypes: S.optional(__S(2240, __c70, 0)),
+          includedAcceleratedMobilePageType: S.optional(S.String),
+          languageTargeting: S.optional(__S(2148, __c67, 4)),
+          minimumPredictedClickThroughRatePercentageMillis: S.optional(S.String),
+          includedAuthorizedSellerStatuses: S.optional(__S(2240, __c70, 0)),
+          geoTargeting: S.optional(__S(2208, __c69, 0)),
+          publisherTargeting: S.optional(__S(2148, __c67, 4)),
+          minimumPredictedViewabilityPercentage: S.optional(S.String),
+          includedRewardedType: S.optional(S.String),
+          includedAdSizes: S.optional(__S(2210, __c69, 2)),
+          publisherProvidedSignalsTargeting: S.optional(__S(2151, __c67, 7)),
+          includedDataSegments: S.optional(__S(2176, __c68, 0)),
+          includedNativeInventoryTypes: S.optional(__S(2240, __c70, 0)),
+          includedOpenMeasurementTypes: S.optional(__S(2240, __c70, 0)),
+          includedRestrictedCategories: S.optional(__S(2240, __c70, 0)),
+          includedEnvironment: S.optional(S.String),
         }),
-      ).annotate({ identifier: "AccessControlSettings" });
+      ).annotate({ identifier: "PackageTargeting" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          floorPriceCpm: S.optional(__S(2080, __c65, 0)),
-          state: S.optional(S.String),
-          millipercentOfMediaFee: S.optional(S.String),
           curationFeeVisibility: S.optional(S.String),
-          createTime: S.optional(S.String),
+          accessSettings: S.optional(__S(2144, __c67, 0)),
           name: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          feeCpm: S.optional(__S(2080, __c65, 0)),
-          targeting: S.optional(__S(2151, __c67, 7)),
-          accessSettings: S.optional(__S(2152, __c67, 8)),
-          displayName: S.optional(S.String),
+          createTime: S.optional(S.String),
+          millipercentOfMediaFee: S.optional(S.String),
           description: S.optional(S.String),
+          targeting: S.optional(__S(2152, __c67, 8)),
+          updateTime: S.optional(S.String),
+          displayName: S.optional(S.String),
+          state: S.optional(S.String),
+          feeCpm: S.optional(__S(2080, __c65, 0)),
+          floorPriceCpm: S.optional(__S(2080, __c65, 0)),
         }),
       ).annotate({ identifier: "CuratedPackage" });
   }
@@ -4073,20 +4073,20 @@ function __c69(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          type: S.optional(S.String),
-          width: S.optional(S.String),
-          height: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AdSize" });
-    case 1:
-      return S.Array(__S(2208, __c69, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
           targetedCriteriaIds: S.optional(__S(2176, __c68, 0)),
           excludedCriteriaIds: S.optional(__S(2176, __c68, 0)),
         }),
       ).annotate({ identifier: "CriteriaTargeting" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          height: S.optional(S.String),
+          type: S.optional(S.String),
+          width: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AdSize" });
+    case 2:
+      return S.Array(__S(2209, __c69, 1));
   }
 }
 function __c70(j: number): any {
@@ -4125,9 +4125,9 @@ function __c72(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          ancestorNames: S.optional(__S(2176, __c68, 0)),
-          accountId: S.optional(S.String),
           name: S.optional(S.String),
+          accountId: S.optional(S.String),
+          ancestorNames: S.optional(__S(2176, __c68, 0)),
           displayName: S.optional(S.String),
         }),
       ).annotate({ identifier: "MediaPlanner" });
@@ -4138,34 +4138,34 @@ function __c73(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          amount: S.optional(__S(2080, __c65, 0)),
           type: S.optional(S.String),
+          amount: S.optional(__S(2080, __c65, 0)),
         }),
       ).annotate({ identifier: "Price" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          reservationType: S.optional(S.String),
-          minimumDailyLooks: S.optional(S.String),
-          fixedPrice: S.optional(__S(2336, __c73, 0)),
-          impressionCap: S.optional(S.String),
-          guaranteedLooks: S.optional(S.String),
-          percentShareOfVoice: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ProgrammaticGuaranteedTerms" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          targetedInventorySizes: S.optional(__S(2209, __c69, 1)),
-          excludedInventorySizes: S.optional(__S(2209, __c69, 1)),
+          targetedInventorySizes: S.optional(__S(2210, __c69, 2)),
+          excludedInventorySizes: S.optional(__S(2210, __c69, 2)),
         }),
       ).annotate({ identifier: "InventorySizeTargeting" });
-    case 3:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           fixedPrice: S.optional(__S(2336, __c73, 0)),
         }),
       ).annotate({ identifier: "PreferredDealTerms" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          percentShareOfVoice: S.optional(S.String),
+          minimumDailyLooks: S.optional(S.String),
+          reservationType: S.optional(S.String),
+          impressionCap: S.optional(S.String),
+          fixedPrice: S.optional(__S(2336, __c73, 0)),
+          guaranteedLooks: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ProgrammaticGuaranteedTerms" });
   }
 }
 function __c74(j: number): any {
@@ -4173,171 +4173,171 @@ function __c74(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          id: S.optional(S.String),
-          version: S.optional(S.String),
+          floorPrice: S.optional(__S(2336, __c73, 0)),
+          openAuctionAllowed: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "TimeZone" });
+      ).annotate({ identifier: "PrivateAuctionTerms" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          nanos: S.optional(S.Number),
-          hours: S.optional(S.Number),
-          minutes: S.optional(S.Number),
-          seconds: S.optional(S.Number),
+          creativePreApprovalPolicy: S.optional(S.String),
+          programmaticCreativeSource: S.optional(S.String),
+          skippableAdType: S.optional(S.String),
+          maxAdDurationMs: S.optional(S.String),
+          creativeSafeFrameCompatibility: S.optional(S.String),
+          creativeFormat: S.optional(S.String),
         }),
-      ).annotate({ identifier: "TimeOfDay" });
+      ).annotate({ identifier: "CreativeRequirements" });
     case 2:
-      return S.suspend(() =>
-        S.Struct({
-          endTime: S.optional(__S(2369, __c74, 1)),
-          dayOfWeek: S.optional(S.String),
-          startTime: S.optional(__S(2369, __c74, 1)),
-        }),
-      ).annotate({ identifier: "DayPart" });
-    case 3:
-      return S.Array(__S(2370, __c74, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          timeZoneType: S.optional(S.String),
-          dayParts: S.optional(__S(2371, __c74, 3)),
-        }),
-      ).annotate({ identifier: "DayPartTargeting" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          operatingSystemVersionCriteria: S.optional(__S(2210, __c69, 2)),
-          operatingSystemCriteria: S.optional(__S(2210, __c69, 2)),
-        }),
-      ).annotate({ identifier: "OperatingSystemTargeting" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          deviceCapabilityTargeting: S.optional(__S(2210, __c69, 2)),
-          operatingSystemTargeting: S.optional(__S(2373, __c74, 5)),
-          deviceCategoryTargeting: S.optional(__S(2210, __c69, 2)),
-        }),
-      ).annotate({ identifier: "TechnologyTargeting" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          targetedAppIds: S.optional(__S(2176, __c68, 0)),
-          excludedAppIds: S.optional(__S(2176, __c68, 0)),
-        }),
-      ).annotate({ identifier: "FirstPartyMobileApplicationTargeting" });
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          firstPartyTargeting: S.optional(__S(2375, __c74, 7)),
-        }),
-      ).annotate({ identifier: "MobileApplicationTargeting" });
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          targetedUris: S.optional(__S(2176, __c68, 0)),
-          excludedUris: S.optional(__S(2176, __c68, 0)),
-        }),
-      ).annotate({ identifier: "UriTargeting" });
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          mobileApplicationTargeting: S.optional(__S(2376, __c74, 8)),
-          uriTargeting: S.optional(__S(2377, __c74, 9)),
-        }),
-      ).annotate({ identifier: "PlacementTargeting" });
-    case 11:
       return S.suspend(() =>
         S.Struct({
           inventoryTypes: S.optional(__S(2240, __c70, 0)),
         }),
       ).annotate({ identifier: "InventoryTypeTargeting" });
-    case 12:
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          minutes: S.optional(S.Number),
+          hours: S.optional(S.Number),
+          nanos: S.optional(S.Number),
+          seconds: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "TimeOfDay" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          startTime: S.optional(__S(2371, __c74, 3)),
+          endTime: S.optional(__S(2371, __c74, 3)),
+          dayOfWeek: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DayPart" });
+    case 5:
+      return S.Array(__S(2372, __c74, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          dayParts: S.optional(__S(2373, __c74, 5)),
+          timeZoneType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DayPartTargeting" });
+    case 7:
       return S.suspend(() =>
         S.Struct({
           targetedPositionTypes: S.optional(__S(2240, __c70, 0)),
           excludedPositionTypes: S.optional(__S(2240, __c70, 0)),
         }),
       ).annotate({ identifier: "VideoTargeting" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          operatingSystemCriteria: S.optional(__S(2208, __c69, 0)),
+          operatingSystemVersionCriteria: S.optional(__S(2208, __c69, 0)),
+        }),
+      ).annotate({ identifier: "OperatingSystemTargeting" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          deviceCapabilityTargeting: S.optional(__S(2208, __c69, 0)),
+          operatingSystemTargeting: S.optional(__S(2376, __c74, 8)),
+          deviceCategoryTargeting: S.optional(__S(2208, __c69, 0)),
+        }),
+      ).annotate({ identifier: "TechnologyTargeting" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          targetedUris: S.optional(__S(2176, __c68, 0)),
+          excludedUris: S.optional(__S(2176, __c68, 0)),
+        }),
+      ).annotate({ identifier: "UriTargeting" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          excludedAppIds: S.optional(__S(2176, __c68, 0)),
+          targetedAppIds: S.optional(__S(2176, __c68, 0)),
+        }),
+      ).annotate({ identifier: "FirstPartyMobileApplicationTargeting" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          firstPartyTargeting: S.optional(__S(2379, __c74, 11)),
+        }),
+      ).annotate({ identifier: "MobileApplicationTargeting" });
     case 13:
       return S.suspend(() =>
         S.Struct({
-          userListTargeting: S.optional(__S(2210, __c69, 2)),
-          daypartTargeting: S.optional(__S(2372, __c74, 4)),
-          verticalTargeting: S.optional(__S(2210, __c69, 2)),
-          technologyTargeting: S.optional(__S(2374, __c74, 6)),
-          placementTargeting: S.optional(__S(2378, __c74, 10)),
-          inventoryTypeTargeting: S.optional(__S(2379, __c74, 11)),
-          geoTargeting: S.optional(__S(2210, __c69, 2)),
-          videoTargeting: S.optional(__S(2380, __c74, 12)),
-          inventorySizeTargeting: S.optional(__S(2338, __c73, 2)),
-          excludedSensitiveCategoryIds: S.optional(__S(2176, __c68, 0)),
+          uriTargeting: S.optional(__S(2378, __c74, 10)),
+          mobileApplicationTargeting: S.optional(__S(2380, __c74, 12)),
         }),
-      ).annotate({ identifier: "MarketplaceTargeting" });
+      ).annotate({ identifier: "PlacementTargeting" });
     case 14:
       return S.suspend(() =>
         S.Struct({
-          programmaticCreativeSource: S.optional(S.String),
-          creativePreApprovalPolicy: S.optional(S.String),
-          creativeFormat: S.optional(S.String),
-          creativeSafeFrameCompatibility: S.optional(S.String),
-          maxAdDurationMs: S.optional(S.String),
-          skippableAdType: S.optional(S.String),
+          verticalTargeting: S.optional(__S(2208, __c69, 0)),
+          inventoryTypeTargeting: S.optional(__S(2370, __c74, 2)),
+          geoTargeting: S.optional(__S(2208, __c69, 0)),
+          daypartTargeting: S.optional(__S(2374, __c74, 6)),
+          inventorySizeTargeting: S.optional(__S(2337, __c73, 1)),
+          excludedSensitiveCategoryIds: S.optional(__S(2176, __c68, 0)),
+          videoTargeting: S.optional(__S(2375, __c74, 7)),
+          userListTargeting: S.optional(__S(2208, __c69, 0)),
+          technologyTargeting: S.optional(__S(2377, __c74, 9)),
+          placementTargeting: S.optional(__S(2381, __c74, 13)),
         }),
-      ).annotate({ identifier: "CreativeRequirements" });
+      ).annotate({ identifier: "MarketplaceTargeting" });
     case 15:
       return S.suspend(() =>
         S.Struct({
-          openAuctionAllowed: S.optional(S.Boolean),
-          floorPrice: S.optional(__S(2336, __c73, 0)),
-        }),
-      ).annotate({ identifier: "PrivateAuctionTerms" });
-    case 16:
-      return S.suspend(() =>
-        S.Struct({
+          timeUnitType: S.optional(S.String),
           maxImpressions: S.optional(S.Number),
           timeUnitsCount: S.optional(S.Number),
-          timeUnitType: S.optional(S.String),
         }),
       ).annotate({ identifier: "FrequencyCap" });
+    case 16:
+      return S.Array(__S(2383, __c74, 15));
     case 17:
-      return S.Array(__S(2384, __c74, 16));
+      return S.suspend(() =>
+        S.Struct({
+          creativeRotationType: S.optional(S.String),
+          frequencyCap: S.optional(__S(2384, __c74, 16)),
+          deliveryRateType: S.optional(S.String),
+          roadblockingType: S.optional(S.String),
+          companionDeliveryType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DeliveryControl" });
     case 18:
       return S.suspend(() =>
         S.Struct({
-          companionDeliveryType: S.optional(S.String),
-          creativeRotationType: S.optional(S.String),
-          roadblockingType: S.optional(S.String),
-          deliveryRateType: S.optional(S.String),
-          frequencyCap: S.optional(__S(2385, __c74, 17)),
+          version: S.optional(S.String),
+          id: S.optional(S.String),
         }),
-      ).annotate({ identifier: "DeliveryControl" });
+      ).annotate({ identifier: "TimeZone" });
     case 19:
       return S.suspend(() =>
         S.Struct({
-          displayName: S.optional(S.String),
-          sellerTimeZone: S.optional(__S(2368, __c74, 0)),
-          buyerPermissionType: S.optional(S.String),
-          programmaticGuaranteedTerms: S.optional(__S(2337, __c73, 1)),
-          targeting: S.optional(__S(2381, __c74, 13)),
-          mediaPlanner: S.optional(__S(2304, __c72, 0)),
-          name: S.optional(S.String),
-          buyer: S.optional(S.String),
-          flightStartTime: S.optional(S.String),
-          flightEndTime: S.optional(S.String),
-          createTime: S.optional(S.String),
-          creativeRequirements: S.optional(__S(2382, __c74, 14)),
+          eligibleSeatIds: S.optional(__S(2176, __c68, 0)),
           updateTime: S.optional(S.String),
-          privateAuctionTerms: S.optional(__S(2383, __c74, 15)),
-          billedBuyer: S.optional(S.String),
-          description: S.optional(S.String),
-          client: S.optional(S.String),
-          estimatedGrossSpend: S.optional(__S(2080, __c65, 0)),
+          flightEndTime: S.optional(S.String),
+          privateAuctionTerms: S.optional(__S(2368, __c74, 0)),
+          creativeRequirements: S.optional(__S(2369, __c74, 1)),
           dealType: S.optional(S.String),
           publisherProfile: S.optional(S.String),
-          eligibleSeatIds: S.optional(__S(2176, __c68, 0)),
+          targeting: S.optional(__S(2382, __c74, 14)),
+          createTime: S.optional(S.String),
+          preferredDealTerms: S.optional(__S(2338, __c73, 2)),
+          billedBuyer: S.optional(S.String),
+          description: S.optional(S.String),
+          programmaticGuaranteedTerms: S.optional(__S(2339, __c73, 3)),
+          estimatedGrossSpend: S.optional(__S(2080, __c65, 0)),
+          displayName: S.optional(S.String),
+          deliveryControl: S.optional(__S(2385, __c74, 17)),
+          sellerTimeZone: S.optional(__S(2386, __c74, 18)),
+          buyer: S.optional(S.String),
+          flightStartTime: S.optional(S.String),
+          client: S.optional(S.String),
+          mediaPlanner: S.optional(__S(2304, __c72, 0)),
+          buyerPermissionType: S.optional(S.String),
           proposalRevision: S.optional(S.String),
-          deliveryControl: S.optional(__S(2386, __c74, 18)),
-          preferredDealTerms: S.optional(__S(2339, __c73, 3)),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Deal" });
   }
@@ -4347,31 +4347,31 @@ function __c75(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pausingConsented: S.optional(S.Boolean),
-          pauseRole: S.optional(S.String),
-          pauseReason: S.optional(S.String),
+          mustBidRateCurrentMonth: S.optional(S.Number),
+          bidRate7Days: S.optional(S.Number),
+          adImpressions7Days: S.optional(S.String),
+          bidRequests7Days: S.optional(S.String),
+          filteredBidRate7Days: S.optional(S.Number),
+          bids7Days: S.optional(S.String),
         }),
-      ).annotate({ identifier: "DealPausingInfo" });
+      ).annotate({ identifier: "RtbMetrics" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          adImpressions7Days: S.optional(S.String),
-          mustBidRateCurrentMonth: S.optional(S.Number),
-          bids7Days: S.optional(S.String),
-          filteredBidRate7Days: S.optional(S.Number),
-          bidRate7Days: S.optional(S.Number),
-          bidRequests7Days: S.optional(S.String),
+          pausingConsented: S.optional(S.Boolean),
+          pauseReason: S.optional(S.String),
+          pauseRole: S.optional(S.String),
         }),
-      ).annotate({ identifier: "RtbMetrics" });
+      ).annotate({ identifier: "DealPausingInfo" });
     case 2:
       return S.suspend(() =>
         S.Struct({
+          rtbMetrics: S.optional(__S(2400, __c75, 0)),
+          dealPausingInfo: S.optional(__S(2401, __c75, 1)),
           dealServingStatus: S.optional(S.String),
           name: S.optional(S.String),
-          readyToServe: S.optional(S.Boolean),
-          dealPausingInfo: S.optional(__S(2400, __c75, 0)),
-          rtbMetrics: S.optional(__S(2401, __c75, 1)),
           deal: S.optional(__S(2387, __c74, 19)),
+          readyToServe: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "FinalizedDeal" });
   }

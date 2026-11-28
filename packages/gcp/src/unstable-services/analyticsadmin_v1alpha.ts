@@ -105,18 +105,18 @@ export interface ApprovePropertiesDisplayVideo360AdvertiserLinkProposalsRequest 
 }
 /** A link between a Google Analytics property and a Display & Video 360 advertiser. */
 export interface GoogleAnalyticsAdminV1alphaDisplayVideo360AdvertiserLink {
+  /** Immutable. The Display & Video 360 Advertiser's advertiser ID. */
+  advertiserId?: string | undefined;
+  /** Identifier. The resource name for this DisplayVideo360AdvertiserLink resource. Format: properties/{propertyId}/displayVideo360AdvertiserLinks/{linkId} Note: linkId is not the Display & Video 360 Advertiser ID */
+  name?: string | undefined;
+  /** Immutable. Enables the import of campaign data from Display & Video 360 into the Google Analytics property. After link creation, this can only be updated from the Display & Video 360 product. If this field is not set on create, it will be defaulted to true. */
+  campaignDataSharingEnabled?: boolean | undefined;
+  /** Output only. The display name of the Display & Video 360 Advertiser. */
+  advertiserDisplayName?: string | undefined;
   /** Enables personalized advertising features with this integration. If this field is not set on create/update, it will be defaulted to true. */
   adsPersonalizationEnabled?: boolean | undefined;
   /** Immutable. Enables the import of cost data from Display & Video 360 into the Google Analytics property. This can only be enabled if `campaign_data_sharing_enabled` is true. After link creation, this can only be updated from the Display & Video 360 product. If this field is not set on create, it will be defaulted to true. */
   costDataSharingEnabled?: boolean | undefined;
-  /** Output only. The display name of the Display & Video 360 Advertiser. */
-  advertiserDisplayName?: string | undefined;
-  /** Immutable. The Display & Video 360 Advertiser's advertiser ID. */
-  advertiserId?: string | undefined;
-  /** Immutable. Enables the import of campaign data from Display & Video 360 into the Google Analytics property. After link creation, this can only be updated from the Display & Video 360 product. If this field is not set on create, it will be defaulted to true. */
-  campaignDataSharingEnabled?: boolean | undefined;
-  /** Identifier. The resource name for this DisplayVideo360AdvertiserLink resource. Format: properties/{propertyId}/displayVideo360AdvertiserLinks/{linkId} Note: linkId is not the Display & Video 360 Advertiser ID */
-  name?: string | undefined;
 }
 /** Response message for ApproveDisplayVideo360AdvertiserLinkProposal RPC. */
 export interface GoogleAnalyticsAdminV1alphaApproveDisplayVideo360AdvertiserLinkProposalResponse {
@@ -157,19 +157,19 @@ export interface ArchivePropertiesCustomMetricsRequest {
 export type StringList = Array<string>;
 /** A binding of a user to a set of roles. */
 export interface GoogleAnalyticsAdminV1alphaAccessBinding {
-  /** Output only. Resource name of this binding. Format: accounts/{account}/accessBindings/{access_binding} or properties/{property}/accessBindings/{access_binding} Example: "accounts/100/accessBindings/200" */
-  name?: string | undefined;
   /** If set, the email address of the user to set roles for. Format: "someuser@gmail.com" */
   user?: string | undefined;
   /** A list of roles for to grant to the parent resource. Valid values: predefinedRoles/viewer predefinedRoles/analyst predefinedRoles/editor predefinedRoles/admin predefinedRoles/no-cost-data predefinedRoles/no-revenue-data For users, if an empty list of roles is set, this AccessBinding will be deleted. */
   roles?: StringList | undefined;
+  /** Output only. Resource name of this binding. Format: accounts/{account}/accessBindings/{access_binding} or properties/{property}/accessBindings/{access_binding} Example: "accounts/100/accessBindings/200" */
+  name?: string | undefined;
 }
 /** Request message for CreateAccessBinding RPC. */
 export interface GoogleAnalyticsAdminV1alphaCreateAccessBindingRequest {
-  /** Required. Formats: - accounts/{account} - properties/{property} */
-  parent?: string | undefined;
   /** Required. The access binding to create. */
   accessBinding?: GoogleAnalyticsAdminV1alphaAccessBinding | undefined;
+  /** Required. Formats: - accounts/{account} - properties/{property} */
+  parent?: string | undefined;
 }
 export type GoogleAnalyticsAdminV1alphaCreateAccessBindingRequestList =
   Array<GoogleAnalyticsAdminV1alphaCreateAccessBindingRequest>;
@@ -214,10 +214,10 @@ export interface BatchDeletePropertiesAccessBindingsRequest extends GoogleAnalyt
   parent: string;
 }
 export interface BatchGetAccountsAccessBindingsRequest {
-  /** Required. The account or property that owns the access bindings. The parent of all provided values for the 'names' field must match this field. Formats: - accounts/{account} - properties/{property} */
-  parent: string;
   /** Required. The names of the access bindings to retrieve. A maximum of 1000 access bindings can be retrieved in a batch. Formats: - accounts/{account}/accessBindings/{accessBinding} - properties/{property}/accessBindings/{accessBinding} */
   names?: StringList | undefined;
+  /** Required. The account or property that owns the access bindings. The parent of all provided values for the 'names' field must match this field. Formats: - accounts/{account} - properties/{property} */
+  parent: string;
 }
 /** Response message for BatchGetAccessBindings RPC. */
 export interface GoogleAnalyticsAdminV1alphaBatchGetAccessBindingsResponse {
@@ -225,10 +225,10 @@ export interface GoogleAnalyticsAdminV1alphaBatchGetAccessBindingsResponse {
   accessBindings?: GoogleAnalyticsAdminV1alphaAccessBindingList | undefined;
 }
 export interface BatchGetPropertiesAccessBindingsRequest {
-  /** Required. The names of the access bindings to retrieve. A maximum of 1000 access bindings can be retrieved in a batch. Formats: - accounts/{account}/accessBindings/{accessBinding} - properties/{property}/accessBindings/{accessBinding} */
-  names?: StringList | undefined;
   /** Required. The account or property that owns the access bindings. The parent of all provided values for the 'names' field must match this field. Formats: - accounts/{account} - properties/{property} */
   parent: string;
+  /** Required. The names of the access bindings to retrieve. A maximum of 1000 access bindings can be retrieved in a batch. Formats: - accounts/{account}/accessBindings/{accessBinding} - properties/{property}/accessBindings/{accessBinding} */
+  names?: StringList | undefined;
 }
 /** Request message for UpdateAccessBinding RPC. */
 export interface GoogleAnalyticsAdminV1alphaUpdateAccessBindingRequest {
@@ -283,41 +283,37 @@ export interface GoogleAnalyticsAdminV1alphaLinkProposalStatusDetails {
     | GoogleAnalyticsAdminV1alphaLinkProposalStatusDetailsLinkProposalStateEnum
     | (string & {})
     | undefined;
+  /** Output only. The email address of the user that proposed this linkage. */
+  requestorEmail?: string | undefined;
   /** Output only. The source of this proposal. */
   linkProposalInitiatingProduct?:
     | GoogleAnalyticsAdminV1alphaLinkProposalStatusDetailsLinkProposalInitiatingProductEnum
     | (string & {})
     | undefined;
-  /** Output only. The email address of the user that proposed this linkage. */
-  requestorEmail?: string | undefined;
 }
 /** A proposal for a link between a Google Analytics property and a Display & Video 360 advertiser. A proposal is converted to a DisplayVideo360AdvertiserLink once approved. Google Analytics admins approve inbound proposals while Display & Video 360 admins approve outbound proposals. */
 export interface GoogleAnalyticsAdminV1alphaDisplayVideo360AdvertiserLinkProposal {
-  /** Identifier. The resource name for this DisplayVideo360AdvertiserLinkProposal resource. Format: properties/{propertyId}/displayVideo360AdvertiserLinkProposals/{proposalId} Note: proposalId is not the Display & Video 360 Advertiser ID */
-  name?: string | undefined;
-  /** Output only. The status information for this link proposal. */
-  linkProposalStatusDetails?: GoogleAnalyticsAdminV1alphaLinkProposalStatusDetails | undefined;
   /** Immutable. Enables personalized advertising features with this integration. If this field is not set on create, it will be defaulted to true. */
   adsPersonalizationEnabled?: boolean | undefined;
-  /** Input only. On a proposal being sent to Display & Video 360, this field must be set to the email address of an admin on the target advertiser. This is used to verify that the Google Analytics admin is aware of at least one admin on the Display & Video 360 Advertiser. This does not restrict approval of the proposal to a single user. Any admin on the Display & Video 360 Advertiser may approve the proposal. */
-  validationEmail?: string | undefined;
-  /** Immutable. Enables the import of campaign data from Display & Video 360. If this field is not set on create, it will be defaulted to true. */
-  campaignDataSharingEnabled?: boolean | undefined;
-  /** Immutable. Enables the import of cost data from Display & Video 360. This can only be enabled if campaign_data_sharing_enabled is enabled. If this field is not set on create, it will be defaulted to true. */
-  costDataSharingEnabled?: boolean | undefined;
-  /** Immutable. The Display & Video 360 Advertiser's advertiser ID. */
-  advertiserId?: string | undefined;
   /** Output only. The display name of the Display & Video Advertiser. Only populated for proposals that originated from Display & Video 360. */
   advertiserDisplayName?: string | undefined;
+  /** Output only. The status information for this link proposal. */
+  linkProposalStatusDetails?: GoogleAnalyticsAdminV1alphaLinkProposalStatusDetails | undefined;
+  /** Identifier. The resource name for this DisplayVideo360AdvertiserLinkProposal resource. Format: properties/{propertyId}/displayVideo360AdvertiserLinkProposals/{proposalId} Note: proposalId is not the Display & Video 360 Advertiser ID */
+  name?: string | undefined;
+  /** Immutable. The Display & Video 360 Advertiser's advertiser ID. */
+  advertiserId?: string | undefined;
+  /** Immutable. Enables the import of campaign data from Display & Video 360. If this field is not set on create, it will be defaulted to true. */
+  campaignDataSharingEnabled?: boolean | undefined;
+  /** Input only. On a proposal being sent to Display & Video 360, this field must be set to the email address of an admin on the target advertiser. This is used to verify that the Google Analytics admin is aware of at least one admin on the Display & Video 360 Advertiser. This does not restrict approval of the proposal to a single user. Any admin on the Display & Video 360 Advertiser may approve the proposal. */
+  validationEmail?: string | undefined;
+  /** Immutable. Enables the import of cost data from Display & Video 360. This can only be enabled if campaign_data_sharing_enabled is enabled. If this field is not set on create, it will be defaulted to true. */
+  costDataSharingEnabled?: boolean | undefined;
 }
 export interface CreateAccountsAccessBindingsRequest extends GoogleAnalyticsAdminV1alphaAccessBinding {
   /** Required. Formats: - accounts/{account} - properties/{property} */
   parent: string;
 }
-export type GoogleAnalyticsAdminV1alphaPropertyServiceLevelEnum =
-  | "SERVICE_LEVEL_UNSPECIFIED"
-  | "GOOGLE_ANALYTICS_STANDARD"
-  | "GOOGLE_ANALYTICS_360";
 export type GoogleAnalyticsAdminV1alphaPropertyPropertyTypeEnum =
   | "PROPERTY_TYPE_UNSPECIFIED"
   | "PROPERTY_TYPE_ORDINARY"
@@ -351,37 +347,41 @@ export type GoogleAnalyticsAdminV1alphaPropertyIndustryCategoryEnum =
   | "SPORTS"
   | "JOBS_AND_EDUCATION"
   | "SHOPPING";
+export type GoogleAnalyticsAdminV1alphaPropertyServiceLevelEnum =
+  | "SERVICE_LEVEL_UNSPECIFIED"
+  | "GOOGLE_ANALYTICS_STANDARD"
+  | "GOOGLE_ANALYTICS_360";
 /** A resource message representing a Google Analytics property. */
 export interface GoogleAnalyticsAdminV1alphaProperty {
-  /** Output only. The Google Analytics service level that applies to this property. */
-  serviceLevel?: GoogleAnalyticsAdminV1alphaPropertyServiceLevelEnum | (string & {}) | undefined;
-  /** Required. Human-readable display name for this property. The max allowed display name length is 100 UTF-16 code units. */
-  displayName?: string | undefined;
-  /** Output only. If set, the time at which this property was trashed. If not set, then this property is not currently in the trash can. */
-  deleteTime?: string | undefined;
-  /** Immutable. Resource name of this property's logical parent. Note: The Property-Moving UI can be used to change the parent. Format: accounts/{account}, properties/{property} Example: "accounts/100", "properties/101" */
-  parent?: string | undefined;
-  /** Output only. Time when the entity was originally created. */
-  createTime?: string | undefined;
-  /** Output only. If set, the time at which this trashed property will be permanently deleted. If not set, then this property is not currently in the trash can and is not slated to be deleted. */
-  expireTime?: string | undefined;
-  /** Identifier. Resource name of this property. Format: properties/{property_id} Example: "properties/1000" */
-  name?: string | undefined;
   /** Output only. Time when entity payload fields were last updated. */
   updateTime?: string | undefined;
   /** The currency type used in reports involving monetary values. Format: https://en.wikipedia.org/wiki/ISO_4217 Examples: "USD", "EUR", "JPY" */
   currencyCode?: string | undefined;
+  /** Immutable. Resource name of this property's logical parent. Note: The Property-Moving UI can be used to change the parent. Format: accounts/{account}, properties/{property} Example: "accounts/100", "properties/101" */
+  parent?: string | undefined;
+  /** Immutable. The resource name of the parent account Format: accounts/{account_id} Example: "accounts/123" */
+  account?: string | undefined;
   /** Immutable. The property type for this Property resource. When creating a property, if the type is "PROPERTY_TYPE_UNSPECIFIED", then "ORDINARY_PROPERTY" will be implied. */
   propertyType?: GoogleAnalyticsAdminV1alphaPropertyPropertyTypeEnum | (string & {}) | undefined;
   /** Required. Reporting Time Zone, used as the day boundary for reports, regardless of where the data originates. If the time zone honors DST, Analytics will automatically adjust for the changes. NOTE: Changing the time zone only affects data going forward, and is not applied retroactively. Format: https://www.iana.org/time-zones Example: "America/Los_Angeles" */
   timeZone?: string | undefined;
-  /** Immutable. The resource name of the parent account Format: accounts/{account_id} Example: "accounts/123" */
-  account?: string | undefined;
+  /** Required. Human-readable display name for this property. The max allowed display name length is 100 UTF-16 code units. */
+  displayName?: string | undefined;
+  /** Identifier. Resource name of this property. Format: properties/{property_id} Example: "properties/1000" */
+  name?: string | undefined;
+  /** Output only. Time when the entity was originally created. */
+  createTime?: string | undefined;
+  /** Output only. If set, the time at which this property was trashed. If not set, then this property is not currently in the trash can. */
+  deleteTime?: string | undefined;
+  /** Output only. If set, the time at which this trashed property will be permanently deleted. If not set, then this property is not currently in the trash can and is not slated to be deleted. */
+  expireTime?: string | undefined;
   /** Industry associated with this property Example: AUTOMOTIVE, FOOD_AND_DRINK */
   industryCategory?:
     | GoogleAnalyticsAdminV1alphaPropertyIndustryCategoryEnum
     | (string & {})
     | undefined;
+  /** Output only. The Google Analytics service level that applies to this property. */
+  serviceLevel?: GoogleAnalyticsAdminV1alphaPropertyServiceLevelEnum | (string & {}) | undefined;
 }
 export interface CreatePropertiesRequest extends GoogleAnalyticsAdminV1alphaProperty {}
 export interface CreatePropertiesAccessBindingsRequest extends GoogleAnalyticsAdminV1alphaAccessBinding {
@@ -399,6 +399,176 @@ export interface CreatePropertiesAdSenseLinksRequest extends GoogleAnalyticsAdmi
   /** Required. The property for which to create an AdSense Link. Format: properties/{propertyId} Example: properties/1234 */
   parent: string;
 }
+export type GoogleAnalyticsAdminV1alphaAudienceSequenceFilterScopeEnum =
+  | "AUDIENCE_FILTER_SCOPE_UNSPECIFIED"
+  | "AUDIENCE_FILTER_SCOPE_WITHIN_SAME_EVENT"
+  | "AUDIENCE_FILTER_SCOPE_WITHIN_SAME_SESSION"
+  | "AUDIENCE_FILTER_SCOPE_ACROSS_ALL_SESSIONS";
+/** A filter that matches events of a single event name. If an event parameter is specified, only the subset of events that match both the single event name and the parameter filter expressions match this event filter. */
+export interface GoogleAnalyticsAdminV1alphaAudienceEventFilter {
+  /** Required. Immutable. The name of the event to match against. */
+  eventName?: string | undefined;
+  /** Optional. If specified, this filter matches events that match both the single event name and the parameter filter expressions. AudienceEventFilter inside the parameter filter expression cannot be set (For example, nested event filters are not supported). This should be a single and_group of dimension_or_metric_filter or not_expression; ANDs of ORs are not supported. Also, if it includes a filter for "eventCount", only that one will be considered; all the other filters will be ignored. */
+  eventParameterFilterExpression?: GoogleAnalyticsAdminV1alphaAudienceFilterExpression | undefined;
+}
+export type GoogleAnalyticsAdminV1alphaAudienceDimensionOrMetricFilterNumericFilterOperationEnum =
+  | "OPERATION_UNSPECIFIED"
+  | "EQUAL"
+  | "LESS_THAN"
+  | "GREATER_THAN";
+/** To represent a number. */
+export interface GoogleAnalyticsAdminV1alphaAudienceDimensionOrMetricFilterNumericValue {
+  /** Double value. */
+  doubleValue?: number | undefined;
+  /** Integer value. */
+  int64Value?: string | undefined;
+}
+/** A filter for numeric or date values on a dimension or metric. */
+export interface GoogleAnalyticsAdminV1alphaAudienceDimensionOrMetricFilterNumericFilter {
+  /** Required. The operation applied to a numeric filter. */
+  operation?:
+    | GoogleAnalyticsAdminV1alphaAudienceDimensionOrMetricFilterNumericFilterOperationEnum
+    | (string & {})
+    | undefined;
+  /** Required. The numeric or date value to match against. */
+  value?: GoogleAnalyticsAdminV1alphaAudienceDimensionOrMetricFilterNumericValue | undefined;
+}
+/** A filter for a string dimension that matches a particular list of options. */
+export interface GoogleAnalyticsAdminV1alphaAudienceDimensionOrMetricFilterInListFilter {
+  /** Optional. If true, the match is case-sensitive. If false, the match is case-insensitive. */
+  caseSensitive?: boolean | undefined;
+  /** Required. The list of possible string values to match against. Must be non-empty. */
+  values?: StringList | undefined;
+}
+export type GoogleAnalyticsAdminV1alphaAudienceDimensionOrMetricFilterStringFilterMatchTypeEnum =
+  | "MATCH_TYPE_UNSPECIFIED"
+  | "EXACT"
+  | "BEGINS_WITH"
+  | "ENDS_WITH"
+  | "CONTAINS"
+  | "FULL_REGEXP";
+/** A filter for a string-type dimension that matches a particular pattern. */
+export interface GoogleAnalyticsAdminV1alphaAudienceDimensionOrMetricFilterStringFilter {
+  /** Required. The string value to be matched against. */
+  value?: string | undefined;
+  /** Required. The match type for the string filter. */
+  matchType?:
+    | GoogleAnalyticsAdminV1alphaAudienceDimensionOrMetricFilterStringFilterMatchTypeEnum
+    | (string & {})
+    | undefined;
+  /** Optional. If true, the match is case-sensitive. If false, the match is case-insensitive. */
+  caseSensitive?: boolean | undefined;
+}
+/** A filter for numeric or date values between certain values on a dimension or metric. */
+export interface GoogleAnalyticsAdminV1alphaAudienceDimensionOrMetricFilterBetweenFilter {
+  /** Required. Ends with this number, inclusive. */
+  toValue?: GoogleAnalyticsAdminV1alphaAudienceDimensionOrMetricFilterNumericValue | undefined;
+  /** Required. Begins with this number, inclusive. */
+  fromValue?: GoogleAnalyticsAdminV1alphaAudienceDimensionOrMetricFilterNumericValue | undefined;
+}
+/** A specific filter for a single dimension or metric. */
+export interface GoogleAnalyticsAdminV1alphaAudienceDimensionOrMetricFilter {
+  /** A filter for numeric or date values on a dimension or metric. */
+  numericFilter?:
+    | GoogleAnalyticsAdminV1alphaAudienceDimensionOrMetricFilterNumericFilter
+    | undefined;
+  /** Required. Immutable. The dimension name or metric name to filter. If the field name refers to a custom dimension or metric, a scope prefix will be added to the front of the custom dimensions or metric name. For more on scope prefixes or custom dimensions/metrics, reference the [Google Analytics Data API documentation] (https://developers.google.com/analytics/devguides/reporting/data/v1/api-schema#custom_dimensions). */
+  fieldName?: string | undefined;
+  /** A filter for a string dimension that matches a particular list of options. */
+  inListFilter?: GoogleAnalyticsAdminV1alphaAudienceDimensionOrMetricFilterInListFilter | undefined;
+  /** A filter for a string-type dimension that matches a particular pattern. */
+  stringFilter?: GoogleAnalyticsAdminV1alphaAudienceDimensionOrMetricFilterStringFilter | undefined;
+  /** Optional. Indicates whether this filter needs dynamic evaluation or not. If set to true, users join the Audience if they ever met the condition (static evaluation). If unset or set to false, user evaluation for an Audience is dynamic; users are added to an Audience when they meet the conditions and then removed when they no longer meet them. This can only be set when Audience scope is ACROSS_ALL_SESSIONS. */
+  atAnyPointInTime?: boolean | undefined;
+  /** A filter for numeric or date values between certain values on a dimension or metric. */
+  betweenFilter?:
+    | GoogleAnalyticsAdminV1alphaAudienceDimensionOrMetricFilterBetweenFilter
+    | undefined;
+  /** Optional. If set, specifies the time window for which to evaluate data in number of days. If not set, then audience data is evaluated against lifetime data (For example, infinite time window). For example, if set to 1 day, only the current day's data is evaluated. The reference point is the current day when at_any_point_in_time is unset or false. It can only be set when Audience scope is ACROSS_ALL_SESSIONS and cannot be greater than 60 days. */
+  inAnyNDayPeriod?: number | undefined;
+}
+export type GoogleAnalyticsAdminV1alphaAudienceFilterExpressionList_ =
+  Array<GoogleAnalyticsAdminV1alphaAudienceFilterExpression>;
+/** A list of Audience filter expressions. */
+export interface GoogleAnalyticsAdminV1alphaAudienceFilterExpressionList {
+  /** A list of Audience filter expressions. */
+  filterExpressions?: GoogleAnalyticsAdminV1alphaAudienceFilterExpressionList_ | undefined;
+}
+/** A logical expression of Audience dimension, metric, or event filters. */
+export interface GoogleAnalyticsAdminV1alphaAudienceFilterExpression {
+  /** Creates a filter that matches a specific event. This cannot be set on the top level AudienceFilterExpression. */
+  eventFilter?: GoogleAnalyticsAdminV1alphaAudienceEventFilter | undefined;
+  /** A filter on a single dimension or metric. This cannot be set on the top level AudienceFilterExpression. */
+  dimensionOrMetricFilter?: GoogleAnalyticsAdminV1alphaAudienceDimensionOrMetricFilter | undefined;
+  /** A filter expression to be NOT'ed (For example, inverted, complemented). It can only include a dimension_or_metric_filter. This cannot be set on the top level AudienceFilterExpression. */
+  notExpression?: GoogleAnalyticsAdminV1alphaAudienceFilterExpression | undefined;
+  /** A list of expressions to be AND'ed together. It can only contain AudienceFilterExpressions with or_group. This must be set for the top level AudienceFilterExpression. */
+  andGroup?: GoogleAnalyticsAdminV1alphaAudienceFilterExpressionList | undefined;
+  /** A list of expressions to OR'ed together. It cannot contain AudienceFilterExpressions with and_group or or_group. */
+  orGroup?: GoogleAnalyticsAdminV1alphaAudienceFilterExpressionList | undefined;
+}
+export type GoogleAnalyticsAdminV1alphaAudienceSequenceFilterAudienceSequenceStepScopeEnum =
+  | "AUDIENCE_FILTER_SCOPE_UNSPECIFIED"
+  | "AUDIENCE_FILTER_SCOPE_WITHIN_SAME_EVENT"
+  | "AUDIENCE_FILTER_SCOPE_WITHIN_SAME_SESSION"
+  | "AUDIENCE_FILTER_SCOPE_ACROSS_ALL_SESSIONS";
+/** A condition that must occur in the specified step order for this user to match the sequence. */
+export interface GoogleAnalyticsAdminV1alphaAudienceSequenceFilterAudienceSequenceStep {
+  /** Required. Immutable. A logical expression of Audience dimension, metric, or event filters in each step. */
+  filterExpression?: GoogleAnalyticsAdminV1alphaAudienceFilterExpression | undefined;
+  /** Required. Immutable. Specifies the scope for this step. */
+  scope?:
+    | GoogleAnalyticsAdminV1alphaAudienceSequenceFilterAudienceSequenceStepScopeEnum
+    | (string & {})
+    | undefined;
+  /** Optional. When set, this step must be satisfied within the constraint_duration of the previous step (For example, t[i] - t[i-1] <= constraint_duration). If not set, there is no duration requirement (the duration is effectively unlimited). It is ignored for the first step. */
+  constraintDuration?: string | undefined;
+  /** Optional. If true, the event satisfying this step must be the very next event after the event satisfying the last step. If unset or false, this step indirectly follows the prior step; for example, there may be events between the prior step and this step. It is ignored for the first step. */
+  immediatelyFollows?: boolean | undefined;
+}
+export type GoogleAnalyticsAdminV1alphaAudienceSequenceFilterAudienceSequenceStepList =
+  Array<GoogleAnalyticsAdminV1alphaAudienceSequenceFilterAudienceSequenceStep>;
+/** Defines filters that must occur in a specific order for the user to be a member of the Audience. */
+export interface GoogleAnalyticsAdminV1alphaAudienceSequenceFilter {
+  /** Optional. Defines the time period in which the whole sequence must occur. */
+  sequenceMaximumDuration?: string | undefined;
+  /** Required. Immutable. Specifies the scope for this filter. */
+  scope?: GoogleAnalyticsAdminV1alphaAudienceSequenceFilterScopeEnum | (string & {}) | undefined;
+  /** Required. An ordered sequence of steps. A user must complete each step in order to join the sequence filter. */
+  sequenceSteps?:
+    | GoogleAnalyticsAdminV1alphaAudienceSequenceFilterAudienceSequenceStepList
+    | undefined;
+}
+export type GoogleAnalyticsAdminV1alphaAudienceFilterClauseClauseTypeEnum =
+  | "AUDIENCE_CLAUSE_TYPE_UNSPECIFIED"
+  | "INCLUDE"
+  | "EXCLUDE";
+export type GoogleAnalyticsAdminV1alphaAudienceSimpleFilterScopeEnum =
+  | "AUDIENCE_FILTER_SCOPE_UNSPECIFIED"
+  | "AUDIENCE_FILTER_SCOPE_WITHIN_SAME_EVENT"
+  | "AUDIENCE_FILTER_SCOPE_WITHIN_SAME_SESSION"
+  | "AUDIENCE_FILTER_SCOPE_ACROSS_ALL_SESSIONS";
+/** Defines a simple filter that a user must satisfy to be a member of the Audience. */
+export interface GoogleAnalyticsAdminV1alphaAudienceSimpleFilter {
+  /** Required. Immutable. A logical expression of Audience dimension, metric, or event filters. */
+  filterExpression?: GoogleAnalyticsAdminV1alphaAudienceFilterExpression | undefined;
+  /** Required. Immutable. Specifies the scope for this filter. */
+  scope?: GoogleAnalyticsAdminV1alphaAudienceSimpleFilterScopeEnum | (string & {}) | undefined;
+}
+/** A clause for defining either a simple or sequence filter. A filter can be inclusive (For example, users satisfying the filter clause are included in the Audience) or exclusive (For example, users satisfying the filter clause are excluded from the Audience). */
+export interface GoogleAnalyticsAdminV1alphaAudienceFilterClause {
+  /** Filters that must occur in a specific order for the user to be a member of the Audience. */
+  sequenceFilter?: GoogleAnalyticsAdminV1alphaAudienceSequenceFilter | undefined;
+  /** Required. Specifies whether this is an include or exclude filter clause. */
+  clauseType?:
+    | GoogleAnalyticsAdminV1alphaAudienceFilterClauseClauseTypeEnum
+    | (string & {})
+    | undefined;
+  /** A simple filter that a user must satisfy to be a member of the Audience. */
+  simpleFilter?: GoogleAnalyticsAdminV1alphaAudienceSimpleFilter | undefined;
+}
+export type GoogleAnalyticsAdminV1alphaAudienceFilterClauseList =
+  Array<GoogleAnalyticsAdminV1alphaAudienceFilterClause>;
 export type GoogleAnalyticsAdminV1alphaAudienceEventTriggerLogConditionEnum =
   | "LOG_CONDITION_UNSPECIFIED"
   | "AUDIENCE_JOINED"
@@ -417,199 +587,29 @@ export type GoogleAnalyticsAdminV1alphaAudienceExclusionDurationModeEnum =
   | "AUDIENCE_EXCLUSION_DURATION_MODE_UNSPECIFIED"
   | "EXCLUDE_TEMPORARILY"
   | "EXCLUDE_PERMANENTLY";
-export type GoogleAnalyticsAdminV1alphaAudienceFilterClauseClauseTypeEnum =
-  | "AUDIENCE_CLAUSE_TYPE_UNSPECIFIED"
-  | "INCLUDE"
-  | "EXCLUDE";
-export type GoogleAnalyticsAdminV1alphaAudienceFilterExpressionList_ =
-  Array<GoogleAnalyticsAdminV1alphaAudienceFilterExpression>;
-/** A list of Audience filter expressions. */
-export interface GoogleAnalyticsAdminV1alphaAudienceFilterExpressionList {
-  /** A list of Audience filter expressions. */
-  filterExpressions?: GoogleAnalyticsAdminV1alphaAudienceFilterExpressionList_ | undefined;
-}
-/** A filter that matches events of a single event name. If an event parameter is specified, only the subset of events that match both the single event name and the parameter filter expressions match this event filter. */
-export interface GoogleAnalyticsAdminV1alphaAudienceEventFilter {
-  /** Required. Immutable. The name of the event to match against. */
-  eventName?: string | undefined;
-  /** Optional. If specified, this filter matches events that match both the single event name and the parameter filter expressions. AudienceEventFilter inside the parameter filter expression cannot be set (For example, nested event filters are not supported). This should be a single and_group of dimension_or_metric_filter or not_expression; ANDs of ORs are not supported. Also, if it includes a filter for "eventCount", only that one will be considered; all the other filters will be ignored. */
-  eventParameterFilterExpression?: GoogleAnalyticsAdminV1alphaAudienceFilterExpression | undefined;
-}
-/** To represent a number. */
-export interface GoogleAnalyticsAdminV1alphaAudienceDimensionOrMetricFilterNumericValue {
-  /** Integer value. */
-  int64Value?: string | undefined;
-  /** Double value. */
-  doubleValue?: number | undefined;
-}
-/** A filter for numeric or date values between certain values on a dimension or metric. */
-export interface GoogleAnalyticsAdminV1alphaAudienceDimensionOrMetricFilterBetweenFilter {
-  /** Required. Begins with this number, inclusive. */
-  fromValue?: GoogleAnalyticsAdminV1alphaAudienceDimensionOrMetricFilterNumericValue | undefined;
-  /** Required. Ends with this number, inclusive. */
-  toValue?: GoogleAnalyticsAdminV1alphaAudienceDimensionOrMetricFilterNumericValue | undefined;
-}
-export type GoogleAnalyticsAdminV1alphaAudienceDimensionOrMetricFilterStringFilterMatchTypeEnum =
-  | "MATCH_TYPE_UNSPECIFIED"
-  | "EXACT"
-  | "BEGINS_WITH"
-  | "ENDS_WITH"
-  | "CONTAINS"
-  | "FULL_REGEXP";
-/** A filter for a string-type dimension that matches a particular pattern. */
-export interface GoogleAnalyticsAdminV1alphaAudienceDimensionOrMetricFilterStringFilter {
-  /** Required. The match type for the string filter. */
-  matchType?:
-    | GoogleAnalyticsAdminV1alphaAudienceDimensionOrMetricFilterStringFilterMatchTypeEnum
-    | (string & {})
-    | undefined;
-  /** Optional. If true, the match is case-sensitive. If false, the match is case-insensitive. */
-  caseSensitive?: boolean | undefined;
-  /** Required. The string value to be matched against. */
-  value?: string | undefined;
-}
-export type GoogleAnalyticsAdminV1alphaAudienceDimensionOrMetricFilterNumericFilterOperationEnum =
-  | "OPERATION_UNSPECIFIED"
-  | "EQUAL"
-  | "LESS_THAN"
-  | "GREATER_THAN";
-/** A filter for numeric or date values on a dimension or metric. */
-export interface GoogleAnalyticsAdminV1alphaAudienceDimensionOrMetricFilterNumericFilter {
-  /** Required. The operation applied to a numeric filter. */
-  operation?:
-    | GoogleAnalyticsAdminV1alphaAudienceDimensionOrMetricFilterNumericFilterOperationEnum
-    | (string & {})
-    | undefined;
-  /** Required. The numeric or date value to match against. */
-  value?: GoogleAnalyticsAdminV1alphaAudienceDimensionOrMetricFilterNumericValue | undefined;
-}
-/** A filter for a string dimension that matches a particular list of options. */
-export interface GoogleAnalyticsAdminV1alphaAudienceDimensionOrMetricFilterInListFilter {
-  /** Optional. If true, the match is case-sensitive. If false, the match is case-insensitive. */
-  caseSensitive?: boolean | undefined;
-  /** Required. The list of possible string values to match against. Must be non-empty. */
-  values?: StringList | undefined;
-}
-/** A specific filter for a single dimension or metric. */
-export interface GoogleAnalyticsAdminV1alphaAudienceDimensionOrMetricFilter {
-  /** A filter for numeric or date values between certain values on a dimension or metric. */
-  betweenFilter?:
-    | GoogleAnalyticsAdminV1alphaAudienceDimensionOrMetricFilterBetweenFilter
-    | undefined;
-  /** A filter for a string-type dimension that matches a particular pattern. */
-  stringFilter?: GoogleAnalyticsAdminV1alphaAudienceDimensionOrMetricFilterStringFilter | undefined;
-  /** Optional. If set, specifies the time window for which to evaluate data in number of days. If not set, then audience data is evaluated against lifetime data (For example, infinite time window). For example, if set to 1 day, only the current day's data is evaluated. The reference point is the current day when at_any_point_in_time is unset or false. It can only be set when Audience scope is ACROSS_ALL_SESSIONS and cannot be greater than 60 days. */
-  inAnyNDayPeriod?: number | undefined;
-  /** A filter for numeric or date values on a dimension or metric. */
-  numericFilter?:
-    | GoogleAnalyticsAdminV1alphaAudienceDimensionOrMetricFilterNumericFilter
-    | undefined;
-  /** Optional. Indicates whether this filter needs dynamic evaluation or not. If set to true, users join the Audience if they ever met the condition (static evaluation). If unset or set to false, user evaluation for an Audience is dynamic; users are added to an Audience when they meet the conditions and then removed when they no longer meet them. This can only be set when Audience scope is ACROSS_ALL_SESSIONS. */
-  atAnyPointInTime?: boolean | undefined;
-  /** Required. Immutable. The dimension name or metric name to filter. If the field name refers to a custom dimension or metric, a scope prefix will be added to the front of the custom dimensions or metric name. For more on scope prefixes or custom dimensions/metrics, reference the [Google Analytics Data API documentation] (https://developers.google.com/analytics/devguides/reporting/data/v1/api-schema#custom_dimensions). */
-  fieldName?: string | undefined;
-  /** A filter for a string dimension that matches a particular list of options. */
-  inListFilter?: GoogleAnalyticsAdminV1alphaAudienceDimensionOrMetricFilterInListFilter | undefined;
-}
-/** A logical expression of Audience dimension, metric, or event filters. */
-export interface GoogleAnalyticsAdminV1alphaAudienceFilterExpression {
-  /** A list of expressions to be AND'ed together. It can only contain AudienceFilterExpressions with or_group. This must be set for the top level AudienceFilterExpression. */
-  andGroup?: GoogleAnalyticsAdminV1alphaAudienceFilterExpressionList | undefined;
-  /** Creates a filter that matches a specific event. This cannot be set on the top level AudienceFilterExpression. */
-  eventFilter?: GoogleAnalyticsAdminV1alphaAudienceEventFilter | undefined;
-  /** A filter expression to be NOT'ed (For example, inverted, complemented). It can only include a dimension_or_metric_filter. This cannot be set on the top level AudienceFilterExpression. */
-  notExpression?: GoogleAnalyticsAdminV1alphaAudienceFilterExpression | undefined;
-  /** A list of expressions to OR'ed together. It cannot contain AudienceFilterExpressions with and_group or or_group. */
-  orGroup?: GoogleAnalyticsAdminV1alphaAudienceFilterExpressionList | undefined;
-  /** A filter on a single dimension or metric. This cannot be set on the top level AudienceFilterExpression. */
-  dimensionOrMetricFilter?: GoogleAnalyticsAdminV1alphaAudienceDimensionOrMetricFilter | undefined;
-}
-export type GoogleAnalyticsAdminV1alphaAudienceSimpleFilterScopeEnum =
-  | "AUDIENCE_FILTER_SCOPE_UNSPECIFIED"
-  | "AUDIENCE_FILTER_SCOPE_WITHIN_SAME_EVENT"
-  | "AUDIENCE_FILTER_SCOPE_WITHIN_SAME_SESSION"
-  | "AUDIENCE_FILTER_SCOPE_ACROSS_ALL_SESSIONS";
-/** Defines a simple filter that a user must satisfy to be a member of the Audience. */
-export interface GoogleAnalyticsAdminV1alphaAudienceSimpleFilter {
-  /** Required. Immutable. A logical expression of Audience dimension, metric, or event filters. */
-  filterExpression?: GoogleAnalyticsAdminV1alphaAudienceFilterExpression | undefined;
-  /** Required. Immutable. Specifies the scope for this filter. */
-  scope?: GoogleAnalyticsAdminV1alphaAudienceSimpleFilterScopeEnum | (string & {}) | undefined;
-}
-export type GoogleAnalyticsAdminV1alphaAudienceSequenceFilterScopeEnum =
-  | "AUDIENCE_FILTER_SCOPE_UNSPECIFIED"
-  | "AUDIENCE_FILTER_SCOPE_WITHIN_SAME_EVENT"
-  | "AUDIENCE_FILTER_SCOPE_WITHIN_SAME_SESSION"
-  | "AUDIENCE_FILTER_SCOPE_ACROSS_ALL_SESSIONS";
-export type GoogleAnalyticsAdminV1alphaAudienceSequenceFilterAudienceSequenceStepScopeEnum =
-  | "AUDIENCE_FILTER_SCOPE_UNSPECIFIED"
-  | "AUDIENCE_FILTER_SCOPE_WITHIN_SAME_EVENT"
-  | "AUDIENCE_FILTER_SCOPE_WITHIN_SAME_SESSION"
-  | "AUDIENCE_FILTER_SCOPE_ACROSS_ALL_SESSIONS";
-/** A condition that must occur in the specified step order for this user to match the sequence. */
-export interface GoogleAnalyticsAdminV1alphaAudienceSequenceFilterAudienceSequenceStep {
-  /** Optional. When set, this step must be satisfied within the constraint_duration of the previous step (For example, t[i] - t[i-1] <= constraint_duration). If not set, there is no duration requirement (the duration is effectively unlimited). It is ignored for the first step. */
-  constraintDuration?: string | undefined;
-  /** Required. Immutable. A logical expression of Audience dimension, metric, or event filters in each step. */
-  filterExpression?: GoogleAnalyticsAdminV1alphaAudienceFilterExpression | undefined;
-  /** Optional. If true, the event satisfying this step must be the very next event after the event satisfying the last step. If unset or false, this step indirectly follows the prior step; for example, there may be events between the prior step and this step. It is ignored for the first step. */
-  immediatelyFollows?: boolean | undefined;
-  /** Required. Immutable. Specifies the scope for this step. */
-  scope?:
-    | GoogleAnalyticsAdminV1alphaAudienceSequenceFilterAudienceSequenceStepScopeEnum
-    | (string & {})
-    | undefined;
-}
-export type GoogleAnalyticsAdminV1alphaAudienceSequenceFilterAudienceSequenceStepList =
-  Array<GoogleAnalyticsAdminV1alphaAudienceSequenceFilterAudienceSequenceStep>;
-/** Defines filters that must occur in a specific order for the user to be a member of the Audience. */
-export interface GoogleAnalyticsAdminV1alphaAudienceSequenceFilter {
-  /** Required. Immutable. Specifies the scope for this filter. */
-  scope?: GoogleAnalyticsAdminV1alphaAudienceSequenceFilterScopeEnum | (string & {}) | undefined;
-  /** Required. An ordered sequence of steps. A user must complete each step in order to join the sequence filter. */
-  sequenceSteps?:
-    | GoogleAnalyticsAdminV1alphaAudienceSequenceFilterAudienceSequenceStepList
-    | undefined;
-  /** Optional. Defines the time period in which the whole sequence must occur. */
-  sequenceMaximumDuration?: string | undefined;
-}
-/** A clause for defining either a simple or sequence filter. A filter can be inclusive (For example, users satisfying the filter clause are included in the Audience) or exclusive (For example, users satisfying the filter clause are excluded from the Audience). */
-export interface GoogleAnalyticsAdminV1alphaAudienceFilterClause {
-  /** Required. Specifies whether this is an include or exclude filter clause. */
-  clauseType?:
-    | GoogleAnalyticsAdminV1alphaAudienceFilterClauseClauseTypeEnum
-    | (string & {})
-    | undefined;
-  /** A simple filter that a user must satisfy to be a member of the Audience. */
-  simpleFilter?: GoogleAnalyticsAdminV1alphaAudienceSimpleFilter | undefined;
-  /** Filters that must occur in a specific order for the user to be a member of the Audience. */
-  sequenceFilter?: GoogleAnalyticsAdminV1alphaAudienceSequenceFilter | undefined;
-}
-export type GoogleAnalyticsAdminV1alphaAudienceFilterClauseList =
-  Array<GoogleAnalyticsAdminV1alphaAudienceFilterClause>;
 /** A resource message representing an Audience. */
 export interface GoogleAnalyticsAdminV1alphaAudience {
-  /** Required. The description of the Audience. */
-  description?: string | undefined;
-  /** Required. Immutable. The duration a user should stay in an Audience. It cannot be set to more than 540 days. */
-  membershipDurationDays?: number | undefined;
-  /** Output only. It is automatically set by GA to false if this is an NPA Audience and is excluded from ads personalization. */
-  adsPersonalizationEnabled?: boolean | undefined;
   /** Required. The display name of the Audience. */
   displayName?: string | undefined;
+  /** Required. Immutable. Unordered list. Filter clauses that define the Audience. All clauses will be AND'ed together. */
+  filterClauses?: GoogleAnalyticsAdminV1alphaAudienceFilterClauseList | undefined;
+  /** Required. Immutable. The duration a user should stay in an Audience. It cannot be set to more than 540 days. */
+  membershipDurationDays?: number | undefined;
+  /** Output only. Time when the Audience was created. */
+  createTime?: string | undefined;
   /** Optional. Specifies an event to log when a user joins the Audience. If not set, no event is logged when a user joins the Audience. */
   eventTrigger?: GoogleAnalyticsAdminV1alphaAudienceEventTrigger | undefined;
+  /** Required. The description of the Audience. */
+  description?: string | undefined;
+  /** Output only. It is automatically set by GA to false if this is an NPA Audience and is excluded from ads personalization. */
+  adsPersonalizationEnabled?: boolean | undefined;
+  /** Output only. The resource name for this Audience resource. Format: properties/{propertyId}/audiences/{audienceId} */
+  name?: string | undefined;
   /** Immutable. Specifies how long an exclusion lasts for users that meet the exclusion filter. It is applied to all EXCLUDE filter clauses and is ignored when there is no EXCLUDE filter clause in the Audience. */
   exclusionDurationMode?:
     | GoogleAnalyticsAdminV1alphaAudienceExclusionDurationModeEnum
     | (string & {})
     | undefined;
-  /** Required. Immutable. Unordered list. Filter clauses that define the Audience. All clauses will be AND'ed together. */
-  filterClauses?: GoogleAnalyticsAdminV1alphaAudienceFilterClauseList | undefined;
-  /** Output only. The resource name for this Audience resource. Format: properties/{propertyId}/audiences/{audienceId} */
-  name?: string | undefined;
-  /** Output only. Time when the Audience was created. */
-  createTime?: string | undefined;
 }
 export interface CreatePropertiesAudiencesRequest extends GoogleAnalyticsAdminV1alphaAudience {
   /** Required. Example format: properties/1234 */
@@ -617,26 +617,26 @@ export interface CreatePropertiesAudiencesRequest extends GoogleAnalyticsAdminV1
 }
 /** A link between a Google Analytics property and BigQuery project. */
 export interface GoogleAnalyticsAdminV1alphaBigQueryLink {
+  /** If set true, enables streaming export to the linked Google Cloud project. */
+  streamingExportEnabled?: boolean | undefined;
+  /** Immutable. The linked Google Cloud project. When creating a BigQueryLink, you may provide this resource name using either a project number or project ID. Once this resource has been created, the returned project will always have a project that contains a project number. Format: 'projects/{project number}' Example: 'projects/1234' */
+  project?: string | undefined;
+  /** Required. Immutable. The geographic location where the created BigQuery dataset should reside. See https://cloud.google.com/bigquery/docs/locations for supported locations. */
+  datasetLocation?: string | undefined;
+  /** The list of streams under the parent property for which data will be exported. Format: properties/{property_id}/dataStreams/{stream_id} Example: ['properties/1000/dataStreams/2000'] */
+  exportStreams?: StringList | undefined;
+  /** Output only. Resource name of this BigQuery link. Format: 'properties/{property_id}/bigQueryLinks/{bigquery_link_id}' Format: 'properties/1234/bigQueryLinks/abc567' */
+  name?: string | undefined;
+  /** If set true, enables daily data export to the linked Google Cloud project. */
+  dailyExportEnabled?: boolean | undefined;
+  /** The list of event names that will be excluded from exports. */
+  excludedEvents?: StringList | undefined;
+  /** Output only. Time when the link was created. */
+  createTime?: string | undefined;
   /** If set true, enables fresh daily export to the linked Google Cloud project. */
   freshDailyExportEnabled?: boolean | undefined;
   /** If set true, exported data will include advertising identifiers for mobile app streams. */
   includeAdvertisingId?: boolean | undefined;
-  /** Immutable. The linked Google Cloud project. When creating a BigQueryLink, you may provide this resource name using either a project number or project ID. Once this resource has been created, the returned project will always have a project that contains a project number. Format: 'projects/{project number}' Example: 'projects/1234' */
-  project?: string | undefined;
-  /** Output only. Resource name of this BigQuery link. Format: 'properties/{property_id}/bigQueryLinks/{bigquery_link_id}' Format: 'properties/1234/bigQueryLinks/abc567' */
-  name?: string | undefined;
-  /** Required. Immutable. The geographic location where the created BigQuery dataset should reside. See https://cloud.google.com/bigquery/docs/locations for supported locations. */
-  datasetLocation?: string | undefined;
-  /** If set true, enables streaming export to the linked Google Cloud project. */
-  streamingExportEnabled?: boolean | undefined;
-  /** The list of streams under the parent property for which data will be exported. Format: properties/{property_id}/dataStreams/{stream_id} Example: ['properties/1000/dataStreams/2000'] */
-  exportStreams?: StringList | undefined;
-  /** Output only. Time when the link was created. */
-  createTime?: string | undefined;
-  /** The list of event names that will be excluded from exports. */
-  excludedEvents?: StringList | undefined;
-  /** If set true, enables daily data export to the linked Google Cloud project. */
-  dailyExportEnabled?: boolean | undefined;
 }
 export interface CreatePropertiesBigQueryLinksRequest extends GoogleAnalyticsAdminV1alphaBigQueryLink {
   /** Required. Example format: properties/1234 */
@@ -667,16 +667,16 @@ export interface GoogleAnalyticsAdminV1alphaCalculatedMetric {
   restrictedMetricType?:
     | GoogleAnalyticsAdminV1alphaCalculatedMetricRestrictedMetricTypeItemEnumList
     | undefined;
-  /** Required. Display name for this calculated metric as shown in the Google Analytics UI. Max length 82 characters. */
-  displayName?: string | undefined;
   /** Identifier. Resource name for this CalculatedMetric. Format: 'properties/{property_id}/calculatedMetrics/{calculated_metric_id}' */
   name?: string | undefined;
-  /** Optional. Description for this calculated metric. Max length of 4096 characters. */
-  description?: string | undefined;
   /** Output only. The ID to use for the calculated metric. In the UI, this is referred to as the "API name." The calculated_metric_id is used when referencing this calculated metric from external APIs. For example, "calcMetric:{calculated_metric_id}". */
   calculatedMetricId?: string | undefined;
   /** Required. The calculated metric's definition. Maximum number of unique referenced custom metrics is 5. Formulas supports the following operations: + (addition), - (subtraction), - (negative), * (multiplication), / (division), () (parenthesis). Any valid real numbers are acceptable that fit in a Long (64bit integer) or a Double (64 bit floating point number). Example formula: "( customEvent:parameter_name + cartPurchaseQuantity ) / 2.0" */
   formula?: string | undefined;
+  /** Required. Display name for this calculated metric as shown in the Google Analytics UI. Max length 82 characters. */
+  displayName?: string | undefined;
+  /** Optional. Description for this calculated metric. Max length of 4096 characters. */
+  description?: string | undefined;
   /** Output only. If true, this calculated metric has a invalid metric reference. Anything using a calculated metric with invalid_metric_reference set to true may fail, produce warnings, or produce unexpected results. */
   invalidMetricReference?: boolean | undefined;
   /** Required. The type for the calculated metric's value. */
@@ -694,6 +694,13 @@ export interface CreatePropertiesCalculatedMetricsRequest extends Omit<
   /** Required. Format: properties/{property_id} Example: properties/1234 */
   parent: string;
 }
+export type GoogleAnalyticsAdminV1alphaChannelGroupFilterExpressionList_ =
+  Array<GoogleAnalyticsAdminV1alphaChannelGroupFilterExpression>;
+/** A list of Channel Group filter expressions. */
+export interface GoogleAnalyticsAdminV1alphaChannelGroupFilterExpressionList {
+  /** A list of Channel Group filter expressions. */
+  filterExpressions?: GoogleAnalyticsAdminV1alphaChannelGroupFilterExpressionList_ | undefined;
+}
 /** A filter for a string dimension that matches a particular list of options. The match is case insensitive. */
 export interface GoogleAnalyticsAdminV1alphaChannelGroupFilterInListFilter {
   /** Required. The list of possible string values to match against. Must be non-empty. */
@@ -709,40 +716,33 @@ export type GoogleAnalyticsAdminV1alphaChannelGroupFilterStringFilterMatchTypeEn
   | "PARTIAL_REGEXP";
 /** Filter where the field value is a String. The match is case insensitive. */
 export interface GoogleAnalyticsAdminV1alphaChannelGroupFilterStringFilter {
+  /** Required. The string value to be matched against. */
+  value?: string | undefined;
   /** Required. The match type for the string filter. */
   matchType?:
     | GoogleAnalyticsAdminV1alphaChannelGroupFilterStringFilterMatchTypeEnum
     | (string & {})
     | undefined;
-  /** Required. The string value to be matched against. */
-  value?: string | undefined;
 }
 /** A specific filter for a single dimension. */
 export interface GoogleAnalyticsAdminV1alphaChannelGroupFilter {
   /** A filter for a string dimension that matches a particular list of options. */
   inListFilter?: GoogleAnalyticsAdminV1alphaChannelGroupFilterInListFilter | undefined;
-  /** Required. Immutable. The dimension name to filter. */
-  fieldName?: string | undefined;
   /** A filter for a string-type dimension that matches a particular pattern. */
   stringFilter?: GoogleAnalyticsAdminV1alphaChannelGroupFilterStringFilter | undefined;
-}
-export type GoogleAnalyticsAdminV1alphaChannelGroupFilterExpressionList_ =
-  Array<GoogleAnalyticsAdminV1alphaChannelGroupFilterExpression>;
-/** A list of Channel Group filter expressions. */
-export interface GoogleAnalyticsAdminV1alphaChannelGroupFilterExpressionList {
-  /** A list of Channel Group filter expressions. */
-  filterExpressions?: GoogleAnalyticsAdminV1alphaChannelGroupFilterExpressionList_ | undefined;
+  /** Required. Immutable. The dimension name to filter. */
+  fieldName?: string | undefined;
 }
 /** A logical expression of Channel Group dimension filters. */
 export interface GoogleAnalyticsAdminV1alphaChannelGroupFilterExpression {
-  /** A filter expression to be NOT'ed (that is inverted, complemented). It can only include a dimension_or_metric_filter. This cannot be set on the top level ChannelGroupFilterExpression. */
-  notExpression?: GoogleAnalyticsAdminV1alphaChannelGroupFilterExpression | undefined;
-  /** A filter on a single dimension. This cannot be set on the top level ChannelGroupFilterExpression. */
-  filter?: GoogleAnalyticsAdminV1alphaChannelGroupFilter | undefined;
-  /** A list of expressions to OR'ed together. It cannot contain ChannelGroupFilterExpressions with and_group or or_group. */
-  orGroup?: GoogleAnalyticsAdminV1alphaChannelGroupFilterExpressionList | undefined;
   /** A list of expressions to be AND'ed together. It can only contain ChannelGroupFilterExpressions with or_group. This must be set for the top level ChannelGroupFilterExpression. */
   andGroup?: GoogleAnalyticsAdminV1alphaChannelGroupFilterExpressionList | undefined;
+  /** A filter expression to be NOT'ed (that is inverted, complemented). It can only include a dimension_or_metric_filter. This cannot be set on the top level ChannelGroupFilterExpression. */
+  notExpression?: GoogleAnalyticsAdminV1alphaChannelGroupFilterExpression | undefined;
+  /** A list of expressions to OR'ed together. It cannot contain ChannelGroupFilterExpressions with and_group or or_group. */
+  orGroup?: GoogleAnalyticsAdminV1alphaChannelGroupFilterExpressionList | undefined;
+  /** A filter on a single dimension. This cannot be set on the top level ChannelGroupFilterExpression. */
+  filter?: GoogleAnalyticsAdminV1alphaChannelGroupFilter | undefined;
 }
 /** The rules that govern how traffic is grouped into one channel. */
 export interface GoogleAnalyticsAdminV1alphaGroupingRule {
@@ -755,23 +755,27 @@ export type GoogleAnalyticsAdminV1alphaGroupingRuleList =
   Array<GoogleAnalyticsAdminV1alphaGroupingRule>;
 /** A resource message representing a Channel Group. */
 export interface GoogleAnalyticsAdminV1alphaChannelGroup {
-  /** Required. The grouping rules of channels. Maximum number of rules is 50. */
-  groupingRule?: GoogleAnalyticsAdminV1alphaGroupingRuleList | undefined;
   /** Output only. The resource name for this Channel Group resource. Format: properties/{property}/channelGroups/{channel_group} */
   name?: string | undefined;
-  /** Required. The display name of the Channel Group. Max length of 80 characters. */
-  displayName?: string | undefined;
   /** Optional. If true, this channel group will be used as the default channel group for reports. Only one channel group can be set as `primary` at any time. If the `primary` field gets set on a channel group, it will get unset on the previous primary channel group. The Google Analytics predefined channel group is the primary by default. */
   primary?: boolean | undefined;
-  /** The description of the Channel Group. Max length of 256 characters. */
-  description?: string | undefined;
   /** Output only. If true, then this channel group is the Default Channel Group predefined by Google Analytics. Display name and grouping rules cannot be updated for this channel group. */
   systemDefined?: boolean | undefined;
+  /** Required. The grouping rules of channels. Maximum number of rules is 50. */
+  groupingRule?: GoogleAnalyticsAdminV1alphaGroupingRuleList | undefined;
+  /** Required. The display name of the Channel Group. Max length of 80 characters. */
+  displayName?: string | undefined;
+  /** The description of the Channel Group. Max length of 256 characters. */
+  description?: string | undefined;
 }
 export interface CreatePropertiesChannelGroupsRequest extends GoogleAnalyticsAdminV1alphaChannelGroup {
   /** Required. The property for which to create a ChannelGroup. Example format: properties/1234 */
   parent: string;
 }
+export type GoogleAnalyticsAdminV1alphaConversionEventCountingMethodEnum =
+  | "CONVERSION_COUNTING_METHOD_UNSPECIFIED"
+  | "ONCE_PER_EVENT"
+  | "ONCE_PER_SESSION";
 /** Defines a default value/currency for a conversion event. Both value and currency must be provided. */
 export interface GoogleAnalyticsAdminV1alphaConversionEventDefaultConversionValue {
   /** This value will be used to populate the value for all conversions of the specified event_name where the event "value" parameter is unset. */
@@ -779,31 +783,27 @@ export interface GoogleAnalyticsAdminV1alphaConversionEventDefaultConversionValu
   /** When a conversion event for this event_name has no set currency, this currency will be applied as the default. Must be in ISO 4217 currency code format. See https://en.wikipedia.org/wiki/ISO_4217 for more information. */
   currencyCode?: string | undefined;
 }
-export type GoogleAnalyticsAdminV1alphaConversionEventCountingMethodEnum =
-  | "CONVERSION_COUNTING_METHOD_UNSPECIFIED"
-  | "ONCE_PER_EVENT"
-  | "ONCE_PER_SESSION";
 /** A conversion event in a Google Analytics property. */
 export interface GoogleAnalyticsAdminV1alphaConversionEvent {
-  /** Output only. If set, this event can currently be deleted with DeleteConversionEvent. */
-  deletable?: boolean | undefined;
-  /** Identifier. Resource name of this conversion event. Format: properties/{property}/conversionEvents/{conversion_event} */
-  name?: string | undefined;
-  /** Optional. Defines a default value/currency for a conversion event. */
-  defaultConversionValue?:
-    | GoogleAnalyticsAdminV1alphaConversionEventDefaultConversionValue
-    | undefined;
-  /** Immutable. The event name for this conversion event. Examples: 'click', 'purchase' */
-  eventName?: string | undefined;
   /** Optional. The method by which conversions will be counted across multiple events within a session. If this value is not provided, it will be set to `ONCE_PER_EVENT`. */
   countingMethod?:
     | GoogleAnalyticsAdminV1alphaConversionEventCountingMethodEnum
     | (string & {})
     | undefined;
-  /** Output only. If set to true, this conversion event refers to a custom event. If set to false, this conversion event refers to a default event in GA. Default events typically have special meaning in GA. Default events are usually created for you by the GA system, but in some cases can be created by property admins. Custom events count towards the maximum number of custom conversion events that may be created per property. */
-  custom?: boolean | undefined;
+  /** Identifier. Resource name of this conversion event. Format: properties/{property}/conversionEvents/{conversion_event} */
+  name?: string | undefined;
+  /** Immutable. The event name for this conversion event. Examples: 'click', 'purchase' */
+  eventName?: string | undefined;
+  /** Output only. If set, this event can currently be deleted with DeleteConversionEvent. */
+  deletable?: boolean | undefined;
+  /** Optional. Defines a default value/currency for a conversion event. */
+  defaultConversionValue?:
+    | GoogleAnalyticsAdminV1alphaConversionEventDefaultConversionValue
+    | undefined;
   /** Output only. Time when this conversion event was created in the property. */
   createTime?: string | undefined;
+  /** Output only. If set to true, this conversion event refers to a custom event. If set to false, this conversion event refers to a default event in GA. Default events typically have special meaning in GA. Default events are usually created for you by the GA system, but in some cases can be created by property admins. Custom events count towards the maximum number of custom conversion events that may be created per property. */
+  custom?: boolean | undefined;
 }
 export interface CreatePropertiesConversionEventsRequest extends GoogleAnalyticsAdminV1alphaConversionEvent {
   /** Required. The resource name of the parent property where this conversion event will be created. Format: properties/123 */
@@ -816,6 +816,10 @@ export type GoogleAnalyticsAdminV1alphaCustomDimensionScopeEnum =
   | "ITEM";
 /** A definition for a CustomDimension. */
 export interface GoogleAnalyticsAdminV1alphaCustomDimension {
+  /** Required. Immutable. Tagging parameter name for this custom dimension. If this is a user-scoped dimension, then this is the user property name. If this is an event-scoped dimension, then this is the event parameter name. If this is an item-scoped dimension, then this is the parameter name found in the eCommerce items array. May only contain alphanumeric and underscore characters, starting with a letter. Max length of 24 characters for user-scoped dimensions, 40 characters for event-scoped dimensions. */
+  parameterName?: string | undefined;
+  /** Identifier. Resource name for this CustomDimension resource. Format: properties/{property}/customDimensions/{customDimension} */
+  name?: string | undefined;
   /** Optional. If set to true, sets this dimension as NPA and excludes it from ads personalization. This is currently only supported by user-scoped custom dimensions. */
   disallowAdsPersonalization?: boolean | undefined;
   /** Optional. Description for this custom dimension. Max length of 150 characters. */
@@ -824,16 +828,18 @@ export interface GoogleAnalyticsAdminV1alphaCustomDimension {
   scope?: GoogleAnalyticsAdminV1alphaCustomDimensionScopeEnum | (string & {}) | undefined;
   /** Required. Display name for this custom dimension as shown in the Analytics UI. Max length of 82 characters, alphanumeric plus space and underscore starting with a letter. Legacy system-generated display names may contain square brackets, but updates to this field will never permit square brackets. */
   displayName?: string | undefined;
-  /** Required. Immutable. Tagging parameter name for this custom dimension. If this is a user-scoped dimension, then this is the user property name. If this is an event-scoped dimension, then this is the event parameter name. If this is an item-scoped dimension, then this is the parameter name found in the eCommerce items array. May only contain alphanumeric and underscore characters, starting with a letter. Max length of 24 characters for user-scoped dimensions, 40 characters for event-scoped dimensions. */
-  parameterName?: string | undefined;
-  /** Identifier. Resource name for this CustomDimension resource. Format: properties/{property}/customDimensions/{customDimension} */
-  name?: string | undefined;
 }
 export interface CreatePropertiesCustomDimensionsRequest extends GoogleAnalyticsAdminV1alphaCustomDimension {
   /** Required. Example format: properties/1234 */
   parent: string;
 }
-export type GoogleAnalyticsAdminV1alphaCustomMetricScopeEnum = "METRIC_SCOPE_UNSPECIFIED" | "EVENT";
+export type GoogleAnalyticsAdminV1alphaCustomMetricRestrictedMetricTypeItemEnum =
+  | "RESTRICTED_METRIC_TYPE_UNSPECIFIED"
+  | "COST_DATA"
+  | "REVENUE_DATA";
+export type GoogleAnalyticsAdminV1alphaCustomMetricRestrictedMetricTypeItemEnumList = Array<
+  GoogleAnalyticsAdminV1alphaCustomMetricRestrictedMetricTypeItemEnum | (string & {})
+>;
 export type GoogleAnalyticsAdminV1alphaCustomMetricMeasurementUnitEnum =
   | "MEASUREMENT_UNIT_UNSPECIFIED"
   | "STANDARD"
@@ -846,32 +852,26 @@ export type GoogleAnalyticsAdminV1alphaCustomMetricMeasurementUnitEnum =
   | "SECONDS"
   | "MINUTES"
   | "HOURS";
-export type GoogleAnalyticsAdminV1alphaCustomMetricRestrictedMetricTypeItemEnum =
-  | "RESTRICTED_METRIC_TYPE_UNSPECIFIED"
-  | "COST_DATA"
-  | "REVENUE_DATA";
-export type GoogleAnalyticsAdminV1alphaCustomMetricRestrictedMetricTypeItemEnumList = Array<
-  GoogleAnalyticsAdminV1alphaCustomMetricRestrictedMetricTypeItemEnum | (string & {})
->;
+export type GoogleAnalyticsAdminV1alphaCustomMetricScopeEnum = "METRIC_SCOPE_UNSPECIFIED" | "EVENT";
 /** A definition for a custom metric. */
 export interface GoogleAnalyticsAdminV1alphaCustomMetric {
-  /** Optional. Description for this custom dimension. Max length of 150 characters. */
-  description?: string | undefined;
-  /** Required. Immutable. The scope of this custom metric. */
-  scope?: GoogleAnalyticsAdminV1alphaCustomMetricScopeEnum | (string & {}) | undefined;
+  /** Optional. Types of restricted data that this metric may contain. Required for metrics with CURRENCY measurement unit. Must be empty for metrics with a non-CURRENCY measurement unit. */
+  restrictedMetricType?:
+    | GoogleAnalyticsAdminV1alphaCustomMetricRestrictedMetricTypeItemEnumList
+    | undefined;
   /** Required. The type for the custom metric's value. */
   measurementUnit?:
     | GoogleAnalyticsAdminV1alphaCustomMetricMeasurementUnitEnum
     | (string & {})
     | undefined;
-  /** Optional. Types of restricted data that this metric may contain. Required for metrics with CURRENCY measurement unit. Must be empty for metrics with a non-CURRENCY measurement unit. */
-  restrictedMetricType?:
-    | GoogleAnalyticsAdminV1alphaCustomMetricRestrictedMetricTypeItemEnumList
-    | undefined;
-  /** Required. Display name for this custom metric as shown in the Analytics UI. Max length of 82 characters, alphanumeric plus space and underscore starting with a letter. Legacy system-generated display names may contain square brackets, but updates to this field will never permit square brackets. */
-  displayName?: string | undefined;
+  /** Optional. Description for this custom dimension. Max length of 150 characters. */
+  description?: string | undefined;
+  /** Required. Immutable. The scope of this custom metric. */
+  scope?: GoogleAnalyticsAdminV1alphaCustomMetricScopeEnum | (string & {}) | undefined;
   /** Identifier. Resource name for this CustomMetric resource. Format: properties/{property}/customMetrics/{customMetric} */
   name?: string | undefined;
+  /** Required. Display name for this custom metric as shown in the Analytics UI. Max length of 82 characters, alphanumeric plus space and underscore starting with a letter. Legacy system-generated display names may contain square brackets, but updates to this field will never permit square brackets. */
+  displayName?: string | undefined;
   /** Required. Immutable. Tagging name for this custom metric. If this is an event-scoped metric, then this is the event parameter name. May only contain alphanumeric and underscore charactes, starting with a letter. Max length of 40 characters for event-scoped metrics. */
   parameterName?: string | undefined;
 }
@@ -879,57 +879,66 @@ export interface CreatePropertiesCustomMetricsRequest extends GoogleAnalyticsAdm
   /** Required. Example format: properties/1234 */
   parent: string;
 }
-/** Data specific to web streams. */
-export interface GoogleAnalyticsAdminV1alphaDataStreamWebStreamData {
-  /** Output only. ID of the corresponding web app in Firebase, if any. This ID can change if the web app is deleted and recreated. */
+/** Data specific to iOS app streams. */
+export interface GoogleAnalyticsAdminV1alphaDataStreamIosAppStreamData {
+  /** Output only. ID of the corresponding iOS app in Firebase, if any. This ID can change if the iOS app is deleted and recreated. */
   firebaseAppId?: string | undefined;
-  /** Domain name of the web app being measured, or empty. Example: "http://www.google.com", "https://www.google.com" */
-  defaultUri?: string | undefined;
-  /** Output only. Analytics Measurement ID. Example: "G-1A2BCD345E" */
-  measurementId?: string | undefined;
+  /** Required. Immutable. The Apple App Store Bundle ID for the app Example: "com.example.myiosapp" */
+  bundleId?: string | undefined;
 }
 /** Data specific to Android app streams. */
 export interface GoogleAnalyticsAdminV1alphaDataStreamAndroidAppStreamData {
-  /** Output only. ID of the corresponding Android app in Firebase, if any. This ID can change if the Android app is deleted and recreated. */
-  firebaseAppId?: string | undefined;
   /** Immutable. The package name for the app being measured. Example: "com.example.myandroidapp" */
   packageName?: string | undefined;
+  /** Output only. ID of the corresponding Android app in Firebase, if any. This ID can change if the Android app is deleted and recreated. */
+  firebaseAppId?: string | undefined;
 }
 export type GoogleAnalyticsAdminV1alphaDataStreamTypeEnum =
   | "DATA_STREAM_TYPE_UNSPECIFIED"
   | "WEB_DATA_STREAM"
   | "ANDROID_APP_DATA_STREAM"
   | "IOS_APP_DATA_STREAM";
-/** Data specific to iOS app streams. */
-export interface GoogleAnalyticsAdminV1alphaDataStreamIosAppStreamData {
-  /** Required. Immutable. The Apple App Store Bundle ID for the app Example: "com.example.myiosapp" */
-  bundleId?: string | undefined;
-  /** Output only. ID of the corresponding iOS app in Firebase, if any. This ID can change if the iOS app is deleted and recreated. */
+/** Data specific to web streams. */
+export interface GoogleAnalyticsAdminV1alphaDataStreamWebStreamData {
+  /** Domain name of the web app being measured, or empty. Example: "http://www.google.com", "https://www.google.com" */
+  defaultUri?: string | undefined;
+  /** Output only. Analytics Measurement ID. Example: "G-1A2BCD345E" */
+  measurementId?: string | undefined;
+  /** Output only. ID of the corresponding web app in Firebase, if any. This ID can change if the web app is deleted and recreated. */
   firebaseAppId?: string | undefined;
 }
 /** A resource message representing a data stream. */
 export interface GoogleAnalyticsAdminV1alphaDataStream {
-  /** Output only. Time when stream payload fields were last updated. */
-  updateTime?: string | undefined;
+  /** Data specific to iOS app streams. Must be populated if type is IOS_APP_DATA_STREAM. */
+  iosAppStreamData?: GoogleAnalyticsAdminV1alphaDataStreamIosAppStreamData | undefined;
   /** Human-readable display name for the Data Stream. Required for web data streams. The max allowed display name length is 255 UTF-16 code units. */
   displayName?: string | undefined;
-  /** Data specific to web streams. Must be populated if type is WEB_DATA_STREAM. */
-  webStreamData?: GoogleAnalyticsAdminV1alphaDataStreamWebStreamData | undefined;
-  /** Identifier. Resource name of this Data Stream. Format: properties/{property_id}/dataStreams/{stream_id} Example: "properties/1000/dataStreams/2000" */
-  name?: string | undefined;
-  /** Output only. Time when this stream was originally created. */
-  createTime?: string | undefined;
   /** Data specific to Android app streams. Must be populated if type is ANDROID_APP_DATA_STREAM. */
   androidAppStreamData?: GoogleAnalyticsAdminV1alphaDataStreamAndroidAppStreamData | undefined;
   /** Required. Immutable. The type of this DataStream resource. */
   type?: GoogleAnalyticsAdminV1alphaDataStreamTypeEnum | (string & {}) | undefined;
-  /** Data specific to iOS app streams. Must be populated if type is IOS_APP_DATA_STREAM. */
-  iosAppStreamData?: GoogleAnalyticsAdminV1alphaDataStreamIosAppStreamData | undefined;
+  /** Output only. Time when stream payload fields were last updated. */
+  updateTime?: string | undefined;
+  /** Output only. Time when this stream was originally created. */
+  createTime?: string | undefined;
+  /** Data specific to web streams. Must be populated if type is WEB_DATA_STREAM. */
+  webStreamData?: GoogleAnalyticsAdminV1alphaDataStreamWebStreamData | undefined;
+  /** Identifier. Resource name of this Data Stream. Format: properties/{property_id}/dataStreams/{stream_id} Example: "properties/1000/dataStreams/2000" */
+  name?: string | undefined;
 }
 export interface CreatePropertiesDataStreamsRequest extends GoogleAnalyticsAdminV1alphaDataStream {
   /** Required. Example format: properties/1234 */
   parent: string;
 }
+/** Defines an event parameter to mutate. */
+export interface GoogleAnalyticsAdminV1alphaParameterMutation {
+  /** Required. The value mutation to perform. * Must be less than 100 characters. * To specify a constant value for the param, use the value's string. * To copy value from another parameter, use syntax like "[[other_parameter]]" For more details, see this [help center article](https://support.google.com/analytics/answer/10085872#modify-an-event&zippy=%2Cin-this-article%2Cmodify-parameters). */
+  parameterValue?: string | undefined;
+  /** Required. The name of the parameter to mutate. This value must: * be less than 40 characters. * be unique across across all mutations within the rule * consist only of letters, digits or _ (underscores) For event edit rules, the name may also be set to 'event_name' to modify the event_name in place. */
+  parameter?: string | undefined;
+}
+export type GoogleAnalyticsAdminV1alphaParameterMutationList =
+  Array<GoogleAnalyticsAdminV1alphaParameterMutation>;
 export type GoogleAnalyticsAdminV1alphaMatchingConditionComparisonTypeEnum =
   | "COMPARISON_TYPE_UNSPECIFIED"
   | "EQUALS"
@@ -948,10 +957,6 @@ export type GoogleAnalyticsAdminV1alphaMatchingConditionComparisonTypeEnum =
   | "REGULAR_EXPRESSION_CASE_INSENSITIVE";
 /** Defines a condition for when an Event Edit or Event Creation rule applies to an event. */
 export interface GoogleAnalyticsAdminV1alphaMatchingCondition {
-  /** Required. The name of the field that is compared against for the condition. If 'event_name' is specified this condition will apply to the name of the event. Otherwise the condition will apply to a parameter with the specified name. This value cannot contain spaces. */
-  field?: string | undefined;
-  /** Required. The value being compared against for this condition. The runtime implementation may perform type coercion of this value to evaluate this condition based on the type of the parameter value. */
-  value?: string | undefined;
   /** Whether or not the result of the comparison should be negated. For example, if `negated` is true, then 'equals' comparisons would function as 'not equals'. */
   negated?: boolean | undefined;
   /** Required. The type of comparison to be applied to the value. */
@@ -959,30 +964,25 @@ export interface GoogleAnalyticsAdminV1alphaMatchingCondition {
     | GoogleAnalyticsAdminV1alphaMatchingConditionComparisonTypeEnum
     | (string & {})
     | undefined;
+  /** Required. The name of the field that is compared against for the condition. If 'event_name' is specified this condition will apply to the name of the event. Otherwise the condition will apply to a parameter with the specified name. This value cannot contain spaces. */
+  field?: string | undefined;
+  /** Required. The value being compared against for this condition. The runtime implementation may perform type coercion of this value to evaluate this condition based on the type of the parameter value. */
+  value?: string | undefined;
 }
 export type GoogleAnalyticsAdminV1alphaMatchingConditionList =
   Array<GoogleAnalyticsAdminV1alphaMatchingCondition>;
-/** Defines an event parameter to mutate. */
-export interface GoogleAnalyticsAdminV1alphaParameterMutation {
-  /** Required. The name of the parameter to mutate. This value must: * be less than 40 characters. * be unique across across all mutations within the rule * consist only of letters, digits or _ (underscores) For event edit rules, the name may also be set to 'event_name' to modify the event_name in place. */
-  parameter?: string | undefined;
-  /** Required. The value mutation to perform. * Must be less than 100 characters. * To specify a constant value for the param, use the value's string. * To copy value from another parameter, use syntax like "[[other_parameter]]" For more details, see this [help center article](https://support.google.com/analytics/answer/10085872#modify-an-event&zippy=%2Cin-this-article%2Cmodify-parameters). */
-  parameterValue?: string | undefined;
-}
-export type GoogleAnalyticsAdminV1alphaParameterMutationList =
-  Array<GoogleAnalyticsAdminV1alphaParameterMutation>;
 /** An Event Create Rule defines conditions that will trigger the creation of an entirely new event based upon matched criteria of a source event. Additional mutations of the parameters from the source event can be defined. Unlike Event Edit rules, Event Creation Rules have no defined order. They will all be run independently. Event Edit and Event Create rules can't be used to modify an event created from an Event Create rule. */
 export interface GoogleAnalyticsAdminV1alphaEventCreateRule {
   /** Output only. Resource name for this EventCreateRule resource. Format: properties/{property}/dataStreams/{data_stream}/eventCreateRules/{event_create_rule} */
   name?: string | undefined;
-  /** Required. The name of the new event to be created. This value must: * be less than 40 characters * consist only of letters, digits or _ (underscores) * start with a letter */
-  destinationEvent?: string | undefined;
-  /** Required. Must have at least one condition, and can have up to 10 max. Conditions on the source event must match for this rule to be applied. */
-  eventConditions?: GoogleAnalyticsAdminV1alphaMatchingConditionList | undefined;
   /** If true, the source parameters are copied to the new event. If false, or unset, all non-internal parameters are not copied from the source event. Parameter mutations are applied after the parameters have been copied. */
   sourceCopyParameters?: boolean | undefined;
   /** Parameter mutations define parameter behavior on the new event, and are applied in order. A maximum of 20 mutations can be applied. */
   parameterMutations?: GoogleAnalyticsAdminV1alphaParameterMutationList | undefined;
+  /** Required. Must have at least one condition, and can have up to 10 max. Conditions on the source event must match for this rule to be applied. */
+  eventConditions?: GoogleAnalyticsAdminV1alphaMatchingConditionList | undefined;
+  /** Required. The name of the new event to be created. This value must: * be less than 40 characters * consist only of letters, digits or _ (underscores) * start with a letter */
+  destinationEvent?: string | undefined;
 }
 export interface CreatePropertiesDataStreamsEventCreateRulesRequest extends GoogleAnalyticsAdminV1alphaEventCreateRule {
   /** Required. Example format: properties/123/dataStreams/456 */
@@ -990,12 +990,12 @@ export interface CreatePropertiesDataStreamsEventCreateRulesRequest extends Goog
 }
 /** An Event Edit Rule defines conditions that will trigger the creation of an entirely new event based upon matched criteria of a source event. Additional mutations of the parameters from the source event can be defined. Unlike Event Create rules, Event Edit Rules are applied in their defined order. Event Edit rules can't be used to modify an event created from an Event Create rule. */
 export interface GoogleAnalyticsAdminV1alphaEventEditRule {
-  /** Output only. The order for which this rule will be processed. Rules with an order value lower than this will be processed before this rule, rules with an order value higher than this will be processed after this rule. New event edit rules will be assigned an order value at the end of the order. This value does not apply to event create rules. */
-  processingOrder?: string | undefined;
   /** Required. Parameter mutations define parameter behavior on the new event, and are applied in order. A maximum of 20 mutations can be applied. */
   parameterMutations?: GoogleAnalyticsAdminV1alphaParameterMutationList | undefined;
   /** Required. The display name of this event edit rule. Maximum of 255 characters. */
   displayName?: string | undefined;
+  /** Output only. The order for which this rule will be processed. Rules with an order value lower than this will be processed before this rule, rules with an order value higher than this will be processed after this rule. New event edit rules will be assigned an order value at the end of the order. This value does not apply to event create rules. */
+  processingOrder?: string | undefined;
   /** Identifier. Resource name for this EventEditRule resource. Format: properties/{property}/dataStreams/{data_stream}/eventEditRules/{event_edit_rule} */
   name?: string | undefined;
   /** Required. Conditions on the source event must match for this rule to be applied. Must have at least one condition, and can have up to 10 max. */
@@ -1007,12 +1007,12 @@ export interface CreatePropertiesDataStreamsEventEditRulesRequest extends Google
 }
 /** A secret value used for sending hits to Measurement Protocol. */
 export interface GoogleAnalyticsAdminV1alphaMeasurementProtocolSecret {
+  /** Identifier. Resource name of this secret. This secret may be a child of any type of stream. Format: properties/{property}/dataStreams/{dataStream}/measurementProtocolSecrets/{measurementProtocolSecret} */
+  name?: string | undefined;
   /** Required. Human-readable display name for this secret. */
   displayName?: string | undefined;
   /** Output only. The measurement protocol secret value. Pass this value to the api_secret field of the Measurement Protocol API when sending hits to this secret's parent property. */
   secretValue?: string | Redacted.Redacted<string> | undefined;
-  /** Identifier. Resource name of this secret. This secret may be a child of any type of stream. Format: properties/{property}/dataStreams/{dataStream}/measurementProtocolSecrets/{measurementProtocolSecret} */
-  name?: string | undefined;
 }
 export interface CreatePropertiesDataStreamsMeasurementProtocolSecretsRequest extends GoogleAnalyticsAdminV1alphaMeasurementProtocolSecret {
   /** Required. The parent resource where this secret will be created. Format: properties/{property}/dataStreams/{dataStream} */
@@ -1020,16 +1020,16 @@ export interface CreatePropertiesDataStreamsMeasurementProtocolSecretsRequest ex
 }
 /** Event setting conditions to match an event. */
 export interface GoogleAnalyticsAdminV1alphaEventMapping {
-  /** At least one of the following four min/max values must be set. The values set will be ANDed together to qualify an event. The minimum number of times the event occurred. If not set, minimum event count won't be checked. */
-  minEventCount?: string | undefined;
-  /** The maximum number of times the event occurred. If not set, maximum event count won't be checked. */
-  maxEventCount?: string | undefined;
   /** The minimum revenue generated due to the event. Revenue currency will be defined at the property level. If not set, minimum event value won't be checked. */
   minEventValue?: number | undefined;
   /** The maximum revenue generated due to the event. Revenue currency will be defined at the property level. If not set, maximum event value won't be checked. */
   maxEventValue?: number | undefined;
   /** Required. Name of the Google Analytics event. It must always be set. The max allowed display name length is 40 UTF-16 code units. */
   eventName?: string | undefined;
+  /** At least one of the following four min/max values must be set. The values set will be ANDed together to qualify an event. The minimum number of times the event occurred. If not set, minimum event count won't be checked. */
+  minEventCount?: string | undefined;
+  /** The maximum number of times the event occurred. If not set, maximum event count won't be checked. */
+  maxEventCount?: string | undefined;
 }
 export type GoogleAnalyticsAdminV1alphaEventMappingList =
   Array<GoogleAnalyticsAdminV1alphaEventMapping>;
@@ -1040,10 +1040,8 @@ export type GoogleAnalyticsAdminV1alphaConversionValuesCoarseValueEnum =
   | "COARSE_VALUE_HIGH";
 /** Conversion value settings for a postback window for SKAdNetwork conversion value schema. */
 export interface GoogleAnalyticsAdminV1alphaConversionValues {
-  /** Display name of the SKAdNetwork conversion value. The max allowed display name length is 50 UTF-16 code units. */
-  displayName?: string | undefined;
-  /** The fine-grained conversion value. This is applicable only to the first postback window. Its valid values are [0,63], both inclusive. It must be set for postback window 1, and must not be set for postback window 2 & 3. This value is not guaranteed to be unique. If the configuration for the first postback window is re-used for second or third postback windows this field has no effect. */
-  fineValue?: number | undefined;
+  /** If true, the SDK should lock to this conversion value for the current postback window. */
+  lockEnabled?: boolean | undefined;
   /** Event conditions that must be met for this Conversion Value to be achieved. The conditions in this list are ANDed together. It must have minimum of 1 entry and maximum of 3 entries, if the postback window is enabled. */
   eventMappings?: GoogleAnalyticsAdminV1alphaEventMappingList | undefined;
   /** Required. A coarse grained conversion value. This value is not guaranteed to be unique. */
@@ -1051,8 +1049,10 @@ export interface GoogleAnalyticsAdminV1alphaConversionValues {
     | GoogleAnalyticsAdminV1alphaConversionValuesCoarseValueEnum
     | (string & {})
     | undefined;
-  /** If true, the SDK should lock to this conversion value for the current postback window. */
-  lockEnabled?: boolean | undefined;
+  /** Display name of the SKAdNetwork conversion value. The max allowed display name length is 50 UTF-16 code units. */
+  displayName?: string | undefined;
+  /** The fine-grained conversion value. This is applicable only to the first postback window. Its valid values are [0,63], both inclusive. It must be set for postback window 1, and must not be set for postback window 2 & 3. This value is not guaranteed to be unique. If the configuration for the first postback window is re-used for second or third postback windows this field has no effect. */
+  fineValue?: number | undefined;
 }
 export type GoogleAnalyticsAdminV1alphaConversionValuesList =
   Array<GoogleAnalyticsAdminV1alphaConversionValues>;
@@ -1065,16 +1065,16 @@ export interface GoogleAnalyticsAdminV1alphaPostbackWindow {
 }
 /** SKAdNetwork conversion value schema of an iOS stream. */
 export interface GoogleAnalyticsAdminV1alphaSKAdNetworkConversionValueSchema {
-  /** The conversion value settings for the third postback window. This field should only be set if the user chose to define different conversion values for this postback window. It is allowed to configure window 3 without setting window 2. In case window 1 & 2 settings are set and enable_postback_window_settings for this postback window is set to false, the schema will inherit settings from postback_window_two. */
-  postbackWindowThree?: GoogleAnalyticsAdminV1alphaPostbackWindow | undefined;
-  /** If enabled, the GA SDK will set conversion values using this schema definition, and schema will be exported to any Google Ads accounts linked to this property. If disabled, the GA SDK will not automatically set conversion values, and also the schema will not be exported to Ads. */
-  applyConversionValues?: boolean | undefined;
   /** The conversion value settings for the second postback window. This field should only be configured if there is a need to define different conversion values for this postback window. If enable_postback_window_settings is set to false for this postback window, the values from postback_window_one will be used. */
   postbackWindowTwo?: GoogleAnalyticsAdminV1alphaPostbackWindow | undefined;
-  /** Identifier. Resource name of the schema. This will be child of ONLY an iOS stream, and there can be at most one such child under an iOS stream. Format: properties/{property}/dataStreams/{dataStream}/sKAdNetworkConversionValueSchema */
-  name?: string | undefined;
+  /** The conversion value settings for the third postback window. This field should only be set if the user chose to define different conversion values for this postback window. It is allowed to configure window 3 without setting window 2. In case window 1 & 2 settings are set and enable_postback_window_settings for this postback window is set to false, the schema will inherit settings from postback_window_two. */
+  postbackWindowThree?: GoogleAnalyticsAdminV1alphaPostbackWindow | undefined;
   /** Required. The conversion value settings for the first postback window. These differ from values for postback window two and three in that they contain a "Fine" grained conversion value (a numeric value). Conversion values for this postback window must be set. The other windows are optional and may inherit this window's settings if unset or disabled. */
   postbackWindowOne?: GoogleAnalyticsAdminV1alphaPostbackWindow | undefined;
+  /** If enabled, the GA SDK will set conversion values using this schema definition, and schema will be exported to any Google Ads accounts linked to this property. If disabled, the GA SDK will not automatically set conversion values, and also the schema will not be exported to Ads. */
+  applyConversionValues?: boolean | undefined;
+  /** Identifier. Resource name of the schema. This will be child of ONLY an iOS stream, and there can be at most one such child under an iOS stream. Format: properties/{property}/dataStreams/{dataStream}/sKAdNetworkConversionValueSchema */
+  name?: string | undefined;
 }
 export interface CreatePropertiesDataStreamsSKAdNetworkConversionValueSchemaRequest extends GoogleAnalyticsAdminV1alphaSKAdNetworkConversionValueSchema {
   /** Required. The parent resource where this schema will be created. Format: properties/{property}/dataStreams/{dataStream} */
@@ -1088,12 +1088,12 @@ export interface CreatePropertiesDisplayVideo360AdvertiserLinksRequest extends G
   /** Required. Example format: properties/1234 */
   parent: string;
 }
-export type GoogleAnalyticsAdminV1alphaExpandedDataSetFilterExpressionList_ =
-  Array<GoogleAnalyticsAdminV1alphaExpandedDataSetFilterExpression>;
-/** A list of ExpandedDataSet filter expressions. */
-export interface GoogleAnalyticsAdminV1alphaExpandedDataSetFilterExpressionList {
-  /** A list of ExpandedDataSet filter expressions. */
-  filterExpressions?: GoogleAnalyticsAdminV1alphaExpandedDataSetFilterExpressionList_ | undefined;
+/** A filter for a string dimension that matches a particular list of options. */
+export interface GoogleAnalyticsAdminV1alphaExpandedDataSetFilterInListFilter {
+  /** Required. The list of possible string values to match against. Must be non-empty. */
+  values?: StringList | undefined;
+  /** Optional. If true, the match is case-sensitive. If false, the match is case-insensitive. Must be true. */
+  caseSensitive?: boolean | undefined;
 }
 export type GoogleAnalyticsAdminV1alphaExpandedDataSetFilterStringFilterMatchTypeEnum =
   | "MATCH_TYPE_UNSPECIFIED"
@@ -1101,8 +1101,6 @@ export type GoogleAnalyticsAdminV1alphaExpandedDataSetFilterStringFilterMatchTyp
   | "CONTAINS";
 /** A filter for a string-type dimension that matches a particular pattern. */
 export interface GoogleAnalyticsAdminV1alphaExpandedDataSetFilterStringFilter {
-  /** Required. The string value to be matched against. */
-  value?: string | undefined;
   /** Required. The match type for the string filter. */
   matchType?:
     | GoogleAnalyticsAdminV1alphaExpandedDataSetFilterStringFilterMatchTypeEnum
@@ -1110,50 +1108,52 @@ export interface GoogleAnalyticsAdminV1alphaExpandedDataSetFilterStringFilter {
     | undefined;
   /** Optional. If true, the match is case-sensitive. If false, the match is case-insensitive. Must be true when match_type is EXACT. Must be false when match_type is CONTAINS. */
   caseSensitive?: boolean | undefined;
-}
-/** A filter for a string dimension that matches a particular list of options. */
-export interface GoogleAnalyticsAdminV1alphaExpandedDataSetFilterInListFilter {
-  /** Optional. If true, the match is case-sensitive. If false, the match is case-insensitive. Must be true. */
-  caseSensitive?: boolean | undefined;
-  /** Required. The list of possible string values to match against. Must be non-empty. */
-  values?: StringList | undefined;
+  /** Required. The string value to be matched against. */
+  value?: string | undefined;
 }
 /** A specific filter for a single dimension */
 export interface GoogleAnalyticsAdminV1alphaExpandedDataSetFilter {
-  /** A filter for a string-type dimension that matches a particular pattern. */
-  stringFilter?: GoogleAnalyticsAdminV1alphaExpandedDataSetFilterStringFilter | undefined;
-  /** Required. The dimension name to filter. */
-  fieldName?: string | undefined;
   /** A filter for a string dimension that matches a particular list of options. */
   inListFilter?: GoogleAnalyticsAdminV1alphaExpandedDataSetFilterInListFilter | undefined;
+  /** Required. The dimension name to filter. */
+  fieldName?: string | undefined;
+  /** A filter for a string-type dimension that matches a particular pattern. */
+  stringFilter?: GoogleAnalyticsAdminV1alphaExpandedDataSetFilterStringFilter | undefined;
+}
+export type GoogleAnalyticsAdminV1alphaExpandedDataSetFilterExpressionList_ =
+  Array<GoogleAnalyticsAdminV1alphaExpandedDataSetFilterExpression>;
+/** A list of ExpandedDataSet filter expressions. */
+export interface GoogleAnalyticsAdminV1alphaExpandedDataSetFilterExpressionList {
+  /** A list of ExpandedDataSet filter expressions. */
+  filterExpressions?: GoogleAnalyticsAdminV1alphaExpandedDataSetFilterExpressionList_ | undefined;
 }
 /** A logical expression of EnhancedDataSet dimension filters. */
 export interface GoogleAnalyticsAdminV1alphaExpandedDataSetFilterExpression {
-  /** A list of expressions to be AND'ed together. It must contain a ExpandedDataSetFilterExpression with either not_expression or dimension_filter. This must be set for the top level ExpandedDataSetFilterExpression. */
-  andGroup?: GoogleAnalyticsAdminV1alphaExpandedDataSetFilterExpressionList | undefined;
   /** A filter expression to be NOT'ed (that is, inverted, complemented). It must include a dimension_filter. This cannot be set on the top level ExpandedDataSetFilterExpression. */
   notExpression?: GoogleAnalyticsAdminV1alphaExpandedDataSetFilterExpression | undefined;
   /** A filter on a single dimension. This cannot be set on the top level ExpandedDataSetFilterExpression. */
   filter?: GoogleAnalyticsAdminV1alphaExpandedDataSetFilter | undefined;
+  /** A list of expressions to be AND'ed together. It must contain a ExpandedDataSetFilterExpression with either not_expression or dimension_filter. This must be set for the top level ExpandedDataSetFilterExpression. */
+  andGroup?: GoogleAnalyticsAdminV1alphaExpandedDataSetFilterExpressionList | undefined;
 }
 /** A resource message representing an `ExpandedDataSet`. */
 export interface GoogleAnalyticsAdminV1alphaExpandedDataSet {
-  /** Output only. The resource name for this ExpandedDataSet resource. Format: properties/{property_id}/expandedDataSets/{expanded_data_set} */
-  name?: string | undefined;
-  /** Output only. Time when expanded data set began (or will begin) collecing data. */
-  dataCollectionStartTime?: string | undefined;
-  /** Optional. The description of the ExpandedDataSet. Max 50 chars. */
-  description?: string | undefined;
-  /** Immutable. The list of dimensions included in the ExpandedDataSet. See the [API Dimensions](https://developers.google.com/analytics/devguides/reporting/data/v1/api-schema#dimensions) for the list of dimension names. */
-  dimensionNames?: StringList | undefined;
   /** Immutable. A logical expression of ExpandedDataSet filters applied to dimension included in the ExpandedDataSet. This filter is used to reduce the number of rows and thus the chance of encountering `other` row. */
   dimensionFilterExpression?:
     | GoogleAnalyticsAdminV1alphaExpandedDataSetFilterExpression
     | undefined;
+  /** Output only. Time when expanded data set began (or will begin) collecing data. */
+  dataCollectionStartTime?: string | undefined;
+  /** Optional. The description of the ExpandedDataSet. Max 50 chars. */
+  description?: string | undefined;
+  /** Output only. The resource name for this ExpandedDataSet resource. Format: properties/{property_id}/expandedDataSets/{expanded_data_set} */
+  name?: string | undefined;
   /** Required. The display name of the ExpandedDataSet. Max 200 chars. */
   displayName?: string | undefined;
   /** Immutable. The list of metrics included in the ExpandedDataSet. See the [API Metrics](https://developers.google.com/analytics/devguides/reporting/data/v1/api-schema#metrics) for the list of dimension names. */
   metricNames?: StringList | undefined;
+  /** Immutable. The list of dimensions included in the ExpandedDataSet. See the [API Dimensions](https://developers.google.com/analytics/devguides/reporting/data/v1/api-schema#dimensions) for the list of dimension names. */
+  dimensionNames?: StringList | undefined;
 }
 export interface CreatePropertiesExpandedDataSetsRequest extends GoogleAnalyticsAdminV1alphaExpandedDataSet {
   /** Required. Example format: properties/1234 */
@@ -1161,10 +1161,10 @@ export interface CreatePropertiesExpandedDataSetsRequest extends GoogleAnalytics
 }
 /** A link between a Google Analytics property and a Firebase project. */
 export interface GoogleAnalyticsAdminV1alphaFirebaseLink {
-  /** Immutable. Firebase project resource name. When creating a FirebaseLink, you may provide this resource name using either a project number or project ID. Once this resource has been created, returned FirebaseLinks will always have a project_name that contains a project number. Format: 'projects/{project number}' Example: 'projects/1234' */
-  project?: string | undefined;
   /** Identifier. Example format: properties/1234/firebaseLinks/5678 */
   name?: string | undefined;
+  /** Immutable. Firebase project resource name. When creating a FirebaseLink, you may provide this resource name using either a project number or project ID. Once this resource has been created, returned FirebaseLinks will always have a project_name that contains a project number. Format: 'projects/{project number}' Example: 'projects/1234' */
+  project?: string | undefined;
   /** Output only. Time when this FirebaseLink was originally created. */
   createTime?: string | undefined;
 }
@@ -1174,55 +1174,55 @@ export interface CreatePropertiesFirebaseLinksRequest extends GoogleAnalyticsAdm
 }
 /** A link between a Google Analytics property and a Google Ads account. */
 export interface GoogleAnalyticsAdminV1alphaGoogleAdsLink {
-  /** Output only. Time when this link was last updated. */
-  updateTime?: string | undefined;
-  /** Output only. Email address of the user that created the link. An empty string will be returned if the email address can't be retrieved. */
-  creatorEmailAddress?: string | undefined;
-  /** Immutable. Google Ads customer ID. */
-  customerId?: string | undefined;
-  /** Output only. If true, this link is for a Google Ads manager account. */
-  canManageClients?: boolean | undefined;
   /** Identifier. Format: properties/{propertyId}/googleAdsLinks/{googleAdsLinkId} Note: googleAdsLinkId is not the Google Ads customer ID. */
   name?: string | undefined;
+  /** Output only. Time when this link was last updated. */
+  updateTime?: string | undefined;
   /** Output only. Time when this link was originally created. */
   createTime?: string | undefined;
+  /** Output only. Email address of the user that created the link. An empty string will be returned if the email address can't be retrieved. */
+  creatorEmailAddress?: string | undefined;
+  /** Output only. If true, this link is for a Google Ads manager account. */
+  canManageClients?: boolean | undefined;
   /** Enable personalized advertising features with this integration. Automatically publish my Google Analytics audience lists and Google Analytics remarketing events/parameters to the linked Google Ads account. If this field is not set on create/update, it will be defaulted to true. */
   adsPersonalizationEnabled?: boolean | undefined;
+  /** Immutable. Google Ads customer ID. */
+  customerId?: string | undefined;
 }
 export interface CreatePropertiesGoogleAdsLinksRequest extends GoogleAnalyticsAdminV1alphaGoogleAdsLink {
   /** Required. Example format: properties/1234 */
   parent: string;
 }
-/** Defines a default value/currency for a key event. */
-export interface GoogleAnalyticsAdminV1alphaKeyEventDefaultValue {
-  /** Required. This will be used to populate the "value" parameter for all occurrences of this Key Event (specified by event_name) where that parameter is unset. */
-  numericValue?: number | undefined;
-  /** Required. When an occurrence of this Key Event (specified by event_name) has no set currency this currency will be applied as the default. Must be in ISO 4217 currency code format. See https://en.wikipedia.org/wiki/ISO_4217 for more information. */
-  currencyCode?: string | undefined;
-}
 export type GoogleAnalyticsAdminV1alphaKeyEventCountingMethodEnum =
   | "COUNTING_METHOD_UNSPECIFIED"
   | "ONCE_PER_EVENT"
   | "ONCE_PER_SESSION";
+/** Defines a default value/currency for a key event. */
+export interface GoogleAnalyticsAdminV1alphaKeyEventDefaultValue {
+  /** Required. When an occurrence of this Key Event (specified by event_name) has no set currency this currency will be applied as the default. Must be in ISO 4217 currency code format. See https://en.wikipedia.org/wiki/ISO_4217 for more information. */
+  currencyCode?: string | undefined;
+  /** Required. This will be used to populate the "value" parameter for all occurrences of this Key Event (specified by event_name) where that parameter is unset. */
+  numericValue?: number | undefined;
+}
 /** A key event in a Google Analytics property. */
 export interface GoogleAnalyticsAdminV1alphaKeyEvent {
-  /** Optional. Defines a default value/currency for a key event. */
-  defaultValue?: GoogleAnalyticsAdminV1alphaKeyEventDefaultValue | undefined;
-  /** Output only. Resource name of this key event. Format: properties/{property}/keyEvents/{key_event} */
-  name?: string | undefined;
-  /** Output only. Time when this key event was created in the property. */
-  createTime?: string | undefined;
-  /** Immutable. The event name for this key event. Examples: 'click', 'purchase' */
-  eventName?: string | undefined;
-  /** Output only. If set to true, this key event refers to a custom event. If set to false, this key event refers to a default event in GA. Default events typically have special meaning in GA. Default events are usually created for you by the GA system, but in some cases can be created by property admins. Custom events count towards the maximum number of custom key events that may be created per property. */
-  custom?: boolean | undefined;
   /** Required. The method by which Key Events will be counted across multiple events within a session. */
   countingMethod?:
     | GoogleAnalyticsAdminV1alphaKeyEventCountingMethodEnum
     | (string & {})
     | undefined;
+  /** Output only. Resource name of this key event. Format: properties/{property}/keyEvents/{key_event} */
+  name?: string | undefined;
+  /** Output only. Time when this key event was created in the property. */
+  createTime?: string | undefined;
+  /** Output only. If set to true, this key event refers to a custom event. If set to false, this key event refers to a default event in GA. Default events typically have special meaning in GA. Default events are usually created for you by the GA system, but in some cases can be created by property admins. Custom events count towards the maximum number of custom key events that may be created per property. */
+  custom?: boolean | undefined;
   /** Output only. If set to true, this event can be deleted. */
   deletable?: boolean | undefined;
+  /** Optional. Defines a default value/currency for a key event. */
+  defaultValue?: GoogleAnalyticsAdminV1alphaKeyEventDefaultValue | undefined;
+  /** Immutable. The event name for this key event. Examples: 'click', 'purchase' */
+  eventName?: string | undefined;
 }
 export interface CreatePropertiesKeyEventsRequest extends GoogleAnalyticsAdminV1alphaKeyEvent {
   /** Required. The resource name of the parent property where this Key Event will be created. Format: properties/123 */
@@ -1255,18 +1255,18 @@ export type GoogleAnalyticsAdminV1alphaReportingDataAnnotationColorEnum =
   | "ORANGE";
 /** A Reporting Data Annotation is a comment connected to certain dates for reporting data. */
 export interface GoogleAnalyticsAdminV1alphaReportingDataAnnotation {
-  /** If set, the Reporting Data Annotation is for a specific date represented by this field. The date must be a valid date with year, month and day set. The date may be in the past, present, or future. */
-  annotationDate?: GoogleTypeDate | undefined;
   /** If set, the Reporting Data Annotation is for a range of dates represented by this field. */
   annotationDateRange?: GoogleAnalyticsAdminV1alphaReportingDataAnnotationDateRange | undefined;
   /** Optional. Description for this Reporting Data Annotation. */
   description?: string | undefined;
-  /** Required. Identifier. Resource name of this Reporting Data Annotation. Format: 'properties/{property_id}/reportingDataAnnotations/{reporting_data_annotation}' Format: 'properties/123/reportingDataAnnotations/456' */
-  name?: string | undefined;
   /** Required. The color used for display of this Reporting Data Annotation. */
   color?: GoogleAnalyticsAdminV1alphaReportingDataAnnotationColorEnum | (string & {}) | undefined;
+  /** Required. Identifier. Resource name of this Reporting Data Annotation. Format: 'properties/{property_id}/reportingDataAnnotations/{reporting_data_annotation}' Format: 'properties/123/reportingDataAnnotations/456' */
+  name?: string | undefined;
   /** Output only. If true, this annotation was generated by the Google Analytics system. System-generated annotations cannot be updated or deleted. */
   systemGenerated?: boolean | undefined;
+  /** If set, the Reporting Data Annotation is for a specific date represented by this field. The date must be a valid date with year, month and day set. The date may be in the past, present, or future. */
+  annotationDate?: GoogleTypeDate | undefined;
   /** Required. Human-readable title for this Reporting Data Annotation. */
   title?: string | undefined;
 }
@@ -1287,32 +1287,29 @@ export interface CreatePropertiesRollupPropertySourceLinksRequest extends Google
 }
 /** A link between a Google Analytics property and a Search Ads 360 entity. */
 export interface GoogleAnalyticsAdminV1alphaSearchAds360Link {
-  /** Output only. The display name of the Search Ads 360 Advertiser. Allows users to easily identify the linked resource. */
-  advertiserDisplayName?: string | undefined;
+  /** Identifier. The resource name for this SearchAds360Link resource. Format: properties/{propertyId}/searchAds360Links/{linkId} Note: linkId is not the Search Ads 360 advertiser ID */
+  name?: string | undefined;
+  /** Enables personalized advertising features with this integration. If this field is not set on create, it will be defaulted to true. */
+  adsPersonalizationEnabled?: boolean | undefined;
   /** Immutable. Enables the import of campaign data from Search Ads 360 into the Google Analytics property. After link creation, this can only be updated from the Search Ads 360 product. If this field is not set on create, it will be defaulted to true. */
   campaignDataSharingEnabled?: boolean | undefined;
   /** Immutable. Enables the import of cost data from Search Ads 360 to the Google Analytics property. This can only be enabled if campaign_data_sharing_enabled is enabled. After link creation, this can only be updated from the Search Ads 360 product. If this field is not set on create, it will be defaulted to true. */
   costDataSharingEnabled?: boolean | undefined;
-  /** Immutable. This field represents the Advertiser ID of the Search Ads 360 Advertiser. that has been linked. */
-  advertiserId?: string | undefined;
-  /** Identifier. The resource name for this SearchAds360Link resource. Format: properties/{propertyId}/searchAds360Links/{linkId} Note: linkId is not the Search Ads 360 advertiser ID */
-  name?: string | undefined;
+  /** Output only. The display name of the Search Ads 360 Advertiser. Allows users to easily identify the linked resource. */
+  advertiserDisplayName?: string | undefined;
   /** Enables export of site stats with this integration. If this field is not set on create, it will be defaulted to true. */
   siteStatsSharingEnabled?: boolean | undefined;
-  /** Enables personalized advertising features with this integration. If this field is not set on create, it will be defaulted to true. */
-  adsPersonalizationEnabled?: boolean | undefined;
+  /** Immutable. This field represents the Advertiser ID of the Search Ads 360 Advertiser. that has been linked. */
+  advertiserId?: string | undefined;
 }
 export interface CreatePropertiesSearchAds360LinksRequest extends GoogleAnalyticsAdminV1alphaSearchAds360Link {
   /** Required. Example format: properties/1234 */
   parent: string;
 }
-export type GoogleAnalyticsAdminV1alphaSubpropertyEventFilterExpressionList_ =
-  Array<GoogleAnalyticsAdminV1alphaSubpropertyEventFilterExpression>;
-/** A list of Subproperty event filter expressions. */
-export interface GoogleAnalyticsAdminV1alphaSubpropertyEventFilterExpressionList {
-  /** Required. Unordered list. A list of Subproperty event filter expressions */
-  filterExpressions?: GoogleAnalyticsAdminV1alphaSubpropertyEventFilterExpressionList_ | undefined;
-}
+export type GoogleAnalyticsAdminV1alphaSubpropertyEventFilterClauseFilterClauseTypeEnum =
+  | "FILTER_CLAUSE_TYPE_UNSPECIFIED"
+  | "INCLUDE"
+  | "EXCLUDE";
 export type GoogleAnalyticsAdminV1alphaSubpropertyEventFilterConditionStringFilterMatchTypeEnum =
   | "MATCH_TYPE_UNSPECIFIED"
   | "EXACT"
@@ -1323,8 +1320,6 @@ export type GoogleAnalyticsAdminV1alphaSubpropertyEventFilterConditionStringFilt
   | "PARTIAL_REGEXP";
 /** A filter for a string-type dimension that matches a particular pattern. */
 export interface GoogleAnalyticsAdminV1alphaSubpropertyEventFilterConditionStringFilter {
-  /** Optional. If true, the string value is case sensitive. If false, the match is case-insensitive. */
-  caseSensitive?: boolean | undefined;
   /** Required. The match type for the string filter. */
   matchType?:
     | GoogleAnalyticsAdminV1alphaSubpropertyEventFilterConditionStringFilterMatchTypeEnum
@@ -1332,47 +1327,52 @@ export interface GoogleAnalyticsAdminV1alphaSubpropertyEventFilterConditionStrin
     | undefined;
   /** Required. The string value used for the matching. */
   value?: string | undefined;
+  /** Optional. If true, the string value is case sensitive. If false, the match is case-insensitive. */
+  caseSensitive?: boolean | undefined;
 }
 /** A specific filter expression */
 export interface GoogleAnalyticsAdminV1alphaSubpropertyEventFilterCondition {
-  /** A filter for null values. */
-  nullFilter?: boolean | undefined;
-  /** Required. The field that is being filtered. */
-  fieldName?: string | undefined;
   /** A filter for a string-type dimension that matches a particular pattern. */
   stringFilter?: GoogleAnalyticsAdminV1alphaSubpropertyEventFilterConditionStringFilter | undefined;
+  /** Required. The field that is being filtered. */
+  fieldName?: string | undefined;
+  /** A filter for null values. */
+  nullFilter?: boolean | undefined;
+}
+export type GoogleAnalyticsAdminV1alphaSubpropertyEventFilterExpressionList_ =
+  Array<GoogleAnalyticsAdminV1alphaSubpropertyEventFilterExpression>;
+/** A list of Subproperty event filter expressions. */
+export interface GoogleAnalyticsAdminV1alphaSubpropertyEventFilterExpressionList {
+  /** Required. Unordered list. A list of Subproperty event filter expressions */
+  filterExpressions?: GoogleAnalyticsAdminV1alphaSubpropertyEventFilterExpressionList_ | undefined;
 }
 /** A logical expression of Subproperty event filters. */
 export interface GoogleAnalyticsAdminV1alphaSubpropertyEventFilterExpression {
   /** A filter expression to be NOT'ed (inverted, complemented). It can only include a filter. This cannot be set on the top level SubpropertyEventFilterExpression. */
   notExpression?: GoogleAnalyticsAdminV1alphaSubpropertyEventFilterExpression | undefined;
-  /** A list of expressions to OR'ed together. Must only contain not_expression or filter_condition expressions. */
-  orGroup?: GoogleAnalyticsAdminV1alphaSubpropertyEventFilterExpressionList | undefined;
   /** Creates a filter that matches a specific event. This cannot be set on the top level SubpropertyEventFilterExpression. */
   filterCondition?: GoogleAnalyticsAdminV1alphaSubpropertyEventFilterCondition | undefined;
+  /** A list of expressions to OR'ed together. Must only contain not_expression or filter_condition expressions. */
+  orGroup?: GoogleAnalyticsAdminV1alphaSubpropertyEventFilterExpressionList | undefined;
 }
-export type GoogleAnalyticsAdminV1alphaSubpropertyEventFilterClauseFilterClauseTypeEnum =
-  | "FILTER_CLAUSE_TYPE_UNSPECIFIED"
-  | "INCLUDE"
-  | "EXCLUDE";
 /** A clause for defining a filter. A filter may be inclusive (events satisfying the filter clause are included in the subproperty's data) or exclusive (events satisfying the filter clause are excluded from the subproperty's data). */
 export interface GoogleAnalyticsAdminV1alphaSubpropertyEventFilterClause {
-  /** Required. The logical expression for what events are sent to the subproperty. */
-  filterExpression?: GoogleAnalyticsAdminV1alphaSubpropertyEventFilterExpression | undefined;
   /** Required. The type for the filter clause. */
   filterClauseType?:
     | GoogleAnalyticsAdminV1alphaSubpropertyEventFilterClauseFilterClauseTypeEnum
     | (string & {})
     | undefined;
+  /** Required. The logical expression for what events are sent to the subproperty. */
+  filterExpression?: GoogleAnalyticsAdminV1alphaSubpropertyEventFilterExpression | undefined;
 }
 export type GoogleAnalyticsAdminV1alphaSubpropertyEventFilterClauseList =
   Array<GoogleAnalyticsAdminV1alphaSubpropertyEventFilterClause>;
 /** A resource message representing a Google Analytics subproperty event filter. */
 export interface GoogleAnalyticsAdminV1alphaSubpropertyEventFilter {
-  /** Immutable. Resource name of the Subproperty that uses this filter. */
-  applyToProperty?: string | undefined;
   /** Output only. Format: properties/{ordinary_property_id}/subpropertyEventFilters/{sub_property_event_filter} Example: properties/1234/subpropertyEventFilters/5678 */
   name?: string | undefined;
+  /** Immutable. Resource name of the Subproperty that uses this filter. */
+  applyToProperty?: string | undefined;
   /** Required. Unordered list. Filter clauses that define the SubpropertyEventFilter. All clauses are AND'ed together to determine what data is sent to the subproperty. */
   filterClauses?: GoogleAnalyticsAdminV1alphaSubpropertyEventFilterClauseList | undefined;
 }
@@ -1392,10 +1392,10 @@ export type GoogleAnalyticsAdminV1alphaRollupPropertySourceLinkList =
   Array<GoogleAnalyticsAdminV1alphaRollupPropertySourceLink>;
 /** Response message for CreateRollupProperty RPC. */
 export interface GoogleAnalyticsAdminV1alphaCreateRollupPropertyResponse {
-  /** The created roll-up property. */
-  rollupProperty?: GoogleAnalyticsAdminV1alphaProperty | undefined;
   /** The created roll-up property source links. */
   rollupPropertySourceLinks?: GoogleAnalyticsAdminV1alphaRollupPropertySourceLinkList | undefined;
+  /** The created roll-up property. */
+  rollupProperty?: GoogleAnalyticsAdminV1alphaProperty | undefined;
 }
 export interface DeleteAccountsRequest {
   /** Required. The name of the Account to soft-delete. Format: accounts/{account} Example: "accounts/100" */
@@ -1499,20 +1499,20 @@ export interface GetAccountsRequest {
 }
 /** A resource message representing a Google Analytics account. */
 export interface GoogleAnalyticsAdminV1alphaAccount {
-  /** Country of business. Must be a Unicode CLDR region code. */
-  regionCode?: string | undefined;
+  /** Identifier. Resource name of this account. Format: accounts/{account} Example: "accounts/100" */
+  name?: string | undefined;
+  /** Output only. Time when this account was originally created. */
+  createTime?: string | undefined;
   /** Output only. Indicates whether this Account is soft-deleted or not. Deleted accounts are excluded from List results unless specifically requested. */
   deleted?: boolean | undefined;
-  /** Output only. Time when account payload fields were last updated. */
-  updateTime?: string | undefined;
+  /** Country of business. Must be a Unicode CLDR region code. */
+  regionCode?: string | undefined;
   /** Output only. The URI for a Google Marketing Platform organization resource. Only set when this account is connected to a GMP organization. Format: marketingplatformadmin.googleapis.com/organizations/{org_id} */
   gmpOrganization?: string | undefined;
   /** Required. Human-readable display name for this account. */
   displayName?: string | undefined;
-  /** Output only. Time when this account was originally created. */
-  createTime?: string | undefined;
-  /** Identifier. Resource name of this account. Format: accounts/{account} Example: "accounts/100" */
-  name?: string | undefined;
+  /** Output only. Time when account payload fields were last updated. */
+  updateTime?: string | undefined;
 }
 export interface GetAccountsAccessBindingsRequest {
   /** Required. The name of the access binding to retrieve. Formats: - accounts/{account}/accessBindings/{accessBinding} - properties/{property}/accessBindings/{accessBinding} */
@@ -1522,47 +1522,47 @@ export interface GetAttributionSettingsPropertiesRequest {
   /** Required. The name of the attribution settings to retrieve. Format: properties/{property}/attributionSettings */
   name: string;
 }
-export type GoogleAnalyticsAdminV1alphaAttributionSettingsReportingAttributionModelEnum =
-  | "REPORTING_ATTRIBUTION_MODEL_UNSPECIFIED"
-  | "PAID_AND_ORGANIC_CHANNELS_DATA_DRIVEN"
-  | "PAID_AND_ORGANIC_CHANNELS_LAST_CLICK"
-  | "GOOGLE_PAID_CHANNELS_LAST_CLICK";
 export type GoogleAnalyticsAdminV1alphaAttributionSettingsAcquisitionConversionEventLookbackWindowEnum =
   | "ACQUISITION_CONVERSION_EVENT_LOOKBACK_WINDOW_UNSPECIFIED"
   | "ACQUISITION_CONVERSION_EVENT_LOOKBACK_WINDOW_7_DAYS"
   | "ACQUISITION_CONVERSION_EVENT_LOOKBACK_WINDOW_30_DAYS";
-export type GoogleAnalyticsAdminV1alphaAttributionSettingsAdsWebConversionDataExportScopeEnum =
-  | "ADS_WEB_CONVERSION_DATA_EXPORT_SCOPE_UNSPECIFIED"
-  | "NOT_SELECTED_YET"
-  | "PAID_AND_ORGANIC_CHANNELS"
-  | "GOOGLE_PAID_CHANNELS";
 export type GoogleAnalyticsAdminV1alphaAttributionSettingsOtherConversionEventLookbackWindowEnum =
   | "OTHER_CONVERSION_EVENT_LOOKBACK_WINDOW_UNSPECIFIED"
   | "OTHER_CONVERSION_EVENT_LOOKBACK_WINDOW_30_DAYS"
   | "OTHER_CONVERSION_EVENT_LOOKBACK_WINDOW_60_DAYS"
   | "OTHER_CONVERSION_EVENT_LOOKBACK_WINDOW_90_DAYS";
+export type GoogleAnalyticsAdminV1alphaAttributionSettingsReportingAttributionModelEnum =
+  | "REPORTING_ATTRIBUTION_MODEL_UNSPECIFIED"
+  | "PAID_AND_ORGANIC_CHANNELS_DATA_DRIVEN"
+  | "PAID_AND_ORGANIC_CHANNELS_LAST_CLICK"
+  | "GOOGLE_PAID_CHANNELS_LAST_CLICK";
+export type GoogleAnalyticsAdminV1alphaAttributionSettingsAdsWebConversionDataExportScopeEnum =
+  | "ADS_WEB_CONVERSION_DATA_EXPORT_SCOPE_UNSPECIFIED"
+  | "NOT_SELECTED_YET"
+  | "PAID_AND_ORGANIC_CHANNELS"
+  | "GOOGLE_PAID_CHANNELS";
 /** The attribution settings used for a given property. This is a singleton resource. */
 export interface GoogleAnalyticsAdminV1alphaAttributionSettings {
-  /** Required. The reporting attribution model used to calculate conversion credit in this property's reports. Changing the attribution model will apply to both historical and future data. These changes will be reflected in reports with conversion and revenue data. User and session data will be unaffected. */
-  reportingAttributionModel?:
-    | GoogleAnalyticsAdminV1alphaAttributionSettingsReportingAttributionModelEnum
-    | (string & {})
-    | undefined;
-  /** Output only. Resource name of this attribution settings resource. Format: properties/{property_id}/attributionSettings Example: "properties/1000/attributionSettings" */
-  name?: string | undefined;
   /** Required. The lookback window configuration for acquisition conversion events. The default window size is 30 days. */
   acquisitionConversionEventLookbackWindow?:
     | GoogleAnalyticsAdminV1alphaAttributionSettingsAcquisitionConversionEventLookbackWindowEnum
     | (string & {})
     | undefined;
-  /** Required. The Conversion Export Scope for data exported to linked Ads Accounts. */
-  adsWebConversionDataExportScope?:
-    | GoogleAnalyticsAdminV1alphaAttributionSettingsAdsWebConversionDataExportScopeEnum
-    | (string & {})
-    | undefined;
+  /** Output only. Resource name of this attribution settings resource. Format: properties/{property_id}/attributionSettings Example: "properties/1000/attributionSettings" */
+  name?: string | undefined;
   /** Required. The lookback window for all other, non-acquisition conversion events. The default window size is 90 days. */
   otherConversionEventLookbackWindow?:
     | GoogleAnalyticsAdminV1alphaAttributionSettingsOtherConversionEventLookbackWindowEnum
+    | (string & {})
+    | undefined;
+  /** Required. The reporting attribution model used to calculate conversion credit in this property's reports. Changing the attribution model will apply to both historical and future data. These changes will be reflected in reports with conversion and revenue data. User and session data will be unaffected. */
+  reportingAttributionModel?:
+    | GoogleAnalyticsAdminV1alphaAttributionSettingsReportingAttributionModelEnum
+    | (string & {})
+    | undefined;
+  /** Required. The Conversion Export Scope for data exported to linked Ads Accounts. */
+  adsWebConversionDataExportScope?:
+    | GoogleAnalyticsAdminV1alphaAttributionSettingsAdsWebConversionDataExportScopeEnum
     | (string & {})
     | undefined;
 }
@@ -1572,14 +1572,14 @@ export interface GetDataRedactionSettingsPropertiesDataStreamsRequest {
 }
 /** Settings for client-side data redaction. Singleton resource under a Web Stream. */
 export interface GoogleAnalyticsAdminV1alphaDataRedactionSettings {
-  /** Output only. Name of this Data Redaction Settings resource. Format: properties/{property_id}/dataStreams/{data_stream}/dataRedactionSettings Example: "properties/1000/dataStreams/2000/dataRedactionSettings" */
-  name?: string | undefined;
   /** Query Parameter redaction removes the key and value portions of a query parameter if it is in the configured set of query parameters. If enabled, URL query replacement logic will be run for the Stream. Any query parameters defined in query_parameter_keys will be redacted. */
   queryParameterRedactionEnabled?: boolean | undefined;
   /** If enabled, any event parameter or user property values that look like an email will be redacted. */
   emailRedactionEnabled?: boolean | undefined;
   /** The query parameter keys to apply redaction logic to if present in the URL. Query parameter matching is case-insensitive. Must contain at least one element if query_parameter_replacement_enabled is true. Keys cannot contain commas. */
   queryParameterKeys?: StringList | undefined;
+  /** Output only. Name of this Data Redaction Settings resource. Format: properties/{property_id}/dataStreams/{data_stream}/dataRedactionSettings Example: "properties/1000/dataStreams/2000/dataRedactionSettings" */
+  name?: string | undefined;
 }
 export interface GetDataRetentionSettingsPropertiesRequest {
   /** Required. The name of the settings to lookup. Format: properties/{property}/dataRetentionSettings Example: "properties/1000/dataRetentionSettings" */
@@ -1606,15 +1606,15 @@ export interface GoogleAnalyticsAdminV1alphaDataRetentionSettings {
     | GoogleAnalyticsAdminV1alphaDataRetentionSettingsUserDataRetentionEnum
     | (string & {})
     | undefined;
+  /** Identifier. Resource name for this DataRetentionSetting resource. Format: properties/{property}/dataRetentionSettings */
+  name?: string | undefined;
+  /** If true, reset the retention period for the user identifier with every event from that user. */
+  resetUserDataOnNewActivity?: boolean | undefined;
   /** Required. The length of time that event-level data is retained. */
   eventDataRetention?:
     | GoogleAnalyticsAdminV1alphaDataRetentionSettingsEventDataRetentionEnum
     | (string & {})
     | undefined;
-  /** If true, reset the retention period for the user identifier with every event from that user. */
-  resetUserDataOnNewActivity?: boolean | undefined;
-  /** Identifier. Resource name for this DataRetentionSetting resource. Format: properties/{property}/dataRetentionSettings */
-  name?: string | undefined;
 }
 export interface GetDataSharingSettingsAccountsRequest {
   /** Required. The name of the settings to lookup. Format: accounts/{account}/dataSharingSettings Example: `accounts/1000/dataSharingSettings` */
@@ -1622,18 +1622,18 @@ export interface GetDataSharingSettingsAccountsRequest {
 }
 /** A resource message representing data sharing settings of a Google Analytics account. */
 export interface GoogleAnalyticsAdminV1alphaDataSharingSettings {
-  /** Allows Google to use the data to improve other Google products or services. This fields maps to the "Google products & services" field in the Google Analytics Admin UI. */
-  sharingWithGoogleProductsEnabled?: boolean | undefined;
-  /** Enable features like predictions, modeled data, and benchmarking that can provide you with richer business insights when you contribute aggregated measurement data. The data you share (including information about the property from which it is shared) is aggregated and de-identified before being used to generate business insights. This field maps to the "Modeling contributions & business insights" field in the Google Analytics Admin UI. */
-  sharingWithOthersEnabled?: boolean | undefined;
-  /** Allows Google access to your Google Analytics account data, including account usage and configuration data, product spending, and users associated with your Google Analytics account, so that Google can help you make the most of Google products, providing you with insights, offers, recommendations, and optimization tips across Google Analytics and other Google products for business. This field maps to the "Recommendations for your business" field in the Google Analytics Admin UI. */
-  sharingWithGoogleAssignedSalesEnabled?: boolean | undefined;
-  /** Identifier. Resource name. Format: accounts/{account}/dataSharingSettings Example: "accounts/1000/dataSharingSettings" */
-  name?: string | undefined;
-  /** Deprecated. This field is no longer used and always returns false. */
-  sharingWithGoogleAnySalesEnabled?: boolean | undefined;
   /** Allows Google technical support representatives access to your Google Analytics data and account when necessary to provide service and find solutions to technical issues. This field maps to the "Technical support" field in the Google Analytics Admin UI. */
   sharingWithGoogleSupportEnabled?: boolean | undefined;
+  /** Enable features like predictions, modeled data, and benchmarking that can provide you with richer business insights when you contribute aggregated measurement data. The data you share (including information about the property from which it is shared) is aggregated and de-identified before being used to generate business insights. This field maps to the "Modeling contributions & business insights" field in the Google Analytics Admin UI. */
+  sharingWithOthersEnabled?: boolean | undefined;
+  /** Deprecated. This field is no longer used and always returns false. */
+  sharingWithGoogleAnySalesEnabled?: boolean | undefined;
+  /** Identifier. Resource name. Format: accounts/{account}/dataSharingSettings Example: "accounts/1000/dataSharingSettings" */
+  name?: string | undefined;
+  /** Allows Google access to your Google Analytics account data, including account usage and configuration data, product spending, and users associated with your Google Analytics account, so that Google can help you make the most of Google products, providing you with insights, offers, recommendations, and optimization tips across Google Analytics and other Google products for business. This field maps to the "Recommendations for your business" field in the Google Analytics Admin UI. */
+  sharingWithGoogleAssignedSalesEnabled?: boolean | undefined;
+  /** Allows Google to use the data to improve other Google products or services. This fields maps to the "Google products & services" field in the Google Analytics Admin UI. */
+  sharingWithGoogleProductsEnabled?: boolean | undefined;
 }
 export interface GetEnhancedMeasurementSettingsPropertiesDataStreamsRequest {
   /** Required. The name of the settings to lookup. Format: properties/{property}/dataStreams/{data_stream}/enhancedMeasurementSettings Example: "properties/1000/dataStreams/2000/enhancedMeasurementSettings" */
@@ -1641,28 +1641,28 @@ export interface GetEnhancedMeasurementSettingsPropertiesDataStreamsRequest {
 }
 /** Singleton resource under a web DataStream, configuring measurement of additional site interactions and content. */
 export interface GoogleAnalyticsAdminV1alphaEnhancedMeasurementSettings {
+  /** If enabled, capture an outbound click event each time a visitor clicks a link that leads them away from your domain. */
+  outboundClicksEnabled?: boolean | undefined;
   /** If enabled, capture a view search results event each time a visitor performs a search on your site (based on a query parameter). */
   siteSearchEnabled?: boolean | undefined;
   /** If enabled, capture a file download event each time a link is clicked with a common document, compressed file, application, video, or audio extension. */
   fileDownloadsEnabled?: boolean | undefined;
   /** Required. URL query parameters to interpret as site search parameters. Max length is 1024 characters. Must not be empty. */
   searchQueryParameter?: string | undefined;
-  /** If enabled, capture an outbound click event each time a visitor clicks a link that leads them away from your domain. */
-  outboundClicksEnabled?: boolean | undefined;
-  /** If enabled, capture a form interaction event each time a visitor interacts with a form on your website. False by default. */
-  formInteractionsEnabled?: boolean | undefined;
-  /** If enabled, capture video play, progress, and complete events as visitors view embedded videos on your site. */
-  videoEngagementEnabled?: boolean | undefined;
-  /** Indicates whether Enhanced Measurement Settings will be used to automatically measure interactions and content on this web stream. Changing this value does not affect the settings themselves, but determines whether they are respected. */
-  streamEnabled?: boolean | undefined;
   /** Additional URL query parameters. Max length is 1024 characters. */
   uriQueryParameter?: string | undefined;
-  /** If enabled, capture scroll events each time a visitor gets to the bottom of a page. */
-  scrollsEnabled?: boolean | undefined;
   /** If enabled, capture a page view event each time the website changes the browser history state. */
   pageChangesEnabled?: boolean | undefined;
+  /** If enabled, capture scroll events each time a visitor gets to the bottom of a page. */
+  scrollsEnabled?: boolean | undefined;
+  /** If enabled, capture video play, progress, and complete events as visitors view embedded videos on your site. */
+  videoEngagementEnabled?: boolean | undefined;
   /** Output only. Resource name of the Enhanced Measurement Settings. Format: properties/{property_id}/dataStreams/{data_stream}/enhancedMeasurementSettings Example: "properties/1000/dataStreams/2000/enhancedMeasurementSettings" */
   name?: string | undefined;
+  /** If enabled, capture a form interaction event each time a visitor interacts with a form on your website. False by default. */
+  formInteractionsEnabled?: boolean | undefined;
+  /** Indicates whether Enhanced Measurement Settings will be used to automatically measure interactions and content on this web stream. Changing this value does not affect the settings themselves, but determines whether they are respected. */
+  streamEnabled?: boolean | undefined;
 }
 export interface GetGlobalSiteTagPropertiesDataStreamsRequest {
   /** Required. The name of the site tag to lookup. Note that site tags are singletons and do not have unique IDs. Format: properties/{property_id}/dataStreams/{stream_id}/globalSiteTag Example: `properties/123/dataStreams/456/globalSiteTag` */
@@ -1679,22 +1679,22 @@ export interface GetGoogleSignalsSettingsPropertiesRequest {
   /** Required. The name of the google signals settings to retrieve. Format: properties/{property}/googleSignalsSettings */
   name: string;
 }
-export type GoogleAnalyticsAdminV1alphaGoogleSignalsSettingsStateEnum =
-  | "GOOGLE_SIGNALS_STATE_UNSPECIFIED"
-  | "GOOGLE_SIGNALS_ENABLED"
-  | "GOOGLE_SIGNALS_DISABLED";
 export type GoogleAnalyticsAdminV1alphaGoogleSignalsSettingsConsentEnum =
   | "GOOGLE_SIGNALS_CONSENT_UNSPECIFIED"
   | "GOOGLE_SIGNALS_CONSENT_CONSENTED"
   | "GOOGLE_SIGNALS_CONSENT_NOT_CONSENTED";
+export type GoogleAnalyticsAdminV1alphaGoogleSignalsSettingsStateEnum =
+  | "GOOGLE_SIGNALS_STATE_UNSPECIFIED"
+  | "GOOGLE_SIGNALS_ENABLED"
+  | "GOOGLE_SIGNALS_DISABLED";
 /** Settings values for Google Signals. This is a singleton resource. */
 export interface GoogleAnalyticsAdminV1alphaGoogleSignalsSettings {
-  /** Output only. Resource name of this setting. Format: properties/{property_id}/googleSignalsSettings Example: "properties/1000/googleSignalsSettings" */
-  name?: string | undefined;
-  /** Status of this setting. */
-  state?: GoogleAnalyticsAdminV1alphaGoogleSignalsSettingsStateEnum | (string & {}) | undefined;
   /** Output only. Terms of Service acceptance. */
   consent?: GoogleAnalyticsAdminV1alphaGoogleSignalsSettingsConsentEnum | (string & {}) | undefined;
+  /** Status of this setting. */
+  state?: GoogleAnalyticsAdminV1alphaGoogleSignalsSettingsStateEnum | (string & {}) | undefined;
+  /** Output only. Resource name of this setting. Format: properties/{property_id}/googleSignalsSettings Example: "properties/1000/googleSignalsSettings" */
+  name?: string | undefined;
 }
 export interface GetPropertiesRequest {
   /** Required. The name of the property to lookup. Format: properties/{property_id} Example: "properties/1000" */
@@ -1798,15 +1798,15 @@ export type GoogleAnalyticsAdminV1alphaSubpropertySyncConfigCustomDimensionAndMe
   | "ALL";
 /** Subproperty synchronization configuration controls how ordinary property configurations are synchronized to subproperties. This resource is provisioned automatically for each subproperty. */
 export interface GoogleAnalyticsAdminV1alphaSubpropertySyncConfig {
-  /** Output only. Identifier. Format: properties/{ordinary_property_id}/subpropertySyncConfigs/{subproperty_id} Example: properties/1234/subpropertySyncConfigs/5678 */
-  name?: string | undefined;
+  /** Output only. Immutable. Resource name of the subproperty that these settings apply to. */
+  applyToProperty?: string | undefined;
   /** Required. Specifies the Custom Dimension / Metric synchronization mode for the subproperty. If set to ALL, Custom Dimension / Metric synchronization will be immediately enabled. Local configuration of Custom Dimensions / Metrics will not be allowed on the subproperty so long as the synchronization mode is set to ALL. If set to NONE, Custom Dimensions / Metric synchronization is disabled. Custom Dimensions / Metrics must be configured explicitly on the Subproperty. */
   customDimensionAndMetricSyncMode?:
     | GoogleAnalyticsAdminV1alphaSubpropertySyncConfigCustomDimensionAndMetricSyncModeEnum
     | (string & {})
     | undefined;
-  /** Output only. Immutable. Resource name of the subproperty that these settings apply to. */
-  applyToProperty?: string | undefined;
+  /** Output only. Identifier. Format: properties/{ordinary_property_id}/subpropertySyncConfigs/{subproperty_id} Example: properties/1234/subpropertySyncConfigs/5678 */
+  name?: string | undefined;
 }
 export interface GetReportingIdentitySettingsPropertiesRequest {
   /** Required. The name of the settings to lookup. Format: properties/{property}/reportingIdentitySettings Example: "properties/1000/reportingIdentitySettings" */
@@ -1833,20 +1833,20 @@ export interface GetUserProvidedDataSettingsPropertiesRequest {
 }
 /** Configuration for user-provided data collection. This is a singleton resource for a Google Analytics property. */
 export interface GoogleAnalyticsAdminV1alphaUserProvidedDataSettings {
-  /** Optional. Whether this property accepts user-provided data sent to it. */
-  userProvidedDataCollectionEnabled?: boolean | undefined;
-  /** Optional. Whether this property allows a Google Tag to automatically collect user-provided data from your website. This setting only takes effect if `user_provided_data_collection_enabled` is also true. */
-  automaticallyDetectedDataCollectionEnabled?: boolean | undefined;
   /** Identifier. Resource name of this setting. Format: properties/{property}/userProvidedDataSettings Example: "properties/1000/userProvidedDataSettings" */
   name?: string | undefined;
+  /** Optional. Whether this property allows a Google Tag to automatically collect user-provided data from your website. This setting only takes effect if `user_provided_data_collection_enabled` is also true. */
+  automaticallyDetectedDataCollectionEnabled?: boolean | undefined;
+  /** Optional. Whether this property accepts user-provided data sent to it. */
+  userProvidedDataCollectionEnabled?: boolean | undefined;
 }
 export interface ListAccountsRequest {
   /** Optional. A page token, received from a previous `ListAccounts` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListAccounts` must match the call that provided the page token. */
   pageToken?: string | undefined;
-  /** Optional. The maximum number of resources to return. The service may return fewer than this value, even if there are additional pages. If unspecified, at most 50 resources will be returned. The maximum value is 200; (higher values will be coerced to the maximum) */
-  pageSize?: number | undefined;
   /** Whether to include soft-deleted (ie: "trashed") Accounts in the results. Accounts can be inspected to determine whether they are deleted or not. */
   showDeleted?: boolean | undefined;
+  /** Optional. The maximum number of resources to return. The service may return fewer than this value, even if there are additional pages. If unspecified, at most 50 resources will be returned. The maximum value is 200; (higher values will be coerced to the maximum) */
+  pageSize?: number | undefined;
 }
 export type GoogleAnalyticsAdminV1alphaAccountList = Array<GoogleAnalyticsAdminV1alphaAccount>;
 /** Request message for ListAccounts RPC. */
@@ -1857,12 +1857,12 @@ export interface GoogleAnalyticsAdminV1alphaListAccountsResponse {
   accounts?: GoogleAnalyticsAdminV1alphaAccountList | undefined;
 }
 export interface ListAccountsAccessBindingsRequest {
-  /** The maximum number of access bindings to return. The service may return fewer than this value. If unspecified, at most 200 access bindings will be returned. The maximum value is 500; values above 500 will be coerced to 500. */
-  pageSize?: number | undefined;
-  /** A page token, received from a previous `ListAccessBindings` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListAccessBindings` must match the call that provided the page token. */
-  pageToken?: string | undefined;
   /** Required. Formats: - accounts/{account} - properties/{property} */
   parent: string;
+  /** A page token, received from a previous `ListAccessBindings` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListAccessBindings` must match the call that provided the page token. */
+  pageToken?: string | undefined;
+  /** The maximum number of access bindings to return. The service may return fewer than this value. If unspecified, at most 200 access bindings will be returned. The maximum value is 500; values above 500 will be coerced to 500. */
+  pageSize?: number | undefined;
 }
 /** Response message for ListAccessBindings RPC. */
 export interface GoogleAnalyticsAdminV1alphaListAccessBindingsResponse {
@@ -1884,14 +1884,14 @@ export type GoogleAnalyticsAdminV1alphaPropertySummaryPropertyTypeEnum =
   | "PROPERTY_TYPE_ROLLUP";
 /** A virtual resource representing metadata for a Google Analytics property. */
 export interface GoogleAnalyticsAdminV1alphaPropertySummary {
-  /** The property's property type. */
-  propertyType?: GoogleAnalyticsAdminV1alphaPropertySummaryPropertyTypeEnum | undefined;
-  /** If true, then the user has a Google Analytics role that permits them to edit the property. */
-  canEdit?: boolean | undefined;
-  /** Resource name of property referred to by this property summary Format: properties/{property_id} Example: "properties/1000" */
-  property?: string | undefined;
   /** Display name for the property referred to in this property summary. */
   displayName?: string | undefined;
+  /** If true, then the user has a Google Analytics role that permits them to edit the property. */
+  canEdit?: boolean | undefined;
+  /** The property's property type. */
+  propertyType?: GoogleAnalyticsAdminV1alphaPropertySummaryPropertyTypeEnum | undefined;
+  /** Resource name of property referred to by this property summary Format: properties/{property_id} Example: "properties/1000" */
+  property?: string | undefined;
   /** Resource name of this property's logical parent. Note: The Property-Moving UI can be used to change the parent. Format: accounts/{account}, properties/{property} Example: "accounts/100", "properties/200" */
   parent?: string | undefined;
 }
@@ -1901,12 +1901,12 @@ export type GoogleAnalyticsAdminV1alphaPropertySummaryList =
 export interface GoogleAnalyticsAdminV1alphaAccountSummary {
   /** Identifier. Resource name for this account summary. Format: accountSummaries/{account_id} Example: "accountSummaries/1000" */
   name?: string | undefined;
-  /** List of summaries for child accounts of this account. */
-  propertySummaries?: GoogleAnalyticsAdminV1alphaPropertySummaryList | undefined;
   /** Resource name of account referred to by this account summary Format: accounts/{account_id} Example: "accounts/1000" */
   account?: string | undefined;
   /** Display name for the account referred to in this account summary. */
   displayName?: string | undefined;
+  /** List of summaries for child accounts of this account. */
+  propertySummaries?: GoogleAnalyticsAdminV1alphaPropertySummaryList | undefined;
 }
 export type GoogleAnalyticsAdminV1alphaAccountSummaryList =
   Array<GoogleAnalyticsAdminV1alphaAccountSummary>;
@@ -1918,14 +1918,14 @@ export interface GoogleAnalyticsAdminV1alphaListAccountSummariesResponse {
   nextPageToken?: string | undefined;
 }
 export interface ListPropertiesRequest {
-  /** Whether to include soft-deleted (ie: "trashed") Properties in the results. Properties can be inspected to determine whether they are deleted or not. */
-  showDeleted?: boolean | undefined;
-  /** Optional. A page token, received from a previous `ListProperties` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListProperties` must match the call that provided the page token. */
-  pageToken?: string | undefined;
   /** Required. An expression for filtering the results of the request. Fields eligible for filtering are: `parent:`(The resource name of the parent account/property) or `ancestor:`(The resource name of the parent account) or `firebase_project:`(The id or number of the linked firebase project). Some examples of filters: ``` | Filter | Description | |-----------------------------|-------------------------------------------| | parent:accounts/123 | The account with account id: 123. | | parent:properties/123 | The property with property id: 123. | | ancestor:accounts/123 | The account with account id: 123. | | firebase_project:project-id | The firebase project with id: project-id. | | firebase_project:123 | The firebase project with number: 123. | ``` */
   filter?: string | undefined;
+  /** Optional. A page token, received from a previous `ListProperties` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListProperties` must match the call that provided the page token. */
+  pageToken?: string | undefined;
   /** Optional. The maximum number of resources to return. The service may return fewer than this value, even if there are additional pages. If unspecified, at most 50 resources will be returned. The maximum value is 200; (higher values will be coerced to the maximum) */
   pageSize?: number | undefined;
+  /** Whether to include soft-deleted (ie: "trashed") Properties in the results. Properties can be inspected to determine whether they are deleted or not. */
+  showDeleted?: boolean | undefined;
 }
 export type GoogleAnalyticsAdminV1alphaPropertyList = Array<GoogleAnalyticsAdminV1alphaProperty>;
 /** Response message for ListProperties RPC. */
@@ -1936,12 +1936,12 @@ export interface GoogleAnalyticsAdminV1alphaListPropertiesResponse {
   nextPageToken?: string | undefined;
 }
 export interface ListPropertiesAccessBindingsRequest {
-  /** A page token, received from a previous `ListAccessBindings` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListAccessBindings` must match the call that provided the page token. */
-  pageToken?: string | undefined;
   /** Required. Formats: - accounts/{account} - properties/{property} */
   parent: string;
   /** The maximum number of access bindings to return. The service may return fewer than this value. If unspecified, at most 200 access bindings will be returned. The maximum value is 500; values above 500 will be coerced to 500. */
   pageSize?: number | undefined;
+  /** A page token, received from a previous `ListAccessBindings` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListAccessBindings` must match the call that provided the page token. */
+  pageToken?: string | undefined;
 }
 export interface ListPropertiesAdSenseLinksRequest {
   /** Required. Resource name of the parent property. Format: properties/{propertyId} Example: properties/1234 */
@@ -1961,12 +1961,12 @@ export interface GoogleAnalyticsAdminV1alphaListAdSenseLinksResponse {
   adsenseLinks?: GoogleAnalyticsAdminV1alphaAdSenseLinkList | undefined;
 }
 export interface ListPropertiesAudiencesRequest {
+  /** A page token, received from a previous `ListAudiences` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListAudiences` must match the call that provided the page token. */
+  pageToken?: string | undefined;
   /** Required. Example format: properties/1234 */
   parent: string;
   /** The maximum number of resources to return. If unspecified, at most 50 resources will be returned. The maximum value is 200 (higher values will be coerced to the maximum). */
   pageSize?: number | undefined;
-  /** A page token, received from a previous `ListAudiences` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListAudiences` must match the call that provided the page token. */
-  pageToken?: string | undefined;
 }
 export type GoogleAnalyticsAdminV1alphaAudienceList = Array<GoogleAnalyticsAdminV1alphaAudience>;
 /** Response message for ListAudiences RPC. */
@@ -1979,10 +1979,10 @@ export interface GoogleAnalyticsAdminV1alphaListAudiencesResponse {
 export interface ListPropertiesBigQueryLinksRequest {
   /** A page token, received from a previous `ListBigQueryLinks` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListBigQueryLinks` must match the call that provided the page token. */
   pageToken?: string | undefined;
-  /** Required. The name of the property to list BigQuery links under. Format: properties/{property_id} Example: properties/1234 */
-  parent: string;
   /** The maximum number of resources to return. The service may return fewer than this value, even if there are additional pages. If unspecified, at most 50 resources will be returned. The maximum value is 200; (higher values will be coerced to the maximum) */
   pageSize?: number | undefined;
+  /** Required. The name of the property to list BigQuery links under. Format: properties/{property_id} Example: properties/1234 */
+  parent: string;
 }
 export type GoogleAnalyticsAdminV1alphaBigQueryLinkList =
   Array<GoogleAnalyticsAdminV1alphaBigQueryLink>;
@@ -1994,29 +1994,29 @@ export interface GoogleAnalyticsAdminV1alphaListBigQueryLinksResponse {
   nextPageToken?: string | undefined;
 }
 export interface ListPropertiesCalculatedMetricsRequest {
-  /** Optional. A page token, received from a previous `ListCalculatedMetrics` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListCalculatedMetrics` must match the call that provided the page token. */
-  pageToken?: string | undefined;
-  /** Optional. The maximum number of resources to return. If unspecified, at most 50 resources will be returned. The maximum value is 200 (higher values will be coerced to the maximum). */
-  pageSize?: number | undefined;
   /** Required. Example format: properties/1234 */
   parent: string;
+  /** Optional. The maximum number of resources to return. If unspecified, at most 50 resources will be returned. The maximum value is 200 (higher values will be coerced to the maximum). */
+  pageSize?: number | undefined;
+  /** Optional. A page token, received from a previous `ListCalculatedMetrics` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListCalculatedMetrics` must match the call that provided the page token. */
+  pageToken?: string | undefined;
 }
 export type GoogleAnalyticsAdminV1alphaCalculatedMetricList =
   Array<GoogleAnalyticsAdminV1alphaCalculatedMetric>;
 /** Response message for ListCalculatedMetrics RPC. */
 export interface GoogleAnalyticsAdminV1alphaListCalculatedMetricsResponse {
-  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string | undefined;
   /** List of CalculatedMetrics. */
   calculatedMetrics?: GoogleAnalyticsAdminV1alphaCalculatedMetricList | undefined;
+  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string | undefined;
 }
 export interface ListPropertiesChannelGroupsRequest {
+  /** Required. The property for which to list ChannelGroups. Example format: properties/1234 */
+  parent: string;
   /** The maximum number of resources to return. If unspecified, at most 50 resources will be returned. The maximum value is 200 (higher values will be coerced to the maximum). */
   pageSize?: number | undefined;
   /** A page token, received from a previous `ListChannelGroups` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListChannelGroups` must match the call that provided the page token. */
   pageToken?: string | undefined;
-  /** Required. The property for which to list ChannelGroups. Example format: properties/1234 */
-  parent: string;
 }
 export type GoogleAnalyticsAdminV1alphaChannelGroupList =
   Array<GoogleAnalyticsAdminV1alphaChannelGroup>;
@@ -2045,29 +2045,29 @@ export interface GoogleAnalyticsAdminV1alphaListConversionEventsResponse {
   nextPageToken?: string | undefined;
 }
 export interface ListPropertiesCustomDimensionsRequest {
-  /** Optional. The maximum number of resources to return. If unspecified, at most 50 resources will be returned. The maximum value is 200 (higher values will be coerced to the maximum). */
-  pageSize?: number | undefined;
   /** Optional. A page token, received from a previous `ListCustomDimensions` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListCustomDimensions` must match the call that provided the page token. */
   pageToken?: string | undefined;
   /** Required. Example format: properties/1234 */
   parent: string;
+  /** Optional. The maximum number of resources to return. If unspecified, at most 50 resources will be returned. The maximum value is 200 (higher values will be coerced to the maximum). */
+  pageSize?: number | undefined;
 }
 export type GoogleAnalyticsAdminV1alphaCustomDimensionList =
   Array<GoogleAnalyticsAdminV1alphaCustomDimension>;
 /** Response message for ListCustomDimensions RPC. */
 export interface GoogleAnalyticsAdminV1alphaListCustomDimensionsResponse {
-  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string | undefined;
   /** List of CustomDimensions. */
   customDimensions?: GoogleAnalyticsAdminV1alphaCustomDimensionList | undefined;
+  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string | undefined;
 }
 export interface ListPropertiesCustomMetricsRequest {
   /** A page token, received from a previous `ListCustomMetrics` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListCustomMetrics` must match the call that provided the page token. */
   pageToken?: string | undefined;
-  /** The maximum number of resources to return. If unspecified, at most 50 resources will be returned. The maximum value is 200 (higher values will be coerced to the maximum). */
-  pageSize?: number | undefined;
   /** Required. Example format: properties/1234 */
   parent: string;
+  /** The maximum number of resources to return. If unspecified, at most 50 resources will be returned. The maximum value is 200 (higher values will be coerced to the maximum). */
+  pageSize?: number | undefined;
 }
 export type GoogleAnalyticsAdminV1alphaCustomMetricList =
   Array<GoogleAnalyticsAdminV1alphaCustomMetric>;
@@ -2079,10 +2079,10 @@ export interface GoogleAnalyticsAdminV1alphaListCustomMetricsResponse {
   nextPageToken?: string | undefined;
 }
 export interface ListPropertiesDataStreamsRequest {
-  /** A page token, received from a previous `ListDataStreams` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListDataStreams` must match the call that provided the page token. */
-  pageToken?: string | undefined;
   /** The maximum number of resources to return. If unspecified, at most 50 resources will be returned. The maximum value is 200 (higher values will be coerced to the maximum). */
   pageSize?: number | undefined;
+  /** A page token, received from a previous `ListDataStreams` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListDataStreams` must match the call that provided the page token. */
+  pageToken?: string | undefined;
   /** Required. Example format: properties/1234 */
   parent: string;
 }
@@ -2096,10 +2096,10 @@ export interface GoogleAnalyticsAdminV1alphaListDataStreamsResponse {
   dataStreams?: GoogleAnalyticsAdminV1alphaDataStreamList | undefined;
 }
 export interface ListPropertiesDataStreamsEventCreateRulesRequest {
-  /** Required. Example format: properties/123/dataStreams/456 */
-  parent: string;
   /** The maximum number of resources to return. If unspecified, at most 50 resources will be returned. The maximum value is 200 (higher values will be coerced to the maximum). */
   pageSize?: number | undefined;
+  /** Required. Example format: properties/123/dataStreams/456 */
+  parent: string;
   /** A page token, received from a previous `ListEventCreateRules` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListEventCreateRules` must match the call that provided the page token. */
   pageToken?: string | undefined;
 }
@@ -2113,12 +2113,12 @@ export interface GoogleAnalyticsAdminV1alphaListEventCreateRulesResponse {
   nextPageToken?: string | undefined;
 }
 export interface ListPropertiesDataStreamsEventEditRulesRequest {
-  /** Optional. The maximum number of resources to return. If unspecified, at most 50 resources will be returned. The maximum value is 200 (higher values will be coerced to the maximum). */
-  pageSize?: number | undefined;
   /** Optional. A page token, received from a previous `ListEventEditRules` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListEventEditRules` must match the call that provided the page token. */
   pageToken?: string | undefined;
   /** Required. Example format: properties/123/dataStreams/456 */
   parent: string;
+  /** Optional. The maximum number of resources to return. If unspecified, at most 50 resources will be returned. The maximum value is 200 (higher values will be coerced to the maximum). */
+  pageSize?: number | undefined;
 }
 export type GoogleAnalyticsAdminV1alphaEventEditRuleList =
   Array<GoogleAnalyticsAdminV1alphaEventEditRule>;
@@ -2130,12 +2130,12 @@ export interface GoogleAnalyticsAdminV1alphaListEventEditRulesResponse {
   nextPageToken?: string | undefined;
 }
 export interface ListPropertiesDataStreamsMeasurementProtocolSecretsRequest {
-  /** Optional. The maximum number of resources to return. If unspecified, at most 10 resources will be returned. The maximum value is 10. Higher values will be coerced to the maximum. */
-  pageSize?: number | undefined;
-  /** Optional. A page token, received from a previous `ListMeasurementProtocolSecrets` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListMeasurementProtocolSecrets` must match the call that provided the page token. */
-  pageToken?: string | undefined;
   /** Required. The resource name of the parent stream. Format: properties/{property}/dataStreams/{dataStream}/measurementProtocolSecrets */
   parent: string;
+  /** Optional. A page token, received from a previous `ListMeasurementProtocolSecrets` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListMeasurementProtocolSecrets` must match the call that provided the page token. */
+  pageToken?: string | undefined;
+  /** Optional. The maximum number of resources to return. If unspecified, at most 10 resources will be returned. The maximum value is 10. Higher values will be coerced to the maximum. */
+  pageSize?: number | undefined;
 }
 export type GoogleAnalyticsAdminV1alphaMeasurementProtocolSecretList =
   Array<GoogleAnalyticsAdminV1alphaMeasurementProtocolSecret>;
@@ -2147,10 +2147,10 @@ export interface GoogleAnalyticsAdminV1alphaListMeasurementProtocolSecretsRespon
   nextPageToken?: string | undefined;
 }
 export interface ListPropertiesDataStreamsSKAdNetworkConversionValueSchemaRequest {
-  /** Optional. A page token, received from a previous `ListSKAdNetworkConversionValueSchemas` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListSKAdNetworkConversionValueSchema` must match the call that provided the page token. */
-  pageToken?: string | undefined;
   /** Required. The DataStream resource to list schemas for. Format: properties/{property_id}/dataStreams/{dataStream} Example: properties/1234/dataStreams/5678 */
   parent: string;
+  /** Optional. A page token, received from a previous `ListSKAdNetworkConversionValueSchemas` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListSKAdNetworkConversionValueSchema` must match the call that provided the page token. */
+  pageToken?: string | undefined;
   /** Optional. The maximum number of resources to return. The service may return fewer than this value, even if there are additional pages. If unspecified, at most 50 resources will be returned. The maximum value is 200; (higher values will be coerced to the maximum) */
   pageSize?: number | undefined;
 }
@@ -2158,39 +2158,39 @@ export type GoogleAnalyticsAdminV1alphaSKAdNetworkConversionValueSchemaList =
   Array<GoogleAnalyticsAdminV1alphaSKAdNetworkConversionValueSchema>;
 /** Response message for ListSKAdNetworkConversionValueSchemas RPC */
 export interface GoogleAnalyticsAdminV1alphaListSKAdNetworkConversionValueSchemasResponse {
+  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. Currently, Google Analytics supports only one SKAdNetworkConversionValueSchema per dataStream, so this will never be populated. */
+  nextPageToken?: string | undefined;
   /** List of SKAdNetworkConversionValueSchemas. This will have at most one value. */
   skadnetworkConversionValueSchemas?:
     | GoogleAnalyticsAdminV1alphaSKAdNetworkConversionValueSchemaList
     | undefined;
-  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. Currently, Google Analytics supports only one SKAdNetworkConversionValueSchema per dataStream, so this will never be populated. */
-  nextPageToken?: string | undefined;
 }
 export interface ListPropertiesDisplayVideo360AdvertiserLinkProposalsRequest {
-  /** A page token, received from a previous `ListDisplayVideo360AdvertiserLinkProposals` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListDisplayVideo360AdvertiserLinkProposals` must match the call that provided the page token. */
-  pageToken?: string | undefined;
   /** Required. Example format: properties/1234 */
   parent: string;
   /** The maximum number of resources to return. If unspecified, at most 50 resources will be returned. The maximum value is 200 (higher values will be coerced to the maximum). */
   pageSize?: number | undefined;
+  /** A page token, received from a previous `ListDisplayVideo360AdvertiserLinkProposals` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListDisplayVideo360AdvertiserLinkProposals` must match the call that provided the page token. */
+  pageToken?: string | undefined;
 }
 export type GoogleAnalyticsAdminV1alphaDisplayVideo360AdvertiserLinkProposalList =
   Array<GoogleAnalyticsAdminV1alphaDisplayVideo360AdvertiserLinkProposal>;
 /** Response message for ListDisplayVideo360AdvertiserLinkProposals RPC. */
 export interface GoogleAnalyticsAdminV1alphaListDisplayVideo360AdvertiserLinkProposalsResponse {
+  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string | undefined;
   /** List of DisplayVideo360AdvertiserLinkProposals. */
   displayVideo360AdvertiserLinkProposals?:
     | GoogleAnalyticsAdminV1alphaDisplayVideo360AdvertiserLinkProposalList
     | undefined;
-  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string | undefined;
 }
 export interface ListPropertiesDisplayVideo360AdvertiserLinksRequest {
+  /** The maximum number of resources to return. If unspecified, at most 50 resources will be returned. The maximum value is 200 (higher values will be coerced to the maximum). */
+  pageSize?: number | undefined;
   /** Required. Example format: properties/1234 */
   parent: string;
   /** A page token, received from a previous `ListDisplayVideo360AdvertiserLinks` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListDisplayVideo360AdvertiserLinks` must match the call that provided the page token. */
   pageToken?: string | undefined;
-  /** The maximum number of resources to return. If unspecified, at most 50 resources will be returned. The maximum value is 200 (higher values will be coerced to the maximum). */
-  pageSize?: number | undefined;
 }
 export type GoogleAnalyticsAdminV1alphaDisplayVideo360AdvertiserLinkList =
   Array<GoogleAnalyticsAdminV1alphaDisplayVideo360AdvertiserLink>;
@@ -2206,27 +2206,27 @@ export interface GoogleAnalyticsAdminV1alphaListDisplayVideo360AdvertiserLinksRe
 export interface ListPropertiesExpandedDataSetsRequest {
   /** A page token, received from a previous `ListExpandedDataSets` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListExpandedDataSet` must match the call that provided the page token. */
   pageToken?: string | undefined;
-  /** Required. Example format: properties/1234 */
-  parent: string;
   /** The maximum number of resources to return. If unspecified, at most 50 resources will be returned. The maximum value is 200 (higher values will be coerced to the maximum). */
   pageSize?: number | undefined;
+  /** Required. Example format: properties/1234 */
+  parent: string;
 }
 export type GoogleAnalyticsAdminV1alphaExpandedDataSetList =
   Array<GoogleAnalyticsAdminV1alphaExpandedDataSet>;
 /** Response message for ListExpandedDataSets RPC. */
 export interface GoogleAnalyticsAdminV1alphaListExpandedDataSetsResponse {
-  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string | undefined;
   /** List of ExpandedDataSet. These will be ordered stably, but in an arbitrary order. */
   expandedDataSets?: GoogleAnalyticsAdminV1alphaExpandedDataSetList | undefined;
+  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string | undefined;
 }
 export interface ListPropertiesFirebaseLinksRequest {
-  /** Optional. A page token, received from a previous `ListFirebaseLinks` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListFirebaseLinks` must match the call that provided the page token. */
-  pageToken?: string | undefined;
   /** Optional. The maximum number of resources to return. The service may return fewer than this value, even if there are additional pages. If unspecified, at most 50 resources will be returned. The maximum value is 200; (higher values will be coerced to the maximum) */
   pageSize?: number | undefined;
   /** Required. Format: properties/{property_id} Example: `properties/1234` */
   parent: string;
+  /** Optional. A page token, received from a previous `ListFirebaseLinks` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListFirebaseLinks` must match the call that provided the page token. */
+  pageToken?: string | undefined;
 }
 export type GoogleAnalyticsAdminV1alphaFirebaseLinkList =
   Array<GoogleAnalyticsAdminV1alphaFirebaseLink>;
@@ -2249,34 +2249,34 @@ export type GoogleAnalyticsAdminV1alphaGoogleAdsLinkList =
   Array<GoogleAnalyticsAdminV1alphaGoogleAdsLink>;
 /** Response message for ListGoogleAdsLinks RPC. */
 export interface GoogleAnalyticsAdminV1alphaListGoogleAdsLinksResponse {
-  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string | undefined;
   /** List of GoogleAdsLinks. */
   googleAdsLinks?: GoogleAnalyticsAdminV1alphaGoogleAdsLinkList | undefined;
+  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string | undefined;
 }
 export interface ListPropertiesKeyEventsRequest {
-  /** Optional. The maximum number of resources to return. If unspecified, at most 50 resources will be returned. The maximum value is 200; (higher values will be coerced to the maximum) */
-  pageSize?: number | undefined;
   /** Required. The resource name of the parent property. Example: 'properties/123' */
   parent: string;
+  /** Optional. The maximum number of resources to return. If unspecified, at most 50 resources will be returned. The maximum value is 200; (higher values will be coerced to the maximum) */
+  pageSize?: number | undefined;
   /** Optional. A page token, received from a previous `ListKeyEvents` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListKeyEvents` must match the call that provided the page token. */
   pageToken?: string | undefined;
 }
 export type GoogleAnalyticsAdminV1alphaKeyEventList = Array<GoogleAnalyticsAdminV1alphaKeyEvent>;
 /** Response message for ListKeyEvents RPC. */
 export interface GoogleAnalyticsAdminV1alphaListKeyEventsResponse {
-  /** The requested Key Events */
-  keyEvents?: GoogleAnalyticsAdminV1alphaKeyEventList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string | undefined;
+  /** The requested Key Events */
+  keyEvents?: GoogleAnalyticsAdminV1alphaKeyEventList | undefined;
 }
 export interface ListPropertiesReportingDataAnnotationsRequest {
   /** Optional. A page token, received from a previous `ListReportingDataAnnotations` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListReportingDataAnnotations` must match the call that provided the page token. */
   pageToken?: string | undefined;
-  /** Required. Resource name of the property. Format: properties/property_id Example: properties/123 */
-  parent: string;
   /** Optional. The maximum number of resources to return. The service may return fewer than this value, even if there are additional pages. If unspecified, at most 50 resources will be returned. The maximum value is 200; (higher values will be coerced to the maximum) */
   pageSize?: number | undefined;
+  /** Required. Resource name of the property. Format: properties/property_id Example: properties/123 */
+  parent: string;
   /** Optional. Filter that restricts which reporting data annotations under the parent property are listed. Supported fields are: * 'name' * `title` * `description` * `annotation_date` * `annotation_date_range` * `color` Additionally, this API provides the following helper functions: * annotation_duration() : the duration that this annotation marks, [durations](https://github.com/protocolbuffers/protobuf/blob/main/src/google/protobuf/duration.proto). expect a numeric representation of seconds followed by an `s` suffix. * is_annotation_in_range(start_date, end_date) : if the annotation is in the range specified by the `start_date` and `end_date`. The dates are in ISO-8601 format, for example `2031-06-28`. Supported operations: * `=` : equals * `!=` : not equals * `<` : less than * `>` : greater than * `<=` : less than or equals * `>=` : greater than or equals * `:` : has operator * `=~` : [regular expression](https://github.com/google/re2/wiki/Syntax) match * `!~` : [regular expression](https://github.com/google/re2/wiki/Syntax) does not match * `NOT` : Logical not * `AND` : Logical and * `OR` : Logical or Examples: 1. `title="Holiday Sale"` 2. `description=~"[Bb]ig [Gg]ame.*[Ss]ale"` 3. `is_annotation_in_range("2025-12-25", "2026-01-16") = true` 4. `annotation_duration() >= 172800s AND title:BOGO` */
   filter?: string | undefined;
 }
@@ -2299,10 +2299,10 @@ export interface ListPropertiesRollupPropertySourceLinksRequest {
 }
 /** Response message for ListRollupPropertySourceLinks RPC. */
 export interface GoogleAnalyticsAdminV1alphaListRollupPropertySourceLinksResponse {
-  /** List of RollupPropertySourceLinks. */
-  rollupPropertySourceLinks?: GoogleAnalyticsAdminV1alphaRollupPropertySourceLinkList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string | undefined;
+  /** List of RollupPropertySourceLinks. */
+  rollupPropertySourceLinks?: GoogleAnalyticsAdminV1alphaRollupPropertySourceLinkList | undefined;
 }
 export interface ListPropertiesSearchAds360LinksRequest {
   /** Required. Example format: properties/1234 */
@@ -2341,25 +2341,25 @@ export interface GoogleAnalyticsAdminV1alphaListSubpropertyEventFiltersResponse 
 export interface ListPropertiesSubpropertySyncConfigsRequest {
   /** Required. Resource name of the property. Format: properties/property_id Example: properties/123 */
   parent: string;
-  /** Optional. A page token, received from a previous `ListSubpropertySyncConfig` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListSubpropertySyncConfig` must match the call that provided the page token. */
-  pageToken?: string | undefined;
   /** Optional. The maximum number of resources to return. The service may return fewer than this value, even if there are additional pages. If unspecified, at most 50 resources will be returned. The maximum value is 200; (higher values will be coerced to the maximum) */
   pageSize?: number | undefined;
+  /** Optional. A page token, received from a previous `ListSubpropertySyncConfig` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListSubpropertySyncConfig` must match the call that provided the page token. */
+  pageToken?: string | undefined;
 }
 export type GoogleAnalyticsAdminV1alphaSubpropertySyncConfigList =
   Array<GoogleAnalyticsAdminV1alphaSubpropertySyncConfig>;
 /** Response message for ListSubpropertySyncConfigs RPC. */
 export interface GoogleAnalyticsAdminV1alphaListSubpropertySyncConfigsResponse {
-  /** List of `SubpropertySyncConfig` resources. */
-  subpropertySyncConfigs?: GoogleAnalyticsAdminV1alphaSubpropertySyncConfigList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string | undefined;
+  /** List of `SubpropertySyncConfig` resources. */
+  subpropertySyncConfigs?: GoogleAnalyticsAdminV1alphaSubpropertySyncConfigList | undefined;
 }
 export interface PatchAccountsRequest extends Omit<GoogleAnalyticsAdminV1alphaAccount, "name"> {
-  /** Required. The list of fields to be updated. Field names must be in snake case (for example, "field_to_update"). Omitted fields will not be updated. To replace the entire entity, use one path with the string "*" to match all fields. */
-  updateMask?: string | undefined;
   /** Identifier. Resource name of this account. Format: accounts/{account} Example: "accounts/100" */
   name: string;
+  /** Required. The list of fields to be updated. Field names must be in snake case (for example, "field_to_update"). Omitted fields will not be updated. To replace the entire entity, use one path with the string "*" to match all fields. */
+  updateMask?: string | undefined;
 }
 export interface PatchAccountsAccessBindingsRequest extends Omit<
   GoogleAnalyticsAdminV1alphaAccessBinding,
@@ -2369,10 +2369,10 @@ export interface PatchAccountsAccessBindingsRequest extends Omit<
   name: string;
 }
 export interface PatchPropertiesRequest extends Omit<GoogleAnalyticsAdminV1alphaProperty, "name"> {
-  /** Identifier. Resource name of this property. Format: properties/{property_id} Example: "properties/1000" */
-  name: string;
   /** Required. The list of fields to be updated. Field names must be in snake case (e.g., "field_to_update"). Omitted fields will not be updated. To replace the entire entity, use one path with the string "*" to match all fields. */
   updateMask?: string | undefined;
+  /** Identifier. Resource name of this property. Format: properties/{property_id} Example: "properties/1000" */
+  name: string;
 }
 export interface PatchPropertiesAccessBindingsRequest extends Omit<
   GoogleAnalyticsAdminV1alphaAccessBinding,
@@ -2385,10 +2385,10 @@ export interface PatchPropertiesAudiencesRequest extends Omit<
   GoogleAnalyticsAdminV1alphaAudience,
   "name"
 > {
-  /** Required. The list of fields to be updated. Field names must be in snake case (e.g., "field_to_update"). Omitted fields will not be updated. To replace the entire entity, use one path with the string "*" to match all fields. */
-  updateMask?: string | undefined;
   /** Output only. The resource name for this Audience resource. Format: properties/{propertyId}/audiences/{audienceId} */
   name: string;
+  /** Required. The list of fields to be updated. Field names must be in snake case (e.g., "field_to_update"). Omitted fields will not be updated. To replace the entire entity, use one path with the string "*" to match all fields. */
+  updateMask?: string | undefined;
 }
 export interface PatchPropertiesBigQueryLinksRequest extends Omit<
   GoogleAnalyticsAdminV1alphaBigQueryLink,
@@ -2412,19 +2412,19 @@ export interface PatchPropertiesChannelGroupsRequest extends Omit<
   GoogleAnalyticsAdminV1alphaChannelGroup,
   "name"
 > {
-  /** Output only. The resource name for this Channel Group resource. Format: properties/{property}/channelGroups/{channel_group} */
-  name: string;
   /** Required. The list of fields to be updated. Field names must be in snake case (e.g., "field_to_update"). Omitted fields will not be updated. To replace the entire entity, use one path with the string "*" to match all fields. */
   updateMask?: string | undefined;
+  /** Output only. The resource name for this Channel Group resource. Format: properties/{property}/channelGroups/{channel_group} */
+  name: string;
 }
 export interface PatchPropertiesConversionEventsRequest extends Omit<
   GoogleAnalyticsAdminV1alphaConversionEvent,
   "name"
 > {
-  /** Required. The list of fields to be updated. Field names must be in snake case (e.g., "field_to_update"). Omitted fields will not be updated. To replace the entire entity, use one path with the string "*" to match all fields. */
-  updateMask?: string | undefined;
   /** Identifier. Resource name of this conversion event. Format: properties/{property}/conversionEvents/{conversion_event} */
   name: string;
+  /** Required. The list of fields to be updated. Field names must be in snake case (e.g., "field_to_update"). Omitted fields will not be updated. To replace the entire entity, use one path with the string "*" to match all fields. */
+  updateMask?: string | undefined;
 }
 export interface PatchPropertiesCustomDimensionsRequest extends Omit<
   GoogleAnalyticsAdminV1alphaCustomDimension,
@@ -2466,10 +2466,10 @@ export interface PatchPropertiesDataStreamsEventEditRulesRequest extends Omit<
   GoogleAnalyticsAdminV1alphaEventEditRule,
   "name"
 > {
-  /** Required. The list of fields to be updated. Field names must be in snake case (e.g., "field_to_update"). Omitted fields will not be updated. To replace the entire entity, use one path with the string "*" to match all fields. */
-  updateMask?: string | undefined;
   /** Identifier. Resource name for this EventEditRule resource. Format: properties/{property}/dataStreams/{data_stream}/eventEditRules/{event_edit_rule} */
   name: string;
+  /** Required. The list of fields to be updated. Field names must be in snake case (e.g., "field_to_update"). Omitted fields will not be updated. To replace the entire entity, use one path with the string "*" to match all fields. */
+  updateMask?: string | undefined;
 }
 export interface PatchPropertiesDataStreamsMeasurementProtocolSecretsRequest extends Omit<
   GoogleAnalyticsAdminV1alphaMeasurementProtocolSecret,
@@ -2484,10 +2484,10 @@ export interface PatchPropertiesDataStreamsSKAdNetworkConversionValueSchemaReque
   GoogleAnalyticsAdminV1alphaSKAdNetworkConversionValueSchema,
   "name"
 > {
-  /** Identifier. Resource name of the schema. This will be child of ONLY an iOS stream, and there can be at most one such child under an iOS stream. Format: properties/{property}/dataStreams/{dataStream}/sKAdNetworkConversionValueSchema */
-  name: string;
   /** Required. The list of fields to be updated. Omitted fields will not be updated. */
   updateMask?: string | undefined;
+  /** Identifier. Resource name of the schema. This will be child of ONLY an iOS stream, and there can be at most one such child under an iOS stream. Format: properties/{property}/dataStreams/{dataStream}/sKAdNetworkConversionValueSchema */
+  name: string;
 }
 export interface PatchPropertiesDisplayVideo360AdvertiserLinksRequest extends Omit<
   GoogleAnalyticsAdminV1alphaDisplayVideo360AdvertiserLink,
@@ -2502,28 +2502,28 @@ export interface PatchPropertiesExpandedDataSetsRequest extends Omit<
   GoogleAnalyticsAdminV1alphaExpandedDataSet,
   "name"
 > {
-  /** Output only. The resource name for this ExpandedDataSet resource. Format: properties/{property_id}/expandedDataSets/{expanded_data_set} */
-  name: string;
   /** Required. The list of fields to be updated. Field names must be in snake case (e.g., "field_to_update"). Omitted fields will not be updated. To replace the entire entity, use one path with the string "*" to match all fields. */
   updateMask?: string | undefined;
+  /** Output only. The resource name for this ExpandedDataSet resource. Format: properties/{property_id}/expandedDataSets/{expanded_data_set} */
+  name: string;
 }
 export interface PatchPropertiesGoogleAdsLinksRequest extends Omit<
   GoogleAnalyticsAdminV1alphaGoogleAdsLink,
   "name"
 > {
-  /** Required. The list of fields to be updated. Field names must be in snake case (e.g., "field_to_update"). Omitted fields will not be updated. To replace the entire entity, use one path with the string "*" to match all fields. */
-  updateMask?: string | undefined;
   /** Identifier. Format: properties/{propertyId}/googleAdsLinks/{googleAdsLinkId} Note: googleAdsLinkId is not the Google Ads customer ID. */
   name: string;
+  /** Required. The list of fields to be updated. Field names must be in snake case (e.g., "field_to_update"). Omitted fields will not be updated. To replace the entire entity, use one path with the string "*" to match all fields. */
+  updateMask?: string | undefined;
 }
 export interface PatchPropertiesKeyEventsRequest extends Omit<
   GoogleAnalyticsAdminV1alphaKeyEvent,
   "name"
 > {
-  /** Output only. Resource name of this key event. Format: properties/{property}/keyEvents/{key_event} */
-  name: string;
   /** Required. The list of fields to be updated. Field names must be in snake case (e.g., "field_to_update"). Omitted fields will not be updated. To replace the entire entity, use one path with the string "*" to match all fields. */
   updateMask?: string | undefined;
+  /** Output only. Resource name of this key event. Format: properties/{property}/keyEvents/{key_event} */
+  name: string;
 }
 export interface PatchPropertiesReportingDataAnnotationsRequest extends Omit<
   GoogleAnalyticsAdminV1alphaReportingDataAnnotation,
@@ -2580,8 +2580,6 @@ export type GoogleAnalyticsAdminV1alphaProvisionSubpropertyRequestCustomDimensio
   | "ALL";
 /** Request message for CreateSubproperty RPC. */
 export interface GoogleAnalyticsAdminV1alphaProvisionSubpropertyRequest {
-  /** Required. The subproperty to create. */
-  subproperty?: GoogleAnalyticsAdminV1alphaProperty | undefined;
   /** Optional. The subproperty feature synchronization mode for Custom Dimensions and Metrics */
   customDimensionAndMetricSynchronizationMode?:
     | GoogleAnalyticsAdminV1alphaProvisionSubpropertyRequestCustomDimensionAndMetricSynchronizationModeEnum
@@ -2589,14 +2587,16 @@ export interface GoogleAnalyticsAdminV1alphaProvisionSubpropertyRequest {
     | undefined;
   /** Optional. The subproperty event filter to create on an ordinary property. */
   subpropertyEventFilter?: GoogleAnalyticsAdminV1alphaSubpropertyEventFilter | undefined;
+  /** Required. The subproperty to create. */
+  subproperty?: GoogleAnalyticsAdminV1alphaProperty | undefined;
 }
 export interface ProvisionSubpropertyPropertiesRequest extends GoogleAnalyticsAdminV1alphaProvisionSubpropertyRequest {}
 /** Response message for ProvisionSubproperty RPC. */
 export interface GoogleAnalyticsAdminV1alphaProvisionSubpropertyResponse {
-  /** The created subproperty event filter. */
-  subpropertyEventFilter?: GoogleAnalyticsAdminV1alphaSubpropertyEventFilter | undefined;
   /** The created subproperty. */
   subproperty?: GoogleAnalyticsAdminV1alphaProperty | undefined;
+  /** The created subproperty event filter. */
+  subpropertyEventFilter?: GoogleAnalyticsAdminV1alphaSubpropertyEventFilter | undefined;
 }
 /** Request message for ReorderEventEditRules RPC. */
 export interface GoogleAnalyticsAdminV1alphaReorderEventEditRulesRequest {
@@ -2607,118 +2607,6 @@ export interface ReorderPropertiesDataStreamsEventEditRulesRequest extends Googl
   /** Required. Example format: properties/123/dataStreams/456 */
   parent: string;
 }
-/** The quantitative measurements of a report. For example, the metric `accessCount` is the total number of data access records. */
-export interface GoogleAnalyticsAdminV1alphaAccessMetric {
-  /** The API name of the metric. See [Data Access Schema](https://developers.google.com/analytics/devguides/config/admin/v1/access-api-schema) for the list of metrics supported in this API. Metrics are referenced by name in `metricFilter` & `orderBys`. */
-  metricName?: string | undefined;
-}
-export type GoogleAnalyticsAdminV1alphaAccessMetricList =
-  Array<GoogleAnalyticsAdminV1alphaAccessMetric>;
-export type GoogleAnalyticsAdminV1alphaAccessFilterExpressionList_ =
-  Array<GoogleAnalyticsAdminV1alphaAccessFilterExpression>;
-/** A list of filter expressions. */
-export interface GoogleAnalyticsAdminV1alphaAccessFilterExpressionList {
-  /** A list of filter expressions. */
-  expressions?: GoogleAnalyticsAdminV1alphaAccessFilterExpressionList_ | undefined;
-}
-/** The result needs to be in a list of string values. */
-export interface GoogleAnalyticsAdminV1alphaAccessInListFilter {
-  /** If true, the string value is case sensitive. */
-  caseSensitive?: boolean | undefined;
-  /** The list of string values. Must be non-empty. */
-  values?: StringList | undefined;
-}
-/** To represent a number. */
-export interface GoogleAnalyticsAdminV1alphaNumericValue {
-  /** Double value */
-  doubleValue?: number | undefined;
-  /** Integer value */
-  int64Value?: string | undefined;
-}
-export type GoogleAnalyticsAdminV1alphaAccessNumericFilterOperationEnum =
-  | "OPERATION_UNSPECIFIED"
-  | "EQUAL"
-  | "LESS_THAN"
-  | "LESS_THAN_OR_EQUAL"
-  | "GREATER_THAN"
-  | "GREATER_THAN_OR_EQUAL";
-/** Filters for numeric or date values. */
-export interface GoogleAnalyticsAdminV1alphaAccessNumericFilter {
-  /** A numeric value or a date value. */
-  value?: GoogleAnalyticsAdminV1alphaNumericValue | undefined;
-  /** The operation type for this filter. */
-  operation?:
-    | GoogleAnalyticsAdminV1alphaAccessNumericFilterOperationEnum
-    | (string & {})
-    | undefined;
-}
-export type GoogleAnalyticsAdminV1alphaAccessStringFilterMatchTypeEnum =
-  | "MATCH_TYPE_UNSPECIFIED"
-  | "EXACT"
-  | "BEGINS_WITH"
-  | "ENDS_WITH"
-  | "CONTAINS"
-  | "FULL_REGEXP"
-  | "PARTIAL_REGEXP";
-/** The filter for strings. */
-export interface GoogleAnalyticsAdminV1alphaAccessStringFilter {
-  /** If true, the string value is case sensitive. */
-  caseSensitive?: boolean | undefined;
-  /** The string value used for the matching. */
-  value?: string | undefined;
-  /** The match type for this filter. */
-  matchType?:
-    | GoogleAnalyticsAdminV1alphaAccessStringFilterMatchTypeEnum
-    | (string & {})
-    | undefined;
-}
-/** To express that the result needs to be between two numbers (inclusive). */
-export interface GoogleAnalyticsAdminV1alphaAccessBetweenFilter {
-  /** Begins with this number. */
-  fromValue?: GoogleAnalyticsAdminV1alphaNumericValue | undefined;
-  /** Ends with this number. */
-  toValue?: GoogleAnalyticsAdminV1alphaNumericValue | undefined;
-}
-/** An expression to filter dimension or metric values. */
-export interface GoogleAnalyticsAdminV1alphaAccessFilter {
-  /** A filter for in list values. */
-  inListFilter?: GoogleAnalyticsAdminV1alphaAccessInListFilter | undefined;
-  /** The dimension name or metric name. */
-  fieldName?: string | undefined;
-  /** A filter for numeric or date values. */
-  numericFilter?: GoogleAnalyticsAdminV1alphaAccessNumericFilter | undefined;
-  /** Strings related filter. */
-  stringFilter?: GoogleAnalyticsAdminV1alphaAccessStringFilter | undefined;
-  /** A filter for two values. */
-  betweenFilter?: GoogleAnalyticsAdminV1alphaAccessBetweenFilter | undefined;
-}
-/** Expresses dimension or metric filters. The fields in the same expression need to be either all dimensions or all metrics. */
-export interface GoogleAnalyticsAdminV1alphaAccessFilterExpression {
-  /** Each of the FilterExpressions in the or_group has an OR relationship. */
-  orGroup?: GoogleAnalyticsAdminV1alphaAccessFilterExpressionList | undefined;
-  /** The FilterExpression is NOT of not_expression. */
-  notExpression?: GoogleAnalyticsAdminV1alphaAccessFilterExpression | undefined;
-  /** Each of the FilterExpressions in the and_group has an AND relationship. */
-  andGroup?: GoogleAnalyticsAdminV1alphaAccessFilterExpressionList | undefined;
-  /** A primitive filter. In the same FilterExpression, all of the filter's field names need to be either all dimensions or all metrics. */
-  accessFilter?: GoogleAnalyticsAdminV1alphaAccessFilter | undefined;
-}
-/** A contiguous range of days: startDate, startDate + 1, ..., endDate. */
-export interface GoogleAnalyticsAdminV1alphaAccessDateRange {
-  /** The inclusive start date for the query in the format `YYYY-MM-DD`. Cannot be after `endDate`. The format `NdaysAgo`, `yesterday`, or `today` is also accepted, and in that case, the date is inferred based on the current time in the request's time zone. */
-  startDate?: string | undefined;
-  /** The inclusive end date for the query in the format `YYYY-MM-DD`. Cannot be before `startDate`. The format `NdaysAgo`, `yesterday`, or `today` is also accepted, and in that case, the date is inferred based on the current time in the request's time zone. */
-  endDate?: string | undefined;
-}
-export type GoogleAnalyticsAdminV1alphaAccessDateRangeList =
-  Array<GoogleAnalyticsAdminV1alphaAccessDateRange>;
-/** Dimensions are attributes of your data. For example, the dimension `userEmail` indicates the email of the user that accessed reporting data. Dimension values in report responses are strings. */
-export interface GoogleAnalyticsAdminV1alphaAccessDimension {
-  /** The API name of the dimension. See [Data Access Schema](https://developers.google.com/analytics/devguides/config/admin/v1/access-api-schema) for the list of dimensions supported in this API. Dimensions are referenced by name in `dimensionFilter` and `orderBys`. */
-  dimensionName?: string | undefined;
-}
-export type GoogleAnalyticsAdminV1alphaAccessDimensionList =
-  Array<GoogleAnalyticsAdminV1alphaAccessDimension>;
 /** Sorts by metric values. */
 export interface GoogleAnalyticsAdminV1alphaAccessOrderByMetricOrderBy {
   /** A metric name in the request to order by. */
@@ -2741,41 +2629,153 @@ export interface GoogleAnalyticsAdminV1alphaAccessOrderByDimensionOrderBy {
 }
 /** Order bys define how rows will be sorted in the response. For example, ordering rows by descending access count is one ordering, and ordering rows by the country string is a different ordering. */
 export interface GoogleAnalyticsAdminV1alphaAccessOrderBy {
-  /** If true, sorts by descending order. If false or unspecified, sorts in ascending order. */
-  desc?: boolean | undefined;
   /** Sorts results by a metric's values. */
   metric?: GoogleAnalyticsAdminV1alphaAccessOrderByMetricOrderBy | undefined;
   /** Sorts results by a dimension's values. */
   dimension?: GoogleAnalyticsAdminV1alphaAccessOrderByDimensionOrderBy | undefined;
+  /** If true, sorts by descending order. If false or unspecified, sorts in ascending order. */
+  desc?: boolean | undefined;
 }
 export type GoogleAnalyticsAdminV1alphaAccessOrderByList =
   Array<GoogleAnalyticsAdminV1alphaAccessOrderBy>;
+export type GoogleAnalyticsAdminV1alphaAccessFilterExpressionList_ =
+  Array<GoogleAnalyticsAdminV1alphaAccessFilterExpression>;
+/** A list of filter expressions. */
+export interface GoogleAnalyticsAdminV1alphaAccessFilterExpressionList {
+  /** A list of filter expressions. */
+  expressions?: GoogleAnalyticsAdminV1alphaAccessFilterExpressionList_ | undefined;
+}
+export type GoogleAnalyticsAdminV1alphaAccessStringFilterMatchTypeEnum =
+  | "MATCH_TYPE_UNSPECIFIED"
+  | "EXACT"
+  | "BEGINS_WITH"
+  | "ENDS_WITH"
+  | "CONTAINS"
+  | "FULL_REGEXP"
+  | "PARTIAL_REGEXP";
+/** The filter for strings. */
+export interface GoogleAnalyticsAdminV1alphaAccessStringFilter {
+  /** The match type for this filter. */
+  matchType?:
+    | GoogleAnalyticsAdminV1alphaAccessStringFilterMatchTypeEnum
+    | (string & {})
+    | undefined;
+  /** If true, the string value is case sensitive. */
+  caseSensitive?: boolean | undefined;
+  /** The string value used for the matching. */
+  value?: string | undefined;
+}
+/** To represent a number. */
+export interface GoogleAnalyticsAdminV1alphaNumericValue {
+  /** Double value */
+  doubleValue?: number | undefined;
+  /** Integer value */
+  int64Value?: string | undefined;
+}
+/** To express that the result needs to be between two numbers (inclusive). */
+export interface GoogleAnalyticsAdminV1alphaAccessBetweenFilter {
+  /** Ends with this number. */
+  toValue?: GoogleAnalyticsAdminV1alphaNumericValue | undefined;
+  /** Begins with this number. */
+  fromValue?: GoogleAnalyticsAdminV1alphaNumericValue | undefined;
+}
+export type GoogleAnalyticsAdminV1alphaAccessNumericFilterOperationEnum =
+  | "OPERATION_UNSPECIFIED"
+  | "EQUAL"
+  | "LESS_THAN"
+  | "LESS_THAN_OR_EQUAL"
+  | "GREATER_THAN"
+  | "GREATER_THAN_OR_EQUAL";
+/** Filters for numeric or date values. */
+export interface GoogleAnalyticsAdminV1alphaAccessNumericFilter {
+  /** The operation type for this filter. */
+  operation?:
+    | GoogleAnalyticsAdminV1alphaAccessNumericFilterOperationEnum
+    | (string & {})
+    | undefined;
+  /** A numeric value or a date value. */
+  value?: GoogleAnalyticsAdminV1alphaNumericValue | undefined;
+}
+/** The result needs to be in a list of string values. */
+export interface GoogleAnalyticsAdminV1alphaAccessInListFilter {
+  /** If true, the string value is case sensitive. */
+  caseSensitive?: boolean | undefined;
+  /** The list of string values. Must be non-empty. */
+  values?: StringList | undefined;
+}
+/** An expression to filter dimension or metric values. */
+export interface GoogleAnalyticsAdminV1alphaAccessFilter {
+  /** Strings related filter. */
+  stringFilter?: GoogleAnalyticsAdminV1alphaAccessStringFilter | undefined;
+  /** A filter for two values. */
+  betweenFilter?: GoogleAnalyticsAdminV1alphaAccessBetweenFilter | undefined;
+  /** A filter for numeric or date values. */
+  numericFilter?: GoogleAnalyticsAdminV1alphaAccessNumericFilter | undefined;
+  /** The dimension name or metric name. */
+  fieldName?: string | undefined;
+  /** A filter for in list values. */
+  inListFilter?: GoogleAnalyticsAdminV1alphaAccessInListFilter | undefined;
+}
+/** Expresses dimension or metric filters. The fields in the same expression need to be either all dimensions or all metrics. */
+export interface GoogleAnalyticsAdminV1alphaAccessFilterExpression {
+  /** The FilterExpression is NOT of not_expression. */
+  notExpression?: GoogleAnalyticsAdminV1alphaAccessFilterExpression | undefined;
+  /** Each of the FilterExpressions in the and_group has an AND relationship. */
+  andGroup?: GoogleAnalyticsAdminV1alphaAccessFilterExpressionList | undefined;
+  /** A primitive filter. In the same FilterExpression, all of the filter's field names need to be either all dimensions or all metrics. */
+  accessFilter?: GoogleAnalyticsAdminV1alphaAccessFilter | undefined;
+  /** Each of the FilterExpressions in the or_group has an OR relationship. */
+  orGroup?: GoogleAnalyticsAdminV1alphaAccessFilterExpressionList | undefined;
+}
+/** Dimensions are attributes of your data. For example, the dimension `userEmail` indicates the email of the user that accessed reporting data. Dimension values in report responses are strings. */
+export interface GoogleAnalyticsAdminV1alphaAccessDimension {
+  /** The API name of the dimension. See [Data Access Schema](https://developers.google.com/analytics/devguides/config/admin/v1/access-api-schema) for the list of dimensions supported in this API. Dimensions are referenced by name in `dimensionFilter` and `orderBys`. */
+  dimensionName?: string | undefined;
+}
+export type GoogleAnalyticsAdminV1alphaAccessDimensionList =
+  Array<GoogleAnalyticsAdminV1alphaAccessDimension>;
+/** A contiguous range of days: startDate, startDate + 1, ..., endDate. */
+export interface GoogleAnalyticsAdminV1alphaAccessDateRange {
+  /** The inclusive end date for the query in the format `YYYY-MM-DD`. Cannot be before `startDate`. The format `NdaysAgo`, `yesterday`, or `today` is also accepted, and in that case, the date is inferred based on the current time in the request's time zone. */
+  endDate?: string | undefined;
+  /** The inclusive start date for the query in the format `YYYY-MM-DD`. Cannot be after `endDate`. The format `NdaysAgo`, `yesterday`, or `today` is also accepted, and in that case, the date is inferred based on the current time in the request's time zone. */
+  startDate?: string | undefined;
+}
+export type GoogleAnalyticsAdminV1alphaAccessDateRangeList =
+  Array<GoogleAnalyticsAdminV1alphaAccessDateRange>;
+/** The quantitative measurements of a report. For example, the metric `accessCount` is the total number of data access records. */
+export interface GoogleAnalyticsAdminV1alphaAccessMetric {
+  /** The API name of the metric. See [Data Access Schema](https://developers.google.com/analytics/devguides/config/admin/v1/access-api-schema) for the list of metrics supported in this API. Metrics are referenced by name in `metricFilter` & `orderBys`. */
+  metricName?: string | undefined;
+}
+export type GoogleAnalyticsAdminV1alphaAccessMetricList =
+  Array<GoogleAnalyticsAdminV1alphaAccessMetric>;
 /** The request for a Data Access Record Report. */
 export interface GoogleAnalyticsAdminV1alphaRunAccessReportRequest {
-  /** Optional. Determines whether to include users who have never made an API call in the response. If true, all users with access to the specified property or account are included in the response, regardless of whether they have made an API call or not. If false, only the users who have made an API call will be included. */
-  includeAllUsers?: boolean | undefined;
-  /** The metrics requested and displayed in the response. Requests are allowed up to 10 metrics. */
-  metrics?: GoogleAnalyticsAdminV1alphaAccessMetricList | undefined;
-  /** Optional. Decides whether to return the users within user groups. This field works only when include_all_users is set to true. If true, it will return all users with access to the specified property or account. If false, only the users with direct access will be returned. */
-  expandGroups?: boolean | undefined;
-  /** Dimension filters let you restrict report response to specific dimension values which match the filter. For example, filtering on access records of a single user. To learn more, see [Fundamentals of Dimension Filters](https://developers.google.com/analytics/devguides/reporting/data/v1/basics#dimension_filters) for examples. Metrics cannot be used in this filter. */
-  dimensionFilter?: GoogleAnalyticsAdminV1alphaAccessFilterExpression | undefined;
-  /** The number of rows to return. If unspecified, 10,000 rows are returned. The API returns a maximum of 100,000 rows per request, no matter how many you ask for. `limit` must be positive. The API may return fewer rows than the requested `limit`, if there aren't as many remaining rows as the `limit`. For instance, there are fewer than 300 possible values for the dimension `country`, so when reporting on only `country`, you can't get more than 300 rows, even if you set `limit` to a higher value. To learn more about this pagination parameter, see [Pagination](https://developers.google.com/analytics/devguides/reporting/data/v1/basics#pagination). */
-  limit?: string | undefined;
-  /** Date ranges of access records to read. If multiple date ranges are requested, each response row will contain a zero based date range index. If two date ranges overlap, the access records for the overlapping days is included in the response rows for both date ranges. Requests are allowed up to 2 date ranges. */
-  dateRanges?: GoogleAnalyticsAdminV1alphaAccessDateRangeList | undefined;
-  /** Metric filters allow you to restrict report response to specific metric values which match the filter. Metric filters are applied after aggregating the report's rows, similar to SQL having-clause. Dimensions cannot be used in this filter. */
-  metricFilter?: GoogleAnalyticsAdminV1alphaAccessFilterExpression | undefined;
-  /** This request's time zone if specified. If unspecified, the property's time zone is used. The request's time zone is used to interpret the start & end dates of the report. Formatted as strings from the IANA Time Zone database (https://www.iana.org/time-zones); for example "America/New_York" or "Asia/Tokyo". */
-  timeZone?: string | undefined;
   /** Toggles whether to return the current state of this Analytics Property's quota. Quota is returned in [AccessQuota](#AccessQuota). For account-level requests, this field must be false. */
   returnEntityQuota?: boolean | undefined;
-  /** The dimensions requested and displayed in the response. Requests are allowed up to 9 dimensions. */
-  dimensions?: GoogleAnalyticsAdminV1alphaAccessDimensionList | undefined;
   /** The row count of the start row. The first row is counted as row 0. If offset is unspecified, it is treated as 0. If offset is zero, then this method will return the first page of results with `limit` entries. To learn more about this pagination parameter, see [Pagination](https://developers.google.com/analytics/devguides/reporting/data/v1/basics#pagination). */
   offset?: string | undefined;
+  /** Optional. Determines whether to include users who have never made an API call in the response. If true, all users with access to the specified property or account are included in the response, regardless of whether they have made an API call or not. If false, only the users who have made an API call will be included. */
+  includeAllUsers?: boolean | undefined;
+  /** The number of rows to return. If unspecified, 10,000 rows are returned. The API returns a maximum of 100,000 rows per request, no matter how many you ask for. `limit` must be positive. The API may return fewer rows than the requested `limit`, if there aren't as many remaining rows as the `limit`. For instance, there are fewer than 300 possible values for the dimension `country`, so when reporting on only `country`, you can't get more than 300 rows, even if you set `limit` to a higher value. To learn more about this pagination parameter, see [Pagination](https://developers.google.com/analytics/devguides/reporting/data/v1/basics#pagination). */
+  limit?: string | undefined;
+  /** Optional. Decides whether to return the users within user groups. This field works only when include_all_users is set to true. If true, it will return all users with access to the specified property or account. If false, only the users with direct access will be returned. */
+  expandGroups?: boolean | undefined;
+  /** This request's time zone if specified. If unspecified, the property's time zone is used. The request's time zone is used to interpret the start & end dates of the report. Formatted as strings from the IANA Time Zone database (https://www.iana.org/time-zones); for example "America/New_York" or "Asia/Tokyo". */
+  timeZone?: string | undefined;
   /** Specifies how rows are ordered in the response. */
   orderBys?: GoogleAnalyticsAdminV1alphaAccessOrderByList | undefined;
+  /** Dimension filters let you restrict report response to specific dimension values which match the filter. For example, filtering on access records of a single user. To learn more, see [Fundamentals of Dimension Filters](https://developers.google.com/analytics/devguides/reporting/data/v1/basics#dimension_filters) for examples. Metrics cannot be used in this filter. */
+  dimensionFilter?: GoogleAnalyticsAdminV1alphaAccessFilterExpression | undefined;
+  /** The dimensions requested and displayed in the response. Requests are allowed up to 9 dimensions. */
+  dimensions?: GoogleAnalyticsAdminV1alphaAccessDimensionList | undefined;
+  /** Date ranges of access records to read. If multiple date ranges are requested, each response row will contain a zero based date range index. If two date ranges overlap, the access records for the overlapping days is included in the response rows for both date ranges. Requests are allowed up to 2 date ranges. */
+  dateRanges?: GoogleAnalyticsAdminV1alphaAccessDateRangeList | undefined;
+  /** The metrics requested and displayed in the response. Requests are allowed up to 10 metrics. */
+  metrics?: GoogleAnalyticsAdminV1alphaAccessMetricList | undefined;
+  /** Metric filters allow you to restrict report response to specific metric values which match the filter. Metric filters are applied after aggregating the report's rows, similar to SQL having-clause. Dimensions cannot be used in this filter. */
+  metricFilter?: GoogleAnalyticsAdminV1alphaAccessFilterExpression | undefined;
 }
 export interface RunAccessReportAccountsRequest extends GoogleAnalyticsAdminV1alphaRunAccessReportRequest {
   /** The Data Access Report supports requesting at the property level or account level. If requested at the account level, Data Access Reports include all access for all properties under that account. To request at the property level, entity should be for example 'properties/123' if "123" is your Google Analytics property ID. To request at the account level, entity should be for example 'accounts/1234' if "1234" is your Google Analytics Account ID. */
@@ -2790,17 +2790,24 @@ export interface GoogleAnalyticsAdminV1alphaAccessQuotaStatus {
 }
 /** Current state of all quotas for this Analytics property. If any quota for a property is exhausted, all requests to that property will return Resource Exhausted errors. */
 export interface GoogleAnalyticsAdminV1alphaAccessQuota {
+  /** Properties can use 250,000 tokens per day. Most requests consume fewer than 10 tokens. */
+  tokensPerDay?: GoogleAnalyticsAdminV1alphaAccessQuotaStatus | undefined;
+  /** Properties can use up to 25% of their tokens per project per hour. This amounts to Analytics 360 Properties can use 12,500 tokens per project per hour. An API request consumes a single number of tokens, and that number is deducted from all of the hourly, daily, and per project hourly quotas. */
+  tokensPerProjectPerHour?: GoogleAnalyticsAdminV1alphaAccessQuotaStatus | undefined;
   /** Properties can use 50,000 tokens per hour. An API request consumes a single number of tokens, and that number is deducted from all of the hourly, daily, and per project hourly quotas. */
   tokensPerHour?: GoogleAnalyticsAdminV1alphaAccessQuotaStatus | undefined;
   /** Properties and cloud project pairs can have up to 50 server errors per hour. */
   serverErrorsPerProjectPerHour?: GoogleAnalyticsAdminV1alphaAccessQuotaStatus | undefined;
   /** Properties can use up to 50 concurrent requests. */
   concurrentRequests?: GoogleAnalyticsAdminV1alphaAccessQuotaStatus | undefined;
-  /** Properties can use 250,000 tokens per day. Most requests consume fewer than 10 tokens. */
-  tokensPerDay?: GoogleAnalyticsAdminV1alphaAccessQuotaStatus | undefined;
-  /** Properties can use up to 25% of their tokens per project per hour. This amounts to Analytics 360 Properties can use 12,500 tokens per project per hour. An API request consumes a single number of tokens, and that number is deducted from all of the hourly, daily, and per project hourly quotas. */
-  tokensPerProjectPerHour?: GoogleAnalyticsAdminV1alphaAccessQuotaStatus | undefined;
 }
+/** Describes a metric column in the report. Visible metrics requested in a report produce column entries within rows and MetricHeaders. However, metrics used exclusively within filters or expressions do not produce columns in a report; correspondingly, those metrics do not produce headers. */
+export interface GoogleAnalyticsAdminV1alphaAccessMetricHeader {
+  /** The metric's name; for example 'accessCount'. */
+  metricName?: string | undefined;
+}
+export type GoogleAnalyticsAdminV1alphaAccessMetricHeaderList =
+  Array<GoogleAnalyticsAdminV1alphaAccessMetricHeader>;
 /** Describes a dimension column in the report. Dimensions requested in a report produce column entries within rows and DimensionHeaders. However, dimensions used exclusively within filters or expressions do not produce columns in a report; correspondingly, those dimensions do not produce headers. */
 export interface GoogleAnalyticsAdminV1alphaAccessDimensionHeader {
   /** The dimension's name; for example 'userEmail'. */
@@ -2830,30 +2837,31 @@ export interface GoogleAnalyticsAdminV1alphaAccessRow {
   metricValues?: GoogleAnalyticsAdminV1alphaAccessMetricValueList | undefined;
 }
 export type GoogleAnalyticsAdminV1alphaAccessRowList = Array<GoogleAnalyticsAdminV1alphaAccessRow>;
-/** Describes a metric column in the report. Visible metrics requested in a report produce column entries within rows and MetricHeaders. However, metrics used exclusively within filters or expressions do not produce columns in a report; correspondingly, those metrics do not produce headers. */
-export interface GoogleAnalyticsAdminV1alphaAccessMetricHeader {
-  /** The metric's name; for example 'accessCount'. */
-  metricName?: string | undefined;
-}
-export type GoogleAnalyticsAdminV1alphaAccessMetricHeaderList =
-  Array<GoogleAnalyticsAdminV1alphaAccessMetricHeader>;
 /** The customized Data Access Record Report response. */
 export interface GoogleAnalyticsAdminV1alphaRunAccessReportResponse {
-  /** The total number of rows in the query result. `rowCount` is independent of the number of rows returned in the response, the `limit` request parameter, and the `offset` request parameter. For example if a query returns 175 rows and includes `limit` of 50 in the API request, the response will contain `rowCount` of 175 but only 50 rows. To learn more about this pagination parameter, see [Pagination](https://developers.google.com/analytics/devguides/reporting/data/v1/basics#pagination). */
-  rowCount?: number | undefined;
   /** The quota state for this Analytics property including this request. This field doesn't work with account-level requests. */
   quota?: GoogleAnalyticsAdminV1alphaAccessQuota | undefined;
+  /** The header for a column in the report that corresponds to a specific metric. The number of MetricHeaders and ordering of MetricHeaders matches the metrics present in rows. */
+  metricHeaders?: GoogleAnalyticsAdminV1alphaAccessMetricHeaderList | undefined;
   /** The header for a column in the report that corresponds to a specific dimension. The number of DimensionHeaders and ordering of DimensionHeaders matches the dimensions present in rows. */
   dimensionHeaders?: GoogleAnalyticsAdminV1alphaAccessDimensionHeaderList | undefined;
   /** Rows of dimension value combinations and metric values in the report. */
   rows?: GoogleAnalyticsAdminV1alphaAccessRowList | undefined;
-  /** The header for a column in the report that corresponds to a specific metric. The number of MetricHeaders and ordering of MetricHeaders matches the metrics present in rows. */
-  metricHeaders?: GoogleAnalyticsAdminV1alphaAccessMetricHeaderList | undefined;
+  /** The total number of rows in the query result. `rowCount` is independent of the number of rows returned in the response, the `limit` request parameter, and the `offset` request parameter. For example if a query returns 175 rows and includes `limit` of 50 in the API request, the response will contain `rowCount` of 175 but only 50 rows. To learn more about this pagination parameter, see [Pagination](https://developers.google.com/analytics/devguides/reporting/data/v1/basics#pagination). */
+  rowCount?: number | undefined;
 }
 export interface RunAccessReportPropertiesRequest extends GoogleAnalyticsAdminV1alphaRunAccessReportRequest {
   /** The Data Access Report supports requesting at the property level or account level. If requested at the account level, Data Access Reports include all access for all properties under that account. To request at the property level, entity should be for example 'properties/123' if "123" is your Google Analytics property ID. To request at the account level, entity should be for example 'accounts/1234' if "1234" is your Google Analytics Account ID. */
   entity: string;
 }
+export type GoogleAnalyticsAdminV1alphaSearchChangeHistoryEventsRequestActionItemEnum =
+  | "ACTION_TYPE_UNSPECIFIED"
+  | "CREATED"
+  | "UPDATED"
+  | "DELETED";
+export type GoogleAnalyticsAdminV1alphaSearchChangeHistoryEventsRequestActionItemEnumList = Array<
+  GoogleAnalyticsAdminV1alphaSearchChangeHistoryEventsRequestActionItemEnum | (string & {})
+>;
 export type GoogleAnalyticsAdminV1alphaSearchChangeHistoryEventsRequestResourceTypeItemEnum =
   | "CHANGE_HISTORY_RESOURCE_TYPE_UNSPECIFIED"
   | "ACCOUNT"
@@ -2890,46 +2898,33 @@ export type GoogleAnalyticsAdminV1alphaSearchChangeHistoryEventsRequestResourceT
   Array<
     GoogleAnalyticsAdminV1alphaSearchChangeHistoryEventsRequestResourceTypeItemEnum | (string & {})
   >;
-export type GoogleAnalyticsAdminV1alphaSearchChangeHistoryEventsRequestActionItemEnum =
-  | "ACTION_TYPE_UNSPECIFIED"
-  | "CREATED"
-  | "UPDATED"
-  | "DELETED";
-export type GoogleAnalyticsAdminV1alphaSearchChangeHistoryEventsRequestActionItemEnumList = Array<
-  GoogleAnalyticsAdminV1alphaSearchChangeHistoryEventsRequestActionItemEnum | (string & {})
->;
 /** Request message for SearchChangeHistoryEvents RPC. */
 export interface GoogleAnalyticsAdminV1alphaSearchChangeHistoryEventsRequest {
+  /** Optional. Resource name for a child property. If set, only return changes made to this property or its child resources. Format: properties/{propertyId} Example: `properties/100` */
+  property?: string | undefined;
+  /** Optional. The maximum number of ChangeHistoryEvent items to return. If unspecified, at most 50 items will be returned. The maximum value is 200 (higher values will be coerced to the maximum). Note that the service may return a page with fewer items than this value specifies (potentially even zero), and that there still may be additional pages. If you want a particular number of items, you'll need to continue requesting additional pages using `page_token` until you get the needed number. */
+  pageSize?: number | undefined;
   /** Optional. If set, only return changes if they are made by a user in this list. */
   actorEmail?: StringList | undefined;
+  /** Optional. If set, only return changes that match one or more of these types of actions. */
+  action?:
+    | GoogleAnalyticsAdminV1alphaSearchChangeHistoryEventsRequestActionItemEnumList
+    | undefined;
+  /** Optional. A page token, received from a previous `SearchChangeHistoryEvents` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `SearchChangeHistoryEvents` must match the call that provided the page token. */
+  pageToken?: string | undefined;
+  /** Optional. If set, only return changes made before this time (inclusive). */
+  latestChangeTime?: string | undefined;
   /** Optional. If set, only return changes if they are for a resource that matches at least one of these types. */
   resourceType?:
     | GoogleAnalyticsAdminV1alphaSearchChangeHistoryEventsRequestResourceTypeItemEnumList
     | undefined;
   /** Optional. If set, only return changes made after this time (inclusive). */
   earliestChangeTime?: string | undefined;
-  /** Optional. Resource name for a child property. If set, only return changes made to this property or its child resources. Format: properties/{propertyId} Example: `properties/100` */
-  property?: string | undefined;
-  /** Optional. If set, only return changes made before this time (inclusive). */
-  latestChangeTime?: string | undefined;
-  /** Optional. If set, only return changes that match one or more of these types of actions. */
-  action?:
-    | GoogleAnalyticsAdminV1alphaSearchChangeHistoryEventsRequestActionItemEnumList
-    | undefined;
-  /** Optional. The maximum number of ChangeHistoryEvent items to return. If unspecified, at most 50 items will be returned. The maximum value is 200 (higher values will be coerced to the maximum). Note that the service may return a page with fewer items than this value specifies (potentially even zero), and that there still may be additional pages. If you want a particular number of items, you'll need to continue requesting additional pages using `page_token` until you get the needed number. */
-  pageSize?: number | undefined;
-  /** Optional. A page token, received from a previous `SearchChangeHistoryEvents` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `SearchChangeHistoryEvents` must match the call that provided the page token. */
-  pageToken?: string | undefined;
 }
 export interface SearchChangeHistoryEventsAccountsRequest extends GoogleAnalyticsAdminV1alphaSearchChangeHistoryEventsRequest {
   /** Required. The account resource for which to return change history resources. Format: accounts/{account} Example: `accounts/100` */
   account: string;
 }
-export type GoogleAnalyticsAdminV1alphaChangeHistoryEventActorTypeEnum =
-  | "ACTOR_TYPE_UNSPECIFIED"
-  | "USER"
-  | "SYSTEM"
-  | "SUPPORT";
 export type GoogleAnalyticsAdminV1alphaChangeHistoryChangeActionEnum =
   | "ACTION_TYPE_UNSPECIFIED"
   | "CREATED"
@@ -2937,104 +2932,109 @@ export type GoogleAnalyticsAdminV1alphaChangeHistoryChangeActionEnum =
   | "DELETED";
 /** A snapshot of a resource as before or after the result of a change in change history. */
 export interface GoogleAnalyticsAdminV1alphaChangeHistoryChangeChangeHistoryResource {
-  /** A snapshot of a ChannelGroup resource in change history. */
-  channelGroup?: GoogleAnalyticsAdminV1alphaChannelGroup | undefined;
-  /** A snapshot of a SubpropertySyncConfig resource in change history. */
-  subpropertySyncConfig?: GoogleAnalyticsAdminV1alphaSubpropertySyncConfig | undefined;
+  /** A snapshot of AttributionSettings resource in change history. */
+  attributionSettings?: GoogleAnalyticsAdminV1alphaAttributionSettings | undefined;
+  /** A snapshot of an Account resource in change history. */
+  account?: GoogleAnalyticsAdminV1alphaAccount | undefined;
   /** A snapshot of a DataStream resource in change history. */
   dataStream?: GoogleAnalyticsAdminV1alphaDataStream | undefined;
-  /** A snapshot of an AdSenseLink resource in change history. */
-  adsenseLink?: GoogleAnalyticsAdminV1alphaAdSenseLink | undefined;
   /** A snapshot of SKAdNetworkConversionValueSchema resource in change history. */
   skadnetworkConversionValueSchema?:
     | GoogleAnalyticsAdminV1alphaSKAdNetworkConversionValueSchema
     | undefined;
-  /** A snapshot of a DisplayVideo360AdvertiserLinkProposal resource in change history. */
-  displayVideo360AdvertiserLinkProposal?:
-    | GoogleAnalyticsAdminV1alphaDisplayVideo360AdvertiserLinkProposal
-    | undefined;
-  /** A snapshot of a KeyEvent resource in change history. */
-  keyEvent?: GoogleAnalyticsAdminV1alphaKeyEvent | undefined;
-  /** A snapshot of a GoogleAdsLink resource in change history. */
-  googleAdsLink?: GoogleAnalyticsAdminV1alphaGoogleAdsLink | undefined;
-  /** A snapshot of a CustomDimension resource in change history. */
-  customDimension?: GoogleAnalyticsAdminV1alphaCustomDimension | undefined;
-  /** A snapshot of a data retention settings resource in change history. */
-  dataRetentionSettings?: GoogleAnalyticsAdminV1alphaDataRetentionSettings | undefined;
-  /** A snapshot of a BigQuery link resource in change history. */
-  bigqueryLink?: GoogleAnalyticsAdminV1alphaBigQueryLink | undefined;
-  /** A snapshot of an Account resource in change history. */
-  account?: GoogleAnalyticsAdminV1alphaAccount | undefined;
-  /** A snapshot of a ReportingIdentitySettings resource in change history. */
-  reportingIdentitySettings?: GoogleAnalyticsAdminV1alphaReportingIdentitySettings | undefined;
-  /** A snapshot of a GoogleSignalsSettings resource in change history. */
-  googleSignalsSettings?: GoogleAnalyticsAdminV1alphaGoogleSignalsSettings | undefined;
-  /** A snapshot of DataRedactionSettings resource in change history. */
-  dataRedactionSettings?: GoogleAnalyticsAdminV1alphaDataRedactionSettings | undefined;
-  /** A snapshot of a FirebaseLink resource in change history. */
-  firebaseLink?: GoogleAnalyticsAdminV1alphaFirebaseLink | undefined;
+  /** A snapshot of a ChannelGroup resource in change history. */
+  channelGroup?: GoogleAnalyticsAdminV1alphaChannelGroup | undefined;
+  /** A snapshot of an Audience resource in change history. */
+  audience?: GoogleAnalyticsAdminV1alphaAudience | undefined;
   /** A snapshot of a DisplayVideo360AdvertiserLink resource in change history. */
   displayVideo360AdvertiserLink?:
     | GoogleAnalyticsAdminV1alphaDisplayVideo360AdvertiserLink
     | undefined;
-  /** A snapshot of an EventCreateRule resource in change history. */
-  eventCreateRule?: GoogleAnalyticsAdminV1alphaEventCreateRule | undefined;
-  /** A snapshot of a MeasurementProtocolSecret resource in change history. */
-  measurementProtocolSecret?: GoogleAnalyticsAdminV1alphaMeasurementProtocolSecret | undefined;
-  /** A snapshot of a CalculatedMetric resource in change history. */
-  calculatedMetric?: GoogleAnalyticsAdminV1alphaCalculatedMetric | undefined;
-  /** A snapshot of a ConversionEvent resource in change history. */
-  conversionEvent?: GoogleAnalyticsAdminV1alphaConversionEvent | undefined;
-  /** A snapshot of an Audience resource in change history. */
-  audience?: GoogleAnalyticsAdminV1alphaAudience | undefined;
-  /** A snapshot of EnhancedMeasurementSettings resource in change history. */
-  enhancedMeasurementSettings?: GoogleAnalyticsAdminV1alphaEnhancedMeasurementSettings | undefined;
-  /** A snapshot of a UserProvidedDataSettings resource in change history. */
-  userProvidedDataSettings?: GoogleAnalyticsAdminV1alphaUserProvidedDataSettings | undefined;
-  /** A snapshot of a Property resource in change history. */
-  property?: GoogleAnalyticsAdminV1alphaProperty | undefined;
-  /** A snapshot of AttributionSettings resource in change history. */
-  attributionSettings?: GoogleAnalyticsAdminV1alphaAttributionSettings | undefined;
-  /** A snapshot of a ReportingDataAnnotation resource in change history. */
-  reportingDataAnnotation?: GoogleAnalyticsAdminV1alphaReportingDataAnnotation | undefined;
-  /** A snapshot of a SearchAds360Link resource in change history. */
-  searchAds360Link?: GoogleAnalyticsAdminV1alphaSearchAds360Link | undefined;
+  /** A snapshot of a KeyEvent resource in change history. */
+  keyEvent?: GoogleAnalyticsAdminV1alphaKeyEvent | undefined;
+  /** A snapshot of a ReportingIdentitySettings resource in change history. */
+  reportingIdentitySettings?: GoogleAnalyticsAdminV1alphaReportingIdentitySettings | undefined;
+  /** A snapshot of DataRedactionSettings resource in change history. */
+  dataRedactionSettings?: GoogleAnalyticsAdminV1alphaDataRedactionSettings | undefined;
   /** A snapshot of a CustomMetric resource in change history. */
   customMetric?: GoogleAnalyticsAdminV1alphaCustomMetric | undefined;
   /** A snapshot of an ExpandedDataSet resource in change history. */
   expandedDataSet?: GoogleAnalyticsAdminV1alphaExpandedDataSet | undefined;
+  /** A snapshot of a GoogleAdsLink resource in change history. */
+  googleAdsLink?: GoogleAnalyticsAdminV1alphaGoogleAdsLink | undefined;
+  /** A snapshot of a GoogleSignalsSettings resource in change history. */
+  googleSignalsSettings?: GoogleAnalyticsAdminV1alphaGoogleSignalsSettings | undefined;
+  /** A snapshot of an EventCreateRule resource in change history. */
+  eventCreateRule?: GoogleAnalyticsAdminV1alphaEventCreateRule | undefined;
+  /** A snapshot of a UserProvidedDataSettings resource in change history. */
+  userProvidedDataSettings?: GoogleAnalyticsAdminV1alphaUserProvidedDataSettings | undefined;
+  /** A snapshot of a Property resource in change history. */
+  property?: GoogleAnalyticsAdminV1alphaProperty | undefined;
+  /** A snapshot of a CalculatedMetric resource in change history. */
+  calculatedMetric?: GoogleAnalyticsAdminV1alphaCalculatedMetric | undefined;
+  /** A snapshot of a SearchAds360Link resource in change history. */
+  searchAds360Link?: GoogleAnalyticsAdminV1alphaSearchAds360Link | undefined;
+  /** A snapshot of a data retention settings resource in change history. */
+  dataRetentionSettings?: GoogleAnalyticsAdminV1alphaDataRetentionSettings | undefined;
+  /** A snapshot of a FirebaseLink resource in change history. */
+  firebaseLink?: GoogleAnalyticsAdminV1alphaFirebaseLink | undefined;
+  /** A snapshot of a SubpropertySyncConfig resource in change history. */
+  subpropertySyncConfig?: GoogleAnalyticsAdminV1alphaSubpropertySyncConfig | undefined;
+  /** A snapshot of EnhancedMeasurementSettings resource in change history. */
+  enhancedMeasurementSettings?: GoogleAnalyticsAdminV1alphaEnhancedMeasurementSettings | undefined;
+  /** A snapshot of a MeasurementProtocolSecret resource in change history. */
+  measurementProtocolSecret?: GoogleAnalyticsAdminV1alphaMeasurementProtocolSecret | undefined;
+  /** A snapshot of a BigQuery link resource in change history. */
+  bigqueryLink?: GoogleAnalyticsAdminV1alphaBigQueryLink | undefined;
+  /** A snapshot of a ReportingDataAnnotation resource in change history. */
+  reportingDataAnnotation?: GoogleAnalyticsAdminV1alphaReportingDataAnnotation | undefined;
+  /** A snapshot of a ConversionEvent resource in change history. */
+  conversionEvent?: GoogleAnalyticsAdminV1alphaConversionEvent | undefined;
+  /** A snapshot of a CustomDimension resource in change history. */
+  customDimension?: GoogleAnalyticsAdminV1alphaCustomDimension | undefined;
+  /** A snapshot of a DisplayVideo360AdvertiserLinkProposal resource in change history. */
+  displayVideo360AdvertiserLinkProposal?:
+    | GoogleAnalyticsAdminV1alphaDisplayVideo360AdvertiserLinkProposal
+    | undefined;
+  /** A snapshot of an AdSenseLink resource in change history. */
+  adsenseLink?: GoogleAnalyticsAdminV1alphaAdSenseLink | undefined;
 }
 /** A description of a change to a single Google Analytics resource. */
 export interface GoogleAnalyticsAdminV1alphaChangeHistoryChange {
-  /** The type of action that changed this resource. */
-  action?: GoogleAnalyticsAdminV1alphaChangeHistoryChangeActionEnum | undefined;
-  /** Resource contents from after the change was made. If this resource was deleted in this change, this field will be missing. */
-  resourceAfterChange?:
-    | GoogleAnalyticsAdminV1alphaChangeHistoryChangeChangeHistoryResource
-    | undefined;
   /** Resource name of the resource whose changes are described by this entry. */
   resource?: string | undefined;
+  /** The type of action that changed this resource. */
+  action?: GoogleAnalyticsAdminV1alphaChangeHistoryChangeActionEnum | undefined;
   /** Resource contents from before the change was made. If this resource was created in this change, this field will be missing. */
   resourceBeforeChange?:
+    | GoogleAnalyticsAdminV1alphaChangeHistoryChangeChangeHistoryResource
+    | undefined;
+  /** Resource contents from after the change was made. If this resource was deleted in this change, this field will be missing. */
+  resourceAfterChange?:
     | GoogleAnalyticsAdminV1alphaChangeHistoryChangeChangeHistoryResource
     | undefined;
 }
 export type GoogleAnalyticsAdminV1alphaChangeHistoryChangeList =
   Array<GoogleAnalyticsAdminV1alphaChangeHistoryChange>;
+export type GoogleAnalyticsAdminV1alphaChangeHistoryEventActorTypeEnum =
+  | "ACTOR_TYPE_UNSPECIFIED"
+  | "USER"
+  | "SYSTEM"
+  | "SUPPORT";
 /** A set of changes within a Google Analytics account or its child properties that resulted from the same cause. Common causes would be updates made in the Google Analytics UI, changes from customer support, or automatic Google Analytics system changes. */
 export interface GoogleAnalyticsAdminV1alphaChangeHistoryEvent {
-  /** The type of actor that made this change. */
-  actorType?: GoogleAnalyticsAdminV1alphaChangeHistoryEventActorTypeEnum | undefined;
-  /** If true, then the list of changes returned was filtered, and does not represent all changes that occurred in this event. */
-  changesFiltered?: boolean | undefined;
-  /** Email address of the Google account that made the change. This will be a valid email address if the actor field is set to USER, and empty otherwise. Google accounts that have been deleted will cause an error. */
-  userActorEmail?: string | undefined;
   /** A list of changes made in this change history event that fit the filters specified in SearchChangeHistoryEventsRequest. */
   changes?: GoogleAnalyticsAdminV1alphaChangeHistoryChangeList | undefined;
+  /** If true, then the list of changes returned was filtered, and does not represent all changes that occurred in this event. */
+  changesFiltered?: boolean | undefined;
   /** ID of this change history event. This ID is unique across Google Analytics. */
   id?: string | undefined;
+  /** Email address of the Google account that made the change. This will be a valid email address if the actor field is set to USER, and empty otherwise. Google accounts that have been deleted will cause an error. */
+  userActorEmail?: string | undefined;
   /** Time when change was made. */
   changeTime?: string | undefined;
+  /** The type of actor that made this change. */
+  actorType?: GoogleAnalyticsAdminV1alphaChangeHistoryEventActorTypeEnum | undefined;
 }
 export type GoogleAnalyticsAdminV1alphaChangeHistoryEventList =
   Array<GoogleAnalyticsAdminV1alphaChangeHistoryEvent>;
@@ -3047,14 +3047,14 @@ export interface GoogleAnalyticsAdminV1alphaSearchChangeHistoryEventsResponse {
 }
 /** Request message for SubmitUserDeletion RPC. */
 export interface GoogleAnalyticsAdminV1alphaSubmitUserDeletionRequest {
-  /** Google Analytics [user ID](https://firebase.google.com/docs/analytics/userid). */
-  userId?: string | undefined;
+  /** [User-provided data](https://support.google.com/analytics/answer/14077171). May contain either one email address or one phone number. Email addresses should be normalized as such: * lowercase * remove periods before @ for gmail.com/googlemail.com addresses * remove all spaces Phone numbers should be normalized as such: * remove all non digit characters * add + prefix */
+  userProvidedData?: string | undefined;
   /** Google Analytics [client ID](https://support.google.com/analytics/answer/11593727). */
   clientId?: string | undefined;
   /** Firebase [application instance ID](https://firebase.google.com/docs/reference/android/com/google/firebase/analytics/FirebaseAnalytics.html#getAppInstanceId). */
   appInstanceId?: string | undefined;
-  /** [User-provided data](https://support.google.com/analytics/answer/14077171). May contain either one email address or one phone number. Email addresses should be normalized as such: * lowercase * remove periods before @ for gmail.com/googlemail.com addresses * remove all spaces Phone numbers should be normalized as such: * remove all non digit characters * add + prefix */
-  userProvidedData?: string | undefined;
+  /** Google Analytics [user ID](https://firebase.google.com/docs/analytics/userid). */
+  userId?: string | undefined;
 }
 export interface SubmitUserDeletionPropertiesRequest extends GoogleAnalyticsAdminV1alphaSubmitUserDeletionRequest {
   /** Required. The name of the property to submit user deletion for. */
@@ -3078,19 +3078,19 @@ export interface UpdateDataRedactionSettingsPropertiesDataStreamsRequest extends
   GoogleAnalyticsAdminV1alphaDataRedactionSettings,
   "name"
 > {
-  /** Required. The list of fields to be updated. Field names must be in snake case (e.g., "field_to_update"). Omitted fields will not be updated. To replace the entire entity, use one path with the string "*" to match all fields. */
-  updateMask?: string | undefined;
   /** Output only. Name of this Data Redaction Settings resource. Format: properties/{property_id}/dataStreams/{data_stream}/dataRedactionSettings Example: "properties/1000/dataStreams/2000/dataRedactionSettings" */
   name: string;
+  /** Required. The list of fields to be updated. Field names must be in snake case (e.g., "field_to_update"). Omitted fields will not be updated. To replace the entire entity, use one path with the string "*" to match all fields. */
+  updateMask?: string | undefined;
 }
 export interface UpdateDataRetentionSettingsPropertiesRequest extends Omit<
   GoogleAnalyticsAdminV1alphaDataRetentionSettings,
   "name"
 > {
-  /** Required. The list of fields to be updated. Field names must be in snake case (e.g., "field_to_update"). Omitted fields will not be updated. To replace the entire entity, use one path with the string "*" to match all fields. */
-  updateMask?: string | undefined;
   /** Identifier. Resource name for this DataRetentionSetting resource. Format: properties/{property}/dataRetentionSettings */
   name: string;
+  /** Required. The list of fields to be updated. Field names must be in snake case (e.g., "field_to_update"). Omitted fields will not be updated. To replace the entire entity, use one path with the string "*" to match all fields. */
+  updateMask?: string | undefined;
 }
 export interface UpdateEnhancedMeasurementSettingsPropertiesDataStreamsRequest extends Omit<
   GoogleAnalyticsAdminV1alphaEnhancedMeasurementSettings,
@@ -3114,10 +3114,10 @@ export interface UpdateReportingIdentitySettingsPropertiesRequest extends Omit<
   GoogleAnalyticsAdminV1alphaReportingIdentitySettings,
   "name"
 > {
-  /** Output only. Identifier. Resource name for this reporting identity settings singleton resource. Format: properties/{property_id}/reportingIdentitySettings Example: "properties/1234/reportingIdentitySettings" */
-  name: string;
   /** Optional. The list of fields to be updated. Field names must be in snake case (for example, "field_to_update"). Omitted fields will not be updated. To replace the entire entity, use one path with the string "*" to match all fields. If omitted, the service will treat it as an implied field mask equivalent to all fields that are populated. */
   updateMask?: string | undefined;
+  /** Output only. Identifier. Resource name for this reporting identity settings singleton resource. Format: properties/{property_id}/reportingIdentitySettings Example: "properties/1234/reportingIdentitySettings" */
+  name: string;
 }
 export type AcknowledgeUserDataCollectionPropertiesError =
   | NotFound
@@ -3132,10 +3132,10 @@ export const acknowledgeUserDataCollectionProperties: API.OperationMethod<
   AcknowledgeUserDataCollectionPropertiesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4129, __c129, 1) as any as S.Schema<AcknowledgeUserDataCollectionPropertiesRequest>,
+  input: __S(4161, __c130, 1) as any as S.Schema<AcknowledgeUserDataCollectionPropertiesRequest>,
   output: __S(
-    4160,
-    __c130,
+    4192,
+    __c131,
     0,
   ) as any as S.Schema<GoogleAnalyticsAdminV1alphaAcknowledgeUserDataCollectionResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
@@ -3160,13 +3160,13 @@ export const approvePropertiesDisplayVideo360AdvertiserLinkProposals: API.Operat
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4672,
-    __c146,
+    4704,
+    __c147,
     0,
   ) as any as S.Schema<ApprovePropertiesDisplayVideo360AdvertiserLinkProposalsRequest>,
   output: __S(
-    4673,
-    __c146,
+    4705,
+    __c147,
     1,
   ) as any as S.Schema<GoogleAnalyticsAdminV1alphaApproveDisplayVideo360AdvertiserLinkProposalResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
@@ -3190,8 +3190,8 @@ export const archivePropertiesAudiences: API.OperationMethod<
   ArchivePropertiesAudiencesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5056, __c158, 0) as any as S.Schema<ArchivePropertiesAudiencesRequest>,
-  output: __S(4160, __c130, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(5088, __c159, 0) as any as S.Schema<ArchivePropertiesAudiencesRequest>,
+  output: __S(4192, __c131, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -3213,8 +3213,8 @@ export const archivePropertiesCustomDimensions: API.OperationMethod<
   ArchivePropertiesCustomDimensionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5440, __c170, 0) as any as S.Schema<ArchivePropertiesCustomDimensionsRequest>,
-  output: __S(4160, __c130, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(5472, __c171, 0) as any as S.Schema<ArchivePropertiesCustomDimensionsRequest>,
+  output: __S(4192, __c131, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -3236,8 +3236,8 @@ export const archivePropertiesCustomMetrics: API.OperationMethod<
   ArchivePropertiesCustomMetricsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5952, __c186, 0) as any as S.Schema<ArchivePropertiesCustomMetricsRequest>,
-  output: __S(4160, __c130, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(5984, __c187, 0) as any as S.Schema<ArchivePropertiesCustomMetricsRequest>,
+  output: __S(4192, __c131, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -3259,10 +3259,10 @@ export const batchCreateAccountsAccessBindings: API.OperationMethod<
   BatchCreateAccountsAccessBindingsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6304, __c197, 0) as any as S.Schema<BatchCreateAccountsAccessBindingsRequest>,
+  input: __S(6336, __c198, 0) as any as S.Schema<BatchCreateAccountsAccessBindingsRequest>,
   output: __S(
-    6368,
-    __c199,
+    6400,
+    __c200,
     0,
   ) as any as S.Schema<GoogleAnalyticsAdminV1alphaBatchCreateAccessBindingsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
@@ -3288,8 +3288,8 @@ export const batchCreatePropertiesAccessBindings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<BatchCreatePropertiesAccessBindingsRequest>,
   output: __S(
-    6368,
-    __c199,
+    6400,
+    __c200,
     0,
   ) as any as S.Schema<GoogleAnalyticsAdminV1alphaBatchCreateAccessBindingsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
@@ -3314,7 +3314,7 @@ export const batchDeleteAccountsAccessBindings: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c15, 0) as any as S.Schema<BatchDeleteAccountsAccessBindingsRequest>,
-  output: __S(4160, __c130, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  output: __S(4192, __c131, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -3337,7 +3337,7 @@ export const batchDeletePropertiesAccessBindings: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c27, 0) as any as S.Schema<BatchDeletePropertiesAccessBindingsRequest>,
-  output: __S(4160, __c130, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  output: __S(4192, __c131, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -3356,8 +3356,8 @@ export const batchGetAccountsAccessBindings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c38, 0) as any as S.Schema<BatchGetAccountsAccessBindingsRequest>,
   output: __S(
-    6368,
-    __c199,
+    6400,
+    __c200,
     0,
   ) as any as S.Schema<GoogleAnalyticsAdminV1alphaBatchGetAccessBindingsResponse>,
   errors: [NotFound, Forbidden],
@@ -3378,8 +3378,8 @@ export const batchGetPropertiesAccessBindings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1568, __c49, 0) as any as S.Schema<BatchGetPropertiesAccessBindingsRequest>,
   output: __S(
-    6368,
-    __c199,
+    6400,
+    __c200,
     0,
   ) as any as S.Schema<GoogleAnalyticsAdminV1alphaBatchGetAccessBindingsResponse>,
   errors: [NotFound, Forbidden],
@@ -3405,8 +3405,8 @@ export const batchUpdateAccountsAccessBindings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1920, __c60, 0) as any as S.Schema<BatchUpdateAccountsAccessBindingsRequest>,
   output: __S(
-    6368,
-    __c199,
+    6400,
+    __c200,
     0,
   ) as any as S.Schema<GoogleAnalyticsAdminV1alphaBatchUpdateAccessBindingsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
@@ -3432,8 +3432,8 @@ export const batchUpdatePropertiesAccessBindings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2304, __c72, 0) as any as S.Schema<BatchUpdatePropertiesAccessBindingsRequest>,
   output: __S(
-    6368,
-    __c199,
+    6400,
+    __c200,
     0,
   ) as any as S.Schema<GoogleAnalyticsAdminV1alphaBatchUpdateAccessBindingsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
@@ -3489,7 +3489,7 @@ export const createAccountsAccessBindings: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2752, __c86, 0) as any as S.Schema<CreateAccountsAccessBindingsRequest>,
-  output: __S(6464, __c202, 0) as any as S.Schema<GoogleAnalyticsAdminV1alphaAccessBinding>,
+  output: __S(6496, __c203, 0) as any as S.Schema<GoogleAnalyticsAdminV1alphaAccessBinding>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -3531,7 +3531,7 @@ export const createPropertiesAccessBindings: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2848, __c89, 0) as any as S.Schema<CreatePropertiesAccessBindingsRequest>,
-  output: __S(6464, __c202, 0) as any as S.Schema<GoogleAnalyticsAdminV1alphaAccessBinding>,
+  output: __S(6496, __c203, 0) as any as S.Schema<GoogleAnalyticsAdminV1alphaAccessBinding>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -3577,7 +3577,7 @@ export const createPropertiesAudiences: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2944, __c92, 0) as any as S.Schema<CreatePropertiesAudiencesRequest>,
-  output: __S(3024, __c94, 16) as any as S.Schema<GoogleAnalyticsAdminV1alphaAudience>,
+  output: __S(3021, __c94, 13) as any as S.Schema<GoogleAnalyticsAdminV1alphaAudience>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -3909,8 +3909,8 @@ export const createPropertiesDisplayVideo360AdvertiserLinks: API.OperationMethod
     0,
   ) as any as S.Schema<CreatePropertiesDisplayVideo360AdvertiserLinksRequest>,
   output: __S(
-    4704,
-    __c147,
+    4736,
+    __c148,
     0,
   ) as any as S.Schema<GoogleAnalyticsAdminV1alphaDisplayVideo360AdvertiserLink>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
@@ -3935,7 +3935,7 @@ export const createPropertiesExpandedDataSets: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3872, __c121, 0) as any as S.Schema<CreatePropertiesExpandedDataSetsRequest>,
-  output: __S(3909, __c122, 5) as any as S.Schema<GoogleAnalyticsAdminV1alphaExpandedDataSet>,
+  output: __S(3941, __c123, 5) as any as S.Schema<GoogleAnalyticsAdminV1alphaExpandedDataSet>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -3957,8 +3957,8 @@ export const createPropertiesFirebaseLinks: API.OperationMethod<
   CreatePropertiesFirebaseLinksError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3936, __c123, 0) as any as S.Schema<CreatePropertiesFirebaseLinksRequest>,
-  output: __S(3968, __c124, 0) as any as S.Schema<GoogleAnalyticsAdminV1alphaFirebaseLink>,
+  input: __S(3968, __c124, 0) as any as S.Schema<CreatePropertiesFirebaseLinksRequest>,
+  output: __S(4000, __c125, 0) as any as S.Schema<GoogleAnalyticsAdminV1alphaFirebaseLink>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -3981,8 +3981,8 @@ export const createPropertiesGoogleAdsLinks: API.OperationMethod<
   CreatePropertiesGoogleAdsLinksError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4000, __c125, 0) as any as S.Schema<CreatePropertiesGoogleAdsLinksRequest>,
-  output: __S(4032, __c126, 0) as any as S.Schema<GoogleAnalyticsAdminV1alphaGoogleAdsLink>,
+  input: __S(4032, __c126, 0) as any as S.Schema<CreatePropertiesGoogleAdsLinksRequest>,
+  output: __S(4064, __c127, 0) as any as S.Schema<GoogleAnalyticsAdminV1alphaGoogleAdsLink>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -4005,8 +4005,8 @@ export const createPropertiesKeyEvents: API.OperationMethod<
   CreatePropertiesKeyEventsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4064, __c127, 0) as any as S.Schema<CreatePropertiesKeyEventsRequest>,
-  output: __S(4097, __c128, 1) as any as S.Schema<GoogleAnalyticsAdminV1alphaKeyEvent>,
+  input: __S(4096, __c128, 0) as any as S.Schema<CreatePropertiesKeyEventsRequest>,
+  output: __S(4129, __c129, 1) as any as S.Schema<GoogleAnalyticsAdminV1alphaKeyEvent>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -4028,10 +4028,10 @@ export const createPropertiesReportingDataAnnotations: API.OperationMethod<
   CreatePropertiesReportingDataAnnotationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4192, __c131, 0) as any as S.Schema<CreatePropertiesReportingDataAnnotationsRequest>,
+  input: __S(4224, __c132, 0) as any as S.Schema<CreatePropertiesReportingDataAnnotationsRequest>,
   output: __S(
-    4226,
-    __c132,
+    4258,
+    __c133,
     2,
   ) as any as S.Schema<GoogleAnalyticsAdminV1alphaReportingDataAnnotation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
@@ -4055,10 +4055,10 @@ export const createPropertiesRollupPropertySourceLinks: API.OperationMethod<
   CreatePropertiesRollupPropertySourceLinksError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4256, __c133, 0) as any as S.Schema<CreatePropertiesRollupPropertySourceLinksRequest>,
+  input: __S(4288, __c134, 0) as any as S.Schema<CreatePropertiesRollupPropertySourceLinksRequest>,
   output: __S(
-    4288,
-    __c134,
+    4320,
+    __c135,
     0,
   ) as any as S.Schema<GoogleAnalyticsAdminV1alphaRollupPropertySourceLink>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
@@ -4082,8 +4082,8 @@ export const createPropertiesSearchAds360Links: API.OperationMethod<
   CreatePropertiesSearchAds360LinksError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4320, __c135, 0) as any as S.Schema<CreatePropertiesSearchAds360LinksRequest>,
-  output: __S(4352, __c136, 0) as any as S.Schema<GoogleAnalyticsAdminV1alphaSearchAds360Link>,
+  input: __S(4352, __c136, 0) as any as S.Schema<CreatePropertiesSearchAds360LinksRequest>,
+  output: __S(4384, __c137, 0) as any as S.Schema<GoogleAnalyticsAdminV1alphaSearchAds360Link>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -4105,10 +4105,10 @@ export const createPropertiesSubpropertyEventFilters: API.OperationMethod<
   CreatePropertiesSubpropertyEventFiltersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4384, __c137, 0) as any as S.Schema<CreatePropertiesSubpropertyEventFiltersRequest>,
+  input: __S(4416, __c138, 0) as any as S.Schema<CreatePropertiesSubpropertyEventFiltersRequest>,
   output: __S(
-    4423,
-    __c138,
+    4455,
+    __c139,
     7,
   ) as any as S.Schema<GoogleAnalyticsAdminV1alphaSubpropertyEventFilter>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
@@ -4132,10 +4132,10 @@ export const createRollupPropertyProperties: API.OperationMethod<
   CreateRollupPropertyPropertiesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4449, __c139, 1) as any as S.Schema<CreateRollupPropertyPropertiesRequest>,
+  input: __S(4481, __c140, 1) as any as S.Schema<CreateRollupPropertyPropertiesRequest>,
   output: __S(
-    4450,
-    __c139,
+    4482,
+    __c140,
     2,
   ) as any as S.Schema<GoogleAnalyticsAdminV1alphaCreateRollupPropertyResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
@@ -4154,8 +4154,8 @@ export const deleteAccounts: API.OperationMethod<
   DeleteAccountsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4512, __c141, 0) as any as S.Schema<DeleteAccountsRequest>,
-  output: __S(4160, __c130, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(4544, __c142, 0) as any as S.Schema<DeleteAccountsRequest>,
+  output: __S(4192, __c131, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -4178,8 +4178,8 @@ export const deleteAccountsAccessBindings: API.OperationMethod<
   DeleteAccountsAccessBindingsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4544, __c142, 0) as any as S.Schema<DeleteAccountsAccessBindingsRequest>,
-  output: __S(4160, __c130, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(4576, __c143, 0) as any as S.Schema<DeleteAccountsAccessBindingsRequest>,
+  output: __S(4192, __c131, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -4196,7 +4196,7 @@ export const deleteProperties: API.OperationMethod<
   DeletePropertiesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4576, __c143, 0) as any as S.Schema<DeletePropertiesRequest>,
+  input: __S(4608, __c144, 0) as any as S.Schema<DeletePropertiesRequest>,
   output: __S(2816, __c88, 0) as any as S.Schema<GoogleAnalyticsAdminV1alphaProperty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
@@ -4220,8 +4220,8 @@ export const deletePropertiesAccessBindings: API.OperationMethod<
   DeletePropertiesAccessBindingsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4608, __c144, 0) as any as S.Schema<DeletePropertiesAccessBindingsRequest>,
-  output: __S(4160, __c130, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(4640, __c145, 0) as any as S.Schema<DeletePropertiesAccessBindingsRequest>,
+  output: __S(4192, __c131, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -4243,8 +4243,8 @@ export const deletePropertiesAdSenseLinks: API.OperationMethod<
   DeletePropertiesAdSenseLinksError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4640, __c145, 0) as any as S.Schema<DeletePropertiesAdSenseLinksRequest>,
-  output: __S(4160, __c130, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(4672, __c146, 0) as any as S.Schema<DeletePropertiesAdSenseLinksRequest>,
+  output: __S(4192, __c131, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -4266,8 +4266,8 @@ export const deletePropertiesBigQueryLinks: API.OperationMethod<
   DeletePropertiesBigQueryLinksError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4736, __c148, 0) as any as S.Schema<DeletePropertiesBigQueryLinksRequest>,
-  output: __S(4160, __c130, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(4768, __c149, 0) as any as S.Schema<DeletePropertiesBigQueryLinksRequest>,
+  output: __S(4192, __c131, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -4289,8 +4289,8 @@ export const deletePropertiesCalculatedMetrics: API.OperationMethod<
   DeletePropertiesCalculatedMetricsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4768, __c149, 0) as any as S.Schema<DeletePropertiesCalculatedMetricsRequest>,
-  output: __S(4160, __c130, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(4800, __c150, 0) as any as S.Schema<DeletePropertiesCalculatedMetricsRequest>,
+  output: __S(4192, __c131, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -4312,8 +4312,8 @@ export const deletePropertiesChannelGroups: API.OperationMethod<
   DeletePropertiesChannelGroupsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4800, __c150, 0) as any as S.Schema<DeletePropertiesChannelGroupsRequest>,
-  output: __S(4160, __c130, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(4832, __c151, 0) as any as S.Schema<DeletePropertiesChannelGroupsRequest>,
+  output: __S(4192, __c131, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -4335,8 +4335,8 @@ export const deletePropertiesConversionEvents: API.OperationMethod<
   DeletePropertiesConversionEventsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4832, __c151, 0) as any as S.Schema<DeletePropertiesConversionEventsRequest>,
-  output: __S(4160, __c130, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(4864, __c152, 0) as any as S.Schema<DeletePropertiesConversionEventsRequest>,
+  output: __S(4192, __c131, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -4358,8 +4358,8 @@ export const deletePropertiesDataStreams: API.OperationMethod<
   DeletePropertiesDataStreamsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4864, __c152, 0) as any as S.Schema<DeletePropertiesDataStreamsRequest>,
-  output: __S(4160, __c130, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(4896, __c153, 0) as any as S.Schema<DeletePropertiesDataStreamsRequest>,
+  output: __S(4192, __c131, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -4382,11 +4382,11 @@ export const deletePropertiesDataStreamsEventCreateRules: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4896,
-    __c153,
+    4928,
+    __c154,
     0,
   ) as any as S.Schema<DeletePropertiesDataStreamsEventCreateRulesRequest>,
-  output: __S(4160, __c130, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  output: __S(4192, __c131, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -4408,8 +4408,8 @@ export const deletePropertiesDataStreamsEventEditRules: API.OperationMethod<
   DeletePropertiesDataStreamsEventEditRulesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4928, __c154, 0) as any as S.Schema<DeletePropertiesDataStreamsEventEditRulesRequest>,
-  output: __S(4160, __c130, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(4960, __c155, 0) as any as S.Schema<DeletePropertiesDataStreamsEventEditRulesRequest>,
+  output: __S(4192, __c131, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -4432,11 +4432,11 @@ export const deletePropertiesDataStreamsMeasurementProtocolSecrets: API.Operatio
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4960,
-    __c155,
+    4992,
+    __c156,
     0,
   ) as any as S.Schema<DeletePropertiesDataStreamsMeasurementProtocolSecretsRequest>,
-  output: __S(4160, __c130, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  output: __S(4192, __c131, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -4459,11 +4459,11 @@ export const deletePropertiesDataStreamsSKAdNetworkConversionValueSchema: API.Op
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4992,
-    __c156,
+    5024,
+    __c157,
     0,
   ) as any as S.Schema<DeletePropertiesDataStreamsSKAdNetworkConversionValueSchemaRequest>,
-  output: __S(4160, __c130, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  output: __S(4192, __c131, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -4486,11 +4486,11 @@ export const deletePropertiesDisplayVideo360AdvertiserLinkProposals: API.Operati
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5024,
-    __c157,
+    5056,
+    __c158,
     0,
   ) as any as S.Schema<DeletePropertiesDisplayVideo360AdvertiserLinkProposalsRequest>,
-  output: __S(4160, __c130, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  output: __S(4192, __c131, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -4513,11 +4513,11 @@ export const deletePropertiesDisplayVideo360AdvertiserLinks: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5088,
-    __c159,
+    5120,
+    __c160,
     0,
   ) as any as S.Schema<DeletePropertiesDisplayVideo360AdvertiserLinksRequest>,
-  output: __S(4160, __c130, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  output: __S(4192, __c131, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -4539,8 +4539,8 @@ export const deletePropertiesExpandedDataSets: API.OperationMethod<
   DeletePropertiesExpandedDataSetsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5120, __c160, 0) as any as S.Schema<DeletePropertiesExpandedDataSetsRequest>,
-  output: __S(4160, __c130, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(5152, __c161, 0) as any as S.Schema<DeletePropertiesExpandedDataSetsRequest>,
+  output: __S(4192, __c131, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -4562,8 +4562,8 @@ export const deletePropertiesFirebaseLinks: API.OperationMethod<
   DeletePropertiesFirebaseLinksError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5152, __c161, 0) as any as S.Schema<DeletePropertiesFirebaseLinksRequest>,
-  output: __S(4160, __c130, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(5184, __c162, 0) as any as S.Schema<DeletePropertiesFirebaseLinksRequest>,
+  output: __S(4192, __c131, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -4586,8 +4586,8 @@ export const deletePropertiesGoogleAdsLinks: API.OperationMethod<
   DeletePropertiesGoogleAdsLinksError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5184, __c162, 0) as any as S.Schema<DeletePropertiesGoogleAdsLinksRequest>,
-  output: __S(4160, __c130, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(5216, __c163, 0) as any as S.Schema<DeletePropertiesGoogleAdsLinksRequest>,
+  output: __S(4192, __c131, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -4610,8 +4610,8 @@ export const deletePropertiesKeyEvents: API.OperationMethod<
   DeletePropertiesKeyEventsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5216, __c163, 0) as any as S.Schema<DeletePropertiesKeyEventsRequest>,
-  output: __S(4160, __c130, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(5248, __c164, 0) as any as S.Schema<DeletePropertiesKeyEventsRequest>,
+  output: __S(4192, __c131, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -4633,8 +4633,8 @@ export const deletePropertiesReportingDataAnnotations: API.OperationMethod<
   DeletePropertiesReportingDataAnnotationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5248, __c164, 0) as any as S.Schema<DeletePropertiesReportingDataAnnotationsRequest>,
-  output: __S(4160, __c130, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(5280, __c165, 0) as any as S.Schema<DeletePropertiesReportingDataAnnotationsRequest>,
+  output: __S(4192, __c131, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -4656,8 +4656,8 @@ export const deletePropertiesRollupPropertySourceLinks: API.OperationMethod<
   DeletePropertiesRollupPropertySourceLinksError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5280, __c165, 0) as any as S.Schema<DeletePropertiesRollupPropertySourceLinksRequest>,
-  output: __S(4160, __c130, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(5312, __c166, 0) as any as S.Schema<DeletePropertiesRollupPropertySourceLinksRequest>,
+  output: __S(4192, __c131, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -4679,8 +4679,8 @@ export const deletePropertiesSearchAds360Links: API.OperationMethod<
   DeletePropertiesSearchAds360LinksError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5312, __c166, 0) as any as S.Schema<DeletePropertiesSearchAds360LinksRequest>,
-  output: __S(4160, __c130, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(5344, __c167, 0) as any as S.Schema<DeletePropertiesSearchAds360LinksRequest>,
+  output: __S(4192, __c131, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -4702,8 +4702,8 @@ export const deletePropertiesSubpropertyEventFilters: API.OperationMethod<
   DeletePropertiesSubpropertyEventFiltersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5344, __c167, 0) as any as S.Schema<DeletePropertiesSubpropertyEventFiltersRequest>,
-  output: __S(4160, __c130, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(5376, __c168, 0) as any as S.Schema<DeletePropertiesSubpropertyEventFiltersRequest>,
+  output: __S(4192, __c131, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -4720,8 +4720,8 @@ export const getAccounts: API.OperationMethod<
   GetAccountsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5376, __c168, 0) as any as S.Schema<GetAccountsRequest>,
-  output: __S(5408, __c169, 0) as any as S.Schema<GoogleAnalyticsAdminV1alphaAccount>,
+  input: __S(5408, __c169, 0) as any as S.Schema<GetAccountsRequest>,
+  output: __S(5440, __c170, 0) as any as S.Schema<GoogleAnalyticsAdminV1alphaAccount>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -4738,8 +4738,8 @@ export const getAccountsAccessBindings: API.OperationMethod<
   GetAccountsAccessBindingsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5472, __c171, 0) as any as S.Schema<GetAccountsAccessBindingsRequest>,
-  output: __S(6464, __c202, 0) as any as S.Schema<GoogleAnalyticsAdminV1alphaAccessBinding>,
+  input: __S(5504, __c172, 0) as any as S.Schema<GetAccountsAccessBindingsRequest>,
+  output: __S(6496, __c203, 0) as any as S.Schema<GoogleAnalyticsAdminV1alphaAccessBinding>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -4756,8 +4756,8 @@ export const getAttributionSettingsProperties: API.OperationMethod<
   GetAttributionSettingsPropertiesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5504, __c172, 0) as any as S.Schema<GetAttributionSettingsPropertiesRequest>,
-  output: __S(5536, __c173, 0) as any as S.Schema<GoogleAnalyticsAdminV1alphaAttributionSettings>,
+  input: __S(5536, __c173, 0) as any as S.Schema<GetAttributionSettingsPropertiesRequest>,
+  output: __S(5568, __c174, 0) as any as S.Schema<GoogleAnalyticsAdminV1alphaAttributionSettings>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -4775,11 +4775,11 @@ export const getDataRedactionSettingsPropertiesDataStreams: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5568,
-    __c174,
+    5600,
+    __c175,
     0,
   ) as any as S.Schema<GetDataRedactionSettingsPropertiesDataStreamsRequest>,
-  output: __S(5600, __c175, 0) as any as S.Schema<GoogleAnalyticsAdminV1alphaDataRedactionSettings>,
+  output: __S(5632, __c176, 0) as any as S.Schema<GoogleAnalyticsAdminV1alphaDataRedactionSettings>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -4796,8 +4796,8 @@ export const getDataRetentionSettingsProperties: API.OperationMethod<
   GetDataRetentionSettingsPropertiesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5632, __c176, 0) as any as S.Schema<GetDataRetentionSettingsPropertiesRequest>,
-  output: __S(5664, __c177, 0) as any as S.Schema<GoogleAnalyticsAdminV1alphaDataRetentionSettings>,
+  input: __S(5664, __c177, 0) as any as S.Schema<GetDataRetentionSettingsPropertiesRequest>,
+  output: __S(5696, __c178, 0) as any as S.Schema<GoogleAnalyticsAdminV1alphaDataRetentionSettings>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -4814,8 +4814,8 @@ export const getDataSharingSettingsAccounts: API.OperationMethod<
   GetDataSharingSettingsAccountsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5696, __c178, 0) as any as S.Schema<GetDataSharingSettingsAccountsRequest>,
-  output: __S(5697, __c178, 1) as any as S.Schema<GoogleAnalyticsAdminV1alphaDataSharingSettings>,
+  input: __S(5728, __c179, 0) as any as S.Schema<GetDataSharingSettingsAccountsRequest>,
+  output: __S(5729, __c179, 1) as any as S.Schema<GoogleAnalyticsAdminV1alphaDataSharingSettings>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -4836,13 +4836,13 @@ export const getEnhancedMeasurementSettingsPropertiesDataStreams: API.OperationM
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5728,
-    __c179,
+    5760,
+    __c180,
     0,
   ) as any as S.Schema<GetEnhancedMeasurementSettingsPropertiesDataStreamsRequest>,
   output: __S(
-    5760,
-    __c180,
+    5792,
+    __c181,
     0,
   ) as any as S.Schema<GoogleAnalyticsAdminV1alphaEnhancedMeasurementSettings>,
   errors: [NotFound, Forbidden],
@@ -4861,8 +4861,8 @@ export const getGlobalSiteTagPropertiesDataStreams: API.OperationMethod<
   GetGlobalSiteTagPropertiesDataStreamsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5792, __c181, 0) as any as S.Schema<GetGlobalSiteTagPropertiesDataStreamsRequest>,
-  output: __S(5793, __c181, 1) as any as S.Schema<GoogleAnalyticsAdminV1alphaGlobalSiteTag>,
+  input: __S(5824, __c182, 0) as any as S.Schema<GetGlobalSiteTagPropertiesDataStreamsRequest>,
+  output: __S(5825, __c182, 1) as any as S.Schema<GoogleAnalyticsAdminV1alphaGlobalSiteTag>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -4879,8 +4879,8 @@ export const getGoogleSignalsSettingsProperties: API.OperationMethod<
   GetGoogleSignalsSettingsPropertiesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5824, __c182, 0) as any as S.Schema<GetGoogleSignalsSettingsPropertiesRequest>,
-  output: __S(5856, __c183, 0) as any as S.Schema<GoogleAnalyticsAdminV1alphaGoogleSignalsSettings>,
+  input: __S(5856, __c183, 0) as any as S.Schema<GetGoogleSignalsSettingsPropertiesRequest>,
+  output: __S(5888, __c184, 0) as any as S.Schema<GoogleAnalyticsAdminV1alphaGoogleSignalsSettings>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -4897,7 +4897,7 @@ export const getProperties: API.OperationMethod<
   GetPropertiesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5888, __c184, 0) as any as S.Schema<GetPropertiesRequest>,
+  input: __S(5920, __c185, 0) as any as S.Schema<GetPropertiesRequest>,
   output: __S(2816, __c88, 0) as any as S.Schema<GoogleAnalyticsAdminV1alphaProperty>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
@@ -4915,8 +4915,8 @@ export const getPropertiesAccessBindings: API.OperationMethod<
   GetPropertiesAccessBindingsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5920, __c185, 0) as any as S.Schema<GetPropertiesAccessBindingsRequest>,
-  output: __S(6464, __c202, 0) as any as S.Schema<GoogleAnalyticsAdminV1alphaAccessBinding>,
+  input: __S(5952, __c186, 0) as any as S.Schema<GetPropertiesAccessBindingsRequest>,
+  output: __S(6496, __c203, 0) as any as S.Schema<GoogleAnalyticsAdminV1alphaAccessBinding>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -4933,7 +4933,7 @@ export const getPropertiesAdSenseLinks: API.OperationMethod<
   GetPropertiesAdSenseLinksError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5984, __c187, 0) as any as S.Schema<GetPropertiesAdSenseLinksRequest>,
+  input: __S(6016, __c188, 0) as any as S.Schema<GetPropertiesAdSenseLinksRequest>,
   output: __S(2912, __c91, 0) as any as S.Schema<GoogleAnalyticsAdminV1alphaAdSenseLink>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
@@ -4951,8 +4951,8 @@ export const getPropertiesAudiences: API.OperationMethod<
   GetPropertiesAudiencesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6016, __c188, 0) as any as S.Schema<GetPropertiesAudiencesRequest>,
-  output: __S(3024, __c94, 16) as any as S.Schema<GoogleAnalyticsAdminV1alphaAudience>,
+  input: __S(6048, __c189, 0) as any as S.Schema<GetPropertiesAudiencesRequest>,
+  output: __S(3021, __c94, 13) as any as S.Schema<GoogleAnalyticsAdminV1alphaAudience>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -4969,7 +4969,7 @@ export const getPropertiesBigQueryLinks: API.OperationMethod<
   GetPropertiesBigQueryLinksError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6048, __c189, 0) as any as S.Schema<GetPropertiesBigQueryLinksRequest>,
+  input: __S(6080, __c190, 0) as any as S.Schema<GetPropertiesBigQueryLinksRequest>,
   output: __S(3072, __c96, 0) as any as S.Schema<GoogleAnalyticsAdminV1alphaBigQueryLink>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
@@ -4987,7 +4987,7 @@ export const getPropertiesCalculatedMetrics: API.OperationMethod<
   GetPropertiesCalculatedMetricsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6080, __c190, 0) as any as S.Schema<GetPropertiesCalculatedMetricsRequest>,
+  input: __S(6112, __c191, 0) as any as S.Schema<GetPropertiesCalculatedMetricsRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<GoogleAnalyticsAdminV1alphaCalculatedMetric>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
@@ -5005,7 +5005,7 @@ export const getPropertiesChannelGroups: API.OperationMethod<
   GetPropertiesChannelGroupsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6112, __c191, 0) as any as S.Schema<GetPropertiesChannelGroupsRequest>,
+  input: __S(6144, __c192, 0) as any as S.Schema<GetPropertiesChannelGroupsRequest>,
   output: __S(3240, __c101, 8) as any as S.Schema<GoogleAnalyticsAdminV1alphaChannelGroup>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
@@ -5023,7 +5023,7 @@ export const getPropertiesConversionEvents: API.OperationMethod<
   GetPropertiesConversionEventsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6144, __c192, 0) as any as S.Schema<GetPropertiesConversionEventsRequest>,
+  input: __S(6176, __c193, 0) as any as S.Schema<GetPropertiesConversionEventsRequest>,
   output: __S(3297, __c103, 1) as any as S.Schema<GoogleAnalyticsAdminV1alphaConversionEvent>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
@@ -5041,7 +5041,7 @@ export const getPropertiesCustomDimensions: API.OperationMethod<
   GetPropertiesCustomDimensionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6176, __c193, 0) as any as S.Schema<GetPropertiesCustomDimensionsRequest>,
+  input: __S(6208, __c194, 0) as any as S.Schema<GetPropertiesCustomDimensionsRequest>,
   output: __S(3360, __c105, 0) as any as S.Schema<GoogleAnalyticsAdminV1alphaCustomDimension>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
@@ -5059,7 +5059,7 @@ export const getPropertiesCustomMetrics: API.OperationMethod<
   GetPropertiesCustomMetricsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6208, __c194, 0) as any as S.Schema<GetPropertiesCustomMetricsRequest>,
+  input: __S(6240, __c195, 0) as any as S.Schema<GetPropertiesCustomMetricsRequest>,
   output: __S(3424, __c107, 0) as any as S.Schema<GoogleAnalyticsAdminV1alphaCustomMetric>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
@@ -5077,7 +5077,7 @@ export const getPropertiesDataStreams: API.OperationMethod<
   GetPropertiesDataStreamsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6240, __c195, 0) as any as S.Schema<GetPropertiesDataStreamsRequest>,
+  input: __S(6272, __c196, 0) as any as S.Schema<GetPropertiesDataStreamsRequest>,
   output: __S(3491, __c109, 3) as any as S.Schema<GoogleAnalyticsAdminV1alphaDataStream>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
@@ -5095,7 +5095,7 @@ export const getPropertiesDataStreamsEventCreateRules: API.OperationMethod<
   GetPropertiesDataStreamsEventCreateRulesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6272, __c196, 0) as any as S.Schema<GetPropertiesDataStreamsEventCreateRulesRequest>,
+  input: __S(6304, __c197, 0) as any as S.Schema<GetPropertiesDataStreamsEventCreateRulesRequest>,
   output: __S(3584, __c112, 0) as any as S.Schema<GoogleAnalyticsAdminV1alphaEventCreateRule>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
@@ -5113,7 +5113,7 @@ export const getPropertiesDataStreamsEventEditRules: API.OperationMethod<
   GetPropertiesDataStreamsEventEditRulesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6496, __c203, 0) as any as S.Schema<GetPropertiesDataStreamsEventEditRulesRequest>,
+  input: __S(6528, __c204, 0) as any as S.Schema<GetPropertiesDataStreamsEventEditRulesRequest>,
   output: __S(3648, __c114, 0) as any as S.Schema<GoogleAnalyticsAdminV1alphaEventEditRule>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
@@ -5135,8 +5135,8 @@ export const getPropertiesDataStreamsMeasurementProtocolSecrets: API.OperationMe
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    6528,
-    __c204,
+    6560,
+    __c205,
     0,
   ) as any as S.Schema<GetPropertiesDataStreamsMeasurementProtocolSecretsRequest>,
   output: __S(
@@ -5164,8 +5164,8 @@ export const getPropertiesDataStreamsSKAdNetworkConversionValueSchema: API.Opera
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    6560,
-    __c205,
+    6592,
+    __c206,
     0,
   ) as any as S.Schema<GetPropertiesDataStreamsSKAdNetworkConversionValueSchemaRequest>,
   output: __S(
@@ -5193,8 +5193,8 @@ export const getPropertiesDisplayVideo360AdvertiserLinkProposals: API.OperationM
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    6592,
-    __c206,
+    6624,
+    __c207,
     0,
   ) as any as S.Schema<GetPropertiesDisplayVideo360AdvertiserLinkProposalsRequest>,
   output: __S(
@@ -5219,13 +5219,13 @@ export const getPropertiesDisplayVideo360AdvertiserLinks: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    6624,
-    __c207,
+    6656,
+    __c208,
     0,
   ) as any as S.Schema<GetPropertiesDisplayVideo360AdvertiserLinksRequest>,
   output: __S(
-    4704,
-    __c147,
+    4736,
+    __c148,
     0,
   ) as any as S.Schema<GoogleAnalyticsAdminV1alphaDisplayVideo360AdvertiserLink>,
   errors: [NotFound, Forbidden],
@@ -5244,8 +5244,8 @@ export const getPropertiesExpandedDataSets: API.OperationMethod<
   GetPropertiesExpandedDataSetsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6656, __c208, 0) as any as S.Schema<GetPropertiesExpandedDataSetsRequest>,
-  output: __S(3909, __c122, 5) as any as S.Schema<GoogleAnalyticsAdminV1alphaExpandedDataSet>,
+  input: __S(6688, __c209, 0) as any as S.Schema<GetPropertiesExpandedDataSetsRequest>,
+  output: __S(3941, __c123, 5) as any as S.Schema<GoogleAnalyticsAdminV1alphaExpandedDataSet>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -5262,8 +5262,8 @@ export const getPropertiesKeyEvents: API.OperationMethod<
   GetPropertiesKeyEventsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6688, __c209, 0) as any as S.Schema<GetPropertiesKeyEventsRequest>,
-  output: __S(4097, __c128, 1) as any as S.Schema<GoogleAnalyticsAdminV1alphaKeyEvent>,
+  input: __S(6720, __c210, 0) as any as S.Schema<GetPropertiesKeyEventsRequest>,
+  output: __S(4129, __c129, 1) as any as S.Schema<GoogleAnalyticsAdminV1alphaKeyEvent>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -5280,10 +5280,10 @@ export const getPropertiesReportingDataAnnotations: API.OperationMethod<
   GetPropertiesReportingDataAnnotationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6720, __c210, 0) as any as S.Schema<GetPropertiesReportingDataAnnotationsRequest>,
+  input: __S(6752, __c211, 0) as any as S.Schema<GetPropertiesReportingDataAnnotationsRequest>,
   output: __S(
-    4226,
-    __c132,
+    4258,
+    __c133,
     2,
   ) as any as S.Schema<GoogleAnalyticsAdminV1alphaReportingDataAnnotation>,
   errors: [NotFound, Forbidden],
@@ -5302,10 +5302,10 @@ export const getPropertiesRollupPropertySourceLinks: API.OperationMethod<
   GetPropertiesRollupPropertySourceLinksError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6752, __c211, 0) as any as S.Schema<GetPropertiesRollupPropertySourceLinksRequest>,
+  input: __S(6784, __c212, 0) as any as S.Schema<GetPropertiesRollupPropertySourceLinksRequest>,
   output: __S(
-    4288,
-    __c134,
+    4320,
+    __c135,
     0,
   ) as any as S.Schema<GoogleAnalyticsAdminV1alphaRollupPropertySourceLink>,
   errors: [NotFound, Forbidden],
@@ -5324,8 +5324,8 @@ export const getPropertiesSearchAds360Links: API.OperationMethod<
   GetPropertiesSearchAds360LinksError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6784, __c212, 0) as any as S.Schema<GetPropertiesSearchAds360LinksRequest>,
-  output: __S(4352, __c136, 0) as any as S.Schema<GoogleAnalyticsAdminV1alphaSearchAds360Link>,
+  input: __S(6816, __c213, 0) as any as S.Schema<GetPropertiesSearchAds360LinksRequest>,
+  output: __S(4384, __c137, 0) as any as S.Schema<GoogleAnalyticsAdminV1alphaSearchAds360Link>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -5344,8 +5344,8 @@ export const getPropertiesSubpropertyEventFilters: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c1, 0) as any as S.Schema<GetPropertiesSubpropertyEventFiltersRequest>,
   output: __S(
-    4423,
-    __c138,
+    4455,
+    __c139,
     7,
   ) as any as S.Schema<GoogleAnalyticsAdminV1alphaSubpropertyEventFilter>,
   errors: [NotFound, Forbidden],
@@ -6120,7 +6120,7 @@ export const patchAccounts: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1344, __c42, 0) as any as S.Schema<PatchAccountsRequest>,
-  output: __S(5408, __c169, 0) as any as S.Schema<GoogleAnalyticsAdminV1alphaAccount>,
+  output: __S(5440, __c170, 0) as any as S.Schema<GoogleAnalyticsAdminV1alphaAccount>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6144,7 +6144,7 @@ export const patchAccountsAccessBindings: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1376, __c43, 0) as any as S.Schema<PatchAccountsAccessBindingsRequest>,
-  output: __S(6464, __c202, 0) as any as S.Schema<GoogleAnalyticsAdminV1alphaAccessBinding>,
+  output: __S(6496, __c203, 0) as any as S.Schema<GoogleAnalyticsAdminV1alphaAccessBinding>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6186,7 +6186,7 @@ export const patchPropertiesAccessBindings: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c45, 0) as any as S.Schema<PatchPropertiesAccessBindingsRequest>,
-  output: __S(6464, __c202, 0) as any as S.Schema<GoogleAnalyticsAdminV1alphaAccessBinding>,
+  output: __S(6496, __c203, 0) as any as S.Schema<GoogleAnalyticsAdminV1alphaAccessBinding>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6209,7 +6209,7 @@ export const patchPropertiesAudiences: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1472, __c46, 0) as any as S.Schema<PatchPropertiesAudiencesRequest>,
-  output: __S(3024, __c94, 16) as any as S.Schema<GoogleAnalyticsAdminV1alphaAudience>,
+  output: __S(3021, __c94, 13) as any as S.Schema<GoogleAnalyticsAdminV1alphaAudience>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6506,8 +6506,8 @@ export const patchPropertiesDisplayVideo360AdvertiserLinks: API.OperationMethod<
     0,
   ) as any as S.Schema<PatchPropertiesDisplayVideo360AdvertiserLinksRequest>,
   output: __S(
-    4704,
-    __c147,
+    4736,
+    __c148,
     0,
   ) as any as S.Schema<GoogleAnalyticsAdminV1alphaDisplayVideo360AdvertiserLink>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
@@ -6532,7 +6532,7 @@ export const patchPropertiesExpandedDataSets: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1984, __c62, 0) as any as S.Schema<PatchPropertiesExpandedDataSetsRequest>,
-  output: __S(3909, __c122, 5) as any as S.Schema<GoogleAnalyticsAdminV1alphaExpandedDataSet>,
+  output: __S(3941, __c123, 5) as any as S.Schema<GoogleAnalyticsAdminV1alphaExpandedDataSet>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6555,7 +6555,7 @@ export const patchPropertiesGoogleAdsLinks: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2016, __c63, 0) as any as S.Schema<PatchPropertiesGoogleAdsLinksRequest>,
-  output: __S(4032, __c126, 0) as any as S.Schema<GoogleAnalyticsAdminV1alphaGoogleAdsLink>,
+  output: __S(4064, __c127, 0) as any as S.Schema<GoogleAnalyticsAdminV1alphaGoogleAdsLink>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6579,7 +6579,7 @@ export const patchPropertiesKeyEvents: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2048, __c64, 0) as any as S.Schema<PatchPropertiesKeyEventsRequest>,
-  output: __S(4097, __c128, 1) as any as S.Schema<GoogleAnalyticsAdminV1alphaKeyEvent>,
+  output: __S(4129, __c129, 1) as any as S.Schema<GoogleAnalyticsAdminV1alphaKeyEvent>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6603,8 +6603,8 @@ export const patchPropertiesReportingDataAnnotations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2080, __c65, 0) as any as S.Schema<PatchPropertiesReportingDataAnnotationsRequest>,
   output: __S(
-    4226,
-    __c132,
+    4258,
+    __c133,
     2,
   ) as any as S.Schema<GoogleAnalyticsAdminV1alphaReportingDataAnnotation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
@@ -6629,7 +6629,7 @@ export const patchPropertiesSearchAds360Links: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2112, __c66, 0) as any as S.Schema<PatchPropertiesSearchAds360LinksRequest>,
-  output: __S(4352, __c136, 0) as any as S.Schema<GoogleAnalyticsAdminV1alphaSearchAds360Link>,
+  output: __S(4384, __c137, 0) as any as S.Schema<GoogleAnalyticsAdminV1alphaSearchAds360Link>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6653,8 +6653,8 @@ export const patchPropertiesSubpropertyEventFilters: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2144, __c67, 0) as any as S.Schema<PatchPropertiesSubpropertyEventFiltersRequest>,
   output: __S(
-    4423,
-    __c138,
+    4455,
+    __c139,
     7,
   ) as any as S.Schema<GoogleAnalyticsAdminV1alphaSubpropertyEventFilter>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
@@ -6757,7 +6757,7 @@ export const reorderPropertiesDataStreamsEventEditRules: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2273, __c71, 1) as any as S.Schema<ReorderPropertiesDataStreamsEventEditRulesRequest>,
-  output: __S(4160, __c130, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  output: __S(4192, __c131, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6781,9 +6781,9 @@ export const runAccessReportAccounts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2336, __c73, 0) as any as S.Schema<RunAccessReportAccountsRequest>,
   output: __S(
-    2392,
+    2388,
     __c74,
-    24,
+    20,
   ) as any as S.Schema<GoogleAnalyticsAdminV1alphaRunAccessReportResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
@@ -6808,9 +6808,9 @@ export const runAccessReportProperties: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2400, __c75, 0) as any as S.Schema<RunAccessReportPropertiesRequest>,
   output: __S(
-    2392,
+    2388,
     __c74,
-    24,
+    20,
   ) as any as S.Schema<GoogleAnalyticsAdminV1alphaRunAccessReportResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
@@ -6888,7 +6888,7 @@ export const updateAttributionSettingsProperties: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2496, __c78, 0) as any as S.Schema<UpdateAttributionSettingsPropertiesRequest>,
-  output: __S(5536, __c173, 0) as any as S.Schema<GoogleAnalyticsAdminV1alphaAttributionSettings>,
+  output: __S(5568, __c174, 0) as any as S.Schema<GoogleAnalyticsAdminV1alphaAttributionSettings>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6915,7 +6915,7 @@ export const updateDataRedactionSettingsPropertiesDataStreams: API.OperationMeth
     __c79,
     0,
   ) as any as S.Schema<UpdateDataRedactionSettingsPropertiesDataStreamsRequest>,
-  output: __S(5600, __c175, 0) as any as S.Schema<GoogleAnalyticsAdminV1alphaDataRedactionSettings>,
+  output: __S(5632, __c176, 0) as any as S.Schema<GoogleAnalyticsAdminV1alphaDataRedactionSettings>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6938,7 +6938,7 @@ export const updateDataRetentionSettingsProperties: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2560, __c80, 0) as any as S.Schema<UpdateDataRetentionSettingsPropertiesRequest>,
-  output: __S(5664, __c177, 0) as any as S.Schema<GoogleAnalyticsAdminV1alphaDataRetentionSettings>,
+  output: __S(5696, __c178, 0) as any as S.Schema<GoogleAnalyticsAdminV1alphaDataRetentionSettings>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6966,8 +6966,8 @@ export const updateEnhancedMeasurementSettingsPropertiesDataStreams: API.Operati
     0,
   ) as any as S.Schema<UpdateEnhancedMeasurementSettingsPropertiesDataStreamsRequest>,
   output: __S(
-    5760,
-    __c180,
+    5792,
+    __c181,
     0,
   ) as any as S.Schema<GoogleAnalyticsAdminV1alphaEnhancedMeasurementSettings>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
@@ -6993,7 +6993,7 @@ export const updateGoogleSignalsSettingsProperties: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2624, __c82, 0) as any as S.Schema<UpdateGoogleSignalsSettingsPropertiesRequest>,
-  output: __S(5856, __c183, 0) as any as S.Schema<GoogleAnalyticsAdminV1alphaGoogleSignalsSettings>,
+  output: __S(5888, __c184, 0) as any as S.Schema<GoogleAnalyticsAdminV1alphaGoogleSignalsSettings>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -7035,7 +7035,7 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(6338, __c198, 2),
+          __S(6370, __c199, 2),
           S.Struct({
             parent: S.String.pipe(T.Label()),
           }),
@@ -7086,9 +7086,9 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          customDimensionAndMetricSyncMode: S.optional(S.String),
           applyToProperty: S.optional(S.String),
+          customDimensionAndMetricSyncMode: S.optional(S.String),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaSubpropertySyncConfig" });
   }
@@ -7141,9 +7141,9 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          userProvidedDataCollectionEnabled: S.optional(S.Boolean),
-          automaticallyDetectedDataCollectionEnabled: S.optional(S.Boolean),
           name: S.optional(S.String),
+          automaticallyDetectedDataCollectionEnabled: S.optional(S.Boolean),
+          userProvidedDataCollectionEnabled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaUserProvidedDataSettings" });
   }
@@ -7154,8 +7154,8 @@ function __c8(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pageToken: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           showDeleted: S.optional(S.Boolean.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -7165,7 +7165,7 @@ function __c8(j: number): any {
         ),
       ).annotate({ identifier: "ListAccountsRequest" });
     case 1:
-      return S.Array(__S(5408, __c169, 0));
+      return S.Array(__S(5440, __c170, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -7180,9 +7180,9 @@ function __c9(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -7199,7 +7199,7 @@ function __c10(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          accessBindings: S.optional(__S(6400, __c200, 0)),
+          accessBindings: S.optional(__S(6432, __c201, 0)),
         }),
       ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaListAccessBindingsResponse" });
   }
@@ -7222,10 +7222,10 @@ function __c11(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          propertyType: S.optional(S.String),
-          canEdit: S.optional(S.Boolean),
-          property: S.optional(S.String),
           displayName: S.optional(S.String),
+          canEdit: S.optional(S.Boolean),
+          propertyType: S.optional(S.String),
+          property: S.optional(S.String),
           parent: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaPropertySummary" });
@@ -7235,9 +7235,9 @@ function __c11(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          propertySummaries: S.optional(__S(354, __c11, 2)),
           account: S.optional(S.String),
           displayName: S.optional(S.String),
+          propertySummaries: S.optional(__S(354, __c11, 2)),
         }),
       ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaAccountSummary" });
     case 4:
@@ -7256,10 +7256,10 @@ function __c12(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          showDeleted: S.optional(S.Boolean.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          showDeleted: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -7284,9 +7284,9 @@ function __c13(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -7366,9 +7366,9 @@ function __c17(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -7378,7 +7378,7 @@ function __c17(j: number): any {
         ),
       ).annotate({ identifier: "ListPropertiesAudiencesRequest" });
     case 1:
-      return S.Array(__S(3024, __c94, 16));
+      return S.Array(__S(3021, __c94, 13));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -7394,8 +7394,8 @@ function __c18(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pageToken: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -7420,9 +7420,9 @@ function __c19(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -7436,8 +7436,8 @@ function __c19(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           calculatedMetrics: S.optional(__S(609, __c19, 1)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaListCalculatedMetricsResponse" });
   }
@@ -7447,9 +7447,9 @@ function __c20(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -7501,9 +7501,9 @@ function __c22(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -7517,8 +7517,8 @@ function __c22(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           customDimensions: S.optional(__S(705, __c22, 1)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaListCustomDimensionsResponse" });
   }
@@ -7529,8 +7529,8 @@ function __c23(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pageToken: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -7555,8 +7555,8 @@ function __c24(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -7582,8 +7582,8 @@ function __c25(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -7609,9 +7609,9 @@ function __c26(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -7655,9 +7655,9 @@ function __c28(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -7684,8 +7684,8 @@ function __c29(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -7702,8 +7702,8 @@ function __c29(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          skadnetworkConversionValueSchemas: S.optional(__S(929, __c29, 1)),
           nextPageToken: S.optional(S.String),
+          skadnetworkConversionValueSchemas: S.optional(__S(929, __c29, 1)),
         }),
       ).annotate({
         identifier: "GoogleAnalyticsAdminV1alphaListSKAdNetworkConversionValueSchemasResponse",
@@ -7715,9 +7715,9 @@ function __c30(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -7731,8 +7731,8 @@ function __c30(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          displayVideo360AdvertiserLinkProposals: S.optional(__S(961, __c30, 1)),
           nextPageToken: S.optional(S.String),
+          displayVideo360AdvertiserLinkProposals: S.optional(__S(961, __c30, 1)),
         }),
       ).annotate({
         identifier: "GoogleAnalyticsAdminV1alphaListDisplayVideo360AdvertiserLinkProposalsResponse",
@@ -7744,9 +7744,9 @@ function __c31(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -7756,7 +7756,7 @@ function __c31(j: number): any {
         ),
       ).annotate({ identifier: "ListPropertiesDisplayVideo360AdvertiserLinksRequest" });
     case 1:
-      return S.Array(__S(4704, __c147, 0));
+      return S.Array(__S(4736, __c148, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -7774,8 +7774,8 @@ function __c32(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pageToken: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -7785,12 +7785,12 @@ function __c32(j: number): any {
         ),
       ).annotate({ identifier: "ListPropertiesExpandedDataSetsRequest" });
     case 1:
-      return S.Array(__S(3909, __c122, 5));
+      return S.Array(__S(3941, __c123, 5));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           expandedDataSets: S.optional(__S(1025, __c32, 1)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaListExpandedDataSetsResponse" });
   }
@@ -7800,9 +7800,9 @@ function __c33(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -7812,7 +7812,7 @@ function __c33(j: number): any {
         ),
       ).annotate({ identifier: "ListPropertiesFirebaseLinksRequest" });
     case 1:
-      return S.Array(__S(3968, __c124, 0));
+      return S.Array(__S(4000, __c125, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -7839,12 +7839,12 @@ function __c34(j: number): any {
         ),
       ).annotate({ identifier: "ListPropertiesGoogleAdsLinksRequest" });
     case 1:
-      return S.Array(__S(4032, __c126, 0));
+      return S.Array(__S(4064, __c127, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           googleAdsLinks: S.optional(__S(1089, __c34, 1)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaListGoogleAdsLinksResponse" });
   }
@@ -7854,8 +7854,8 @@ function __c35(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -7866,12 +7866,12 @@ function __c35(j: number): any {
         ),
       ).annotate({ identifier: "ListPropertiesKeyEventsRequest" });
     case 1:
-      return S.Array(__S(4097, __c128, 1));
+      return S.Array(__S(4129, __c129, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          keyEvents: S.optional(__S(1121, __c35, 1)),
           nextPageToken: S.optional(S.String),
+          keyEvents: S.optional(__S(1121, __c35, 1)),
         }),
       ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaListKeyEventsResponse" });
   }
@@ -7882,8 +7882,8 @@ function __c36(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pageToken: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
           filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -7894,7 +7894,7 @@ function __c36(j: number): any {
         ),
       ).annotate({ identifier: "ListPropertiesReportingDataAnnotationsRequest" });
     case 1:
-      return S.Array(__S(4226, __c132, 2));
+      return S.Array(__S(4258, __c133, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -7923,8 +7923,8 @@ function __c37(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          rollupPropertySourceLinks: S.optional(__S(4480, __c140, 0)),
           nextPageToken: S.optional(S.String),
+          rollupPropertySourceLinks: S.optional(__S(4512, __c141, 0)),
         }),
       ).annotate({
         identifier: "GoogleAnalyticsAdminV1alphaListRollupPropertySourceLinksResponse",
@@ -7936,8 +7936,8 @@ function __c38(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          names: S.optional(__S(6464, __c202, 0).pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          names: S.optional(__S(6432, __c201, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -7965,7 +7965,7 @@ function __c39(j: number): any {
         ),
       ).annotate({ identifier: "ListPropertiesSearchAds360LinksRequest" });
     case 1:
-      return S.Array(__S(4352, __c136, 0));
+      return S.Array(__S(4384, __c137, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -7992,7 +7992,7 @@ function __c40(j: number): any {
         ),
       ).annotate({ identifier: "ListPropertiesSubpropertyEventFiltersRequest" });
     case 1:
-      return S.Array(__S(4423, __c138, 7));
+      return S.Array(__S(4455, __c139, 7));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -8008,8 +8008,8 @@ function __c41(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -8023,8 +8023,8 @@ function __c41(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          subpropertySyncConfigs: S.optional(__S(1313, __c41, 1)),
           nextPageToken: S.optional(S.String),
+          subpropertySyncConfigs: S.optional(__S(1313, __c41, 1)),
         }),
       ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaListSubpropertySyncConfigsResponse" });
   }
@@ -8034,10 +8034,10 @@ function __c42(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(5408, __c169, 0),
+          __S(5440, __c170, 0),
           S.Struct({
-            updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -8054,7 +8054,7 @@ function __c43(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(6464, __c202, 0),
+          __S(6496, __c203, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
           }),
@@ -8075,8 +8075,8 @@ function __c44(j: number): any {
         S.Extend(
           __S(2816, __c88, 0),
           S.Struct({
-            name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -8093,7 +8093,7 @@ function __c45(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(6464, __c202, 0),
+          __S(6496, __c203, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
           }),
@@ -8112,10 +8112,10 @@ function __c46(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(3024, __c94, 16),
+          __S(3021, __c94, 13),
           S.Struct({
-            updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -8172,8 +8172,8 @@ function __c49(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          names: S.optional(__S(6432, __c201, 0).pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          names: S.optional(__S(6464, __c202, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -8191,8 +8191,8 @@ function __c50(j: number): any {
         S.Extend(
           __S(3240, __c101, 8),
           S.Struct({
-            name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -8211,8 +8211,8 @@ function __c51(j: number): any {
         S.Extend(
           __S(3297, __c103, 1),
           S.Struct({
-            updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -8311,8 +8311,8 @@ function __c56(j: number): any {
         S.Extend(
           __S(3648, __c114, 0),
           S.Struct({
-            updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -8351,8 +8351,8 @@ function __c58(j: number): any {
         S.Extend(
           __S(3781, __c118, 5),
           S.Struct({
-            name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -8371,7 +8371,7 @@ function __c59(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(4704, __c147, 0),
+          __S(4736, __c148, 0),
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
@@ -8410,7 +8410,7 @@ function __c61(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          accessBinding: S.optional(__S(6464, __c202, 0)),
+          accessBinding: S.optional(__S(6496, __c203, 0)),
         }),
       ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaUpdateAccessBindingRequest" });
     case 1:
@@ -8428,10 +8428,10 @@ function __c62(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(3909, __c122, 5),
+          __S(3941, __c123, 5),
           S.Struct({
-            name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -8448,10 +8448,10 @@ function __c63(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(4032, __c126, 0),
+          __S(4064, __c127, 0),
           S.Struct({
-            updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -8468,10 +8468,10 @@ function __c64(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(4097, __c128, 1),
+          __S(4129, __c129, 1),
           S.Struct({
-            name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -8488,7 +8488,7 @@ function __c65(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(4226, __c132, 2),
+          __S(4258, __c133, 2),
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
@@ -8508,7 +8508,7 @@ function __c66(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(4352, __c136, 0),
+          __S(4384, __c137, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
@@ -8528,7 +8528,7 @@ function __c67(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(4423, __c138, 7),
+          __S(4455, __c139, 7),
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
@@ -8568,7 +8568,7 @@ function __c69(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          account: S.optional(__S(5408, __c169, 0)),
+          account: S.optional(__S(5440, __c170, 0)),
           redirectUri: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaProvisionAccountTicketRequest" });
@@ -8595,9 +8595,9 @@ function __c70(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          subproperty: S.optional(__S(2816, __c88, 0)),
           customDimensionAndMetricSynchronizationMode: S.optional(S.String),
-          subpropertyEventFilter: S.optional(__S(4423, __c138, 7)),
+          subpropertyEventFilter: S.optional(__S(4455, __c139, 7)),
+          subproperty: S.optional(__S(2816, __c88, 0)),
         }),
       ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaProvisionSubpropertyRequest" });
     case 1:
@@ -8613,8 +8613,8 @@ function __c70(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          subpropertyEventFilter: S.optional(__S(4423, __c138, 7)),
           subproperty: S.optional(__S(2816, __c88, 0)),
+          subpropertyEventFilter: S.optional(__S(4455, __c139, 7)),
         }),
       ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaProvisionSubpropertyResponse" });
   }
@@ -8624,7 +8624,7 @@ function __c71(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          eventEditRules: S.optional(__S(6432, __c201, 0)),
+          eventEditRules: S.optional(__S(6464, __c202, 0)),
         }),
       ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaReorderEventEditRulesRequest" });
     case 1:
@@ -8668,7 +8668,7 @@ function __c73(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(2385, __c74, 17),
+          __S(2381, __c74, 13),
           S.Struct({
             entity: S.String.pipe(T.Label()),
           }),
@@ -8689,158 +8689,129 @@ function __c74(j: number): any {
         S.Struct({
           metricName: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaAccessMetric" });
+      ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaAccessOrderByMetricOrderBy" });
     case 1:
-      return S.Array(__S(2368, __c74, 0));
-    case 2:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(2377, __c74, 9)));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          expressions: S.optional(__S(2370, __c74, 2)),
-        }),
-      ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaAccessFilterExpressionList" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          doubleValue: S.optional(S.Number),
-          int64Value: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaNumericValue" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          value: S.optional(__S(2372, __c74, 4)),
-          operation: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaAccessNumericFilter" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          caseSensitive: S.optional(S.Boolean),
-          value: S.optional(S.String),
-          matchType: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaAccessStringFilter" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          fromValue: S.optional(__S(2372, __c74, 4)),
-          toValue: S.optional(__S(2372, __c74, 4)),
-        }),
-      ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaAccessBetweenFilter" });
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          inListFilter: S.optional(__S(2976, __c93, 0)),
-          fieldName: S.optional(S.String),
-          numericFilter: S.optional(__S(2373, __c74, 5)),
-          stringFilter: S.optional(__S(2374, __c74, 6)),
-          betweenFilter: S.optional(__S(2375, __c74, 7)),
-        }),
-      ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaAccessFilter" });
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          orGroup: S.optional(__S(2371, __c74, 3)),
-          notExpression: S.optional(__S(2377, __c74, 9)),
-          andGroup: S.optional(__S(2371, __c74, 3)),
-          accessFilter: S.optional(__S(2376, __c74, 8)),
-        }),
-      ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaAccessFilterExpression" });
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          startDate: S.optional(S.String),
-          endDate: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaAccessDateRange" });
-    case 11:
-      return S.Array(__S(2378, __c74, 10));
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          dimensionName: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaAccessDimension" });
-    case 13:
-      return S.Array(__S(2380, __c74, 12));
-    case 14:
       return S.suspend(() =>
         S.Struct({
           orderType: S.optional(S.String),
           dimensionName: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaAccessOrderByDimensionOrderBy" });
-    case 15:
+    case 2:
       return S.suspend(() =>
         S.Struct({
-          desc: S.optional(S.Boolean),
           metric: S.optional(__S(2368, __c74, 0)),
-          dimension: S.optional(__S(2382, __c74, 14)),
+          dimension: S.optional(__S(2369, __c74, 1)),
+          desc: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaAccessOrderBy" });
-    case 16:
-      return S.Array(__S(2383, __c74, 15));
-    case 17:
+    case 3:
+      return S.Array(__S(2370, __c74, 2));
+    case 4:
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(2375, __c74, 7)));
+    case 5:
       return S.suspend(() =>
         S.Struct({
-          includeAllUsers: S.optional(S.Boolean),
-          metrics: S.optional(__S(2369, __c74, 1)),
-          expandGroups: S.optional(S.Boolean),
-          dimensionFilter: S.optional(__S(2377, __c74, 9)),
-          limit: S.optional(S.String),
-          dateRanges: S.optional(__S(2379, __c74, 11)),
-          metricFilter: S.optional(__S(2377, __c74, 9)),
-          timeZone: S.optional(S.String),
+          expressions: S.optional(__S(2372, __c74, 4)),
+        }),
+      ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaAccessFilterExpressionList" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          stringFilter: S.optional(__S(3904, __c122, 0)),
+          betweenFilter: S.optional(__S(2979, __c93, 3)),
+          numericFilter: S.optional(__S(2977, __c93, 1)),
+          fieldName: S.optional(S.String),
+          inListFilter: S.optional(__S(2978, __c93, 2)),
+        }),
+      ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaAccessFilter" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          notExpression: S.optional(__S(2375, __c74, 7)),
+          andGroup: S.optional(__S(2373, __c74, 5)),
+          accessFilter: S.optional(__S(2374, __c74, 6)),
+          orGroup: S.optional(__S(2373, __c74, 5)),
+        }),
+      ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaAccessFilterExpression" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          dimensionName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaAccessDimension" });
+    case 9:
+      return S.Array(__S(2376, __c74, 8));
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          endDate: S.optional(S.String),
+          startDate: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaAccessDateRange" });
+    case 11:
+      return S.Array(__S(2378, __c74, 10));
+    case 12:
+      return S.Array(__S(2368, __c74, 0));
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
           returnEntityQuota: S.optional(S.Boolean),
-          dimensions: S.optional(__S(2381, __c74, 13)),
           offset: S.optional(S.String),
-          orderBys: S.optional(__S(2384, __c74, 16)),
+          includeAllUsers: S.optional(S.Boolean),
+          limit: S.optional(S.String),
+          expandGroups: S.optional(S.Boolean),
+          timeZone: S.optional(S.String),
+          orderBys: S.optional(__S(2371, __c74, 3)),
+          dimensionFilter: S.optional(__S(2375, __c74, 7)),
+          dimensions: S.optional(__S(2377, __c74, 9)),
+          dateRanges: S.optional(__S(2379, __c74, 11)),
+          metrics: S.optional(__S(2380, __c74, 12)),
+          metricFilter: S.optional(__S(2375, __c74, 7)),
         }),
       ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaRunAccessReportRequest" });
-    case 18:
+    case 14:
       return S.suspend(() =>
         S.Struct({
           remaining: S.optional(S.Number),
           consumed: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaAccessQuotaStatus" });
-    case 19:
+    case 15:
       return S.suspend(() =>
         S.Struct({
-          tokensPerHour: S.optional(__S(2386, __c74, 18)),
-          serverErrorsPerProjectPerHour: S.optional(__S(2386, __c74, 18)),
-          concurrentRequests: S.optional(__S(2386, __c74, 18)),
-          tokensPerDay: S.optional(__S(2386, __c74, 18)),
-          tokensPerProjectPerHour: S.optional(__S(2386, __c74, 18)),
+          tokensPerDay: S.optional(__S(2382, __c74, 14)),
+          tokensPerProjectPerHour: S.optional(__S(2382, __c74, 14)),
+          tokensPerHour: S.optional(__S(2382, __c74, 14)),
+          serverErrorsPerProjectPerHour: S.optional(__S(2382, __c74, 14)),
+          concurrentRequests: S.optional(__S(2382, __c74, 14)),
         }),
       ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaAccessQuota" });
-    case 20:
+    case 16:
       return S.suspend(() =>
         S.Struct({
           value: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaAccessDimensionValue" });
-    case 21:
-      return S.Array(__S(2388, __c74, 20));
-    case 22:
+    case 17:
+      return S.Array(__S(2384, __c74, 16));
+    case 18:
       return S.suspend(() =>
         S.Struct({
-          dimensionValues: S.optional(__S(2389, __c74, 21)),
-          metricValues: S.optional(__S(2389, __c74, 21)),
+          dimensionValues: S.optional(__S(2385, __c74, 17)),
+          metricValues: S.optional(__S(2385, __c74, 17)),
         }),
       ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaAccessRow" });
-    case 23:
-      return S.Array(__S(2390, __c74, 22));
-    case 24:
+    case 19:
+      return S.Array(__S(2386, __c74, 18));
+    case 20:
       return S.suspend(() =>
         S.Struct({
+          quota: S.optional(__S(2383, __c74, 15)),
+          metricHeaders: S.optional(__S(2380, __c74, 12)),
+          dimensionHeaders: S.optional(__S(2377, __c74, 9)),
+          rows: S.optional(__S(2387, __c74, 19)),
           rowCount: S.optional(S.Number),
-          quota: S.optional(__S(2387, __c74, 19)),
-          dimensionHeaders: S.optional(__S(2381, __c74, 13)),
-          rows: S.optional(__S(2391, __c74, 23)),
-          metricHeaders: S.optional(__S(2369, __c74, 1)),
         }),
       ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaRunAccessReportResponse" });
   }
@@ -8850,7 +8821,7 @@ function __c75(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(2385, __c74, 17),
+          __S(2381, __c74, 13),
           S.Struct({
             entity: S.String.pipe(T.Label()),
           }),
@@ -8869,14 +8840,14 @@ function __c76(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          actorEmail: S.optional(__S(6432, __c201, 0)),
+          property: S.optional(S.String),
+          pageSize: S.optional(S.Number),
+          actorEmail: S.optional(__S(6464, __c202, 0)),
+          action: S.optional(__S(3136, __c98, 0)),
+          pageToken: S.optional(S.String),
+          latestChangeTime: S.optional(S.String),
           resourceType: S.optional(__S(3136, __c98, 0)),
           earliestChangeTime: S.optional(S.String),
-          property: S.optional(S.String),
-          latestChangeTime: S.optional(S.String),
-          action: S.optional(__S(3136, __c98, 0)),
-          pageSize: S.optional(S.Number),
-          pageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaSearchChangeHistoryEventsRequest" });
     case 1:
@@ -8897,36 +8868,36 @@ function __c76(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          channelGroup: S.optional(__S(3240, __c101, 8)),
-          subpropertySyncConfig: S.optional(__S(96, __c3, 0)),
+          attributionSettings: S.optional(__S(5568, __c174, 0)),
+          account: S.optional(__S(5440, __c170, 0)),
           dataStream: S.optional(__S(3491, __c109, 3)),
-          adsenseLink: S.optional(__S(2912, __c91, 0)),
           skadnetworkConversionValueSchema: S.optional(__S(3781, __c118, 5)),
-          displayVideo360AdvertiserLinkProposal: S.optional(__S(2721, __c85, 1)),
-          keyEvent: S.optional(__S(4097, __c128, 1)),
-          googleAdsLink: S.optional(__S(4032, __c126, 0)),
-          customDimension: S.optional(__S(3360, __c105, 0)),
-          dataRetentionSettings: S.optional(__S(5664, __c177, 0)),
-          bigqueryLink: S.optional(__S(3072, __c96, 0)),
-          account: S.optional(__S(5408, __c169, 0)),
+          channelGroup: S.optional(__S(3240, __c101, 8)),
+          audience: S.optional(__S(3021, __c94, 13)),
+          displayVideo360AdvertiserLink: S.optional(__S(4736, __c148, 0)),
+          keyEvent: S.optional(__S(4129, __c129, 1)),
           reportingIdentitySettings: S.optional(__S(160, __c5, 0)),
-          googleSignalsSettings: S.optional(__S(5856, __c183, 0)),
-          dataRedactionSettings: S.optional(__S(5600, __c175, 0)),
-          firebaseLink: S.optional(__S(3968, __c124, 0)),
-          displayVideo360AdvertiserLink: S.optional(__S(4704, __c147, 0)),
+          dataRedactionSettings: S.optional(__S(5632, __c176, 0)),
+          customMetric: S.optional(__S(3424, __c107, 0)),
+          expandedDataSet: S.optional(__S(3941, __c123, 5)),
+          googleAdsLink: S.optional(__S(4064, __c127, 0)),
+          googleSignalsSettings: S.optional(__S(5888, __c184, 0)),
           eventCreateRule: S.optional(__S(3584, __c112, 0)),
-          measurementProtocolSecret: S.optional(__S(3712, __c116, 0)),
-          calculatedMetric: S.optional(__S(3168, __c99, 0)),
-          conversionEvent: S.optional(__S(3297, __c103, 1)),
-          audience: S.optional(__S(3024, __c94, 16)),
-          enhancedMeasurementSettings: S.optional(__S(5760, __c180, 0)),
           userProvidedDataSettings: S.optional(__S(224, __c7, 0)),
           property: S.optional(__S(2816, __c88, 0)),
-          attributionSettings: S.optional(__S(5536, __c173, 0)),
-          reportingDataAnnotation: S.optional(__S(4226, __c132, 2)),
-          searchAds360Link: S.optional(__S(4352, __c136, 0)),
-          customMetric: S.optional(__S(3424, __c107, 0)),
-          expandedDataSet: S.optional(__S(3909, __c122, 5)),
+          calculatedMetric: S.optional(__S(3168, __c99, 0)),
+          searchAds360Link: S.optional(__S(4384, __c137, 0)),
+          dataRetentionSettings: S.optional(__S(5696, __c178, 0)),
+          firebaseLink: S.optional(__S(4000, __c125, 0)),
+          subpropertySyncConfig: S.optional(__S(96, __c3, 0)),
+          enhancedMeasurementSettings: S.optional(__S(5792, __c181, 0)),
+          measurementProtocolSecret: S.optional(__S(3712, __c116, 0)),
+          bigqueryLink: S.optional(__S(3072, __c96, 0)),
+          reportingDataAnnotation: S.optional(__S(4258, __c133, 2)),
+          conversionEvent: S.optional(__S(3297, __c103, 1)),
+          customDimension: S.optional(__S(3360, __c105, 0)),
+          displayVideo360AdvertiserLinkProposal: S.optional(__S(2721, __c85, 1)),
+          adsenseLink: S.optional(__S(2912, __c91, 0)),
         }),
       ).annotate({
         identifier: "GoogleAnalyticsAdminV1alphaChangeHistoryChangeChangeHistoryResource",
@@ -8934,10 +8905,10 @@ function __c76(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          action: S.optional(S.String),
-          resourceAfterChange: S.optional(__S(2434, __c76, 2)),
           resource: S.optional(S.String),
+          action: S.optional(S.String),
           resourceBeforeChange: S.optional(__S(2434, __c76, 2)),
+          resourceAfterChange: S.optional(__S(2434, __c76, 2)),
         }),
       ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaChangeHistoryChange" });
     case 4:
@@ -8945,12 +8916,12 @@ function __c76(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          actorType: S.optional(S.String),
-          changesFiltered: S.optional(S.Boolean),
-          userActorEmail: S.optional(S.String),
           changes: S.optional(__S(2436, __c76, 4)),
+          changesFiltered: S.optional(S.Boolean),
           id: S.optional(S.String),
+          userActorEmail: S.optional(S.String),
           changeTime: S.optional(S.String),
+          actorType: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaChangeHistoryEvent" });
     case 6:
@@ -8969,10 +8940,10 @@ function __c77(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          userId: S.optional(S.String),
+          userProvidedData: S.optional(S.String),
           clientId: S.optional(S.String),
           appInstanceId: S.optional(S.String),
-          userProvidedData: S.optional(S.String),
+          userId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaSubmitUserDeletionRequest" });
     case 1:
@@ -9003,7 +8974,7 @@ function __c78(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(5536, __c173, 0),
+          __S(5568, __c174, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
@@ -9023,10 +8994,10 @@ function __c79(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(5600, __c175, 0),
+          __S(5632, __c176, 0),
           S.Struct({
-            updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -9043,10 +9014,10 @@ function __c80(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(5664, __c177, 0),
+          __S(5696, __c178, 0),
           S.Struct({
-            updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -9063,7 +9034,7 @@ function __c81(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(5760, __c180, 0),
+          __S(5792, __c181, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
@@ -9083,7 +9054,7 @@ function __c82(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(5856, __c183, 0),
+          __S(5888, __c184, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
@@ -9105,8 +9076,8 @@ function __c83(j: number): any {
         S.Extend(
           __S(160, __c5, 0),
           S.Struct({
-            name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -9124,7 +9095,7 @@ function __c84(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(4160, __c130, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(4192, __c131, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -9141,21 +9112,21 @@ function __c85(j: number): any {
       return S.suspend(() =>
         S.Struct({
           linkProposalState: S.optional(S.String),
-          linkProposalInitiatingProduct: S.optional(S.String),
           requestorEmail: S.optional(S.String),
+          linkProposalInitiatingProduct: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaLinkProposalStatusDetails" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          linkProposalStatusDetails: S.optional(__S(2720, __c85, 0)),
           adsPersonalizationEnabled: S.optional(S.Boolean),
-          validationEmail: S.optional(S.String),
-          campaignDataSharingEnabled: S.optional(S.Boolean),
-          costDataSharingEnabled: S.optional(S.Boolean),
-          advertiserId: S.optional(S.String),
           advertiserDisplayName: S.optional(S.String),
+          linkProposalStatusDetails: S.optional(__S(2720, __c85, 0)),
+          name: S.optional(S.String),
+          advertiserId: S.optional(S.String),
+          campaignDataSharingEnabled: S.optional(S.Boolean),
+          validationEmail: S.optional(S.String),
+          costDataSharingEnabled: S.optional(S.Boolean),
         }),
       ).annotate({
         identifier: "GoogleAnalyticsAdminV1alphaDisplayVideo360AdvertiserLinkProposal",
@@ -9167,7 +9138,7 @@ function __c86(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(6464, __c202, 0),
+          __S(6496, __c203, 0),
           S.Struct({
             parent: S.String.pipe(T.Label()),
           }),
@@ -9200,19 +9171,19 @@ function __c88(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          serviceLevel: S.optional(S.String),
-          displayName: S.optional(S.String),
-          deleteTime: S.optional(S.String),
-          parent: S.optional(S.String),
-          createTime: S.optional(S.String),
-          expireTime: S.optional(S.String),
-          name: S.optional(S.String),
           updateTime: S.optional(S.String),
           currencyCode: S.optional(S.String),
+          parent: S.optional(S.String),
+          account: S.optional(S.String),
           propertyType: S.optional(S.String),
           timeZone: S.optional(S.String),
-          account: S.optional(S.String),
+          displayName: S.optional(S.String),
+          name: S.optional(S.String),
+          createTime: S.optional(S.String),
+          deleteTime: S.optional(S.String),
+          expireTime: S.optional(S.String),
           industryCategory: S.optional(S.String),
+          serviceLevel: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaProperty" });
   }
@@ -9222,7 +9193,7 @@ function __c89(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(6464, __c202, 0),
+          __S(6496, __c203, 0),
           S.Struct({
             parent: S.String.pipe(T.Label()),
           }),
@@ -9271,7 +9242,7 @@ function __c92(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(3024, __c94, 16),
+          __S(3021, __c94, 13),
           S.Struct({
             parent: S.String.pipe(T.Label()),
           }),
@@ -9290,11 +9261,38 @@ function __c93(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          doubleValue: S.optional(S.Number),
+          int64Value: S.optional(S.String),
+        }),
+      ).annotate({
+        identifier: "GoogleAnalyticsAdminV1alphaAudienceDimensionOrMetricFilterNumericValue",
+      });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          operation: S.optional(S.String),
+          value: S.optional(__S(2976, __c93, 0)),
+        }),
+      ).annotate({
+        identifier: "GoogleAnalyticsAdminV1alphaAudienceDimensionOrMetricFilterNumericFilter",
+      });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
           caseSensitive: S.optional(S.Boolean),
-          values: S.optional(__S(6432, __c201, 0)),
+          values: S.optional(__S(6464, __c202, 0)),
         }),
       ).annotate({
         identifier: "GoogleAnalyticsAdminV1alphaAudienceDimensionOrMetricFilterInListFilter",
+      });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          toValue: S.optional(__S(2976, __c93, 0)),
+          fromValue: S.optional(__S(2976, __c93, 0)),
+        }),
+      ).annotate({
+        identifier: "GoogleAnalyticsAdminV1alphaAudienceDimensionOrMetricFilterBetweenFilter",
       });
   }
 }
@@ -9303,134 +9301,107 @@ function __c94(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          logCondition: S.optional(S.String),
           eventName: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaAudienceEventTrigger" });
-    case 1:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(3017, __c94, 9)));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          filterExpressions: S.optional(__S(3009, __c94, 1)),
-        }),
-      ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaAudienceFilterExpressionList" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          eventName: S.optional(S.String),
-          eventParameterFilterExpression: S.optional(S.suspend(() => __S(3017, __c94, 9))),
+          eventParameterFilterExpression: S.optional(S.suspend(() => __S(3013, __c94, 5))),
         }),
       ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaAudienceEventFilter" });
-    case 4:
+    case 1:
       return S.suspend(() =>
         S.Struct({
-          int64Value: S.optional(S.String),
-          doubleValue: S.optional(S.Number),
-        }),
-      ).annotate({
-        identifier: "GoogleAnalyticsAdminV1alphaAudienceDimensionOrMetricFilterNumericValue",
-      });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          fromValue: S.optional(__S(3012, __c94, 4)),
-          toValue: S.optional(__S(3012, __c94, 4)),
-        }),
-      ).annotate({
-        identifier: "GoogleAnalyticsAdminV1alphaAudienceDimensionOrMetricFilterBetweenFilter",
-      });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
+          value: S.optional(S.String),
           matchType: S.optional(S.String),
           caseSensitive: S.optional(S.Boolean),
-          value: S.optional(S.String),
         }),
       ).annotate({
         identifier: "GoogleAnalyticsAdminV1alphaAudienceDimensionOrMetricFilterStringFilter",
       });
-    case 7:
+    case 2:
       return S.suspend(() =>
         S.Struct({
-          operation: S.optional(S.String),
-          value: S.optional(__S(3012, __c94, 4)),
-        }),
-      ).annotate({
-        identifier: "GoogleAnalyticsAdminV1alphaAudienceDimensionOrMetricFilterNumericFilter",
-      });
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          betweenFilter: S.optional(__S(3013, __c94, 5)),
-          stringFilter: S.optional(__S(3014, __c94, 6)),
-          inAnyNDayPeriod: S.optional(S.Number),
-          numericFilter: S.optional(__S(3015, __c94, 7)),
-          atAnyPointInTime: S.optional(S.Boolean),
+          numericFilter: S.optional(__S(2977, __c93, 1)),
           fieldName: S.optional(S.String),
-          inListFilter: S.optional(__S(2976, __c93, 0)),
+          inListFilter: S.optional(__S(2978, __c93, 2)),
+          stringFilter: S.optional(__S(3009, __c94, 1)),
+          atAnyPointInTime: S.optional(S.Boolean),
+          betweenFilter: S.optional(__S(2979, __c93, 3)),
+          inAnyNDayPeriod: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaAudienceDimensionOrMetricFilter" });
-    case 9:
+    case 3:
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(3013, __c94, 5)));
+    case 4:
       return S.suspend(() =>
         S.Struct({
-          andGroup: S.optional(__S(3010, __c94, 2)),
-          eventFilter: S.optional(__S(3011, __c94, 3)),
-          notExpression: S.optional(__S(3017, __c94, 9)),
-          orGroup: S.optional(__S(3010, __c94, 2)),
-          dimensionOrMetricFilter: S.optional(__S(3016, __c94, 8)),
+          filterExpressions: S.optional(__S(3011, __c94, 3)),
+        }),
+      ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaAudienceFilterExpressionList" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          eventFilter: S.optional(__S(3008, __c94, 0)),
+          dimensionOrMetricFilter: S.optional(__S(3010, __c94, 2)),
+          notExpression: S.optional(__S(3013, __c94, 5)),
+          andGroup: S.optional(__S(3012, __c94, 4)),
+          orGroup: S.optional(__S(3012, __c94, 4)),
         }),
       ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaAudienceFilterExpression" });
-    case 10:
+    case 6:
       return S.suspend(() =>
         S.Struct({
-          filterExpression: S.optional(__S(3017, __c94, 9)),
+          filterExpression: S.optional(__S(3013, __c94, 5)),
           scope: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaAudienceSimpleFilter" });
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
           constraintDuration: S.optional(S.String),
-          filterExpression: S.optional(__S(3017, __c94, 9)),
           immediatelyFollows: S.optional(S.Boolean),
-          scope: S.optional(S.String),
         }),
       ).annotate({
         identifier: "GoogleAnalyticsAdminV1alphaAudienceSequenceFilterAudienceSequenceStep",
       });
+    case 7:
+      return S.Array(__S(3014, __c94, 6));
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          sequenceMaximumDuration: S.optional(S.String),
+          scope: S.optional(S.String),
+          sequenceSteps: S.optional(__S(3015, __c94, 7)),
+        }),
+      ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaAudienceSequenceFilter" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          filterExpression: S.optional(__S(3013, __c94, 5)),
+          scope: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaAudienceSimpleFilter" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          sequenceFilter: S.optional(__S(3016, __c94, 8)),
+          clauseType: S.optional(S.String),
+          simpleFilter: S.optional(__S(3017, __c94, 9)),
+        }),
+      ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaAudienceFilterClause" });
+    case 11:
+      return S.Array(__S(3018, __c94, 10));
     case 12:
-      return S.Array(__S(3019, __c94, 11));
+      return S.suspend(() =>
+        S.Struct({
+          logCondition: S.optional(S.String),
+          eventName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaAudienceEventTrigger" });
     case 13:
       return S.suspend(() =>
         S.Struct({
-          scope: S.optional(S.String),
-          sequenceSteps: S.optional(__S(3020, __c94, 12)),
-          sequenceMaximumDuration: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaAudienceSequenceFilter" });
-    case 14:
-      return S.suspend(() =>
-        S.Struct({
-          clauseType: S.optional(S.String),
-          simpleFilter: S.optional(__S(3018, __c94, 10)),
-          sequenceFilter: S.optional(__S(3021, __c94, 13)),
-        }),
-      ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaAudienceFilterClause" });
-    case 15:
-      return S.Array(__S(3022, __c94, 14));
-    case 16:
-      return S.suspend(() =>
-        S.Struct({
-          description: S.optional(S.String),
-          membershipDurationDays: S.optional(S.Number),
-          adsPersonalizationEnabled: S.optional(S.Boolean),
           displayName: S.optional(S.String),
-          eventTrigger: S.optional(__S(3008, __c94, 0)),
-          exclusionDurationMode: S.optional(S.String),
-          filterClauses: S.optional(__S(3023, __c94, 15)),
-          name: S.optional(S.String),
+          filterClauses: S.optional(__S(3019, __c94, 11)),
+          membershipDurationDays: S.optional(S.Number),
           createTime: S.optional(S.String),
+          eventTrigger: S.optional(__S(3020, __c94, 12)),
+          description: S.optional(S.String),
+          adsPersonalizationEnabled: S.optional(S.Boolean),
+          name: S.optional(S.String),
+          exclusionDurationMode: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaAudience" });
   }
@@ -9459,16 +9430,16 @@ function __c96(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          streamingExportEnabled: S.optional(S.Boolean),
+          project: S.optional(S.String),
+          datasetLocation: S.optional(S.String),
+          exportStreams: S.optional(__S(6464, __c202, 0)),
+          name: S.optional(S.String),
+          dailyExportEnabled: S.optional(S.Boolean),
+          excludedEvents: S.optional(__S(6464, __c202, 0)),
+          createTime: S.optional(S.String),
           freshDailyExportEnabled: S.optional(S.Boolean),
           includeAdvertisingId: S.optional(S.Boolean),
-          project: S.optional(S.String),
-          name: S.optional(S.String),
-          datasetLocation: S.optional(S.String),
-          streamingExportEnabled: S.optional(S.Boolean),
-          exportStreams: S.optional(__S(6432, __c201, 0)),
-          createTime: S.optional(S.String),
-          excludedEvents: S.optional(__S(6432, __c201, 0)),
-          dailyExportEnabled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaBigQueryLink" });
   }
@@ -9505,11 +9476,11 @@ function __c99(j: number): any {
       return S.suspend(() =>
         S.Struct({
           restrictedMetricType: S.optional(__S(3136, __c98, 0)),
-          displayName: S.optional(S.String),
           name: S.optional(S.String),
-          description: S.optional(S.String),
           calculatedMetricId: S.optional(S.String),
           formula: S.optional(S.String),
+          displayName: S.optional(S.String),
+          description: S.optional(S.String),
           invalidMetricReference: S.optional(S.Boolean),
           metricUnit: S.optional(S.String),
         }),
@@ -9538,41 +9509,41 @@ function __c100(j: number): any {
 function __c101(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          values: S.optional(__S(6432, __c201, 0)),
-        }),
-      ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaChannelGroupFilterInListFilter" });
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(3237, __c101, 5)));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          matchType: S.optional(S.String),
-          value: S.optional(S.String),
+          filterExpressions: S.optional(__S(3232, __c101, 0)),
         }),
-      ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaChannelGroupFilterStringFilter" });
+      ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaChannelGroupFilterExpressionList" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          inListFilter: S.optional(__S(3232, __c101, 0)),
-          fieldName: S.optional(S.String),
-          stringFilter: S.optional(__S(3233, __c101, 1)),
+          values: S.optional(__S(6464, __c202, 0)),
         }),
-      ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaChannelGroupFilter" });
+      ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaChannelGroupFilterInListFilter" });
     case 3:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(3237, __c101, 5)));
+      return S.suspend(() =>
+        S.Struct({
+          value: S.optional(S.String),
+          matchType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaChannelGroupFilterStringFilter" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          filterExpressions: S.optional(__S(3235, __c101, 3)),
+          inListFilter: S.optional(__S(3234, __c101, 2)),
+          stringFilter: S.optional(__S(3235, __c101, 3)),
+          fieldName: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaChannelGroupFilterExpressionList" });
+      ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaChannelGroupFilter" });
     case 5:
       return S.suspend(() =>
         S.Struct({
+          andGroup: S.optional(__S(3233, __c101, 1)),
           notExpression: S.optional(__S(3237, __c101, 5)),
-          filter: S.optional(__S(3234, __c101, 2)),
-          orGroup: S.optional(__S(3236, __c101, 4)),
-          andGroup: S.optional(__S(3236, __c101, 4)),
+          orGroup: S.optional(__S(3233, __c101, 1)),
+          filter: S.optional(__S(3236, __c101, 4)),
         }),
       ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaChannelGroupFilterExpression" });
     case 6:
@@ -9587,12 +9558,12 @@ function __c101(j: number): any {
     case 8:
       return S.suspend(() =>
         S.Struct({
-          groupingRule: S.optional(__S(3239, __c101, 7)),
           name: S.optional(S.String),
-          displayName: S.optional(S.String),
           primary: S.optional(S.Boolean),
-          description: S.optional(S.String),
           systemDefined: S.optional(S.Boolean),
+          groupingRule: S.optional(__S(3239, __c101, 7)),
+          displayName: S.optional(S.String),
+          description: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaChannelGroup" });
   }
@@ -9630,13 +9601,13 @@ function __c103(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          deletable: S.optional(S.Boolean),
-          name: S.optional(S.String),
-          defaultConversionValue: S.optional(__S(3296, __c103, 0)),
-          eventName: S.optional(S.String),
           countingMethod: S.optional(S.String),
-          custom: S.optional(S.Boolean),
+          name: S.optional(S.String),
+          eventName: S.optional(S.String),
+          deletable: S.optional(S.Boolean),
+          defaultConversionValue: S.optional(__S(3296, __c103, 0)),
           createTime: S.optional(S.String),
+          custom: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaConversionEvent" });
   }
@@ -9665,12 +9636,12 @@ function __c105(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          parameterName: S.optional(S.String),
+          name: S.optional(S.String),
           disallowAdsPersonalization: S.optional(S.Boolean),
           description: S.optional(S.String),
           scope: S.optional(S.String),
           displayName: S.optional(S.String),
-          parameterName: S.optional(S.String),
-          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaCustomDimension" });
   }
@@ -9699,12 +9670,12 @@ function __c107(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          restrictedMetricType: S.optional(__S(3136, __c98, 0)),
+          measurementUnit: S.optional(S.String),
           description: S.optional(S.String),
           scope: S.optional(S.String),
-          measurementUnit: S.optional(S.String),
-          restrictedMetricType: S.optional(__S(3136, __c98, 0)),
-          displayName: S.optional(S.String),
           name: S.optional(S.String),
+          displayName: S.optional(S.String),
           parameterName: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaCustomMetric" });
@@ -9735,35 +9706,35 @@ function __c109(j: number): any {
       return S.suspend(() =>
         S.Struct({
           firebaseAppId: S.optional(S.String),
-          defaultUri: S.optional(S.String),
-          measurementId: S.optional(S.String),
+          bundleId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaDataStreamWebStreamData" });
+      ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaDataStreamIosAppStreamData" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          firebaseAppId: S.optional(S.String),
           packageName: S.optional(S.String),
+          firebaseAppId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaDataStreamAndroidAppStreamData" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          bundleId: S.optional(S.String),
+          defaultUri: S.optional(S.String),
+          measurementId: S.optional(S.String),
           firebaseAppId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaDataStreamIosAppStreamData" });
+      ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaDataStreamWebStreamData" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          updateTime: S.optional(S.String),
+          iosAppStreamData: S.optional(__S(3488, __c109, 0)),
           displayName: S.optional(S.String),
-          webStreamData: S.optional(__S(3488, __c109, 0)),
-          name: S.optional(S.String),
-          createTime: S.optional(S.String),
           androidAppStreamData: S.optional(__S(3489, __c109, 1)),
           type: S.optional(S.String),
-          iosAppStreamData: S.optional(__S(3490, __c109, 2)),
+          updateTime: S.optional(S.String),
+          createTime: S.optional(S.String),
+          webStreamData: S.optional(__S(3490, __c109, 2)),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaDataStream" });
   }
@@ -9792,21 +9763,21 @@ function __c111(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          field: S.optional(S.String),
-          value: S.optional(S.String),
-          negated: S.optional(S.Boolean),
-          comparisonType: S.optional(S.String),
+          parameterValue: S.optional(S.String),
+          parameter: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaMatchingCondition" });
+      ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaParameterMutation" });
     case 1:
       return S.Array(__S(3552, __c111, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          parameter: S.optional(S.String),
-          parameterValue: S.optional(S.String),
+          negated: S.optional(S.Boolean),
+          comparisonType: S.optional(S.String),
+          field: S.optional(S.String),
+          value: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaParameterMutation" });
+      ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaMatchingCondition" });
     case 3:
       return S.Array(__S(3554, __c111, 2));
   }
@@ -9817,10 +9788,10 @@ function __c112(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          destinationEvent: S.optional(S.String),
-          eventConditions: S.optional(__S(3553, __c111, 1)),
           sourceCopyParameters: S.optional(S.Boolean),
-          parameterMutations: S.optional(__S(3555, __c111, 3)),
+          parameterMutations: S.optional(__S(3553, __c111, 1)),
+          eventConditions: S.optional(__S(3555, __c111, 3)),
+          destinationEvent: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaEventCreateRule" });
   }
@@ -9849,11 +9820,11 @@ function __c114(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          processingOrder: S.optional(S.String),
-          parameterMutations: S.optional(__S(3555, __c111, 3)),
+          parameterMutations: S.optional(__S(3553, __c111, 1)),
           displayName: S.optional(S.String),
+          processingOrder: S.optional(S.String),
           name: S.optional(S.String),
-          eventConditions: S.optional(__S(3553, __c111, 1)),
+          eventConditions: S.optional(__S(3555, __c111, 3)),
         }),
       ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaEventEditRule" });
   }
@@ -9882,9 +9853,9 @@ function __c116(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.optional(S.String),
           displayName: S.optional(S.String),
           secretValue: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaMeasurementProtocolSecret" });
   }
@@ -9915,11 +9886,11 @@ function __c118(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          minEventCount: S.optional(S.String),
-          maxEventCount: S.optional(S.String),
           minEventValue: S.optional(S.Number),
           maxEventValue: S.optional(S.Number),
           eventName: S.optional(S.String),
+          minEventCount: S.optional(S.String),
+          maxEventCount: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaEventMapping" });
     case 1:
@@ -9927,11 +9898,11 @@ function __c118(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          displayName: S.optional(S.String),
-          fineValue: S.optional(S.Number),
+          lockEnabled: S.optional(S.Boolean),
           eventMappings: S.optional(__S(3777, __c118, 1)),
           coarseValue: S.optional(S.String),
-          lockEnabled: S.optional(S.Boolean),
+          displayName: S.optional(S.String),
+          fineValue: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaConversionValues" });
     case 3:
@@ -9946,11 +9917,11 @@ function __c118(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          postbackWindowThree: S.optional(__S(3780, __c118, 4)),
-          applyConversionValues: S.optional(S.Boolean),
           postbackWindowTwo: S.optional(__S(3780, __c118, 4)),
-          name: S.optional(S.String),
+          postbackWindowThree: S.optional(__S(3780, __c118, 4)),
           postbackWindowOne: S.optional(__S(3780, __c118, 4)),
+          applyConversionValues: S.optional(S.Boolean),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaSKAdNetworkConversionValueSchema" });
   }
@@ -9979,7 +9950,7 @@ function __c120(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(4704, __c147, 0),
+          __S(4736, __c148, 0),
           S.Struct({
             parent: S.String.pipe(T.Label()),
           }),
@@ -9998,7 +9969,7 @@ function __c121(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(3909, __c122, 5),
+          __S(3941, __c123, 5),
           S.Struct({
             parent: S.String.pipe(T.Label()),
           }),
@@ -10015,57 +9986,68 @@ function __c121(j: number): any {
 function __c122(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(3908, __c122, 4)));
-    case 1:
       return S.suspend(() =>
         S.Struct({
-          filterExpressions: S.optional(__S(3904, __c122, 0)),
-        }),
-      ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaExpandedDataSetFilterExpressionList" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          value: S.optional(S.String),
           matchType: S.optional(S.String),
           caseSensitive: S.optional(S.Boolean),
+          value: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaExpandedDataSetFilterStringFilter" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          stringFilter: S.optional(__S(3906, __c122, 2)),
-          fieldName: S.optional(S.String),
-          inListFilter: S.optional(__S(2976, __c93, 0)),
-        }),
-      ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaExpandedDataSetFilter" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          andGroup: S.optional(__S(3905, __c122, 1)),
-          notExpression: S.optional(__S(3908, __c122, 4)),
-          filter: S.optional(__S(3907, __c122, 3)),
-        }),
-      ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaExpandedDataSetFilterExpression" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          dataCollectionStartTime: S.optional(S.String),
-          description: S.optional(S.String),
-          dimensionNames: S.optional(__S(6432, __c201, 0)),
-          dimensionFilterExpression: S.optional(__S(3908, __c122, 4)),
-          displayName: S.optional(S.String),
-          metricNames: S.optional(__S(6432, __c201, 0)),
-        }),
-      ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaExpandedDataSet" });
   }
 }
 function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
+        S.Struct({
+          values: S.optional(__S(6464, __c202, 0)),
+          caseSensitive: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaExpandedDataSetFilterInListFilter" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          inListFilter: S.optional(__S(3936, __c123, 0)),
+          fieldName: S.optional(S.String),
+          stringFilter: S.optional(__S(3904, __c122, 0)),
+        }),
+      ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaExpandedDataSetFilter" });
+    case 2:
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(3940, __c123, 4)));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          filterExpressions: S.optional(__S(3938, __c123, 2)),
+        }),
+      ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaExpandedDataSetFilterExpressionList" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          notExpression: S.optional(__S(3940, __c123, 4)),
+          filter: S.optional(__S(3937, __c123, 1)),
+          andGroup: S.optional(__S(3939, __c123, 3)),
+        }),
+      ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaExpandedDataSetFilterExpression" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          dimensionFilterExpression: S.optional(__S(3940, __c123, 4)),
+          dataCollectionStartTime: S.optional(S.String),
+          description: S.optional(S.String),
+          name: S.optional(S.String),
+          displayName: S.optional(S.String),
+          metricNames: S.optional(__S(6464, __c202, 0)),
+          dimensionNames: S.optional(__S(6464, __c202, 0)),
+        }),
+      ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaExpandedDataSet" });
+  }
+}
+function __c124(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
         S.Extend(
-          __S(3968, __c124, 0),
+          __S(4000, __c125, 0),
           S.Struct({
             parent: S.String.pipe(T.Label()),
           }),
@@ -10079,24 +10061,24 @@ function __c123(j: number): any {
       ).annotate({ identifier: "CreatePropertiesFirebaseLinksRequest" });
   }
 }
-function __c124(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          project: S.optional(S.String),
           name: S.optional(S.String),
+          project: S.optional(S.String),
           createTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaFirebaseLink" });
   }
 }
-function __c125(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(4032, __c126, 0),
+          __S(4064, __c127, 0),
           S.Struct({
             parent: S.String.pipe(T.Label()),
           }),
@@ -10110,28 +10092,28 @@ function __c125(j: number): any {
       ).annotate({ identifier: "CreatePropertiesGoogleAdsLinksRequest" });
   }
 }
-function __c126(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          updateTime: S.optional(S.String),
-          creatorEmailAddress: S.optional(S.String),
-          customerId: S.optional(S.String),
-          canManageClients: S.optional(S.Boolean),
-          name: S.optional(S.String),
-          createTime: S.optional(S.String),
-          adsPersonalizationEnabled: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaGoogleAdsLink" });
-  }
-}
 function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          createTime: S.optional(S.String),
+          creatorEmailAddress: S.optional(S.String),
+          canManageClients: S.optional(S.Boolean),
+          adsPersonalizationEnabled: S.optional(S.Boolean),
+          customerId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaGoogleAdsLink" });
+  }
+}
+function __c128(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
         S.Extend(
-          __S(4097, __c128, 1),
+          __S(4129, __c129, 1),
           S.Struct({
             parent: S.String.pipe(T.Label()),
           }),
@@ -10145,30 +10127,30 @@ function __c127(j: number): any {
       ).annotate({ identifier: "CreatePropertiesKeyEventsRequest" });
   }
 }
-function __c128(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          numericValue: S.optional(S.Number),
           currencyCode: S.optional(S.String),
+          numericValue: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaKeyEventDefaultValue" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          defaultValue: S.optional(__S(4096, __c128, 0)),
+          countingMethod: S.optional(S.String),
           name: S.optional(S.String),
           createTime: S.optional(S.String),
-          eventName: S.optional(S.String),
           custom: S.optional(S.Boolean),
-          countingMethod: S.optional(S.String),
           deletable: S.optional(S.Boolean),
+          defaultValue: S.optional(__S(4128, __c129, 0)),
+          eventName: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaKeyEvent" });
   }
 }
-function __c129(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10179,7 +10161,7 @@ function __c129(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Extend(
-          __S(4128, __c129, 0),
+          __S(4160, __c130, 0),
           S.Struct({
             property: S.String.pipe(T.Label()),
           }),
@@ -10193,7 +10175,7 @@ function __c129(j: number): any {
       ).annotate({ identifier: "AcknowledgeUserDataCollectionPropertiesRequest" });
   }
 }
-function __c130(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -10201,12 +10183,12 @@ function __c130(j: number): any {
       });
   }
 }
-function __c131(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(4226, __c132, 2),
+          __S(4258, __c133, 2),
           S.Struct({
             parent: S.String.pipe(T.Label()),
           }),
@@ -10220,7 +10202,7 @@ function __c131(j: number): any {
       ).annotate({ identifier: "CreatePropertiesReportingDataAnnotationsRequest" });
   }
 }
-function __c132(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10233,30 +10215,30 @@ function __c132(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          startDate: S.optional(__S(4224, __c132, 0)),
-          endDate: S.optional(__S(4224, __c132, 0)),
+          startDate: S.optional(__S(4256, __c133, 0)),
+          endDate: S.optional(__S(4256, __c133, 0)),
         }),
       ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaReportingDataAnnotationDateRange" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          annotationDate: S.optional(__S(4224, __c132, 0)),
-          annotationDateRange: S.optional(__S(4225, __c132, 1)),
+          annotationDateRange: S.optional(__S(4257, __c133, 1)),
           description: S.optional(S.String),
-          name: S.optional(S.String),
           color: S.optional(S.String),
+          name: S.optional(S.String),
           systemGenerated: S.optional(S.Boolean),
+          annotationDate: S.optional(__S(4256, __c133, 0)),
           title: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaReportingDataAnnotation" });
   }
 }
-function __c133(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(4288, __c134, 0),
+          __S(4320, __c135, 0),
           S.Struct({
             parent: S.String.pipe(T.Label()),
           }),
@@ -10270,7 +10252,7 @@ function __c133(j: number): any {
       ).annotate({ identifier: "CreatePropertiesRollupPropertySourceLinksRequest" });
   }
 }
-function __c134(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10281,12 +10263,12 @@ function __c134(j: number): any {
       ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaRollupPropertySourceLink" });
   }
 }
-function __c135(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(4352, __c136, 0),
+          __S(4384, __c137, 0),
           S.Struct({
             parent: S.String.pipe(T.Label()),
           }),
@@ -10300,28 +10282,28 @@ function __c135(j: number): any {
       ).annotate({ identifier: "CreatePropertiesSearchAds360LinksRequest" });
   }
 }
-function __c136(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          advertiserDisplayName: S.optional(S.String),
-          campaignDataSharingEnabled: S.optional(S.Boolean),
-          costDataSharingEnabled: S.optional(S.Boolean),
-          advertiserId: S.optional(S.String),
-          name: S.optional(S.String),
-          siteStatsSharingEnabled: S.optional(S.Boolean),
-          adsPersonalizationEnabled: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaSearchAds360Link" });
-  }
-}
 function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          adsPersonalizationEnabled: S.optional(S.Boolean),
+          campaignDataSharingEnabled: S.optional(S.Boolean),
+          costDataSharingEnabled: S.optional(S.Boolean),
+          advertiserDisplayName: S.optional(S.String),
+          siteStatsSharingEnabled: S.optional(S.Boolean),
+          advertiserId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaSearchAds360Link" });
+  }
+}
+function __c138(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
         S.Extend(
-          __S(4423, __c138, 7),
+          __S(4455, __c139, 7),
           S.Struct({
             parent: S.String.pipe(T.Label()),
           }),
@@ -10335,73 +10317,73 @@ function __c137(j: number): any {
       ).annotate({ identifier: "CreatePropertiesSubpropertyEventFiltersRequest" });
   }
 }
-function __c138(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(4420, __c138, 4)));
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          filterExpressions: S.optional(__S(4416, __c138, 0)),
-        }),
-      ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaSubpropertyEventFilterExpressionList" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          caseSensitive: S.optional(S.Boolean),
-          matchType: S.optional(S.String),
-          value: S.optional(S.String),
-        }),
-      ).annotate({
-        identifier: "GoogleAnalyticsAdminV1alphaSubpropertyEventFilterConditionStringFilter",
-      });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          nullFilter: S.optional(S.Boolean),
-          fieldName: S.optional(S.String),
-          stringFilter: S.optional(__S(4418, __c138, 2)),
-        }),
-      ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaSubpropertyEventFilterCondition" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          notExpression: S.optional(__S(4420, __c138, 4)),
-          orGroup: S.optional(__S(4417, __c138, 1)),
-          filterCondition: S.optional(__S(4419, __c138, 3)),
-        }),
-      ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaSubpropertyEventFilterExpression" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          filterExpression: S.optional(__S(4420, __c138, 4)),
-          filterClauseType: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaSubpropertyEventFilterClause" });
-    case 6:
-      return S.Array(__S(4421, __c138, 5));
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          applyToProperty: S.optional(S.String),
-          name: S.optional(S.String),
-          filterClauses: S.optional(__S(4422, __c138, 6)),
-        }),
-      ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaSubpropertyEventFilter" });
-  }
-}
 function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          sourceProperties: S.optional(__S(6432, __c201, 0)),
+          matchType: S.optional(S.String),
+          value: S.optional(S.String),
+          caseSensitive: S.optional(S.Boolean),
+        }),
+      ).annotate({
+        identifier: "GoogleAnalyticsAdminV1alphaSubpropertyEventFilterConditionStringFilter",
+      });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          stringFilter: S.optional(__S(4448, __c139, 0)),
+          fieldName: S.optional(S.String),
+          nullFilter: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaSubpropertyEventFilterCondition" });
+    case 2:
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(4452, __c139, 4)));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          filterExpressions: S.optional(__S(4450, __c139, 2)),
+        }),
+      ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaSubpropertyEventFilterExpressionList" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          notExpression: S.optional(__S(4452, __c139, 4)),
+          filterCondition: S.optional(__S(4449, __c139, 1)),
+          orGroup: S.optional(__S(4451, __c139, 3)),
+        }),
+      ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaSubpropertyEventFilterExpression" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          filterClauseType: S.optional(S.String),
+          filterExpression: S.optional(__S(4452, __c139, 4)),
+        }),
+      ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaSubpropertyEventFilterClause" });
+    case 6:
+      return S.Array(__S(4453, __c139, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          applyToProperty: S.optional(S.String),
+          filterClauses: S.optional(__S(4454, __c139, 6)),
+        }),
+      ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaSubpropertyEventFilter" });
+  }
+}
+function __c140(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sourceProperties: S.optional(__S(6464, __c202, 0)),
           rollupProperty: S.optional(__S(2816, __c88, 0)),
         }),
       ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaCreateRollupPropertyRequest" });
     case 1:
       return S.suspend(() =>
-        S.Extend(__S(4448, __c139, 0), S.Struct({})).pipe(
+        S.Extend(__S(4480, __c140, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/properties:createRollupProperty",
@@ -10412,32 +10394,16 @@ function __c139(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          rollupPropertySourceLinks: S.optional(__S(4512, __c141, 0)),
           rollupProperty: S.optional(__S(2816, __c88, 0)),
-          rollupPropertySourceLinks: S.optional(__S(4480, __c140, 0)),
         }),
       ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaCreateRollupPropertyResponse" });
-  }
-}
-function __c140(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(4288, __c134, 0));
   }
 }
 function __c141(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "v1alpha/{+name}",
-            baseUrl: "https://analyticsadmin.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "DeleteAccountsRequest" });
+      return S.Array(__S(4320, __c135, 0));
   }
 }
 function __c142(j: number): any {
@@ -10453,7 +10419,7 @@ function __c142(j: number): any {
             baseUrl: "https://analyticsadmin.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "DeleteAccountsAccessBindingsRequest" });
+      ).annotate({ identifier: "DeleteAccountsRequest" });
   }
 }
 function __c143(j: number): any {
@@ -10469,7 +10435,7 @@ function __c143(j: number): any {
             baseUrl: "https://analyticsadmin.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "DeletePropertiesRequest" });
+      ).annotate({ identifier: "DeleteAccountsAccessBindingsRequest" });
   }
 }
 function __c144(j: number): any {
@@ -10485,7 +10451,7 @@ function __c144(j: number): any {
             baseUrl: "https://analyticsadmin.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "DeletePropertiesAccessBindingsRequest" });
+      ).annotate({ identifier: "DeletePropertiesRequest" });
   }
 }
 function __c145(j: number): any {
@@ -10501,51 +10467,10 @@ function __c145(j: number): any {
             baseUrl: "https://analyticsadmin.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "DeletePropertiesAdSenseLinksRequest" });
+      ).annotate({ identifier: "DeletePropertiesAccessBindingsRequest" });
   }
 }
 function __c146(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(4160, __c130, 0).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "v1alpha/{+name}:approve",
-            baseUrl: "https://analyticsadmin.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "ApprovePropertiesDisplayVideo360AdvertiserLinkProposalsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          displayVideo360AdvertiserLink: S.optional(__S(4704, __c147, 0)),
-        }),
-      ).annotate({
-        identifier:
-          "GoogleAnalyticsAdminV1alphaApproveDisplayVideo360AdvertiserLinkProposalResponse",
-      });
-  }
-}
-function __c147(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          adsPersonalizationEnabled: S.optional(S.Boolean),
-          costDataSharingEnabled: S.optional(S.Boolean),
-          advertiserDisplayName: S.optional(S.String),
-          advertiserId: S.optional(S.String),
-          campaignDataSharingEnabled: S.optional(S.Boolean),
-          name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaDisplayVideo360AdvertiserLink" });
-  }
-}
-function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10558,7 +10483,48 @@ function __c148(j: number): any {
             baseUrl: "https://analyticsadmin.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "DeletePropertiesBigQueryLinksRequest" });
+      ).annotate({ identifier: "DeletePropertiesAdSenseLinksRequest" });
+  }
+}
+function __c147(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          body: S.optional(__S(4192, __c131, 0).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "v1alpha/{+name}:approve",
+            baseUrl: "https://analyticsadmin.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "ApprovePropertiesDisplayVideo360AdvertiserLinkProposalsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          displayVideo360AdvertiserLink: S.optional(__S(4736, __c148, 0)),
+        }),
+      ).annotate({
+        identifier:
+          "GoogleAnalyticsAdminV1alphaApproveDisplayVideo360AdvertiserLinkProposalResponse",
+      });
+  }
+}
+function __c148(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          advertiserId: S.optional(S.String),
+          name: S.optional(S.String),
+          campaignDataSharingEnabled: S.optional(S.Boolean),
+          advertiserDisplayName: S.optional(S.String),
+          adsPersonalizationEnabled: S.optional(S.Boolean),
+          costDataSharingEnabled: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaDisplayVideo360AdvertiserLink" });
   }
 }
 function __c149(j: number): any {
@@ -10574,7 +10540,7 @@ function __c149(j: number): any {
             baseUrl: "https://analyticsadmin.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "DeletePropertiesCalculatedMetricsRequest" });
+      ).annotate({ identifier: "DeletePropertiesBigQueryLinksRequest" });
   }
 }
 function __c150(j: number): any {
@@ -10590,7 +10556,7 @@ function __c150(j: number): any {
             baseUrl: "https://analyticsadmin.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "DeletePropertiesChannelGroupsRequest" });
+      ).annotate({ identifier: "DeletePropertiesCalculatedMetricsRequest" });
   }
 }
 function __c151(j: number): any {
@@ -10606,7 +10572,7 @@ function __c151(j: number): any {
             baseUrl: "https://analyticsadmin.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "DeletePropertiesConversionEventsRequest" });
+      ).annotate({ identifier: "DeletePropertiesChannelGroupsRequest" });
   }
 }
 function __c152(j: number): any {
@@ -10622,7 +10588,7 @@ function __c152(j: number): any {
             baseUrl: "https://analyticsadmin.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "DeletePropertiesDataStreamsRequest" });
+      ).annotate({ identifier: "DeletePropertiesConversionEventsRequest" });
   }
 }
 function __c153(j: number): any {
@@ -10638,7 +10604,7 @@ function __c153(j: number): any {
             baseUrl: "https://analyticsadmin.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "DeletePropertiesDataStreamsEventCreateRulesRequest" });
+      ).annotate({ identifier: "DeletePropertiesDataStreamsRequest" });
   }
 }
 function __c154(j: number): any {
@@ -10654,7 +10620,7 @@ function __c154(j: number): any {
             baseUrl: "https://analyticsadmin.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "DeletePropertiesDataStreamsEventEditRulesRequest" });
+      ).annotate({ identifier: "DeletePropertiesDataStreamsEventCreateRulesRequest" });
   }
 }
 function __c155(j: number): any {
@@ -10670,10 +10636,26 @@ function __c155(j: number): any {
             baseUrl: "https://analyticsadmin.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "DeletePropertiesDataStreamsMeasurementProtocolSecretsRequest" });
+      ).annotate({ identifier: "DeletePropertiesDataStreamsEventEditRulesRequest" });
   }
 }
 function __c156(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "v1alpha/{+name}",
+            baseUrl: "https://analyticsadmin.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "DeletePropertiesDataStreamsMeasurementProtocolSecretsRequest" });
+  }
+}
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10691,7 +10673,7 @@ function __c156(j: number): any {
       });
   }
 }
-function __c157(j: number): any {
+function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10707,13 +10689,13 @@ function __c157(j: number): any {
       ).annotate({ identifier: "DeletePropertiesDisplayVideo360AdvertiserLinkProposalsRequest" });
   }
 }
-function __c158(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(4160, __c130, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(4192, __c131, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -10722,22 +10704,6 @@ function __c158(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ArchivePropertiesAudiencesRequest" });
-  }
-}
-function __c159(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "v1alpha/{+name}",
-            baseUrl: "https://analyticsadmin.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "DeletePropertiesDisplayVideo360AdvertiserLinksRequest" });
   }
 }
 function __c160(j: number): any {
@@ -10753,7 +10719,7 @@ function __c160(j: number): any {
             baseUrl: "https://analyticsadmin.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "DeletePropertiesExpandedDataSetsRequest" });
+      ).annotate({ identifier: "DeletePropertiesDisplayVideo360AdvertiserLinksRequest" });
   }
 }
 function __c161(j: number): any {
@@ -10769,7 +10735,7 @@ function __c161(j: number): any {
             baseUrl: "https://analyticsadmin.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "DeletePropertiesFirebaseLinksRequest" });
+      ).annotate({ identifier: "DeletePropertiesExpandedDataSetsRequest" });
   }
 }
 function __c162(j: number): any {
@@ -10785,7 +10751,7 @@ function __c162(j: number): any {
             baseUrl: "https://analyticsadmin.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "DeletePropertiesGoogleAdsLinksRequest" });
+      ).annotate({ identifier: "DeletePropertiesFirebaseLinksRequest" });
   }
 }
 function __c163(j: number): any {
@@ -10801,7 +10767,7 @@ function __c163(j: number): any {
             baseUrl: "https://analyticsadmin.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "DeletePropertiesKeyEventsRequest" });
+      ).annotate({ identifier: "DeletePropertiesGoogleAdsLinksRequest" });
   }
 }
 function __c164(j: number): any {
@@ -10817,7 +10783,7 @@ function __c164(j: number): any {
             baseUrl: "https://analyticsadmin.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "DeletePropertiesReportingDataAnnotationsRequest" });
+      ).annotate({ identifier: "DeletePropertiesKeyEventsRequest" });
   }
 }
 function __c165(j: number): any {
@@ -10833,7 +10799,7 @@ function __c165(j: number): any {
             baseUrl: "https://analyticsadmin.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "DeletePropertiesRollupPropertySourceLinksRequest" });
+      ).annotate({ identifier: "DeletePropertiesReportingDataAnnotationsRequest" });
   }
 }
 function __c166(j: number): any {
@@ -10849,7 +10815,7 @@ function __c166(j: number): any {
             baseUrl: "https://analyticsadmin.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "DeletePropertiesSearchAds360LinksRequest" });
+      ).annotate({ identifier: "DeletePropertiesRollupPropertySourceLinksRequest" });
   }
 }
 function __c167(j: number): any {
@@ -10865,10 +10831,26 @@ function __c167(j: number): any {
             baseUrl: "https://analyticsadmin.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "DeletePropertiesSubpropertyEventFiltersRequest" });
+      ).annotate({ identifier: "DeletePropertiesSearchAds360LinksRequest" });
   }
 }
 function __c168(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "v1alpha/{+name}",
+            baseUrl: "https://analyticsadmin.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "DeletePropertiesSubpropertyEventFiltersRequest" });
+  }
+}
+function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10884,37 +10866,20 @@ function __c168(j: number): any {
       ).annotate({ identifier: "GetAccountsRequest" });
   }
 }
-function __c169(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          regionCode: S.optional(S.String),
-          deleted: S.optional(S.Boolean),
-          updateTime: S.optional(S.String),
-          gmpOrganization: S.optional(S.String),
-          displayName: S.optional(S.String),
-          createTime: S.optional(S.String),
-          name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaAccount" });
-  }
-}
 function __c170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(4160, __c130, 0).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "v1alpha/{+name}:archive",
-            baseUrl: "https://analyticsadmin.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "ArchivePropertiesCustomDimensionsRequest" });
+          name: S.optional(S.String),
+          createTime: S.optional(S.String),
+          deleted: S.optional(S.Boolean),
+          regionCode: S.optional(S.String),
+          gmpOrganization: S.optional(S.String),
+          displayName: S.optional(S.String),
+          updateTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaAccount" });
   }
 }
 function __c171(j: number): any {
@@ -10923,14 +10888,15 @@ function __c171(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
+          body: S.optional(__S(4192, __c131, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
-            method: "GET",
-            uri: "v1alpha/{+name}",
+            method: "POST",
+            uri: "v1alpha/{+name}:archive",
             baseUrl: "https://analyticsadmin.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetAccountsAccessBindingsRequest" });
+      ).annotate({ identifier: "ArchivePropertiesCustomDimensionsRequest" });
   }
 }
 function __c172(j: number): any {
@@ -10946,7 +10912,7 @@ function __c172(j: number): any {
             baseUrl: "https://analyticsadmin.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetAttributionSettingsPropertiesRequest" });
+      ).annotate({ identifier: "GetAccountsAccessBindingsRequest" });
   }
 }
 function __c173(j: number): any {
@@ -10954,16 +10920,32 @@ function __c173(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          reportingAttributionModel: S.optional(S.String),
-          name: S.optional(S.String),
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1alpha/{+name}",
+            baseUrl: "https://analyticsadmin.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetAttributionSettingsPropertiesRequest" });
+  }
+}
+function __c174(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           acquisitionConversionEventLookbackWindow: S.optional(S.String),
-          adsWebConversionDataExportScope: S.optional(S.String),
+          name: S.optional(S.String),
           otherConversionEventLookbackWindow: S.optional(S.String),
+          reportingAttributionModel: S.optional(S.String),
+          adsWebConversionDataExportScope: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaAttributionSettings" });
   }
 }
-function __c174(j: number): any {
+function __c175(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10979,20 +10961,20 @@ function __c174(j: number): any {
       ).annotate({ identifier: "GetDataRedactionSettingsPropertiesDataStreamsRequest" });
   }
 }
-function __c175(j: number): any {
+function __c176(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
           queryParameterRedactionEnabled: S.optional(S.Boolean),
           emailRedactionEnabled: S.optional(S.Boolean),
-          queryParameterKeys: S.optional(__S(6432, __c201, 0)),
+          queryParameterKeys: S.optional(__S(6464, __c202, 0)),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaDataRedactionSettings" });
   }
 }
-function __c176(j: number): any {
+function __c177(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11008,20 +10990,20 @@ function __c176(j: number): any {
       ).annotate({ identifier: "GetDataRetentionSettingsPropertiesRequest" });
   }
 }
-function __c177(j: number): any {
+function __c178(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           userDataRetention: S.optional(S.String),
-          eventDataRetention: S.optional(S.String),
-          resetUserDataOnNewActivity: S.optional(S.Boolean),
           name: S.optional(S.String),
+          resetUserDataOnNewActivity: S.optional(S.Boolean),
+          eventDataRetention: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaDataRetentionSettings" });
   }
 }
-function __c178(j: number): any {
+function __c179(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11038,17 +11020,17 @@ function __c178(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          sharingWithGoogleProductsEnabled: S.optional(S.Boolean),
-          sharingWithOthersEnabled: S.optional(S.Boolean),
-          sharingWithGoogleAssignedSalesEnabled: S.optional(S.Boolean),
-          name: S.optional(S.String),
-          sharingWithGoogleAnySalesEnabled: S.optional(S.Boolean),
           sharingWithGoogleSupportEnabled: S.optional(S.Boolean),
+          sharingWithOthersEnabled: S.optional(S.Boolean),
+          sharingWithGoogleAnySalesEnabled: S.optional(S.Boolean),
+          name: S.optional(S.String),
+          sharingWithGoogleAssignedSalesEnabled: S.optional(S.Boolean),
+          sharingWithGoogleProductsEnabled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaDataSharingSettings" });
   }
 }
-function __c179(j: number): any {
+function __c180(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11064,27 +11046,27 @@ function __c179(j: number): any {
       ).annotate({ identifier: "GetEnhancedMeasurementSettingsPropertiesDataStreamsRequest" });
   }
 }
-function __c180(j: number): any {
+function __c181(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          outboundClicksEnabled: S.optional(S.Boolean),
           siteSearchEnabled: S.optional(S.Boolean),
           fileDownloadsEnabled: S.optional(S.Boolean),
           searchQueryParameter: S.optional(S.String),
-          outboundClicksEnabled: S.optional(S.Boolean),
-          formInteractionsEnabled: S.optional(S.Boolean),
-          videoEngagementEnabled: S.optional(S.Boolean),
-          streamEnabled: S.optional(S.Boolean),
           uriQueryParameter: S.optional(S.String),
-          scrollsEnabled: S.optional(S.Boolean),
           pageChangesEnabled: S.optional(S.Boolean),
+          scrollsEnabled: S.optional(S.Boolean),
+          videoEngagementEnabled: S.optional(S.Boolean),
           name: S.optional(S.String),
+          formInteractionsEnabled: S.optional(S.Boolean),
+          streamEnabled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaEnhancedMeasurementSettings" });
   }
 }
-function __c181(j: number): any {
+function __c182(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11107,7 +11089,7 @@ function __c181(j: number): any {
       ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaGlobalSiteTag" });
   }
 }
-function __c182(j: number): any {
+function __c183(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11123,32 +11105,16 @@ function __c182(j: number): any {
       ).annotate({ identifier: "GetGoogleSignalsSettingsPropertiesRequest" });
   }
 }
-function __c183(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          state: S.optional(S.String),
-          consent: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaGoogleSignalsSettings" });
-  }
-}
 function __c184(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1alpha/{+name}",
-            baseUrl: "https://analyticsadmin.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "GetPropertiesRequest" });
+          consent: S.optional(S.String),
+          state: S.optional(S.String),
+          name: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaGoogleSignalsSettings" });
   }
 }
 function __c185(j: number): any {
@@ -11164,27 +11130,10 @@ function __c185(j: number): any {
             baseUrl: "https://analyticsadmin.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetPropertiesAccessBindingsRequest" });
+      ).annotate({ identifier: "GetPropertiesRequest" });
   }
 }
 function __c186(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(4160, __c130, 0).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "v1alpha/{+name}:archive",
-            baseUrl: "https://analyticsadmin.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "ArchivePropertiesCustomMetricsRequest" });
-  }
-}
-function __c187(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11197,7 +11146,24 @@ function __c187(j: number): any {
             baseUrl: "https://analyticsadmin.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetPropertiesAdSenseLinksRequest" });
+      ).annotate({ identifier: "GetPropertiesAccessBindingsRequest" });
+  }
+}
+function __c187(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          body: S.optional(__S(4192, __c131, 0).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "v1alpha/{+name}:archive",
+            baseUrl: "https://analyticsadmin.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "ArchivePropertiesCustomMetricsRequest" });
   }
 }
 function __c188(j: number): any {
@@ -11213,7 +11179,7 @@ function __c188(j: number): any {
             baseUrl: "https://analyticsadmin.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetPropertiesAudiencesRequest" });
+      ).annotate({ identifier: "GetPropertiesAdSenseLinksRequest" });
   }
 }
 function __c189(j: number): any {
@@ -11229,7 +11195,7 @@ function __c189(j: number): any {
             baseUrl: "https://analyticsadmin.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetPropertiesBigQueryLinksRequest" });
+      ).annotate({ identifier: "GetPropertiesAudiencesRequest" });
   }
 }
 function __c190(j: number): any {
@@ -11245,7 +11211,7 @@ function __c190(j: number): any {
             baseUrl: "https://analyticsadmin.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetPropertiesCalculatedMetricsRequest" });
+      ).annotate({ identifier: "GetPropertiesBigQueryLinksRequest" });
   }
 }
 function __c191(j: number): any {
@@ -11261,7 +11227,7 @@ function __c191(j: number): any {
             baseUrl: "https://analyticsadmin.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetPropertiesChannelGroupsRequest" });
+      ).annotate({ identifier: "GetPropertiesCalculatedMetricsRequest" });
   }
 }
 function __c192(j: number): any {
@@ -11277,7 +11243,7 @@ function __c192(j: number): any {
             baseUrl: "https://analyticsadmin.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetPropertiesConversionEventsRequest" });
+      ).annotate({ identifier: "GetPropertiesChannelGroupsRequest" });
   }
 }
 function __c193(j: number): any {
@@ -11293,7 +11259,7 @@ function __c193(j: number): any {
             baseUrl: "https://analyticsadmin.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetPropertiesCustomDimensionsRequest" });
+      ).annotate({ identifier: "GetPropertiesConversionEventsRequest" });
   }
 }
 function __c194(j: number): any {
@@ -11309,7 +11275,7 @@ function __c194(j: number): any {
             baseUrl: "https://analyticsadmin.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetPropertiesCustomMetricsRequest" });
+      ).annotate({ identifier: "GetPropertiesCustomDimensionsRequest" });
   }
 }
 function __c195(j: number): any {
@@ -11325,7 +11291,7 @@ function __c195(j: number): any {
             baseUrl: "https://analyticsadmin.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetPropertiesDataStreamsRequest" });
+      ).annotate({ identifier: "GetPropertiesCustomMetricsRequest" });
   }
 }
 function __c196(j: number): any {
@@ -11341,15 +11307,31 @@ function __c196(j: number): any {
             baseUrl: "https://analyticsadmin.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetPropertiesDataStreamsEventCreateRulesRequest" });
+      ).annotate({ identifier: "GetPropertiesDataStreamsRequest" });
   }
 }
 function __c197(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1alpha/{+name}",
+            baseUrl: "https://analyticsadmin.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetPropertiesDataStreamsEventCreateRulesRequest" });
+  }
+}
+function __c198(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
         S.Extend(
-          __S(6338, __c198, 2),
+          __S(6370, __c199, 2),
           S.Struct({
             parent: S.String.pipe(T.Label()),
           }),
@@ -11363,57 +11345,45 @@ function __c197(j: number): any {
       ).annotate({ identifier: "BatchCreateAccountsAccessBindingsRequest" });
   }
 }
-function __c198(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          parent: S.optional(S.String),
-          accessBinding: S.optional(__S(6464, __c202, 0)),
-        }),
-      ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaCreateAccessBindingRequest" });
-    case 1:
-      return S.Array(__S(6336, __c198, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          requests: S.optional(__S(6337, __c198, 1)),
-        }),
-      ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaBatchCreateAccessBindingsRequest" });
-  }
-}
 function __c199(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          accessBindings: S.optional(__S(6400, __c200, 0)),
+          accessBinding: S.optional(__S(6496, __c203, 0)),
+          parent: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaBatchCreateAccessBindingsResponse" });
+      ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaCreateAccessBindingRequest" });
+    case 1:
+      return S.Array(__S(6368, __c199, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          requests: S.optional(__S(6369, __c199, 1)),
+        }),
+      ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaBatchCreateAccessBindingsRequest" });
   }
 }
 function __c200(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(6464, __c202, 0));
+      return S.suspend(() =>
+        S.Struct({
+          accessBindings: S.optional(__S(6432, __c201, 0)),
+        }),
+      ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaBatchCreateAccessBindingsResponse" });
   }
 }
 function __c201(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.String);
+      return S.Array(__S(6496, __c203, 0));
   }
 }
 function __c202(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          user: S.optional(S.String),
-          roles: S.optional(__S(6432, __c201, 0)),
-        }),
-      ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaAccessBinding" });
+      return S.Array(S.String);
   }
 }
 function __c203(j: number): any {
@@ -11421,15 +11391,11 @@ function __c203(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1alpha/{+name}",
-            baseUrl: "https://analyticsadmin.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "GetPropertiesDataStreamsEventEditRulesRequest" });
+          user: S.optional(S.String),
+          roles: S.optional(__S(6464, __c202, 0)),
+          name: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleAnalyticsAdminV1alphaAccessBinding" });
   }
 }
 function __c204(j: number): any {
@@ -11445,7 +11411,7 @@ function __c204(j: number): any {
             baseUrl: "https://analyticsadmin.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetPropertiesDataStreamsMeasurementProtocolSecretsRequest" });
+      ).annotate({ identifier: "GetPropertiesDataStreamsEventEditRulesRequest" });
   }
 }
 function __c205(j: number): any {
@@ -11461,7 +11427,7 @@ function __c205(j: number): any {
             baseUrl: "https://analyticsadmin.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetPropertiesDataStreamsSKAdNetworkConversionValueSchemaRequest" });
+      ).annotate({ identifier: "GetPropertiesDataStreamsMeasurementProtocolSecretsRequest" });
   }
 }
 function __c206(j: number): any {
@@ -11477,7 +11443,7 @@ function __c206(j: number): any {
             baseUrl: "https://analyticsadmin.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetPropertiesDisplayVideo360AdvertiserLinkProposalsRequest" });
+      ).annotate({ identifier: "GetPropertiesDataStreamsSKAdNetworkConversionValueSchemaRequest" });
   }
 }
 function __c207(j: number): any {
@@ -11493,7 +11459,7 @@ function __c207(j: number): any {
             baseUrl: "https://analyticsadmin.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetPropertiesDisplayVideo360AdvertiserLinksRequest" });
+      ).annotate({ identifier: "GetPropertiesDisplayVideo360AdvertiserLinkProposalsRequest" });
   }
 }
 function __c208(j: number): any {
@@ -11509,7 +11475,7 @@ function __c208(j: number): any {
             baseUrl: "https://analyticsadmin.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetPropertiesExpandedDataSetsRequest" });
+      ).annotate({ identifier: "GetPropertiesDisplayVideo360AdvertiserLinksRequest" });
   }
 }
 function __c209(j: number): any {
@@ -11525,7 +11491,7 @@ function __c209(j: number): any {
             baseUrl: "https://analyticsadmin.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetPropertiesKeyEventsRequest" });
+      ).annotate({ identifier: "GetPropertiesExpandedDataSetsRequest" });
   }
 }
 function __c210(j: number): any {
@@ -11541,7 +11507,7 @@ function __c210(j: number): any {
             baseUrl: "https://analyticsadmin.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetPropertiesReportingDataAnnotationsRequest" });
+      ).annotate({ identifier: "GetPropertiesKeyEventsRequest" });
   }
 }
 function __c211(j: number): any {
@@ -11557,10 +11523,26 @@ function __c211(j: number): any {
             baseUrl: "https://analyticsadmin.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetPropertiesRollupPropertySourceLinksRequest" });
+      ).annotate({ identifier: "GetPropertiesReportingDataAnnotationsRequest" });
   }
 }
 function __c212(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1alpha/{+name}",
+            baseUrl: "https://analyticsadmin.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetPropertiesRollupPropertySourceLinksRequest" });
+  }
+}
+function __c213(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

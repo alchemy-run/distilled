@@ -89,21 +89,6 @@ export type ComputeInsightsRequestInsightsItemEnum =
 export type ComputeInsightsRequestInsightsItemEnumList = Array<
   ComputeInsightsRequestInsightsItemEnum | (string & {})
 >;
-/** Average user rating filters. */
-export interface RatingFilter {
-  /** Optional. Restricts results to places whose average user rating is greater than or equal to min_rating. Values must be between 1.0 and 5.0. */
-  minRating?: number | undefined;
-  /** Optional. Restricts results to places whose average user rating is strictly less than or equal to max_rating. Values must be between 1.0 and 5.0. */
-  maxRating?: number | undefined;
-}
-export type FilterPriceLevelsItemEnum =
-  | "PRICE_LEVEL_UNSPECIFIED"
-  | "PRICE_LEVEL_FREE"
-  | "PRICE_LEVEL_INEXPENSIVE"
-  | "PRICE_LEVEL_MODERATE"
-  | "PRICE_LEVEL_EXPENSIVE"
-  | "PRICE_LEVEL_VERY_EXPENSIVE";
-export type FilterPriceLevelsItemEnumList = Array<FilterPriceLevelsItemEnum | (string & {})>;
 /** An object that represents a latitude/longitude pair. This is expressed as a pair of doubles to represent degrees latitude and degrees longitude. Unless specified otherwise, this object must conform to the WGS84 standard. Values must be within normalized ranges. */
 export interface LatLng {
   /** The latitude in degrees. It must be in the range [-90.0, +90.0]. */
@@ -113,16 +98,11 @@ export interface LatLng {
 }
 /** A circle is defined by a center point and radius in meters. */
 export interface Circle {
-  /** **Format:** Must be in the format `places/PLACE_ID`, where `PLACE_ID` is the unique identifier of a place. For example: `places/ChIJgUbEo8cfqokR5lP9_Wh_DaM`. */
-  place?: string | undefined;
   /** Optional. The radius of the circle in meters */
   radius?: number | undefined;
   /** The latitude and longitude of the center of the circle. */
   latLng?: LatLng | undefined;
-}
-/** A region is a geographic boundary such as: cities, postal codes, counties, states, etc. */
-export interface Region {
-  /** The [place ID](https://developers.google.com/maps/documentation/places/web-service/place-id) of the geographic region. Not all region types are supported; see documentation for details. **Format:** Must be in the format `places/PLACE_ID`, where `PLACE_ID` is the unique identifier of a place. For example: `places/ChIJPV4oX_65j4ARVW8IJ6IJUYs`. */
+  /** **Format:** Must be in the format `places/PLACE_ID`, where `PLACE_ID` is the unique identifier of a place. For example: `places/ChIJgUbEo8cfqokR5lP9_Wh_DaM`. */
   place?: string | undefined;
 }
 export type LatLngList = Array<LatLng>;
@@ -136,14 +116,19 @@ export interface CustomArea {
   /** Required. The custom area represented as a polygon */
   polygon?: Polygon | undefined;
 }
+/** A region is a geographic boundary such as: cities, postal codes, counties, states, etc. */
+export interface Region {
+  /** The [place ID](https://developers.google.com/maps/documentation/places/web-service/place-id) of the geographic region. Not all region types are supported; see documentation for details. **Format:** Must be in the format `places/PLACE_ID`, where `PLACE_ID` is the unique identifier of a place. For example: `places/ChIJPV4oX_65j4ARVW8IJ6IJUYs`. */
+  place?: string | undefined;
+}
 /** Location filters. Specifies the area of interest for the insight. */
 export interface LocationFilter {
   /** Area as a circle. */
   circle?: Circle | undefined;
-  /** Area as region. */
-  region?: Region | undefined;
   /** Custom area specified by a polygon. */
   customArea?: CustomArea | undefined;
+  /** Area as region. */
+  region?: Region | undefined;
 }
 export type FilterOperatingStatusItemEnum =
   | "OPERATING_STATUS_UNSPECIFIED"
@@ -153,30 +138,45 @@ export type FilterOperatingStatusItemEnum =
 export type FilterOperatingStatusItemEnumList = Array<
   FilterOperatingStatusItemEnum | (string & {})
 >;
+/** Average user rating filters. */
+export interface RatingFilter {
+  /** Optional. Restricts results to places whose average user rating is greater than or equal to min_rating. Values must be between 1.0 and 5.0. */
+  minRating?: number | undefined;
+  /** Optional. Restricts results to places whose average user rating is strictly less than or equal to max_rating. Values must be between 1.0 and 5.0. */
+  maxRating?: number | undefined;
+}
 export type StringList = Array<string>;
 /** Place type filters. Only Place types from [Table a](https://developers.google.com/maps/documentation/places/web-service/place-types#table-a) are supported. A place can only have a single primary type associated with it. For example, the primary type might be "mexican_restaurant" or "steak_house". Use included_primary_types and excluded_primary_types to filter the results on a place's primary type. A place can also have multiple type values associated with it. For example a restaurant might have the following types: "seafood_restaurant", "restaurant", "food", "point_of_interest", "establishment". Use included_types and excluded_types to filter the results on the list of types associated with a place. If a search is specified with multiple type restrictions, only places that satisfy all of the restrictions are returned. For example, if you specify {"included_types": ["restaurant"], "excluded_primary_types": ["steak_house"]}, the returned places provide "restaurant" related services but do not operate primarily as a "steak_house". If there are any conflicting types, i.e. a type appears in both included_types and excluded_types types or included_primary_types and excluded_primary_types, an INVALID_ARGUMENT error is returned. One of included_types or included_primary_types must be set. */
 export interface TypeFilter {
   /** Optional. Included primary Place types. */
   includedPrimaryTypes?: StringList | undefined;
+  /** Optional. Excluded primary Place types. */
+  excludedPrimaryTypes?: StringList | undefined;
   /** Optional. Included Place types. */
   includedTypes?: StringList | undefined;
   /** Optional. Excluded Place types. */
   excludedTypes?: StringList | undefined;
-  /** Optional. Excluded primary Place types. */
-  excludedPrimaryTypes?: StringList | undefined;
 }
+export type FilterPriceLevelsItemEnum =
+  | "PRICE_LEVEL_UNSPECIFIED"
+  | "PRICE_LEVEL_FREE"
+  | "PRICE_LEVEL_INEXPENSIVE"
+  | "PRICE_LEVEL_MODERATE"
+  | "PRICE_LEVEL_EXPENSIVE"
+  | "PRICE_LEVEL_VERY_EXPENSIVE";
+export type FilterPriceLevelsItemEnumList = Array<FilterPriceLevelsItemEnum | (string & {})>;
 /** Filters for the ComputeInsights RPC. */
 export interface Filter {
-  /** Optional. Restricts results to places whose average user ratings are in the range specified by rating_filter. If rating_filter is not set, all ratings are included in the result. */
-  ratingFilter?: RatingFilter | undefined;
-  /** Optional. Restricts results to places whose price level is included on this list. If `price_levels` is not set, all price levels are included in the results. */
-  priceLevels?: FilterPriceLevelsItemEnumList | undefined;
   /** Required. Restricts results to places which are located in the area specified by location filters. */
   locationFilter?: LocationFilter | undefined;
   /** Optional. Restricts results to places whose operating status is included on this list. If operating_status is not set, OPERATING_STATUS_OPERATIONAL is used as default. */
   operatingStatus?: FilterOperatingStatusItemEnumList | undefined;
+  /** Optional. Restricts results to places whose average user ratings are in the range specified by rating_filter. If rating_filter is not set, all ratings are included in the result. */
+  ratingFilter?: RatingFilter | undefined;
   /** Required. Place type filters. */
   typeFilter?: TypeFilter | undefined;
+  /** Optional. Restricts results to places whose price level is included on this list. If `price_levels` is not set, all price levels are included in the results. */
+  priceLevels?: FilterPriceLevelsItemEnumList | undefined;
 }
 /** Request for the ComputeInsights RPC. */
 export interface ComputeInsightsRequest {
@@ -225,72 +225,72 @@ function __c0(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          minRating: S.optional(S.Number),
-          maxRating: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "RatingFilter" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
           latitude: S.optional(S.Number),
           longitude: S.optional(S.Number),
         }),
       ).annotate({ identifier: "LatLng" });
-    case 3:
+    case 2:
       return S.suspend(() =>
         S.Struct({
-          place: S.optional(S.String),
           radius: S.optional(S.Number),
-          latLng: S.optional(__S(2, __c0, 2)),
+          latLng: S.optional(__S(1, __c0, 1)),
+          place: S.optional(S.String),
         }),
       ).annotate({ identifier: "Circle" });
+    case 3:
+      return S.Array(__S(1, __c0, 1));
     case 4:
+      return S.suspend(() =>
+        S.Struct({
+          coordinates: S.optional(__S(3, __c0, 3)),
+        }),
+      ).annotate({ identifier: "Polygon" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          polygon: S.optional(__S(4, __c0, 4)),
+        }),
+      ).annotate({ identifier: "CustomArea" });
+    case 6:
       return S.suspend(() =>
         S.Struct({
           place: S.optional(S.String),
         }),
       ).annotate({ identifier: "Region" });
-    case 5:
-      return S.Array(__S(2, __c0, 2));
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          coordinates: S.optional(__S(5, __c0, 5)),
-        }),
-      ).annotate({ identifier: "Polygon" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          polygon: S.optional(__S(6, __c0, 6)),
+          circle: S.optional(__S(2, __c0, 2)),
+          customArea: S.optional(__S(5, __c0, 5)),
+          region: S.optional(__S(6, __c0, 6)),
         }),
-      ).annotate({ identifier: "CustomArea" });
+      ).annotate({ identifier: "LocationFilter" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          circle: S.optional(__S(3, __c0, 3)),
-          region: S.optional(__S(4, __c0, 4)),
-          customArea: S.optional(__S(7, __c0, 7)),
+          minRating: S.optional(S.Number),
+          maxRating: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "LocationFilter" });
+      ).annotate({ identifier: "RatingFilter" });
     case 9:
       return S.Array(S.String);
     case 10:
       return S.suspend(() =>
         S.Struct({
           includedPrimaryTypes: S.optional(__S(9, __c0, 9)),
+          excludedPrimaryTypes: S.optional(__S(9, __c0, 9)),
           includedTypes: S.optional(__S(9, __c0, 9)),
           excludedTypes: S.optional(__S(9, __c0, 9)),
-          excludedPrimaryTypes: S.optional(__S(9, __c0, 9)),
         }),
       ).annotate({ identifier: "TypeFilter" });
     case 11:
       return S.suspend(() =>
         S.Struct({
-          ratingFilter: S.optional(__S(1, __c0, 1)),
-          priceLevels: S.optional(__S(0, __c0, 0)),
-          locationFilter: S.optional(__S(8, __c0, 8)),
+          locationFilter: S.optional(__S(7, __c0, 7)),
           operatingStatus: S.optional(__S(0, __c0, 0)),
+          ratingFilter: S.optional(__S(8, __c0, 8)),
           typeFilter: S.optional(__S(10, __c0, 10)),
+          priceLevels: S.optional(__S(0, __c0, 0)),
         }),
       ).annotate({ identifier: "Filter" });
     case 12:
@@ -311,7 +311,7 @@ function __c0(j: number): any {
         ),
       ).annotate({ identifier: "ComputeInsightsV1Request" });
     case 14:
-      return S.Array(__S(4, __c0, 4));
+      return S.Array(__S(6, __c0, 6));
     case 15:
       return S.suspend(() =>
         S.Struct({

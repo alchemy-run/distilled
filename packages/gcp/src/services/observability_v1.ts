@@ -116,22 +116,22 @@ export interface CmekSettings {
 }
 /** Bucket configuration for storing observability data. */
 export interface Bucket {
-  /** Optional. Description of the bucket. */
-  description?: string | undefined;
-  /** Output only. Timestamp when the bucket in soft-deleted state is purged. */
-  purgeTime?: string | undefined;
-  /** Output only. Create timestamp. */
-  createTime?: string | undefined;
-  /** Optional. User friendly display name. */
-  displayName?: string | undefined;
-  /** Identifier. Name of the bucket. The format is: projects/[PROJECT_ID]/locations/[LOCATION]/buckets/[BUCKET_ID] */
-  name?: string | undefined;
-  /** Optional. Settings for configuring CMEK on a bucket. */
-  cmekSettings?: CmekSettings | undefined;
   /** Output only. Update timestamp. */
   updateTime?: string | undefined;
+  /** Output only. Timestamp when the bucket in soft-deleted state is purged. */
+  purgeTime?: string | undefined;
+  /** Optional. User friendly display name. */
+  displayName?: string | undefined;
   /** Output only. Delete timestamp. */
   deleteTime?: string | undefined;
+  /** Optional. Description of the bucket. */
+  description?: string | undefined;
+  /** Identifier. Name of the bucket. The format is: projects/[PROJECT_ID]/locations/[LOCATION]/buckets/[BUCKET_ID] */
+  name?: string | undefined;
+  /** Output only. Create timestamp. */
+  createTime?: string | undefined;
+  /** Optional. Settings for configuring CMEK on a bucket. */
+  cmekSettings?: CmekSettings | undefined;
 }
 export interface CreateProjectsLocationsBucketsRequest extends Bucket {
   /** Required. Name of the project and location for the bucket. The format is: projects/[PROJECT_ID]/locations/[LOCATION] */
@@ -152,14 +152,14 @@ export interface Status {
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
-  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string | undefined;
-  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap | undefined;
-  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap | undefined;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
   done?: boolean | undefined;
+  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
+  metadata?: DocumentMap | undefined;
+  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
+  response?: DocumentMap | undefined;
+  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
+  name?: string | undefined;
   /** The error result of the operation in case of failure or cancellation. */
   error?: Status | undefined;
 }
@@ -167,12 +167,12 @@ export interface Operation {
 export interface Link {
   /** Optional. A user friendly display name. */
   displayName?: string | undefined;
-  /** Optional. Description of the link. */
-  description?: string | undefined;
-  /** Output only. Create timestamp. */
-  createTime?: string | undefined;
   /** Identifier. Name of the link. The format is: projects/[PROJECT_ID]/locations/[LOCATION]/buckets/[BUCKET_ID]/datasets/[DATASET_ID]/links/[LINK_ID] */
   name?: string | undefined;
+  /** Output only. Create timestamp. */
+  createTime?: string | undefined;
+  /** Optional. Description of the link. */
+  description?: string | undefined;
 }
 export interface CreateProjectsLocationsBucketsDatasetsLinksRequest extends Link {
   /** Required. Id of the link to create. */
@@ -180,8 +180,6 @@ export interface CreateProjectsLocationsBucketsDatasetsLinksRequest extends Link
   /** Required. Name of the containing dataset for this link. The format is: projects/[PROJECT_ID]/locations/[LOCATION]/buckets/[BUCKET_ID]/datasets/[DATASET_ID] */
   parent: string;
 }
-export type ReportReportTypeEnum = "REPORT_TYPE_UNSPECIFIED" | "PNG" | "PDF" | "HTML";
-export type StringList = Array<string>;
 /** Rendering options for the report. */
 export interface RenderingOptions {
   /** Optional. Whether widgets within a collapsible group are expanded by default. */
@@ -189,57 +187,59 @@ export interface RenderingOptions {
   /** Optional. Whether legends are included on widgets. */
   legendsIncluded?: boolean | undefined;
 }
+export type StringList = Array<string>;
+export type ReportReportTypeEnum = "REPORT_TYPE_UNSPECIFIED" | "PNG" | "PDF" | "HTML";
 /** A Cloud Observability report configuration. */
 export interface Report {
+  /** Identifier. The resource name of the report. Format: projects/{project}/locations/{location}/reports/{report} */
+  name?: string | undefined;
+  /** Optional. The human readable name of the report. The maximum length is 63 characters. */
+  displayName?: string | undefined;
   /** Optional. The associated cloud scheduling job, if this is a scheduled report. For example: cloudscheduler.googleapis.com/projects/my-project/locations/global/jobs/my-job */
   schedulingJob?: string | undefined;
-  /** Optional. The type of the report. */
-  reportType?: ReportReportTypeEnum | (string & {}) | undefined;
+  /** Output only. When the report was created. */
+  createTime?: string | undefined;
+  /** Optional. The time window of the report data, ending at the time the report is generated. If not specified, defaults to the last 7 days. */
+  timeWindow?: string | undefined;
+  /** Optional. A description of the report. Useful for documenting how the report is intended to be used. */
+  description?: string | undefined;
+  /** Optional. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
+  etag?: string | undefined;
+  /** Optional. Rendering options for the report. */
+  renderingOptions?: RenderingOptions | undefined;
+  /** Required. The dashboard to render in the report. Note that dashboards are snapshotted on report creation, so changes to the dashboard after report creation will not be reflected in the report. For example: //monitoring.googleapis.com/projects/my-project/dashboards/my-dashboard */
+  dashboard?: string | undefined;
+  /** Optional. The list of email addresses to receive the report. */
+  recipientEmails?: StringList | undefined;
   /** Output only. The username of the user who created the report. This may be an email or a formatted subject and identity pool identifier. The following are examples: alice.smith@example.com alice.smith@example.com (global/workforcePools/example-com-us-employees) my-workload (projects/1234/locations/global/workloadIdentityPools/example-workload-pool) This value may be empty if the creating user was deleted, or if the username is otherwise unavailable. */
   creatorUsername?: string | undefined;
   /** Output only. The username of the user who updated the report. This may be an email or a formatted subject and identity pool identifier. The following are examples: alice.smith@example.com alice.smith@example.com (global/workforcePools/example-com-us-employees) my-workload (projects/1234/locations/global/workloadIdentityPools/example-workload-pool) This value may be empty if the updating user was deleted, or if the username is otherwise unavailable. */
   updaterUsername?: string | undefined;
-  /** Optional. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
-  etag?: string | undefined;
-  /** Output only. When the report was last successfully run. */
-  latestRunTime?: string | undefined;
-  /** Optional. The human readable name of the report. The maximum length is 63 characters. */
-  displayName?: string | undefined;
-  /** Optional. The list of email addresses to receive the report. */
-  recipientEmails?: StringList | undefined;
-  /** Required. The dashboard to render in the report. Note that dashboards are snapshotted on report creation, so changes to the dashboard after report creation will not be reflected in the report. For example: //monitoring.googleapis.com/projects/my-project/dashboards/my-dashboard */
-  dashboard?: string | undefined;
-  /** Identifier. The resource name of the report. Format: projects/{project}/locations/{location}/reports/{report} */
-  name?: string | undefined;
-  /** Optional. The time window of the report data, ending at the time the report is generated. If not specified, defaults to the last 7 days. */
-  timeWindow?: string | undefined;
-  /** Output only. When the report was created. */
-  createTime?: string | undefined;
-  /** Optional. Rendering options for the report. */
-  renderingOptions?: RenderingOptions | undefined;
   /** Output only. When the report was last updated. */
   updateTime?: string | undefined;
-  /** Optional. A description of the report. Useful for documenting how the report is intended to be used. */
-  description?: string | undefined;
+  /** Optional. The type of the report. */
+  reportType?: ReportReportTypeEnum | (string & {}) | undefined;
+  /** Output only. When the report was last successfully run. */
+  latestRunTime?: string | undefined;
 }
 export interface CreateProjectsLocationsReportsRequest extends Report {
-  /** Required. A client-assigned identifier for the report. The maximum length is 63 characters. Valid characters are `a-zA-Z0-9-._~%!$&'()*+,;=@` */
-  reportId?: string | undefined;
   /** Required. The full resource name of the location where the report should be created projects/[PROJECT_ID]/locations/[LOCATION_ID] For example: projects/my-project/locations/global */
   parent: string;
+  /** Required. A client-assigned identifier for the report. The maximum length is 63 characters. Valid characters are `a-zA-Z0-9-._~%!$&'()*+,;=@` */
+  reportId?: string | undefined;
 }
 /** A trace scope is a collection of resources whose traces are queried together. */
 export interface TraceScope {
   /** Identifier. The resource name of the trace scope. For example: projects/my-project/locations/global/traceScopes/my-trace-scope */
   name?: string | undefined;
-  /** Required. Names of the projects that are included in this trace scope. * `projects/[PROJECT_ID]` A trace scope can include a maximum of 20 projects. */
-  resourceNames?: StringList | undefined;
-  /** Output only. The creation timestamp of the trace scope. */
-  createTime?: string | undefined;
   /** Optional. Describes this trace scope. The maximum length of the description is 8000 characters. */
   description?: string | undefined;
+  /** Output only. The creation timestamp of the trace scope. */
+  createTime?: string | undefined;
   /** Output only. The last update timestamp of the trace scope. */
   updateTime?: string | undefined;
+  /** Required. Names of the projects that are included in this trace scope. * `projects/[PROJECT_ID]` A trace scope can include a maximum of 20 projects. */
+  resourceNames?: StringList | undefined;
 }
 export interface CreateProjectsLocationsTraceScopesRequest extends TraceScope {
   /** Required. The full resource name of the location where the trace scope should be created projects/[PROJECT_ID]/locations/[LOCATION_ID] For example: projects/my-project/locations/global */
@@ -278,16 +278,16 @@ export interface GetFoldersLocationsRequest {
 export type StringMap = { [key: string]: string | undefined };
 /** A resource that represents a Google Cloud location. */
 export interface Location {
-  /** The canonical id for this location. For example: `"us-east1"`. */
-  locationId?: string | undefined;
-  /** Service-specific metadata. For example the available capacity at the given location. */
-  metadata?: DocumentMap | undefined;
   /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
   name?: string | undefined;
+  /** The canonical id for this location. For example: `"us-east1"`. */
+  locationId?: string | undefined;
   /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
   displayName?: string | undefined;
   /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
   labels?: StringMap | undefined;
+  /** Service-specific metadata. For example the available capacity at the given location. */
+  metadata?: DocumentMap | undefined;
 }
 export interface GetFoldersLocationsOperationsRequest {
   /** The name of the operation resource. */
@@ -315,16 +315,16 @@ export interface GetProjectsLocationsBucketsDatasetsRequest {
 }
 /** A dataset is a collection of data that has a specific configuration. A dataset can be backed by multiple tables. One bucket can have multiple datasets. */
 export interface Dataset {
-  /** Output only. Timestamp when the dataset in soft-deleted state is purged. */
-  purgeTime?: string | undefined;
-  /** Optional. User friendly display name. */
-  displayName?: string | undefined;
-  /** Output only. Create timestamp. */
-  createTime?: string | undefined;
   /** Identifier. Name of the dataset. The format is: projects/[PROJECT_ID]/locations/[LOCATION]/buckets/[BUCKET_ID]/datasets/[DATASET_ID] */
   name?: string | undefined;
+  /** Output only. Timestamp when the dataset in soft-deleted state is purged. */
+  purgeTime?: string | undefined;
   /** Optional. Description of the dataset. */
   description?: string | undefined;
+  /** Output only. Create timestamp. */
+  createTime?: string | undefined;
+  /** Optional. User friendly display name. */
+  displayName?: string | undefined;
   /** Output only. Delete timestamp. */
   deleteTime?: string | undefined;
 }
@@ -338,14 +338,14 @@ export interface GetProjectsLocationsBucketsDatasetsViewsRequest {
 }
 /** A view corresponds to a read-only representation of a subset of the data in a dataset. */
 export interface View {
-  /** Optional. User friendly display name. */
-  displayName?: string | undefined;
   /** Output only. Create timestamp. */
   createTime?: string | undefined;
   /** Optional. Description of the view. */
   description?: string | undefined;
   /** Identifier. Name of the view. The format is: projects/[PROJECT_ID]/locations/[LOCATION]/buckets/[BUCKET_ID]/datasets/[DATASET_ID]/views/[VIEW_ID] */
   name?: string | undefined;
+  /** Optional. User friendly display name. */
+  displayName?: string | undefined;
   /** Output only. Update timestamp. */
   updateTime?: string | undefined;
 }
@@ -363,14 +363,14 @@ export interface GetProjectsLocationsScopesRequest {
 }
 /** Message describing Scope object */
 export interface Scope {
-  /** Required. The unqualified resource name of the `cloudtrace.googleapis.com/TraceScope`. For example: projects/myproject/locations/global/traceScopes/my-trace-scope */
-  traceScope?: string | undefined;
-  /** Required. The full resource name of the `logging.googleapis.com/LogScope`. For example: //logging.googleapis.com/projects/myproject/locations/global/logScopes/my-log-scope */
-  logScope?: string | undefined;
   /** Output only. Update timestamp. Note: The Update timestamp for the default scope is initially unset. */
   updateTime?: string | undefined;
+  /** Required. The unqualified resource name of the `cloudtrace.googleapis.com/TraceScope`. For example: projects/myproject/locations/global/traceScopes/my-trace-scope */
+  traceScope?: string | undefined;
   /** Identifier. Name of the resource. The format is: projects/{project}/locations/{location}/scopes/{scope} The `{location}` field must be set to `global`. The `{scope}` field must be set to `_Default`. */
   name?: string | undefined;
+  /** Required. The full resource name of the `logging.googleapis.com/LogScope`. For example: //logging.googleapis.com/projects/myproject/locations/global/logScopes/my-log-scope */
+  logScope?: string | undefined;
 }
 export interface GetProjectsLocationsTraceScopesRequest {
   /** Required. The resource name of the trace scope: projects/[PROJECT_ID]/locations/[LOCATION_ID]/traceScopes/[TRACE_SCOPE_ID] For example: projects/my-project/locations/global/traceScopes/my-trace-scope */
@@ -382,14 +382,14 @@ export interface GetSettingsFoldersLocationsRequest {
 }
 /** Describes the settings associated with a project, organization, or folder. */
 export interface Settings {
-  /** Optional. The location which should be used when any regional resources are provisioned by Google Cloud. */
-  defaultStorageLocation?: string | undefined;
   /** Output only. The service account for the given resource container, such as project or folder. This will be used by Cloud Observability to perform actions in the container's project like access KMS keys or create Links. Always the same service account per resource container regardless of region. */
   serviceAccountId?: string | undefined;
   /** Identifier. The resource name of the settings. */
   name?: string | undefined;
   /** Optional. The resource name for the configured Cloud KMS key. KMS key name format: "projects/[PROJECT_ID]/locations/[LOCATION]/keyRings/[KEYRING]/cryptoKeys/[KEY]" For example: `"projects/my-project/locations/us-central1/keyRings/my-ring/cryptoKeys/my-key"` */
   kmsKeyName?: string | undefined;
+  /** Optional. The location which should be used when any regional resources are provisioned by Google Cloud. */
+  defaultStorageLocation?: string | undefined;
 }
 export interface GetSettingsOrganizationsLocationsRequest {
   /** Required. Name of the settings to retrieve. Name format: "projects/[PROJECT_ID]/locations/[LOCATION]/settings" "folders/[FOLDER_ID]/locations/[LOCATION]/settings" "organizations/[ORGANIZATION_ID]/locations/[LOCATION]/settings" */
@@ -400,16 +400,16 @@ export interface GetSettingsProjectsLocationsRequest {
   name: string;
 }
 export interface ListFoldersLocationsRequest {
+  /** The maximum number of results to return. If not set, the service selects a default. */
+  pageSize?: number | undefined;
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
   pageToken?: string | undefined;
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
   filter?: string | undefined;
-  /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number | undefined;
-  /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
-  extraLocationTypes?: StringList | undefined;
   /** The resource that owns the locations collection, if applicable. */
   name: string;
+  /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
+  extraLocationTypes?: StringList | undefined;
 }
 export type LocationList = Array<Location>;
 /** The response message for Locations.ListLocations. */
@@ -420,90 +420,90 @@ export interface ListLocationsResponse {
   nextPageToken?: string | undefined;
 }
 export interface ListFoldersLocationsOperationsRequest {
-  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean | undefined;
-  /** The standard list page token. */
-  pageToken?: string | undefined;
-  /** The name of the operation's parent resource. */
-  name: string;
   /** The standard list page size. */
   pageSize?: number | undefined;
+  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
+  returnPartialSuccess?: boolean | undefined;
   /** The standard list filter. */
   filter?: string | undefined;
+  /** The name of the operation's parent resource. */
+  name: string;
+  /** The standard list page token. */
+  pageToken?: string | undefined;
 }
 export type OperationList = Array<Operation>;
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
   /** The standard List next-page token. */
   nextPageToken?: string | undefined;
-  /** A list of operations that matches the specified filter in the request. */
-  operations?: OperationList | undefined;
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
   unreachable?: StringList | undefined;
+  /** A list of operations that matches the specified filter in the request. */
+  operations?: OperationList | undefined;
 }
 export interface ListOrganizationsLocationsRequest {
-  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string | undefined;
-  /** The resource that owns the locations collection, if applicable. */
-  name: string;
-  /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number | undefined;
-  /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
-  extraLocationTypes?: StringList | undefined;
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
   filter?: string | undefined;
+  /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
+  extraLocationTypes?: StringList | undefined;
+  /** The maximum number of results to return. If not set, the service selects a default. */
+  pageSize?: number | undefined;
+  /** The resource that owns the locations collection, if applicable. */
+  name: string;
+  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
+  pageToken?: string | undefined;
 }
 export interface ListOrganizationsLocationsOperationsRequest {
-  /** The name of the operation's parent resource. */
-  name: string;
   /** The standard list filter. */
   filter?: string | undefined;
-  /** The standard list page size. */
-  pageSize?: number | undefined;
+  /** The name of the operation's parent resource. */
+  name: string;
   /** The standard list page token. */
   pageToken?: string | undefined;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
   returnPartialSuccess?: boolean | undefined;
+  /** The standard list page size. */
+  pageSize?: number | undefined;
 }
 export interface ListProjectsLocationsRequest {
-  /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number | undefined;
-  /** The resource that owns the locations collection, if applicable. */
-  name: string;
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
   filter?: string | undefined;
-  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string | undefined;
   /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
   extraLocationTypes?: StringList | undefined;
+  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
+  pageToken?: string | undefined;
+  /** The resource that owns the locations collection, if applicable. */
+  name: string;
+  /** The maximum number of results to return. If not set, the service selects a default. */
+  pageSize?: number | undefined;
 }
 export interface ListProjectsLocationsBucketsRequest {
-  /** Optional. The maximum number of buckets to return. If unspecified, then at most 100 buckets are returned. The maximum value is 1000; values above 1000 are coerced to 1000. */
-  pageSize?: number | undefined;
   /** Optional. If true, then the response will include deleted buckets. */
   showDeleted?: boolean | undefined;
   /** Required. The parent, which owns this collection of buckets. The format is: projects/[PROJECT_ID]/locations/[LOCATION] */
   parent: string;
   /** Optional. A page token, received from a previous `ListBuckets` call. Provide this to retrieve the subsequent page. */
   pageToken?: string | undefined;
+  /** Optional. The maximum number of buckets to return. If unspecified, then at most 100 buckets are returned. The maximum value is 1000; values above 1000 are coerced to 1000. */
+  pageSize?: number | undefined;
 }
 export type BucketList = Array<Bucket>;
 /** Response for listing buckets. */
 export interface ListBucketsResponse {
-  /** Optional. The list of buckets. */
-  buckets?: BucketList | undefined;
   /** Optional. A token that can be sent as `page_token` to retrieve the next page. When this field is omitted, there are no subsequent pages. */
   nextPageToken?: string | undefined;
+  /** Optional. The list of buckets. */
+  buckets?: BucketList | undefined;
 }
 export interface ListProjectsLocationsBucketsDatasetsRequest {
-  /** Optional. If true, then the response will include deleted datasets. */
-  showDeleted?: boolean | undefined;
   /** Required. The parent bucket that owns this collection of datasets. The format is: projects/[PROJECT_ID]/locations/[LOCATION]/buckets/[BUCKET_ID] */
   parent: string;
-  /** Optional. A page token, received from a previous `ListDatasets` call. Provide this to retrieve the subsequent page. */
-  pageToken?: string | undefined;
   /** Optional. The maximum number of datasets to return. If unspecified, then at most 100 datasets are returned. The maximum value is 1000; values above 1000 are coerced to 1000. */
   pageSize?: number | undefined;
+  /** Optional. A page token, received from a previous `ListDatasets` call. Provide this to retrieve the subsequent page. */
+  pageToken?: string | undefined;
+  /** Optional. If true, then the response will include deleted datasets. */
+  showDeleted?: boolean | undefined;
 }
 export type DatasetList = Array<Dataset>;
 /** Response for listing datasets. */
@@ -514,12 +514,12 @@ export interface ListDatasetsResponse {
   nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsBucketsDatasetsLinksRequest {
-  /** Optional. A page token, received from a previous `ListLinks` call. Provide this to retrieve the subsequent page. */
-  pageToken?: string | undefined;
   /** Required. The parent dataset that owns this collection of links. The format is: projects/[PROJECT_ID]/locations/[LOCATION]/buckets/[BUCKET_ID]/datasets/[DATASET_ID] */
   parent: string;
   /** Optional. The maximum number of links to return. If unspecified, then at most 100 links are returned. The maximum value is 1000; values above 1000 are coerced to 1000. */
   pageSize?: number | undefined;
+  /** Optional. A page token, received from a previous `ListLinks` call. Provide this to retrieve the subsequent page. */
+  pageToken?: string | undefined;
 }
 export type LinkList = Array<Link>;
 /** Response for listing links. */
@@ -530,12 +530,12 @@ export interface ListLinksResponse {
   nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsBucketsDatasetsViewsRequest {
+  /** Optional. The maximum number of views to return. If unspecified, then at most 100 views are returned. The maximum value is 1000; values above 1000 are coerced to 1000. */
+  pageSize?: number | undefined;
   /** Optional. A page token, received from a previous `ListViews` call. Provide this to retrieve the subsequent page. */
   pageToken?: string | undefined;
   /** Required. Dataset whose views are to be listed. The format is: projects/[PROJECT_ID]/locations/[LOCATION]/buckets/[BUCKET_ID]/datasets/[DATASET_ID] */
   parent: string;
-  /** Optional. The maximum number of views to return. If unspecified, then at most 100 views are returned. The maximum value is 1000; values above 1000 are coerced to 1000. */
-  pageSize?: number | undefined;
 }
 export type ViewList = Array<View>;
 /** Response for listing views. */
@@ -546,22 +546,22 @@ export interface ListViewsResponse {
   nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsOperationsRequest {
+  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
+  returnPartialSuccess?: boolean | undefined;
+  /** The standard list page size. */
+  pageSize?: number | undefined;
   /** The standard list page token. */
   pageToken?: string | undefined;
   /** The standard list filter. */
   filter?: string | undefined;
   /** The name of the operation's parent resource. */
   name: string;
-  /** The standard list page size. */
-  pageSize?: number | undefined;
-  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean | undefined;
 }
 export interface ListProjectsLocationsReportsRequest {
-  /** Optional. A page token, received from a previous `ListReports` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListReports` must match the call that provided the page token (except `page_size`, which may differ). */
-  pageToken?: string | undefined;
   /** Required. The scope of reports to list Format: projects/{project}/locations/{location} */
   parent: string;
+  /** Optional. A page token, received from a previous `ListReports` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListReports` must match the call that provided the page token (except `page_size`, which may differ). */
+  pageToken?: string | undefined;
   /** Optional. The maximum number of results to return from this request. Note that the server may return fewer reports than requested. If unspecified, the server will pick an appropriate default. The maximum value is 100; values above 100 will be coerced to 100. If not provided, the default page size is 10. */
   pageSize?: number | undefined;
 }
@@ -574,26 +574,26 @@ export interface ListReportsResponse {
   reports?: ReportList | undefined;
 }
 export interface ListProjectsLocationsTraceScopesRequest {
-  /** Optional. If present, then retrieve the next batch of results from the preceding call to this method. `page_token` must be the value of `next_page_token` from the previous response. The values of other method parameters should be identical to those in the previous call. */
-  pageToken?: string | undefined;
   /** Optional. The maximum number of results to return from this request. Non-positive values are ignored. The presence of `next_page_token` in the response indicates that more results might be available. */
   pageSize?: number | undefined;
+  /** Optional. If present, then retrieve the next batch of results from the preceding call to this method. `page_token` must be the value of `next_page_token` from the previous response. The values of other method parameters should be identical to those in the previous call. */
+  pageToken?: string | undefined;
   /** Required. The full resource name of the location to look for trace scopes: projects/[PROJECT_ID]/locations/[LOCATION_ID] For example: projects/my-project/locations/global */
   parent: string;
 }
 export type TraceScopeList = Array<TraceScope>;
 /** Response for listing TraceScopes. */
 export interface ListTraceScopesResponse {
-  /** Optional. A list of trace scopes. */
-  traceScopes?: TraceScopeList | undefined;
   /** Optional. If there might be more results than appear in this response, then `next_page_token` is included. To get the next set of results, call the same method again using the value of `next_page_token` as `page_token`. */
   nextPageToken?: string | undefined;
+  /** Optional. A list of trace scopes. */
+  traceScopes?: TraceScopeList | undefined;
 }
 export interface PatchProjectsLocationsBucketsRequest extends Omit<Bucket, "name"> {
-  /** Optional. The list of fields to update. */
-  updateMask?: string | undefined;
   /** Identifier. Name of the bucket. The format is: projects/[PROJECT_ID]/locations/[LOCATION]/buckets/[BUCKET_ID] */
   name: string;
+  /** Optional. The list of fields to update. */
+  updateMask?: string | undefined;
 }
 export interface PatchProjectsLocationsBucketsDatasetsLinksRequest extends Omit<Link, "name"> {
   /** Identifier. Name of the link. The format is: projects/[PROJECT_ID]/locations/[LOCATION]/buckets/[BUCKET_ID]/datasets/[DATASET_ID]/links/[LINK_ID] */
@@ -608,16 +608,16 @@ export interface PatchProjectsLocationsReportsRequest extends Omit<Report, "name
   updateMask?: string | undefined;
 }
 export interface PatchProjectsLocationsScopesRequest extends Omit<Scope, "name"> {
-  /** Identifier. Name of the resource. The format is: projects/{project}/locations/{location}/scopes/{scope} The `{location}` field must be set to `global`. The `{scope}` field must be set to `_Default`. */
-  name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the Scope resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field is overwritten when it is in the mask. If the user does not provide a mask, then all fields present in the request are overwritten. */
   updateMask?: string | undefined;
+  /** Identifier. Name of the resource. The format is: projects/{project}/locations/{location}/scopes/{scope} The `{location}` field must be set to `global`. The `{scope}` field must be set to `_Default`. */
+  name: string;
 }
 export interface PatchProjectsLocationsTraceScopesRequest extends Omit<TraceScope, "name"> {
-  /** Optional. The list of fields to update. */
-  updateMask?: string | undefined;
   /** Identifier. The resource name of the trace scope. For example: projects/my-project/locations/global/traceScopes/my-trace-scope */
   name: string;
+  /** Optional. The list of fields to update. */
+  updateMask?: string | undefined;
 }
 /** Request for reprovisioning a bucket, replaces configuration with that of the configured Observability settings. */
 export type ReprovisionBucketRequest = CancelOperationRequest;
@@ -1749,10 +1749,10 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          resourceNames: S.optional(__S(256, __c64, 0)),
-          createTime: S.optional(S.String),
           description: S.optional(S.String),
+          createTime: S.optional(S.String),
           updateTime: S.optional(S.String),
+          resourceNames: S.optional(__S(256, __c64, 0)),
         }),
       ).annotate({ identifier: "TraceScope" });
   }
@@ -1876,11 +1876,11 @@ function __c9(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          locationId: S.optional(S.String),
-          metadata: S.optional(__S(236, __c59, 0)),
           name: S.optional(S.String),
+          locationId: S.optional(S.String),
           displayName: S.optional(S.String),
           labels: S.optional(__S(36, __c9, 0)),
+          metadata: S.optional(__S(236, __c59, 0)),
         }),
       ).annotate({ identifier: "Location" });
   }
@@ -1986,11 +1986,11 @@ function __c16(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          purgeTime: S.optional(S.String),
-          displayName: S.optional(S.String),
-          createTime: S.optional(S.String),
           name: S.optional(S.String),
+          purgeTime: S.optional(S.String),
           description: S.optional(S.String),
+          createTime: S.optional(S.String),
+          displayName: S.optional(S.String),
           deleteTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "Dataset" });
@@ -2033,10 +2033,10 @@ function __c19(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          displayName: S.optional(S.String),
           createTime: S.optional(S.String),
           description: S.optional(S.String),
           name: S.optional(S.String),
+          displayName: S.optional(S.String),
           updateTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "View" });
@@ -2095,10 +2095,10 @@ function __c23(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          traceScope: S.optional(S.String),
-          logScope: S.optional(S.String),
           updateTime: S.optional(S.String),
+          traceScope: S.optional(S.String),
           name: S.optional(S.String),
+          logScope: S.optional(S.String),
         }),
       ).annotate({ identifier: "Scope" });
   }
@@ -2140,10 +2140,10 @@ function __c26(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          defaultStorageLocation: S.optional(S.String),
           serviceAccountId: S.optional(S.String),
           name: S.optional(S.String),
           kmsKeyName: S.optional(S.String),
+          defaultStorageLocation: S.optional(S.String),
         }),
       ).annotate({ identifier: "Settings" });
   }
@@ -2185,11 +2185,11 @@ function __c29(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          extraLocationTypes: S.optional(__S(256, __c64, 0).pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          extraLocationTypes: S.optional(__S(256, __c64, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2218,11 +2218,11 @@ function __c31(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2241,8 +2241,8 @@ function __c32(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          operations: S.optional(__S(128, __c32, 0)),
           unreachable: S.optional(__S(256, __c64, 0)),
+          operations: S.optional(__S(128, __c32, 0)),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
@@ -2252,11 +2252,11 @@ function __c33(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          extraLocationTypes: S.optional(__S(256, __c64, 0).pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          extraLocationTypes: S.optional(__S(256, __c64, 0).pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2272,11 +2272,11 @@ function __c34(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           filter: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
           returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2292,11 +2292,11 @@ function __c35(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
           filter: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           extraLocationTypes: S.optional(__S(256, __c64, 0).pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2312,10 +2312,10 @@ function __c36(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           showDeleted: S.optional(S.Boolean.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2329,8 +2329,8 @@ function __c36(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          buckets: S.optional(__S(145, __c36, 1)),
           nextPageToken: S.optional(S.String),
+          buckets: S.optional(__S(145, __c36, 1)),
         }),
       ).annotate({ identifier: "ListBucketsResponse" });
   }
@@ -2340,10 +2340,10 @@ function __c37(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          showDeleted: S.optional(S.Boolean.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          showDeleted: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2391,9 +2391,9 @@ function __c40(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2418,9 +2418,9 @@ function __c41(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2445,11 +2445,11 @@ function __c42(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2465,8 +2465,8 @@ function __c43(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -2492,8 +2492,8 @@ function __c44(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -2508,8 +2508,8 @@ function __c44(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          traceScopes: S.optional(__S(177, __c44, 1)),
           nextPageToken: S.optional(S.String),
+          traceScopes: S.optional(__S(177, __c44, 1)),
         }),
       ).annotate({ identifier: "ListTraceScopesResponse" });
   }
@@ -2521,8 +2521,8 @@ function __c45(j: number): any {
         S.Extend(
           __S(233, __c58, 1),
           S.Struct({
-            updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -2581,8 +2581,8 @@ function __c48(j: number): any {
         S.Extend(
           __S(92, __c23, 0),
           S.Struct({
-            name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -2601,8 +2601,8 @@ function __c49(j: number): any {
         S.Extend(
           __S(4, __c1, 0),
           S.Struct({
-            updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -2775,14 +2775,14 @@ function __c58(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          description: S.optional(S.String),
-          purgeTime: S.optional(S.String),
-          createTime: S.optional(S.String),
-          displayName: S.optional(S.String),
-          name: S.optional(S.String),
-          cmekSettings: S.optional(__S(232, __c58, 0)),
           updateTime: S.optional(S.String),
+          purgeTime: S.optional(S.String),
+          displayName: S.optional(S.String),
           deleteTime: S.optional(S.String),
+          description: S.optional(S.String),
+          name: S.optional(S.String),
+          createTime: S.optional(S.String),
+          cmekSettings: S.optional(__S(232, __c58, 0)),
         }),
       ).annotate({ identifier: "Bucket" });
   }
@@ -2808,10 +2808,10 @@ function __c60(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          response: S.optional(__S(236, __c59, 0)),
-          metadata: S.optional(__S(236, __c59, 0)),
           done: S.optional(S.Boolean),
+          metadata: S.optional(__S(236, __c59, 0)),
+          response: S.optional(__S(236, __c59, 0)),
+          name: S.optional(S.String),
           error: S.optional(__S(241, __c60, 1)),
         }),
       ).annotate({ identifier: "Operation" });
@@ -2843,9 +2843,9 @@ function __c62(j: number): any {
       return S.suspend(() =>
         S.Struct({
           displayName: S.optional(S.String),
-          description: S.optional(S.String),
-          createTime: S.optional(S.String),
           name: S.optional(S.String),
+          createTime: S.optional(S.String),
+          description: S.optional(S.String),
         }),
       ).annotate({ identifier: "Link" });
   }
@@ -2857,8 +2857,8 @@ function __c63(j: number): any {
         S.Extend(
           __S(261, __c65, 1),
           S.Struct({
-            reportId: S.optional(S.String.pipe(T.Query())),
             parent: S.String.pipe(T.Label()),
+            reportId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -2888,21 +2888,21 @@ function __c65(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          name: S.optional(S.String),
+          displayName: S.optional(S.String),
           schedulingJob: S.optional(S.String),
-          reportType: S.optional(S.String),
+          createTime: S.optional(S.String),
+          timeWindow: S.optional(S.String),
+          description: S.optional(S.String),
+          etag: S.optional(S.String),
+          renderingOptions: S.optional(__S(260, __c65, 0)),
+          dashboard: S.optional(S.String),
+          recipientEmails: S.optional(__S(256, __c64, 0)),
           creatorUsername: S.optional(S.String),
           updaterUsername: S.optional(S.String),
-          etag: S.optional(S.String),
-          latestRunTime: S.optional(S.String),
-          displayName: S.optional(S.String),
-          recipientEmails: S.optional(__S(256, __c64, 0)),
-          dashboard: S.optional(S.String),
-          name: S.optional(S.String),
-          timeWindow: S.optional(S.String),
-          createTime: S.optional(S.String),
-          renderingOptions: S.optional(__S(260, __c65, 0)),
           updateTime: S.optional(S.String),
-          description: S.optional(S.String),
+          reportType: S.optional(S.String),
+          latestRunTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "Report" });
   }

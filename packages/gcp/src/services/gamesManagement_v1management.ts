@@ -91,12 +91,32 @@ export interface HidePlayersRequest {
 }
 export interface HidePlayersResponse {}
 export interface ListHiddenApplicationsRequest {
-  /** The application ID from the Google Play developer console. */
-  applicationId: string;
-  /** The maximum number of player resources to return in the response, used for paging. For any response, the actual number of player resources returned may be less than the specified `maxResults`. */
-  maxResults?: number | undefined;
   /** The token returned by the previous request. */
   pageToken?: string | undefined;
+  /** The maximum number of player resources to return in the response, used for paging. For any response, the actual number of player resources returned may be less than the specified `maxResults`. */
+  maxResults?: number | undefined;
+  /** The application ID from the Google Play developer console. */
+  applicationId: string;
+}
+/** 1P/3P metadata about a user's level. */
+export interface GamesPlayerLevelResource {
+  /** The level for the user. */
+  level?: number | undefined;
+  /** The maximum experience points for this level. */
+  maxExperiencePoints?: string | undefined;
+  /** The minimum experience points for this level. */
+  minExperiencePoints?: string | undefined;
+}
+/** 1P/3P metadata about the player's experience. */
+export interface GamesPlayerExperienceInfoResource {
+  /** The current level of the player. */
+  currentLevel?: GamesPlayerLevelResource | undefined;
+  /** The timestamp when the player was leveled up, in millis since Unix epoch UTC. */
+  lastLevelUpTimestampMillis?: string | undefined;
+  /** The next level of the player. If the current level is the maximum level, this should be same as the current level. */
+  nextLevel?: GamesPlayerLevelResource | undefined;
+  /** The current number of experience points for the player. */
+  currentExperiencePoints?: string | undefined;
 }
 export interface PlayerName {
   /** The family name of this player. In some places, this is known as the last name. */
@@ -106,54 +126,34 @@ export interface PlayerName {
 }
 /** Profile settings */
 export interface ProfileSettings {
-  profileVisible?: boolean | undefined;
   /** Uniquely identifies the type of this resource. Value is always the fixed string `gamesManagement#profileSettings`. */
   kind?: string | undefined;
-}
-/** 1P/3P metadata about a user's level. */
-export interface GamesPlayerLevelResource {
-  /** The minimum experience points for this level. */
-  minExperiencePoints?: string | undefined;
-  /** The maximum experience points for this level. */
-  maxExperiencePoints?: string | undefined;
-  /** The level for the user. */
-  level?: number | undefined;
-}
-/** 1P/3P metadata about the player's experience. */
-export interface GamesPlayerExperienceInfoResource {
-  /** The current number of experience points for the player. */
-  currentExperiencePoints?: string | undefined;
-  /** The next level of the player. If the current level is the maximum level, this should be same as the current level. */
-  nextLevel?: GamesPlayerLevelResource | undefined;
-  /** The timestamp when the player was leveled up, in millis since Unix epoch UTC. */
-  lastLevelUpTimestampMillis?: string | undefined;
-  /** The current level of the player. */
-  currentLevel?: GamesPlayerLevelResource | undefined;
+  profileVisible?: boolean | undefined;
 }
 /** A Player resource. */
 export interface Player {
-  /** The ID of the player. */
-  playerId?: string | undefined;
-  /** The base URL for the image that represents the player. */
-  avatarImageUrl?: string | undefined;
-  /** An object representation of the individual components of the player's name. For some players, these fields may not be present. */
-  name?: PlayerName | undefined;
-  /** Uniquely identifies the type of this resource. Value is always the fixed string `gamesManagement#player`. */
-  kind?: string | undefined;
-  /** The url to the landscape mode player banner image. */
-  bannerUrlLandscape?: string | undefined;
-  /** The player ID that was used for this player the first time they signed into the game in question. This is only populated for calls to player.get for the requesting player, only if the player ID has subsequently changed, and only to clients that support remapping player IDs. */
-  originalPlayerId?: string | undefined;
-  /** The player's profile settings. Controls whether or not the player's profile is visible to other players. */
-  profileSettings?: ProfileSettings | undefined;
-  /** The player's title rewarded for their game activities. */
-  title?: string | undefined;
-  /** An object to represent Play Game experience information for the player. */
-  experienceInfo?: GamesPlayerExperienceInfoResource | undefined;
-  /** The url to the portrait mode player banner image. */
-  bannerUrlPortrait?: string | undefined;
   /** The name to display for the player. */
   displayName?: string | undefined;
+  /** The player ID that was used for this player the first time they signed into the game in question. This is only populated for calls to player.get for the requesting player, only if the player ID has subsequently changed, and only to clients that support remapping player IDs. */
+  originalPlayerId?: string | undefined;
+  /** Uniquely identifies the type of this resource. Value is always the fixed string `gamesManagement#player`. */
+  kind?: string | undefined;
+  /** An object to represent Play Game experience information for the player. */
+  experienceInfo?: GamesPlayerExperienceInfoResource | undefined;
+  /** The ID of the player. */
+  playerId?: string | undefined;
+  /** The url to the portrait mode player banner image. */
+  bannerUrlPortrait?: string | undefined;
+  /** The player's title rewarded for their game activities. */
+  title?: string | undefined;
+  /** An object representation of the individual components of the player's name. For some players, these fields may not be present. */
+  name?: PlayerName | undefined;
+  /** The base URL for the image that represents the player. */
+  avatarImageUrl?: string | undefined;
+  /** The player's profile settings. Controls whether or not the player's profile is visible to other players. */
+  profileSettings?: ProfileSettings | undefined;
+  /** The url to the landscape mode player banner image. */
+  bannerUrlLandscape?: string | undefined;
 }
 /** The HiddenPlayer resource. */
 export interface HiddenPlayer {
@@ -167,12 +167,12 @@ export interface HiddenPlayer {
 export type HiddenPlayerList_ = Array<HiddenPlayer>;
 /** A list of hidden players. */
 export interface HiddenPlayerList {
-  /** The pagination token for the next page of results. */
-  nextPageToken?: string | undefined;
   /** Uniquely identifies the type of this resource. Value is always the fixed string `gamesManagement#hiddenPlayerList`. */
   kind?: string | undefined;
   /** The players. */
   items: HiddenPlayerList_;
+  /** The pagination token for the next page of results. */
+  nextPageToken?: string | undefined;
 }
 export interface ResetAchievementsRequest {
   /** The ID of the achievement used by this method. */
@@ -180,23 +180,23 @@ export interface ResetAchievementsRequest {
 }
 /** An achievement reset response. */
 export interface AchievementResetResponse {
-  /** Flag to indicate if the requested update actually occurred. */
-  updateOccurred?: boolean | undefined;
   /** The ID of an achievement for which player state has been updated. */
   definitionId?: string | undefined;
-  /** Uniquely identifies the type of this resource. Value is always the fixed string `gamesManagement#achievementResetResponse`. */
-  kind?: string | undefined;
   /** The current state of the achievement. This is the same as the initial state of the achievement. Possible values are: - "`HIDDEN`"- Achievement is hidden. - "`REVEALED`" - Achievement is revealed. - "`UNLOCKED`" - Achievement is unlocked. */
   currentState?: string | undefined;
+  /** Flag to indicate if the requested update actually occurred. */
+  updateOccurred?: boolean | undefined;
+  /** Uniquely identifies the type of this resource. Value is always the fixed string `gamesManagement#achievementResetResponse`. */
+  kind?: string | undefined;
 }
 export interface ResetAllAchievementsRequest {}
 export type AchievementResetResponseList = Array<AchievementResetResponse>;
 /** Achievement reset all response. */
 export interface AchievementResetAllResponse {
-  /** Uniquely identifies the type of this resource. Value is always the fixed string `gamesManagement#achievementResetAllResponse`. */
-  kind?: string | undefined;
   /** The achievement reset results. */
   results?: AchievementResetResponseList | undefined;
+  /** Uniquely identifies the type of this resource. Value is always the fixed string `gamesManagement#achievementResetAllResponse`. */
+  kind?: string | undefined;
 }
 export interface ResetAllEventsRequest {}
 export interface ResetAllEventsResponse {}
@@ -210,20 +210,20 @@ export interface ResetAllScoresRequest {}
 export type StringList = Array<string>;
 /** A list of reset leaderboard entry resources. */
 export interface PlayerScoreResetResponse {
-  /** Uniquely identifies the type of this resource. Value is always the fixed string `gamesManagement#playerScoreResetResponse`. */
-  kind?: string | undefined;
   /** The ID of an leaderboard for which player state has been updated. */
   definitionId?: string | undefined;
+  /** Uniquely identifies the type of this resource. Value is always the fixed string `gamesManagement#playerScoreResetResponse`. */
+  kind?: string | undefined;
   /** The time spans of the updated score. Possible values are: - "`ALL_TIME`" - The score is an all-time score. - "`WEEKLY`" - The score is a weekly score. - "`DAILY`" - The score is a daily score. */
   resetScoreTimeSpans?: StringList | undefined;
 }
 export type PlayerScoreResetResponseList = Array<PlayerScoreResetResponse>;
 /** A list of leaderboard reset resources. */
 export interface PlayerScoreResetAllResponse {
-  /** Uniquely identifies the type of this resource. Value is always the fixed string `gamesManagement#playerScoreResetAllResponse`. */
-  kind?: string | undefined;
   /** The leaderboard reset results. */
   results?: PlayerScoreResetResponseList | undefined;
+  /** Uniquely identifies the type of this resource. Value is always the fixed string `gamesManagement#playerScoreResetAllResponse`. */
+  kind?: string | undefined;
 }
 export interface ResetEventsRequest {
   /** The ID of the event. */
@@ -698,8 +698,8 @@ function __c2(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          kind: S.optional(S.String),
           results: S.optional(__S(33, __c2, 1)),
+          kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "PlayerScoreResetAllResponse" });
   }
@@ -715,8 +715,8 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          kind: S.optional(S.String),
           definitionId: S.optional(S.String),
+          kind: S.optional(S.String),
           resetScoreTimeSpans: S.optional(__S(48, __c3, 0)),
         }),
       ).annotate({ identifier: "PlayerScoreResetResponse" });
@@ -910,9 +910,9 @@ function __c16(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          applicationId: S.String.pipe(T.Label()),
-          maxResults: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          maxResults: S.optional(S.Number.pipe(T.Query())),
+          applicationId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -924,48 +924,48 @@ function __c16(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          level: S.optional(S.Number),
+          maxExperiencePoints: S.optional(S.String),
+          minExperiencePoints: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GamesPlayerLevelResource" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          currentLevel: S.optional(__S(257, __c16, 1)),
+          lastLevelUpTimestampMillis: S.optional(S.String),
+          nextLevel: S.optional(__S(257, __c16, 1)),
+          currentExperiencePoints: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GamesPlayerExperienceInfoResource" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
           familyName: S.optional(S.String),
           givenName: S.optional(S.String),
         }),
       ).annotate({ identifier: "PlayerName" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          profileVisible: S.optional(S.Boolean),
-          kind: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ProfileSettings" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          minExperiencePoints: S.optional(S.String),
-          maxExperiencePoints: S.optional(S.String),
-          level: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "GamesPlayerLevelResource" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          currentExperiencePoints: S.optional(S.String),
-          nextLevel: S.optional(__S(259, __c16, 3)),
-          lastLevelUpTimestampMillis: S.optional(S.String),
-          currentLevel: S.optional(__S(259, __c16, 3)),
+          kind: S.optional(S.String),
+          profileVisible: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "GamesPlayerExperienceInfoResource" });
+      ).annotate({ identifier: "ProfileSettings" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          playerId: S.optional(S.String),
-          avatarImageUrl: S.optional(S.String),
-          name: S.optional(__S(257, __c16, 1)),
-          kind: S.optional(S.String),
-          bannerUrlLandscape: S.optional(S.String),
-          originalPlayerId: S.optional(S.String),
-          profileSettings: S.optional(__S(258, __c16, 2)),
-          title: S.optional(S.String),
-          experienceInfo: S.optional(__S(260, __c16, 4)),
-          bannerUrlPortrait: S.optional(S.String),
           displayName: S.optional(S.String),
+          originalPlayerId: S.optional(S.String),
+          kind: S.optional(S.String),
+          experienceInfo: S.optional(__S(258, __c16, 2)),
+          playerId: S.optional(S.String),
+          bannerUrlPortrait: S.optional(S.String),
+          title: S.optional(S.String),
+          name: S.optional(__S(259, __c16, 3)),
+          avatarImageUrl: S.optional(S.String),
+          profileSettings: S.optional(__S(260, __c16, 4)),
+          bannerUrlLandscape: S.optional(S.String),
         }),
       ).annotate({ identifier: "Player" });
     case 6:
@@ -981,9 +981,9 @@ function __c16(j: number): any {
     case 8:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           kind: S.optional(S.String),
           items: __S(263, __c16, 7),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "HiddenPlayerList" });
   }
@@ -1009,10 +1009,10 @@ function __c18(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          updateOccurred: S.optional(S.Boolean),
           definitionId: S.optional(S.String),
-          kind: S.optional(S.String),
           currentState: S.optional(S.String),
+          updateOccurred: S.optional(S.Boolean),
+          kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "AchievementResetResponse" });
   }
@@ -1034,8 +1034,8 @@ function __c19(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          kind: S.optional(S.String),
           results: S.optional(__S(305, __c19, 1)),
+          kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "AchievementResetAllResponse" });
   }

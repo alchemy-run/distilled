@@ -63,6 +63,12 @@ export type FindClosestBuildingInsightsAdditionalInsightsEnum =
 export type FindClosestBuildingInsightsAdditionalInsightsEnumList = Array<
   FindClosestBuildingInsightsAdditionalInsightsEnum | (string & {})
 >;
+export type FindClosestBuildingInsightsRequiredQualityEnum =
+  | "IMAGERY_QUALITY_UNSPECIFIED"
+  | "HIGH"
+  | "MEDIUM"
+  | "LOW"
+  | "BASE";
 export type FindClosestBuildingInsightsExperimentsEnum =
   | "EXPERIMENT_UNSPECIFIED"
   | "EXPANDED_COVERAGE"
@@ -70,56 +76,19 @@ export type FindClosestBuildingInsightsExperimentsEnum =
 export type FindClosestBuildingInsightsExperimentsEnumList = Array<
   FindClosestBuildingInsightsExperimentsEnum | (string & {})
 >;
-export type FindClosestBuildingInsightsRequiredQualityEnum =
-  | "IMAGERY_QUALITY_UNSPECIFIED"
-  | "HIGH"
-  | "MEDIUM"
-  | "LOW"
-  | "BASE";
 export interface FindClosestBuildingInsightsRequest {
   /** Optional. A list of additional_insights to be included in the response. */
   additionalInsights?: FindClosestBuildingInsightsAdditionalInsightsEnumList | undefined;
-  /** Optional. Specifies the pre-GA experiments to enable. Requests using this field are classified as a pre-GA offering under the [Google Maps Platform Service Specific Terms](https://cloud.google.com/maps-platform/terms/maps-service-terms). See [launch stage descriptions](https://cloud.google.com/maps-platform/terms/launch-stages) for more details. */
-  experiments?: FindClosestBuildingInsightsExperimentsEnumList | undefined;
-  /** The longitude in degrees. It must be in the range [-180.0, +180.0]. */
-  "location.longitude"?: number | undefined;
   /** Optional. The minimum quality level allowed in the results. No result with lower quality than this will be returned. Not specifying this is equivalent to restricting to HIGH quality only. */
   requiredQuality?: FindClosestBuildingInsightsRequiredQualityEnum | (string & {}) | undefined;
-  /** Optional. Whether to require exact quality of the imagery. If set to false, the `required_quality` field is interpreted as the minimum required quality, such that HIGH quality imagery may be returned when `required_quality` is set to MEDIUM. If set to true, `required_quality` is interpreted as the exact required quality and only `MEDIUM` quality imagery is returned if `required_quality` is set to `MEDIUM`. */
-  exactQualityRequired?: boolean | undefined;
+  /** Optional. Specifies the pre-GA experiments to enable. Requests using this field are classified as a pre-GA offering under the [Google Maps Platform Service Specific Terms](https://cloud.google.com/maps-platform/terms/maps-service-terms). See [launch stage descriptions](https://cloud.google.com/maps-platform/terms/launch-stages) for more details. */
+  experiments?: FindClosestBuildingInsightsExperimentsEnumList | undefined;
   /** The latitude in degrees. It must be in the range [-90.0, +90.0]. */
   "location.latitude"?: number | undefined;
-}
-export type BuildingInsightsDetectedArraysDetectionStatusEnum =
-  | "DETECTION_STATUS_UNSPECIFIED"
-  | "DETECTION_STATUS_DATA_UNAVAILABLE"
-  | "DETECTION_STATUS_ARRAYS_DETECTED"
-  | "DETECTION_STATUS_NO_ARRAYS_DETECTED";
-/** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
-export interface Solar_Date {
-  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  year?: number | undefined;
-  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  month?: number | undefined;
-  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  day?: number | undefined;
-}
-export type DocumentMap = { [key: string]: unknown | undefined };
-/** Details of a single detected solar array. */
-export interface BuildingInsightsDetectedArraysSolarArray {
-  /** A GeoJSON representation of the building area where solar panels were detected. The GeoJSON data must be in RFC 7946 format and represent a Polygon for a single contiguous area. The Polygon will be represented by several loops when it contains holes. Example: { "type": "Polygon", "coordinates": [ [ [-1, -1], [-1, 0], [0, 0], [-1, -1] ] ] } */
-  polygonGeojson?: DocumentMap | undefined;
-}
-export type BuildingInsightsDetectedArraysSolarArrayList =
-  Array<BuildingInsightsDetectedArraysSolarArray>;
-/** Information about solar arrays detected on the building. */
-export interface BuildingInsightsDetectedArrays {
-  /** Indicates the detection status of solar arrays for this building. */
-  detectionStatus?: BuildingInsightsDetectedArraysDetectionStatusEnum | undefined;
-  /** The date indicating when the latest solar array data was captured. */
-  latestCaptureDate?: Solar_Date | undefined;
-  /** A list of solar arrays detected on the building. */
-  arrays?: BuildingInsightsDetectedArraysSolarArrayList | undefined;
+  /** Optional. Whether to require exact quality of the imagery. If set to false, the `required_quality` field is interpreted as the minimum required quality, such that HIGH quality imagery may be returned when `required_quality` is set to MEDIUM. If set to true, `required_quality` is interpreted as the exact required quality and only `MEDIUM` quality imagery is returned if `required_quality` is set to `MEDIUM`. */
+  exactQualityRequired?: boolean | undefined;
+  /** The longitude in degrees. It must be in the range [-180.0, +180.0]. */
+  "location.longitude"?: number | undefined;
 }
 export type BuildingInsightsImageryQualityEnum =
   | "IMAGERY_QUALITY_UNSPECIFIED"
@@ -127,6 +96,149 @@ export type BuildingInsightsImageryQualityEnum =
   | "MEDIUM"
   | "LOW"
   | "BASE";
+export type DocumentMap = { [key: string]: unknown | undefined };
+/** Details of a single detected obstacle. */
+export interface Obstacle {
+  /** Output only. A GeoJSON representation of the obstacle. An obstacle is defined as any non-buildable area where solar panels cannot be placed due to physical barriers (vents, chimneys, dormers, etc.). The GeoJSON data must be in RFC 7946 format and represent a Polygon for a single contiguous area. The Polygon will be represented by several loops when it contains holes. Example: { "type": "Polygon", "coordinates": [ [ [-1, -1, 0], [-1, 0, 0], [0, 0, 0], [-1, -1, 0] ] ] } */
+  polygonGeojson?: DocumentMap | undefined;
+}
+export type ObstacleList = Array<Obstacle>;
+export type DoubleList = Array<number>;
+/** Size and sunniness quantiles of a roof, or part of a roof. */
+export interface SizeAndSunshineStats {
+  /** Quantiles of the pointwise sunniness across the area. If there are N values here, this represents the (N-1)-iles. For example, if there are 5 values, then they would be the quartiles (min, 25%, 50%, 75%, max). Values are in annual kWh/kW like max_sunshine_hours_per_year. */
+  sunshineQuantiles?: DoubleList | undefined;
+  /** The ground footprint area covered by the roof or roof segment, in m^2. */
+  groundAreaMeters2?: number | undefined;
+  /** The area of the roof or roof segment, in m^2. This is the roof area (accounting for tilt), not the ground footprint area. */
+  areaMeters2?: number | undefined;
+}
+/** Represents an amount of money with its currency type. */
+export interface Money {
+  /** Number of nano (10^-9) units of the amount. The value must be between -999,999,999 and +999,999,999 inclusive. If `units` is positive, `nanos` must be positive or zero. If `units` is zero, `nanos` can be positive, zero, or negative. If `units` is negative, `nanos` must be negative or zero. For example $-1.75 is represented as `units`=-1 and `nanos`=-750,000,000. */
+  nanos?: number | undefined;
+  /** The three-letter currency code defined in ISO 4217. */
+  currencyCode?: string | undefined;
+  /** The whole units of the amount. For example if `currencyCode` is `"USD"`, then 1 unit is one US dollar. */
+  units?: string | undefined;
+}
+/** Details of a financial analysis. Some of these details are already stored at higher levels (e.g., out of pocket cost). Total money amounts are over a lifetime period defined by the panel_lifetime_years field in SolarPotential. Note: The out of pocket cost of purchasing the panels is given in the out_of_pocket_cost field in CashPurchaseSavings. */
+export interface FinancialDetails {
+  /** How many AC kWh we think the solar panels will generate in their first year. */
+  initialAcKwhPerYear?: number | undefined;
+  /** Total cost of electricity the user would have paid over the lifetime period if they didn't install solar. */
+  costOfElectricityWithoutSolar?: Money | undefined;
+  /** Amount of money available from utility incentives; this applies if the user buys (with or without a loan) the panels. */
+  utilityIncentive?: Money | undefined;
+  /** Percentage (0-100) of the user's power supplied by solar. Valid for the first year but approximately correct for future years. */
+  solarPercentage?: number | undefined;
+  /** Utility bill for electricity not produced by solar, for the lifetime of the panels. */
+  remainingLifetimeUtilityBill?: Money | undefined;
+  /** Whether net metering is allowed. */
+  netMeteringAllowed?: boolean | undefined;
+  /** Amount of money the user will receive from Solar Renewable Energy Credits over the panel lifetime; this applies if the user buys (with or without a loan) the panels. */
+  lifetimeSrecTotal?: Money | undefined;
+  /** Amount of money available from state incentives; this applies if the user buys (with or without a loan) the panels. */
+  stateIncentive?: Money | undefined;
+  /** The percentage (0-100) of solar electricity production we assumed was exported to the grid, based on the first quarter of production. This affects the calculations if net metering is not allowed. */
+  percentageExportedToGrid?: number | undefined;
+  /** Amount of money available from federal incentives; this applies if the user buys (with or without a loan) the panels. */
+  federalIncentive?: Money | undefined;
+}
+/** Financial information that's shared between different financing methods. */
+export interface SavingsOverTime {
+  /** Savings in the first twenty years after panel installation. */
+  savingsYear20?: Money | undefined;
+  /** Using the assumed discount rate, what is the present value of the cumulative lifetime savings? */
+  presentValueOfSavingsLifetime?: Money | undefined;
+  /** Using the assumed discount rate, what is the present value of the cumulative 20-year savings? */
+  presentValueOfSavingsYear20?: Money | undefined;
+  /** Savings in the entire panel lifetime. */
+  savingsLifetime?: Money | undefined;
+  /** Savings in the first year after panel installation. */
+  savingsYear1?: Money | undefined;
+  /** Indicates whether this scenario is financially viable. Will be false for scenarios with poor financial viability (e.g., money-losing). */
+  financiallyViable?: boolean | undefined;
+}
+/** Cost and benefit of an outright purchase of a particular configuration of solar panels with a particular electricity usage. */
+export interface CashPurchaseSavings {
+  /** The value of all tax rebates. */
+  rebateValue?: Money | undefined;
+  /** Initial cost before tax incentives: the amount that must be paid out-of-pocket. Contrast with `upfront_cost`, which is after tax incentives. */
+  outOfPocketCost?: Money | undefined;
+  /** Number of years until payback occurs. A negative value means payback never occurs within the lifetime period. */
+  paybackYears?: number | undefined;
+  /** How much is saved (or not) over the lifetime period. */
+  savings?: SavingsOverTime | undefined;
+  /** Initial cost after tax incentives: it's the amount that must be paid during first year. Contrast with `out_of_pocket_cost`, which is before tax incentives. */
+  upfrontCost?: Money | undefined;
+}
+/** Cost and benefit of using a loan to buy a particular configuration of solar panels with a particular electricity usage. */
+export interface FinancedPurchaseSavings {
+  /** The value of all tax rebates (including Federal Investment Tax Credit (ITC)). */
+  rebateValue?: Money | undefined;
+  /** Annual loan payments. */
+  annualLoanPayment?: Money | undefined;
+  /** The interest rate on loans assumed in this set of calculations. */
+  loanInterestRate?: number | undefined;
+  /** How much is saved (or not) over the lifetime period. */
+  savings?: SavingsOverTime | undefined;
+}
+/** Cost and benefit of leasing a particular configuration of solar panels with a particular electricity usage. */
+export interface LeasingSavings {
+  /** How much is saved (or not) over the lifetime period. */
+  savings?: SavingsOverTime | undefined;
+  /** Estimated annual leasing cost. */
+  annualLeasingCost?: Money | undefined;
+  /** Whether leases are supported in this juristiction by the financial calculation engine. If this field is false, then the values in this message should probably be ignored. This is independent of `leases_allowed`: in some areas leases are allowed, but under conditions that aren't handled by the financial models. */
+  leasesSupported?: boolean | undefined;
+  /** Whether leases are allowed in this juristiction (leases are not allowed in some states). If this field is false, then the values in this message should probably be ignored. */
+  leasesAllowed?: boolean | undefined;
+}
+/** Analysis of the cost and benefits of the optimum solar layout for a particular electric bill size. */
+export interface FinancialAnalysis {
+  /** The monthly electric bill this analysis assumes. */
+  monthlyBill?: Money | undefined;
+  /** Whether this is the bill size selected to be the default bill for the area this building is in. Exactly one `FinancialAnalysis` in `BuildingSolarPotential` should have `default_bill` set. */
+  defaultBill?: boolean | undefined;
+  /** Financial information that applies regardless of the financing method used. */
+  financialDetails?: FinancialDetails | undefined;
+  /** How much electricity the house uses in an average month, based on the bill size and the local electricity rates. */
+  averageKwhPerMonth?: number | undefined;
+  /** Cost and benefit of buying the solar panels with cash. */
+  cashPurchaseSavings?: CashPurchaseSavings | undefined;
+  /** Index in solar_panel_configs of the optimum solar layout for this bill size. This can be -1 indicating that there is no layout. In this case, the remaining submessages will be omitted. */
+  panelConfigIndex?: number | undefined;
+  /** Cost and benefit of buying the solar panels by financing the purchase. */
+  financedPurchaseSavings?: FinancedPurchaseSavings | undefined;
+  /** Cost and benefit of leasing the solar panels. */
+  leasingSavings?: LeasingSavings | undefined;
+}
+export type FinancialAnalysisList = Array<FinancialAnalysis>;
+/** Information about a roof segment on the building, with some number of panels placed on it. */
+export interface RoofSegmentSummary {
+  /** How much sunlight energy this part of the layout captures over the course of a year, in DC kWh, assuming the panels described above. */
+  yearlyEnergyDcKwh?: number | undefined;
+  /** Compass direction the roof segment is pointing in. 0 = North, 90 = East, 180 = South. For a "flat" roof segment (`pitch_degrees` very near 0), azimuth is not well defined, so for consistency, we define it arbitrarily to be 0 (North). */
+  azimuthDegrees?: number | undefined;
+  /** The total number of panels on this segment. */
+  panelsCount?: number | undefined;
+  /** Angle of the roof segment relative to the theoretical ground plane. 0 = parallel to the ground, 90 = perpendicular to the ground. */
+  pitchDegrees?: number | undefined;
+  /** Index in roof_segment_stats of the corresponding `RoofSegmentSizeAndSunshineStats`. */
+  segmentIndex?: number | undefined;
+}
+export type RoofSegmentSummaryList = Array<RoofSegmentSummary>;
+/** SolarPanelConfig describes a particular placement of solar panels on the roof. */
+export interface SolarPanelConfig {
+  /** Information about the production of each roof segment that is carrying at least one panel in this layout. `roof_segment_summaries[i]` describes the i-th roof segment, including its size, expected production and orientation. */
+  roofSegmentSummaries?: RoofSegmentSummaryList | undefined;
+  /** How much sunlight energy this layout captures over the course of a year, in DC kWh, assuming the panels described above. */
+  yearlyEnergyDcKwh?: number | undefined;
+  /** Total number of panels. Note that this is redundant to (the sum of) the corresponding fields in roof_segment_summaries. */
+  panelsCount?: number | undefined;
+}
+export type SolarPanelConfigList = Array<SolarPanelConfig>;
 /** An object that represents a latitude/longitude pair. This is expressed as a pair of doubles to represent degrees latitude and degrees longitude. Unless specified otherwise, this object must conform to the WGS84 standard. Values must be within normalized ranges. */
 export interface LatLng {
   /** The latitude in degrees. It must be in the range [-90.0, +90.0]. */
@@ -141,62 +253,22 @@ export interface LatLngBox {
   /** The southwest corner of the box. */
   sw?: LatLng | undefined;
 }
-/** Details of a single detected obstacle. */
-export interface Obstacle {
-  /** Output only. A GeoJSON representation of the obstacle. An obstacle is defined as any non-buildable area where solar panels cannot be placed due to physical barriers (vents, chimneys, dormers, etc.). The GeoJSON data must be in RFC 7946 format and represent a Polygon for a single contiguous area. The Polygon will be represented by several loops when it contains holes. Example: { "type": "Polygon", "coordinates": [ [ [-1, -1, 0], [-1, 0, 0], [0, 0, 0], [-1, -1, 0] ] ] } */
-  polygonGeojson?: DocumentMap | undefined;
-}
-export type ObstacleList = Array<Obstacle>;
-/** Information about a roof segment on the building, with some number of panels placed on it. */
-export interface RoofSegmentSummary {
-  /** How much sunlight energy this part of the layout captures over the course of a year, in DC kWh, assuming the panels described above. */
-  yearlyEnergyDcKwh?: number | undefined;
-  /** Index in roof_segment_stats of the corresponding `RoofSegmentSizeAndSunshineStats`. */
-  segmentIndex?: number | undefined;
-  /** The total number of panels on this segment. */
-  panelsCount?: number | undefined;
-  /** Compass direction the roof segment is pointing in. 0 = North, 90 = East, 180 = South. For a "flat" roof segment (`pitch_degrees` very near 0), azimuth is not well defined, so for consistency, we define it arbitrarily to be 0 (North). */
-  azimuthDegrees?: number | undefined;
-  /** Angle of the roof segment relative to the theoretical ground plane. 0 = parallel to the ground, 90 = perpendicular to the ground. */
-  pitchDegrees?: number | undefined;
-}
-export type RoofSegmentSummaryList = Array<RoofSegmentSummary>;
-/** SolarPanelConfig describes a particular placement of solar panels on the roof. */
-export interface SolarPanelConfig {
-  /** How much sunlight energy this layout captures over the course of a year, in DC kWh, assuming the panels described above. */
-  yearlyEnergyDcKwh?: number | undefined;
-  /** Total number of panels. Note that this is redundant to (the sum of) the corresponding fields in roof_segment_summaries. */
-  panelsCount?: number | undefined;
-  /** Information about the production of each roof segment that is carrying at least one panel in this layout. `roof_segment_summaries[i]` describes the i-th roof segment, including its size, expected production and orientation. */
-  roofSegmentSummaries?: RoofSegmentSummaryList | undefined;
-}
-export type SolarPanelConfigList = Array<SolarPanelConfig>;
-export type DoubleList = Array<number>;
-/** Size and sunniness quantiles of a roof, or part of a roof. */
-export interface SizeAndSunshineStats {
-  /** Quantiles of the pointwise sunniness across the area. If there are N values here, this represents the (N-1)-iles. For example, if there are 5 values, then they would be the quartiles (min, 25%, 50%, 75%, max). Values are in annual kWh/kW like max_sunshine_hours_per_year. */
-  sunshineQuantiles?: DoubleList | undefined;
-  /** The ground footprint area covered by the roof or roof segment, in m^2. */
-  groundAreaMeters2?: number | undefined;
-  /** The area of the roof or roof segment, in m^2. This is the roof area (accounting for tilt), not the ground footprint area. */
-  areaMeters2?: number | undefined;
-}
 /** Information about the size and sunniness quantiles of a roof segment. */
 export interface RoofSegmentSizeAndSunshineStats {
-  /** Compass direction the roof segment is pointing in. 0 = North, 90 = East, 180 = South. For a "flat" roof segment (`pitch_degrees` very near 0), azimuth is not well defined, so for consistency, we define it arbitrarily to be 0 (North). */
-  azimuthDegrees?: number | undefined;
-  /** Output only. A GeoJSON representation of the detailed geometry for the roof segment plane. The polygon represents the physical roof facet, excluding overlapping vegetation and internal cutouts (e.g., courtyards). This field is only populated if ROOF_GEOMETRY is included in the request's FindClosestBuildingInsightsRequest.additional_insights parameter. The GeoJSON data must be in RFC 7946 format and represent a Polygon for a single contiguous area. The Polygon will be represented by several loops when it contains holes. Example: { "type": "Polygon", "coordinates": [ [ [-1, -1, 0], [-1, 0, 0], [0, 0, 0], [-1, -1, 0] ] ] } */
-  polygonGeojson?: DocumentMap | undefined;
+  /** A point near the center of the roof segment. */
+  center?: LatLng | undefined;
   /** The height of the roof segment plane, in meters above sea level, at the point designated by `center`. Together with the pitch, azimuth, and center location, this fully defines the roof segment plane. */
   planeHeightAtCenterMeters?: number | undefined;
   /** The bounding box of the roof segment. */
   boundingBox?: LatLngBox | undefined;
-  /** Total size and sunlight quantiles for the roof segment. */
-  stats?: SizeAndSunshineStats | undefined;
+  /** Output only. A GeoJSON representation of the detailed geometry for the roof segment plane. The polygon represents the physical roof facet, excluding overlapping vegetation and internal cutouts (e.g., courtyards). This field is only populated if ROOF_GEOMETRY is included in the request's FindClosestBuildingInsightsRequest.additional_insights parameter. The GeoJSON data must be in RFC 7946 format and represent a Polygon for a single contiguous area. The Polygon will be represented by several loops when it contains holes. Example: { "type": "Polygon", "coordinates": [ [ [-1, -1, 0], [-1, 0, 0], [0, 0, 0], [-1, -1, 0] ] ] } */
+  polygonGeojson?: DocumentMap | undefined;
+  /** Compass direction the roof segment is pointing in. 0 = North, 90 = East, 180 = South. For a "flat" roof segment (`pitch_degrees` very near 0), azimuth is not well defined, so for consistency, we define it arbitrarily to be 0 (North). */
+  azimuthDegrees?: number | undefined;
   /** Angle of the roof segment relative to the theoretical ground plane. 0 = parallel to the ground, 90 = perpendicular to the ground. */
   pitchDegrees?: number | undefined;
-  /** A point near the center of the roof segment. */
-  center?: LatLng | undefined;
+  /** Total size and sunlight quantiles for the roof segment. */
+  stats?: SizeAndSunshineStats | undefined;
 }
 export type RoofSegmentSizeAndSunshineStatsList = Array<RoofSegmentSizeAndSunshineStats>;
 export type SolarPanelOrientationEnum =
@@ -205,184 +277,106 @@ export type SolarPanelOrientationEnum =
   | "PORTRAIT";
 /** SolarPanel describes the position, orientation, and production of a single solar panel. See the panel_height_meters, panel_width_meters, and panel_capacity_watts fields in SolarPotential for information on the parameters of the panel. */
 export interface SolarPanel {
-  /** Index in roof_segment_stats of the `RoofSegmentSizeAndSunshineStats` which corresponds to the roof segment that this panel is placed on. */
-  segmentIndex?: number | undefined;
-  /** How much sunlight energy this layout captures over the course of a year, in DC kWh. */
-  yearlyEnergyDcKwh?: number | undefined;
-  /** The centre of the panel. */
-  center?: LatLng | undefined;
   /** The orientation of the panel. */
   orientation?: SolarPanelOrientationEnum | undefined;
+  /** How much sunlight energy this layout captures over the course of a year, in DC kWh. */
+  yearlyEnergyDcKwh?: number | undefined;
+  /** Index in roof_segment_stats of the `RoofSegmentSizeAndSunshineStats` which corresponds to the roof segment that this panel is placed on. */
+  segmentIndex?: number | undefined;
+  /** The centre of the panel. */
+  center?: LatLng | undefined;
 }
 export type SolarPanelList = Array<SolarPanel>;
-/** Represents an amount of money with its currency type. */
-export interface Money {
-  /** The whole units of the amount. For example if `currencyCode` is `"USD"`, then 1 unit is one US dollar. */
-  units?: string | undefined;
-  /** Number of nano (10^-9) units of the amount. The value must be between -999,999,999 and +999,999,999 inclusive. If `units` is positive, `nanos` must be positive or zero. If `units` is zero, `nanos` can be positive, zero, or negative. If `units` is negative, `nanos` must be negative or zero. For example $-1.75 is represented as `units`=-1 and `nanos`=-750,000,000. */
-  nanos?: number | undefined;
-  /** The three-letter currency code defined in ISO 4217. */
-  currencyCode?: string | undefined;
-}
-/** Financial information that's shared between different financing methods. */
-export interface SavingsOverTime {
-  /** Savings in the first year after panel installation. */
-  savingsYear1?: Money | undefined;
-  /** Using the assumed discount rate, what is the present value of the cumulative lifetime savings? */
-  presentValueOfSavingsLifetime?: Money | undefined;
-  /** Indicates whether this scenario is financially viable. Will be false for scenarios with poor financial viability (e.g., money-losing). */
-  financiallyViable?: boolean | undefined;
-  /** Using the assumed discount rate, what is the present value of the cumulative 20-year savings? */
-  presentValueOfSavingsYear20?: Money | undefined;
-  /** Savings in the first twenty years after panel installation. */
-  savingsYear20?: Money | undefined;
-  /** Savings in the entire panel lifetime. */
-  savingsLifetime?: Money | undefined;
-}
-/** Cost and benefit of an outright purchase of a particular configuration of solar panels with a particular electricity usage. */
-export interface CashPurchaseSavings {
-  /** Initial cost before tax incentives: the amount that must be paid out-of-pocket. Contrast with `upfront_cost`, which is after tax incentives. */
-  outOfPocketCost?: Money | undefined;
-  /** Number of years until payback occurs. A negative value means payback never occurs within the lifetime period. */
-  paybackYears?: number | undefined;
-  /** How much is saved (or not) over the lifetime period. */
-  savings?: SavingsOverTime | undefined;
-  /** The value of all tax rebates. */
-  rebateValue?: Money | undefined;
-  /** Initial cost after tax incentives: it's the amount that must be paid during first year. Contrast with `out_of_pocket_cost`, which is before tax incentives. */
-  upfrontCost?: Money | undefined;
-}
-/** Cost and benefit of leasing a particular configuration of solar panels with a particular electricity usage. */
-export interface LeasingSavings {
-  /** Whether leases are supported in this juristiction by the financial calculation engine. If this field is false, then the values in this message should probably be ignored. This is independent of `leases_allowed`: in some areas leases are allowed, but under conditions that aren't handled by the financial models. */
-  leasesSupported?: boolean | undefined;
-  /** Whether leases are allowed in this juristiction (leases are not allowed in some states). If this field is false, then the values in this message should probably be ignored. */
-  leasesAllowed?: boolean | undefined;
-  /** How much is saved (or not) over the lifetime period. */
-  savings?: SavingsOverTime | undefined;
-  /** Estimated annual leasing cost. */
-  annualLeasingCost?: Money | undefined;
-}
-/** Details of a financial analysis. Some of these details are already stored at higher levels (e.g., out of pocket cost). Total money amounts are over a lifetime period defined by the panel_lifetime_years field in SolarPotential. Note: The out of pocket cost of purchasing the panels is given in the out_of_pocket_cost field in CashPurchaseSavings. */
-export interface FinancialDetails {
-  /** Amount of money available from federal incentives; this applies if the user buys (with or without a loan) the panels. */
-  federalIncentive?: Money | undefined;
-  /** Percentage (0-100) of the user's power supplied by solar. Valid for the first year but approximately correct for future years. */
-  solarPercentage?: number | undefined;
-  /** Total cost of electricity the user would have paid over the lifetime period if they didn't install solar. */
-  costOfElectricityWithoutSolar?: Money | undefined;
-  /** Utility bill for electricity not produced by solar, for the lifetime of the panels. */
-  remainingLifetimeUtilityBill?: Money | undefined;
-  /** Amount of money available from state incentives; this applies if the user buys (with or without a loan) the panels. */
-  stateIncentive?: Money | undefined;
-  /** Amount of money available from utility incentives; this applies if the user buys (with or without a loan) the panels. */
-  utilityIncentive?: Money | undefined;
-  /** Whether net metering is allowed. */
-  netMeteringAllowed?: boolean | undefined;
-  /** How many AC kWh we think the solar panels will generate in their first year. */
-  initialAcKwhPerYear?: number | undefined;
-  /** Amount of money the user will receive from Solar Renewable Energy Credits over the panel lifetime; this applies if the user buys (with or without a loan) the panels. */
-  lifetimeSrecTotal?: Money | undefined;
-  /** The percentage (0-100) of solar electricity production we assumed was exported to the grid, based on the first quarter of production. This affects the calculations if net metering is not allowed. */
-  percentageExportedToGrid?: number | undefined;
-}
-/** Cost and benefit of using a loan to buy a particular configuration of solar panels with a particular electricity usage. */
-export interface FinancedPurchaseSavings {
-  /** Annual loan payments. */
-  annualLoanPayment?: Money | undefined;
-  /** The interest rate on loans assumed in this set of calculations. */
-  loanInterestRate?: number | undefined;
-  /** The value of all tax rebates (including Federal Investment Tax Credit (ITC)). */
-  rebateValue?: Money | undefined;
-  /** How much is saved (or not) over the lifetime period. */
-  savings?: SavingsOverTime | undefined;
-}
-/** Analysis of the cost and benefits of the optimum solar layout for a particular electric bill size. */
-export interface FinancialAnalysis {
-  /** Whether this is the bill size selected to be the default bill for the area this building is in. Exactly one `FinancialAnalysis` in `BuildingSolarPotential` should have `default_bill` set. */
-  defaultBill?: boolean | undefined;
-  /** The monthly electric bill this analysis assumes. */
-  monthlyBill?: Money | undefined;
-  /** Index in solar_panel_configs of the optimum solar layout for this bill size. This can be -1 indicating that there is no layout. In this case, the remaining submessages will be omitted. */
-  panelConfigIndex?: number | undefined;
-  /** Cost and benefit of buying the solar panels with cash. */
-  cashPurchaseSavings?: CashPurchaseSavings | undefined;
-  /** How much electricity the house uses in an average month, based on the bill size and the local electricity rates. */
-  averageKwhPerMonth?: number | undefined;
-  /** Cost and benefit of leasing the solar panels. */
-  leasingSavings?: LeasingSavings | undefined;
-  /** Financial information that applies regardless of the financing method used. */
-  financialDetails?: FinancialDetails | undefined;
-  /** Cost and benefit of buying the solar panels by financing the purchase. */
-  financedPurchaseSavings?: FinancedPurchaseSavings | undefined;
-}
-export type FinancialAnalysisList = Array<FinancialAnalysis>;
 /** Information about the solar potential of a building. A number of fields in this are defined in terms of "panels". The fields panel_capacity_watts, panel_height_meters, and panel_width_meters describe the parameters of the model of panel used in these calculations. */
 export interface SolarPotential {
   /** Details for each obstacle detected on the rooftop. An obstacle is defined as any non-buildable area where solar panels cannot be placed due to physical barriers (vents, chimneys, etc.). This field is only populated if ROOF_GEOMETRY is included in the request's FindClosestBuildingInsightsRequest.additional_insights. */
   obstacles?: ObstacleList | undefined;
-  /** Maximum number of sunshine hours received per year, by any point on the roof. Sunshine hours are a measure of the total amount of insolation (energy) received per year. 1 sunshine hour = 1 kWh per kW (where kW refers to kW of capacity under Standard Testing Conditions). */
-  maxSunshineHoursPerYear?: number | undefined;
-  /** Each SolarPanelConfig describes a different arrangement of solar panels on the roof. They are in order of increasing number of panels. The `SolarPanelConfig` with panels_count=N is based on the first N panels in the `solar_panels` list. This field is only populated if at least 4 panels can fit on a roof. */
-  solarPanelConfigs?: SolarPanelConfigList | undefined;
-  /** Width, in meters in portrait orientation, of the panel used in the calculations. */
-  panelWidthMeters?: number | undefined;
-  /** Size and sunlight quantiles for each roof segment. */
-  roofSegmentStats?: RoofSegmentSizeAndSunshineStatsList | undefined;
-  /** Size and sunlight quantiles for the entire building, including parts of the roof that were not assigned to some roof segment. Because the orientations of these parts are not well characterised, the roof area estimate is unreliable, but the ground area estimate is reliable. It may be that a more reliable whole building roof area can be obtained by scaling the roof area from whole_roof_stats by the ratio of the ground areas of `building_stats` and `whole_roof_stats`. */
-  buildingStats?: SizeAndSunshineStats | undefined;
-  /** Each SolarPanel describes a single solar panel. They are listed in the order that the panel layout algorithm placed this. This is usually, though not always, in decreasing order of annual energy production. */
-  solarPanels?: SolarPanelList | undefined;
-  /** The expected lifetime, in years, of the solar panels. This is used in the financial calculations. */
-  panelLifetimeYears?: number | undefined;
   /** Equivalent amount of CO2 produced per MWh of grid electricity. This is a measure of the carbon intensity of grid electricity displaced by solar electricity. */
   carbonOffsetFactorKgPerMwh?: number | undefined;
-  /** Total size and sunlight quantiles for the part of the roof that was assigned to some roof segment. Despite the name, this may not include the entire building. See building_stats. */
-  wholeRoofStats?: SizeAndSunshineStats | undefined;
-  /** Height, in meters in portrait orientation, of the panel used in the calculations. */
-  panelHeightMeters?: number | undefined;
-  /** Size of the maximum array - that is, the maximum number of panels that can fit on the roof. */
-  maxArrayPanelsCount?: number | undefined;
   /** Capacity, in watts, of the panel used in the calculations. */
   panelCapacityWatts?: number | undefined;
   /** Size, in square meters, of the maximum array. */
   maxArrayAreaMeters2?: number | undefined;
+  /** Total size and sunlight quantiles for the part of the roof that was assigned to some roof segment. Despite the name, this may not include the entire building. See building_stats. */
+  wholeRoofStats?: SizeAndSunshineStats | undefined;
+  /** Size of the maximum array - that is, the maximum number of panels that can fit on the roof. */
+  maxArrayPanelsCount?: number | undefined;
+  /** Size and sunlight quantiles for the entire building, including parts of the roof that were not assigned to some roof segment. Because the orientations of these parts are not well characterised, the roof area estimate is unreliable, but the ground area estimate is reliable. It may be that a more reliable whole building roof area can be obtained by scaling the roof area from whole_roof_stats by the ratio of the ground areas of `building_stats` and `whole_roof_stats`. */
+  buildingStats?: SizeAndSunshineStats | undefined;
   /** A FinancialAnalysis gives the savings from going solar assuming a given monthly bill and a given electricity provider. They are in order of increasing order of monthly bill amount. This field will be empty for buildings in areas for which the Solar API does not have enough information to perform financial computations. */
   financialAnalyses?: FinancialAnalysisList | undefined;
+  /** Width, in meters in portrait orientation, of the panel used in the calculations. */
+  panelWidthMeters?: number | undefined;
+  /** Height, in meters in portrait orientation, of the panel used in the calculations. */
+  panelHeightMeters?: number | undefined;
+  /** Each SolarPanelConfig describes a different arrangement of solar panels on the roof. They are in order of increasing number of panels. The `SolarPanelConfig` with panels_count=N is based on the first N panels in the `solar_panels` list. This field is only populated if at least 4 panels can fit on a roof. */
+  solarPanelConfigs?: SolarPanelConfigList | undefined;
+  /** Maximum number of sunshine hours received per year, by any point on the roof. Sunshine hours are a measure of the total amount of insolation (energy) received per year. 1 sunshine hour = 1 kWh per kW (where kW refers to kW of capacity under Standard Testing Conditions). */
+  maxSunshineHoursPerYear?: number | undefined;
+  /** The expected lifetime, in years, of the solar panels. This is used in the financial calculations. */
+  panelLifetimeYears?: number | undefined;
+  /** Size and sunlight quantiles for each roof segment. */
+  roofSegmentStats?: RoofSegmentSizeAndSunshineStatsList | undefined;
+  /** Each SolarPanel describes a single solar panel. They are listed in the order that the panel layout algorithm placed this. This is usually, though not always, in decreasing order of annual energy production. */
+  solarPanels?: SolarPanelList | undefined;
+}
+/** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
+export interface Solar_Date {
+  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
+  year?: number | undefined;
+  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
+  day?: number | undefined;
+  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
+  month?: number | undefined;
+}
+/** Details of a single detected solar array. */
+export interface BuildingInsightsDetectedArraysSolarArray {
+  /** A GeoJSON representation of the building area where solar panels were detected. The GeoJSON data must be in RFC 7946 format and represent a Polygon for a single contiguous area. The Polygon will be represented by several loops when it contains holes. Example: { "type": "Polygon", "coordinates": [ [ [-1, -1], [-1, 0], [0, 0], [-1, -1] ] ] } */
+  polygonGeojson?: DocumentMap | undefined;
+}
+export type BuildingInsightsDetectedArraysSolarArrayList =
+  Array<BuildingInsightsDetectedArraysSolarArray>;
+export type BuildingInsightsDetectedArraysDetectionStatusEnum =
+  | "DETECTION_STATUS_UNSPECIFIED"
+  | "DETECTION_STATUS_DATA_UNAVAILABLE"
+  | "DETECTION_STATUS_ARRAYS_DETECTED"
+  | "DETECTION_STATUS_NO_ARRAYS_DETECTED";
+/** Information about solar arrays detected on the building. */
+export interface BuildingInsightsDetectedArrays {
+  /** A list of solar arrays detected on the building. */
+  arrays?: BuildingInsightsDetectedArraysSolarArrayList | undefined;
+  /** Indicates the detection status of solar arrays for this building. */
+  detectionStatus?: BuildingInsightsDetectedArraysDetectionStatusEnum | undefined;
+  /** The date indicating when the latest solar array data was captured. */
+  latestCaptureDate?: Solar_Date | undefined;
 }
 /** Response message for `Solar.FindClosestBuildingInsights`. Information about the location, dimensions, and solar potential of a building. */
 export interface BuildingInsights {
-  /** Statistical area (e.g., US census tract) this building is in. */
-  statisticalArea?: string | undefined;
-  /** Solar arrays detected on the building. This field is only populated if DETECTED_ARRAYS is included in the request's FindClosestBuildingInsightsRequest.additional_insights. */
-  detectedArrays?: BuildingInsightsDetectedArrays | undefined;
+  /** Postal code (e.g., US zip code) this building is contained by. */
+  postalCode?: string | undefined;
   /** The resource name for the building, of the format `buildings/{place_id}`. */
   name?: string | undefined;
   /** The quality of the imagery used to compute the data for this building. */
   imageryQuality?: BuildingInsightsImageryQualityEnum | undefined;
-  /** Administrative area 1 (e.g., in the US, the state) that contains this building. For example, in the US, the abbreviation might be "MA" or "CA." */
-  administrativeArea?: string | undefined;
-  /** The bounding box of the building. */
-  boundingBox?: LatLngBox | undefined;
+  /** Solar potential of the building. */
+  solarPotential?: SolarPotential | undefined;
+  /** Statistical area (e.g., US census tract) this building is in. */
+  statisticalArea?: string | undefined;
+  /** Date that the underlying imagery was acquired. This is approximate. */
+  imageryDate?: Solar_Date | undefined;
   /** When processing was completed on this imagery. */
   imageryProcessedDate?: Solar_Date | undefined;
   /** A point near the center of the building. */
   center?: LatLng | undefined;
-  /** Date that the underlying imagery was acquired. This is approximate. */
-  imageryDate?: Solar_Date | undefined;
-  /** Postal code (e.g., US zip code) this building is contained by. */
-  postalCode?: string | undefined;
-  /** Solar potential of the building. */
-  solarPotential?: SolarPotential | undefined;
+  /** Solar arrays detected on the building. This field is only populated if DETECTED_ARRAYS is included in the request's FindClosestBuildingInsightsRequest.additional_insights. */
+  detectedArrays?: BuildingInsightsDetectedArrays | undefined;
+  /** Administrative area 1 (e.g., in the US, the state) that contains this building. For example, in the US, the abbreviation might be "MA" or "CA." */
+  administrativeArea?: string | undefined;
+  /** The bounding box of the building. */
+  boundingBox?: LatLngBox | undefined;
   /** Region code for the country (or region) this building is in. */
   regionCode?: string | undefined;
 }
-export type GetDataLayersRequiredQualityEnum =
-  | "IMAGERY_QUALITY_UNSPECIFIED"
-  | "HIGH"
-  | "MEDIUM"
-  | "LOW"
-  | "BASE";
 export type GetDataLayersExperimentsEnum =
   | "EXPERIMENT_UNSPECIFIED"
   | "EXPANDED_COVERAGE"
@@ -395,23 +389,29 @@ export type GetDataLayersViewEnum =
   | "IMAGERY_AND_ANNUAL_FLUX_LAYERS"
   | "IMAGERY_AND_ALL_FLUX_LAYERS"
   | "FULL_LAYERS";
+export type GetDataLayersRequiredQualityEnum =
+  | "IMAGERY_QUALITY_UNSPECIFIED"
+  | "HIGH"
+  | "MEDIUM"
+  | "LOW"
+  | "BASE";
 export interface GetDataLayersRequest {
-  /** Optional. The minimum quality level allowed in the results. No result with lower quality than this will be returned. Not specifying this is equivalent to restricting to HIGH quality only. */
-  requiredQuality?: GetDataLayersRequiredQualityEnum | (string & {}) | undefined;
-  /** Required. The radius, in meters, defining the region surrounding that centre point for which data should be returned. The limitations on this value are: * Any value up to 100m can always be specified. * Values over 100m can be specified, as long as `radius_meters` <= `pixel_size_meters * 1000`. * However, for values over 175m, the `DataLayerView` in the request must not include monthly flux or hourly shade. */
-  radiusMeters?: number | undefined;
-  /** The longitude in degrees. It must be in the range [-180.0, +180.0]. */
-  "location.longitude"?: number | undefined;
   /** Optional. Specifies the pre-GA experiments to enable. Requests using this field are classified as a pre-GA offering under the [Google Maps Platform Service Specific Terms](https://cloud.google.com/maps-platform/terms/maps-service-terms). See [launch stage descriptions]( https://cloud.google.com/maps-platform/terms/launch-stages) for more details. */
   experiments?: GetDataLayersExperimentsEnumList | undefined;
-  /** Optional. The minimum scale, in meters per pixel, of the data to return. Values of 0.1 (the default, if this field is not set explicitly), 0.25, 0.5, and 1.0 are supported. Imagery components whose normal resolution is less than `pixel_size_meters` will be returned at the resolution specified by `pixel_size_meters`; imagery components whose normal resolution is equal to or greater than `pixel_size_meters` will be returned at that normal resolution. */
-  pixelSizeMeters?: number | undefined;
-  /** The latitude in degrees. It must be in the range [-90.0, +90.0]. */
-  "location.latitude"?: number | undefined;
+  /** The longitude in degrees. It must be in the range [-180.0, +180.0]. */
+  "location.longitude"?: number | undefined;
   /** Optional. Whether to require exact quality of the imagery. If set to false, the `required_quality` field is interpreted as the minimum required quality, such that HIGH quality imagery may be returned when `required_quality` is set to MEDIUM. If set to true, `required_quality` is interpreted as the exact required quality and only `MEDIUM` quality imagery is returned if `required_quality` is set to `MEDIUM`. */
   exactQualityRequired?: boolean | undefined;
+  /** Required. The radius, in meters, defining the region surrounding that centre point for which data should be returned. The limitations on this value are: * Any value up to 100m can always be specified. * Values over 100m can be specified, as long as `radius_meters` <= `pixel_size_meters * 1000`. * However, for values over 175m, the `DataLayerView` in the request must not include monthly flux or hourly shade. */
+  radiusMeters?: number | undefined;
+  /** Optional. The minimum scale, in meters per pixel, of the data to return. Values of 0.1 (the default, if this field is not set explicitly), 0.25, 0.5, and 1.0 are supported. Imagery components whose normal resolution is less than `pixel_size_meters` will be returned at the resolution specified by `pixel_size_meters`; imagery components whose normal resolution is equal to or greater than `pixel_size_meters` will be returned at that normal resolution. */
+  pixelSizeMeters?: number | undefined;
   /** Optional. The desired subset of the data to return. */
   view?: GetDataLayersViewEnum | (string & {}) | undefined;
+  /** The latitude in degrees. It must be in the range [-90.0, +90.0]. */
+  "location.latitude"?: number | undefined;
+  /** Optional. The minimum quality level allowed in the results. No result with lower quality than this will be returned. Not specifying this is equivalent to restricting to HIGH quality only. */
+  requiredQuality?: GetDataLayersRequiredQualityEnum | (string & {}) | undefined;
 }
 export type DataLayersImageryQualityEnum =
   | "IMAGERY_QUALITY_UNSPECIFIED"
@@ -422,24 +422,24 @@ export type DataLayersImageryQualityEnum =
 export type StringList = Array<string>;
 /** Information about the solar potential of a region. The actual data are contained in a number of GeoTIFF files covering the requested region, for which this message contains URLs: Each string in the `DataLayers` message contains a URL from which the corresponding GeoTIFF can be fetched. These URLs are valid for a few hours after they've been generated. Most of the GeoTIFF files are at a resolution of 0.1m/pixel, but the monthly flux file is at 0.5m/pixel, and the hourly shade files are at 1m/pixel. If a `pixel_size_meters` value was specified in the `GetDataLayersRequest`, then the minimum resolution in the GeoTIFF files will be that value. */
 export interface DataLayers {
-  /** When the source imagery (from which all the other data are derived) in this region was taken. It is necessarily somewhat approximate, as the images may have been taken over more than one day. */
-  imageryDate?: Solar_Date | undefined;
-  /** The URL for the monthly flux map (sunlight on roofs, broken down by month) of the region. Values are kWh/kW/year. The GeoTIFF pointed to by this URL will contain twelve bands, corresponding to January...December, in order. */
-  monthlyFluxUrl?: string | undefined;
   /** The quality of the result's imagery. */
   imageryQuality?: DataLayersImageryQualityEnum | undefined;
+  /** The URL for the monthly flux map (sunlight on roofs, broken down by month) of the region. Values are kWh/kW/year. The GeoTIFF pointed to by this URL will contain twelve bands, corresponding to January...December, in order. */
+  monthlyFluxUrl?: string | undefined;
+  /** The URL for an image of the DSM (Digital Surface Model) of the region. Values are in meters above EGM96 geoid (i.e., sea level). Invalid locations (where we don't have data) are stored as -9999. */
+  dsmUrl?: string | undefined;
+  /** Twelve URLs for hourly shade, corresponding to January...December, in order. Each GeoTIFF will contain 24 bands, corresponding to the 24 hours of the day. Each pixel is a 32 bit integer, corresponding to the (up to) 31 days of that month; a 1 bit means that the corresponding location is able to see the sun at that day, of that hour, of that month. Invalid locations are stored as -9999 (since this is negative, it has bit 31 set, and no valid value could have bit 31 set as that would correspond to the 32nd day of the month). An example may be useful. If you want to know whether a point (at pixel location (x, y)) saw sun at 4pm on the 22nd of June you would: 1. fetch the sixth URL in this list (corresponding to June). 1. look up the 17th channel (corresponding to 4pm). 1. read the 32-bit value at (x, y). 1. read bit 21 of the value (corresponding to the 22nd of the month). 1. if that bit is a 1, then that spot saw the sun at 4pm 22 June. More formally: Given `month` (1-12), `day` (1...month max; February has 28 days) and `hour` (0-23), the shade/sun for that month/day/hour at a position `(x, y)` is the bit ``` (hourly_shade[month - 1])(x, y)[hour] & (1 << (day - 1)) ``` where `(x, y)` is spatial indexing, `[month - 1]` refers to fetching the `month - 1`st URL (indexing from zero), `[hour]` is indexing into the channels, and a final non-zero result means "sunny". There are no leap days, and DST doesn't exist (all days are 24 hours long; noon is always "standard time" noon). */
+  hourlyShadeUrls?: StringList | undefined;
   /** The URL for the building mask image: one bit per pixel saying whether that pixel is considered to be part of a rooftop or not. */
   maskUrl?: string | undefined;
+  /** The URL for the annual flux map (annual sunlight on roofs) of the region. Values are kWh/kW/year. This is *unmasked flux*: flux is computed for every location, not just building rooftops. Invalid locations are stored as -9999: locations outside our coverage area will be invalid, and a few locations inside the coverage area, where we were unable to calculate flux, will also be invalid. */
+  annualFluxUrl?: string | undefined;
   /** When processing was completed on this imagery. */
   imageryProcessedDate?: Solar_Date | undefined;
   /** The URL for an image of RGB data (aerial or satellite photo) of the region. */
   rgbUrl?: string | undefined;
-  /** Twelve URLs for hourly shade, corresponding to January...December, in order. Each GeoTIFF will contain 24 bands, corresponding to the 24 hours of the day. Each pixel is a 32 bit integer, corresponding to the (up to) 31 days of that month; a 1 bit means that the corresponding location is able to see the sun at that day, of that hour, of that month. Invalid locations are stored as -9999 (since this is negative, it has bit 31 set, and no valid value could have bit 31 set as that would correspond to the 32nd day of the month). An example may be useful. If you want to know whether a point (at pixel location (x, y)) saw sun at 4pm on the 22nd of June you would: 1. fetch the sixth URL in this list (corresponding to June). 1. look up the 17th channel (corresponding to 4pm). 1. read the 32-bit value at (x, y). 1. read bit 21 of the value (corresponding to the 22nd of the month). 1. if that bit is a 1, then that spot saw the sun at 4pm 22 June. More formally: Given `month` (1-12), `day` (1...month max; February has 28 days) and `hour` (0-23), the shade/sun for that month/day/hour at a position `(x, y)` is the bit ``` (hourly_shade[month - 1])(x, y)[hour] & (1 << (day - 1)) ``` where `(x, y)` is spatial indexing, `[month - 1]` refers to fetching the `month - 1`st URL (indexing from zero), `[hour]` is indexing into the channels, and a final non-zero result means "sunny". There are no leap days, and DST doesn't exist (all days are 24 hours long; noon is always "standard time" noon). */
-  hourlyShadeUrls?: StringList | undefined;
-  /** The URL for an image of the DSM (Digital Surface Model) of the region. Values are in meters above EGM96 geoid (i.e., sea level). Invalid locations (where we don't have data) are stored as -9999. */
-  dsmUrl?: string | undefined;
-  /** The URL for the annual flux map (annual sunlight on roofs) of the region. Values are kWh/kW/year. This is *unmasked flux*: flux is computed for every location, not just building rooftops. Invalid locations are stored as -9999: locations outside our coverage area will be invalid, and a few locations inside the coverage area, where we were unable to calculate flux, will also be invalid. */
-  annualFluxUrl?: string | undefined;
+  /** When the source imagery (from which all the other data are derived) in this region was taken. It is necessarily somewhat approximate, as the images may have been taken over more than one day. */
+  imageryDate?: Solar_Date | undefined;
 }
 export interface GetGeoTiffRequest {
   /** Required. The ID of the asset being requested. */
@@ -516,11 +516,11 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           additionalInsights: S.optional(__S(32, __c1, 0).pipe(T.Query())),
-          experiments: S.optional(__S(32, __c1, 0).pipe(T.Query())),
-          "location.longitude": S.optional(S.Number.pipe(T.Query())),
           requiredQuality: S.optional(S.String.pipe(T.Query())),
-          exactQualityRequired: S.optional(S.Boolean.pipe(T.Query())),
+          experiments: S.optional(__S(32, __c1, 0).pipe(T.Query())),
           "location.latitude": S.optional(S.Number.pipe(T.Query())),
+          exactQualityRequired: S.optional(S.Boolean.pipe(T.Query())),
+          "location.longitude": S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -534,199 +534,199 @@ function __c0(j: number): any {
         S.Struct({
           polygonGeojson: S.optional(__S(64, __c2, 0)),
         }),
-      ).annotate({ identifier: "BuildingInsightsDetectedArraysSolarArray" });
+      ).annotate({ identifier: "Obstacle" });
     case 2:
       return S.Array(__S(1, __c0, 1));
     case 3:
+      return S.Array(S.Number);
+    case 4:
       return S.suspend(() =>
         S.Struct({
-          detectionStatus: S.optional(S.String),
-          latestCaptureDate: S.optional(__S(33, __c1, 1)),
-          arrays: S.optional(__S(2, __c0, 2)),
+          sunshineQuantiles: S.optional(__S(3, __c0, 3)),
+          groundAreaMeters2: S.optional(S.Number),
+          areaMeters2: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "BuildingInsightsDetectedArrays" });
-    case 4:
+      ).annotate({ identifier: "SizeAndSunshineStats" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          nanos: S.optional(S.Number),
+          currencyCode: S.optional(S.String),
+          units: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Money" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          initialAcKwhPerYear: S.optional(S.Number),
+          costOfElectricityWithoutSolar: S.optional(__S(5, __c0, 5)),
+          utilityIncentive: S.optional(__S(5, __c0, 5)),
+          solarPercentage: S.optional(S.Number),
+          remainingLifetimeUtilityBill: S.optional(__S(5, __c0, 5)),
+          netMeteringAllowed: S.optional(S.Boolean),
+          lifetimeSrecTotal: S.optional(__S(5, __c0, 5)),
+          stateIncentive: S.optional(__S(5, __c0, 5)),
+          percentageExportedToGrid: S.optional(S.Number),
+          federalIncentive: S.optional(__S(5, __c0, 5)),
+        }),
+      ).annotate({ identifier: "FinancialDetails" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          savingsYear20: S.optional(__S(5, __c0, 5)),
+          presentValueOfSavingsLifetime: S.optional(__S(5, __c0, 5)),
+          presentValueOfSavingsYear20: S.optional(__S(5, __c0, 5)),
+          savingsLifetime: S.optional(__S(5, __c0, 5)),
+          savingsYear1: S.optional(__S(5, __c0, 5)),
+          financiallyViable: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "SavingsOverTime" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          rebateValue: S.optional(__S(5, __c0, 5)),
+          outOfPocketCost: S.optional(__S(5, __c0, 5)),
+          paybackYears: S.optional(S.Number),
+          savings: S.optional(__S(7, __c0, 7)),
+          upfrontCost: S.optional(__S(5, __c0, 5)),
+        }),
+      ).annotate({ identifier: "CashPurchaseSavings" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          rebateValue: S.optional(__S(5, __c0, 5)),
+          annualLoanPayment: S.optional(__S(5, __c0, 5)),
+          loanInterestRate: S.optional(S.Number),
+          savings: S.optional(__S(7, __c0, 7)),
+        }),
+      ).annotate({ identifier: "FinancedPurchaseSavings" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          savings: S.optional(__S(7, __c0, 7)),
+          annualLeasingCost: S.optional(__S(5, __c0, 5)),
+          leasesSupported: S.optional(S.Boolean),
+          leasesAllowed: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "LeasingSavings" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          monthlyBill: S.optional(__S(5, __c0, 5)),
+          defaultBill: S.optional(S.Boolean),
+          financialDetails: S.optional(__S(6, __c0, 6)),
+          averageKwhPerMonth: S.optional(S.Number),
+          cashPurchaseSavings: S.optional(__S(8, __c0, 8)),
+          panelConfigIndex: S.optional(S.Number),
+          financedPurchaseSavings: S.optional(__S(9, __c0, 9)),
+          leasingSavings: S.optional(__S(10, __c0, 10)),
+        }),
+      ).annotate({ identifier: "FinancialAnalysis" });
+    case 12:
+      return S.Array(__S(11, __c0, 11));
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          yearlyEnergyDcKwh: S.optional(S.Number),
+          azimuthDegrees: S.optional(S.Number),
+          panelsCount: S.optional(S.Number),
+          pitchDegrees: S.optional(S.Number),
+          segmentIndex: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "RoofSegmentSummary" });
+    case 14:
+      return S.Array(__S(13, __c0, 13));
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          roofSegmentSummaries: S.optional(__S(14, __c0, 14)),
+          yearlyEnergyDcKwh: S.optional(S.Number),
+          panelsCount: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "SolarPanelConfig" });
+    case 16:
+      return S.Array(__S(15, __c0, 15));
+    case 17:
       return S.suspend(() =>
         S.Struct({
           latitude: S.optional(S.Number),
           longitude: S.optional(S.Number),
         }),
       ).annotate({ identifier: "LatLng" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          ne: S.optional(__S(4, __c0, 4)),
-          sw: S.optional(__S(4, __c0, 4)),
-        }),
-      ).annotate({ identifier: "LatLngBox" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          yearlyEnergyDcKwh: S.optional(S.Number),
-          segmentIndex: S.optional(S.Number),
-          panelsCount: S.optional(S.Number),
-          azimuthDegrees: S.optional(S.Number),
-          pitchDegrees: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "RoofSegmentSummary" });
-    case 7:
-      return S.Array(__S(6, __c0, 6));
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          yearlyEnergyDcKwh: S.optional(S.Number),
-          panelsCount: S.optional(S.Number),
-          roofSegmentSummaries: S.optional(__S(7, __c0, 7)),
-        }),
-      ).annotate({ identifier: "SolarPanelConfig" });
-    case 9:
-      return S.Array(__S(8, __c0, 8));
-    case 10:
-      return S.Array(S.Number);
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          sunshineQuantiles: S.optional(__S(10, __c0, 10)),
-          groundAreaMeters2: S.optional(S.Number),
-          areaMeters2: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "SizeAndSunshineStats" });
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          azimuthDegrees: S.optional(S.Number),
-          polygonGeojson: S.optional(__S(64, __c2, 0)),
-          planeHeightAtCenterMeters: S.optional(S.Number),
-          boundingBox: S.optional(__S(5, __c0, 5)),
-          stats: S.optional(__S(11, __c0, 11)),
-          pitchDegrees: S.optional(S.Number),
-          center: S.optional(__S(4, __c0, 4)),
-        }),
-      ).annotate({ identifier: "RoofSegmentSizeAndSunshineStats" });
-    case 13:
-      return S.Array(__S(12, __c0, 12));
-    case 14:
-      return S.suspend(() =>
-        S.Struct({
-          segmentIndex: S.optional(S.Number),
-          yearlyEnergyDcKwh: S.optional(S.Number),
-          center: S.optional(__S(4, __c0, 4)),
-          orientation: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SolarPanel" });
-    case 15:
-      return S.Array(__S(14, __c0, 14));
-    case 16:
-      return S.suspend(() =>
-        S.Struct({
-          units: S.optional(S.String),
-          nanos: S.optional(S.Number),
-          currencyCode: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Money" });
-    case 17:
-      return S.suspend(() =>
-        S.Struct({
-          savingsYear1: S.optional(__S(16, __c0, 16)),
-          presentValueOfSavingsLifetime: S.optional(__S(16, __c0, 16)),
-          financiallyViable: S.optional(S.Boolean),
-          presentValueOfSavingsYear20: S.optional(__S(16, __c0, 16)),
-          savingsYear20: S.optional(__S(16, __c0, 16)),
-          savingsLifetime: S.optional(__S(16, __c0, 16)),
-        }),
-      ).annotate({ identifier: "SavingsOverTime" });
     case 18:
       return S.suspend(() =>
         S.Struct({
-          outOfPocketCost: S.optional(__S(16, __c0, 16)),
-          paybackYears: S.optional(S.Number),
-          savings: S.optional(__S(17, __c0, 17)),
-          rebateValue: S.optional(__S(16, __c0, 16)),
-          upfrontCost: S.optional(__S(16, __c0, 16)),
+          ne: S.optional(__S(17, __c0, 17)),
+          sw: S.optional(__S(17, __c0, 17)),
         }),
-      ).annotate({ identifier: "CashPurchaseSavings" });
+      ).annotate({ identifier: "LatLngBox" });
     case 19:
       return S.suspend(() =>
         S.Struct({
-          leasesSupported: S.optional(S.Boolean),
-          leasesAllowed: S.optional(S.Boolean),
-          savings: S.optional(__S(17, __c0, 17)),
-          annualLeasingCost: S.optional(__S(16, __c0, 16)),
+          center: S.optional(__S(17, __c0, 17)),
+          planeHeightAtCenterMeters: S.optional(S.Number),
+          boundingBox: S.optional(__S(18, __c0, 18)),
+          polygonGeojson: S.optional(__S(64, __c2, 0)),
+          azimuthDegrees: S.optional(S.Number),
+          pitchDegrees: S.optional(S.Number),
+          stats: S.optional(__S(4, __c0, 4)),
         }),
-      ).annotate({ identifier: "LeasingSavings" });
+      ).annotate({ identifier: "RoofSegmentSizeAndSunshineStats" });
     case 20:
-      return S.suspend(() =>
-        S.Struct({
-          federalIncentive: S.optional(__S(16, __c0, 16)),
-          solarPercentage: S.optional(S.Number),
-          costOfElectricityWithoutSolar: S.optional(__S(16, __c0, 16)),
-          remainingLifetimeUtilityBill: S.optional(__S(16, __c0, 16)),
-          stateIncentive: S.optional(__S(16, __c0, 16)),
-          utilityIncentive: S.optional(__S(16, __c0, 16)),
-          netMeteringAllowed: S.optional(S.Boolean),
-          initialAcKwhPerYear: S.optional(S.Number),
-          lifetimeSrecTotal: S.optional(__S(16, __c0, 16)),
-          percentageExportedToGrid: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "FinancialDetails" });
+      return S.Array(__S(19, __c0, 19));
     case 21:
       return S.suspend(() =>
         S.Struct({
-          annualLoanPayment: S.optional(__S(16, __c0, 16)),
-          loanInterestRate: S.optional(S.Number),
-          rebateValue: S.optional(__S(16, __c0, 16)),
-          savings: S.optional(__S(17, __c0, 17)),
+          orientation: S.optional(S.String),
+          yearlyEnergyDcKwh: S.optional(S.Number),
+          segmentIndex: S.optional(S.Number),
+          center: S.optional(__S(17, __c0, 17)),
         }),
-      ).annotate({ identifier: "FinancedPurchaseSavings" });
+      ).annotate({ identifier: "SolarPanel" });
     case 22:
-      return S.suspend(() =>
-        S.Struct({
-          defaultBill: S.optional(S.Boolean),
-          monthlyBill: S.optional(__S(16, __c0, 16)),
-          panelConfigIndex: S.optional(S.Number),
-          cashPurchaseSavings: S.optional(__S(18, __c0, 18)),
-          averageKwhPerMonth: S.optional(S.Number),
-          leasingSavings: S.optional(__S(19, __c0, 19)),
-          financialDetails: S.optional(__S(20, __c0, 20)),
-          financedPurchaseSavings: S.optional(__S(21, __c0, 21)),
-        }),
-      ).annotate({ identifier: "FinancialAnalysis" });
+      return S.Array(__S(21, __c0, 21));
     case 23:
-      return S.Array(__S(22, __c0, 22));
-    case 24:
       return S.suspend(() =>
         S.Struct({
           obstacles: S.optional(__S(2, __c0, 2)),
-          maxSunshineHoursPerYear: S.optional(S.Number),
-          solarPanelConfigs: S.optional(__S(9, __c0, 9)),
-          panelWidthMeters: S.optional(S.Number),
-          roofSegmentStats: S.optional(__S(13, __c0, 13)),
-          buildingStats: S.optional(__S(11, __c0, 11)),
-          solarPanels: S.optional(__S(15, __c0, 15)),
-          panelLifetimeYears: S.optional(S.Number),
           carbonOffsetFactorKgPerMwh: S.optional(S.Number),
-          wholeRoofStats: S.optional(__S(11, __c0, 11)),
-          panelHeightMeters: S.optional(S.Number),
-          maxArrayPanelsCount: S.optional(S.Number),
           panelCapacityWatts: S.optional(S.Number),
           maxArrayAreaMeters2: S.optional(S.Number),
-          financialAnalyses: S.optional(__S(23, __c0, 23)),
+          wholeRoofStats: S.optional(__S(4, __c0, 4)),
+          maxArrayPanelsCount: S.optional(S.Number),
+          buildingStats: S.optional(__S(4, __c0, 4)),
+          financialAnalyses: S.optional(__S(12, __c0, 12)),
+          panelWidthMeters: S.optional(S.Number),
+          panelHeightMeters: S.optional(S.Number),
+          solarPanelConfigs: S.optional(__S(16, __c0, 16)),
+          maxSunshineHoursPerYear: S.optional(S.Number),
+          panelLifetimeYears: S.optional(S.Number),
+          roofSegmentStats: S.optional(__S(20, __c0, 20)),
+          solarPanels: S.optional(__S(22, __c0, 22)),
         }),
       ).annotate({ identifier: "SolarPotential" });
+    case 24:
+      return S.suspend(() =>
+        S.Struct({
+          arrays: S.optional(__S(2, __c0, 2)),
+          detectionStatus: S.optional(S.String),
+          latestCaptureDate: S.optional(__S(33, __c1, 1)),
+        }),
+      ).annotate({ identifier: "BuildingInsightsDetectedArrays" });
     case 25:
       return S.suspend(() =>
         S.Struct({
-          statisticalArea: S.optional(S.String),
-          detectedArrays: S.optional(__S(3, __c0, 3)),
+          postalCode: S.optional(S.String),
           name: S.optional(S.String),
           imageryQuality: S.optional(S.String),
-          administrativeArea: S.optional(S.String),
-          boundingBox: S.optional(__S(5, __c0, 5)),
-          imageryProcessedDate: S.optional(__S(33, __c1, 1)),
-          center: S.optional(__S(4, __c0, 4)),
+          solarPotential: S.optional(__S(23, __c0, 23)),
+          statisticalArea: S.optional(S.String),
           imageryDate: S.optional(__S(33, __c1, 1)),
-          postalCode: S.optional(S.String),
-          solarPotential: S.optional(__S(24, __c0, 24)),
+          imageryProcessedDate: S.optional(__S(33, __c1, 1)),
+          center: S.optional(__S(17, __c0, 17)),
+          detectedArrays: S.optional(__S(24, __c0, 24)),
+          administrativeArea: S.optional(S.String),
+          boundingBox: S.optional(__S(18, __c0, 18)),
           regionCode: S.optional(S.String),
         }),
       ).annotate({ identifier: "BuildingInsights" });
@@ -740,8 +740,8 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           year: S.optional(S.Number),
-          month: S.optional(S.Number),
           day: S.optional(S.Number),
+          month: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Solar_Date" });
   }
@@ -757,14 +757,14 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          requiredQuality: S.optional(S.String.pipe(T.Query())),
-          radiusMeters: S.optional(S.Number.pipe(T.Query())),
-          "location.longitude": S.optional(S.Number.pipe(T.Query())),
           experiments: S.optional(__S(32, __c1, 0).pipe(T.Query())),
-          pixelSizeMeters: S.optional(S.Number.pipe(T.Query())),
-          "location.latitude": S.optional(S.Number.pipe(T.Query())),
+          "location.longitude": S.optional(S.Number.pipe(T.Query())),
           exactQualityRequired: S.optional(S.Boolean.pipe(T.Query())),
+          radiusMeters: S.optional(S.Number.pipe(T.Query())),
+          pixelSizeMeters: S.optional(S.Number.pipe(T.Query())),
           view: S.optional(S.String.pipe(T.Query())),
+          "location.latitude": S.optional(S.Number.pipe(T.Query())),
+          requiredQuality: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -778,15 +778,15 @@ function __c3(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          imageryDate: S.optional(__S(33, __c1, 1)),
-          monthlyFluxUrl: S.optional(S.String),
           imageryQuality: S.optional(S.String),
+          monthlyFluxUrl: S.optional(S.String),
+          dsmUrl: S.optional(S.String),
+          hourlyShadeUrls: S.optional(__S(97, __c3, 1)),
           maskUrl: S.optional(S.String),
+          annualFluxUrl: S.optional(S.String),
           imageryProcessedDate: S.optional(__S(33, __c1, 1)),
           rgbUrl: S.optional(S.String),
-          hourlyShadeUrls: S.optional(__S(97, __c3, 1)),
-          dsmUrl: S.optional(S.String),
-          annualFluxUrl: S.optional(S.String),
+          imageryDate: S.optional(__S(33, __c1, 1)),
         }),
       ).annotate({ identifier: "DataLayers" });
   }

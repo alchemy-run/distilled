@@ -85,10 +85,10 @@ export class NotFound
 
 /** A (kind, ID/name) pair used to construct a key path. If either name or ID is set, the element is complete. If neither is set, the element is incomplete. */
 export interface PathElement {
-  /** The kind of the entity. A kind matching regex `__.*__` is reserved/read-only. A kind must not contain more than 1500 bytes when UTF-8 encoded. Cannot be `""`. Must be valid UTF-8 bytes. Legacy values that are not valid UTF-8 are encoded as `__bytes__` where `` is the base-64 encoding of the bytes. */
-  kind?: string | undefined;
   /** The name of the entity. A name matching regex `__.*__` is reserved/read-only. A name must not be more than 1500 bytes when UTF-8 encoded. Cannot be `""`. Must be valid UTF-8 bytes. Legacy values that are not valid UTF-8 are encoded as `__bytes__` where `` is the base-64 encoding of the bytes. */
   name?: string | undefined;
+  /** The kind of the entity. A kind matching regex `__.*__` is reserved/read-only. A kind must not contain more than 1500 bytes when UTF-8 encoded. Cannot be `""`. Must be valid UTF-8 bytes. Legacy values that are not valid UTF-8 are encoded as `__bytes__` where `` is the base-64 encoding of the bytes. */
+  kind?: string | undefined;
   /** The auto-allocated ID of the entity. Never equal to zero. Values less than zero are discouraged and may not be supported in the future. */
   id?: string | undefined;
 }
@@ -122,22 +122,22 @@ export interface AllocateIdsResponse {
   /** The keys specified in the request (in the same order), each with its key path completed with a newly allocated ID. */
   keys?: KeyList | undefined;
 }
-/** Options specific to read / write transactions. */
-export interface ReadWrite {
-  /** The transaction identifier of the transaction being retried. */
-  previousTransaction?: string | undefined;
-}
 /** Options specific to read-only transactions. */
 export interface ReadOnly {
   /** Reads entities at the given time. This must be a microsecond precision timestamp within the past one hour, or if Point-in-Time Recovery is enabled, can additionally be a whole minute timestamp within the past 7 days. */
   readTime?: string | undefined;
 }
+/** Options specific to read / write transactions. */
+export interface ReadWrite {
+  /** The transaction identifier of the transaction being retried. */
+  previousTransaction?: string | undefined;
+}
 /** Options for beginning a new transaction. Transactions can be created explicitly with calls to Datastore.BeginTransaction or implicitly by setting ReadOptions.new_transaction in read requests. */
 export interface TransactionOptions {
-  /** The transaction should allow both reads and writes. */
-  readWrite?: ReadWrite | undefined;
   /** The transaction should only allow reads. */
   readOnly?: ReadOnly | undefined;
+  /** The transaction should allow both reads and writes. */
+  readWrite?: ReadWrite | undefined;
 }
 /** The request for Datastore.BeginTransaction. */
 export interface BeginTransactionRequest {
@@ -169,54 +169,54 @@ export interface ArrayValue {
 }
 /** A message that can hold any of the supported value types and associated metadata. */
 export interface Value {
-  /** The `meaning` field should only be populated for backwards compatibility. */
-  meaning?: number | undefined;
   /** A blob value. May have at most 1,000,000 bytes. When `exclude_from_indexes` is false, may have at most 1500 bytes. In JSON requests, must be base64-encoded. */
   blobValue?: string | undefined;
-  /** A boolean value. */
-  booleanValue?: boolean | undefined;
+  /** The `meaning` field should only be populated for backwards compatibility. */
+  meaning?: number | undefined;
+  /** A null value. */
+  nullValue?: ValueNullValueEnum | (string & {}) | undefined;
   /** A UTF-8 encoded string value. When `exclude_from_indexes` is false (it is indexed) , may have at most 1500 bytes. Otherwise, may be set to at most 1,000,000 bytes. */
   stringValue?: string | undefined;
+  /** A geo point value representing a point on the surface of Earth. */
+  geoPointValue?: LatLng | undefined;
+  /** An integer value. */
+  integerValue?: string | undefined;
   /** If the value should be excluded from all indexes including those defined explicitly. */
   excludeFromIndexes?: boolean | undefined;
+  /** A double value. */
+  doubleValue?: number | undefined;
+  /** An entity value. - May have no key. - May have a key with an incomplete key path. - May have a reserved/read-only key. */
+  entityValue?: Entity | undefined;
   /** A key value. */
   keyValue?: Key | undefined;
   /** A timestamp value. When stored in the Datastore, precise only to microseconds; any additional precision is rounded down. */
   timestampValue?: string | undefined;
-  /** A null value. */
-  nullValue?: ValueNullValueEnum | (string & {}) | undefined;
-  /** A geo point value representing a point on the surface of Earth. */
-  geoPointValue?: LatLng | undefined;
-  /** A double value. */
-  doubleValue?: number | undefined;
+  /** A boolean value. */
+  booleanValue?: boolean | undefined;
   /** An array value. Cannot contain another array value. A `Value` instance that sets field `array_value` must not set fields `meaning` or `exclude_from_indexes`. */
   arrayValue?: ArrayValue | undefined;
-  /** An entity value. - May have no key. - May have a key with an incomplete key path. - May have a reserved/read-only key. */
-  entityValue?: Entity | undefined;
-  /** An integer value. */
-  integerValue?: string | undefined;
 }
 export type ValueMap = { [key: string]: Value | undefined };
 /** A Datastore data object. Must not exceed 1 MiB - 4 bytes. */
 export interface Entity {
-  /** The entity's properties. The map's keys are property names. A property name matching regex `__.*__` is reserved. A reserved property name is forbidden in certain documented contexts. The map keys, represented as UTF-8, must not exceed 1,500 bytes and cannot be empty. */
-  properties?: ValueMap | undefined;
   /** The entity's key. An entity must have a key, unless otherwise documented (for example, an entity in `Value.entity_value` may have no key). An entity's kind is its key path's last element's kind, or null if it has no key. */
   key?: Key | undefined;
+  /** The entity's properties. The map's keys are property names. A property name matching regex `__.*__` is reserved. A reserved property name is forbidden in certain documented contexts. The map keys, represented as UTF-8, must not exceed 1,500 bytes and cannot be empty. */
+  properties?: ValueMap | undefined;
 }
 export type PropertyTransformSetToServerValueEnum = "SERVER_VALUE_UNSPECIFIED" | "REQUEST_TIME";
 /** A transformation of an entity property. */
 export interface PropertyTransform {
-  /** Adds the given value to the property's current value. This must be an integer or a double value. If the property is not an integer or double, or if the property does not yet exist, the transformation will set the property to the given value. If either of the given value or the current property value are doubles, both values will be interpreted as doubles. Double arithmetic and representation of double values follows IEEE 754 semantics. If there is positive/negative integer overflow, the property is resolved to the largest magnitude positive/negative integer. */
-  increment?: Value | undefined;
-  /** Sets the property to the given server value. */
-  setToServerValue?: PropertyTransformSetToServerValueEnum | (string & {}) | undefined;
-  /** Removes all of the given elements from the array in the property. If the property is not an array, or if the property does not yet exist, it is set to the empty array. Equivalent numbers of different types (e.g. 3L and 3.0) are considered equal when deciding whether an element should be removed. NaN is equal to NaN, and the null value is equal to the null value. This will remove all equivalent values if there are duplicates. The corresponding transform result will be the null value. */
-  removeAllFromArray?: ArrayValue | undefined;
   /** Appends the given elements in order if they are not already present in the current property value. If the property is not an array, or if the property does not yet exist, it is first set to the empty array. Equivalent numbers of different types (e.g. 3L and 3.0) are considered equal when checking if a value is missing. NaN is equal to NaN, and the null value is equal to the null value. If the input contains multiple equivalent values, only the first will be considered. The corresponding transform result will be the null value. */
   appendMissingElements?: ArrayValue | undefined;
   /** Optional. The name of the property. Property paths (a list of property names separated by dots (`.`)) may be used to refer to properties inside entity values. For example `foo.bar` means the property `bar` inside the entity property `foo`. If a property name contains a dot `.` or a backlslash `\`, then that name must be escaped. */
   property?: string | undefined;
+  /** Adds the given value to the property's current value. This must be an integer or a double value. If the property is not an integer or double, or if the property does not yet exist, the transformation will set the property to the given value. If either of the given value or the current property value are doubles, both values will be interpreted as doubles. Double arithmetic and representation of double values follows IEEE 754 semantics. If there is positive/negative integer overflow, the property is resolved to the largest magnitude positive/negative integer. */
+  increment?: Value | undefined;
+  /** Removes all of the given elements from the array in the property. If the property is not an array, or if the property does not yet exist, it is set to the empty array. Equivalent numbers of different types (e.g. 3L and 3.0) are considered equal when deciding whether an element should be removed. NaN is equal to NaN, and the null value is equal to the null value. This will remove all equivalent values if there are duplicates. The corresponding transform result will be the null value. */
+  removeAllFromArray?: ArrayValue | undefined;
+  /** Sets the property to the given server value. */
+  setToServerValue?: PropertyTransformSetToServerValueEnum | (string & {}) | undefined;
   /** Sets the property to the minimum of its current value and the given value. This must be an integer or a double value. If the property is not an integer or double, or if the property does not yet exist, the transformation will set the property to the input value. If a minimum operation is applied where the property and the input value are of mixed types (that is - one is an integer and one is a double) the property takes on the type of the smaller operand. If the operands are equivalent (e.g. 3 and 3.0), the property does not change. 0, 0.0, and -0.0 are all zero. The minimum of a zero stored value and zero input value is always the stored value. The minimum of any numeric value x and NaN is NaN. */
   minimum?: Value | undefined;
   /** Sets the property to the maximum of its current value and the given value. This must be an integer or a double value. If the property is not an integer or double, or if the property does not yet exist, the transformation will set the property to the given value. If a maximum operation is applied where the property and the input value are of mixed types (that is - one is an integer and one is a double) the property takes on the type of the larger operand. If the operands are equivalent (e.g. 3 and 3.0), the property does not change. 0, 0.0, and -0.0 are all zero. The maximum of a zero stored value and zero input value is always the stored value. The maximum of any numeric value x and NaN is NaN. */
@@ -235,22 +235,22 @@ export type MutationConflictResolutionStrategyEnum =
   | "FAIL";
 /** A mutation to apply to an entity. */
 export interface Mutation {
-  /** The entity to insert. The entity must not already exist. The entity key's final path element may be incomplete. */
-  insert?: Entity | undefined;
-  /** Optional. The transforms to perform on the entity. This field can be set only when the operation is `insert`, `update`, or `upsert`. If present, the transforms are be applied to the entity regardless of the property mask, in order, after the operation. */
-  propertyTransforms?: PropertyTransformList | undefined;
   /** The entity to upsert. The entity may or may not already exist. The entity key's final path element may be incomplete. */
   upsert?: Entity | undefined;
   /** The update time of the entity that this mutation is being applied to. If this does not match the current update time on the server, the mutation conflicts. */
   updateTime?: string | undefined;
+  /** Optional. The transforms to perform on the entity. This field can be set only when the operation is `insert`, `update`, or `upsert`. If present, the transforms are be applied to the entity regardless of the property mask, in order, after the operation. */
+  propertyTransforms?: PropertyTransformList | undefined;
   /** The version of the entity that this mutation is being applied to. If this does not match the current version on the server, the mutation conflicts. */
   baseVersion?: string | undefined;
-  /** The key of the entity to delete. The entity may or may not already exist. Must have a complete key path and must not be reserved/read-only. */
-  delete?: Key | undefined;
   /** The properties to write in this mutation. None of the properties in the mask may have a reserved name, except for `__key__`. This field is ignored for `delete`. If the entity already exists, only properties referenced in the mask are updated, others are left untouched. Properties referenced in the mask but not in the entity are deleted. */
   propertyMask?: PropertyMask | undefined;
+  /** The entity to insert. The entity must not already exist. The entity key's final path element may be incomplete. */
+  insert?: Entity | undefined;
   /** The strategy to use when a conflict is detected. Defaults to `SERVER_VALUE`. If this is set, then `conflict_detection_strategy` must also be set. */
   conflictResolutionStrategy?: MutationConflictResolutionStrategyEnum | (string & {}) | undefined;
+  /** The key of the entity to delete. The entity may or may not already exist. Must have a complete key path and must not be reserved/read-only. */
+  delete?: Key | undefined;
   /** The entity to update. The entity must already exist. Must have a complete key path. */
   update?: Entity | undefined;
 }
@@ -258,12 +258,12 @@ export type MutationList = Array<Mutation>;
 export type CommitRequestModeEnum = "MODE_UNSPECIFIED" | "TRANSACTIONAL" | "NON_TRANSACTIONAL";
 /** The request for Datastore.Commit. */
 export interface CommitRequest {
+  /** The identifier of the transaction associated with the commit. A transaction identifier is returned by a call to Datastore.BeginTransaction. */
+  transaction?: string | undefined;
   /** The mutations to perform. When mode is `TRANSACTIONAL`, mutations affecting a single entity are applied in order. The following sequences of mutations affecting a single entity are not permitted in a single `Commit` request: - `insert` followed by `insert` - `update` followed by `insert` - `upsert` followed by `insert` - `delete` followed by `update` When mode is `NON_TRANSACTIONAL`, no two mutations may affect a single entity. */
   mutations?: MutationList | undefined;
   /** The type of commit to perform. Defaults to `TRANSACTIONAL`. */
   mode?: CommitRequestModeEnum | (string & {}) | undefined;
-  /** The identifier of the transaction associated with the commit. A transaction identifier is returned by a call to Datastore.BeginTransaction. */
-  transaction?: string | undefined;
 }
 export interface CommitProjectsRequest extends CommitRequest {
   /** Required. The ID of the project against which to make the request. */
@@ -271,47 +271,47 @@ export interface CommitProjectsRequest extends CommitRequest {
 }
 /** The result of applying a mutation. */
 export interface MutationResult {
-  /** The results of applying each PropertyTransform, in the same order of the request. */
-  transformResults?: ValueList | undefined;
-  /** The version of the entity on the server after processing the mutation. If the mutation doesn't change anything on the server, then the version will be the version of the current entity or, if no entity is present, a version that is strictly greater than the version of any previous entity and less than the version of any possible future entity. */
-  version?: string | undefined;
-  /** The update time of the entity on the server after processing the mutation. If the mutation doesn't change anything on the server, then the timestamp will be the update timestamp of the current entity. This field will not be set after a 'delete'. */
-  updateTime?: string | undefined;
-  /** The create time of the entity. This field will not be set after a 'delete'. */
-  createTime?: string | undefined;
   /** Whether a conflict was detected for this mutation. Always false when a conflict detection strategy field is not set in the mutation. */
   conflictDetected?: boolean | undefined;
   /** The automatically allocated key. Set only when the mutation allocated a key. */
   key?: Key | undefined;
+  /** The version of the entity on the server after processing the mutation. If the mutation doesn't change anything on the server, then the version will be the version of the current entity or, if no entity is present, a version that is strictly greater than the version of any previous entity and less than the version of any possible future entity. */
+  version?: string | undefined;
+  /** The create time of the entity. This field will not be set after a 'delete'. */
+  createTime?: string | undefined;
+  /** The update time of the entity on the server after processing the mutation. If the mutation doesn't change anything on the server, then the timestamp will be the update timestamp of the current entity. This field will not be set after a 'delete'. */
+  updateTime?: string | undefined;
+  /** The results of applying each PropertyTransform, in the same order of the request. */
+  transformResults?: ValueList | undefined;
 }
 export type MutationResultList = Array<MutationResult>;
 /** The response for Datastore.Commit. */
 export interface CommitResponse {
-  /** The number of index entries updated during the commit, or zero if none were updated. */
-  indexUpdates?: number | undefined;
-  /** The result of performing the mutations. The i-th mutation result corresponds to the i-th mutation in the request. */
-  mutationResults?: MutationResultList | undefined;
   /** The transaction commit timestamp. Not set for non-transactional commits. */
   commitTime?: string | undefined;
+  /** The result of performing the mutations. The i-th mutation result corresponds to the i-th mutation in the request. */
+  mutationResults?: MutationResultList | undefined;
+  /** The number of index entries updated during the commit, or zero if none were updated. */
+  indexUpdates?: number | undefined;
 }
 export type ReadOptionsReadConsistencyEnum = "READ_CONSISTENCY_UNSPECIFIED" | "STRONG" | "EVENTUAL";
 /** The options shared by read requests. */
 export interface ReadOptions {
-  /** The identifier of the transaction in which to read. A transaction identifier is returned by a call to Datastore.BeginTransaction. */
-  transaction?: string | undefined;
   /** The non-transactional read consistency to use. */
   readConsistency?: ReadOptionsReadConsistencyEnum | (string & {}) | undefined;
   /** Reads entities as they were at the given time. This value is only supported for Cloud Firestore in Datastore mode. This must be a microsecond precision timestamp within the past one hour, or if Point-in-Time Recovery is enabled, can additionally be a whole minute timestamp within the past 7 days. */
   readTime?: string | undefined;
+  /** The identifier of the transaction in which to read. A transaction identifier is returned by a call to Datastore.BeginTransaction. */
+  transaction?: string | undefined;
 }
 /** The request for Datastore.Lookup. */
 export interface LookupRequest {
+  /** The options for this lookup request. */
+  readOptions?: ReadOptions | undefined;
   /** The properties to return. Defaults to returning all properties. If this field is set and an entity has a property not referenced in the mask, it will be absent from LookupResponse.found.entity.properties. The entity's key is always returned. */
   propertyMask?: PropertyMask | undefined;
   /** Required. Keys of entities to look up. */
   keys?: KeyList | undefined;
-  /** The options for this lookup request. */
-  readOptions?: ReadOptions | undefined;
 }
 export interface LookupProjectsRequest extends LookupRequest {
   /** Required. The ID of the project against which to make the request. */
@@ -319,35 +319,35 @@ export interface LookupProjectsRequest extends LookupRequest {
 }
 /** The result of fetching an entity from Datastore. */
 export interface EntityResult {
+  /** The resulting entity. */
+  entity?: Entity | undefined;
+  /** A cursor that points to the position after the result entity. Set only when the `EntityResult` is part of a `QueryResultBatch` message. */
+  cursor?: string | undefined;
   /** The time at which the entity was last changed. This field is set for `FULL` entity results. If this entity is missing, this field will not be set. */
   updateTime?: string | undefined;
   /** The version of the entity, a strictly positive number that monotonically increases with changes to the entity. This field is set for `FULL` entity results. For missing entities in `LookupResponse`, this is the version of the snapshot that was used to look up the entity, and it is always set except for eventually consistent reads. */
   version?: string | undefined;
-  /** A cursor that points to the position after the result entity. Set only when the `EntityResult` is part of a `QueryResultBatch` message. */
-  cursor?: string | undefined;
-  /** The resulting entity. */
-  entity?: Entity | undefined;
   /** The time at which the entity was created. This field is set for `FULL` entity results. If this entity is missing, this field will not be set. */
   createTime?: string | undefined;
 }
 export type EntityResultList = Array<EntityResult>;
 /** The response for Datastore.Lookup. */
 export interface LookupResponse {
-  /** Entities not found as `ResultType.KEY_ONLY` entities. The order of results in this field is undefined and has no relation to the order of the keys in the input. */
-  missing?: EntityResultList | undefined;
-  /** The time at which these entities were read or found missing. */
-  readTime?: string | undefined;
   /** Entities found as `ResultType.FULL` entities. The order of results in this field is undefined and has no relation to the order of the keys in the input. */
   found?: EntityResultList | undefined;
+  /** Entities not found as `ResultType.KEY_ONLY` entities. The order of results in this field is undefined and has no relation to the order of the keys in the input. */
+  missing?: EntityResultList | undefined;
   /** A list of keys that were not looked up due to resource constraints. The order of results in this field is undefined and has no relation to the order of the keys in the input. */
   deferred?: KeyList | undefined;
+  /** The time at which these entities were read or found missing. */
+  readTime?: string | undefined;
 }
 /** The request for Datastore.ReserveIds. */
 export interface ReserveIdsRequest {
-  /** Required. A list of keys with complete key paths whose numeric IDs should not be auto-allocated. */
-  keys?: KeyList | undefined;
   /** The ID of the database against which to make the request. '(default)' is not allowed; please use empty string '' to refer the default database. */
   databaseId?: string | undefined;
+  /** Required. A list of keys with complete key paths whose numeric IDs should not be auto-allocated. */
+  keys?: KeyList | undefined;
 }
 export interface ReserveIdsProjectsRequest extends ReserveIdsRequest {
   /** Required. The ID of the project against which to make the request. */
@@ -371,28 +371,6 @@ export interface PropertyReference {
   /** A reference to a property. Requires: * MUST be a dot-delimited (`.`) string of segments, where each segment conforms to entity property name limitations. */
   name?: string | undefined;
 }
-export type PropertyOrderDirectionEnum = "DIRECTION_UNSPECIFIED" | "ASCENDING" | "DESCENDING";
-/** The desired order for a specific property. */
-export interface PropertyOrder {
-  /** The property to order by. */
-  property?: PropertyReference | undefined;
-  /** The direction to order by. Defaults to `ASCENDING`. */
-  direction?: PropertyOrderDirectionEnum | (string & {}) | undefined;
-}
-export type PropertyOrderList = Array<PropertyOrder>;
-/** A representation of a property in a projection. */
-export interface Projection {
-  /** The property to project. */
-  property?: PropertyReference | undefined;
-}
-export type ProjectionList = Array<Projection>;
-/** A representation of a kind. */
-export interface KindExpression {
-  /** The name of the kind. */
-  name?: string | undefined;
-}
-export type KindExpressionList = Array<KindExpression>;
-export type PropertyReferenceList = Array<PropertyReference>;
 export type FindNearestDistanceMeasureEnum =
   | "DISTANCE_MEASURE_UNSPECIFIED"
   | "EUCLIDEAN"
@@ -400,19 +378,26 @@ export type FindNearestDistanceMeasureEnum =
   | "DOT_PRODUCT";
 /** Nearest Neighbors search config. The ordering provided by FindNearest supersedes the order_by stage. If multiple documents have the same vector distance, the returned document order is not guaranteed to be stable between queries. */
 export interface FindNearest {
-  /** Optional. Option to specify a threshold for which no less similar documents will be returned. The behavior of the specified `distance_measure` will affect the meaning of the distance threshold. Since DOT_PRODUCT distances increase when the vectors are more similar, the comparison is inverted. * For EUCLIDEAN, COSINE: WHERE distance <= distance_threshold * For DOT_PRODUCT: WHERE distance >= distance_threshold */
-  distanceThreshold?: number | undefined;
-  /** Required. The query vector that we are searching on. Must be a vector of no more than 2048 dimensions. */
-  queryVector?: Value | undefined;
-  /** Required. The Distance Measure to use, required. */
-  distanceMeasure?: FindNearestDistanceMeasureEnum | (string & {}) | undefined;
-  /** Required. An indexed vector property to search upon. Only documents which contain vectors whose dimensionality match the query_vector can be returned. */
-  vectorProperty?: PropertyReference | undefined;
   /** Required. The number of nearest neighbors to return. Must be a positive integer of no more than 100. */
   limit?: number | undefined;
+  /** Required. An indexed vector property to search upon. Only documents which contain vectors whose dimensionality match the query_vector can be returned. */
+  vectorProperty?: PropertyReference | undefined;
+  /** Required. The query vector that we are searching on. Must be a vector of no more than 2048 dimensions. */
+  queryVector?: Value | undefined;
   /** Optional. Optional name of the field to output the result of the vector distance calculation. Must conform to entity property limitations. */
   distanceResultProperty?: string | undefined;
+  /** Optional. Option to specify a threshold for which no less similar documents will be returned. The behavior of the specified `distance_measure` will affect the meaning of the distance threshold. Since DOT_PRODUCT distances increase when the vectors are more similar, the comparison is inverted. * For EUCLIDEAN, COSINE: WHERE distance <= distance_threshold * For DOT_PRODUCT: WHERE distance >= distance_threshold */
+  distanceThreshold?: number | undefined;
+  /** Required. The Distance Measure to use, required. */
+  distanceMeasure?: FindNearestDistanceMeasureEnum | (string & {}) | undefined;
 }
+export type PropertyReferenceList = Array<PropertyReference>;
+/** A representation of a property in a projection. */
+export interface Projection {
+  /** The property to project. */
+  property?: PropertyReference | undefined;
+}
+export type ProjectionList = Array<Projection>;
 export type PropertyFilterOpEnum =
   | "OPERATOR_UNSPECIFIED"
   | "LESS_THAN"
@@ -426,21 +411,21 @@ export type PropertyFilterOpEnum =
   | "NOT_IN";
 /** A filter on a specific property. */
 export interface PropertyFilter {
-  /** The property to filter by. */
-  property?: PropertyReference | undefined;
   /** The operator to filter by. */
   op?: PropertyFilterOpEnum | (string & {}) | undefined;
+  /** The property to filter by. */
+  property?: PropertyReference | undefined;
   /** The value to compare the property to. */
   value?: Value | undefined;
 }
-export type CompositeFilterOpEnum = "OPERATOR_UNSPECIFIED" | "AND" | "OR";
 export type FilterList = Array<Filter>;
+export type CompositeFilterOpEnum = "OPERATOR_UNSPECIFIED" | "AND" | "OR";
 /** A filter that merges multiple other filters using the given operator. */
 export interface CompositeFilter {
-  /** The operator for combining multiple filters. */
-  op?: CompositeFilterOpEnum | (string & {}) | undefined;
   /** The list of filters to combine. Requires: * At least one filter is present. */
   filters?: FilterList | undefined;
+  /** The operator for combining multiple filters. */
+  op?: CompositeFilterOpEnum | (string & {}) | undefined;
 }
 /** A holder for any type of filter. */
 export interface Filter {
@@ -449,51 +434,66 @@ export interface Filter {
   /** A composite filter. */
   compositeFilter?: CompositeFilter | undefined;
 }
+/** A representation of a kind. */
+export interface KindExpression {
+  /** The name of the kind. */
+  name?: string | undefined;
+}
+export type KindExpressionList = Array<KindExpression>;
+export type PropertyOrderDirectionEnum = "DIRECTION_UNSPECIFIED" | "ASCENDING" | "DESCENDING";
+/** The desired order for a specific property. */
+export interface PropertyOrder {
+  /** The property to order by. */
+  property?: PropertyReference | undefined;
+  /** The direction to order by. Defaults to `ASCENDING`. */
+  direction?: PropertyOrderDirectionEnum | (string & {}) | undefined;
+}
+export type PropertyOrderList = Array<PropertyOrder>;
 /** A query for entities. The query stages are executed in the following order: 1. kind 2. filter 3. projection 4. order + start_cursor + end_cursor 5. offset 6. limit 7. find_nearest */
 export interface Query {
-  /** The number of results to skip. Applies before limit, but after all other constraints. Optional. Must be >= 0 if specified. */
-  offset?: number | undefined;
-  /** The order to apply to the query results (if empty, order is unspecified). */
-  order?: PropertyOrderList | undefined;
-  /** The projection to return. Defaults to returning all properties. */
-  projection?: ProjectionList | undefined;
-  /** The kinds to query (if empty, returns entities of all kinds). Currently at most 1 kind may be specified. */
-  kind?: KindExpressionList | undefined;
-  /** A starting point for the query results. Query cursors are returned in query result batches and [can only be used to continue the same query](https://cloud.google.com/datastore/docs/concepts/queries#cursors_limits_and_offsets). */
-  startCursor?: string | undefined;
-  /** The properties to make distinct. The query results will contain the first result for each distinct combination of values for the given properties (if empty, all results are returned). Requires: * If `order` is specified, the set of distinct on properties must appear before the non-distinct on properties in `order`. */
-  distinctOn?: PropertyReferenceList | undefined;
-  /** An ending point for the query results. Query cursors are returned in query result batches and [can only be used to limit the same query](https://cloud.google.com/datastore/docs/concepts/queries#cursors_limits_and_offsets). */
-  endCursor?: string | undefined;
-  /** The maximum number of results to return. Applies after all other constraints. Optional. Unspecified is interpreted as no limit. Must be >= 0 if specified. */
-  limit?: number | undefined;
   /** Optional. A potential Nearest Neighbors Search. Applies after all other filters and ordering. Finds the closest vector embeddings to the given query vector. */
   findNearest?: FindNearest | undefined;
+  /** The maximum number of results to return. Applies after all other constraints. Optional. Unspecified is interpreted as no limit. Must be >= 0 if specified. */
+  limit?: number | undefined;
+  /** The properties to make distinct. The query results will contain the first result for each distinct combination of values for the given properties (if empty, all results are returned). Requires: * If `order` is specified, the set of distinct on properties must appear before the non-distinct on properties in `order`. */
+  distinctOn?: PropertyReferenceList | undefined;
+  /** A starting point for the query results. Query cursors are returned in query result batches and [can only be used to continue the same query](https://cloud.google.com/datastore/docs/concepts/queries#cursors_limits_and_offsets). */
+  startCursor?: string | undefined;
+  /** The projection to return. Defaults to returning all properties. */
+  projection?: ProjectionList | undefined;
   /** The filter to apply. */
   filter?: Filter | undefined;
+  /** The kinds to query (if empty, returns entities of all kinds). Currently at most 1 kind may be specified. */
+  kind?: KindExpressionList | undefined;
+  /** The order to apply to the query results (if empty, order is unspecified). */
+  order?: PropertyOrderList | undefined;
+  /** An ending point for the query results. Query cursors are returned in query result batches and [can only be used to limit the same query](https://cloud.google.com/datastore/docs/concepts/queries#cursors_limits_and_offsets). */
+  endCursor?: string | undefined;
+  /** The number of results to skip. Applies before limit, but after all other constraints. Optional. Must be >= 0 if specified. */
+  offset?: number | undefined;
 }
 /** Sum of the values of the requested property. * Only numeric values will be aggregated. All non-numeric values including `NULL` are skipped. * If the aggregated values contain `NaN`, returns `NaN`. Infinity math follows IEEE-754 standards. * If the aggregated value set is empty, returns 0. * Returns a 64-bit integer if all aggregated numbers are integers and the sum result does not overflow. Otherwise, the result is returned as a double. Note that even if all the aggregated values are integers, the result is returned as a double if it cannot fit within a 64-bit signed integer. When this occurs, the returned value will lose precision. * When underflow occurs, floating-point aggregation is non-deterministic. This means that running the same query repeatedly without any changes to the underlying values could produce slightly different results each time. In those cases, values should be stored as integers over floating-point numbers. */
 export interface Sum {
   /** The property to aggregate on. */
   property?: PropertyReference | undefined;
 }
+/** Average of the values of the requested property. * Only numeric values will be aggregated. All non-numeric values including `NULL` are skipped. * If the aggregated values contain `NaN`, returns `NaN`. Infinity math follows IEEE-754 standards. * If the aggregated value set is empty, returns `NULL`. * Always returns the result as a double. */
+export type Avg = Sum;
 /** Count of entities that match the query. The `COUNT(*)` aggregation function operates on the entire entity so it does not require a field reference. */
 export interface Count {
   /** Optional. Optional constraint on the maximum number of entities to count. This provides a way to set an upper bound on the number of entities to scan, limiting latency, and cost. Unspecified is interpreted as no bound. If a zero value is provided, a count result of zero should always be expected. High-Level Example: ``` AGGREGATE COUNT_UP_TO(1000) OVER ( SELECT * FROM k ); ``` Requires: * Must be non-negative when present. */
   upTo?: string | undefined;
 }
-/** Average of the values of the requested property. * Only numeric values will be aggregated. All non-numeric values including `NULL` are skipped. * If the aggregated values contain `NaN`, returns `NaN`. Infinity math follows IEEE-754 standards. * If the aggregated value set is empty, returns `NULL`. * Always returns the result as a double. */
-export type Avg = Sum;
 /** Defines an aggregation that produces a single result. */
 export interface Aggregation {
   /** Sum aggregator. */
   sum?: Sum | undefined;
-  /** Count aggregator. */
-  count?: Count | undefined;
-  /** Optional. Optional name of the property to store the result of the aggregation. If not provided, Datastore will pick a default name following the format `property_`. For example: ``` AGGREGATE COUNT_UP_TO(1) AS count_up_to_1, COUNT_UP_TO(2), COUNT_UP_TO(3) AS count_up_to_3, COUNT(*) OVER ( ... ); ``` becomes: ``` AGGREGATE COUNT_UP_TO(1) AS count_up_to_1, COUNT_UP_TO(2) AS property_1, COUNT_UP_TO(3) AS count_up_to_3, COUNT(*) AS property_2 OVER ( ... ); ``` Requires: * Must be unique across all aggregation aliases. * Conform to entity property name limitations. */
-  alias?: string | undefined;
   /** Average aggregator. */
   avg?: Sum | undefined;
+  /** Optional. Optional name of the property to store the result of the aggregation. If not provided, Datastore will pick a default name following the format `property_`. For example: ``` AGGREGATE COUNT_UP_TO(1) AS count_up_to_1, COUNT_UP_TO(2), COUNT_UP_TO(3) AS count_up_to_3, COUNT(*) OVER ( ... ); ``` becomes: ``` AGGREGATE COUNT_UP_TO(1) AS count_up_to_1, COUNT_UP_TO(2) AS property_1, COUNT_UP_TO(3) AS count_up_to_3, COUNT(*) AS property_2 OVER ( ... ); ``` Requires: * Must be unique across all aggregation aliases. * Conform to entity property name limitations. */
+  alias?: string | undefined;
+  /** Count aggregator. */
+  count?: Count | undefined;
 }
 export type AggregationList = Array<Aggregation>;
 /** Datastore query for running an aggregation over a Query. */
@@ -503,6 +503,11 @@ export interface AggregationQuery {
   /** Optional. Series of aggregations to apply over the results of the `nested_query`. Requires: * A minimum of one and maximum of five aggregations per query. */
   aggregations?: AggregationList | undefined;
 }
+/** Explain options for the query. */
+export interface ExplainOptions {
+  /** Optional. Whether to execute this query. When false (the default), the query will be planned, returning only metrics from the planning stages. When true, the query will be planned and executed, returning the full query results along with both planning and execution stage metrics. */
+  analyze?: boolean | undefined;
+}
 /** A binding parameter for a GQL query. */
 export interface GqlQueryParameter {
   /** A value parameter. */
@@ -510,36 +515,31 @@ export interface GqlQueryParameter {
   /** A query cursor. Query cursors are returned in query result batches. */
   cursor?: string | undefined;
 }
-export type GqlQueryParameterMap = { [key: string]: GqlQueryParameter | undefined };
 export type GqlQueryParameterList = Array<GqlQueryParameter>;
+export type GqlQueryParameterMap = { [key: string]: GqlQueryParameter | undefined };
 /** A [GQL query](https://cloud.google.com/datastore/docs/apis/gql/gql_reference). */
 export interface GqlQuery {
-  /** A string of the format described [here](https://cloud.google.com/datastore/docs/apis/gql/gql_reference). */
-  queryString?: string | undefined;
-  /** For each non-reserved named binding site in the query string, there must be a named parameter with that name, but not necessarily the inverse. Key must match regex `A-Za-z_$*`, must not match regex `__.*__`, and must not be `""`. */
-  namedBindings?: GqlQueryParameterMap | undefined;
-  /** When false, the query string must not contain any literals and instead must bind all values. For example, `SELECT * FROM Kind WHERE a = 'string literal'` is not allowed, while `SELECT * FROM Kind WHERE a = @value` is. */
-  allowLiterals?: boolean | undefined;
   /** Numbered binding site @1 references the first numbered parameter, effectively using 1-based indexing, rather than the usual 0. For each binding site numbered i in `query_string`, there must be an i-th numbered parameter. The inverse must also be true. */
   positionalBindings?: GqlQueryParameterList | undefined;
-}
-/** Explain options for the query. */
-export interface ExplainOptions {
-  /** Optional. Whether to execute this query. When false (the default), the query will be planned, returning only metrics from the planning stages. When true, the query will be planned and executed, returning the full query results along with both planning and execution stage metrics. */
-  analyze?: boolean | undefined;
+  /** When false, the query string must not contain any literals and instead must bind all values. For example, `SELECT * FROM Kind WHERE a = 'string literal'` is not allowed, while `SELECT * FROM Kind WHERE a = @value` is. */
+  allowLiterals?: boolean | undefined;
+  /** For each non-reserved named binding site in the query string, there must be a named parameter with that name, but not necessarily the inverse. Key must match regex `A-Za-z_$*`, must not match regex `__.*__`, and must not be `""`. */
+  namedBindings?: GqlQueryParameterMap | undefined;
+  /** A string of the format described [here](https://cloud.google.com/datastore/docs/apis/gql/gql_reference). */
+  queryString?: string | undefined;
 }
 /** The request for Datastore.RunAggregationQuery. */
 export interface RunAggregationQueryRequest {
-  /** The options for this query. */
-  readOptions?: ReadOptions | undefined;
   /** The query to run. */
   aggregationQuery?: AggregationQuery | undefined;
-  /** The GQL query to run. This query must be an aggregation query. */
-  gqlQuery?: GqlQuery | undefined;
-  /** Entities are partitioned into subsets, identified by a partition ID. Queries are scoped to a single partition. This partition ID is normalized with the standard default context partition ID. */
-  partitionId?: PartitionId | undefined;
   /** Optional. Explain options for the query. If set, additional query statistics will be returned. If not, only query results will be returned. */
   explainOptions?: ExplainOptions | undefined;
+  /** Entities are partitioned into subsets, identified by a partition ID. Queries are scoped to a single partition. This partition ID is normalized with the standard default context partition ID. */
+  partitionId?: PartitionId | undefined;
+  /** The GQL query to run. This query must be an aggregation query. */
+  gqlQuery?: GqlQuery | undefined;
+  /** The options for this query. */
+  readOptions?: ReadOptions | undefined;
 }
 export interface RunAggregationQueryProjectsRequest extends RunAggregationQueryRequest {
   /** Required. The ID of the project against which to make the request. */
@@ -556,12 +556,12 @@ export interface PlanSummary {
 export interface ExecutionStats {
   /** Total time to execute the query in the backend. */
   executionDuration?: string | undefined;
-  /** Total billable read operations. */
-  readOperations?: string | undefined;
-  /** Debugging statistics from the execution of the query. Note that the debugging stats are subject to change as Firestore evolves. It could include: { "indexes_entries_scanned": "1000", "documents_scanned": "20", "billing_details" : { "documents_billable": "20", "index_entries_billable": "1000", "min_query_cost": "0" } } */
-  debugStats?: DocumentMap | undefined;
   /** Total number of results returned, including documents, projections, aggregation results, keys. */
   resultsReturned?: string | undefined;
+  /** Debugging statistics from the execution of the query. Note that the debugging stats are subject to change as Firestore evolves. It could include: { "indexes_entries_scanned": "1000", "documents_scanned": "20", "billing_details" : { "documents_billable": "20", "index_entries_billable": "1000", "min_query_cost": "0" } } */
+  debugStats?: DocumentMap | undefined;
+  /** Total billable read operations. */
+  readOperations?: string | undefined;
 }
 /** Explain metrics for the query. */
 export interface ExplainMetrics {
@@ -586,10 +586,10 @@ export type AggregationResultList = Array<AggregationResult>;
 export interface AggregationResultBatch {
   /** The state of the query after the current batch. Only COUNT(*) aggregations are supported in the initial launch. Therefore, expected result type is limited to `NO_MORE_RESULTS`. */
   moreResults?: AggregationResultBatchMoreResultsEnum | undefined;
-  /** The aggregation results for this batch. */
-  aggregationResults?: AggregationResultList | undefined;
   /** Read timestamp this batch was returned from. In a single transaction, subsequent query result batches for the same query can have a greater timestamp. Each batch's read timestamp is valid for all preceding batches. */
   readTime?: string | undefined;
+  /** The aggregation results for this batch. */
+  aggregationResults?: AggregationResultList | undefined;
 }
 /** The response for Datastore.RunAggregationQuery. */
 export interface RunAggregationQueryResponse {
@@ -602,18 +602,18 @@ export interface RunAggregationQueryResponse {
 }
 /** The request for Datastore.RunQuery. */
 export interface RunQueryRequest {
-  /** The options for this query. */
-  readOptions?: ReadOptions | undefined;
+  /** Entities are partitioned into subsets, identified by a partition ID. Queries are scoped to a single partition. This partition ID is normalized with the standard default context partition ID. */
+  partitionId?: PartitionId | undefined;
   /** The GQL query to run. This query must be a non-aggregation query. */
   gqlQuery?: GqlQuery | undefined;
   /** The properties to return. This field must not be set for a projection query. See LookupRequest.property_mask. */
   propertyMask?: PropertyMask | undefined;
-  /** The query to run. */
-  query?: Query | undefined;
+  /** The options for this query. */
+  readOptions?: ReadOptions | undefined;
   /** Optional. Explain options for the query. If set, additional query statistics will be returned. If not, only query results will be returned. */
   explainOptions?: ExplainOptions | undefined;
-  /** Entities are partitioned into subsets, identified by a partition ID. Queries are scoped to a single partition. This partition ID is normalized with the standard default context partition ID. */
-  partitionId?: PartitionId | undefined;
+  /** The query to run. */
+  query?: Query | undefined;
 }
 export interface RunQueryProjectsRequest extends RunQueryRequest {
   /** Required. The ID of the project against which to make the request. */
@@ -632,31 +632,31 @@ export type QueryResultBatchMoreResultsEnum =
   | "NO_MORE_RESULTS";
 /** A batch of results produced by a query. */
 export interface QueryResultBatch {
-  /** The results for this batch. */
-  entityResults?: EntityResultList | undefined;
-  /** A cursor that points to the position after the last skipped result. Will be set when `skipped_results` != 0. */
-  skippedCursor?: string | undefined;
   /** The result type for every entity in `entity_results`. */
   entityResultType?: QueryResultBatchEntityResultTypeEnum | undefined;
-  /** The version number of the snapshot this batch was returned from. This applies to the range of results from the query's `start_cursor` (or the beginning of the query if no cursor was given) to this batch's `end_cursor` (not the query's `end_cursor`). In a single transaction, subsequent query result batches for the same query can have a greater snapshot version number. Each batch's snapshot version is valid for all preceding batches. The value will be zero for eventually consistent queries. */
-  snapshotVersion?: string | undefined;
-  /** The state of the query after the current batch. */
-  moreResults?: QueryResultBatchMoreResultsEnum | undefined;
-  /** A cursor that points to the position after the last result in the batch. */
-  endCursor?: string | undefined;
   /** The number of results skipped, typically because of an offset. */
   skippedResults?: number | undefined;
+  /** The results for this batch. */
+  entityResults?: EntityResultList | undefined;
+  /** A cursor that points to the position after the last result in the batch. */
+  endCursor?: string | undefined;
+  /** A cursor that points to the position after the last skipped result. Will be set when `skipped_results` != 0. */
+  skippedCursor?: string | undefined;
+  /** The state of the query after the current batch. */
+  moreResults?: QueryResultBatchMoreResultsEnum | undefined;
+  /** The version number of the snapshot this batch was returned from. This applies to the range of results from the query's `start_cursor` (or the beginning of the query if no cursor was given) to this batch's `end_cursor` (not the query's `end_cursor`). In a single transaction, subsequent query result batches for the same query can have a greater snapshot version number. Each batch's snapshot version is valid for all preceding batches. The value will be zero for eventually consistent queries. */
+  snapshotVersion?: string | undefined;
   /** Read timestamp this batch was returned from. This applies to the range of results from the query's `start_cursor` (or the beginning of the query if no cursor was given) to this batch's `end_cursor` (not the query's `end_cursor`). In a single transaction, subsequent query result batches for the same query can have a greater timestamp. Each batch's read timestamp is valid for all preceding batches. This value will not be set for eventually consistent queries in Cloud Datastore. */
   readTime?: string | undefined;
 }
 /** The response for Datastore.RunQuery. */
 export interface RunQueryResponse {
-  /** Query explain metrics. This is only present when the RunQueryRequest.explain_options is provided, and it is sent only once with the last response in the stream. */
-  explainMetrics?: ExplainMetrics | undefined;
   /** A batch of query results. This is always present unless running a query under explain-only mode: RunQueryRequest.explain_options was provided and ExplainOptions.analyze was set to false. */
   batch?: QueryResultBatch | undefined;
   /** The parsed form of the `GqlQuery` from the request, if it was set. */
   query?: Query | undefined;
+  /** Query explain metrics. This is only present when the RunQueryRequest.explain_options is provided, and it is sent only once with the last response in the stream. */
+  explainMetrics?: ExplainMetrics | undefined;
 }
 export type AllocateIdsProjectsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Allocates IDs for the given keys, which is useful for referencing an entity before it is inserted. */
@@ -825,9 +825,9 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           sum: S.optional(__S(35, __c1, 3)),
-          count: S.optional(__S(0, __c0, 0)),
-          alias: S.optional(S.String),
           avg: S.optional(__S(35, __c1, 3)),
+          alias: S.optional(S.String),
+          count: S.optional(__S(0, __c0, 0)),
         }),
       ).annotate({ identifier: "Aggregation" });
     case 2:
@@ -842,11 +842,11 @@ function __c0(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          readOptions: S.optional(__S(384, __c12, 0)),
           aggregationQuery: S.optional(__S(3, __c0, 3)),
-          gqlQuery: S.optional(__S(47, __c1, 15)),
+          explainOptions: S.optional(__S(44, __c1, 12)),
           partitionId: S.optional(__S(130, __c4, 2)),
-          explainOptions: S.optional(__S(48, __c1, 16)),
+          gqlQuery: S.optional(__S(48, __c1, 16)),
+          readOptions: S.optional(__S(384, __c12, 0)),
         }),
       ).annotate({ identifier: "RunAggregationQueryRequest" });
     case 5:
@@ -876,8 +876,8 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           moreResults: S.optional(S.String),
-          aggregationResults: S.optional(__S(7, __c0, 7)),
           readTime: S.optional(S.String),
+          aggregationResults: S.optional(__S(7, __c0, 7)),
         }),
       ).annotate({ identifier: "AggregationResultBatch" });
     case 9:
@@ -901,12 +901,16 @@ function __c1(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          property: S.optional(__S(32, __c1, 0)),
-          direction: S.optional(S.String),
+          limit: S.optional(S.Number),
+          vectorProperty: S.optional(__S(32, __c1, 0)),
+          queryVector: S.optional(__S(291, __c9, 3)),
+          distanceResultProperty: S.optional(S.String),
+          distanceThreshold: S.optional(S.Number),
+          distanceMeasure: S.optional(S.String),
         }),
-      ).annotate({ identifier: "PropertyOrder" });
+      ).annotate({ identifier: "FindNearest" });
     case 2:
-      return S.Array(__S(33, __c1, 1));
+      return S.Array(__S(32, __c1, 0));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -916,83 +920,79 @@ function __c1(j: number): any {
     case 4:
       return S.Array(__S(35, __c1, 3));
     case 5:
-      return S.Array(__S(32, __c1, 0));
-    case 6:
       return S.suspend(() =>
         S.Struct({
-          distanceThreshold: S.optional(S.Number),
-          queryVector: S.optional(__S(291, __c9, 3)),
-          distanceMeasure: S.optional(S.String),
-          vectorProperty: S.optional(__S(32, __c1, 0)),
-          limit: S.optional(S.Number),
-          distanceResultProperty: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "FindNearest" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          property: S.optional(__S(32, __c1, 0)),
           op: S.optional(S.String),
+          property: S.optional(__S(32, __c1, 0)),
           value: S.optional(__S(291, __c9, 3)),
         }),
       ).annotate({ identifier: "PropertyFilter" });
+    case 6:
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(40, __c1, 8)));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          filters: S.optional(__S(38, __c1, 6)),
+          op: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CompositeFilter" });
     case 8:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(42, __c1, 10)));
+      return S.suspend(() =>
+        S.Struct({
+          propertyFilter: S.optional(__S(37, __c1, 5)),
+          compositeFilter: S.optional(__S(39, __c1, 7)),
+        }),
+      ).annotate({ identifier: "Filter" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          op: S.optional(S.String),
-          filters: S.optional(__S(40, __c1, 8)),
+          property: S.optional(__S(32, __c1, 0)),
+          direction: S.optional(S.String),
         }),
-      ).annotate({ identifier: "CompositeFilter" });
+      ).annotate({ identifier: "PropertyOrder" });
     case 10:
-      return S.suspend(() =>
-        S.Struct({
-          propertyFilter: S.optional(__S(39, __c1, 7)),
-          compositeFilter: S.optional(__S(41, __c1, 9)),
-        }),
-      ).annotate({ identifier: "Filter" });
+      return S.Array(__S(41, __c1, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
-          offset: S.optional(S.Number),
-          order: S.optional(__S(34, __c1, 2)),
-          projection: S.optional(__S(36, __c1, 4)),
-          kind: S.optional(__S(37, __c1, 5)),
-          startCursor: S.optional(S.String),
-          distinctOn: S.optional(__S(37, __c1, 5)),
-          endCursor: S.optional(S.String),
+          findNearest: S.optional(__S(33, __c1, 1)),
           limit: S.optional(S.Number),
-          findNearest: S.optional(__S(38, __c1, 6)),
-          filter: S.optional(__S(42, __c1, 10)),
+          distinctOn: S.optional(__S(34, __c1, 2)),
+          startCursor: S.optional(S.String),
+          projection: S.optional(__S(36, __c1, 4)),
+          filter: S.optional(__S(40, __c1, 8)),
+          kind: S.optional(__S(34, __c1, 2)),
+          order: S.optional(__S(42, __c1, 10)),
+          endCursor: S.optional(S.String),
+          offset: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Query" });
     case 12:
+      return S.suspend(() =>
+        S.Struct({
+          analyze: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "ExplainOptions" });
+    case 13:
       return S.suspend(() =>
         S.Struct({
           value: S.optional(__S(291, __c9, 3)),
           cursor: S.optional(S.String),
         }),
       ).annotate({ identifier: "GqlQueryParameter" });
-    case 13:
-      return S.Record(S.String, __S(44, __c1, 12));
     case 14:
-      return S.Array(__S(44, __c1, 12));
+      return S.Array(__S(45, __c1, 13));
     case 15:
-      return S.suspend(() =>
-        S.Struct({
-          queryString: S.optional(S.String),
-          namedBindings: S.optional(__S(45, __c1, 13)),
-          allowLiterals: S.optional(S.Boolean),
-          positionalBindings: S.optional(__S(46, __c1, 14)),
-        }),
-      ).annotate({ identifier: "GqlQuery" });
+      return S.Record(S.String, __S(45, __c1, 13));
     case 16:
       return S.suspend(() =>
         S.Struct({
-          analyze: S.optional(S.Boolean),
+          positionalBindings: S.optional(__S(46, __c1, 14)),
+          allowLiterals: S.optional(S.Boolean),
+          namedBindings: S.optional(__S(47, __c1, 15)),
+          queryString: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ExplainOptions" });
+      ).annotate({ identifier: "GqlQuery" });
     case 17:
       return S.Record(S.String, S.Unknown);
     case 18:
@@ -1007,9 +1007,9 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           executionDuration: S.optional(S.String),
-          readOperations: S.optional(S.String),
-          debugStats: S.optional(__S(49, __c1, 17)),
           resultsReturned: S.optional(S.String),
+          debugStats: S.optional(__S(49, __c1, 17)),
+          readOperations: S.optional(S.String),
         }),
       ).annotate({ identifier: "ExecutionStats" });
     case 21:
@@ -1026,12 +1026,12 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          readOptions: S.optional(__S(384, __c12, 0)),
-          gqlQuery: S.optional(__S(47, __c1, 15)),
-          propertyMask: S.optional(__S(321, __c10, 1)),
-          query: S.optional(__S(43, __c1, 11)),
-          explainOptions: S.optional(__S(48, __c1, 16)),
           partitionId: S.optional(__S(130, __c4, 2)),
+          gqlQuery: S.optional(__S(48, __c1, 16)),
+          propertyMask: S.optional(__S(321, __c10, 1)),
+          readOptions: S.optional(__S(384, __c12, 0)),
+          explainOptions: S.optional(__S(44, __c1, 12)),
+          query: S.optional(__S(43, __c1, 11)),
         }),
       ).annotate({ identifier: "RunQueryRequest" });
     case 1:
@@ -1052,22 +1052,22 @@ function __c2(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          entityResults: S.optional(__S(417, __c13, 1)),
-          skippedCursor: S.optional(S.String),
           entityResultType: S.optional(S.String),
-          snapshotVersion: S.optional(S.String),
-          moreResults: S.optional(S.String),
-          endCursor: S.optional(S.String),
           skippedResults: S.optional(S.Number),
+          entityResults: S.optional(__S(417, __c13, 1)),
+          endCursor: S.optional(S.String),
+          skippedCursor: S.optional(S.String),
+          moreResults: S.optional(S.String),
+          snapshotVersion: S.optional(S.String),
           readTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "QueryResultBatch" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          explainMetrics: S.optional(__S(53, __c1, 21)),
           batch: S.optional(__S(66, __c2, 2)),
           query: S.optional(__S(43, __c1, 11)),
+          explainMetrics: S.optional(__S(53, __c1, 21)),
         }),
       ).annotate({ identifier: "RunQueryResponse" });
   }
@@ -1102,8 +1102,8 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          kind: S.optional(S.String),
           name: S.optional(S.String),
+          kind: S.optional(S.String),
           id: S.optional(S.String),
         }),
       ).annotate({ identifier: "PathElement" });
@@ -1136,20 +1136,20 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          previousTransaction: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ReadWrite" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           readTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "ReadOnly" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          previousTransaction: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ReadWrite" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          readWrite: S.optional(__S(192, __c6, 0)),
-          readOnly: S.optional(__S(193, __c6, 1)),
+          readOnly: S.optional(__S(192, __c6, 0)),
+          readWrite: S.optional(__S(193, __c6, 1)),
         }),
       ).annotate({ identifier: "TransactionOptions" });
     case 3:
@@ -1190,11 +1190,11 @@ function __c8(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          increment: S.optional(__S(291, __c9, 3)),
-          setToServerValue: S.optional(S.String),
-          removeAllFromArray: S.optional(__S(290, __c9, 2)),
           appendMissingElements: S.optional(__S(290, __c9, 2)),
           property: S.optional(S.String),
+          increment: S.optional(__S(291, __c9, 3)),
+          removeAllFromArray: S.optional(__S(290, __c9, 2)),
+          setToServerValue: S.optional(S.String),
           minimum: S.optional(__S(291, __c9, 3)),
           maximum: S.optional(__S(291, __c9, 3)),
         }),
@@ -1204,14 +1204,14 @@ function __c8(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          insert: S.optional(__S(293, __c9, 5)),
-          propertyTransforms: S.optional(__S(257, __c8, 1)),
           upsert: S.optional(__S(293, __c9, 5)),
           updateTime: S.optional(S.String),
+          propertyTransforms: S.optional(__S(257, __c8, 1)),
           baseVersion: S.optional(S.String),
-          delete: S.optional(__S(131, __c4, 3)),
           propertyMask: S.optional(__S(321, __c10, 1)),
+          insert: S.optional(__S(293, __c9, 5)),
           conflictResolutionStrategy: S.optional(S.String),
+          delete: S.optional(__S(131, __c4, 3)),
           update: S.optional(__S(293, __c9, 5)),
         }),
       ).annotate({ identifier: "Mutation" });
@@ -1220,9 +1220,9 @@ function __c8(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
+          transaction: S.optional(S.String),
           mutations: S.optional(__S(259, __c8, 3)),
           mode: S.optional(S.String),
-          transaction: S.optional(S.String),
         }),
       ).annotate({ identifier: "CommitRequest" });
     case 5:
@@ -1243,12 +1243,12 @@ function __c8(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          transformResults: S.optional(__S(289, __c9, 1)),
-          version: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          createTime: S.optional(S.String),
           conflictDetected: S.optional(S.Boolean),
           key: S.optional(__S(131, __c4, 3)),
+          version: S.optional(S.String),
+          createTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          transformResults: S.optional(__S(289, __c9, 1)),
         }),
       ).annotate({ identifier: "MutationResult" });
     case 7:
@@ -1256,9 +1256,9 @@ function __c8(j: number): any {
     case 8:
       return S.suspend(() =>
         S.Struct({
-          indexUpdates: S.optional(S.Number),
-          mutationResults: S.optional(__S(263, __c8, 7)),
           commitTime: S.optional(S.String),
+          mutationResults: S.optional(__S(263, __c8, 7)),
+          indexUpdates: S.optional(S.Number),
         }),
       ).annotate({ identifier: "CommitResponse" });
   }
@@ -1283,19 +1283,19 @@ function __c9(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          meaning: S.optional(S.Number),
           blobValue: S.optional(S.String),
-          booleanValue: S.optional(S.Boolean),
+          meaning: S.optional(S.Number),
+          nullValue: S.optional(S.String),
           stringValue: S.optional(S.String),
+          geoPointValue: S.optional(__S(288, __c9, 0)),
+          integerValue: S.optional(S.String),
           excludeFromIndexes: S.optional(S.Boolean),
+          doubleValue: S.optional(S.Number),
+          entityValue: S.optional(S.suspend(() => __S(293, __c9, 5))),
           keyValue: S.optional(__S(131, __c4, 3)),
           timestampValue: S.optional(S.String),
-          nullValue: S.optional(S.String),
-          geoPointValue: S.optional(__S(288, __c9, 0)),
-          doubleValue: S.optional(S.Number),
+          booleanValue: S.optional(S.Boolean),
           arrayValue: S.optional(__S(290, __c9, 2)),
-          entityValue: S.optional(S.suspend(() => __S(293, __c9, 5))),
-          integerValue: S.optional(S.String),
         }),
       ).annotate({ identifier: "Value" });
     case 4:
@@ -1303,8 +1303,8 @@ function __c9(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          properties: S.optional(__S(292, __c9, 4)),
           key: S.optional(__S(131, __c4, 3)),
+          properties: S.optional(__S(292, __c9, 4)),
         }),
       ).annotate({ identifier: "Entity" });
   }
@@ -1326,9 +1326,9 @@ function __c11(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          readOptions: S.optional(__S(384, __c12, 0)),
           propertyMask: S.optional(__S(321, __c10, 1)),
           keys: S.optional(__S(160, __c5, 0)),
-          readOptions: S.optional(__S(384, __c12, 0)),
         }),
       ).annotate({ identifier: "LookupRequest" });
     case 1:
@@ -1349,10 +1349,10 @@ function __c11(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          missing: S.optional(__S(417, __c13, 1)),
-          readTime: S.optional(S.String),
           found: S.optional(__S(417, __c13, 1)),
+          missing: S.optional(__S(417, __c13, 1)),
           deferred: S.optional(__S(160, __c5, 0)),
+          readTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "LookupResponse" });
   }
@@ -1362,9 +1362,9 @@ function __c12(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          transaction: S.optional(S.String),
           readConsistency: S.optional(S.String),
           readTime: S.optional(S.String),
+          transaction: S.optional(S.String),
         }),
       ).annotate({ identifier: "ReadOptions" });
   }
@@ -1374,10 +1374,10 @@ function __c13(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          entity: S.optional(__S(293, __c9, 5)),
+          cursor: S.optional(S.String),
           updateTime: S.optional(S.String),
           version: S.optional(S.String),
-          cursor: S.optional(S.String),
-          entity: S.optional(__S(293, __c9, 5)),
           createTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "EntityResult" });
@@ -1390,8 +1390,8 @@ function __c14(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          keys: S.optional(__S(160, __c5, 0)),
           databaseId: S.optional(S.String),
+          keys: S.optional(__S(160, __c5, 0)),
         }),
       ).annotate({ identifier: "ReserveIdsRequest" });
     case 1:

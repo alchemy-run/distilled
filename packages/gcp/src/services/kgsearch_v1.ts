@@ -58,20 +58,20 @@ export class NotFound
 
 export type StringList = Array<string>;
 export interface SearchEntitiesRequest {
+  /** Enables indenting of json results. */
+  indent?: boolean | undefined;
   /** The list of language codes (defined in ISO 693) to run the query with, e.g. 'en'. */
   languages?: StringList | undefined;
+  /** The literal query string for search. */
+  query?: string | undefined;
   /** Enables prefix match against names and aliases of entities */
   prefix?: boolean | undefined;
-  /** Restricts returned entities with these types, e.g. Person (as defined in http://schema.org/Person). If multiple types are specified, returned entities will contain one or more of these types. */
-  types?: StringList | undefined;
   /** Limits the number of entities to be returned. */
   limit?: number | undefined;
   /** The list of entity id to be used for search instead of query string. To specify multiple ids in the HTTP request, repeat the parameter in the URL as in ...?ids=A&ids=B */
   ids?: StringList | undefined;
-  /** Enables indenting of json results. */
-  indent?: boolean | undefined;
-  /** The literal query string for search. */
-  query?: string | undefined;
+  /** Restricts returned entities with these types, e.g. Person (as defined in http://schema.org/Person). If multiple types are specified, returned entities will contain one or more of these types. */
+  types?: StringList | undefined;
 }
 export type DocumentList = Array<unknown>;
 /** Response message includes the context and a list of matching results which contain the detail of associated entities. */
@@ -109,13 +109,13 @@ function __c0(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          indent: S.optional(S.Boolean.pipe(T.Query())),
           languages: S.optional(__S(0, __c0, 0).pipe(T.Query())),
+          query: S.optional(S.String.pipe(T.Query())),
           prefix: S.optional(S.Boolean.pipe(T.Query())),
-          types: S.optional(__S(0, __c0, 0).pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           ids: S.optional(__S(0, __c0, 0).pipe(T.Query())),
-          indent: S.optional(S.Boolean.pipe(T.Query())),
-          query: S.optional(S.String.pipe(T.Query())),
+          types: S.optional(__S(0, __c0, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",

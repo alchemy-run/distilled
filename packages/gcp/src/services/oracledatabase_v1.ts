@@ -110,12 +110,12 @@ export interface CancelProjectsLocationsOperationsRequest {
 export interface Empty {}
 /** The request for `CloudExadataInfrastructure.ConfigureExascale`. */
 export interface ConfigureExascaleCloudExadataInfrastructureRequest {
+  /** Optional. Storage size needed for VM storage on Exascale in GBs. */
+  totalVmStorageSizeGb?: number | undefined;
   /** Required. The total storage to be allocated to Exascale in GBs. */
   totalStorageSizeGb?: number | undefined;
   /** Optional. An optional ID to identify the request. */
   requestId?: string | undefined;
-  /** Optional. Storage size needed for VM storage on Exascale in GBs. */
-  totalVmStorageSizeGb?: number | undefined;
 }
 export interface ConfigureExascaleProjectsLocationsCloudExadataInfrastructuresRequest extends ConfigureExascaleCloudExadataInfrastructureRequest {
   /** Required. The name of the Cloud Exadata Infrastructure in the following format: projects/{project}/locations/{location}/cloudExadataInfrastructures/{cloud_exadata_infrastructure}. */
@@ -125,57 +125,27 @@ export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
-  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string | undefined;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
   details?: DocumentMapList | undefined;
+  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
+  message?: string | undefined;
   /** The status code, which should be an enum value of google.rpc.Code. */
   code?: number | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
-  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string | undefined;
   /** The error result of the operation in case of failure or cancellation. */
   error?: Status | undefined;
+  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
+  name?: string | undefined;
+  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
+  response?: DocumentMap | undefined;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
   done?: boolean | undefined;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
   metadata?: DocumentMap | undefined;
-  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap | undefined;
 }
-export type StringMap = { [key: string]: string | undefined };
-export type AutonomousDatabasePropertiesDatabaseManagementStateEnum =
-  | "DATABASE_MANAGEMENT_STATE_UNSPECIFIED"
-  | "ENABLING"
-  | "ENABLED"
-  | "DISABLING"
-  | "NOT_ENABLED"
-  | "FAILED_ENABLING"
-  | "FAILED_DISABLING";
-/** Oracle APEX Application Development. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/datatypes/AutonomousDatabaseApex */
-export interface AutonomousDatabaseApex {
-  /** Output only. The Oracle APEX Application Development version. */
-  apexVersion?: string | undefined;
-  /** Output only. The Oracle REST Data Services (ORDS) version. */
-  ordsVersion?: string | undefined;
-}
-export type AutonomousDatabasePropertiesPermissionLevelEnum =
-  | "PERMISSION_LEVEL_UNSPECIFIED"
-  | "RESTRICTED"
-  | "UNRESTRICTED";
-/** Represents a time of day. The date and time zone are either not significant or are specified elsewhere. An API may choose to allow leap seconds. Related types are google.type.Date and `google.protobuf.Timestamp`. */
-export interface TimeOfDay {
-  /** Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds. */
-  seconds?: number | undefined;
-  /** Fractions of seconds, in nanoseconds. Must be greater than or equal to 0 and less than or equal to 999,999,999. */
-  nanos?: number | undefined;
-  /** Minutes of an hour. Must be greater than or equal to 0 and less than or equal to 59. */
-  minutes?: number | undefined;
-  /** Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time. */
-  hours?: number | undefined;
-}
+export type StringList = Array<string>;
 export type ScheduledOperationDetailsDayOfWeekEnum =
   | "DAY_OF_WEEK_UNSPECIFIED"
   | "MONDAY"
@@ -185,35 +155,237 @@ export type ScheduledOperationDetailsDayOfWeekEnum =
   | "FRIDAY"
   | "SATURDAY"
   | "SUNDAY";
+/** Represents a time of day. The date and time zone are either not significant or are specified elsewhere. An API may choose to allow leap seconds. Related types are google.type.Date and `google.protobuf.Timestamp`. */
+export interface TimeOfDay {
+  /** Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time. */
+  hours?: number | undefined;
+  /** Fractions of seconds, in nanoseconds. Must be greater than or equal to 0 and less than or equal to 999,999,999. */
+  nanos?: number | undefined;
+  /** Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds. */
+  seconds?: number | undefined;
+  /** Minutes of an hour. Must be greater than or equal to 0 and less than or equal to 59. */
+  minutes?: number | undefined;
+}
 /** Details of scheduled operation. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/datatypes/ScheduledOperationDetails */
 export interface ScheduledOperationDetails {
-  /** Output only. Auto stop time. */
-  stopTime?: TimeOfDay | undefined;
   /** Output only. Day of week. */
   dayOfWeek?: ScheduledOperationDetailsDayOfWeekEnum | (string & {}) | undefined;
   /** Output only. Auto start time. */
   startTime?: TimeOfDay | undefined;
+  /** Output only. Auto stop time. */
+  stopTime?: TimeOfDay | undefined;
 }
 export type ScheduledOperationDetailsList = Array<ScheduledOperationDetails>;
+/** The CustomerContact reference as defined by Oracle. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/datatypes/CustomerContact */
+export interface CustomerContact {
+  /** Required. The email address used by Oracle to send notifications regarding databases and infrastructure. */
+  email?: string | undefined;
+}
+export type CustomerContactList = Array<CustomerContact>;
+export type AutonomousDatabasePropertiesDbWorkloadEnum =
+  | "DB_WORKLOAD_UNSPECIFIED"
+  | "OLTP"
+  | "DW"
+  | "AJD"
+  | "APEX"
+  | "LH";
+/** Oracle APEX Application Development. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/datatypes/AutonomousDatabaseApex */
+export interface AutonomousDatabaseApex {
+  /** Output only. The Oracle APEX Application Development version. */
+  apexVersion?: string | undefined;
+  /** Output only. The Oracle REST Data Services (ORDS) version. */
+  ordsVersion?: string | undefined;
+}
+export type AutonomousDatabasePropertiesRoleEnum =
+  | "ROLE_UNSPECIFIED"
+  | "PRIMARY"
+  | "STANDBY"
+  | "DISABLED_STANDBY"
+  | "BACKUP_COPY"
+  | "SNAPSHOT_STANDBY";
+export type AutonomousDatabasePropertiesMaintenanceScheduleTypeEnum =
+  | "MAINTENANCE_SCHEDULE_TYPE_UNSPECIFIED"
+  | "EARLY"
+  | "REGULAR";
 export type EncryptionKeyProviderEnum =
   | "PROVIDER_UNSPECIFIED"
   | "GOOGLE_MANAGED"
   | "ORACLE_MANAGED";
 /** The encryption key used to encrypt the Autonomous Database. */
 export interface EncryptionKey {
-  /** Optional. The provider of the encryption key. */
-  provider?: EncryptionKeyProviderEnum | (string & {}) | undefined;
   /** Optional. The KMS key used to encrypt the Autonomous Database. This field is required if the provider is GOOGLE_MANAGED. The name of the KMS key resource in the following format: `projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{crypto_key}`. */
   kmsKey?: string | undefined;
+  /** Optional. The provider of the encryption key. */
+  provider?: EncryptionKeyProviderEnum | (string & {}) | undefined;
 }
-/** The history of the encryption keys used to encrypt the Autonomous Database. */
-export interface EncryptionKeyHistoryEntry {
-  /** Output only. The encryption key used to encrypt the Autonomous Database. */
-  encryptionKey?: EncryptionKey | undefined;
-  /** Output only. The date and time when the encryption key was activated on the Autonomous Database.. */
-  activationTime?: string | undefined;
+export type AutonomousDatabasePropertiesRefreshableModeEnum =
+  | "REFRESHABLE_MODE_UNSPECIFIED"
+  | "AUTOMATIC"
+  | "MANUAL";
+/** The URLs for accessing Oracle Application Express (APEX) and SQL Developer Web with a browser from a Compute instance. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/datatypes/AutonomousDatabaseConnectionUrls */
+export interface AutonomousDatabaseConnectionUrls {
+  /** Output only. The URL of Machine Learning user management the Autonomous Database. */
+  machineLearningUserManagementUri?: string | undefined;
+  /** Output only. The URL of the Oracle Machine Learning (OML) Notebook for the Autonomous Database. */
+  machineLearningNotebookUri?: string | undefined;
+  /** Output only. The URL of the Graph Studio for the Autonomous Database. */
+  graphStudioUri?: string | undefined;
+  /** Output only. The URL of the Oracle SQL Developer Web for the Autonomous Database. */
+  sqlDevWebUri?: string | undefined;
+  /** Output only. Oracle Application Express (APEX) URL. */
+  apexUri?: string | undefined;
+  /** Output only. The Oracle REST Data Services (ORDS) URL of the Web Access for the Autonomous Database. */
+  ordsUri?: string | undefined;
+  /** Output only. The URL of the MongoDB API for the Autonomous Database. */
+  mongoDbUri?: string | undefined;
+  /** Output only. The URL of the Database Transforms for the Autonomous Database. */
+  databaseTransformsUri?: string | undefined;
 }
-export type EncryptionKeyHistoryEntryList = Array<EncryptionKeyHistoryEntry>;
+export type AutonomousDatabasePropertiesDbEditionEnum =
+  | "DATABASE_EDITION_UNSPECIFIED"
+  | "STANDARD_EDITION"
+  | "ENTERPRISE_EDITION";
+export type AutonomousDatabasePropertiesStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "PROVISIONING"
+  | "AVAILABLE"
+  | "STOPPING"
+  | "STOPPED"
+  | "STARTING"
+  | "TERMINATING"
+  | "TERMINATED"
+  | "UNAVAILABLE"
+  | "RESTORE_IN_PROGRESS"
+  | "RESTORE_FAILED"
+  | "BACKUP_IN_PROGRESS"
+  | "SCALE_IN_PROGRESS"
+  | "AVAILABLE_NEEDS_ATTENTION"
+  | "UPDATING"
+  | "MAINTENANCE_IN_PROGRESS"
+  | "RESTARTING"
+  | "RECREATING"
+  | "ROLE_CHANGE_IN_PROGRESS"
+  | "UPGRADING"
+  | "INACCESSIBLE"
+  | "STANDBY";
+export type DatabaseConnectionStringProfileTlsAuthenticationEnum =
+  | "TLS_AUTHENTICATION_UNSPECIFIED"
+  | "SERVER"
+  | "MUTUAL";
+export type DatabaseConnectionStringProfileSyntaxFormatEnum =
+  | "SYNTAX_FORMAT_UNSPECIFIED"
+  | "LONG"
+  | "EZCONNECT"
+  | "EZCONNECTPLUS";
+export type DatabaseConnectionStringProfileSessionModeEnum =
+  | "SESSION_MODE_UNSPECIFIED"
+  | "DIRECT"
+  | "INDIRECT";
+export type DatabaseConnectionStringProfileConsumerGroupEnum =
+  | "CONSUMER_GROUP_UNSPECIFIED"
+  | "HIGH"
+  | "MEDIUM"
+  | "LOW"
+  | "TP"
+  | "TPURGENT";
+export type DatabaseConnectionStringProfileHostFormatEnum =
+  | "HOST_FORMAT_UNSPECIFIED"
+  | "FQDN"
+  | "IP";
+export type DatabaseConnectionStringProfileProtocolEnum = "PROTOCOL_UNSPECIFIED" | "TCP" | "TCPS";
+/** The connection string profile to allow clients to group. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/datatypes/DatabaseConnectionStringProfile */
+export interface DatabaseConnectionStringProfile {
+  /** Output only. This field indicates the TLS authentication type of the connection. */
+  tlsAuthentication?:
+    | DatabaseConnectionStringProfileTlsAuthenticationEnum
+    | (string & {})
+    | undefined;
+  /** Output only. The syntax of the connection string. */
+  syntaxFormat?: DatabaseConnectionStringProfileSyntaxFormatEnum | (string & {}) | undefined;
+  /** Output only. The current session mode of the connection. */
+  sessionMode?: DatabaseConnectionStringProfileSessionModeEnum | (string & {}) | undefined;
+  /** Output only. The current consumer group being used by the connection. */
+  consumerGroup?: DatabaseConnectionStringProfileConsumerGroupEnum | (string & {}) | undefined;
+  /** Output only. The host name format being currently used in connection string. */
+  hostFormat?: DatabaseConnectionStringProfileHostFormatEnum | (string & {}) | undefined;
+  /** Output only. This field indicates if the connection string is regional and is only applicable for cross-region Data Guard. */
+  isRegional?: boolean | undefined;
+  /** Output only. The display name for the database connection. */
+  displayName?: string | undefined;
+  /** Output only. The protocol being used by the connection. */
+  protocol?: DatabaseConnectionStringProfileProtocolEnum | (string & {}) | undefined;
+  /** Output only. The value of the connection string. */
+  value?: string | undefined;
+}
+export type DatabaseConnectionStringProfileList = Array<DatabaseConnectionStringProfile>;
+/** A list of all connection strings that can be used to connect to the Autonomous Database. */
+export interface AllConnectionStrings {
+  /** Output only. The database service provides the least level of resources to each SQL statement. */
+  low?: string | undefined;
+  /** Output only. The database service provides the highest level of resources to each SQL statement. */
+  high?: string | undefined;
+  /** Output only. The database service provides a lower level of resources to each SQL statement. */
+  medium?: string | undefined;
+}
+/** The connection string used to connect to the Autonomous Database. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/datatypes/AutonomousDatabaseConnectionStrings */
+export interface AutonomousDatabaseConnectionStrings {
+  /** Output only. The database service provides a lower level of resources to each SQL statement. */
+  medium?: string | undefined;
+  /** Output only. A list of connection string profiles to allow clients to group, filter, and select values based on the structured metadata. */
+  profiles?: DatabaseConnectionStringProfileList | undefined;
+  /** Output only. The database service provides the highest level of resources to each SQL statement. */
+  high?: string | undefined;
+  /** Output only. The database service provides the least level of resources to each SQL statement. */
+  low?: string | undefined;
+  /** Output only. Returns all connection strings that can be used to connect to the Autonomous Database. */
+  allConnectionStrings?: AllConnectionStrings | undefined;
+  /** Output only. The database service provides the least level of resources to each SQL statement, but supports the most number of concurrent SQL statements. */
+  dedicated?: string | undefined;
+}
+export type AutonomousDatabasePropertiesOperationsInsightsStateEnum =
+  | "OPERATIONS_INSIGHTS_STATE_UNSPECIFIED"
+  | "ENABLING"
+  | "ENABLED"
+  | "DISABLING"
+  | "NOT_ENABLED"
+  | "FAILED_ENABLING"
+  | "FAILED_DISABLING";
+export type AutonomousDatabasePropertiesLocalDisasterRecoveryTypeEnum =
+  | "LOCAL_DISASTER_RECOVERY_TYPE_UNSPECIFIED"
+  | "ADG"
+  | "BACKUP_BASED"
+  | "NOT_AVAILABLE";
+export type AutonomousDatabasePropertiesOpenModeEnum =
+  | "OPEN_MODE_UNSPECIFIED"
+  | "READ_ONLY"
+  | "READ_WRITE";
+export type AutonomousDatabasePropertiesPermissionLevelEnum =
+  | "PERMISSION_LEVEL_UNSPECIFIED"
+  | "RESTRICTED"
+  | "UNRESTRICTED";
+export type AutonomousDatabasePropertiesDataSafeStateEnum =
+  | "DATA_SAFE_STATE_UNSPECIFIED"
+  | "REGISTERING"
+  | "REGISTERED"
+  | "DEREGISTERING"
+  | "NOT_REGISTERED"
+  | "FAILED";
+export type AutonomousDatabasePropertiesLicenseTypeEnum =
+  | "LICENSE_TYPE_UNSPECIFIED"
+  | "LICENSE_INCLUDED"
+  | "BRING_YOUR_OWN_LICENSE";
+export type AutonomousDatabasePropertiesDatabaseManagementStateEnum =
+  | "DATABASE_MANAGEMENT_STATE_UNSPECIFIED"
+  | "ENABLING"
+  | "ENABLED"
+  | "DISABLING"
+  | "NOT_ENABLED"
+  | "FAILED_ENABLING"
+  | "FAILED_DISABLING";
+export type AutonomousDatabasePropertiesRefreshableStateEnum =
+  | "REFRESHABLE_STATE_UNSPECIFIED"
+  | "REFRESHING"
+  | "NOT_REFRESHING";
 export type AutonomousDatabaseStandbySummaryStateEnum =
   | "STATE_UNSPECIFIED"
   | "PROVISIONING"
@@ -245,340 +417,167 @@ export interface AutonomousDatabaseStandbySummary {
   state?: AutonomousDatabaseStandbySummaryStateEnum | (string & {}) | undefined;
   /** Output only. The amount of time, in seconds, that the data of the standby database lags in comparison to the data of the primary database. */
   lagTimeDuration?: string | undefined;
-  /** Output only. The additional details about the current lifecycle state of the Autonomous Database. */
-  lifecycleDetails?: string | undefined;
   /** Output only. The date and time the Disaster Recovery role was switched for the standby Autonomous Database. */
   disasterRecoveryRoleChangedTime?: string | undefined;
+  /** Output only. The additional details about the current lifecycle state of the Autonomous Database. */
+  lifecycleDetails?: string | undefined;
 }
-export type StringList = Array<string>;
-/** The CustomerContact reference as defined by Oracle. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/datatypes/CustomerContact */
-export interface CustomerContact {
-  /** Required. The email address used by Oracle to send notifications regarding databases and infrastructure. */
-  email?: string | undefined;
+/** The history of the encryption keys used to encrypt the Autonomous Database. */
+export interface EncryptionKeyHistoryEntry {
+  /** Output only. The encryption key used to encrypt the Autonomous Database. */
+  encryptionKey?: EncryptionKey | undefined;
+  /** Output only. The date and time when the encryption key was activated on the Autonomous Database.. */
+  activationTime?: string | undefined;
 }
-export type CustomerContactList = Array<CustomerContact>;
-export type AutonomousDatabasePropertiesMaintenanceScheduleTypeEnum =
-  | "MAINTENANCE_SCHEDULE_TYPE_UNSPECIFIED"
-  | "EARLY"
-  | "REGULAR";
-export type AutonomousDatabasePropertiesLicenseTypeEnum =
-  | "LICENSE_TYPE_UNSPECIFIED"
-  | "LICENSE_INCLUDED"
-  | "BRING_YOUR_OWN_LICENSE";
-export type AutonomousDatabasePropertiesRoleEnum =
-  | "ROLE_UNSPECIFIED"
-  | "PRIMARY"
-  | "STANDBY"
-  | "DISABLED_STANDBY"
-  | "BACKUP_COPY"
-  | "SNAPSHOT_STANDBY";
-export type AutonomousDatabasePropertiesDbWorkloadEnum =
-  | "DB_WORKLOAD_UNSPECIFIED"
-  | "OLTP"
-  | "DW"
-  | "AJD"
-  | "APEX"
-  | "LH";
-export type AutonomousDatabasePropertiesLocalDisasterRecoveryTypeEnum =
-  | "LOCAL_DISASTER_RECOVERY_TYPE_UNSPECIFIED"
-  | "ADG"
-  | "BACKUP_BASED"
-  | "NOT_AVAILABLE";
-/** A list of all connection strings that can be used to connect to the Autonomous Database. */
-export interface AllConnectionStrings {
-  /** Output only. The database service provides a lower level of resources to each SQL statement. */
-  medium?: string | undefined;
-  /** Output only. The database service provides the least level of resources to each SQL statement. */
-  low?: string | undefined;
-  /** Output only. The database service provides the highest level of resources to each SQL statement. */
-  high?: string | undefined;
-}
-export type DatabaseConnectionStringProfileSessionModeEnum =
-  | "SESSION_MODE_UNSPECIFIED"
-  | "DIRECT"
-  | "INDIRECT";
-export type DatabaseConnectionStringProfileSyntaxFormatEnum =
-  | "SYNTAX_FORMAT_UNSPECIFIED"
-  | "LONG"
-  | "EZCONNECT"
-  | "EZCONNECTPLUS";
-export type DatabaseConnectionStringProfileTlsAuthenticationEnum =
-  | "TLS_AUTHENTICATION_UNSPECIFIED"
-  | "SERVER"
-  | "MUTUAL";
-export type DatabaseConnectionStringProfileHostFormatEnum =
-  | "HOST_FORMAT_UNSPECIFIED"
-  | "FQDN"
-  | "IP";
-export type DatabaseConnectionStringProfileConsumerGroupEnum =
-  | "CONSUMER_GROUP_UNSPECIFIED"
-  | "HIGH"
-  | "MEDIUM"
-  | "LOW"
-  | "TP"
-  | "TPURGENT";
-export type DatabaseConnectionStringProfileProtocolEnum = "PROTOCOL_UNSPECIFIED" | "TCP" | "TCPS";
-/** The connection string profile to allow clients to group. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/datatypes/DatabaseConnectionStringProfile */
-export interface DatabaseConnectionStringProfile {
-  /** Output only. The current session mode of the connection. */
-  sessionMode?: DatabaseConnectionStringProfileSessionModeEnum | (string & {}) | undefined;
-  /** Output only. The value of the connection string. */
-  value?: string | undefined;
-  /** Output only. This field indicates if the connection string is regional and is only applicable for cross-region Data Guard. */
-  isRegional?: boolean | undefined;
-  /** Output only. The syntax of the connection string. */
-  syntaxFormat?: DatabaseConnectionStringProfileSyntaxFormatEnum | (string & {}) | undefined;
-  /** Output only. This field indicates the TLS authentication type of the connection. */
-  tlsAuthentication?:
-    | DatabaseConnectionStringProfileTlsAuthenticationEnum
-    | (string & {})
-    | undefined;
-  /** Output only. The host name format being currently used in connection string. */
-  hostFormat?: DatabaseConnectionStringProfileHostFormatEnum | (string & {}) | undefined;
-  /** Output only. The current consumer group being used by the connection. */
-  consumerGroup?: DatabaseConnectionStringProfileConsumerGroupEnum | (string & {}) | undefined;
-  /** Output only. The display name for the database connection. */
-  displayName?: string | undefined;
-  /** Output only. The protocol being used by the connection. */
-  protocol?: DatabaseConnectionStringProfileProtocolEnum | (string & {}) | undefined;
-}
-export type DatabaseConnectionStringProfileList = Array<DatabaseConnectionStringProfile>;
-/** The connection string used to connect to the Autonomous Database. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/datatypes/AutonomousDatabaseConnectionStrings */
-export interface AutonomousDatabaseConnectionStrings {
-  /** Output only. The database service provides the least level of resources to each SQL statement, but supports the most number of concurrent SQL statements. */
-  dedicated?: string | undefined;
-  /** Output only. The database service provides the least level of resources to each SQL statement. */
-  low?: string | undefined;
-  /** Output only. The database service provides a lower level of resources to each SQL statement. */
-  medium?: string | undefined;
-  /** Output only. Returns all connection strings that can be used to connect to the Autonomous Database. */
-  allConnectionStrings?: AllConnectionStrings | undefined;
-  /** Output only. A list of connection string profiles to allow clients to group, filter, and select values based on the structured metadata. */
-  profiles?: DatabaseConnectionStringProfileList | undefined;
-  /** Output only. The database service provides the highest level of resources to each SQL statement. */
-  high?: string | undefined;
-}
-export type AutonomousDatabasePropertiesRefreshableStateEnum =
-  | "REFRESHABLE_STATE_UNSPECIFIED"
-  | "REFRESHING"
-  | "NOT_REFRESHING";
-export type AutonomousDatabasePropertiesOpenModeEnum =
-  | "OPEN_MODE_UNSPECIFIED"
-  | "READ_ONLY"
-  | "READ_WRITE";
-export type AutonomousDatabasePropertiesDataSafeStateEnum =
-  | "DATA_SAFE_STATE_UNSPECIFIED"
-  | "REGISTERING"
-  | "REGISTERED"
-  | "DEREGISTERING"
-  | "NOT_REGISTERED"
-  | "FAILED";
-export type AutonomousDatabasePropertiesRefreshableModeEnum =
-  | "REFRESHABLE_MODE_UNSPECIFIED"
-  | "AUTOMATIC"
-  | "MANUAL";
-export type AutonomousDatabasePropertiesOperationsInsightsStateEnum =
-  | "OPERATIONS_INSIGHTS_STATE_UNSPECIFIED"
-  | "ENABLING"
-  | "ENABLED"
-  | "DISABLING"
-  | "NOT_ENABLED"
-  | "FAILED_ENABLING"
-  | "FAILED_DISABLING";
-/** The URLs for accessing Oracle Application Express (APEX) and SQL Developer Web with a browser from a Compute instance. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/datatypes/AutonomousDatabaseConnectionUrls */
-export interface AutonomousDatabaseConnectionUrls {
-  /** Output only. The URL of Machine Learning user management the Autonomous Database. */
-  machineLearningUserManagementUri?: string | undefined;
-  /** Output only. The URL of the Graph Studio for the Autonomous Database. */
-  graphStudioUri?: string | undefined;
-  /** Output only. The URL of the MongoDB API for the Autonomous Database. */
-  mongoDbUri?: string | undefined;
-  /** Output only. Oracle Application Express (APEX) URL. */
-  apexUri?: string | undefined;
-  /** Output only. The Oracle REST Data Services (ORDS) URL of the Web Access for the Autonomous Database. */
-  ordsUri?: string | undefined;
-  /** Output only. The URL of the Oracle Machine Learning (OML) Notebook for the Autonomous Database. */
-  machineLearningNotebookUri?: string | undefined;
-  /** Output only. The URL of the Oracle SQL Developer Web for the Autonomous Database. */
-  sqlDevWebUri?: string | undefined;
-  /** Output only. The URL of the Database Transforms for the Autonomous Database. */
-  databaseTransformsUri?: string | undefined;
-}
-export type AutonomousDatabasePropertiesStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "PROVISIONING"
-  | "AVAILABLE"
-  | "STOPPING"
-  | "STOPPED"
-  | "STARTING"
-  | "TERMINATING"
-  | "TERMINATED"
-  | "UNAVAILABLE"
-  | "RESTORE_IN_PROGRESS"
-  | "RESTORE_FAILED"
-  | "BACKUP_IN_PROGRESS"
-  | "SCALE_IN_PROGRESS"
-  | "AVAILABLE_NEEDS_ATTENTION"
-  | "UPDATING"
-  | "MAINTENANCE_IN_PROGRESS"
-  | "RESTARTING"
-  | "RECREATING"
-  | "ROLE_CHANGE_IN_PROGRESS"
-  | "UPGRADING"
-  | "INACCESSIBLE"
-  | "STANDBY";
-export type AutonomousDatabasePropertiesDbEditionEnum =
-  | "DATABASE_EDITION_UNSPECIFIED"
-  | "STANDARD_EDITION"
-  | "ENTERPRISE_EDITION";
+export type EncryptionKeyHistoryEntryList = Array<EncryptionKeyHistoryEntry>;
 /** The properties of an Autonomous Database. */
 export interface AutonomousDatabaseProperties {
-  /** Output only. The current state of database management for the Autonomous Database. */
-  databaseManagementState?:
-    | AutonomousDatabasePropertiesDatabaseManagementStateEnum
-    | (string & {})
-    | undefined;
-  /** Output only. The details for the Oracle APEX Application Development. */
-  apexDetails?: AutonomousDatabaseApex | undefined;
-  /** Output only. The permission level of the Autonomous Database. */
-  permissionLevel?: AutonomousDatabasePropertiesPermissionLevelEnum | (string & {}) | undefined;
-  /** Optional. Immutable. The size of the data stored in the database, in terabytes. */
-  dataStorageSizeTb?: number | undefined;
-  /** Optional. Immutable. The ID of the Oracle Cloud Infrastructure vault secret. */
-  secretId?: string | undefined;
+  /** Optional. Immutable. The private endpoint label for the Autonomous Database. */
+  privateEndpointLabel?: string | undefined;
+  /** Optional. Immutable. This field indicates if auto scaling is enabled for the Autonomous Database CPU core count. */
+  isAutoScalingEnabled?: boolean | undefined;
+  /** Output only. The storage space used by automatic backups of Autonomous Database, in gigabytes. */
+  totalAutoBackupStorageSizeGbs?: number | undefined;
   /** Output only. The list and details of the scheduled operations of the Autonomous Database. */
   scheduledOperationDetails?: ScheduledOperationDetailsList | undefined;
-  /** Optional. Immutable. The size of the data stored in the database, in gigabytes. */
-  dataStorageSizeGb?: number | undefined;
-  /** Output only. The date and time when maintenance will begin. */
-  maintenanceBeginTime?: string | undefined;
-  /** Output only. The date and time when maintenance will end. */
-  maintenanceEndTime?: string | undefined;
-  /** Output only. The amount of memory enabled per ECPU, in gigabytes. */
-  memoryPerOracleComputeUnitGbs?: number | undefined;
-  /** Output only. The history of the encryption keys used to encrypt the Autonomous Database. */
-  encryptionKeyHistoryEntries?: EncryptionKeyHistoryEntryList | undefined;
-  /** Output only. OCID of the Autonomous Database. https://docs.oracle.com/en-us/iaas/Content/General/Concepts/identifiers.htm#Oracle */
-  ocid?: string | undefined;
-  /** Output only. The details of the Autonomous Data Guard standby database. */
-  localStandbyDb?: AutonomousDatabaseStandbySummary | undefined;
-  /** Optional. Immutable. The retention period for the Autonomous Database. This field is specified in days, can range from 1 day to 60 days, and has a default value of 60 days. */
-  backupRetentionPeriodDays?: number | undefined;
-  /** Output only. The list of available Oracle Database upgrade versions for an Autonomous Database. */
-  availableUpgradeVersions?: StringList | undefined;
+  /** Optional. Immutable. The number of CPU cores to be made available to the database. */
+  cpuCoreCount?: number | undefined;
+  /** Output only. The date and time the Autonomous Data Guard role was changed for the standby Autonomous Database. */
+  dataGuardRoleChangedTime?: string | undefined;
   /** Optional. Immutable. The list of customer contacts. */
   customerContacts?: CustomerContactList | undefined;
+  /** Required. Immutable. The workload type of the Autonomous Database. */
+  dbWorkload?: AutonomousDatabasePropertiesDbWorkloadEnum | (string & {}) | undefined;
+  /** Output only. The storage space used by Autonomous Database, in gigabytes. */
+  usedDataStorageSizeTbs?: number | undefined;
+  /** Optional. Immutable. The character set for the Autonomous Database. The default is AL32UTF8. */
+  characterSet?: string | undefined;
+  /** Optional. Immutable. The retention period for the Autonomous Database. This field is specified in days, can range from 1 day to 60 days, and has a default value of 60 days. */
+  backupRetentionPeriodDays?: number | undefined;
+  /** Output only. The SQL Web Developer URL for the Autonomous Database. */
+  sqlWebDeveloperUrl?: string | undefined;
+  /** Output only. The list of OCIDs of standby databases located in Autonomous Data Guard remote regions that are associated with the source database. */
+  peerDbIds?: StringList | undefined;
+  /** Output only. OCID of the Autonomous Database. https://docs.oracle.com/en-us/iaas/Content/General/Concepts/identifiers.htm#Oracle */
+  ocid?: string | undefined;
+  /** Output only. The date and time the Disaster Recovery role was changed for the standby Autonomous Database. */
+  disasterRecoveryRoleChangedTime?: string | undefined;
+  /** Optional. Immutable. The national character set for the Autonomous Database. The default is AL16UTF16. */
+  nCharacterSet?: string | undefined;
+  /** Output only. The details for the Oracle APEX Application Development. */
+  apexDetails?: AutonomousDatabaseApex | undefined;
+  /** Optional. Immutable. The size of the data stored in the database, in gigabytes. */
+  dataStorageSizeGb?: number | undefined;
+  /** Output only. The Data Guard role of the Autonomous Database. */
+  role?: AutonomousDatabasePropertiesRoleEnum | (string & {}) | undefined;
+  /** Output only. The list of available regions that can be used to create a clone for the Autonomous Database. */
+  supportedCloneRegions?: StringList | undefined;
+  /** Output only. The date and time when maintenance will begin. */
+  maintenanceBeginTime?: string | undefined;
   /** Optional. Immutable. The maintenance schedule of the Autonomous Database. */
   maintenanceScheduleType?:
     | AutonomousDatabasePropertiesMaintenanceScheduleTypeEnum
     | (string & {})
     | undefined;
-  /** Output only. The Autonomous Container Database OCID. */
-  autonomousContainerDatabaseId?: string | undefined;
-  /** Required. Immutable. The license type used for the Autonomous Database. */
-  licenseType?: AutonomousDatabasePropertiesLicenseTypeEnum | (string & {}) | undefined;
-  /** Output only. The list of available regions that can be used to create a clone for the Autonomous Database. */
-  supportedCloneRegions?: StringList | undefined;
-  /** Output only. Deprecated: Please use `local_adg_auto_failover_max_data_loss_limit_duration` instead. This field indicates the maximum data loss limit for an Autonomous Database, in seconds. */
-  localAdgAutoFailoverMaxDataLossLimit?: number | undefined;
-  /** Optional. Immutable. The private endpoint IP address for the Autonomous Database. */
-  privateEndpointIp?: string | undefined;
-  /** Output only. The date and time the Disaster Recovery role was changed for the standby Autonomous Database. */
-  disasterRecoveryRoleChangedTime?: string | undefined;
-  /** Output only. The SQL Web Developer URL for the Autonomous Database. */
-  sqlWebDeveloperUrl?: string | undefined;
-  /** Output only. The Data Guard role of the Autonomous Database. */
-  role?: AutonomousDatabasePropertiesRoleEnum | (string & {}) | undefined;
-  /** Optional. Immutable. The national character set for the Autonomous Database. The default is AL16UTF16. */
-  nCharacterSet?: string | undefined;
-  /** Output only. The storage space used by automatic backups of Autonomous Database, in gigabytes. */
-  totalAutoBackupStorageSizeGbs?: number | undefined;
-  /** Required. Immutable. The workload type of the Autonomous Database. */
-  dbWorkload?: AutonomousDatabasePropertiesDbWorkloadEnum | (string & {}) | undefined;
-  /** Output only. The date and time the Autonomous Data Guard role was changed for the standby Autonomous Database. */
-  dataGuardRoleChangedTime?: string | undefined;
-  /** Output only. The list of OCIDs of standby databases located in Autonomous Data Guard remote regions that are associated with the source database. */
-  peerDbIds?: StringList | undefined;
-  /** Optional. Immutable. The ID of the Oracle Cloud Infrastructure vault. */
-  vaultId?: string | undefined;
-  /** Optional. Immutable. This field specifies if the Autonomous Database requires mTLS connections. */
-  mtlsConnectionRequired?: boolean | undefined;
-  /** Output only. The amount of storage currently allocated for the database tables and billed for, rounded up in terabytes. */
-  allocatedStorageSizeTb?: number | undefined;
-  /** Output only. This field indicates the local disaster recovery (DR) type of an Autonomous Database. */
-  localDisasterRecoveryType?:
-    | AutonomousDatabasePropertiesLocalDisasterRecoveryTypeEnum
-    | (string & {})
-    | undefined;
+  /** Output only. The date and time when maintenance will end. */
+  maintenanceEndTime?: string | undefined;
   /** Output only. The long term backup schedule of the Autonomous Database. */
   nextLongTermBackupTime?: string | undefined;
-  /** Output only. The connection strings used to connect to an Autonomous Database. */
-  connectionStrings?: AutonomousDatabaseConnectionStrings | undefined;
-  /** Output only. The refresh State of the clone. */
-  refreshableState?: AutonomousDatabasePropertiesRefreshableStateEnum | (string & {}) | undefined;
-  /** Output only. This field indicates the current mode of the Autonomous Database. */
-  openMode?: AutonomousDatabasePropertiesOpenModeEnum | (string & {}) | undefined;
-  /** Optional. Immutable. This field indicates if auto scaling is enabled for the Autonomous Database storage. */
-  isStorageAutoScalingEnabled?: boolean | undefined;
-  /** Output only. The storage space used by Autonomous Database, in gigabytes. */
-  usedDataStorageSizeTbs?: number | undefined;
-  /** Output only. The current state of the Data Safe registration for the Autonomous Database. */
-  dataSafeState?: AutonomousDatabasePropertiesDataSafeStateEnum | (string & {}) | undefined;
-  /** Output only. The amount of storage currently being used for user and system data, in terabytes. */
-  actualUsedDataStorageSizeTb?: number | undefined;
-  /** Output only. The refresh mode of the cloned Autonomous Database. */
-  refreshableMode?: AutonomousDatabasePropertiesRefreshableModeEnum | (string & {}) | undefined;
-  /** Output only. The memory assigned to in-memory tables in an Autonomous Database. */
-  memoryTableGbs?: number | undefined;
-  /** Optional. This field indicates the maximum data loss limit for an Autonomous Database, in seconds. */
-  localAdgAutoFailoverMaxDataLossLimitDuration?: number | undefined;
-  /** Optional. Indicates if the Autonomous Database is a refreshable clone. This field is used in update flow to connect / disconnect a refreshable clone from its source database. */
-  refreshableClone?: boolean | undefined;
-  /** Output only. Deprecated: Please use `local_data_guard_enabled` instead. This field indicates whether the Autonomous Database has local (in-region) Data Guard enabled. */
-  isLocalDataGuardEnabled?: boolean | undefined;
-  /** Output only. The private endpoint for the Autonomous Database. */
-  privateEndpoint?: string | undefined;
+  /** Optional. The encryption key used to encrypt the Autonomous Database. Updating this field will add a new entry in the `encryption_key_history_entries` field with the former version. */
+  encryptionKey?: EncryptionKey | undefined;
   /** Optional. Indicates whether the Autonomous Database has a local (in-region) standby database. Not applicable to cross-region Data Guard or dedicated Exadata infrastructure. */
   localDataGuardEnabled?: boolean | undefined;
-  /** Optional. Immutable. This field indicates if auto scaling is enabled for the Autonomous Database CPU core count. */
-  isAutoScalingEnabled?: boolean | undefined;
+  /** Output only. The refresh mode of the cloned Autonomous Database. */
+  refreshableMode?: AutonomousDatabasePropertiesRefreshableModeEnum | (string & {}) | undefined;
+  /** Optional. Immutable. The ID of the Oracle Cloud Infrastructure vault. */
+  vaultId?: string | undefined;
+  /** Output only. The Oracle Connection URLs for an Autonomous Database. */
+  connectionUrls?: AutonomousDatabaseConnectionUrls | undefined;
+  /** Output only. The Autonomous Container Database OCID. */
+  autonomousContainerDatabaseId?: string | undefined;
+  /** Output only. This field indicates the number of seconds of data loss during a Data Guard failover. */
+  failedDataRecoveryDuration?: string | undefined;
+  /** Optional. Immutable. The edition of the Autonomous Databases. */
+  dbEdition?: AutonomousDatabasePropertiesDbEditionEnum | (string & {}) | undefined;
+  /** Optional. Immutable. This field specifies if the Autonomous Database requires mTLS connections. */
+  mtlsConnectionRequired?: boolean | undefined;
+  /** Optional. Immutable. The ID of the Oracle Cloud Infrastructure vault secret. */
+  secretId?: string | undefined;
+  /** Output only. The private endpoint for the Autonomous Database. */
+  privateEndpoint?: string | undefined;
+  /** Output only. The current lifecycle state of the Autonomous Database. */
+  state?: AutonomousDatabasePropertiesStateEnum | (string & {}) | undefined;
+  /** Optional. Indicates if the Autonomous Database is a refreshable clone. This field is used in update flow to connect / disconnect a refreshable clone from its source database. */
+  refreshableClone?: boolean | undefined;
+  /** Output only. Deprecated: Please use `local_adg_auto_failover_max_data_loss_limit_duration` instead. This field indicates the maximum data loss limit for an Autonomous Database, in seconds. */
+  localAdgAutoFailoverMaxDataLossLimit?: number | undefined;
+  /** Output only. The connection strings used to connect to an Autonomous Database. */
+  connectionStrings?: AutonomousDatabaseConnectionStrings | undefined;
   /** Output only. This field indicates the state of Operations Insights for the Autonomous Database. */
   operationsInsightsState?:
     | AutonomousDatabasePropertiesOperationsInsightsStateEnum
     | (string & {})
     | undefined;
-  /** Output only. The details of the current lifestyle state of the Autonomous Database. */
-  lifecycleDetails?: string | undefined;
-  /** Output only. This field indicates the number of seconds of data loss during a Data Guard failover. */
-  failedDataRecoveryDuration?: string | undefined;
-  /** Optional. Immutable. The character set for the Autonomous Database. The default is AL32UTF8. */
-  characterSet?: string | undefined;
-  /** Optional. Immutable. The Oracle Database version for the Autonomous Database. */
-  dbVersion?: string | undefined;
-  /** Output only. An Oracle-managed Google Cloud service account on which customers can grant roles to access resources in the customer project. */
-  serviceAgentEmail?: string | undefined;
-  /** Output only. The Oracle Connection URLs for an Autonomous Database. */
-  connectionUrls?: AutonomousDatabaseConnectionUrls | undefined;
+  /** Optional. Immutable. The size of the data stored in the database, in terabytes. */
+  dataStorageSizeTb?: number | undefined;
+  /** Output only. This field indicates the local disaster recovery (DR) type of an Autonomous Database. */
+  localDisasterRecoveryType?:
+    | AutonomousDatabasePropertiesLocalDisasterRecoveryTypeEnum
+    | (string & {})
+    | undefined;
   /** Optional. Immutable. The list of allowlisted IP addresses for the Autonomous Database. */
   allowlistedIps?: StringList | undefined;
+  /** Optional. Immutable. The Oracle Database version for the Autonomous Database. */
+  dbVersion?: string | undefined;
+  /** Output only. The amount of storage currently being used for user and system data, in terabytes. */
+  actualUsedDataStorageSizeTb?: number | undefined;
+  /** Output only. Deprecated: Please use `local_data_guard_enabled` instead. This field indicates whether the Autonomous Database has local (in-region) Data Guard enabled. */
+  isLocalDataGuardEnabled?: boolean | undefined;
+  /** Output only. This field indicates the current mode of the Autonomous Database. */
+  openMode?: AutonomousDatabasePropertiesOpenModeEnum | (string & {}) | undefined;
+  /** Optional. Immutable. This field indicates if auto scaling is enabled for the Autonomous Database storage. */
+  isStorageAutoScalingEnabled?: boolean | undefined;
+  /** Output only. The permission level of the Autonomous Database. */
+  permissionLevel?: AutonomousDatabasePropertiesPermissionLevelEnum | (string & {}) | undefined;
+  /** Output only. The amount of storage currently allocated for the database tables and billed for, rounded up in terabytes. */
+  allocatedStorageSizeTb?: number | undefined;
+  /** Output only. The list of available Oracle Database upgrade versions for an Autonomous Database. */
+  availableUpgradeVersions?: StringList | undefined;
+  /** Output only. The current state of the Data Safe registration for the Autonomous Database. */
+  dataSafeState?: AutonomousDatabasePropertiesDataSafeStateEnum | (string & {}) | undefined;
+  /** Required. Immutable. The license type used for the Autonomous Database. */
+  licenseType?: AutonomousDatabasePropertiesLicenseTypeEnum | (string & {}) | undefined;
+  /** Output only. The amount of memory enabled per ECPU, in gigabytes. */
+  memoryPerOracleComputeUnitGbs?: number | undefined;
+  /** Output only. The current state of database management for the Autonomous Database. */
+  databaseManagementState?:
+    | AutonomousDatabasePropertiesDatabaseManagementStateEnum
+    | (string & {})
+    | undefined;
+  /** Output only. An Oracle-managed Google Cloud service account on which customers can grant roles to access resources in the customer project. */
+  serviceAgentEmail?: string | undefined;
+  /** Output only. The memory assigned to in-memory tables in an Autonomous Database. */
+  memoryTableGbs?: number | undefined;
+  /** Output only. The refresh State of the clone. */
+  refreshableState?: AutonomousDatabasePropertiesRefreshableStateEnum | (string & {}) | undefined;
+  /** Output only. The details of the current lifestyle state of the Autonomous Database. */
+  lifecycleDetails?: string | undefined;
   /** Optional. Immutable. The number of compute servers for the Autonomous Database. */
   computeCount?: number | undefined;
-  /** Optional. Immutable. The private endpoint label for the Autonomous Database. */
-  privateEndpointLabel?: string | undefined;
-  /** Output only. The current lifecycle state of the Autonomous Database. */
-  state?: AutonomousDatabasePropertiesStateEnum | (string & {}) | undefined;
-  /** Optional. The encryption key used to encrypt the Autonomous Database. Updating this field will add a new entry in the `encryption_key_history_entries` field with the former version. */
-  encryptionKey?: EncryptionKey | undefined;
-  /** Optional. Immutable. The number of CPU cores to be made available to the database. */
-  cpuCoreCount?: number | undefined;
+  /** Output only. The details of the Autonomous Data Guard standby database. */
+  localStandbyDb?: AutonomousDatabaseStandbySummary | undefined;
+  /** Optional. This field indicates the maximum data loss limit for an Autonomous Database, in seconds. */
+  localAdgAutoFailoverMaxDataLossLimitDuration?: number | undefined;
   /** Output only. The Oracle Cloud Infrastructure link for the Autonomous Database. */
   ociUrl?: string | undefined;
-  /** Optional. Immutable. The edition of the Autonomous Databases. */
-  dbEdition?: AutonomousDatabasePropertiesDbEditionEnum | (string & {}) | undefined;
+  /** Output only. The history of the encryption keys used to encrypt the Autonomous Database. */
+  encryptionKeyHistoryEntries?: EncryptionKeyHistoryEntryList | undefined;
+  /** Optional. Immutable. The private endpoint IP address for the Autonomous Database. */
+  privateEndpointIp?: string | undefined;
   /** Output only. This field indicates the status of Data Guard and Access control for the Autonomous Database. The field's value is null if Data Guard is disabled or Access Control is disabled. The field's value is TRUE if both Data Guard and Access Control are enabled, and the Autonomous Database is using primary IP access control list (ACL) for standby. The field's value is FALSE if both Data Guard and Access Control are enabled, and the Autonomous Database is using a different IP access control list (ACL) for standby compared to primary. */
   arePrimaryAllowlistedIpsUsed?: boolean | undefined;
 }
-export type SourceConfigCloneTypeEnum = "CLONE_TYPE_UNSPECIFIED" | "FULL" | "METADATA";
+export type StringMap = { [key: string]: string | undefined };
 export type SourceConfigRefreshableModeEnum =
   | "REFRESHABLE_MODE_UNSPECIFIED"
   | "AUTOMATIC"
@@ -590,74 +589,80 @@ export type SourceConfigSourceTypeEnum =
   | "CLONE_TO_REFRESHABLE"
   | "BACKUP_FROM_ID"
   | "BACKUP_FROM_TIMESTAMP";
+export type SourceConfigCloneTypeEnum = "CLONE_TYPE_UNSPECIFIED" | "FULL" | "METADATA";
 /** The source configuration for the standby Autonomous Database. */
 export interface SourceConfig {
-  /** Optional. The frequency in seconds a refreshable clone is refreshed after auto-refresh is enabled. */
-  autoRefreshFrequencySeconds?: number | undefined;
-  /** Optional. The name of the Autonomous Database Backup resource with the format: projects/{project}/locations/{region}/autonomousDatabaseBackups/{autonomous_database_backup} Required when source_type is BACKUP_FROM_ID. */
-  autonomousDatabaseBackup?: string | undefined;
-  /** Optional. The clone type of the Autonomous Database. This field is only applicable in case of cloning */
-  cloneType?: SourceConfigCloneTypeEnum | (string & {}) | undefined;
-  /** Optional. This field specifies if the replication of automatic backups is enabled when creating a Data Guard. */
-  automaticBackupsReplicationEnabled?: boolean | undefined;
-  /** Optional. The timestamp specified for the point-in-time clone of the source Autonomous Database. This field is only applicable in case of BACKUP_FROM_TIMESTAMP source type and when use_latest_available_backup is false. */
-  backupTime?: string | undefined;
-  /** Optional. The date and time that auto-refreshing will begin for an Autonomous Database refreshable clone. This value controls only the start time for the first refresh operation. */
-  autoRefreshStartTime?: string | undefined;
-  /** Optional. Clone from latest available backup timestamp. This field is only applicable in case of BACKUP_FROM_TIMESTAMP source type. */
-  useLatestAvailableBackup?: boolean | undefined;
-  /** Optional. The name of the primary Autonomous Database that is used to create a Peer Autonomous Database from a source. */
-  autonomousDatabase?: string | undefined;
   /** Optional. The refresh mode of the clone. */
   refreshableMode?: SourceConfigRefreshableModeEnum | (string & {}) | undefined;
-  /** Optional. The time, in seconds, the data of the automatic refreshable clone lags the primary database at the point of refresh. */
-  autoRefreshPointLagSeconds?: number | undefined;
+  /** Optional. The frequency in seconds a refreshable clone is refreshed after auto-refresh is enabled. */
+  autoRefreshFrequencySeconds?: number | undefined;
+  /** Optional. The date and time that auto-refreshing will begin for an Autonomous Database refreshable clone. This value controls only the start time for the first refresh operation. */
+  autoRefreshStartTime?: string | undefined;
+  /** Optional. The name of the primary Autonomous Database that is used to create a Peer Autonomous Database from a source. */
+  autonomousDatabase?: string | undefined;
   /** Optional. The source type of the Autonomous Database. */
   sourceType?: SourceConfigSourceTypeEnum | (string & {}) | undefined;
+  /** Optional. The time, in seconds, the data of the automatic refreshable clone lags the primary database at the point of refresh. */
+  autoRefreshPointLagSeconds?: number | undefined;
+  /** Optional. The name of the Autonomous Database Backup resource with the format: projects/{project}/locations/{region}/autonomousDatabaseBackups/{autonomous_database_backup} Required when source_type is BACKUP_FROM_ID. */
+  autonomousDatabaseBackup?: string | undefined;
+  /** Optional. This field specifies if the replication of automatic backups is enabled when creating a Data Guard. */
+  automaticBackupsReplicationEnabled?: boolean | undefined;
+  /** Optional. The clone type of the Autonomous Database. This field is only applicable in case of cloning */
+  cloneType?: SourceConfigCloneTypeEnum | (string & {}) | undefined;
+  /** Optional. The timestamp specified for the point-in-time clone of the source Autonomous Database. This field is only applicable in case of BACKUP_FROM_TIMESTAMP source type and when use_latest_available_backup is false. */
+  backupTime?: string | undefined;
+  /** Optional. Clone from latest available backup timestamp. This field is only applicable in case of BACKUP_FROM_TIMESTAMP source type. */
+  useLatestAvailableBackup?: boolean | undefined;
 }
 /** Details of the Autonomous Database resource. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/AutonomousDatabase/ */
 export interface AutonomousDatabase {
-  /** Optional. The labels or tags associated with the Autonomous Database. */
-  labels?: StringMap | undefined;
-  /** Optional. Immutable. The name of the OdbNetwork associated with the Autonomous Database. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network} It is optional but if specified, this should match the parent ODBNetwork of the OdbSubnet. */
-  odbNetwork?: string | undefined;
-  /** Optional. The properties of the Autonomous Database. */
-  properties?: AutonomousDatabaseProperties | undefined;
-  /** Identifier. The name of the Autonomous Database resource in the following format: projects/{project}/locations/{region}/autonomousDatabases/{autonomous_database} */
-  name?: string | undefined;
-  /** Optional. Immutable. The display name for the Autonomous Database. The name does not have to be unique within your project. */
-  displayName?: string | undefined;
-  /** Output only. List of supported GCP region to clone the Autonomous Database for disaster recovery. Format: `project/{project}/locations/{location}`. */
-  disasterRecoverySupportedLocations?: StringList | undefined;
-  /** Optional. Immutable. The subnet CIDR range for the Autonomous Database. */
-  cidr?: string | undefined;
-  /** Optional. Immutable. The name of the OdbSubnet associated with the Autonomous Database. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet} */
-  odbSubnet?: string | undefined;
-  /** Output only. The peer Autonomous Database names of the given Autonomous Database. */
-  peerAutonomousDatabases?: StringList | undefined;
-  /** Optional. Immutable. The name of the VPC network used by the Autonomous Database in the following format: projects/{project}/global/networks/{network} */
-  network?: string | undefined;
-  /** Output only. The ID of the subscription entitlement associated with the Autonomous Database. */
-  entitlementId?: string | undefined;
-  /** Optional. Immutable. The name of the Autonomous Database. The database name must be unique in the project. The name must begin with a letter and can contain a maximum of 30 alphanumeric characters. */
-  database?: string | undefined;
-  /** Optional. Input only. Immutable. The password for the default ADMIN user. Note: Only one of `admin_password_secret_version` or `admin_password` can be populated. */
-  adminPassword?: string | Redacted.Redacted<string> | undefined;
-  /** Output only. The date and time that the Autonomous Database was created. */
-  createTime?: string | undefined;
-  /** Optional. Immutable. The source Autonomous Database configuration for the standby Autonomous Database. The source Autonomous Database is configured while creating the Peer Autonomous Database and can't be updated after creation. */
-  sourceConfig?: SourceConfig | undefined;
   /** Optional. Input only. Immutable. The resource name of a secret version in Secret Manager which contains the database admin user's password. Format: projects/{project}/secrets/{secret}/versions/{version}. Note: Only one of `admin_password_secret_version` or `admin_password` can be populated. */
   adminPasswordSecretVersion?: string | undefined;
+  /** Output only. The date and time that the Autonomous Database was created. */
+  createTime?: string | undefined;
+  /** Output only. The peer Autonomous Database names of the given Autonomous Database. */
+  peerAutonomousDatabases?: StringList | undefined;
+  /** Optional. The properties of the Autonomous Database. */
+  properties?: AutonomousDatabaseProperties | undefined;
+  /** Optional. Immutable. The display name for the Autonomous Database. The name does not have to be unique within your project. */
+  displayName?: string | undefined;
+  /** Optional. Immutable. The name of the OdbSubnet associated with the Autonomous Database. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet} */
+  odbSubnet?: string | undefined;
+  /** Optional. The labels or tags associated with the Autonomous Database. */
+  labels?: StringMap | undefined;
+  /** Optional. Input only. Immutable. The password for the default ADMIN user. Note: Only one of `admin_password_secret_version` or `admin_password` can be populated. */
+  adminPassword?: string | Redacted.Redacted<string> | undefined;
+  /** Output only. The ID of the subscription entitlement associated with the Autonomous Database. */
+  entitlementId?: string | undefined;
+  /** Optional. Immutable. The name of the OdbNetwork associated with the Autonomous Database. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network} It is optional but if specified, this should match the parent ODBNetwork of the OdbSubnet. */
+  odbNetwork?: string | undefined;
+  /** Output only. List of supported GCP region to clone the Autonomous Database for disaster recovery. Format: `project/{project}/locations/{location}`. */
+  disasterRecoverySupportedLocations?: StringList | undefined;
+  /** Optional. Immutable. The name of the VPC network used by the Autonomous Database in the following format: projects/{project}/global/networks/{network} */
+  network?: string | undefined;
+  /** Optional. Immutable. The name of the Autonomous Database. The database name must be unique in the project. The name must begin with a letter and can contain a maximum of 30 alphanumeric characters. */
+  database?: string | undefined;
+  /** Optional. Immutable. The subnet CIDR range for the Autonomous Database. */
+  cidr?: string | undefined;
+  /** Optional. Immutable. The source Autonomous Database configuration for the standby Autonomous Database. The source Autonomous Database is configured while creating the Peer Autonomous Database and can't be updated after creation. */
+  sourceConfig?: SourceConfig | undefined;
+  /** Identifier. The name of the Autonomous Database resource in the following format: projects/{project}/locations/{region}/autonomousDatabases/{autonomous_database} */
+  name?: string | undefined;
 }
 export interface CreateProjectsLocationsAutonomousDatabasesRequest extends AutonomousDatabase {
-  /** Required. The name of the parent in the following format: projects/{project}/locations/{location}. */
-  parent: string;
-  /** Optional. An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
   /** Required. The ID of the Autonomous Database to create. This value is restricted to (^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$) and must be a maximum of 63 characters in length. The value must start with a letter and end with a letter or a number. */
   autonomousDatabaseId?: string | undefined;
+  /** Optional. An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Required. The name of the parent in the following format: projects/{project}/locations/{location}. */
+  parent: string;
 }
+export type MaintenanceWindowPreferenceEnum =
+  | "MAINTENANCE_WINDOW_PREFERENCE_UNSPECIFIED"
+  | "CUSTOM_PREFERENCE"
+  | "NO_PREFERENCE";
+export type IntegerList = Array<number>;
 export type MaintenanceWindowMonthsItemEnum =
   | "MONTH_UNSPECIFIED"
   | "JANUARY"
@@ -691,46 +696,26 @@ export type MaintenanceWindowPatchingModeEnum =
   | "PATCHING_MODE_UNSPECIFIED"
   | "ROLLING"
   | "NON_ROLLING";
-export type IntegerList = Array<number>;
-export type MaintenanceWindowPreferenceEnum =
-  | "MAINTENANCE_WINDOW_PREFERENCE_UNSPECIFIED"
-  | "CUSTOM_PREFERENCE"
-  | "NO_PREFERENCE";
 /** Maintenance window as defined by Oracle. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/datatypes/MaintenanceWindow */
 export interface MaintenanceWindow {
+  /** Optional. The maintenance window scheduling preference. */
+  preference?: MaintenanceWindowPreferenceEnum | (string & {}) | undefined;
   /** Optional. Lead time window allows user to set a lead time to prepare for a down time. The lead time is in weeks and valid value is between 1 to 4. */
   leadTimeWeek?: number | undefined;
-  /** Optional. Months during the year when maintenance should be performed. */
-  months?: MaintenanceWindowMonthsItemEnumList | undefined;
-  /** Optional. Days during the week when maintenance should be performed. */
-  daysOfWeek?: MaintenanceWindowDaysOfWeekItemEnumList | undefined;
   /** Optional. If true, enables the configuration of a custom action timeout (waiting period) between database server patching operations. */
   isCustomActionTimeoutEnabled?: boolean | undefined;
-  /** Optional. Cloud CloudExadataInfrastructure node patching method, either "ROLLING" or "NONROLLING". Default value is ROLLING. */
-  patchingMode?: MaintenanceWindowPatchingModeEnum | (string & {}) | undefined;
+  /** Optional. Weeks during the month when maintenance should be performed. Weeks start on the 1st, 8th, 15th, and 22nd days of the month, and have a duration of 7 days. Weeks start and end based on calendar dates, not days of the week. */
+  weeksOfMonth?: IntegerList | undefined;
   /** Optional. The window of hours during the day when maintenance should be performed. The window is a 4 hour slot. Valid values are: 0 - represents time slot 0:00 - 3:59 UTC 4 - represents time slot 4:00 - 7:59 UTC 8 - represents time slot 8:00 - 11:59 UTC 12 - represents time slot 12:00 - 15:59 UTC 16 - represents time slot 16:00 - 19:59 UTC 20 - represents time slot 20:00 - 23:59 UTC */
   hoursOfDay?: IntegerList | undefined;
   /** Optional. Determines the amount of time the system will wait before the start of each database server patching operation. Custom action timeout is in minutes and valid value is between 15 to 120 (inclusive). */
   customActionTimeoutMins?: number | undefined;
-  /** Optional. Weeks during the month when maintenance should be performed. Weeks start on the 1st, 8th, 15th, and 22nd days of the month, and have a duration of 7 days. Weeks start and end based on calendar dates, not days of the week. */
-  weeksOfMonth?: IntegerList | undefined;
-  /** Optional. The maintenance window scheduling preference. */
-  preference?: MaintenanceWindowPreferenceEnum | (string & {}) | undefined;
-}
-export type CloudExadataInfrastructurePropertiesComputeModelEnum =
-  | "COMPUTE_MODEL_UNSPECIFIED"
-  | "COMPUTE_MODEL_ECPU"
-  | "COMPUTE_MODEL_OCPU";
-/** Details of the Exascale configuration for the Exadata Infrastructure. */
-export interface ExascaleConfig {
-  /** Output only. Available storage size for VM storage on Exascale in GBs. */
-  availableVmStorageSizeGb?: number | undefined;
-  /** Output only. Available storage size for Exascale in GBs. */
-  availableStorageSizeGb?: number | undefined;
-  /** Output only. Total storage size needed for Exascale in GBs. */
-  totalStorageSizeGb?: number | undefined;
-  /** Output only. Storage size needed for VM storage on Exascale in GBs. */
-  totalVmStorageSizeGb?: number | undefined;
+  /** Optional. Months during the year when maintenance should be performed. */
+  months?: MaintenanceWindowMonthsItemEnumList | undefined;
+  /** Optional. Days during the week when maintenance should be performed. */
+  daysOfWeek?: MaintenanceWindowDaysOfWeekItemEnumList | undefined;
+  /** Optional. Cloud CloudExadataInfrastructure node patching method, either "ROLLING" or "NONROLLING". Default value is ROLLING. */
+  patchingMode?: MaintenanceWindowPatchingModeEnum | (string & {}) | undefined;
 }
 export type CloudExadataInfrastructurePropertiesStateEnum =
   | "STATE_UNSPECIFIED"
@@ -741,87 +726,102 @@ export type CloudExadataInfrastructurePropertiesStateEnum =
   | "TERMINATED"
   | "FAILED"
   | "MAINTENANCE_IN_PROGRESS";
+/** Details of the Exascale configuration for the Exadata Infrastructure. */
+export interface ExascaleConfig {
+  /** Output only. Storage size needed for VM storage on Exascale in GBs. */
+  totalVmStorageSizeGb?: number | undefined;
+  /** Output only. Available storage size for Exascale in GBs. */
+  availableStorageSizeGb?: number | undefined;
+  /** Output only. Total storage size needed for Exascale in GBs. */
+  totalStorageSizeGb?: number | undefined;
+  /** Output only. Available storage size for VM storage on Exascale in GBs. */
+  availableVmStorageSizeGb?: number | undefined;
+}
+export type CloudExadataInfrastructurePropertiesComputeModelEnum =
+  | "COMPUTE_MODEL_UNSPECIFIED"
+  | "COMPUTE_MODEL_ECPU"
+  | "COMPUTE_MODEL_OCPU";
 /** Various properties of Exadata Infrastructure. */
 export interface CloudExadataInfrastructureProperties {
-  /** Required. The shape of the Exadata Infrastructure. The shape determines the amount of CPU, storage, and memory resources allocated to the instance. */
-  shape?: string | undefined;
-  /** Output only. The available storage can be allocated to the Exadata Infrastructure resource, in gigabytes (GB). */
-  availableStorageSizeGb?: number | undefined;
-  /** Output only. The number of enabled CPU cores. */
-  cpuCount?: number | undefined;
   /** Output only. The software version of the database servers (dom0) in the Exadata Infrastructure. */
   dbServerVersion?: string | undefined;
-  /** Output only. The monthly software version of the database servers (dom0) in the Exadata Infrastructure. Example: 20.1.15 */
-  monthlyDbServerVersion?: string | undefined;
-  /** Optional. The number of Cloud Exadata storage servers for the Exadata Infrastructure. */
-  storageCount?: number | undefined;
-  /** Output only. The total local node storage available in GBs. */
-  maxDbNodeStorageSizeGb?: number | undefined;
   /** Optional. Maintenance window for repair. */
   maintenanceWindow?: MaintenanceWindow | undefined;
-  /** Output only. The memory allocated in GBs. */
-  memorySizeGb?: number | undefined;
-  /** Output only. The requested number of additional storage servers for the Exadata Infrastructure. */
-  additionalStorageCount?: number | undefined;
-  /** Optional. The database server type of the Exadata Infrastructure. */
-  databaseServerType?: string | undefined;
-  /** Output only. The software version of the storage servers (cells) in the Exadata Infrastructure. */
-  storageServerVersion?: string | undefined;
+  /** Output only. The monthly software version of the database servers (dom0) in the Exadata Infrastructure. Example: 20.1.15 */
+  monthlyDbServerVersion?: string | undefined;
+  /** Output only. The local node storage allocated in GBs. */
+  dbNodeStorageSizeGb?: number | undefined;
   /** Output only. The time when the next security maintenance run will occur. */
   nextSecurityMaintenanceRunTime?: string | undefined;
   /** Optional. The storage server type of the Exadata Infrastructure. */
   storageServerType?: string | undefined;
-  /** Output only. The compute model of the Exadata Infrastructure. */
-  computeModel?: CloudExadataInfrastructurePropertiesComputeModelEnum | (string & {}) | undefined;
-  /** Optional. The total storage allocated to the Exadata Infrastructure resource, in gigabytes (GB). */
-  totalStorageSizeGb?: number | undefined;
   /** Output only. The time when the next maintenance run will occur. */
   nextMaintenanceRunTime?: string | undefined;
-  /** Output only. The total number of CPU cores available. */
-  maxCpuCount?: number | undefined;
-  /** Output only. The OCID of the next maintenance run. */
-  nextMaintenanceRunId?: string | undefined;
-  /** Output only. The monthly software version of the storage servers (cells) in the Exadata Infrastructure. Example: 20.1.15 */
-  monthlyStorageServerVersion?: string | undefined;
-  /** Output only. The Exascale configuration for the Exadata Infrastructure. */
-  exascaleConfig?: ExascaleConfig | undefined;
-  /** Output only. OCID of created infra. https://docs.oracle.com/en-us/iaas/Content/General/Concepts/identifiers.htm#Oracle */
-  ocid?: string | undefined;
-  /** Output only. The requested number of additional storage servers activated for the Exadata Infrastructure. */
-  activatedStorageCount?: number | undefined;
-  /** Output only. The local node storage allocated in GBs. */
-  dbNodeStorageSizeGb?: number | undefined;
-  /** Output only. The total available DATA disk group size. */
-  maxDataStorageTb?: number | undefined;
-  /** Optional. The list of customer contacts. */
-  customerContacts?: CustomerContactList | undefined;
-  /** Output only. Size, in terabytes, of the DATA disk group. */
-  dataStorageSizeTb?: number | undefined;
-  /** Output only. The total memory available in GBs. */
-  maxMemoryGb?: number | undefined;
-  /** Output only. The current lifecycle state of the Exadata Infrastructure. */
-  state?: CloudExadataInfrastructurePropertiesStateEnum | (string & {}) | undefined;
-  /** Output only. Deep link to the OCI console to view this resource. */
-  ociUrl?: string | undefined;
   /** Optional. The number of compute servers for the Exadata Infrastructure. */
   computeCount?: number | undefined;
+  /** Output only. The total memory available in GBs. */
+  maxMemoryGb?: number | undefined;
+  /** Output only. The monthly software version of the storage servers (cells) in the Exadata Infrastructure. Example: 20.1.15 */
+  monthlyStorageServerVersion?: string | undefined;
+  /** Output only. The software version of the storage servers (cells) in the Exadata Infrastructure. */
+  storageServerVersion?: string | undefined;
+  /** Optional. The database server type of the Exadata Infrastructure. */
+  databaseServerType?: string | undefined;
+  /** Output only. The total available DATA disk group size. */
+  maxDataStorageTb?: number | undefined;
+  /** Output only. The number of enabled CPU cores. */
+  cpuCount?: number | undefined;
+  /** Output only. The requested number of additional storage servers for the Exadata Infrastructure. */
+  additionalStorageCount?: number | undefined;
+  /** Optional. The list of customer contacts. */
+  customerContacts?: CustomerContactList | undefined;
+  /** Optional. The number of Cloud Exadata storage servers for the Exadata Infrastructure. */
+  storageCount?: number | undefined;
+  /** Output only. The available storage can be allocated to the Exadata Infrastructure resource, in gigabytes (GB). */
+  availableStorageSizeGb?: number | undefined;
+  /** Output only. The requested number of additional storage servers activated for the Exadata Infrastructure. */
+  activatedStorageCount?: number | undefined;
+  /** Output only. The OCID of the next maintenance run. */
+  nextMaintenanceRunId?: string | undefined;
+  /** Output only. The current lifecycle state of the Exadata Infrastructure. */
+  state?: CloudExadataInfrastructurePropertiesStateEnum | (string & {}) | undefined;
+  /** Output only. The total local node storage available in GBs. */
+  maxDbNodeStorageSizeGb?: number | undefined;
+  /** Output only. OCID of created infra. https://docs.oracle.com/en-us/iaas/Content/General/Concepts/identifiers.htm#Oracle */
+  ocid?: string | undefined;
+  /** Output only. The memory allocated in GBs. */
+  memorySizeGb?: number | undefined;
+  /** Required. The shape of the Exadata Infrastructure. The shape determines the amount of CPU, storage, and memory resources allocated to the instance. */
+  shape?: string | undefined;
+  /** Optional. The total storage allocated to the Exadata Infrastructure resource, in gigabytes (GB). */
+  totalStorageSizeGb?: number | undefined;
+  /** Output only. The total number of CPU cores available. */
+  maxCpuCount?: number | undefined;
+  /** Output only. The Exascale configuration for the Exadata Infrastructure. */
+  exascaleConfig?: ExascaleConfig | undefined;
+  /** Output only. The compute model of the Exadata Infrastructure. */
+  computeModel?: CloudExadataInfrastructurePropertiesComputeModelEnum | (string & {}) | undefined;
+  /** Output only. Size, in terabytes, of the DATA disk group. */
+  dataStorageSizeTb?: number | undefined;
+  /** Output only. Deep link to the OCI console to view this resource. */
+  ociUrl?: string | undefined;
 }
 /** Represents CloudExadataInfrastructure resource. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/CloudExadataInfrastructure/ */
 export interface CloudExadataInfrastructure {
-  /** Identifier. The name of the Exadata Infrastructure resource with the format: projects/{project}/locations/{region}/cloudExadataInfrastructures/{cloud_exadata_infrastructure} */
-  name?: string | undefined;
-  /** Optional. Immutable. User friendly name for this resource. */
-  displayName?: string | undefined;
   /** Optional. Labels or tags associated with the resource. */
   labels?: StringMap | undefined;
-  /** Optional. Immutable. Various properties of the infra. */
-  properties?: CloudExadataInfrastructureProperties | undefined;
   /** Output only. The date and time that the Exadata Infrastructure was created. */
   createTime?: string | undefined;
-  /** Optional. Immutable. The GCP Oracle zone where Oracle Exadata Infrastructure is hosted. Example: us-east4-b-r2. If not specified, the system will pick a zone based on availability. */
-  gcpOracleZone?: string | undefined;
+  /** Identifier. The name of the Exadata Infrastructure resource with the format: projects/{project}/locations/{region}/cloudExadataInfrastructures/{cloud_exadata_infrastructure} */
+  name?: string | undefined;
   /** Output only. Entitlement ID of the private offer against which this infrastructure resource is provisioned. */
   entitlementId?: string | undefined;
+  /** Optional. Immutable. The GCP Oracle zone where Oracle Exadata Infrastructure is hosted. Example: us-east4-b-r2. If not specified, the system will pick a zone based on availability. */
+  gcpOracleZone?: string | undefined;
+  /** Optional. Immutable. Various properties of the infra. */
+  properties?: CloudExadataInfrastructureProperties | undefined;
+  /** Optional. Immutable. User friendly name for this resource. */
+  displayName?: string | undefined;
 }
 export interface CreateProjectsLocationsCloudExadataInfrastructuresRequest extends CloudExadataInfrastructure {
   /** Required. The parent value for CloudExadataInfrastructure in the following format: projects/{project}/locations/{location}. */
@@ -831,65 +831,6 @@ export interface CreateProjectsLocationsCloudExadataInfrastructuresRequest exten
   /** Optional. An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
 }
-export type IdentityConnectorConnectionStateEnum =
-  | "CONNECTION_STATE_UNSPECIFIED"
-  | "CONNECTED"
-  | "PARTIALLY_CONNECTED"
-  | "DISCONNECTED"
-  | "UNKNOWN";
-/** The identity connector details which will allow OCI to securely access the resources in the customer project. */
-export interface IdentityConnector {
-  /** Output only. The unique partner identifier for the Identity Connector, used to establish secure cross-cloud access between Google Cloud and OCI. This corresponds directly to the ID of the OracleDbGcpIdentityConnector resource in Oracle Cloud Infrastructure (OCI). */
-  identityConnectorId?: string | undefined;
-  /** Output only. Additional information about the current lifecycle state. */
-  lifecycleStateDetails?: string | undefined;
-  /** Output only. A google managed service account on which customers can grant roles to access resources in the customer project. Example: `p176944527254-55-75119d87fd8f@gcp-sa-oci.iam.gserviceaccount.com` */
-  serviceAgentEmail?: string | undefined;
-  /** Output only. The resource name of the Workload Identity Pool configured for identity federation with OCI. This exact pool name can be used to configure VPC Service Controls (VPC-SC) egress rules. Format: `projects/{project}/locations/global/workloadIdentityPools/{workload_identity_pool}` */
-  workloadIdentityPool?: string | undefined;
-  /** Output only. The connection state of the identity connector. */
-  connectionState?: IdentityConnectorConnectionStateEnum | (string & {}) | undefined;
-}
-export type CloudVmClusterPropertiesDiskRedundancyEnum =
-  | "DISK_REDUNDANCY_UNSPECIFIED"
-  | "HIGH"
-  | "NORMAL";
-export type CloudVmClusterPropertiesComputeModelEnum =
-  | "COMPUTE_MODEL_UNSPECIFIED"
-  | "COMPUTE_MODEL_ECPU"
-  | "COMPUTE_MODEL_OCPU";
-export type CloudVmClusterPropertiesStorageManagementTypeEnum =
-  | "STORAGE_MANAGEMENT_TYPE_UNSPECIFIED"
-  | "ASM"
-  | "EXASCALE";
-export type CloudVmClusterPropertiesVmBackupStorageTypeEnum =
-  | "VM_BACKUP_STORAGE_TYPE_UNSPECIFIED"
-  | "VM_BACKUP_STORAGE_TYPE_LOCAL"
-  | "VM_BACKUP_STORAGE_TYPE_EXASCALE";
-/** Data collection options for diagnostics. */
-export interface DataCollectionOptions {
-  /** Optional. Indicates whether health monitoring is enabled for the VM cluster */
-  healthMonitoringEnabled?: boolean | undefined;
-  /** Optional. Indicates whether diagnostic collection is enabled for the VM cluster */
-  diagnosticsEventsEnabled?: boolean | undefined;
-  /** Optional. Indicates whether incident logs and trace collection are enabled for the VM cluster */
-  incidentLogsEnabled?: boolean | undefined;
-}
-export type CloudVmClusterPropertiesVmFileSystemStorageTypeEnum =
-  | "VM_FILE_SYSTEM_STORAGE_TYPE_UNSPECIFIED"
-  | "VM_FILE_SYSTEM_STORAGE_TYPE_LOCAL"
-  | "VM_FILE_SYSTEM_STORAGE_TYPE_EXASCALE";
-/** Represents a time zone from the [IANA Time Zone Database](https://www.iana.org/time-zones). */
-export interface TimeZone {
-  /** Optional. IANA Time Zone Database version number. For example "2019a". */
-  version?: string | undefined;
-  /** IANA Time Zone Database time zone. For example "America/New_York". */
-  id?: string | undefined;
-}
-export type CloudVmClusterPropertiesLicenseTypeEnum =
-  | "LICENSE_TYPE_UNSPECIFIED"
-  | "LICENSE_INCLUDED"
-  | "BRING_YOUR_OWN_LICENSE";
 export type CloudVmClusterPropertiesStateEnum =
   | "STATE_UNSPECIFIED"
   | "PROVISIONING"
@@ -899,20 +840,104 @@ export type CloudVmClusterPropertiesStateEnum =
   | "TERMINATED"
   | "FAILED"
   | "MAINTENANCE_IN_PROGRESS";
+export type CloudVmClusterPropertiesDiskRedundancyEnum =
+  | "DISK_REDUNDANCY_UNSPECIFIED"
+  | "HIGH"
+  | "NORMAL";
+export type CloudVmClusterPropertiesLicenseTypeEnum =
+  | "LICENSE_TYPE_UNSPECIFIED"
+  | "LICENSE_INCLUDED"
+  | "BRING_YOUR_OWN_LICENSE";
+/** Data collection options for diagnostics. */
+export interface DataCollectionOptions {
+  /** Optional. Indicates whether diagnostic collection is enabled for the VM cluster */
+  diagnosticsEventsEnabled?: boolean | undefined;
+  /** Optional. Indicates whether health monitoring is enabled for the VM cluster */
+  healthMonitoringEnabled?: boolean | undefined;
+  /** Optional. Indicates whether incident logs and trace collection are enabled for the VM cluster */
+  incidentLogsEnabled?: boolean | undefined;
+}
+export type CloudVmClusterPropertiesVmBackupStorageTypeEnum =
+  | "VM_BACKUP_STORAGE_TYPE_UNSPECIFIED"
+  | "VM_BACKUP_STORAGE_TYPE_LOCAL"
+  | "VM_BACKUP_STORAGE_TYPE_EXASCALE";
+export type CloudVmClusterPropertiesComputeModelEnum =
+  | "COMPUTE_MODEL_UNSPECIFIED"
+  | "COMPUTE_MODEL_ECPU"
+  | "COMPUTE_MODEL_OCPU";
+export type CloudVmClusterPropertiesStorageManagementTypeEnum =
+  | "STORAGE_MANAGEMENT_TYPE_UNSPECIFIED"
+  | "ASM"
+  | "EXASCALE";
+export type CloudVmClusterPropertiesVmFileSystemStorageTypeEnum =
+  | "VM_FILE_SYSTEM_STORAGE_TYPE_UNSPECIFIED"
+  | "VM_FILE_SYSTEM_STORAGE_TYPE_LOCAL"
+  | "VM_FILE_SYSTEM_STORAGE_TYPE_EXASCALE";
+/** Represents a time zone from the [IANA Time Zone Database](https://www.iana.org/time-zones). */
+export interface TimeZone {
+  /** IANA Time Zone Database time zone. For example "America/New_York". */
+  id?: string | undefined;
+  /** Optional. IANA Time Zone Database version number. For example "2019a". */
+  version?: string | undefined;
+}
 /** Various properties and settings associated with Exadata VM cluster. */
 export interface CloudVmClusterProperties {
+  /** Optional. Number of database servers. */
+  nodeCount?: number | undefined;
   /** Output only. host name without domain. format: "-" with some suffix. ex: sp2-yi0xq where "sp2" is the hostname_prefix. */
   hostname?: string | undefined;
-  /** Optional. The type of redundancy. */
-  diskRedundancy?: CloudVmClusterPropertiesDiskRedundancyEnum | (string & {}) | undefined;
+  /** Output only. Shape of VM Cluster. */
+  shape?: string | undefined;
   /** Optional. OCI Cluster name. */
   clusterName?: string | undefined;
+  /** Optional. OCPU count per VM. Minimum is 0.1. */
+  ocpuCount?: number | undefined;
+  /** Optional. Local storage per VM. */
+  dbNodeStorageSizeGb?: number | undefined;
+  /** Optional. Operating system version of the image. */
+  systemVersion?: string | undefined;
+  /** Optional. SCAN listener port - TCP */
+  scanListenerPortTcp?: number | undefined;
+  /** Optional. SCAN listener port - TLS */
+  scanListenerPortTcpSsl?: number | undefined;
+  /** Output only. OCIDs of scan IPs. */
+  scanIpIds?: StringList | undefined;
+  /** Optional. SSH public keys to be stored with cluster. */
+  sshPublicKeys?: StringList | undefined;
+  /** Output only. State of the cluster. */
+  state?: CloudVmClusterPropertiesStateEnum | (string & {}) | undefined;
+  /** Optional. Prefix for VM cluster host names. */
+  hostnamePrefix?: string | undefined;
+  /** Optional. The type of redundancy. */
+  diskRedundancy?: CloudVmClusterPropertiesDiskRedundancyEnum | (string & {}) | undefined;
+  /** Required. License type of VM Cluster. */
+  licenseType?: CloudVmClusterPropertiesLicenseTypeEnum | (string & {}) | undefined;
+  /** Optional. Grid Infrastructure Version. */
+  giVersion?: string | undefined;
+  /** Output only. DNS listener IP. */
+  dnsListenerIp?: string | undefined;
+  /** Output only. Compartment ID of cluster. */
+  compartmentId?: string | undefined;
+  /** Optional. Use exadata sparse snapshots. */
+  sparseDiskgroupEnabled?: boolean | undefined;
   /** Optional. The data disk group size to be allocated in TBs. */
   dataStorageSizeTb?: number | undefined;
-  /** Output only. The compute model of the VM Cluster. */
-  computeModel?: CloudVmClusterPropertiesComputeModelEnum | (string & {}) | undefined;
+  /** Output only. Deep link to the OCI console to view this resource. */
+  ociUrl?: string | undefined;
+  /** Optional. Use local backup. */
+  localBackupEnabled?: boolean | undefined;
+  /** Optional. Data collection options for diagnostics. */
+  diagnosticsDataCollectionOptions?: DataCollectionOptions | undefined;
   /** Output only. Oracle Cloud Infrastructure ID of VM Cluster. */
   ocid?: string | undefined;
+  /** Optional. Specifies whether VM backups are stored on local DB server storage or Exascale storage. */
+  vmBackupStorageType?: CloudVmClusterPropertiesVmBackupStorageTypeEnum | (string & {}) | undefined;
+  /** Required. Number of enabled CPU cores. */
+  cpuCoreCount?: number | undefined;
+  /** Output only. The compute model of the VM Cluster. */
+  computeModel?: CloudVmClusterPropertiesComputeModelEnum | (string & {}) | undefined;
+  /** Output only. OCID of scan DNS record. */
+  scanDnsRecordId?: string | undefined;
   /** Output only. The storage management type of the VM Cluster. */
   storageManagementType?:
     | CloudVmClusterPropertiesStorageManagementTypeEnum
@@ -920,110 +945,85 @@ export interface CloudVmClusterProperties {
     | undefined;
   /** Output only. SCAN DNS name. ex: sp2-yi0xq-scan.ocispdelegated.ocisp10jvnet.oraclevcn.com */
   scanDns?: string | undefined;
-  /** Optional. Specifies whether VM backups are stored on local DB server storage or Exascale storage. */
-  vmBackupStorageType?: CloudVmClusterPropertiesVmBackupStorageTypeEnum | (string & {}) | undefined;
-  /** Optional. Data collection options for diagnostics. */
-  diagnosticsDataCollectionOptions?: DataCollectionOptions | undefined;
-  /** Optional. SSH public keys to be stored with cluster. */
-  sshPublicKeys?: StringList | undefined;
-  /** Output only. Deep link to the OCI console to view this resource. */
-  ociUrl?: string | undefined;
-  /** Output only. Shape of VM Cluster. */
-  shape?: string | undefined;
-  /** Optional. Use exadata sparse snapshots. */
-  sparseDiskgroupEnabled?: boolean | undefined;
   /** Output only. The storage allocation for the disk group, in gigabytes (GB). */
   storageSizeGb?: number | undefined;
-  /** Required. Number of enabled CPU cores. */
-  cpuCoreCount?: number | undefined;
+  /** Optional. Memory allocated in GBs. */
+  memorySizeGb?: number | undefined;
   /** Optional. Specifies whether VM file system storage / VM images are stored on local DB server storage or Exascale storage. */
   vmFileSystemStorageType?:
     | CloudVmClusterPropertiesVmFileSystemStorageTypeEnum
     | (string & {})
     | undefined;
-  /** Output only. DNS listener IP. */
-  dnsListenerIp?: string | undefined;
   /** Optional. Time zone of VM Cluster to set. Defaults to UTC if not specified. */
   timeZone?: TimeZone | undefined;
-  /** Optional. Prefix for VM cluster host names. */
-  hostnamePrefix?: string | undefined;
-  /** Optional. OCPU count per VM. Minimum is 0.1. */
-  ocpuCount?: number | undefined;
-  /** Required. License type of VM Cluster. */
-  licenseType?: CloudVmClusterPropertiesLicenseTypeEnum | (string & {}) | undefined;
-  /** Optional. Operating system version of the image. */
-  systemVersion?: string | undefined;
-  /** Output only. OCID of scan DNS record. */
-  scanDnsRecordId?: string | undefined;
-  /** Output only. State of the cluster. */
-  state?: CloudVmClusterPropertiesStateEnum | (string & {}) | undefined;
-  /** Optional. OCID of database servers. */
-  dbServerOcids?: StringList | undefined;
-  /** Optional. Memory allocated in GBs. */
-  memorySizeGb?: number | undefined;
-  /** Optional. Local storage per VM. */
-  dbNodeStorageSizeGb?: number | undefined;
-  /** Optional. Use local backup. */
-  localBackupEnabled?: boolean | undefined;
-  /** Optional. Grid Infrastructure Version. */
-  giVersion?: string | undefined;
-  /** Optional. Number of database servers. */
-  nodeCount?: number | undefined;
-  /** Output only. OCIDs of scan IPs. */
-  scanIpIds?: StringList | undefined;
-  /** Optional. SCAN listener port - TLS */
-  scanListenerPortTcpSsl?: number | undefined;
   /** Output only. Parent DNS domain where SCAN DNS and hosts names are qualified. ex: ocispdelegated.ocisp10jvnet.oraclevcn.com */
   domain?: string | undefined;
-  /** Output only. Compartment ID of cluster. */
-  compartmentId?: string | undefined;
-  /** Optional. SCAN listener port - TCP */
-  scanListenerPortTcp?: number | undefined;
+  /** Optional. OCID of database servers. */
+  dbServerOcids?: StringList | undefined;
+}
+export type IdentityConnectorConnectionStateEnum =
+  | "CONNECTION_STATE_UNSPECIFIED"
+  | "CONNECTED"
+  | "PARTIALLY_CONNECTED"
+  | "DISCONNECTED"
+  | "UNKNOWN";
+/** The identity connector details which will allow OCI to securely access the resources in the customer project. */
+export interface IdentityConnector {
+  /** Output only. Additional information about the current lifecycle state. */
+  lifecycleStateDetails?: string | undefined;
+  /** Output only. A google managed service account on which customers can grant roles to access resources in the customer project. Example: `p176944527254-55-75119d87fd8f@gcp-sa-oci.iam.gserviceaccount.com` */
+  serviceAgentEmail?: string | undefined;
+  /** Output only. The unique partner identifier for the Identity Connector, used to establish secure cross-cloud access between Google Cloud and OCI. This corresponds directly to the ID of the OracleDbGcpIdentityConnector resource in Oracle Cloud Infrastructure (OCI). */
+  identityConnectorId?: string | undefined;
+  /** Output only. The resource name of the Workload Identity Pool configured for identity federation with OCI. This exact pool name can be used to configure VPC Service Controls (VPC-SC) egress rules. Format: `projects/{project}/locations/global/workloadIdentityPools/{workload_identity_pool}` */
+  workloadIdentityPool?: string | undefined;
+  /** Output only. The connection state of the identity connector. */
+  connectionState?: IdentityConnectorConnectionStateEnum | (string & {}) | undefined;
 }
 /** Details of the Cloud VM Cluster resource. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/CloudVmCluster/ */
 export interface CloudVmCluster {
+  /** Optional. Immutable. Various properties of the VM Cluster. */
+  properties?: CloudVmClusterProperties | undefined;
+  /** Optional. Immutable. The name of ExascaleDbStorageVault associated with the VM Cluster. Format: projects/{project}/locations/{location}/exascaleDbStorageVaults/{exascale_db_storage_vault} */
+  exascaleDbStorageVault?: string | undefined;
   /** Output only. The date and time that the VM cluster was created. */
   createTime?: string | undefined;
-  /** Optional. Immutable. Network settings. CIDR to use for cluster IP allocation. */
-  cidr?: string | undefined;
-  /** Optional. Immutable. The name of the OdbDnsZone for using custom domain name for the VM Cluster. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbDnsZones/{odb_dns_zone} */
-  odbDnsZone?: string | undefined;
   /** Identifier. The name of the VM Cluster resource with the format: projects/{project}/locations/{region}/cloudVmClusters/{cloud_vm_cluster} */
   name?: string | undefined;
-  /** Optional. Immutable. CIDR range of the backup subnet. */
-  backupSubnetCidr?: string | undefined;
-  /** Output only. The identity connector details which will allow OCI to securely access the resources in the customer project. */
-  identityConnector?: IdentityConnector | undefined;
-  /** Optional. Immutable. The name of the VPC network. Format: projects/{project}/global/networks/{network} */
-  network?: string | undefined;
-  /** Output only. The GCP Oracle zone where Oracle CloudVmCluster is hosted. This will be the same as the gcp_oracle_zone of the CloudExadataInfrastructure. Example: us-east4-b-r2. */
-  gcpOracleZone?: string | undefined;
-  /** Optional. Immutable. The name of the OdbSubnet associated with the VM Cluster for IP allocation. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet} */
-  odbSubnet?: string | undefined;
+  /** Optional. Immutable. Network settings. CIDR to use for cluster IP allocation. */
+  cidr?: string | undefined;
+  /** Optional. Input only. Immutable. If set to true, disables the automatic provisioning of the Workload Identity Connector during creation. If set to false or omitted, the Workload Identity Connector will be automatically provisioned by default. Note: Provisioning the Workload Identity Connector is a prerequisite for enabling Google Cloud CMEK. */
+  identityConnectorDisabled?: boolean | undefined;
   /** Required. Immutable. The name of the Exadata Infrastructure resource on which VM cluster resource is created, in the following format: projects/{project}/locations/{region}/cloudExadataInfrastuctures/{cloud_extradata_infrastructure} */
   exadataInfrastructure?: string | undefined;
   /** Optional. Labels or tags associated with the VM Cluster. */
   labels?: StringMap | undefined;
-  /** Optional. Immutable. The name of ExascaleDbStorageVault associated with the VM Cluster. Format: projects/{project}/locations/{location}/exascaleDbStorageVaults/{exascale_db_storage_vault} */
-  exascaleDbStorageVault?: string | undefined;
-  /** Optional. Immutable. The name of the OdbNetwork associated with the VM Cluster. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network} It is optional but if specified, this should match the parent ODBNetwork of the odb_subnet and backup_odb_subnet. */
-  odbNetwork?: string | undefined;
   /** Optional. Immutable. The name of the backup OdbSubnet associated with the VM Cluster. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet} */
   backupOdbSubnet?: string | undefined;
-  /** Optional. Input only. Immutable. If set to true, disables the automatic provisioning of the Workload Identity Connector during creation. If set to false or omitted, the Workload Identity Connector will be automatically provisioned by default. Note: Provisioning the Workload Identity Connector is a prerequisite for enabling Google Cloud CMEK. */
-  identityConnectorDisabled?: boolean | undefined;
+  /** Optional. Immutable. The name of the OdbDnsZone for using custom domain name for the VM Cluster. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbDnsZones/{odb_dns_zone} */
+  odbDnsZone?: string | undefined;
+  /** Output only. The identity connector details which will allow OCI to securely access the resources in the customer project. */
+  identityConnector?: IdentityConnector | undefined;
+  /** Optional. Immutable. CIDR range of the backup subnet. */
+  backupSubnetCidr?: string | undefined;
   /** Optional. Immutable. User friendly name for this resource. */
   displayName?: string | undefined;
-  /** Optional. Immutable. Various properties of the VM Cluster. */
-  properties?: CloudVmClusterProperties | undefined;
+  /** Optional. Immutable. The name of the OdbSubnet associated with the VM Cluster for IP allocation. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet} */
+  odbSubnet?: string | undefined;
+  /** Optional. Immutable. The name of the OdbNetwork associated with the VM Cluster. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network} It is optional but if specified, this should match the parent ODBNetwork of the odb_subnet and backup_odb_subnet. */
+  odbNetwork?: string | undefined;
+  /** Output only. The GCP Oracle zone where Oracle CloudVmCluster is hosted. This will be the same as the gcp_oracle_zone of the CloudExadataInfrastructure. Example: us-east4-b-r2. */
+  gcpOracleZone?: string | undefined;
+  /** Optional. Immutable. The name of the VPC network. Format: projects/{project}/global/networks/{network} */
+  network?: string | undefined;
 }
 export interface CreateProjectsLocationsCloudVmClustersRequest extends CloudVmCluster {
   /** Optional. An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Required. The ID of the VM Cluster to create. This value is restricted to (^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$) and must be a maximum of 63 characters in length. The value must start with a letter and end with a letter or a number. */
-  cloudVmClusterId?: string | undefined;
   /** Required. The name of the parent in the following format: projects/{project}/locations/{location}. */
   parent: string;
+  /** Required. The ID of the VM Cluster to create. This value is restricted to (^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$) and must be a maximum of 63 characters in length. The value must start with a letter and end with a letter or a number. */
+  cloudVmClusterId?: string | undefined;
 }
 export type DatabaseConnectionStateEnum =
   | "STATE_UNSPECIFIED"
@@ -1033,60 +1033,50 @@ export type DatabaseConnectionStateEnum =
   | "DELETING";
 /** Represents DatabaseConnection resource. */
 export interface DatabaseConnection {
-  /** Optional. The resource name of the GCP Secret Manager secret version containing the password for the specified username. Format: projects/{project}/secrets/{secret_id}/versions/{version_id} The service's Per-Product Per-Project Service Account (P4SA) must have the 'secretmanager.secretAccessor' permission on this secret. */
-  passwordSecretVersion?: string | undefined;
-  /** Optional. Immutable. The default database username to use for connections. */
-  username?: string | undefined;
-  /** Output only. Additional information about the current state of the connection. */
-  lifecycleDetails?: string | undefined;
   /** Required. Immutable. Oracle Easy Connect or TNS connection string. Example: "your-db-host.example.com:1521/YOUR_SERVICE_NAME" */
   connectionString?: string | Redacted.Redacted<string> | undefined;
   /** Output only. The current state of the connection. */
   state?: DatabaseConnectionStateEnum | (string & {}) | undefined;
   /** Optional. Optional: The resource name of the GCP Secret Manager secret version containing base64 encoded content of the Oracle Wallet ZIP file required for mTLS/TLS connections. Format: projects/{project}/secrets/{secret_id}/versions/{version_id} The service's Per-Product Per-Project Service Account (P4SA) must have the 'secretmanager.secretAccessor' permission on this secret. */
   walletSecretVersion?: string | undefined;
-  /** Optional. Immutable. User-friendly display name for the connection. */
-  displayName?: string | undefined;
   /** Identifier. The resource name of the DatabaseConnection. Format: projects/{project}/locations/{location}/databaseConnections/{database_connection} */
   name?: string | undefined;
-  /** Optional. Immutable. For Oracle Database@Google cloud resources. Format: projects/{project}/locations/{location}/odbNetworks/{odbNetwork} */
-  odbNetwork?: string | undefined;
-  /** Output only. The create time of the resource. */
-  createTime?: string | undefined;
   /** Output only. The update time of the resource. */
   updateTime?: string | undefined;
+  /** Output only. Additional information about the current state of the connection. */
+  lifecycleDetails?: string | undefined;
+  /** Optional. Immutable. For Oracle Database@Google cloud resources. Format: projects/{project}/locations/{location}/odbNetworks/{odbNetwork} */
+  odbNetwork?: string | undefined;
+  /** Optional. Immutable. User-friendly display name for the connection. */
+  displayName?: string | undefined;
+  /** Optional. Immutable. The default database username to use for connections. */
+  username?: string | undefined;
+  /** Output only. The create time of the resource. */
+  createTime?: string | undefined;
+  /** Optional. The resource name of the GCP Secret Manager secret version containing the password for the specified username. Format: projects/{project}/secrets/{secret_id}/versions/{version_id} The service's Per-Product Per-Project Service Account (P4SA) must have the 'secretmanager.secretAccessor' permission on this secret. */
+  passwordSecretVersion?: string | undefined;
   /** Optional. Optional: Labels as key-value pairs to organize the resource. */
   labels?: StringMap | undefined;
 }
 export interface CreateProjectsLocationsDatabaseConnectionsRequest extends DatabaseConnection {
+  /** Required. The ID of the DatabaseConnection to create. This value is restricted to (^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$) and must be a maximum of 63 characters in length. The value must start with a letter and end with a letter or a number. */
+  databaseConnectionId?: string | undefined;
   /** Required. The parent value for the DatabaseConnection in the following format: projects/{project}/locations/{location}. */
   parent: string;
   /** Optional. An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Required. The ID of the DatabaseConnection to create. This value is restricted to (^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$) and must be a maximum of 63 characters in length. The value must start with a letter and end with a letter or a number. */
-  databaseConnectionId?: string | undefined;
 }
-export type DbSystemPropertiesDatabaseEditionEnum =
-  | "DB_SYSTEM_DATABASE_EDITION_UNSPECIFIED"
-  | "STANDARD_EDITION"
-  | "ENTERPRISE_EDITION"
-  | "ENTERPRISE_EDITION_HIGH_PERFORMANCE";
 export type DbSystemPropertiesLicenseModelEnum =
   | "LICENSE_MODEL_UNSPECIFIED"
   | "LICENSE_INCLUDED"
   | "BRING_YOUR_OWN_LICENSE";
-export type DbSystemPropertiesLifecycleStateEnum =
-  | "DB_SYSTEM_LIFECYCLE_STATE_UNSPECIFIED"
-  | "PROVISIONING"
-  | "AVAILABLE"
-  | "UPDATING"
-  | "TERMINATING"
-  | "TERMINATED"
-  | "FAILED"
-  | "MIGRATED"
-  | "MAINTENANCE_IN_PROGRESS"
-  | "NEEDS_ATTENTION"
-  | "UPGRADING";
+/** Data collection options for DbSystem. */
+export interface DataCollectionOptionsDbSystem {
+  /** Optional. Indicates whether to enable data collection for diagnostics. */
+  isDiagnosticsEventsEnabled?: boolean | undefined;
+  /** Optional. Indicates whether to enable incident logs and trace collection. */
+  isIncidentLogsEnabled?: boolean | undefined;
+}
 export type DatabaseOpsInsightsStatusEnum =
   | "OPERATIONS_INSIGHTS_STATUS_UNSPECIFIED"
   | "ENABLING"
@@ -1095,6 +1085,18 @@ export type DatabaseOpsInsightsStatusEnum =
   | "NOT_ENABLED"
   | "FAILED_ENABLING"
   | "FAILED_DISABLING";
+export type DatabasePropertiesStateEnum =
+  | "DATABASE_LIFECYCLE_STATE_UNSPECIFIED"
+  | "PROVISIONING"
+  | "AVAILABLE"
+  | "UPDATING"
+  | "BACKUP_IN_PROGRESS"
+  | "UPGRADING"
+  | "CONVERTING"
+  | "TERMINATING"
+  | "TERMINATED"
+  | "RESTORE_FAILED"
+  | "FAILED";
 export type DatabaseManagementConfigManagementStateEnum =
   | "MANAGEMENT_STATE_UNSPECIFIED"
   | "ENABLING"
@@ -1116,32 +1118,10 @@ export interface DatabaseManagementConfig {
   /** Output only. The Database Management type. */
   managementType?: DatabaseManagementConfigManagementTypeEnum | (string & {}) | undefined;
 }
-export type DatabasePropertiesStateEnum =
-  | "DATABASE_LIFECYCLE_STATE_UNSPECIFIED"
-  | "PROVISIONING"
-  | "AVAILABLE"
-  | "UPDATING"
-  | "BACKUP_IN_PROGRESS"
-  | "UPGRADING"
-  | "CONVERTING"
-  | "TERMINATING"
-  | "TERMINATED"
-  | "RESTORE_FAILED"
-  | "FAILED";
-export type DbBackupConfigAutoIncrementalBackupWindowEnum =
-  | "BACKUP_WINDOW_UNSPECIFIED"
-  | "SLOT_ONE"
-  | "SLOT_TWO"
-  | "SLOT_THREE"
-  | "SLOT_FOUR"
-  | "SLOT_FIVE"
-  | "SLOT_SIX"
-  | "SLOT_SEVEN"
-  | "SLOT_EIGHT"
-  | "SLOT_NINE"
-  | "SLOT_TEN"
-  | "SLOT_ELEVEN"
-  | "SLOT_TWELVE";
+export type DbBackupConfigBackupDeletionPolicyEnum =
+  | "BACKUP_DELETION_POLICY_UNSPECIFIED"
+  | "DELETE_IMMEDIATELY"
+  | "DELETE_AFTER_RETENTION_PERIOD";
 export type DbBackupConfigAutoFullBackupWindowEnum =
   | "BACKUP_WINDOW_UNSPECIFIED"
   | "SLOT_ONE"
@@ -1156,10 +1136,15 @@ export type DbBackupConfigAutoFullBackupWindowEnum =
   | "SLOT_TEN"
   | "SLOT_ELEVEN"
   | "SLOT_TWELVE";
-export type DbBackupConfigBackupDeletionPolicyEnum =
-  | "BACKUP_DELETION_POLICY_UNSPECIFIED"
-  | "DELETE_IMMEDIATELY"
-  | "DELETE_AFTER_RETENTION_PERIOD";
+export type DbBackupConfigAutoFullBackupDayEnum =
+  | "DAY_OF_WEEK_UNSPECIFIED"
+  | "MONDAY"
+  | "TUESDAY"
+  | "WEDNESDAY"
+  | "THURSDAY"
+  | "FRIDAY"
+  | "SATURDAY"
+  | "SUNDAY";
 export type BackupDestinationDetailsTypeEnum =
   | "BACKUP_DESTINATION_TYPE_UNSPECIFIED"
   | "NFS"
@@ -1173,84 +1158,89 @@ export interface BackupDestinationDetails {
   type?: BackupDestinationDetailsTypeEnum | (string & {}) | undefined;
 }
 export type BackupDestinationDetailsList = Array<BackupDestinationDetails>;
-export type DbBackupConfigAutoFullBackupDayEnum =
-  | "DAY_OF_WEEK_UNSPECIFIED"
-  | "MONDAY"
-  | "TUESDAY"
-  | "WEDNESDAY"
-  | "THURSDAY"
-  | "FRIDAY"
-  | "SATURDAY"
-  | "SUNDAY";
+export type DbBackupConfigAutoIncrementalBackupWindowEnum =
+  | "BACKUP_WINDOW_UNSPECIFIED"
+  | "SLOT_ONE"
+  | "SLOT_TWO"
+  | "SLOT_THREE"
+  | "SLOT_FOUR"
+  | "SLOT_FIVE"
+  | "SLOT_SIX"
+  | "SLOT_SEVEN"
+  | "SLOT_EIGHT"
+  | "SLOT_NINE"
+  | "SLOT_TEN"
+  | "SLOT_ELEVEN"
+  | "SLOT_TWELVE";
 /** Backup Options for the Database. */
 export interface DbBackupConfig {
+  /** Optional. If set to true, enables automatic backups on the database. */
+  autoBackupEnabled?: boolean | undefined;
+  /** Optional. This defines when the backups will be deleted after Database termination. */
+  backupDeletionPolicy?: DbBackupConfigBackupDeletionPolicyEnum | (string & {}) | undefined;
+  /** Optional. The window in which the full backup should be performed on the database. If no value is provided, the default is anytime. */
+  autoFullBackupWindow?: DbBackupConfigAutoFullBackupWindowEnum | (string & {}) | undefined;
+  /** Optional. The day of the week on which the full backup should be performed on the database. If no value is provided, it will default to Sunday. */
+  autoFullBackupDay?: DbBackupConfigAutoFullBackupDayEnum | (string & {}) | undefined;
+  /** Optional. The number of days an automatic backup is retained before being automatically deleted. This value determines the earliest point in time to which a database can be restored. Min: 1, Max: 60. */
+  retentionPeriodDays?: number | undefined;
+  /** Optional. Details of the database backup destinations. */
+  backupDestinationDetails?: BackupDestinationDetailsList | undefined;
   /** Optional. The window in which the incremental backup should be performed on the database. If no value is provided, the default is anytime except the auto full backup day. */
   autoIncrementalBackupWindow?:
     | DbBackupConfigAutoIncrementalBackupWindowEnum
     | (string & {})
     | undefined;
-  /** Optional. The window in which the full backup should be performed on the database. If no value is provided, the default is anytime. */
-  autoFullBackupWindow?: DbBackupConfigAutoFullBackupWindowEnum | (string & {}) | undefined;
-  /** Optional. The number of days an automatic backup is retained before being automatically deleted. This value determines the earliest point in time to which a database can be restored. Min: 1, Max: 60. */
-  retentionPeriodDays?: number | undefined;
-  /** Optional. If set to true, enables automatic backups on the database. */
-  autoBackupEnabled?: boolean | undefined;
-  /** Optional. This defines when the backups will be deleted after Database termination. */
-  backupDeletionPolicy?: DbBackupConfigBackupDeletionPolicyEnum | (string & {}) | undefined;
-  /** Optional. Details of the database backup destinations. */
-  backupDestinationDetails?: BackupDestinationDetailsList | undefined;
-  /** Optional. The day of the week on which the full backup should be performed on the database. If no value is provided, it will default to Sunday. */
-  autoFullBackupDay?: DbBackupConfigAutoFullBackupDayEnum | (string & {}) | undefined;
 }
 /** The properties of a Database. */
 export interface DatabaseProperties {
-  /** Output only. The Database Management config. */
-  databaseManagementConfig?: DatabaseManagementConfig | undefined;
-  /** Output only. State of the Database. */
-  state?: DatabasePropertiesStateEnum | (string & {}) | undefined;
   /** Required. The Oracle Database version. */
   dbVersion?: string | undefined;
+  /** Output only. State of the Database. */
+  state?: DatabasePropertiesStateEnum | (string & {}) | undefined;
+  /** Output only. The Database Management config. */
+  databaseManagementConfig?: DatabaseManagementConfig | undefined;
   /** Optional. Backup options for the Database. */
   dbBackupConfig?: DbBackupConfig | undefined;
 }
 /** Details of the Database resource. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/Database/ */
 export interface Database {
+  /** Optional. The name of the DbHome resource associated with the Database. */
+  dbHomeName?: string | undefined;
+  /** Identifier. The name of the Database resource in the following format: projects/{project}/locations/{region}/databases/{database} */
+  name?: string | undefined;
   /** Optional. The national character set for the database. The default is AL16UTF16. */
   ncharacterSet?: string | undefined;
-  /** Optional. Input only. The resource name of a secret version in Secret Manager which contains the database admin user's password. Format: projects/{project}/secrets/{secret}/versions/{version}. Note: Only one of `admin_password_secret_version` or `admin_password` can be populated. */
-  adminPasswordSecretVersion?: string | undefined;
-  /** Output only. The date and time that the Database was created. */
-  createTime?: string | undefined;
-  /** Optional. The DB_UNIQUE_NAME of the Oracle Database being backed up. */
-  dbUniqueName?: string | undefined;
   /** Optional. Input only. The password for the default ADMIN user. Note: Only one of `admin_password_secret_version` or `admin_password` can be populated. */
   adminPassword?: string | Redacted.Redacted<string> | undefined;
-  /** Optional. Input only. The TDE wallet password for the database. Note: Only one of `tde_wallet_password_secret_version` or `tde_wallet_password` can be populated. */
-  tdeWalletPassword?: string | Redacted.Redacted<string> | undefined;
-  /** Optional. The pluggable database associated with the Database. The name must begin with an alphabetic character and can contain a maximum of thirty alphanumeric characters. */
-  pluggableDatabaseName?: string | undefined;
-  /** Optional. The database name. The name must begin with an alphabetic character and can contain a maximum of eight alphanumeric characters. Special characters are not permitted. */
-  dbName?: string | undefined;
-  /** Optional. The character set for the database. The default is AL32UTF8. */
-  characterSet?: string | undefined;
+  /** Output only. HTTPS link to OCI resources exposed to Customer via UI Interface. */
+  ociUrl?: string | undefined;
   /** Output only. The GCP Oracle zone where the Database is created. */
   gcpOracleZone?: string | undefined;
+  /** Optional. The DB_UNIQUE_NAME of the Oracle Database being backed up. */
+  dbUniqueName?: string | undefined;
+  /** Optional. The database name. The name must begin with an alphabetic character and can contain a maximum of eight alphanumeric characters. Special characters are not permitted. */
+  dbName?: string | undefined;
+  /** Optional. Input only. The resource name of a secret version in Secret Manager which contains the database admin user's password. Format: projects/{project}/secrets/{secret}/versions/{version}. Note: Only one of `admin_password_secret_version` or `admin_password` can be populated. */
+  adminPasswordSecretVersion?: string | undefined;
+  /** Optional. Input only. The TDE wallet password for the database. Note: Only one of `tde_wallet_password_secret_version` or `tde_wallet_password` can be populated. */
+  tdeWalletPassword?: string | Redacted.Redacted<string> | undefined;
+  /** Output only. The Status of Operations Insights for this Database. */
+  opsInsightsStatus?: DatabaseOpsInsightsStatusEnum | (string & {}) | undefined;
+  /** Optional. Input only. The resource name of a secret version in Secret Manager which contains the TDE wallet password for the database. Format: projects/{project}/secrets/{secret}/versions/{version}. Note: Only one of `tde_wallet_password_secret_version` or `tde_wallet_password` can be populated. */
+  tdeWalletPasswordSecretVersion?: string | undefined;
+  /** Optional. The pluggable database associated with the Database. The name must begin with an alphabetic character and can contain a maximum of thirty alphanumeric characters. */
+  pluggableDatabaseName?: string | undefined;
+  /** Output only. The date and time that the Database was created. */
+  createTime?: string | undefined;
+  /** Optional. The properties of the Database. */
+  properties?: DatabaseProperties | undefined;
   /** Optional. The database ID of the Database. */
   databaseId?: string | undefined;
   /** Optional. The ID of the pluggable database associated with the Database. The ID must be unique within the project and location. */
   pluggableDatabaseId?: string | undefined;
-  /** Optional. The name of the DbHome resource associated with the Database. */
-  dbHomeName?: string | undefined;
-  /** Output only. The Status of Operations Insights for this Database. */
-  opsInsightsStatus?: DatabaseOpsInsightsStatusEnum | (string & {}) | undefined;
-  /** Identifier. The name of the Database resource in the following format: projects/{project}/locations/{region}/databases/{database} */
-  name?: string | undefined;
-  /** Optional. Input only. The resource name of a secret version in Secret Manager which contains the TDE wallet password for the database. Format: projects/{project}/secrets/{secret}/versions/{version}. Note: Only one of `tde_wallet_password_secret_version` or `tde_wallet_password` can be populated. */
-  tdeWalletPasswordSecretVersion?: string | undefined;
-  /** Optional. The properties of the Database. */
-  properties?: DatabaseProperties | undefined;
-  /** Output only. HTTPS link to OCI resources exposed to Customer via UI Interface. */
-  ociUrl?: string | undefined;
+  /** Optional. The character set for the database. The default is AL32UTF8. */
+  characterSet?: string | undefined;
 }
 /** Details of the Database Home resource. */
 export interface DbHome {
@@ -1258,100 +1248,110 @@ export interface DbHome {
   displayName?: string | undefined;
   /** Optional. Whether unified auditing is enabled for the Database Home. */
   isUnifiedAuditingEnabled?: boolean | undefined;
-  /** Required. The Database resource. */
-  database?: Database | undefined;
   /** Required. A valid Oracle Database version. For a list of supported versions, use the ListDbVersions operation. */
   dbVersion?: string | undefined;
+  /** Required. The Database resource. */
+  database?: Database | undefined;
 }
-export type DbSystemPropertiesComputeModelEnum = "COMPUTE_MODEL_UNSPECIFIED" | "ECPU" | "OCPU";
-/** Data collection options for DbSystem. */
-export interface DataCollectionOptionsDbSystem {
-  /** Optional. Indicates whether to enable incident logs and trace collection. */
-  isIncidentLogsEnabled?: boolean | undefined;
-  /** Optional. Indicates whether to enable data collection for diagnostics. */
-  isDiagnosticsEventsEnabled?: boolean | undefined;
-}
+export type DbSystemPropertiesDatabaseEditionEnum =
+  | "DB_SYSTEM_DATABASE_EDITION_UNSPECIFIED"
+  | "STANDARD_EDITION"
+  | "ENTERPRISE_EDITION"
+  | "ENTERPRISE_EDITION_HIGH_PERFORMANCE";
 export type DbSystemOptionsStorageManagementEnum = "STORAGE_MANAGEMENT_UNSPECIFIED" | "ASM" | "LVM";
 /** Details of the DbSystem Options. */
 export interface DbSystemOptions {
   /** Optional. The storage option used in DB system. */
   storageManagement?: DbSystemOptionsStorageManagementEnum | (string & {}) | undefined;
 }
+export type DbSystemPropertiesLifecycleStateEnum =
+  | "DB_SYSTEM_LIFECYCLE_STATE_UNSPECIFIED"
+  | "PROVISIONING"
+  | "AVAILABLE"
+  | "UPDATING"
+  | "TERMINATING"
+  | "TERMINATED"
+  | "FAILED"
+  | "MIGRATED"
+  | "MAINTENANCE_IN_PROGRESS"
+  | "NEEDS_ATTENTION"
+  | "UPGRADING";
+export type DbSystemPropertiesComputeModelEnum = "COMPUTE_MODEL_UNSPECIFIED" | "ECPU" | "OCPU";
 /** The properties of a DbSystem. */
 export interface DbSystemProperties {
-  /** Optional. Prefix for DB System host names. */
-  hostnamePrefix?: string | undefined;
-  /** Required. The database edition of the DbSystem. */
-  databaseEdition?: DbSystemPropertiesDatabaseEditionEnum | (string & {}) | undefined;
-  /** Required. The license model of the DbSystem. */
-  licenseModel?: DbSystemPropertiesLicenseModelEnum | (string & {}) | undefined;
-  /** Output only. State of the DbSystem. */
-  lifecycleState?: DbSystemPropertiesLifecycleStateEnum | (string & {}) | undefined;
-  /** Optional. Details for creating a Database Home. */
-  dbHome?: DbHome | undefined;
-  /** Required. SSH public keys to be stored with the DbSystem. */
-  sshPublicKeys?: StringList | undefined;
-  /** Required. Shape of DB System. */
-  shape?: string | undefined;
-  /** Output only. The hostname of the DbSystem. */
-  hostname?: string | undefined;
-  /** Optional. The compute model of the DbSystem. */
-  computeModel?: DbSystemPropertiesComputeModelEnum | (string & {}) | undefined;
-  /** Optional. The host domain name of the DbSystem. */
-  domain?: string | undefined;
-  /** Optional. Data collection options for diagnostics. */
-  dataCollectionOptions?: DataCollectionOptionsDbSystem | undefined;
-  /** Optional. The options for the DbSystem. */
-  dbSystemOptions?: DbSystemOptions | undefined;
-  /** Optional. Time zone of the DbSystem. */
-  timeZone?: TimeZone | undefined;
-  /** Output only. OCID of the DbSystem. */
-  ocid?: string | undefined;
-  /** Optional. The reco/redo storage size in GB. The value for recovery storage size is based on the available data storage size. */
-  recoStorageSizeGb?: number | undefined;
-  /** Optional. The number of nodes to launch for a virtual machine DbSystem. By default this will be set to 1. */
-  nodeCount?: number | undefined;
-  /** Optional. The data storage size in GB that is currently available to DbSystems. The value is same as initial_data_storage_size_gb. This can be modified from OCI console. */
-  dataStorageSizeGb?: number | undefined;
-  /** Required. The number of CPU cores to enable for the DbSystem. */
-  computeCount?: number | undefined;
-  /** Optional. The memory size in GB. This value can not be set and is automatically calculated based on the number of ECPUs allocated to the DbSystem. */
-  memorySizeGb?: number | undefined;
   /** Optional. The private IP address of the DbSystem. */
   privateIp?: string | undefined;
+  /** Required. The license model of the DbSystem. */
+  licenseModel?: DbSystemPropertiesLicenseModelEnum | (string & {}) | undefined;
+  /** Optional. Time zone of the DbSystem. */
+  timeZone?: TimeZone | undefined;
+  /** Required. Shape of DB System. */
+  shape?: string | undefined;
+  /** Optional. Data collection options for diagnostics. */
+  dataCollectionOptions?: DataCollectionOptionsDbSystem | undefined;
   /** Required. The initial data storage size in GB. */
   initialDataStorageSizeGb?: number | undefined;
+  /** Optional. The host domain name of the DbSystem. */
+  domain?: string | undefined;
+  /** Required. SSH public keys to be stored with the DbSystem. */
+  sshPublicKeys?: StringList | undefined;
+  /** Optional. Details for creating a Database Home. */
+  dbHome?: DbHome | undefined;
+  /** Optional. The memory size in GB. This value can not be set and is automatically calculated based on the number of ECPUs allocated to the DbSystem. */
+  memorySizeGb?: number | undefined;
+  /** Required. The database edition of the DbSystem. */
+  databaseEdition?: DbSystemPropertiesDatabaseEditionEnum | (string & {}) | undefined;
+  /** Optional. The options for the DbSystem. */
+  dbSystemOptions?: DbSystemOptions | undefined;
+  /** Required. The number of CPU cores to enable for the DbSystem. */
+  computeCount?: number | undefined;
+  /** Optional. The reco/redo storage size in GB. The value for recovery storage size is based on the available data storage size. */
+  recoStorageSizeGb?: number | undefined;
+  /** Optional. The data storage size in GB that is currently available to DbSystems. The value is same as initial_data_storage_size_gb. This can be modified from OCI console. */
+  dataStorageSizeGb?: number | undefined;
+  /** Output only. The hostname of the DbSystem. */
+  hostname?: string | undefined;
+  /** Optional. The number of nodes to launch for a virtual machine DbSystem. By default this will be set to 1. */
+  nodeCount?: number | undefined;
+  /** Output only. State of the DbSystem. */
+  lifecycleState?: DbSystemPropertiesLifecycleStateEnum | (string & {}) | undefined;
+  /** Optional. The compute model of the DbSystem. */
+  computeModel?: DbSystemPropertiesComputeModelEnum | (string & {}) | undefined;
+  /** Optional. Prefix for DB System host names. */
+  hostnamePrefix?: string | undefined;
+  /** Output only. OCID of the DbSystem. */
+  ocid?: string | undefined;
 }
 /** Details of the DbSystem (BaseDB) resource. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/DbSystem/ */
 export interface DbSystem {
-  /** Required. Immutable. The name of the OdbSubnet associated with the DbSystem for IP allocation. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet} */
-  odbSubnet?: string | undefined;
-  /** Required. Immutable. The display name for the System db. The name does not have to be unique within your project. */
-  displayName?: string | undefined;
-  /** Optional. Immutable. The GCP Oracle zone where Oracle DbSystem is hosted. Example: us-east4-b-r2. If not specified, the system will pick a zone based on availability. */
-  gcpOracleZone?: string | undefined;
   /** Output only. The date and time that the DbSystem was created. */
   createTime?: string | undefined;
-  /** Optional. Immutable. The name of the OdbNetwork associated with the DbSystem. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network} It is optional but if specified, this should match the parent ODBNetwork of the OdbSubnet. */
-  odbNetwork?: string | undefined;
-  /** Identifier. The name of the DbSystem resource in the following format: projects/{project}/locations/{region}/dbSystems/{db_system} */
-  name?: string | undefined;
-  /** Optional. Immutable. The properties of the DbSystem. */
-  properties?: DbSystemProperties | undefined;
-  /** Output only. The ID of the subscription entitlement associated with the DbSystem */
-  entitlementId?: string | undefined;
-  /** Optional. The labels or tags associated with the DbSystem. */
-  labels?: StringMap | undefined;
   /** Output only. HTTPS link to OCI resources exposed to Customer via UI Interface. */
   ociUrl?: string | undefined;
+  /** Optional. Immutable. The properties of the DbSystem. */
+  properties?: DbSystemProperties | undefined;
+  /** Optional. The labels or tags associated with the DbSystem. */
+  labels?: StringMap | undefined;
+  /** Optional. Immutable. The name of the OdbNetwork associated with the DbSystem. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network} It is optional but if specified, this should match the parent ODBNetwork of the OdbSubnet. */
+  odbNetwork?: string | undefined;
+  /** Optional. Immutable. The GCP Oracle zone where Oracle DbSystem is hosted. Example: us-east4-b-r2. If not specified, the system will pick a zone based on availability. */
+  gcpOracleZone?: string | undefined;
+  /** Required. Immutable. The display name for the System db. The name does not have to be unique within your project. */
+  displayName?: string | undefined;
+  /** Output only. The ID of the subscription entitlement associated with the DbSystem */
+  entitlementId?: string | undefined;
+  /** Required. Immutable. The name of the OdbSubnet associated with the DbSystem for IP allocation. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet} */
+  odbSubnet?: string | undefined;
+  /** Identifier. The name of the DbSystem resource in the following format: projects/{project}/locations/{region}/dbSystems/{db_system} */
+  name?: string | undefined;
 }
 export interface CreateProjectsLocationsDbSystemsRequest extends DbSystem {
+  /** Required. The ID of the DbSystem to create. This value is restricted to (^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$) and must be a maximum of 63 characters in length. The value must start with a letter and end with a letter or a number. */
+  dbSystemId?: string | undefined;
   /** Required. The value for parent of the DbSystem in the following format: projects/{project}/locations/{location}. */
   parent: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Required. The ID of the DbSystem to create. This value is restricted to (^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$) and must be a maximum of 63 characters in length. The value must start with a letter and end with a letter or a number. */
-  dbSystemId?: string | undefined;
 }
 export type ExadbVmClusterPropertiesLifecycleStateEnum =
   | "EXADB_VM_CLUSTER_LIFECYCLE_STATE_UNSPECIFIED"
@@ -1362,6 +1362,10 @@ export type ExadbVmClusterPropertiesLifecycleStateEnum =
   | "TERMINATED"
   | "FAILED"
   | "MAINTENANCE_IN_PROGRESS";
+export type ExadbVmClusterPropertiesShapeAttributeEnum =
+  | "SHAPE_ATTRIBUTE_UNSPECIFIED"
+  | "SMART_STORAGE"
+  | "BLOCK_STORAGE";
 /** The storage allocation for the exadbvmcluster, in gigabytes (GB). */
 export interface ExadbVmClusterStorageDetails {
   /** Required. The storage allocation for the exadbvmcluster per node, in gigabytes (GB). This field is used to calculate the total storage allocation for the exadbvmcluster. */
@@ -1369,86 +1373,82 @@ export interface ExadbVmClusterStorageDetails {
 }
 /** Data collection options for diagnostics. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/datatypes/DataCollectionOptions */
 export interface DataCollectionOptionsCommon {
-  /** Optional. Indicates whether to enable health monitoring. */
-  isHealthMonitoringEnabled?: boolean | undefined;
-  /** Optional. Indicates whether to enable incident logs and trace collection. */
-  isIncidentLogsEnabled?: boolean | undefined;
   /** Optional. Indicates whether to enable data collection for diagnostics. */
   isDiagnosticsEventsEnabled?: boolean | undefined;
+  /** Optional. Indicates whether to enable incident logs and trace collection. */
+  isIncidentLogsEnabled?: boolean | undefined;
+  /** Optional. Indicates whether to enable health monitoring. */
+  isHealthMonitoringEnabled?: boolean | undefined;
 }
 export type ExadbVmClusterPropertiesLicenseModelEnum =
   | "LICENSE_MODEL_UNSPECIFIED"
   | "LICENSE_INCLUDED"
   | "BRING_YOUR_OWN_LICENSE";
-export type ExadbVmClusterPropertiesShapeAttributeEnum =
-  | "SHAPE_ATTRIBUTE_UNSPECIFIED"
-  | "SMART_STORAGE"
-  | "BLOCK_STORAGE";
 /** The properties of an ExadbVmCluster. */
 export interface ExadbVmClusterProperties {
   /** Required. Immutable. Prefix for VM cluster host names. */
   hostnamePrefix?: string | undefined;
-  /** Required. Immutable. The SSH public keys for the ExadbVmCluster. */
-  sshPublicKeys?: StringList | undefined;
   /** Output only. State of the cluster. */
   lifecycleState?: ExadbVmClusterPropertiesLifecycleStateEnum | (string & {}) | undefined;
   /** Output only. The hostname of the ExadbVmCluster. */
   hostname?: string | undefined;
-  /** Optional. Immutable. The cluster name for Exascale vm cluster. The cluster name must begin with an alphabetic character and may contain hyphens(-) but can not contain underscores(_). It should be not more than 11 characters and is not case sensitive. OCI Cluster name. */
-  clusterName?: string | undefined;
+  /** Output only. Deep link to the OCI console to view this resource. */
+  ociUri?: string | undefined;
+  /** Required. Immutable. The shape attribute of the VM cluster. The type of Exascale storage used for Exadata VM cluster. The default is SMART_STORAGE which supports Oracle Database 23ai and later */
+  shapeAttribute?: ExadbVmClusterPropertiesShapeAttributeEnum | (string & {}) | undefined;
+  /** Required. Immutable. The SSH public keys for the ExadbVmCluster. */
+  sshPublicKeys?: StringList | undefined;
+  /** Output only. Memory per VM (GB) (Read-only): Shows the amount of memory allocated to each VM. Memory is calculated based on 2.75 GB per Total ECPUs. */
+  memorySizeGb?: number | undefined;
+  /** Optional. Immutable. The time zone of the ExadbVmCluster. */
+  timeZone?: TimeZone | undefined;
   /** Required. Immutable. Total storage details for the ExadbVmCluster. */
   vmFileSystemStorage?: ExadbVmClusterStorageDetails | undefined;
+  /** Required. Immutable. The name of ExascaleDbStorageVault associated with the ExadbVmCluster. It can refer to an existing ExascaleDbStorageVault. Or a new one can be created during the ExadbVmCluster creation (requires storage_vault_properties to be set). Format: projects/{project}/locations/{location}/exascaleDbStorageVaults/{exascale_db_storage_vault} */
+  exascaleDbStorageVault?: string | undefined;
+  /** Required. The number of nodes/VMs in the ExadbVmCluster. */
+  nodeCount?: number | undefined;
+  /** Optional. Immutable. The number of additional ECPUs per node for an Exadata VM cluster on exascale infrastructure. */
+  additionalEcpuCountPerNode?: number | undefined;
+  /** Output only. The Oracle Grid Infrastructure (GI) software version. */
+  giVersion?: string | undefined;
+  /** Optional. Immutable. Indicates user preference for data collection options. */
+  dataCollectionOptions?: DataCollectionOptionsCommon | undefined;
+  /** Optional. Immutable. The cluster name for Exascale vm cluster. The cluster name must begin with an alphabetic character and may contain hyphens(-) but can not contain underscores(_). It should be not more than 11 characters and is not case sensitive. OCI Cluster name. */
+  clusterName?: string | undefined;
+  /** Optional. Immutable. The license type of the ExadbVmCluster. */
+  licenseModel?: ExadbVmClusterPropertiesLicenseModelEnum | (string & {}) | undefined;
   /** Optional. Immutable. SCAN listener port - TCP */
   scanListenerPortTcp?: number | undefined;
   /** Required. Immutable. The number of ECPUs enabled per node for an exadata vm cluster on exascale infrastructure. */
   enabledEcpuCountPerNode?: number | undefined;
-  /** Output only. Memory per VM (GB) (Read-only): Shows the amount of memory allocated to each VM. Memory is calculated based on 2.75 GB per Total ECPUs. */
-  memorySizeGb?: number | undefined;
   /** Required. Immutable. Grid Infrastructure Version. */
   gridImageId?: string | undefined;
-  /** Output only. Deep link to the OCI console to view this resource. */
-  ociUri?: string | undefined;
-  /** Required. The number of nodes/VMs in the ExadbVmCluster. */
-  nodeCount?: number | undefined;
-  /** Optional. Immutable. Indicates user preference for data collection options. */
-  dataCollectionOptions?: DataCollectionOptionsCommon | undefined;
-  /** Optional. Immutable. The license type of the ExadbVmCluster. */
-  licenseModel?: ExadbVmClusterPropertiesLicenseModelEnum | (string & {}) | undefined;
-  /** Optional. Immutable. The number of additional ECPUs per node for an Exadata VM cluster on exascale infrastructure. */
-  additionalEcpuCountPerNode?: number | undefined;
-  /** Optional. Immutable. The time zone of the ExadbVmCluster. */
-  timeZone?: TimeZone | undefined;
-  /** Required. Immutable. The name of ExascaleDbStorageVault associated with the ExadbVmCluster. It can refer to an existing ExascaleDbStorageVault. Or a new one can be created during the ExadbVmCluster creation (requires storage_vault_properties to be set). Format: projects/{project}/locations/{location}/exascaleDbStorageVaults/{exascale_db_storage_vault} */
-  exascaleDbStorageVault?: string | undefined;
-  /** Output only. The Oracle Grid Infrastructure (GI) software version. */
-  giVersion?: string | undefined;
-  /** Required. Immutable. The shape attribute of the VM cluster. The type of Exascale storage used for Exadata VM cluster. The default is SMART_STORAGE which supports Oracle Database 23ai and later */
-  shapeAttribute?: ExadbVmClusterPropertiesShapeAttributeEnum | (string & {}) | undefined;
 }
 /** ExadbVmCluster represents a cluster of VMs that are used to run Exadata workloads. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/ExadbVmCluster/ */
 export interface ExadbVmCluster {
-  /** Optional. The labels or tags associated with the ExadbVmCluster. */
-  labels?: StringMap | undefined;
   /** Required. Immutable. The name of the backup OdbSubnet associated with the ExadbVmCluster. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet} */
   backupOdbSubnet?: string | undefined;
+  /** Identifier. The name of the ExadbVmCluster resource in the following format: projects/{project}/locations/{region}/exadbVmClusters/{exadb_vm_cluster} */
+  name?: string | undefined;
+  /** Optional. Input only. Immutable. If set to true, disables the automatic provisioning of the Workload Identity Connector during creation. If set to false or omitted, the Workload Identity Connector will be automatically provisioned by default. Note: Provisioning the Workload Identity Connector is a prerequisite for enabling Google Cloud CMEK. */
+  identityConnectorDisabled?: boolean | undefined;
+  /** Required. Immutable. The display name for the ExadbVmCluster. The name does not have to be unique within your project. The name must be 1-255 characters long and can only contain alphanumeric characters. */
+  displayName?: string | undefined;
+  /** Required. Immutable. The name of the OdbSubnet associated with the ExadbVmCluster for IP allocation. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet} */
+  odbSubnet?: string | undefined;
   /** Output only. The identity connector details which will allow OCI to securely access the resources in the customer project. */
   identityConnector?: IdentityConnector | undefined;
+  /** Required. The properties of the ExadbVmCluster. */
+  properties?: ExadbVmClusterProperties | undefined;
+  /** Optional. The labels or tags associated with the ExadbVmCluster. */
+  labels?: StringMap | undefined;
   /** Output only. The date and time that the ExadbVmCluster was created. */
   createTime?: string | undefined;
   /** Output only. Immutable. The GCP Oracle zone where Oracle ExadbVmCluster is hosted. Example: us-east4-b-r2. During creation, the system will pick the zone assigned to the ExascaleDbStorageVault. */
   gcpOracleZone?: string | undefined;
-  /** Optional. Input only. Immutable. If set to true, disables the automatic provisioning of the Workload Identity Connector during creation. If set to false or omitted, the Workload Identity Connector will be automatically provisioned by default. Note: Provisioning the Workload Identity Connector is a prerequisite for enabling Google Cloud CMEK. */
-  identityConnectorDisabled?: boolean | undefined;
   /** Optional. Immutable. The name of the OdbNetwork associated with the ExadbVmCluster. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network} It is optional but if specified, this should match the parent ODBNetwork of the OdbSubnet. */
   odbNetwork?: string | undefined;
-  /** Required. The properties of the ExadbVmCluster. */
-  properties?: ExadbVmClusterProperties | undefined;
-  /** Required. Immutable. The name of the OdbSubnet associated with the ExadbVmCluster for IP allocation. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet} */
-  odbSubnet?: string | undefined;
-  /** Required. Immutable. The display name for the ExadbVmCluster. The name does not have to be unique within your project. The name must be 1-255 characters long and can only contain alphanumeric characters. */
-  displayName?: string | undefined;
-  /** Identifier. The name of the ExadbVmCluster resource in the following format: projects/{project}/locations/{region}/exadbVmClusters/{exadb_vm_cluster} */
-  name?: string | undefined;
   /** Output only. The ID of the subscription entitlement associated with the ExadbVmCluster. */
   entitlementId?: string | undefined;
 }
@@ -1460,6 +1460,13 @@ export interface CreateProjectsLocationsExadbVmClustersRequest extends ExadbVmCl
   /** Required. The ID of the ExadbVmCluster to create. This value is restricted to (^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$) and must be a maximum of 63 characters in length. The value must start with a letter and end with a letter or a number. */
   exadbVmClusterId?: string | undefined;
 }
+export type ExascaleDbStorageVaultPropertiesAvailableShapeAttributesItemEnum =
+  | "SHAPE_ATTRIBUTE_UNSPECIFIED"
+  | "SMART_STORAGE"
+  | "BLOCK_STORAGE";
+export type ExascaleDbStorageVaultPropertiesAvailableShapeAttributesItemEnumList = Array<
+  ExascaleDbStorageVaultPropertiesAvailableShapeAttributesItemEnum | (string & {})
+>;
 export type ExascaleDbStorageVaultPropertiesStateEnum =
   | "STATE_UNSPECIFIED"
   | "PROVISIONING"
@@ -1468,13 +1475,6 @@ export type ExascaleDbStorageVaultPropertiesStateEnum =
   | "TERMINATING"
   | "TERMINATED"
   | "FAILED";
-/** The storage details of the ExascaleDbStorageVault. */
-export interface ExascaleDbStorageDetails {
-  /** Output only. The available storage capacity for the ExascaleDbStorageVault, in gigabytes (GB). */
-  availableSizeGbs?: number | undefined;
-  /** Required. The total storage allocation for the ExascaleDbStorageVault, in gigabytes (GB). */
-  totalSizeGbs?: number | undefined;
-}
 export type ExascaleDbStorageVaultPropertiesAttachedShapeAttributesItemEnum =
   | "SHAPE_ATTRIBUTE_UNSPECIFIED"
   | "SMART_STORAGE"
@@ -1482,68 +1482,68 @@ export type ExascaleDbStorageVaultPropertiesAttachedShapeAttributesItemEnum =
 export type ExascaleDbStorageVaultPropertiesAttachedShapeAttributesItemEnumList = Array<
   ExascaleDbStorageVaultPropertiesAttachedShapeAttributesItemEnum | (string & {})
 >;
-export type ExascaleDbStorageVaultPropertiesAvailableShapeAttributesItemEnum =
-  | "SHAPE_ATTRIBUTE_UNSPECIFIED"
-  | "SMART_STORAGE"
-  | "BLOCK_STORAGE";
-export type ExascaleDbStorageVaultPropertiesAvailableShapeAttributesItemEnumList = Array<
-  ExascaleDbStorageVaultPropertiesAvailableShapeAttributesItemEnum | (string & {})
->;
+/** The storage details of the ExascaleDbStorageVault. */
+export interface ExascaleDbStorageDetails {
+  /** Required. The total storage allocation for the ExascaleDbStorageVault, in gigabytes (GB). */
+  totalSizeGbs?: number | undefined;
+  /** Output only. The available storage capacity for the ExascaleDbStorageVault, in gigabytes (GB). */
+  availableSizeGbs?: number | undefined;
+}
 /** The properties of the ExascaleDbStorageVault. next ID: 12 */
 export interface ExascaleDbStorageVaultProperties {
-  /** Output only. Deep link to the OCI console to view this resource. */
-  ociUri?: string | undefined;
-  /** Optional. The description of the ExascaleDbStorageVault. */
-  description?: string | undefined;
-  /** Output only. The state of the ExascaleDbStorageVault. */
-  state?: ExascaleDbStorageVaultPropertiesStateEnum | (string & {}) | undefined;
-  /** Optional. The size of additional flash cache in percentage of high capacity database storage. */
-  additionalFlashCachePercent?: number | undefined;
-  /** Output only. The time zone of the ExascaleDbStorageVault. */
-  timeZone?: TimeZone | undefined;
-  /** Required. The storage details of the ExascaleDbStorageVault. */
-  exascaleDbStorageDetails?: ExascaleDbStorageDetails | undefined;
   /** Output only. The number of VM clusters associated with the ExascaleDbStorageVault. */
   vmClusterCount?: number | undefined;
-  /** Output only. The shape attributes of the VM clusters attached to the ExascaleDbStorageVault. */
-  attachedShapeAttributes?:
-    | ExascaleDbStorageVaultPropertiesAttachedShapeAttributesItemEnumList
-    | undefined;
   /** Output only. The list of VM cluster OCIDs associated with the ExascaleDbStorageVault. */
   vmClusterIds?: StringList | undefined;
+  /** Optional. The size of additional flash cache in percentage of high capacity database storage. */
+  additionalFlashCachePercent?: number | undefined;
   /** Output only. The shape attributes available for the VM clusters to be attached to the ExascaleDbStorageVault. */
   availableShapeAttributes?:
     | ExascaleDbStorageVaultPropertiesAvailableShapeAttributesItemEnumList
     | undefined;
+  /** Output only. The state of the ExascaleDbStorageVault. */
+  state?: ExascaleDbStorageVaultPropertiesStateEnum | (string & {}) | undefined;
+  /** Output only. The shape attributes of the VM clusters attached to the ExascaleDbStorageVault. */
+  attachedShapeAttributes?:
+    | ExascaleDbStorageVaultPropertiesAttachedShapeAttributesItemEnumList
+    | undefined;
+  /** Output only. The time zone of the ExascaleDbStorageVault. */
+  timeZone?: TimeZone | undefined;
   /** Output only. The OCID for the ExascaleDbStorageVault. */
   ocid?: string | undefined;
+  /** Required. The storage details of the ExascaleDbStorageVault. */
+  exascaleDbStorageDetails?: ExascaleDbStorageDetails | undefined;
+  /** Optional. The description of the ExascaleDbStorageVault. */
+  description?: string | undefined;
+  /** Output only. Deep link to the OCI console to view this resource. */
+  ociUri?: string | undefined;
 }
 /** ExascaleDbStorageVault represents a storage vault exadb vm cluster resource. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/ExascaleDbStorageVault/ */
 export interface ExascaleDbStorageVault {
+  /** Output only. The ID of the subscription entitlement associated with the ExascaleDbStorageVault. */
+  entitlementId?: string | undefined;
   /** Optional. Immutable. The Exadata Infrastructure resource on which ExascaleDbStorageVault resource is created, in the following format: projects/{project}/locations/{region}/cloudExadataInfrastuctures/{cloud_extradata_infrastructure} */
   exadataInfrastructure?: string | undefined;
-  /** Required. Immutable. The display name for the ExascaleDbStorageVault. The name does not have to be unique within your project. The name must be 1-255 characters long and can only contain alphanumeric characters. */
-  displayName?: string | undefined;
-  /** Optional. The labels or tags associated with the ExascaleDbStorageVault. */
-  labels?: StringMap | undefined;
   /** Required. Immutable. The properties of the ExascaleDbStorageVault. */
   properties?: ExascaleDbStorageVaultProperties | undefined;
-  /** Identifier. The resource name of the ExascaleDbStorageVault. Format: projects/{project}/locations/{location}/exascaleDbStorageVaults/{exascale_db_storage_vault} */
-  name?: string | undefined;
   /** Output only. The date and time when the ExascaleDbStorageVault was created. */
   createTime?: string | undefined;
   /** Optional. Immutable. The GCP Oracle zone where Oracle ExascaleDbStorageVault is hosted. Example: us-east4-b-r2. If not specified, the system will pick a zone based on availability. */
   gcpOracleZone?: string | undefined;
-  /** Output only. The ID of the subscription entitlement associated with the ExascaleDbStorageVault. */
-  entitlementId?: string | undefined;
+  /** Required. Immutable. The display name for the ExascaleDbStorageVault. The name does not have to be unique within your project. The name must be 1-255 characters long and can only contain alphanumeric characters. */
+  displayName?: string | undefined;
+  /** Identifier. The resource name of the ExascaleDbStorageVault. Format: projects/{project}/locations/{location}/exascaleDbStorageVaults/{exascale_db_storage_vault} */
+  name?: string | undefined;
+  /** Optional. The labels or tags associated with the ExascaleDbStorageVault. */
+  labels?: StringMap | undefined;
 }
 export interface CreateProjectsLocationsExascaleDbStorageVaultsRequest extends ExascaleDbStorageVault {
   /** Required. The value for parent of the ExascaleDbStorageVault in the following format: projects/{project}/locations/{location}. */
   parent: string;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
   /** Required. The ID of the ExascaleDbStorageVault to create. This value is restricted to (^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$) and must be a maximum of 63 characters in length. The value must start with a letter and end with a letter or a number. */
   exascaleDbStorageVaultId?: string | undefined;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
 }
 export type GoldengateConnectionAssignmentPropertiesStateEnum =
   | "STATE_UNSPECIFIED"
@@ -1554,238 +1554,105 @@ export type GoldengateConnectionAssignmentPropertiesStateEnum =
   | "DELETING";
 /** The properties of a GoldengateConnectionAssignment. */
 export interface GoldengateConnectionAssignmentProperties {
-  /** Output only. Credential store alias. */
-  alias?: string | undefined;
-  /** Output only. The [OCID](https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the connection assignment being referenced. */
-  ocid?: string | undefined;
-  /** Required. The GoldengateConnection resource to be assigned. Format: projects/{project}/locations/{location}/goldengateConnections/{goldengate_connection} */
-  goldengateConnection?: string | undefined;
-  /** Output only. The lifecycle state of the connection assignment. */
-  state?: GoldengateConnectionAssignmentPropertiesStateEnum | (string & {}) | undefined;
   /** Required. The GoldenGateDeployment to assign the connection to. Format: projects/{project}/locations/{location}/goldengateDeployments/{goldengate_deployment} */
   goldengateDeployment?: string | undefined;
+  /** Required. The GoldengateConnection resource to be assigned. Format: projects/{project}/locations/{location}/goldengateConnections/{goldengate_connection} */
+  goldengateConnection?: string | undefined;
+  /** Output only. Credential store alias. */
+  alias?: string | undefined;
+  /** Output only. The lifecycle state of the connection assignment. */
+  state?: GoldengateConnectionAssignmentPropertiesStateEnum | (string & {}) | undefined;
+  /** Output only. The [OCID](https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the connection assignment being referenced. */
+  ocid?: string | undefined;
 }
 /** Represents the metadata of a Goldengate Connection Assignment. */
 export interface GoldengateConnectionAssignment {
   /** Identifier. The name of the GoldengateConnectionAssignment resource in the following format: projects/{project}/locations/{region}/goldengateConnectionAssignments/{goldengate_connection_assignment} */
   name?: string | undefined;
+  /** Required. Immutable. The properties of the GoldengateConnectionAssignment. */
+  properties?: GoldengateConnectionAssignmentProperties | undefined;
+  /** Optional. The labels or tags associated with the GoldengateConnectionAssignment. */
+  labels?: StringMap | undefined;
+  /** Output only. The OCID of the entitlement linked to this resource. */
+  entitlementId?: string | undefined;
   /** Output only. The time when the connection assignment was created. */
   createTime?: string | undefined;
   /** Optional. Immutable. The display name for the GoldengateConnectionAssignment. */
   displayName?: string | undefined;
-  /** Optional. The labels or tags associated with the GoldengateConnectionAssignment. */
-  labels?: StringMap | undefined;
-  /** Required. Immutable. The properties of the GoldengateConnectionAssignment. */
-  properties?: GoldengateConnectionAssignmentProperties | undefined;
-  /** Output only. The OCID of the entitlement linked to this resource. */
-  entitlementId?: string | undefined;
 }
 export interface CreateProjectsLocationsGoldengateConnectionAssignmentsRequest extends GoldengateConnectionAssignment {
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
   /** Required. The ID of the GoldengateConnectionAssignment to create. */
   goldengateConnectionAssignmentId?: string | undefined;
   /** Required. The parent resource where this GoldengateConnectionAssignment will be created. Format: projects/{project}/locations/{location} */
   parent: string;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
 }
-export type GoldengateElasticsearchConnectionPropertiesAuthenticationTypeEnum =
-  | "ELASTICSEARCH_AUTHENTICATION_TYPE_UNSPECIFIED"
-  | "NONE"
-  | "BASIC";
+export type GoldengateOracleConnectionPropertiesSessionModeEnum =
+  | "SESSION_MODE_UNSPECIFIED"
+  | "DIRECT"
+  | "REDIRECT";
+export type GoldengateOracleConnectionPropertiesAuthenticationModeEnum =
+  | "ORACLE_AUTHENTICATION_MODE_UNSPECIFIED"
+  | "TLS"
+  | "MTLS";
+/** The properties of Goldengate Oracle Database Connection. */
+export interface GoldengateOracleConnectionProperties {
+  /** Optional. The wallet contents Oracle Goldengate uses to make connections to a database. This attribute is expected to be base64 encoded. */
+  walletFile?: string | undefined;
+  /** Optional. The username Oracle Goldengate uses to connect. */
+  username?: string | undefined;
+  /** Optional. Input only. The resource name of a secret version in Secret Manager which contains the password Oracle Goldengate uses. Format: projects/{project}/secrets/{secret}/versions/{version}. */
+  passwordSecretVersion?: string | undefined;
+  /** Optional. Connect descriptor or Easy Connect Naming method used to connect to a database. */
+  connectionString?: string | Redacted.Redacted<string> | undefined;
+  /** Optional. The technology type. */
+  technologyType?: string | undefined;
+  /** Optional. The mode of the database connection session to be established by the data client. */
+  sessionMode?: GoldengateOracleConnectionPropertiesSessionModeEnum | (string & {}) | undefined;
+  /** Optional. Authentication mode. */
+  authenticationMode?:
+    | GoldengateOracleConnectionPropertiesAuthenticationModeEnum
+    | (string & {})
+    | undefined;
+  /** Optional. Autonomous AI Database instance id of database in Oracle Database @ Google Cloud. If gcp_oracle_database_id is provided, connection_string must be empty. Format: projects/{project}/locations/{location}/autonomousDatabases/{autonomous_database} */
+  gcpOracleDatabaseId?: string | undefined;
+  /** Optional. Input only. The password Oracle Goldengate uses in plain text. */
+  password?: string | Redacted.Redacted<string> | undefined;
+}
 export type GoldengateElasticsearchConnectionPropertiesSecurityProtocolEnum =
   | "ELASTICSEARCH_SECURITY_PROTOCOL_UNSPECIFIED"
   | "PLAIN"
   | "TLS";
+export type GoldengateElasticsearchConnectionPropertiesAuthenticationTypeEnum =
+  | "ELASTICSEARCH_AUTHENTICATION_TYPE_UNSPECIFIED"
+  | "NONE"
+  | "BASIC";
 /** The properties of GoldengateElasticsearchConnection. */
 export interface GoldengateElasticsearchConnectionProperties {
-  /** Optional. Comma separated list of Elasticsearch server addresses, specified as host:port entries, where :port is optional. If port is not specified, it defaults to 9200. Example: "server1.example.com:4000,server2.example.com:4000" */
-  servers?: string | undefined;
   /** Optional. The technology type of ElasticsearchConnection. */
   technologyType?: string | undefined;
-  /** Optional. Input only. The resource name of a secret version in Secret Manager which contains the password Oracle Goldengate uses for Elastic Search connection. Format: projects/{project}/secrets/{secret}/versions/{version}. */
-  passwordSecretVersion?: string | undefined;
+  /** Optional. Fingerprint required by TLS security protocol. Eg.: '6152b2dfbff200f973c5074a5b91d06ab3b472c07c09a1ea57bb7fd406cdce9c' */
+  fingerprint?: string | undefined;
+  /** Optional. Comma separated list of Elasticsearch server addresses, specified as host:port entries, where :port is optional. If port is not specified, it defaults to 9200. Example: "server1.example.com:4000,server2.example.com:4000" */
+  servers?: string | undefined;
   /** Optional. Input only. The password Oracle Goldengate uses for Elastic Search connection in plain text. */
   password?: string | Redacted.Redacted<string> | undefined;
-  /** Optional. Authentication type for Elasticsearch. */
-  authenticationType?:
-    | GoldengateElasticsearchConnectionPropertiesAuthenticationTypeEnum
-    | (string & {})
-    | undefined;
+  /** Optional. The username Oracle Goldengate uses to connect the associated system of the given technology. */
+  username?: string | undefined;
+  /** Optional. Input only. The resource name of a secret version in Secret Manager which contains the password Oracle Goldengate uses for Elastic Search connection. Format: projects/{project}/secrets/{secret}/versions/{version}. */
+  passwordSecretVersion?: string | undefined;
   /** Optional. Security protocol for Elasticsearch. */
   securityProtocol?:
     | GoldengateElasticsearchConnectionPropertiesSecurityProtocolEnum
     | (string & {})
     | undefined;
-  /** Optional. The username Oracle Goldengate uses to connect the associated system of the given technology. */
-  username?: string | undefined;
-  /** Optional. Fingerprint required by TLS security protocol. Eg.: '6152b2dfbff200f973c5074a5b91d06ab3b472c07c09a1ea57bb7fd406cdce9c' */
-  fingerprint?: string | undefined;
-}
-/** The properties of GoldengateAmazonKinesisConnection. */
-export interface GoldengateAmazonKinesisConnectionProperties {
-  /** Optional. Access key ID to access the Amazon Kinesis. */
-  accessKeyId?: string | Redacted.Redacted<string> | undefined;
-  /** Optional. The technology type of AmazonKinesisConnection. */
-  technologyType?: string | undefined;
-  /** Optional. The name of the AWS region. If not provided, Goldengate will default to 'us-west-1'. */
-  awsRegion?: string | undefined;
-  /** Optional. The endpoint URL of the Amazon Kinesis service. e.g.: 'https://kinesis.us-east-1.amazonaws.com' If not provided, Goldengate will default to 'https://kinesis..amazonaws.com'. */
-  endpoint?: string | undefined;
-  /** Optional. Secret access key to access the Amazon Kinesis. */
-  secretAccessKeySecret?: string | Redacted.Redacted<string> | undefined;
-}
-export type GoldengateMysqlConnectionPropertiesSslModeEnum =
-  | "SSL_MODE_UNSPECIFIED"
-  | "DISABLED"
-  | "PREFERRED"
-  | "REQUIRED"
-  | "VERIFY_CA"
-  | "VERIFY_IDENTITY";
-/** A name-value pair representing an attribute entry usable in a list of attributes. */
-export interface NameValuePair {
-  /** Required. The value of the property entry. */
-  value?: string | undefined;
-  /** Required. The name of the property entry. */
-  key?: string | undefined;
-}
-export type NameValuePairList = Array<NameValuePair>;
-export type GoldengateMysqlConnectionPropertiesSecurityProtocolEnum =
-  | "MYSQL_SECURITY_PROTOCOL_UNSPECIFIED"
-  | "PLAIN"
-  | "TLS"
-  | "MTLS";
-/** Properties of GoldengateMysqlConnection. */
-export interface GoldengateMysqlConnectionProperties {
-  /** Optional. The port of an endpoint usually specified for a connection. */
-  port?: number | undefined;
-  /** Optional. The technology type of MysqlConnection. */
-  technologyType?: string | undefined;
-  /** Optional. The username Oracle Goldengate uses to connect the associated system of the given technology. */
-  username?: string | undefined;
-  /** Optional. Input only. The resource name of a secret version in Secret Manager which contains the password Oracle Goldengate uses to connect to MySQL. Format: projects/{project}/secrets/{secret}/versions/{version}. */
-  passwordSecretVersion?: string | undefined;
-  /** Optional. Input only. The password Oracle Goldengate uses to connect to MySQL in plain text. */
-  password?: string | Redacted.Redacted<string> | undefined;
-  /** Optional. SSL modes for MySQL. */
-  sslMode?: GoldengateMysqlConnectionPropertiesSslModeEnum | (string & {}) | undefined;
-  /** Optional. Database Certificate - The base64 encoded content of a .pem or .crt file containing the server public key (for 1 and 2-way SSL). */
-  sslCaFile?: string | undefined;
-  /** Optional. Client Key - The base64 encoded content of a .pem or .crt file containing the client private key (for 2-way SSL). */
-  sslKeyFile?: string | undefined;
-  /** Optional. The base64 encoded list of certificates revoked by the trusted certificate authorities (Trusted CA). */
-  sslCrlFile?: string | undefined;
-  /** Optional. Client Certificate - The base64 encoded content of a .pem or .crt file containing the client public key (for 2-way SSL). */
-  sslCertFile?: string | undefined;
-  /** Optional. The name or address of a host. */
-  host?: string | undefined;
-  /** Optional. An array of name-value pair attribute entries. Used as additional parameters in connection string. */
-  additionalAttributes?: NameValuePairList | undefined;
-  /** Optional. Security Type for MySQL. */
-  securityProtocol?:
-    | GoldengateMysqlConnectionPropertiesSecurityProtocolEnum
-    | (string & {})
-    | undefined;
-  /** Optional. The name of the database. */
-  database?: string | undefined;
-  /** Optional. The OCID of the database system being referenced. */
-  dbSystemId?: string | undefined;
-}
-export type GoldengateJavaMessageServiceConnectionPropertiesAuthenticationTypeEnum =
-  | "JMS_AUTHENTICATION_TYPE_UNSPECIFIED"
-  | "NONE"
-  | "BASIC";
-export type GoldengateJavaMessageServiceConnectionPropertiesSecurityProtocolEnum =
-  | "JMS_SECURITY_PROTOCOL_UNSPECIFIED"
-  | "PLAIN"
-  | "TLS"
-  | "MTLS";
-/** The properties of GoldengateJavaMessageServiceConnection. */
-export interface GoldengateJavaMessageServiceConnectionProperties {
-  /** Optional. Input only. The resource name of a secret version in Secret Manager which contains the KeyStore password. Format: projects/{project}/secrets/{secret}/versions/{version}. */
-  keyStorePasswordSecretVersion?: string | undefined;
-  /** Optional. Authentication type for Java Message Service. */
+  /** Optional. Authentication type for Elasticsearch. */
   authenticationType?:
-    | GoldengateJavaMessageServiceConnectionPropertiesAuthenticationTypeEnum
+    | GoldengateElasticsearchConnectionPropertiesAuthenticationTypeEnum
     | (string & {})
     | undefined;
-  /** Optional. Input only. The resource name of a secret version in Secret Manager which contains the password Oracle Goldengate uses to connect the associated Java Message Service. Format: projects/{project}/secrets/{secret}/versions/{version}. */
-  passwordSecretVersion?: string | undefined;
-  /** Optional. Input only. The password Oracle Goldengate uses to connect the Java Message Service in plain text. */
-  password?: string | Redacted.Redacted<string> | undefined;
-  /** Optional. The Connection Factory can be looked up using this name. e.g.: 'ConnectionFactory' */
-  jndiConnectionFactory?: string | undefined;
-  /** Optional. Connection URL of the Java Message Service, specifying the protocol, host, and port. e.g.: 'mq://myjms.host.domain:7676' */
-  connectionUrl?: string | Redacted.Redacted<string> | undefined;
-  /** Optional. Input only. The TrustStore password in plain text. */
-  trustStorePassword?: string | Redacted.Redacted<string> | undefined;
-  /** Optional. The username Oracle Goldengate uses to connect to the Java Message Service. */
-  username?: string | undefined;
-  /** Optional. Input only. The resource name of a secret version in Secret Manager which contains the password for the cert inside of the KeyStore. Format: projects/{project}/secrets/{secret}/versions/{version}. */
-  sslKeyPasswordSecretVersion?: string | undefined;
-  /** Optional. The technology type of JavaMessageServiceConnection. */
-  technologyType?: string | undefined;
-  /** Optional. Input only. The KeyStore password in plain text. */
-  keyStorePassword?: string | Redacted.Redacted<string> | undefined;
-  /** Optional. If set to true, Java Naming and Directory Interface (JNDI) properties should be provided. */
-  useJndi?: boolean | undefined;
-  /** Optional. Input only. The resource name of a secret version in Secret Manager which contains the TrustStore password. Format: projects/{project}/secrets/{secret}/versions/{version}. */
-  trustStorePasswordSecretVersion?: string | undefined;
-  /** Optional. Input only. The password for the cert inside of the KeyStore in plain text. */
-  sslKeyPassword?: string | Redacted.Redacted<string> | undefined;
-  /** Optional. The URL that Java Message Service will use to contact the JNDI provider. e.g.: 'tcp://myjms.host.domain:61616?jms.prefetchPolicy.all=1000' */
-  jndiProviderUrl?: string | undefined;
-  /** Optional. The password associated to the principal. */
-  jndiSecurityCredentialsSecret?: string | Redacted.Redacted<string> | undefined;
-  /** Optional. The base64 encoded content of the TrustStore file. */
-  trustStoreFile?: string | undefined;
-  /** Optional. The base64 encoded content of the KeyStore file. */
-  keyStoreFile?: string | undefined;
-  /** Optional. The implementation of javax.naming.spi.InitialContextFactory interface used to obtain initial naming context. */
-  jndiInitialContextFactory?: string | undefined;
-  /** Optional. Specifies the identity of the principal (user) to be authenticated. */
-  jndiSecurityPrincipal?: string | undefined;
-  /** Optional. Security protocol for Java Message Service. */
-  securityProtocol?:
-    | GoldengateJavaMessageServiceConnectionPropertiesSecurityProtocolEnum
-    | (string & {})
-    | undefined;
-  /** Optional. The Java class implementing javax.jms.ConnectionFactory interface supplied by the JMS provider. */
-  connectionFactory?: string | undefined;
 }
-/** The properties of GoldengateGoldengateConnectionProperties. */
-export interface GoldengateGoldengateConnectionProperties {
-  /** Optional. Input only. The password used to connect to the Oracle Goldengate in plain text. */
-  password?: string | Redacted.Redacted<string> | undefined;
-  /** Optional. The name of the GoldengateDeployment associated with the GoldengateConnection. Format: projects/{project}/locations/{location}/goldengateDeployments/{goldengate_deployment} */
-  goldengateDeploymentId?: string | undefined;
-  /** Optional. Input only. The resource name of a secret version in Secret Manager which contains the password used to connect to the Oracle Goldengate. Format: projects/{project}/secrets/{secret}/versions/{version}. */
-  passwordSecretVersion?: string | undefined;
-  /** Optional. The host of the GoldengateConnection. */
-  host?: string | undefined;
-  /** Optional. The technology type. */
-  technologyType?: string | undefined;
-  /** Optional. The username credential. */
-  username?: string | undefined;
-  /** Optional. The port of the GoldengateConnection. */
-  port?: number | undefined;
-}
-/** The properties of GoldengateAmazonS3Connection. */
-export interface GoldengateAmazonS3ConnectionProperties {
-  /** Optional. Access key ID to access the Amazon S3 bucket. */
-  accessKeyId?: string | Redacted.Redacted<string> | undefined;
-  /** Optional. The Amazon Endpoint for S3. */
-  endpoint?: string | undefined;
-  /** Optional. Secret access key to access the Amazon S3 bucket. */
-  secretAccessKeySecret?: string | Redacted.Redacted<string> | undefined;
-  /** Optional. The name of the AWS region where the bucket is created. */
-  region?: string | undefined;
-  /** Optional. The technology type of AmazonS3Connection. */
-  technologyType?: string | undefined;
-}
-export type GoldengateConnectionPropertiesRoutingMethodEnum =
-  | "GOLDENGATE_CONNECTION_ROUTING_METHOD_UNSPECIFIED"
-  | "SHARED_DEPLOYMENT_ENDPOINT"
-  | "DEDICATED_ENDPOINT";
 export type GoldengateConnectionPropertiesLifecycleStateEnum =
   | "GOLDENGATE_CONNECTION_LIFECYCLE_STATE_UNSPECIFIED"
   | "CREATING"
@@ -1794,64 +1661,146 @@ export type GoldengateConnectionPropertiesLifecycleStateEnum =
   | "DELETING"
   | "DELETED"
   | "FAILED";
-export type GoldengateMongodbConnectionPropertiesSecurityProtocolEnum =
-  | "MONGODB_SECURITY_PROTOCOL_UNSPECIFIED"
-  | "PLAIN"
-  | "TLS"
-  | "MTLS";
-/** The properties of GoldengateMongodbConnection. */
-export interface GoldengateMongodbConnectionProperties {
-  /** Optional. Client Certificate - The base64 encoded content of a .pem file, containing the client public key (for 2-way SSL). */
-  tlsCertificateKeyFile?: string | undefined;
-  /** Optional. Input only. The password Oracle Goldengate uses to connect the Mongodb connection in plain text. */
-  password?: string | Redacted.Redacted<string> | undefined;
-  /** Optional. Security Type for MongoDB. */
-  securityProtocol?:
-    | GoldengateMongodbConnectionPropertiesSecurityProtocolEnum
-    | (string & {})
-    | undefined;
-  /** Optional. Database Certificate - The base64 encoded content of a .pem file, containing the server public key (for 1 and 2-way SSL). */
-  tlsCaFile?: string | undefined;
-  /** Optional. The OCID of the Oracle Autonomous Json Database. */
-  databaseId?: string | undefined;
-  /** Optional. Input only. The resource name of a secret version in Secret Manager which contains the Client Certificate key file password in Secret Manager. Format: projects/{project}/secrets/{secret}/versions/{version}. */
-  tlsCertificateKeyFilePasswordSecretVersion?: string | undefined;
-  /** Optional. The technology type of MongodbConnection. */
-  technologyType?: string | undefined;
-  /** Optional. Input only. The resource name of a secret version in Secret Manager which contains the password Oracle Goldengate uses to connect the Mongodb connection. Format: projects/{project}/secrets/{secret}/versions/{version}. */
-  passwordSecretVersion?: string | undefined;
-  /** Optional. MongoDB connection string. e.g.: 'mongodb://mongodb0.example.com:27017/recordsrecords' */
-  connectionString?: string | Redacted.Redacted<string> | undefined;
-  /** Optional. Input only. The Client Certificate key file password in plain text. */
-  tlsCertificateKeyFilePassword?: string | Redacted.Redacted<string> | undefined;
-  /** Optional. The username Oracle Goldengate uses to connect to the database. */
-  username?: string | undefined;
-}
 export type GoldengateSnowflakeConnectionPropertiesAuthenticationTypeEnum =
   | "AUTHENTICATION_TYPE_UNSPECIFIED"
   | "BASIC"
   | "KEY_PAIR";
 /** The properties of GoldengateSnowflakeConnection. */
 export interface GoldengateSnowflakeConnectionProperties {
-  /** Optional. Input only. The password Oracle Goldengate uses to connect to Snowflake platform in plain text. */
-  password?: string | Redacted.Redacted<string> | undefined;
-  /** Optional. The technology type of SnowflakeConnection. */
-  technologyType?: string | undefined;
-  /** Optional. Password if the private key file is encrypted. */
-  privateKeyPassphraseSecret?: string | Redacted.Redacted<string> | undefined;
-  /** Optional. The content of private key file in PEM format. */
-  privateKeyFile?: string | undefined;
   /** Optional. Input only. The resource name of a secret version in Secret Manager which contains the password Oracle Goldengate uses to connect to Snowflake platform. Format: projects/{project}/secrets/{secret}/versions/{version}. */
   passwordSecretVersion?: string | undefined;
+  /** Optional. The technology type of SnowflakeConnection. */
+  technologyType?: string | undefined;
+  /** Optional. The content of private key file in PEM format. */
+  privateKeyFile?: string | undefined;
+  /** Optional. JDBC connection URL. e.g.: 'jdbc:snowflake://.snowflakecomputing.com/?warehouse=&db=' */
+  connectionUrl?: string | Redacted.Redacted<string> | undefined;
   /** Optional. Used authentication mechanism to access Snowflake. */
   authenticationType?:
     | GoldengateSnowflakeConnectionPropertiesAuthenticationTypeEnum
     | (string & {})
     | undefined;
+  /** Optional. Input only. The password Oracle Goldengate uses to connect to Snowflake platform in plain text. */
+  password?: string | Redacted.Redacted<string> | undefined;
   /** Optional. The username Oracle Goldengate uses to connect to Snowflake. */
   username?: string | undefined;
-  /** Optional. JDBC connection URL. e.g.: 'jdbc:snowflake://.snowflakecomputing.com/?warehouse=&db=' */
-  connectionUrl?: string | Redacted.Redacted<string> | undefined;
+  /** Optional. Password if the private key file is encrypted. */
+  privateKeyPassphraseSecret?: string | Redacted.Redacted<string> | undefined;
+}
+export type GoldengateRedisConnectionPropertiesSecurityProtocolEnum =
+  | "REDIS_SECURITY_PROTOCOL_UNSPECIFIED"
+  | "PLAIN"
+  | "TLS"
+  | "MTLS";
+export type GoldengateRedisConnectionPropertiesAuthenticationTypeEnum =
+  | "REDIS_AUTHENTICATION_TYPE_UNSPECIFIED"
+  | "NONE"
+  | "BASIC";
+/** The properties of GoldengateRedisConnection. */
+export interface GoldengateRedisConnectionProperties {
+  /** Optional. The username Oracle Goldengate uses to connect the associated system of the given technology. */
+  username?: string | undefined;
+  /** Optional. Input only. The resource name of a secret version in Secret Manager which contains the KeyStore password. Format: projects/{project}/secrets/{secret}/versions/{version}. */
+  keyStorePasswordSecretVersion?: string | undefined;
+  /** Optional. Input only. The resource name of a secret version in Secret Manager which contains the TrustStore password. Format: projects/{project}/secrets/{secret}/versions/{version}. */
+  trustStorePasswordSecretVersion?: string | undefined;
+  /** Optional. Input only. The resource name of a secret version in Secret Manager which contains the password Oracle Goldengate uses for Redis connection. Format: projects/{project}/secrets/{secret}/versions/{version}. */
+  passwordSecretVersion?: string | undefined;
+  /** Optional. Input only. The KeyStore password in plain text. */
+  keyStorePassword?: string | Redacted.Redacted<string> | undefined;
+  /** Optional. Input only. The password Oracle Goldengate uses for Redis connection in plain text. */
+  password?: string | Redacted.Redacted<string> | undefined;
+  /** Optional. The technology type of RedisConnection. */
+  technologyType?: string | undefined;
+  /** Optional. The base64 encoded content of the TrustStore file. */
+  trustStoreFile?: string | undefined;
+  /** Optional. The base64 encoded content of the KeyStore file. */
+  keyStoreFile?: string | undefined;
+  /** Optional. The OCID of the Redis cluster. */
+  redisClusterId?: string | undefined;
+  /** Optional. Input only. The TrustStore password in plain text. */
+  trustStorePassword?: string | Redacted.Redacted<string> | undefined;
+  /** Optional. Security protocol for Redis. */
+  securityProtocol?:
+    | GoldengateRedisConnectionPropertiesSecurityProtocolEnum
+    | (string & {})
+    | undefined;
+  /** Optional. Authentication type for Redis. */
+  authenticationType?:
+    | GoldengateRedisConnectionPropertiesAuthenticationTypeEnum
+    | (string & {})
+    | undefined;
+  /** Optional. Comma separated list of Redis server addresses, specified as host:port entries, where :port is optional. If port is not specified, it defaults to 6379. Example: "server1.example.com:6379,server2.example.com:6379" */
+  servers?: string | undefined;
+}
+/** The properties of GoldengateGooglePubsubConnection. */
+export interface GoldengateGooglePubsubConnectionProperties {
+  /** Optional. The technology type of GooglePubsubConnection. */
+  technologyType?: string | undefined;
+  /** Optional. The base64 encoded content of the service account key file containing the credentials required to use Google Pub/Sub. */
+  serviceAccountKeyFile?: string | undefined;
+}
+/** The properties of GoldengateGenericConnectionProperties. */
+export interface GoldengateGenericConnectionProperties {
+  /** Optional. The host of the GenericConnection. */
+  host?: string | undefined;
+  /** Optional. The technology type. */
+  technologyType?: string | undefined;
+}
+export type GoldengatePostgresqlConnectionPropertiesSslModeEnum =
+  | "POSTGRESQL_SSL_MODE_UNSPECIFIED"
+  | "PREFER"
+  | "REQUIRE"
+  | "VERIFY_CA"
+  | "VERIFY_FULL";
+export type GoldengatePostgresqlConnectionPropertiesSecurityProtocolEnum =
+  | "POSTGRESQL_SECURITY_PROTOCOL_UNSPECIFIED"
+  | "PLAIN"
+  | "TLS"
+  | "MTLS";
+/** A name-value pair representing an attribute entry usable in a list of attributes. */
+export interface NameValuePair {
+  /** Required. The value of the property entry. */
+  value?: string | undefined;
+  /** Required. The name of the property entry. */
+  key?: string | undefined;
+}
+export type NameValuePairList = Array<NameValuePair>;
+/** The properties of GoldengatePostgresqlConnection. */
+export interface GoldengatePostgresqlConnectionProperties {
+  /** Optional. The username Oracle Goldengate uses to connect the associated system of the given technology. */
+  username?: string | undefined;
+  /** Optional. Input only. The resource name of a secret version in Secret Manager which contains the password Oracle Goldengate uses for PostgreSQL connection. Format: projects/{project}/secrets/{secret}/versions/{version}. */
+  passwordSecretVersion?: string | undefined;
+  /** Optional. The base64 encoded certificate of the trusted certificate authorities (Trusted CA) for PostgreSQL. */
+  sslCaFile?: string | undefined;
+  /** Optional. The name of the database. */
+  database?: string | undefined;
+  /** Optional. Input only. The password Oracle Goldengate uses for PostgreSQL connection in plain text. */
+  password?: string | Redacted.Redacted<string> | undefined;
+  /** Optional. The technology type of PostgresqlConnection. */
+  technologyType?: string | undefined;
+  /** Optional. The port of an endpoint usually specified for a connection. */
+  port?: number | undefined;
+  /** Optional. The base64 encoded private key of the PostgreSQL server. */
+  sslKeyFile?: string | undefined;
+  /** Optional. The name or address of a host. */
+  host?: string | undefined;
+  /** Optional. SSL modes for PostgreSQL. */
+  sslMode?: GoldengatePostgresqlConnectionPropertiesSslModeEnum | (string & {}) | undefined;
+  /** Optional. The base64 encoded list of certificates revoked by the trusted certificate authorities (Trusted CA). */
+  sslCrlFile?: string | undefined;
+  /** Optional. The base64 encoded certificate of the PostgreSQL server. */
+  sslCertFile?: string | undefined;
+  /** Optional. Security protocol for PostgreSQL. */
+  securityProtocol?:
+    | GoldengatePostgresqlConnectionPropertiesSecurityProtocolEnum
+    | (string & {})
+    | undefined;
+  /** Optional. The OCID of the database system being referenced. */
+  dbSystemId?: string | undefined;
+  /** Optional. An array of name-value pair attribute entries. Used as additional parameters in connection string. */
+  additionalAttributes?: NameValuePairList | undefined;
 }
 export type GoldengateDatabricksConnectionPropertiesAuthenticationTypeEnum =
   | "DATABRICKS_AUTHENTICATION_TYPE_UNSPECIFIED"
@@ -1859,45 +1808,508 @@ export type GoldengateDatabricksConnectionPropertiesAuthenticationTypeEnum =
   | "OAUTH_M2M";
 /** The properties of GoldengateDatabricksConnection. */
 export interface GoldengateDatabricksConnectionProperties {
-  /** Optional. OAuth client secret, only applicable for authentication_type == OAUTH_M2M */
-  clientSecret?: string | Redacted.Redacted<string> | undefined;
   /** Optional. External storage credential name to access files on object storage such as ADLS Gen2, S3 or Cloud Storage. */
   storageCredential?: string | undefined;
-  /** Optional. The technology type of DatabricksConnection. */
-  technologyType?: string | undefined;
-  /** Optional. Input only. The password used to connect to Databricks in plain text. */
-  password?: string | Redacted.Redacted<string> | undefined;
-  /** Optional. Input only. The resource name of a secret version in Secret Manager which contains the password used to connect to Databricks. Format: projects/{project}/secrets/{secret}/versions/{version}. */
-  passwordSecretVersion?: string | undefined;
   /** Optional. OAuth client id, only applicable for authentication_type == OAUTH_M2M */
   clientId?: string | undefined;
-  /** Optional. Connection URL. e.g.: 'jdbc:databricks://adb-33934.4.azuredatabricks.net:443/default;transportMode=http;ssl=1;httpPath=sql/protocolv1/o/3393########44/0##3-7-hlrb' */
-  connectionUrl?: string | Redacted.Redacted<string> | undefined;
+  /** Optional. Input only. The resource name of a secret version in Secret Manager which contains the password used to connect to Databricks. Format: projects/{project}/secrets/{secret}/versions/{version}. */
+  passwordSecretVersion?: string | undefined;
+  /** Optional. The technology type of DatabricksConnection. */
+  technologyType?: string | undefined;
   /** Optional. Authentication type for Databricks. */
   authenticationType?:
     | GoldengateDatabricksConnectionPropertiesAuthenticationTypeEnum
     | (string & {})
     | undefined;
+  /** Optional. OAuth client secret, only applicable for authentication_type == OAUTH_M2M */
+  clientSecret?: string | Redacted.Redacted<string> | undefined;
+  /** Optional. Connection URL. e.g.: 'jdbc:databricks://adb-33934.4.azuredatabricks.net:443/default;transportMode=http;ssl=1;httpPath=sql/protocolv1/o/3393########44/0##3-7-hlrb' */
+  connectionUrl?: string | Redacted.Redacted<string> | undefined;
+  /** Optional. Input only. The password used to connect to Databricks in plain text. */
+  password?: string | Redacted.Redacted<string> | undefined;
 }
-/** The properties of GoldengateHdfsConnection. */
-export interface GoldengateHdfsConnectionProperties {
-  /** Optional. The technology type of HdfsConnection. */
+/** The properties of GoldengateAmazonRedshiftConnection. */
+export interface GoldengateAmazonRedshiftConnectionProperties {
+  /** Optional. Connection URL. e.g.: 'jdbc:redshift://aws-redshift-instance.aaaaaaaaaaaa.us-east-2.redshift.amazonaws.com:5439/mydb' */
+  connectionUrl?: string | Redacted.Redacted<string> | undefined;
+  /** Optional. The technology type of AmazonRedshiftConnection. */
   technologyType?: string | undefined;
-  /** Optional. The content of the Hadoop Distributed File System configuration file (core-site.xml). */
-  coreSiteXml?: string | undefined;
+  /** Optional. Input only. The password Oracle Goldengate uses for Amazon Redshift connection in plain text. */
+  password?: string | Redacted.Redacted<string> | undefined;
+  /** Optional. The username Oracle Goldengate uses to connect the associated system of the given technology. */
+  username?: string | undefined;
+  /** Optional. Input only. The resource name of a secret version in Secret Manager which contains the password Oracle Goldengate uses for Amazon Redshift connection. Format: projects/{project}/secrets/{secret}/versions/{version}. */
+  passwordSecretVersion?: string | undefined;
+}
+export type GoldengateDb2ConnectionPropertiesSecurityProtocolEnum =
+  | "DB2_SECURITY_PROTOCOL_UNSPECIFIED"
+  | "PLAIN"
+  | "TLS";
+/** The properties of GoldengateDb2Connection. */
+export interface GoldengateDb2ConnectionProperties {
+  /** Optional. The port of an endpoint usually specified for a connection. */
+  port?: number | undefined;
+  /** Optional. The keystash file which contains the encrypted password to the key database file. Not supported for IBM Db2 for i. */
+  sslClientKeystashFile?: string | undefined;
+  /** Optional. The username Oracle Goldengate uses to connect to the DB2 database. */
+  username?: string | undefined;
+  /** Optional. The technology type of Db2Connection. */
+  technologyType?: string | undefined;
+  /** Optional. Security protocol for the DB2 database. */
+  securityProtocol?:
+    | GoldengateDb2ConnectionPropertiesSecurityProtocolEnum
+    | (string & {})
+    | undefined;
+  /** Optional. The file which contains the self-signed server certificate / Certificate Authority (CA) certificate. */
+  sslServerCertificateFile?: string | undefined;
+  /** Optional. The name of the database. */
+  database?: string | undefined;
+  /** Optional. The keystore file created at the client containing the server certificate / CA root certificate. Not supported for IBM Db2 for i. */
+  sslClientKeystoredbFile?: string | undefined;
+  /** Optional. Input only. The password Oracle Goldengate uses for Db2 connection in plain text. */
+  password?: string | Redacted.Redacted<string> | undefined;
+  /** Optional. Input only. The resource name of a secret version in Secret Manager which contains the password Oracle Goldengate uses for Db2 connection. Format: projects/{project}/secrets/{secret}/versions/{version}. */
+  passwordSecretVersion?: string | undefined;
+  /** Optional. An array of name-value pair attribute entries. Used as additional parameters in connection string. */
+  additionalAttributes?: NameValuePairList | undefined;
+  /** Optional. The name or address of a host. */
+  host?: string | undefined;
+}
+export type GoldengateMongodbConnectionPropertiesSecurityProtocolEnum =
+  | "MONGODB_SECURITY_PROTOCOL_UNSPECIFIED"
+  | "PLAIN"
+  | "TLS"
+  | "MTLS";
+/** The properties of GoldengateMongodbConnection. */
+export interface GoldengateMongodbConnectionProperties {
+  /** Optional. The username Oracle Goldengate uses to connect to the database. */
+  username?: string | undefined;
+  /** Optional. The technology type of MongodbConnection. */
+  technologyType?: string | undefined;
+  /** Optional. Client Certificate - The base64 encoded content of a .pem file, containing the client public key (for 2-way SSL). */
+  tlsCertificateKeyFile?: string | undefined;
+  /** Optional. Input only. The resource name of a secret version in Secret Manager which contains the password Oracle Goldengate uses to connect the Mongodb connection. Format: projects/{project}/secrets/{secret}/versions/{version}. */
+  passwordSecretVersion?: string | undefined;
+  /** Optional. Database Certificate - The base64 encoded content of a .pem file, containing the server public key (for 1 and 2-way SSL). */
+  tlsCaFile?: string | undefined;
+  /** Optional. Input only. The Client Certificate key file password in plain text. */
+  tlsCertificateKeyFilePassword?: string | Redacted.Redacted<string> | undefined;
+  /** Optional. MongoDB connection string. e.g.: 'mongodb://mongodb0.example.com:27017/recordsrecords' */
+  connectionString?: string | Redacted.Redacted<string> | undefined;
+  /** Optional. Input only. The password Oracle Goldengate uses to connect the Mongodb connection in plain text. */
+  password?: string | Redacted.Redacted<string> | undefined;
+  /** Optional. Security Type for MongoDB. */
+  securityProtocol?:
+    | GoldengateMongodbConnectionPropertiesSecurityProtocolEnum
+    | (string & {})
+    | undefined;
+  /** Optional. The OCID of the Oracle Autonomous Json Database. */
+  databaseId?: string | undefined;
+  /** Optional. Input only. The resource name of a secret version in Secret Manager which contains the Client Certificate key file password in Secret Manager. Format: projects/{project}/secrets/{secret}/versions/{version}. */
+  tlsCertificateKeyFilePasswordSecretVersion?: string | undefined;
+}
+/** The properties of GoldengateGoogleBigQueryConnectionProperties. */
+export interface GoldengateGoogleBigQueryConnectionProperties {
+  /** Optional. The base64 encoded content of the service account key file containing the credentials required to use Google BigQuery. */
+  serviceAccountKeyFile?: string | undefined;
+  /** Optional. The technology type. */
+  technologyType?: string | undefined;
+}
+export type GoldengateAzureDataLakeStorageConnectionPropertiesAuthenticationTypeEnum =
+  | "AUTHENTICATION_TYPE_UNSPECIFIED"
+  | "SHARED_KEY"
+  | "SHARED_ACCESS_SIGNATURE"
+  | "AZURE_ACTIVE_DIRECTORY";
+/** The properties of GoldengateAzureDataLakeStorageConnection. */
+export interface GoldengateAzureDataLakeStorageConnectionProperties {
+  /** Optional. Azure storage account key. This property is required when 'authentication_type' is set to 'SHARED_KEY'. */
+  accountKeySecret?: string | Redacted.Redacted<string> | undefined;
+  /** Optional. The technology type of AzureDataLakeStorageConnection. */
+  technologyType?: string | undefined;
+  /** Optional. Credential that uses a shared access signature (SAS) to authenticate to an Azure Service. */
+  sasTokenSecret?: string | Redacted.Redacted<string> | undefined;
+  /** Optional. Sets the Azure storage account name. */
+  account?: string | undefined;
+  /** Optional. Authentication mechanism to access Azure Data Lake Storage. */
+  authenticationType?:
+    | GoldengateAzureDataLakeStorageConnectionPropertiesAuthenticationTypeEnum
+    | (string & {})
+    | undefined;
+  /** Optional. Azure client ID of the application. This property is required when 'authentication_type' is set to 'AZURE_ACTIVE_DIRECTORY'. */
+  clientId?: string | undefined;
+  /** Optional. Azure client secret (aka application password) for authentication. */
+  clientSecret?: string | Redacted.Redacted<string> | undefined;
+  /** Optional. The endpoint used for authentication with Microsoft Entra ID (formerly Azure Active Directory). Default value: https://login.microsoftonline.com */
+  azureAuthorityHost?: string | undefined;
+  /** Optional. Azure tenant ID of the application. This property is required when 'authentication_type' is set to 'AZURE_ACTIVE_DIRECTORY'. */
+  azureTenantId?: string | undefined;
+  /** Optional. Azure Storage service endpoint. e.g: https://test.blob.core.windows.net */
+  endpoint?: string | undefined;
+}
+/** The properties of GoldengateMicrosoftFabricConnection. */
+export interface GoldengateMicrosoftFabricConnectionProperties {
+  /** Optional. The technology type of MicrosoftFabricConnection. */
+  technologyType?: string | undefined;
+  /** Optional. Azure tenant ID of the application. */
+  tenantId?: string | undefined;
+  /** Optional. Client secret associated with the client id. */
+  clientSecret?: string | Redacted.Redacted<string> | undefined;
+  /** Optional. Azure client ID of the application. */
+  clientId?: string | undefined;
+  /** Optional. Optional Microsoft Fabric service endpoint. Default value: https://onelake.dfs.fabric.microsoft.com */
+  endpoint?: string | undefined;
+}
+/** The properties of GoldengateGoldengateConnectionProperties. */
+export interface GoldengateGoldengateConnectionProperties {
+  /** Optional. The name of the GoldengateDeployment associated with the GoldengateConnection. Format: projects/{project}/locations/{location}/goldengateDeployments/{goldengate_deployment} */
+  goldengateDeploymentId?: string | undefined;
+  /** Optional. Input only. The resource name of a secret version in Secret Manager which contains the password used to connect to the Oracle Goldengate. Format: projects/{project}/secrets/{secret}/versions/{version}. */
+  passwordSecretVersion?: string | undefined;
+  /** Optional. The port of the GoldengateConnection. */
+  port?: number | undefined;
+  /** Optional. The host of the GoldengateConnection. */
+  host?: string | undefined;
+  /** Optional. Input only. The password used to connect to the Oracle Goldengate in plain text. */
+  password?: string | Redacted.Redacted<string> | undefined;
+  /** Optional. The username credential. */
+  username?: string | undefined;
+  /** Optional. The technology type. */
+  technologyType?: string | undefined;
+}
+/** Represents a Kafka bootstrap server with host name, optional port defaults to 9092, and an optional private ip. */
+export interface KafkaBootstrapServer {
+  /** Optional. The port of an endpoint usually specified for a connection. */
+  port?: number | undefined;
+  /** Optional. The private IP address of the connection's endpoint in the customer's VCN, typically a database endpoint or a big data endpoint (e.g. Kafka bootstrap server). In case the privateIp is provided, the subnetId must also be provided. In case the privateIp (and the subnetId) is not provided it is assumed the datasource is publicly accessible. In case the connection is accessible only privately, the lack of privateIp will result in not being able to access the connection. */
+  privateIpAddress?: string | undefined;
+  /** Required. The name or address of a host. */
+  host?: string | undefined;
+}
+export type KafkaBootstrapServerList = Array<KafkaBootstrapServer>;
+export type GoldengateKafkaConnectionPropertiesSecurityProtocolEnum =
+  | "KAFKA_SECURITY_PROTOCOL_UNSPECIFIED"
+  | "SSL"
+  | "SASL_SSL"
+  | "PLAINTEXT"
+  | "SASL_PLAINTEXT";
+/** The properties of GoldengateKafkaConnection. */
+export interface GoldengateKafkaConnectionProperties {
+  /** Optional. Input only. The KeyStore password in plain text. */
+  keyStorePassword?: string | Redacted.Redacted<string> | undefined;
+  /** Optional. Specifies that the user intends to authenticate to the instance using a resource principal. Applicable only for OCI Streaming connections. */
+  useResourcePrincipal?: boolean | undefined;
+  /** Optional. Input only. The resource name of a secret version in Secret Manager which contains the KeyStore password. Format: projects/{project}/secrets/{secret}/versions/{version}. */
+  keyStorePasswordSecretVersion?: string | undefined;
+  /** Optional. Input only. The TrustStore password in plain text. */
+  trustStorePassword?: string | Redacted.Redacted<string> | undefined;
+  /** Optional. The username Oracle Goldengate uses to connect the associated system of the given technology. */
+  username?: string | undefined;
+  /** Optional. The OCID of the stream pool being referenced. */
+  streamPoolId?: string | undefined;
+  /** Optional. Kafka bootstrap. Equivalent of bootstrap.servers configuration property in Kafka: list of KafkaBootstrapServer objects specified by host/port. Used for establishing the initial connection to the Kafka cluster. Example: "server1.example.com:9092,server2.example.com:9092" */
+  bootstrapServers?: KafkaBootstrapServerList | undefined;
+  /** Optional. Input only. The password for Kafka basic/SASL auth in plain text. */
+  password?: string | Redacted.Redacted<string> | undefined;
+  /** Optional. The base64 encoded content of the TrustStore file. */
+  trustStoreFile?: string | undefined;
+  /** Optional. The technology type of KafkaConnection. */
+  technologyType?: string | undefined;
+  /** Optional. The base64 encoded content of the KeyStore file. */
+  keyStoreFile?: string | undefined;
+  /** Optional. The base64 encoded content of the producer.properties file. */
+  producerPropertiesFile?: string | undefined;
+  /** Optional. The OCID of the Kafka cluster being referenced from OCI Streaming with Apache Kafka. */
+  clusterId?: string | undefined;
+  /** Optional. Security Type for Kafka. */
+  securityProtocol?:
+    | GoldengateKafkaConnectionPropertiesSecurityProtocolEnum
+    | (string & {})
+    | undefined;
+  /** Optional. Input only. The resource name of a secret version in Secret Manager which contains the password for the cert inside of the KeyStore. Format: projects/{project}/secrets/{secret}/versions/{version}. */
+  sslKeyPasswordSecretVersion?: string | undefined;
+  /** Optional. Input only. The resource name of a secret version in Secret Manager which contains the password for Kafka basic/SASL auth. Format: projects/{project}/secrets/{secret}/versions/{version}. */
+  passwordSecretVersion?: string | undefined;
+  /** Optional. The base64 encoded content of the consumer.properties file. */
+  consumerPropertiesFile?: string | undefined;
+  /** Optional. Input only. The password for the cert inside of the KeyStore in plain text. */
+  sslKeyPassword?: string | Redacted.Redacted<string> | undefined;
+  /** Optional. Input only. The resource name of a secret version in Secret Manager which contains the TrustStore password. Format: projects/{project}/secrets/{secret}/versions/{version}. */
+  trustStorePasswordSecretVersion?: string | undefined;
+}
+/** The properties of GoldengateOciObjectStorageConnection. */
+export interface GoldengateOciObjectStorageConnectionProperties {
+  /** Optional. The passphrase of the private key. */
+  privateKeyPassphraseSecret?: string | Redacted.Redacted<string> | undefined;
+  /** Optional. Specifies that the user intends to authenticate to the instance using a resource principal. */
+  useResourcePrincipal?: boolean | undefined;
+  /** Optional. The name of the region of OCI Object Storage. e.g.: us-ashburn-1 If the region is not provided, backend will default to the default region. */
+  region?: string | undefined;
+  /** Optional. The OCID of the OCI user who will access the Object Storage. The user must have write access to the bucket they want to connect to. */
+  userId?: string | undefined;
+  /** Optional. The technology type of OciObjectStorageConnection. */
+  technologyType?: string | undefined;
+  /** Optional. The content of the private key file (PEM file) corresponding to the API key of the fingerprint. */
+  privateKeyFile?: string | undefined;
+  /** Optional. The OCID of the related OCI tenancy. */
+  tenancyId?: string | undefined;
+  /** Optional. The fingerprint of the API Key of the user specified by the userId. */
+  publicKeyFingerprint?: string | undefined;
+}
+export type GoldengateConnectionPropertiesRoutingMethodEnum =
+  | "GOLDENGATE_CONNECTION_ROUTING_METHOD_UNSPECIFIED"
+  | "SHARED_DEPLOYMENT_ENDPOINT"
+  | "DEDICATED_ENDPOINT";
+/** The properties of GoldengateOracleNosqlConnection. */
+export interface GoldengateOracleNosqlConnectionProperties {
+  /** Optional. The OCID of the OCI user who will access the Oracle NoSQL database. */
+  userId?: string | undefined;
+  /** Optional. The technology type of OracleNosqlConnection. */
+  technologyType?: string | undefined;
+  /** Optional. The content of the private key file (PEM file) corresponding to the API key of the fingerprint. */
+  privateKeyFile?: string | undefined;
+  /** Optional. Specifies that the user intends to authenticate to the instance using a resource principal. */
+  useResourcePrincipal?: boolean | undefined;
+  /** Optional. The name of the region. e.g.: us-ashburn-1 */
+  region?: string | undefined;
+  /** Optional. The passphrase of the private key. */
+  privateKeyPassphraseSecret?: string | Redacted.Redacted<string> | undefined;
+  /** Optional. The OCID of the OCI tenancy. */
+  tenancyId?: string | undefined;
+  /** Optional. The fingerprint of the API Key of the user specified by the userId. */
+  publicKeyFingerprint?: string | undefined;
+}
+export type GoldengateMysqlConnectionPropertiesSslModeEnum =
+  | "SSL_MODE_UNSPECIFIED"
+  | "DISABLED"
+  | "PREFERRED"
+  | "REQUIRED"
+  | "VERIFY_CA"
+  | "VERIFY_IDENTITY";
+export type GoldengateMysqlConnectionPropertiesSecurityProtocolEnum =
+  | "MYSQL_SECURITY_PROTOCOL_UNSPECIFIED"
+  | "PLAIN"
+  | "TLS"
+  | "MTLS";
+/** Properties of GoldengateMysqlConnection. */
+export interface GoldengateMysqlConnectionProperties {
+  /** Optional. An array of name-value pair attribute entries. Used as additional parameters in connection string. */
+  additionalAttributes?: NameValuePairList | undefined;
+  /** Optional. Client Key - The base64 encoded content of a .pem or .crt file containing the client private key (for 2-way SSL). */
+  sslKeyFile?: string | undefined;
+  /** Optional. Database Certificate - The base64 encoded content of a .pem or .crt file containing the server public key (for 1 and 2-way SSL). */
+  sslCaFile?: string | undefined;
+  /** Optional. SSL modes for MySQL. */
+  sslMode?: GoldengateMysqlConnectionPropertiesSslModeEnum | (string & {}) | undefined;
+  /** Optional. The technology type of MysqlConnection. */
+  technologyType?: string | undefined;
+  /** Optional. The name or address of a host. */
+  host?: string | undefined;
+  /** Optional. Security Type for MySQL. */
+  securityProtocol?:
+    | GoldengateMysqlConnectionPropertiesSecurityProtocolEnum
+    | (string & {})
+    | undefined;
+  /** Optional. Client Certificate - The base64 encoded content of a .pem or .crt file containing the client public key (for 2-way SSL). */
+  sslCertFile?: string | undefined;
+  /** Optional. Input only. The password Oracle Goldengate uses to connect to MySQL in plain text. */
+  password?: string | Redacted.Redacted<string> | undefined;
+  /** Optional. The port of an endpoint usually specified for a connection. */
+  port?: number | undefined;
+  /** Optional. Input only. The resource name of a secret version in Secret Manager which contains the password Oracle Goldengate uses to connect to MySQL. Format: projects/{project}/secrets/{secret}/versions/{version}. */
+  passwordSecretVersion?: string | undefined;
+  /** Optional. The username Oracle Goldengate uses to connect the associated system of the given technology. */
+  username?: string | undefined;
+  /** Optional. The base64 encoded list of certificates revoked by the trusted certificate authorities (Trusted CA). */
+  sslCrlFile?: string | undefined;
+  /** Optional. The name of the database. */
+  database?: string | undefined;
+  /** Optional. The OCID of the database system being referenced. */
+  dbSystemId?: string | undefined;
 }
 /** The properties of GoldengateAzureSynapseAnalyticsConnection. */
 export interface GoldengateAzureSynapseAnalyticsConnectionProperties {
-  /** Optional. Input only. The password Oracle Goldengate uses for Azure Synapse Analytics connection in plain text. */
-  password?: string | Redacted.Redacted<string> | undefined;
-  /** Optional. Input only. The resource name of a secret version in Secret Manager which contains the password Oracle Goldengate uses for Azure Synapse Analytics connection. Format: projects/{project}/secrets/{secret}/versions/{version}. */
-  passwordSecretVersion?: string | undefined;
-  /** Optional. The technology type of AzureSynapseAnalyticsConnection. */
-  technologyType?: string | undefined;
   /** Optional. JDBC connection string. e.g.: 'jdbc:sqlserver://.sql.azuresynapse.net:1433;database=;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.sql.azuresynapse.net;loginTimeout=300;' */
   connectionString?: string | Redacted.Redacted<string> | undefined;
+  /** Optional. Input only. The password Oracle Goldengate uses for Azure Synapse Analytics connection in plain text. */
+  password?: string | Redacted.Redacted<string> | undefined;
   /** Optional. The username Oracle Goldengate uses to connect the associated system of the given technology. */
   username?: string | undefined;
+  /** Optional. The technology type of AzureSynapseAnalyticsConnection. */
+  technologyType?: string | undefined;
+  /** Optional. Input only. The resource name of a secret version in Secret Manager which contains the password Oracle Goldengate uses for Azure Synapse Analytics connection. Format: projects/{project}/secrets/{secret}/versions/{version}. */
+  passwordSecretVersion?: string | undefined;
+}
+/** The properties of GoldengateGoogleCloudStorageConnectionProperties. */
+export interface GoldengateGoogleCloudStorageConnectionProperties {
+  /** Optional. The base64 encoded content of the service account key file containing the credentials required to use Google Cloud Storage. */
+  serviceAccountKeyFile?: string | undefined;
+  /** Optional. The technology type. */
+  technologyType?: string | undefined;
+}
+export type GoldengateKafkaSchemaRegistryConnectionPropertiesAuthenticationTypeEnum =
+  | "AUTHENTICATION_TYPE_UNSPECIFIED"
+  | "NONE"
+  | "BASIC"
+  | "MUTUAL";
+/** The properties of GoldengateKafkaSchemaRegistryConnection. */
+export interface GoldengateKafkaSchemaRegistryConnectionProperties {
+  /** Optional. Input only. The TrustStore password in plain text. */
+  trustStorePassword?: string | Redacted.Redacted<string> | undefined;
+  /** Optional. The username to access Schema Registry using basic authentication. This value is injected into 'schema.registry.basic.auth.user.info=user:password' configuration property. */
+  username?: string | undefined;
+  /** Optional. Input only. The resource name of a secret version in Secret Manager which contains the TrustStore password. Format: projects/{project}/secrets/{secret}/versions/{version}. */
+  trustStorePasswordSecretVersion?: string | undefined;
+  /** Optional. Input only. The resource name of a secret version in Secret Manager which contains the password for the cert inside the KeyStore. Format: projects/{project}/secrets/{secret}/versions/{version}. */
+  sslKeyPasswordSecretVersion?: string | undefined;
+  /** Optional. Input only. The KeyStore password in plain text. */
+  keyStorePassword?: string | Redacted.Redacted<string> | undefined;
+  /** Optional. Input only. The resource name of a secret version in Secret Manager which contains the KeyStore password. Format: projects/{project}/secrets/{secret}/versions/{version}. */
+  keyStorePasswordSecretVersion?: string | undefined;
+  /** Optional. Used authentication mechanism to access Schema Registry. */
+  authenticationType?:
+    | GoldengateKafkaSchemaRegistryConnectionPropertiesAuthenticationTypeEnum
+    | (string & {})
+    | undefined;
+  /** Optional. Input only. The password to access Schema Registry in plain text. */
+  password?: string | Redacted.Redacted<string> | undefined;
+  /** Optional. The base64 encoded content of the KeyStore file. */
+  keyStoreFile?: string | undefined;
+  /** Optional. Input only. The password for the cert inside the KeyStore in plain text. */
+  sslKeyPassword?: string | Redacted.Redacted<string> | undefined;
+  /** Optional. The technology type of KafkaSchemaRegistryConnection. */
+  technologyType?: string | undefined;
+  /** Optional. The base64 encoded content of the TrustStore file. */
+  trustStoreFile?: string | undefined;
+  /** Optional. Input only. The resource name of a secret version in Secret Manager which contains the password to access Schema Registry using basic authentication. Format: projects/{project}/secrets/{secret}/versions/{version}. */
+  passwordSecretVersion?: string | undefined;
+  /** Optional. Kafka Schema Registry URL. e.g.: 'https://server1.us.oracle.com:8081' */
+  url?: string | undefined;
+}
+/** The Polaris Iceberg catalog. */
+export interface PolarisIcebergCatalog {
+  /** Required. The Polaris client ID. */
+  clientId?: string | undefined;
+  /** Required. The Polaris principal role. */
+  principalRole?: string | undefined;
+  /** Required. The Polaris uri. */
+  uri?: string | undefined;
+  /** Optional. The Polaris client secret. */
+  clientSecret?: string | Redacted.Redacted<string> | undefined;
+  /** Required. The catalog name within Polaris. */
+  polarisCatalog?: string | undefined;
+}
+/** The Glue Iceberg catalog. */
+export interface GlueIcebergCatalog {
+  /** Required. The catalog ID of Glue. */
+  glueId?: string | undefined;
+}
+/** The Nessie Iceberg catalog. */
+export interface NessieIcebergCatalog {
+  /** Required. The Nessie branch. */
+  branch?: string | undefined;
+  /** Required. The Nessie uri. */
+  uri?: string | undefined;
+}
+/** The REST Iceberg catalog. */
+export interface RestIcebergCatalog {
+  /** Required. The REST uri. */
+  uri?: string | undefined;
+  /** Optional. The base64 encoded content of the configuration file containing additional properties for the REST catalog. */
+  properties?: string | undefined;
+}
+export type IcebergCatalogCatalogTypeEnum =
+  | "CATALOG_TYPE_UNSPECIFIED"
+  | "GLUE"
+  | "HADOOP"
+  | "NESSIE"
+  | "POLARIS"
+  | "REST";
+/** The Iceberg catalog details. */
+export interface IcebergCatalog {
+  /** The Polaris Iceberg catalog. */
+  polarisIcebergCatalog?: PolarisIcebergCatalog | undefined;
+  /** The Glue Iceberg catalog. */
+  glueIcebergCatalog?: GlueIcebergCatalog | undefined;
+  /** The Nessie Iceberg catalog. */
+  nessieIcebergCatalog?: NessieIcebergCatalog | undefined;
+  /** The REST Iceberg catalog. */
+  restIcebergCatalog?: RestIcebergCatalog | undefined;
+  /** Required. The type of Iceberg catalog. */
+  catalogType?: IcebergCatalogCatalogTypeEnum | (string & {}) | undefined;
+}
+/** The Google Cloud Storage Iceberg storage. */
+export interface GoogleCloudStorageIcebergStorage {
+  /** Required. The project ID of Google Cloud Storage. */
+  projectId?: string | undefined;
+  /** Required. The bucket of Google Cloud Storage. */
+  bucket?: string | undefined;
+  /** Optional. The base64 encoded content of the service account key file of Google Cloud Storage. */
+  serviceAccountKeyFile?: string | undefined;
+}
+/** The Azure Data Lake Storage Iceberg storage. */
+export interface AzureDataLakeStorageIcebergStorage {
+  /** Optional. The account key of Azure Data Lake Storage. */
+  accountKeySecret?: string | Redacted.Redacted<string> | undefined;
+  /** Required. The account of Azure Data Lake Storage. */
+  azureAccount?: string | undefined;
+  /** Optional. The endpoint of Azure Data Lake Storage. */
+  endpoint?: string | undefined;
+  /** Required. The container of Azure Data Lake Storage. */
+  container?: string | undefined;
+}
+export type IcebergStorageStorageTypeEnum =
+  | "STORAGE_TYPE_UNSPECIFIED"
+  | "AMAZON_S3"
+  | "GOOGLE_CLOUD_STORAGE"
+  | "AZURE_DATA_LAKE_STORAGE";
+export type AmazonS3IcebergStorageSchemeTypeEnum = "SCHEME_TYPE_UNSPECIFIED" | "S3" | "S3A";
+/** The Amazon S3 Iceberg storage. */
+export interface AmazonS3IcebergStorage {
+  /** Required. The bucket of Amazon S3. */
+  bucket?: string | undefined;
+  /** Optional. The endpoint of Amazon S3. */
+  endpoint?: string | undefined;
+  /** Optional. The secret access key of Amazon S3. */
+  secretAccessKeySecret?: string | Redacted.Redacted<string> | undefined;
+  /** Required. The access key ID of Amazon S3. */
+  accessKeyId?: string | Redacted.Redacted<string> | undefined;
+  /** Required. The region of Amazon S3. */
+  region?: string | undefined;
+  /** Required. The scheme type of Amazon S3. */
+  schemeType?: AmazonS3IcebergStorageSchemeTypeEnum | (string & {}) | undefined;
+}
+/** The Iceberg storage details. */
+export interface IcebergStorage {
+  /** The Google Cloud Storage Iceberg storage. */
+  googleCloudStorageIcebergStorage?: GoogleCloudStorageIcebergStorage | undefined;
+  /** The Azure Data Lake Storage Iceberg storage. */
+  azureDataLakeStorageIcebergStorage?: AzureDataLakeStorageIcebergStorage | undefined;
+  /** Required. The type of Iceberg storage. */
+  storageType?: IcebergStorageStorageTypeEnum | (string & {}) | undefined;
+  /** The Amazon S3 Iceberg storage. */
+  amazonS3IcebergStorage?: AmazonS3IcebergStorage | undefined;
+}
+/** The properties of GoldengateIcebergConnection. */
+export interface GoldengateIcebergConnectionProperties {
+  /** Required. The Iceberg catalog. */
+  catalog?: IcebergCatalog | undefined;
+  /** Required. The Iceberg storage. */
+  storage?: IcebergStorage | undefined;
+  /** Required. The technology type of Iceberg connection. */
+  technologyType?: string | undefined;
+}
+/** The properties of GoldengateAmazonS3Connection. */
+export interface GoldengateAmazonS3ConnectionProperties {
+  /** Optional. Access key ID to access the Amazon S3 bucket. */
+  accessKeyId?: string | Redacted.Redacted<string> | undefined;
+  /** Optional. The name of the AWS region where the bucket is created. */
+  region?: string | undefined;
+  /** Optional. Secret access key to access the Amazon S3 bucket. */
+  secretAccessKeySecret?: string | Redacted.Redacted<string> | undefined;
+  /** Optional. The technology type of AmazonS3Connection. */
+  technologyType?: string | undefined;
+  /** Optional. The Amazon Endpoint for S3. */
+  endpoint?: string | undefined;
 }
 export type GoldengateConnectionPropertiesConnectionTypeEnum =
   | "GOLDENGATE_CONNECTION_TYPE_UNSPECIFIED"
@@ -1930,182 +2342,107 @@ export type GoldengateConnectionPropertiesConnectionTypeEnum =
   | "GOOGLE_PUBSUB"
   | "MICROSOFT_FABRIC"
   | "ICEBERG";
-export type GoldengateKafkaSchemaRegistryConnectionPropertiesAuthenticationTypeEnum =
-  | "AUTHENTICATION_TYPE_UNSPECIFIED"
+export type GoldengateJavaMessageServiceConnectionPropertiesSecurityProtocolEnum =
+  | "JMS_SECURITY_PROTOCOL_UNSPECIFIED"
+  | "PLAIN"
+  | "TLS"
+  | "MTLS";
+export type GoldengateJavaMessageServiceConnectionPropertiesAuthenticationTypeEnum =
+  | "JMS_AUTHENTICATION_TYPE_UNSPECIFIED"
   | "NONE"
-  | "BASIC"
-  | "MUTUAL";
-/** The properties of GoldengateKafkaSchemaRegistryConnection. */
-export interface GoldengateKafkaSchemaRegistryConnectionProperties {
+  | "BASIC";
+/** The properties of GoldengateJavaMessageServiceConnection. */
+export interface GoldengateJavaMessageServiceConnectionProperties {
+  /** Optional. Input only. The resource name of a secret version in Secret Manager which contains the password Oracle Goldengate uses to connect the associated Java Message Service. Format: projects/{project}/secrets/{secret}/versions/{version}. */
+  passwordSecretVersion?: string | undefined;
+  /** Optional. Connection URL of the Java Message Service, specifying the protocol, host, and port. e.g.: 'mq://myjms.host.domain:7676' */
+  connectionUrl?: string | Redacted.Redacted<string> | undefined;
+  /** Optional. Input only. The password Oracle Goldengate uses to connect the Java Message Service in plain text. */
+  password?: string | Redacted.Redacted<string> | undefined;
   /** Optional. The base64 encoded content of the KeyStore file. */
   keyStoreFile?: string | undefined;
-  /** Optional. The username to access Schema Registry using basic authentication. This value is injected into 'schema.registry.basic.auth.user.info=user:password' configuration property. */
-  username?: string | undefined;
-  /** Optional. Input only. The TrustStore password in plain text. */
-  trustStorePassword?: string | Redacted.Redacted<string> | undefined;
-  /** Optional. Input only. The resource name of a secret version in Secret Manager which contains the TrustStore password. Format: projects/{project}/secrets/{secret}/versions/{version}. */
-  trustStorePasswordSecretVersion?: string | undefined;
-  /** Optional. Input only. The resource name of a secret version in Secret Manager which contains the password for the cert inside the KeyStore. Format: projects/{project}/secrets/{secret}/versions/{version}. */
-  sslKeyPasswordSecretVersion?: string | undefined;
+  /** Optional. Specifies the identity of the principal (user) to be authenticated. */
+  jndiSecurityPrincipal?: string | undefined;
   /** Optional. Input only. The KeyStore password in plain text. */
   keyStorePassword?: string | Redacted.Redacted<string> | undefined;
-  /** Optional. Input only. The password for the cert inside the KeyStore in plain text. */
-  sslKeyPassword?: string | Redacted.Redacted<string> | undefined;
-  /** Optional. Used authentication mechanism to access Schema Registry. */
-  authenticationType?:
-    | GoldengateKafkaSchemaRegistryConnectionPropertiesAuthenticationTypeEnum
+  /** Optional. The username Oracle Goldengate uses to connect to the Java Message Service. */
+  username?: string | undefined;
+  /** Optional. The Java class implementing javax.jms.ConnectionFactory interface supplied by the JMS provider. */
+  connectionFactory?: string | undefined;
+  /** Optional. Input only. The resource name of a secret version in Secret Manager which contains the password for the cert inside of the KeyStore. Format: projects/{project}/secrets/{secret}/versions/{version}. */
+  sslKeyPasswordSecretVersion?: string | undefined;
+  /** Optional. The implementation of javax.naming.spi.InitialContextFactory interface used to obtain initial naming context. */
+  jndiInitialContextFactory?: string | undefined;
+  /** Optional. Security protocol for Java Message Service. */
+  securityProtocol?:
+    | GoldengateJavaMessageServiceConnectionPropertiesSecurityProtocolEnum
     | (string & {})
     | undefined;
   /** Optional. The base64 encoded content of the TrustStore file. */
   trustStoreFile?: string | undefined;
-  /** Optional. Input only. The password to access Schema Registry in plain text. */
-  password?: string | Redacted.Redacted<string> | undefined;
+  /** Optional. The technology type of JavaMessageServiceConnection. */
+  technologyType?: string | undefined;
+  /** Optional. The Connection Factory can be looked up using this name. e.g.: 'ConnectionFactory' */
+  jndiConnectionFactory?: string | undefined;
+  /** Optional. Input only. The TrustStore password in plain text. */
+  trustStorePassword?: string | Redacted.Redacted<string> | undefined;
+  /** Optional. If set to true, Java Naming and Directory Interface (JNDI) properties should be provided. */
+  useJndi?: boolean | undefined;
+  /** Optional. Input only. The resource name of a secret version in Secret Manager which contains the TrustStore password. Format: projects/{project}/secrets/{secret}/versions/{version}. */
+  trustStorePasswordSecretVersion?: string | undefined;
+  /** Optional. The password associated to the principal. */
+  jndiSecurityCredentialsSecret?: string | Redacted.Redacted<string> | undefined;
+  /** Optional. The URL that Java Message Service will use to contact the JNDI provider. e.g.: 'tcp://myjms.host.domain:61616?jms.prefetchPolicy.all=1000' */
+  jndiProviderUrl?: string | undefined;
   /** Optional. Input only. The resource name of a secret version in Secret Manager which contains the KeyStore password. Format: projects/{project}/secrets/{secret}/versions/{version}. */
   keyStorePasswordSecretVersion?: string | undefined;
-  /** Optional. The technology type of KafkaSchemaRegistryConnection. */
+  /** Optional. Authentication type for Java Message Service. */
+  authenticationType?:
+    | GoldengateJavaMessageServiceConnectionPropertiesAuthenticationTypeEnum
+    | (string & {})
+    | undefined;
+  /** Optional. Input only. The password for the cert inside of the KeyStore in plain text. */
+  sslKeyPassword?: string | Redacted.Redacted<string> | undefined;
+}
+/** The properties of GoldengateAmazonKinesisConnection. */
+export interface GoldengateAmazonKinesisConnectionProperties {
+  /** Optional. The technology type of AmazonKinesisConnection. */
   technologyType?: string | undefined;
-  /** Optional. Kafka Schema Registry URL. e.g.: 'https://server1.us.oracle.com:8081' */
-  url?: string | undefined;
-  /** Optional. Input only. The resource name of a secret version in Secret Manager which contains the password to access Schema Registry using basic authentication. Format: projects/{project}/secrets/{secret}/versions/{version}. */
-  passwordSecretVersion?: string | undefined;
-}
-/** The Nessie Iceberg catalog. */
-export interface NessieIcebergCatalog {
-  /** Required. The Nessie branch. */
-  branch?: string | undefined;
-  /** Required. The Nessie uri. */
-  uri?: string | undefined;
-}
-/** The Glue Iceberg catalog. */
-export interface GlueIcebergCatalog {
-  /** Required. The catalog ID of Glue. */
-  glueId?: string | undefined;
-}
-export type IcebergCatalogCatalogTypeEnum =
-  | "CATALOG_TYPE_UNSPECIFIED"
-  | "GLUE"
-  | "HADOOP"
-  | "NESSIE"
-  | "POLARIS"
-  | "REST";
-/** The REST Iceberg catalog. */
-export interface RestIcebergCatalog {
-  /** Required. The REST uri. */
-  uri?: string | undefined;
-  /** Optional. The base64 encoded content of the configuration file containing additional properties for the REST catalog. */
-  properties?: string | undefined;
-}
-/** The Polaris Iceberg catalog. */
-export interface PolarisIcebergCatalog {
-  /** Optional. The Polaris client secret. */
-  clientSecret?: string | Redacted.Redacted<string> | undefined;
-  /** Required. The Polaris principal role. */
-  principalRole?: string | undefined;
-  /** Required. The Polaris client ID. */
-  clientId?: string | undefined;
-  /** Required. The catalog name within Polaris. */
-  polarisCatalog?: string | undefined;
-  /** Required. The Polaris uri. */
-  uri?: string | undefined;
-}
-/** The Iceberg catalog details. */
-export interface IcebergCatalog {
-  /** The Nessie Iceberg catalog. */
-  nessieIcebergCatalog?: NessieIcebergCatalog | undefined;
-  /** The Glue Iceberg catalog. */
-  glueIcebergCatalog?: GlueIcebergCatalog | undefined;
-  /** Required. The type of Iceberg catalog. */
-  catalogType?: IcebergCatalogCatalogTypeEnum | (string & {}) | undefined;
-  /** The REST Iceberg catalog. */
-  restIcebergCatalog?: RestIcebergCatalog | undefined;
-  /** The Polaris Iceberg catalog. */
-  polarisIcebergCatalog?: PolarisIcebergCatalog | undefined;
-}
-/** The Google Cloud Storage Iceberg storage. */
-export interface GoogleCloudStorageIcebergStorage {
-  /** Optional. The base64 encoded content of the service account key file of Google Cloud Storage. */
-  serviceAccountKeyFile?: string | undefined;
-  /** Required. The project ID of Google Cloud Storage. */
-  projectId?: string | undefined;
-  /** Required. The bucket of Google Cloud Storage. */
-  bucket?: string | undefined;
-}
-export type IcebergStorageStorageTypeEnum =
-  | "STORAGE_TYPE_UNSPECIFIED"
-  | "AMAZON_S3"
-  | "GOOGLE_CLOUD_STORAGE"
-  | "AZURE_DATA_LAKE_STORAGE";
-/** The Azure Data Lake Storage Iceberg storage. */
-export interface AzureDataLakeStorageIcebergStorage {
-  /** Required. The container of Azure Data Lake Storage. */
-  container?: string | undefined;
-  /** Optional. The endpoint of Azure Data Lake Storage. */
-  endpoint?: string | undefined;
-  /** Optional. The account key of Azure Data Lake Storage. */
-  accountKeySecret?: string | Redacted.Redacted<string> | undefined;
-  /** Required. The account of Azure Data Lake Storage. */
-  azureAccount?: string | undefined;
-}
-export type AmazonS3IcebergStorageSchemeTypeEnum = "SCHEME_TYPE_UNSPECIFIED" | "S3" | "S3A";
-/** The Amazon S3 Iceberg storage. */
-export interface AmazonS3IcebergStorage {
-  /** Required. The access key ID of Amazon S3. */
+  /** Optional. The name of the AWS region. If not provided, Goldengate will default to 'us-west-1'. */
+  awsRegion?: string | undefined;
+  /** Optional. Access key ID to access the Amazon Kinesis. */
   accessKeyId?: string | Redacted.Redacted<string> | undefined;
-  /** Optional. The secret access key of Amazon S3. */
-  secretAccessKeySecret?: string | Redacted.Redacted<string> | undefined;
-  /** Required. The bucket of Amazon S3. */
-  bucket?: string | undefined;
-  /** Optional. The endpoint of Amazon S3. */
+  /** Optional. The endpoint URL of the Amazon Kinesis service. e.g.: 'https://kinesis.us-east-1.amazonaws.com' If not provided, Goldengate will default to 'https://kinesis..amazonaws.com'. */
   endpoint?: string | undefined;
-  /** Required. The scheme type of Amazon S3. */
-  schemeType?: AmazonS3IcebergStorageSchemeTypeEnum | (string & {}) | undefined;
-  /** Required. The region of Amazon S3. */
+  /** Optional. Secret access key to access the Amazon Kinesis. */
+  secretAccessKeySecret?: string | Redacted.Redacted<string> | undefined;
+}
+/** The properties of GoldengateOracleAIDataPlatformConnection. */
+export interface GoldengateOracleAIDataPlatformConnectionProperties {
+  /** Optional. The content of the private key file (PEM file) corresponding to the API key of the fingerprint. */
+  privateKeyFile?: string | undefined;
+  /** Optional. The OCID of the OCI user who will access. */
+  userId?: string | undefined;
+  /** Optional. The name of the region. e.g.: us-ashburn-1 */
   region?: string | undefined;
-}
-/** The Iceberg storage details. */
-export interface IcebergStorage {
-  /** The Google Cloud Storage Iceberg storage. */
-  googleCloudStorageIcebergStorage?: GoogleCloudStorageIcebergStorage | undefined;
-  /** Required. The type of Iceberg storage. */
-  storageType?: IcebergStorageStorageTypeEnum | (string & {}) | undefined;
-  /** The Azure Data Lake Storage Iceberg storage. */
-  azureDataLakeStorageIcebergStorage?: AzureDataLakeStorageIcebergStorage | undefined;
-  /** The Amazon S3 Iceberg storage. */
-  amazonS3IcebergStorage?: AmazonS3IcebergStorage | undefined;
-}
-/** The properties of GoldengateIcebergConnection. */
-export interface GoldengateIcebergConnectionProperties {
-  /** Required. The Iceberg catalog. */
-  catalog?: IcebergCatalog | undefined;
-  /** Required. The technology type of Iceberg connection. */
+  /** Optional. The fingerprint of the API Key of the user specified by the user_id. */
+  publicKeyFingerprint?: string | undefined;
+  /** Optional. The technology type of OracleAiDataPlatformConnection. */
   technologyType?: string | undefined;
-  /** Required. The Iceberg storage. */
-  storage?: IcebergStorage | undefined;
-}
-/** The properties of GoldengateGoogleBigQueryConnectionProperties. */
-export interface GoldengateGoogleBigQueryConnectionProperties {
-  /** Optional. The base64 encoded content of the service account key file containing the credentials required to use Google BigQuery. */
-  serviceAccountKeyFile?: string | undefined;
-  /** Optional. The technology type. */
-  technologyType?: string | undefined;
-}
-/** The properties of GoldengateOracleNosqlConnection. */
-export interface GoldengateOracleNosqlConnectionProperties {
   /** Optional. The passphrase of the private key. */
   privateKeyPassphraseSecret?: string | Redacted.Redacted<string> | undefined;
   /** Optional. Specifies that the user intends to authenticate to the instance using a resource principal. */
   useResourcePrincipal?: boolean | undefined;
-  /** Optional. The name of the region. e.g.: us-ashburn-1 */
-  region?: string | undefined;
-  /** Optional. The OCID of the OCI tenancy. */
+  /** Optional. Connection URL. It must start with 'jdbc:spark://' */
+  connectionUrl?: string | Redacted.Redacted<string> | undefined;
+  /** Optional. The OCID of the related OCI tenancy. */
   tenancyId?: string | undefined;
-  /** Optional. The content of the private key file (PEM file) corresponding to the API key of the fingerprint. */
-  privateKeyFile?: string | undefined;
-  /** Optional. The fingerprint of the API Key of the user specified by the userId. */
-  publicKeyFingerprint?: string | undefined;
-  /** Optional. The OCID of the OCI user who will access the Oracle NoSQL database. */
-  userId?: string | undefined;
-  /** Optional. The technology type of OracleNosqlConnection. */
+}
+/** The properties of GoldengateHdfsConnection. */
+export interface GoldengateHdfsConnectionProperties {
+  /** Optional. The content of the Hadoop Distributed File System configuration file (core-site.xml). */
+  coreSiteXml?: string | undefined;
+  /** Optional. The technology type of HdfsConnection. */
   technologyType?: string | undefined;
 }
 export type GoldengateMicrosoftSqlserverConnectionPropertiesSecurityProtocolEnum =
@@ -2114,505 +2451,252 @@ export type GoldengateMicrosoftSqlserverConnectionPropertiesSecurityProtocolEnum
   | "TLS";
 /** The properties of GoldengateMicrosoftSqlserverConnection. */
 export interface GoldengateMicrosoftSqlserverConnectionProperties {
-  /** Optional. The username Oracle Goldengate uses to connect to the Microsoft SQL Server. */
-  username?: string | undefined;
-  /** Optional. If set to true, the driver validates the certificate that is sent by the database server. */
-  serverCertificateValidationRequired?: boolean | undefined;
-  /** Optional. The port of an endpoint usually specified for a connection. */
-  port?: number | undefined;
-  /** Optional. The name of the database. */
-  database?: string | undefined;
   /** Optional. Database Certificate - The base64 encoded content of a .pem or .crt file containing the server public key (for 1-way SSL). */
   sslCaFile?: string | undefined;
-  /** Optional. Input only. The resource name of a secret version in Secret Manager which contains the password Oracle Goldengate uses for Microsoft SQL Server connection. Format: projects/{project}/secrets/{secret}/versions/{version}. */
-  passwordSecretVersion?: string | undefined;
   /** Optional. The technology type of MicrosoftSqlserverConnection. */
   technologyType?: string | undefined;
+  /** Optional. Input only. The password Oracle Goldengate uses for Microsoft SQL Server connection in plain text. */
+  password?: string | Redacted.Redacted<string> | undefined;
+  /** Optional. The name or address of a host. */
+  host?: string | undefined;
+  /** Optional. If set to true, the driver validates the certificate that is sent by the database server. */
+  serverCertificateValidationRequired?: boolean | undefined;
+  /** Optional. An array of name-value pair attribute entries. Used as additional parameters in connection string. */
+  additionalAttributes?: NameValuePairList | undefined;
+  /** Optional. The username Oracle Goldengate uses to connect to the Microsoft SQL Server. */
+  username?: string | undefined;
+  /** Optional. The port of an endpoint usually specified for a connection. */
+  port?: number | undefined;
   /** Optional. Security Type for Microsoft SQL Server. */
   securityProtocol?:
     | GoldengateMicrosoftSqlserverConnectionPropertiesSecurityProtocolEnum
     | (string & {})
     | undefined;
-  /** Optional. An array of name-value pair attribute entries. Used as additional parameters in connection string. */
-  additionalAttributes?: NameValuePairList | undefined;
-  /** Optional. Input only. The password Oracle Goldengate uses for Microsoft SQL Server connection in plain text. */
-  password?: string | Redacted.Redacted<string> | undefined;
-  /** Optional. The name or address of a host. */
-  host?: string | undefined;
-}
-/** Represents a Kafka bootstrap server with host name, optional port defaults to 9092, and an optional private ip. */
-export interface KafkaBootstrapServer {
-  /** Optional. The private IP address of the connection's endpoint in the customer's VCN, typically a database endpoint or a big data endpoint (e.g. Kafka bootstrap server). In case the privateIp is provided, the subnetId must also be provided. In case the privateIp (and the subnetId) is not provided it is assumed the datasource is publicly accessible. In case the connection is accessible only privately, the lack of privateIp will result in not being able to access the connection. */
-  privateIpAddress?: string | undefined;
-  /** Optional. The port of an endpoint usually specified for a connection. */
-  port?: number | undefined;
-  /** Required. The name or address of a host. */
-  host?: string | undefined;
-}
-export type KafkaBootstrapServerList = Array<KafkaBootstrapServer>;
-export type GoldengateKafkaConnectionPropertiesSecurityProtocolEnum =
-  | "KAFKA_SECURITY_PROTOCOL_UNSPECIFIED"
-  | "SSL"
-  | "SASL_SSL"
-  | "PLAINTEXT"
-  | "SASL_PLAINTEXT";
-/** The properties of GoldengateKafkaConnection. */
-export interface GoldengateKafkaConnectionProperties {
-  /** Optional. The OCID of the stream pool being referenced. */
-  streamPoolId?: string | undefined;
-  /** Optional. Input only. The resource name of a secret version in Secret Manager which contains the password for the cert inside of the KeyStore. Format: projects/{project}/secrets/{secret}/versions/{version}. */
-  sslKeyPasswordSecretVersion?: string | undefined;
-  /** Optional. The base64 encoded content of the consumer.properties file. */
-  consumerPropertiesFile?: string | undefined;
-  /** Optional. The base64 encoded content of the producer.properties file. */
-  producerPropertiesFile?: string | undefined;
-  /** Optional. Input only. The password for Kafka basic/SASL auth in plain text. */
-  password?: string | Redacted.Redacted<string> | undefined;
-  /** Optional. Kafka bootstrap. Equivalent of bootstrap.servers configuration property in Kafka: list of KafkaBootstrapServer objects specified by host/port. Used for establishing the initial connection to the Kafka cluster. Example: "server1.example.com:9092,server2.example.com:9092" */
-  bootstrapServers?: KafkaBootstrapServerList | undefined;
-  /** Optional. The username Oracle Goldengate uses to connect the associated system of the given technology. */
-  username?: string | undefined;
-  /** Optional. Specifies that the user intends to authenticate to the instance using a resource principal. Applicable only for OCI Streaming connections. */
-  useResourcePrincipal?: boolean | undefined;
-  /** Optional. Input only. The KeyStore password in plain text. */
-  keyStorePassword?: string | Redacted.Redacted<string> | undefined;
-  /** Optional. The OCID of the Kafka cluster being referenced from OCI Streaming with Apache Kafka. */
-  clusterId?: string | undefined;
-  /** Optional. The technology type of KafkaConnection. */
-  technologyType?: string | undefined;
-  /** Optional. Input only. The resource name of a secret version in Secret Manager which contains the password for Kafka basic/SASL auth. Format: projects/{project}/secrets/{secret}/versions/{version}. */
+  /** Optional. Input only. The resource name of a secret version in Secret Manager which contains the password Oracle Goldengate uses for Microsoft SQL Server connection. Format: projects/{project}/secrets/{secret}/versions/{version}. */
   passwordSecretVersion?: string | undefined;
-  /** Optional. Input only. The resource name of a secret version in Secret Manager which contains the KeyStore password. Format: projects/{project}/secrets/{secret}/versions/{version}. */
-  keyStorePasswordSecretVersion?: string | undefined;
-  /** Optional. The base64 encoded content of the KeyStore file. */
-  keyStoreFile?: string | undefined;
-  /** Optional. Input only. The resource name of a secret version in Secret Manager which contains the TrustStore password. Format: projects/{project}/secrets/{secret}/versions/{version}. */
-  trustStorePasswordSecretVersion?: string | undefined;
-  /** Optional. Input only. The password for the cert inside of the KeyStore in plain text. */
-  sslKeyPassword?: string | Redacted.Redacted<string> | undefined;
-  /** Optional. The base64 encoded content of the TrustStore file. */
-  trustStoreFile?: string | undefined;
-  /** Optional. Input only. The TrustStore password in plain text. */
-  trustStorePassword?: string | Redacted.Redacted<string> | undefined;
-  /** Optional. Security Type for Kafka. */
-  securityProtocol?:
-    | GoldengateKafkaConnectionPropertiesSecurityProtocolEnum
-    | (string & {})
-    | undefined;
-}
-/** The properties of GoldengateGooglePubsubConnection. */
-export interface GoldengateGooglePubsubConnectionProperties {
-  /** Optional. The base64 encoded content of the service account key file containing the credentials required to use Google Pub/Sub. */
-  serviceAccountKeyFile?: string | undefined;
-  /** Optional. The technology type of GooglePubsubConnection. */
-  technologyType?: string | undefined;
-}
-export type GoldengateRedisConnectionPropertiesAuthenticationTypeEnum =
-  | "REDIS_AUTHENTICATION_TYPE_UNSPECIFIED"
-  | "NONE"
-  | "BASIC";
-export type GoldengateRedisConnectionPropertiesSecurityProtocolEnum =
-  | "REDIS_SECURITY_PROTOCOL_UNSPECIFIED"
-  | "PLAIN"
-  | "TLS"
-  | "MTLS";
-/** The properties of GoldengateRedisConnection. */
-export interface GoldengateRedisConnectionProperties {
-  /** Optional. Authentication type for Redis. */
-  authenticationType?:
-    | GoldengateRedisConnectionPropertiesAuthenticationTypeEnum
-    | (string & {})
-    | undefined;
-  /** Optional. The technology type of RedisConnection. */
-  technologyType?: string | undefined;
-  /** Optional. Input only. The resource name of a secret version in Secret Manager which contains the TrustStore password. Format: projects/{project}/secrets/{secret}/versions/{version}. */
-  trustStorePasswordSecretVersion?: string | undefined;
-  /** Optional. The OCID of the Redis cluster. */
-  redisClusterId?: string | undefined;
-  /** Optional. Security protocol for Redis. */
-  securityProtocol?:
-    | GoldengateRedisConnectionPropertiesSecurityProtocolEnum
-    | (string & {})
-    | undefined;
-  /** Optional. The base64 encoded content of the KeyStore file. */
-  keyStoreFile?: string | undefined;
-  /** Optional. Input only. The TrustStore password in plain text. */
-  trustStorePassword?: string | Redacted.Redacted<string> | undefined;
-  /** Optional. Comma separated list of Redis server addresses, specified as host:port entries, where :port is optional. If port is not specified, it defaults to 6379. Example: "server1.example.com:6379,server2.example.com:6379" */
-  servers?: string | undefined;
-  /** Optional. Input only. The resource name of a secret version in Secret Manager which contains the password Oracle Goldengate uses for Redis connection. Format: projects/{project}/secrets/{secret}/versions/{version}. */
-  passwordSecretVersion?: string | undefined;
-  /** Optional. Input only. The KeyStore password in plain text. */
-  keyStorePassword?: string | Redacted.Redacted<string> | undefined;
-  /** Optional. Input only. The password Oracle Goldengate uses for Redis connection in plain text. */
-  password?: string | Redacted.Redacted<string> | undefined;
-  /** Optional. Input only. The resource name of a secret version in Secret Manager which contains the KeyStore password. Format: projects/{project}/secrets/{secret}/versions/{version}. */
-  keyStorePasswordSecretVersion?: string | undefined;
-  /** Optional. The base64 encoded content of the TrustStore file. */
-  trustStoreFile?: string | undefined;
-  /** Optional. The username Oracle Goldengate uses to connect the associated system of the given technology. */
-  username?: string | undefined;
-}
-export type GoldengateOracleConnectionPropertiesAuthenticationModeEnum =
-  | "ORACLE_AUTHENTICATION_MODE_UNSPECIFIED"
-  | "TLS"
-  | "MTLS";
-export type GoldengateOracleConnectionPropertiesSessionModeEnum =
-  | "SESSION_MODE_UNSPECIFIED"
-  | "DIRECT"
-  | "REDIRECT";
-/** The properties of Goldengate Oracle Database Connection. */
-export interface GoldengateOracleConnectionProperties {
-  /** Optional. Connect descriptor or Easy Connect Naming method used to connect to a database. */
-  connectionString?: string | Redacted.Redacted<string> | undefined;
-  /** Optional. The technology type. */
-  technologyType?: string | undefined;
-  /** Optional. Authentication mode. */
-  authenticationMode?:
-    | GoldengateOracleConnectionPropertiesAuthenticationModeEnum
-    | (string & {})
-    | undefined;
-  /** Optional. Input only. The password Oracle Goldengate uses in plain text. */
-  password?: string | Redacted.Redacted<string> | undefined;
-  /** Optional. The mode of the database connection session to be established by the data client. */
-  sessionMode?: GoldengateOracleConnectionPropertiesSessionModeEnum | (string & {}) | undefined;
-  /** Optional. The wallet contents Oracle Goldengate uses to make connections to a database. This attribute is expected to be base64 encoded. */
-  walletFile?: string | undefined;
-  /** Optional. The username Oracle Goldengate uses to connect. */
-  username?: string | undefined;
-  /** Optional. Autonomous AI Database instance id of database in Oracle Database @ Google Cloud. If gcp_oracle_database_id is provided, connection_string must be empty. Format: projects/{project}/locations/{location}/autonomousDatabases/{autonomous_database} */
-  gcpOracleDatabaseId?: string | undefined;
-  /** Optional. Input only. The resource name of a secret version in Secret Manager which contains the password Oracle Goldengate uses. Format: projects/{project}/secrets/{secret}/versions/{version}. */
-  passwordSecretVersion?: string | undefined;
-}
-export type GoldengateDb2ConnectionPropertiesSecurityProtocolEnum =
-  | "DB2_SECURITY_PROTOCOL_UNSPECIFIED"
-  | "PLAIN"
-  | "TLS";
-/** The properties of GoldengateDb2Connection. */
-export interface GoldengateDb2ConnectionProperties {
-  /** Optional. The file which contains the self-signed server certificate / Certificate Authority (CA) certificate. */
-  sslServerCertificateFile?: string | undefined;
-  /** Optional. An array of name-value pair attribute entries. Used as additional parameters in connection string. */
-  additionalAttributes?: NameValuePairList | undefined;
-  /** Optional. Input only. The password Oracle Goldengate uses for Db2 connection in plain text. */
-  password?: string | Redacted.Redacted<string> | undefined;
   /** Optional. The name of the database. */
   database?: string | undefined;
-  /** Optional. Input only. The resource name of a secret version in Secret Manager which contains the password Oracle Goldengate uses for Db2 connection. Format: projects/{project}/secrets/{secret}/versions/{version}. */
-  passwordSecretVersion?: string | undefined;
-  /** Optional. The keystash file which contains the encrypted password to the key database file. Not supported for IBM Db2 for i. */
-  sslClientKeystashFile?: string | undefined;
-  /** Optional. The technology type of Db2Connection. */
-  technologyType?: string | undefined;
-  /** Optional. The name or address of a host. */
-  host?: string | undefined;
-  /** Optional. Security protocol for the DB2 database. */
-  securityProtocol?:
-    | GoldengateDb2ConnectionPropertiesSecurityProtocolEnum
-    | (string & {})
-    | undefined;
-  /** Optional. The username Oracle Goldengate uses to connect to the DB2 database. */
-  username?: string | undefined;
-  /** Optional. The port of an endpoint usually specified for a connection. */
-  port?: number | undefined;
-  /** Optional. The keystore file created at the client containing the server certificate / CA root certificate. Not supported for IBM Db2 for i. */
-  sslClientKeystoredbFile?: string | undefined;
-}
-export type GoldengateAzureDataLakeStorageConnectionPropertiesAuthenticationTypeEnum =
-  | "AUTHENTICATION_TYPE_UNSPECIFIED"
-  | "SHARED_KEY"
-  | "SHARED_ACCESS_SIGNATURE"
-  | "AZURE_ACTIVE_DIRECTORY";
-/** The properties of GoldengateAzureDataLakeStorageConnection. */
-export interface GoldengateAzureDataLakeStorageConnectionProperties {
-  /** Optional. Azure storage account key. This property is required when 'authentication_type' is set to 'SHARED_KEY'. */
-  accountKeySecret?: string | Redacted.Redacted<string> | undefined;
-  /** Optional. The endpoint used for authentication with Microsoft Entra ID (formerly Azure Active Directory). Default value: https://login.microsoftonline.com */
-  azureAuthorityHost?: string | undefined;
-  /** Optional. Azure tenant ID of the application. This property is required when 'authentication_type' is set to 'AZURE_ACTIVE_DIRECTORY'. */
-  azureTenantId?: string | undefined;
-  /** Optional. Sets the Azure storage account name. */
-  account?: string | undefined;
-  /** Optional. Azure client secret (aka application password) for authentication. */
-  clientSecret?: string | Redacted.Redacted<string> | undefined;
-  /** Optional. The technology type of AzureDataLakeStorageConnection. */
-  technologyType?: string | undefined;
-  /** Optional. Azure client ID of the application. This property is required when 'authentication_type' is set to 'AZURE_ACTIVE_DIRECTORY'. */
-  clientId?: string | undefined;
-  /** Optional. Credential that uses a shared access signature (SAS) to authenticate to an Azure Service. */
-  sasTokenSecret?: string | Redacted.Redacted<string> | undefined;
-  /** Optional. Azure Storage service endpoint. e.g: https://test.blob.core.windows.net */
-  endpoint?: string | undefined;
-  /** Optional. Authentication mechanism to access Azure Data Lake Storage. */
-  authenticationType?:
-    | GoldengateAzureDataLakeStorageConnectionPropertiesAuthenticationTypeEnum
-    | (string & {})
-    | undefined;
-}
-/** The properties of GoldengateMicrosoftFabricConnection. */
-export interface GoldengateMicrosoftFabricConnectionProperties {
-  /** Optional. Azure client ID of the application. */
-  clientId?: string | undefined;
-  /** Optional. Azure tenant ID of the application. */
-  tenantId?: string | undefined;
-  /** Optional. Client secret associated with the client id. */
-  clientSecret?: string | Redacted.Redacted<string> | undefined;
-  /** Optional. Optional Microsoft Fabric service endpoint. Default value: https://onelake.dfs.fabric.microsoft.com */
-  endpoint?: string | undefined;
-  /** Optional. The technology type of MicrosoftFabricConnection. */
-  technologyType?: string | undefined;
-}
-/** The properties of GoldengateGoogleCloudStorageConnectionProperties. */
-export interface GoldengateGoogleCloudStorageConnectionProperties {
-  /** Optional. The base64 encoded content of the service account key file containing the credentials required to use Google Cloud Storage. */
-  serviceAccountKeyFile?: string | undefined;
-  /** Optional. The technology type. */
-  technologyType?: string | undefined;
-}
-/** The properties of GoldengateGenericConnectionProperties. */
-export interface GoldengateGenericConnectionProperties {
-  /** Optional. The technology type. */
-  technologyType?: string | undefined;
-  /** Optional. The host of the GenericConnection. */
-  host?: string | undefined;
-}
-/** The properties of GoldengateOciObjectStorageConnection. */
-export interface GoldengateOciObjectStorageConnectionProperties {
-  /** Optional. The OCID of the related OCI tenancy. */
-  tenancyId?: string | undefined;
-  /** Optional. The passphrase of the private key. */
-  privateKeyPassphraseSecret?: string | Redacted.Redacted<string> | undefined;
-  /** Optional. The OCID of the OCI user who will access the Object Storage. The user must have write access to the bucket they want to connect to. */
-  userId?: string | undefined;
-  /** Optional. The fingerprint of the API Key of the user specified by the userId. */
-  publicKeyFingerprint?: string | undefined;
-  /** Optional. The content of the private key file (PEM file) corresponding to the API key of the fingerprint. */
-  privateKeyFile?: string | undefined;
-  /** Optional. The name of the region of OCI Object Storage. e.g.: us-ashburn-1 If the region is not provided, backend will default to the default region. */
-  region?: string | undefined;
-  /** Optional. Specifies that the user intends to authenticate to the instance using a resource principal. */
-  useResourcePrincipal?: boolean | undefined;
-  /** Optional. The technology type of OciObjectStorageConnection. */
-  technologyType?: string | undefined;
-}
-/** The properties of GoldengateOracleAIDataPlatformConnection. */
-export interface GoldengateOracleAIDataPlatformConnectionProperties {
-  /** Optional. Specifies that the user intends to authenticate to the instance using a resource principal. */
-  useResourcePrincipal?: boolean | undefined;
-  /** Optional. The OCID of the related OCI tenancy. */
-  tenancyId?: string | undefined;
-  /** Optional. The technology type of OracleAiDataPlatformConnection. */
-  technologyType?: string | undefined;
-  /** Optional. The passphrase of the private key. */
-  privateKeyPassphraseSecret?: string | Redacted.Redacted<string> | undefined;
-  /** Optional. The fingerprint of the API Key of the user specified by the user_id. */
-  publicKeyFingerprint?: string | undefined;
-  /** Optional. Connection URL. It must start with 'jdbc:spark://' */
-  connectionUrl?: string | Redacted.Redacted<string> | undefined;
-  /** Optional. The content of the private key file (PEM file) corresponding to the API key of the fingerprint. */
-  privateKeyFile?: string | undefined;
-  /** Optional. The OCID of the OCI user who will access. */
-  userId?: string | undefined;
-  /** Optional. The name of the region. e.g.: us-ashburn-1 */
-  region?: string | undefined;
-}
-export type GoldengatePostgresqlConnectionPropertiesSecurityProtocolEnum =
-  | "POSTGRESQL_SECURITY_PROTOCOL_UNSPECIFIED"
-  | "PLAIN"
-  | "TLS"
-  | "MTLS";
-export type GoldengatePostgresqlConnectionPropertiesSslModeEnum =
-  | "POSTGRESQL_SSL_MODE_UNSPECIFIED"
-  | "PREFER"
-  | "REQUIRE"
-  | "VERIFY_CA"
-  | "VERIFY_FULL";
-/** The properties of GoldengatePostgresqlConnection. */
-export interface GoldengatePostgresqlConnectionProperties {
-  /** Optional. Input only. The resource name of a secret version in Secret Manager which contains the password Oracle Goldengate uses for PostgreSQL connection. Format: projects/{project}/secrets/{secret}/versions/{version}. */
-  passwordSecretVersion?: string | undefined;
-  /** Optional. The OCID of the database system being referenced. */
-  dbSystemId?: string | undefined;
-  /** Optional. An array of name-value pair attribute entries. Used as additional parameters in connection string. */
-  additionalAttributes?: NameValuePairList | undefined;
-  /** Optional. The technology type of PostgresqlConnection. */
-  technologyType?: string | undefined;
-  /** Optional. The name of the database. */
-  database?: string | undefined;
-  /** Optional. Security protocol for PostgreSQL. */
-  securityProtocol?:
-    | GoldengatePostgresqlConnectionPropertiesSecurityProtocolEnum
-    | (string & {})
-    | undefined;
-  /** Optional. The base64 encoded private key of the PostgreSQL server. */
-  sslKeyFile?: string | undefined;
-  /** Optional. SSL modes for PostgreSQL. */
-  sslMode?: GoldengatePostgresqlConnectionPropertiesSslModeEnum | (string & {}) | undefined;
-  /** Optional. The base64 encoded list of certificates revoked by the trusted certificate authorities (Trusted CA). */
-  sslCrlFile?: string | undefined;
-  /** Optional. The port of an endpoint usually specified for a connection. */
-  port?: number | undefined;
-  /** Optional. The username Oracle Goldengate uses to connect the associated system of the given technology. */
-  username?: string | undefined;
-  /** Optional. The base64 encoded certificate of the trusted certificate authorities (Trusted CA) for PostgreSQL. */
-  sslCaFile?: string | undefined;
-  /** Optional. The base64 encoded certificate of the PostgreSQL server. */
-  sslCertFile?: string | undefined;
-  /** Optional. The name or address of a host. */
-  host?: string | undefined;
-  /** Optional. Input only. The password Oracle Goldengate uses for PostgreSQL connection in plain text. */
-  password?: string | Redacted.Redacted<string> | undefined;
-}
-/** The properties of GoldengateAmazonRedshiftConnection. */
-export interface GoldengateAmazonRedshiftConnectionProperties {
-  /** Optional. Input only. The password Oracle Goldengate uses for Amazon Redshift connection in plain text. */
-  password?: string | Redacted.Redacted<string> | undefined;
-  /** Optional. The technology type of AmazonRedshiftConnection. */
-  technologyType?: string | undefined;
-  /** Optional. Input only. The resource name of a secret version in Secret Manager which contains the password Oracle Goldengate uses for Amazon Redshift connection. Format: projects/{project}/secrets/{secret}/versions/{version}. */
-  passwordSecretVersion?: string | undefined;
-  /** Optional. Connection URL. e.g.: 'jdbc:redshift://aws-redshift-instance.aaaaaaaaaaaa.us-east-2.redshift.amazonaws.com:5439/mydb' */
-  connectionUrl?: string | Redacted.Redacted<string> | undefined;
-  /** Optional. The username Oracle Goldengate uses to connect the associated system of the given technology. */
-  username?: string | undefined;
 }
 /** The properties of a GoldengateConnection. */
 export interface GoldengateConnectionProperties {
-  /** Properties for an Elasticsearch connection. */
-  elasticsearchConnectionProperties?: GoldengateElasticsearchConnectionProperties | undefined;
-  /** Properties for an Amazon Kinesis connection. */
-  amazonKinesisConnectionProperties?: GoldengateAmazonKinesisConnectionProperties | undefined;
-  /** Properties for a Mysql Connection. */
-  mysqlConnectionProperties?: GoldengateMysqlConnectionProperties | undefined;
-  /** Properties for a Java Message Service connection. */
-  javaMessageServiceConnectionProperties?:
-    | GoldengateJavaMessageServiceConnectionProperties
-    | undefined;
-  /** Properties for a Goldengate Connection. */
-  goldengateConnectionProperties?: GoldengateGoldengateConnectionProperties | undefined;
-  /** Properties for an Amazon S3 connection. */
-  amazonS3ConnectionProperties?: GoldengateAmazonS3ConnectionProperties | undefined;
-  /** Optional. The routing method for the GoldengateConnection. */
-  routingMethod?: GoldengateConnectionPropertiesRoutingMethodEnum | (string & {}) | undefined;
-  /** Output only. The lifecycle state of the connection. */
-  lifecycleState?: GoldengateConnectionPropertiesLifecycleStateEnum | (string & {}) | undefined;
-  /** Properties for a MongoDB connection. */
-  mongodbConnectionProperties?: GoldengateMongodbConnectionProperties | undefined;
-  /** Properties for a Snowflake connection. */
-  snowflakeConnectionProperties?: GoldengateSnowflakeConnectionProperties | undefined;
-  /** Properties for a Databricks connection. */
-  databricksConnectionProperties?: GoldengateDatabricksConnectionProperties | undefined;
-  /** Output only. The Ingress IPs of the GoldengateConnection. */
-  ingressIpAddresses?: StringList | undefined;
-  /** Properties for an HDFS connection. */
-  hdfsConnectionProperties?: GoldengateHdfsConnectionProperties | undefined;
-  /** Properties for an Azure Synapse Analytics connection. */
-  azureSynapseAnalyticsConnectionProperties?:
-    | GoldengateAzureSynapseAnalyticsConnectionProperties
-    | undefined;
-  /** Required. The connection type. */
-  connectionType?: GoldengateConnectionPropertiesConnectionTypeEnum | (string & {}) | undefined;
-  /** Properties for a Kafka Schema Registry Connection. */
-  kafkaSchemaRegistryConnectionProperties?:
-    | GoldengateKafkaSchemaRegistryConnectionProperties
-    | undefined;
-  /** Properties for an Iceberg connection. */
-  icebergConnectionProperties?: GoldengateIcebergConnectionProperties | undefined;
-  /** Properties for a Google BigQuery Connection. */
-  googleBigQueryConnectionProperties?: GoldengateGoogleBigQueryConnectionProperties | undefined;
-  /** Properties for an Oracle NoSQL connection. */
-  oracleNosqlConnectionProperties?: GoldengateOracleNosqlConnectionProperties | undefined;
-  /** Properties for a Microsoft SQL Server connection. */
-  microsoftSqlserverConnectionProperties?:
-    | GoldengateMicrosoftSqlserverConnectionProperties
-    | undefined;
-  /** Output only. Describes the object's current state in detail. For example, it can be used to provide actionable information for a resource in a Failed state. */
-  lifecycleDetails?: string | undefined;
-  /** Properties for a Kafka Connection. */
-  kafkaConnectionProperties?: GoldengateKafkaConnectionProperties | undefined;
-  /** Properties for a Google Pub/Sub connection. */
-  googlePubsubConnectionProperties?: GoldengateGooglePubsubConnectionProperties | undefined;
-  /** Optional. Metadata about this specific object. */
-  description?: string | undefined;
-  /** Properties for a Redis connection. */
-  redisConnectionProperties?: GoldengateRedisConnectionProperties | undefined;
-  /** Output only. The [OCID] of the connection being referenced. */
-  ocid?: string | undefined;
   /** Properties for an Oracle Database Connection. */
   oracleConnectionProperties?: GoldengateOracleConnectionProperties | undefined;
+  /** Properties for an Elasticsearch connection. */
+  elasticsearchConnectionProperties?: GoldengateElasticsearchConnectionProperties | undefined;
+  /** Output only. The lifecycle state of the connection. */
+  lifecycleState?: GoldengateConnectionPropertiesLifecycleStateEnum | (string & {}) | undefined;
+  /** Properties for a Snowflake connection. */
+  snowflakeConnectionProperties?: GoldengateSnowflakeConnectionProperties | undefined;
+  /** Properties for a Redis connection. */
+  redisConnectionProperties?: GoldengateRedisConnectionProperties | undefined;
+  /** Required. An object's Display Name. */
+  displayName?: string | undefined;
+  /** Properties for a Google Pub/Sub connection. */
+  googlePubsubConnectionProperties?: GoldengateGooglePubsubConnectionProperties | undefined;
+  /** Properties for a Generic Connection. */
+  genericConnectionProperties?: GoldengateGenericConnectionProperties | undefined;
+  /** Properties for a PostgreSQL connection. */
+  postgresqlConnectionProperties?: GoldengatePostgresqlConnectionProperties | undefined;
+  /** Properties for a Databricks connection. */
+  databricksConnectionProperties?: GoldengateDatabricksConnectionProperties | undefined;
+  /** Properties for an Amazon Redshift connection. */
+  amazonRedshiftConnectionProperties?: GoldengateAmazonRedshiftConnectionProperties | undefined;
   /** Properties for a DB2 connection. */
   db2ConnectionProperties?: GoldengateDb2ConnectionProperties | undefined;
+  /** Optional. Metadata about this specific object. */
+  description?: string | undefined;
+  /** Output only. The time the resource was last updated. */
+  updateTime?: string | undefined;
+  /** Output only. The [OCID] of the connection being referenced. */
+  ocid?: string | undefined;
+  /** Properties for a MongoDB connection. */
+  mongodbConnectionProperties?: GoldengateMongodbConnectionProperties | undefined;
+  /** Properties for a Google BigQuery Connection. */
+  googleBigQueryConnectionProperties?: GoldengateGoogleBigQueryConnectionProperties | undefined;
+  /** Output only. Describes the object's current state in detail. For example, it can be used to provide actionable information for a resource in a Failed state. */
+  lifecycleDetails?: string | undefined;
   /** Properties for an Azure Data Lake Storage Connection. */
   azureDataLakeStorageConnectionProperties?:
     | GoldengateAzureDataLakeStorageConnectionProperties
     | undefined;
   /** Properties for a Microsoft Fabric connection. */
   microsoftFabricConnectionProperties?: GoldengateMicrosoftFabricConnectionProperties | undefined;
+  /** Output only. The Ingress IPs of the GoldengateConnection. */
+  ingressIpAddresses?: StringList | undefined;
+  /** Properties for a Goldengate Connection. */
+  goldengateConnectionProperties?: GoldengateGoldengateConnectionProperties | undefined;
+  /** Properties for a Kafka Connection. */
+  kafkaConnectionProperties?: GoldengateKafkaConnectionProperties | undefined;
+  /** Properties for an OCI Object Storage Connection. */
+  ociObjectStorageConnectionProperties?: GoldengateOciObjectStorageConnectionProperties | undefined;
+  /** Optional. The routing method for the GoldengateConnection. */
+  routingMethod?: GoldengateConnectionPropertiesRoutingMethodEnum | (string & {}) | undefined;
+  /** Properties for an Oracle NoSQL connection. */
+  oracleNosqlConnectionProperties?: GoldengateOracleNosqlConnectionProperties | undefined;
+  /** Properties for a Mysql Connection. */
+  mysqlConnectionProperties?: GoldengateMysqlConnectionProperties | undefined;
+  /** Properties for an Azure Synapse Analytics connection. */
+  azureSynapseAnalyticsConnectionProperties?:
+    | GoldengateAzureSynapseAnalyticsConnectionProperties
+    | undefined;
   /** Properties for a Google Cloud Storage Connection. */
   googleCloudStorageConnectionProperties?:
     | GoldengateGoogleCloudStorageConnectionProperties
     | undefined;
-  /** Properties for a Generic Connection. */
-  genericConnectionProperties?: GoldengateGenericConnectionProperties | undefined;
-  /** Properties for an OCI Object Storage Connection. */
-  ociObjectStorageConnectionProperties?: GoldengateOciObjectStorageConnectionProperties | undefined;
+  /** Properties for a Kafka Schema Registry Connection. */
+  kafkaSchemaRegistryConnectionProperties?:
+    | GoldengateKafkaSchemaRegistryConnectionProperties
+    | undefined;
+  /** Properties for an Iceberg connection. */
+  icebergConnectionProperties?: GoldengateIcebergConnectionProperties | undefined;
+  /** Properties for an Amazon S3 connection. */
+  amazonS3ConnectionProperties?: GoldengateAmazonS3ConnectionProperties | undefined;
+  /** Required. The connection type. */
+  connectionType?: GoldengateConnectionPropertiesConnectionTypeEnum | (string & {}) | undefined;
+  /** Properties for a Java Message Service connection. */
+  javaMessageServiceConnectionProperties?:
+    | GoldengateJavaMessageServiceConnectionProperties
+    | undefined;
+  /** Properties for an Amazon Kinesis connection. */
+  amazonKinesisConnectionProperties?: GoldengateAmazonKinesisConnectionProperties | undefined;
   /** Properties for an Oracle AI Data Platform connection. */
   oracleAiDataPlatformConnectionProperties?:
     | GoldengateOracleAIDataPlatformConnectionProperties
     | undefined;
-  /** Required. An object's Display Name. */
-  displayName?: string | undefined;
-  /** Properties for a PostgreSQL connection. */
-  postgresqlConnectionProperties?: GoldengatePostgresqlConnectionProperties | undefined;
-  /** Output only. The time the resource was last updated. */
-  updateTime?: string | undefined;
-  /** Properties for an Amazon Redshift connection. */
-  amazonRedshiftConnectionProperties?: GoldengateAmazonRedshiftConnectionProperties | undefined;
+  /** Properties for an HDFS connection. */
+  hdfsConnectionProperties?: GoldengateHdfsConnectionProperties | undefined;
+  /** Properties for a Microsoft SQL Server connection. */
+  microsoftSqlserverConnectionProperties?:
+    | GoldengateMicrosoftSqlserverConnectionProperties
+    | undefined;
 }
 /** Details of the GoldengateConnection resource. */
 export interface GoldengateConnection {
-  /** Optional. Immutable. The GCP Oracle zone where Oracle GoldengateConnection is hosted. Example: us-east4-b-r2. If not specified, the system will pick a zone based on availability. */
-  gcpOracleZone?: string | undefined;
+  /** Identifier. The name of the GoldengateConnection resource in the following format: projects/{project}/locations/{region}/goldengateConnections/{goldengate_connection} */
+  name?: string | undefined;
   /** Optional. Immutable. The name of the OdbNetwork associated with the GoldengateConnection. The format is projects/{project}/locations/{location}/odbNetworks/{odb_network}. It is optional but if specified, this should match the parent ODBNetwork of the OdbSubnet. */
   odbNetwork?: string | undefined;
-  /** Output only. The date and time that the GoldengateConnection was created. */
-  createTime?: string | undefined;
   /** Optional. Immutable. The name of the OdbSubnet associated with the GoldengateConnection for IP allocation. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet} */
   odbSubnet?: string | undefined;
-  /** Output only. The ID of the subscription entitlement associated with the GoldengateConnection. */
-  entitlementId?: string | undefined;
+  /** Output only. The date and time that the GoldengateConnection was created. */
+  createTime?: string | undefined;
+  /** Optional. The labels or tags associated with the GoldengateConnection. */
+  labels?: StringMap | undefined;
+  /** Optional. Immutable. The GCP Oracle zone where Oracle GoldengateConnection is hosted. Example: us-east4-b-r2. If not specified, the system will pick a zone based on availability. */
+  gcpOracleZone?: string | undefined;
   /** Required. Immutable. The properties of the GoldengateConnection. */
   properties?: GoldengateConnectionProperties | undefined;
   /** Output only. HTTPS link to OCI resources exposed to Customer via UI Interface. */
   ociUrl?: string | undefined;
-  /** Identifier. The name of the GoldengateConnection resource in the following format: projects/{project}/locations/{region}/goldengateConnections/{goldengate_connection} */
-  name?: string | undefined;
-  /** Optional. The labels or tags associated with the GoldengateConnection. */
-  labels?: StringMap | undefined;
+  /** Output only. The ID of the subscription entitlement associated with the GoldengateConnection. */
+  entitlementId?: string | undefined;
 }
 export interface CreateProjectsLocationsGoldengateConnectionsRequest extends GoldengateConnection {
+  /** Required. The ID of the GoldengateConnection to create. This value is restricted to (^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$) and must be a maximum of 63 characters in length. The value must start with a letter and end with a letter or a number. */
+  goldengateConnectionId?: string | undefined;
   /** Required. The value for parent of the GoldengateConnection in the following format: projects/{project}/locations/{location}. */
   parent: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Required. The ID of the GoldengateConnection to create. This value is restricted to (^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$) and must be a maximum of 63 characters in length. The value must start with a letter and end with a letter or a number. */
-  goldengateConnectionId?: string | undefined;
+}
+export type GoldengateBackupScheduleFrequencyBackupScheduledEnum =
+  | "FREQUENCY_BACKUP_SCHEDULED_UNSPECIFIED"
+  | "DAILY"
+  | "WEEKLY"
+  | "MONTHLY";
+/** The backup schedule of the GoldengateDeployment. */
+export interface GoldengateBackupSchedule {
+  /** Output only. The compartment id. */
+  compartmentId?: string | undefined;
+  /** Output only. If metadata only. */
+  metadataOnly?: boolean | undefined;
+  /** Output only. The bucket name. */
+  bucket?: string | undefined;
+  /** Output only. The timestamp of when the backup was scheduled. */
+  backupScheduledTime?: string | undefined;
+  /** Output only. The frequency backup scheduled. */
+  frequencyBackupScheduled?:
+    | GoldengateBackupScheduleFrequencyBackupScheduledEnum
+    | (string & {})
+    | undefined;
+  /** Output only. The namespace name. */
+  namespace?: string | undefined;
 }
 export type GoldengateDeploymentPropertiesDeploymentRoleEnum =
   | "GOLDENGATE_DEPLOYMENT_ROLE_TYPE_UNSPECIFIED"
   | "PRIMARY"
   | "STANDBY";
+export type GoldengateMaintenanceWindowDayEnum =
+  | "DAY_OF_WEEK_UNSPECIFIED"
+  | "MONDAY"
+  | "TUESDAY"
+  | "WEDNESDAY"
+  | "THURSDAY"
+  | "FRIDAY"
+  | "SATURDAY"
+  | "SUNDAY";
+/** The maintenance window of the GoldengateDeployment. */
+export interface GoldengateMaintenanceWindow {
+  /** Required. Days of the week. */
+  day?: GoldengateMaintenanceWindowDayEnum | (string & {}) | undefined;
+  /** Required. Start hour for maintenance period. Hour is in UTC. */
+  startHour?: number | undefined;
+}
+/** The maintenance configuration of the GoldengateDeployment. */
+export interface GoldengateMaintenanceConfig {
+  /** Optional. Defines auto upgrade period for releases with security fix. Manually configured period cannot be longer than service defined period for security releases. Not passing this field during create will equate to using the service default. */
+  securityPatchUpgradePeriodDays?: number | undefined;
+  /** Optional. Defines auto upgrade period for interim releases. This period must be shorter or equal to bundle release upgrade period. */
+  interimReleaseUpgradePeriodDays?: number | undefined;
+  /** Optional. By default auto upgrade for interim releases are not enabled. If auto-upgrade is enabled for interim release, you have to specify interim_release_upgrade_period_days too. */
+  isInterimReleaseAutoUpgradeEnabled?: boolean | undefined;
+  /** Optional. Defines auto upgrade period for major releases. Manually configured period cannot be longer than service defined period for major releases. Not passing this field during create will equate to using the service default. */
+  majorReleaseUpgradePeriodDays?: number | undefined;
+  /** Optional. Defines auto upgrade period for bundle releases. Manually configured period cannot be longer than service defined period for bundle releases. This period must be shorter or equal to major release upgrade period. Not passing this field during create will equate to using the service default. */
+  bundleReleaseUpgradePeriodDays?: number | undefined;
+}
+export type GoldengateDeploymentPropertiesLifecycleSubStateEnum =
+  | "GOLDENGATE_DEPLOYMENT_LIFECYCLE_SUB_STATE_UNSPECIFIED"
+  | "RECOVERING"
+  | "STARTING"
+  | "STOPPING"
+  | "MOVING"
+  | "UPGRADING"
+  | "RESTORING"
+  | "BACKING_UP"
+  | "ROLLING_BACK";
 export type GoldengateDeploymentPropertiesCategoryEnum =
   | "GOLDENGATE_DEPLOYMENT_CATEGORY_UNSPECIFIED"
   | "DATA_REPLICATION"
   | "DATA_TRANSFORMS";
-/** The ingress IPs of the GoldengateDeployment. */
-export interface IngressIp {
-  /** Output only. The ingress IP. */
-  ingressIpAddress?: string | undefined;
+export type GoldengateDeploymentPropertiesLicenseModelEnum =
+  | "LICENSE_MODEL_UNSPECIFIED"
+  | "LICENSE_INCLUDED"
+  | "BRING_YOUR_OWN_LICENSE";
+export type DeploymentDiagnosticDataDiagnosticStateEnum =
+  | "DIAGNOSTIC_STATE_UNSPECIFIED"
+  | "IN_PROGRESS"
+  | "SUCCEEDED"
+  | "FAILED";
+/** The deployment diagnostic data. */
+export interface DeploymentDiagnosticData {
+  /** Output only. The namespace name. */
+  namespace?: string | undefined;
+  /** Output only. The time diagnostic start. */
+  diagnosticStartTime?: string | undefined;
+  /** Output only. The bucket name. */
+  bucket?: string | undefined;
+  /** Output only. The object name. */
+  object?: string | undefined;
+  /** Output only. The diagnostic state. */
+  diagnosticState?: DeploymentDiagnosticDataDiagnosticStateEnum | (string & {}) | undefined;
+  /** Output only. The time diagnostic end. */
+  diagnosticEndTime?: string | undefined;
 }
-export type IngressIpList = Array<IngressIp>;
+export type GoldengateOggDeploymentCredentialStoreEnum =
+  | "CREDENTIAL_STORE_UNSPECIFIED"
+  | "GOLDENGATE"
+  | "IAM";
 /** The group to roles mapping of the GoldengateDeployment. */
 export interface GoldengateGroupToRolesMapping {
   /** Output only. The user group id. */
@@ -2624,119 +2708,58 @@ export interface GoldengateGroupToRolesMapping {
   /** Output only. The administrator group id. */
   administratorGroupId?: string | undefined;
 }
-export type GoldengateOggDeploymentCredentialStoreEnum =
-  | "CREDENTIAL_STORE_UNSPECIFIED"
-  | "GOLDENGATE"
-  | "IAM";
 /** The Ogg data of the GoldengateDeployment. */
 export interface GoldengateOggDeployment {
-  /** Output only. The group to roles mapping of the GoldengateDeployment. */
-  groupRolesMapping?: GoldengateGroupToRolesMapping | undefined;
-  /** Required. The Goldengate deployment console username. */
-  adminUsername?: string | undefined;
-  /** Output only. The password secret id of the GoldengateDeployment. */
-  passwordSecretId?: string | undefined;
-  /** Optional. Input only. The Goldengate deployment console password in plain text. */
-  adminPassword?: string | Redacted.Redacted<string> | undefined;
-  /** Output only. The certificate of the GoldengateDeployment. */
-  certificate?: string | undefined;
   /** Optional. Version of OGG */
   oggVersion?: string | undefined;
-  /** Output only. The credential store of the GoldengateDeployment. */
-  credentialStore?: GoldengateOggDeploymentCredentialStoreEnum | (string & {}) | undefined;
-  /** Required. The name given to the Goldengate service deployment. The name must be 1 to 32 characters long, must contain only alphanumeric characters and must start with a letter. */
-  deployment?: string | undefined;
+  /** Required. The Goldengate deployment console username. */
+  adminUsername?: string | undefined;
+  /** Output only. The certificate of the GoldengateDeployment. */
+  certificate?: string | undefined;
+  /** Optional. Input only. The Goldengate deployment console password in plain text. */
+  adminPassword?: string | Redacted.Redacted<string> | undefined;
   /** Output only. The identity domain id of the GoldengateDeployment. */
   identityDomainId?: string | undefined;
+  /** Required. The name given to the Goldengate service deployment. The name must be 1 to 32 characters long, must contain only alphanumeric characters and must start with a letter. */
+  deployment?: string | undefined;
+  /** Output only. The password secret id of the GoldengateDeployment. */
+  passwordSecretId?: string | undefined;
+  /** Output only. The credential store of the GoldengateDeployment. */
+  credentialStore?: GoldengateOggDeploymentCredentialStoreEnum | (string & {}) | undefined;
   /** Optional. Input only. The Goldengate deployment console password secret version. */
   adminPasswordSecretVersion?: string | undefined;
+  /** Output only. The group to roles mapping of the GoldengateDeployment. */
+  groupRolesMapping?: GoldengateGroupToRolesMapping | undefined;
 }
-export type GoldengateDeploymentPropertiesLicenseModelEnum =
-  | "LICENSE_MODEL_UNSPECIFIED"
-  | "LICENSE_INCLUDED"
-  | "BRING_YOUR_OWN_LICENSE";
-/** The maintenance configuration of the GoldengateDeployment. */
-export interface GoldengateMaintenanceConfig {
-  /** Optional. Defines auto upgrade period for bundle releases. Manually configured period cannot be longer than service defined period for bundle releases. This period must be shorter or equal to major release upgrade period. Not passing this field during create will equate to using the service default. */
-  bundleReleaseUpgradePeriodDays?: number | undefined;
-  /** Optional. Defines auto upgrade period for interim releases. This period must be shorter or equal to bundle release upgrade period. */
-  interimReleaseUpgradePeriodDays?: number | undefined;
-  /** Optional. By default auto upgrade for interim releases are not enabled. If auto-upgrade is enabled for interim release, you have to specify interim_release_upgrade_period_days too. */
-  isInterimReleaseAutoUpgradeEnabled?: boolean | undefined;
-  /** Optional. Defines auto upgrade period for major releases. Manually configured period cannot be longer than service defined period for major releases. Not passing this field during create will equate to using the service default. */
-  majorReleaseUpgradePeriodDays?: number | undefined;
-  /** Optional. Defines auto upgrade period for releases with security fix. Manually configured period cannot be longer than service defined period for security releases. Not passing this field during create will equate to using the service default. */
-  securityPatchUpgradePeriodDays?: number | undefined;
+/** The ingress IPs of the GoldengateDeployment. */
+export interface IngressIp {
+  /** Output only. The ingress IP. */
+  ingressIpAddress?: string | undefined;
 }
-export type GoldengateDeploymentPropertiesNextMaintenanceActionTypeEnum =
-  | "NEXT_MAINTENANCE_ACTION_TYPE_UNSPECIFIED"
-  | "UPGRADE";
+export type IngressIpList = Array<IngressIp>;
+/** The placement of the GoldengateDeployment. */
+export interface GoldengatePlacement {
+  /** Output only. The availability domain. */
+  availabilityDomain?: string | undefined;
+  /** Output only. The fault domain. */
+  faultDomain?: string | undefined;
+}
+export type GoldengatePlacementList = Array<GoldengatePlacement>;
 export type GoldengateDeploymentLockTypeEnum = "LOCK_TYPE_UNSPECIFIED" | "FULL" | "DELETE";
 /** The lock of the GoldengateDeployment. */
 export interface GoldengateDeploymentLock {
-  /** Output only. The related resource id. */
-  relatedResourceId?: string | undefined;
-  /** Output only. The time created. */
-  createTime?: string | undefined;
   /** Output only. The compartment id. */
   compartmentId?: string | undefined;
-  /** Output only. The message. */
-  message?: string | undefined;
   /** Output only. The type of lock. */
   type?: GoldengateDeploymentLockTypeEnum | (string & {}) | undefined;
+  /** Output only. The time created. */
+  createTime?: string | undefined;
+  /** Output only. The related resource id. */
+  relatedResourceId?: string | undefined;
+  /** Output only. The message. */
+  message?: string | undefined;
 }
 export type GoldengateDeploymentLockList = Array<GoldengateDeploymentLock>;
-/** The placement of the GoldengateDeployment. */
-export interface GoldengatePlacement {
-  /** Output only. The fault domain. */
-  faultDomain?: string | undefined;
-  /** Output only. The availability domain. */
-  availabilityDomain?: string | undefined;
-}
-export type GoldengatePlacementList = Array<GoldengatePlacement>;
-export type GoldengateBackupScheduleFrequencyBackupScheduledEnum =
-  | "FREQUENCY_BACKUP_SCHEDULED_UNSPECIFIED"
-  | "DAILY"
-  | "WEEKLY"
-  | "MONTHLY";
-/** The backup schedule of the GoldengateDeployment. */
-export interface GoldengateBackupSchedule {
-  /** Output only. The frequency backup scheduled. */
-  frequencyBackupScheduled?:
-    | GoldengateBackupScheduleFrequencyBackupScheduledEnum
-    | (string & {})
-    | undefined;
-  /** Output only. The namespace name. */
-  namespace?: string | undefined;
-  /** Output only. The compartment id. */
-  compartmentId?: string | undefined;
-  /** Output only. The bucket name. */
-  bucket?: string | undefined;
-  /** Output only. If metadata only. */
-  metadataOnly?: boolean | undefined;
-  /** Output only. The timestamp of when the backup was scheduled. */
-  backupScheduledTime?: string | undefined;
-}
-export type DeploymentDiagnosticDataDiagnosticStateEnum =
-  | "DIAGNOSTIC_STATE_UNSPECIFIED"
-  | "IN_PROGRESS"
-  | "SUCCEEDED"
-  | "FAILED";
-/** The deployment diagnostic data. */
-export interface DeploymentDiagnosticData {
-  /** Output only. The diagnostic state. */
-  diagnosticState?: DeploymentDiagnosticDataDiagnosticStateEnum | (string & {}) | undefined;
-  /** Output only. The time diagnostic end. */
-  diagnosticEndTime?: string | undefined;
-  /** Output only. The bucket name. */
-  bucket?: string | undefined;
-  /** Output only. The object name. */
-  object?: string | undefined;
-  /** Output only. The time diagnostic start. */
-  diagnosticStartTime?: string | undefined;
-  /** Output only. The namespace name. */
-  namespace?: string | undefined;
-}
 export type GoldengateDeploymentPropertiesLifecycleStateEnum =
   | "GOLDENGATE_DEPLOYMENT_LIFECYCLE_STATE_UNSPECIFIED"
   | "CREATING"
@@ -2752,162 +2775,133 @@ export type GoldengateDeploymentPropertiesLifecycleStateEnum =
   | "CANCELLED"
   | "SUCCEEDED"
   | "WAITING";
-export type GoldengateMaintenanceWindowDayEnum =
-  | "DAY_OF_WEEK_UNSPECIFIED"
-  | "MONDAY"
-  | "TUESDAY"
-  | "WEDNESDAY"
-  | "THURSDAY"
-  | "FRIDAY"
-  | "SATURDAY"
-  | "SUNDAY";
-/** The maintenance window of the GoldengateDeployment. */
-export interface GoldengateMaintenanceWindow {
-  /** Required. Start hour for maintenance period. Hour is in UTC. */
-  startHour?: number | undefined;
-  /** Required. Days of the week. */
-  day?: GoldengateMaintenanceWindowDayEnum | (string & {}) | undefined;
-}
-export type GoldengateDeploymentPropertiesLifecycleSubStateEnum =
-  | "GOLDENGATE_DEPLOYMENT_LIFECYCLE_SUB_STATE_UNSPECIFIED"
-  | "RECOVERING"
-  | "STARTING"
-  | "STOPPING"
-  | "MOVING"
-  | "UPGRADING"
-  | "RESTORING"
-  | "BACKING_UP"
-  | "ROLLING_BACK";
+export type GoldengateDeploymentPropertiesNextMaintenanceActionTypeEnum =
+  | "NEXT_MAINTENANCE_ACTION_TYPE_UNSPECIFIED"
+  | "UPGRADE";
 /** Properties of GoldengateDeployment. */
 export interface GoldengateDeploymentProperties {
-  /** Output only. The deployment backup id of the GoldengateDeployment. */
-  deploymentBackupId?: string | undefined;
-  /** Output only. The private ip address of the GoldengateDeployment. */
-  privateIpAddress?: string | undefined;
-  /** Output only. The Fully Qualified Domain Name of the GoldengateDeployment. */
-  fqdn?: string | undefined;
-  /** Output only. The deployment role of the GoldengateDeployment. */
-  deploymentRole?: GoldengateDeploymentPropertiesDeploymentRoleEnum | (string & {}) | undefined;
-  /** Output only. The public ip address of the GoldengateDeployment. */
-  publicIpAddress?: string | undefined;
-  /** Output only. The time when the role of the GoldengateDeployment was changed. */
-  roleChangeTime?: string | undefined;
-  /** Output only. The category of the GoldengateDeployment. */
-  category?: GoldengateDeploymentPropertiesCategoryEnum | (string & {}) | undefined;
-  /** Output only. The time upgrade required of the GoldengateDeployment. */
-  upgradeRequiredTime?: string | undefined;
-  /** Output only. Whether the GoldengateDeployment is healthy. */
-  healthy?: boolean | undefined;
-  /** Output only. The ingress ips of the GoldengateDeployment. */
-  ingressIps?: IngressIpList | undefined;
-  /** Output only. Whether the GoldengateDeployment is public. */
-  isPublic?: boolean | undefined;
-  /** Output only. OCID of the GoldengateDeployment. */
-  ocid?: string | undefined;
-  /** Required. The ogg data of the GoldengateDeployment. */
-  oggData?: GoldengateOggDeployment | undefined;
-  /** Optional. The Oracle license model that applies to a Deployment. */
-  licenseModel?: GoldengateDeploymentPropertiesLicenseModelEnum | (string & {}) | undefined;
-  /** Optional. The maintenance configuration of the GoldengateDeployment. */
-  maintenanceConfig?: GoldengateMaintenanceConfig | undefined;
-  /** Output only. The time last backup scheduled of the GoldengateDeployment. */
-  lastBackupScheduleTime?: string | undefined;
-  /** Optional. The Minimum number of OCPUs to be made available for this Deployment. */
-  cpuCoreCount?: number | undefined;
-  /** Output only. The load balancer id of the GoldengateDeployment. */
-  loadBalancerId?: string | undefined;
-  /** Required. A valid Goldengate Deployment type. For a list of supported types, use the `ListGoldengateDeploymentTypes` operation. */
-  deploymentType?: string | undefined;
-  /** Output only. The lifecycle details of the GoldengateDeployment. */
-  lifecycleDetails?: string | undefined;
-  /** Output only. The next maintenance action type of the GoldengateDeployment. */
-  nextMaintenanceActionType?:
-    | GoldengateDeploymentPropertiesNextMaintenanceActionTypeEnum
-    | (string & {})
-    | undefined;
-  /** Output only. The time of next maintenance of the GoldengateDeployment. */
-  nextMaintenanceTime?: string | undefined;
-  /** Output only. Whether the GoldengateDeployment is of the latest version. */
-  isLatestVersion?: boolean | undefined;
-  /** Optional. The environment type of the GoldengateDeployment. */
-  environmentType?: string | undefined;
-  /** Output only. The locks of the GoldengateDeployment. */
-  locks?: GoldengateDeploymentLockList | undefined;
-  /** Output only. The time ogg version supported until of the GoldengateDeployment. */
-  oggVersionSupportEndTime?: string | undefined;
-  /** Output only. The nsg ids of the GoldengateDeployment. */
-  nsgIds?: StringList | undefined;
-  /** Output only. The storage utilization in bytes of the GoldengateDeployment. */
-  storageUtilizationBytes?: string | undefined;
-  /** Output only. The placements of the GoldengateDeployment. */
-  placements?: GoldengatePlacementList | undefined;
-  /** Output only. Whether storage utilization limit is exceeded of the GoldengateDeployment. */
-  isStorageUtilizationLimitExceeded?: boolean | undefined;
   /** Output only. The backup schedule of the GoldengateDeployment. */
   backupSchedule?: GoldengateBackupSchedule | undefined;
-  /** Output only. The deployment diagnostic data of the GoldengateDeployment. */
-  deploymentDiagnosticData?: DeploymentDiagnosticData | undefined;
-  /** Output only. State of the GoldengateDeployment. */
-  lifecycleState?: GoldengateDeploymentPropertiesLifecycleStateEnum | (string & {}) | undefined;
-  /** Optional. Indicates if auto scaling is enabled for the Deployment's CPU core count. */
-  isAutoScalingEnabled?: boolean | undefined;
-  /** Output only. The deployment url of the GoldengateDeployment. */
-  deploymentUrl?: string | undefined;
+  /** Output only. The deployment role of the GoldengateDeployment. */
+  deploymentRole?: GoldengateDeploymentPropertiesDeploymentRoleEnum | (string & {}) | undefined;
   /** Optional. The maintenance window of the GoldengateDeployment. */
   maintenanceWindow?: GoldengateMaintenanceWindow | undefined;
-  /** Output only. The time the GoldengateDeployment was updated. */
-  updateTime?: string | undefined;
-  /** Output only. The load balancer subnet id of the GoldengateDeployment. */
-  loadBalancerSubnetId?: string | undefined;
-  /** Output only. The time next backup scheduled of the GoldengateDeployment. */
-  nextBackupScheduleTime?: string | undefined;
+  /** Output only. The deployment backup id of the GoldengateDeployment. */
+  deploymentBackupId?: string | undefined;
+  /** Optional. The maintenance configuration of the GoldengateDeployment. */
+  maintenanceConfig?: GoldengateMaintenanceConfig | undefined;
   /** Optional. The description of the GoldengateDeployment. */
   description?: string | undefined;
-  /** Output only. The next maintenance description of the GoldengateDeployment. */
-  nextMaintenanceDescription?: string | undefined;
+  /** Optional. The environment type of the GoldengateDeployment. */
+  environmentType?: string | undefined;
+  /** Output only. The public ip address of the GoldengateDeployment. */
+  publicIpAddress?: string | undefined;
   /** Output only. The lifecycle sub-state of the GoldengateDeployment. */
   lifecycleSubState?:
     | GoldengateDeploymentPropertiesLifecycleSubStateEnum
     | (string & {})
     | undefined;
+  /** Output only. The Fully Qualified Domain Name of the GoldengateDeployment. */
+  fqdn?: string | undefined;
+  /** Output only. The nsg ids of the GoldengateDeployment. */
+  nsgIds?: StringList | undefined;
+  /** Output only. The category of the GoldengateDeployment. */
+  category?: GoldengateDeploymentPropertiesCategoryEnum | (string & {}) | undefined;
+  /** Optional. The Oracle license model that applies to a Deployment. */
+  licenseModel?: GoldengateDeploymentPropertiesLicenseModelEnum | (string & {}) | undefined;
+  /** Output only. The load balancer id of the GoldengateDeployment. */
+  loadBalancerId?: string | undefined;
+  /** Output only. The deployment diagnostic data of the GoldengateDeployment. */
+  deploymentDiagnosticData?: DeploymentDiagnosticData | undefined;
+  /** Output only. The time the GoldengateDeployment was updated. */
+  updateTime?: string | undefined;
+  /** Optional. Indicates if auto scaling is enabled for the Deployment's CPU core count. */
+  isAutoScalingEnabled?: boolean | undefined;
+  /** Output only. The time upgrade required of the GoldengateDeployment. */
+  upgradeRequiredTime?: string | undefined;
+  /** Required. The ogg data of the GoldengateDeployment. */
+  oggData?: GoldengateOggDeployment | undefined;
+  /** Output only. The time next backup scheduled of the GoldengateDeployment. */
+  nextBackupScheduleTime?: string | undefined;
+  /** Output only. The load balancer subnet id of the GoldengateDeployment. */
+  loadBalancerSubnetId?: string | undefined;
+  /** Output only. Whether storage utilization limit is exceeded of the GoldengateDeployment. */
+  isStorageUtilizationLimitExceeded?: boolean | undefined;
+  /** Output only. The ingress ips of the GoldengateDeployment. */
+  ingressIps?: IngressIpList | undefined;
+  /** Output only. The placements of the GoldengateDeployment. */
+  placements?: GoldengatePlacementList | undefined;
+  /** Output only. Whether the GoldengateDeployment is of the latest version. */
+  isLatestVersion?: boolean | undefined;
+  /** Output only. OCID of the GoldengateDeployment. */
+  ocid?: string | undefined;
+  /** Output only. The next maintenance description of the GoldengateDeployment. */
+  nextMaintenanceDescription?: string | undefined;
+  /** Output only. The locks of the GoldengateDeployment. */
+  locks?: GoldengateDeploymentLockList | undefined;
+  /** Output only. The lifecycle details of the GoldengateDeployment. */
+  lifecycleDetails?: string | undefined;
+  /** Output only. Whether the GoldengateDeployment is healthy. */
+  healthy?: boolean | undefined;
+  /** Optional. The Minimum number of OCPUs to be made available for this Deployment. */
+  cpuCoreCount?: number | undefined;
+  /** Output only. Whether the GoldengateDeployment is public. */
+  isPublic?: boolean | undefined;
+  /** Output only. State of the GoldengateDeployment. */
+  lifecycleState?: GoldengateDeploymentPropertiesLifecycleStateEnum | (string & {}) | undefined;
+  /** Required. A valid Goldengate Deployment type. For a list of supported types, use the `ListGoldengateDeploymentTypes` operation. */
+  deploymentType?: string | undefined;
+  /** Output only. The time last backup scheduled of the GoldengateDeployment. */
+  lastBackupScheduleTime?: string | undefined;
+  /** Output only. The time ogg version supported until of the GoldengateDeployment. */
+  oggVersionSupportEndTime?: string | undefined;
+  /** Output only. The time of next maintenance of the GoldengateDeployment. */
+  nextMaintenanceTime?: string | undefined;
+  /** Output only. The next maintenance action type of the GoldengateDeployment. */
+  nextMaintenanceActionType?:
+    | GoldengateDeploymentPropertiesNextMaintenanceActionTypeEnum
+    | (string & {})
+    | undefined;
+  /** Output only. The time when the role of the GoldengateDeployment was changed. */
+  roleChangeTime?: string | undefined;
+  /** Output only. The storage utilization in bytes of the GoldengateDeployment. */
+  storageUtilizationBytes?: string | undefined;
+  /** Output only. The private ip address of the GoldengateDeployment. */
+  privateIpAddress?: string | undefined;
+  /** Output only. The deployment url of the GoldengateDeployment. */
+  deploymentUrl?: string | undefined;
 }
 /** GoldengateDeployment Goldengate Deployment resource model. */
 export interface GoldengateDeployment {
-  /** Output only. The ID of the subscription entitlement associated with the GoldengateDeployment */
-  entitlementId?: string | undefined;
+  /** Identifier. The name of the GoldengateDeployment resource in the following format: projects/{project}/locations/{region}/goldengateDeployments/{goldengate_deployment} */
+  name?: string | undefined;
   /** Optional. Immutable. The name of the OdbNetwork associated with the GoldengateDeployment. */
   odbNetwork?: string | undefined;
+  /** Required. Immutable. The properties of the GoldengateDeployment. */
+  properties?: GoldengateDeploymentProperties | undefined;
   /** Output only. The date and time that the GoldengateDeployment was created. */
   createTime?: string | undefined;
+  /** Required. Immutable. The display name for the GoldengateDeployment. */
+  displayName?: string | undefined;
   /** Required. Immutable. The name of the OdbSubnet associated with the GoldengateDeployment for IP allocation. */
   odbSubnet?: string | undefined;
   /** Optional. Immutable. The GCP Oracle zone where Oracle GoldengateDeployment is hosted. Example: us-east4-b-r2. If not specified, the system will pick a zone based on availability. */
   gcpOracleZone?: string | undefined;
-  /** Required. Immutable. The properties of the GoldengateDeployment. */
-  properties?: GoldengateDeploymentProperties | undefined;
-  /** Optional. The labels or tags associated with the GoldengateDeployment. */
-  labels?: StringMap | undefined;
-  /** Identifier. The name of the GoldengateDeployment resource in the following format: projects/{project}/locations/{region}/goldengateDeployments/{goldengate_deployment} */
-  name?: string | undefined;
-  /** Required. Immutable. The display name for the GoldengateDeployment. */
-  displayName?: string | undefined;
+  /** Output only. The ID of the subscription entitlement associated with the GoldengateDeployment */
+  entitlementId?: string | undefined;
   /** Output only. HTTPS link to OCI resources exposed to Customer via UI Interface. */
   ociUrl?: string | undefined;
+  /** Optional. The labels or tags associated with the GoldengateDeployment. */
+  labels?: StringMap | undefined;
 }
 export interface CreateProjectsLocationsGoldengateDeploymentsRequest extends GoldengateDeployment {
-  /** Required. The ID of the GoldengateDeployment to create. This value is restricted to (^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$) and must be a maximum of 63 characters in length. The value must start with a letter and end with a letter or a number. */
-  goldengateDeploymentId?: string | undefined;
-  /** Required. The value for parent of the GoldengateDeployment in the following format: projects/{project}/locations/{location}. */
-  parent: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
+  /** Required. The value for parent of the GoldengateDeployment in the following format: projects/{project}/locations/{location}. */
+  parent: string;
+  /** Required. The ID of the GoldengateDeployment to create. This value is restricted to (^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$) and must be a maximum of 63 characters in length. The value must start with a letter and end with a letter or a number. */
+  goldengateDeploymentId?: string | undefined;
 }
-export type OdbNetworkStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "PROVISIONING"
-  | "AVAILABLE"
-  | "TERMINATING"
-  | "FAILED";
 /** Configuration for a Private Service Connect (PSC) interface used by Oracledatabase@Google Cloud to establish private connectivity to the database. */
 export interface PscInterfaceConfig {
   /** Optional. The resource name of the Network Attachment that Oracledatabase@Google Cloud will use to establish private connectivity to the database via a Private Service Connect Interface (PSC-I). Format: projects/{project}/regions/{region}/networkAttachments/{network_attachment} */
@@ -2918,26 +2912,32 @@ export interface ServiceConnectivityConfig {
   /** Optional. Configuration for Private Service Connect (PSC) interface. */
   pscInterfaceConfig?: PscInterfaceConfig | undefined;
 }
+export type OdbNetworkStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "PROVISIONING"
+  | "AVAILABLE"
+  | "TERMINATING"
+  | "FAILED";
 /** Represents OdbNetwork resource. */
 export interface OdbNetwork {
-  /** Output only. Indicates whether the OdbNetwork is currently reconciling changes. */
-  reconciling?: boolean | undefined;
-  /** Optional. Labels or tags associated with the resource. */
-  labels?: StringMap | undefined;
-  /** Optional. Immutable. The GCP Oracle zone where OdbNetwork is hosted. Example: us-east4-b-r2. If not specified, the system will pick a zone based on availability. */
-  gcpOracleZone?: string | undefined;
-  /** Identifier. The name of the OdbNetwork resource in the following format: projects/{project}/locations/{region}/odbNetworks/{odb_network} */
-  name?: string | undefined;
-  /** Output only. State of the ODB Network. */
-  state?: OdbNetworkStateEnum | (string & {}) | undefined;
-  /** Required. Immutable. The name of the VPC network in the following format: projects/{project}/global/networks/{network} */
-  network?: string | undefined;
-  /** Output only. The date and time that the OdbNetwork was created. */
-  createTime?: string | undefined;
-  /** Output only. The ID of the subscription entitlement associated with the OdbNetwork. */
-  entitlementId?: string | undefined;
   /** Optional. Configuration to enable the service (Oracledatabase@Google Cloud) to establish connectivity to the database. This should be specified if you intend to associate this OdbNetwork with a DatabaseConnection resource to `ExecuteSQL` on the database, or to create a ServiceIntegration with the Database. Please don't specify it otherwise to avoid complicating the network setup. */
   serviceConnectivityConfig?: ServiceConnectivityConfig | undefined;
+  /** Output only. State of the ODB Network. */
+  state?: OdbNetworkStateEnum | (string & {}) | undefined;
+  /** Identifier. The name of the OdbNetwork resource in the following format: projects/{project}/locations/{region}/odbNetworks/{odb_network} */
+  name?: string | undefined;
+  /** Optional. Labels or tags associated with the resource. */
+  labels?: StringMap | undefined;
+  /** Required. Immutable. The name of the VPC network in the following format: projects/{project}/global/networks/{network} */
+  network?: string | undefined;
+  /** Output only. The ID of the subscription entitlement associated with the OdbNetwork. */
+  entitlementId?: string | undefined;
+  /** Optional. Immutable. The GCP Oracle zone where OdbNetwork is hosted. Example: us-east4-b-r2. If not specified, the system will pick a zone based on availability. */
+  gcpOracleZone?: string | undefined;
+  /** Output only. Indicates whether the OdbNetwork is currently reconciling changes. */
+  reconciling?: boolean | undefined;
+  /** Output only. The date and time that the OdbNetwork was created. */
+  createTime?: string | undefined;
 }
 export interface CreateProjectsLocationsOdbNetworksRequest extends OdbNetwork {
   /** Required. The parent value for the OdbNetwork in the following format: projects/{project}/locations/{location}. */
@@ -2958,52 +2958,52 @@ export type OdbDnsZoneStateEnum =
 export interface OdbDnsZone {
   /** Required. Immutable. The DNS suffix for the zone. Ex: abc.example.com. */
   domain?: string | undefined;
-  /** Optional. Labels or tags associated with the resource. */
-  labels?: StringMap | undefined;
   /** Output only. The date and time that the OdbDnsZone was created. */
   createTime?: string | undefined;
   /** Output only. State of the OdbDnsZone. */
   state?: OdbDnsZoneStateEnum | (string & {}) | undefined;
+  /** Optional. Labels or tags associated with the resource. */
+  labels?: StringMap | undefined;
   /** Identifier. The name of the OdbDnsZone resource in the following format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbDnsZones/{odb_dns_zone} */
   name?: string | undefined;
 }
 export interface CreateProjectsLocationsOdbNetworksOdbDnsZonesRequest extends OdbDnsZone {
+  /** Required. The ID of the OdbDnsZone to create. This value is restricted to (^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$) and must be a maximum of 63 characters in length. The value must start with a letter and end with a letter or a number. */
+  odbDnsZoneId?: string | undefined;
   /** Required. The parent value for the OdbDnsZone in the following format: projects/{project}/locations/{location}/odbNetworks/{odb_network}. */
   parent: string;
   /** Optional. An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Required. The ID of the OdbDnsZone to create. This value is restricted to (^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$) and must be a maximum of 63 characters in length. The value must start with a letter and end with a letter or a number. */
-  odbDnsZoneId?: string | undefined;
 }
+export type OdbSubnetPurposeEnum = "PURPOSE_UNSPECIFIED" | "CLIENT_SUBNET" | "BACKUP_SUBNET";
 export type OdbSubnetStateEnum =
   | "STATE_UNSPECIFIED"
   | "PROVISIONING"
   | "AVAILABLE"
   | "TERMINATING"
   | "FAILED";
-export type OdbSubnetPurposeEnum = "PURPOSE_UNSPECIFIED" | "CLIENT_SUBNET" | "BACKUP_SUBNET";
 /** Represents OdbSubnet resource. */
 export interface OdbSubnet {
   /** Optional. Labels or tags associated with the resource. */
   labels?: StringMap | undefined;
-  /** Identifier. The name of the OdbSubnet resource in the following format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet} */
-  name?: string | undefined;
-  /** Output only. State of the ODB Subnet. */
-  state?: OdbSubnetStateEnum | (string & {}) | undefined;
   /** Output only. The date and time that the OdbNetwork was created. */
   createTime?: string | undefined;
+  /** Identifier. The name of the OdbSubnet resource in the following format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet} */
+  name?: string | undefined;
   /** Required. Immutable. Purpose of the subnet. */
   purpose?: OdbSubnetPurposeEnum | (string & {}) | undefined;
   /** Required. Immutable. The CIDR range of the subnet. */
   cidrRange?: string | undefined;
+  /** Output only. State of the ODB Subnet. */
+  state?: OdbSubnetStateEnum | (string & {}) | undefined;
 }
 export interface CreateProjectsLocationsOdbNetworksOdbSubnetsRequest extends OdbSubnet {
+  /** Required. The parent value for the OdbSubnet in the following format: projects/{project}/locations/{location}/odbNetworks/{odb_network}. */
+  parent: string;
   /** Optional. An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. The ID of the OdbSubnet to create. This value is restricted to (^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$) and must be a maximum of 63 characters in length. The value must start with a letter and end with a letter or a number. */
   odbSubnetId?: string | undefined;
-  /** Required. The parent value for the OdbSubnet in the following format: projects/{project}/locations/{location}/odbNetworks/{odb_network}. */
-  parent: string;
 }
 export interface DeleteProjectsLocationsAutonomousDatabasesRequest {
   /** Optional. An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -3012,26 +3012,26 @@ export interface DeleteProjectsLocationsAutonomousDatabasesRequest {
   name: string;
 }
 export interface DeleteProjectsLocationsCloudExadataInfrastructuresRequest {
+  /** Optional. If set to true, all VM clusters for this Exadata Infrastructure will be deleted. An Exadata Infrastructure can only be deleted once all its VM clusters have been deleted. */
+  force?: boolean | undefined;
   /** Optional. An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. The name of the Cloud Exadata Infrastructure in the following format: projects/{project}/locations/{location}/cloudExadataInfrastructures/{cloud_exadata_infrastructure}. */
   name: string;
-  /** Optional. If set to true, all VM clusters for this Exadata Infrastructure will be deleted. An Exadata Infrastructure can only be deleted once all its VM clusters have been deleted. */
-  force?: boolean | undefined;
 }
 export interface DeleteProjectsLocationsCloudVmClustersRequest {
-  /** Optional. If set to true, all child resources for the VM Cluster will be deleted. A VM Cluster can only be deleted once all its child resources have been deleted. */
-  force?: boolean | undefined;
   /** Required. The name of the Cloud VM Cluster in the following format: projects/{project}/locations/{location}/cloudVmClusters/{cloud_vm_cluster}. */
   name: string;
   /** Optional. An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
+  /** Optional. If set to true, all child resources for the VM Cluster will be deleted. A VM Cluster can only be deleted once all its child resources have been deleted. */
+  force?: boolean | undefined;
 }
 export interface DeleteProjectsLocationsDatabaseConnectionsRequest {
-  /** Required. The name of the resource in the following format: projects/{project}/locations/{location}/databaseConnections/{database_connection}. */
-  name: string;
   /** Optional. An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
+  /** Required. The name of the resource in the following format: projects/{project}/locations/{location}/databaseConnections/{database_connection}. */
+  name: string;
 }
 export interface DeleteProjectsLocationsDbSystemsRequest {
   /** Required. The name of the DbSystem in the following format: projects/{project}/locations/{location}/dbSystems/{db_system}. */
@@ -3058,10 +3058,10 @@ export interface DeleteProjectsLocationsGoldengateConnectionAssignmentsRequest {
   requestId?: string | undefined;
 }
 export interface DeleteProjectsLocationsGoldengateConnectionsRequest {
-  /** Required. The name of the GoldengateConnection in the following format: projects/{project}/locations/{location}/goldengateConnections/{goldengate_connection}. */
-  name: string;
   /** Optional. An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
+  /** Required. The name of the GoldengateConnection in the following format: projects/{project}/locations/{location}/goldengateConnections/{goldengate_connection}. */
+  name: string;
 }
 export interface DeleteProjectsLocationsGoldengateDeploymentsRequest {
   /** Required. The name of the GoldengateDeployment in the following format: projects/{project}/locations/{location}/goldengateDeployments/{goldengate_deployment}. */
@@ -3082,10 +3082,10 @@ export interface DeleteProjectsLocationsOdbNetworksOdbDnsZonesRequest {
   requestId?: string | undefined;
 }
 export interface DeleteProjectsLocationsOdbNetworksOdbSubnetsRequest {
-  /** Required. The name of the resource in the following format: projects/{project}/locations/{region}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet}. */
-  name: string;
   /** Optional. An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
+  /** Required. The name of the resource in the following format: projects/{project}/locations/{region}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet}. */
+  name: string;
 }
 export interface DeleteProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
@@ -3144,6 +3144,14 @@ export interface ExecuteSqlProjectsLocationsDatabaseConnectionsRequest extends E
   /** Required. The name of the DatabaseConnection in the following format: projects/{project}/locations/{location}/databaseConnections/{database_connection}. */
   name: string;
 }
+/** Contains the name and datatype of a column in a SQL Result. */
+export interface Column {
+  /** Required. Name of the column. */
+  name?: string | undefined;
+  /** Required. Database-specific type name (e.g., "VARCHAR2(255)", "NUMBER", "DATE", "CLOB") */
+  type?: string | undefined;
+}
+export type ColumnList = Array<Column>;
 /** A single value in a row from a sql result. */
 export interface Value {
   /** Set to true if the cell value is NULL. */
@@ -3158,20 +3166,12 @@ export interface Row {
   values?: ValueList | undefined;
 }
 export type RowList = Array<Row>;
-/** Contains the name and datatype of a column in a SQL Result. */
-export interface Column {
-  /** Required. Database-specific type name (e.g., "VARCHAR2(255)", "NUMBER", "DATE", "CLOB") */
-  type?: string | undefined;
-  /** Required. Name of the column. */
-  name?: string | undefined;
-}
-export type ColumnList = Array<Column>;
 /** SqlResult represents the result for the execution of a sql statement. */
 export interface SqlResult {
-  /** Rows returned by the SQL statement. */
-  rows?: RowList | undefined;
   /** List of columns included in the result, including data type. */
   columns?: ColumnList | undefined;
+  /** Rows returned by the SQL statement. */
+  rows?: RowList | undefined;
 }
 export type SqlResultList = Array<SqlResult>;
 export type ExecuteSqlMetadataStatusEnum = "STATUS_UNSPECIFIED" | "OK" | "PARTIAL" | "ERROR";
@@ -3179,10 +3179,10 @@ export type ExecuteSqlMetadataStatusEnum = "STATUS_UNSPECIFIED" | "OK" | "PARTIA
 export interface ExecuteSqlMetadata {
   /** Output only. Status of SQL execution. */
   status?: ExecuteSqlMetadataStatusEnum | undefined;
-  /** Set to true if SQL returned a result set larger than the acceptable response size limits and the result was truncated. */
-  partialResult?: boolean | undefined;
   /** Message related to SQL execution. This field can be used to convey size limit related message. */
   message?: string | undefined;
+  /** Set to true if SQL returned a result set larger than the acceptable response size limits and the result was truncated. */
+  partialResult?: boolean | undefined;
   /** The time duration taken to execute the sql statement. */
   executionDuration?: string | undefined;
 }
@@ -3208,12 +3208,12 @@ export type GenerateAutonomousDatabaseWalletRequestTypeEnum =
   | "SINGLE";
 /** The request for `AutonomousDatabase.GenerateWallet`. */
 export interface GenerateAutonomousDatabaseWalletRequest {
-  /** Optional. True when requesting regional connection strings in PDB connect info, applicable to cross-region Data Guard only. */
-  isRegional?: boolean | undefined;
   /** Optional. The type of wallet generation for the Autonomous Database. The default value is SINGLE. */
   type?: GenerateAutonomousDatabaseWalletRequestTypeEnum | (string & {}) | undefined;
   /** Required. The password used to encrypt the keys inside the wallet. The password must be a minimum of 8 characters. */
   password?: string | Redacted.Redacted<string> | undefined;
+  /** Optional. True when requesting regional connection strings in PDB connect info, applicable to cross-region Data Guard only. */
+  isRegional?: boolean | undefined;
 }
 export interface GenerateWalletProjectsLocationsAutonomousDatabasesRequest extends GenerateAutonomousDatabaseWalletRequest {
   /** Required. The name of the Autonomous Database in the following format: projects/{project}/locations/{location}/autonomousDatabases/{autonomous_database}. */
@@ -3230,16 +3230,16 @@ export interface GetProjectsLocationsRequest {
 }
 /** A resource that represents a Google Cloud location. */
 export interface Location {
-  /** Service-specific metadata. For example the available capacity at the given location. */
-  metadata?: DocumentMap | undefined;
-  /** The canonical id for this location. For example: `"us-east1"`. */
-  locationId?: string | undefined;
-  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
-  name?: string | undefined;
   /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
   labels?: StringMap | undefined;
   /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
   displayName?: string | undefined;
+  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
+  name?: string | undefined;
+  /** The canonical id for this location. For example: `"us-east1"`. */
+  locationId?: string | undefined;
+  /** Service-specific metadata. For example the available capacity at the given location. */
+  metadata?: DocumentMap | undefined;
 }
 export interface GetProjectsLocationsAutonomousDatabasesRequest {
   /** Required. The name of the Autonomous Database in the following format: projects/{project}/locations/{location}/autonomousDatabases/{autonomous_database}. */
@@ -3305,6 +3305,31 @@ export interface GetProjectsLocationsPluggableDatabasesRequest {
   /** Required. The name of the PluggableDatabase resource in the following format: projects/{project}/locations/{region}/pluggableDatabases/{pluggable_database} */
   name: string;
 }
+/** The connection strings used to connect to the Oracle Database. */
+export interface PluggableDatabaseConnectionStrings {
+  /** Optional. The default connection string to use to connect to the pluggable database. */
+  pdbDefault?: string | undefined;
+  /** Optional. All connection strings to use to connect to the pluggable database. */
+  allConnectionStrings?: StringMap | undefined;
+  /** Optional. The default connection string to use to connect to the pluggable database using IP. */
+  pdbIpDefault?: string | undefined;
+}
+export type PluggableDatabaseNodeLevelDetailsOpenModeEnum =
+  | "PLUGGABLE_DATABASE_OPEN_MODE_UNSPECIFIED"
+  | "READ_ONLY"
+  | "READ_WRITE"
+  | "MOUNTED"
+  | "MIGRATE";
+/** The Pluggable Database Node Level Details. */
+export interface PluggableDatabaseNodeLevelDetails {
+  /** Required. The mode that the pluggable database is in to open it. */
+  openMode?: PluggableDatabaseNodeLevelDetailsOpenModeEnum | undefined;
+  /** Required. The Node name of the Database home. */
+  nodeName?: string | undefined;
+  /** Required. The OCID of the Pluggable Database. */
+  pluggableDatabaseId?: string | undefined;
+}
+export type PluggableDatabaseNodeLevelDetailsList = Array<PluggableDatabaseNodeLevelDetails>;
 export type PluggableDatabasePropertiesLifecycleStateEnum =
   | "PLUGGABLE_DATABASE_LIFECYCLE_STATE_UNSPECIFIED"
   | "PROVISIONING"
@@ -3320,15 +3345,12 @@ export type PluggableDatabasePropertiesLifecycleStateEnum =
   | "RESTORE_FAILED"
   | "BACKUP_IN_PROGRESS"
   | "DISABLED";
-/** The connection strings used to connect to the Oracle Database. */
-export interface PluggableDatabaseConnectionStrings {
-  /** Optional. The default connection string to use to connect to the pluggable database using IP. */
-  pdbIpDefault?: string | undefined;
-  /** Optional. All connection strings to use to connect to the pluggable database. */
-  allConnectionStrings?: StringMap | undefined;
-  /** Optional. The default connection string to use to connect to the pluggable database. */
-  pdbDefault?: string | undefined;
+/** Wrapper message for the value of a defined tag. */
+export interface DefinedTagValue {
+  /** The tags within the namespace. */
+  tags?: StringMap | undefined;
 }
+export type DefinedTagValueMap = { [key: string]: DefinedTagValue | undefined };
 export type PluggableDatabasePropertiesOperationsInsightsStateEnum =
   | "OPERATIONS_INSIGHTS_STATE_UNSPECIFIED"
   | "ENABLING"
@@ -3337,67 +3359,45 @@ export type PluggableDatabasePropertiesOperationsInsightsStateEnum =
   | "NOT_ENABLED"
   | "FAILED_ENABLING"
   | "FAILED_DISABLING";
-/** Wrapper message for the value of a defined tag. */
-export interface DefinedTagValue {
-  /** The tags within the namespace. */
-  tags?: StringMap | undefined;
-}
-export type DefinedTagValueMap = { [key: string]: DefinedTagValue | undefined };
-export type PluggableDatabaseNodeLevelDetailsOpenModeEnum =
-  | "PLUGGABLE_DATABASE_OPEN_MODE_UNSPECIFIED"
-  | "READ_ONLY"
-  | "READ_WRITE"
-  | "MOUNTED"
-  | "MIGRATE";
-/** The Pluggable Database Node Level Details. */
-export interface PluggableDatabaseNodeLevelDetails {
-  /** Required. The OCID of the Pluggable Database. */
-  pluggableDatabaseId?: string | undefined;
-  /** Required. The Node name of the Database home. */
-  nodeName?: string | undefined;
-  /** Required. The mode that the pluggable database is in to open it. */
-  openMode?: PluggableDatabaseNodeLevelDetailsOpenModeEnum | undefined;
-}
-export type PluggableDatabaseNodeLevelDetailsList = Array<PluggableDatabaseNodeLevelDetails>;
 /** The properties of a PluggableDatabase. */
 export interface PluggableDatabaseProperties {
-  /** Output only. The OCID of the pluggable database. */
-  ocid?: string | undefined;
-  /** Required. The OCID of the CDB. */
-  containerDatabaseOcid?: string | undefined;
-  /** Output only. Additional information about the current lifecycle state. */
-  lifecycleDetails?: string | undefined;
-  /** Output only. The current state of the pluggable database. */
-  lifecycleState?: PluggableDatabasePropertiesLifecycleStateEnum | undefined;
   /** Optional. The Connection strings used to connect to the Oracle Database. */
   connectionStrings?: PluggableDatabaseConnectionStrings | undefined;
-  /** Required. The database name. */
-  pdbName?: string | undefined;
-  /** Required. The OCID of the compartment. */
-  compartmentId?: string | undefined;
-  /** Optional. Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. */
-  freeformTags?: StringMap | undefined;
-  /** Output only. The configuration of the Database Management service. */
-  databaseManagementConfig?: DatabaseManagementConfig | undefined;
-  /** Output only. The status of Operations Insights for this Database. */
-  operationsInsightsState?: PluggableDatabasePropertiesOperationsInsightsStateEnum | undefined;
+  /** Output only. Additional information about the current lifecycle state. */
+  lifecycleDetails?: string | undefined;
   /** Optional. The restricted mode of the pluggable database. If a pluggable database is opened in restricted mode, the user needs both create a session and have restricted session privileges to connect to it. */
   isRestricted?: boolean | undefined;
-  /** Optional. Defined tags for this resource. Each key is predefined and scoped to a namespace. */
-  definedTags?: DefinedTagValueMap | undefined;
+  /** Output only. The OCID of the pluggable database. */
+  ocid?: string | undefined;
   /** Optional. Pluggable Database Node Level Details */
   pdbNodeLevelDetails?: PluggableDatabaseNodeLevelDetailsList | undefined;
+  /** Output only. The configuration of the Database Management service. */
+  databaseManagementConfig?: DatabaseManagementConfig | undefined;
+  /** Output only. The current state of the pluggable database. */
+  lifecycleState?: PluggableDatabasePropertiesLifecycleStateEnum | undefined;
+  /** Optional. Defined tags for this resource. Each key is predefined and scoped to a namespace. */
+  definedTags?: DefinedTagValueMap | undefined;
+  /** Required. The OCID of the compartment. */
+  compartmentId?: string | undefined;
+  /** Output only. The status of Operations Insights for this Database. */
+  operationsInsightsState?: PluggableDatabasePropertiesOperationsInsightsStateEnum | undefined;
+  /** Required. The database name. */
+  pdbName?: string | undefined;
+  /** Optional. Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. */
+  freeformTags?: StringMap | undefined;
+  /** Required. The OCID of the CDB. */
+  containerDatabaseOcid?: string | undefined;
 }
 /** The PluggableDatabase resource. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/PluggableDatabase/ */
 export interface PluggableDatabase {
   /** Output only. HTTPS link to OCI resources exposed to Customer via UI Interface. */
   ociUrl?: string | undefined;
+  /** Output only. The date and time that the PluggableDatabase was created. */
+  createTime?: string | undefined;
   /** Optional. The properties of the PluggableDatabase. */
   properties?: PluggableDatabaseProperties | undefined;
   /** Identifier. The name of the PluggableDatabase resource in the following format: projects/{project}/locations/{region}/pluggableDatabases/{pluggable_database} */
   name?: string | undefined;
-  /** Output only. The date and time that the PluggableDatabase was created. */
-  createTime?: string | undefined;
 }
 export interface GetRefreshableClonesProjectsLocationsAutonomousDatabasesRequest {
   /** Required. The Autonomous Database resource whose refreshable clones are to be listed. Format: projects/{project}/locations/{location}/autonomousDatabases/{autonomous_database} */
@@ -3405,10 +3405,10 @@ export interface GetRefreshableClonesProjectsLocationsAutonomousDatabasesRequest
 }
 /** An Autonomous Database refreshable clone */
 export interface AutonomousDatabaseRefreshableClone {
-  /** Output only. The GCP resource name of the Autonomous Database. */
-  name?: string | undefined;
   /** Output only. The Google Cloud region where the refreshable clone exists. */
   region?: string | undefined;
+  /** Output only. The GCP resource name of the Autonomous Database. */
+  name?: string | undefined;
 }
 export type AutonomousDatabaseRefreshableCloneList = Array<AutonomousDatabaseRefreshableClone>;
 /** Response message for getting the Autonomous Database refreshable clones. */
@@ -3421,10 +3421,10 @@ export interface ListProjectsLocationsRequest {
   pageSize?: number | undefined;
   /** The resource that owns the locations collection, if applicable. */
   name: string;
-  /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
-  filter?: string | undefined;
   /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
   extraLocationTypes?: StringList | undefined;
+  /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
+  filter?: string | undefined;
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
   pageToken?: string | undefined;
 }
@@ -3439,12 +3439,12 @@ export interface ListLocationsResponse {
 export interface ListProjectsLocationsAutonomousDatabaseBackupsRequest {
   /** Optional. A token identifying a page of results the server should return. */
   pageToken?: string | undefined;
+  /** Optional. An expression for filtering the results of the request. Only the **autonomous_database_id** field is supported in the following format: `autonomous_database_id="{autonomous_database_id}"`. The accepted values must be a valid Autonomous Database ID, limited to the naming restrictions of the ID: ^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$). The ID must start with a letter, end with a letter or a number, and be a maximum of 63 characters. */
+  filter?: string | undefined;
   /** Optional. The maximum number of items to return. If unspecified, at most 50 Autonomous DB Backups will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
   pageSize?: number | undefined;
   /** Required. The parent value for ListAutonomousDatabaseBackups in the following format: projects/{project}/locations/{location}. */
   parent: string;
-  /** Optional. An expression for filtering the results of the request. Only the **autonomous_database_id** field is supported in the following format: `autonomous_database_id="{autonomous_database_id}"`. The accepted values must be a valid Autonomous Database ID, limited to the naming restrictions of the ID: ^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$). The ID must start with a letter, end with a letter or a number, and be a maximum of 63 characters. */
-  filter?: string | undefined;
 }
 export type AutonomousDatabaseBackupPropertiesLifecycleStateEnum =
   | "STATE_UNSPECIFIED"
@@ -3461,59 +3461,59 @@ export type AutonomousDatabaseBackupPropertiesTypeEnum =
   | "LONG_TERM";
 /** Properties of the Autonomous Database Backup resource. */
 export interface AutonomousDatabaseBackupProperties {
-  /** Output only. The quantity of data in the database, in terabytes. */
-  databaseSizeTb?: number | undefined;
-  /** Optional. The OCID of the vault. */
-  vaultId?: string | undefined;
-  /** Output only. Indicates if the backup is long term backup. */
-  isLongTermBackup?: boolean | undefined;
-  /** Output only. The lifecycle state of the backup. */
-  lifecycleState?: AutonomousDatabaseBackupPropertiesLifecycleStateEnum | undefined;
-  /** Output only. OCID of the Autonomous Database backup. https://docs.oracle.com/en-us/iaas/Content/General/Concepts/identifiers.htm#Oracle */
-  ocid?: string | undefined;
-  /** Optional. The OCID of the key store of Oracle Vault. */
-  keyStoreId?: string | undefined;
-  /** Output only. Additional information about the current lifecycle state. */
-  lifecycleDetails?: string | undefined;
-  /** Optional. The wallet name for Oracle Key Vault. */
-  keyStoreWallet?: string | undefined;
-  /** Output only. The date and time the backup completed. */
-  endTime?: string | undefined;
-  /** Optional. The OCID of the key container version that is used in database transparent data encryption (TDE) operations KMS Key can have multiple key versions. If none is specified, the current key version (latest) of the Key Id is used for the operation. Autonomous Database Serverless does not use key versions, hence is not applicable for Autonomous Database Serverless instances. */
-  kmsKeyVersionId?: string | undefined;
-  /** Output only. Timestamp until when the backup will be available. */
-  availableTillTime?: string | undefined;
-  /** Output only. The type of the backup. */
-  type?: AutonomousDatabaseBackupPropertiesTypeEnum | undefined;
   /** Output only. Indicates if the backup can be used to restore the Autonomous Database. */
   isRestorable?: boolean | undefined;
-  /** Output only. The OCID of the compartment. */
-  compartmentId?: string | undefined;
-  /** Output only. A valid Oracle Database version for Autonomous Database. */
-  dbVersion?: string | undefined;
+  /** Optional. The OCID of the vault. */
+  vaultId?: string | undefined;
   /** Optional. The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations. */
   kmsKeyId?: string | undefined;
-  /** Optional. Retention period in days for the backup. */
-  retentionPeriodDays?: number | undefined;
   /** Output only. Indicates if the backup is automatic or user initiated. */
   isAutomaticBackup?: boolean | undefined;
   /** Output only. The backup size in terabytes. */
   sizeTb?: number | undefined;
+  /** Optional. The OCID of the key container version that is used in database transparent data encryption (TDE) operations KMS Key can have multiple key versions. If none is specified, the current key version (latest) of the Key Id is used for the operation. Autonomous Database Serverless does not use key versions, hence is not applicable for Autonomous Database Serverless instances. */
+  kmsKeyVersionId?: string | undefined;
+  /** Output only. OCID of the Autonomous Database backup. https://docs.oracle.com/en-us/iaas/Content/General/Concepts/identifiers.htm#Oracle */
+  ocid?: string | undefined;
+  /** Output only. The lifecycle state of the backup. */
+  lifecycleState?: AutonomousDatabaseBackupPropertiesLifecycleStateEnum | undefined;
+  /** Output only. Timestamp until when the backup will be available. */
+  availableTillTime?: string | undefined;
+  /** Optional. The wallet name for Oracle Key Vault. */
+  keyStoreWallet?: string | undefined;
+  /** Output only. The type of the backup. */
+  type?: AutonomousDatabaseBackupPropertiesTypeEnum | undefined;
+  /** Output only. The quantity of data in the database, in terabytes. */
+  databaseSizeTb?: number | undefined;
   /** Output only. The date and time the backup started. */
   startTime?: string | undefined;
+  /** Optional. Retention period in days for the backup. */
+  retentionPeriodDays?: number | undefined;
+  /** Output only. A valid Oracle Database version for Autonomous Database. */
+  dbVersion?: string | undefined;
+  /** Output only. The OCID of the compartment. */
+  compartmentId?: string | undefined;
+  /** Output only. The date and time the backup completed. */
+  endTime?: string | undefined;
+  /** Optional. The OCID of the key store of Oracle Vault. */
+  keyStoreId?: string | undefined;
+  /** Output only. Additional information about the current lifecycle state. */
+  lifecycleDetails?: string | undefined;
+  /** Output only. Indicates if the backup is long term backup. */
+  isLongTermBackup?: boolean | undefined;
 }
 /** Details of the Autonomous Database Backup resource. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/AutonomousDatabaseBackup/ */
 export interface AutonomousDatabaseBackup {
+  /** Required. The name of the Autonomous Database resource for which the backup is being created. Format: projects/{project}/locations/{region}/autonomousDatabases/{autonomous_database} */
+  autonomousDatabase?: string | undefined;
+  /** Optional. Various properties of the backup. */
+  properties?: AutonomousDatabaseBackupProperties | undefined;
   /** Identifier. The name of the Autonomous Database Backup resource with the format: projects/{project}/locations/{region}/autonomousDatabaseBackups/{autonomous_database_backup} */
   name?: string | undefined;
   /** Optional. User friendly name for the Backup. The name does not have to be unique. */
   displayName?: string | undefined;
   /** Optional. labels or tags associated with the resource. */
   labels?: StringMap | undefined;
-  /** Required. The name of the Autonomous Database resource for which the backup is being created. Format: projects/{project}/locations/{region}/autonomousDatabases/{autonomous_database} */
-  autonomousDatabase?: string | undefined;
-  /** Optional. Various properties of the backup. */
-  properties?: AutonomousDatabaseBackupProperties | undefined;
 }
 export type AutonomousDatabaseBackupList = Array<AutonomousDatabaseBackup>;
 /** The response for `AutonomousDatabaseBackup.List`. */
@@ -3524,12 +3524,12 @@ export interface ListAutonomousDatabaseBackupsResponse {
   autonomousDatabaseBackups?: AutonomousDatabaseBackupList | undefined;
 }
 export interface ListProjectsLocationsAutonomousDatabaseCharacterSetsRequest {
+  /** Optional. The maximum number of items to return. If unspecified, at most 50 Autonomous DB Character Sets will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
+  pageSize?: number | undefined;
   /** Optional. An expression for filtering the results of the request. Only the **character_set_type** field is supported in the following format: `character_set_type="{characterSetType}"`. Accepted values include `DATABASE` and `NATIONAL`. */
   filter?: string | undefined;
   /** Required. The parent value for the Autonomous Database in the following format: projects/{project}/locations/{location}. */
   parent: string;
-  /** Optional. The maximum number of items to return. If unspecified, at most 50 Autonomous DB Character Sets will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number | undefined;
   /** Optional. A token identifying a page of results the server should return. */
   pageToken?: string | undefined;
 }
@@ -3539,12 +3539,12 @@ export type AutonomousDatabaseCharacterSetCharacterSetTypeEnum =
   | "NATIONAL";
 /** Details of the Autonomous Database character set resource. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/AutonomousDatabaseCharacterSets/ */
 export interface AutonomousDatabaseCharacterSet {
-  /** Output only. The character set type for the Autonomous Database. */
-  characterSetType?: AutonomousDatabaseCharacterSetCharacterSetTypeEnum | undefined;
   /** Output only. The character set name for the Autonomous Database which is the ID in the resource name. */
   characterSet?: string | undefined;
   /** Identifier. The name of the Autonomous Database Character Set resource in the following format: projects/{project}/locations/{region}/autonomousDatabaseCharacterSets/{autonomous_database_character_set} */
   name?: string | undefined;
+  /** Output only. The character set type for the Autonomous Database. */
+  characterSetType?: AutonomousDatabaseCharacterSetCharacterSetTypeEnum | undefined;
 }
 export type AutonomousDatabaseCharacterSetList = Array<AutonomousDatabaseCharacterSet>;
 /** The response for `AutonomousDatabaseCharacterSet.List`. */
@@ -3555,34 +3555,34 @@ export interface ListAutonomousDatabaseCharacterSetsResponse {
   autonomousDatabaseCharacterSets?: AutonomousDatabaseCharacterSetList | undefined;
 }
 export interface ListProjectsLocationsAutonomousDatabasesRequest {
+  /** Optional. The maximum number of items to return. If unspecified, at most 50 Autonomous Database will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
+  pageSize?: number | undefined;
   /** Optional. An expression for filtering the results of the request. */
   filter?: string | undefined;
   /** Optional. An expression for ordering the results of the request. */
   orderBy?: string | undefined;
-  /** Optional. A token identifying a page of results the server should return. */
-  pageToken?: string | undefined;
   /** Required. The parent value for the Autonomous Database in the following format: projects/{project}/locations/{location}. */
   parent: string;
-  /** Optional. The maximum number of items to return. If unspecified, at most 50 Autonomous Database will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number | undefined;
+  /** Optional. A token identifying a page of results the server should return. */
+  pageToken?: string | undefined;
 }
 export type AutonomousDatabaseList = Array<AutonomousDatabase>;
 /** The response for `AutonomousDatabase.List`. */
 export interface ListAutonomousDatabasesResponse {
-  /** A token identifying a page of results the server should return. */
-  nextPageToken?: string | undefined;
   /** Unreachable locations when listing resources across all locations using wildcard location '-'. */
   unreachable?: StringList | undefined;
+  /** A token identifying a page of results the server should return. */
+  nextPageToken?: string | undefined;
   /** The list of Autonomous Databases. */
   autonomousDatabases?: AutonomousDatabaseList | undefined;
 }
 export interface ListProjectsLocationsAutonomousDbVersionsRequest {
   /** Required. The parent value for the Autonomous Database in the following format: projects/{project}/locations/{location}. */
   parent: string;
-  /** Optional. The maximum number of items to return. If unspecified, at most 50 Autonomous DB Versions will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number | undefined;
   /** Optional. A token identifying a page of results the server should return. */
   pageToken?: string | undefined;
+  /** Optional. The maximum number of items to return. If unspecified, at most 50 Autonomous DB Versions will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
+  pageSize?: number | undefined;
 }
 export type AutonomousDbVersionDbWorkloadEnum =
   | "DB_WORKLOAD_UNSPECIFIED"
@@ -3593,44 +3593,44 @@ export type AutonomousDbVersionDbWorkloadEnum =
   | "LH";
 /** Details of the Autonomous Database version. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/AutonomousDbVersionSummary/ */
 export interface AutonomousDbVersion {
-  /** Output only. A URL that points to a detailed description of the Autonomous Database version. */
-  workloadUri?: string | undefined;
-  /** Identifier. The name of the Autonomous Database Version resource with the format: projects/{project}/locations/{region}/autonomousDbVersions/{autonomous_db_version} */
-  name?: string | undefined;
   /** Output only. An Oracle Database version for Autonomous Database. */
   version?: string | undefined;
+  /** Identifier. The name of the Autonomous Database Version resource with the format: projects/{project}/locations/{region}/autonomousDbVersions/{autonomous_db_version} */
+  name?: string | undefined;
+  /** Output only. A URL that points to a detailed description of the Autonomous Database version. */
+  workloadUri?: string | undefined;
   /** Output only. The Autonomous Database workload type. */
   dbWorkload?: AutonomousDbVersionDbWorkloadEnum | undefined;
 }
 export type AutonomousDbVersionList = Array<AutonomousDbVersion>;
 /** The response for `AutonomousDbVersion.List`. */
 export interface ListAutonomousDbVersionsResponse {
-  /** A token identifying a page of results the server should return. */
-  nextPageToken?: string | undefined;
   /** The list of Autonomous Database versions. */
   autonomousDbVersions?: AutonomousDbVersionList | undefined;
+  /** A token identifying a page of results the server should return. */
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsCloudExadataInfrastructuresRequest {
-  /** Optional. An expression for filtering the results of the request. */
-  filter?: string | undefined;
+  /** Required. The parent value for CloudExadataInfrastructure in the following format: projects/{project}/locations/{location}. */
+  parent: string;
+  /** Optional. The maximum number of items to return. If unspecified, at most 50 Exadata infrastructures will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
+  pageSize?: number | undefined;
   /** Optional. A token identifying a page of results the server should return. */
   pageToken?: string | undefined;
   /** Optional. An expression for ordering the results of the request. */
   orderBy?: string | undefined;
-  /** Optional. The maximum number of items to return. If unspecified, at most 50 Exadata infrastructures will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number | undefined;
-  /** Required. The parent value for CloudExadataInfrastructure in the following format: projects/{project}/locations/{location}. */
-  parent: string;
+  /** Optional. An expression for filtering the results of the request. */
+  filter?: string | undefined;
 }
 export type CloudExadataInfrastructureList = Array<CloudExadataInfrastructure>;
 /** The response for `CloudExadataInfrastructures.list`. */
 export interface ListCloudExadataInfrastructuresResponse {
-  /** A token for fetching next page of response. */
-  nextPageToken?: string | undefined;
-  /** The list of Exadata Infrastructures. */
-  cloudExadataInfrastructures?: CloudExadataInfrastructureList | undefined;
   /** Unreachable locations when listing resources across all locations using wildcard location '-'. */
   unreachable?: StringList | undefined;
+  /** The list of Exadata Infrastructures. */
+  cloudExadataInfrastructures?: CloudExadataInfrastructureList | undefined;
+  /** A token for fetching next page of response. */
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsCloudExadataInfrastructuresDbServersRequest {
   /** Required. The parent value for database server in the following format: projects/{project}/locations/{location}/cloudExadataInfrastructures/{cloudExadataInfrastructure}. */
@@ -3649,69 +3649,69 @@ export type DbServerPropertiesStateEnum =
   | "DELETED";
 /** Various properties and settings associated with Exadata database server. */
 export interface DbServerProperties {
-  /** Optional. Maximum memory allocated in GBs. */
-  maxMemorySizeGb?: number | undefined;
-  /** Optional. Local storage per VM. */
-  dbNodeStorageSizeGb?: number | undefined;
+  /** Optional. Maximum OCPU count per database. */
+  maxOcpuCount?: number | undefined;
   /** Output only. OCID of database nodes associated with the database server. */
   dbNodeIds?: StringList | undefined;
-  /** Output only. State of the database server. */
-  state?: DbServerPropertiesStateEnum | undefined;
   /** Optional. Memory allocated in GBs. */
   memorySizeGb?: number | undefined;
   /** Output only. OCID of database server. */
   ocid?: string | undefined;
-  /** Optional. Vm count per database. */
-  vmCount?: number | undefined;
   /** Optional. OCPU count per database. */
   ocpuCount?: number | undefined;
   /** Optional. Maximum local storage per VM. */
   maxDbNodeStorageSizeGb?: number | undefined;
-  /** Optional. Maximum OCPU count per database. */
-  maxOcpuCount?: number | undefined;
+  /** Optional. Local storage per VM. */
+  dbNodeStorageSizeGb?: number | undefined;
+  /** Optional. Vm count per database. */
+  vmCount?: number | undefined;
+  /** Optional. Maximum memory allocated in GBs. */
+  maxMemorySizeGb?: number | undefined;
+  /** Output only. State of the database server. */
+  state?: DbServerPropertiesStateEnum | undefined;
 }
 /** Details of the database server resource. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/DbServer/ */
 export interface DbServer {
-  /** Identifier. The name of the database server resource with the format: projects/{project}/locations/{location}/cloudExadataInfrastructures/{cloud_exadata_infrastructure}/dbServers/{db_server} */
-  name?: string | undefined;
   /** Optional. User friendly name for this resource. */
   displayName?: string | undefined;
+  /** Identifier. The name of the database server resource with the format: projects/{project}/locations/{location}/cloudExadataInfrastructures/{cloud_exadata_infrastructure}/dbServers/{db_server} */
+  name?: string | undefined;
   /** Optional. Various properties of the database server. */
   properties?: DbServerProperties | undefined;
 }
 export type DbServerList = Array<DbServer>;
 /** The response for `DbServer.List`. */
 export interface ListDbServersResponse {
-  /** The list of database servers. */
-  dbServers?: DbServerList | undefined;
   /** A token identifying a page of results the server should return. */
   nextPageToken?: string | undefined;
+  /** The list of database servers. */
+  dbServers?: DbServerList | undefined;
 }
 export interface ListProjectsLocationsCloudVmClustersRequest {
   /** Optional. A token identifying the page of results the server returns. */
   pageToken?: string | undefined;
-  /** Optional. An expression for filtering the results of the request. */
-  filter?: string | undefined;
   /** Required. The name of the parent in the following format: projects/{project}/locations/{location}. */
   parent: string;
+  /** Optional. An expression for filtering the results of the request. */
+  filter?: string | undefined;
   /** Optional. The number of VM clusters to return. If unspecified, at most 50 VM clusters will be returned. The maximum value is 1,000. */
   pageSize?: number | undefined;
 }
 export type CloudVmClusterList = Array<CloudVmCluster>;
 /** The response for `CloudVmCluster.List`. */
 export interface ListCloudVmClustersResponse {
+  /** Unreachable locations when listing resources across all locations using wildcard location '-'. */
+  unreachable?: StringList | undefined;
   /** A token to fetch the next page of results. */
   nextPageToken?: string | undefined;
   /** The list of VM Clusters. */
   cloudVmClusters?: CloudVmClusterList | undefined;
-  /** Unreachable locations when listing resources across all locations using wildcard location '-'. */
-  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsCloudVmClustersDbNodesRequest {
-  /** Required. The parent value for database node in the following format: projects/{project}/locations/{location}/cloudVmClusters/{cloudVmCluster}. . */
-  parent: string;
   /** Optional. A token identifying a page of results the node should return. */
   pageToken?: string | undefined;
+  /** Required. The parent value for database node in the following format: projects/{project}/locations/{location}/cloudVmClusters/{cloudVmCluster}. . */
+  parent: string;
   /** Optional. The maximum number of items to return. If unspecified, at most 50 db nodes will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
   pageSize?: number | undefined;
 }
@@ -3730,22 +3730,22 @@ export type DbNodePropertiesStateEnum =
 export interface DbNodeProperties {
   /** Optional. Local storage per database node. */
   dbNodeStorageSizeGb?: number | undefined;
+  /** Output only. OCID of database node. */
+  ocid?: string | undefined;
+  /** Optional. OCPU count per database node. */
+  ocpuCount?: number | undefined;
+  /** Output only. State of the database node. */
+  state?: DbNodePropertiesStateEnum | undefined;
+  /** Memory allocated in GBs. */
+  memorySizeGb?: number | undefined;
   /** Total CPU core count of the database node. */
   totalCpuCoreCount?: number | undefined;
   /** Optional. DNS */
   hostname?: string | undefined;
   /** Optional. Database server OCID. */
   dbServerOcid?: string | undefined;
-  /** Optional. OCPU count per database node. */
-  ocpuCount?: number | undefined;
   /** Output only. The date and time that the database node was created. */
   createTime?: string | undefined;
-  /** Memory allocated in GBs. */
-  memorySizeGb?: number | undefined;
-  /** Output only. State of the database node. */
-  state?: DbNodePropertiesStateEnum | undefined;
-  /** Output only. OCID of database node. */
-  ocid?: string | undefined;
 }
 /** Details of the database node resource. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/DbNode/ */
 export interface DbNode {
@@ -3757,20 +3757,20 @@ export interface DbNode {
 export type DbNodeList = Array<DbNode>;
 /** The response for `DbNode.List`. */
 export interface ListDbNodesResponse {
-  /** The list of DB Nodes */
-  dbNodes?: DbNodeList | undefined;
   /** A token identifying a page of results the node should return. */
   nextPageToken?: string | undefined;
+  /** The list of DB Nodes */
+  dbNodes?: DbNodeList | undefined;
 }
 export interface ListProjectsLocationsDatabaseCharacterSetsRequest {
-  /** Optional. The maximum number of DatabaseCharacterSets to return. The service may return fewer than this value. If unspecified, at most 50 DatabaseCharacterSets will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number | undefined;
+  /** Required. The parent value for DatabaseCharacterSets in the following format: projects/{project}/locations/{location}. */
+  parent: string;
   /** Optional. A page token, received from a previous `ListDatabaseCharacterSets` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListDatabaseCharacterSets` must match the call that provided the page token. */
   pageToken?: string | undefined;
   /** Optional. An expression for filtering the results of the request. Only the **character_set_type** field is supported in the following format: `character_set_type="{characterSetType}"`. Accepted values include `DATABASE` and `NATIONAL`. */
   filter?: string | undefined;
-  /** Required. The parent value for DatabaseCharacterSets in the following format: projects/{project}/locations/{location}. */
-  parent: string;
+  /** Optional. The maximum number of DatabaseCharacterSets to return. The service may return fewer than this value. If unspecified, at most 50 DatabaseCharacterSets will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
+  pageSize?: number | undefined;
 }
 export type DatabaseCharacterSetCharacterSetTypeEnum =
   | "CHARACTER_SET_TYPE_UNSPECIFIED"
@@ -3778,70 +3778,70 @@ export type DatabaseCharacterSetCharacterSetTypeEnum =
   | "NATIONAL";
 /** Details of the Database character set resource. */
 export interface DatabaseCharacterSet {
+  /** Output only. The character set name for the Database which is the ID in the resource name. */
+  characterSet?: string | undefined;
   /** Identifier. The name of the Database Character Set resource in the following format: projects/{project}/locations/{region}/databaseCharacterSets/{database_character_set} */
   name?: string | undefined;
   /** Output only. The character set type for the Database. */
   characterSetType?: DatabaseCharacterSetCharacterSetTypeEnum | undefined;
-  /** Output only. The character set name for the Database which is the ID in the resource name. */
-  characterSet?: string | undefined;
 }
 export type DatabaseCharacterSetList = Array<DatabaseCharacterSet>;
 /** The response for `DatabaseCharacterSet.List`. */
 export interface ListDatabaseCharacterSetsResponse {
-  /** The list of DatabaseCharacterSets. */
-  databaseCharacterSets?: DatabaseCharacterSetList | undefined;
   /** A token identifying a page of results the server should return. */
   nextPageToken?: string | undefined;
+  /** The list of DatabaseCharacterSets. */
+  databaseCharacterSets?: DatabaseCharacterSetList | undefined;
 }
 export interface ListProjectsLocationsDatabaseConnectionsRequest {
-  /** Required. The parent value for the DatabaseConnection in the following format: projects/{project}/locations/{location}. */
-  parent: string;
   /** Optional. A token identifying a page of results the server should return. */
   pageToken?: string | undefined;
-  /** Optional. An expression for filtering the results of the request. */
-  filter?: string | undefined;
+  /** Required. The parent value for the DatabaseConnection in the following format: projects/{project}/locations/{location}. */
+  parent: string;
   /** Optional. An expression for ordering the results of the request. */
   orderBy?: string | undefined;
   /** Optional. The maximum number of items to return. If unspecified, at most 50 DatabaseConnections will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
   pageSize?: number | undefined;
+  /** Optional. An expression for filtering the results of the request. */
+  filter?: string | undefined;
 }
 export type DatabaseConnectionList = Array<DatabaseConnection>;
 /** The response for `DatabaseConnection.List`. */
 export interface ListDatabaseConnectionsResponse {
-  /** A token identifying a page of results the server should return. */
-  nextPageToken?: string | undefined;
-  /** The list of DatabaseConnections. */
-  databaseConnections?: DatabaseConnectionList | undefined;
   /** Unreachable locations when listing resources across all locations using wildcard location '-'. */
   unreachable?: StringList | undefined;
+  /** The list of DatabaseConnections. */
+  databaseConnections?: DatabaseConnectionList | undefined;
+  /** A token identifying a page of results the server should return. */
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsDatabasesRequest {
+  /** Optional. The maximum number of items to return. If unspecified, a maximum of 50 Databases will be returned. The maximum value is 1000; values above 1000 will be reset to 1000. */
+  pageSize?: number | undefined;
   /** Required. The parent resource name in the following format: projects/{project}/locations/{region} */
   parent: string;
   /** Optional. An expression for filtering the results of the request. list for container databases is supported only with a valid dbSystem (full resource name) filter in this format: `dbSystem="projects/{project}/locations/{location}/dbSystems/{dbSystemId}"` */
   filter?: string | undefined;
   /** Optional. A token identifying the requested page of results to return. All fields except the filter should remain the same as in the request that provided this page token. */
   pageToken?: string | undefined;
-  /** Optional. The maximum number of items to return. If unspecified, a maximum of 50 Databases will be returned. The maximum value is 1000; values above 1000 will be reset to 1000. */
-  pageSize?: number | undefined;
 }
 export type DatabaseList = Array<Database>;
 /** The response for `Database.List`. */
 export interface ListDatabasesResponse {
-  /** A token identifying a page of results the server should return. */
-  nextPageToken?: string | undefined;
   /** The list of Databases. */
   databases?: DatabaseList | undefined;
+  /** A token identifying a page of results the server should return. */
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsDbSystemComputePerformancesRequest {
-  /** Optional. An expression for filtering the results of the request. Only the `db_system_shape` field is supported in the following format: `db_system_shape="{db_system_shape}"`. */
-  filter?: string | undefined;
-  /** Required. Parent value for ListDbSystemComputePerformancesRequest Format: projects/{project}/locations/{location} */
-  parent: string;
-  /** Optional. A token identifying a page of results the server should return. */
-  pageToken?: string | undefined;
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
   pageSize?: number | undefined;
+  /** Optional. An expression for filtering the results of the request. Only the `db_system_shape` field is supported in the following format: `db_system_shape="{db_system_shape}"`. */
+  filter?: string | undefined;
+  /** Optional. A token identifying a page of results the server should return. */
+  pageToken?: string | undefined;
+  /** Required. Parent value for ListDbSystemComputePerformancesRequest Format: projects/{project}/locations/{location} */
+  parent: string;
 }
 export type ComputePerformanceComputeModelEnum =
   | "COMPUTE_MODEL_UNSPECIFIED"
@@ -3849,14 +3849,14 @@ export type ComputePerformanceComputeModelEnum =
   | "COMPUTE_MODEL_OCPU";
 /** Parameters detailing the compute performance for a specified DB system shape. */
 export interface ComputePerformance {
-  /** Output only. The number of compute servers for the DB system. */
-  computeCount?: number | undefined;
-  /** Output only. The amount of memory allocated for the VMDB System in GBs. */
-  memoryInGbs?: number | undefined;
   /** Output only. The number of CPU cores available. */
   cpuCoreCount?: number | undefined;
   /** Output only. The compute model for Base Database Service. */
   computeModel?: ComputePerformanceComputeModelEnum | undefined;
+  /** Output only. The number of compute servers for the DB system. */
+  computeCount?: number | undefined;
+  /** Output only. The amount of memory allocated for the VMDB System in GBs. */
+  memoryInGbs?: number | undefined;
 }
 export type ComputePerformanceList = Array<ComputePerformance>;
 /** Details of the DbSystem compute performance resource. */
@@ -3871,18 +3871,18 @@ export interface DbSystemComputePerformance {
 export type DbSystemComputePerformanceList = Array<DbSystemComputePerformance>;
 /** Message for response to listing DbSystemComputePerformances */
 export interface ListDbSystemComputePerformancesResponse {
-  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string | undefined;
-  /** Unordered list. Locations that could not be reached. */
-  unreachable?: StringList | undefined;
   /** The list of DbSystemComputePerformance. */
   dbSystemComputePerformances?: DbSystemComputePerformanceList | undefined;
+  /** Unordered list. Locations that could not be reached. */
+  unreachable?: StringList | undefined;
+  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsDbSystemInitialStorageSizesRequest {
-  /** Optional. The maximum number of items to return. If unspecified, a maximum of 50 DbSystemInitialStorageSizes will be returned. The maximum value is 1000; values above 1000 will be reset to 1000. */
-  pageSize?: number | undefined;
   /** Required. The parent value for the DbSystemInitialStorageSize resource with the format: projects/{project}/locations/{location} */
   parent: string;
+  /** Optional. The maximum number of items to return. If unspecified, a maximum of 50 DbSystemInitialStorageSizes will be returned. The maximum value is 1000; values above 1000 will be reset to 1000. */
+  pageSize?: number | undefined;
   /** Optional. A token identifying the requested page of results to return. All fields except the filter should remain the same as in the request that provided this page token. */
   pageToken?: string | undefined;
 }
@@ -3907,10 +3907,10 @@ export interface DbSystemInitialStorageSizeProperties {
   shapeType?: DbSystemInitialStorageSizePropertiesShapeTypeEnum | undefined;
   /** Output only. List of storage disk details. */
   storageSizeDetails?: StorageSizeDetailsList | undefined;
-  /** Output only. List of storage disk details available for launches from backup. */
-  launchFromBackupStorageSizeDetails?: StorageSizeDetailsList | undefined;
   /** Output only. The storage option used in DB system. */
   storageManagement?: DbSystemInitialStorageSizePropertiesStorageManagementEnum | undefined;
+  /** Output only. List of storage disk details available for launches from backup. */
+  launchFromBackupStorageSizeDetails?: StorageSizeDetailsList | undefined;
 }
 /** Summary of the DbSystem initial storage size. */
 export interface DbSystemInitialStorageSize {
@@ -3928,69 +3928,69 @@ export interface ListDbSystemInitialStorageSizesResponse {
   nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsDbSystemsRequest {
-  /** Optional. An expression for filtering the results of the request. */
-  filter?: string | undefined;
-  /** Optional. A token identifying a page of results the server should return. */
-  pageToken?: string | undefined;
-  /** Optional. An expression for ordering the results of the request. */
-  orderBy?: string | undefined;
-  /** Optional. The maximum number of items to return. If unspecified, at most 50 DbSystems will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number | undefined;
   /** Required. The parent value for DbSystems in the following format: projects/{project}/locations/{location}. */
   parent: string;
+  /** Optional. The maximum number of items to return. If unspecified, at most 50 DbSystems will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
+  pageSize?: number | undefined;
+  /** Optional. An expression for filtering the results of the request. */
+  filter?: string | undefined;
+  /** Optional. An expression for ordering the results of the request. */
+  orderBy?: string | undefined;
+  /** Optional. A token identifying a page of results the server should return. */
+  pageToken?: string | undefined;
 }
 export type DbSystemList = Array<DbSystem>;
 /** The response for `DbSystem.List`. */
 export interface ListDbSystemsResponse {
-  /** The list of DbSystems. */
-  dbSystems?: DbSystemList | undefined;
-  /** A token identifying a page of results the server should return. */
-  nextPageToken?: string | undefined;
   /** Unreachable locations when listing resources across all locations using wildcard location '-'. */
   unreachable?: StringList | undefined;
+  /** A token identifying a page of results the server should return. */
+  nextPageToken?: string | undefined;
+  /** The list of DbSystems. */
+  dbSystems?: DbSystemList | undefined;
 }
 export interface ListProjectsLocationsDbSystemShapesRequest {
   /** Optional. An expression for filtering the results of the request. The `gcp_oracle_zone_id`, `shape_family`, and `database_edition` fields are supported in the following format: `gcp_oracle_zone_id="{gcp_oracle_zone_id}" AND shape_family="{shape_family}" AND database_edition="{database_edition}"`. */
   filter?: string | undefined;
   /** Required. The parent value for Database System Shapes in the following format: projects/{project}/locations/{location}. */
   parent: string;
-  /** Optional. The maximum number of items to return. If unspecified, at most 50 database system shapes will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number | undefined;
   /** Optional. A token identifying a page of results the server should return. */
   pageToken?: string | undefined;
+  /** Optional. The maximum number of items to return. If unspecified, at most 50 database system shapes will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
+  pageSize?: number | undefined;
 }
 /** Details of the Database System Shapes resource. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/DbSystemShapeSummary/ */
 export interface DbSystemShape {
-  /** Optional. Maximum number of storage servers. */
-  maxStorageCount?: number | undefined;
-  /** Optional. Storage per storage server in terabytes. */
-  availableDataStorageTb?: number | undefined;
-  /** Optional. Minimum core count per node. */
-  minimumCoreCount?: number | undefined;
   /** Optional. Minimum memory per node in gigabytes. */
   minMemoryPerNodeGb?: number | undefined;
-  /** Optional. Available core count. */
-  availableCoreCount?: number | undefined;
-  /** Optional. Core count increment. */
-  coreCountIncrement?: number | undefined;
-  /** Optional. Maximum number of database servers. */
-  maxNodeCount?: number | undefined;
-  /** Optional. Number of cores per node. */
-  availableCoreCountPerNode?: number | undefined;
   /** Optional. Memory per database server node in gigabytes. */
   availableMemoryPerNodeGb?: number | undefined;
-  /** Optional. Minimum node storage per database server in gigabytes. */
-  minDbNodeStoragePerNodeGb?: number | undefined;
+  /** Optional. Maximum number of storage servers. */
+  maxStorageCount?: number | undefined;
+  /** Optional. Maximum number of database servers. */
+  maxNodeCount?: number | undefined;
+  /** Optional. Minimum core count per node. */
+  minCoreCountPerNode?: number | undefined;
+  /** Optional. Number of cores per node. */
+  availableCoreCountPerNode?: number | undefined;
+  /** Optional. Minimum core count per node. */
+  minimumCoreCount?: number | undefined;
   /** Optional. Minimum number of database servers. */
   minNodeCount?: number | undefined;
+  /** Optional. Minimum node storage per database server in gigabytes. */
+  minDbNodeStoragePerNodeGb?: number | undefined;
+  /** Identifier. The name of the Database System Shape resource with the format: projects/{project}/locations/{region}/dbSystemShapes/{db_system_shape} */
+  name?: string | undefined;
+  /** Optional. Storage per storage server in terabytes. */
+  availableDataStorageTb?: number | undefined;
   /** Optional. Minimum number of storage servers. */
   minStorageCount?: number | undefined;
   /** Optional. shape */
   shape?: string | undefined;
-  /** Optional. Minimum core count per node. */
-  minCoreCountPerNode?: number | undefined;
-  /** Identifier. The name of the Database System Shape resource with the format: projects/{project}/locations/{region}/dbSystemShapes/{db_system_shape} */
-  name?: string | undefined;
+  /** Optional. Core count increment. */
+  coreCountIncrement?: number | undefined;
+  /** Optional. Available core count. */
+  availableCoreCount?: number | undefined;
 }
 export type DbSystemShapeList = Array<DbSystemShape>;
 /** The response for `DbSystemShape.List`. */
@@ -4003,32 +4003,32 @@ export interface ListDbSystemShapesResponse {
 export interface ListProjectsLocationsDbVersionsRequest {
   /** Optional. The maximum number of items to return. If unspecified, a maximum of 50 DbVersions will be returned. The maximum value is 1000; values above 1000 will be reset to 1000. */
   pageSize?: number | undefined;
-  /** Optional. Filter expression that matches a subset of the DbVersions to show. The supported filter for dbSystem creation is `db_system_shape = {db_system_shape} AND storage_management = {storage_management}`. If no filter is provided, all DbVersions will be returned. */
-  filter?: string | undefined;
-  /** Optional. A token identifying the requested page of results to return. All fields except the filter should remain the same as in the request that provided this page token. */
-  pageToken?: string | undefined;
   /** Required. The parent value for the DbVersion resource with the format: projects/{project}/locations/{location} */
   parent: string;
+  /** Optional. A token identifying the requested page of results to return. All fields except the filter should remain the same as in the request that provided this page token. */
+  pageToken?: string | undefined;
+  /** Optional. Filter expression that matches a subset of the DbVersions to show. The supported filter for dbSystem creation is `db_system_shape = {db_system_shape} AND storage_management = {storage_management}`. If no filter is provided, all DbVersions will be returned. */
+  filter?: string | undefined;
 }
 /** The properties of a DbVersion. */
 export interface DbVersionProperties {
-  /** Output only. True if this version of the Oracle Database software is the latest version for a release. */
-  isLatestForMajorVersion?: boolean | undefined;
-  /** Output only. A valid Oracle Database version. */
-  version?: string | undefined;
   /** Output only. True if this version of the Oracle Database software supports pluggable databases. */
   supportsPdb?: boolean | undefined;
+  /** Output only. A valid Oracle Database version. */
+  version?: string | undefined;
   /** Output only. True if this version of the Oracle Database software is supported for Upgrade. */
   isUpgradeSupported?: boolean | undefined;
   /** Output only. True if this version of the Oracle Database software is the preview version. */
   isPreviewDbVersion?: boolean | undefined;
+  /** Output only. True if this version of the Oracle Database software is the latest version for a release. */
+  isLatestForMajorVersion?: boolean | undefined;
 }
 /** A valid Oracle Database version. */
 export interface DbVersion {
-  /** Output only. The properties of the DbVersion. */
-  properties?: DbVersionProperties | undefined;
   /** Output only. The name of the DbVersion resource in the following format: projects/{project}/locations/{region}/dbVersions/{db_version} */
   name?: string | undefined;
+  /** Output only. The properties of the DbVersion. */
+  properties?: DbVersionProperties | undefined;
 }
 export type DbVersionList = Array<DbVersion>;
 /** The response for `DbVersions.List`. */
@@ -4039,12 +4039,23 @@ export interface ListDbVersionsResponse {
   nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsEntitlementsRequest {
-  /** Required. The parent value for the entitlement in the following format: projects/{project}/locations/{location}. */
-  parent: string;
   /** Optional. A token identifying a page of results the server should return. */
   pageToken?: string | undefined;
+  /** Required. The parent value for the entitlement in the following format: projects/{project}/locations/{location}. */
+  parent: string;
   /** Optional. The maximum number of items to return. If unspecified, a maximum of 50 entitlements will be returned. The maximum value is 1000. */
   pageSize?: number | undefined;
+}
+/** Details of the OCI Cloud Account. */
+export interface CloudAccountDetails {
+  /** Output only. OCI account name. */
+  cloudAccount?: string | undefined;
+  /** Output only. URL to create a new account and link. */
+  accountCreationUri?: string | undefined;
+  /** Output only. URL to link an existing account. */
+  linkExistingAccountUri?: string | undefined;
+  /** Output only. OCI account home region. */
+  cloudAccountHomeRegion?: string | undefined;
 }
 export type EntitlementStateEnum =
   | "STATE_UNSPECIFIED"
@@ -4053,27 +4064,16 @@ export type EntitlementStateEnum =
   | "ACTIVE"
   | "ACCOUNT_SUSPENDED"
   | "NOT_APPROVED_IN_PRIVATE_MARKETPLACE";
-/** Details of the OCI Cloud Account. */
-export interface CloudAccountDetails {
-  /** Output only. OCI account name. */
-  cloudAccount?: string | undefined;
-  /** Output only. URL to create a new account and link. */
-  accountCreationUri?: string | undefined;
-  /** Output only. OCI account home region. */
-  cloudAccountHomeRegion?: string | undefined;
-  /** Output only. URL to link an existing account. */
-  linkExistingAccountUri?: string | undefined;
-}
 /** Details of the Entitlement resource. */
 export interface Entitlement {
   /** Identifier. The name of the Entitlement resource with the format: projects/{project}/locations/{region}/entitlements/{entitlement} */
   name?: string | undefined;
-  /** Output only. Entitlement State. */
-  state?: EntitlementStateEnum | undefined;
   /** Output only. Google Cloud Marketplace order ID (aka entitlement ID) */
   entitlementId?: string | undefined;
   /** Details of the OCI Cloud Account. */
   cloudAccountDetails?: CloudAccountDetails | undefined;
+  /** Output only. Entitlement State. */
+  state?: EntitlementStateEnum | undefined;
 }
 export type EntitlementList = Array<Entitlement>;
 /** The response for `Entitlement.List`. */
@@ -4084,66 +4084,66 @@ export interface ListEntitlementsResponse {
   entitlements?: EntitlementList | undefined;
 }
 export interface ListProjectsLocationsExadbVmClustersRequest {
-  /** Optional. An expression for filtering the results of the request. */
-  filter?: string | undefined;
   /** Optional. An expression for ordering the results of the request. */
   orderBy?: string | undefined;
+  /** Optional. An expression for filtering the results of the request. */
+  filter?: string | undefined;
   /** Optional. A token identifying a page of results the server should return. */
   pageToken?: string | undefined;
-  /** Required. The parent value for ExadbVmClusters in the following format: projects/{project}/locations/{location}. */
-  parent: string;
   /** Optional. The maximum number of items to return. If unspecified, at most 50 ExadbVmClusters will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
   pageSize?: number | undefined;
+  /** Required. The parent value for ExadbVmClusters in the following format: projects/{project}/locations/{location}. */
+  parent: string;
 }
 export type ExadbVmClusterList = Array<ExadbVmCluster>;
 /** The response for `ExadbVmCluster.List`. */
 export interface ListExadbVmClustersResponse {
-  /** Unreachable locations when listing resources across all locations using wildcard location '-'. */
-  unreachable?: StringList | undefined;
-  /** A token identifying a page of results the server should return. */
-  nextPageToken?: string | undefined;
   /** The list of ExadbVmClusters. */
   exadbVmClusters?: ExadbVmClusterList | undefined;
+  /** A token identifying a page of results the server should return. */
+  nextPageToken?: string | undefined;
+  /** Unreachable locations when listing resources across all locations using wildcard location '-'. */
+  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsExadbVmClustersDbNodesRequest {
   /** Optional. The maximum number of items to return. If unspecified, at most 50 db nodes will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
   pageSize?: number | undefined;
-  /** Optional. A token identifying a page of results the node should return. */
-  pageToken?: string | undefined;
   /** Required. The parent value for database node in the following format: projects/{project}/locations/{location}/cloudVmClusters/{cloudVmCluster}. . */
   parent: string;
+  /** Optional. A token identifying a page of results the node should return. */
+  pageToken?: string | undefined;
 }
 export interface ListProjectsLocationsExascaleDbStorageVaultsRequest {
-  /** Required. The parent value for ExascaleDbStorageVault in the following format: projects/{project}/locations/{location}. */
-  parent: string;
-  /** Optional. The maximum number of items to return. If unspecified, at most 50 ExascaleDbStorageVaults will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number | undefined;
   /** Optional. A token identifying a page of results the server should return. */
   pageToken?: string | undefined;
   /** Optional. An expression for filtering the results of the request. Filter the list as specified in https://google.aip.dev/160. */
   filter?: string | undefined;
   /** Optional. An expression for ordering the results of the request. Order results as specified in https://google.aip.dev/132. */
   orderBy?: string | undefined;
+  /** Required. The parent value for ExascaleDbStorageVault in the following format: projects/{project}/locations/{location}. */
+  parent: string;
+  /** Optional. The maximum number of items to return. If unspecified, at most 50 ExascaleDbStorageVaults will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
+  pageSize?: number | undefined;
 }
 export type ExascaleDbStorageVaultList = Array<ExascaleDbStorageVault>;
 /** The response for `ExascaleDbStorageVault.List`. */
 export interface ListExascaleDbStorageVaultsResponse {
   /** The ExascaleDbStorageVaults. */
   exascaleDbStorageVaults?: ExascaleDbStorageVaultList | undefined;
-  /** Unreachable locations when listing resources across all locations using wildcard location '-'. */
-  unreachable?: StringList | undefined;
   /** A token identifying a page of results the server should return. If present, the next page token can be provided to a subsequent ListExascaleDbStorageVaults call to list the next page. If empty, there are no more pages. */
   nextPageToken?: string | undefined;
+  /** Unreachable locations when listing resources across all locations using wildcard location '-'. */
+  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsFlexComponentsRequest {
-  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number | undefined;
-  /** Required. Parent value for ListFlexComponentsRequest Format: projects/{project}/locations/{location} */
-  parent: string;
-  /** Optional. An expression for filtering the results of the request. Only the `shape` field is supported in the following format: `shape="{shape}"`. */
-  filter?: string | undefined;
   /** Optional. A token identifying a page of results the server should return. */
   pageToken?: string | undefined;
+  /** Required. Parent value for ListFlexComponentsRequest Format: projects/{project}/locations/{location} */
+  parent: string;
+  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
+  pageSize?: number | undefined;
+  /** Optional. An expression for filtering the results of the request. Only the `shape` field is supported in the following format: `shape="{shape}"`. */
+  filter?: string | undefined;
 }
 export type FlexComponentPropertiesHardwareTypeEnum =
   | "HARDWARE_TYPE_UNSPECIFIED"
@@ -4155,28 +4155,28 @@ export type FlexComponentPropertiesComputeModelEnum =
   | "COMPUTE_MODEL_OCPU";
 /** The properties of the Flex Component. */
 export interface FlexComponentProperties {
-  /** Output only. The name of the DB system shape for this Flex Component. */
-  shape?: string | undefined;
+  /** Output only. The runtime minimum number of CPU cores that can be enabled for this Flex Component. */
+  runtimeMinimumCoreCount?: number | undefined;
   /** Output only. The description summary for this Flex Component. */
   descriptionSummary?: string | undefined;
+  /** Output only. The hardware type of the DB (Compute) or Storage (Cell) Server for this Flex Component. */
+  hardwareType?: FlexComponentPropertiesHardwareTypeEnum | undefined;
+  /** Output only. The name of the Flex Component used for the DB system. */
+  name?: string | undefined;
   /** Output only. The maximum memory size that can be enabled on the DB Server for this Flex Component. */
   availableMemoryGb?: number | undefined;
   /** Output only. The maximum number of CPU cores that can be enabled on the DB system for this shape. */
   availableCoreCount?: number | undefined;
-  /** Output only. The hardware type of the DB (Compute) or Storage (Cell) Server for this Flex Component. */
-  hardwareType?: FlexComponentPropertiesHardwareTypeEnum | undefined;
-  /** Output only. The compute model of the DB Server for this Flex Component. */
-  computeModel?: FlexComponentPropertiesComputeModelEnum | undefined;
-  /** Output only. The runtime minimum number of CPU cores that can be enabled for this Flex Component. */
-  runtimeMinimumCoreCount?: number | undefined;
+  /** Output only. The maximum storage that can be enabled on the Storage Server for this Flex Component. */
+  availableDbNodeStoragePerNodeGb?: number | undefined;
   /** Output only. The minimum number of CPU cores that can be enabled on the DB Server for this Flex Component. */
   minimumCoreCount?: number | undefined;
   /** Output only. The maximum local storage that can be enabled on the DB Server for this Flex Component. */
   availableLocalStorageGb?: number | undefined;
-  /** Output only. The maximum storage that can be enabled on the Storage Server for this Flex Component. */
-  availableDbNodeStoragePerNodeGb?: number | undefined;
-  /** Output only. The name of the Flex Component used for the DB system. */
-  name?: string | undefined;
+  /** Output only. The name of the DB system shape for this Flex Component. */
+  shape?: string | undefined;
+  /** Output only. The compute model of the DB Server for this Flex Component. */
+  computeModel?: FlexComponentPropertiesComputeModelEnum | undefined;
 }
 /** Details of the Flex Component resource. */
 export interface FlexComponent {
@@ -4190,10 +4190,10 @@ export type FlexComponentList = Array<FlexComponent>;
 export interface ListFlexComponentsResponse {
   /** Unordered list. Locations that could not be reached. */
   unreachable?: StringList | undefined;
-  /** The list of FlexComponent */
-  flexComponents?: FlexComponentList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string | undefined;
+  /** The list of FlexComponent */
+  flexComponents?: FlexComponentList | undefined;
 }
 export interface ListProjectsLocationsGiVersionsRequest {
   /** Optional. The maximum number of items to return. If unspecified, a maximum of 50 Oracle Grid Infrastructure (GI) versions will be returned. The maximum value is 1000; values above 1000 will be reset to 1000. */
@@ -4207,10 +4207,10 @@ export interface ListProjectsLocationsGiVersionsRequest {
 }
 /** Details of the Oracle Grid Infrastructure (GI) version resource. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/GiVersionSummary/ */
 export interface GiVersion {
-  /** Optional. version */
-  version?: string | undefined;
   /** Identifier. The name of the Oracle Grid Infrastructure (GI) version resource with the format: projects/{project}/locations/{region}/giVersions/{gi_versions} */
   name?: string | undefined;
+  /** Optional. version */
+  version?: string | undefined;
 }
 export type GiVersionList = Array<GiVersion>;
 /** The response for `GiVersion.List`. */
@@ -4221,23 +4221,23 @@ export interface ListGiVersionsResponse {
   nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsGiVersionsMinorVersionsRequest {
-  /** Optional. An expression for filtering the results of the request. Only the `shape_family` and `gcp_oracle_zone_id` fields are supported in the following format: `shape_family="{shape_family}" AND gcp_oracle_zone_id="{gcp_oracle_zone_id}"`. */
-  filter?: string | undefined;
-  /** Optional. A token identifying the requested page of results to return. All fields except the filter should remain the same as in the request that provided this page token. */
-  pageToken?: string | undefined;
-  /** Required. The parent value for the MinorVersion resource with the format: projects/{project}/locations/{location}/giVersions/{gi_version} */
-  parent: string;
   /** Optional. The maximum number of items to return. If unspecified, a maximum of 50 System Versions will be returned. The maximum value is 1000; values above 1000 will be reset to 1000. */
   pageSize?: number | undefined;
+  /** Optional. A token identifying the requested page of results to return. All fields except the filter should remain the same as in the request that provided this page token. */
+  pageToken?: string | undefined;
+  /** Optional. An expression for filtering the results of the request. Only the `shape_family` and `gcp_oracle_zone_id` fields are supported in the following format: `shape_family="{shape_family}" AND gcp_oracle_zone_id="{gcp_oracle_zone_id}"`. */
+  filter?: string | undefined;
+  /** Required. The parent value for the MinorVersion resource with the format: projects/{project}/locations/{location}/giVersions/{gi_version} */
+  parent: string;
 }
 /** MinorVersion represents a minor version of a GI. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/GiMinorVersionSummary/ */
 export interface MinorVersion {
   /** Identifier. The name of the MinorVersion resource with the format: projects/{project}/locations/{region}/giVersions/{gi_version}/minorVersions/{minor_version} */
   name?: string | undefined;
-  /** Optional. The ID of the Grid Image. */
-  gridImageId?: string | undefined;
   /** Optional. The valid Oracle grid infrastructure software version. */
   version?: string | undefined;
+  /** Optional. The ID of the Grid Image. */
+  gridImageId?: string | undefined;
 }
 export type MinorVersionList = Array<MinorVersion>;
 /** The response for `MinorVersion.List`. */
@@ -4248,38 +4248,38 @@ export interface ListMinorVersionsResponse {
   nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsGoldengateConnectionAssignmentsRequest {
-  /** Optional. A comma-separated list of fields to order by, sorted in ascending order. Use "DESC" after a field name for descending. */
-  orderBy?: string | undefined;
-  /** Required. The parent value for the GoldengateConnectionAssignments. Format: projects/{project}/locations/{location} */
-  parent: string;
+  /** Optional. A filter expression that filters GoldengateConnectionAssignments listed in the response. */
+  filter?: string | undefined;
   /** Optional. A page token, received from a previous `ListGoldengateConnectionAssignments` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListGoldengateConnectionAssignments` must match the call that provided the page token. */
   pageToken?: string | undefined;
   /** Optional. The maximum number of GoldengateConnectionAssignments to return. The service may return fewer than this value. If unspecified, at most 50 GoldengateConnectionAssignments will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
   pageSize?: number | undefined;
-  /** Optional. A filter expression that filters GoldengateConnectionAssignments listed in the response. */
-  filter?: string | undefined;
+  /** Required. The parent value for the GoldengateConnectionAssignments. Format: projects/{project}/locations/{location} */
+  parent: string;
+  /** Optional. A comma-separated list of fields to order by, sorted in ascending order. Use "DESC" after a field name for descending. */
+  orderBy?: string | undefined;
 }
 export type GoldengateConnectionAssignmentList = Array<GoldengateConnectionAssignment>;
 /** Response message for listing GoldengateConnectionAssignments. */
 export interface ListGoldengateConnectionAssignmentsResponse {
-  /** The list of GoldengateConnectionAssignments. */
-  goldengateConnectionAssignments?: GoldengateConnectionAssignmentList | undefined;
-  /** Unreachable locations when listing resources across all locations using wildcard location '-'. */
-  unreachable?: StringList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string | undefined;
+  /** Unreachable locations when listing resources across all locations using wildcard location '-'. */
+  unreachable?: StringList | undefined;
+  /** The list of GoldengateConnectionAssignments. */
+  goldengateConnectionAssignments?: GoldengateConnectionAssignmentList | undefined;
 }
 export interface ListProjectsLocationsGoldengateConnectionsRequest {
-  /** Optional. An expression for ordering the results of the request. */
-  orderBy?: string | undefined;
+  /** Optional. A page token, received from a previous ListGoldengateConnections call. Provide this to retrieve the subsequent page. */
+  pageToken?: string | undefined;
   /** Optional. An expression for filtering the results of the request. */
   filter?: string | undefined;
   /** Optional. The maximum number of items to return. If unspecified, at most 50 GoldengateConnections will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
   pageSize?: number | undefined;
+  /** Optional. An expression for ordering the results of the request. */
+  orderBy?: string | undefined;
   /** Required. The parent value for GoldengateConnections in the following format: projects/{project}/locations/{location}. */
   parent: string;
-  /** Optional. A page token, received from a previous ListGoldengateConnections call. Provide this to retrieve the subsequent page. */
-  pageToken?: string | undefined;
 }
 export type GoldengateConnectionList = Array<GoldengateConnection>;
 /** The response for `GoldengateConnection.List`. */
@@ -4292,14 +4292,14 @@ export interface ListGoldengateConnectionsResponse {
   unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsGoldengateConnectionTypesRequest {
-  /** Optional. An expression for filtering the results of the request. The connection_type field must be specified in the format: `connection_type="ORACLE"`. */
-  filter?: string | undefined;
-  /** Required. Parent value for ListGoldengateConnectionTypesRequest Format: projects/{project}/locations/{location} */
-  parent: string;
-  /** Optional. A token identifying a page of results the server should return. */
-  pageToken?: string | undefined;
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
   pageSize?: number | undefined;
+  /** Required. Parent value for ListGoldengateConnectionTypesRequest Format: projects/{project}/locations/{location} */
+  parent: string;
+  /** Optional. An expression for filtering the results of the request. The connection_type field must be specified in the format: `connection_type="ORACLE"`. */
+  filter?: string | undefined;
+  /** Optional. A token identifying a page of results the server should return. */
+  pageToken?: string | undefined;
 }
 export type GoldengateConnectionTypeConnectionTypeEnum =
   | "CONNECTION_TYPE_UNSPECIFIED"
@@ -4334,22 +4334,22 @@ export type GoldengateConnectionTypeConnectionTypeEnum =
   | "ICEBERG";
 /** Details of the Goldengate Connection Type resource. */
 export interface GoldengateConnectionType {
-  /** Output only. The connection type of the Goldengate Connection Type resource. */
-  connectionType?: GoldengateConnectionTypeConnectionTypeEnum | undefined;
-  /** Output only. The technology type of the Goldengate Connection Type resource. */
-  technologyTypes?: StringList | undefined;
   /** Identifier. The name of the Goldengate Connection Type resource with the format: projects/{project}/locations/{region}/goldengateConnectionTypes/{goldengate_connection_type} */
   name?: string | undefined;
+  /** Output only. The technology type of the Goldengate Connection Type resource. */
+  technologyTypes?: StringList | undefined;
+  /** Output only. The connection type of the Goldengate Connection Type resource. */
+  connectionType?: GoldengateConnectionTypeConnectionTypeEnum | undefined;
 }
 export type GoldengateConnectionTypeList = Array<GoldengateConnectionType>;
 /** Message for response to listing GoldengateConnectionTypes */
 export interface ListGoldengateConnectionTypesResponse {
+  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string | undefined;
   /** The list of GoldengateConnectionType */
   goldengateConnectionTypes?: GoldengateConnectionTypeList | undefined;
   /** Unordered list. Locations that could not be reached. */
   unreachable?: StringList | undefined;
-  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsGoldengateDeploymentEnvironmentsRequest {
   /** Optional. A token identifying a page of results the server should return. */
@@ -4369,73 +4369,77 @@ export type GoldengateDeploymentEnvironmentCategoryEnum =
   | "DATA_TRANSFORMS_CATEGORY";
 /** Details of the Goldengate Deployment Environment resource. */
 export interface GoldengateDeploymentEnvironment {
-  /** Output only. The default CPU core count of the Goldengate Deployment Environment resource. */
-  defaultCpuCoreCount?: number | undefined;
-  /** Output only. The network bandwidth per CPU core in Gbps of the Goldengate Deployment Environment resource. */
-  networkBandwidthGbpsPerCpuCore?: number | undefined;
-  /** Output only. The max CPU core count of the Goldengate Deployment Environment resource. */
-  maxCpuCoreCount?: number | undefined;
-  /** Output only. The storage usage limit per CPU core in GBs of the Goldengate Deployment Environment resource. */
-  storageUsageLimitGbPerCpuCore?: number | undefined;
-  /** The display name of the Goldengate Deployment Environment resource. */
-  displayName?: string | undefined;
-  /** Output only. The min CPU core count of the Goldengate Deployment Environment resource. */
-  minCpuCoreCount?: number | undefined;
   /** Output only. The environment type of the Goldengate Deployment Environment resource. */
   environmentType?: GoldengateDeploymentEnvironmentEnvironmentTypeEnum | undefined;
-  /** Output only. The category of the Goldengate Deployment Environment resource. */
-  category?: GoldengateDeploymentEnvironmentCategoryEnum | undefined;
+  /** Output only. The default CPU core count of the Goldengate Deployment Environment resource. */
+  defaultCpuCoreCount?: number | undefined;
+  /** Output only. The max CPU core count of the Goldengate Deployment Environment resource. */
+  maxCpuCoreCount?: number | undefined;
+  /** Output only. The min CPU core count of the Goldengate Deployment Environment resource. */
+  minCpuCoreCount?: number | undefined;
+  /** Output only. The storage usage limit per CPU core in GBs of the Goldengate Deployment Environment resource. */
+  storageUsageLimitGbPerCpuCore?: number | undefined;
+  /** Output only. The network bandwidth per CPU core in Gbps of the Goldengate Deployment Environment resource. */
+  networkBandwidthGbpsPerCpuCore?: number | undefined;
   /** Identifier. The name of the Goldengate Deployment Environment resource with the format: projects/{project}/locations/{location}/goldengateDeploymentEnvironments/{goldengate_deployment_environment} */
   name?: string | undefined;
-  /** Output only. The memory per CPU core in GBs of the Goldengate Deployment Environment resource. */
-  memoryGbPerCpuCore?: number | undefined;
   /** Output only. Whether auto scaling is enabled by default for the Goldengate Deployment Environment resource. */
   autoScalingEnabled?: boolean | undefined;
+  /** Output only. The category of the Goldengate Deployment Environment resource. */
+  category?: GoldengateDeploymentEnvironmentCategoryEnum | undefined;
+  /** The display name of the Goldengate Deployment Environment resource. */
+  displayName?: string | undefined;
+  /** Output only. The memory per CPU core in GBs of the Goldengate Deployment Environment resource. */
+  memoryGbPerCpuCore?: number | undefined;
 }
 export type GoldengateDeploymentEnvironmentList = Array<GoldengateDeploymentEnvironment>;
 /** Message for response to listing GoldengateDeploymentEnvironments */
 export interface ListGoldengateDeploymentEnvironmentsResponse {
-  /** A token identifying a page of results the server should return. If this field is empty, there are no subsequent pages. */
-  nextPageToken?: string | undefined;
   /** The list of GoldengateDeploymentEnvironment */
   goldengateDeploymentEnvironments?: GoldengateDeploymentEnvironmentList | undefined;
   /** Unordered list. Locations that could not be reached. */
   unreachable?: StringList | undefined;
+  /** A token identifying a page of results the server should return. If this field is empty, there are no subsequent pages. */
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsGoldengateDeploymentsRequest {
-  /** Optional. A page token, received from a previous ListGoldengateDeployments call. Provide this to retrieve the subsequent page. */
-  pageToken?: string | undefined;
-  /** Optional. An expression for filtering the results of the request. */
-  filter?: string | undefined;
-  /** Optional. An expression for ordering the results of the request. */
-  orderBy?: string | undefined;
-  /** Optional. The maximum number of items to return. If unspecified, at most 50 GoldengateDeployments will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number | undefined;
   /** Required. The parent value for GoldengateDeployments in the following format: projects/{project}/locations/{location}. */
   parent: string;
+  /** Optional. An expression for ordering the results of the request. */
+  orderBy?: string | undefined;
+  /** Optional. A page token, received from a previous ListGoldengateDeployments call. Provide this to retrieve the subsequent page. */
+  pageToken?: string | undefined;
+  /** Optional. The maximum number of items to return. If unspecified, at most 50 GoldengateDeployments will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
+  pageSize?: number | undefined;
+  /** Optional. An expression for filtering the results of the request. */
+  filter?: string | undefined;
 }
 export type GoldengateDeploymentList = Array<GoldengateDeployment>;
 /** The response for `GoldengateDeployment.List`. */
 export interface ListGoldengateDeploymentsResponse {
+  /** Optional. Locations that could not be reached. */
+  unreachable?: StringList | undefined;
   /** A token identifying a page of results the server should return. */
   nextPageToken?: string | undefined;
   /** The list of GoldengateDeployments. */
   goldengateDeployments?: GoldengateDeploymentList | undefined;
-  /** Optional. Locations that could not be reached. */
-  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsGoldengateDeploymentTypesRequest {
-  /** Optional. A token identifying a page of results the server should return. */
-  pageToken?: string | undefined;
   /** Optional. An expression for filtering the results of the request. Either the deployment_type and ogg_version fields must be specified in the format: `deployment_type="DATABASE_ORACLE"` or `ogg_version="version"`. Allowed values for deployment_type are: `DATABASE_ORACLE`, `BIGDATA`, `DATABASE_MICROSOFT_SQLSERVER`, `DATABASE_MYSQL`, `DATABASE_POSTGRESQL`, `DATABASE_DB2ZOS`, `DATABASE_DB2I`, `GGSA`, `DATA_TRANSFORMS`. */
   filter?: string | undefined;
+  /** Optional. A token identifying a page of results the server should return. */
+  pageToken?: string | undefined;
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
   pageSize?: number | undefined;
-  /** Optional. Hint for how to order the results */
-  orderBy?: string | undefined;
   /** Required. The parent resource. Format: projects/{project}/locations/{location} */
   parent: string;
+  /** Optional. Hint for how to order the results */
+  orderBy?: string | undefined;
 }
+export type GoldengateDeploymentTypeCategoryEnum =
+  | "DEPLOYMENT_CATEGORY_UNSPECIFIED"
+  | "DATA_REPLICATION_CATEGORY"
+  | "DATA_TRANSFORMS_CATEGORY";
 export type GoldengateDeploymentTypeDeploymentTypeEnum =
   | "DEPLOYMENT_TYPE_UNSPECIFIED"
   | "OGG"
@@ -4448,60 +4452,51 @@ export type GoldengateDeploymentTypeDeploymentTypeEnum =
   | "DATABASE_DB2I"
   | "GGSA"
   | "DATA_TRANSFORMS";
-export type GoldengateDeploymentTypeCategoryEnum =
-  | "DEPLOYMENT_CATEGORY_UNSPECIFIED"
-  | "DATA_REPLICATION_CATEGORY"
-  | "DATA_TRANSFORMS_CATEGORY";
 /** Details of the Goldengate Deployment Type resource. */
 export interface GoldengateDeploymentType {
+  /** Output only. The source technologies of the Goldengate Deployment Type resource. */
+  sourceTechnologies?: StringList | undefined;
+  /** Output only. The category of the Goldengate Deployment Type resource. */
+  category?: GoldengateDeploymentTypeCategoryEnum | undefined;
+  /** Output only. The supported technologies URL of the Goldengate Deployment Type resource. */
+  supportedTechnologiesUrl?: string | undefined;
+  /** Output only. The deployment type of the Goldengate Deployment Type resource. */
+  deploymentType?: GoldengateDeploymentTypeDeploymentTypeEnum | undefined;
   /** Output only. The connection types of the Goldengate Deployment Type resource. */
   connectionTypes?: StringList | undefined;
   /** Output only. The Ogg version of the Goldengate Deployment Type resource. */
   oggVersion?: string | undefined;
-  /** Output only. The deployment type of the Goldengate Deployment Type resource. */
-  deploymentType?: GoldengateDeploymentTypeDeploymentTypeEnum | undefined;
-  /** Output only. The target technologies of the Goldengate Deployment Type resource. */
-  targetTechnologies?: StringList | undefined;
-  /** Output only. The supported technologies URL of the Goldengate Deployment Type resource. */
-  supportedTechnologiesUrl?: string | undefined;
-  /** Output only. The category of the Goldengate Deployment Type resource. */
-  category?: GoldengateDeploymentTypeCategoryEnum | undefined;
   /** Identifier. The name of the Goldengate Deployment Type resource with the format: projects/{project}/locations/{region}/goldengateDeploymentTypes/{goldengate_deployment_type} */
   name?: string | undefined;
-  /** Output only. The display name of the Goldengate Deployment Type resource. */
-  displayName?: string | undefined;
-  /** Output only. The supported capabilities of the Goldengate Deployment Type resource. */
-  supportedCapabilities?: StringList | undefined;
-  /** Output only. The source technologies of the Goldengate Deployment Type resource. */
-  sourceTechnologies?: StringList | undefined;
   /** Output only. The default username of the Goldengate Deployment Type resource. */
   defaultUsername?: string | undefined;
+  /** Output only. The target technologies of the Goldengate Deployment Type resource. */
+  targetTechnologies?: StringList | undefined;
+  /** Output only. The supported capabilities of the Goldengate Deployment Type resource. */
+  supportedCapabilities?: StringList | undefined;
+  /** Output only. The display name of the Goldengate Deployment Type resource. */
+  displayName?: string | undefined;
 }
 export type GoldengateDeploymentTypeList = Array<GoldengateDeploymentType>;
 /** Message for response to listing GoldengateDeploymentTypes */
 export interface ListGoldengateDeploymentTypesResponse {
-  /** Unordered list. The resource names of locations that could not be reached. */
-  unreachable?: StringList | undefined;
-  /** The list of GoldengateDeploymentType */
-  goldengateDeploymentTypes?: GoldengateDeploymentTypeList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string | undefined;
+  /** The list of GoldengateDeploymentType */
+  goldengateDeploymentTypes?: GoldengateDeploymentTypeList | undefined;
+  /** Unordered list. The resource names of locations that could not be reached. */
+  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsGoldengateDeploymentVersionsRequest {
-  /** Optional. An expression for filtering the results of the request. Either the deployment_id and deployment_type fields must be specified in the format: `deployment_id="id"` or `deployment_type="DATABASE_ORACLE"`. */
-  filter?: string | undefined;
-  /** Optional. A token identifying a page of results the server should return. */
-  pageToken?: string | undefined;
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. The maximum value is 1000; values above 1000 will be coerced to 1000. */
   pageSize?: number | undefined;
+  /** Optional. A token identifying a page of results the server should return. */
+  pageToken?: string | undefined;
   /** Required. Parent value for ListGoldengateDeploymentVersionsRequest Format: projects/{project}/locations/{location} */
   parent: string;
+  /** Optional. An expression for filtering the results of the request. Either the deployment_id and deployment_type fields must be specified in the format: `deployment_id="id"` or `deployment_type="DATABASE_ORACLE"`. */
+  filter?: string | undefined;
 }
-export type GoldengateDeploymentVersionPropertiesReleaseTypeEnum =
-  | "DEPLOYMENT_RELEASE_TYPE_UNSPECIFIED"
-  | "MAJOR"
-  | "BUNDLE"
-  | "MINOR";
 export type GoldengateDeploymentVersionPropertiesDeploymentTypeEnum =
   | "DEPLOYMENT_TYPE_UNSPECIFIED"
   | "OGG"
@@ -4514,47 +4509,52 @@ export type GoldengateDeploymentVersionPropertiesDeploymentTypeEnum =
   | "DATABASE_DB2I"
   | "GGSA"
   | "DATA_TRANSFORMS";
+export type GoldengateDeploymentVersionPropertiesReleaseTypeEnum =
+  | "DEPLOYMENT_RELEASE_TYPE_UNSPECIFIED"
+  | "MAJOR"
+  | "BUNDLE"
+  | "MINOR";
 /** Properties of GoldengateDeploymentVersion. */
 export interface GoldengateDeploymentVersionProperties {
   /** Output only. The support end time of the Goldengate Deployment Version resource. */
   supportEndTime?: string | undefined;
-  /** Optional. Whether the Goldengate Deployment Version resource is a security fix. */
-  securityFix?: boolean | undefined;
-  /** Output only. The OGG version of the Goldengate Deployment Version resource. */
-  oggVersion?: string | undefined;
-  /** Output only. The release type of the Goldengate Deployment Version resource. */
-  releaseType?: GoldengateDeploymentVersionPropertiesReleaseTypeEnum | undefined;
   /** Output only. The release time of the Goldengate Deployment Version resource. */
   releaseTime?: string | undefined;
+  /** Output only. The OGG version of the Goldengate Deployment Version resource. */
+  oggVersion?: string | undefined;
+  /** Optional. Whether the Goldengate Deployment Version resource is a security fix. */
+  securityFix?: boolean | undefined;
   /** Output only. The deployment type of the Goldengate Deployment Version resource. */
   deploymentType?: GoldengateDeploymentVersionPropertiesDeploymentTypeEnum | undefined;
+  /** Output only. The release type of the Goldengate Deployment Version resource. */
+  releaseType?: GoldengateDeploymentVersionPropertiesReleaseTypeEnum | undefined;
 }
 /** Details of the Goldengate Deployment Version resource. */
 export interface GoldengateDeploymentVersion {
+  /** Identifier. The name of the Goldengate Deployment Version resource with the format: projects/{project}/locations/{location}/goldengateDeploymentVersions/{goldengate_deployment_version} */
+  name?: string | undefined;
   /** Output only. The deployment version ocid of the Goldengate Deployment Version resource. */
   ocid?: string | undefined;
   /** Output only. The technology type of the Goldengate Deployment Version resource. */
   properties?: GoldengateDeploymentVersionProperties | undefined;
-  /** Identifier. The name of the Goldengate Deployment Version resource with the format: projects/{project}/locations/{location}/goldengateDeploymentVersions/{goldengate_deployment_version} */
-  name?: string | undefined;
 }
 export type GoldengateDeploymentVersionList = Array<GoldengateDeploymentVersion>;
 /** Message for response to listing GoldengateDeploymentVersions */
 export interface ListGoldengateDeploymentVersionsResponse {
-  /** The list of GoldengateDeploymentVersion */
-  goldengateDeploymentVersions?: GoldengateDeploymentVersionList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string | undefined;
+  /** The list of GoldengateDeploymentVersion */
+  goldengateDeploymentVersions?: GoldengateDeploymentVersionList | undefined;
   /** Unordered list. Locations that could not be reached. */
   unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsOdbNetworksRequest {
   /** Optional. The maximum number of items to return. If unspecified, at most 50 ODB Networks will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
   pageSize?: number | undefined;
-  /** Optional. An expression for filtering the results of the request. */
-  filter?: string | undefined;
   /** Optional. An expression for ordering the results of the request. */
   orderBy?: string | undefined;
+  /** Optional. An expression for filtering the results of the request. */
+  filter?: string | undefined;
   /** Optional. A token identifying a page of results the server should return. */
   pageToken?: string | undefined;
   /** Required. The parent value for the ODB Network in the following format: projects/{project}/locations/{location}. */
@@ -4565,22 +4565,22 @@ export type OdbNetworkList = Array<OdbNetwork>;
 export interface ListOdbNetworksResponse {
   /** The list of ODB Networks. */
   odbNetworks?: OdbNetworkList | undefined;
-  /** Unreachable locations when listing resources across all locations using wildcard location '-'. */
-  unreachable?: StringList | undefined;
   /** A token identifying a page of results the server should return. */
   nextPageToken?: string | undefined;
+  /** Unreachable locations when listing resources across all locations using wildcard location '-'. */
+  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsOdbNetworksOdbDnsZonesRequest {
-  /** Optional. The maximum number of items to return. If unspecified, at most 50 OdbDnsZones will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number | undefined;
-  /** Required. The parent value for the OdbDnsZone in the following format: projects/{project}/locations/{location}/odbNetworks/{odb_network}. */
-  parent: string;
-  /** Optional. An expression for filtering the results of the request. */
-  filter?: string | undefined;
   /** Optional. A token identifying a page of results the server should return. */
   pageToken?: string | undefined;
+  /** Optional. An expression for filtering the results of the request. */
+  filter?: string | undefined;
   /** Optional. An expression for ordering the results of the request. */
   orderBy?: string | undefined;
+  /** Required. The parent value for the OdbDnsZone in the following format: projects/{project}/locations/{location}/odbNetworks/{odb_network}. */
+  parent: string;
+  /** Optional. The maximum number of items to return. If unspecified, at most 50 OdbDnsZones will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
+  pageSize?: number | undefined;
 }
 export type OdbDnsZoneList = Array<OdbDnsZone>;
 /** The response for `OdbDnsZone.List`. */
@@ -4593,16 +4593,16 @@ export interface ListOdbDnsZonesResponse {
   odbDnsZones?: OdbDnsZoneList | undefined;
 }
 export interface ListProjectsLocationsOdbNetworksOdbSubnetsRequest {
-  /** Optional. The maximum number of items to return. If unspecified, at most 50 ODB Networks will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number | undefined;
+  /** Required. The parent value for the OdbSubnet in the following format: projects/{project}/locations/{location}/odbNetworks/{odb_network}. */
+  parent: string;
   /** Optional. A token identifying a page of results the server should return. */
   pageToken?: string | undefined;
   /** Optional. An expression for filtering the results of the request. */
   filter?: string | undefined;
+  /** Optional. The maximum number of items to return. If unspecified, at most 50 ODB Networks will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
+  pageSize?: number | undefined;
   /** Optional. An expression for ordering the results of the request. */
   orderBy?: string | undefined;
-  /** Required. The parent value for the OdbSubnet in the following format: projects/{project}/locations/{location}/odbNetworks/{odb_network}. */
-  parent: string;
 }
 export type OdbSubnetList = Array<OdbSubnet>;
 /** The response for `OdbSubnet.List`. */
@@ -4615,55 +4615,55 @@ export interface ListOdbSubnetsResponse {
   nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsOperationsRequest {
-  /** The standard list page token. */
-  pageToken?: string | undefined;
   /** The standard list filter. */
   filter?: string | undefined;
-  /** The standard list page size. */
-  pageSize?: number | undefined;
   /** The name of the operation's parent resource. */
   name: string;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
   returnPartialSuccess?: boolean | undefined;
+  /** The standard list page token. */
+  pageToken?: string | undefined;
+  /** The standard list page size. */
+  pageSize?: number | undefined;
 }
 export type OperationList = Array<Operation>;
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
   unreachable?: StringList | undefined;
-  /** The standard List next-page token. */
-  nextPageToken?: string | undefined;
   /** A list of operations that matches the specified filter in the request. */
   operations?: OperationList | undefined;
+  /** The standard List next-page token. */
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsPluggableDatabasesRequest {
-  /** Optional. A page token, received from a previous `ListPluggableDatabases` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListPluggableDatabases` must match the call that provided the page token. */
-  pageToken?: string | undefined;
+  /** Optional. The maximum number of PluggableDatabases to return. The service may return fewer than this value. */
+  pageSize?: number | undefined;
   /** Required. The parent, which owns this collection of PluggableDatabases. Format: projects/{project}/locations/{location} */
   parent: string;
   /** Optional. An expression for filtering the results of the request. List for pluggable databases is supported only with a valid container database (full resource name) filter in this format: `database="projects/{project}/locations/{location}/databases/{database}"` */
   filter?: string | undefined;
-  /** Optional. The maximum number of PluggableDatabases to return. The service may return fewer than this value. */
-  pageSize?: number | undefined;
+  /** Optional. A page token, received from a previous `ListPluggableDatabases` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListPluggableDatabases` must match the call that provided the page token. */
+  pageToken?: string | undefined;
 }
 export type PluggableDatabaseList = Array<PluggableDatabase>;
 /** The response for `PluggableDatabase.List`. */
 export interface ListPluggableDatabasesResponse {
-  /** The list of PluggableDatabases. */
-  pluggableDatabases?: PluggableDatabaseList | undefined;
   /** A token identifying a page of results the server should return. */
   nextPageToken?: string | undefined;
+  /** The list of PluggableDatabases. */
+  pluggableDatabases?: PluggableDatabaseList | undefined;
 }
 export interface PatchProjectsLocationsAutonomousDatabasesRequest extends Omit<
   AutonomousDatabase,
   "name"
 > {
+  /** Identifier. The name of the Autonomous Database resource in the following format: projects/{project}/locations/{region}/autonomousDatabases/{autonomous_database} */
+  name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the Exadata resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then the service treats this as an implied field mask equivalent to all fields that are populated (have a non-empty value). To clear or unset a field, the field must be explicitly specified in the `update_mask`. */
   updateMask?: string | undefined;
   /** Optional. An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Identifier. The name of the Autonomous Database resource in the following format: projects/{project}/locations/{region}/autonomousDatabases/{autonomous_database} */
-  name: string;
 }
 export interface PatchProjectsLocationsCloudExadataInfrastructuresRequest extends Omit<
   CloudExadataInfrastructure,
@@ -4677,21 +4677,21 @@ export interface PatchProjectsLocationsCloudExadataInfrastructuresRequest extend
   requestId?: string | undefined;
 }
 export interface PatchProjectsLocationsCloudVmClustersRequest extends Omit<CloudVmCluster, "name"> {
+  /** Identifier. The name of the VM Cluster resource with the format: projects/{project}/locations/{region}/cloudVmClusters/{cloud_vm_cluster} */
+  name: string;
   /** Optional. An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Optional. A mask specifying which fields in the VM Cluster should be updated. A field specified in the mask is overwritten. If a mask isn't provided, the service treats this as an implied field mask equivalent to all fields that are populated (have a non-empty value). To clear or unset a field, the field must be explicitly specified in the `update_mask`. */
   updateMask?: string | undefined;
-  /** Identifier. The name of the VM Cluster resource with the format: projects/{project}/locations/{region}/cloudVmClusters/{cloud_vm_cluster} */
-  name: string;
 }
 export interface PatchProjectsLocationsDatabaseConnectionsRequest extends Omit<
   DatabaseConnection,
   "name"
 > {
-  /** Optional. An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
   /** Identifier. The resource name of the DatabaseConnection. Format: projects/{project}/locations/{location}/databaseConnections/{database_connection} */
   name: string;
+  /** Optional. An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
   /** Optional. A mask specifying which fields in the DatabaseConnection should be updated. A field specified in the mask is overwritten. If a mask isn't provided then all the fields in the DatabaseConnection are overwritten. */
   updateMask?: string | undefined;
 }
@@ -4704,21 +4704,21 @@ export interface PatchProjectsLocationsDbSystemsRequest extends Omit<DbSystem, "
   name: string;
 }
 export interface PatchProjectsLocationsExadbVmClustersRequest extends Omit<ExadbVmCluster, "name"> {
-  /** Identifier. The name of the ExadbVmCluster resource in the following format: projects/{project}/locations/{region}/exadbVmClusters/{exadb_vm_cluster} */
-  name: string;
-  /** Optional. A mask specifying which fields in th VM Cluster should be updated. A field specified in the mask is overwritten. If a mask isn't provided then the service treats this as an implied field mask equivalent to all fields that are populated (have a non-empty value). To clear or unset a field, the field must be explicitly specified in the `update_mask`. */
-  updateMask?: string | undefined;
   /** Optional. An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
+  /** Optional. A mask specifying which fields in th VM Cluster should be updated. A field specified in the mask is overwritten. If a mask isn't provided then the service treats this as an implied field mask equivalent to all fields that are populated (have a non-empty value). To clear or unset a field, the field must be explicitly specified in the `update_mask`. */
+  updateMask?: string | undefined;
+  /** Identifier. The name of the ExadbVmCluster resource in the following format: projects/{project}/locations/{region}/exadbVmClusters/{exadb_vm_cluster} */
+  name: string;
 }
 export interface PatchProjectsLocationsExascaleDbStorageVaultsRequest extends Omit<
   ExascaleDbStorageVault,
   "name"
 > {
-  /** Optional. An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
   /** Optional. A mask specifying which fields in the ExascaleDbStorageVault should be updated. A field specified in the mask is updated. If a mask isn't provided, the service treats this as an implied field mask equivalent to all fields that are populated (have a non-empty value). To clear or unset a field, the field must be explicitly specified in the `update_mask`. */
   updateMask?: string | undefined;
+  /** Optional. An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
   /** Identifier. The resource name of the ExascaleDbStorageVault. Format: projects/{project}/locations/{location}/exascaleDbStorageVaults/{exascale_db_storage_vault} */
   name: string;
 }
@@ -4726,12 +4726,12 @@ export interface PatchProjectsLocationsGoldengateConnectionAssignmentsRequest ex
   GoldengateConnectionAssignment,
   "name"
 > {
+  /** Optional. A mask specifying which fields in the GoldengateConnectionAssignment should be updated. A field specified in the mask is updated. If a mask isn't provided, the service treats this as an implied field mask equivalent to all fields that are populated (have a non-empty value). To clear or unset a field, the field must be explicitly specified in the `update_mask`. */
+  updateMask?: string | undefined;
   /** Identifier. The name of the GoldengateConnectionAssignment resource in the following format: projects/{project}/locations/{region}/goldengateConnectionAssignments/{goldengate_connection_assignment} */
   name: string;
   /** Optional. An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Optional. A mask specifying which fields in the GoldengateConnectionAssignment should be updated. A field specified in the mask is updated. If a mask isn't provided, the service treats this as an implied field mask equivalent to all fields that are populated (have a non-empty value). To clear or unset a field, the field must be explicitly specified in the `update_mask`. */
-  updateMask?: string | undefined;
 }
 export interface PatchProjectsLocationsGoldengateConnectionsRequest extends Omit<
   GoldengateConnection,
@@ -4739,10 +4739,10 @@ export interface PatchProjectsLocationsGoldengateConnectionsRequest extends Omit
 > {
   /** Optional. A mask specifying which fields in the GoldengateConnection should be updated. A field specified in the mask is updated. If a mask isn't provided, the service treats this as an implied field mask equivalent to all fields that are populated (have a non-empty value). To clear or unset a field, the field must be explicitly specified in the `update_mask`. */
   updateMask?: string | undefined;
-  /** Identifier. The name of the GoldengateConnection resource in the following format: projects/{project}/locations/{region}/goldengateConnections/{goldengate_connection} */
-  name: string;
   /** Optional. An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
+  /** Identifier. The name of the GoldengateConnection resource in the following format: projects/{project}/locations/{region}/goldengateConnections/{goldengate_connection} */
+  name: string;
 }
 export interface PatchProjectsLocationsGoldengateDeploymentsRequest extends Omit<
   GoldengateDeployment,
@@ -4750,29 +4750,29 @@ export interface PatchProjectsLocationsGoldengateDeploymentsRequest extends Omit
 > {
   /** Optional. A mask specifying which fields in the GoldengateDeployment should be updated. A field specified in the mask is updated. If a mask isn't provided, the service treats this as an implied field mask equivalent to all fields that are populated (have a non-empty value). To clear or unset a field, the field must be explicitly specified in the `update_mask`. */
   updateMask?: string | undefined;
-  /** Optional. An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
   /** Identifier. The name of the GoldengateDeployment resource in the following format: projects/{project}/locations/{region}/goldengateDeployments/{goldengate_deployment} */
   name: string;
-}
-export interface PatchProjectsLocationsOdbNetworksRequest extends Omit<OdbNetwork, "name"> {
-  /** Optional. A mask specifying which fields in the OdbNetwork should be updated. A field specified in the mask is updated. If a mask isn't provided, the service treats this as an implied field mask equivalent to all fields that are populated (have a non-empty value). To clear or unset a field, the field must be explicitly specified in the `update_mask`. */
-  updateMask?: string | undefined;
-  /** Identifier. The name of the OdbNetwork resource in the following format: projects/{project}/locations/{region}/odbNetworks/{odb_network} */
-  name: string;
   /** Optional. An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
+}
+export interface PatchProjectsLocationsOdbNetworksRequest extends Omit<OdbNetwork, "name"> {
+  /** Optional. An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Identifier. The name of the OdbNetwork resource in the following format: projects/{project}/locations/{region}/odbNetworks/{odb_network} */
+  name: string;
+  /** Optional. A mask specifying which fields in the OdbNetwork should be updated. A field specified in the mask is updated. If a mask isn't provided, the service treats this as an implied field mask equivalent to all fields that are populated (have a non-empty value). To clear or unset a field, the field must be explicitly specified in the `update_mask`. */
+  updateMask?: string | undefined;
 }
 export interface PatchProjectsLocationsOdbNetworksOdbDnsZonesRequest extends Omit<
   OdbDnsZone,
   "name"
 > {
-  /** Optional. A mask specifying which fields in the OdbDnsZone should be updated. A field specified in the mask is updated. If a mask isn't provided, the service treats this as an implied field mask equivalent to all fields that are populated (have a non-empty value). To clear or unset a field, the field must be explicitly specified in the `update_mask`. */
-  updateMask?: string | undefined;
-  /** Optional. An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
   /** Identifier. The name of the OdbDnsZone resource in the following format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbDnsZones/{odb_dns_zone} */
   name: string;
+  /** Optional. An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Optional. A mask specifying which fields in the OdbDnsZone should be updated. A field specified in the mask is updated. If a mask isn't provided, the service treats this as an implied field mask equivalent to all fields that are populated (have a non-empty value). To clear or unset a field, the field must be explicitly specified in the `update_mask`. */
+  updateMask?: string | undefined;
 }
 export interface PatchProjectsLocationsOdbNetworksOdbSubnetsRequest extends Omit<
   OdbSubnet,
@@ -4796,10 +4796,10 @@ export interface RefreshProjectsLocationsAutonomousDatabasesRequest extends Refr
 }
 /** The request for `ExadbVmCluster.RemoveVirtualMachine`. */
 export interface RemoveVirtualMachineExadbVmClusterRequest {
-  /** Optional. An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
   /** Required. The list of host names of db nodes to be removed from the ExadbVmCluster. */
   hostnames?: StringList | undefined;
+  /** Optional. An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
 }
 export interface RemoveVirtualMachineProjectsLocationsExadbVmClustersRequest extends RemoveVirtualMachineExadbVmClusterRequest {
   /** Required. The name of the ExadbVmCluster in the following format: projects/{project}/locations/{location}/exadbVmClusters/{exadb_vm_cluster}. */
@@ -4895,24 +4895,24 @@ export type TestGoldengateConnectionAssignmentResponseResultTypeEnum =
   | "TIMED_OUT";
 /** Error details for TestGoldengateConnectionAssignment. */
 export interface TestConnectionAssignmentError {
-  /** A short error code that defines the error, meant for programmatic parsing. */
-  code?: string | undefined;
-  /** The text describing the action required to fix the issue. */
-  action?: string | undefined;
-  /** A human-readable error message. */
-  message?: string | undefined;
   /** The text describing the root cause of the reported issue. */
   issue?: string | undefined;
+  /** A human-readable error message. */
+  message?: string | undefined;
+  /** The text describing the action required to fix the issue. */
+  action?: string | undefined;
+  /** A short error code that defines the error, meant for programmatic parsing. */
+  code?: string | undefined;
 }
 export type TestConnectionAssignmentErrorList = Array<TestConnectionAssignmentError>;
 /** The result of the connectivity test performed between the Goldengate deployment and the associated database / service. */
 export interface TestGoldengateConnectionAssignmentResponse {
   /** Type of the result i.e. Success, Failure or Timeout. */
   resultType?: TestGoldengateConnectionAssignmentResponseResultTypeEnum | undefined;
-  /** Error details if test connection failed. */
-  error?: TestConnectionAssignmentError | undefined;
   /** List of test connection assignment error objects. */
   errors?: TestConnectionAssignmentErrorList | undefined;
+  /** Error details if test connection failed. */
+  error?: TestConnectionAssignmentError | undefined;
 }
 export type CancelProjectsLocationsOperationsError =
   | NotFound
@@ -4981,7 +4981,7 @@ export const createProjectsLocationsAutonomousDatabases: API.OperationMethod<
   CreateProjectsLocationsAutonomousDatabasesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3264, __c102, 0) as any as S.Schema<CreateProjectsLocationsAutonomousDatabasesRequest>,
+  input: __S(3296, __c103, 0) as any as S.Schema<CreateProjectsLocationsAutonomousDatabasesRequest>,
   output: __S(2882, __c90, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled],
   serviceErrors: GcpServiceErrors,
@@ -5007,8 +5007,8 @@ export const createProjectsLocationsCloudExadataInfrastructures: API.OperationMe
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3744,
-    __c117,
+    3776,
+    __c118,
     0,
   ) as any as S.Schema<CreateProjectsLocationsCloudExadataInfrastructuresRequest>,
   output: __S(2882, __c90, 2) as any as S.Schema<Operation>,
@@ -5035,7 +5035,7 @@ export const createProjectsLocationsCloudVmClusters: API.OperationMethod<
   CreateProjectsLocationsCloudVmClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4160, __c130, 0) as any as S.Schema<CreateProjectsLocationsCloudVmClustersRequest>,
+  input: __S(4192, __c131, 0) as any as S.Schema<CreateProjectsLocationsCloudVmClustersRequest>,
   output: __S(2882, __c90, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled],
   serviceErrors: GcpServiceErrors,
@@ -5922,7 +5922,7 @@ export const getProjectsLocationsAutonomousDatabases: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2144, __c67, 0) as any as S.Schema<GetProjectsLocationsAutonomousDatabasesRequest>,
-  output: __S(3311, __c103, 15) as any as S.Schema<AutonomousDatabase>,
+  output: __S(3343, __c104, 15) as any as S.Schema<AutonomousDatabase>,
   errors: [NotFound, Forbidden, ServiceDisabled],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -5948,7 +5948,7 @@ export const getProjectsLocationsCloudExadataInfrastructures: API.OperationMetho
     __c68,
     0,
   ) as any as S.Schema<GetProjectsLocationsCloudExadataInfrastructuresRequest>,
-  output: __S(3812, __c119, 4) as any as S.Schema<CloudExadataInfrastructure>,
+  output: __S(3844, __c120, 4) as any as S.Schema<CloudExadataInfrastructure>,
   errors: [NotFound, Forbidden, ServiceDisabled],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -5970,7 +5970,7 @@ export const getProjectsLocationsCloudVmClusters: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2208, __c69, 0) as any as S.Schema<GetProjectsLocationsCloudVmClustersRequest>,
-  output: __S(4258, __c133, 2) as any as S.Schema<CloudVmCluster>,
+  output: __S(4290, __c134, 2) as any as S.Schema<CloudVmCluster>,
   errors: [NotFound, Forbidden, ServiceDisabled],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6124,7 +6124,7 @@ export const getProjectsLocationsGoldengateConnections: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2496, __c78, 0) as any as S.Schema<GetProjectsLocationsGoldengateConnectionsRequest>,
-  output: __S(1097, __c34, 9) as any as S.Schema<GoldengateConnection>,
+  output: __S(1098, __c34, 10) as any as S.Schema<GoldengateConnection>,
   errors: [NotFound, Forbidden, ServiceDisabled],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6353,7 +6353,7 @@ export const listProjectsLocationsAutonomousDatabaseCharacterSets: API.Paginated
     __c92,
     0,
   ) as any as S.Schema<ListProjectsLocationsAutonomousDatabaseCharacterSetsRequest>,
-  output: __S(2947, __c92, 3) as any as S.Schema<ListAutonomousDatabaseCharacterSetsResponse>,
+  output: __S(2945, __c92, 1) as any as S.Schema<ListAutonomousDatabaseCharacterSetsResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6376,8 +6376,8 @@ export const listProjectsLocationsAutonomousDatabases: API.PaginatedOperationMet
   GcpOpContext,
   ListAutonomousDatabasesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2976, __c93, 0) as any as S.Schema<ListProjectsLocationsAutonomousDatabasesRequest>,
-  output: __S(2978, __c93, 2) as any as S.Schema<ListAutonomousDatabasesResponse>,
+  input: __S(3008, __c94, 0) as any as S.Schema<ListProjectsLocationsAutonomousDatabasesRequest>,
+  output: __S(3010, __c94, 2) as any as S.Schema<ListAutonomousDatabasesResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6400,8 +6400,8 @@ export const listProjectsLocationsAutonomousDbVersions: API.PaginatedOperationMe
   GcpOpContext,
   ListAutonomousDbVersionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3008, __c94, 0) as any as S.Schema<ListProjectsLocationsAutonomousDbVersionsRequest>,
-  output: __S(3011, __c94, 3) as any as S.Schema<ListAutonomousDbVersionsResponse>,
+  input: __S(3040, __c95, 0) as any as S.Schema<ListProjectsLocationsAutonomousDbVersionsRequest>,
+  output: __S(3043, __c95, 3) as any as S.Schema<ListAutonomousDbVersionsResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6425,11 +6425,11 @@ export const listProjectsLocationsCloudExadataInfrastructures: API.PaginatedOper
   ListCloudExadataInfrastructuresResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    3040,
-    __c95,
+    3072,
+    __c96,
     0,
   ) as any as S.Schema<ListProjectsLocationsCloudExadataInfrastructuresRequest>,
-  output: __S(3042, __c95, 2) as any as S.Schema<ListCloudExadataInfrastructuresResponse>,
+  output: __S(3074, __c96, 2) as any as S.Schema<ListCloudExadataInfrastructuresResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6453,11 +6453,11 @@ export const listProjectsLocationsCloudExadataInfrastructuresDbServers: API.Pagi
   ListDbServersResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    3072,
-    __c96,
+    3104,
+    __c97,
     0,
   ) as any as S.Schema<ListProjectsLocationsCloudExadataInfrastructuresDbServersRequest>,
-  output: __S(3076, __c96, 4) as any as S.Schema<ListDbServersResponse>,
+  output: __S(3108, __c97, 4) as any as S.Schema<ListDbServersResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6480,8 +6480,8 @@ export const listProjectsLocationsCloudVmClusters: API.PaginatedOperationMethod<
   GcpOpContext,
   ListCloudVmClustersResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3104, __c97, 0) as any as S.Schema<ListProjectsLocationsCloudVmClustersRequest>,
-  output: __S(3106, __c97, 2) as any as S.Schema<ListCloudVmClustersResponse>,
+  input: __S(3136, __c98, 0) as any as S.Schema<ListProjectsLocationsCloudVmClustersRequest>,
+  output: __S(3138, __c98, 2) as any as S.Schema<ListCloudVmClustersResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6504,8 +6504,8 @@ export const listProjectsLocationsCloudVmClustersDbNodes: API.PaginatedOperation
   GcpOpContext,
   ListDbNodesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3136, __c98, 0) as any as S.Schema<ListProjectsLocationsCloudVmClustersDbNodesRequest>,
-  output: __S(3171, __c99, 3) as any as S.Schema<ListDbNodesResponse>,
+  input: __S(3168, __c99, 0) as any as S.Schema<ListProjectsLocationsCloudVmClustersDbNodesRequest>,
+  output: __S(3203, __c100, 3) as any as S.Schema<ListDbNodesResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6528,8 +6528,8 @@ export const listProjectsLocationsDatabaseCharacterSets: API.PaginatedOperationM
   GcpOpContext,
   ListDatabaseCharacterSetsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3200, __c100, 0) as any as S.Schema<ListProjectsLocationsDatabaseCharacterSetsRequest>,
-  output: __S(3203, __c100, 3) as any as S.Schema<ListDatabaseCharacterSetsResponse>,
+  input: __S(3232, __c101, 0) as any as S.Schema<ListProjectsLocationsDatabaseCharacterSetsRequest>,
+  output: __S(3233, __c101, 1) as any as S.Schema<ListDatabaseCharacterSetsResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6548,8 +6548,8 @@ export const listProjectsLocationsDatabaseConnections: API.PaginatedOperationMet
   GcpOpContext,
   ListDatabaseConnectionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3232, __c101, 0) as any as S.Schema<ListProjectsLocationsDatabaseConnectionsRequest>,
-  output: __S(3234, __c101, 2) as any as S.Schema<ListDatabaseConnectionsResponse>,
+  input: __S(3264, __c102, 0) as any as S.Schema<ListProjectsLocationsDatabaseConnectionsRequest>,
+  output: __S(3266, __c102, 2) as any as S.Schema<ListDatabaseConnectionsResponse>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6572,8 +6572,8 @@ export const listProjectsLocationsDatabases: API.PaginatedOperationMethod<
   GcpOpContext,
   ListDatabasesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3424, __c107, 0) as any as S.Schema<ListProjectsLocationsDatabasesRequest>,
-  output: __S(3426, __c107, 2) as any as S.Schema<ListDatabasesResponse>,
+  input: __S(3456, __c108, 0) as any as S.Schema<ListProjectsLocationsDatabasesRequest>,
+  output: __S(3458, __c108, 2) as any as S.Schema<ListDatabasesResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6596,11 +6596,11 @@ export const listProjectsLocationsDbSystemComputePerformances: API.PaginatedOper
   ListDbSystemComputePerformancesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    3456,
-    __c108,
+    3488,
+    __c109,
     0,
   ) as any as S.Schema<ListProjectsLocationsDbSystemComputePerformancesRequest>,
-  output: __S(3461, __c108, 5) as any as S.Schema<ListDbSystemComputePerformancesResponse>,
+  output: __S(3493, __c109, 5) as any as S.Schema<ListDbSystemComputePerformancesResponse>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6624,11 +6624,11 @@ export const listProjectsLocationsDbSystemInitialStorageSizes: API.PaginatedOper
   ListDbSystemInitialStorageSizesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    3488,
-    __c109,
+    3520,
+    __c110,
     0,
   ) as any as S.Schema<ListProjectsLocationsDbSystemInitialStorageSizesRequest>,
-  output: __S(3494, __c109, 6) as any as S.Schema<ListDbSystemInitialStorageSizesResponse>,
+  output: __S(3526, __c110, 6) as any as S.Schema<ListDbSystemInitialStorageSizesResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6651,8 +6651,8 @@ export const listProjectsLocationsDbSystems: API.PaginatedOperationMethod<
   GcpOpContext,
   ListDbSystemsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3520, __c110, 0) as any as S.Schema<ListProjectsLocationsDbSystemsRequest>,
-  output: __S(3522, __c110, 2) as any as S.Schema<ListDbSystemsResponse>,
+  input: __S(3552, __c111, 0) as any as S.Schema<ListProjectsLocationsDbSystemsRequest>,
+  output: __S(3554, __c111, 2) as any as S.Schema<ListDbSystemsResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6675,8 +6675,8 @@ export const listProjectsLocationsDbSystemShapes: API.PaginatedOperationMethod<
   GcpOpContext,
   ListDbSystemShapesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3552, __c111, 0) as any as S.Schema<ListProjectsLocationsDbSystemShapesRequest>,
-  output: __S(3555, __c111, 3) as any as S.Schema<ListDbSystemShapesResponse>,
+  input: __S(3584, __c112, 0) as any as S.Schema<ListProjectsLocationsDbSystemShapesRequest>,
+  output: __S(3587, __c112, 3) as any as S.Schema<ListDbSystemShapesResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6699,8 +6699,8 @@ export const listProjectsLocationsDbVersions: API.PaginatedOperationMethod<
   GcpOpContext,
   ListDbVersionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3584, __c112, 0) as any as S.Schema<ListProjectsLocationsDbVersionsRequest>,
-  output: __S(3588, __c112, 4) as any as S.Schema<ListDbVersionsResponse>,
+  input: __S(3616, __c113, 0) as any as S.Schema<ListProjectsLocationsDbVersionsRequest>,
+  output: __S(3620, __c113, 4) as any as S.Schema<ListDbVersionsResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6723,8 +6723,8 @@ export const listProjectsLocationsEntitlements: API.PaginatedOperationMethod<
   GcpOpContext,
   ListEntitlementsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3616, __c113, 0) as any as S.Schema<ListProjectsLocationsEntitlementsRequest>,
-  output: __S(3620, __c113, 4) as any as S.Schema<ListEntitlementsResponse>,
+  input: __S(3648, __c114, 0) as any as S.Schema<ListProjectsLocationsEntitlementsRequest>,
+  output: __S(3652, __c114, 4) as any as S.Schema<ListEntitlementsResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6747,8 +6747,8 @@ export const listProjectsLocationsExadbVmClusters: API.PaginatedOperationMethod<
   GcpOpContext,
   ListExadbVmClustersResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3648, __c114, 0) as any as S.Schema<ListProjectsLocationsExadbVmClustersRequest>,
-  output: __S(3650, __c114, 2) as any as S.Schema<ListExadbVmClustersResponse>,
+  input: __S(3680, __c115, 0) as any as S.Schema<ListProjectsLocationsExadbVmClustersRequest>,
+  output: __S(3682, __c115, 2) as any as S.Schema<ListExadbVmClustersResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6772,11 +6772,11 @@ export const listProjectsLocationsExadbVmClustersDbNodes: API.PaginatedOperation
   ListDbNodesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    3680,
-    __c115,
+    3712,
+    __c116,
     0,
   ) as any as S.Schema<ListProjectsLocationsExadbVmClustersDbNodesRequest>,
-  output: __S(3171, __c99, 3) as any as S.Schema<ListDbNodesResponse>,
+  output: __S(3203, __c100, 3) as any as S.Schema<ListDbNodesResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6800,11 +6800,11 @@ export const listProjectsLocationsExascaleDbStorageVaults: API.PaginatedOperatio
   ListExascaleDbStorageVaultsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    3712,
-    __c116,
+    3744,
+    __c117,
     0,
   ) as any as S.Schema<ListProjectsLocationsExascaleDbStorageVaultsRequest>,
-  output: __S(3714, __c116, 2) as any as S.Schema<ListExascaleDbStorageVaultsResponse>,
+  output: __S(3746, __c117, 2) as any as S.Schema<ListExascaleDbStorageVaultsResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6823,8 +6823,8 @@ export const listProjectsLocationsFlexComponents: API.PaginatedOperationMethod<
   GcpOpContext,
   ListFlexComponentsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3840, __c120, 0) as any as S.Schema<ListProjectsLocationsFlexComponentsRequest>,
-  output: __S(3844, __c120, 4) as any as S.Schema<ListFlexComponentsResponse>,
+  input: __S(3872, __c121, 0) as any as S.Schema<ListProjectsLocationsFlexComponentsRequest>,
+  output: __S(3876, __c121, 4) as any as S.Schema<ListFlexComponentsResponse>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6847,8 +6847,8 @@ export const listProjectsLocationsGiVersions: API.PaginatedOperationMethod<
   GcpOpContext,
   ListGiVersionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3872, __c121, 0) as any as S.Schema<ListProjectsLocationsGiVersionsRequest>,
-  output: __S(3875, __c121, 3) as any as S.Schema<ListGiVersionsResponse>,
+  input: __S(3904, __c122, 0) as any as S.Schema<ListProjectsLocationsGiVersionsRequest>,
+  output: __S(3907, __c122, 3) as any as S.Schema<ListGiVersionsResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6872,11 +6872,11 @@ export const listProjectsLocationsGiVersionsMinorVersions: API.PaginatedOperatio
   ListMinorVersionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    3904,
-    __c122,
+    3936,
+    __c123,
     0,
   ) as any as S.Schema<ListProjectsLocationsGiVersionsMinorVersionsRequest>,
-  output: __S(3907, __c122, 3) as any as S.Schema<ListMinorVersionsResponse>,
+  output: __S(3939, __c123, 3) as any as S.Schema<ListMinorVersionsResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6900,11 +6900,11 @@ export const listProjectsLocationsGoldengateConnectionAssignments: API.Paginated
   ListGoldengateConnectionAssignmentsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    3936,
-    __c123,
+    3968,
+    __c124,
     0,
   ) as any as S.Schema<ListProjectsLocationsGoldengateConnectionAssignmentsRequest>,
-  output: __S(3938, __c123, 2) as any as S.Schema<ListGoldengateConnectionAssignmentsResponse>,
+  output: __S(3970, __c124, 2) as any as S.Schema<ListGoldengateConnectionAssignmentsResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6927,8 +6927,8 @@ export const listProjectsLocationsGoldengateConnections: API.PaginatedOperationM
   GcpOpContext,
   ListGoldengateConnectionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3968, __c124, 0) as any as S.Schema<ListProjectsLocationsGoldengateConnectionsRequest>,
-  output: __S(3970, __c124, 2) as any as S.Schema<ListGoldengateConnectionsResponse>,
+  input: __S(4000, __c125, 0) as any as S.Schema<ListProjectsLocationsGoldengateConnectionsRequest>,
+  output: __S(4002, __c125, 2) as any as S.Schema<ListGoldengateConnectionsResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6952,11 +6952,11 @@ export const listProjectsLocationsGoldengateConnectionTypes: API.PaginatedOperat
   ListGoldengateConnectionTypesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    4000,
-    __c125,
+    4032,
+    __c126,
     0,
   ) as any as S.Schema<ListProjectsLocationsGoldengateConnectionTypesRequest>,
-  output: __S(4003, __c125, 3) as any as S.Schema<ListGoldengateConnectionTypesResponse>,
+  output: __S(4035, __c126, 3) as any as S.Schema<ListGoldengateConnectionTypesResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6980,11 +6980,11 @@ export const listProjectsLocationsGoldengateDeploymentEnvironments: API.Paginate
   ListGoldengateDeploymentEnvironmentsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    4032,
-    __c126,
+    4064,
+    __c127,
     0,
   ) as any as S.Schema<ListProjectsLocationsGoldengateDeploymentEnvironmentsRequest>,
-  output: __S(4035, __c126, 3) as any as S.Schema<ListGoldengateDeploymentEnvironmentsResponse>,
+  output: __S(4067, __c127, 3) as any as S.Schema<ListGoldengateDeploymentEnvironmentsResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -7007,8 +7007,8 @@ export const listProjectsLocationsGoldengateDeployments: API.PaginatedOperationM
   GcpOpContext,
   ListGoldengateDeploymentsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4064, __c127, 0) as any as S.Schema<ListProjectsLocationsGoldengateDeploymentsRequest>,
-  output: __S(4066, __c127, 2) as any as S.Schema<ListGoldengateDeploymentsResponse>,
+  input: __S(4096, __c128, 0) as any as S.Schema<ListProjectsLocationsGoldengateDeploymentsRequest>,
+  output: __S(4098, __c128, 2) as any as S.Schema<ListGoldengateDeploymentsResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -7032,11 +7032,11 @@ export const listProjectsLocationsGoldengateDeploymentTypes: API.PaginatedOperat
   ListGoldengateDeploymentTypesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    4096,
-    __c128,
+    4128,
+    __c129,
     0,
   ) as any as S.Schema<ListProjectsLocationsGoldengateDeploymentTypesRequest>,
-  output: __S(4099, __c128, 3) as any as S.Schema<ListGoldengateDeploymentTypesResponse>,
+  output: __S(4131, __c129, 3) as any as S.Schema<ListGoldengateDeploymentTypesResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -7060,11 +7060,11 @@ export const listProjectsLocationsGoldengateDeploymentVersions: API.PaginatedOpe
   ListGoldengateDeploymentVersionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    4128,
-    __c129,
+    4160,
+    __c130,
     0,
   ) as any as S.Schema<ListProjectsLocationsGoldengateDeploymentVersionsRequest>,
-  output: __S(4132, __c129, 4) as any as S.Schema<ListGoldengateDeploymentVersionsResponse>,
+  output: __S(4164, __c130, 4) as any as S.Schema<ListGoldengateDeploymentVersionsResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -7087,8 +7087,8 @@ export const listProjectsLocationsOdbNetworks: API.PaginatedOperationMethod<
   GcpOpContext,
   ListOdbNetworksResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4288, __c134, 0) as any as S.Schema<ListProjectsLocationsOdbNetworksRequest>,
-  output: __S(4290, __c134, 2) as any as S.Schema<ListOdbNetworksResponse>,
+  input: __S(4320, __c135, 0) as any as S.Schema<ListProjectsLocationsOdbNetworksRequest>,
+  output: __S(4322, __c135, 2) as any as S.Schema<ListOdbNetworksResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -7108,11 +7108,11 @@ export const listProjectsLocationsOdbNetworksOdbDnsZones: API.PaginatedOperation
   ListOdbDnsZonesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    4320,
-    __c135,
+    4352,
+    __c136,
     0,
   ) as any as S.Schema<ListProjectsLocationsOdbNetworksOdbDnsZonesRequest>,
-  output: __S(4322, __c135, 2) as any as S.Schema<ListOdbDnsZonesResponse>,
+  output: __S(4354, __c136, 2) as any as S.Schema<ListOdbDnsZonesResponse>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -7135,8 +7135,8 @@ export const listProjectsLocationsOdbNetworksOdbSubnets: API.PaginatedOperationM
   GcpOpContext,
   ListOdbSubnetsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4352, __c136, 0) as any as S.Schema<ListProjectsLocationsOdbNetworksOdbSubnetsRequest>,
-  output: __S(4354, __c136, 2) as any as S.Schema<ListOdbSubnetsResponse>,
+  input: __S(4384, __c137, 0) as any as S.Schema<ListProjectsLocationsOdbNetworksOdbSubnetsRequest>,
+  output: __S(4386, __c137, 2) as any as S.Schema<ListOdbSubnetsResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -7159,8 +7159,8 @@ export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4384, __c137, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
-  output: __S(4386, __c137, 2) as any as S.Schema<ListOperationsResponse>,
+  input: __S(4416, __c138, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
+  output: __S(4418, __c138, 2) as any as S.Schema<ListOperationsResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -7183,8 +7183,8 @@ export const listProjectsLocationsPluggableDatabases: API.PaginatedOperationMeth
   GcpOpContext,
   ListPluggableDatabasesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4416, __c138, 0) as any as S.Schema<ListProjectsLocationsPluggableDatabasesRequest>,
-  output: __S(4418, __c138, 2) as any as S.Schema<ListPluggableDatabasesResponse>,
+  input: __S(4448, __c139, 0) as any as S.Schema<ListProjectsLocationsPluggableDatabasesRequest>,
+  output: __S(4450, __c139, 2) as any as S.Schema<ListPluggableDatabasesResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -7208,7 +7208,7 @@ export const patchProjectsLocationsAutonomousDatabases: API.OperationMethod<
   PatchProjectsLocationsAutonomousDatabasesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4448, __c139, 0) as any as S.Schema<PatchProjectsLocationsAutonomousDatabasesRequest>,
+  input: __S(4480, __c140, 0) as any as S.Schema<PatchProjectsLocationsAutonomousDatabasesRequest>,
   output: __S(2882, __c90, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled],
   serviceErrors: GcpServiceErrors,
@@ -7233,8 +7233,8 @@ export const patchProjectsLocationsCloudExadataInfrastructures: API.OperationMet
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4480,
-    __c140,
+    4512,
+    __c141,
     0,
   ) as any as S.Schema<PatchProjectsLocationsCloudExadataInfrastructuresRequest>,
   output: __S(2882, __c90, 2) as any as S.Schema<Operation>,
@@ -7260,7 +7260,7 @@ export const patchProjectsLocationsCloudVmClusters: API.OperationMethod<
   PatchProjectsLocationsCloudVmClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4512, __c141, 0) as any as S.Schema<PatchProjectsLocationsCloudVmClustersRequest>,
+  input: __S(4544, __c142, 0) as any as S.Schema<PatchProjectsLocationsCloudVmClustersRequest>,
   output: __S(2882, __c90, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
@@ -7284,7 +7284,7 @@ export const patchProjectsLocationsDatabaseConnections: API.OperationMethod<
   PatchProjectsLocationsDatabaseConnectionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4544, __c142, 0) as any as S.Schema<PatchProjectsLocationsDatabaseConnectionsRequest>,
+  input: __S(4576, __c143, 0) as any as S.Schema<PatchProjectsLocationsDatabaseConnectionsRequest>,
   output: __S(2882, __c90, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
@@ -7308,7 +7308,7 @@ export const patchProjectsLocationsDbSystems: API.OperationMethod<
   PatchProjectsLocationsDbSystemsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4576, __c143, 0) as any as S.Schema<PatchProjectsLocationsDbSystemsRequest>,
+  input: __S(4608, __c144, 0) as any as S.Schema<PatchProjectsLocationsDbSystemsRequest>,
   output: __S(2882, __c90, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
@@ -7810,9 +7810,9 @@ function __c0(j: number): any {
         S.Extend(
           __S(32, __c1, 0),
           S.Struct({
+            databaseConnectionId: S.optional(S.String.pipe(T.Query())),
             parent: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
-            databaseConnectionId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -7829,18 +7829,18 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          passwordSecretVersion: S.optional(S.String),
-          username: S.optional(S.String),
-          lifecycleDetails: S.optional(S.String),
           connectionString: S.optional(S.String.pipe(T.SensitiveValue({}))),
           state: S.optional(S.String),
           walletSecretVersion: S.optional(S.String),
-          displayName: S.optional(S.String),
           name: S.optional(S.String),
-          odbNetwork: S.optional(S.String),
-          createTime: S.optional(S.String),
           updateTime: S.optional(S.String),
-          labels: S.optional(__S(3360, __c105, 0)),
+          lifecycleDetails: S.optional(S.String),
+          odbNetwork: S.optional(S.String),
+          displayName: S.optional(S.String),
+          username: S.optional(S.String),
+          createTime: S.optional(S.String),
+          passwordSecretVersion: S.optional(S.String),
+          labels: S.optional(__S(3392, __c106, 0)),
         }),
       ).annotate({ identifier: "DatabaseConnection" });
   }
@@ -7852,9 +7852,9 @@ function __c2(j: number): any {
         S.Extend(
           __S(867, __c27, 3),
           S.Struct({
-            name: S.String.pipe(T.Label()),
-            updateMask: S.optional(S.String.pipe(T.Query())),
             requestId: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -7873,8 +7873,8 @@ function __c3(j: number): any {
         S.Extend(
           __S(930, __c29, 2),
           S.Struct({
-            requestId: S.optional(S.String.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
           }),
         ).pipe(
@@ -7894,9 +7894,9 @@ function __c4(j: number): any {
         S.Extend(
           __S(993, __c31, 1),
           S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
-            updateMask: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -7913,11 +7913,11 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(1097, __c34, 9),
+          __S(1098, __c34, 10),
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
-            name: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -7937,8 +7937,8 @@ function __c6(j: number): any {
           __S(1165, __c36, 13),
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
-            requestId: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -7957,9 +7957,9 @@ function __c7(j: number): any {
         S.Extend(
           __S(1218, __c38, 2),
           S.Struct({
-            updateMask: S.optional(S.String.pipe(T.Query())),
-            name: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -7978,9 +7978,9 @@ function __c8(j: number): any {
         S.Extend(
           __S(1280, __c40, 0),
           S.Struct({
-            updateMask: S.optional(S.String.pipe(T.Query())),
-            requestId: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -8043,8 +8043,8 @@ function __c11(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          hostnames: S.optional(__S(3424, __c107, 0)),
           requestId: S.optional(S.String),
-          hostnames: S.optional(__S(3392, __c106, 0)),
         }),
       ).annotate({ identifier: "RemoveVirtualMachineExadbVmClusterRequest" });
     case 1:
@@ -8071,9 +8071,9 @@ function __c12(j: number): any {
         S.Extend(
           __S(516, __c16, 4),
           S.Struct({
+            dbSystemId: S.optional(S.String.pipe(T.Query())),
             parent: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
-            dbSystemId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -8103,45 +8103,45 @@ function __c14(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          autoIncrementalBackupWindow: S.optional(S.String),
-          autoFullBackupWindow: S.optional(S.String),
-          retentionPeriodDays: S.optional(S.Number),
           autoBackupEnabled: S.optional(S.Boolean),
           backupDeletionPolicy: S.optional(S.String),
-          backupDestinationDetails: S.optional(__S(448, __c14, 0)),
+          autoFullBackupWindow: S.optional(S.String),
           autoFullBackupDay: S.optional(S.String),
+          retentionPeriodDays: S.optional(S.Number),
+          backupDestinationDetails: S.optional(__S(448, __c14, 0)),
+          autoIncrementalBackupWindow: S.optional(S.String),
         }),
       ).annotate({ identifier: "DbBackupConfig" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          databaseManagementConfig: S.optional(__S(416, __c13, 0)),
-          state: S.optional(S.String),
           dbVersion: S.optional(S.String),
+          state: S.optional(S.String),
+          databaseManagementConfig: S.optional(__S(416, __c13, 0)),
           dbBackupConfig: S.optional(__S(449, __c14, 1)),
         }),
       ).annotate({ identifier: "DatabaseProperties" });
     case 3:
       return S.suspend(() =>
         S.Struct({
+          dbHomeName: S.optional(S.String),
+          name: S.optional(S.String),
           ncharacterSet: S.optional(S.String),
-          adminPasswordSecretVersion: S.optional(S.String),
-          createTime: S.optional(S.String),
-          dbUniqueName: S.optional(S.String),
           adminPassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          tdeWalletPassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          pluggableDatabaseName: S.optional(S.String),
-          dbName: S.optional(S.String),
-          characterSet: S.optional(S.String),
+          ociUrl: S.optional(S.String),
           gcpOracleZone: S.optional(S.String),
+          dbUniqueName: S.optional(S.String),
+          dbName: S.optional(S.String),
+          adminPasswordSecretVersion: S.optional(S.String),
+          tdeWalletPassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          opsInsightsStatus: S.optional(S.String),
+          tdeWalletPasswordSecretVersion: S.optional(S.String),
+          pluggableDatabaseName: S.optional(S.String),
+          createTime: S.optional(S.String),
+          properties: S.optional(__S(450, __c14, 2)),
           databaseId: S.optional(S.String),
           pluggableDatabaseId: S.optional(S.String),
-          dbHomeName: S.optional(S.String),
-          opsInsightsStatus: S.optional(S.String),
-          name: S.optional(S.String),
-          tdeWalletPasswordSecretVersion: S.optional(S.String),
-          properties: S.optional(__S(450, __c14, 2)),
-          ociUrl: S.optional(S.String),
+          characterSet: S.optional(S.String),
         }),
       ).annotate({ identifier: "Database" });
   }
@@ -8161,19 +8161,19 @@ function __c16(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          displayName: S.optional(S.String),
-          isUnifiedAuditingEnabled: S.optional(S.Boolean),
-          database: S.optional(__S(451, __c14, 3)),
-          dbVersion: S.optional(S.String),
+          isDiagnosticsEventsEnabled: S.optional(S.Boolean),
+          isIncidentLogsEnabled: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "DbHome" });
+      ).annotate({ identifier: "DataCollectionOptionsDbSystem" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          isIncidentLogsEnabled: S.optional(S.Boolean),
-          isDiagnosticsEventsEnabled: S.optional(S.Boolean),
+          displayName: S.optional(S.String),
+          isUnifiedAuditingEnabled: S.optional(S.Boolean),
+          dbVersion: S.optional(S.String),
+          database: S.optional(__S(451, __c14, 3)),
         }),
-      ).annotate({ identifier: "DataCollectionOptionsDbSystem" });
+      ).annotate({ identifier: "DbHome" });
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -8183,42 +8183,42 @@ function __c16(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          hostnamePrefix: S.optional(S.String),
-          databaseEdition: S.optional(S.String),
-          licenseModel: S.optional(S.String),
-          lifecycleState: S.optional(S.String),
-          dbHome: S.optional(__S(512, __c16, 0)),
-          sshPublicKeys: S.optional(__S(3392, __c106, 0)),
-          shape: S.optional(S.String),
-          hostname: S.optional(S.String),
-          computeModel: S.optional(S.String),
-          domain: S.optional(S.String),
-          dataCollectionOptions: S.optional(__S(513, __c16, 1)),
-          dbSystemOptions: S.optional(__S(514, __c16, 2)),
-          timeZone: S.optional(__S(4192, __c131, 0)),
-          ocid: S.optional(S.String),
-          recoStorageSizeGb: S.optional(S.Number),
-          nodeCount: S.optional(S.Number),
-          dataStorageSizeGb: S.optional(S.Number),
-          computeCount: S.optional(S.Number),
-          memorySizeGb: S.optional(S.Number),
           privateIp: S.optional(S.String),
+          licenseModel: S.optional(S.String),
+          timeZone: S.optional(__S(4224, __c132, 0)),
+          shape: S.optional(S.String),
+          dataCollectionOptions: S.optional(__S(512, __c16, 0)),
           initialDataStorageSizeGb: S.optional(S.Number),
+          domain: S.optional(S.String),
+          sshPublicKeys: S.optional(__S(3424, __c107, 0)),
+          dbHome: S.optional(__S(513, __c16, 1)),
+          memorySizeGb: S.optional(S.Number),
+          databaseEdition: S.optional(S.String),
+          dbSystemOptions: S.optional(__S(514, __c16, 2)),
+          computeCount: S.optional(S.Number),
+          recoStorageSizeGb: S.optional(S.Number),
+          dataStorageSizeGb: S.optional(S.Number),
+          hostname: S.optional(S.String),
+          nodeCount: S.optional(S.Number),
+          lifecycleState: S.optional(S.String),
+          computeModel: S.optional(S.String),
+          hostnamePrefix: S.optional(S.String),
+          ocid: S.optional(S.String),
         }),
       ).annotate({ identifier: "DbSystemProperties" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          odbSubnet: S.optional(S.String),
-          displayName: S.optional(S.String),
-          gcpOracleZone: S.optional(S.String),
           createTime: S.optional(S.String),
-          odbNetwork: S.optional(S.String),
-          name: S.optional(S.String),
-          properties: S.optional(__S(515, __c16, 3)),
-          entitlementId: S.optional(S.String),
-          labels: S.optional(__S(3360, __c105, 0)),
           ociUrl: S.optional(S.String),
+          properties: S.optional(__S(515, __c16, 3)),
+          labels: S.optional(__S(3392, __c106, 0)),
+          odbNetwork: S.optional(S.String),
+          gcpOracleZone: S.optional(S.String),
+          displayName: S.optional(S.String),
+          entitlementId: S.optional(S.String),
+          odbSubnet: S.optional(S.String),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "DbSystem" });
   }
@@ -8396,10 +8396,10 @@ function __c25(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          code: S.optional(S.String),
-          action: S.optional(S.String),
-          message: S.optional(S.String),
           issue: S.optional(S.String),
+          message: S.optional(S.String),
+          action: S.optional(S.String),
+          code: S.optional(S.String),
         }),
       ).annotate({ identifier: "TestConnectionAssignmentError" });
     case 2:
@@ -8408,8 +8408,8 @@ function __c25(j: number): any {
       return S.suspend(() =>
         S.Struct({
           resultType: S.optional(S.String),
-          error: S.optional(__S(801, __c25, 1)),
           errors: S.optional(__S(802, __c25, 2)),
+          error: S.optional(__S(801, __c25, 1)),
         }),
       ).annotate({ identifier: "TestGoldengateConnectionAssignmentResponse" });
   }
@@ -8446,49 +8446,49 @@ function __c27(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          isHealthMonitoringEnabled: S.optional(S.Boolean),
-          isIncidentLogsEnabled: S.optional(S.Boolean),
           isDiagnosticsEventsEnabled: S.optional(S.Boolean),
+          isIncidentLogsEnabled: S.optional(S.Boolean),
+          isHealthMonitoringEnabled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "DataCollectionOptionsCommon" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           hostnamePrefix: S.optional(S.String),
-          sshPublicKeys: S.optional(__S(3392, __c106, 0)),
           lifecycleState: S.optional(S.String),
           hostname: S.optional(S.String),
-          clusterName: S.optional(S.String),
+          ociUri: S.optional(S.String),
+          shapeAttribute: S.optional(S.String),
+          sshPublicKeys: S.optional(__S(3424, __c107, 0)),
+          memorySizeGb: S.optional(S.Number),
+          timeZone: S.optional(__S(4224, __c132, 0)),
           vmFileSystemStorage: S.optional(__S(864, __c27, 0)),
+          exascaleDbStorageVault: S.optional(S.String),
+          nodeCount: S.optional(S.Number),
+          additionalEcpuCountPerNode: S.optional(S.Number),
+          giVersion: S.optional(S.String),
+          dataCollectionOptions: S.optional(__S(865, __c27, 1)),
+          clusterName: S.optional(S.String),
+          licenseModel: S.optional(S.String),
           scanListenerPortTcp: S.optional(S.Number),
           enabledEcpuCountPerNode: S.optional(S.Number),
-          memorySizeGb: S.optional(S.Number),
           gridImageId: S.optional(S.String),
-          ociUri: S.optional(S.String),
-          nodeCount: S.optional(S.Number),
-          dataCollectionOptions: S.optional(__S(865, __c27, 1)),
-          licenseModel: S.optional(S.String),
-          additionalEcpuCountPerNode: S.optional(S.Number),
-          timeZone: S.optional(__S(4192, __c131, 0)),
-          exascaleDbStorageVault: S.optional(S.String),
-          giVersion: S.optional(S.String),
-          shapeAttribute: S.optional(S.String),
         }),
       ).annotate({ identifier: "ExadbVmClusterProperties" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          labels: S.optional(__S(3360, __c105, 0)),
           backupOdbSubnet: S.optional(S.String),
-          identityConnector: S.optional(__S(4224, __c132, 0)),
+          name: S.optional(S.String),
+          identityConnectorDisabled: S.optional(S.Boolean),
+          displayName: S.optional(S.String),
+          odbSubnet: S.optional(S.String),
+          identityConnector: S.optional(__S(4256, __c133, 0)),
+          properties: S.optional(__S(866, __c27, 2)),
+          labels: S.optional(__S(3392, __c106, 0)),
           createTime: S.optional(S.String),
           gcpOracleZone: S.optional(S.String),
-          identityConnectorDisabled: S.optional(S.Boolean),
           odbNetwork: S.optional(S.String),
-          properties: S.optional(__S(866, __c27, 2)),
-          odbSubnet: S.optional(S.String),
-          displayName: S.optional(S.String),
-          name: S.optional(S.String),
           entitlementId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ExadbVmCluster" });
@@ -8502,8 +8502,8 @@ function __c28(j: number): any {
           __S(930, __c29, 2),
           S.Struct({
             parent: S.String.pipe(T.Label()),
-            requestId: S.optional(S.String.pipe(T.Query())),
             exascaleDbStorageVaultId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -8520,37 +8520,37 @@ function __c29(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          availableSizeGbs: S.optional(S.Number),
           totalSizeGbs: S.optional(S.Number),
+          availableSizeGbs: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ExascaleDbStorageDetails" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          ociUri: S.optional(S.String),
-          description: S.optional(S.String),
-          state: S.optional(S.String),
-          additionalFlashCachePercent: S.optional(S.Number),
-          timeZone: S.optional(__S(4192, __c131, 0)),
-          exascaleDbStorageDetails: S.optional(__S(928, __c29, 0)),
           vmClusterCount: S.optional(S.Number),
-          attachedShapeAttributes: S.optional(__S(3776, __c118, 0)),
-          vmClusterIds: S.optional(__S(3392, __c106, 0)),
-          availableShapeAttributes: S.optional(__S(3776, __c118, 0)),
+          vmClusterIds: S.optional(__S(3424, __c107, 0)),
+          additionalFlashCachePercent: S.optional(S.Number),
+          availableShapeAttributes: S.optional(__S(3808, __c119, 0)),
+          state: S.optional(S.String),
+          attachedShapeAttributes: S.optional(__S(3808, __c119, 0)),
+          timeZone: S.optional(__S(4224, __c132, 0)),
           ocid: S.optional(S.String),
+          exascaleDbStorageDetails: S.optional(__S(928, __c29, 0)),
+          description: S.optional(S.String),
+          ociUri: S.optional(S.String),
         }),
       ).annotate({ identifier: "ExascaleDbStorageVaultProperties" });
     case 2:
       return S.suspend(() =>
         S.Struct({
+          entitlementId: S.optional(S.String),
           exadataInfrastructure: S.optional(S.String),
-          displayName: S.optional(S.String),
-          labels: S.optional(__S(3360, __c105, 0)),
           properties: S.optional(__S(929, __c29, 1)),
-          name: S.optional(S.String),
           createTime: S.optional(S.String),
           gcpOracleZone: S.optional(S.String),
-          entitlementId: S.optional(S.String),
+          displayName: S.optional(S.String),
+          name: S.optional(S.String),
+          labels: S.optional(__S(3392, __c106, 0)),
         }),
       ).annotate({ identifier: "ExascaleDbStorageVault" });
   }
@@ -8562,9 +8562,9 @@ function __c30(j: number): any {
         S.Extend(
           __S(993, __c31, 1),
           S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
             goldengateConnectionAssignmentId: S.optional(S.String.pipe(T.Query())),
             parent: S.String.pipe(T.Label()),
-            requestId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -8581,22 +8581,22 @@ function __c31(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          alias: S.optional(S.String),
-          ocid: S.optional(S.String),
-          goldengateConnection: S.optional(S.String),
-          state: S.optional(S.String),
           goldengateDeployment: S.optional(S.String),
+          goldengateConnection: S.optional(S.String),
+          alias: S.optional(S.String),
+          state: S.optional(S.String),
+          ocid: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoldengateConnectionAssignmentProperties" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
+          properties: S.optional(__S(992, __c31, 0)),
+          labels: S.optional(__S(3392, __c106, 0)),
+          entitlementId: S.optional(S.String),
           createTime: S.optional(S.String),
           displayName: S.optional(S.String),
-          labels: S.optional(__S(3360, __c105, 0)),
-          properties: S.optional(__S(992, __c31, 0)),
-          entitlementId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoldengateConnectionAssignment" });
   }
@@ -8606,11 +8606,11 @@ function __c32(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(1097, __c34, 9),
+          __S(1098, __c34, 10),
           S.Struct({
+            goldengateConnectionId: S.optional(S.String.pipe(T.Query())),
             parent: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
-            goldengateConnectionId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -8627,370 +8627,371 @@ function __c33(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          servers: S.optional(S.String),
-          technologyType: S.optional(S.String),
-          passwordSecretVersion: S.optional(S.String),
-          password: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          authenticationType: S.optional(S.String),
-          securityProtocol: S.optional(S.String),
+          walletFile: S.optional(S.String),
           username: S.optional(S.String),
-          fingerprint: S.optional(S.String),
+          passwordSecretVersion: S.optional(S.String),
+          connectionString: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          technologyType: S.optional(S.String),
+          sessionMode: S.optional(S.String),
+          authenticationMode: S.optional(S.String),
+          gcpOracleDatabaseId: S.optional(S.String),
+          password: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
-      ).annotate({ identifier: "GoldengateElasticsearchConnectionProperties" });
+      ).annotate({ identifier: "GoldengateOracleConnectionProperties" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          accessKeyId: S.optional(S.String.pipe(T.SensitiveValue({}))),
           technologyType: S.optional(S.String),
-          awsRegion: S.optional(S.String),
-          endpoint: S.optional(S.String),
-          secretAccessKeySecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          fingerprint: S.optional(S.String),
+          servers: S.optional(S.String),
+          password: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          username: S.optional(S.String),
+          passwordSecretVersion: S.optional(S.String),
+          securityProtocol: S.optional(S.String),
+          authenticationType: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GoldengateAmazonKinesisConnectionProperties" });
+      ).annotate({ identifier: "GoldengateElasticsearchConnectionProperties" });
     case 2:
+      return S.suspend(() =>
+        S.Struct({
+          passwordSecretVersion: S.optional(S.String),
+          technologyType: S.optional(S.String),
+          privateKeyFile: S.optional(S.String),
+          connectionUrl: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          authenticationType: S.optional(S.String),
+          password: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          username: S.optional(S.String),
+          privateKeyPassphraseSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+        }),
+      ).annotate({ identifier: "GoldengateSnowflakeConnectionProperties" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          username: S.optional(S.String),
+          keyStorePasswordSecretVersion: S.optional(S.String),
+          trustStorePasswordSecretVersion: S.optional(S.String),
+          passwordSecretVersion: S.optional(S.String),
+          keyStorePassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          password: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          technologyType: S.optional(S.String),
+          trustStoreFile: S.optional(S.String),
+          keyStoreFile: S.optional(S.String),
+          redisClusterId: S.optional(S.String),
+          trustStorePassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          securityProtocol: S.optional(S.String),
+          authenticationType: S.optional(S.String),
+          servers: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoldengateRedisConnectionProperties" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          technologyType: S.optional(S.String),
+          serviceAccountKeyFile: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoldengateGooglePubsubConnectionProperties" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          host: S.optional(S.String),
+          technologyType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoldengateGenericConnectionProperties" });
+    case 6:
       return S.suspend(() =>
         S.Struct({
           value: S.optional(S.String),
           key: S.optional(S.String),
         }),
       ).annotate({ identifier: "NameValuePair" });
-    case 3:
-      return S.Array(__S(1058, __c33, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          port: S.optional(S.Number),
-          technologyType: S.optional(S.String),
-          username: S.optional(S.String),
-          passwordSecretVersion: S.optional(S.String),
-          password: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          sslMode: S.optional(S.String),
-          sslCaFile: S.optional(S.String),
-          sslKeyFile: S.optional(S.String),
-          sslCrlFile: S.optional(S.String),
-          sslCertFile: S.optional(S.String),
-          host: S.optional(S.String),
-          additionalAttributes: S.optional(__S(1059, __c33, 3)),
-          securityProtocol: S.optional(S.String),
-          database: S.optional(S.String),
-          dbSystemId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoldengateMysqlConnectionProperties" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          keyStorePasswordSecretVersion: S.optional(S.String),
-          authenticationType: S.optional(S.String),
-          passwordSecretVersion: S.optional(S.String),
-          password: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          jndiConnectionFactory: S.optional(S.String),
-          connectionUrl: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          trustStorePassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          username: S.optional(S.String),
-          sslKeyPasswordSecretVersion: S.optional(S.String),
-          technologyType: S.optional(S.String),
-          keyStorePassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          useJndi: S.optional(S.Boolean),
-          trustStorePasswordSecretVersion: S.optional(S.String),
-          sslKeyPassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          jndiProviderUrl: S.optional(S.String),
-          jndiSecurityCredentialsSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          trustStoreFile: S.optional(S.String),
-          keyStoreFile: S.optional(S.String),
-          jndiInitialContextFactory: S.optional(S.String),
-          jndiSecurityPrincipal: S.optional(S.String),
-          securityProtocol: S.optional(S.String),
-          connectionFactory: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoldengateJavaMessageServiceConnectionProperties" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          password: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          goldengateDeploymentId: S.optional(S.String),
-          passwordSecretVersion: S.optional(S.String),
-          host: S.optional(S.String),
-          technologyType: S.optional(S.String),
-          username: S.optional(S.String),
-          port: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "GoldengateGoldengateConnectionProperties" });
     case 7:
-      return S.suspend(() =>
-        S.Struct({
-          accessKeyId: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          endpoint: S.optional(S.String),
-          secretAccessKeySecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          region: S.optional(S.String),
-          technologyType: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoldengateAmazonS3ConnectionProperties" });
+      return S.Array(__S(1062, __c33, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          tlsCertificateKeyFile: S.optional(S.String),
-          password: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          securityProtocol: S.optional(S.String),
-          tlsCaFile: S.optional(S.String),
-          databaseId: S.optional(S.String),
-          tlsCertificateKeyFilePasswordSecretVersion: S.optional(S.String),
-          technologyType: S.optional(S.String),
-          passwordSecretVersion: S.optional(S.String),
-          connectionString: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          tlsCertificateKeyFilePassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
           username: S.optional(S.String),
+          passwordSecretVersion: S.optional(S.String),
+          sslCaFile: S.optional(S.String),
+          database: S.optional(S.String),
+          password: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          technologyType: S.optional(S.String),
+          port: S.optional(S.Number),
+          sslKeyFile: S.optional(S.String),
+          host: S.optional(S.String),
+          sslMode: S.optional(S.String),
+          sslCrlFile: S.optional(S.String),
+          sslCertFile: S.optional(S.String),
+          securityProtocol: S.optional(S.String),
+          dbSystemId: S.optional(S.String),
+          additionalAttributes: S.optional(__S(1063, __c33, 7)),
         }),
-      ).annotate({ identifier: "GoldengateMongodbConnectionProperties" });
+      ).annotate({ identifier: "GoldengatePostgresqlConnectionProperties" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          password: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          technologyType: S.optional(S.String),
-          privateKeyPassphraseSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          privateKeyFile: S.optional(S.String),
+          storageCredential: S.optional(S.String),
+          clientId: S.optional(S.String),
           passwordSecretVersion: S.optional(S.String),
+          technologyType: S.optional(S.String),
           authenticationType: S.optional(S.String),
-          username: S.optional(S.String),
+          clientSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           connectionUrl: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          password: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
-      ).annotate({ identifier: "GoldengateSnowflakeConnectionProperties" });
+      ).annotate({ identifier: "GoldengateDatabricksConnectionProperties" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          clientSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          storageCredential: S.optional(S.String),
+          connectionUrl: S.optional(S.String.pipe(T.SensitiveValue({}))),
           technologyType: S.optional(S.String),
           password: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          username: S.optional(S.String),
           passwordSecretVersion: S.optional(S.String),
-          clientId: S.optional(S.String),
-          connectionUrl: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          authenticationType: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GoldengateDatabricksConnectionProperties" });
+      ).annotate({ identifier: "GoldengateAmazonRedshiftConnectionProperties" });
     case 11:
       return S.suspend(() =>
         S.Struct({
+          port: S.optional(S.Number),
+          sslClientKeystashFile: S.optional(S.String),
+          username: S.optional(S.String),
           technologyType: S.optional(S.String),
-          coreSiteXml: S.optional(S.String),
+          securityProtocol: S.optional(S.String),
+          sslServerCertificateFile: S.optional(S.String),
+          database: S.optional(S.String),
+          sslClientKeystoredbFile: S.optional(S.String),
+          password: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          passwordSecretVersion: S.optional(S.String),
+          additionalAttributes: S.optional(__S(1063, __c33, 7)),
+          host: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GoldengateHdfsConnectionProperties" });
+      ).annotate({ identifier: "GoldengateDb2ConnectionProperties" });
     case 12:
       return S.suspend(() =>
         S.Struct({
-          password: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          passwordSecretVersion: S.optional(S.String),
+          username: S.optional(S.String),
           technologyType: S.optional(S.String),
+          tlsCertificateKeyFile: S.optional(S.String),
+          passwordSecretVersion: S.optional(S.String),
+          tlsCaFile: S.optional(S.String),
+          tlsCertificateKeyFilePassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
           connectionString: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          username: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoldengateAzureSynapseAnalyticsConnectionProperties" });
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          keyStoreFile: S.optional(S.String),
-          username: S.optional(S.String),
-          trustStorePassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          trustStorePasswordSecretVersion: S.optional(S.String),
-          sslKeyPasswordSecretVersion: S.optional(S.String),
-          keyStorePassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          sslKeyPassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          authenticationType: S.optional(S.String),
-          trustStoreFile: S.optional(S.String),
           password: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          keyStorePasswordSecretVersion: S.optional(S.String),
-          technologyType: S.optional(S.String),
-          url: S.optional(S.String),
-          passwordSecretVersion: S.optional(S.String),
+          securityProtocol: S.optional(S.String),
+          databaseId: S.optional(S.String),
+          tlsCertificateKeyFilePasswordSecretVersion: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GoldengateKafkaSchemaRegistryConnectionProperties" });
-    case 14:
-      return S.suspend(() =>
-        S.Struct({
-          branch: S.optional(S.String),
-          uri: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "NessieIcebergCatalog" });
-    case 15:
-      return S.suspend(() =>
-        S.Struct({
-          glueId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GlueIcebergCatalog" });
-    case 16:
-      return S.suspend(() =>
-        S.Struct({
-          uri: S.optional(S.String),
-          properties: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "RestIcebergCatalog" });
-    case 17:
-      return S.suspend(() =>
-        S.Struct({
-          clientSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          principalRole: S.optional(S.String),
-          clientId: S.optional(S.String),
-          polarisCatalog: S.optional(S.String),
-          uri: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PolarisIcebergCatalog" });
-    case 18:
-      return S.suspend(() =>
-        S.Struct({
-          nessieIcebergCatalog: S.optional(__S(1070, __c33, 14)),
-          glueIcebergCatalog: S.optional(__S(1071, __c33, 15)),
-          catalogType: S.optional(S.String),
-          restIcebergCatalog: S.optional(__S(1072, __c33, 16)),
-          polarisIcebergCatalog: S.optional(__S(1073, __c33, 17)),
-        }),
-      ).annotate({ identifier: "IcebergCatalog" });
-    case 19:
-      return S.suspend(() =>
-        S.Struct({
-          serviceAccountKeyFile: S.optional(S.String),
-          projectId: S.optional(S.String),
-          bucket: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudStorageIcebergStorage" });
-    case 20:
-      return S.suspend(() =>
-        S.Struct({
-          container: S.optional(S.String),
-          endpoint: S.optional(S.String),
-          accountKeySecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          azureAccount: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AzureDataLakeStorageIcebergStorage" });
-    case 21:
-      return S.suspend(() =>
-        S.Struct({
-          accessKeyId: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          secretAccessKeySecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          bucket: S.optional(S.String),
-          endpoint: S.optional(S.String),
-          schemeType: S.optional(S.String),
-          region: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AmazonS3IcebergStorage" });
-    case 22:
-      return S.suspend(() =>
-        S.Struct({
-          googleCloudStorageIcebergStorage: S.optional(__S(1075, __c33, 19)),
-          storageType: S.optional(S.String),
-          azureDataLakeStorageIcebergStorage: S.optional(__S(1076, __c33, 20)),
-          amazonS3IcebergStorage: S.optional(__S(1077, __c33, 21)),
-        }),
-      ).annotate({ identifier: "IcebergStorage" });
-    case 23:
-      return S.suspend(() =>
-        S.Struct({
-          catalog: S.optional(__S(1074, __c33, 18)),
-          technologyType: S.optional(S.String),
-          storage: S.optional(__S(1078, __c33, 22)),
-        }),
-      ).annotate({ identifier: "GoldengateIcebergConnectionProperties" });
-    case 24:
+      ).annotate({ identifier: "GoldengateMongodbConnectionProperties" });
+    case 13:
       return S.suspend(() =>
         S.Struct({
           serviceAccountKeyFile: S.optional(S.String),
           technologyType: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoldengateGoogleBigQueryConnectionProperties" });
-    case 25:
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          accountKeySecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          technologyType: S.optional(S.String),
+          sasTokenSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          account: S.optional(S.String),
+          authenticationType: S.optional(S.String),
+          clientId: S.optional(S.String),
+          clientSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          azureAuthorityHost: S.optional(S.String),
+          azureTenantId: S.optional(S.String),
+          endpoint: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoldengateAzureDataLakeStorageConnectionProperties" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          technologyType: S.optional(S.String),
+          tenantId: S.optional(S.String),
+          clientSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          clientId: S.optional(S.String),
+          endpoint: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoldengateMicrosoftFabricConnectionProperties" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          goldengateDeploymentId: S.optional(S.String),
+          passwordSecretVersion: S.optional(S.String),
+          port: S.optional(S.Number),
+          host: S.optional(S.String),
+          password: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          username: S.optional(S.String),
+          technologyType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoldengateGoldengateConnectionProperties" });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          port: S.optional(S.Number),
+          privateIpAddress: S.optional(S.String),
+          host: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "KafkaBootstrapServer" });
+    case 18:
+      return S.Array(__S(1073, __c33, 17));
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          keyStorePassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          useResourcePrincipal: S.optional(S.Boolean),
+          keyStorePasswordSecretVersion: S.optional(S.String),
+          trustStorePassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          username: S.optional(S.String),
+          streamPoolId: S.optional(S.String),
+          bootstrapServers: S.optional(__S(1074, __c33, 18)),
+          password: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          trustStoreFile: S.optional(S.String),
+          technologyType: S.optional(S.String),
+          keyStoreFile: S.optional(S.String),
+          producerPropertiesFile: S.optional(S.String),
+          clusterId: S.optional(S.String),
+          securityProtocol: S.optional(S.String),
+          sslKeyPasswordSecretVersion: S.optional(S.String),
+          passwordSecretVersion: S.optional(S.String),
+          consumerPropertiesFile: S.optional(S.String),
+          sslKeyPassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          trustStorePasswordSecretVersion: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoldengateKafkaConnectionProperties" });
+    case 20:
       return S.suspend(() =>
         S.Struct({
           privateKeyPassphraseSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           useResourcePrincipal: S.optional(S.Boolean),
           region: S.optional(S.String),
-          tenancyId: S.optional(S.String),
-          privateKeyFile: S.optional(S.String),
-          publicKeyFingerprint: S.optional(S.String),
           userId: S.optional(S.String),
           technologyType: S.optional(S.String),
+          privateKeyFile: S.optional(S.String),
+          tenancyId: S.optional(S.String),
+          publicKeyFingerprint: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoldengateOciObjectStorageConnectionProperties" });
+    case 21:
+      return S.suspend(() =>
+        S.Struct({
+          userId: S.optional(S.String),
+          technologyType: S.optional(S.String),
+          privateKeyFile: S.optional(S.String),
+          useResourcePrincipal: S.optional(S.Boolean),
+          region: S.optional(S.String),
+          privateKeyPassphraseSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          tenancyId: S.optional(S.String),
+          publicKeyFingerprint: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoldengateOracleNosqlConnectionProperties" });
-    case 26:
+    case 22:
       return S.suspend(() =>
         S.Struct({
-          username: S.optional(S.String),
-          serverCertificateValidationRequired: S.optional(S.Boolean),
-          port: S.optional(S.Number),
-          database: S.optional(S.String),
+          additionalAttributes: S.optional(__S(1063, __c33, 7)),
+          sslKeyFile: S.optional(S.String),
           sslCaFile: S.optional(S.String),
-          passwordSecretVersion: S.optional(S.String),
+          sslMode: S.optional(S.String),
           technologyType: S.optional(S.String),
-          securityProtocol: S.optional(S.String),
-          additionalAttributes: S.optional(__S(1059, __c33, 3)),
-          password: S.optional(S.String.pipe(T.SensitiveValue({}))),
           host: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoldengateMicrosoftSqlserverConnectionProperties" });
-    case 27:
-      return S.suspend(() =>
-        S.Struct({
-          privateIpAddress: S.optional(S.String),
+          securityProtocol: S.optional(S.String),
+          sslCertFile: S.optional(S.String),
+          password: S.optional(S.String.pipe(T.SensitiveValue({}))),
           port: S.optional(S.Number),
-          host: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "KafkaBootstrapServer" });
-    case 28:
-      return S.Array(__S(1083, __c33, 27));
-    case 29:
-      return S.suspend(() =>
-        S.Struct({
-          streamPoolId: S.optional(S.String),
-          sslKeyPasswordSecretVersion: S.optional(S.String),
-          consumerPropertiesFile: S.optional(S.String),
-          producerPropertiesFile: S.optional(S.String),
-          password: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          bootstrapServers: S.optional(__S(1084, __c33, 28)),
-          username: S.optional(S.String),
-          useResourcePrincipal: S.optional(S.Boolean),
-          keyStorePassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          clusterId: S.optional(S.String),
-          technologyType: S.optional(S.String),
           passwordSecretVersion: S.optional(S.String),
-          keyStorePasswordSecretVersion: S.optional(S.String),
-          keyStoreFile: S.optional(S.String),
-          trustStorePasswordSecretVersion: S.optional(S.String),
-          sslKeyPassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          trustStoreFile: S.optional(S.String),
-          trustStorePassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          securityProtocol: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoldengateKafkaConnectionProperties" });
-    case 30:
-      return S.suspend(() =>
-        S.Struct({
-          authenticationType: S.optional(S.String),
-          technologyType: S.optional(S.String),
-          trustStorePasswordSecretVersion: S.optional(S.String),
-          redisClusterId: S.optional(S.String),
-          securityProtocol: S.optional(S.String),
-          keyStoreFile: S.optional(S.String),
-          trustStorePassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          servers: S.optional(S.String),
-          passwordSecretVersion: S.optional(S.String),
-          keyStorePassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          password: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          keyStorePasswordSecretVersion: S.optional(S.String),
-          trustStoreFile: S.optional(S.String),
           username: S.optional(S.String),
+          sslCrlFile: S.optional(S.String),
+          database: S.optional(S.String),
+          dbSystemId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GoldengateRedisConnectionProperties" });
-    case 31:
+      ).annotate({ identifier: "GoldengateMysqlConnectionProperties" });
+    case 23:
       return S.suspend(() =>
         S.Struct({
           connectionString: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          technologyType: S.optional(S.String),
-          authenticationMode: S.optional(S.String),
           password: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          sessionMode: S.optional(S.String),
-          walletFile: S.optional(S.String),
           username: S.optional(S.String),
-          gcpOracleDatabaseId: S.optional(S.String),
+          technologyType: S.optional(S.String),
           passwordSecretVersion: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GoldengateOracleConnectionProperties" });
+      ).annotate({ identifier: "GoldengateAzureSynapseAnalyticsConnectionProperties" });
+    case 24:
+      return S.suspend(() =>
+        S.Struct({
+          trustStorePassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          username: S.optional(S.String),
+          trustStorePasswordSecretVersion: S.optional(S.String),
+          sslKeyPasswordSecretVersion: S.optional(S.String),
+          keyStorePassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          keyStorePasswordSecretVersion: S.optional(S.String),
+          authenticationType: S.optional(S.String),
+          password: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          keyStoreFile: S.optional(S.String),
+          sslKeyPassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          technologyType: S.optional(S.String),
+          trustStoreFile: S.optional(S.String),
+          passwordSecretVersion: S.optional(S.String),
+          url: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoldengateKafkaSchemaRegistryConnectionProperties" });
+    case 25:
+      return S.suspend(() =>
+        S.Struct({
+          clientId: S.optional(S.String),
+          principalRole: S.optional(S.String),
+          uri: S.optional(S.String),
+          clientSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          polarisCatalog: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PolarisIcebergCatalog" });
+    case 26:
+      return S.suspend(() =>
+        S.Struct({
+          glueId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GlueIcebergCatalog" });
+    case 27:
+      return S.suspend(() =>
+        S.Struct({
+          branch: S.optional(S.String),
+          uri: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "NessieIcebergCatalog" });
+    case 28:
+      return S.suspend(() =>
+        S.Struct({
+          uri: S.optional(S.String),
+          properties: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RestIcebergCatalog" });
+    case 29:
+      return S.suspend(() =>
+        S.Struct({
+          polarisIcebergCatalog: S.optional(__S(1081, __c33, 25)),
+          glueIcebergCatalog: S.optional(__S(1082, __c33, 26)),
+          nessieIcebergCatalog: S.optional(__S(1083, __c33, 27)),
+          restIcebergCatalog: S.optional(__S(1084, __c33, 28)),
+          catalogType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "IcebergCatalog" });
+    case 30:
+      return S.suspend(() =>
+        S.Struct({
+          projectId: S.optional(S.String),
+          bucket: S.optional(S.String),
+          serviceAccountKeyFile: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudStorageIcebergStorage" });
+    case 31:
+      return S.suspend(() =>
+        S.Struct({
+          accountKeySecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          azureAccount: S.optional(S.String),
+          endpoint: S.optional(S.String),
+          container: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AzureDataLakeStorageIcebergStorage" });
   }
 }
 function __c34(j: number): any {
@@ -8998,164 +8999,170 @@ function __c34(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          sslServerCertificateFile: S.optional(S.String),
-          additionalAttributes: S.optional(__S(1059, __c33, 3)),
-          password: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          database: S.optional(S.String),
-          passwordSecretVersion: S.optional(S.String),
-          sslClientKeystashFile: S.optional(S.String),
-          technologyType: S.optional(S.String),
-          host: S.optional(S.String),
-          securityProtocol: S.optional(S.String),
-          username: S.optional(S.String),
-          port: S.optional(S.Number),
-          sslClientKeystoredbFile: S.optional(S.String),
+          bucket: S.optional(S.String),
+          endpoint: S.optional(S.String),
+          secretAccessKeySecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          accessKeyId: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          region: S.optional(S.String),
+          schemeType: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GoldengateDb2ConnectionProperties" });
+      ).annotate({ identifier: "AmazonS3IcebergStorage" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          accountKeySecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          azureAuthorityHost: S.optional(S.String),
-          azureTenantId: S.optional(S.String),
-          account: S.optional(S.String),
-          clientSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          technologyType: S.optional(S.String),
-          clientId: S.optional(S.String),
-          sasTokenSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          endpoint: S.optional(S.String),
-          authenticationType: S.optional(S.String),
+          googleCloudStorageIcebergStorage: S.optional(__S(1086, __c33, 30)),
+          azureDataLakeStorageIcebergStorage: S.optional(__S(1087, __c33, 31)),
+          storageType: S.optional(S.String),
+          amazonS3IcebergStorage: S.optional(__S(1088, __c34, 0)),
         }),
-      ).annotate({ identifier: "GoldengateAzureDataLakeStorageConnectionProperties" });
+      ).annotate({ identifier: "IcebergStorage" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          clientId: S.optional(S.String),
-          tenantId: S.optional(S.String),
-          clientSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          endpoint: S.optional(S.String),
+          catalog: S.optional(__S(1085, __c33, 29)),
+          storage: S.optional(__S(1089, __c34, 1)),
           technologyType: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GoldengateMicrosoftFabricConnectionProperties" });
+      ).annotate({ identifier: "GoldengateIcebergConnectionProperties" });
     case 3:
       return S.suspend(() =>
         S.Struct({
+          accessKeyId: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          region: S.optional(S.String),
+          secretAccessKeySecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           technologyType: S.optional(S.String),
-          host: S.optional(S.String),
+          endpoint: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GoldengateGenericConnectionProperties" });
+      ).annotate({ identifier: "GoldengateAmazonS3ConnectionProperties" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          tenancyId: S.optional(S.String),
-          privateKeyPassphraseSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          userId: S.optional(S.String),
-          publicKeyFingerprint: S.optional(S.String),
-          privateKeyFile: S.optional(S.String),
-          region: S.optional(S.String),
-          useResourcePrincipal: S.optional(S.Boolean),
+          passwordSecretVersion: S.optional(S.String),
+          connectionUrl: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          password: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          keyStoreFile: S.optional(S.String),
+          jndiSecurityPrincipal: S.optional(S.String),
+          keyStorePassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          username: S.optional(S.String),
+          connectionFactory: S.optional(S.String),
+          sslKeyPasswordSecretVersion: S.optional(S.String),
+          jndiInitialContextFactory: S.optional(S.String),
+          securityProtocol: S.optional(S.String),
+          trustStoreFile: S.optional(S.String),
           technologyType: S.optional(S.String),
+          jndiConnectionFactory: S.optional(S.String),
+          trustStorePassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          useJndi: S.optional(S.Boolean),
+          trustStorePasswordSecretVersion: S.optional(S.String),
+          jndiSecurityCredentialsSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          jndiProviderUrl: S.optional(S.String),
+          keyStorePasswordSecretVersion: S.optional(S.String),
+          authenticationType: S.optional(S.String),
+          sslKeyPassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
-      ).annotate({ identifier: "GoldengateOciObjectStorageConnectionProperties" });
+      ).annotate({ identifier: "GoldengateJavaMessageServiceConnectionProperties" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          useResourcePrincipal: S.optional(S.Boolean),
-          tenancyId: S.optional(S.String),
           technologyType: S.optional(S.String),
-          privateKeyPassphraseSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          publicKeyFingerprint: S.optional(S.String),
-          connectionUrl: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          privateKeyFile: S.optional(S.String),
-          userId: S.optional(S.String),
-          region: S.optional(S.String),
+          awsRegion: S.optional(S.String),
+          accessKeyId: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          endpoint: S.optional(S.String),
+          secretAccessKeySecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
-      ).annotate({ identifier: "GoldengateOracleAIDataPlatformConnectionProperties" });
+      ).annotate({ identifier: "GoldengateAmazonKinesisConnectionProperties" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          passwordSecretVersion: S.optional(S.String),
-          dbSystemId: S.optional(S.String),
-          additionalAttributes: S.optional(__S(1059, __c33, 3)),
+          privateKeyFile: S.optional(S.String),
+          userId: S.optional(S.String),
+          region: S.optional(S.String),
+          publicKeyFingerprint: S.optional(S.String),
           technologyType: S.optional(S.String),
-          database: S.optional(S.String),
-          securityProtocol: S.optional(S.String),
-          sslKeyFile: S.optional(S.String),
-          sslMode: S.optional(S.String),
-          sslCrlFile: S.optional(S.String),
-          port: S.optional(S.Number),
-          username: S.optional(S.String),
-          sslCaFile: S.optional(S.String),
-          sslCertFile: S.optional(S.String),
-          host: S.optional(S.String),
-          password: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          privateKeyPassphraseSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          useResourcePrincipal: S.optional(S.Boolean),
+          connectionUrl: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          tenancyId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GoldengatePostgresqlConnectionProperties" });
+      ).annotate({ identifier: "GoldengateOracleAIDataPlatformConnectionProperties" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          password: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          coreSiteXml: S.optional(S.String),
           technologyType: S.optional(S.String),
-          passwordSecretVersion: S.optional(S.String),
-          connectionUrl: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          username: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GoldengateAmazonRedshiftConnectionProperties" });
+      ).annotate({ identifier: "GoldengateHdfsConnectionProperties" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          elasticsearchConnectionProperties: S.optional(__S(1056, __c33, 0)),
-          amazonKinesisConnectionProperties: S.optional(__S(1057, __c33, 1)),
-          mysqlConnectionProperties: S.optional(__S(1060, __c33, 4)),
-          javaMessageServiceConnectionProperties: S.optional(__S(1061, __c33, 5)),
-          goldengateConnectionProperties: S.optional(__S(1062, __c33, 6)),
-          amazonS3ConnectionProperties: S.optional(__S(1063, __c33, 7)),
-          routingMethod: S.optional(S.String),
-          lifecycleState: S.optional(S.String),
-          mongodbConnectionProperties: S.optional(__S(1064, __c33, 8)),
-          snowflakeConnectionProperties: S.optional(__S(1065, __c33, 9)),
-          databricksConnectionProperties: S.optional(__S(1066, __c33, 10)),
-          ingressIpAddresses: S.optional(__S(3392, __c106, 0)),
-          hdfsConnectionProperties: S.optional(__S(1067, __c33, 11)),
-          azureSynapseAnalyticsConnectionProperties: S.optional(__S(1068, __c33, 12)),
-          connectionType: S.optional(S.String),
-          kafkaSchemaRegistryConnectionProperties: S.optional(__S(1069, __c33, 13)),
-          icebergConnectionProperties: S.optional(__S(1079, __c33, 23)),
-          googleBigQueryConnectionProperties: S.optional(__S(1080, __c33, 24)),
-          oracleNosqlConnectionProperties: S.optional(__S(1081, __c33, 25)),
-          microsoftSqlserverConnectionProperties: S.optional(__S(1082, __c33, 26)),
-          lifecycleDetails: S.optional(S.String),
-          kafkaConnectionProperties: S.optional(__S(1085, __c33, 29)),
-          googlePubsubConnectionProperties: S.optional(__S(1080, __c33, 24)),
-          description: S.optional(S.String),
-          redisConnectionProperties: S.optional(__S(1086, __c33, 30)),
-          ocid: S.optional(S.String),
-          oracleConnectionProperties: S.optional(__S(1087, __c33, 31)),
-          db2ConnectionProperties: S.optional(__S(1088, __c34, 0)),
-          azureDataLakeStorageConnectionProperties: S.optional(__S(1089, __c34, 1)),
-          microsoftFabricConnectionProperties: S.optional(__S(1090, __c34, 2)),
-          googleCloudStorageConnectionProperties: S.optional(__S(1080, __c33, 24)),
-          genericConnectionProperties: S.optional(__S(1091, __c34, 3)),
-          ociObjectStorageConnectionProperties: S.optional(__S(1092, __c34, 4)),
-          oracleAiDataPlatformConnectionProperties: S.optional(__S(1093, __c34, 5)),
-          displayName: S.optional(S.String),
-          postgresqlConnectionProperties: S.optional(__S(1094, __c34, 6)),
-          updateTime: S.optional(S.String),
-          amazonRedshiftConnectionProperties: S.optional(__S(1095, __c34, 7)),
+          sslCaFile: S.optional(S.String),
+          technologyType: S.optional(S.String),
+          password: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          host: S.optional(S.String),
+          serverCertificateValidationRequired: S.optional(S.Boolean),
+          additionalAttributes: S.optional(__S(1063, __c33, 7)),
+          username: S.optional(S.String),
+          port: S.optional(S.Number),
+          securityProtocol: S.optional(S.String),
+          passwordSecretVersion: S.optional(S.String),
+          database: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GoldengateConnectionProperties" });
+      ).annotate({ identifier: "GoldengateMicrosoftSqlserverConnectionProperties" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          gcpOracleZone: S.optional(S.String),
-          odbNetwork: S.optional(S.String),
-          createTime: S.optional(S.String),
-          odbSubnet: S.optional(S.String),
-          entitlementId: S.optional(S.String),
-          properties: S.optional(__S(1096, __c34, 8)),
-          ociUrl: S.optional(S.String),
+          oracleConnectionProperties: S.optional(__S(1056, __c33, 0)),
+          elasticsearchConnectionProperties: S.optional(__S(1057, __c33, 1)),
+          lifecycleState: S.optional(S.String),
+          snowflakeConnectionProperties: S.optional(__S(1058, __c33, 2)),
+          redisConnectionProperties: S.optional(__S(1059, __c33, 3)),
+          displayName: S.optional(S.String),
+          googlePubsubConnectionProperties: S.optional(__S(1060, __c33, 4)),
+          genericConnectionProperties: S.optional(__S(1061, __c33, 5)),
+          postgresqlConnectionProperties: S.optional(__S(1064, __c33, 8)),
+          databricksConnectionProperties: S.optional(__S(1065, __c33, 9)),
+          amazonRedshiftConnectionProperties: S.optional(__S(1066, __c33, 10)),
+          db2ConnectionProperties: S.optional(__S(1067, __c33, 11)),
+          description: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          ocid: S.optional(S.String),
+          mongodbConnectionProperties: S.optional(__S(1068, __c33, 12)),
+          googleBigQueryConnectionProperties: S.optional(__S(1069, __c33, 13)),
+          lifecycleDetails: S.optional(S.String),
+          azureDataLakeStorageConnectionProperties: S.optional(__S(1070, __c33, 14)),
+          microsoftFabricConnectionProperties: S.optional(__S(1071, __c33, 15)),
+          ingressIpAddresses: S.optional(__S(3424, __c107, 0)),
+          goldengateConnectionProperties: S.optional(__S(1072, __c33, 16)),
+          kafkaConnectionProperties: S.optional(__S(1075, __c33, 19)),
+          ociObjectStorageConnectionProperties: S.optional(__S(1076, __c33, 20)),
+          routingMethod: S.optional(S.String),
+          oracleNosqlConnectionProperties: S.optional(__S(1077, __c33, 21)),
+          mysqlConnectionProperties: S.optional(__S(1078, __c33, 22)),
+          azureSynapseAnalyticsConnectionProperties: S.optional(__S(1079, __c33, 23)),
+          googleCloudStorageConnectionProperties: S.optional(__S(1069, __c33, 13)),
+          kafkaSchemaRegistryConnectionProperties: S.optional(__S(1080, __c33, 24)),
+          icebergConnectionProperties: S.optional(__S(1090, __c34, 2)),
+          amazonS3ConnectionProperties: S.optional(__S(1091, __c34, 3)),
+          connectionType: S.optional(S.String),
+          javaMessageServiceConnectionProperties: S.optional(__S(1092, __c34, 4)),
+          amazonKinesisConnectionProperties: S.optional(__S(1093, __c34, 5)),
+          oracleAiDataPlatformConnectionProperties: S.optional(__S(1094, __c34, 6)),
+          hdfsConnectionProperties: S.optional(__S(1095, __c34, 7)),
+          microsoftSqlserverConnectionProperties: S.optional(__S(1096, __c34, 8)),
+        }),
+      ).annotate({ identifier: "GoldengateConnectionProperties" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
           name: S.optional(S.String),
-          labels: S.optional(__S(3360, __c105, 0)),
+          odbNetwork: S.optional(S.String),
+          odbSubnet: S.optional(S.String),
+          createTime: S.optional(S.String),
+          labels: S.optional(__S(3392, __c106, 0)),
+          gcpOracleZone: S.optional(S.String),
+          properties: S.optional(__S(1097, __c34, 9)),
+          ociUrl: S.optional(S.String),
+          entitlementId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoldengateConnection" });
   }
@@ -9167,9 +9174,9 @@ function __c35(j: number): any {
         S.Extend(
           __S(1165, __c36, 13),
           S.Struct({
-            goldengateDeploymentId: S.optional(S.String.pipe(T.Query())),
-            parent: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            goldengateDeploymentId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -9186,12 +9193,43 @@ function __c36(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          ingressIpAddress: S.optional(S.String),
+          compartmentId: S.optional(S.String),
+          metadataOnly: S.optional(S.Boolean),
+          bucket: S.optional(S.String),
+          backupScheduledTime: S.optional(S.String),
+          frequencyBackupScheduled: S.optional(S.String),
+          namespace: S.optional(S.String),
         }),
-      ).annotate({ identifier: "IngressIp" });
+      ).annotate({ identifier: "GoldengateBackupSchedule" });
     case 1:
-      return S.Array(__S(1152, __c36, 0));
+      return S.suspend(() =>
+        S.Struct({
+          day: S.optional(S.String),
+          startHour: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "GoldengateMaintenanceWindow" });
     case 2:
+      return S.suspend(() =>
+        S.Struct({
+          securityPatchUpgradePeriodDays: S.optional(S.Number),
+          interimReleaseUpgradePeriodDays: S.optional(S.Number),
+          isInterimReleaseAutoUpgradeEnabled: S.optional(S.Boolean),
+          majorReleaseUpgradePeriodDays: S.optional(S.Number),
+          bundleReleaseUpgradePeriodDays: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "GoldengateMaintenanceConfig" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          namespace: S.optional(S.String),
+          diagnosticStartTime: S.optional(S.String),
+          bucket: S.optional(S.String),
+          object: S.optional(S.String),
+          diagnosticState: S.optional(S.String),
+          diagnosticEndTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DeploymentDiagnosticData" });
+    case 4:
       return S.suspend(() =>
         S.Struct({
           userGroupId: S.optional(S.String),
@@ -9200,141 +9238,110 @@ function __c36(j: number): any {
           administratorGroupId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoldengateGroupToRolesMapping" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          groupRolesMapping: S.optional(__S(1154, __c36, 2)),
-          adminUsername: S.optional(S.String),
-          passwordSecretId: S.optional(S.String),
-          adminPassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          certificate: S.optional(S.String),
-          oggVersion: S.optional(S.String),
-          credentialStore: S.optional(S.String),
-          deployment: S.optional(S.String),
-          identityDomainId: S.optional(S.String),
-          adminPasswordSecretVersion: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoldengateOggDeployment" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          bundleReleaseUpgradePeriodDays: S.optional(S.Number),
-          interimReleaseUpgradePeriodDays: S.optional(S.Number),
-          isInterimReleaseAutoUpgradeEnabled: S.optional(S.Boolean),
-          majorReleaseUpgradePeriodDays: S.optional(S.Number),
-          securityPatchUpgradePeriodDays: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "GoldengateMaintenanceConfig" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          relatedResourceId: S.optional(S.String),
-          createTime: S.optional(S.String),
-          compartmentId: S.optional(S.String),
-          message: S.optional(S.String),
-          type: S.optional(S.String),
+          oggVersion: S.optional(S.String),
+          adminUsername: S.optional(S.String),
+          certificate: S.optional(S.String),
+          adminPassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          identityDomainId: S.optional(S.String),
+          deployment: S.optional(S.String),
+          passwordSecretId: S.optional(S.String),
+          credentialStore: S.optional(S.String),
+          adminPasswordSecretVersion: S.optional(S.String),
+          groupRolesMapping: S.optional(__S(1156, __c36, 4)),
         }),
-      ).annotate({ identifier: "GoldengateDeploymentLock" });
+      ).annotate({ identifier: "GoldengateOggDeployment" });
     case 6:
-      return S.Array(__S(1157, __c36, 5));
-    case 7:
       return S.suspend(() =>
         S.Struct({
-          faultDomain: S.optional(S.String),
+          ingressIpAddress: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "IngressIp" });
+    case 7:
+      return S.Array(__S(1158, __c36, 6));
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
           availabilityDomain: S.optional(S.String),
+          faultDomain: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoldengatePlacement" });
-    case 8:
-      return S.Array(__S(1159, __c36, 7));
     case 9:
-      return S.suspend(() =>
-        S.Struct({
-          frequencyBackupScheduled: S.optional(S.String),
-          namespace: S.optional(S.String),
-          compartmentId: S.optional(S.String),
-          bucket: S.optional(S.String),
-          metadataOnly: S.optional(S.Boolean),
-          backupScheduledTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoldengateBackupSchedule" });
+      return S.Array(__S(1160, __c36, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
-          diagnosticState: S.optional(S.String),
-          diagnosticEndTime: S.optional(S.String),
-          bucket: S.optional(S.String),
-          object: S.optional(S.String),
-          diagnosticStartTime: S.optional(S.String),
-          namespace: S.optional(S.String),
+          compartmentId: S.optional(S.String),
+          type: S.optional(S.String),
+          createTime: S.optional(S.String),
+          relatedResourceId: S.optional(S.String),
+          message: S.optional(S.String),
         }),
-      ).annotate({ identifier: "DeploymentDiagnosticData" });
+      ).annotate({ identifier: "GoldengateDeploymentLock" });
     case 11:
-      return S.suspend(() =>
-        S.Struct({
-          startHour: S.optional(S.Number),
-          day: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoldengateMaintenanceWindow" });
+      return S.Array(__S(1162, __c36, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
-          deploymentBackupId: S.optional(S.String),
-          privateIpAddress: S.optional(S.String),
-          fqdn: S.optional(S.String),
+          backupSchedule: S.optional(__S(1152, __c36, 0)),
           deploymentRole: S.optional(S.String),
-          publicIpAddress: S.optional(S.String),
-          roleChangeTime: S.optional(S.String),
-          category: S.optional(S.String),
-          upgradeRequiredTime: S.optional(S.String),
-          healthy: S.optional(S.Boolean),
-          ingressIps: S.optional(__S(1153, __c36, 1)),
-          isPublic: S.optional(S.Boolean),
-          ocid: S.optional(S.String),
-          oggData: S.optional(__S(1155, __c36, 3)),
-          licenseModel: S.optional(S.String),
-          maintenanceConfig: S.optional(__S(1156, __c36, 4)),
-          lastBackupScheduleTime: S.optional(S.String),
-          cpuCoreCount: S.optional(S.Number),
-          loadBalancerId: S.optional(S.String),
-          deploymentType: S.optional(S.String),
-          lifecycleDetails: S.optional(S.String),
-          nextMaintenanceActionType: S.optional(S.String),
-          nextMaintenanceTime: S.optional(S.String),
-          isLatestVersion: S.optional(S.Boolean),
-          environmentType: S.optional(S.String),
-          locks: S.optional(__S(1158, __c36, 6)),
-          oggVersionSupportEndTime: S.optional(S.String),
-          nsgIds: S.optional(__S(3392, __c106, 0)),
-          storageUtilizationBytes: S.optional(S.String),
-          placements: S.optional(__S(1160, __c36, 8)),
-          isStorageUtilizationLimitExceeded: S.optional(S.Boolean),
-          backupSchedule: S.optional(__S(1161, __c36, 9)),
-          deploymentDiagnosticData: S.optional(__S(1162, __c36, 10)),
-          lifecycleState: S.optional(S.String),
-          isAutoScalingEnabled: S.optional(S.Boolean),
-          deploymentUrl: S.optional(S.String),
-          maintenanceWindow: S.optional(__S(1163, __c36, 11)),
-          updateTime: S.optional(S.String),
-          loadBalancerSubnetId: S.optional(S.String),
-          nextBackupScheduleTime: S.optional(S.String),
+          maintenanceWindow: S.optional(__S(1153, __c36, 1)),
+          deploymentBackupId: S.optional(S.String),
+          maintenanceConfig: S.optional(__S(1154, __c36, 2)),
           description: S.optional(S.String),
-          nextMaintenanceDescription: S.optional(S.String),
+          environmentType: S.optional(S.String),
+          publicIpAddress: S.optional(S.String),
           lifecycleSubState: S.optional(S.String),
+          fqdn: S.optional(S.String),
+          nsgIds: S.optional(__S(3424, __c107, 0)),
+          category: S.optional(S.String),
+          licenseModel: S.optional(S.String),
+          loadBalancerId: S.optional(S.String),
+          deploymentDiagnosticData: S.optional(__S(1155, __c36, 3)),
+          updateTime: S.optional(S.String),
+          isAutoScalingEnabled: S.optional(S.Boolean),
+          upgradeRequiredTime: S.optional(S.String),
+          oggData: S.optional(__S(1157, __c36, 5)),
+          nextBackupScheduleTime: S.optional(S.String),
+          loadBalancerSubnetId: S.optional(S.String),
+          isStorageUtilizationLimitExceeded: S.optional(S.Boolean),
+          ingressIps: S.optional(__S(1159, __c36, 7)),
+          placements: S.optional(__S(1161, __c36, 9)),
+          isLatestVersion: S.optional(S.Boolean),
+          ocid: S.optional(S.String),
+          nextMaintenanceDescription: S.optional(S.String),
+          locks: S.optional(__S(1163, __c36, 11)),
+          lifecycleDetails: S.optional(S.String),
+          healthy: S.optional(S.Boolean),
+          cpuCoreCount: S.optional(S.Number),
+          isPublic: S.optional(S.Boolean),
+          lifecycleState: S.optional(S.String),
+          deploymentType: S.optional(S.String),
+          lastBackupScheduleTime: S.optional(S.String),
+          oggVersionSupportEndTime: S.optional(S.String),
+          nextMaintenanceTime: S.optional(S.String),
+          nextMaintenanceActionType: S.optional(S.String),
+          roleChangeTime: S.optional(S.String),
+          storageUtilizationBytes: S.optional(S.String),
+          privateIpAddress: S.optional(S.String),
+          deploymentUrl: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoldengateDeploymentProperties" });
     case 13:
       return S.suspend(() =>
         S.Struct({
-          entitlementId: S.optional(S.String),
+          name: S.optional(S.String),
           odbNetwork: S.optional(S.String),
+          properties: S.optional(__S(1164, __c36, 12)),
           createTime: S.optional(S.String),
+          displayName: S.optional(S.String),
           odbSubnet: S.optional(S.String),
           gcpOracleZone: S.optional(S.String),
-          properties: S.optional(__S(1164, __c36, 12)),
-          labels: S.optional(__S(3360, __c105, 0)),
-          name: S.optional(S.String),
-          displayName: S.optional(S.String),
+          entitlementId: S.optional(S.String),
           ociUrl: S.optional(S.String),
+          labels: S.optional(__S(3392, __c106, 0)),
         }),
       ).annotate({ identifier: "GoldengateDeployment" });
   }
@@ -9377,15 +9384,15 @@ function __c38(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          reconciling: S.optional(S.Boolean),
-          labels: S.optional(__S(3360, __c105, 0)),
-          gcpOracleZone: S.optional(S.String),
-          name: S.optional(S.String),
-          state: S.optional(S.String),
-          network: S.optional(S.String),
-          createTime: S.optional(S.String),
-          entitlementId: S.optional(S.String),
           serviceConnectivityConfig: S.optional(__S(1217, __c38, 1)),
+          state: S.optional(S.String),
+          name: S.optional(S.String),
+          labels: S.optional(__S(3392, __c106, 0)),
+          network: S.optional(S.String),
+          entitlementId: S.optional(S.String),
+          gcpOracleZone: S.optional(S.String),
+          reconciling: S.optional(S.Boolean),
+          createTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "OdbNetwork" });
   }
@@ -9397,9 +9404,9 @@ function __c39(j: number): any {
         S.Extend(
           __S(1280, __c40, 0),
           S.Struct({
+            odbDnsZoneId: S.optional(S.String.pipe(T.Query())),
             parent: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
-            odbDnsZoneId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -9417,9 +9424,9 @@ function __c40(j: number): any {
       return S.suspend(() =>
         S.Struct({
           domain: S.optional(S.String),
-          labels: S.optional(__S(3360, __c105, 0)),
           createTime: S.optional(S.String),
           state: S.optional(S.String),
+          labels: S.optional(__S(3392, __c106, 0)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "OdbDnsZone" });
@@ -9432,9 +9439,9 @@ function __c41(j: number): any {
         S.Extend(
           __S(1344, __c42, 0),
           S.Struct({
+            parent: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
             odbSubnetId: S.optional(S.String.pipe(T.Query())),
-            parent: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -9451,12 +9458,12 @@ function __c42(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          labels: S.optional(__S(3360, __c105, 0)),
-          name: S.optional(S.String),
-          state: S.optional(S.String),
+          labels: S.optional(__S(3392, __c106, 0)),
           createTime: S.optional(S.String),
+          name: S.optional(S.String),
           purpose: S.optional(S.String),
           cidrRange: S.optional(S.String),
+          state: S.optional(S.String),
         }),
       ).annotate({ identifier: "OdbSubnet" });
   }
@@ -9483,9 +9490,9 @@ function __c44(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          force: S.optional(S.Boolean.pipe(T.Query())),
           requestId: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          force: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -9501,9 +9508,9 @@ function __c45(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          force: S.optional(S.Boolean.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           requestId: S.optional(S.String.pipe(T.Query())),
+          force: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -9519,8 +9526,8 @@ function __c46(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           requestId: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -9604,8 +9611,8 @@ function __c51(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           requestId: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -9672,8 +9679,8 @@ function __c55(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           requestId: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -9805,34 +9812,34 @@ function __c61(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          nullValue: S.optional(S.Boolean),
-          value: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
         }),
-      ).annotate({ identifier: "Value" });
+      ).annotate({ identifier: "Column" });
     case 5:
       return S.Array(__S(1956, __c61, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          values: S.optional(__S(1957, __c61, 5)),
+          nullValue: S.optional(S.Boolean),
+          value: S.optional(S.String),
         }),
-      ).annotate({ identifier: "Row" });
+      ).annotate({ identifier: "Value" });
     case 7:
       return S.Array(__S(1958, __c61, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          type: S.optional(S.String),
-          name: S.optional(S.String),
+          values: S.optional(__S(1959, __c61, 7)),
         }),
-      ).annotate({ identifier: "Column" });
+      ).annotate({ identifier: "Row" });
     case 9:
       return S.Array(__S(1960, __c61, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
-          rows: S.optional(__S(1959, __c61, 7)),
-          columns: S.optional(__S(1961, __c61, 9)),
+          columns: S.optional(__S(1957, __c61, 5)),
+          rows: S.optional(__S(1961, __c61, 9)),
         }),
       ).annotate({ identifier: "SqlResult" });
     case 11:
@@ -9841,8 +9848,8 @@ function __c61(j: number): any {
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          partialResult: S.optional(S.Boolean),
           message: S.optional(S.String),
+          partialResult: S.optional(S.Boolean),
           executionDuration: S.optional(S.String),
         }),
       ).annotate({ identifier: "ExecuteSqlMetadata" });
@@ -9889,9 +9896,9 @@ function __c64(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          isRegional: S.optional(S.Boolean),
           type: S.optional(S.String),
           password: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          isRegional: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "GenerateAutonomousDatabaseWalletRequest" });
     case 1:
@@ -9938,11 +9945,11 @@ function __c66(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          metadata: S.optional(__S(2848, __c89, 0)),
-          locationId: S.optional(S.String),
-          name: S.optional(S.String),
-          labels: S.optional(__S(3360, __c105, 0)),
+          labels: S.optional(__S(3392, __c106, 0)),
           displayName: S.optional(S.String),
+          name: S.optional(S.String),
+          locationId: S.optional(S.String),
+          metadata: S.optional(__S(2848, __c89, 0)),
         }),
       ).annotate({ identifier: "Location" });
   }
@@ -10231,54 +10238,54 @@ function __c85(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pdbIpDefault: S.optional(S.String),
-          allConnectionStrings: S.optional(__S(3360, __c105, 0)),
           pdbDefault: S.optional(S.String),
+          allConnectionStrings: S.optional(__S(3392, __c106, 0)),
+          pdbIpDefault: S.optional(S.String),
         }),
       ).annotate({ identifier: "PluggableDatabaseConnectionStrings" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          tags: S.optional(__S(3360, __c105, 0)),
+          openMode: S.optional(S.String),
+          nodeName: S.optional(S.String),
+          pluggableDatabaseId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "DefinedTagValue" });
+      ).annotate({ identifier: "PluggableDatabaseNodeLevelDetails" });
     case 2:
-      return S.Record(S.String, __S(2721, __c85, 1));
+      return S.Array(__S(2721, __c85, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          pluggableDatabaseId: S.optional(S.String),
-          nodeName: S.optional(S.String),
-          openMode: S.optional(S.String),
+          tags: S.optional(__S(3392, __c106, 0)),
         }),
-      ).annotate({ identifier: "PluggableDatabaseNodeLevelDetails" });
+      ).annotate({ identifier: "DefinedTagValue" });
     case 4:
-      return S.Array(__S(2723, __c85, 3));
+      return S.Record(S.String, __S(2723, __c85, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          ocid: S.optional(S.String),
-          containerDatabaseOcid: S.optional(S.String),
-          lifecycleDetails: S.optional(S.String),
-          lifecycleState: S.optional(S.String),
           connectionStrings: S.optional(__S(2720, __c85, 0)),
-          pdbName: S.optional(S.String),
-          compartmentId: S.optional(S.String),
-          freeformTags: S.optional(__S(3360, __c105, 0)),
-          databaseManagementConfig: S.optional(__S(416, __c13, 0)),
-          operationsInsightsState: S.optional(S.String),
+          lifecycleDetails: S.optional(S.String),
           isRestricted: S.optional(S.Boolean),
-          definedTags: S.optional(__S(2722, __c85, 2)),
-          pdbNodeLevelDetails: S.optional(__S(2724, __c85, 4)),
+          ocid: S.optional(S.String),
+          pdbNodeLevelDetails: S.optional(__S(2722, __c85, 2)),
+          databaseManagementConfig: S.optional(__S(416, __c13, 0)),
+          lifecycleState: S.optional(S.String),
+          definedTags: S.optional(__S(2724, __c85, 4)),
+          compartmentId: S.optional(S.String),
+          operationsInsightsState: S.optional(S.String),
+          pdbName: S.optional(S.String),
+          freeformTags: S.optional(__S(3392, __c106, 0)),
+          containerDatabaseOcid: S.optional(S.String),
         }),
       ).annotate({ identifier: "PluggableDatabaseProperties" });
     case 6:
       return S.suspend(() =>
         S.Struct({
           ociUrl: S.optional(S.String),
+          createTime: S.optional(S.String),
           properties: S.optional(__S(2725, __c85, 5)),
           name: S.optional(S.String),
-          createTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "PluggableDatabase" });
   }
@@ -10300,8 +10307,8 @@ function __c86(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
           region: S.optional(S.String),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "AutonomousDatabaseRefreshableClone" });
     case 2:
@@ -10321,8 +10328,8 @@ function __c87(j: number): any {
         S.Struct({
           pageSize: S.optional(S.Number.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          extraLocationTypes: S.optional(__S(3424, __c107, 0).pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
-          extraLocationTypes: S.optional(__S(3392, __c106, 0).pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -10348,9 +10355,9 @@ function __c88(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          totalVmStorageSizeGb: S.optional(S.Number),
           totalStorageSizeGb: S.optional(S.Number),
           requestId: S.optional(S.String),
-          totalVmStorageSizeGb: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ConfigureExascaleCloudExadataInfrastructureRequest" });
     case 1:
@@ -10385,19 +10392,19 @@ function __c90(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          message: S.optional(S.String),
           details: S.optional(__S(2880, __c90, 0)),
+          message: S.optional(S.String),
           code: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Status" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
           error: S.optional(__S(2881, __c90, 1)),
+          name: S.optional(S.String),
+          response: S.optional(__S(2848, __c89, 0)),
           done: S.optional(S.Boolean),
           metadata: S.optional(__S(2848, __c89, 0)),
-          response: S.optional(__S(2848, __c89, 0)),
         }),
       ).annotate({ identifier: "Operation" });
   }
@@ -10408,9 +10415,9 @@ function __c91(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pageToken: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -10422,36 +10429,36 @@ function __c91(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          databaseSizeTb: S.optional(S.Number),
-          vaultId: S.optional(S.String),
-          isLongTermBackup: S.optional(S.Boolean),
-          lifecycleState: S.optional(S.String),
-          ocid: S.optional(S.String),
-          keyStoreId: S.optional(S.String),
-          lifecycleDetails: S.optional(S.String),
-          keyStoreWallet: S.optional(S.String),
-          endTime: S.optional(S.String),
-          kmsKeyVersionId: S.optional(S.String),
-          availableTillTime: S.optional(S.String),
-          type: S.optional(S.String),
           isRestorable: S.optional(S.Boolean),
-          compartmentId: S.optional(S.String),
-          dbVersion: S.optional(S.String),
+          vaultId: S.optional(S.String),
           kmsKeyId: S.optional(S.String),
-          retentionPeriodDays: S.optional(S.Number),
           isAutomaticBackup: S.optional(S.Boolean),
           sizeTb: S.optional(S.Number),
+          kmsKeyVersionId: S.optional(S.String),
+          ocid: S.optional(S.String),
+          lifecycleState: S.optional(S.String),
+          availableTillTime: S.optional(S.String),
+          keyStoreWallet: S.optional(S.String),
+          type: S.optional(S.String),
+          databaseSizeTb: S.optional(S.Number),
           startTime: S.optional(S.String),
+          retentionPeriodDays: S.optional(S.Number),
+          dbVersion: S.optional(S.String),
+          compartmentId: S.optional(S.String),
+          endTime: S.optional(S.String),
+          keyStoreId: S.optional(S.String),
+          lifecycleDetails: S.optional(S.String),
+          isLongTermBackup: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "AutonomousDatabaseBackupProperties" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          displayName: S.optional(S.String),
-          labels: S.optional(__S(3360, __c105, 0)),
           autonomousDatabase: S.optional(S.String),
           properties: S.optional(__S(2913, __c91, 1)),
+          name: S.optional(S.String),
+          displayName: S.optional(S.String),
+          labels: S.optional(__S(3392, __c106, 0)),
         }),
       ).annotate({ identifier: "AutonomousDatabaseBackup" });
     case 3:
@@ -10470,9 +10477,9 @@ function __c92(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -10485,18 +10492,8 @@ function __c92(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          characterSetType: S.optional(S.String),
-          characterSet: S.optional(S.String),
-          name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AutonomousDatabaseCharacterSet" });
-    case 2:
-      return S.Array(__S(2945, __c92, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
           nextPageToken: S.optional(S.String),
-          autonomousDatabaseCharacterSets: S.optional(__S(2946, __c92, 2)),
+          autonomousDatabaseCharacterSets: S.optional(__S(2977, __c93, 1)),
         }),
       ).annotate({ identifier: "ListAutonomousDatabaseCharacterSetsResponse" });
   }
@@ -10506,11 +10503,25 @@ function __c93(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          characterSet: S.optional(S.String),
+          name: S.optional(S.String),
+          characterSetType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AutonomousDatabaseCharacterSet" });
+    case 1:
+      return S.Array(__S(2976, __c93, 0));
+  }
+}
+function __c94(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -10520,25 +10531,25 @@ function __c93(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsAutonomousDatabasesRequest" });
     case 1:
-      return S.Array(__S(3311, __c103, 15));
+      return S.Array(__S(3343, __c104, 15));
     case 2:
       return S.suspend(() =>
         S.Struct({
+          unreachable: S.optional(__S(3424, __c107, 0)),
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(3392, __c106, 0)),
-          autonomousDatabases: S.optional(__S(2977, __c93, 1)),
+          autonomousDatabases: S.optional(__S(3009, __c94, 1)),
         }),
       ).annotate({ identifier: "ListAutonomousDatabasesResponse" });
   }
 }
-function __c94(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -10550,33 +10561,33 @@ function __c94(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          workloadUri: S.optional(S.String),
-          name: S.optional(S.String),
           version: S.optional(S.String),
+          name: S.optional(S.String),
+          workloadUri: S.optional(S.String),
           dbWorkload: S.optional(S.String),
         }),
       ).annotate({ identifier: "AutonomousDbVersion" });
     case 2:
-      return S.Array(__S(3009, __c94, 1));
+      return S.Array(__S(3041, __c95, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
+          autonomousDbVersions: S.optional(__S(3042, __c95, 2)),
           nextPageToken: S.optional(S.String),
-          autonomousDbVersions: S.optional(__S(3010, __c94, 2)),
         }),
       ).annotate({ identifier: "ListAutonomousDbVersionsResponse" });
   }
 }
-function __c95(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -10586,18 +10597,18 @@ function __c95(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsCloudExadataInfrastructuresRequest" });
     case 1:
-      return S.Array(__S(3812, __c119, 4));
+      return S.Array(__S(3844, __c120, 4));
     case 2:
       return S.suspend(() =>
         S.Struct({
+          unreachable: S.optional(__S(3424, __c107, 0)),
+          cloudExadataInfrastructures: S.optional(__S(3073, __c96, 1)),
           nextPageToken: S.optional(S.String),
-          cloudExadataInfrastructures: S.optional(__S(3041, __c95, 1)),
-          unreachable: S.optional(__S(3392, __c106, 0)),
         }),
       ).annotate({ identifier: "ListCloudExadataInfrastructuresResponse" });
   }
 }
-function __c96(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10618,45 +10629,45 @@ function __c96(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          maxMemorySizeGb: S.optional(S.Number),
-          dbNodeStorageSizeGb: S.optional(S.Number),
-          dbNodeIds: S.optional(__S(3392, __c106, 0)),
-          state: S.optional(S.String),
+          maxOcpuCount: S.optional(S.Number),
+          dbNodeIds: S.optional(__S(3424, __c107, 0)),
           memorySizeGb: S.optional(S.Number),
           ocid: S.optional(S.String),
-          vmCount: S.optional(S.Number),
           ocpuCount: S.optional(S.Number),
           maxDbNodeStorageSizeGb: S.optional(S.Number),
-          maxOcpuCount: S.optional(S.Number),
+          dbNodeStorageSizeGb: S.optional(S.Number),
+          vmCount: S.optional(S.Number),
+          maxMemorySizeGb: S.optional(S.Number),
+          state: S.optional(S.String),
         }),
       ).annotate({ identifier: "DbServerProperties" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
           displayName: S.optional(S.String),
-          properties: S.optional(__S(3073, __c96, 1)),
+          name: S.optional(S.String),
+          properties: S.optional(__S(3105, __c97, 1)),
         }),
       ).annotate({ identifier: "DbServer" });
     case 3:
-      return S.Array(__S(3074, __c96, 2));
+      return S.Array(__S(3106, __c97, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          dbServers: S.optional(__S(3075, __c96, 3)),
           nextPageToken: S.optional(S.String),
+          dbServers: S.optional(__S(3107, __c97, 3)),
         }),
       ).annotate({ identifier: "ListDbServersResponse" });
   }
 }
-function __c97(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           pageToken: S.optional(S.String.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          filter: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -10667,24 +10678,24 @@ function __c97(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsCloudVmClustersRequest" });
     case 1:
-      return S.Array(__S(4258, __c133, 2));
+      return S.Array(__S(4290, __c134, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
+          unreachable: S.optional(__S(3424, __c107, 0)),
           nextPageToken: S.optional(S.String),
-          cloudVmClusters: S.optional(__S(3105, __c97, 1)),
-          unreachable: S.optional(__S(3392, __c106, 0)),
+          cloudVmClusters: S.optional(__S(3137, __c98, 1)),
         }),
       ).annotate({ identifier: "ListCloudVmClustersResponse" });
   }
 }
-function __c98(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -10696,49 +10707,49 @@ function __c98(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsCloudVmClustersDbNodesRequest" });
   }
 }
-function __c99(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          dbNodeStorageSizeGb: S.optional(S.Number),
-          totalCpuCoreCount: S.optional(S.Number),
-          hostname: S.optional(S.String),
-          dbServerOcid: S.optional(S.String),
-          ocpuCount: S.optional(S.Number),
-          createTime: S.optional(S.String),
-          memorySizeGb: S.optional(S.Number),
-          state: S.optional(S.String),
-          ocid: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DbNodeProperties" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          properties: S.optional(__S(3168, __c99, 0)),
-          name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DbNode" });
-    case 2:
-      return S.Array(__S(3169, __c99, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          dbNodes: S.optional(__S(3170, __c99, 2)),
-          nextPageToken: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ListDbNodesResponse" });
-  }
-}
 function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
+          dbNodeStorageSizeGb: S.optional(S.Number),
+          ocid: S.optional(S.String),
+          ocpuCount: S.optional(S.Number),
+          state: S.optional(S.String),
+          memorySizeGb: S.optional(S.Number),
+          totalCpuCoreCount: S.optional(S.Number),
+          hostname: S.optional(S.String),
+          dbServerOcid: S.optional(S.String),
+          createTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DbNodeProperties" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          properties: S.optional(__S(3200, __c100, 0)),
+          name: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DbNode" });
+    case 2:
+      return S.Array(__S(3201, __c100, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          nextPageToken: S.optional(S.String),
+          dbNodes: S.optional(__S(3202, __c100, 2)),
+        }),
+      ).annotate({ identifier: "ListDbNodesResponse" });
+  }
+}
+function __c101(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -10750,32 +10761,22 @@ function __c100(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          characterSetType: S.optional(S.String),
-          characterSet: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DatabaseCharacterSet" });
-    case 2:
-      return S.Array(__S(3201, __c100, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          databaseCharacterSets: S.optional(__S(3202, __c100, 2)),
           nextPageToken: S.optional(S.String),
+          databaseCharacterSets: S.optional(__S(2977, __c93, 1)),
         }),
       ).annotate({ identifier: "ListDatabaseCharacterSetsResponse" });
   }
 }
-function __c101(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
           orderBy: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -10789,23 +10790,23 @@ function __c101(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          unreachable: S.optional(__S(3424, __c107, 0)),
+          databaseConnections: S.optional(__S(3265, __c102, 1)),
           nextPageToken: S.optional(S.String),
-          databaseConnections: S.optional(__S(3233, __c101, 1)),
-          unreachable: S.optional(__S(3392, __c106, 0)),
         }),
       ).annotate({ identifier: "ListDatabaseConnectionsResponse" });
   }
 }
-function __c102(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(3311, __c103, 15),
+          __S(3343, __c104, 15),
           S.Struct({
-            parent: S.String.pipe(T.Label()),
-            requestId: S.optional(S.String.pipe(T.Query())),
             autonomousDatabaseId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -10817,219 +10818,219 @@ function __c102(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsAutonomousDatabasesRequest" });
   }
 }
-function __c103(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          hours: S.optional(S.Number),
+          nanos: S.optional(S.Number),
+          seconds: S.optional(S.Number),
+          minutes: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "TimeOfDay" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          dayOfWeek: S.optional(S.String),
+          startTime: S.optional(__S(3328, __c104, 0)),
+          stopTime: S.optional(__S(3328, __c104, 0)),
+        }),
+      ).annotate({ identifier: "ScheduledOperationDetails" });
+    case 2:
+      return S.Array(__S(3329, __c104, 1));
+    case 3:
       return S.suspend(() =>
         S.Struct({
           apexVersion: S.optional(S.String),
           ordsVersion: S.optional(S.String),
         }),
       ).annotate({ identifier: "AutonomousDatabaseApex" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          seconds: S.optional(S.Number),
-          nanos: S.optional(S.Number),
-          minutes: S.optional(S.Number),
-          hours: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "TimeOfDay" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          stopTime: S.optional(__S(3297, __c103, 1)),
-          dayOfWeek: S.optional(S.String),
-          startTime: S.optional(__S(3297, __c103, 1)),
-        }),
-      ).annotate({ identifier: "ScheduledOperationDetails" });
-    case 3:
-      return S.Array(__S(3298, __c103, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          provider: S.optional(S.String),
           kmsKey: S.optional(S.String),
+          provider: S.optional(S.String),
         }),
       ).annotate({ identifier: "EncryptionKey" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          encryptionKey: S.optional(__S(3300, __c103, 4)),
-          activationTime: S.optional(S.String),
+          machineLearningUserManagementUri: S.optional(S.String),
+          machineLearningNotebookUri: S.optional(S.String),
+          graphStudioUri: S.optional(S.String),
+          sqlDevWebUri: S.optional(S.String),
+          apexUri: S.optional(S.String),
+          ordsUri: S.optional(S.String),
+          mongoDbUri: S.optional(S.String),
+          databaseTransformsUri: S.optional(S.String),
         }),
-      ).annotate({ identifier: "EncryptionKeyHistoryEntry" });
+      ).annotate({ identifier: "AutonomousDatabaseConnectionUrls" });
     case 6:
-      return S.Array(__S(3301, __c103, 5));
-    case 7:
       return S.suspend(() =>
         S.Struct({
-          dataGuardRoleChangedTime: S.optional(S.String),
-          state: S.optional(S.String),
-          lagTimeDuration: S.optional(S.String),
-          lifecycleDetails: S.optional(S.String),
-          disasterRecoveryRoleChangedTime: S.optional(S.String),
+          tlsAuthentication: S.optional(S.String),
+          syntaxFormat: S.optional(S.String),
+          sessionMode: S.optional(S.String),
+          consumerGroup: S.optional(S.String),
+          hostFormat: S.optional(S.String),
+          isRegional: S.optional(S.Boolean),
+          displayName: S.optional(S.String),
+          protocol: S.optional(S.String),
+          value: S.optional(S.String),
         }),
-      ).annotate({ identifier: "AutonomousDatabaseStandbySummary" });
+      ).annotate({ identifier: "DatabaseConnectionStringProfile" });
+    case 7:
+      return S.Array(__S(3334, __c104, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          medium: S.optional(S.String),
           low: S.optional(S.String),
           high: S.optional(S.String),
+          medium: S.optional(S.String),
         }),
       ).annotate({ identifier: "AllConnectionStrings" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          sessionMode: S.optional(S.String),
-          value: S.optional(S.String),
-          isRegional: S.optional(S.Boolean),
-          syntaxFormat: S.optional(S.String),
-          tlsAuthentication: S.optional(S.String),
-          hostFormat: S.optional(S.String),
-          consumerGroup: S.optional(S.String),
-          displayName: S.optional(S.String),
-          protocol: S.optional(S.String),
+          medium: S.optional(S.String),
+          profiles: S.optional(__S(3335, __c104, 7)),
+          high: S.optional(S.String),
+          low: S.optional(S.String),
+          allConnectionStrings: S.optional(__S(3336, __c104, 8)),
+          dedicated: S.optional(S.String),
         }),
-      ).annotate({ identifier: "DatabaseConnectionStringProfile" });
+      ).annotate({ identifier: "AutonomousDatabaseConnectionStrings" });
     case 10:
-      return S.Array(__S(3305, __c103, 9));
+      return S.suspend(() =>
+        S.Struct({
+          dataGuardRoleChangedTime: S.optional(S.String),
+          state: S.optional(S.String),
+          lagTimeDuration: S.optional(S.String),
+          disasterRecoveryRoleChangedTime: S.optional(S.String),
+          lifecycleDetails: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AutonomousDatabaseStandbySummary" });
     case 11:
       return S.suspend(() =>
         S.Struct({
-          dedicated: S.optional(S.String),
-          low: S.optional(S.String),
-          medium: S.optional(S.String),
-          allConnectionStrings: S.optional(__S(3304, __c103, 8)),
-          profiles: S.optional(__S(3306, __c103, 10)),
-          high: S.optional(S.String),
+          encryptionKey: S.optional(__S(3332, __c104, 4)),
+          activationTime: S.optional(S.String),
         }),
-      ).annotate({ identifier: "AutonomousDatabaseConnectionStrings" });
+      ).annotate({ identifier: "EncryptionKeyHistoryEntry" });
     case 12:
-      return S.suspend(() =>
-        S.Struct({
-          machineLearningUserManagementUri: S.optional(S.String),
-          graphStudioUri: S.optional(S.String),
-          mongoDbUri: S.optional(S.String),
-          apexUri: S.optional(S.String),
-          ordsUri: S.optional(S.String),
-          machineLearningNotebookUri: S.optional(S.String),
-          sqlDevWebUri: S.optional(S.String),
-          databaseTransformsUri: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AutonomousDatabaseConnectionUrls" });
+      return S.Array(__S(3339, __c104, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
-          databaseManagementState: S.optional(S.String),
-          apexDetails: S.optional(__S(3296, __c103, 0)),
-          permissionLevel: S.optional(S.String),
-          dataStorageSizeTb: S.optional(S.Number),
-          secretId: S.optional(S.String),
-          scheduledOperationDetails: S.optional(__S(3299, __c103, 3)),
-          dataStorageSizeGb: S.optional(S.Number),
-          maintenanceBeginTime: S.optional(S.String),
-          maintenanceEndTime: S.optional(S.String),
-          memoryPerOracleComputeUnitGbs: S.optional(S.Number),
-          encryptionKeyHistoryEntries: S.optional(__S(3302, __c103, 6)),
-          ocid: S.optional(S.String),
-          localStandbyDb: S.optional(__S(3303, __c103, 7)),
-          backupRetentionPeriodDays: S.optional(S.Number),
-          availableUpgradeVersions: S.optional(__S(3392, __c106, 0)),
-          customerContacts: S.optional(__S(3329, __c104, 1)),
-          maintenanceScheduleType: S.optional(S.String),
-          autonomousContainerDatabaseId: S.optional(S.String),
-          licenseType: S.optional(S.String),
-          supportedCloneRegions: S.optional(__S(3392, __c106, 0)),
-          localAdgAutoFailoverMaxDataLossLimit: S.optional(S.Number),
-          privateEndpointIp: S.optional(S.String),
-          disasterRecoveryRoleChangedTime: S.optional(S.String),
-          sqlWebDeveloperUrl: S.optional(S.String),
-          role: S.optional(S.String),
-          nCharacterSet: S.optional(S.String),
+          privateEndpointLabel: S.optional(S.String),
+          isAutoScalingEnabled: S.optional(S.Boolean),
           totalAutoBackupStorageSizeGbs: S.optional(S.Number),
-          dbWorkload: S.optional(S.String),
+          scheduledOperationDetails: S.optional(__S(3330, __c104, 2)),
+          cpuCoreCount: S.optional(S.Number),
           dataGuardRoleChangedTime: S.optional(S.String),
-          peerDbIds: S.optional(__S(3392, __c106, 0)),
-          vaultId: S.optional(S.String),
-          mtlsConnectionRequired: S.optional(S.Boolean),
-          allocatedStorageSizeTb: S.optional(S.Number),
-          localDisasterRecoveryType: S.optional(S.String),
+          customerContacts: S.optional(__S(3361, __c105, 1)),
+          dbWorkload: S.optional(S.String),
+          usedDataStorageSizeTbs: S.optional(S.Number),
+          characterSet: S.optional(S.String),
+          backupRetentionPeriodDays: S.optional(S.Number),
+          sqlWebDeveloperUrl: S.optional(S.String),
+          peerDbIds: S.optional(__S(3424, __c107, 0)),
+          ocid: S.optional(S.String),
+          disasterRecoveryRoleChangedTime: S.optional(S.String),
+          nCharacterSet: S.optional(S.String),
+          apexDetails: S.optional(__S(3331, __c104, 3)),
+          dataStorageSizeGb: S.optional(S.Number),
+          role: S.optional(S.String),
+          supportedCloneRegions: S.optional(__S(3424, __c107, 0)),
+          maintenanceBeginTime: S.optional(S.String),
+          maintenanceScheduleType: S.optional(S.String),
+          maintenanceEndTime: S.optional(S.String),
           nextLongTermBackupTime: S.optional(S.String),
-          connectionStrings: S.optional(__S(3307, __c103, 11)),
-          refreshableState: S.optional(S.String),
+          encryptionKey: S.optional(__S(3332, __c104, 4)),
+          localDataGuardEnabled: S.optional(S.Boolean),
+          refreshableMode: S.optional(S.String),
+          vaultId: S.optional(S.String),
+          connectionUrls: S.optional(__S(3333, __c104, 5)),
+          autonomousContainerDatabaseId: S.optional(S.String),
+          failedDataRecoveryDuration: S.optional(S.String),
+          dbEdition: S.optional(S.String),
+          mtlsConnectionRequired: S.optional(S.Boolean),
+          secretId: S.optional(S.String),
+          privateEndpoint: S.optional(S.String),
+          state: S.optional(S.String),
+          refreshableClone: S.optional(S.Boolean),
+          localAdgAutoFailoverMaxDataLossLimit: S.optional(S.Number),
+          connectionStrings: S.optional(__S(3337, __c104, 9)),
+          operationsInsightsState: S.optional(S.String),
+          dataStorageSizeTb: S.optional(S.Number),
+          localDisasterRecoveryType: S.optional(S.String),
+          allowlistedIps: S.optional(__S(3424, __c107, 0)),
+          dbVersion: S.optional(S.String),
+          actualUsedDataStorageSizeTb: S.optional(S.Number),
+          isLocalDataGuardEnabled: S.optional(S.Boolean),
           openMode: S.optional(S.String),
           isStorageAutoScalingEnabled: S.optional(S.Boolean),
-          usedDataStorageSizeTbs: S.optional(S.Number),
+          permissionLevel: S.optional(S.String),
+          allocatedStorageSizeTb: S.optional(S.Number),
+          availableUpgradeVersions: S.optional(__S(3424, __c107, 0)),
           dataSafeState: S.optional(S.String),
-          actualUsedDataStorageSizeTb: S.optional(S.Number),
-          refreshableMode: S.optional(S.String),
-          memoryTableGbs: S.optional(S.Number),
-          localAdgAutoFailoverMaxDataLossLimitDuration: S.optional(S.Number),
-          refreshableClone: S.optional(S.Boolean),
-          isLocalDataGuardEnabled: S.optional(S.Boolean),
-          privateEndpoint: S.optional(S.String),
-          localDataGuardEnabled: S.optional(S.Boolean),
-          isAutoScalingEnabled: S.optional(S.Boolean),
-          operationsInsightsState: S.optional(S.String),
-          lifecycleDetails: S.optional(S.String),
-          failedDataRecoveryDuration: S.optional(S.String),
-          characterSet: S.optional(S.String),
-          dbVersion: S.optional(S.String),
+          licenseType: S.optional(S.String),
+          memoryPerOracleComputeUnitGbs: S.optional(S.Number),
+          databaseManagementState: S.optional(S.String),
           serviceAgentEmail: S.optional(S.String),
-          connectionUrls: S.optional(__S(3308, __c103, 12)),
-          allowlistedIps: S.optional(__S(3392, __c106, 0)),
+          memoryTableGbs: S.optional(S.Number),
+          refreshableState: S.optional(S.String),
+          lifecycleDetails: S.optional(S.String),
           computeCount: S.optional(S.Number),
-          privateEndpointLabel: S.optional(S.String),
-          state: S.optional(S.String),
-          encryptionKey: S.optional(__S(3300, __c103, 4)),
-          cpuCoreCount: S.optional(S.Number),
+          localStandbyDb: S.optional(__S(3338, __c104, 10)),
+          localAdgAutoFailoverMaxDataLossLimitDuration: S.optional(S.Number),
           ociUrl: S.optional(S.String),
-          dbEdition: S.optional(S.String),
+          encryptionKeyHistoryEntries: S.optional(__S(3340, __c104, 12)),
+          privateEndpointIp: S.optional(S.String),
           arePrimaryAllowlistedIpsUsed: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "AutonomousDatabaseProperties" });
     case 14:
       return S.suspend(() =>
         S.Struct({
-          autoRefreshFrequencySeconds: S.optional(S.Number),
-          autonomousDatabaseBackup: S.optional(S.String),
-          cloneType: S.optional(S.String),
-          automaticBackupsReplicationEnabled: S.optional(S.Boolean),
-          backupTime: S.optional(S.String),
-          autoRefreshStartTime: S.optional(S.String),
-          useLatestAvailableBackup: S.optional(S.Boolean),
-          autonomousDatabase: S.optional(S.String),
           refreshableMode: S.optional(S.String),
-          autoRefreshPointLagSeconds: S.optional(S.Number),
+          autoRefreshFrequencySeconds: S.optional(S.Number),
+          autoRefreshStartTime: S.optional(S.String),
+          autonomousDatabase: S.optional(S.String),
           sourceType: S.optional(S.String),
+          autoRefreshPointLagSeconds: S.optional(S.Number),
+          autonomousDatabaseBackup: S.optional(S.String),
+          automaticBackupsReplicationEnabled: S.optional(S.Boolean),
+          cloneType: S.optional(S.String),
+          backupTime: S.optional(S.String),
+          useLatestAvailableBackup: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "SourceConfig" });
     case 15:
       return S.suspend(() =>
         S.Struct({
-          labels: S.optional(__S(3360, __c105, 0)),
-          odbNetwork: S.optional(S.String),
-          properties: S.optional(__S(3309, __c103, 13)),
-          name: S.optional(S.String),
-          displayName: S.optional(S.String),
-          disasterRecoverySupportedLocations: S.optional(__S(3392, __c106, 0)),
-          cidr: S.optional(S.String),
-          odbSubnet: S.optional(S.String),
-          peerAutonomousDatabases: S.optional(__S(3392, __c106, 0)),
-          network: S.optional(S.String),
-          entitlementId: S.optional(S.String),
-          database: S.optional(S.String),
-          adminPassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          createTime: S.optional(S.String),
-          sourceConfig: S.optional(__S(3310, __c103, 14)),
           adminPasswordSecretVersion: S.optional(S.String),
+          createTime: S.optional(S.String),
+          peerAutonomousDatabases: S.optional(__S(3424, __c107, 0)),
+          properties: S.optional(__S(3341, __c104, 13)),
+          displayName: S.optional(S.String),
+          odbSubnet: S.optional(S.String),
+          labels: S.optional(__S(3392, __c106, 0)),
+          adminPassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          entitlementId: S.optional(S.String),
+          odbNetwork: S.optional(S.String),
+          disasterRecoverySupportedLocations: S.optional(__S(3424, __c107, 0)),
+          network: S.optional(S.String),
+          database: S.optional(S.String),
+          cidr: S.optional(S.String),
+          sourceConfig: S.optional(__S(3342, __c104, 14)),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "AutonomousDatabase" });
   }
 }
-function __c104(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11038,30 +11039,30 @@ function __c104(j: number): any {
         }),
       ).annotate({ identifier: "CustomerContact" });
     case 1:
-      return S.Array(__S(3328, __c104, 0));
-  }
-}
-function __c105(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.String);
+      return S.Array(__S(3360, __c105, 0));
   }
 }
 function __c106(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.String);
+      return S.Record(S.String, S.String);
   }
 }
 function __c107(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(S.String);
+  }
+}
+function __c108(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           filter: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -11075,21 +11076,21 @@ function __c107(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          databases: S.optional(__S(3457, __c108, 1)),
           nextPageToken: S.optional(S.String),
-          databases: S.optional(__S(3425, __c107, 1)),
         }),
       ).annotate({ identifier: "ListDatabasesResponse" });
   }
 }
-function __c108(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -11101,41 +11102,41 @@ function __c108(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          computeCount: S.optional(S.Number),
-          memoryInGbs: S.optional(S.Number),
           cpuCoreCount: S.optional(S.Number),
           computeModel: S.optional(S.String),
+          computeCount: S.optional(S.Number),
+          memoryInGbs: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ComputePerformance" });
     case 2:
-      return S.Array(__S(3457, __c108, 1));
+      return S.Array(__S(3489, __c109, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          computePerformances: S.optional(__S(3458, __c108, 2)),
+          computePerformances: S.optional(__S(3490, __c109, 2)),
           shape: S.optional(S.String),
         }),
       ).annotate({ identifier: "DbSystemComputePerformance" });
     case 4:
-      return S.Array(__S(3459, __c108, 3));
+      return S.Array(__S(3491, __c109, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
+          dbSystemComputePerformances: S.optional(__S(3492, __c109, 4)),
+          unreachable: S.optional(__S(3424, __c107, 0)),
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(3392, __c106, 0)),
-          dbSystemComputePerformances: S.optional(__S(3460, __c108, 4)),
         }),
       ).annotate({ identifier: "ListDbSystemComputePerformancesResponse" });
   }
 }
-function __c109(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -11153,44 +11154,44 @@ function __c109(j: number): any {
         }),
       ).annotate({ identifier: "StorageSizeDetails" });
     case 2:
-      return S.Array(__S(3489, __c109, 1));
+      return S.Array(__S(3521, __c110, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           shapeType: S.optional(S.String),
-          storageSizeDetails: S.optional(__S(3490, __c109, 2)),
-          launchFromBackupStorageSizeDetails: S.optional(__S(3490, __c109, 2)),
+          storageSizeDetails: S.optional(__S(3522, __c110, 2)),
           storageManagement: S.optional(S.String),
+          launchFromBackupStorageSizeDetails: S.optional(__S(3522, __c110, 2)),
         }),
       ).annotate({ identifier: "DbSystemInitialStorageSizeProperties" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          properties: S.optional(__S(3491, __c109, 3)),
+          properties: S.optional(__S(3523, __c110, 3)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "DbSystemInitialStorageSize" });
     case 5:
-      return S.Array(__S(3492, __c109, 4));
+      return S.Array(__S(3524, __c110, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          dbSystemInitialStorageSizes: S.optional(__S(3493, __c109, 5)),
+          dbSystemInitialStorageSizes: S.optional(__S(3525, __c110, 5)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListDbSystemInitialStorageSizesResponse" });
   }
 }
-function __c110(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          orderBy: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -11204,22 +11205,22 @@ function __c110(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          dbSystems: S.optional(__S(3521, __c110, 1)),
+          unreachable: S.optional(__S(3424, __c107, 0)),
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(3392, __c106, 0)),
+          dbSystems: S.optional(__S(3553, __c111, 1)),
         }),
       ).annotate({ identifier: "ListDbSystemsResponse" });
   }
 }
-function __c111(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           filter: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -11231,43 +11232,43 @@ function __c111(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          maxStorageCount: S.optional(S.Number),
-          availableDataStorageTb: S.optional(S.Number),
-          minimumCoreCount: S.optional(S.Number),
           minMemoryPerNodeGb: S.optional(S.Number),
-          availableCoreCount: S.optional(S.Number),
-          coreCountIncrement: S.optional(S.Number),
-          maxNodeCount: S.optional(S.Number),
-          availableCoreCountPerNode: S.optional(S.Number),
           availableMemoryPerNodeGb: S.optional(S.Number),
-          minDbNodeStoragePerNodeGb: S.optional(S.Number),
+          maxStorageCount: S.optional(S.Number),
+          maxNodeCount: S.optional(S.Number),
+          minCoreCountPerNode: S.optional(S.Number),
+          availableCoreCountPerNode: S.optional(S.Number),
+          minimumCoreCount: S.optional(S.Number),
           minNodeCount: S.optional(S.Number),
+          minDbNodeStoragePerNodeGb: S.optional(S.Number),
+          name: S.optional(S.String),
+          availableDataStorageTb: S.optional(S.Number),
           minStorageCount: S.optional(S.Number),
           shape: S.optional(S.String),
-          minCoreCountPerNode: S.optional(S.Number),
-          name: S.optional(S.String),
+          coreCountIncrement: S.optional(S.Number),
+          availableCoreCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "DbSystemShape" });
     case 2:
-      return S.Array(__S(3553, __c111, 1));
+      return S.Array(__S(3585, __c112, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          dbSystemShapes: S.optional(__S(3554, __c111, 2)),
+          dbSystemShapes: S.optional(__S(3586, __c112, 2)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListDbSystemShapesResponse" });
   }
 }
-function __c112(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -11279,38 +11280,38 @@ function __c112(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          isLatestForMajorVersion: S.optional(S.Boolean),
-          version: S.optional(S.String),
           supportsPdb: S.optional(S.Boolean),
+          version: S.optional(S.String),
           isUpgradeSupported: S.optional(S.Boolean),
           isPreviewDbVersion: S.optional(S.Boolean),
+          isLatestForMajorVersion: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "DbVersionProperties" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          properties: S.optional(__S(3585, __c112, 1)),
           name: S.optional(S.String),
+          properties: S.optional(__S(3617, __c113, 1)),
         }),
       ).annotate({ identifier: "DbVersion" });
     case 3:
-      return S.Array(__S(3586, __c112, 2));
+      return S.Array(__S(3618, __c113, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          dbVersions: S.optional(__S(3587, __c112, 3)),
+          dbVersions: S.optional(__S(3619, __c113, 3)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListDbVersionsResponse" });
   }
 }
-function __c113(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -11325,40 +11326,40 @@ function __c113(j: number): any {
         S.Struct({
           cloudAccount: S.optional(S.String),
           accountCreationUri: S.optional(S.String),
-          cloudAccountHomeRegion: S.optional(S.String),
           linkExistingAccountUri: S.optional(S.String),
+          cloudAccountHomeRegion: S.optional(S.String),
         }),
       ).annotate({ identifier: "CloudAccountDetails" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          state: S.optional(S.String),
           entitlementId: S.optional(S.String),
-          cloudAccountDetails: S.optional(__S(3617, __c113, 1)),
+          cloudAccountDetails: S.optional(__S(3649, __c114, 1)),
+          state: S.optional(S.String),
         }),
       ).annotate({ identifier: "Entitlement" });
     case 3:
-      return S.Array(__S(3618, __c113, 2));
+      return S.Array(__S(3650, __c114, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          entitlements: S.optional(__S(3619, __c113, 3)),
+          entitlements: S.optional(__S(3651, __c114, 3)),
         }),
       ).annotate({ identifier: "ListEntitlementsResponse" });
   }
 }
-function __c114(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(S.String.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -11372,21 +11373,21 @@ function __c114(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(3392, __c106, 0)),
+          exadbVmClusters: S.optional(__S(3681, __c115, 1)),
           nextPageToken: S.optional(S.String),
-          exadbVmClusters: S.optional(__S(3649, __c114, 1)),
+          unreachable: S.optional(__S(3424, __c107, 0)),
         }),
       ).annotate({ identifier: "ListExadbVmClustersResponse" });
   }
 }
-function __c115(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -11397,16 +11398,16 @@ function __c115(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsExadbVmClustersDbNodesRequest" });
   }
 }
-function __c116(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -11420,19 +11421,19 @@ function __c116(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          exascaleDbStorageVaults: S.optional(__S(3713, __c116, 1)),
-          unreachable: S.optional(__S(3392, __c106, 0)),
+          exascaleDbStorageVaults: S.optional(__S(3745, __c117, 1)),
           nextPageToken: S.optional(S.String),
+          unreachable: S.optional(__S(3424, __c107, 0)),
         }),
       ).annotate({ identifier: "ListExascaleDbStorageVaultsResponse" });
   }
 }
-function __c117(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(3812, __c119, 4),
+          __S(3844, __c120, 4),
           S.Struct({
             parent: S.String.pipe(T.Label()),
             cloudExadataInfrastructureId: S.optional(S.String.pipe(T.Query())),
@@ -11448,98 +11449,98 @@ function __c117(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsCloudExadataInfrastructuresRequest" });
   }
 }
-function __c118(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c119(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Number);
     case 1:
       return S.suspend(() =>
         S.Struct({
-          leadTimeWeek: S.optional(S.Number),
-          months: S.optional(__S(3776, __c118, 0)),
-          daysOfWeek: S.optional(__S(3776, __c118, 0)),
-          isCustomActionTimeoutEnabled: S.optional(S.Boolean),
-          patchingMode: S.optional(S.String),
-          hoursOfDay: S.optional(__S(3808, __c119, 0)),
-          customActionTimeoutMins: S.optional(S.Number),
-          weeksOfMonth: S.optional(__S(3808, __c119, 0)),
           preference: S.optional(S.String),
+          leadTimeWeek: S.optional(S.Number),
+          isCustomActionTimeoutEnabled: S.optional(S.Boolean),
+          weeksOfMonth: S.optional(__S(3840, __c120, 0)),
+          hoursOfDay: S.optional(__S(3840, __c120, 0)),
+          customActionTimeoutMins: S.optional(S.Number),
+          months: S.optional(__S(3808, __c119, 0)),
+          daysOfWeek: S.optional(__S(3808, __c119, 0)),
+          patchingMode: S.optional(S.String),
         }),
       ).annotate({ identifier: "MaintenanceWindow" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          availableVmStorageSizeGb: S.optional(S.Number),
+          totalVmStorageSizeGb: S.optional(S.Number),
           availableStorageSizeGb: S.optional(S.Number),
           totalStorageSizeGb: S.optional(S.Number),
-          totalVmStorageSizeGb: S.optional(S.Number),
+          availableVmStorageSizeGb: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ExascaleConfig" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          shape: S.optional(S.String),
-          availableStorageSizeGb: S.optional(S.Number),
-          cpuCount: S.optional(S.Number),
           dbServerVersion: S.optional(S.String),
+          maintenanceWindow: S.optional(__S(3841, __c120, 1)),
           monthlyDbServerVersion: S.optional(S.String),
-          storageCount: S.optional(S.Number),
-          maxDbNodeStorageSizeGb: S.optional(S.Number),
-          maintenanceWindow: S.optional(__S(3809, __c119, 1)),
-          memorySizeGb: S.optional(S.Number),
-          additionalStorageCount: S.optional(S.Number),
-          databaseServerType: S.optional(S.String),
-          storageServerVersion: S.optional(S.String),
+          dbNodeStorageSizeGb: S.optional(S.Number),
           nextSecurityMaintenanceRunTime: S.optional(S.String),
           storageServerType: S.optional(S.String),
-          computeModel: S.optional(S.String),
-          totalStorageSizeGb: S.optional(S.Number),
           nextMaintenanceRunTime: S.optional(S.String),
-          maxCpuCount: S.optional(S.Number),
-          nextMaintenanceRunId: S.optional(S.String),
-          monthlyStorageServerVersion: S.optional(S.String),
-          exascaleConfig: S.optional(__S(3810, __c119, 2)),
-          ocid: S.optional(S.String),
-          activatedStorageCount: S.optional(S.Number),
-          dbNodeStorageSizeGb: S.optional(S.Number),
-          maxDataStorageTb: S.optional(S.Number),
-          customerContacts: S.optional(__S(3329, __c104, 1)),
-          dataStorageSizeTb: S.optional(S.Number),
-          maxMemoryGb: S.optional(S.Number),
-          state: S.optional(S.String),
-          ociUrl: S.optional(S.String),
           computeCount: S.optional(S.Number),
+          maxMemoryGb: S.optional(S.Number),
+          monthlyStorageServerVersion: S.optional(S.String),
+          storageServerVersion: S.optional(S.String),
+          databaseServerType: S.optional(S.String),
+          maxDataStorageTb: S.optional(S.Number),
+          cpuCount: S.optional(S.Number),
+          additionalStorageCount: S.optional(S.Number),
+          customerContacts: S.optional(__S(3361, __c105, 1)),
+          storageCount: S.optional(S.Number),
+          availableStorageSizeGb: S.optional(S.Number),
+          activatedStorageCount: S.optional(S.Number),
+          nextMaintenanceRunId: S.optional(S.String),
+          state: S.optional(S.String),
+          maxDbNodeStorageSizeGb: S.optional(S.Number),
+          ocid: S.optional(S.String),
+          memorySizeGb: S.optional(S.Number),
+          shape: S.optional(S.String),
+          totalStorageSizeGb: S.optional(S.Number),
+          maxCpuCount: S.optional(S.Number),
+          exascaleConfig: S.optional(__S(3842, __c120, 2)),
+          computeModel: S.optional(S.String),
+          dataStorageSizeTb: S.optional(S.Number),
+          ociUrl: S.optional(S.String),
         }),
       ).annotate({ identifier: "CloudExadataInfrastructureProperties" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          displayName: S.optional(S.String),
-          labels: S.optional(__S(3360, __c105, 0)),
-          properties: S.optional(__S(3811, __c119, 3)),
+          labels: S.optional(__S(3392, __c106, 0)),
           createTime: S.optional(S.String),
-          gcpOracleZone: S.optional(S.String),
+          name: S.optional(S.String),
           entitlementId: S.optional(S.String),
+          gcpOracleZone: S.optional(S.String),
+          properties: S.optional(__S(3843, __c120, 3)),
+          displayName: S.optional(S.String),
         }),
       ).annotate({ identifier: "CloudExadataInfrastructure" });
   }
 }
-function __c120(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          filter: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -11551,39 +11552,39 @@ function __c120(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          shape: S.optional(S.String),
+          runtimeMinimumCoreCount: S.optional(S.Number),
           descriptionSummary: S.optional(S.String),
+          hardwareType: S.optional(S.String),
+          name: S.optional(S.String),
           availableMemoryGb: S.optional(S.Number),
           availableCoreCount: S.optional(S.Number),
-          hardwareType: S.optional(S.String),
-          computeModel: S.optional(S.String),
-          runtimeMinimumCoreCount: S.optional(S.Number),
+          availableDbNodeStoragePerNodeGb: S.optional(S.Number),
           minimumCoreCount: S.optional(S.Number),
           availableLocalStorageGb: S.optional(S.Number),
-          availableDbNodeStoragePerNodeGb: S.optional(S.Number),
-          name: S.optional(S.String),
+          shape: S.optional(S.String),
+          computeModel: S.optional(S.String),
         }),
       ).annotate({ identifier: "FlexComponentProperties" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          properties: S.optional(__S(3841, __c120, 1)),
+          properties: S.optional(__S(3873, __c121, 1)),
         }),
       ).annotate({ identifier: "FlexComponent" });
     case 3:
-      return S.Array(__S(3842, __c120, 2));
+      return S.Array(__S(3874, __c121, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(3392, __c106, 0)),
-          flexComponents: S.optional(__S(3843, __c120, 3)),
+          unreachable: S.optional(__S(3424, __c107, 0)),
           nextPageToken: S.optional(S.String),
+          flexComponents: S.optional(__S(3875, __c121, 3)),
         }),
       ).annotate({ identifier: "ListFlexComponentsResponse" });
   }
 }
-function __c121(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11603,30 +11604,30 @@ function __c121(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          version: S.optional(S.String),
           name: S.optional(S.String),
+          version: S.optional(S.String),
         }),
       ).annotate({ identifier: "GiVersion" });
     case 2:
-      return S.Array(__S(3873, __c121, 1));
+      return S.Array(__S(3905, __c122, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          giVersions: S.optional(__S(3874, __c121, 2)),
+          giVersions: S.optional(__S(3906, __c122, 2)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListGiVersionsResponse" });
   }
 }
-function __c122(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -11639,31 +11640,31 @@ function __c122(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          gridImageId: S.optional(S.String),
           version: S.optional(S.String),
+          gridImageId: S.optional(S.String),
         }),
       ).annotate({ identifier: "MinorVersion" });
     case 2:
-      return S.Array(__S(3905, __c122, 1));
+      return S.Array(__S(3937, __c123, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          minorVersions: S.optional(__S(3906, __c122, 2)),
+          minorVersions: S.optional(__S(3938, __c123, 2)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListMinorVersionsResponse" });
   }
 }
-function __c123(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          orderBy: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
+          filter: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          orderBy: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -11677,23 +11678,23 @@ function __c123(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          goldengateConnectionAssignments: S.optional(__S(3937, __c123, 1)),
-          unreachable: S.optional(__S(3392, __c106, 0)),
           nextPageToken: S.optional(S.String),
+          unreachable: S.optional(__S(3424, __c107, 0)),
+          goldengateConnectionAssignments: S.optional(__S(3969, __c124, 1)),
         }),
       ).annotate({ identifier: "ListGoldengateConnectionAssignmentsResponse" });
   }
 }
-function __c124(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          orderBy: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -11703,26 +11704,26 @@ function __c124(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsGoldengateConnectionsRequest" });
     case 1:
-      return S.Array(__S(1097, __c34, 9));
+      return S.Array(__S(1098, __c34, 10));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          goldengateConnections: S.optional(__S(3969, __c124, 1)),
+          goldengateConnections: S.optional(__S(4001, __c125, 1)),
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(3392, __c106, 0)),
+          unreachable: S.optional(__S(3424, __c107, 0)),
         }),
       ).annotate({ identifier: "ListGoldengateConnectionsResponse" });
   }
 }
-function __c125(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          filter: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -11734,24 +11735,24 @@ function __c125(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          connectionType: S.optional(S.String),
-          technologyTypes: S.optional(__S(3392, __c106, 0)),
           name: S.optional(S.String),
+          technologyTypes: S.optional(__S(3424, __c107, 0)),
+          connectionType: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoldengateConnectionType" });
     case 2:
-      return S.Array(__S(4001, __c125, 1));
+      return S.Array(__S(4033, __c126, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          goldengateConnectionTypes: S.optional(__S(4002, __c125, 2)),
-          unreachable: S.optional(__S(3392, __c106, 0)),
           nextPageToken: S.optional(S.String),
+          goldengateConnectionTypes: S.optional(__S(4034, __c126, 2)),
+          unreachable: S.optional(__S(3424, __c107, 0)),
         }),
       ).annotate({ identifier: "ListGoldengateConnectionTypesResponse" });
   }
 }
-function __c126(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11770,41 +11771,41 @@ function __c126(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          defaultCpuCoreCount: S.optional(S.Number),
-          networkBandwidthGbpsPerCpuCore: S.optional(S.Number),
-          maxCpuCoreCount: S.optional(S.Number),
-          storageUsageLimitGbPerCpuCore: S.optional(S.Number),
-          displayName: S.optional(S.String),
-          minCpuCoreCount: S.optional(S.Number),
           environmentType: S.optional(S.String),
-          category: S.optional(S.String),
+          defaultCpuCoreCount: S.optional(S.Number),
+          maxCpuCoreCount: S.optional(S.Number),
+          minCpuCoreCount: S.optional(S.Number),
+          storageUsageLimitGbPerCpuCore: S.optional(S.Number),
+          networkBandwidthGbpsPerCpuCore: S.optional(S.Number),
           name: S.optional(S.String),
-          memoryGbPerCpuCore: S.optional(S.Number),
           autoScalingEnabled: S.optional(S.Boolean),
+          category: S.optional(S.String),
+          displayName: S.optional(S.String),
+          memoryGbPerCpuCore: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GoldengateDeploymentEnvironment" });
     case 2:
-      return S.Array(__S(4033, __c126, 1));
+      return S.Array(__S(4065, __c127, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
+          goldengateDeploymentEnvironments: S.optional(__S(4066, __c127, 2)),
+          unreachable: S.optional(__S(3424, __c107, 0)),
           nextPageToken: S.optional(S.String),
-          goldengateDeploymentEnvironments: S.optional(__S(4034, __c126, 2)),
-          unreachable: S.optional(__S(3392, __c106, 0)),
         }),
       ).annotate({ identifier: "ListGoldengateDeploymentEnvironmentsResponse" });
   }
 }
-function __c127(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
-          orderBy: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          orderBy: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -11818,57 +11819,11 @@ function __c127(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          unreachable: S.optional(__S(3424, __c107, 0)),
           nextPageToken: S.optional(S.String),
-          goldengateDeployments: S.optional(__S(4065, __c127, 1)),
-          unreachable: S.optional(__S(3392, __c106, 0)),
+          goldengateDeployments: S.optional(__S(4097, __c128, 1)),
         }),
       ).annotate({ identifier: "ListGoldengateDeploymentsResponse" });
-  }
-}
-function __c128(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          orderBy: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1/{+parent}/goldengateDeploymentTypes",
-            baseUrl: "https://oracledatabase.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "ListProjectsLocationsGoldengateDeploymentTypesRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          connectionTypes: S.optional(__S(3392, __c106, 0)),
-          oggVersion: S.optional(S.String),
-          deploymentType: S.optional(S.String),
-          targetTechnologies: S.optional(__S(3392, __c106, 0)),
-          supportedTechnologiesUrl: S.optional(S.String),
-          category: S.optional(S.String),
-          name: S.optional(S.String),
-          displayName: S.optional(S.String),
-          supportedCapabilities: S.optional(__S(3392, __c106, 0)),
-          sourceTechnologies: S.optional(__S(3392, __c106, 0)),
-          defaultUsername: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoldengateDeploymentType" });
-    case 2:
-      return S.Array(__S(4097, __c128, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          unreachable: S.optional(__S(3392, __c106, 0)),
-          goldengateDeploymentTypes: S.optional(__S(4098, __c128, 2)),
-          nextPageToken: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ListGoldengateDeploymentTypesResponse" });
   }
 }
 function __c129(j: number): any {
@@ -11880,6 +11835,52 @@ function __c129(j: number): any {
           pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          orderBy: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1/{+parent}/goldengateDeploymentTypes",
+            baseUrl: "https://oracledatabase.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "ListProjectsLocationsGoldengateDeploymentTypesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          sourceTechnologies: S.optional(__S(3424, __c107, 0)),
+          category: S.optional(S.String),
+          supportedTechnologiesUrl: S.optional(S.String),
+          deploymentType: S.optional(S.String),
+          connectionTypes: S.optional(__S(3424, __c107, 0)),
+          oggVersion: S.optional(S.String),
+          name: S.optional(S.String),
+          defaultUsername: S.optional(S.String),
+          targetTechnologies: S.optional(__S(3424, __c107, 0)),
+          supportedCapabilities: S.optional(__S(3424, __c107, 0)),
+          displayName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoldengateDeploymentType" });
+    case 2:
+      return S.Array(__S(4129, __c129, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          nextPageToken: S.optional(S.String),
+          goldengateDeploymentTypes: S.optional(__S(4130, __c129, 2)),
+          unreachable: S.optional(__S(3424, __c107, 0)),
+        }),
+      ).annotate({ identifier: "ListGoldengateDeploymentTypesResponse" });
+  }
+}
+function __c130(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -11892,43 +11893,43 @@ function __c129(j: number): any {
       return S.suspend(() =>
         S.Struct({
           supportEndTime: S.optional(S.String),
-          securityFix: S.optional(S.Boolean),
-          oggVersion: S.optional(S.String),
-          releaseType: S.optional(S.String),
           releaseTime: S.optional(S.String),
+          oggVersion: S.optional(S.String),
+          securityFix: S.optional(S.Boolean),
           deploymentType: S.optional(S.String),
+          releaseType: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoldengateDeploymentVersionProperties" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          ocid: S.optional(S.String),
-          properties: S.optional(__S(4129, __c129, 1)),
           name: S.optional(S.String),
+          ocid: S.optional(S.String),
+          properties: S.optional(__S(4161, __c130, 1)),
         }),
       ).annotate({ identifier: "GoldengateDeploymentVersion" });
     case 3:
-      return S.Array(__S(4130, __c129, 2));
+      return S.Array(__S(4162, __c130, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          goldengateDeploymentVersions: S.optional(__S(4131, __c129, 3)),
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(3392, __c106, 0)),
+          goldengateDeploymentVersions: S.optional(__S(4163, __c130, 3)),
+          unreachable: S.optional(__S(3424, __c107, 0)),
         }),
       ).annotate({ identifier: "ListGoldengateDeploymentVersionsResponse" });
   }
 }
-function __c130(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(4258, __c133, 2),
+          __S(4290, __c134, 2),
           S.Struct({
             requestId: S.optional(S.String.pipe(T.Query())),
-            cloudVmClusterId: S.optional(S.String.pipe(T.Query())),
             parent: S.String.pipe(T.Label()),
+            cloudVmClusterId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -11940,29 +11941,15 @@ function __c130(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsCloudVmClustersRequest" });
   }
 }
-function __c131(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          version: S.optional(S.String),
-          id: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TimeZone" });
-  }
-}
 function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          identityConnectorId: S.optional(S.String),
-          lifecycleStateDetails: S.optional(S.String),
-          serviceAgentEmail: S.optional(S.String),
-          workloadIdentityPool: S.optional(S.String),
-          connectionState: S.optional(S.String),
+          id: S.optional(S.String),
+          version: S.optional(S.String),
         }),
-      ).annotate({ identifier: "IdentityConnector" });
+      ).annotate({ identifier: "TimeZone" });
   }
 }
 function __c133(j: number): any {
@@ -11970,74 +11957,13 @@ function __c133(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          healthMonitoringEnabled: S.optional(S.Boolean),
-          diagnosticsEventsEnabled: S.optional(S.Boolean),
-          incidentLogsEnabled: S.optional(S.Boolean),
+          lifecycleStateDetails: S.optional(S.String),
+          serviceAgentEmail: S.optional(S.String),
+          identityConnectorId: S.optional(S.String),
+          workloadIdentityPool: S.optional(S.String),
+          connectionState: S.optional(S.String),
         }),
-      ).annotate({ identifier: "DataCollectionOptions" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          hostname: S.optional(S.String),
-          diskRedundancy: S.optional(S.String),
-          clusterName: S.optional(S.String),
-          dataStorageSizeTb: S.optional(S.Number),
-          computeModel: S.optional(S.String),
-          ocid: S.optional(S.String),
-          storageManagementType: S.optional(S.String),
-          scanDns: S.optional(S.String),
-          vmBackupStorageType: S.optional(S.String),
-          diagnosticsDataCollectionOptions: S.optional(__S(4256, __c133, 0)),
-          sshPublicKeys: S.optional(__S(3392, __c106, 0)),
-          ociUrl: S.optional(S.String),
-          shape: S.optional(S.String),
-          sparseDiskgroupEnabled: S.optional(S.Boolean),
-          storageSizeGb: S.optional(S.Number),
-          cpuCoreCount: S.optional(S.Number),
-          vmFileSystemStorageType: S.optional(S.String),
-          dnsListenerIp: S.optional(S.String),
-          timeZone: S.optional(__S(4192, __c131, 0)),
-          hostnamePrefix: S.optional(S.String),
-          ocpuCount: S.optional(S.Number),
-          licenseType: S.optional(S.String),
-          systemVersion: S.optional(S.String),
-          scanDnsRecordId: S.optional(S.String),
-          state: S.optional(S.String),
-          dbServerOcids: S.optional(__S(3392, __c106, 0)),
-          memorySizeGb: S.optional(S.Number),
-          dbNodeStorageSizeGb: S.optional(S.Number),
-          localBackupEnabled: S.optional(S.Boolean),
-          giVersion: S.optional(S.String),
-          nodeCount: S.optional(S.Number),
-          scanIpIds: S.optional(__S(3392, __c106, 0)),
-          scanListenerPortTcpSsl: S.optional(S.Number),
-          domain: S.optional(S.String),
-          compartmentId: S.optional(S.String),
-          scanListenerPortTcp: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "CloudVmClusterProperties" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          createTime: S.optional(S.String),
-          cidr: S.optional(S.String),
-          odbDnsZone: S.optional(S.String),
-          name: S.optional(S.String),
-          backupSubnetCidr: S.optional(S.String),
-          identityConnector: S.optional(__S(4224, __c132, 0)),
-          network: S.optional(S.String),
-          gcpOracleZone: S.optional(S.String),
-          odbSubnet: S.optional(S.String),
-          exadataInfrastructure: S.optional(S.String),
-          labels: S.optional(__S(3360, __c105, 0)),
-          exascaleDbStorageVault: S.optional(S.String),
-          odbNetwork: S.optional(S.String),
-          backupOdbSubnet: S.optional(S.String),
-          identityConnectorDisabled: S.optional(S.Boolean),
-          displayName: S.optional(S.String),
-          properties: S.optional(__S(4257, __c133, 1)),
-        }),
-      ).annotate({ identifier: "CloudVmCluster" });
+      ).annotate({ identifier: "IdentityConnector" });
   }
 }
 function __c134(j: number): any {
@@ -12045,9 +11971,84 @@ function __c134(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          diagnosticsEventsEnabled: S.optional(S.Boolean),
+          healthMonitoringEnabled: S.optional(S.Boolean),
+          incidentLogsEnabled: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "DataCollectionOptions" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          nodeCount: S.optional(S.Number),
+          hostname: S.optional(S.String),
+          shape: S.optional(S.String),
+          clusterName: S.optional(S.String),
+          ocpuCount: S.optional(S.Number),
+          dbNodeStorageSizeGb: S.optional(S.Number),
+          systemVersion: S.optional(S.String),
+          scanListenerPortTcp: S.optional(S.Number),
+          scanListenerPortTcpSsl: S.optional(S.Number),
+          scanIpIds: S.optional(__S(3424, __c107, 0)),
+          sshPublicKeys: S.optional(__S(3424, __c107, 0)),
+          state: S.optional(S.String),
+          hostnamePrefix: S.optional(S.String),
+          diskRedundancy: S.optional(S.String),
+          licenseType: S.optional(S.String),
+          giVersion: S.optional(S.String),
+          dnsListenerIp: S.optional(S.String),
+          compartmentId: S.optional(S.String),
+          sparseDiskgroupEnabled: S.optional(S.Boolean),
+          dataStorageSizeTb: S.optional(S.Number),
+          ociUrl: S.optional(S.String),
+          localBackupEnabled: S.optional(S.Boolean),
+          diagnosticsDataCollectionOptions: S.optional(__S(4288, __c134, 0)),
+          ocid: S.optional(S.String),
+          vmBackupStorageType: S.optional(S.String),
+          cpuCoreCount: S.optional(S.Number),
+          computeModel: S.optional(S.String),
+          scanDnsRecordId: S.optional(S.String),
+          storageManagementType: S.optional(S.String),
+          scanDns: S.optional(S.String),
+          storageSizeGb: S.optional(S.Number),
+          memorySizeGb: S.optional(S.Number),
+          vmFileSystemStorageType: S.optional(S.String),
+          timeZone: S.optional(__S(4224, __c132, 0)),
+          domain: S.optional(S.String),
+          dbServerOcids: S.optional(__S(3424, __c107, 0)),
+        }),
+      ).annotate({ identifier: "CloudVmClusterProperties" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          properties: S.optional(__S(4289, __c134, 1)),
+          exascaleDbStorageVault: S.optional(S.String),
+          createTime: S.optional(S.String),
+          name: S.optional(S.String),
+          cidr: S.optional(S.String),
+          identityConnectorDisabled: S.optional(S.Boolean),
+          exadataInfrastructure: S.optional(S.String),
+          labels: S.optional(__S(3392, __c106, 0)),
+          backupOdbSubnet: S.optional(S.String),
+          odbDnsZone: S.optional(S.String),
+          identityConnector: S.optional(__S(4256, __c133, 0)),
+          backupSubnetCidr: S.optional(S.String),
+          displayName: S.optional(S.String),
+          odbSubnet: S.optional(S.String),
+          odbNetwork: S.optional(S.String),
+          gcpOracleZone: S.optional(S.String),
+          network: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CloudVmCluster" });
+  }
+}
+function __c135(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
         }).pipe(
@@ -12063,23 +12064,23 @@ function __c134(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          odbNetworks: S.optional(__S(4289, __c134, 1)),
-          unreachable: S.optional(__S(3392, __c106, 0)),
+          odbNetworks: S.optional(__S(4321, __c135, 1)),
           nextPageToken: S.optional(S.String),
+          unreachable: S.optional(__S(3424, __c107, 0)),
         }),
       ).annotate({ identifier: "ListOdbNetworksResponse" });
   }
 }
-function __c135(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          filter: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -12093,23 +12094,23 @@ function __c135(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(3392, __c106, 0)),
+          unreachable: S.optional(__S(3424, __c107, 0)),
           nextPageToken: S.optional(S.String),
-          odbDnsZones: S.optional(__S(4321, __c135, 1)),
+          odbDnsZones: S.optional(__S(4353, __c136, 1)),
         }),
       ).annotate({ identifier: "ListOdbDnsZonesResponse" });
   }
 }
-function __c136(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -12123,23 +12124,23 @@ function __c136(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(3392, __c106, 0)),
-          odbSubnets: S.optional(__S(4353, __c136, 1)),
+          unreachable: S.optional(__S(3424, __c107, 0)),
+          odbSubnets: S.optional(__S(4385, __c137, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOdbSubnetsResponse" });
   }
 }
-function __c137(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -12153,22 +12154,22 @@ function __c137(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(3392, __c106, 0)),
+          unreachable: S.optional(__S(3424, __c107, 0)),
+          operations: S.optional(__S(4417, __c138, 1)),
           nextPageToken: S.optional(S.String),
-          operations: S.optional(__S(4385, __c137, 1)),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
 }
-function __c138(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           filter: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -12182,22 +12183,22 @@ function __c138(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          pluggableDatabases: S.optional(__S(4417, __c138, 1)),
           nextPageToken: S.optional(S.String),
+          pluggableDatabases: S.optional(__S(4449, __c139, 1)),
         }),
       ).annotate({ identifier: "ListPluggableDatabasesResponse" });
   }
 }
-function __c139(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(3311, __c103, 15),
+          __S(3343, __c104, 15),
           S.Struct({
+            name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
             requestId: S.optional(S.String.pipe(T.Query())),
-            name: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -12209,12 +12210,12 @@ function __c139(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsAutonomousDatabasesRequest" });
   }
 }
-function __c140(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(3812, __c119, 4),
+          __S(3844, __c120, 4),
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
@@ -12230,16 +12231,16 @@ function __c140(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsCloudExadataInfrastructuresRequest" });
   }
 }
-function __c141(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(4258, __c133, 2),
+          __S(4290, __c134, 2),
           S.Struct({
+            name: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            name: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -12251,15 +12252,15 @@ function __c141(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsCloudVmClustersRequest" });
   }
 }
-function __c142(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
           __S(32, __c1, 0),
           S.Struct({
-            requestId: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
@@ -12272,7 +12273,7 @@ function __c142(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsDatabaseConnectionsRequest" });
   }
 }
-function __c143(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

@@ -109,24 +109,12 @@ export interface BatchDeletePhotosResponse {
 }
 export type BatchGetPhotosViewEnum = "BASIC" | "INCLUDE_DOWNLOAD_URL";
 export interface BatchGetPhotosRequest {
-  /** Required. IDs of the Photos. For HTTP GET requests, the URL query parameter should be `photoIds=&photoIds=&...`. */
-  photoIds?: StringList | undefined;
-  /** Optional. The BCP-47 language code, such as "en-US" or "sr-Latn". For more information, see http://www.unicode.org/reports/tr35/#Unicode_locale_identifier. If language_code is unspecified, the user's language preference for Google services is used. */
-  languageCode?: string | undefined;
   /** Required. Specifies if a download URL for the photo bytes should be returned in the Photo response. */
   view?: BatchGetPhotosViewEnum | (string & {}) | undefined;
-}
-/** Identifier for a Photo. */
-export interface PhotoId {
-  /** A unique identifier for a photo. */
-  id?: string | undefined;
-}
-/** An object that represents a latitude/longitude pair. This is expressed as a pair of doubles to represent degrees latitude and degrees longitude. Unless specified otherwise, this object must conform to the WGS84 standard. Values must be within normalized ranges. */
-export interface LatLng {
-  /** The longitude in degrees. It must be in the range [-180.0, +180.0]. */
-  longitude?: number | undefined;
-  /** The latitude in degrees. It must be in the range [-90.0, +90.0]. */
-  latitude?: number | undefined;
+  /** Optional. The BCP-47 language code, such as "en-US" or "sr-Latn". For more information, see http://www.unicode.org/reports/tr35/#Unicode_locale_identifier. If language_code is unspecified, the user's language preference for Google services is used. */
+  languageCode?: string | undefined;
+  /** Required. IDs of the Photos. For HTTP GET requests, the URL query parameter should be `photoIds=&photoIds=&...`. */
+  photoIds?: StringList | undefined;
 }
 /** Level information containing level number and its corresponding name. */
 export interface Level {
@@ -135,33 +123,60 @@ export interface Level {
   /** Required. A name assigned to this Level, restricted to 3 characters. Consider how the elevator buttons would be labeled for this level if there was an elevator. */
   name?: string | undefined;
 }
+/** An object that represents a latitude/longitude pair. This is expressed as a pair of doubles to represent degrees latitude and degrees longitude. Unless specified otherwise, this object must conform to the WGS84 standard. Values must be within normalized ranges. */
+export interface LatLng {
+  /** The longitude in degrees. It must be in the range [-180.0, +180.0]. */
+  longitude?: number | undefined;
+  /** The latitude in degrees. It must be in the range [-90.0, +90.0]. */
+  latitude?: number | undefined;
+}
 /** Raw pose measurement for an entity. */
 export interface Pose {
   /** Roll, measured in degrees. Value must be >= 0 and <360. A value of 0 means level with the horizon. NaN indicates an unmeasured quantity. */
   roll?: number | undefined;
-  /** Pitch, measured at the center of the photo in degrees. Value must be >=-90 and <= 90. A value of -90 means looking directly down, and a value of 90 means looking directly up. NaN indicates an unmeasured quantity. */
-  pitch?: number | undefined;
-  /** The estimated horizontal accuracy of this pose in meters with 68% confidence (one standard deviation). For example, on Android, this value is available from this method: https://developer.android.com/reference/android/location/Location#getAccuracy(). Other platforms have different methods of obtaining similar accuracy estimations. */
-  accuracyMeters?: number | undefined;
-  /** The following pose parameters pertain to the center of the photo. They match https://developers.google.com/streetview/spherical-metadata. Compass heading, measured at the center of the photo in degrees clockwise from North. Value must be >=0 and <360. NaN indicates an unmeasured quantity. */
-  heading?: number | undefined;
+  /** Level (the floor in a building) used to configure vertical navigation. */
+  level?: Level | undefined;
   /** Time of the GPS record since UTC epoch. */
   gpsRecordTimestampUnixEpoch?: string | undefined;
   /** Latitude and longitude pair of the pose, as explained here: https://cloud.google.com/datastore/docs/reference/rest/Shared.Types/LatLng When creating a Photo, if the latitude and longitude pair are not provided, the geolocation from the exif header is used. A latitude and longitude pair not provided in the photo or exif header causes the photo process to fail. */
   latLngPair?: LatLng | undefined;
+  /** The estimated horizontal accuracy of this pose in meters with 68% confidence (one standard deviation). For example, on Android, this value is available from this method: https://developer.android.com/reference/android/location/Location#getAccuracy(). Other platforms have different methods of obtaining similar accuracy estimations. */
+  accuracyMeters?: number | undefined;
+  /** The following pose parameters pertain to the center of the photo. They match https://developers.google.com/streetview/spherical-metadata. Compass heading, measured at the center of the photo in degrees clockwise from North. Value must be >=0 and <360. NaN indicates an unmeasured quantity. */
+  heading?: number | undefined;
   /** Altitude of the pose in meters above WGS84 ellipsoid. NaN indicates an unmeasured quantity. */
   altitude?: number | undefined;
-  /** Level (the floor in a building) used to configure vertical navigation. */
-  level?: Level | undefined;
+  /** Pitch, measured at the center of the photo in degrees. Value must be >=-90 and <= 90. A value of -90 means looking directly down, and a value of 90 means looking directly up. NaN indicates an unmeasured quantity. */
+  pitch?: number | undefined;
 }
+/** Upload reference for media files. */
+export interface UploadRef {
+  /** An upload reference should be unique for each user. It follows the form: "https://streetviewpublish.googleapis.com/media/user/{account_id}/photo/{upload_reference}" */
+  uploadUrl?: string | undefined;
+}
+/** Identifier for a Photo. */
+export interface PhotoId {
+  /** A unique identifier for a photo. */
+  id?: string | undefined;
+}
+/** A connection is the link from a source photo to a destination photo. */
+export interface Connection {
+  /** Required. The destination of the connection from the containing photo to another photo. */
+  target?: PhotoId | undefined;
+}
+export type ConnectionList = Array<Connection>;
+export type PhotoMapsPublishStatusEnum =
+  | "UNSPECIFIED_MAPS_PUBLISH_STATUS"
+  | "PUBLISHED"
+  | "REJECTED_UNKNOWN";
 /** Place metadata for an entity. */
 export interface Place {
+  /** Output only. The language_code that the name is localized with. This should be the language_code specified in the request, but may be a fallback. */
+  languageCode?: string | undefined;
   /** Output only. The name of the place, localized to the language_code. */
   name?: string | undefined;
   /** Place identifier, as described in https://developers.google.com/places/place-id. */
   placeId?: string | undefined;
-  /** Output only. The language_code that the name is localized with. This should be the language_code specified in the request, but may be a fallback. */
-  languageCode?: string | undefined;
 }
 export type PlaceList = Array<Place>;
 export type PhotoTransferStatusEnum =
@@ -173,49 +188,34 @@ export type PhotoTransferStatusEnum =
   | "EXPIRED"
   | "CANCELLED"
   | "RECEIVED_VIA_TRANSFER";
-/** Upload reference for media files. */
-export interface UploadRef {
-  /** An upload reference should be unique for each user. It follows the form: "https://streetviewpublish.googleapis.com/media/user/{account_id}/photo/{upload_reference}" */
-  uploadUrl?: string | undefined;
-}
-export type PhotoMapsPublishStatusEnum =
-  | "UNSPECIFIED_MAPS_PUBLISH_STATUS"
-  | "PUBLISHED"
-  | "REJECTED_UNKNOWN";
-/** A connection is the link from a source photo to a destination photo. */
-export interface Connection {
-  /** Required. The destination of the connection from the containing photo to another photo. */
-  target?: PhotoId | undefined;
-}
-export type ConnectionList = Array<Connection>;
 /** Photo is used to store 360 photos along with photo metadata. */
 export interface Photo {
-  /** Required. Output only. Required when updating a photo. Output only when creating a photo. Identifier for the photo, which is unique among all photos in Google. */
-  photoId?: PhotoId | undefined;
-  /** Optional. Pose of the photo. */
-  pose?: Pose | undefined;
-  /** Optional. Places where this photo belongs. */
-  places?: PlaceList | undefined;
-  /** Output only. Time when the image was uploaded. */
-  uploadTime?: string | undefined;
-  /** Output only. Status of rights transfer on this photo. */
-  transferStatus?: PhotoTransferStatusEnum | (string & {}) | undefined;
-  /** Input only. Required when creating a photo. Input only. The resource URL where the photo bytes are uploaded to. */
-  uploadReference?: UploadRef | undefined;
   /** Output only. The share link for the photo. */
   shareLink?: string | undefined;
-  /** Optional. Absolute time when the photo was captured. When the photo has no exif timestamp, this is used to set a timestamp in the photo metadata. */
-  captureTime?: string | undefined;
-  /** Output only. Status in Google Maps, whether this photo was published or rejected. */
-  mapsPublishStatus?: PhotoMapsPublishStatusEnum | (string & {}) | undefined;
+  /** Optional. Pose of the photo. */
+  pose?: Pose | undefined;
+  /** Output only. Time when the image was uploaded. */
+  uploadTime?: string | undefined;
+  /** Input only. Required when creating a photo. Input only. The resource URL where the photo bytes are uploaded to. */
+  uploadReference?: UploadRef | undefined;
+  /** Required. Output only. Required when updating a photo. Output only when creating a photo. Identifier for the photo, which is unique among all photos in Google. */
+  photoId?: PhotoId | undefined;
+  /** Output only. View count of the photo. */
+  viewCount?: string | undefined;
   /** Output only. The download URL for the photo bytes. This field is set only when GetPhotoRequest.view is set to PhotoView.INCLUDE_DOWNLOAD_URL. */
   downloadUrl?: string | undefined;
   /** Optional. Connections to other photos. A connection represents the link from this photo to another photo. */
   connections?: ConnectionList | undefined;
+  /** Output only. Status in Google Maps, whether this photo was published or rejected. */
+  mapsPublishStatus?: PhotoMapsPublishStatusEnum | (string & {}) | undefined;
+  /** Optional. Places where this photo belongs. */
+  places?: PlaceList | undefined;
+  /** Output only. Status of rights transfer on this photo. */
+  transferStatus?: PhotoTransferStatusEnum | (string & {}) | undefined;
   /** Output only. The thumbnail URL for showing a preview of the given photo. */
   thumbnailUrl?: string | undefined;
-  /** Output only. View count of the photo. */
-  viewCount?: string | undefined;
+  /** Optional. Absolute time when the photo was captured. When the photo has no exif timestamp, this is used to set a timestamp in the photo metadata. */
+  captureTime?: string | undefined;
 }
 /** Response payload for a single Photo in batch operations including BatchGetPhotos and BatchUpdatePhotos. */
 export interface PhotoResponse {
@@ -252,83 +252,7 @@ export interface BatchUpdatePhotosResponse {
 export interface CreatePhotoRequest extends Photo {}
 export type CreatePhotoSequenceInputTypeEnum = "INPUT_TYPE_UNSPECIFIED" | "VIDEO" | "XDM";
 export type PhotoSequenceGpsSourceEnum = "PHOTO_SEQUENCE" | "CAMERA_MOTION_METADATA_TRACK";
-export type PhotoSequenceProcessingStateEnum =
-  | "PROCESSING_STATE_UNSPECIFIED"
-  | "PENDING"
-  | "PROCESSING"
-  | "PROCESSED"
-  | "FAILED";
-export type PoseList = Array<Pose>;
-/** Details related to ProcessingFailureReason#IMU_DATA_GAP. If there are multiple IMU data gaps, only the one with the largest duration is reported here. */
-export interface ImuDataGapFailureDetails {
-  /** The duration of the gap in IMU data that was found. */
-  gapDuration?: string | undefined;
-  /** Relative time (from the start of the video stream) when the gap started. */
-  gapStartTime?: string | undefined;
-}
-/** Details related to ProcessingFailureReason#INSUFFICIENT_GPS. */
-export interface InsufficientGpsFailureDetails {
-  /** The number of GPS points that were found in the video. */
-  gpsPointsFound?: number | undefined;
-}
-/** Details related to PhotoSequenceProcessingFailureReason#NO_OVERLAP_GPS. */
-export interface NoOverlapGpsFailureDetails {
-  /** End time of video. */
-  videoEndTime?: string | undefined;
-  /** Time of last recorded GPS point. */
-  gpsEndTime?: string | undefined;
-  /** Time of first recorded GPS point. */
-  gpsStartTime?: string | undefined;
-  /** Start time of video. */
-  videoStartTime?: string | undefined;
-}
-/** Details related to ProcessingFailureReason#GPS_DATA_GAP. If there are multiple GPS data gaps, only the one with the largest duration is reported here. */
-export interface GpsDataGapFailureDetails {
-  /** Relative time (from the start of the video stream) when the gap started. */
-  gapStartTime?: string | undefined;
-  /** The duration of the gap in GPS data that was found. */
-  gapDuration?: string | undefined;
-}
-/** Details related to ProcessingFailureReason#NOT_OUTDOORS. If there are multiple indoor frames found, the first frame is recorded here. */
-export interface NotOutdoorsFailureDetails {
-  /** Relative time (from the start of the video stream) when an indoor frame was found. */
-  startTime?: string | undefined;
-}
-/** Additional details to accompany the ProcessingFailureReason enum. This message is always expected to be used in conjunction with ProcessingFailureReason, and the oneof value set in this message should match the FailureReason. */
-export interface ProcessingFailureDetails {
-  /** See ImuDataGapFailureDetails. */
-  imuDataGapDetails?: ImuDataGapFailureDetails | undefined;
-  /** See InsufficientGpsFailureDetails. */
-  insufficientGpsDetails?: InsufficientGpsFailureDetails | undefined;
-  /** See NoOverlapGpsFailureDetails. */
-  noOverlapGpsDetails?: NoOverlapGpsFailureDetails | undefined;
-  /** See GpsDataGapFailureDetails. */
-  gpsDataGapDetails?: GpsDataGapFailureDetails | undefined;
-  /** See NotOutdoorsFailureDetails. */
-  notOutdoorsDetails?: NotOutdoorsFailureDetails | undefined;
-}
 export type PhotoList = Array<Photo>;
-/** A Generic 3d measurement sample. */
-export interface Measurement3d {
-  /** The sensor measurement in the x axis. */
-  x?: number | undefined;
-  /** The sensor measurement in the y axis. */
-  y?: number | undefined;
-  /** The sensor measurement in the z axis. */
-  z?: number | undefined;
-  /** The timestamp of the IMU measurement. */
-  captureTime?: string | undefined;
-}
-export type Measurement3dList = Array<Measurement3d>;
-/** IMU data from the device sensors. */
-export interface Imu {
-  /** The accelerometer measurements in meters/sec^2 with increasing timestamps from devices. */
-  accelMpsps?: Measurement3dList | undefined;
-  /** The magnetometer measurements of the magnetic field in microtesla (uT) with increasing timestamps from devices. */
-  magUt?: Measurement3dList | undefined;
-  /** The gyroscope measurements in radians/sec with increasing timestamps from devices. */
-  gyroRps?: Measurement3dList | undefined;
-}
 export type PhotoSequenceFailureReasonEnum =
   | "PROCESSING_FAILURE_REASON_UNSPECIFIED"
   | "LOW_RESOLUTION"
@@ -357,41 +281,117 @@ export type PhotoSequenceFailureReasonEnum =
   | "CAMERA_COVERED";
 /** A rectangle in geographical coordinates. */
 export interface LatLngBounds {
-  /** The northeast corner of these bounds. */
-  northeast?: LatLng | undefined;
   /** The southwest corner of these bounds. */
   southwest?: LatLng | undefined;
+  /** The northeast corner of these bounds. */
+  northeast?: LatLng | undefined;
+}
+export type PhotoSequenceProcessingStateEnum =
+  | "PROCESSING_STATE_UNSPECIFIED"
+  | "PENDING"
+  | "PROCESSING"
+  | "PROCESSED"
+  | "FAILED";
+export type PoseList = Array<Pose>;
+/** Details related to ProcessingFailureReason#INSUFFICIENT_GPS. */
+export interface InsufficientGpsFailureDetails {
+  /** The number of GPS points that were found in the video. */
+  gpsPointsFound?: number | undefined;
+}
+/** Details related to PhotoSequenceProcessingFailureReason#NO_OVERLAP_GPS. */
+export interface NoOverlapGpsFailureDetails {
+  /** End time of video. */
+  videoEndTime?: string | undefined;
+  /** Time of last recorded GPS point. */
+  gpsEndTime?: string | undefined;
+  /** Start time of video. */
+  videoStartTime?: string | undefined;
+  /** Time of first recorded GPS point. */
+  gpsStartTime?: string | undefined;
+}
+/** Details related to ProcessingFailureReason#IMU_DATA_GAP. If there are multiple IMU data gaps, only the one with the largest duration is reported here. */
+export interface ImuDataGapFailureDetails {
+  /** The duration of the gap in IMU data that was found. */
+  gapDuration?: string | undefined;
+  /** Relative time (from the start of the video stream) when the gap started. */
+  gapStartTime?: string | undefined;
+}
+/** Details related to ProcessingFailureReason#GPS_DATA_GAP. If there are multiple GPS data gaps, only the one with the largest duration is reported here. */
+export interface GpsDataGapFailureDetails {
+  /** The duration of the gap in GPS data that was found. */
+  gapDuration?: string | undefined;
+  /** Relative time (from the start of the video stream) when the gap started. */
+  gapStartTime?: string | undefined;
+}
+/** Details related to ProcessingFailureReason#NOT_OUTDOORS. If there are multiple indoor frames found, the first frame is recorded here. */
+export interface NotOutdoorsFailureDetails {
+  /** Relative time (from the start of the video stream) when an indoor frame was found. */
+  startTime?: string | undefined;
+}
+/** Additional details to accompany the ProcessingFailureReason enum. This message is always expected to be used in conjunction with ProcessingFailureReason, and the oneof value set in this message should match the FailureReason. */
+export interface ProcessingFailureDetails {
+  /** See InsufficientGpsFailureDetails. */
+  insufficientGpsDetails?: InsufficientGpsFailureDetails | undefined;
+  /** See NoOverlapGpsFailureDetails. */
+  noOverlapGpsDetails?: NoOverlapGpsFailureDetails | undefined;
+  /** See ImuDataGapFailureDetails. */
+  imuDataGapDetails?: ImuDataGapFailureDetails | undefined;
+  /** See GpsDataGapFailureDetails. */
+  gpsDataGapDetails?: GpsDataGapFailureDetails | undefined;
+  /** See NotOutdoorsFailureDetails. */
+  notOutdoorsDetails?: NotOutdoorsFailureDetails | undefined;
+}
+/** A Generic 3d measurement sample. */
+export interface Measurement3d {
+  /** The sensor measurement in the x axis. */
+  x?: number | undefined;
+  /** The timestamp of the IMU measurement. */
+  captureTime?: string | undefined;
+  /** The sensor measurement in the y axis. */
+  y?: number | undefined;
+  /** The sensor measurement in the z axis. */
+  z?: number | undefined;
+}
+export type Measurement3dList = Array<Measurement3d>;
+/** IMU data from the device sensors. */
+export interface Imu {
+  /** The magnetometer measurements of the magnetic field in microtesla (uT) with increasing timestamps from devices. */
+  magUt?: Measurement3dList | undefined;
+  /** The accelerometer measurements in meters/sec^2 with increasing timestamps from devices. */
+  accelMpsps?: Measurement3dList | undefined;
+  /** The gyroscope measurements in radians/sec with increasing timestamps from devices. */
+  gyroRps?: Measurement3dList | undefined;
 }
 /** A sequence of 360 photos along with metadata. */
 export interface PhotoSequence {
+  /** Output only. The computed distance of the photo sequence in meters. */
+  distanceMeters?: number | undefined;
   /** Input only. If both raw_gps_timeline and the Camera Motion Metadata Track (CAMM) contain GPS measurements, indicate which takes precedence. */
   gpsSource?: PhotoSequenceGpsSourceEnum | (string & {}) | undefined;
-  /** Output only. The total number of views that all the published images in this PhotoSequence have received. */
-  viewCount?: string | undefined;
-  /** Output only. The filename of the upload. Does not include the directory path. Only available if the sequence was uploaded on a platform that provides the filename. */
-  filename?: string | undefined;
+  /** Output only. The time this photo sequence was created in uSV Store service. */
+  uploadTime?: string | undefined;
+  /** Output only. Photos with increasing timestamps. */
+  photos?: PhotoList | undefined;
+  /** Optional. Absolute time when the photo sequence starts to be captured. If the photo sequence is a video, this is the start time of the video. If this field is populated in input, it overrides the capture time in the video or XDM file. */
+  captureTimeOverride?: string | undefined;
+  /** Output only. If this sequence has processing_state = FAILED, this will contain the reason why it failed. If the processing_state is any other value, this field will be unset. */
+  failureReason?: PhotoSequenceFailureReasonEnum | (string & {}) | undefined;
+  /** Output only. A rectangular box that encapsulates every image in this photo sequence. */
+  sequenceBounds?: LatLngBounds | undefined;
   /** Input only. Required when creating photo sequence. The resource name where the bytes of the photo sequence (in the form of video) are uploaded. */
   uploadReference?: UploadRef | undefined;
   /** Output only. The processing state of this sequence. */
   processingState?: PhotoSequenceProcessingStateEnum | (string & {}) | undefined;
   /** Input only. Raw GPS measurements with increasing timestamps from the device that aren't time synced with each photo. These raw measurements will be used to infer the pose of each frame. Required in input when InputType is VIDEO and raw GPS measurements are not in Camera Motion Metadata Track (CAMM). User can indicate which takes precedence using gps_source if raw GPS measurements are provided in both raw_gps_timeline and Camera Motion Metadata Track (CAMM). */
   rawGpsTimeline?: PoseList | undefined;
-  /** Optional. Absolute time when the photo sequence starts to be captured. If the photo sequence is a video, this is the start time of the video. If this field is populated in input, it overrides the capture time in the video or XDM file. */
-  captureTimeOverride?: string | undefined;
+  /** Output only. The filename of the upload. Does not include the directory path. Only available if the sequence was uploaded on a platform that provides the filename. */
+  filename?: string | undefined;
   /** Output only. If this sequence has `failure_reason` set, this may contain additional details about the failure. */
   failureDetails?: ProcessingFailureDetails | undefined;
-  /** Output only. Photos with increasing timestamps. */
-  photos?: PhotoList | undefined;
-  /** Output only. The computed distance of the photo sequence in meters. */
-  distanceMeters?: number | undefined;
-  /** Output only. The time this photo sequence was created in uSV Store service. */
-  uploadTime?: string | undefined;
+  /** Output only. The total number of views that all the published images in this PhotoSequence have received. */
+  viewCount?: string | undefined;
   /** Input only. Three axis IMU data for the collection. If this data is too large to put in the request, then it should be put in the CAMM track for the video. This data always takes precedence over the equivalent CAMM data, if it exists. */
   imu?: Imu | undefined;
-  /** Output only. If this sequence has processing_state = FAILED, this will contain the reason why it failed. If the processing_state is any other value, this field will be unset. */
-  failureReason?: PhotoSequenceFailureReasonEnum | (string & {}) | undefined;
-  /** Output only. A rectangular box that encapsulates every image in this photo sequence. */
-  sequenceBounds?: LatLngBounds | undefined;
   /** Output only. Unique identifier for the photo sequence. This also acts as a long running operation ID if uploading is performed asynchronously. */
   id?: string | undefined;
 }
@@ -401,16 +401,16 @@ export interface CreatePhotoSequenceRequest extends PhotoSequence {
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
-  /** The error result of the operation in case of failure or cancellation. */
-  error?: Status | undefined;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
   done?: boolean | undefined;
+  /** The error result of the operation in case of failure or cancellation. */
+  error?: Status | undefined;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
   metadata?: DocumentMap | undefined;
-  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap | undefined;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
   name?: string | undefined;
+  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
+  response?: DocumentMap | undefined;
 }
 export interface DeletePhotoRequest {
   /** Required. ID of the Photo. */
@@ -426,32 +426,32 @@ export type GetPhotoViewEnum = "BASIC" | "INCLUDE_DOWNLOAD_URL";
 export interface GetPhotoRequest {
   /** Required. ID of the Photo. */
   photoId: string;
-  /** The BCP-47 language code, such as "en-US" or "sr-Latn". For more information, see http://www.unicode.org/reports/tr35/#Unicode_locale_identifier. If language_code is unspecified, the user's language preference for Google services is used. */
-  languageCode?: string | undefined;
   /** Required. Specifies if a download URL for the photo bytes should be returned in the Photo response. */
   view?: GetPhotoViewEnum | (string & {}) | undefined;
+  /** The BCP-47 language code, such as "en-US" or "sr-Latn". For more information, see http://www.unicode.org/reports/tr35/#Unicode_locale_identifier. If language_code is unspecified, the user's language preference for Google services is used. */
+  languageCode?: string | undefined;
 }
 export type GetPhotoSequenceViewEnum = "BASIC" | "INCLUDE_DOWNLOAD_URL";
 export interface GetPhotoSequenceRequest {
-  /** Required. ID of the photo sequence. */
-  sequenceId: string;
   /** Specifies if a download URL for the photo sequence should be returned in `download_url` of individual photos in the PhotoSequence response. > Note: Currently not implemented. */
   view?: GetPhotoSequenceViewEnum | (string & {}) | undefined;
+  /** Required. ID of the photo sequence. */
+  sequenceId: string;
   /** Optional. The filter expression. For example: `published_status=PUBLISHED`. The filters supported are: `published_status`. See https://google.aip.dev/160 for more information. */
   filter?: string | undefined;
 }
 export type ListPhotosViewEnum = "BASIC" | "INCLUDE_DOWNLOAD_URL";
 export interface ListPhotosRequest {
-  /** Optional. The maximum number of photos to return. `pageSize` must be non-negative. If `pageSize` is zero or is not provided, the default page size of 100 is used. The number of photos returned in the response may be less than `pageSize` if the number of photos that belong to the user is less than `pageSize`. */
-  pageSize?: number | undefined;
   /** Optional. The nextPageToken value returned from a previous ListPhotos request, if any. */
   pageToken?: string | undefined;
-  /** Required. Specifies if a download URL for the photos bytes should be returned in the Photos response. */
-  view?: ListPhotosViewEnum | (string & {}) | undefined;
-  /** Optional. The filter expression. For example: `placeId=ChIJj61dQgK6j4AR4GeTYWZsKWw`. The filters supported are: `placeId`, `min_latitude`, `max_latitude`, `min_longitude`, `max_longitude`. See https://google.aip.dev/160 for more information. */
-  filter?: string | undefined;
+  /** Optional. The maximum number of photos to return. `pageSize` must be non-negative. If `pageSize` is zero or is not provided, the default page size of 100 is used. The number of photos returned in the response may be less than `pageSize` if the number of photos that belong to the user is less than `pageSize`. */
+  pageSize?: number | undefined;
   /** Optional. The BCP-47 language code, such as "en-US" or "sr-Latn". For more information, see http://www.unicode.org/reports/tr35/#Unicode_locale_identifier. If language_code is unspecified, the user's language preference for Google services is used. */
   languageCode?: string | undefined;
+  /** Optional. The filter expression. For example: `placeId=ChIJj61dQgK6j4AR4GeTYWZsKWw`. The filters supported are: `placeId`, `min_latitude`, `max_latitude`, `min_longitude`, `max_longitude`. See https://google.aip.dev/160 for more information. */
+  filter?: string | undefined;
+  /** Required. Specifies if a download URL for the photos bytes should be returned in the Photos response. */
+  view?: ListPhotosViewEnum | (string & {}) | undefined;
 }
 /** Response to list all photos that belong to a user. */
 export interface ListPhotosResponse {
@@ -461,10 +461,10 @@ export interface ListPhotosResponse {
   photos?: PhotoList | undefined;
 }
 export interface ListPhotoSequencesRequest {
-  /** Optional. The filter expression. For example: `imagery_type=SPHERICAL`. The filters supported are: `imagery_type`, `processing_state`, `min_latitude`, `max_latitude`, `min_longitude`, `max_longitude`, `filename_query`, `min_capture_time_seconds`, `max_capture_time_seconds. See https://google.aip.dev/160 for more information. Filename queries should sent as a Phrase in order to support multiple words and special characters by adding escaped quotes. Ex: filename_query="example of a phrase.mp4" */
-  filter?: string | undefined;
   /** Optional. The nextPageToken value returned from a previous ListPhotoSequences request, if any. */
   pageToken?: string | undefined;
+  /** Optional. The filter expression. For example: `imagery_type=SPHERICAL`. The filters supported are: `imagery_type`, `processing_state`, `min_latitude`, `max_latitude`, `min_longitude`, `max_longitude`, `filename_query`, `min_capture_time_seconds`, `max_capture_time_seconds. See https://google.aip.dev/160 for more information. Filename queries should sent as a Phrase in order to support multiple words and special characters by adding escaped quotes. Ex: filename_query="example of a phrase.mp4" */
+  filter?: string | undefined;
   /** Optional. The maximum number of photo sequences to return. `pageSize` must be non-negative. If `pageSize` is zero or is not provided, the default page size of 100 is used. The number of photo sequences returned in the response may be less than `pageSize` if the number of matches is less than `pageSize`. This is currently unimplemented but is in process. */
   pageSize?: number | undefined;
 }
@@ -485,10 +485,10 @@ export interface StartUploadPhotoSequenceRequest {
   body?: Empty | undefined;
 }
 export interface UpdatePhotoRequest_ extends Photo {
-  /** Required. Mask that identifies fields on the photo metadata to update. If not present, the old Photo metadata is entirely replaced with the new Photo metadata in this request. The update fails if invalid fields are specified. Multiple fields can be specified in a comma-delimited list. The following fields are valid: * `pose.heading` * `pose.lat_lng_pair` * `pose.pitch` * `pose.roll` * `pose.level` * `pose.altitude` * `connections` * `places` > Note: When updateMask contains repeated fields, the entire set of repeated values get replaced with the new contents. For example, if updateMask contains `connections` and `UpdatePhotoRequest.photo.connections` is empty, all connections are removed. */
-  updateMask?: string | undefined;
   /** A unique identifier for a photo. */
   id: string;
+  /** Required. Mask that identifies fields on the photo metadata to update. If not present, the old Photo metadata is entirely replaced with the new Photo metadata in this request. The update fails if invalid fields are specified. Multiple fields can be specified in a comma-delimited list. The following fields are valid: * `pose.heading` * `pose.lat_lng_pair` * `pose.pitch` * `pose.roll` * `pose.level` * `pose.altitude` * `connections` * `places` > Note: When updateMask contains repeated fields, the entire set of repeated values get replaced with the new contents. For example, if updateMask contains `connections` and `UpdatePhotoRequest.photo.connections` is empty, all connections are removed. */
+  updateMask?: string | undefined;
 }
 export type BatchDeletePhotosError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Deletes a list of Photos and their metadata. Note that if BatchDeletePhotos fails, either critical fields are missing or there is an authentication error. Even if BatchDeletePhotos succeeds, individual photos in the batch may have failures. These failures are specified in each PhotoResponse.status in BatchDeletePhotosResponse.results. See DeletePhoto for specific failures that can occur per photo. */
@@ -570,7 +570,7 @@ export const createPhotoSequence: API.OperationMethod<
   CreatePhotoSequenceError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(284, __c17, 12) as any as S.Schema<CreatePhotoSequenceRequest>,
+  input: __S(283, __c17, 11) as any as S.Schema<CreatePhotoSequenceRequest>,
   output: __S(288, __c18, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
@@ -770,8 +770,8 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           photoId: S.String.pipe(T.Label()),
-          languageCode: S.optional(S.String.pipe(T.Query())),
           view: S.optional(S.String.pipe(T.Query())),
+          languageCode: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -787,8 +787,8 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          sequenceId: S.String.pipe(T.Label()),
           view: S.optional(S.String.pipe(T.Query())),
+          sequenceId: S.String.pipe(T.Label()),
           filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -805,11 +805,11 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          view: S.optional(S.String.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           languageCode: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
+          view: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -832,8 +832,8 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -893,8 +893,8 @@ function __c7(j: number): any {
         S.Extend(
           __S(232, __c14, 8),
           S.Struct({
-            updateMask: S.optional(S.String.pipe(T.Query())),
             id: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -961,9 +961,9 @@ function __c11(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          photoIds: S.optional(__S(144, __c9, 0).pipe(T.Query())),
-          languageCode: S.optional(S.String.pipe(T.Query())),
           view: S.optional(S.String.pipe(T.Query())),
+          languageCode: S.optional(S.String.pipe(T.Query())),
+          photoIds: S.optional(__S(144, __c9, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1008,9 +1008,10 @@ function __c14(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          id: S.optional(S.String),
+          number: S.optional(S.Number),
+          name: S.optional(S.String),
         }),
-      ).annotate({ identifier: "PhotoId" });
+      ).annotate({ identifier: "Level" });
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -1021,57 +1022,56 @@ function __c14(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          number: S.optional(S.Number),
-          name: S.optional(S.String),
+          roll: S.optional(S.Number),
+          level: S.optional(__S(224, __c14, 0)),
+          gpsRecordTimestampUnixEpoch: S.optional(S.String),
+          latLngPair: S.optional(__S(225, __c14, 1)),
+          accuracyMeters: S.optional(S.Number),
+          heading: S.optional(S.Number),
+          altitude: S.optional(S.Number),
+          pitch: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "Level" });
+      ).annotate({ identifier: "Pose" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          roll: S.optional(S.Number),
-          pitch: S.optional(S.Number),
-          accuracyMeters: S.optional(S.Number),
-          heading: S.optional(S.Number),
-          gpsRecordTimestampUnixEpoch: S.optional(S.String),
-          latLngPair: S.optional(__S(225, __c14, 1)),
-          altitude: S.optional(S.Number),
-          level: S.optional(__S(226, __c14, 2)),
+          id: S.optional(S.String),
         }),
-      ).annotate({ identifier: "Pose" });
+      ).annotate({ identifier: "PhotoId" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          placeId: S.optional(S.String),
-          languageCode: S.optional(S.String),
+          target: S.optional(__S(227, __c14, 3)),
         }),
-      ).annotate({ identifier: "Place" });
+      ).annotate({ identifier: "Connection" });
     case 5:
       return S.Array(__S(228, __c14, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          target: S.optional(__S(224, __c14, 0)),
+          languageCode: S.optional(S.String),
+          name: S.optional(S.String),
+          placeId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "Connection" });
+      ).annotate({ identifier: "Place" });
     case 7:
       return S.Array(__S(230, __c14, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          photoId: S.optional(__S(224, __c14, 0)),
-          pose: S.optional(__S(227, __c14, 3)),
-          places: S.optional(__S(229, __c14, 5)),
-          uploadTime: S.optional(S.String),
-          transferStatus: S.optional(S.String),
-          uploadReference: S.optional(__S(208, __c13, 0)),
           shareLink: S.optional(S.String),
-          captureTime: S.optional(S.String),
-          mapsPublishStatus: S.optional(S.String),
-          downloadUrl: S.optional(S.String),
-          connections: S.optional(__S(231, __c14, 7)),
-          thumbnailUrl: S.optional(S.String),
+          pose: S.optional(__S(226, __c14, 2)),
+          uploadTime: S.optional(S.String),
+          uploadReference: S.optional(__S(208, __c13, 0)),
+          photoId: S.optional(__S(227, __c14, 3)),
           viewCount: S.optional(S.String),
+          downloadUrl: S.optional(S.String),
+          connections: S.optional(__S(229, __c14, 5)),
+          mapsPublishStatus: S.optional(S.String),
+          places: S.optional(__S(231, __c14, 7)),
+          transferStatus: S.optional(S.String),
+          thumbnailUrl: S.optional(S.String),
+          captureTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "Photo" });
   }
@@ -1122,14 +1122,14 @@ function __c16(j: number): any {
 function __c17(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(227, __c14, 3));
-    case 1:
       return S.suspend(() =>
         S.Struct({
-          gapDuration: S.optional(S.String),
-          gapStartTime: S.optional(S.String),
+          southwest: S.optional(__S(225, __c14, 1)),
+          northeast: S.optional(__S(225, __c14, 1)),
         }),
-      ).annotate({ identifier: "ImuDataGapFailureDetails" });
+      ).annotate({ identifier: "LatLngBounds" });
+    case 1:
+      return S.Array(__S(226, __c14, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -1141,17 +1141,17 @@ function __c17(j: number): any {
         S.Struct({
           videoEndTime: S.optional(S.String),
           gpsEndTime: S.optional(S.String),
-          gpsStartTime: S.optional(S.String),
           videoStartTime: S.optional(S.String),
+          gpsStartTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "NoOverlapGpsFailureDetails" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          gapStartTime: S.optional(S.String),
           gapDuration: S.optional(S.String),
+          gapStartTime: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GpsDataGapFailureDetails" });
+      ).annotate({ identifier: "ImuDataGapFailureDetails" });
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -1161,9 +1161,9 @@ function __c17(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          imuDataGapDetails: S.optional(__S(273, __c17, 1)),
           insufficientGpsDetails: S.optional(__S(274, __c17, 2)),
           noOverlapGpsDetails: S.optional(__S(275, __c17, 3)),
+          imuDataGapDetails: S.optional(__S(276, __c17, 4)),
           gpsDataGapDetails: S.optional(__S(276, __c17, 4)),
           notOutdoorsDetails: S.optional(__S(277, __c17, 5)),
         }),
@@ -1172,9 +1172,9 @@ function __c17(j: number): any {
       return S.suspend(() =>
         S.Struct({
           x: S.optional(S.Number),
+          captureTime: S.optional(S.String),
           y: S.optional(S.Number),
           z: S.optional(S.Number),
-          captureTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "Measurement3d" });
     case 8:
@@ -1182,42 +1182,35 @@ function __c17(j: number): any {
     case 9:
       return S.suspend(() =>
         S.Struct({
-          accelMpsps: S.optional(__S(280, __c17, 8)),
           magUt: S.optional(__S(280, __c17, 8)),
+          accelMpsps: S.optional(__S(280, __c17, 8)),
           gyroRps: S.optional(__S(280, __c17, 8)),
         }),
       ).annotate({ identifier: "Imu" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          northeast: S.optional(__S(225, __c14, 1)),
-          southwest: S.optional(__S(225, __c14, 1)),
-        }),
-      ).annotate({ identifier: "LatLngBounds" });
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
+          distanceMeters: S.optional(S.Number),
           gpsSource: S.optional(S.String),
-          viewCount: S.optional(S.String),
-          filename: S.optional(S.String),
+          uploadTime: S.optional(S.String),
+          photos: S.optional(__S(304, __c19, 0)),
+          captureTimeOverride: S.optional(S.String),
+          failureReason: S.optional(S.String),
+          sequenceBounds: S.optional(__S(272, __c17, 0)),
           uploadReference: S.optional(__S(208, __c13, 0)),
           processingState: S.optional(S.String),
-          rawGpsTimeline: S.optional(__S(272, __c17, 0)),
-          captureTimeOverride: S.optional(S.String),
+          rawGpsTimeline: S.optional(__S(273, __c17, 1)),
+          filename: S.optional(S.String),
           failureDetails: S.optional(__S(278, __c17, 6)),
-          photos: S.optional(__S(304, __c19, 0)),
-          distanceMeters: S.optional(S.Number),
-          uploadTime: S.optional(S.String),
+          viewCount: S.optional(S.String),
           imu: S.optional(__S(281, __c17, 9)),
-          failureReason: S.optional(S.String),
-          sequenceBounds: S.optional(__S(282, __c17, 10)),
           id: S.optional(S.String),
         }),
       ).annotate({ identifier: "PhotoSequence" });
-    case 12:
+    case 11:
       return S.suspend(() =>
         S.Extend(
-          __S(283, __c17, 11),
+          __S(282, __c17, 10),
           S.Struct({
             inputType: S.optional(S.String.pipe(T.Query())),
           }),
@@ -1236,11 +1229,11 @@ function __c18(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          error: S.optional(__S(162, __c10, 2)),
           done: S.optional(S.Boolean),
+          error: S.optional(__S(162, __c10, 2)),
           metadata: S.optional(__S(160, __c10, 0)),
-          response: S.optional(__S(160, __c10, 0)),
           name: S.optional(S.String),
+          response: S.optional(__S(160, __c10, 0)),
         }),
       ).annotate({ identifier: "Operation" });
   }

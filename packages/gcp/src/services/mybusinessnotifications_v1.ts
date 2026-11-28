@@ -116,10 +116,10 @@ export interface UpdateNotificationSettingAccountsRequest extends Omit<
   NotificationSetting,
   "name"
 > {
-  /** Required. The resource name this setting is for. This is of the form `accounts/{account_id}/notificationSetting`. */
-  name: string;
   /** Required. The specific fields that should be updated. The only editable field is notification_setting. */
   updateMask?: string | undefined;
+  /** Required. The resource name this setting is for. This is of the form `accounts/{account_id}/notificationSetting`. */
+  name: string;
 }
 export type GetNotificationSettingAccountsError = NotFound | Forbidden | GcpOpError;
 /** Returns the pubsub notification settings for the account. */
@@ -200,8 +200,8 @@ function __c2(j: number): any {
         S.Extend(
           __S(3, __c1, 1),
           S.Struct({
-            name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({

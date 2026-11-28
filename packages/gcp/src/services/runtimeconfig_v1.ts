@@ -98,14 +98,14 @@ export interface DeleteOperationsRequest {
   name: string;
 }
 export interface ListOperationsRequest {
-  /** The standard list page size. */
-  pageSize?: number | undefined;
+  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
+  returnPartialSuccess?: boolean | undefined;
   /** The standard list page token. */
   pageToken?: string | undefined;
   /** The standard list filter. */
   filter?: string | undefined;
-  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean | undefined;
+  /** The standard list page size. */
+  pageSize?: number | undefined;
   /** The name of the operation's parent resource. */
   name: string;
 }
@@ -122,16 +122,16 @@ export interface Status {
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
+  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
+  done?: boolean | undefined;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
   metadata?: DocumentMap | undefined;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
   name?: string | undefined;
-  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean | undefined;
-  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap | undefined;
   /** The error result of the operation in case of failure or cancellation. */
   error?: Status | undefined;
+  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
+  response?: DocumentMap | undefined;
 }
 export type OperationList = Array<Operation>;
 export type StringList = Array<string>;
@@ -245,10 +245,10 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
+          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
-          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -273,11 +273,11 @@ function __c3(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
+          done: S.optional(S.Boolean),
           metadata: S.optional(__S(25, __c3, 1)),
           name: S.optional(S.String),
-          done: S.optional(S.Boolean),
-          response: S.optional(__S(25, __c3, 1)),
           error: S.optional(__S(27, __c3, 3)),
+          response: S.optional(__S(25, __c3, 1)),
         }),
       ).annotate({ identifier: "Operation" });
     case 5:

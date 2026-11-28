@@ -84,21 +84,21 @@ export class NotFound
   ) {}
 
 export interface AcceptTermsOfServiceRequest {
+  /** Required. The account for which to accept the ToS. Format: `accounts/{account}` */
+  account?: string | undefined;
   /** Required. Region code as defined by [CLDR](https://cldr.unicode.org/). This is either a country when the ToS applies specifically to that country or 001 when it applies globally. */
   regionCode?: string | undefined;
   /** Required. The resource name of the terms of service version. Format: `termsOfService/{version}` */
   name: string;
-  /** Required. The account for which to accept the ToS. Format: `accounts/{account}` */
-  account?: string | undefined;
 }
 /** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
 export interface Merchantapi_Date {
-  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  day?: number | undefined;
   /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
   month?: number | undefined;
   /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
   year?: number | undefined;
+  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
+  day?: number | undefined;
 }
 /** Describes the [accepted terms of service](https://developers.google.com/merchant/api/guides/accounts/manage-tos-agreements#accept-tos). */
 export interface Accepted {
@@ -109,6 +109,9 @@ export interface Accepted {
   /** Required. The account where the acceptance was recorded. This can be the account itself or, in the case of subaccounts, the advanced account. */
   acceptedBy?: string | undefined;
 }
+export type TermsOfServiceAgreementStateTermsOfServiceKindEnum =
+  | "TERMS_OF_SERVICE_KIND_UNSPECIFIED"
+  | "MERCHANT_CENTER";
 /** Describes the terms of service which are required to be accepted. */
 export interface Required {
   /** Required. Full URL to the terms of service file. This field is the same as `TermsOfService.file_uri`, it is added here for convenience only. */
@@ -116,19 +119,16 @@ export interface Required {
   /** Required. The `TermsOfService` that need to be accepted. */
   termsOfService?: string | undefined;
 }
-export type TermsOfServiceAgreementStateTermsOfServiceKindEnum =
-  | "TERMS_OF_SERVICE_KIND_UNSPECIFIED"
-  | "MERCHANT_CENTER";
 /** This resource represents the agreement state for a given account and terms of service kind. The state is as follows: * If the business has accepted a terms of service, `accepted` will be populated, otherwise it will be empty * If the business must sign a terms of service, `required` will be populated, otherwise it will be empty. Note that both `required` and `accepted` can be present. In this case the `accepted` terms of services will have an expiration date set in the `valid_until` field. The `required` terms of services need to be accepted before `valid_until` in order for the account to continue having a valid agreement. When accepting new terms of services we expect third-party providers to display the text associated with the given terms of service agreement (the url to the file containing the text is added in the Required message below as `tos_file_uri`). The actual acceptance of the terms of service is done by calling accept on the `TermsOfService` resource. `valid_until` field. For more information, see [Manage Terms of Service](https://developers.google.com/merchant/api/guides/accounts/manage-tos-agreements). */
 export interface TermsOfServiceAgreementState {
   /** Identifier. The resource name of the terms of service version. Format: `accounts/{account}/termsOfServiceAgreementState/{identifier}` The identifier format is: `{TermsOfServiceKind}-{country}` For example, an identifier could be: `MERCHANT_CENTER-EU` or `MERCHANT_CENTER-US`. */
   name?: string | undefined;
   /** Optional. The accepted terms of service of this kind and for the associated region_code */
   accepted?: Accepted | undefined;
-  /** Optional. The required terms of service */
-  required?: Required | undefined;
   /** Required. Terms of Service kind associated with the particular version. */
   termsOfServiceKind?: TermsOfServiceAgreementStateTermsOfServiceKindEnum | undefined;
+  /** Optional. The required terms of service */
+  required?: Required | undefined;
   /** Required. Region code as defined by https://cldr.unicode.org/. This is the country the current state applies to. */
   regionCode?: string | undefined;
 }
@@ -145,14 +145,15 @@ export interface ApproveAccountsServicesRequest {
   /** Request body */
   body?: ApproveAccountServiceRequest | undefined;
 }
-/** `AccountManagement` payload. */
-export type AccountManagement = ApproveAccountServiceRequest;
 /** `ProductsManagement` payload. */
 export type ProductsManagement = ApproveAccountServiceRequest;
 /** `AccountAggregation` payload. */
 export type AccountAggregation = ApproveAccountServiceRequest;
-/** `ComparisonShopping` payload. */
-export type ComparisonShopping = ApproveAccountServiceRequest;
+export type AccountServiceMutabilityEnum = "MUTABILITY_UNSPECIFIED" | "MUTABLE" | "IMMUTABLE";
+/** `LocalListingManagement` payload. */
+export type LocalListingManagement = ApproveAccountServiceRequest;
+/** `AccountManagement` payload. */
+export type AccountManagement = ApproveAccountServiceRequest;
 export type HandshakeActorEnum = "ACTOR_UNSPECIFIED" | "ACCOUNT" | "OTHER_PARTY";
 export type HandshakeApprovalStateEnum =
   | "APPROVAL_STATE_UNSPECIFIED"
@@ -169,67 +170,41 @@ export interface Handshake {
 }
 /** `CampaignManagement` payload. */
 export type CampaignsManagement = ApproveAccountServiceRequest;
-export type AccountServiceMutabilityEnum = "MUTABILITY_UNSPECIFIED" | "MUTABLE" | "IMMUTABLE";
-/** `LocalListingManagement` payload. */
-export type LocalListingManagement = ApproveAccountServiceRequest;
+/** `ComparisonShopping` payload. */
+export type ComparisonShopping = ApproveAccountServiceRequest;
 /** The `AccountService` message represents a specific service that a provider account offers to a Merchant Center account. `AccountService` defines the permissions and capabilities granted to the provider, allowing for operations such as product management or campaign management. The lifecycle of an `AccountService` involves a proposal phase, where one party suggests the service, and an approval phase, where the other party accepts or rejects it. This handshake mechanism ensures mutual consent before any access is granted. This mechanism safeguards both parties by ensuring that access rights are granted appropriately and that both the business and provider are aware of the services enabled. In scenarios where a user is an admin of both accounts, the approval can happen automatically. The mutability of a service is also managed through `AccountService`. Some services might be immutable, for example, if they were established through other systems or APIs, and you cannot alter them through this API. For more information, see [Account relationships](https://developers.google.com/merchant/api/guides/accounts/relationships) and [Account service changes](https://developers.google.com/merchant/api/guides/notifications/account-service-changes). */
 export interface AccountService {
-  /** Service type for account management. Enables the provider to perform administrative actions on the business's account, such as configuring account settings, managing users, or updating business information. */
-  accountManagement?: ApproveAccountServiceRequest | undefined;
-  /** Identifier. The resource name of the account service. Format: `accounts/{account}/services/{service}` */
-  name?: string | undefined;
+  /** Output only. The human-readable display name of the provider account. */
+  providerDisplayName?: string | undefined;
   /** Service type for managing products. This allows the provider to handle product data on behalf of the business, including reading and writing product listings. It's commonly used when the provider offers inventory management or catalog synchronization services to keep the business's product information up-to-date across platforms. */
   productsManagement?: ApproveAccountServiceRequest | undefined;
   /** Service type for account aggregation. This enables the provider, which is a multi-client advanced account, to manage multiple sub-accounts (client accounts). Through this service, the service provider can perform administrative and operational tasks across all linked sub-accounts. This is used by store builders (ecommerce platforms), channel partners, marketplaces, multi-brand retailers, and international retailers that need centralized control over sub-accounts in Merchant Center. */
   accountAggregation?: ApproveAccountServiceRequest | undefined;
-  /** Service type for comparison shopping. The provider is a CSS (Comparison Shopping Service) managing the account. See https://support.google.com/merchants/answer/12653197 */
-  comparisonShopping?: ApproveAccountServiceRequest | undefined;
-  /** Output only. Information about the state of the service in terms of establishing it (e.g. is it pending approval or approved). */
-  handshake?: Handshake | undefined;
-  /** Service type for managing advertising campaigns. Grants the provider access to create and manage the business's ad campaigns, including setting up campaigns, adjusting bids, and optimizing performance. */
-  campaignsManagement?: ApproveAccountServiceRequest | undefined;
   /** Output only. Whether the service is mutable (e.g. through Approve / Reject RPCs). A service that was created through another system or API might be immutable. */
   mutability?: AccountServiceMutabilityEnum | (string & {}) | undefined;
   /** Service type for local listings management. The business group associated with the external account id will be used to provide local inventory to this Merchant Center account. */
   localListingManagement?: ApproveAccountServiceRequest | undefined;
-  /** Output only. The provider of the service. Either the reference to an account such as `providers/123` or a well-known service provider (one of `providers/GOOGLE_ADS` or `providers/GOOGLE_BUSINESS_PROFILE`). */
-  provider?: string | undefined;
-  /** Output only. The human-readable display name of the provider account. */
-  providerDisplayName?: string | undefined;
+  /** Identifier. The resource name of the account service. Format: `accounts/{account}/services/{service}` */
+  name?: string | undefined;
+  /** Service type for account management. Enables the provider to perform administrative actions on the business's account, such as configuring account settings, managing users, or updating business information. */
+  accountManagement?: ApproveAccountServiceRequest | undefined;
   /** Immutable. An optional, immutable identifier that Google uses to refer to this account when communicating with the provider. This should be the unique account ID within the provider's system (for example, your shop ID in Shopify). If you have multiple accounts with the same provider - for instance, different accounts for various regions -- the `external_account_id` differentiates between them, ensuring accurate linking and integration between Google and the provider. */
   externalAccountId?: string | undefined;
-}
-export type RadiusAreaRadiusUnitsEnum = "RADIUS_UNITS_UNSPECIFIED" | "MILES" | "KILOMETERS";
-/** An object that represents a latitude/longitude pair. This is expressed as a pair of doubles to represent degrees latitude and degrees longitude. Unless specified otherwise, this object must conform to the WGS84 standard. Values must be within normalized ranges. */
-export interface LatLng {
-  /** The longitude in degrees. It must be in the range [-180.0, +180.0]. */
-  longitude?: number | undefined;
-  /** The latitude in degrees. It must be in the range [-90.0, +90.0]. */
-  latitude?: number | undefined;
-}
-/** A radius area that defines the region area. */
-export interface RadiusArea {
-  /** Optional. The unit of the radius. */
-  radiusUnits?: RadiusAreaRadiusUnitsEnum | (string & {}) | undefined;
-  /** Required. [CLDR territory code](http://www.unicode.org/repos/cldr/tags/latest/common/main/en.xml) or the country the radius area applies to. */
-  regionCode?: string | undefined;
-  /** Required. The center of the radius area. It represents a latitude/longitude pair in decimal degrees format. */
-  latLng?: LatLng | undefined;
-  /** Required. The radius distance of the area. */
-  radius?: number | undefined;
-}
-export type StringList = Array<string>;
-/** A list of geotargets that defines the region area. */
-export interface GeoTargetArea {
-  /** Required. A non-empty list of [location IDs](https://developers.google.com/adwords/api/docs/appendix/geotargeting). They must all be of the same location type (for example, state). */
-  geotargetCriteriaIds?: StringList | undefined;
+  /** Output only. The provider of the service. Either the reference to an account such as `providers/123` or a well-known service provider (one of `providers/GOOGLE_ADS` or `providers/GOOGLE_BUSINESS_PROFILE`). */
+  provider?: string | undefined;
+  /** Output only. Information about the state of the service in terms of establishing it (e.g. is it pending approval or approved). */
+  handshake?: Handshake | undefined;
+  /** Service type for managing advertising campaigns. Grants the provider access to create and manage the business's ad campaigns, including setting up campaigns, adjusting bids, and optimizing performance. */
+  campaignsManagement?: ApproveAccountServiceRequest | undefined;
+  /** Service type for comparison shopping. The provider is a CSS (Comparison Shopping Service) managing the account. See https://support.google.com/merchants/answer/12653197 */
+  comparisonShopping?: ApproveAccountServiceRequest | undefined;
 }
 /** A range of postal codes that defines the region area. */
 export interface PostalCodeRange {
-  /** Required. A postal code or a pattern of the form prefix* denoting the inclusive lower bound of the range defining the area. Examples values: `94108`, `9410*`, `9*`. */
-  begin?: string | undefined;
   /** Optional. A postal code or a pattern of the form `prefix*` denoting the inclusive upper bound of the range defining the area. It must have the same length as postalCodeRangeBegin: if postalCodeRangeBegin is a postal code then postalCodeRangeEnd must be a postal code too; if postalCodeRangeBegin is a pattern then postalCodeRangeEnd must be a pattern with the same prefix length. Optional: if not set, then the area is defined as being all the postal codes matching postalCodeRangeBegin. */
   end?: string | undefined;
+  /** Required. A postal code or a pattern of the form prefix* denoting the inclusive lower bound of the range defining the area. Examples values: `94108`, `9410*`, `9*`. */
+  begin?: string | undefined;
 }
 export type PostalCodeRangeList = Array<PostalCodeRange>;
 /** A list of postal codes that defines the region area. Note: All regions defined using postal codes are accessible through the account's `ShippingSettings.postalCodeGroups` resource. */
@@ -239,31 +214,56 @@ export interface PostalCodeArea {
   /** Required. [CLDR territory code](http://www.unicode.org/repos/cldr/tags/latest/common/main/en.xml) or the country the postal code group applies to. */
   regionCode?: string | undefined;
 }
+/** An object that represents a latitude/longitude pair. This is expressed as a pair of doubles to represent degrees latitude and degrees longitude. Unless specified otherwise, this object must conform to the WGS84 standard. Values must be within normalized ranges. */
+export interface LatLng {
+  /** The longitude in degrees. It must be in the range [-180.0, +180.0]. */
+  longitude?: number | undefined;
+  /** The latitude in degrees. It must be in the range [-90.0, +90.0]. */
+  latitude?: number | undefined;
+}
+export type RadiusAreaRadiusUnitsEnum = "RADIUS_UNITS_UNSPECIFIED" | "MILES" | "KILOMETERS";
+/** A radius area that defines the region area. */
+export interface RadiusArea {
+  /** Required. The center of the radius area. It represents a latitude/longitude pair in decimal degrees format. */
+  latLng?: LatLng | undefined;
+  /** Required. The radius distance of the area. */
+  radius?: number | undefined;
+  /** Optional. The unit of the radius. */
+  radiusUnits?: RadiusAreaRadiusUnitsEnum | (string & {}) | undefined;
+  /** Required. [CLDR territory code](http://www.unicode.org/repos/cldr/tags/latest/common/main/en.xml) or the country the radius area applies to. */
+  regionCode?: string | undefined;
+}
+export type StringList = Array<string>;
+/** A list of geotargets that defines the region area. */
+export interface GeoTargetArea {
+  /** Required. A non-empty list of [location IDs](https://developers.google.com/adwords/api/docs/appendix/geotargeting). They must all be of the same location type (for example, state). */
+  geotargetCriteriaIds?: StringList | undefined;
+}
 /** Represents a geographic region that you can use as a target with both the `RegionalInventory` and `ShippingSettings` services. You can define regions as collections of either postal codes, radius areas or, in some countries, using predefined geotargets. A region must be defined by specifying exactly one of `postal_code_area`, `geotarget_area`, or `radius_area`. For more information, see [Set up regions ](https://support.google.com/merchants/answer/7410946#zippy=%2Ccreate-a-new-region), [Create and update regions](https://developers.google.com/merchant/api/guides/accounts/regions), and [Manage region batching](https://developers.google.com/merchant/api/guides/accounts/manage-region-batching). */
 export interface Region {
-  /** Optional. A radius area that defines the region area. */
-  radiusArea?: RadiusArea | undefined;
-  /** Output only. Indicates if the region is eligible for use in the Regional Inventory configuration. */
-  regionalInventoryEligible?: boolean | undefined;
-  /** Identifier. The resource name of the region. Format: `accounts/{account}/regions/{region}` */
-  name?: string | undefined;
   /** Optional. The display name of the region. */
   displayName?: string | undefined;
+  /** Identifier. The resource name of the region. Format: `accounts/{account}/regions/{region}` */
+  name?: string | undefined;
+  /** Output only. Indicates if the region is eligible for use in the Regional Inventory configuration. */
+  regionalInventoryEligible?: boolean | undefined;
+  /** Optional. A list of postal codes that defines the region area. */
+  postalCodeArea?: PostalCodeArea | undefined;
+  /** Optional. A radius area that defines the region area. */
+  radiusArea?: RadiusArea | undefined;
   /** Output only. Indicates if the region is eligible for use in the Shipping Services configuration. */
   shippingEligible?: boolean | undefined;
   /** Optional. A list of geotargets that defines the region area. */
   geotargetArea?: GeoTargetArea | undefined;
-  /** Optional. A list of postal codes that defines the region area. */
-  postalCodeArea?: PostalCodeArea | undefined;
 }
 /** Request message for the `CreateRegion` method. */
 export interface CreateRegionRequest {
   /** Required. The account to create a region for. Format: `accounts/{account}` */
   parent?: string | undefined;
-  /** Required. The region to create. */
-  region?: Region | undefined;
   /** Required. The identifier for the region, unique over all regions of the same account. */
   regionId?: string | undefined;
+  /** Required. The region to create. */
+  region?: Region | undefined;
 }
 export type CreateRegionRequestList = Array<CreateRegionRequest>;
 /** Request message for the `BatchCreateRegions` method. */
@@ -300,10 +300,10 @@ export interface BatchDeleteAccountsRegionsRequest extends BatchDeleteRegionsReq
 export interface Empty {}
 /** Request message for the `UpdateRegion` method. */
 export interface UpdateRegionRequest {
-  /** Required. The updated region. */
-  region?: Region | undefined;
   /** Optional. The comma-separated field mask indicating the fields to update. Example: `"displayName,postalCodeArea.regionCode"`. */
   updateMask?: string | undefined;
+  /** Required. The updated region. */
+  region?: Region | undefined;
 }
 export type UpdateRegionRequestList = Array<UpdateRegionRequest>;
 /** Request message for the `BatchUpdateRegions` method. */
@@ -331,12 +331,82 @@ export interface ClaimAccountsHomepageRequest extends ClaimHomepageRequest {
 }
 /** The `Homepage` message represents a business's store homepage within the system. A business's homepage is the primary domain where customers interact with their store. The homepage can be claimed and verified as a proof of ownership and allows the business to unlock features that require a verified website. For more information, see [Understanding online store URL verification](//support.google.com/merchants/answer/176793). For step-by-step instructions, see [Manage homepage settings](https://developers.google.com/merchant/api/guides/accounts/manage-homepage-settings). */
 export interface Homepage {
-  /** Required. The URI (typically a URL) of the store's homepage. */
-  uri?: string | undefined;
-  /** Identifier. The resource name of the store's homepage. Format: `accounts/{account}/homepage` */
-  name?: string | undefined;
   /** Output only. Whether the homepage is claimed. See [About online store URL verification](https://support.google.com/merchants/answer/176793). This field is also `true` if the account inherits the claim from its advanced account, or if the account is exempted from claiming, even when the homepage isn't claimed directly on the account. */
   claimed?: boolean | undefined;
+  /** Identifier. The resource name of the store's homepage. Format: `accounts/{account}/homepage` */
+  name?: string | undefined;
+  /** Required. The URI (typically a URL) of the store's homepage. */
+  uri?: string | undefined;
+}
+export type PickupStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "ACTIVE"
+  | "FAILED"
+  | "RUNNING"
+  | "ACTION_REQUIRED";
+/** Collection of information related to Pickup. */
+export interface Pickup {
+  /** Output only. The state of the pickup serving. */
+  state?: PickupStateEnum | (string & {}) | undefined;
+  /** Required. Pickup product page URI. It is only used for the review of pickup serving. This URI domain should match with the business's homepage. */
+  uri?: string | undefined;
+}
+export type OmnichannelSettingLsfTypeEnum =
+  | "LSF_TYPE_UNSPECIFIED"
+  | "GHLSF"
+  | "MHLSF_BASIC"
+  | "MHLSF_FULL";
+export type InStockStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "ACTIVE"
+  | "FAILED"
+  | "RUNNING"
+  | "ACTION_REQUIRED";
+/** Collection of information related to InStock. */
+export interface InStock {
+  /** Optional. Product landing page URI. It is only used for the review of MHLSF in-stock serving. This URI domain should match with the business's homepage. Required to be empty if the lsf_type is GHLSF, and required when the lsf_type is MHLSF_FULL or MHLSF_BASIC. */
+  uri?: string | undefined;
+  /** Output only. The state of the in-stock serving. */
+  state?: InStockStateEnum | (string & {}) | undefined;
+}
+export type InventoryVerificationContactStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "ACTIVE"
+  | "FAILED"
+  | "RUNNING"
+  | "ACTION_REQUIRED";
+export type InventoryVerificationStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "ACTION_REQUIRED"
+  | "INACTIVE"
+  | "RUNNING"
+  | "SUCCEEDED"
+  | "SUSPENDED";
+/** Collection of information related to [inventory verification](https://support.google.com/merchants/answer/14684499?ref_topic=15145634&sjid=6892280366904591178-NC). */
+export interface InventoryVerification {
+  /** Required. The email address of the contact for the inventory verification process. */
+  contactEmail?: string | undefined;
+  /** Required. The name of the contact for the inventory verification process. */
+  contact?: string | undefined;
+  /** Output only. The state of the contact verification. */
+  contactState?: InventoryVerificationContactStateEnum | (string & {}) | undefined;
+  /** Output only. The state of the inventory verification process. */
+  state?: InventoryVerificationStateEnum | (string & {}) | undefined;
+}
+export type LfpLinkStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "ACTIVE"
+  | "FAILED"
+  | "RUNNING"
+  | "ACTION_REQUIRED";
+/** Collection of information related to the LFP link. */
+export interface LfpLink {
+  /** Required. The account ID by which this merchant is known to the LFP provider. */
+  externalAccountId?: string | undefined;
+  /** Required. The resource name of the LFP provider. Format: `lfpProviders/{lfp_provider}` */
+  lfpProvider?: string | undefined;
+  /** Output only. The state of the LFP link. */
+  state?: LfpLinkStateEnum | (string & {}) | undefined;
 }
 export type AboutStateEnum =
   | "STATE_UNSPECIFIED"
@@ -351,47 +421,6 @@ export interface About {
   /** Required. The about page URI. */
   uri?: string | undefined;
 }
-export type LfpLinkStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "ACTIVE"
-  | "FAILED"
-  | "RUNNING"
-  | "ACTION_REQUIRED";
-/** Collection of information related to the LFP link. */
-export interface LfpLink {
-  /** Output only. The state of the LFP link. */
-  state?: LfpLinkStateEnum | (string & {}) | undefined;
-  /** Required. The resource name of the LFP provider. Format: `lfpProviders/{lfp_provider}` */
-  lfpProvider?: string | undefined;
-  /** Required. The account ID by which this merchant is known to the LFP provider. */
-  externalAccountId?: string | undefined;
-}
-export type PickupStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "ACTIVE"
-  | "FAILED"
-  | "RUNNING"
-  | "ACTION_REQUIRED";
-/** Collection of information related to Pickup. */
-export interface Pickup {
-  /** Required. Pickup product page URI. It is only used for the review of pickup serving. This URI domain should match with the business's homepage. */
-  uri?: string | undefined;
-  /** Output only. The state of the pickup serving. */
-  state?: PickupStateEnum | (string & {}) | undefined;
-}
-export type InStockStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "ACTIVE"
-  | "FAILED"
-  | "RUNNING"
-  | "ACTION_REQUIRED";
-/** Collection of information related to InStock. */
-export interface InStock {
-  /** Optional. Product landing page URI. It is only used for the review of MHLSF in-stock serving. This URI domain should match with the business's homepage. Required to be empty if the lsf_type is GHLSF, and required when the lsf_type is MHLSF_FULL or MHLSF_BASIC. */
-  uri?: string | undefined;
-  /** Output only. The state of the in-stock serving. */
-  state?: InStockStateEnum | (string & {}) | undefined;
-}
 export type OnDisplayToOrderStateEnum =
   | "STATE_UNSPECIFIED"
   | "ACTIVE"
@@ -405,59 +434,73 @@ export interface OnDisplayToOrder {
   /** Output only. The state of the URI. */
   state?: OnDisplayToOrderStateEnum | (string & {}) | undefined;
 }
-export type OmnichannelSettingLsfTypeEnum =
-  | "LSF_TYPE_UNSPECIFIED"
-  | "GHLSF"
-  | "MHLSF_BASIC"
-  | "MHLSF_FULL";
-export type InventoryVerificationStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "ACTION_REQUIRED"
-  | "INACTIVE"
-  | "RUNNING"
-  | "SUCCEEDED"
-  | "SUSPENDED";
-export type InventoryVerificationContactStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "ACTIVE"
-  | "FAILED"
-  | "RUNNING"
-  | "ACTION_REQUIRED";
-/** Collection of information related to [inventory verification](https://support.google.com/merchants/answer/14684499?ref_topic=15145634&sjid=6892280366904591178-NC). */
-export interface InventoryVerification {
-  /** Required. The name of the contact for the inventory verification process. */
-  contact?: string | undefined;
-  /** Required. The email address of the contact for the inventory verification process. */
-  contactEmail?: string | undefined;
-  /** Output only. The state of the inventory verification process. */
-  state?: InventoryVerificationStateEnum | (string & {}) | undefined;
-  /** Output only. The state of the contact verification. */
-  contactState?: InventoryVerificationContactStateEnum | (string & {}) | undefined;
-}
 /** Collection of information related to the omnichannel settings of a merchant. For more information, see [Manage omnichannel settings](https://developers.google.com/merchant/api/guides/accounts/manage-omnichannel-settings). */
 export interface OmnichannelSetting {
-  /** Optional. The about page URI and state for this country. */
-  about?: About | undefined;
-  /** Output only. The established link to a LFP provider. */
-  lfpLink?: LfpLink | undefined;
   /** Optional. The Pickup URI and state for this country. */
   pickup?: Pickup | undefined;
-  /** Optional. The InStock URI and state for this country. */
-  inStock?: InStock | undefined;
-  /** Required. Immutable. Region code defined by [CLDR](https://cldr.unicode.org/). Must be provided in the Create method, and is immutable. */
-  regionCode?: string | undefined;
-  /** Optional. The On Display to Order (ODO) policy URI and state for this country. */
-  odo?: OnDisplayToOrder | undefined;
   /** Required. The Local Store Front type for this country. */
   lsfType?: OmnichannelSettingLsfTypeEnum | (string & {}) | undefined;
+  /** Required. Immutable. Region code defined by [CLDR](https://cldr.unicode.org/). Must be provided in the Create method, and is immutable. */
+  regionCode?: string | undefined;
+  /** Optional. The InStock URI and state for this country. */
+  inStock?: InStock | undefined;
   /** Optional. The inventory verification contact and state for this country. */
   inventoryVerification?: InventoryVerification | undefined;
+  /** Output only. The established link to a LFP provider. */
+  lfpLink?: LfpLink | undefined;
+  /** Optional. The about page URI and state for this country. */
+  about?: About | undefined;
   /** Identifier. The resource name of the omnichannel setting. Format: `accounts/{account}/omnichannelSettings/{omnichannel_setting}` */
   name?: string | undefined;
+  /** Optional. The On Display to Order (ODO) policy URI and state for this country. */
+  odo?: OnDisplayToOrder | undefined;
 }
 export interface CreateAccountsOmnichannelSettingsRequest extends OmnichannelSetting {
   /** Required. The parent resource where this omnichannel setting will be created. Format: `accounts/{account}` */
   parent: string;
+}
+/** The price represented as a number and currency. */
+export interface Price {
+  /** The price represented as a number in micros (1 million micros is an equivalent to one's currency standard unit, for example, 1 USD = 1000000 micros). */
+  amountMicros?: string | undefined;
+  /** The currency of the price using three-letter acronyms according to [ISO 4217](http://en.wikipedia.org/wiki/ISO_4217). */
+  currencyCode?: string | undefined;
+}
+/** The restocking fee. This can be a flat fee or a micro percent. */
+export interface RestockingFee {
+  /** Percent of total price in micros. 15,000,000 means 15% of the total price would be charged. */
+  microPercent?: number | undefined;
+  /** Fixed restocking fee. */
+  fixedFee?: Price | undefined;
+}
+export interface SeasonalOverride {
+  /** Fixed end date until which the product can be returned. */
+  returnUntilDate?: Merchantapi_Date | undefined;
+  /** Number of days (from the delivery date) that the product can be returned. */
+  returnDays?: number | undefined;
+  /** Required. seasonal override end date (inclusive). */
+  endDate?: Merchantapi_Date | undefined;
+  /** Required. Display name of this seasonal override in Merchant Center. */
+  label?: string | undefined;
+  /** Required. Defines the date range when this seasonal override applies. Both start_date and end_date are inclusive. The dates of the seasonal overrides should not overlap. */
+  startDate?: Merchantapi_Date | undefined;
+}
+export type SeasonalOverrideList = Array<SeasonalOverride>;
+export type OnlineReturnPolicyReturnMethodsItemEnum =
+  | "RETURN_METHOD_UNSPECIFIED"
+  | "BY_MAIL"
+  | "IN_STORE"
+  | "AT_A_KIOSK";
+export type OnlineReturnPolicyReturnMethodsItemEnumList = Array<
+  OnlineReturnPolicyReturnMethodsItemEnum | (string & {})
+>;
+export type ReturnShippingFeeTypeEnum = "TYPE_UNSPECIFIED" | "FIXED" | "CUSTOMER_PAYING_ACTUAL_FEE";
+/** The return shipping fee. This can either be a fixed fee or a boolean to indicate that the customer pays the actual shipping cost. */
+export interface ReturnShippingFee {
+  /** Fixed return shipping fee amount. This value is only applicable when type is `FIXED`. We will treat the return shipping fee as free if type is `FIXED` and this value is not set. */
+  fixedFee?: Price | undefined;
+  /** Required. Type of return shipping fee. */
+  type?: ReturnShippingFeeTypeEnum | (string & {}) | undefined;
 }
 export type PolicyTypeEnum =
   | "TYPE_UNSPECIFIED"
@@ -471,6 +514,11 @@ export interface Policy {
   /** The number of days items can be returned after delivery, where one day is defined as 24 hours after the delivery timestamp. Required for `NUMBER_OF_DAYS_AFTER_DELIVERY` returns. */
   days?: string | undefined;
 }
+export type OnlineReturnPolicyReturnLabelSourceEnum =
+  | "RETURN_LABEL_SOURCE_UNSPECIFIED"
+  | "DOWNLOAD_AND_PRINT"
+  | "IN_THE_PACKAGE"
+  | "CUSTOMER_RESPONSIBILITY";
 export type OnlineReturnPolicyItemConditionsItemEnum =
   | "ITEM_CONDITION_UNSPECIFIED"
   | "NEW"
@@ -478,86 +526,38 @@ export type OnlineReturnPolicyItemConditionsItemEnum =
 export type OnlineReturnPolicyItemConditionsItemEnumList = Array<
   OnlineReturnPolicyItemConditionsItemEnum | (string & {})
 >;
-export type OnlineReturnPolicyReturnMethodsItemEnum =
-  | "RETURN_METHOD_UNSPECIFIED"
-  | "BY_MAIL"
-  | "IN_STORE"
-  | "AT_A_KIOSK";
-export type OnlineReturnPolicyReturnMethodsItemEnumList = Array<
-  OnlineReturnPolicyReturnMethodsItemEnum | (string & {})
->;
-export type ReturnShippingFeeTypeEnum = "TYPE_UNSPECIFIED" | "FIXED" | "CUSTOMER_PAYING_ACTUAL_FEE";
-/** The price represented as a number and currency. */
-export interface Price {
-  /** The currency of the price using three-letter acronyms according to [ISO 4217](http://en.wikipedia.org/wiki/ISO_4217). */
-  currencyCode?: string | undefined;
-  /** The price represented as a number in micros (1 million micros is an equivalent to one's currency standard unit, for example, 1 USD = 1000000 micros). */
-  amountMicros?: string | undefined;
-}
-/** The return shipping fee. This can either be a fixed fee or a boolean to indicate that the customer pays the actual shipping cost. */
-export interface ReturnShippingFee {
-  /** Required. Type of return shipping fee. */
-  type?: ReturnShippingFeeTypeEnum | (string & {}) | undefined;
-  /** Fixed return shipping fee amount. This value is only applicable when type is `FIXED`. We will treat the return shipping fee as free if type is `FIXED` and this value is not set. */
-  fixedFee?: Price | undefined;
-}
-export interface SeasonalOverride {
-  /** Required. seasonal override end date (inclusive). */
-  endDate?: Merchantapi_Date | undefined;
-  /** Fixed end date until which the product can be returned. */
-  returnUntilDate?: Merchantapi_Date | undefined;
-  /** Required. Display name of this seasonal override in Merchant Center. */
-  label?: string | undefined;
-  /** Required. Defines the date range when this seasonal override applies. Both start_date and end_date are inclusive. The dates of the seasonal overrides should not overlap. */
-  startDate?: Merchantapi_Date | undefined;
-  /** Number of days (from the delivery date) that the product can be returned. */
-  returnDays?: number | undefined;
-}
-export type SeasonalOverrideList = Array<SeasonalOverride>;
-export type OnlineReturnPolicyReturnLabelSourceEnum =
-  | "RETURN_LABEL_SOURCE_UNSPECIFIED"
-  | "DOWNLOAD_AND_PRINT"
-  | "IN_THE_PACKAGE"
-  | "CUSTOMER_RESPONSIBILITY";
-/** The restocking fee. This can be a flat fee or a micro percent. */
-export interface RestockingFee {
-  /** Fixed restocking fee. */
-  fixedFee?: Price | undefined;
-  /** Percent of total price in micros. 15,000,000 means 15% of the total price would be charged. */
-  microPercent?: number | undefined;
-}
 /** [Online return policy](https://support.google.com/merchants/answer/10220642) object. This is currently used to represent return policies for ads and free listings programs. For more information, see [Manage your online return policies](https://developers.google.com/merchant/api/guides/online-return-policies/overview). */
 export interface OnlineReturnPolicy {
-  /** Optional. The return policy. */
-  policy?: Policy | undefined;
-  /** Identifier. The name of the `OnlineReturnPolicy` resource. Format: `accounts/{account}/onlineReturnPolicies/{return_policy}` */
-  name?: string | undefined;
-  /** Optional. The item conditions accepted for returns must not be empty unless the type of return policy is 'noReturns'. */
-  itemConditions?: OnlineReturnPolicyItemConditionsItemEnumList | undefined;
+  /** Optional. This field specifies if business only accepts defective products for returns. */
+  acceptDefectiveOnly?: boolean | undefined;
+  /** Optional. The restocking fee that applies to all return reason categories. This would be treated as a free restocking fee if the value is not set. */
+  restockingFee?: RestockingFee | undefined;
+  /** Optional. Overrides to the general policy for orders placed during a specific set of time intervals. */
+  seasonalOverrides?: SeasonalOverrideList | undefined;
   /** Optional. The return methods of how customers can return an item. This value is required to not be empty unless the type of return policy is noReturns. */
   returnMethods?: OnlineReturnPolicyReturnMethodsItemEnumList | undefined;
   /** Optional. The return shipping fee. Should be set only when customer need to download and print the return label. */
   returnShippingFee?: ReturnShippingFee | undefined;
-  /** Optional. This field specifies if business only accepts defective products for returns. */
-  acceptDefectiveOnly?: boolean | undefined;
-  /** Optional. Overrides to the general policy for orders placed during a specific set of time intervals. */
-  seasonalOverrides?: SeasonalOverrideList | undefined;
-  /** Optional. This field specifies if business allows customers to exchange products. */
-  acceptExchange?: boolean | undefined;
-  /** Required. The return policy uri. This can used by Google to do a sanity check for the policy. It must be a valid URL. */
-  returnPolicyUri?: string | undefined;
-  /** Required. Immutable. The countries of sale where the return policy applies. The values must be a valid 2 letter ISO 3166 code. */
-  countries?: StringList | undefined;
-  /** Optional. The field specifies the return label source. */
-  returnLabelSource?: OnlineReturnPolicyReturnLabelSourceEnum | (string & {}) | undefined;
-  /** Optional. Immutable. This field represents the unique user-defined label of the return policy for the given country. It is important to note that the same label cannot be used in different return policies for the same country. If not given, policies will be automatically treated as the 'default' for the country. When using label, you are creating an exception policy in that country to assign a custom return policy to certain product groups, follow the instructions provided in the [Return policy label] (https://support.google.com/merchants/answer/9445425). The label can contain up to 50 characters. */
-  label?: string | undefined;
-  /** Optional. The restocking fee that applies to all return reason categories. This would be treated as a free restocking fee if the value is not set. */
-  restockingFee?: RestockingFee | undefined;
   /** Optional. The field specifies the number of days it takes for business to process refunds. */
   processRefundDays?: number | undefined;
   /** Output only. Return policy ID generated by Google. */
   returnPolicyId?: string | undefined;
+  /** Optional. The return policy. */
+  policy?: Policy | undefined;
+  /** Optional. The field specifies the return label source. */
+  returnLabelSource?: OnlineReturnPolicyReturnLabelSourceEnum | (string & {}) | undefined;
+  /** Required. The return policy uri. This can used by Google to do a sanity check for the policy. It must be a valid URL. */
+  returnPolicyUri?: string | undefined;
+  /** Required. Immutable. The countries of sale where the return policy applies. The values must be a valid 2 letter ISO 3166 code. */
+  countries?: StringList | undefined;
+  /** Optional. This field specifies if business allows customers to exchange products. */
+  acceptExchange?: boolean | undefined;
+  /** Identifier. The name of the `OnlineReturnPolicy` resource. Format: `accounts/{account}/onlineReturnPolicies/{return_policy}` */
+  name?: string | undefined;
+  /** Optional. Immutable. This field represents the unique user-defined label of the return policy for the given country. It is important to note that the same label cannot be used in different return policies for the same country. If not given, policies will be automatically treated as the 'default' for the country. When using label, you are creating an exception policy in that country to assign a custom return policy to certain product groups, follow the instructions provided in the [Return policy label] (https://support.google.com/merchants/answer/9445425). The label can contain up to 50 characters. */
+  label?: string | undefined;
+  /** Optional. The item conditions accepted for returns must not be empty unless the type of return policy is 'noReturns'. */
+  itemConditions?: OnlineReturnPolicyItemConditionsItemEnumList | undefined;
 }
 export interface CreateAccountsOnlineReturnPoliciesRequest extends OnlineReturnPolicy {
   /** Required. The Merchant Center account for which the return policy will be created. Format: `accounts/{account}` */
@@ -568,6 +568,28 @@ export type CheckoutSettingsEffectiveEnrollmentStateEnum =
   | "INACTIVE"
   | "ENROLLED"
   | "OPTED_OUT";
+export type CheckoutSettingsReviewStateEnum =
+  | "CHECKOUT_REVIEW_STATE_UNSPECIFIED"
+  | "IN_REVIEW"
+  | "APPROVED"
+  | "DISAPPROVED";
+export type CheckoutSettingsEffectiveReviewStateEnum =
+  | "CHECKOUT_REVIEW_STATE_UNSPECIFIED"
+  | "IN_REVIEW"
+  | "APPROVED"
+  | "DISAPPROVED";
+export type CheckoutSettingsEnrollmentStateEnum =
+  | "CHECKOUT_ENROLLMENT_STATE_UNSPECIFIED"
+  | "INACTIVE"
+  | "ENROLLED"
+  | "OPTED_OUT";
+/** URL settings for cart or checkout URL. */
+export interface UriSettings {
+  /** Cart URL template. When the placeholders are expanded will redirect the buyer to the cart page on the merchant website with the selected item in cart. For more details, check the [help center doc](https://support.google.com/merchants/answer/13945960#method1&zippy=%2Cproduct-level-url-formatting%2Caccount-level-url-formatting) */
+  cartUriTemplate?: string | undefined;
+  /** Checkout URL template. When the placeholders are expanded will redirect the buyer to the merchant checkout page with the item in the cart. For more details, check the [help center doc](https://support.google.com/merchants/answer/13945960#method1&zippy=%2Cproduct-level-url-formatting%2Caccount-level-url-formatting) */
+  checkoutUriTemplate?: string | undefined;
+}
 export type CheckoutSettingsEligibleDestinationsItemEnum =
   | "DESTINATION_ENUM_UNSPECIFIED"
   | "SHOPPING_ADS"
@@ -586,28 +608,6 @@ export type CheckoutSettingsEligibleDestinationsItemEnum =
 export type CheckoutSettingsEligibleDestinationsItemEnumList = Array<
   CheckoutSettingsEligibleDestinationsItemEnum | (string & {})
 >;
-/** URL settings for cart or checkout URL. */
-export interface UriSettings {
-  /** Checkout URL template. When the placeholders are expanded will redirect the buyer to the merchant checkout page with the item in the cart. For more details, check the [help center doc](https://support.google.com/merchants/answer/13945960#method1&zippy=%2Cproduct-level-url-formatting%2Caccount-level-url-formatting) */
-  checkoutUriTemplate?: string | undefined;
-  /** Cart URL template. When the placeholders are expanded will redirect the buyer to the cart page on the merchant website with the selected item in cart. For more details, check the [help center doc](https://support.google.com/merchants/answer/13945960#method1&zippy=%2Cproduct-level-url-formatting%2Caccount-level-url-formatting) */
-  cartUriTemplate?: string | undefined;
-}
-export type CheckoutSettingsEffectiveReviewStateEnum =
-  | "CHECKOUT_REVIEW_STATE_UNSPECIFIED"
-  | "IN_REVIEW"
-  | "APPROVED"
-  | "DISAPPROVED";
-export type CheckoutSettingsReviewStateEnum =
-  | "CHECKOUT_REVIEW_STATE_UNSPECIFIED"
-  | "IN_REVIEW"
-  | "APPROVED"
-  | "DISAPPROVED";
-export type CheckoutSettingsEnrollmentStateEnum =
-  | "CHECKOUT_ENROLLMENT_STATE_UNSPECIFIED"
-  | "INACTIVE"
-  | "ENROLLED"
-  | "OPTED_OUT";
 /** [CheckoutSettings](https://support.google.com/merchants/answer/13945960) for a specific merchant. For more information, see [Add a checkout link for your products](https://support.google.com/merchants/answer/13945960) and [Manage checkout settings](https://developers.google.com/merchant/api/guides/products/checkout-settings). */
 export interface CheckoutSettings {
   /** Output only. The effective value of enrollment_state for a given merchant ID. If account level settings are present then this value will be a copy of the account level settings. Otherwise, it will have the value of the parent account (for only marketplace sellers). */
@@ -615,20 +615,20 @@ export interface CheckoutSettings {
     | CheckoutSettingsEffectiveEnrollmentStateEnum
     | (string & {})
     | undefined;
-  /** Optional. Required for the create operation. The destinations (also known as [Marketing methods](https://support.google.com/merchants/answer/15130232)) to which the checkout program applies. Valid destination values are `SHOPPING_ADS` and `FREE_LISTINGS`. */
-  eligibleDestinations?: CheckoutSettingsEligibleDestinationsItemEnumList | undefined;
-  /** Output only. The effective value of `uri_settings` for a given merchant. If account level settings are present then this value will be a copy of url settings. Otherwise, it will have the value of the parent account (for only marketplace sellers). */
-  effectiveUriSettings?: UriSettings | undefined;
-  /** Output only. The effective value of `review_state` for a given merchant ID. If account level settings are present then this value will be a copy of the account level settings. Otherwise, it will have the value of the parent account (for only marketplace sellers). */
-  effectiveReviewState?: CheckoutSettingsEffectiveReviewStateEnum | (string & {}) | undefined;
   /** Output only. Reflects the merchant review state in `Checkout` program. This is set based on the data quality reviews of the URL provided by the merchant. A merchant with enrollment state as `ENROLLED` can be in the following review states: `IN_REVIEW`, `APPROVED` or `DISAPPROVED`. A merchant must be in an `enrollment_state` of `ENROLLED` before a review can begin for the merchant.For more details, check the help center doc. */
   reviewState?: CheckoutSettingsReviewStateEnum | (string & {}) | undefined;
-  /** Identifier. The resource name of the program configuration settings. Format: `accounts/{account}/programs/{program}/checkoutSettings` */
-  name?: string | undefined;
-  /** URI settings for cart or checkout URL. */
-  uriSettings?: UriSettings | undefined;
+  /** Output only. The effective value of `review_state` for a given merchant ID. If account level settings are present then this value will be a copy of the account level settings. Otherwise, it will have the value of the parent account (for only marketplace sellers). */
+  effectiveReviewState?: CheckoutSettingsEffectiveReviewStateEnum | (string & {}) | undefined;
   /** Output only. Reflects the merchant enrollment state in `Checkout` program. */
   enrollmentState?: CheckoutSettingsEnrollmentStateEnum | (string & {}) | undefined;
+  /** URI settings for cart or checkout URL. */
+  uriSettings?: UriSettings | undefined;
+  /** Identifier. The resource name of the program configuration settings. Format: `accounts/{account}/programs/{program}/checkoutSettings` */
+  name?: string | undefined;
+  /** Output only. The effective value of `uri_settings` for a given merchant. If account level settings are present then this value will be a copy of url settings. Otherwise, it will have the value of the parent account (for only marketplace sellers). */
+  effectiveUriSettings?: UriSettings | undefined;
+  /** Optional. Required for the create operation. The destinations (also known as [Marketing methods](https://support.google.com/merchants/answer/15130232)) to which the checkout program applies. Valid destination values are `SHOPPING_ADS` and `FREE_LISTINGS`. */
+  eligibleDestinations?: CheckoutSettingsEligibleDestinationsItemEnumList | undefined;
 }
 export interface CreateAccountsProgramsCheckoutSettingsRequest extends CheckoutSettings {
   /** Required. The merchant account for which the `CheckoutSettings` will be created. */
@@ -640,6 +640,7 @@ export interface CreateAccountsRegionsRequest extends Region {
   /** Required. The account to create a region for. Format: `accounts/{account}` */
   parent: string;
 }
+export type UserStateEnum = "STATE_UNSPECIFIED" | "PENDING" | "VERIFIED";
 export type UserAccessRightsItemEnum =
   | "ACCESS_RIGHT_UNSPECIFIED"
   | "STANDARD"
@@ -648,48 +649,21 @@ export type UserAccessRightsItemEnum =
   | "PERFORMANCE_REPORTING"
   | "API_DEVELOPER";
 export type UserAccessRightsItemEnumList = Array<UserAccessRightsItemEnum | (string & {})>;
-export type UserStateEnum = "STATE_UNSPECIFIED" | "PENDING" | "VERIFIED";
 /** The `User` resource represents a user associated with a Merchant Center account. It is used to manage user permissions and access rights within the account. For more information, see [Frequently asked questions about people and access levels](//support.google.com/merchants/answer/12160472) and [Control access to your account](https://developers.google.com/merchant/api/guides/accounts/control-access). */
 export interface User {
-  /** Required. The [access rights](https://support.google.com/merchants/answer/12160472#accesstypes) the user has. */
-  accessRights?: UserAccessRightsItemEnumList | undefined;
-  /** Output only. The state of the user. */
-  state?: UserStateEnum | (string & {}) | undefined;
   /** Identifier. The resource name of the user. Format: `accounts/{account}/user/{email}` Use `me` to refer to your own email address, for example `accounts/{account}/users/me`. */
   name?: string | undefined;
+  /** Output only. The state of the user. */
+  state?: UserStateEnum | (string & {}) | undefined;
+  /** Required. The [access rights](https://support.google.com/merchants/answer/12160472#accesstypes) the user has. */
+  accessRights?: UserAccessRightsItemEnumList | undefined;
 }
 export interface CreateAccountsUsersRequest extends User {
-  /** Required. The resource name of the account for which a user will be created. Format: `accounts/{account}` */
-  parent: string;
   /** Required. The email address of the user (for example, `john.doe@gmail.com`). */
   userId?: string | undefined;
+  /** Required. The resource name of the account for which a user will be created. Format: `accounts/{account}` */
+  parent: string;
 }
-/** Additional instructions to add account services during creation of the account. */
-export interface AddAccountService {
-  /** The provider is a CSS (Comparison Shopping Service) of this account. Payload for service type Comparison Shopping. */
-  comparisonShopping?: ApproveAccountServiceRequest | undefined;
-  /** The provider manages this account. Payload for service type Account Management. */
-  accountManagement?: ApproveAccountServiceRequest | undefined;
-  /** Required. The provider of the service. Either the reference to an account such as `providers/123` or a well-known service provider (one of `providers/GOOGLE_ADS` or `providers/GOOGLE_BUSINESS_PROFILE`). */
-  provider?: string | undefined;
-  /** The provider manages campaigns for this account. Payload for service type campaigns management. */
-  campaignsManagement?: ApproveAccountServiceRequest | undefined;
-  /** Immutable. An optional, immutable identifier that Google uses to refer to this account when communicating with the provider. This should be the unique account ID within the provider's system (for example, your shop ID in Shopify). If you have multiple accounts with the same provider - for instance, different accounts for various regions -- the `external_account_id` differentiates between them, ensuring accurate linking and integration between Google and the provider. The external account ID must be specified for the campaigns management service type. The external account ID must not be specified for the account aggregation service type. The external account ID is optional / may be specified for all other service types. */
-  externalAccountId?: string | undefined;
-  /** The provider is an [aggregator](https://support.google.com/merchants/answer/188487) for the account. Payload for service type Account Aggregation. */
-  accountAggregation?: ApproveAccountServiceRequest | undefined;
-  /** The provider manages products for this account. Payload for service type products management. */
-  productsManagement?: ApproveAccountServiceRequest | undefined;
-}
-export type AddAccountServiceList = Array<AddAccountService>;
-/** Set an alias for a relationship between a provider and the account to be created. */
-export interface SetAliasForRelationship {
-  /** Required. The unique ID of this account in the provider's system. The value must be unique across all accounts on the platform for this provider. */
-  accountIdAlias?: string | undefined;
-  /** Required. The provider of the service. This is a reference to an account such as `providers/123` or `accounts/123`. The same provider must be specified in at least one of the `service` fields. */
-  provider?: string | undefined;
-}
-export type SetAliasForRelationshipList = Array<SetAliasForRelationship>;
 /** Represents a time zone from the [IANA Time Zone Database](https://www.iana.org/time-zones). */
 export interface TimeZone {
   /** IANA Time Zone Database time zone. For example "America/New_York". */
@@ -699,22 +673,22 @@ export interface TimeZone {
 }
 /** The `Account` message represents a business's account within Merchant Center. It's the primary entity for managing product data, settings, and interactions with Google's services and external providers. Accounts can operate as standalone entities or be part of a advanced account structure. In an advanced account setup the parent account manages multiple sub-accounts. Establishing an account involves configuring attributes like the account name, time zone, and language preferences. The `Account` message is the parent entity for many other resources, for example, `AccountRelationship`, `Homepage`, `BusinessInfo` and so on. For more information, see [Sign up for Merchant Center](https://support.google.com/merchants/answer/188924), [Manage accounts and settings](https://developers.google.com/merchant/api/guides/accounts/overview), [Create accounts](https://developers.google.com/merchant/api/guides/accounts/create-accounts), [Create test accounts](https://developers.google.com/merchant/api/guides/accounts/test-accounts), and [Filter accounts you can access](https://developers.google.com/merchant/api/guides/accounts/filter). */
 export interface Account {
-  /** Required. A human-readable name of the account. Don't use punctuation, capitalization, or non-alphanumeric symbols such as the "/" or "_" symbols. See [Adding a business name](https://support.google.com/merchants/answer/12159159) for more information. */
-  accountName?: string | undefined;
-  /** Output only. URI (typically a URL) of the store's homepage. */
-  homePageUri?: string | undefined;
-  /** Required. The time zone of the account. On writes, `time_zone` sets both the `reporting_time_zone` and the `display_time_zone`. For reads, `time_zone` always returns the `display_time_zone`. If `display_time_zone` doesn't exist for your account, `time_zone` is empty. The `version` field is not supported, won't be set in responses and will be silently ignored if specified in requests. */
-  timeZone?: TimeZone | undefined;
-  /** Identifier. The resource name of the account. Format: `accounts/{account}` */
-  name?: string | undefined;
-  /** Output only. Whether this is a test account. */
-  testAccount?: boolean | undefined;
   /** Optional. Whether this account contains adult content. */
   adultContent?: boolean | undefined;
-  /** Required. The account's [BCP-47 language code](https://tools.ietf.org/html/bcp47), such as `en-US` or `sr-Latn`. */
-  languageCode?: string | undefined;
+  /** Output only. Whether this is a test account. */
+  testAccount?: boolean | undefined;
+  /** Output only. URI (typically a URL) of the store's homepage. */
+  homePageUri?: string | undefined;
   /** Output only. The ID of the account. */
   accountId?: string | undefined;
+  /** Required. The time zone of the account. On writes, `time_zone` sets both the `reporting_time_zone` and the `display_time_zone`. For reads, `time_zone` always returns the `display_time_zone`. If `display_time_zone` doesn't exist for your account, `time_zone` is empty. The `version` field is not supported, won't be set in responses and will be silently ignored if specified in requests. */
+  timeZone?: TimeZone | undefined;
+  /** Required. The account's [BCP-47 language code](https://tools.ietf.org/html/bcp47), such as `en-US` or `sr-Latn`. */
+  languageCode?: string | undefined;
+  /** Identifier. The resource name of the account. Format: `accounts/{account}` */
+  name?: string | undefined;
+  /** Required. A human-readable name of the account. Don't use punctuation, capitalization, or non-alphanumeric symbols such as the "/" or "_" symbols. See [Adding a business name](https://support.google.com/merchants/answer/12159159) for more information. */
+  accountName?: string | undefined;
 }
 export type VerificationMailSettingsVerificationMailModeEnum =
   | "VERIFICATION_MAIL_MODE_UNSPECIFIED"
@@ -730,24 +704,50 @@ export interface VerificationMailSettings {
 }
 /** Instruction for adding a user to the account during creation. */
 export interface AddUser {
-  /** Optional. Settings related to configuring the verification email that is sent after adding a user. */
-  verificationMailSettings?: VerificationMailSettings | undefined;
   /** Required. The email address of the user (for example, `john.doe@gmail.com`). */
   userId?: string | undefined;
   /** Optional. Details about the user to be added. At the moment, only access rights may be specified. */
   user?: User | undefined;
+  /** Optional. Settings related to configuring the verification email that is sent after adding a user. */
+  verificationMailSettings?: VerificationMailSettings | undefined;
 }
 export type AddUserList = Array<AddUser>;
+/** Additional instructions to add account services during creation of the account. */
+export interface AddAccountService {
+  /** Required. The provider of the service. Either the reference to an account such as `providers/123` or a well-known service provider (one of `providers/GOOGLE_ADS` or `providers/GOOGLE_BUSINESS_PROFILE`). */
+  provider?: string | undefined;
+  /** The provider manages this account. Payload for service type Account Management. */
+  accountManagement?: ApproveAccountServiceRequest | undefined;
+  /** Immutable. An optional, immutable identifier that Google uses to refer to this account when communicating with the provider. This should be the unique account ID within the provider's system (for example, your shop ID in Shopify). If you have multiple accounts with the same provider - for instance, different accounts for various regions -- the `external_account_id` differentiates between them, ensuring accurate linking and integration between Google and the provider. The external account ID must be specified for the campaigns management service type. The external account ID must not be specified for the account aggregation service type. The external account ID is optional / may be specified for all other service types. */
+  externalAccountId?: string | undefined;
+  /** The provider is an [aggregator](https://support.google.com/merchants/answer/188487) for the account. Payload for service type Account Aggregation. */
+  accountAggregation?: ApproveAccountServiceRequest | undefined;
+  /** The provider is a CSS (Comparison Shopping Service) of this account. Payload for service type Comparison Shopping. */
+  comparisonShopping?: ApproveAccountServiceRequest | undefined;
+  /** The provider manages products for this account. Payload for service type products management. */
+  productsManagement?: ApproveAccountServiceRequest | undefined;
+  /** The provider manages campaigns for this account. Payload for service type campaigns management. */
+  campaignsManagement?: ApproveAccountServiceRequest | undefined;
+}
+export type AddAccountServiceList = Array<AddAccountService>;
+/** Set an alias for a relationship between a provider and the account to be created. */
+export interface SetAliasForRelationship {
+  /** Required. The unique ID of this account in the provider's system. The value must be unique across all accounts on the platform for this provider. */
+  accountIdAlias?: string | undefined;
+  /** Required. The provider of the service. This is a reference to an account such as `providers/123` or `accounts/123`. The same provider must be specified in at least one of the `service` fields. */
+  provider?: string | undefined;
+}
+export type SetAliasForRelationshipList = Array<SetAliasForRelationship>;
 /** Request message for the `CreateAndConfigureAccount` method. */
 export interface CreateAndConfigureAccountRequest {
-  /** Required. An account service between the account to be created and the provider account is initialized as part of the creation. At least one such service needs to be provided. Currently exactly one of these needs to be `account_aggregation` and `accounts.createAndConfigure` method can be used to create a sub-account under an existing advanced account through this method. Additional `account_management` or `products_management` services may be provided. */
-  service?: AddAccountServiceList | undefined;
-  /** Optional. If a relationship is created with a provider, you can set an alias for it with this field. The calling user must be an admin on the provider to be able to set an alias. */
-  setAlias?: SetAliasForRelationshipList | undefined;
   /** Required. The account to be created. */
   account?: Account | undefined;
   /** Optional. Users to be added to the account. */
   user?: AddUserList | undefined;
+  /** Required. An account service between the account to be created and the provider account is initialized as part of the creation. At least one such service needs to be provided. Currently exactly one of these needs to be `account_aggregation` and `accounts.createAndConfigure` method can be used to create a sub-account under an existing advanced account through this method. Additional `account_management` or `products_management` services may be provided. */
+  service?: AddAccountServiceList | undefined;
+  /** Optional. If a relationship is created with a provider, you can set an alias for it with this field. The calling user must be an admin on the provider to be able to set an alias. */
+  setAlias?: SetAliasForRelationshipList | undefined;
 }
 export interface CreateAndConfigureAccountsRequest extends CreateAndConfigureAccountRequest {}
 export interface CreateTestAccountAccountsRequest extends Account {
@@ -784,29 +784,29 @@ export interface DisableAccountsProgramsRequest {
   /** Request body */
   body?: ApproveAccountServiceRequest | undefined;
 }
+export type ProgramStateEnum = "STATE_UNSPECIFIED" | "NOT_ELIGIBLE" | "ELIGIBLE" | "ENABLED";
 /** Defines a requirement specified for participation in the program. */
 export interface Requirement {
-  /** Output only. The regions that are currently affected by this requirement not being met. Region codes are defined by [CLDR](https://cldr.unicode.org/). This is either a country where the program applies specifically to that country or `001` when the program applies globally. */
-  affectedRegionCodes?: StringList | undefined;
-  /** Output only. Name of the requirement. */
-  title?: string | undefined;
   /** Output only. The URL of a help page describing the requirement. */
   documentationUri?: string | undefined;
+  /** Output only. Name of the requirement. */
+  title?: string | undefined;
+  /** Output only. The regions that are currently affected by this requirement not being met. Region codes are defined by [CLDR](https://cldr.unicode.org/). This is either a country where the program applies specifically to that country or `001` when the program applies globally. */
+  affectedRegionCodes?: StringList | undefined;
 }
 export type RequirementList = Array<Requirement>;
-export type ProgramStateEnum = "STATE_UNSPECIFIED" | "NOT_ELIGIBLE" | "ELIGIBLE" | "ENABLED";
 /** Defines participation in a given program for the specified account. Programs provide a mechanism for adding functionality to a Merchant Center accounts. A typical example of this is the [Free product listings](https://support.google.com/merchants/answer/13889434) program, which enables products from a business's store to be shown across Google for free. For more information, see [Manage programs](https://developers.google.com/merchant/api/guides/programs/overview). The following list is the available set of program resource IDs accessible through the API: * [`checkout`](https://developers.google.com/merchant/api/guides/products/checkout-settings) * `free-listings` * [`loyalty`](https://developers.google.com/merchant/api/guides/loyalty/loyalty-programs) * `product-ratings` * `shopping-ads` * [`ucp-integration` (limited access)](https://developers.google.com/merchant/api/reference/rest/accounts_v1alpha/accounts.programs.ucpSettings) * [`youtube-affiliate`](https://support.google.com/merchants/answer/14815513) * `youtube-shopping-checkout` */
 export interface Program {
-  /** Output only. The requirements that the account has not yet satisfied that are affecting participation in the program. */
-  unmetRequirements?: RequirementList | undefined;
-  /** Identifier. The resource name of the program. Format: `accounts/{account}/programs/{program}` */
-  name?: string | undefined;
-  /** Output only. The regions in which the account is actively participating in the program. Active regions are defined as those where all program requirements affecting the regions have been met. Region codes are defined by [CLDR](https://cldr.unicode.org/). This is either a country where the program applies specifically to that country or `001` when the program applies globally. */
-  activeRegionCodes?: StringList | undefined;
-  /** Output only. The participation state of the account in the program. */
-  state?: ProgramStateEnum | undefined;
   /** Output only. The URL of a Merchant Center help page describing the program. */
   documentationUri?: string | undefined;
+  /** Identifier. The resource name of the program. Format: `accounts/{account}/programs/{program}` */
+  name?: string | undefined;
+  /** Output only. The participation state of the account in the program. */
+  state?: ProgramStateEnum | undefined;
+  /** Output only. The regions in which the account is actively participating in the program. Active regions are defined as those where all program requirements affecting the regions have been met. Region codes are defined by [CLDR](https://cldr.unicode.org/). This is either a country where the program applies specifically to that country or `001` when the program applies globally. */
+  activeRegionCodes?: StringList | undefined;
+  /** Output only. The requirements that the account has not yet satisfied that are affecting participation in the program. */
+  unmetRequirements?: RequirementList | undefined;
 }
 /** Request message for the EnableProgram method. */
 export type EnableProgramRequest = ApproveAccountServiceRequest;
@@ -826,20 +826,20 @@ export interface FindAccountsOmnichannelSettingsLfpProvidersRequest {
 }
 /** Collection of information related to a Local Feed Partnership (LFP) provider. For more information, see [Manage Local Feeds Partnership (LFP) providers](https://developers.google.com/merchant/api/guides/accounts/manage-lfp-providers) and [Manage local feeds partnership](https://developers.google.com/merchant/api/guides/local-feeds-partnership/overview). */
 export interface LfpProvider {
+  /** Output only. Region code defined by [CLDR](https://cldr.unicode.org/). */
+  regionCode?: string | undefined;
   /** Identifier. The resource name of the LFP provider. Format: `accounts/{account}/omnichannelSettings/{omnichannel_setting}/lfpProviders/{lfp_provider}` */
   name?: string | undefined;
   /** The display name of the LFP provider. */
   displayName?: string | undefined;
-  /** Output only. Region code defined by [CLDR](https://cldr.unicode.org/). */
-  regionCode?: string | undefined;
 }
 export type LfpProviderList = Array<LfpProvider>;
 /** Response message for the FindLfpProviders method. */
 export interface FindLfpProvidersResponse {
-  /** The LFP providers from the specified merchant in the specified country. */
-  lfpProviders?: LfpProviderList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string | undefined;
+  /** The LFP providers from the specified merchant in the specified country. */
+  lfpProviders?: LfpProviderList | undefined;
 }
 export interface GetAccountForGcpRegistrationAccountsDeveloperRegistrationRequest {}
 /** Response message for the GetAccountForGcpRegistration method. */
@@ -911,6 +911,30 @@ export interface GetAutomaticImprovementsAccountsAutomaticImprovementsRequest {
   /** Required. The resource name of the automatic improvements. Format: `accounts/{account}/automaticImprovements` */
   name: string;
 }
+/** Settings for the Automatic Item Updates. */
+export interface ItemUpdatesAccountLevelSettings {
+  /** If `allow_availability_updates` is enabled, items are automatically updated in all your Shopping target countries. By default, availability updates will only be applied to items that are 'out of stock' on your website but 'in stock' on Shopping. Set this to true to also update items that are 'in stock' on your website, but 'out of stock' on Google Shopping. In order for this field to have an effect, you must also set `allow_availability_updates`. */
+  allowStrictAvailabilityUpdates?: boolean | undefined;
+  /** If price updates are enabled, Google always updates the active price with the crawled information. */
+  allowPriceUpdates?: boolean | undefined;
+  /** If condition updates are enabled, Google always updates item condition with the condition detected from the details of your product. */
+  allowConditionUpdates?: boolean | undefined;
+  /** If availability updates are enabled, any previous availability values get overwritten if Google finds an out-of-stock annotation on the offer's page. If additionally `allow_strict_availability_updates` field is set to true, values get overwritten if Google finds an in-stock annotation on the offer's page. */
+  allowAvailabilityUpdates?: boolean | undefined;
+}
+/** Turning on [item updates](https://support.google.com/merchants/answer/3246284) allows Google to automatically update items for you. When item updates are on, Google uses the structured data markup on the website and advanced data extractors to update the price and availability of the items. When the item updates are off, items with mismatched data aren't shown. */
+export interface AutomaticItemUpdates {
+  /** Output only. The effective value of allow_condition_updates. If account_item_updates_settings is present, then this value is the same. Otherwise, it represents the inherited value of the parent account. The default value is true if no settings are present. Read-only. */
+  effectiveAllowConditionUpdates?: boolean | undefined;
+  /** Output only. The effective value of allow_availability_updates. If account_item_updates_settings is present, then this value is the same. Otherwise, it represents the inherited value of the parent account. The default value is true if no settings are present. Read-only. */
+  effectiveAllowAvailabilityUpdates?: boolean | undefined;
+  /** Optional. Determines which attributes of the items should be automatically updated. If this field is not present and provided in the update mask, then the settings will be deleted. If there are no settings for subaccount, they are inherited from aggregator. */
+  accountItemUpdatesSettings?: ItemUpdatesAccountLevelSettings | undefined;
+  /** Output only. The effective value of allow_price_updates. If account_item_updates_settings is present, then this value is the same. Otherwise, it represents the inherited value of the parent account. The default value is true if no settings are present. Read-only. */
+  effectiveAllowPriceUpdates?: boolean | undefined;
+  /** Output only. The effective value of allow_strict_availability_updates. If account_item_updates_settings is present, then this value is the same. Otherwise, it represents the inherited value of the parent account. The default value is true if no settings are present. Read-only. */
+  effectiveAllowStrictAvailabilityUpdates?: boolean | undefined;
+}
 /** Settings for the Automatic Image Improvements. */
 export interface ImageImprovementsAccountLevelSettings {
   /** Enables automatic image improvements. */
@@ -928,40 +952,16 @@ export interface AutomaticShippingImprovements {
   /** Enables automatic shipping improvements. */
   allowShippingImprovements?: boolean | undefined;
 }
-/** Settings for the Automatic Item Updates. */
-export interface ItemUpdatesAccountLevelSettings {
-  /** If condition updates are enabled, Google always updates item condition with the condition detected from the details of your product. */
-  allowConditionUpdates?: boolean | undefined;
-  /** If `allow_availability_updates` is enabled, items are automatically updated in all your Shopping target countries. By default, availability updates will only be applied to items that are 'out of stock' on your website but 'in stock' on Shopping. Set this to true to also update items that are 'in stock' on your website, but 'out of stock' on Google Shopping. In order for this field to have an effect, you must also set `allow_availability_updates`. */
-  allowStrictAvailabilityUpdates?: boolean | undefined;
-  /** If price updates are enabled, Google always updates the active price with the crawled information. */
-  allowPriceUpdates?: boolean | undefined;
-  /** If availability updates are enabled, any previous availability values get overwritten if Google finds an out-of-stock annotation on the offer's page. If additionally `allow_strict_availability_updates` field is set to true, values get overwritten if Google finds an in-stock annotation on the offer's page. */
-  allowAvailabilityUpdates?: boolean | undefined;
-}
-/** Turning on [item updates](https://support.google.com/merchants/answer/3246284) allows Google to automatically update items for you. When item updates are on, Google uses the structured data markup on the website and advanced data extractors to update the price and availability of the items. When the item updates are off, items with mismatched data aren't shown. */
-export interface AutomaticItemUpdates {
-  /** Output only. The effective value of allow_condition_updates. If account_item_updates_settings is present, then this value is the same. Otherwise, it represents the inherited value of the parent account. The default value is true if no settings are present. Read-only. */
-  effectiveAllowConditionUpdates?: boolean | undefined;
-  /** Optional. Determines which attributes of the items should be automatically updated. If this field is not present and provided in the update mask, then the settings will be deleted. If there are no settings for subaccount, they are inherited from aggregator. */
-  accountItemUpdatesSettings?: ItemUpdatesAccountLevelSettings | undefined;
-  /** Output only. The effective value of allow_availability_updates. If account_item_updates_settings is present, then this value is the same. Otherwise, it represents the inherited value of the parent account. The default value is true if no settings are present. Read-only. */
-  effectiveAllowAvailabilityUpdates?: boolean | undefined;
-  /** Output only. The effective value of allow_price_updates. If account_item_updates_settings is present, then this value is the same. Otherwise, it represents the inherited value of the parent account. The default value is true if no settings are present. Read-only. */
-  effectiveAllowPriceUpdates?: boolean | undefined;
-  /** Output only. The effective value of allow_strict_availability_updates. If account_item_updates_settings is present, then this value is the same. Otherwise, it represents the inherited value of the parent account. The default value is true if no settings are present. Read-only. */
-  effectiveAllowStrictAvailabilityUpdates?: boolean | undefined;
-}
 /** Collection of information related to the [automatic improvements](https://support.google.com/merchants/answer/12157888) of an account. For more information, see [Enable automatic improvements](https://developers.google.com/merchant/api/guides/automatic-improvements/overview). */
 export interface AutomaticImprovements {
-  /** This improvement will attempt to automatically correct submitted images if they don't meet the [image requirements](https://support.google.com/merchants/answer/6324350), for example, removing overlays. If successful, the image will be replaced and approved. This improvement is only applied to images of disapproved offers. For more information see: [Automatic image improvements](https://support.google.com/merchants/answer/9242973) This field is only updated (cleared) if provided in the update mask. */
-  imageImprovements?: AutomaticImageImprovements | undefined;
-  /** Not available for [advanced accounts](https://support.google.com/merchants/answer/188487). By turning on [automatic shipping improvements](https://support.google.com/merchants/answer/10027038), you are allowing Google to improve the accuracy of your delivery times shown to shoppers using Google. More accurate delivery times, especially when faster, typically lead to better conversion rates. Google will improve your estimated delivery times based on various factors: * Delivery address of an order * Current handling time and shipping time settings * Estimated weekdays or business days * Parcel tracking data This field is only updated (cleared) if provided in the update mask. */
-  shippingImprovements?: AutomaticShippingImprovements | undefined;
   /** Turning on [item updates](https://support.google.com/merchants/answer/3246284) allows Google to automatically update items for you. When item updates are on, Google uses the structured data markup on the website and advanced data extractors to update the price and availability of the items. When the item updates are off, items with mismatched data aren't shown. This field is only updated (cleared) if provided in the update mask. */
   itemUpdates?: AutomaticItemUpdates | undefined;
   /** Identifier. The resource name of the automatic improvements. Format: `accounts/{account}/automaticImprovements`. */
   name?: string | undefined;
+  /** This improvement will attempt to automatically correct submitted images if they don't meet the [image requirements](https://support.google.com/merchants/answer/6324350), for example, removing overlays. If successful, the image will be replaced and approved. This improvement is only applied to images of disapproved offers. For more information see: [Automatic image improvements](https://support.google.com/merchants/answer/9242973) This field is only updated (cleared) if provided in the update mask. */
+  imageImprovements?: AutomaticImageImprovements | undefined;
+  /** Not available for [advanced accounts](https://support.google.com/merchants/answer/188487). By turning on [automatic shipping improvements](https://support.google.com/merchants/answer/10027038), you are allowing Google to improve the accuracy of your delivery times shown to shoppers using Google. More accurate delivery times, especially when faster, typically lead to better conversion rates. Google will improve your estimated delivery times based on various factors: * Delivery address of an order * Current handling time and shipping time settings * Estimated weekdays or business days * Parcel tracking data This field is only updated (cleared) if provided in the update mask. */
+  shippingImprovements?: AutomaticShippingImprovements | undefined;
 }
 export interface GetBusinessIdentityAccountsBusinessIdentityRequest {
   /** Required. The resource name of the business identity. Format: `accounts/{account}/businessIdentity`. For example, `accounts/123456/businessIdentity`. */
@@ -982,50 +982,29 @@ export type BusinessIdentityPromotionsConsentEnum =
   | "PROMOTIONS_CONSENT_DENIED";
 /** Collection of information related to the [identity of a business](https://support.google.com/merchants/answer/12564247). For more information, see [Manage business identity](https://developers.google.com/merchant/api/guides/accounts/business-identity). */
 export interface BusinessIdentity {
-  /** Optional. Specifies whether the business identifies itself as being black-owned. This optional field will only be available for businesses with the business country set to `US`. It is also not applicable for marketplaces or marketplace sellers. */
-  blackOwned?: IdentityAttribute | undefined;
-  /** Required. Whether the identity attributes may be used for promotions. */
-  promotionsConsent?: BusinessIdentityPromotionsConsentEnum | (string & {}) | undefined;
+  /** Identifier. The resource name of the business identity. Format: `accounts/{account}/businessIdentity` */
+  name?: string | undefined;
   /** Optional. Specifies whether the business identifies itself as being veteran-owned. This optional field will only be available for businesses with a business country set to `US`. It is also not applicable for marketplaces or marketplace sellers. */
   veteranOwned?: IdentityAttribute | undefined;
+  /** Required. Whether the identity attributes may be used for promotions. */
+  promotionsConsent?: BusinessIdentityPromotionsConsentEnum | (string & {}) | undefined;
+  /** Optional. Specifies whether the business identifies itself as being latino-owned. This optional field will only be available for businesses with the business country set to `US`. It is also not applicable for marketplaces or marketplace sellers. */
+  latinoOwned?: IdentityAttribute | undefined;
+  /** Optional. Specifies whether the business identifies itself as being black-owned. This optional field will only be available for businesses with the business country set to `US`. It is also not applicable for marketplaces or marketplace sellers. */
+  blackOwned?: IdentityAttribute | undefined;
   /** Optional. Specifies whether the business identifies itself as being women-owned. This optional field will only be available for businesses with a business country set to `US`. It is also not applicable for marketplaces or marketplace sellers. */
   womenOwned?: IdentityAttribute | undefined;
   /** Optional. Specifies whether the business identifies itself as a small business. This optional field will only be available for businesses with a business country set to `US`. It is also not applicable for marketplaces. */
   smallBusiness?: IdentityAttribute | undefined;
-  /** Identifier. The resource name of the business identity. Format: `accounts/{account}/businessIdentity` */
-  name?: string | undefined;
-  /** Optional. Specifies whether the business identifies itself as being latino-owned. This optional field will only be available for businesses with the business country set to `US`. It is also not applicable for marketplaces or marketplace sellers. */
-  latinoOwned?: IdentityAttribute | undefined;
 }
 export interface GetBusinessInfoAccountsBusinessInfoRequest {
   /** Required. The resource name of the business info. Format: `accounts/{account}/businessInfo`. For example, `accounts/123456/businessInfo`. */
   name: string;
 }
-/** Represents a postal address, such as for postal delivery or payments addresses. With a postal address, a postal service can deliver items to a premise, P.O. box, or similar. A postal address is not intended to model geographical locations like roads, towns, or mountains. In typical usage, an address would be created by user input or from importing existing data, depending on the type of process. Advice on address input or editing: - Use an internationalization-ready address widget such as https://github.com/google/libaddressinput. - Users should not be presented with UI elements for input or editing of fields outside countries where that field is used. For more guidance on how to use this schema, see: https://support.google.com/business/answer/6397478. */
-export interface PostalAddress {
-  /** Optional. Sublocality of the address. For example, this can be a neighborhood, borough, or district. */
-  sublocality?: string | undefined;
-  /** Optional. Highest administrative subdivision which is used for postal addresses of a country or region. For example, this can be a state, a province, an oblast, or a prefecture. For Spain, this is the province and not the autonomous community (for example, "Barcelona" and not "Catalonia"). Many countries don't use an administrative area in postal addresses. For example, in Switzerland, this should be left unpopulated. */
-  administrativeArea?: string | undefined;
-  /** Optional. Additional, country-specific, sorting code. This is not used in most regions. Where it is used, the value is either a string like "CEDEX", optionally followed by a number (for example, "CEDEX 7"), or just a number alone, representing the "sector code" (Jamaica), "delivery area indicator" (Malawi) or "post office indicator" (Côte d'Ivoire). */
-  sortingCode?: string | undefined;
-  /** Unstructured address lines describing the lower levels of an address. Because values in `address_lines` do not have type information and may sometimes contain multiple values in a single field (for example, "Austin, TX"), it is important that the line order is clear. The order of address lines should be "envelope order" for the country or region of the address. In places where this can vary (for example, Japan), `address_language` is used to make it explicit (for example, "ja" for large-to-small ordering and "ja-Latn" or "en" for small-to-large). In this way, the most specific line of an address can be selected based on the language. The minimum permitted structural representation of an address consists of a `region_code` with all remaining information placed in the `address_lines`. It would be possible to format such an address very approximately without geocoding, but no semantic reasoning could be made about any of the address components until it was at least partially resolved. Creating an address only containing a `region_code` and `address_lines` and then geocoding is the recommended way to handle completely unstructured addresses (as opposed to guessing which parts of the address should be localities or administrative areas). */
-  addressLines?: StringList | undefined;
-  /** Required. CLDR region code of the country/region of the address. This is never inferred and it is up to the user to ensure the value is correct. See https://cldr.unicode.org/ and https://www.unicode.org/cldr/charts/30/supplemental/territory_information.html for details. Example: "CH" for Switzerland. */
-  regionCode?: string | undefined;
-  /** Optional. The recipient at the address. This field may, under certain circumstances, contain multiline information. For example, it might contain "care of" information. */
-  recipients?: StringList | undefined;
-  /** Optional. Postal code of the address. Not all countries use or require postal codes to be present, but where they are used, they may trigger additional validation with other parts of the address (for example, state or zip code validation in the United States). */
-  postalCode?: string | undefined;
-  /** Optional. BCP-47 language code of the contents of this address (if known). This is often the UI language of the input form or is expected to match one of the languages used in the address' country/region, or their transliterated equivalents. This can affect formatting in certain countries, but is not critical to the correctness of the data and will never affect any validation or other non-formatting related operations. If this value is not known, it should be omitted (rather than specifying a possibly incorrect default). Examples: "zh-Hant", "ja", "ja-Latn", "en". */
-  languageCode?: string | undefined;
-  /** The schema revision of the `PostalAddress`. This must be set to 0, which is the latest revision. All new revisions **must** be backward compatible with old revisions. */
-  revision?: number | undefined;
-  /** Optional. The name of the organization at the address. */
-  organization?: string | undefined;
-  /** Optional. Generally refers to the city or town portion of the address. Examples: US city, IT comune, UK post town. In regions of the world where localities are not well defined or do not fit into this structure well, leave `locality` empty and use `address_lines`. */
-  locality?: string | undefined;
-}
+export type BusinessInfoPhoneVerificationStateEnum =
+  | "PHONE_VERIFICATION_STATE_UNSPECIFIED"
+  | "PHONE_VERIFICATION_STATE_VERIFIED"
+  | "PHONE_VERIFICATION_STATE_UNVERIFIED";
 /** An object representing a short code, which is a phone number that is typically much shorter than regular phone numbers and can be used to address messages in MMS and SMS systems, as well as for abbreviated dialing (For example "Text 611 to see how many minutes you have remaining on your plan."). Short codes are restricted to a region and are not internationally dialable, which means the same short code can exist in different regions, with different usage and pricing, even if those regions share the same country calling code (For example: US and CA). */
 export interface ShortCode {
   /** Required. The BCP-47 region code of the location where calls to this short code can be made, such as "US" and "BB". Reference(s): - http://www.unicode.org/reports/tr35/#unicode_region_subtag */
@@ -1035,40 +1014,61 @@ export interface ShortCode {
 }
 /** An object representing a phone number, suitable as an API wire format. This representation: - should not be used for locale-specific formatting of a phone number, such as "+1 (650) 253-0000 ext. 123" - is not designed for efficient storage - may not be suitable for dialing - specialized libraries (see references) should be used to parse the number for that purpose To do something meaningful with this number, such as format it for various use-cases, convert it to an `i18n.phonenumbers.PhoneNumber` object first. For instance, in Java this would be: com.google.type.PhoneNumber wireProto = com.google.type.PhoneNumber.newBuilder().build(); com.google.i18n.phonenumbers.Phonenumber.PhoneNumber phoneNumber = PhoneNumberUtil.getInstance().parse(wireProto.getE164Number(), "ZZ"); if (!wireProto.getExtension().isEmpty()) { phoneNumber.setExtension(wireProto.getExtension()); } Reference(s): - https://github.com/google/libphonenumber */
 export interface PhoneNumber {
-  /** A short code. Reference(s): - https://wikipedia.org/wiki/Short_code */
-  shortCode?: ShortCode | undefined;
   /** The phone number, represented as a leading plus sign ('+'), followed by a phone number that uses a relaxed ITU E.164 format consisting of the country calling code (1 to 3 digits) and the subscriber number, with no additional spaces or formatting. For example: - correct: "+15552220123" - incorrect: "+1 (555) 222-01234 x123" The ITU E.164 format limits the latter to 12 digits, but in practice not all countries respect that, so we relax that restriction here. National-only numbers are not allowed. References: - https://www.itu.int/rec/T-REC-E.164-201011-I - https://en.wikipedia.org/wiki/E.164. - https://en.wikipedia.org/wiki/List_of_country_calling_codes */
   e164Number?: string | undefined;
+  /** A short code. Reference(s): - https://wikipedia.org/wiki/Short_code */
+  shortCode?: ShortCode | undefined;
   /** The phone number's extension. The extension is not standardized in ITU recommendations, except for being defined as a series of numbers with a maximum length of 40 digits. Other than digits, some other dialing characters such as ',' (indicating a wait) or '#' may be stored here. Note that no regions currently use extensions with short codes, so this field is normally only set in conjunction with an E.164 number. It is held separately from the E.164 number to allow for short code extensions in the future. */
   extension?: string | undefined;
 }
-export type BusinessInfoPhoneVerificationStateEnum =
-  | "PHONE_VERIFICATION_STATE_UNSPECIFIED"
-  | "PHONE_VERIFICATION_STATE_VERIFIED"
-  | "PHONE_VERIFICATION_STATE_UNVERIFIED";
 /** Customer service information. */
 export interface CustomerService {
-  /** Optional. The phone number where customer service may be called. */
-  phone?: PhoneNumber | undefined;
   /** Optional. The URI where customer service may be found. */
   uri?: string | undefined;
+  /** Optional. The phone number where customer service may be called. */
+  phone?: PhoneNumber | undefined;
   /** Optional. The email address where customer service may be reached. */
   email?: string | undefined;
 }
+/** Represents a postal address, such as for postal delivery or payments addresses. With a postal address, a postal service can deliver items to a premise, P.O. box, or similar. A postal address is not intended to model geographical locations like roads, towns, or mountains. In typical usage, an address would be created by user input or from importing existing data, depending on the type of process. Advice on address input or editing: - Use an internationalization-ready address widget such as https://github.com/google/libaddressinput. - Users should not be presented with UI elements for input or editing of fields outside countries where that field is used. For more guidance on how to use this schema, see: https://support.google.com/business/answer/6397478. */
+export interface PostalAddress {
+  /** Required. CLDR region code of the country/region of the address. This is never inferred and it is up to the user to ensure the value is correct. See https://cldr.unicode.org/ and https://www.unicode.org/cldr/charts/30/supplemental/territory_information.html for details. Example: "CH" for Switzerland. */
+  regionCode?: string | undefined;
+  /** Optional. Sublocality of the address. For example, this can be a neighborhood, borough, or district. */
+  sublocality?: string | undefined;
+  /** Optional. Postal code of the address. Not all countries use or require postal codes to be present, but where they are used, they may trigger additional validation with other parts of the address (for example, state or zip code validation in the United States). */
+  postalCode?: string | undefined;
+  /** The schema revision of the `PostalAddress`. This must be set to 0, which is the latest revision. All new revisions **must** be backward compatible with old revisions. */
+  revision?: number | undefined;
+  /** Optional. BCP-47 language code of the contents of this address (if known). This is often the UI language of the input form or is expected to match one of the languages used in the address' country/region, or their transliterated equivalents. This can affect formatting in certain countries, but is not critical to the correctness of the data and will never affect any validation or other non-formatting related operations. If this value is not known, it should be omitted (rather than specifying a possibly incorrect default). Examples: "zh-Hant", "ja", "ja-Latn", "en". */
+  languageCode?: string | undefined;
+  /** Optional. Generally refers to the city or town portion of the address. Examples: US city, IT comune, UK post town. In regions of the world where localities are not well defined or do not fit into this structure well, leave `locality` empty and use `address_lines`. */
+  locality?: string | undefined;
+  /** Unstructured address lines describing the lower levels of an address. Because values in `address_lines` do not have type information and may sometimes contain multiple values in a single field (for example, "Austin, TX"), it is important that the line order is clear. The order of address lines should be "envelope order" for the country or region of the address. In places where this can vary (for example, Japan), `address_language` is used to make it explicit (for example, "ja" for large-to-small ordering and "ja-Latn" or "en" for small-to-large). In this way, the most specific line of an address can be selected based on the language. The minimum permitted structural representation of an address consists of a `region_code` with all remaining information placed in the `address_lines`. It would be possible to format such an address very approximately without geocoding, but no semantic reasoning could be made about any of the address components until it was at least partially resolved. Creating an address only containing a `region_code` and `address_lines` and then geocoding is the recommended way to handle completely unstructured addresses (as opposed to guessing which parts of the address should be localities or administrative areas). */
+  addressLines?: StringList | undefined;
+  /** Optional. Additional, country-specific, sorting code. This is not used in most regions. Where it is used, the value is either a string like "CEDEX", optionally followed by a number (for example, "CEDEX 7"), or just a number alone, representing the "sector code" (Jamaica), "delivery area indicator" (Malawi) or "post office indicator" (Côte d'Ivoire). */
+  sortingCode?: string | undefined;
+  /** Optional. The name of the organization at the address. */
+  organization?: string | undefined;
+  /** Optional. Highest administrative subdivision which is used for postal addresses of a country or region. For example, this can be a state, a province, an oblast, or a prefecture. For Spain, this is the province and not the autonomous community (for example, "Barcelona" and not "Catalonia"). Many countries don't use an administrative area in postal addresses. For example, in Switzerland, this should be left unpopulated. */
+  administrativeArea?: string | undefined;
+  /** Optional. The recipient at the address. This field may, under certain circumstances, contain multiline information. For example, it might contain "care of" information. */
+  recipients?: StringList | undefined;
+}
 /** The `BusinessInfo` message contains essential information about a business. This message captures key business details such as physical address, customer service contacts, and region-specific identifiers. For more information, see [Add your business information](https://support.google.com/merchants/answer/14286818#add_bus_info) and [Update your business information](https://developers.google.com/merchant/api/guides/accounts/create-accounts#update_your_business_information). */
 export interface BusinessInfo {
-  /** Optional. The address of the business. Only `region_code`, `address_lines`, `postal_code`, `administrative_area` and `locality` fields are supported. All other fields are ignored. */
-  address?: PostalAddress | undefined;
-  /** Output only. The phone number of the business. */
-  phone?: PhoneNumber | undefined;
   /** Optional. The 10-digit [Korean business registration number](https://support.google.com/merchants/answer/9037766) separated with dashes in the format: XXX-XX-XXXXX. */
   koreanBusinessRegistrationNumber?: string | undefined;
   /** Output only. The phone verification state of the business. */
   phoneVerificationState?: BusinessInfoPhoneVerificationStateEnum | (string & {}) | undefined;
-  /** Optional. The customer service of the business. */
-  customerService?: CustomerService | undefined;
   /** Identifier. The resource name of the business info. Format: `accounts/{account}/businessInfo` */
   name?: string | undefined;
+  /** Optional. The customer service of the business. */
+  customerService?: CustomerService | undefined;
+  /** Output only. The phone number of the business. */
+  phone?: PhoneNumber | undefined;
+  /** Optional. The address of the business. Only `region_code`, `address_lines`, `postal_code`, `administrative_area` and `locality` fields are supported. All other fields are ignored. */
+  address?: PostalAddress | undefined;
 }
 export interface GetCheckoutSettingsAccountsProgramsCheckoutSettingsRequest {
   /** Required. The name/identifier of the merchant account. Format: `accounts/{account}/programs/{program}/checkoutSettings` */
@@ -1096,10 +1096,10 @@ export type EmailPreferencesNewsAndTipsEnum =
   | "UNCONFIRMED";
 /** The categories of notifications the user opted into / opted out of. The email preferences do not include mandatory announcements as users can't opt out of them. For more information, see [Change your Merchant Center email preferences](https://support.google.com/merchants/answer/9370919) and [Manage Merchant Center email preferences](https://developers.google.com/merchant/api/guides/accounts/email-notifications). */
 export interface EmailPreferences {
-  /** Identifier. The name of the EmailPreferences. The endpoint is only supported for the authenticated user. */
-  name?: string | undefined;
   /** Optional. Updates on new features, tips and best practices. */
   newsAndTips?: EmailPreferencesNewsAndTipsEnum | (string & {}) | undefined;
+  /** Identifier. The name of the EmailPreferences. The endpoint is only supported for the authenticated user. */
+  name?: string | undefined;
 }
 export interface GetForApplicationAccountsTermsOfServiceAgreementStatesRequest {
   /** Required. The account for which to get a TermsOfServiceAgreementState Format: `accounts/{account}` */
@@ -1113,36 +1113,71 @@ export type RetrieveLatestTermsOfServiceKindEnum =
   | "TERMS_OF_SERVICE_KIND_UNSPECIFIED"
   | "MERCHANT_CENTER";
 export interface GetLatestTermsOfServiceRequest {
-  /** Required. The Kind this terms of service version applies to. */
-  kind?: RetrieveLatestTermsOfServiceKindEnum | (string & {}) | undefined;
   /** Required. Region code as defined by [CLDR](https://cldr.unicode.org/). This is either a country when the ToS applies specifically to that country or 001 when it applies globally. */
   regionCode?: string | undefined;
+  /** Required. The Kind this terms of service version applies to. */
+  kind?: RetrieveLatestTermsOfServiceKindEnum | (string & {}) | undefined;
 }
 export type TermsOfServiceKindEnum = "TERMS_OF_SERVICE_KIND_UNSPECIFIED" | "MERCHANT_CENTER";
 /** The `TermsOfService` message represents a specific version of the terms of service that merchants must accept to access certain features or services. For more information, see [Terms of Service](https://support.google.com/merchants/answer/160173). This message is important for the onboarding process, ensuring that merchants agree to the necessary legal agreements for using the service. Merchants can retrieve the latest terms of service for a given `kind` and `region` through `RetrieveLatestTermsOfService`, and accept them as required through `AcceptTermsOfService`. For step-by-step instructions, see [Manage Terms of Service](https://developers.google.com/merchant/api/guides/accounts/manage-tos-agreements). */
 export interface TermsOfService {
-  /** Whether this terms of service version is external. External terms of service versions can only be agreed through external processes and not directly by the merchant through UI or API. */
-  external?: boolean | undefined;
-  /** URI for terms of service file that needs to be displayed to signing users. */
-  fileUri?: string | undefined;
   /** Region code as defined by [CLDR](https://cldr.unicode.org/). This is either a country where the ToS applies specifically to that country or `001` when the same `TermsOfService` can be signed in any country. However note that when signing a ToS that applies globally we still expect that a specific country is provided (this should be merchant business country or program country of participation). */
   regionCode?: string | undefined;
-  /** Identifier. The resource name of the terms of service version. Format: `termsOfService/{version}` */
-  name?: string | undefined;
   /** The Kind this terms of service version applies to. */
   kind?: TermsOfServiceKindEnum | undefined;
+  /** Whether this terms of service version is external. External terms of service versions can only be agreed through external processes and not directly by the merchant through UI or API. */
+  external?: boolean | undefined;
+  /** Identifier. The resource name of the terms of service version. Format: `termsOfService/{version}` */
+  name?: string | undefined;
+  /** URI for terms of service file that needs to be displayed to signing users. */
+  fileUri?: string | undefined;
 }
 export interface GetShippingSettingsAccountsShippingSettingsRequest {
   /** Required. The name of the shipping setting to retrieve. Format: `accounts/{account}/shippingsettings` */
   name: string;
 }
-/** The latest time of day that an order can be accepted and begin processing. Later orders will be processed in the next day. The time is based on the warehouse postal code. */
-export interface WarehouseCutoffTime {
-  /** Required. Hour of the cutoff time until which an order has to be placed to be processed in the same day by the warehouse. Hour is based on the timezone of warehouse. */
-  hour?: number | undefined;
-  /** Required. Minute of the cutoff time until which an order has to be placed to be processed in the same day by the warehouse. Minute is based on the timezone of warehouse. */
-  minute?: number | undefined;
+/** A list of store code sets sharing the same minimum order value. At least two sets are required and the last one must be empty, which signifies 'MOV for all other stores'. Each store code can only appear once across all the sets. All prices within a service must have the same currency. */
+export interface StoreCodeSetWithMov {
+  /** Optional. A list of unique store codes or empty for the catch all. */
+  storeCodes?: StringList | undefined;
+  /** The minimum order value for the given stores. */
+  value?: Price | undefined;
 }
+export type StoreCodeSetWithMovList = Array<StoreCodeSetWithMov>;
+/** Table of per store minimum order values for the pickup fulfillment type. */
+export interface MinimumOrderValueTable {
+  /** Required. A list of store code sets sharing the same minimum order value (MOV). At least two sets are required and the last one must be empty, which signifies 'MOV for all other stores'. Each store code can only appear once across all the sets. All prices within a service must have the same currency. */
+  storeCodeSetWithMovs?: StoreCodeSetWithMovList | undefined;
+}
+export type ServiceShipmentTypeEnum =
+  | "SHIPMENT_TYPE_UNSPECIFIED"
+  | "DELIVERY"
+  | "LOCAL_DELIVERY"
+  | "COLLECTION_POINT";
+/** Subset of a business's loyalty program. */
+export interface LoyaltyProgramTiers {
+  /** The tier label [tier_label] sub-attribute differentiates offer level benefits between each tier. This value is also set in your program settings in Merchant Center, and is required for data source changes even if your loyalty program only has 1 tier. */
+  tierLabel?: string | undefined;
+}
+export type LoyaltyProgramTiersList = Array<LoyaltyProgramTiers>;
+/** [Loyalty program](https://support.google.com/merchants/answer/12922446) provided by a business. */
+export interface LoyaltyProgram {
+  /** Optional. Loyalty program tier of this shipping service. */
+  loyaltyProgramTiers?: LoyaltyProgramTiersList | undefined;
+  /** This is the loyalty program label set in your loyalty program settings in Merchant Center. This sub-attribute allows Google to map your loyalty program to eligible offers. */
+  programLabel?: string | undefined;
+}
+export type LoyaltyProgramList = Array<LoyaltyProgram>;
+/** Indicates that the delivery time should be calculated per warehouse (shipping origin location) based on the settings of the selected carrier. When set, no other transit time related field in `delivery_time` should be set. */
+export interface WarehouseBasedDeliveryTime {
+  /** Required. Warehouse name. This should match warehouse. */
+  warehouse?: string | undefined;
+  /** Required. Carrier service, such as `"ground"` or `"2 days"`. The name of the service must be in the eddSupportedServices list. */
+  carrierService?: string | undefined;
+  /** Required. Carrier, such as `"UPS"` or `"Fedex"`. [supported carriers](https://support.google.com/merchants/answer/7050921#zippy=%2Ccarrier-rates-au-de-uk-and-us-only) */
+  carrier?: string | undefined;
+}
+export type WarehouseBasedDeliveryTimeList = Array<WarehouseBasedDeliveryTime>;
 export type BusinessDayConfigBusinessDaysItemEnum =
   | "WEEKDAY_UNSPECIFIED"
   | "MONDAY"
@@ -1159,216 +1194,6 @@ export type BusinessDayConfigBusinessDaysItemEnumList = Array<
 export interface BusinessDayConfig {
   /** Required. Regular business days. May not be empty. */
   businessDays?: BusinessDayConfigBusinessDaysItemEnumList | undefined;
-}
-/** Shipping address of the warehouse. */
-export interface Address {
-  /** Required. Postal code or ZIP (For example "94043"). */
-  postalCode?: string | undefined;
-  /** Required. [CLDR country code](http://www.unicode.org/repos/cldr/tags/latest/common/main/en.xml) (For example "US"). */
-  regionCode?: string | undefined;
-  /** Required. Top-level administrative subdivision of the country. For example, a state like California ("CA") or a province like Quebec ("QC"). */
-  administrativeArea?: string | undefined;
-  /** Required. City, town or commune. May also include dependent localities or sublocalities (For example neighborhoods or suburbs). */
-  city?: string | undefined;
-  /** Street-level part of the address. For example: `111w 31st Street`. */
-  streetAddress?: string | undefined;
-}
-/** A fulfillment warehouse, which stores and handles inventory. */
-export interface Warehouse {
-  /** Required. The name of the warehouse. Must be unique within account. */
-  name?: string | undefined;
-  /** Required. The latest time of day that an order can be accepted and begin processing. Later orders will be processed in the next day. The time is based on the warehouse postal code. */
-  cutoffTime?: WarehouseCutoffTime | undefined;
-  /** Required. The number of days it takes for this warehouse to pack up and ship an item. This is on the warehouse level, but can be overridden on the offer level based on the attributes of an item. */
-  handlingDays?: string | undefined;
-  /** Business days of the warehouse. If not set, will be Monday to Friday by default. */
-  businessDayConfig?: BusinessDayConfig | undefined;
-  /** Required. Shipping address of the warehouse. */
-  shippingAddress?: Address | undefined;
-}
-export type WarehouseList = Array<Warehouse>;
-/** A list of carrier rates that can be referred to by `main_table` or `single_value`. Supported carrier services are defined in https://support.google.com/merchants/answer/12577710?ref_topic=12570808&sjid=10662598224319463032-NC#zippy=%2Cdelivery-cost-rate-type%2Ccarrier-rate-au-de-uk-and-us-only. */
-export interface CarrierRate {
-  /** Required. Carrier service, such as `"ground"` or `"2 days"`. */
-  carrierService?: string | undefined;
-  /** Required. Shipping origin for this carrier rate. */
-  originPostalCode?: string | undefined;
-  /** Optional. Multiplicative shipping rate modifier as a number in decimal notation. Can be negative. For example `"5.4"` increases the rate by 5.4%, `"-3"` decreases the rate by 3%. */
-  percentageAdjustment?: string | undefined;
-  /** Required. Name of the carrier rate. Must be unique per rate group. */
-  name?: string | undefined;
-  /** Required. Carrier service, such as `"UPS"` or `"Fedex"`. */
-  carrier?: string | undefined;
-  /** Optional. Additive shipping rate modifier. Can be negative. For example `{ "amount_micros": 1, "currency_code" : "USD" }` adds $1 to the rate, `{ "amount_micros": -3, "currency_code" : "USD" }` removes $3 from the rate. */
-  flatAdjustment?: Price | undefined;
-}
-export type CarrierRateList = Array<CarrierRate>;
-/** The single value of a rate group or the value of a rate group table's cell. Exactly one of `no_shipping`, `flat_rate`, `price_percentage`, `carrier_rateName`, `subtable_name` must be set. */
-export interface Value {
-  /** A flat rate. Can only be set if all other fields are not set. */
-  flatRate?: Price | undefined;
-  /** If true, then the product can't be shipped. Must be true when set, can only be set if all other fields are not set. */
-  noShipping?: boolean | undefined;
-  /** A percentage of the price represented as a number in decimal notation (For example, `"5.4"`). Can only be set if all other fields are not set. */
-  pricePercentage?: string | undefined;
-  /** The name of a carrier rate referring to a carrier rate defined in the same rate group. Can only be set if all other fields are not set. */
-  carrierRate?: string | undefined;
-  /** The name of a subtable. Can only be set in table cells (For example, not for single values), and only if all other fields are not set. */
-  subtable?: string | undefined;
-}
-export type ValueList = Array<Value>;
-/** Include a list of cells. */
-export interface Row {
-  /** Required. The list of cells that constitute the row. Must have the same length as `columnHeaders` for two-dimensional tables, a length of 1 for one-dimensional tables. */
-  cells?: ValueList | undefined;
-}
-export type RowList = Array<Row>;
-export type WeightUnitEnum = "WEIGHT_UNIT_UNSPECIFIED" | "POUND" | "KILOGRAM";
-/** The weight represented as the value in string and the unit. */
-export interface Weight {
-  /** Required. The weight unit. Acceptable values are: kg and lb */
-  unit?: WeightUnitEnum | (string & {}) | undefined;
-  /** Required. The weight represented as a number in micros (1 million micros is an equivalent to one's currency standard unit, for example, 1 kg = 1000000 micros). This field can also be set as infinity by setting to -1. This field only support -1 and positive value. */
-  amountMicros?: string | undefined;
-}
-export type WeightList = Array<Weight>;
-export type PriceList = Array<Price>;
-/** A list of location ID sets. Must be non-empty. Can only be set if all other fields are not set. */
-export interface LocationIdSet {
-  /** Required. A non-empty list of [location IDs](https://developers.google.com/adwords/api/docs/appendix/geotargeting). They must all be of the same location type (For example, state). */
-  locationIds?: StringList | undefined;
-}
-export type LocationIdSetList = Array<LocationIdSet>;
-/** A non-empty list of row or column headers for a table. Exactly one of `prices`, `weights`, `num_items`, `postal_code_group_names`, or `location` must be set. */
-export interface Headers {
-  /** Required. A list of inclusive order weight upper bounds. The last weight's value can be infinity by setting price amount_micros = -1. For example `[{"amount_micros": 10000000, "unit": "kg"}, {"amount_micros": 50000000, "unit": "kg"}, {"amount_micros": -1, "unit": "kg"}]` represents the headers "<= 10kg", "<= 50kg", and "> 50kg". All weights within a service must have the same unit. Must be non-empty. Must be positive except -1. Can only be set if all other fields are not set. */
-  weights?: WeightList | undefined;
-  /** Required. A list of inclusive order price upper bounds. The last price's value can be infinity by setting price amount_micros = -1. For example `[{"amount_micros": 10000000, "currency_code": "USD"}, {"amount_micros": 500000000, "currency_code": "USD"}, {"amount_micros": -1, "currency_code": "USD"}]` represents the headers "<= $10", "<= $500", and "> $500". All prices within a service must have the same currency. Must be non-empty. Must be positive except -1. Can only be set if all other fields are not set. */
-  prices?: PriceList | undefined;
-  /** Required. A list of postal group names. The last value can be `"all other locations"`. Example: `["zone 1", "zone 2", "all other locations"]`. The referred postal code groups must match the delivery country of the service. Must be non-empty. Can only be set if all other fields are not set. */
-  postalCodeGroupNames?: StringList | undefined;
-  /** Required. A list of inclusive number of items upper bounds. The last value can be `"infinity"`. For example `["10", "50", "infinity"]` represents the headers "<= 10 items", "<= 50 items", and "> 50 items". Must be non-empty. Can only be set if all other fields are not set. */
-  numberOfItems?: StringList | undefined;
-  /** Required. A list of location ID sets. Must be non-empty. Can only be set if all other fields are not set. */
-  locations?: LocationIdSetList | undefined;
-}
-/** A table defining the rate group, when `single_value` is not expressive enough. */
-export interface Table {
-  /** Required. The list of rows that constitute the table. Must have the same length as `row_headers`. */
-  rows?: RowList | undefined;
-  /** Headers of the table's columns. Optional: if not set then the table has only one dimension. */
-  columnHeaders?: Headers | undefined;
-  /** Required. Headers of the table's rows. */
-  rowHeaders?: Headers | undefined;
-  /** Name of the table. Required for subtables, ignored for the main table. */
-  name?: string | undefined;
-}
-export type TableList = Array<Table>;
-/** Shipping rate group definitions. Only the last one is allowed to have an empty `applicable_shipping_labels`, which means "everything else". The other `applicable_shipping_labels` must not overlap. */
-export interface RateGroup {
-  /** Optional. A list of carrier rates that can be referred to by `main_table` or `single_value`. */
-  carrierRates?: CarrierRateList | undefined;
-  /** A table defining the rate group, when `single_value` is not expressive enough. Can only be set if `single_value` is not set. */
-  mainTable?: Table | undefined;
-  /** Required. A list of [shipping labels](https://support.google.com/merchants/answer/6324504) defining the products to which this rate group applies to. This is a disjunction: only one of the labels has to match for the rate group to apply. May only be empty for the last rate group of a service. */
-  applicableShippingLabels?: StringList | undefined;
-  /** Optional. Name of the rate group. If set has to be unique within shipping service. */
-  name?: string | undefined;
-  /** Optional. A list of subtables referred to by `main_table`. Can only be set if `main_table` is set. */
-  subtables?: TableList | undefined;
-  /** The value of the rate group (For example flat rate $10). Can only be set if `main_table` and `subtables` are not set. */
-  singleValue?: Value | undefined;
-}
-export type RateGroupList = Array<RateGroup>;
-/** Time that local delivery ends for the day. */
-export interface LocalCutoffTime {
-  /** Hour local delivery orders must be placed by to process the same day. */
-  hour?: string | undefined;
-  /** Minute local delivery orders must be placed by to process the same day. */
-  minute?: string | undefined;
-}
-/** Configs related to local delivery ends for the day. */
-export interface CutoffConfig {
-  /** Businesses can opt-out of showing n+1 day local delivery when they have a shipping service configured to n day local delivery. For example, if the shipping service defines same-day delivery, and it's past the cut-off, setting this field to `true` results in the calculated shipping service rate returning `NO_DELIVERY_POST_CUTOFF`. In the same example, setting this field to `false` results in the calculated shipping time being one day. This is only for local delivery. */
-  noDeliveryPostCutoff?: boolean | undefined;
-  /** Only valid with local delivery fulfillment. Represents cutoff time as the number of hours before store closing. Mutually exclusive with `local_cutoff_time`. */
-  storeCloseOffsetHours?: string | undefined;
-  /** Time that local delivery ends for the day. */
-  localCutoffTime?: LocalCutoffTime | undefined;
-}
-export type DistanceUnitEnum = "UNIT_UNSPECIFIED" | "MILES" | "KILOMETERS";
-/** Maximum delivery radius. This is only required for the local delivery shipment type. */
-export interface Distance {
-  /** Unit can differ based on country, it is parameterized to include miles and kilometers. */
-  unit?: DistanceUnitEnum | (string & {}) | undefined;
-  /** Integer value of distance. */
-  value?: string | undefined;
-}
-export type StoreConfigStoreServiceTypeEnum =
-  | "STORE_SERVICE_TYPE_UNSPECIFIED"
-  | "ALL_STORES"
-  | "SELECTED_STORES";
-/** A list of stores your products are delivered from. This is only valid for the local delivery shipment type. */
-export interface StoreConfig {
-  /** Configs related to local delivery ends for the day. */
-  cutoffConfig?: CutoffConfig | undefined;
-  /** Maximum delivery radius. This is only required for the local delivery shipment type. */
-  serviceRadius?: Distance | undefined;
-  /** Optional. A list of store codes that provide local delivery. If empty, then `all_stores` must be true. */
-  storeCodes?: StringList | undefined;
-  /** Indicates whether all stores, or selected stores, listed by this business provide local delivery. */
-  storeServiceType?: StoreConfigStoreServiceTypeEnum | (string & {}) | undefined;
-}
-/** Subset of a business's loyalty program. */
-export interface LoyaltyProgramTiers {
-  /** The tier label [tier_label] sub-attribute differentiates offer level benefits between each tier. This value is also set in your program settings in Merchant Center, and is required for data source changes even if your loyalty program only has 1 tier. */
-  tierLabel?: string | undefined;
-}
-export type LoyaltyProgramTiersList = Array<LoyaltyProgramTiers>;
-/** [Loyalty program](https://support.google.com/merchants/answer/12922446) provided by a business. */
-export interface LoyaltyProgram {
-  /** Optional. Loyalty program tier of this shipping service. */
-  loyaltyProgramTiers?: LoyaltyProgramTiersList | undefined;
-  /** This is the loyalty program label set in your loyalty program settings in Merchant Center. This sub-attribute allows Google to map your loyalty program to eligible offers. */
-  programLabel?: string | undefined;
-}
-export type LoyaltyProgramList = Array<LoyaltyProgram>;
-/** A list of store code sets sharing the same minimum order value. At least two sets are required and the last one must be empty, which signifies 'MOV for all other stores'. Each store code can only appear once across all the sets. All prices within a service must have the same currency. */
-export interface StoreCodeSetWithMov {
-  /** The minimum order value for the given stores. */
-  value?: Price | undefined;
-  /** Optional. A list of unique store codes or empty for the catch all. */
-  storeCodes?: StringList | undefined;
-}
-export type StoreCodeSetWithMovList = Array<StoreCodeSetWithMov>;
-/** Table of per store minimum order values for the pickup fulfillment type. */
-export interface MinimumOrderValueTable {
-  /** Required. A list of store code sets sharing the same minimum order value (MOV). At least two sets are required and the last one must be empty, which signifies 'MOV for all other stores'. Each store code can only appear once across all the sets. All prices within a service must have the same currency. */
-  storeCodeSetWithMovs?: StoreCodeSetWithMovList | undefined;
-}
-export type ServiceShipmentTypeEnum =
-  | "SHIPMENT_TYPE_UNSPECIFIED"
-  | "DELIVERY"
-  | "LOCAL_DELIVERY"
-  | "COLLECTION_POINT";
-/** Indicates that the delivery time should be calculated per warehouse (shipping origin location) based on the settings of the selected carrier. When set, no other transit time related field in `delivery_time` should be set. */
-export interface WarehouseBasedDeliveryTime {
-  /** Required. Carrier, such as `"UPS"` or `"Fedex"`. [supported carriers](https://support.google.com/merchants/answer/7050921#zippy=%2Ccarrier-rates-au-de-uk-and-us-only) */
-  carrier?: string | undefined;
-  /** Required. Carrier service, such as `"ground"` or `"2 days"`. The name of the service must be in the eddSupportedServices list. */
-  carrierService?: string | undefined;
-  /** Required. Warehouse name. This should match warehouse. */
-  warehouse?: string | undefined;
-}
-export type WarehouseBasedDeliveryTimeList = Array<WarehouseBasedDeliveryTime>;
-/** Business days cutoff time definition. */
-export interface CutoffTime {
-  /** Required. Hour of the cutoff time until which an order has to be placed to be processed in the same day. */
-  hour?: number | undefined;
-  /** Required. Minute of the cutoff time until which an order has to be placed to be processed in the same day. */
-  minute?: number | undefined;
-  /** Required. [Timezone identifier](https://developers.google.com/adwords/api/docs/appendix/codes-formats#timezone-ids) For example "Europe/Zurich". */
-  timeZone?: string | undefined;
 }
 /** Transit time range (min-max) in business days. */
 export interface TransitTimeValue {
@@ -1393,63 +1218,238 @@ export interface TransitTable {
   /** Required. A list of transit time labels. The last value can be `"all other labels"`. Example: `["food", "electronics", "all other labels"]`. */
   transitTimeLabels?: StringList | undefined;
 }
+/** Business days cutoff time definition. */
+export interface CutoffTime {
+  /** Required. Hour of the cutoff time until which an order has to be placed to be processed in the same day. */
+  hour?: number | undefined;
+  /** Required. Minute of the cutoff time until which an order has to be placed to be processed in the same day. */
+  minute?: number | undefined;
+  /** Required. [Timezone identifier](https://developers.google.com/adwords/api/docs/appendix/codes-formats#timezone-ids) For example "Europe/Zurich". */
+  timeZone?: string | undefined;
+}
 /** Time spent in various aspects from order to the delivery of the product. */
 export interface DeliveryTime {
+  /** Minimum number of business days that is spent in transit. 0 means same day delivery, 1 means next day delivery. Either `min_transit_days`, `max_transit_days` or `transit_time_table` must be set, but not both. */
+  minTransitDays?: number | undefined;
+  /** Minimum number of business days spent before an order is shipped. 0 means same day shipped, 1 means next day shipped. 'min_handling_days' and 'max_handling_days' should be either set or not set at the same time. */
+  minHandlingDays?: number | undefined;
   /** Optional. Indicates that the delivery time should be calculated per warehouse (shipping origin location) based on the settings of the selected carrier. When set, no other transit time related field in delivery time should be set. */
   warehouseBasedDeliveryTimes?: WarehouseBasedDeliveryTimeList | undefined;
+  /** The business days during which orders can be in-transit. If not provided, Monday to Friday business days will be assumed. */
+  transitBusinessDayConfig?: BusinessDayConfig | undefined;
   /** Maximum number of business days that is spent in transit. 0 means same day delivery, 1 means next day delivery. Must be greater than or equal to `min_transit_days`. */
   maxTransitDays?: number | undefined;
   /** Maximum number of business days spent before an order is shipped. 0 means same day shipped, 1 means next day shipped. Must be greater than or equal to `min_handling_days`. 'min_handling_days' and 'max_handling_days' should be either set or not set at the same time. */
   maxHandlingDays?: number | undefined;
-  /** Business days cutoff time definition. If not configured the cutoff time will be defaulted to 8AM PST. */
-  cutoffTime?: CutoffTime | undefined;
-  /** The business days during which orders can be handled. If not provided, Monday to Friday business days will be assumed. */
-  handlingBusinessDayConfig?: BusinessDayConfig | undefined;
-  /** Minimum number of business days spent before an order is shipped. 0 means same day shipped, 1 means next day shipped. 'min_handling_days' and 'max_handling_days' should be either set or not set at the same time. */
-  minHandlingDays?: number | undefined;
-  /** Minimum number of business days that is spent in transit. 0 means same day delivery, 1 means next day delivery. Either `min_transit_days`, `max_transit_days` or `transit_time_table` must be set, but not both. */
-  minTransitDays?: number | undefined;
-  /** The business days during which orders can be in-transit. If not provided, Monday to Friday business days will be assumed. */
-  transitBusinessDayConfig?: BusinessDayConfig | undefined;
   /** Transit time table, number of business days spent in transit based on row and column dimensions. Either `min_transit_days`, `max_transit_days` or `transit_time_table` can be set, but not both. */
   transitTimeTable?: TransitTable | undefined;
+  /** The business days during which orders can be handled. If not provided, Monday to Friday business days will be assumed. */
+  handlingBusinessDayConfig?: BusinessDayConfig | undefined;
+  /** Business days cutoff time definition. If not configured the cutoff time will be defaulted to 8AM PST. */
+  cutoffTime?: CutoffTime | undefined;
 }
+export type DistanceUnitEnum = "UNIT_UNSPECIFIED" | "MILES" | "KILOMETERS";
+/** Maximum delivery radius. This is only required for the local delivery shipment type. */
+export interface Distance {
+  /** Integer value of distance. */
+  value?: string | undefined;
+  /** Unit can differ based on country, it is parameterized to include miles and kilometers. */
+  unit?: DistanceUnitEnum | (string & {}) | undefined;
+}
+/** Time that local delivery ends for the day. */
+export interface LocalCutoffTime {
+  /** Minute local delivery orders must be placed by to process the same day. */
+  minute?: string | undefined;
+  /** Hour local delivery orders must be placed by to process the same day. */
+  hour?: string | undefined;
+}
+/** Configs related to local delivery ends for the day. */
+export interface CutoffConfig {
+  /** Only valid with local delivery fulfillment. Represents cutoff time as the number of hours before store closing. Mutually exclusive with `local_cutoff_time`. */
+  storeCloseOffsetHours?: string | undefined;
+  /** Businesses can opt-out of showing n+1 day local delivery when they have a shipping service configured to n day local delivery. For example, if the shipping service defines same-day delivery, and it's past the cut-off, setting this field to `true` results in the calculated shipping service rate returning `NO_DELIVERY_POST_CUTOFF`. In the same example, setting this field to `false` results in the calculated shipping time being one day. This is only for local delivery. */
+  noDeliveryPostCutoff?: boolean | undefined;
+  /** Time that local delivery ends for the day. */
+  localCutoffTime?: LocalCutoffTime | undefined;
+}
+export type StoreConfigStoreServiceTypeEnum =
+  | "STORE_SERVICE_TYPE_UNSPECIFIED"
+  | "ALL_STORES"
+  | "SELECTED_STORES";
+/** A list of stores your products are delivered from. This is only valid for the local delivery shipment type. */
+export interface StoreConfig {
+  /** Optional. A list of store codes that provide local delivery. If empty, then `all_stores` must be true. */
+  storeCodes?: StringList | undefined;
+  /** Maximum delivery radius. This is only required for the local delivery shipment type. */
+  serviceRadius?: Distance | undefined;
+  /** Configs related to local delivery ends for the day. */
+  cutoffConfig?: CutoffConfig | undefined;
+  /** Indicates whether all stores, or selected stores, listed by this business provide local delivery. */
+  storeServiceType?: StoreConfigStoreServiceTypeEnum | (string & {}) | undefined;
+}
+export type WeightUnitEnum = "WEIGHT_UNIT_UNSPECIFIED" | "POUND" | "KILOGRAM";
+/** The weight represented as the value in string and the unit. */
+export interface Weight {
+  /** Required. The weight represented as a number in micros (1 million micros is an equivalent to one's currency standard unit, for example, 1 kg = 1000000 micros). This field can also be set as infinity by setting to -1. This field only support -1 and positive value. */
+  amountMicros?: string | undefined;
+  /** Required. The weight unit. Acceptable values are: kg and lb */
+  unit?: WeightUnitEnum | (string & {}) | undefined;
+}
+export type WeightList = Array<Weight>;
+export type PriceList = Array<Price>;
+/** A list of location ID sets. Must be non-empty. Can only be set if all other fields are not set. */
+export interface LocationIdSet {
+  /** Required. A non-empty list of [location IDs](https://developers.google.com/adwords/api/docs/appendix/geotargeting). They must all be of the same location type (For example, state). */
+  locationIds?: StringList | undefined;
+}
+export type LocationIdSetList = Array<LocationIdSet>;
+/** A non-empty list of row or column headers for a table. Exactly one of `prices`, `weights`, `num_items`, `postal_code_group_names`, or `location` must be set. */
+export interface Headers {
+  /** Required. A list of postal group names. The last value can be `"all other locations"`. Example: `["zone 1", "zone 2", "all other locations"]`. The referred postal code groups must match the delivery country of the service. Must be non-empty. Can only be set if all other fields are not set. */
+  postalCodeGroupNames?: StringList | undefined;
+  /** Required. A list of inclusive order weight upper bounds. The last weight's value can be infinity by setting price amount_micros = -1. For example `[{"amount_micros": 10000000, "unit": "kg"}, {"amount_micros": 50000000, "unit": "kg"}, {"amount_micros": -1, "unit": "kg"}]` represents the headers "<= 10kg", "<= 50kg", and "> 50kg". All weights within a service must have the same unit. Must be non-empty. Must be positive except -1. Can only be set if all other fields are not set. */
+  weights?: WeightList | undefined;
+  /** Required. A list of inclusive number of items upper bounds. The last value can be `"infinity"`. For example `["10", "50", "infinity"]` represents the headers "<= 10 items", "<= 50 items", and "> 50 items". Must be non-empty. Can only be set if all other fields are not set. */
+  numberOfItems?: StringList | undefined;
+  /** Required. A list of inclusive order price upper bounds. The last price's value can be infinity by setting price amount_micros = -1. For example `[{"amount_micros": 10000000, "currency_code": "USD"}, {"amount_micros": 500000000, "currency_code": "USD"}, {"amount_micros": -1, "currency_code": "USD"}]` represents the headers "<= $10", "<= $500", and "> $500". All prices within a service must have the same currency. Must be non-empty. Must be positive except -1. Can only be set if all other fields are not set. */
+  prices?: PriceList | undefined;
+  /** Required. A list of location ID sets. Must be non-empty. Can only be set if all other fields are not set. */
+  locations?: LocationIdSetList | undefined;
+}
+/** The single value of a rate group or the value of a rate group table's cell. Exactly one of `no_shipping`, `flat_rate`, `price_percentage`, `carrier_rateName`, `subtable_name` must be set. */
+export interface Value {
+  /** The name of a subtable. Can only be set in table cells (For example, not for single values), and only if all other fields are not set. */
+  subtable?: string | undefined;
+  /** A percentage of the price represented as a number in decimal notation (For example, `"5.4"`). Can only be set if all other fields are not set. */
+  pricePercentage?: string | undefined;
+  /** A flat rate. Can only be set if all other fields are not set. */
+  flatRate?: Price | undefined;
+  /** If true, then the product can't be shipped. Must be true when set, can only be set if all other fields are not set. */
+  noShipping?: boolean | undefined;
+  /** The name of a carrier rate referring to a carrier rate defined in the same rate group. Can only be set if all other fields are not set. */
+  carrierRate?: string | undefined;
+}
+export type ValueList = Array<Value>;
+/** Include a list of cells. */
+export interface Row {
+  /** Required. The list of cells that constitute the row. Must have the same length as `columnHeaders` for two-dimensional tables, a length of 1 for one-dimensional tables. */
+  cells?: ValueList | undefined;
+}
+export type RowList = Array<Row>;
+/** A table defining the rate group, when `single_value` is not expressive enough. */
+export interface Table {
+  /** Headers of the table's columns. Optional: if not set then the table has only one dimension. */
+  columnHeaders?: Headers | undefined;
+  /** Required. Headers of the table's rows. */
+  rowHeaders?: Headers | undefined;
+  /** Name of the table. Required for subtables, ignored for the main table. */
+  name?: string | undefined;
+  /** Required. The list of rows that constitute the table. Must have the same length as `row_headers`. */
+  rows?: RowList | undefined;
+}
+/** A list of carrier rates that can be referred to by `main_table` or `single_value`. Supported carrier services are defined in https://support.google.com/merchants/answer/12577710?ref_topic=12570808&sjid=10662598224319463032-NC#zippy=%2Cdelivery-cost-rate-type%2Ccarrier-rate-au-de-uk-and-us-only. */
+export interface CarrierRate {
+  /** Required. Shipping origin for this carrier rate. */
+  originPostalCode?: string | undefined;
+  /** Required. Carrier service, such as `"ground"` or `"2 days"`. */
+  carrierService?: string | undefined;
+  /** Optional. Multiplicative shipping rate modifier as a number in decimal notation. Can be negative. For example `"5.4"` increases the rate by 5.4%, `"-3"` decreases the rate by 3%. */
+  percentageAdjustment?: string | undefined;
+  /** Optional. Additive shipping rate modifier. Can be negative. For example `{ "amount_micros": 1, "currency_code" : "USD" }` adds $1 to the rate, `{ "amount_micros": -3, "currency_code" : "USD" }` removes $3 from the rate. */
+  flatAdjustment?: Price | undefined;
+  /** Required. Carrier service, such as `"UPS"` or `"Fedex"`. */
+  carrier?: string | undefined;
+  /** Required. Name of the carrier rate. Must be unique per rate group. */
+  name?: string | undefined;
+}
+export type CarrierRateList = Array<CarrierRate>;
+export type TableList = Array<Table>;
+/** Shipping rate group definitions. Only the last one is allowed to have an empty `applicable_shipping_labels`, which means "everything else". The other `applicable_shipping_labels` must not overlap. */
+export interface RateGroup {
+  /** A table defining the rate group, when `single_value` is not expressive enough. Can only be set if `single_value` is not set. */
+  mainTable?: Table | undefined;
+  /** Optional. A list of carrier rates that can be referred to by `main_table` or `single_value`. */
+  carrierRates?: CarrierRateList | undefined;
+  /** Required. A list of [shipping labels](https://support.google.com/merchants/answer/6324504) defining the products to which this rate group applies to. This is a disjunction: only one of the labels has to match for the rate group to apply. May only be empty for the last rate group of a service. */
+  applicableShippingLabels?: StringList | undefined;
+  /** Optional. A list of subtables referred to by `main_table`. Can only be set if `main_table` is set. */
+  subtables?: TableList | undefined;
+  /** The value of the rate group (For example flat rate $10). Can only be set if `main_table` and `subtables` are not set. */
+  singleValue?: Value | undefined;
+  /** Optional. Name of the rate group. If set has to be unique within shipping service. */
+  name?: string | undefined;
+}
+export type RateGroupList = Array<RateGroup>;
 /** Shipping service. */
 export interface Service {
   /** Required. A boolean exposing the active status of the shipping service. */
   active?: boolean | undefined;
-  /** Optional. Shipping rate group definitions. Only the last one is allowed to have an empty `applicable_shipping_labels`, which means "everything else". The other `applicable_shipping_labels` must not overlap. */
-  rateGroups?: RateGroupList | undefined;
-  /** A list of stores your products are delivered from. This is only valid for the local delivery shipment type. */
-  storeConfig?: StoreConfig | undefined;
-  /** Optional. Loyalty programs that this shipping service is limited to. */
-  loyaltyPrograms?: LoyaltyProgramList | undefined;
   /** Optional. Table of per store minimum order values for the pickup fulfillment type. Cannot be set together with `minimum_order_value`. */
   minimumOrderValueTable?: MinimumOrderValueTable | undefined;
-  /** Required. Free-form name of the service. Must be unique within target account. */
-  serviceName?: string | undefined;
   /** Optional. Type of locations this service ships orders to. */
   shipmentType?: ServiceShipmentTypeEnum | (string & {}) | undefined;
-  /** Required. Time spent in various aspects from order to the delivery of the product. */
-  deliveryTime?: DeliveryTime | undefined;
-  /** Optional. Minimum order value for this service. If set, indicates that customers will have to spend at least this amount. All prices within a service must have the same currency. Cannot be set together with `minimum_order_value_table`. */
-  minimumOrderValue?: Price | undefined;
-  /** Required. The CLDR territory code of the countries to which the service applies. */
-  deliveryCountries?: StringList | undefined;
   /** Required. The CLDR code of the currency to which this service applies. Must match that of the prices in rate groups. */
   currencyCode?: string | undefined;
+  /** Optional. Loyalty programs that this shipping service is limited to. */
+  loyaltyPrograms?: LoyaltyProgramList | undefined;
+  /** Optional. Minimum order value for this service. If set, indicates that customers will have to spend at least this amount. All prices within a service must have the same currency. Cannot be set together with `minimum_order_value_table`. */
+  minimumOrderValue?: Price | undefined;
+  /** Required. Time spent in various aspects from order to the delivery of the product. */
+  deliveryTime?: DeliveryTime | undefined;
+  /** Required. The CLDR territory code of the countries to which the service applies. */
+  deliveryCountries?: StringList | undefined;
+  /** Required. Free-form name of the service. Must be unique within target account. */
+  serviceName?: string | undefined;
+  /** A list of stores your products are delivered from. This is only valid for the local delivery shipment type. */
+  storeConfig?: StoreConfig | undefined;
+  /** Optional. Shipping rate group definitions. Only the last one is allowed to have an empty `applicable_shipping_labels`, which means "everything else". The other `applicable_shipping_labels` must not overlap. */
+  rateGroups?: RateGroupList | undefined;
 }
 export type ServiceList = Array<Service>;
+/** The latest time of day that an order can be accepted and begin processing. Later orders will be processed in the next day. The time is based on the warehouse postal code. */
+export interface WarehouseCutoffTime {
+  /** Required. Hour of the cutoff time until which an order has to be placed to be processed in the same day by the warehouse. Hour is based on the timezone of warehouse. */
+  hour?: number | undefined;
+  /** Required. Minute of the cutoff time until which an order has to be placed to be processed in the same day by the warehouse. Minute is based on the timezone of warehouse. */
+  minute?: number | undefined;
+}
+/** Shipping address of the warehouse. */
+export interface Address {
+  /** Required. [CLDR country code](http://www.unicode.org/repos/cldr/tags/latest/common/main/en.xml) (For example "US"). */
+  regionCode?: string | undefined;
+  /** Required. Top-level administrative subdivision of the country. For example, a state like California ("CA") or a province like Quebec ("QC"). */
+  administrativeArea?: string | undefined;
+  /** Required. City, town or commune. May also include dependent localities or sublocalities (For example neighborhoods or suburbs). */
+  city?: string | undefined;
+  /** Street-level part of the address. For example: `111w 31st Street`. */
+  streetAddress?: string | undefined;
+  /** Required. Postal code or ZIP (For example "94043"). */
+  postalCode?: string | undefined;
+}
+/** A fulfillment warehouse, which stores and handles inventory. */
+export interface Warehouse {
+  /** Required. The number of days it takes for this warehouse to pack up and ship an item. This is on the warehouse level, but can be overridden on the offer level based on the attributes of an item. */
+  handlingDays?: string | undefined;
+  /** Required. The latest time of day that an order can be accepted and begin processing. Later orders will be processed in the next day. The time is based on the warehouse postal code. */
+  cutoffTime?: WarehouseCutoffTime | undefined;
+  /** Required. The name of the warehouse. Must be unique within account. */
+  name?: string | undefined;
+  /** Business days of the warehouse. If not set, will be Monday to Friday by default. */
+  businessDayConfig?: BusinessDayConfig | undefined;
+  /** Required. Shipping address of the warehouse. */
+  shippingAddress?: Address | undefined;
+}
+export type WarehouseList = Array<Warehouse>;
 /** The Merchant Center account's [shipping settings](https://support.google.com/merchants/answer/6069284). The `ShippingSettings` resource lets you retrieve and update the shipping settings of your advanced account and all its associated sub-accounts. For more information, see [Manage shipping settings](https://developers.google.com/merchant/api/guides/accounts/manage-shipping-settings). */
 export interface ShippingSettings {
-  /** Optional. A list of warehouses which can be referred to in `services`. */
-  warehouses?: WarehouseList | undefined;
-  /** Optional. The target account's list of services. */
-  services?: ServiceList | undefined;
-  /** Required. This field helps avoid async issues. It ensures that the shipping setting data doesn't change between the `get` call and the `insert` call. The user should follow these steps: 1. Set the etag field as an empty string for the initial shipping setting creation. 2. After the initial creation, call the `get` method to obtain an etag and the current shipping setting data before calling `insert`. 3. Modify the shipping setting information. 4. Call the `insert` method with the shipping setting information and the etag obtained in step 2. 5. If the shipping setting data changes between step 2 and step 4, the insert request will fail because the etag changes every time the shipping setting data changes. In this case, the user should repeat steps 2-4 with the new etag. */
-  etag?: string | undefined;
   /** Identifier. The resource name of the shipping settings. Format: `accounts/{account}/shippingSettings`. For example, `accounts/123456/shippingSettings`. */
   name?: string | undefined;
+  /** Optional. The target account's list of services. */
+  services?: ServiceList | undefined;
+  /** Optional. A list of warehouses which can be referred to in `services`. */
+  warehouses?: WarehouseList | undefined;
+  /** Required. This field helps avoid async issues. It ensures that the shipping setting data doesn't change between the `get` call and the `insert` call. The user should follow these steps: 1. Set the etag field as an empty string for the initial shipping setting creation. 2. After the initial creation, call the `get` method to obtain an etag and the current shipping setting data before calling `insert`. 3. Modify the shipping setting information. 4. Call the `insert` method with the shipping setting information and the etag obtained in step 2. 5. If the shipping setting data changes between step 2 and step 4, the insert request will fail because the etag changes every time the shipping setting data changes. In this case, the user should repeat steps 2-4 with the new etag. */
+  etag?: string | undefined;
 }
 export interface GetTermsOfServiceRequest {
   /** Required. The resource name of the terms of service version. Format: `termsOfService/{version}` */
@@ -1488,56 +1488,56 @@ export interface LinkLfpProviderResponse {
   response?: Empty | undefined;
 }
 export interface ListAccountsRequest {
-  /** Optional. Returns only accounts that match the [filter](https://developers.google.com/merchant/api/guides/accounts/filter). For more details, see the [filter syntax reference](https://developers.google.com/merchant/api/guides/accounts/filter-syntax). */
-  filter?: string | undefined;
   /** Optional. The maximum number of accounts to return. The service may return fewer than this value. If unspecified, at most 250 accounts are returned. The maximum value is 500; values above 500 are coerced to 500. */
   pageSize?: number | undefined;
   /** Optional. A page token, received from a previous `accounts.list` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided in the `accounts.list` request must match the call that provided the page token. */
   pageToken?: string | undefined;
+  /** Optional. Returns only accounts that match the [filter](https://developers.google.com/merchant/api/guides/accounts/filter). For more details, see the [filter syntax reference](https://developers.google.com/merchant/api/guides/accounts/filter-syntax). */
+  filter?: string | undefined;
 }
 export type AccountList = Array<Account>;
 /** Response message for the `accounts.list` method. */
 export interface ListAccountsResponse {
-  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string | undefined;
   /** The accounts matching the `ListAccountsRequest`. */
   accounts?: AccountList | undefined;
+  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string | undefined;
 }
 export interface ListAccountsGbpAccountsRequest {
+  /** Optional. A page token, received from a previous `ListGbpAccounts` call. Provide the page token to retrieve the subsequent page. When paginating, all other parameters provided to `ListGbpAccounts` must match the call that provided the page token. */
+  pageToken?: string | undefined;
   /** Required. The name of the parent resource under which the GBP accounts are listed. Format: `accounts/{account}`. */
   parent: string;
   /** Optional. The maximum number of `GbpAccount` resources to return. The service returns fewer than this value if the number of gbp accounts is less that than the `pageSize`. The default value is 50. The maximum value is 1000; If a value higher than the maximum is specified, then the `pageSize` will default to the maximum. */
   pageSize?: number | undefined;
-  /** Optional. A page token, received from a previous `ListGbpAccounts` call. Provide the page token to retrieve the subsequent page. When paginating, all other parameters provided to `ListGbpAccounts` must match the call that provided the page token. */
-  pageToken?: string | undefined;
 }
 export type GbpAccountTypeEnum = "TYPE_UNSPECIFIED" | "USER" | "BUSINESS_ACCOUNT";
 /** Collection of information related to a Google Business Profile (GBP) account. For more information, see [Link a Google business profile](https://developers.google.com/merchant/api/guides/accounts/link-business-profile). */
 export interface GbpAccount {
-  /** Number of listings under this account. */
-  listingCount?: string | undefined;
-  /** Identifier. The resource name of the GBP account. Format: `accounts/{account}/gbpAccount/{gbp_account}` */
-  name?: string | undefined;
-  /** The type of the Business Profile. */
-  type?: GbpAccountTypeEnum | undefined;
   /** The name of the Business Profile. For personal accounts: Email id of the owner. For Business accounts: Name of the Business Account. */
   gbpAccountName?: string | undefined;
+  /** Identifier. The resource name of the GBP account. Format: `accounts/{account}/gbpAccount/{gbp_account}` */
+  name?: string | undefined;
+  /** Number of listings under this account. */
+  listingCount?: string | undefined;
+  /** The type of the Business Profile. */
+  type?: GbpAccountTypeEnum | undefined;
   /** The id of the GBP account. */
   gbpAccountId?: string | undefined;
 }
 export type GbpAccountList = Array<GbpAccount>;
 /** Response message for the ListGbpAccounts method. */
 export interface ListGbpAccountsResponse {
-  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string | undefined;
   /** The GBP accounts from the specified merchant in the specified country. */
   gbpAccounts?: GbpAccountList | undefined;
+  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string | undefined;
 }
 export interface ListAccountsIssuesRequest {
-  /** Optional. The [IANA](https://www.iana.org/time-zones) timezone used to localize times in human-readable fields. For example 'America/Los_Angeles'. If not set, 'America/Los_Angeles' will be used. */
-  timeZone?: string | undefined;
   /** Optional. A page token, received from a previous `ListAccountIssues` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListAccountIssues` must match the call that provided the page token. */
   pageToken?: string | undefined;
+  /** Optional. The [IANA](https://www.iana.org/time-zones) timezone used to localize times in human-readable fields. For example 'America/Los_Angeles'. If not set, 'America/Los_Angeles' will be used. */
+  timeZone?: string | undefined;
   /** Optional. The maximum number of issues to return. The service may return fewer than this value. If unspecified, at most 50 issues will be returned. The maximum value is 100; values above 100 will be coerced to 100 */
   pageSize?: number | undefined;
   /** Required. The parent, which owns this collection of issues. Format: `accounts/{account}` */
@@ -1587,14 +1587,14 @@ export interface ImpactedDestination {
 export type ImpactedDestinationList = Array<ImpactedDestination>;
 /** Issues with your Merchant Center account that can impact all your products. For more information, see [Account-level issues in Merchant Center](https://support.google.com/merchants/answer/12153802#account) and [View account issues](https://developers.google.com/merchant/api/guides/accounts/view-issues). */
 export interface AccountIssue {
-  /** Further localized details about the issue. */
-  detail?: string | undefined;
-  /** Link to Merchant Center Help Center providing further information about the issue and how to fix it. */
-  documentationUri?: string | undefined;
   /** The overall severity of the issue. */
   severity?: AccountIssueSeverityEnum | undefined;
   /** The impact this issue has on various destinations. */
   impactedDestinations?: ImpactedDestinationList | undefined;
+  /** Further localized details about the issue. */
+  detail?: string | undefined;
+  /** Link to Merchant Center Help Center providing further information about the issue and how to fix it. */
+  documentationUri?: string | undefined;
   /** Identifier. The resource name of the account issue. Format: `accounts/{account}/issues/{id}`. For example, `accounts/123456/issues/misrepresentation-of-self-or-products-unacceptable-business-practice-policy`. */
   name?: string | undefined;
   /** The localized title of the issue. */
@@ -1603,10 +1603,10 @@ export interface AccountIssue {
 export type AccountIssueList = Array<AccountIssue>;
 /** Response message for the `ListAccountIssues` method. */
 export interface ListAccountIssuesResponse {
-  /** The issues from the specified account. */
-  accountIssues?: AccountIssueList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string | undefined;
+  /** The issues from the specified account. */
+  accountIssues?: AccountIssueList | undefined;
 }
 export interface ListAccountsOmnichannelSettingsRequest {
   /** Optional. The maximum number of omnichannel settings to return. The service may return fewer than this value. If unspecified, at most 50 omnichannel settings will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
@@ -1635,32 +1635,32 @@ export interface ListAccountsOnlineReturnPoliciesRequest {
 export type OnlineReturnPolicyList = Array<OnlineReturnPolicy>;
 /** Response message for the `ListOnlineReturnPolicies` method. */
 export interface ListOnlineReturnPoliciesResponse {
-  /** A token, which can be sent as `pageToken` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string | undefined;
   /** The retrieved return policies. */
   onlineReturnPolicies?: OnlineReturnPolicyList | undefined;
+  /** A token, which can be sent as `pageToken` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string | undefined;
 }
 export interface ListAccountsProgramsRequest {
-  /** Optional. The maximum number of programs to return in a single response. If unspecified (or 0), a default size of 1000 is used. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number | undefined;
   /** Optional. A continuation token, received from a previous `ListPrograms` call. Provide this to retrieve the next page. */
   pageToken?: string | undefined;
   /** Required. The name of the account for which to retrieve all programs. Format: `accounts/{account}` */
   parent: string;
+  /** Optional. The maximum number of programs to return in a single response. If unspecified (or 0), a default size of 1000 is used. The maximum value is 1000; values above 1000 will be coerced to 1000. */
+  pageSize?: number | undefined;
 }
 export type ProgramList = Array<Program>;
 /** Response message for the ListPrograms method. */
 export interface ListProgramsResponse {
-  /** The programs for the given account. */
-  programs?: ProgramList | undefined;
   /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string | undefined;
+  /** The programs for the given account. */
+  programs?: ProgramList | undefined;
 }
 export interface ListAccountsRegionsRequest {
-  /** Optional. A page token, received from a previous `ListRegions` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListRegions` must match the call that provided the page token. */
-  pageToken?: string | undefined;
   /** Optional. The maximum number of regions to return. The service may return fewer than this value. If unspecified, at most 50 regions will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
   pageSize?: number | undefined;
+  /** Optional. A page token, received from a previous `ListRegions` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListRegions` must match the call that provided the page token. */
+  pageToken?: string | undefined;
   /** Required. The account to list regions for. Format: `accounts/{account}` */
   parent: string;
 }
@@ -1672,12 +1672,12 @@ export interface ListRegionsResponse {
   regions?: RegionList | undefined;
 }
 export interface ListAccountsRelationshipsRequest {
-  /** Required. The parent account of the account relationship to filter by. Format: `accounts/{account}` */
-  parent: string;
   /** Optional. The maximum number of elements to return in the response. Use for paging. If no `page_size` is specified, `100` is used as the default value. The maximum allowed value is `1000`. */
   pageSize?: number | undefined;
   /** Optional. The token returned by the previous `list` request. */
   pageToken?: string | undefined;
+  /** Required. The parent account of the account relationship to filter by. Format: `accounts/{account}` */
+  parent: string;
 }
 export type AccountRelationshipList = Array<AccountRelationship>;
 /** Response after trying to list account relationships. */
@@ -1688,12 +1688,12 @@ export interface ListAccountRelationshipsResponse {
   nextPageToken?: string | undefined;
 }
 export interface ListAccountsServicesRequest {
+  /** Optional. The token returned by the previous `list` request. */
+  pageToken?: string | undefined;
   /** Required. The parent account of the account service to filter by. Format: `accounts/{account}` */
   parent: string;
   /** Optional. The maximum number of elements to return in the response. Use for paging. If no `page_size` is specified, `100` is used as the default value. The maximum allowed value is `1000`. */
   pageSize?: number | undefined;
-  /** Optional. The token returned by the previous `list` request. */
-  pageToken?: string | undefined;
 }
 export type AccountServiceList = Array<AccountService>;
 /** Response after trying to list account services. */
@@ -1704,35 +1704,35 @@ export interface ListAccountServicesResponse {
   accountServices?: AccountServiceList | undefined;
 }
 export interface ListAccountsUsersRequest {
+  /** Optional. A page token, received from a previous `ListUsers` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListUsers` must match the call that provided the page token. */
+  pageToken?: string | undefined;
   /** Required. The parent, which owns this collection of users. Format: `accounts/{account}` */
   parent: string;
   /** Optional. The maximum number of users to return. The service may return fewer than this value. If unspecified, at most 50 users will be returned. The maximum value is 100; values above 100 will be coerced to 100 */
   pageSize?: number | undefined;
-  /** Optional. A page token, received from a previous `ListUsers` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListUsers` must match the call that provided the page token. */
-  pageToken?: string | undefined;
 }
 export type UserList = Array<User>;
 /** Response message for the `ListUsers` method. */
 export interface ListUsersResponse {
-  /** The users from the specified account. */
-  users?: UserList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string | undefined;
+  /** The users from the specified account. */
+  users?: UserList | undefined;
 }
 export interface ListSubaccountsAccountsRequest {
-  /** Optional. A page token, received from a previous `accounts.list` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided in the `accounts.list` request must match the call that provided the page token. */
-  pageToken?: string | undefined;
-  /** Required. The aggregation service provider. Format: `accounts/{accountId}` */
-  provider: string;
   /** Optional. The maximum number of accounts to return. The service may return fewer than this value. If unspecified, at most 250 accounts are returned. The maximum value is 500; values above 500 are coerced to 500. */
   pageSize?: number | undefined;
+  /** Required. The aggregation service provider. Format: `accounts/{accountId}` */
+  provider: string;
+  /** Optional. A page token, received from a previous `accounts.list` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided in the `accounts.list` request must match the call that provided the page token. */
+  pageToken?: string | undefined;
 }
 /** Response message for the `ListSubAccounts` method. */
 export interface ListSubAccountsResponse {
-  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string | undefined;
   /** The accounts for which the given parent account is an aggregator. */
   accounts?: AccountList | undefined;
+  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string | undefined;
 }
 export interface PatchAccountsRequest extends Omit<Account, "name"> {
   /** Identifier. The resource name of the account. Format: `accounts/{account}` */
@@ -1741,10 +1741,10 @@ export interface PatchAccountsRequest extends Omit<Account, "name"> {
   updateMask?: string | undefined;
 }
 export interface PatchAccountsOmnichannelSettingsRequest extends Omit<OmnichannelSetting, "name"> {
-  /** Identifier. The resource name of the omnichannel setting. Format: `accounts/{account}/omnichannelSettings/{omnichannel_setting}` */
-  name: string;
   /** Required. The list of fields to be updated. The following fields are supported in snake_case only: - `lsf_type` - `in_stock` - `pickup` - `odo` - `about` - `inventory_verification` Full replacement with wildcard `*`is supported, while empty/implied update mask is not. */
   updateMask?: string | undefined;
+  /** Identifier. The resource name of the omnichannel setting. Format: `accounts/{account}/omnichannelSettings/{omnichannel_setting}` */
+  name: string;
 }
 export interface PatchAccountsRegionsRequest extends Omit<Region, "name"> {
   /** Identifier. The resource name of the region. Format: `accounts/{account}/regions/{region}` */
@@ -1753,10 +1753,10 @@ export interface PatchAccountsRegionsRequest extends Omit<Region, "name"> {
   updateMask?: string | undefined;
 }
 export interface PatchAccountsRelationshipsRequest extends Omit<AccountRelationship, "name"> {
-  /** Identifier. The resource name of the account relationship. Format: `accounts/{account}/relationships/{relationship}`. For example, `accounts/123456/relationships/567890`. */
-  name: string;
   /** Optional. List of fields being updated. The following fields are supported (in both `snake_case` and `lowerCamelCase`): - `account_id_alias` */
   updateMask?: string | undefined;
+  /** Identifier. The resource name of the account relationship. Format: `accounts/{account}/relationships/{relationship}`. For example, `accounts/123456/relationships/567890`. */
+  name: string;
 }
 export interface PatchAccountsUsersRequest extends Omit<User, "name"> {
   /** Identifier. The resource name of the user. Format: `accounts/{account}/user/{email}` Use `me` to refer to your own email address, for example `accounts/{account}/users/me`. */
@@ -1825,34 +1825,34 @@ export interface UpdateAutofeedSettingsAccountsAutofeedSettingsRequest extends O
   AutofeedSettings,
   "name"
 > {
-  /** Required. List of fields being updated. */
-  updateMask?: string | undefined;
   /** Identifier. The resource name of the autofeed settings. Format: `accounts/{account}/autofeedSettings`. */
   name: string;
+  /** Required. List of fields being updated. */
+  updateMask?: string | undefined;
 }
 export interface UpdateAutomaticImprovementsAccountsAutomaticImprovementsRequest extends Omit<
   AutomaticImprovements,
   "name"
 > {
-  /** Identifier. The resource name of the automatic improvements. Format: `accounts/{account}/automaticImprovements`. */
-  name: string;
   /** Required. List of fields being updated. The following fields are supported (in both `snake_case` and `lowerCamelCase`): - `item_updates` - `item_updates.account_level_settings` - `image_improvements` - `image_improvements.account_level_settings` - `shipping_improvements` - `shipping_improvements.allow_shipping_improvements` */
   updateMask?: string | undefined;
+  /** Identifier. The resource name of the automatic improvements. Format: `accounts/{account}/automaticImprovements`. */
+  name: string;
 }
 export interface UpdateBusinessIdentityAccountsBusinessIdentityRequest extends Omit<
   BusinessIdentity,
   "name"
 > {
-  /** Optional. List of fields being updated. The following fields are supported (in both `snake_case` and `lowerCamelCase`): - `black_owned` - `latino_owned` - `promotions_consent` - `small_business` - `veteran_owned` - `women_owned` */
-  updateMask?: string | undefined;
   /** Identifier. The resource name of the business identity. Format: `accounts/{account}/businessIdentity` */
   name: string;
+  /** Optional. List of fields being updated. The following fields are supported (in both `snake_case` and `lowerCamelCase`): - `black_owned` - `latino_owned` - `promotions_consent` - `small_business` - `veteran_owned` - `women_owned` */
+  updateMask?: string | undefined;
 }
 export interface UpdateBusinessInfoAccountsBusinessInfoRequest extends Omit<BusinessInfo, "name"> {
-  /** Identifier. The resource name of the business info. Format: `accounts/{account}/businessInfo` */
-  name: string;
   /** Optional. List of fields being updated. The following fields are supported (in both `snake_case` and `lowerCamelCase`): - `address` - `customer_service` - `korean_business_registration_number` */
   updateMask?: string | undefined;
+  /** Identifier. The resource name of the business info. Format: `accounts/{account}/businessInfo` */
+  name: string;
 }
 export interface UpdateCheckoutSettingsAccountsProgramsCheckoutSettingsRequest extends Omit<
   CheckoutSettings,
@@ -1867,10 +1867,10 @@ export interface UpdateEmailPreferencesAccountsEmailPreferencesRequest extends O
   EmailPreferences,
   "name"
 > {
-  /** Required. List of fields being updated. The following fields are supported (in both `snake_case` and `lowerCamelCase`): - `news_and_tips` */
-  updateMask?: string | undefined;
   /** Identifier. The name of the EmailPreferences. The endpoint is only supported for the authenticated user. */
   name: string;
+  /** Required. List of fields being updated. The following fields are supported (in both `snake_case` and `lowerCamelCase`): - `news_and_tips` */
+  updateMask?: string | undefined;
 }
 export interface UpdateHomepageAccountsHomepageRequest extends Omit<Homepage, "name"> {
   /** Identifier. The resource name of the store's homepage. Format: `accounts/{account}/homepage` */
@@ -3523,43 +3523,43 @@ function __c1(j: number): any {
           state: S.optional(S.String),
           uri: S.optional(S.String),
         }),
-      ).annotate({ identifier: "About" });
+      ).annotate({ identifier: "Pickup" });
     case 1:
-      return S.suspend(() =>
-        S.Struct({
-          state: S.optional(S.String),
-          lfpProvider: S.optional(S.String),
-          externalAccountId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "LfpLink" });
-    case 2:
       return S.suspend(() =>
         S.Struct({
           uri: S.optional(S.String),
           state: S.optional(S.String),
         }),
-      ).annotate({ identifier: "Pickup" });
+      ).annotate({ identifier: "InStock" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          contactEmail: S.optional(S.String),
+          contact: S.optional(S.String),
+          contactState: S.optional(S.String),
+          state: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "InventoryVerification" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          contact: S.optional(S.String),
-          contactEmail: S.optional(S.String),
+          externalAccountId: S.optional(S.String),
+          lfpProvider: S.optional(S.String),
           state: S.optional(S.String),
-          contactState: S.optional(S.String),
         }),
-      ).annotate({ identifier: "InventoryVerification" });
+      ).annotate({ identifier: "LfpLink" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          about: S.optional(__S(32, __c1, 0)),
-          lfpLink: S.optional(__S(33, __c1, 1)),
-          pickup: S.optional(__S(34, __c1, 2)),
-          inStock: S.optional(__S(34, __c1, 2)),
-          regionCode: S.optional(S.String),
-          odo: S.optional(__S(34, __c1, 2)),
+          pickup: S.optional(__S(32, __c1, 0)),
           lsfType: S.optional(S.String),
-          inventoryVerification: S.optional(__S(35, __c1, 3)),
+          regionCode: S.optional(S.String),
+          inStock: S.optional(__S(33, __c1, 1)),
+          inventoryVerification: S.optional(__S(34, __c1, 2)),
+          lfpLink: S.optional(__S(35, __c1, 3)),
+          about: S.optional(__S(32, __c1, 0)),
           name: S.optional(S.String),
+          odo: S.optional(__S(33, __c1, 1)),
         }),
       ).annotate({ identifier: "OmnichannelSetting" });
   }
@@ -3594,8 +3594,8 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          currencyCode: S.optional(S.String),
           amountMicros: S.optional(S.String),
+          currencyCode: S.optional(S.String),
         }),
       ).annotate({ identifier: "Price" });
   }
@@ -3605,54 +3605,54 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          microPercent: S.optional(S.Number),
+          fixedFee: S.optional(__S(128, __c4, 0)),
+        }),
+      ).annotate({ identifier: "RestockingFee" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          returnUntilDate: S.optional(__S(1408, __c44, 0)),
+          returnDays: S.optional(S.Number),
+          endDate: S.optional(__S(1408, __c44, 0)),
+          label: S.optional(S.String),
+          startDate: S.optional(__S(1408, __c44, 0)),
+        }),
+      ).annotate({ identifier: "SeasonalOverride" });
+    case 2:
+      return S.Array(__S(161, __c5, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          fixedFee: S.optional(__S(128, __c4, 0)),
+          type: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ReturnShippingFee" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
           type: S.optional(S.String),
           days: S.optional(S.String),
         }),
       ).annotate({ identifier: "Policy" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.optional(S.String),
-          fixedFee: S.optional(__S(128, __c4, 0)),
-        }),
-      ).annotate({ identifier: "ReturnShippingFee" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          endDate: S.optional(__S(1408, __c44, 0)),
-          returnUntilDate: S.optional(__S(1408, __c44, 0)),
-          label: S.optional(S.String),
-          startDate: S.optional(__S(1408, __c44, 0)),
-          returnDays: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "SeasonalOverride" });
-    case 3:
-      return S.Array(__S(162, __c5, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          fixedFee: S.optional(__S(128, __c4, 0)),
-          microPercent: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "RestockingFee" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          policy: S.optional(__S(160, __c5, 0)),
-          name: S.optional(S.String),
-          itemConditions: S.optional(__S(96, __c3, 0)),
-          returnMethods: S.optional(__S(96, __c3, 0)),
-          returnShippingFee: S.optional(__S(161, __c5, 1)),
           acceptDefectiveOnly: S.optional(S.Boolean),
-          seasonalOverrides: S.optional(__S(163, __c5, 3)),
-          acceptExchange: S.optional(S.Boolean),
-          returnPolicyUri: S.optional(S.String),
-          countries: S.optional(__S(2496, __c78, 0)),
-          returnLabelSource: S.optional(S.String),
-          label: S.optional(S.String),
-          restockingFee: S.optional(__S(164, __c5, 4)),
+          restockingFee: S.optional(__S(160, __c5, 0)),
+          seasonalOverrides: S.optional(__S(162, __c5, 2)),
+          returnMethods: S.optional(__S(96, __c3, 0)),
+          returnShippingFee: S.optional(__S(163, __c5, 3)),
           processRefundDays: S.optional(S.Number),
           returnPolicyId: S.optional(S.String),
+          policy: S.optional(__S(164, __c5, 4)),
+          returnLabelSource: S.optional(S.String),
+          returnPolicyUri: S.optional(S.String),
+          countries: S.optional(__S(2496, __c78, 0)),
+          acceptExchange: S.optional(S.Boolean),
+          name: S.optional(S.String),
+          label: S.optional(S.String),
+          itemConditions: S.optional(__S(96, __c3, 0)),
         }),
       ).annotate({ identifier: "OnlineReturnPolicy" });
   }
@@ -3681,21 +3681,21 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          checkoutUriTemplate: S.optional(S.String),
           cartUriTemplate: S.optional(S.String),
+          checkoutUriTemplate: S.optional(S.String),
         }),
       ).annotate({ identifier: "UriSettings" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           effectiveEnrollmentState: S.optional(S.String),
-          eligibleDestinations: S.optional(__S(96, __c3, 0)),
-          effectiveUriSettings: S.optional(__S(224, __c7, 0)),
-          effectiveReviewState: S.optional(S.String),
           reviewState: S.optional(S.String),
-          name: S.optional(S.String),
-          uriSettings: S.optional(__S(224, __c7, 0)),
+          effectiveReviewState: S.optional(S.String),
           enrollmentState: S.optional(S.String),
+          uriSettings: S.optional(__S(224, __c7, 0)),
+          name: S.optional(S.String),
+          effectiveUriSettings: S.optional(__S(224, __c7, 0)),
+          eligibleDestinations: S.optional(__S(96, __c3, 0)),
         }),
       ).annotate({ identifier: "CheckoutSettings" });
   }
@@ -3727,8 +3727,8 @@ function __c9(j: number): any {
         S.Extend(
           __S(320, __c10, 0),
           S.Struct({
-            parent: S.String.pipe(T.Label()),
             userId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -3745,9 +3745,9 @@ function __c10(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          accessRights: S.optional(__S(96, __c3, 0)),
-          state: S.optional(S.String),
           name: S.optional(S.String),
+          state: S.optional(S.String),
+          accessRights: S.optional(__S(96, __c3, 0)),
         }),
       ).annotate({ identifier: "User" });
   }
@@ -3757,49 +3757,49 @@ function __c11(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          comparisonShopping: S.optional(__S(2048, __c64, 0)),
-          accountManagement: S.optional(__S(2048, __c64, 0)),
+          verificationMailMode: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "VerificationMailSettings" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          userId: S.optional(S.String),
+          user: S.optional(__S(320, __c10, 0)),
+          verificationMailSettings: S.optional(__S(352, __c11, 0)),
+        }),
+      ).annotate({ identifier: "AddUser" });
+    case 2:
+      return S.Array(__S(353, __c11, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
           provider: S.optional(S.String),
-          campaignsManagement: S.optional(__S(2048, __c64, 0)),
+          accountManagement: S.optional(__S(2048, __c64, 0)),
           externalAccountId: S.optional(S.String),
           accountAggregation: S.optional(__S(2048, __c64, 0)),
+          comparisonShopping: S.optional(__S(2048, __c64, 0)),
           productsManagement: S.optional(__S(2048, __c64, 0)),
+          campaignsManagement: S.optional(__S(2048, __c64, 0)),
         }),
       ).annotate({ identifier: "AddAccountService" });
-    case 1:
-      return S.Array(__S(352, __c11, 0));
-    case 2:
+    case 4:
+      return S.Array(__S(355, __c11, 3));
+    case 5:
       return S.suspend(() =>
         S.Struct({
           accountIdAlias: S.optional(S.String),
           provider: S.optional(S.String),
         }),
       ).annotate({ identifier: "SetAliasForRelationship" });
-    case 3:
-      return S.Array(__S(354, __c11, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          verificationMailMode: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "VerificationMailSettings" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          verificationMailSettings: S.optional(__S(356, __c11, 4)),
-          userId: S.optional(S.String),
-          user: S.optional(__S(320, __c10, 0)),
-        }),
-      ).annotate({ identifier: "AddUser" });
     case 6:
       return S.Array(__S(357, __c11, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          service: S.optional(__S(353, __c11, 1)),
-          setAlias: S.optional(__S(355, __c11, 3)),
           account: S.optional(__S(385, __c12, 1)),
-          user: S.optional(__S(358, __c11, 6)),
+          user: S.optional(__S(354, __c11, 2)),
+          service: S.optional(__S(356, __c11, 4)),
+          setAlias: S.optional(__S(358, __c11, 6)),
         }),
       ).annotate({ identifier: "CreateAndConfigureAccountRequest" });
     case 8:
@@ -3826,14 +3826,14 @@ function __c12(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          accountName: S.optional(S.String),
-          homePageUri: S.optional(S.String),
-          timeZone: S.optional(__S(384, __c12, 0)),
-          name: S.optional(S.String),
-          testAccount: S.optional(S.Boolean),
           adultContent: S.optional(S.Boolean),
-          languageCode: S.optional(S.String),
+          testAccount: S.optional(S.Boolean),
+          homePageUri: S.optional(S.String),
           accountId: S.optional(S.String),
+          timeZone: S.optional(__S(384, __c12, 0)),
+          languageCode: S.optional(S.String),
+          name: S.optional(S.String),
+          accountName: S.optional(S.String),
         }),
       ).annotate({ identifier: "Account" });
   }
@@ -3960,9 +3960,9 @@ function __c20(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          affectedRegionCodes: S.optional(__S(2496, __c78, 0)),
-          title: S.optional(S.String),
           documentationUri: S.optional(S.String),
+          title: S.optional(S.String),
+          affectedRegionCodes: S.optional(__S(2496, __c78, 0)),
         }),
       ).annotate({ identifier: "Requirement" });
     case 1:
@@ -3970,11 +3970,11 @@ function __c20(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unmetRequirements: S.optional(__S(641, __c20, 1)),
-          name: S.optional(S.String),
-          activeRegionCodes: S.optional(__S(2496, __c78, 0)),
-          state: S.optional(S.String),
           documentationUri: S.optional(S.String),
+          name: S.optional(S.String),
+          state: S.optional(S.String),
+          activeRegionCodes: S.optional(__S(2496, __c78, 0)),
+          unmetRequirements: S.optional(__S(641, __c20, 1)),
         }),
       ).annotate({ identifier: "Program" });
   }
@@ -4015,9 +4015,9 @@ function __c22(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          regionCode: S.optional(S.String),
           name: S.optional(S.String),
           displayName: S.optional(S.String),
-          regionCode: S.optional(S.String),
         }),
       ).annotate({ identifier: "LfpProvider" });
     case 2:
@@ -4025,8 +4025,8 @@ function __c22(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          lfpProviders: S.optional(__S(706, __c22, 2)),
           nextPageToken: S.optional(S.String),
+          lfpProviders: S.optional(__S(706, __c22, 2)),
         }),
       ).annotate({ identifier: "FindLfpProvidersResponse" });
   }
@@ -4253,48 +4253,48 @@ function __c37(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          allowAutomaticImageImprovements: S.optional(S.Boolean),
+          allowStrictAvailabilityUpdates: S.optional(S.Boolean),
+          allowPriceUpdates: S.optional(S.Boolean),
+          allowConditionUpdates: S.optional(S.Boolean),
+          allowAvailabilityUpdates: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "ImageImprovementsAccountLevelSettings" });
+      ).annotate({ identifier: "ItemUpdatesAccountLevelSettings" });
     case 1:
       return S.suspend(() =>
         S.Struct({
+          effectiveAllowConditionUpdates: S.optional(S.Boolean),
+          effectiveAllowAvailabilityUpdates: S.optional(S.Boolean),
+          accountItemUpdatesSettings: S.optional(__S(1184, __c37, 0)),
+          effectiveAllowPriceUpdates: S.optional(S.Boolean),
+          effectiveAllowStrictAvailabilityUpdates: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "AutomaticItemUpdates" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          allowAutomaticImageImprovements: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "ImageImprovementsAccountLevelSettings" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
           effectiveAllowAutomaticImageImprovements: S.optional(S.Boolean),
-          accountImageImprovementsSettings: S.optional(__S(1184, __c37, 0)),
+          accountImageImprovementsSettings: S.optional(__S(1186, __c37, 2)),
         }),
       ).annotate({ identifier: "AutomaticImageImprovements" });
-    case 2:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           allowShippingImprovements: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "AutomaticShippingImprovements" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          allowConditionUpdates: S.optional(S.Boolean),
-          allowStrictAvailabilityUpdates: S.optional(S.Boolean),
-          allowPriceUpdates: S.optional(S.Boolean),
-          allowAvailabilityUpdates: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "ItemUpdatesAccountLevelSettings" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          effectiveAllowConditionUpdates: S.optional(S.Boolean),
-          accountItemUpdatesSettings: S.optional(__S(1187, __c37, 3)),
-          effectiveAllowAvailabilityUpdates: S.optional(S.Boolean),
-          effectiveAllowPriceUpdates: S.optional(S.Boolean),
-          effectiveAllowStrictAvailabilityUpdates: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "AutomaticItemUpdates" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          imageImprovements: S.optional(__S(1185, __c37, 1)),
-          shippingImprovements: S.optional(__S(1186, __c37, 2)),
-          itemUpdates: S.optional(__S(1188, __c37, 4)),
+          itemUpdates: S.optional(__S(1185, __c37, 1)),
           name: S.optional(S.String),
+          imageImprovements: S.optional(__S(1187, __c37, 3)),
+          shippingImprovements: S.optional(__S(1188, __c37, 4)),
         }),
       ).annotate({ identifier: "AutomaticImprovements" });
   }
@@ -4326,13 +4326,13 @@ function __c39(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          blackOwned: S.optional(__S(1248, __c39, 0)),
-          promotionsConsent: S.optional(S.String),
+          name: S.optional(S.String),
           veteranOwned: S.optional(__S(1248, __c39, 0)),
+          promotionsConsent: S.optional(S.String),
+          latinoOwned: S.optional(__S(1248, __c39, 0)),
+          blackOwned: S.optional(__S(1248, __c39, 0)),
           womenOwned: S.optional(__S(1248, __c39, 0)),
           smallBusiness: S.optional(__S(1248, __c39, 0)),
-          name: S.optional(S.String),
-          latinoOwned: S.optional(__S(1248, __c39, 0)),
         }),
       ).annotate({ identifier: "BusinessIdentity" });
   }
@@ -4358,51 +4358,51 @@ function __c41(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          sublocality: S.optional(S.String),
-          administrativeArea: S.optional(S.String),
-          sortingCode: S.optional(S.String),
-          addressLines: S.optional(__S(2496, __c78, 0)),
-          regionCode: S.optional(S.String),
-          recipients: S.optional(__S(2496, __c78, 0)),
-          postalCode: S.optional(S.String),
-          languageCode: S.optional(S.String),
-          revision: S.optional(S.Number),
-          organization: S.optional(S.String),
-          locality: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PostalAddress" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           regionCode: S.optional(S.String),
           number: S.optional(S.String),
         }),
       ).annotate({ identifier: "ShortCode" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
-          shortCode: S.optional(__S(1313, __c41, 1)),
           e164Number: S.optional(S.String),
+          shortCode: S.optional(__S(1312, __c41, 0)),
           extension: S.optional(S.String),
         }),
       ).annotate({ identifier: "PhoneNumber" });
-    case 3:
+    case 2:
       return S.suspend(() =>
         S.Struct({
-          phone: S.optional(__S(1314, __c41, 2)),
           uri: S.optional(S.String),
+          phone: S.optional(__S(1313, __c41, 1)),
           email: S.optional(S.String),
         }),
       ).annotate({ identifier: "CustomerService" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          regionCode: S.optional(S.String),
+          sublocality: S.optional(S.String),
+          postalCode: S.optional(S.String),
+          revision: S.optional(S.Number),
+          languageCode: S.optional(S.String),
+          locality: S.optional(S.String),
+          addressLines: S.optional(__S(2496, __c78, 0)),
+          sortingCode: S.optional(S.String),
+          organization: S.optional(S.String),
+          administrativeArea: S.optional(S.String),
+          recipients: S.optional(__S(2496, __c78, 0)),
+        }),
+      ).annotate({ identifier: "PostalAddress" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          address: S.optional(__S(1312, __c41, 0)),
-          phone: S.optional(__S(1314, __c41, 2)),
           koreanBusinessRegistrationNumber: S.optional(S.String),
           phoneVerificationState: S.optional(S.String),
-          customerService: S.optional(__S(1315, __c41, 3)),
           name: S.optional(S.String),
+          customerService: S.optional(__S(1314, __c41, 2)),
+          phone: S.optional(__S(1313, __c41, 1)),
+          address: S.optional(__S(1315, __c41, 3)),
         }),
       ).annotate({ identifier: "BusinessInfo" });
   }
@@ -4428,9 +4428,9 @@ function __c43(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          account: S.optional(S.String.pipe(T.Query())),
           regionCode: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          account: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4452,9 +4452,9 @@ function __c44(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          day: S.optional(S.Number),
           month: S.optional(S.Number),
           year: S.optional(S.Number),
+          day: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Merchantapi_Date" });
   }
@@ -4481,8 +4481,8 @@ function __c45(j: number): any {
         S.Struct({
           name: S.optional(S.String),
           accepted: S.optional(__S(1440, __c45, 0)),
-          required: S.optional(__S(1441, __c45, 1)),
           termsOfServiceKind: S.optional(S.String),
+          required: S.optional(__S(1441, __c45, 1)),
           regionCode: S.optional(S.String),
         }),
       ).annotate({ identifier: "TermsOfServiceAgreementState" });
@@ -4536,8 +4536,8 @@ function __c49(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
           newsAndTips: S.optional(S.String),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "EmailPreferences" });
   }
@@ -4579,8 +4579,8 @@ function __c52(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          kind: S.optional(S.String.pipe(T.Query())),
           regionCode: S.optional(S.String.pipe(T.Query())),
+          kind: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4596,11 +4596,11 @@ function __c53(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          external: S.optional(S.Boolean),
-          fileUri: S.optional(S.String),
           regionCode: S.optional(S.String),
-          name: S.optional(S.String),
           kind: S.optional(S.String),
+          external: S.optional(S.Boolean),
+          name: S.optional(S.String),
+          fileUri: S.optional(S.String),
         }),
       ).annotate({ identifier: "TermsOfService" });
   }
@@ -4626,202 +4626,77 @@ function __c55(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          hour: S.optional(S.Number),
-          minute: S.optional(S.Number),
+          storeCodes: S.optional(__S(2496, __c78, 0)),
+          value: S.optional(__S(128, __c4, 0)),
         }),
-      ).annotate({ identifier: "WarehouseCutoffTime" });
+      ).annotate({ identifier: "StoreCodeSetWithMov" });
     case 1:
-      return S.suspend(() =>
-        S.Struct({
-          businessDays: S.optional(__S(96, __c3, 0)),
-        }),
-      ).annotate({ identifier: "BusinessDayConfig" });
+      return S.Array(__S(1760, __c55, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          postalCode: S.optional(S.String),
-          regionCode: S.optional(S.String),
-          administrativeArea: S.optional(S.String),
-          city: S.optional(S.String),
-          streetAddress: S.optional(S.String),
+          storeCodeSetWithMovs: S.optional(__S(1761, __c55, 1)),
         }),
-      ).annotate({ identifier: "Address" });
+      ).annotate({ identifier: "MinimumOrderValueTable" });
     case 3:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          cutoffTime: S.optional(__S(1760, __c55, 0)),
-          handlingDays: S.optional(S.String),
-          businessDayConfig: S.optional(__S(1761, __c55, 1)),
-          shippingAddress: S.optional(__S(1762, __c55, 2)),
-        }),
-      ).annotate({ identifier: "Warehouse" });
-    case 4:
-      return S.Array(__S(1763, __c55, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          carrierService: S.optional(S.String),
-          originPostalCode: S.optional(S.String),
-          percentageAdjustment: S.optional(S.String),
-          name: S.optional(S.String),
-          carrier: S.optional(S.String),
-          flatAdjustment: S.optional(__S(128, __c4, 0)),
-        }),
-      ).annotate({ identifier: "CarrierRate" });
-    case 6:
-      return S.Array(__S(1765, __c55, 5));
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          flatRate: S.optional(__S(128, __c4, 0)),
-          noShipping: S.optional(S.Boolean),
-          pricePercentage: S.optional(S.String),
-          carrierRate: S.optional(S.String),
-          subtable: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Value" });
-    case 8:
-      return S.Array(__S(1767, __c55, 7));
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          cells: S.optional(__S(1768, __c55, 8)),
-        }),
-      ).annotate({ identifier: "Row" });
-    case 10:
-      return S.Array(__S(1769, __c55, 9));
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          unit: S.optional(S.String),
-          amountMicros: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Weight" });
-    case 12:
-      return S.Array(__S(1771, __c55, 11));
-    case 13:
-      return S.Array(__S(128, __c4, 0));
-    case 14:
-      return S.suspend(() =>
-        S.Struct({
-          locationIds: S.optional(__S(2496, __c78, 0)),
-        }),
-      ).annotate({ identifier: "LocationIdSet" });
-    case 15:
-      return S.Array(__S(1774, __c55, 14));
-    case 16:
-      return S.suspend(() =>
-        S.Struct({
-          weights: S.optional(__S(1772, __c55, 12)),
-          prices: S.optional(__S(1773, __c55, 13)),
-          postalCodeGroupNames: S.optional(__S(2496, __c78, 0)),
-          numberOfItems: S.optional(__S(2496, __c78, 0)),
-          locations: S.optional(__S(1775, __c55, 15)),
-        }),
-      ).annotate({ identifier: "Headers" });
-    case 17:
-      return S.suspend(() =>
-        S.Struct({
-          rows: S.optional(__S(1770, __c55, 10)),
-          columnHeaders: S.optional(__S(1776, __c55, 16)),
-          rowHeaders: S.optional(__S(1776, __c55, 16)),
-          name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Table" });
-    case 18:
-      return S.Array(__S(1777, __c55, 17));
-    case 19:
-      return S.suspend(() =>
-        S.Struct({
-          carrierRates: S.optional(__S(1766, __c55, 6)),
-          mainTable: S.optional(__S(1777, __c55, 17)),
-          applicableShippingLabels: S.optional(__S(2496, __c78, 0)),
-          name: S.optional(S.String),
-          subtables: S.optional(__S(1778, __c55, 18)),
-          singleValue: S.optional(__S(1767, __c55, 7)),
-        }),
-      ).annotate({ identifier: "RateGroup" });
-    case 20:
-      return S.Array(__S(1779, __c55, 19));
-    case 21:
-      return S.suspend(() =>
-        S.Struct({
-          hour: S.optional(S.String),
-          minute: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "LocalCutoffTime" });
-    case 22:
-      return S.suspend(() =>
-        S.Struct({
-          noDeliveryPostCutoff: S.optional(S.Boolean),
-          storeCloseOffsetHours: S.optional(S.String),
-          localCutoffTime: S.optional(__S(1781, __c55, 21)),
-        }),
-      ).annotate({ identifier: "CutoffConfig" });
-    case 23:
-      return S.suspend(() =>
-        S.Struct({
-          unit: S.optional(S.String),
-          value: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Distance" });
-    case 24:
-      return S.suspend(() =>
-        S.Struct({
-          cutoffConfig: S.optional(__S(1782, __c55, 22)),
-          serviceRadius: S.optional(__S(1783, __c55, 23)),
-          storeCodes: S.optional(__S(2496, __c78, 0)),
-          storeServiceType: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "StoreConfig" });
-    case 25:
       return S.suspend(() =>
         S.Struct({
           tierLabel: S.optional(S.String),
         }),
       ).annotate({ identifier: "LoyaltyProgramTiers" });
-    case 26:
-      return S.Array(__S(1785, __c55, 25));
-    case 27:
+    case 4:
+      return S.Array(__S(1763, __c55, 3));
+    case 5:
       return S.suspend(() =>
         S.Struct({
-          loyaltyProgramTiers: S.optional(__S(1786, __c55, 26)),
+          loyaltyProgramTiers: S.optional(__S(1764, __c55, 4)),
           programLabel: S.optional(S.String),
         }),
       ).annotate({ identifier: "LoyaltyProgram" });
-    case 28:
-      return S.Array(__S(1787, __c55, 27));
-    case 29:
+    case 6:
+      return S.Array(__S(1765, __c55, 5));
+    case 7:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(128, __c4, 0)),
-          storeCodes: S.optional(__S(2496, __c78, 0)),
-        }),
-      ).annotate({ identifier: "StoreCodeSetWithMov" });
-    case 30:
-      return S.Array(__S(1789, __c55, 29));
-    case 31:
-      return S.suspend(() =>
-        S.Struct({
-          storeCodeSetWithMovs: S.optional(__S(1790, __c55, 30)),
-        }),
-      ).annotate({ identifier: "MinimumOrderValueTable" });
-  }
-}
-function __c56(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          carrier: S.optional(S.String),
-          carrierService: S.optional(S.String),
           warehouse: S.optional(S.String),
+          carrierService: S.optional(S.String),
+          carrier: S.optional(S.String),
         }),
       ).annotate({ identifier: "WarehouseBasedDeliveryTime" });
-    case 1:
-      return S.Array(__S(1792, __c56, 0));
-    case 2:
+    case 8:
+      return S.Array(__S(1767, __c55, 7));
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          businessDays: S.optional(__S(96, __c3, 0)),
+        }),
+      ).annotate({ identifier: "BusinessDayConfig" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          minTransitDays: S.optional(S.Number),
+          maxTransitDays: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "TransitTimeValue" });
+    case 11:
+      return S.Array(__S(1770, __c55, 10));
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          values: S.optional(__S(1771, __c55, 11)),
+        }),
+      ).annotate({ identifier: "TransitTimeRow" });
+    case 13:
+      return S.Array(__S(1772, __c55, 12));
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          rows: S.optional(__S(1773, __c55, 13)),
+          postalCodeGroupNames: S.optional(__S(2496, __c78, 0)),
+          transitTimeLabels: S.optional(__S(2496, __c78, 0)),
+        }),
+      ).annotate({ identifier: "TransitTable" });
+    case 15:
       return S.suspend(() =>
         S.Struct({
           hour: S.optional(S.Number),
@@ -4829,70 +4704,195 @@ function __c56(j: number): any {
           timeZone: S.optional(S.String),
         }),
       ).annotate({ identifier: "CutoffTime" });
-    case 3:
+    case 16:
       return S.suspend(() =>
         S.Struct({
           minTransitDays: S.optional(S.Number),
+          minHandlingDays: S.optional(S.Number),
+          warehouseBasedDeliveryTimes: S.optional(__S(1768, __c55, 8)),
+          transitBusinessDayConfig: S.optional(__S(1769, __c55, 9)),
           maxTransitDays: S.optional(S.Number),
+          maxHandlingDays: S.optional(S.Number),
+          transitTimeTable: S.optional(__S(1774, __c55, 14)),
+          handlingBusinessDayConfig: S.optional(__S(1769, __c55, 9)),
+          cutoffTime: S.optional(__S(1775, __c55, 15)),
         }),
-      ).annotate({ identifier: "TransitTimeValue" });
+      ).annotate({ identifier: "DeliveryTime" });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          value: S.optional(S.String),
+          unit: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Distance" });
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          minute: S.optional(S.String),
+          hour: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "LocalCutoffTime" });
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          storeCloseOffsetHours: S.optional(S.String),
+          noDeliveryPostCutoff: S.optional(S.Boolean),
+          localCutoffTime: S.optional(__S(1778, __c55, 18)),
+        }),
+      ).annotate({ identifier: "CutoffConfig" });
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          storeCodes: S.optional(__S(2496, __c78, 0)),
+          serviceRadius: S.optional(__S(1777, __c55, 17)),
+          cutoffConfig: S.optional(__S(1779, __c55, 19)),
+          storeServiceType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "StoreConfig" });
+    case 21:
+      return S.suspend(() =>
+        S.Struct({
+          amountMicros: S.optional(S.String),
+          unit: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Weight" });
+    case 22:
+      return S.Array(__S(1781, __c55, 21));
+    case 23:
+      return S.Array(__S(128, __c4, 0));
+    case 24:
+      return S.suspend(() =>
+        S.Struct({
+          locationIds: S.optional(__S(2496, __c78, 0)),
+        }),
+      ).annotate({ identifier: "LocationIdSet" });
+    case 25:
+      return S.Array(__S(1784, __c55, 24));
+    case 26:
+      return S.suspend(() =>
+        S.Struct({
+          postalCodeGroupNames: S.optional(__S(2496, __c78, 0)),
+          weights: S.optional(__S(1782, __c55, 22)),
+          numberOfItems: S.optional(__S(2496, __c78, 0)),
+          prices: S.optional(__S(1783, __c55, 23)),
+          locations: S.optional(__S(1785, __c55, 25)),
+        }),
+      ).annotate({ identifier: "Headers" });
+    case 27:
+      return S.suspend(() =>
+        S.Struct({
+          subtable: S.optional(S.String),
+          pricePercentage: S.optional(S.String),
+          flatRate: S.optional(__S(128, __c4, 0)),
+          noShipping: S.optional(S.Boolean),
+          carrierRate: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Value" });
+    case 28:
+      return S.Array(__S(1787, __c55, 27));
+    case 29:
+      return S.suspend(() =>
+        S.Struct({
+          cells: S.optional(__S(1788, __c55, 28)),
+        }),
+      ).annotate({ identifier: "Row" });
+    case 30:
+      return S.Array(__S(1789, __c55, 29));
+    case 31:
+      return S.suspend(() =>
+        S.Struct({
+          columnHeaders: S.optional(__S(1786, __c55, 26)),
+          rowHeaders: S.optional(__S(1786, __c55, 26)),
+          name: S.optional(S.String),
+          rows: S.optional(__S(1790, __c55, 30)),
+        }),
+      ).annotate({ identifier: "Table" });
+  }
+}
+function __c56(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          originPostalCode: S.optional(S.String),
+          carrierService: S.optional(S.String),
+          percentageAdjustment: S.optional(S.String),
+          flatAdjustment: S.optional(__S(128, __c4, 0)),
+          carrier: S.optional(S.String),
+          name: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CarrierRate" });
+    case 1:
+      return S.Array(__S(1792, __c56, 0));
+    case 2:
+      return S.Array(__S(1791, __c55, 31));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          mainTable: S.optional(__S(1791, __c55, 31)),
+          carrierRates: S.optional(__S(1793, __c56, 1)),
+          applicableShippingLabels: S.optional(__S(2496, __c78, 0)),
+          subtables: S.optional(__S(1794, __c56, 2)),
+          singleValue: S.optional(__S(1787, __c55, 27)),
+          name: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RateGroup" });
     case 4:
       return S.Array(__S(1795, __c56, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          values: S.optional(__S(1796, __c56, 4)),
+          active: S.optional(S.Boolean),
+          minimumOrderValueTable: S.optional(__S(1762, __c55, 2)),
+          shipmentType: S.optional(S.String),
+          currencyCode: S.optional(S.String),
+          loyaltyPrograms: S.optional(__S(1766, __c55, 6)),
+          minimumOrderValue: S.optional(__S(128, __c4, 0)),
+          deliveryTime: S.optional(__S(1776, __c55, 16)),
+          deliveryCountries: S.optional(__S(2496, __c78, 0)),
+          serviceName: S.optional(S.String),
+          storeConfig: S.optional(__S(1780, __c55, 20)),
+          rateGroups: S.optional(__S(1796, __c56, 4)),
         }),
-      ).annotate({ identifier: "TransitTimeRow" });
+      ).annotate({ identifier: "Service" });
     case 6:
       return S.Array(__S(1797, __c56, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          rows: S.optional(__S(1798, __c56, 6)),
-          postalCodeGroupNames: S.optional(__S(2496, __c78, 0)),
-          transitTimeLabels: S.optional(__S(2496, __c78, 0)),
+          hour: S.optional(S.Number),
+          minute: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "TransitTable" });
+      ).annotate({ identifier: "WarehouseCutoffTime" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          warehouseBasedDeliveryTimes: S.optional(__S(1793, __c56, 1)),
-          maxTransitDays: S.optional(S.Number),
-          maxHandlingDays: S.optional(S.Number),
-          cutoffTime: S.optional(__S(1794, __c56, 2)),
-          handlingBusinessDayConfig: S.optional(__S(1761, __c55, 1)),
-          minHandlingDays: S.optional(S.Number),
-          minTransitDays: S.optional(S.Number),
-          transitBusinessDayConfig: S.optional(__S(1761, __c55, 1)),
-          transitTimeTable: S.optional(__S(1799, __c56, 7)),
+          regionCode: S.optional(S.String),
+          administrativeArea: S.optional(S.String),
+          city: S.optional(S.String),
+          streetAddress: S.optional(S.String),
+          postalCode: S.optional(S.String),
         }),
-      ).annotate({ identifier: "DeliveryTime" });
+      ).annotate({ identifier: "Address" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          active: S.optional(S.Boolean),
-          rateGroups: S.optional(__S(1780, __c55, 20)),
-          storeConfig: S.optional(__S(1784, __c55, 24)),
-          loyaltyPrograms: S.optional(__S(1788, __c55, 28)),
-          minimumOrderValueTable: S.optional(__S(1791, __c55, 31)),
-          serviceName: S.optional(S.String),
-          shipmentType: S.optional(S.String),
-          deliveryTime: S.optional(__S(1800, __c56, 8)),
-          minimumOrderValue: S.optional(__S(128, __c4, 0)),
-          deliveryCountries: S.optional(__S(2496, __c78, 0)),
-          currencyCode: S.optional(S.String),
+          handlingDays: S.optional(S.String),
+          cutoffTime: S.optional(__S(1799, __c56, 7)),
+          name: S.optional(S.String),
+          businessDayConfig: S.optional(__S(1769, __c55, 9)),
+          shippingAddress: S.optional(__S(1800, __c56, 8)),
         }),
-      ).annotate({ identifier: "Service" });
+      ).annotate({ identifier: "Warehouse" });
     case 10:
       return S.Array(__S(1801, __c56, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
-          warehouses: S.optional(__S(1764, __c55, 4)),
-          services: S.optional(__S(1802, __c56, 10)),
-          etag: S.optional(S.String),
           name: S.optional(S.String),
+          services: S.optional(__S(1798, __c56, 6)),
+          warehouses: S.optional(__S(1802, __c56, 10)),
+          etag: S.optional(S.String),
         }),
       ).annotate({ identifier: "ShippingSettings" });
   }
@@ -5021,18 +5021,18 @@ function __c63(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          accountManagement: S.optional(__S(2048, __c64, 0)),
-          name: S.optional(S.String),
+          providerDisplayName: S.optional(S.String),
           productsManagement: S.optional(__S(2048, __c64, 0)),
           accountAggregation: S.optional(__S(2048, __c64, 0)),
-          comparisonShopping: S.optional(__S(2048, __c64, 0)),
-          handshake: S.optional(__S(2016, __c63, 0)),
-          campaignsManagement: S.optional(__S(2048, __c64, 0)),
           mutability: S.optional(S.String),
           localListingManagement: S.optional(__S(2048, __c64, 0)),
-          provider: S.optional(S.String),
-          providerDisplayName: S.optional(S.String),
+          name: S.optional(S.String),
+          accountManagement: S.optional(__S(2048, __c64, 0)),
           externalAccountId: S.optional(S.String),
+          provider: S.optional(S.String),
+          handshake: S.optional(__S(2016, __c63, 0)),
+          campaignsManagement: S.optional(__S(2048, __c64, 0)),
+          comparisonShopping: S.optional(__S(2048, __c64, 0)),
         }),
       ).annotate({ identifier: "AccountService" });
   }
@@ -5048,9 +5048,9 @@ function __c65(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -5068,8 +5068,8 @@ function __c66(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           accounts: S.optional(__S(2112, __c66, 0)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListAccountsResponse" });
   }
@@ -5079,9 +5079,9 @@ function __c67(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -5093,10 +5093,10 @@ function __c67(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          listingCount: S.optional(S.String),
-          name: S.optional(S.String),
-          type: S.optional(S.String),
           gbpAccountName: S.optional(S.String),
+          name: S.optional(S.String),
+          listingCount: S.optional(S.String),
+          type: S.optional(S.String),
           gbpAccountId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GbpAccount" });
@@ -5105,8 +5105,8 @@ function __c67(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           gbpAccounts: S.optional(__S(2146, __c67, 2)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListGbpAccountsResponse" });
   }
@@ -5116,8 +5116,8 @@ function __c68(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          timeZone: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          timeZone: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           languageCode: S.optional(S.String.pipe(T.Query())),
@@ -5150,10 +5150,10 @@ function __c68(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          detail: S.optional(S.String),
-          documentationUri: S.optional(S.String),
           severity: S.optional(S.String),
           impactedDestinations: S.optional(__S(2180, __c68, 4)),
+          detail: S.optional(S.String),
+          documentationUri: S.optional(S.String),
           name: S.optional(S.String),
           title: S.optional(S.String),
         }),
@@ -5163,8 +5163,8 @@ function __c68(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          accountIssues: S.optional(__S(2182, __c68, 6)),
           nextPageToken: S.optional(S.String),
+          accountIssues: S.optional(__S(2182, __c68, 6)),
         }),
       ).annotate({ identifier: "ListAccountIssuesResponse" });
   }
@@ -5217,8 +5217,8 @@ function __c70(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           onlineReturnPolicies: S.optional(__S(2241, __c70, 1)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOnlineReturnPoliciesResponse" });
   }
@@ -5228,9 +5228,9 @@ function __c71(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -5244,8 +5244,8 @@ function __c71(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          programs: S.optional(__S(2273, __c71, 1)),
           nextPageToken: S.optional(S.String),
+          programs: S.optional(__S(2273, __c71, 1)),
         }),
       ).annotate({ identifier: "ListProgramsResponse" });
   }
@@ -5255,8 +5255,8 @@ function __c72(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -5280,9 +5280,9 @@ function __c73(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -5307,9 +5307,9 @@ function __c74(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -5334,9 +5334,9 @@ function __c75(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -5350,8 +5350,8 @@ function __c75(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          users: S.optional(__S(2401, __c75, 1)),
           nextPageToken: S.optional(S.String),
+          users: S.optional(__S(2401, __c75, 1)),
         }),
       ).annotate({ identifier: "ListUsersResponse" });
   }
@@ -5362,8 +5362,8 @@ function __c76(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parent: S.optional(S.String),
-          region: S.optional(__S(2534, __c79, 6)),
           regionId: S.optional(S.String),
+          region: S.optional(__S(2534, __c79, 6)),
         }),
       ).annotate({ identifier: "CreateRegionRequest" });
     case 1:
@@ -5412,51 +5412,51 @@ function __c79(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          end: S.optional(S.String),
+          begin: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PostalCodeRange" });
+    case 1:
+      return S.Array(__S(2528, __c79, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          postalCodes: S.optional(__S(2529, __c79, 1)),
+          regionCode: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PostalCodeArea" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
           longitude: S.optional(S.Number),
           latitude: S.optional(S.Number),
         }),
       ).annotate({ identifier: "LatLng" });
-    case 1:
+    case 4:
       return S.suspend(() =>
         S.Struct({
+          latLng: S.optional(__S(2531, __c79, 3)),
+          radius: S.optional(S.Number),
           radiusUnits: S.optional(S.String),
           regionCode: S.optional(S.String),
-          latLng: S.optional(__S(2528, __c79, 0)),
-          radius: S.optional(S.Number),
         }),
       ).annotate({ identifier: "RadiusArea" });
-    case 2:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           geotargetCriteriaIds: S.optional(__S(2496, __c78, 0)),
         }),
       ).annotate({ identifier: "GeoTargetArea" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          begin: S.optional(S.String),
-          end: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PostalCodeRange" });
-    case 4:
-      return S.Array(__S(2531, __c79, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          postalCodes: S.optional(__S(2532, __c79, 4)),
-          regionCode: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PostalCodeArea" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          radiusArea: S.optional(__S(2529, __c79, 1)),
-          regionalInventoryEligible: S.optional(S.Boolean),
-          name: S.optional(S.String),
           displayName: S.optional(S.String),
+          name: S.optional(S.String),
+          regionalInventoryEligible: S.optional(S.Boolean),
+          postalCodeArea: S.optional(__S(2530, __c79, 2)),
+          radiusArea: S.optional(__S(2532, __c79, 4)),
           shippingEligible: S.optional(S.Boolean),
-          geotargetArea: S.optional(__S(2530, __c79, 2)),
-          postalCodeArea: S.optional(__S(2533, __c79, 5)),
+          geotargetArea: S.optional(__S(2533, __c79, 5)),
         }),
       ).annotate({ identifier: "Region" });
   }
@@ -5472,9 +5472,9 @@ function __c81(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          provider: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          provider: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -5512,8 +5512,8 @@ function __c83(j: number): any {
         S.Extend(
           __S(36, __c1, 4),
           S.Struct({
-            name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -5552,8 +5552,8 @@ function __c85(j: number): any {
         S.Extend(
           __S(960, __c30, 0),
           S.Struct({
-            name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -5754,8 +5754,8 @@ function __c95(j: number): any {
         S.Extend(
           __S(1120, __c35, 0),
           S.Struct({
-            updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -5774,8 +5774,8 @@ function __c96(j: number): any {
         S.Extend(
           __S(1189, __c37, 5),
           S.Struct({
-            name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -5794,8 +5794,8 @@ function __c97(j: number): any {
         S.Extend(
           __S(1249, __c39, 1),
           S.Struct({
-            updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -5814,8 +5814,8 @@ function __c98(j: number): any {
         S.Extend(
           __S(1316, __c41, 4),
           S.Struct({
-            name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -5854,8 +5854,8 @@ function __c100(j: number): any {
         S.Extend(
           __S(1568, __c49, 0),
           S.Struct({
-            updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -5909,8 +5909,8 @@ function __c103(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          region: S.optional(__S(2534, __c79, 6)),
           updateMask: S.optional(S.String),
+          region: S.optional(__S(2534, __c79, 6)),
         }),
       ).annotate({ identifier: "UpdateRegionRequest" });
     case 1:
@@ -5968,9 +5968,9 @@ function __c105(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          uri: S.optional(S.String),
-          name: S.optional(S.String),
           claimed: S.optional(S.Boolean),
+          name: S.optional(S.String),
+          uri: S.optional(S.String),
         }),
       ).annotate({ identifier: "Homepage" });
   }

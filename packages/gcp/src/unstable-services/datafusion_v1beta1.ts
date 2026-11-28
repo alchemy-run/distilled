@@ -93,120 +93,33 @@ export interface CancelProjectsLocationsOperationsRequest {
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
-export type InstanceDisabledReasonItemEnum =
-  | "DISABLED_REASON_UNSPECIFIED"
-  | "KMS_KEY_ISSUE"
-  | "PROJECT_STATE_OFF";
-export type InstanceDisabledReasonItemEnumList = Array<
-  InstanceDisabledReasonItemEnum | (string & {})
->;
-/** Monitoring configuration for a Data Fusion instance. */
-export interface MonitoringConfig {
-  /** Optional. Option to enable the instance v2 metrics for this instance. This field is supported only in CDF versions 6.11.1.1 and above. */
-  enableInstanceV2Metrics?: boolean | undefined;
-}
 export type StringMap = { [key: string]: string | undefined };
+export type AcceleratorStateEnum = "STATE_UNSPECIFIED" | "ENABLED" | "DISABLED" | "UNKNOWN";
 export type AcceleratorAcceleratorTypeEnum =
   | "ACCELERATOR_TYPE_UNSPECIFIED"
   | "CDC"
   | "HEALTHCARE"
   | "CCAI_INSIGHTS"
   | "CLOUDSEARCH";
-export type AcceleratorStateEnum = "STATE_UNSPECIFIED" | "ENABLED" | "DISABLED" | "UNKNOWN";
 /** Identifies Cloud Data Fusion accelerators for an instance. */
 export interface Accelerator {
-  /** Optional. The type of an accelator for a Cloud Data Fusion instance. */
-  acceleratorType?: AcceleratorAcceleratorTypeEnum | (string & {}) | undefined;
   /** Output only. The state of the accelerator. */
   state?: AcceleratorStateEnum | (string & {}) | undefined;
+  /** Optional. The type of an accelator for a Cloud Data Fusion instance. */
+  acceleratorType?: AcceleratorAcceleratorTypeEnum | (string & {}) | undefined;
 }
 export type AcceleratorList = Array<Accelerator>;
 export type MaintenanceEventStateEnum = "STATE_UNSPECIFIED" | "SCHEDULED" | "STARTED" | "COMPLETED";
 /** Represents a maintenance event. */
 export interface MaintenanceEvent {
-  /** Output only. The start time of the maintenance event provided in [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format. Example: "2024-01-01T12:04:06-04:00" */
-  startTime?: string | undefined;
-  /** Output only. The state of the maintenance event. */
-  state?: MaintenanceEventStateEnum | (string & {}) | undefined;
   /** Output only. The end time of the maintenance event provided in [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format. Example: "2024-01-02T12:04:06-06:00" This field will be empty if the maintenance event is not yet complete. */
   endTime?: string | undefined;
+  /** Output only. The state of the maintenance event. */
+  state?: MaintenanceEventStateEnum | (string & {}) | undefined;
+  /** Output only. The start time of the maintenance event provided in [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format. Example: "2024-01-01T12:04:06-04:00" */
+  startTime?: string | undefined;
 }
 export type MaintenanceEventList = Array<MaintenanceEvent>;
-export type InstanceStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "CREATING"
-  | "RUNNING"
-  | "FAILED"
-  | "DELETING"
-  | "UPGRADING"
-  | "RESTARTING"
-  | "UPDATING"
-  | "AUTO_UPDATING"
-  | "AUTO_UPGRADING"
-  | "DISABLED"
-  | "ENABLING";
-export type VersionTypeEnum =
-  | "TYPE_UNSPECIFIED"
-  | "TYPE_PREVIEW"
-  | "TYPE_GENERAL_AVAILABILITY"
-  | "TYPE_DEPRECATED";
-export type StringList = Array<string>;
-/** The Data Fusion version. */
-export interface Version {
-  /** The version number of the Data Fusion instance, such as '6.0.1.0'. */
-  versionNumber?: string | undefined;
-  /** Type represents the release availability of the version */
-  type?: VersionTypeEnum | (string & {}) | undefined;
-  /** Represents a list of available feature names for a given version. */
-  availableFeatures?: StringList | undefined;
-  /** Whether this is currently the default version for Cloud Data Fusion */
-  defaultVersion?: boolean | undefined;
-}
-export type VersionList = Array<Version>;
-export type NetworkConfigConnectionTypeEnum =
-  | "CONNECTION_TYPE_UNSPECIFIED"
-  | "VPC_PEERING"
-  | "PRIVATE_SERVICE_CONNECT_INTERFACES";
-/** Configuration for using Private Service Connect to establish connectivity between the Data Fusion consumer project and the corresponding tenant project. */
-export interface PrivateServiceConnectConfig {
-  /** Required. The reference to the network attachment used to establish private connectivity. It will be of the form projects/{project-id}/regions/{region}/networkAttachments/{network-attachment-id}. */
-  networkAttachment?: string | undefined;
-  /** Optional. Input only. The CIDR block to which the CDF instance can't route traffic to in the consumer project VPC. The size of this block should be at least /25. This range should not overlap with the primary address range of any subnetwork used by the network attachment. This range can be used for other purposes in the consumer VPC as long as there is no requirement for CDF to reach destinations using these addresses. If this value is not provided, the server chooses a non RFC 1918 address range. The format of this field is governed by RFC 4632. Example: 192.168.0.0/25 */
-  unreachableCidrBlock?: string | undefined;
-  /** Output only. The CIDR block to which the CDF instance can't route traffic to in the consumer project VPC. The size of this block is /25. The format of this field is governed by RFC 4632. Example: 240.0.0.0/25 */
-  effectiveUnreachableCidrBlock?: string | undefined;
-}
-/** Network configuration for a Data Fusion instance. These configurations are used for peering with the customer network. Configurations are optional when a public Data Fusion instance is to be created. However, providing these configurations allows several benefits, such as reduced network latency while accessing the customer resources from managed Data Fusion instance nodes, as well as access to the customer on-prem resources. */
-export interface NetworkConfig {
-  /** Optional. Name of the network in the customer project with which the Tenant Project will be peered for executing pipelines. In case of shared VPC where the network resides in another host project the network should specified in the form of projects/{host-project-id}/global/networks/{network}. This is only required for connectivity type VPC_PEERING. */
-  network?: string | undefined;
-  /** Optional. Type of connection for establishing private IP connectivity between the Data Fusion customer project VPC and the corresponding tenant project from a predefined list of available connection modes. If this field is unspecified for a private instance, VPC peering is used. */
-  connectionType?: NetworkConfigConnectionTypeEnum | (string & {}) | undefined;
-  /** Optional. The IP range in CIDR notation to use for the managed Data Fusion instance nodes. This range must not overlap with any other ranges used in the Data Fusion instance network. This is required only when using connection type VPC_PEERING. Format: a.b.c.d/22 Example: 192.168.0.0/22 */
-  ipAllocation?: string | undefined;
-  /** Optional. Configuration for Private Service Connect. This is required only when using connection type PRIVATE_SERVICE_CONNECT_INTERFACES. */
-  privateServiceConnectConfig?: PrivateServiceConnectConfig | undefined;
-}
-/** Logging configuration for a Data Fusion instance. */
-export interface LoggingConfig {
-  /** Optional. Option to enable the InstanceV2 logging for this instance. This field is supported only in CDF patch revision versions 6.11.1.1 and above. */
-  enableInstanceV2Logs?: boolean | undefined;
-  /** Optional. Option to determine whether instance logs should be written to Cloud Logging. By default, instance logs are written to Cloud Logging. */
-  instanceCloudLoggingDisabled?: boolean | undefined;
-}
-export type InstanceTypeEnum = "TYPE_UNSPECIFIED" | "BASIC" | "ENTERPRISE" | "DEVELOPER";
-/** The crypto key configuration. This field is used by the Customer-managed encryption keys (CMEK) feature. */
-export interface CryptoKeyConfig {
-  /** Optional. The name of the key which is used to encrypt/decrypt customer data. For key in Cloud KMS, the key should be in the format of `projects/*\/locations/*\/keyRings/*\/cryptoKeys/*`. */
-  keyReference?: string | undefined;
-}
-/** Confirguration of PubSubEventWriter. */
-export interface EventPublishConfig {
-  /** Required. Option to enable Event Publishing. */
-  enabled?: boolean | undefined;
-  /** Required. The resource name of the Pub/Sub topic. Format: projects/{project_id}/topics/{topic_id} */
-  topic?: string | undefined;
-}
 /** Represents an arbitrary window of time. */
 export interface TimeWindow {
   /** Required. The start time of the time window provided in [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format. Example: "2024-01-01T12:04:06-04:00" */
@@ -233,88 +146,175 @@ export interface MaintenancePolicy {
   /** Optional. The maintenance window of the instance. */
   maintenanceWindow?: MaintenanceWindow | undefined;
 }
+export type VersionTypeEnum =
+  | "TYPE_UNSPECIFIED"
+  | "TYPE_PREVIEW"
+  | "TYPE_GENERAL_AVAILABILITY"
+  | "TYPE_DEPRECATED";
+export type StringList = Array<string>;
+/** The Data Fusion version. */
+export interface Version {
+  /** Type represents the release availability of the version */
+  type?: VersionTypeEnum | (string & {}) | undefined;
+  /** Represents a list of available feature names for a given version. */
+  availableFeatures?: StringList | undefined;
+  /** Whether this is currently the default version for Cloud Data Fusion */
+  defaultVersion?: boolean | undefined;
+  /** The version number of the Data Fusion instance, such as '6.0.1.0'. */
+  versionNumber?: string | undefined;
+}
+export type VersionList = Array<Version>;
+export type InstanceTypeEnum = "TYPE_UNSPECIFIED" | "BASIC" | "ENTERPRISE" | "DEVELOPER";
+/** Configuration for using Private Service Connect to establish connectivity between the Data Fusion consumer project and the corresponding tenant project. */
+export interface PrivateServiceConnectConfig {
+  /** Optional. Input only. The CIDR block to which the CDF instance can't route traffic to in the consumer project VPC. The size of this block should be at least /25. This range should not overlap with the primary address range of any subnetwork used by the network attachment. This range can be used for other purposes in the consumer VPC as long as there is no requirement for CDF to reach destinations using these addresses. If this value is not provided, the server chooses a non RFC 1918 address range. The format of this field is governed by RFC 4632. Example: 192.168.0.0/25 */
+  unreachableCidrBlock?: string | undefined;
+  /** Output only. The CIDR block to which the CDF instance can't route traffic to in the consumer project VPC. The size of this block is /25. The format of this field is governed by RFC 4632. Example: 240.0.0.0/25 */
+  effectiveUnreachableCidrBlock?: string | undefined;
+  /** Required. The reference to the network attachment used to establish private connectivity. It will be of the form projects/{project-id}/regions/{region}/networkAttachments/{network-attachment-id}. */
+  networkAttachment?: string | undefined;
+}
+export type NetworkConfigConnectionTypeEnum =
+  | "CONNECTION_TYPE_UNSPECIFIED"
+  | "VPC_PEERING"
+  | "PRIVATE_SERVICE_CONNECT_INTERFACES";
+/** Network configuration for a Data Fusion instance. These configurations are used for peering with the customer network. Configurations are optional when a public Data Fusion instance is to be created. However, providing these configurations allows several benefits, such as reduced network latency while accessing the customer resources from managed Data Fusion instance nodes, as well as access to the customer on-prem resources. */
+export interface NetworkConfig {
+  /** Optional. Name of the network in the customer project with which the Tenant Project will be peered for executing pipelines. In case of shared VPC where the network resides in another host project the network should specified in the form of projects/{host-project-id}/global/networks/{network}. This is only required for connectivity type VPC_PEERING. */
+  network?: string | undefined;
+  /** Optional. The IP range in CIDR notation to use for the managed Data Fusion instance nodes. This range must not overlap with any other ranges used in the Data Fusion instance network. This is required only when using connection type VPC_PEERING. Format: a.b.c.d/22 Example: 192.168.0.0/22 */
+  ipAllocation?: string | undefined;
+  /** Optional. Configuration for Private Service Connect. This is required only when using connection type PRIVATE_SERVICE_CONNECT_INTERFACES. */
+  privateServiceConnectConfig?: PrivateServiceConnectConfig | undefined;
+  /** Optional. Type of connection for establishing private IP connectivity between the Data Fusion customer project VPC and the corresponding tenant project from a predefined list of available connection modes. If this field is unspecified for a private instance, VPC peering is used. */
+  connectionType?: NetworkConfigConnectionTypeEnum | (string & {}) | undefined;
+}
+/** Logging configuration for a Data Fusion instance. */
+export interface LoggingConfig {
+  /** Optional. Option to determine whether instance logs should be written to Cloud Logging. By default, instance logs are written to Cloud Logging. */
+  instanceCloudLoggingDisabled?: boolean | undefined;
+  /** Optional. Option to enable the InstanceV2 logging for this instance. This field is supported only in CDF patch revision versions 6.11.1.1 and above. */
+  enableInstanceV2Logs?: boolean | undefined;
+}
+/** Confirguration of PubSubEventWriter. */
+export interface EventPublishConfig {
+  /** Required. Option to enable Event Publishing. */
+  enabled?: boolean | undefined;
+  /** Required. The resource name of the Pub/Sub topic. Format: projects/{project_id}/topics/{topic_id} */
+  topic?: string | undefined;
+}
+export type InstanceDisabledReasonItemEnum =
+  | "DISABLED_REASON_UNSPECIFIED"
+  | "KMS_KEY_ISSUE"
+  | "PROJECT_STATE_OFF";
+export type InstanceDisabledReasonItemEnumList = Array<
+  InstanceDisabledReasonItemEnum | (string & {})
+>;
+/** The crypto key configuration. This field is used by the Customer-managed encryption keys (CMEK) feature. */
+export interface CryptoKeyConfig {
+  /** Optional. The name of the key which is used to encrypt/decrypt customer data. For key in Cloud KMS, the key should be in the format of `projects/*\/locations/*\/keyRings/*\/cryptoKeys/*`. */
+  keyReference?: string | undefined;
+}
+/** Monitoring configuration for a Data Fusion instance. */
+export interface MonitoringConfig {
+  /** Optional. Option to enable the instance v2 metrics for this instance. This field is supported only in CDF versions 6.11.1.1 and above. */
+  enableInstanceV2Metrics?: boolean | undefined;
+}
+export type InstanceStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "CREATING"
+  | "RUNNING"
+  | "FAILED"
+  | "DELETING"
+  | "UPGRADING"
+  | "RESTARTING"
+  | "UPDATING"
+  | "AUTO_UPDATING"
+  | "AUTO_UPGRADING"
+  | "DISABLED"
+  | "ENABLING";
 /** Represents a Data Fusion instance. */
 export interface Instance {
-  /** Optional. Display name for an instance. */
-  displayName?: string | undefined;
-  /** Output only. The name of this instance is in the form of projects/{project}/locations/{location}/instances/{instance}. */
-  name?: string | undefined;
-  /** Output only. The time the instance was created. */
-  createTime?: string | undefined;
-  /** Optional. Option to enable the Dataplex Lineage Integration feature. */
-  dataplexDataLineageIntegrationEnabled?: boolean | undefined;
-  /** Optional. Specifies whether the Data Fusion instance should be private. If set to true, all Data Fusion nodes will have private IP addresses and will not be able to access the public internet. */
-  privateInstance?: boolean | undefined;
-  /** Output only. Deprecated. Use tenant_project_id instead to extract the tenant project ID. */
-  serviceAccount?: string | undefined;
-  /** Output only. Endpoint on which the REST APIs is accessible. */
-  apiEndpoint?: string | undefined;
-  /** Optional. A description of this instance. */
-  description?: string | undefined;
-  /** Optional. Option to enable granular role-based access control. */
-  enableRbac?: boolean | undefined;
-  /** Output only. Option to enable zone separation. */
-  enableZoneSeparation?: boolean | undefined;
-  /** Output only. If the instance state is DISABLED, the reason for disabling the instance. */
-  disabledReason?: InstanceDisabledReasonItemEnumList | undefined;
-  /** Optional. User-managed service account to set on Dataproc when Cloud Data Fusion creates Dataproc to run data processing pipelines. This allows users to have fine-grained access control on Dataproc's accesses to cloud resources. */
-  dataprocServiceAccount?: string | undefined;
-  /** Output only. Endpoint on which the Data Fusion UI is accessible to third-party users. */
-  workforceIdentityServiceEndpoint?: string | undefined;
-  /** Optional. Option to enable Stackdriver Monitoring. */
-  enableStackdriverMonitoring?: boolean | undefined;
-  /** Optional. The monitoring configuration for this instance. */
-  monitoringConfig?: MonitoringConfig | undefined;
-  /** Output only. Reserved for future use. */
-  satisfiesPzi?: boolean | undefined;
   /** Optional. Input only. Immutable. Tag keys/values directly bound to this resource. For example: "123/environment": "production", "123/costCenter": "marketing" */
   tags?: StringMap | undefined;
-  /** The resource labels for instance to use to annotate any related underlying resources such as Compute Engine VMs. The character '=' is not allowed to be used within the labels. */
-  labels?: StringMap | undefined;
-  /** Optional. Option to enable Dataproc Stackdriver Logging. */
-  enableStackdriverLogging?: boolean | undefined;
-  /** Optional. Map of additional options used to configure the behavior of Data Fusion instance. */
-  options?: StringMap | undefined;
-  /** Output only. The time the instance was last updated. */
-  updateTime?: string | undefined;
-  /** Optional. Current patch revision of the Data Fusion. */
-  patchRevision?: string | undefined;
+  /** Optional. Specifies whether the Data Fusion instance should be private. If set to true, all Data Fusion nodes will have private IP addresses and will not be able to access the public internet. */
+  privateInstance?: boolean | undefined;
   /** Output only. List of accelerators enabled for this CDF instance. */
   accelerators?: AcceleratorList | undefined;
   /** Output only. Reserved for future use. */
   satisfiesPzs?: boolean | undefined;
+  /** Output only. The time the instance was last updated. */
+  updateTime?: string | undefined;
   /** Output only. Additional information about the current state of this Data Fusion instance if available. */
   stateMessage?: string | undefined;
+  /** Optional. Map of additional options used to configure the behavior of Data Fusion instance. */
+  options?: StringMap | undefined;
   /** Output only. The maintenance events for this instance. */
   maintenanceEvents?: MaintenanceEventList | undefined;
-  /** Output only. The current state of this Data Fusion instance. */
-  state?: InstanceStateEnum | (string & {}) | undefined;
-  /** Output only. Cloud Storage bucket generated by Data Fusion in the customer project. */
-  gcsBucket?: string | undefined;
+  /** Optional. Option to enable Stackdriver Monitoring. */
+  enableStackdriverMonitoring?: boolean | undefined;
+  /** Output only. Service agent for the customer project. */
+  p4ServiceAccount?: string | undefined;
+  /** Optional. Current version of Data Fusion. */
+  version?: string | undefined;
+  /** Optional. Option to enable the Dataplex Lineage Integration feature. */
+  dataplexDataLineageIntegrationEnabled?: boolean | undefined;
+  /** Optional. User-managed service account to set on Dataproc when Cloud Data Fusion creates Dataproc to run data processing pipelines. This allows users to have fine-grained access control on Dataproc's accesses to cloud resources. */
+  dataprocServiceAccount?: string | undefined;
+  /** Output only. The name of this instance is in the form of projects/{project}/locations/{location}/instances/{instance}. */
+  name?: string | undefined;
+  /** Output only. Option to enable zone separation. */
+  enableZoneSeparation?: boolean | undefined;
+  /** Optional. Configure the maintenance policy for this instance. */
+  maintenancePolicy?: MaintenancePolicy | undefined;
   /** Output only. Available versions that the instance can be upgraded to using UpdateInstanceRequest. */
   availableVersion?: VersionList | undefined;
-  /** Optional. Name of the zone in which the Data Fusion instance will be created. Only DEVELOPER instances use this field. */
-  zone?: string | undefined;
-  /** Output only. The name of the tenant project. */
-  tenantProjectId?: string | undefined;
+  /** Output only. Cloud Storage bucket generated by Data Fusion in the customer project. */
+  gcsBucket?: string | undefined;
+  /** Output only. Deprecated. Use tenant_project_id instead to extract the tenant project ID. */
+  serviceAccount?: string | undefined;
+  /** Required. Instance type. */
+  type?: InstanceTypeEnum | (string & {}) | undefined;
+  /** Optional. Option to enable granular role-based access control. */
+  enableRbac?: boolean | undefined;
   /** Optional. Network configuration options. These are required when a private Data Fusion instance is to be created. */
   networkConfig?: NetworkConfig | undefined;
   /** Optional. The logging configuration for this instance. This field is supported only in CDF versions 6.11.0 and above. */
   loggingConfig?: LoggingConfig | undefined;
-  /** Optional. Current version of Data Fusion. */
-  version?: string | undefined;
-  /** Output only. Service agent for the customer project. */
-  p4ServiceAccount?: string | undefined;
-  /** Required. Instance type. */
-  type?: InstanceTypeEnum | (string & {}) | undefined;
+  /** Optional. Option to enable Dataproc Stackdriver Logging. */
+  enableStackdriverLogging?: boolean | undefined;
+  /** Optional. Name of the zone in which the Data Fusion instance will be created. Only DEVELOPER instances use this field. */
+  zone?: string | undefined;
+  /** Optional. Option to enable and pass metadata for event publishing. */
+  eventPublishConfig?: EventPublishConfig | undefined;
+  /** Output only. The time the instance was created. */
+  createTime?: string | undefined;
+  /** Optional. A description of this instance. */
+  description?: string | undefined;
+  /** Optional. Current patch revision of the Data Fusion. */
+  patchRevision?: string | undefined;
+  /** Output only. The name of the tenant project. */
+  tenantProjectId?: string | undefined;
+  /** Output only. Endpoint on which the REST APIs is accessible. */
+  apiEndpoint?: string | undefined;
+  /** Output only. If the instance state is DISABLED, the reason for disabling the instance. */
+  disabledReason?: InstanceDisabledReasonItemEnumList | undefined;
+  /** The resource labels for instance to use to annotate any related underlying resources such as Compute Engine VMs. The character '=' is not allowed to be used within the labels. */
+  labels?: StringMap | undefined;
   /** Output only. Endpoint on which the Data Fusion UI is accessible. */
   serviceEndpoint?: string | undefined;
   /** Optional. The crypto key configuration. This field is used by the Customer-Managed Encryption Keys (CMEK) feature. */
   cryptoKeyConfig?: CryptoKeyConfig | undefined;
-  /** Optional. Option to enable and pass metadata for event publishing. */
-  eventPublishConfig?: EventPublishConfig | undefined;
-  /** Optional. Configure the maintenance policy for this instance. */
-  maintenancePolicy?: MaintenancePolicy | undefined;
+  /** Optional. The monitoring configuration for this instance. */
+  monitoringConfig?: MonitoringConfig | undefined;
+  /** Output only. Reserved for future use. */
+  satisfiesPzi?: boolean | undefined;
+  /** Output only. Endpoint on which the Data Fusion UI is accessible to third-party users. */
+  workforceIdentityServiceEndpoint?: string | undefined;
+  /** Output only. The current state of this Data Fusion instance. */
+  state?: InstanceStateEnum | (string & {}) | undefined;
+  /** Optional. Display name for an instance. */
+  displayName?: string | undefined;
 }
 export interface CreateProjectsLocationsInstancesRequest extends Instance {
   /** Required. The instance's project and location in the format projects/{project}/locations/{location}. */
@@ -335,41 +335,41 @@ export interface Status {
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
-  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string | undefined;
-  /** The error result of the operation in case of failure or cancellation. */
-  error?: Status | undefined;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
   metadata?: DocumentMap | undefined;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
   response?: DocumentMap | undefined;
+  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
+  name?: string | undefined;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
   done?: boolean | undefined;
+  /** The error result of the operation in case of failure or cancellation. */
+  error?: Status | undefined;
 }
 /** DNS peering configuration. These configurations are used to create DNS peering with the customer Cloud DNS. */
 export interface DnsPeering {
-  /** Optional. Optional target project to which dns peering should happen. */
-  targetProject?: string | undefined;
   /** Required. The dns name suffix of the zone. */
   domain?: string | undefined;
-  /** Identifier. The resource name of the dns peering zone. Format: projects/{project}/locations/{location}/instances/{instance}/dnsPeerings/{dns_peering} */
-  name?: string | undefined;
   /** Optional. Optional target network to which dns peering should happen. */
   targetNetwork?: string | undefined;
   /** Optional. Optional description of the dns zone. */
   description?: string | undefined;
+  /** Optional. Optional target project to which dns peering should happen. */
+  targetProject?: string | undefined;
+  /** Identifier. The resource name of the dns peering zone. Format: projects/{project}/locations/{location}/instances/{instance}/dnsPeerings/{dns_peering} */
+  name?: string | undefined;
 }
 export interface CreateProjectsLocationsInstancesDnsPeeringsRequest extends DnsPeering {
-  /** Required. The name of the peering to create. */
-  dnsPeeringId?: string | undefined;
   /** Required. The resource on which DNS peering will be created. */
   parent: string;
+  /** Required. The name of the peering to create. */
+  dnsPeeringId?: string | undefined;
 }
 export interface DeleteProjectsLocationsInstancesRequest {
-  /** Required. The instance resource name in the format projects/{project}/locations/{location}/instances/{instance} */
-  name: string;
   /** Optional. If set to true, any nested resources from this instance will also be deleted. */
   force?: boolean | undefined;
+  /** Required. The instance resource name in the format projects/{project}/locations/{location}/instances/{instance} */
+  name: string;
 }
 export interface DeleteProjectsLocationsInstancesDnsPeeringsRequest {
   /** Required. The name of the DNS peering zone to delete. Format: projects/{project}/locations/{location}/instances/{instance}/dnsPeerings/{dns_peering} */
@@ -387,10 +387,10 @@ export interface GetIamPolicyProjectsLocationsInstancesRequest {
 }
 /** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
 export interface Expr {
-  /** Textual representation of an expression in Common Expression Language syntax. */
-  expression?: string | undefined;
   /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
   description?: string | undefined;
+  /** Textual representation of an expression in Common Expression Language syntax. */
+  expression?: string | undefined;
   /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
   location?: string | undefined;
   /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
@@ -421,20 +421,20 @@ export interface AuditLogConfig {
 export type AuditLogConfigList = Array<AuditLogConfig>;
 /** Specifies the audit configuration for a service. The configuration determines which permission types are logged, and what identities, if any, are exempted from logging. An AuditConfig must have one or more AuditLogConfigs. If there are AuditConfigs for both `allServices` and a specific service, the union of the two AuditConfigs is used for that service: the log_types specified in each AuditConfig are enabled, and the exempted_members in each AuditLogConfig are exempted. Example Policy with multiple AuditConfigs: { "audit_configs": [ { "service": "allServices", "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" }, { "log_type": "ADMIN_READ" } ] }, { "service": "sampleservice.googleapis.com", "audit_log_configs": [ { "log_type": "DATA_READ" }, { "log_type": "DATA_WRITE", "exempted_members": [ "user:aliya@example.com" ] } ] } ] } For sampleservice, this policy enables DATA_READ, DATA_WRITE and ADMIN_READ logging. It also exempts `jose@example.com` from DATA_READ logging, and `aliya@example.com` from DATA_WRITE logging. */
 export interface AuditConfig {
-  /** The configuration for logging of each type of permission. */
-  auditLogConfigs?: AuditLogConfigList | undefined;
   /** Specifies a service that will be enabled for audit logging. For example, `storage.googleapis.com`, `cloudsql.googleapis.com`. `allServices` is a special value that covers all services. */
   service?: string | undefined;
+  /** The configuration for logging of each type of permission. */
+  auditLogConfigs?: AuditLogConfigList | undefined;
 }
 export type AuditConfigList = Array<AuditConfig>;
 /** An Identity and Access Management (IAM) policy, which specifies access controls for Google Cloud resources. A `Policy` is a collection of `bindings`. A `binding` binds one or more `members`, or principals, to a single `role`. Principals can be user accounts, service accounts, Google groups, and domains (such as G Suite). A `role` is a named list of permissions; each `role` can be an IAM predefined role or a user-created custom role. For some types of Google Cloud resources, a `binding` can also specify a `condition`, which is a logical expression that allows access to a resource only if the expression evaluates to `true`. A condition can add constraints based on attributes of the request, the resource, or both. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). **JSON example:** ``` { "bindings": [ { "role": "roles/resourcemanager.organizationAdmin", "members": [ "user:mike@example.com", "group:admins@example.com", "domain:google.com", "serviceAccount:my-project-id@appspot.gserviceaccount.com" ] }, { "role": "roles/resourcemanager.organizationViewer", "members": [ "user:eve@example.com" ], "condition": { "title": "expirable access", "description": "Does not grant access after Sep 2020", "expression": "request.time < timestamp('2020-10-01T00:00:00.000Z')", } } ], "etag": "BwWWja0YfJA=", "version": 3 } ``` **YAML example:** ``` bindings: - members: - user:mike@example.com - group:admins@example.com - domain:google.com - serviceAccount:my-project-id@appspot.gserviceaccount.com role: roles/resourcemanager.organizationAdmin - members: - user:eve@example.com role: roles/resourcemanager.organizationViewer condition: title: expirable access description: Does not grant access after Sep 2020 expression: request.time < timestamp('2020-10-01T00:00:00.000Z') etag: BwWWja0YfJA= version: 3 ``` For a description of IAM and its features, see the [IAM documentation](https://cloud.google.com/iam/docs/). */
 export interface Policy {
+  /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
+  version?: number | undefined;
   /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
   bindings?: BindingList | undefined;
   /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
   etag?: string | undefined;
-  /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  version?: number | undefined;
   /** Specifies cloud audit logging configuration for this policy. */
   auditConfigs?: AuditConfigList | undefined;
 }
@@ -450,16 +450,16 @@ export interface GetProjectsLocationsRequest {
 }
 /** A resource that represents a Google Cloud location. */
 export interface Location {
-  /** The canonical id for this location. For example: `"us-east1"`. */
-  locationId?: string | undefined;
-  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
-  name?: string | undefined;
-  /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
-  labels?: StringMap | undefined;
   /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
   displayName?: string | undefined;
   /** Service-specific metadata. For example the available capacity at the given location. */
   metadata?: DocumentMap | undefined;
+  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
+  name?: string | undefined;
+  /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
+  labels?: StringMap | undefined;
+  /** The canonical id for this location. For example: `"us-east1"`. */
+  locationId?: string | undefined;
 }
 export interface GetProjectsLocationsInstancesRequest {
   /** Required. The instance resource name in the format projects/{project}/locations/{location}/instances/{instance}. */
@@ -470,52 +470,52 @@ export interface GetProjectsLocationsOperationsRequest {
   name: string;
 }
 export interface ListProjectsLocationsRequest {
-  /** The resource that owns the locations collection, if applicable. */
-  name: string;
   /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
   extraLocationTypes?: StringList | undefined;
-  /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
-  filter?: string | undefined;
   /** The maximum number of results to return. If not set, the service selects a default. */
   pageSize?: number | undefined;
+  /** The resource that owns the locations collection, if applicable. */
+  name: string;
+  /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
+  filter?: string | undefined;
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
   pageToken?: string | undefined;
 }
 export type LocationList = Array<Location>;
 /** The response message for Locations.ListLocations. */
 export interface ListLocationsResponse {
-  /** The standard List next-page token. */
-  nextPageToken?: string | undefined;
   /** A list of locations that matches the specified filter in the request. */
   locations?: LocationList | undefined;
+  /** The standard List next-page token. */
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsInstancesRequest {
   /** Required. The project and location for which to retrieve instance information in the format projects/{project}/locations/{location}. If the location is specified as '-' (wildcard), then all regions available to the project are queried, and the results are aggregated. */
   parent: string;
-  /** List filter. */
-  filter?: string | undefined;
-  /** The maximum number of items to return. */
-  pageSize?: number | undefined;
-  /** The next_page_token value to use if there are additional results to retrieve for this list request. */
-  pageToken?: string | undefined;
   /** Sort results. Supported values are "name", "name desc", or "" (unsorted). */
   orderBy?: string | undefined;
+  /** The maximum number of items to return. */
+  pageSize?: number | undefined;
+  /** List filter. */
+  filter?: string | undefined;
+  /** The next_page_token value to use if there are additional results to retrieve for this list request. */
+  pageToken?: string | undefined;
 }
 export type InstanceList = Array<Instance>;
 /** Response message for the list instance request. */
 export interface ListInstancesResponse {
-  /** Locations that could not be reached. */
-  unreachable?: StringList | undefined;
-  /** Token to retrieve the next page of results or empty if there are no more results in the list. */
-  nextPageToken?: string | undefined;
   /** Represents a list of Data Fusion instances. */
   instances?: InstanceList | undefined;
+  /** Token to retrieve the next page of results or empty if there are no more results in the list. */
+  nextPageToken?: string | undefined;
+  /** Locations that could not be reached. */
+  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsInstancesDnsPeeringsRequest {
-  /** A page token, received from a previous `ListDnsPeerings` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListDnsPeerings` must match the call that provided the page token. */
-  pageToken?: string | undefined;
   /** The maximum number of dns peerings to return. The service may return fewer than this value. If unspecified, at most 50 dns peerings will be returned. The maximum value is 200; values above 200 will be coerced to 200. */
   pageSize?: number | undefined;
+  /** A page token, received from a previous `ListDnsPeerings` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListDnsPeerings` must match the call that provided the page token. */
+  pageToken?: string | undefined;
   /** Required. The parent, which owns this collection of dns peerings. Format: projects/{project}/locations/{location}/instances/{instance} */
   parent: string;
 }
@@ -532,12 +532,12 @@ export type ListProjectsLocationsInstancesNamespacesViewEnum =
   | "NAMESPACE_VIEW_BASIC"
   | "NAMESPACE_VIEW_FULL";
 export interface ListProjectsLocationsInstancesNamespacesRequest {
-  /** Required. The instance to list its namespaces. */
-  parent: string;
   /** The maximum number of items to return. */
   pageSize?: number | undefined;
   /** By default, only basic information about a namespace is returned (e.g. name). When `NAMESPACE_VIEW_FULL` is specified, additional information associated with a namespace gets returned (e.g. IAM policy set on the namespace) */
   view?: ListProjectsLocationsInstancesNamespacesViewEnum | (string & {}) | undefined;
+  /** Required. The instance to list its namespaces. */
+  parent: string;
   /** The next_page_token value to use if there are additional results to retrieve for this list request. */
   pageToken?: string | undefined;
 }
@@ -566,30 +566,30 @@ export interface ListNamespacesResponse {
 export interface ListProjectsLocationsOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
-  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean | undefined;
-  /** The standard list page size. */
-  pageSize?: number | undefined;
-  /** The standard list page token. */
-  pageToken?: string | undefined;
   /** The standard list filter. */
   filter?: string | undefined;
+  /** The standard list page size. */
+  pageSize?: number | undefined;
+  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
+  returnPartialSuccess?: boolean | undefined;
+  /** The standard list page token. */
+  pageToken?: string | undefined;
 }
 export type OperationList = Array<Operation>;
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
-  /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
-  unreachable?: StringList | undefined;
   /** The standard List next-page token. */
   nextPageToken?: string | undefined;
+  /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
+  unreachable?: StringList | undefined;
   /** A list of operations that matches the specified filter in the request. */
   operations?: OperationList | undefined;
 }
 export interface ListProjectsLocationsVersionsRequest {
-  /** Whether or not to return the latest patch of every available minor version. If true, only the latest patch will be returned. Ex. if allowed versions is [6.1.1, 6.1.2, 6.2.0] then response will be [6.1.2, 6.2.0] */
-  latestPatchOnly?: boolean | undefined;
   /** The maximum number of items to return. */
   pageSize?: number | undefined;
+  /** Whether or not to return the latest patch of every available minor version. If true, only the latest patch will be returned. Ex. if allowed versions is [6.1.1, 6.1.2, 6.2.0] then response will be [6.1.2, 6.2.0] */
+  latestPatchOnly?: boolean | undefined;
   /** The next_page_token value to use if there are additional results to retrieve for this list request. */
   pageToken?: string | undefined;
   /** Required. The project and location for which to retrieve instance information in the format projects/{project}/locations/{location}. */
@@ -597,12 +597,12 @@ export interface ListProjectsLocationsVersionsRequest {
 }
 /** Response message for the list available versions request. */
 export interface ListAvailableVersionsResponse {
-  /** Represents a list of versions that are supported. Deprecated: Use versions field instead. */
-  availableVersions?: VersionList | undefined;
-  /** Represents a list of all versions. */
-  versions?: VersionList | undefined;
   /** Token to retrieve the next page of results or empty if there are no more results in the list. */
   nextPageToken?: string | undefined;
+  /** Represents a list of all versions. */
+  versions?: VersionList | undefined;
+  /** Represents a list of versions that are supported. Deprecated: Use versions field instead. */
+  availableVersions?: VersionList | undefined;
 }
 export interface PatchProjectsLocationsInstancesRequest extends Omit<Instance, "name"> {
   /** Output only. The name of this instance is in the form of projects/{project}/locations/{location}/instances/{instance}. */
@@ -1239,8 +1239,8 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          expression: S.optional(S.String),
           description: S.optional(S.String),
+          expression: S.optional(S.String),
           location: S.optional(S.String),
           title: S.optional(S.String),
         }),
@@ -1267,8 +1267,8 @@ function __c1(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          auditLogConfigs: S.optional(__S(20, __c1, 4)),
           service: S.optional(S.String),
+          auditLogConfigs: S.optional(__S(20, __c1, 4)),
         }),
       ).annotate({ identifier: "AuditConfig" });
     case 6:
@@ -1276,9 +1276,9 @@ function __c1(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
+          version: S.optional(S.Number),
           bindings: S.optional(__S(18, __c1, 2)),
           etag: S.optional(S.String),
-          version: S.optional(S.Number),
           auditConfigs: S.optional(__S(22, __c1, 6)),
         }),
       ).annotate({ identifier: "Policy" });
@@ -1322,11 +1322,11 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          locationId: S.optional(S.String),
-          name: S.optional(S.String),
-          labels: S.optional(__S(432, __c27, 0)),
           displayName: S.optional(S.String),
           metadata: S.optional(__S(480, __c30, 0)),
+          name: S.optional(S.String),
+          labels: S.optional(__S(432, __c27, 0)),
+          locationId: S.optional(S.String),
         }),
       ).annotate({ identifier: "Location" });
   }
@@ -1368,10 +1368,10 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           extraLocationTypes: S.optional(__S(416, __c26, 0).pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
+          filter: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -1386,8 +1386,8 @@ function __c7(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           locations: S.optional(__S(113, __c7, 1)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListLocationsResponse" });
   }
@@ -1398,10 +1398,10 @@ function __c8(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          filter: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1415,9 +1415,9 @@ function __c8(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(416, __c26, 0)),
-          nextPageToken: S.optional(S.String),
           instances: S.optional(__S(129, __c8, 1)),
+          nextPageToken: S.optional(S.String),
+          unreachable: S.optional(__S(416, __c26, 0)),
         }),
       ).annotate({ identifier: "ListInstancesResponse" });
   }
@@ -1427,8 +1427,8 @@ function __c9(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -1454,9 +1454,9 @@ function __c10(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           view: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -1497,10 +1497,10 @@ function __c11(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1514,8 +1514,8 @@ function __c11(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(416, __c26, 0)),
           nextPageToken: S.optional(S.String),
+          unreachable: S.optional(__S(416, __c26, 0)),
           operations: S.optional(__S(177, __c11, 1)),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
@@ -1526,8 +1526,8 @@ function __c12(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          latestPatchOnly: S.optional(S.Boolean.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          latestPatchOnly: S.optional(S.Boolean.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
         }).pipe(
@@ -1541,9 +1541,9 @@ function __c12(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          availableVersions: S.optional(__S(449, __c28, 1)),
-          versions: S.optional(__S(449, __c28, 1)),
           nextPageToken: S.optional(S.String),
+          versions: S.optional(__S(449, __c28, 1)),
+          availableVersions: S.optional(__S(449, __c28, 1)),
         }),
       ).annotate({ identifier: "ListAvailableVersionsResponse" });
   }
@@ -1776,10 +1776,10 @@ function __c28(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          versionNumber: S.optional(S.String),
           type: S.optional(S.String),
           availableFeatures: S.optional(__S(416, __c26, 0)),
           defaultVersion: S.optional(S.Boolean),
+          versionNumber: S.optional(S.String),
         }),
       ).annotate({ identifier: "Version" });
     case 1:
@@ -1789,139 +1789,139 @@ function __c28(j: number): any {
 function __c29(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.String);
-    case 1:
       return S.suspend(() =>
         S.Struct({
-          enableInstanceV2Metrics: S.optional(S.Boolean),
+          state: S.optional(S.String),
+          acceleratorType: S.optional(S.String),
         }),
-      ).annotate({ identifier: "MonitoringConfig" });
+      ).annotate({ identifier: "Accelerator" });
+    case 1:
+      return S.Array(__S(464, __c29, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          acceleratorType: S.optional(S.String),
+          endTime: S.optional(S.String),
           state: S.optional(S.String),
+          startTime: S.optional(S.String),
         }),
-      ).annotate({ identifier: "Accelerator" });
+      ).annotate({ identifier: "MaintenanceEvent" });
     case 3:
       return S.Array(__S(466, __c29, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           startTime: S.optional(S.String),
-          state: S.optional(S.String),
           endTime: S.optional(S.String),
         }),
-      ).annotate({ identifier: "MaintenanceEvent" });
+      ).annotate({ identifier: "TimeWindow" });
     case 5:
-      return S.Array(__S(468, __c29, 4));
+      return S.suspend(() =>
+        S.Struct({
+          window: S.optional(__S(468, __c29, 4)),
+          recurrence: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RecurringTimeWindow" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          networkAttachment: S.optional(S.String),
-          unreachableCidrBlock: S.optional(S.String),
-          effectiveUnreachableCidrBlock: S.optional(S.String),
+          recurringTimeWindow: S.optional(__S(469, __c29, 5)),
         }),
-      ).annotate({ identifier: "PrivateServiceConnectConfig" });
+      ).annotate({ identifier: "MaintenanceWindow" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          network: S.optional(S.String),
-          connectionType: S.optional(S.String),
-          ipAllocation: S.optional(S.String),
-          privateServiceConnectConfig: S.optional(__S(470, __c29, 6)),
+          maintenanceExclusionWindow: S.optional(__S(468, __c29, 4)),
+          maintenanceWindow: S.optional(__S(470, __c29, 6)),
         }),
-      ).annotate({ identifier: "NetworkConfig" });
+      ).annotate({ identifier: "MaintenancePolicy" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          enableInstanceV2Logs: S.optional(S.Boolean),
-          instanceCloudLoggingDisabled: S.optional(S.Boolean),
+          unreachableCidrBlock: S.optional(S.String),
+          effectiveUnreachableCidrBlock: S.optional(S.String),
+          networkAttachment: S.optional(S.String),
         }),
-      ).annotate({ identifier: "LoggingConfig" });
+      ).annotate({ identifier: "PrivateServiceConnectConfig" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          keyReference: S.optional(S.String),
+          network: S.optional(S.String),
+          ipAllocation: S.optional(S.String),
+          privateServiceConnectConfig: S.optional(__S(472, __c29, 8)),
+          connectionType: S.optional(S.String),
         }),
-      ).annotate({ identifier: "CryptoKeyConfig" });
+      ).annotate({ identifier: "NetworkConfig" });
     case 10:
+      return S.suspend(() =>
+        S.Struct({
+          instanceCloudLoggingDisabled: S.optional(S.Boolean),
+          enableInstanceV2Logs: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "LoggingConfig" });
+    case 11:
       return S.suspend(() =>
         S.Struct({
           enabled: S.optional(S.Boolean),
           topic: S.optional(S.String),
         }),
       ).annotate({ identifier: "EventPublishConfig" });
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          startTime: S.optional(S.String),
-          endTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TimeWindow" });
     case 12:
-      return S.suspend(() =>
-        S.Struct({
-          window: S.optional(__S(475, __c29, 11)),
-          recurrence: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "RecurringTimeWindow" });
+      return S.Array(S.String);
     case 13:
       return S.suspend(() =>
         S.Struct({
-          recurringTimeWindow: S.optional(__S(476, __c29, 12)),
+          keyReference: S.optional(S.String),
         }),
-      ).annotate({ identifier: "MaintenanceWindow" });
+      ).annotate({ identifier: "CryptoKeyConfig" });
     case 14:
       return S.suspend(() =>
         S.Struct({
-          maintenanceExclusionWindow: S.optional(__S(475, __c29, 11)),
-          maintenanceWindow: S.optional(__S(477, __c29, 13)),
+          enableInstanceV2Metrics: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "MaintenancePolicy" });
+      ).annotate({ identifier: "MonitoringConfig" });
     case 15:
       return S.suspend(() =>
         S.Struct({
-          displayName: S.optional(S.String),
-          name: S.optional(S.String),
-          createTime: S.optional(S.String),
-          dataplexDataLineageIntegrationEnabled: S.optional(S.Boolean),
-          privateInstance: S.optional(S.Boolean),
-          serviceAccount: S.optional(S.String),
-          apiEndpoint: S.optional(S.String),
-          description: S.optional(S.String),
-          enableRbac: S.optional(S.Boolean),
-          enableZoneSeparation: S.optional(S.Boolean),
-          disabledReason: S.optional(__S(464, __c29, 0)),
-          dataprocServiceAccount: S.optional(S.String),
-          workforceIdentityServiceEndpoint: S.optional(S.String),
-          enableStackdriverMonitoring: S.optional(S.Boolean),
-          monitoringConfig: S.optional(__S(465, __c29, 1)),
-          satisfiesPzi: S.optional(S.Boolean),
           tags: S.optional(__S(432, __c27, 0)),
-          labels: S.optional(__S(432, __c27, 0)),
-          enableStackdriverLogging: S.optional(S.Boolean),
-          options: S.optional(__S(432, __c27, 0)),
-          updateTime: S.optional(S.String),
-          patchRevision: S.optional(S.String),
-          accelerators: S.optional(__S(467, __c29, 3)),
+          privateInstance: S.optional(S.Boolean),
+          accelerators: S.optional(__S(465, __c29, 1)),
           satisfiesPzs: S.optional(S.Boolean),
+          updateTime: S.optional(S.String),
           stateMessage: S.optional(S.String),
-          maintenanceEvents: S.optional(__S(469, __c29, 5)),
-          state: S.optional(S.String),
-          gcsBucket: S.optional(S.String),
-          availableVersion: S.optional(__S(449, __c28, 1)),
-          zone: S.optional(S.String),
-          tenantProjectId: S.optional(S.String),
-          networkConfig: S.optional(__S(471, __c29, 7)),
-          loggingConfig: S.optional(__S(472, __c29, 8)),
-          version: S.optional(S.String),
+          options: S.optional(__S(432, __c27, 0)),
+          maintenanceEvents: S.optional(__S(467, __c29, 3)),
+          enableStackdriverMonitoring: S.optional(S.Boolean),
           p4ServiceAccount: S.optional(S.String),
+          version: S.optional(S.String),
+          dataplexDataLineageIntegrationEnabled: S.optional(S.Boolean),
+          dataprocServiceAccount: S.optional(S.String),
+          name: S.optional(S.String),
+          enableZoneSeparation: S.optional(S.Boolean),
+          maintenancePolicy: S.optional(__S(471, __c29, 7)),
+          availableVersion: S.optional(__S(449, __c28, 1)),
+          gcsBucket: S.optional(S.String),
+          serviceAccount: S.optional(S.String),
           type: S.optional(S.String),
+          enableRbac: S.optional(S.Boolean),
+          networkConfig: S.optional(__S(473, __c29, 9)),
+          loggingConfig: S.optional(__S(474, __c29, 10)),
+          enableStackdriverLogging: S.optional(S.Boolean),
+          zone: S.optional(S.String),
+          eventPublishConfig: S.optional(__S(475, __c29, 11)),
+          createTime: S.optional(S.String),
+          description: S.optional(S.String),
+          patchRevision: S.optional(S.String),
+          tenantProjectId: S.optional(S.String),
+          apiEndpoint: S.optional(S.String),
+          disabledReason: S.optional(__S(476, __c29, 12)),
+          labels: S.optional(__S(432, __c27, 0)),
           serviceEndpoint: S.optional(S.String),
-          cryptoKeyConfig: S.optional(__S(473, __c29, 9)),
-          eventPublishConfig: S.optional(__S(474, __c29, 10)),
-          maintenancePolicy: S.optional(__S(478, __c29, 14)),
+          cryptoKeyConfig: S.optional(__S(477, __c29, 13)),
+          monitoringConfig: S.optional(__S(478, __c29, 14)),
+          satisfiesPzi: S.optional(S.Boolean),
+          workforceIdentityServiceEndpoint: S.optional(S.String),
+          state: S.optional(S.String),
+          displayName: S.optional(S.String),
         }),
       ).annotate({ identifier: "Instance" });
   }
@@ -1951,11 +1951,11 @@ function __c32(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          error: S.optional(__S(497, __c31, 1)),
           metadata: S.optional(__S(480, __c30, 0)),
           response: S.optional(__S(480, __c30, 0)),
+          name: S.optional(S.String),
           done: S.optional(S.Boolean),
+          error: S.optional(__S(497, __c31, 1)),
         }),
       ).annotate({ identifier: "Operation" });
   }
@@ -1967,8 +1967,8 @@ function __c33(j: number): any {
         S.Extend(
           __S(544, __c34, 0),
           S.Struct({
-            dnsPeeringId: S.optional(S.String.pipe(T.Query())),
             parent: S.String.pipe(T.Label()),
+            dnsPeeringId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -1985,11 +1985,11 @@ function __c34(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          targetProject: S.optional(S.String),
           domain: S.optional(S.String),
-          name: S.optional(S.String),
           targetNetwork: S.optional(S.String),
           description: S.optional(S.String),
+          targetProject: S.optional(S.String),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "DnsPeering" });
   }
@@ -1999,8 +1999,8 @@ function __c35(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           force: S.optional(S.Boolean.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",

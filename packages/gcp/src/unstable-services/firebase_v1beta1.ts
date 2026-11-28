@@ -111,25 +111,25 @@ export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
-  /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number | undefined;
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
   message?: string | undefined;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
   details?: DocumentMapList | undefined;
+  /** The status code, which should be an enum value of google.rpc.Code. */
+  code?: number | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
   name?: string | undefined;
-  /** The error result of the operation in case of failure or cancellation. */
-  error?: Status | undefined;
-  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap | undefined;
-  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean | undefined;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
   metadata?: DocumentMap | undefined;
+  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
+  done?: boolean | undefined;
+  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
+  response?: DocumentMap | undefined;
+  /** The error result of the operation in case of failure or cancellation. */
+  error?: Status | undefined;
 }
 export interface AddGoogleAnalyticsRequest {
   /** The ID for the existing Google Analytics property that you want to associate with the `FirebaseProject`. */
@@ -145,28 +145,28 @@ export type StringList = Array<string>;
 export type AndroidAppStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "DELETED";
 /** Details of a Firebase App for Android. */
 export interface AndroidApp {
+  /** The resource name of the AndroidApp, in the format: projects/ PROJECT_IDENTIFIER/androidApps/APP_ID * PROJECT_IDENTIFIER: the parent Project's [`ProjectNumber`](../projects#FirebaseProject.FIELDS.project_number) ***(recommended)*** or its [`ProjectId`](../projects#FirebaseProject.FIELDS.project_id). Learn more about using project identifiers in Google's [AIP 2510 standard](https://google.aip.dev/cloud/2510). Note that the value for PROJECT_IDENTIFIER in any response body will be the `ProjectId`. * APP_ID: the globally unique, Firebase-assigned identifier for the App (see [`appId`](../projects.androidApps#AndroidApp.FIELDS.app_id)). */
+  name?: string | undefined;
+  /** The user-assigned display name for the `AndroidApp`. */
+  displayName?: string | undefined;
   /** This checksum is computed by the server based on the value of other fields, and it may be sent with update requests to ensure the client has an up-to-date value before proceeding. Learn more about `etag` in Google's [AIP-154 standard](https://google.aip.dev/154#declarative-friendly-resources). This etag is strongly validated. */
   etag?: string | undefined;
-  /** Output only. Immutable. A user-assigned unique identifier of the parent FirebaseProject for the `AndroidApp`. */
-  projectId?: string | undefined;
-  /** Immutable. The canonical package name of the Android app as would appear in the Google Play Developer Console. */
-  packageName?: string | undefined;
   /** The SHA1 certificate hashes for the AndroidApp. */
   sha1Hashes?: StringList | undefined;
   /** Output only. If the App has been removed from the Project, this is the timestamp of when the App is considered expired and will be permanently deleted. After this time, the App cannot be undeleted (that is, restored to the Project). This value is only provided if the App is in the `DELETED` state. */
   expireTime?: string | undefined;
-  /** The resource name of the AndroidApp, in the format: projects/ PROJECT_IDENTIFIER/androidApps/APP_ID * PROJECT_IDENTIFIER: the parent Project's [`ProjectNumber`](../projects#FirebaseProject.FIELDS.project_number) ***(recommended)*** or its [`ProjectId`](../projects#FirebaseProject.FIELDS.project_id). Learn more about using project identifiers in Google's [AIP 2510 standard](https://google.aip.dev/cloud/2510). Note that the value for PROJECT_IDENTIFIER in any response body will be the `ProjectId`. * APP_ID: the globally unique, Firebase-assigned identifier for the App (see [`appId`](../projects.androidApps#AndroidApp.FIELDS.app_id)). */
-  name?: string | undefined;
   /** The globally unique, Google-assigned identifier (UID) for the Firebase API key associated with the `AndroidApp`. Be aware that this value is the UID of the API key, _not_ the [`keyString`](https://cloud.google.com/api-keys/docs/reference/rest/v2/projects.locations.keys#Key.FIELDS.key_string) of the API key. The `keyString` is the value that can be found in the App's [configuration artifact](../../rest/v1beta1/projects.androidApps/getConfig). If `api_key_id` is not set in requests to [`androidApps.Create`](../../rest/v1beta1/projects.androidApps/create), then Firebase automatically associates an `api_key_id` with the `AndroidApp`. This auto-associated key may be an existing valid key or, if no valid key exists, a new one will be provisioned. In patch requests, `api_key_id` cannot be set to an empty value, and the new UID must have no restrictions or only have restrictions that are valid for the associated `AndroidApp`. We recommend using the [Google Cloud Console](https://console.cloud.google.com/apis/credentials) to manage API keys. */
   apiKeyId?: string | undefined;
-  /** Output only. Immutable. The globally unique, Firebase-assigned identifier for the `AndroidApp`. This identifier should be treated as an opaque token, as the data format is not specified. */
-  appId?: string | undefined;
+  /** Immutable. The canonical package name of the Android app as would appear in the Google Play Developer Console. */
+  packageName?: string | undefined;
   /** The SHA256 certificate hashes for the AndroidApp. */
   sha256Hashes?: StringList | undefined;
   /** Output only. The lifecycle state of the App. */
   state?: AndroidAppStateEnum | (string & {}) | undefined;
-  /** The user-assigned display name for the `AndroidApp`. */
-  displayName?: string | undefined;
+  /** Output only. Immutable. The globally unique, Firebase-assigned identifier for the `AndroidApp`. This identifier should be treated as an opaque token, as the data format is not specified. */
+  appId?: string | undefined;
+  /** Output only. Immutable. A user-assigned unique identifier of the parent FirebaseProject for the `AndroidApp`. */
+  projectId?: string | undefined;
 }
 export interface CreateProjectsAndroidAppsRequest extends AndroidApp {
   /** The resource name of the parent FirebaseProject in which to create an AndroidApp, in the format: projects/PROJECT_IDENTIFIER/androidApps Refer to the `FirebaseProject` [`name`](../projects#FirebaseProject.FIELDS.name) field for details about PROJECT_IDENTIFIER values. */
@@ -177,10 +177,10 @@ export type ShaCertificateCertTypeEnum = "SHA_CERTIFICATE_TYPE_UNSPECIFIED" | "S
 export interface ShaCertificate {
   /** The certificate hash for the `AndroidApp`. */
   shaHash?: string | undefined;
-  /** The resource name of the ShaCertificate for the AndroidApp, in the format: projects/PROJECT_IDENTIFIER/androidApps/APP_ID/sha/SHA_HASH * PROJECT_IDENTIFIER: the parent Project's [`ProjectNumber`](../projects#FirebaseProject.FIELDS.project_number) ***(recommended)*** or its [`ProjectId`](../projects#FirebaseProject.FIELDS.project_id). Learn more about using project identifiers in Google's [AIP 2510 standard](https://google.aip.dev/cloud/2510). Note that the value for PROJECT_IDENTIFIER in any response body will be the `ProjectId`. * APP_ID: the globally unique, Firebase-assigned identifier for the App (see [`appId`](../projects.androidApps#AndroidApp.FIELDS.app_id)). * SHA_HASH: the certificate hash for the App (see [`shaHash`](../projects.androidApps.sha#ShaCertificate.FIELDS.sha_hash)). */
-  name?: string | undefined;
   /** The type of SHA certificate encoded in the hash. */
   certType?: ShaCertificateCertTypeEnum | (string & {}) | undefined;
+  /** The resource name of the ShaCertificate for the AndroidApp, in the format: projects/PROJECT_IDENTIFIER/androidApps/APP_ID/sha/SHA_HASH * PROJECT_IDENTIFIER: the parent Project's [`ProjectNumber`](../projects#FirebaseProject.FIELDS.project_number) ***(recommended)*** or its [`ProjectId`](../projects#FirebaseProject.FIELDS.project_id). Learn more about using project identifiers in Google's [AIP 2510 standard](https://google.aip.dev/cloud/2510). Note that the value for PROJECT_IDENTIFIER in any response body will be the `ProjectId`. * APP_ID: the globally unique, Firebase-assigned identifier for the App (see [`appId`](../projects.androidApps#AndroidApp.FIELDS.app_id)). * SHA_HASH: the certificate hash for the App (see [`shaHash`](../projects.androidApps.sha#ShaCertificate.FIELDS.sha_hash)). */
+  name?: string | undefined;
 }
 export interface CreateProjectsAndroidAppsShaRequest extends ShaCertificate {
   /** The resource name of the parent AndroidApp to which to add a ShaCertificate, in the format: projects/PROJECT_IDENTIFIER/androidApps/ APP_ID Since an APP_ID is a unique identifier, the Unique Resource from Sub-Collection access pattern may be used here, in the format: projects/-/androidApps/APP_ID Refer to the `AndroidApp` [`name`](../projects.androidApps#AndroidApp.FIELDS.name) field for details about PROJECT_IDENTIFIER and APP_ID values. */
@@ -189,28 +189,28 @@ export interface CreateProjectsAndroidAppsShaRequest extends ShaCertificate {
 export type IosAppStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "DELETED";
 /** Details of a Firebase App for iOS. */
 export interface IosApp {
-  /** Output only. Immutable. A user-assigned unique identifier of the parent FirebaseProject for the `IosApp`. */
-  projectId?: string | undefined;
-  /** Output only. The lifecycle state of the App. */
-  state?: IosAppStateEnum | (string & {}) | undefined;
-  /** This checksum is computed by the server based on the value of other fields, and it may be sent with update requests to ensure the client has an up-to-date value before proceeding. Learn more about `etag` in Google's [AIP-154 standard](https://google.aip.dev/154#declarative-friendly-resources). This etag is strongly validated. */
-  etag?: string | undefined;
-  /** Output only. If the App has been removed from the Project, this is the timestamp of when the App is considered expired and will be permanently deleted. After this time, the App cannot be undeleted (that is, restored to the Project). This value is only provided if the App is in the `DELETED` state. */
-  expireTime?: string | undefined;
-  /** Output only. Immutable. The globally unique, Firebase-assigned identifier for the `IosApp`. This identifier should be treated as an opaque token, as the data format is not specified. */
-  appId?: string | undefined;
   /** The resource name of the IosApp, in the format: projects/PROJECT_IDENTIFIER /iosApps/APP_ID * PROJECT_IDENTIFIER: the parent Project's [`ProjectNumber`](../projects#FirebaseProject.FIELDS.project_number) ***(recommended)*** or its [`ProjectId`](../projects#FirebaseProject.FIELDS.project_id). Learn more about using project identifiers in Google's [AIP 2510 standard](https://google.aip.dev/cloud/2510). Note that the value for PROJECT_IDENTIFIER in any response body will be the `ProjectId`. * APP_ID: the globally unique, Firebase-assigned identifier for the App (see [`appId`](../projects.iosApps#IosApp.FIELDS.app_id)). */
   name?: string | undefined;
-  /** The Apple Developer Team ID associated with the App in the App Store. */
-  teamId?: string | undefined;
-  /** The user-assigned display name for the `IosApp`. */
-  displayName?: string | undefined;
-  /** Immutable. The canonical bundle ID of the iOS app as it would appear in the iOS AppStore. */
-  bundleId?: string | undefined;
-  /** The automatically generated Apple ID assigned to the iOS app by Apple in the iOS App Store. */
-  appStoreId?: string | undefined;
+  /** Output only. The lifecycle state of the App. */
+  state?: IosAppStateEnum | (string & {}) | undefined;
+  /** Output only. If the App has been removed from the Project, this is the timestamp of when the App is considered expired and will be permanently deleted. After this time, the App cannot be undeleted (that is, restored to the Project). This value is only provided if the App is in the `DELETED` state. */
+  expireTime?: string | undefined;
   /** The globally unique, Google-assigned identifier (UID) for the Firebase API key associated with the `IosApp`. Be aware that this value is the UID of the API key, _not_ the [`keyString`](https://cloud.google.com/api-keys/docs/reference/rest/v2/projects.locations.keys#Key.FIELDS.key_string) of the API key. The `keyString` is the value that can be found in the App's [configuration artifact](../../rest/v1beta1/projects.iosApps/getConfig). If `api_key_id` is not set in requests to [`iosApps.Create`](../../rest/v1beta1/projects.iosApps/create), then Firebase automatically associates an `api_key_id` with the `IosApp`. This auto-associated key may be an existing valid key or, if no valid key exists, a new one will be provisioned. In patch requests, `api_key_id` cannot be set to an empty value, and the new UID must have no restrictions or only have restrictions that are valid for the associated `IosApp`. We recommend using the [Google Cloud Console](https://console.cloud.google.com/apis/credentials) to manage API keys. */
   apiKeyId?: string | undefined;
+  /** Output only. Immutable. A user-assigned unique identifier of the parent FirebaseProject for the `IosApp`. */
+  projectId?: string | undefined;
+  /** Immutable. The canonical bundle ID of the iOS app as it would appear in the iOS AppStore. */
+  bundleId?: string | undefined;
+  /** The user-assigned display name for the `IosApp`. */
+  displayName?: string | undefined;
+  /** Output only. Immutable. The globally unique, Firebase-assigned identifier for the `IosApp`. This identifier should be treated as an opaque token, as the data format is not specified. */
+  appId?: string | undefined;
+  /** This checksum is computed by the server based on the value of other fields, and it may be sent with update requests to ensure the client has an up-to-date value before proceeding. Learn more about `etag` in Google's [AIP-154 standard](https://google.aip.dev/154#declarative-friendly-resources). This etag is strongly validated. */
+  etag?: string | undefined;
+  /** The Apple Developer Team ID associated with the App in the App Store. */
+  teamId?: string | undefined;
+  /** The automatically generated Apple ID assigned to the iOS app by Apple in the iOS App Store. */
+  appStoreId?: string | undefined;
 }
 export interface CreateProjectsIosAppsRequest extends IosApp {
   /** The resource name of the parent FirebaseProject in which to create an IosApp, in the format: projects/PROJECT_IDENTIFIER/iosApps Refer to the `FirebaseProject` [`name`](../projects#FirebaseProject.FIELDS.name) field for details about PROJECT_IDENTIFIER values. */
@@ -220,28 +220,28 @@ export type StringMap = { [key: string]: string | undefined };
 export type WebAppStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "DELETED";
 /** Details of a Firebase App for the web. */
 export interface WebApp {
-  /** Output only. If the App has been removed from the Project, this is the timestamp of when the App is considered expired and will be permanently deleted. After this time, the App cannot be undeleted (that is, restored to the Project). This value is only provided if the App is in the `DELETED` state. */
-  expireTime?: string | undefined;
-  /** Output only. Immutable. A unique, Firebase-assigned identifier for the `WebApp`. This identifier is only used to populate the `namespace` value for the `WebApp`. For most use cases, use `appId` to identify or reference the App. The `webId` value is only unique within a `FirebaseProject` and its associated Apps. */
-  webId?: string | undefined;
-  /** The user-assigned display name for the `WebApp`. */
-  displayName?: string | undefined;
+  /** The resource name of the WebApp, in the format: projects/PROJECT_IDENTIFIER /webApps/APP_ID * PROJECT_IDENTIFIER: the parent Project's [`ProjectNumber`](../projects#FirebaseProject.FIELDS.project_number) ***(recommended)*** or its [`ProjectId`](../projects#FirebaseProject.FIELDS.project_id). Learn more about using project identifiers in Google's [AIP 2510 standard](https://google.aip.dev/cloud/2510). Note that the value for PROJECT_IDENTIFIER in any response body will be the `ProjectId`. * APP_ID: the globally unique, Firebase-assigned identifier for the App (see [`appId`](../projects.webApps#WebApp.FIELDS.app_id)). */
+  name?: string | undefined;
   /** The URLs where the `WebApp` is hosted. */
   appUrls?: StringList | undefined;
   /** Output only. Immutable. A user-assigned unique identifier of the parent FirebaseProject for the `WebApp`. */
   projectId?: string | undefined;
-  /** This checksum is computed by the server based on the value of other fields, and it may be sent with update requests to ensure the client has an up-to-date value before proceeding. Learn more about `etag` in Google's [AIP-154 standard](https://google.aip.dev/154#declarative-friendly-resources). This etag is strongly validated. */
-  etag?: string | undefined;
-  /** Output only. Immutable. The globally unique, Firebase-assigned identifier for the `WebApp`. This identifier should be treated as an opaque token, as the data format is not specified. */
-  appId?: string | undefined;
   /** Optional. Set of labels assigned to the `WebApp`. Valid label keys have two segments: an optional prefix and a name, separated by a slash (`/`). `firebase.*\/` prefixes are reserved for Firebase-service use, and `express.cloud/` is reserved for Google Cloud Express. In update requests, `labels` is only replaced when explicitly named in `update_mask` or populated in the request. To change one label, name it in `update_mask` as `labels.`, for example `labels.env`. If the request's `labels` doesn't have that key, the label is removed. Write keys in lowercase. In REST requests, `update_mask` uses the [JSON encoding](https://protobuf.dev/programming-guides/json/), which converts each path from lowerCamelCase to snake_case, keys included. So `labels.myKey` becomes `labels.my_key`, and `labels.Env` becomes `labels.env`. */
   labels?: StringMap | undefined;
-  /** The globally unique, Google-assigned identifier (UID) for the Firebase API key associated with the `WebApp`. Be aware that this value is the UID of the API key, _not_ the [`keyString`](https://cloud.google.com/api-keys/docs/reference/rest/v2/projects.locations.keys#Key.FIELDS.key_string) of the API key. The `keyString` is the value that can be found in the App's [configuration artifact](../../rest/v1beta1/projects.webApps/getConfig). If `api_key_id` is not set in requests to [`webApps.Create`](../../rest/v1beta1/projects.webApps/create), then Firebase automatically associates an `api_key_id` with the `WebApp`. This auto-associated key may be an existing valid key or, if no valid key exists, a new one will be provisioned. In patch requests, `api_key_id` cannot be set to an empty value, and the new UID must have no restrictions or only have restrictions that are valid for the associated `WebApp`. We recommend using the [Google Cloud Console](https://console.cloud.google.com/apis/credentials) to manage API keys. */
-  apiKeyId?: string | undefined;
+  /** Output only. Immutable. A unique, Firebase-assigned identifier for the `WebApp`. This identifier is only used to populate the `namespace` value for the `WebApp`. For most use cases, use `appId` to identify or reference the App. The `webId` value is only unique within a `FirebaseProject` and its associated Apps. */
+  webId?: string | undefined;
+  /** This checksum is computed by the server based on the value of other fields, and it may be sent with update requests to ensure the client has an up-to-date value before proceeding. Learn more about `etag` in Google's [AIP-154 standard](https://google.aip.dev/154#declarative-friendly-resources). This etag is strongly validated. */
+  etag?: string | undefined;
+  /** Output only. If the App has been removed from the Project, this is the timestamp of when the App is considered expired and will be permanently deleted. After this time, the App cannot be undeleted (that is, restored to the Project). This value is only provided if the App is in the `DELETED` state. */
+  expireTime?: string | undefined;
   /** Output only. The lifecycle state of the App. */
   state?: WebAppStateEnum | (string & {}) | undefined;
-  /** The resource name of the WebApp, in the format: projects/PROJECT_IDENTIFIER /webApps/APP_ID * PROJECT_IDENTIFIER: the parent Project's [`ProjectNumber`](../projects#FirebaseProject.FIELDS.project_number) ***(recommended)*** or its [`ProjectId`](../projects#FirebaseProject.FIELDS.project_id). Learn more about using project identifiers in Google's [AIP 2510 standard](https://google.aip.dev/cloud/2510). Note that the value for PROJECT_IDENTIFIER in any response body will be the `ProjectId`. * APP_ID: the globally unique, Firebase-assigned identifier for the App (see [`appId`](../projects.webApps#WebApp.FIELDS.app_id)). */
-  name?: string | undefined;
+  /** The globally unique, Google-assigned identifier (UID) for the Firebase API key associated with the `WebApp`. Be aware that this value is the UID of the API key, _not_ the [`keyString`](https://cloud.google.com/api-keys/docs/reference/rest/v2/projects.locations.keys#Key.FIELDS.key_string) of the API key. The `keyString` is the value that can be found in the App's [configuration artifact](../../rest/v1beta1/projects.webApps/getConfig). If `api_key_id` is not set in requests to [`webApps.Create`](../../rest/v1beta1/projects.webApps/create), then Firebase automatically associates an `api_key_id` with the `WebApp`. This auto-associated key may be an existing valid key or, if no valid key exists, a new one will be provisioned. In patch requests, `api_key_id` cannot be set to an empty value, and the new UID must have no restrictions or only have restrictions that are valid for the associated `WebApp`. We recommend using the [Google Cloud Console](https://console.cloud.google.com/apis/credentials) to manage API keys. */
+  apiKeyId?: string | undefined;
+  /** The user-assigned display name for the `WebApp`. */
+  displayName?: string | undefined;
+  /** Output only. Immutable. The globally unique, Firebase-assigned identifier for the `WebApp`. This identifier should be treated as an opaque token, as the data format is not specified. */
+  appId?: string | undefined;
 }
 export interface CreateProjectsWebAppsRequest extends WebApp {
   /** The resource name of the parent FirebaseProject in which to create a WebApp, in the format: projects/PROJECT_IDENTIFIER/webApps Refer to the `FirebaseProject` [`name`](../projects#FirebaseProject.FIELDS.name) field for details about PROJECT_IDENTIFIER values. */
@@ -266,14 +266,14 @@ export interface GetAdminSdkConfigProjectsRequest {
   name: string;
 }
 export interface AdminSdkConfig {
+  /** **DEPRECATED.** _Instead, find the URL of the default Realtime Database instance using the [list endpoint](https://firebase.google.com/docs/reference/rest/database/database-management/rest/v1beta/projects.locations.instances/list) within the Firebase Realtime Database REST API. If the default instance for the Project has not yet been provisioned, the return might not contain a default instance. Note that the config that's generated for the Firebase console or the Firebase CLI uses the Realtime Database endpoint to populate this value for that config._ The URL of the default Firebase Realtime Database instance. */
+  databaseURL?: string | undefined;
   /** **DEPRECATED.** _Instead, use product-specific REST APIs to find the location of each resource in a Project. This field may not be populated, especially for newly provisioned projects after October 30, 2024._ The ID of the Project's ["location for default Google Cloud resources"](https://firebase.google.com/docs/projects/locations#default-cloud-location), which are resources associated with Google App Engine. The location is one of the available [App Engine locations](https://cloud.google.com/about/locations#region). This field is omitted if the location for default Google Cloud resources has not been set. */
   locationId?: string | undefined;
   /** **DEPRECATED.** _Instead, find the name of the default Cloud Storage for Firebase bucket using the [list endpoint](https://firebase.google.com/docs/reference/rest/storage/rest/v1beta/projects.buckets/list) within the Cloud Storage for Firebase REST API. If the default bucket for the Project has not yet been provisioned, the return might not contain a default bucket. Note that the config that's generated for the Firebase console or the Firebase CLI uses the Cloud Storage for Firebase endpoint to populate this value for that config._ The name of the default Cloud Storage for Firebase bucket. */
   storageBucket?: string | undefined;
   /** Immutable. A user-assigned unique identifier for the `FirebaseProject`. This identifier may appear in URLs or names for some Firebase resources associated with the Project, but it should generally be treated as a convenience alias to reference the Project. */
   projectId?: string | undefined;
-  /** **DEPRECATED.** _Instead, find the URL of the default Realtime Database instance using the [list endpoint](https://firebase.google.com/docs/reference/rest/database/database-management/rest/v1beta/projects.locations.instances/list) within the Firebase Realtime Database REST API. If the default instance for the Project has not yet been provisioned, the return might not contain a default instance. Note that the config that's generated for the Firebase console or the Firebase CLI uses the Realtime Database endpoint to populate this value for that config._ The URL of the default Firebase Realtime Database instance. */
-  databaseURL?: string | undefined;
 }
 export interface GetAnalyticsDetailsProjectsRequest {
   /** The resource name of the FirebaseProject, in the format: projects/ PROJECT_IDENTIFIER/analyticsDetails Refer to the `FirebaseProject` [`name`](../projects#FirebaseProject.FIELDS.name) field for details about PROJECT_IDENTIFIER values. */
@@ -281,21 +281,21 @@ export interface GetAnalyticsDetailsProjectsRequest {
 }
 /** Details of a Google Analytics property */
 export interface AnalyticsProperty {
-  /** The display name of the Google Analytics property associated with the specified `FirebaseProject`. */
-  displayName?: string | undefined;
   /** The globally unique, Google-assigned identifier of the Google Analytics property associated with the specified `FirebaseProject`. If you called [`AddGoogleAnalytics`](../../v1beta1/projects/addGoogleAnalytics) to link the `FirebaseProject` with a Google Analytics account, the value in this `id` field is the same as the ID of the property either specified or provisioned with that call to `AddGoogleAnalytics`. */
   id?: string | undefined;
   /** Output only. The ID of the [Google Analytics account](https://www.google.com/analytics/) for the Google Analytics property associated with the specified FirebaseProject. */
   analyticsAccountId?: string | undefined;
+  /** The display name of the Google Analytics property associated with the specified `FirebaseProject`. */
+  displayName?: string | undefined;
 }
 /** A mapping of a Firebase App to a Google Analytics data stream */
 export interface StreamMapping {
   /** The resource name of the Firebase App associated with the Google Analytics data stream, in the format: projects/PROJECT_IDENTIFIER/androidApps/APP_ID or projects/PROJECT_IDENTIFIER/iosApps/APP_ID or projects/PROJECT_IDENTIFIER /webApps/APP_ID Refer to the `FirebaseProject` [`name`](../projects#FirebaseProject.FIELDS.name) field for details about PROJECT_IDENTIFIER values. */
   app?: string | undefined;
-  /** The unique Google-assigned identifier of the Google Analytics data stream associated with the Firebase App. Learn more about Google Analytics data streams in the [Analytics documentation](https://support.google.com/analytics/answer/9303323). */
-  streamId?: string | undefined;
   /** Applicable for Firebase Web Apps only. The unique Google-assigned identifier of the Google Analytics web stream associated with the Firebase Web App. Firebase SDKs use this ID to interact with Google Analytics APIs. Learn more about this ID and Google Analytics web streams in the [Analytics documentation](https://support.google.com/analytics/answer/9304153). */
   measurementId?: string | undefined;
+  /** The unique Google-assigned identifier of the Google Analytics data stream associated with the Firebase App. Learn more about Google Analytics data streams in the [Analytics documentation](https://support.google.com/analytics/answer/9303323). */
+  streamId?: string | undefined;
 }
 export type StreamMappingList = Array<StreamMapping>;
 export interface AnalyticsDetails {
@@ -310,10 +310,10 @@ export interface GetConfigProjectsAndroidAppsRequest {
 }
 /** Configuration metadata of a single Firebase App for Android. */
 export interface AndroidAppConfig {
-  /** The contents of the JSON configuration file. */
-  configFileContents?: string | undefined;
   /** The filename that the configuration artifact for the `AndroidApp` is typically saved as. For example: `google-services.json` */
   configFilename?: string | undefined;
+  /** The contents of the JSON configuration file. */
+  configFileContents?: string | undefined;
 }
 export interface GetConfigProjectsIosAppsRequest {
   /** The resource name of the App configuration to download, in the format: projects/PROJECT_IDENTIFIER/iosApps/APP_ID/config Since an APP_ID is a unique identifier, the Unique Resource from Sub-Collection access pattern may be used here, in the format: projects/-/iosApps/APP_ID Refer to the `IosApp` [`name`](../projects.iosApps#IosApp.FIELDS.name) field for details about PROJECT_IDENTIFIER and APP_ID values. */
@@ -332,32 +332,32 @@ export interface GetConfigProjectsWebAppsRequest {
 }
 /** Configuration metadata of a single Firebase App for the web. */
 export interface WebAppConfig {
-  /** **DEPRECATED.** _Instead, find the name of the default Cloud Storage for Firebase bucket using the [list endpoint](https://firebase.google.com/docs/reference/rest/storage/rest/v1beta/projects.buckets/list) within the Cloud Storage for Firebase REST API. If the default bucket for the Project has not yet been provisioned, the return might not contain a default bucket. Note that the config that's generated for the Firebase console or the Firebase CLI uses the Cloud Storage for Firebase endpoint to populate this value for that config._ The name of the default Cloud Storage for Firebase bucket. */
-  storageBucket?: string | undefined;
-  /** **DEPRECATED.** _Instead, find the URL of the default Realtime Database instance using the [list endpoint](https://firebase.google.com/docs/reference/rest/database/database-management/rest/v1beta/projects.locations.instances/list) within the Firebase Realtime Database REST API. If the default instance for the Project has not yet been provisioned, the return might not contain a default instance. Note that the config that's generated for the Firebase console or the Firebase CLI uses the Realtime Database endpoint to populate this value for that config._ The URL of the default Firebase Realtime Database instance. */
-  databaseURL?: string | undefined;
-  /** **DEPRECATED.** _Instead, use product-specific REST APIs to find the location of each resource in a Project. This field may not be populated, especially for newly provisioned projects after October 30, 2024._ The ID of the Project's ["location for default Google Cloud resources"](https://firebase.google.com/docs/projects/locations#default-cloud-location), which are resources associated with Google App Engine. The location is one of the available [App Engine locations](https://cloud.google.com/about/locations#region). This field is omitted if the location for default Google Cloud resources has not been set. */
-  locationId?: string | undefined;
-  /** The [`keyString`](https://cloud.google.com/api-keys/docs/reference/rest/v2/projects.locations.keys#Key.FIELDS.key_string) of the API key associated with the `WebApp`. Note that this value is _not_ the [`apiKeyId`](../projects.webApps#WebApp.FIELDS.api_key_id) (the UID) of the API key associated with the `WebApp`. */
-  apiKey?: string | Redacted.Redacted<string> | undefined;
   /** Optional. Recaptcha Enterprise site key associated with the Firebase App. */
   recaptchaSiteKey?: string | undefined;
-  /** Output only. Immutable. The globally unique, Google-assigned canonical identifier for the Project. Use this identifier when configuring integrations and/or making API calls to Google Cloud or third-party services. */
-  projectNumber?: string | undefined;
-  /** The unique Google-assigned identifier of the Google Analytics web stream associated with the `WebApp`. Firebase SDKs use this ID to interact with Google Analytics APIs. This field is only present if the `WebApp` is linked to a web stream in a Google Analytics App + Web property. Learn more about this ID and Google Analytics web streams in the [Analytics documentation](https://support.google.com/analytics/answer/9304153). To generate a `measurementId` and link the `WebApp` with a Google Analytics web stream, call [`AddGoogleAnalytics`](../../v1beta1/projects/addGoogleAnalytics). For apps using the Firebase JavaScript SDK v7.20.0 and later, Firebase dynamically fetches the `measurementId` when your app initializes Analytics. Having this ID in your config object is optional, but it does serve as a fallback in the rare case that the dynamic fetch fails. */
-  measurementId?: string | undefined;
-  /** Immutable. The globally unique, Firebase-assigned identifier for the `WebApp`. */
-  appId?: string | undefined;
-  /** Optional. Duplicate field for the URL of the default Realtime Database instances (if the default instance has been provisioned). If the request asks for the V2 config format, this field will be populated instead of `realtime_database_instance_uri`. */
-  realtimeDatabaseUrl?: string | undefined;
-  /** Version of the config specification. */
-  version?: string | undefined;
-  /** The domain Firebase Auth configures for OAuth redirects, in the format: PROJECT_ID.firebaseapp.com */
-  authDomain?: string | undefined;
-  /** The sender ID for use with Firebase Cloud Messaging. */
-  messagingSenderId?: string | undefined;
   /** Immutable. A user-assigned unique identifier for the `FirebaseProject`. */
   projectId?: string | undefined;
+  /** **DEPRECATED.** _Instead, use product-specific REST APIs to find the location of each resource in a Project. This field may not be populated, especially for newly provisioned projects after October 30, 2024._ The ID of the Project's ["location for default Google Cloud resources"](https://firebase.google.com/docs/projects/locations#default-cloud-location), which are resources associated with Google App Engine. The location is one of the available [App Engine locations](https://cloud.google.com/about/locations#region). This field is omitted if the location for default Google Cloud resources has not been set. */
+  locationId?: string | undefined;
+  /** The sender ID for use with Firebase Cloud Messaging. */
+  messagingSenderId?: string | undefined;
+  /** The [`keyString`](https://cloud.google.com/api-keys/docs/reference/rest/v2/projects.locations.keys#Key.FIELDS.key_string) of the API key associated with the `WebApp`. Note that this value is _not_ the [`apiKeyId`](../projects.webApps#WebApp.FIELDS.api_key_id) (the UID) of the API key associated with the `WebApp`. */
+  apiKey?: string | Redacted.Redacted<string> | undefined;
+  /** Version of the config specification. */
+  version?: string | undefined;
+  /** **DEPRECATED.** _Instead, find the URL of the default Realtime Database instance using the [list endpoint](https://firebase.google.com/docs/reference/rest/database/database-management/rest/v1beta/projects.locations.instances/list) within the Firebase Realtime Database REST API. If the default instance for the Project has not yet been provisioned, the return might not contain a default instance. Note that the config that's generated for the Firebase console or the Firebase CLI uses the Realtime Database endpoint to populate this value for that config._ The URL of the default Firebase Realtime Database instance. */
+  databaseURL?: string | undefined;
+  /** The unique Google-assigned identifier of the Google Analytics web stream associated with the `WebApp`. Firebase SDKs use this ID to interact with Google Analytics APIs. This field is only present if the `WebApp` is linked to a web stream in a Google Analytics App + Web property. Learn more about this ID and Google Analytics web streams in the [Analytics documentation](https://support.google.com/analytics/answer/9304153). To generate a `measurementId` and link the `WebApp` with a Google Analytics web stream, call [`AddGoogleAnalytics`](../../v1beta1/projects/addGoogleAnalytics). For apps using the Firebase JavaScript SDK v7.20.0 and later, Firebase dynamically fetches the `measurementId` when your app initializes Analytics. Having this ID in your config object is optional, but it does serve as a fallback in the rare case that the dynamic fetch fails. */
+  measurementId?: string | undefined;
+  /** Optional. Duplicate field for the URL of the default Realtime Database instances (if the default instance has been provisioned). If the request asks for the V2 config format, this field will be populated instead of `realtime_database_instance_uri`. */
+  realtimeDatabaseUrl?: string | undefined;
+  /** Immutable. The globally unique, Firebase-assigned identifier for the `WebApp`. */
+  appId?: string | undefined;
+  /** **DEPRECATED.** _Instead, find the name of the default Cloud Storage for Firebase bucket using the [list endpoint](https://firebase.google.com/docs/reference/rest/storage/rest/v1beta/projects.buckets/list) within the Cloud Storage for Firebase REST API. If the default bucket for the Project has not yet been provisioned, the return might not contain a default bucket. Note that the config that's generated for the Firebase console or the Firebase CLI uses the Cloud Storage for Firebase endpoint to populate this value for that config._ The name of the default Cloud Storage for Firebase bucket. */
+  storageBucket?: string | undefined;
+  /** Output only. Immutable. The globally unique, Google-assigned canonical identifier for the Project. Use this identifier when configuring integrations and/or making API calls to Google Cloud or third-party services. */
+  projectNumber?: string | undefined;
+  /** The domain Firebase Auth configures for OAuth redirects, in the format: PROJECT_ID.firebaseapp.com */
+  authDomain?: string | undefined;
 }
 export interface GetOperationsRequest {
   /** The name of the operation resource. */
@@ -367,36 +367,36 @@ export interface GetProjectsRequest {
   /** The resource name of the FirebaseProject, in the format: projects/ PROJECT_IDENTIFIER Refer to the `FirebaseProject` [`name`](../projects#FirebaseProject.FIELDS.name) field for details about PROJECT_IDENTIFIER values. */
   name: string;
 }
+export type FirebaseProjectStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "DELETED";
 /** **DEPRECATED.** _Auto-provisioning of these resources is changing, so this object no longer reliably provides information about the resources within the Project. Instead, retrieve information about each resource directly from its resource-specific API._ The default auto-provisioned resources associated with the Project. */
 export interface DefaultResources {
-  /** Output only. **DEPRECATED.** _Instead, find the name of the default Cloud Storage for Firebase bucket using the [list endpoint](https://firebase.google.com/docs/reference/rest/storage/rest/v1beta/projects.buckets/list) within the Cloud Storage for Firebase REST API. If the default bucket for the Project has not yet been provisioned, the return might not contain a default bucket._ The name of the default Cloud Storage for Firebase bucket, in one of the following formats: * If provisioned _before_ October 30, 2024: PROJECT_ID.firebasestorage.app * If provisioned _on or after_ October 30, 2024: PROJECT_ID.firebasestorage.app */
-  storageBucket?: string | undefined;
-  /** Output only. **DEPRECATED.** _Instead, find the name of the default Realtime Database instance using the [list endpoint](https://firebase.google.com/docs/reference/rest/database/database-management/rest/v1beta/projects.locations.instances/list) within the Firebase Realtime Database REST API. If the default Realtime Database instance for a Project has not yet been provisioned, the return might not contain a default instance._ The default Firebase Realtime Database instance name, in the format: PROJECT_ID Though rare, your `projectId` might already be used as the name for an existing Realtime Database instance in another project (learn more about [database sharding](https://firebase.google.com/docs/database/usage/sharding)). In these cases, your `projectId` is appended with a hyphen then five alphanumeric characters to create your default Realtime Database instance name. For example, if your `projectId` is `myproject123`, your default database instance name might be: `myproject123-a5c16` */
-  realtimeDatabaseInstance?: string | undefined;
-  /** Output only. **DEPRECATED.** _Instead, use product-specific REST APIs to find the location of each resource in a Project. This field may not be populated, especially for newly provisioned projects after October 30, 2024._ The ID of the Project's ["location for default Google Cloud resources"](https://firebase.google.com/docs/projects/locations#default-cloud-location), which are resources associated with Google App Engine. The location is one of the available [Google App Engine locations](https://cloud.google.com/about/locations#region). This field is omitted if the location for default Google Cloud resources has not been set. */
-  locationId?: string | undefined;
   /** Output only. **DEPRECATED.** _Instead, find the name of the default Firebase Hosting site using [ListSites](https://firebase.google.com/docs/reference/hosting/rest/v1beta1/projects.sites/list) within the Firebase Hosting REST API. If the default Hosting site for the Project has not yet been provisioned, the return might not contain a default site._ The name of the default Firebase Hosting site, in the format: PROJECT_ID Though rare, your `projectId` might already be used as the name for an existing Hosting site in another project (learn more about creating non-default, [additional sites](https://firebase.google.com/docs/hosting/multisites)). In these cases, your `projectId` is appended with a hyphen then five alphanumeric characters to create your default Hosting site name. For example, if your `projectId` is `myproject123`, your default Hosting site name might be: `myproject123-a5c16` */
   hostingSite?: string | undefined;
+  /** Output only. **DEPRECATED.** _Instead, use product-specific REST APIs to find the location of each resource in a Project. This field may not be populated, especially for newly provisioned projects after October 30, 2024._ The ID of the Project's ["location for default Google Cloud resources"](https://firebase.google.com/docs/projects/locations#default-cloud-location), which are resources associated with Google App Engine. The location is one of the available [Google App Engine locations](https://cloud.google.com/about/locations#region). This field is omitted if the location for default Google Cloud resources has not been set. */
+  locationId?: string | undefined;
+  /** Output only. **DEPRECATED.** _Instead, find the name of the default Realtime Database instance using the [list endpoint](https://firebase.google.com/docs/reference/rest/database/database-management/rest/v1beta/projects.locations.instances/list) within the Firebase Realtime Database REST API. If the default Realtime Database instance for a Project has not yet been provisioned, the return might not contain a default instance._ The default Firebase Realtime Database instance name, in the format: PROJECT_ID Though rare, your `projectId` might already be used as the name for an existing Realtime Database instance in another project (learn more about [database sharding](https://firebase.google.com/docs/database/usage/sharding)). In these cases, your `projectId` is appended with a hyphen then five alphanumeric characters to create your default Realtime Database instance name. For example, if your `projectId` is `myproject123`, your default database instance name might be: `myproject123-a5c16` */
+  realtimeDatabaseInstance?: string | undefined;
+  /** Output only. **DEPRECATED.** _Instead, find the name of the default Cloud Storage for Firebase bucket using the [list endpoint](https://firebase.google.com/docs/reference/rest/storage/rest/v1beta/projects.buckets/list) within the Cloud Storage for Firebase REST API. If the default bucket for the Project has not yet been provisioned, the return might not contain a default bucket._ The name of the default Cloud Storage for Firebase bucket, in one of the following formats: * If provisioned _before_ October 30, 2024: PROJECT_ID.firebasestorage.app * If provisioned _on or after_ October 30, 2024: PROJECT_ID.firebasestorage.app */
+  storageBucket?: string | undefined;
 }
-export type FirebaseProjectStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "DELETED";
 /** A `FirebaseProject` is the top-level Firebase entity. It is the container for Firebase Apps, Firebase Hosting sites, storage systems (Firebase Realtime Database, Cloud Firestore, Cloud Storage buckets), and other Firebase and Google Cloud resources. You create a `FirebaseProject` by calling AddFirebase and specifying an *existing* [Google Cloud `Project`](https://cloud.google.com/resource-manager/reference/rest/v1/projects). This adds Firebase resources to the existing Google Cloud `Project`. Since a FirebaseProject is actually also a Google Cloud `Project`, a `FirebaseProject` has the same underlying Google Cloud identifiers (`projectNumber` and `projectId`). This allows for easy interop with Google APIs. */
 export interface FirebaseProject {
-  /** Output only. Immutable. The globally unique, Google-assigned canonical identifier for the Project. Use this identifier when configuring integrations and/or making API calls to Firebase or third-party services. */
-  projectNumber?: string | undefined;
-  /** This checksum is computed by the server based on the value of other fields, and it may be sent with update requests to ensure the client has an up-to-date value before proceeding. Learn more about `etag` in Google's [AIP-154 standard](https://google.aip.dev/154#declarative-friendly-resources). This etag is strongly validated. */
-  etag?: string | undefined;
-  /** Output only. **DEPRECATED.** _Auto-provisioning of these resources is changing, so this object no longer reliably provides information about the Project. Instead, retrieve information about each resource directly from its resource-specific API._ The default Firebase resources associated with the Project. */
-  resources?: DefaultResources | undefined;
-  /** A set of user-defined annotations for the FirebaseProject. Learn more about annotations in Google's [AIP-128 standard](https://google.aip.dev/128#annotations). These annotations are intended solely for developers and client-side tools. Firebase services will not mutate this annotations set. */
-  annotations?: StringMap | undefined;
-  /** The user-assigned display name of the Project. */
-  displayName?: string | undefined;
-  /** Output only. Immutable. A user-assigned unique identifier for the Project. This identifier may appear in URLs or names for some Firebase resources associated with the Project, but it should generally be treated as a convenience alias to reference the Project. */
-  projectId?: string | undefined;
   /** The resource name of the Project, in the format: projects/PROJECT_IDENTIFIER PROJECT_IDENTIFIER: the Project's [`ProjectNumber`](../projects#FirebaseProject.FIELDS.project_number) ***(recommended)*** or its [`ProjectId`](../projects#FirebaseProject.FIELDS.project_id). Learn more about using project identifiers in Google's [AIP 2510 standard](https://google.aip.dev/cloud/2510). Note that the value for PROJECT_IDENTIFIER in any response body will be the `ProjectId`. */
   name?: string | undefined;
   /** Output only. The lifecycle state of the Project. */
   state?: FirebaseProjectStateEnum | (string & {}) | undefined;
+  /** Output only. Immutable. The globally unique, Google-assigned canonical identifier for the Project. Use this identifier when configuring integrations and/or making API calls to Firebase or third-party services. */
+  projectNumber?: string | undefined;
+  /** Output only. Immutable. A user-assigned unique identifier for the Project. This identifier may appear in URLs or names for some Firebase resources associated with the Project, but it should generally be treated as a convenience alias to reference the Project. */
+  projectId?: string | undefined;
+  /** The user-assigned display name of the Project. */
+  displayName?: string | undefined;
+  /** A set of user-defined annotations for the FirebaseProject. Learn more about annotations in Google's [AIP-128 standard](https://google.aip.dev/128#annotations). These annotations are intended solely for developers and client-side tools. Firebase services will not mutate this annotations set. */
+  annotations?: StringMap | undefined;
+  /** This checksum is computed by the server based on the value of other fields, and it may be sent with update requests to ensure the client has an up-to-date value before proceeding. Learn more about `etag` in Google's [AIP-154 standard](https://google.aip.dev/154#declarative-friendly-resources). This etag is strongly validated. */
+  etag?: string | undefined;
+  /** Output only. **DEPRECATED.** _Auto-provisioning of these resources is changing, so this object no longer reliably provides information about the Project. Instead, retrieve information about each resource directly from its resource-specific API._ The default Firebase resources associated with the Project. */
+  resources?: DefaultResources | undefined;
 }
 export interface GetProjectsAndroidAppsRequest {
   /** The resource name of the AndroidApp, in the format: projects/ PROJECT_IDENTIFIER/androidApps/APP_ID Since an APP_ID is a unique identifier, the Unique Resource from Sub-Collection access pattern may be used here, in the format: projects/-/androidApps/APP_ID Refer to the `AndroidApp` [`name`](../projects.androidApps#AndroidApp.FIELDS.name) field for details about PROJECT_IDENTIFIER and APP_ID values. */
@@ -418,12 +418,12 @@ export interface ListAvailableProjectsRequest {
 }
 /** A reference to a Google Cloud `Project`. */
 export interface ProjectInfo {
+  /** The resource name of the Google Cloud `Project` to which Firebase resources can be added, in the format: projects/PROJECT_IDENTIFIER Refer to the `FirebaseProject` [`name`](../projects#FirebaseProject.FIELDS.name) field for details about PROJECT_IDENTIFIER values. */
+  project?: string | undefined;
   /** The user-assigned display name of the Google Cloud `Project`, for example: `My App`. */
   displayName?: string | undefined;
   /** **DEPRECATED** _Instead, use product-specific REST APIs to work with the location of each resource in a Project. This field may not be populated, especially for newly provisioned projects after October 30, 2024._ The ID of the Project's ["location for default Google Cloud resources"](https://firebase.google.com/docs/projects/locations#default-cloud-location). The location is one of the available [Google App Engine locations](https://cloud.google.com/about/locations#region). Not all Projects will have this field populated. If it is not populated, it means that the Project does not yet have a location for default Google Cloud resources. */
   locationId?: string | undefined;
-  /** The resource name of the Google Cloud `Project` to which Firebase resources can be added, in the format: projects/PROJECT_IDENTIFIER Refer to the `FirebaseProject` [`name`](../projects#FirebaseProject.FIELDS.name) field for details about PROJECT_IDENTIFIER values. */
-  project?: string | undefined;
 }
 export type ProjectInfoList = Array<ProjectInfo>;
 export interface ListAvailableProjectsResponse {
@@ -442,27 +442,27 @@ export interface ListProjectsRequest {
 }
 export type FirebaseProjectList = Array<FirebaseProject>;
 export interface ListFirebaseProjectsResponse {
-  /** If the result list is too large to fit in a single response, then a token is returned. If the string is empty, then this response is the last page of results. This token can be used in a subsequent calls to `ListFirebaseProjects` to find the next group of Projects. Page tokens are short-lived and should not be persisted. */
-  nextPageToken?: string | undefined;
   /** One page of the list of Projects that are accessible to the caller. */
   results?: FirebaseProjectList | undefined;
+  /** If the result list is too large to fit in a single response, then a token is returned. If the string is empty, then this response is the last page of results. This token can be used in a subsequent calls to `ListFirebaseProjects` to find the next group of Projects. Page tokens are short-lived and should not be persisted. */
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsAndroidAppsRequest {
+  /** Controls whether Apps in the DELETED state should be returned in the response. If not specified, only `ACTIVE` Apps will be returned. */
+  showDeleted?: boolean | undefined;
+  /** The maximum number of Apps to return in the response. The server may return fewer than this at its discretion. If no value is specified (or too large a value is specified), then the server will impose its own limit. */
+  pageSize?: number | undefined;
   /** The resource name of the parent FirebaseProject for which to list each associated AndroidApp, in the format: projects/PROJECT_IDENTIFIER /androidApps Refer to the `FirebaseProject` [`name`](../projects#FirebaseProject.FIELDS.name) field for details about PROJECT_IDENTIFIER values. */
   parent: string;
   /** Token returned from a previous call to `ListAndroidApps` indicating where in the set of Apps to resume listing. */
   pageToken?: string | undefined;
-  /** The maximum number of Apps to return in the response. The server may return fewer than this at its discretion. If no value is specified (or too large a value is specified), then the server will impose its own limit. */
-  pageSize?: number | undefined;
-  /** Controls whether Apps in the DELETED state should be returned in the response. If not specified, only `ACTIVE` Apps will be returned. */
-  showDeleted?: boolean | undefined;
 }
 export type AndroidAppList = Array<AndroidApp>;
 export interface ListAndroidAppsResponse {
-  /** If the result list is too large to fit in a single response, then a token is returned. If the string is empty, then this response is the last page of results. This token can be used in a subsequent call to `ListAndroidApps` to find the next group of Apps. Page tokens are short-lived and should not be persisted. */
-  nextPageToken?: string | undefined;
   /** List of each `AndroidApp` associated with the specified `FirebaseProject`. */
   apps?: AndroidAppList | undefined;
+  /** If the result list is too large to fit in a single response, then a token is returned. If the string is empty, then this response is the last page of results. This token can be used in a subsequent call to `ListAndroidApps` to find the next group of Apps. Page tokens are short-lived and should not be persisted. */
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsAndroidAppsShaRequest {
   /** The resource name of the parent AndroidApp for which to list each associated ShaCertificate, in the format: projects/PROJECT_IDENTIFIER /androidApps/APP_ID Since an APP_ID is a unique identifier, the Unique Resource from Sub-Collection access pattern may be used here, in the format: projects/-/androidApps/APP_ID Refer to the `AndroidApp` [`name`](../projects.androidApps#AndroidApp.FIELDS.name) field for details about PROJECT_IDENTIFIER and APP_ID values. */
@@ -474,28 +474,28 @@ export interface ListShaCertificatesResponse {
   certificates?: ShaCertificateList | undefined;
 }
 export interface ListProjectsAvailableLocationsRequest {
-  /** Token returned from a previous call to `ListAvailableLocations` indicating where in the list of locations to resume listing. */
-  pageToken?: string | undefined;
   /** The FirebaseProject for which to list [locations for default Google Cloud resources](https://firebase.google.com/docs/projects/locations#default-cloud-location), in the format: projects/PROJECT_IDENTIFIER Refer to the `FirebaseProject` [`name`](../projects#FirebaseProject.FIELDS.name) field for details about PROJECT_IDENTIFIER values. If no unique project identifier is specified (that is, `projects/-`), the returned list does not take into account org-specific or project-specific location restrictions. */
   parent: string;
+  /** Token returned from a previous call to `ListAvailableLocations` indicating where in the list of locations to resume listing. */
+  pageToken?: string | undefined;
   /** The maximum number of locations to return in the response. The server may return fewer than this value at its discretion. If no value is specified (or too large a value is specified), then the server will impose its own limit. This value cannot be negative. */
   pageSize?: number | undefined;
 }
-export type LocationTypeEnum = "LOCATION_TYPE_UNSPECIFIED" | "REGIONAL" | "MULTI_REGIONAL";
 export type LocationFeaturesItemEnum =
   | "LOCATION_FEATURE_UNSPECIFIED"
   | "FIRESTORE"
   | "DEFAULT_STORAGE"
   | "FUNCTIONS";
 export type LocationFeaturesItemEnumList = Array<LocationFeaturesItemEnum>;
+export type LocationTypeEnum = "LOCATION_TYPE_UNSPECIFIED" | "REGIONAL" | "MULTI_REGIONAL";
 /** **DEPRECATED.** _This Location is no longer used to determine Firebase resource locations. Instead, consult product documentation to determine valid locations for each resource used in your Project._ A ["location for default Google Cloud resources"](https://firebase.google.com/docs/projects/locations#default-cloud-location) that can be selected for a FirebaseProject. These are resources associated with Google App Engine. */
 export interface Location {
-  /** Indicates whether the location for default Google Cloud resources is a [regional or multi-regional location](https://firebase.google.com/docs/projects/locations#types) for data replication. */
-  type?: LocationTypeEnum | undefined;
-  /** Products and services that are available in the location for default Google Cloud resources. */
-  features?: LocationFeaturesItemEnumList | undefined;
   /** The ID of the Project's location for default Google Cloud resources. It will be one of the available [Google App Engine locations](https://cloud.google.com/about/locations#region). */
   locationId?: string | undefined;
+  /** Products and services that are available in the location for default Google Cloud resources. */
+  features?: LocationFeaturesItemEnumList | undefined;
+  /** Indicates whether the location for default Google Cloud resources is a [regional or multi-regional location](https://firebase.google.com/docs/projects/locations#types) for data replication. */
+  type?: LocationTypeEnum | undefined;
 }
 export type LocationList = Array<Location>;
 export interface ListAvailableLocationsResponse {
@@ -526,17 +526,17 @@ export interface ListProjectsWebAppsRequest {
   pageToken?: string | undefined;
   /** The resource name of the parent FirebaseProject for which to list each associated WebApp, in the format: projects/PROJECT_IDENTIFIER/webApps Refer to the `FirebaseProject` [`name`](../projects#FirebaseProject.FIELDS.name) field for details about PROJECT_IDENTIFIER values. */
   parent: string;
-  /** The maximum number of Apps to return in the response. The server may return fewer than this value at its discretion. If no value is specified (or too large a value is specified), then the server will impose its own limit. */
-  pageSize?: number | undefined;
   /** Controls whether Apps in the DELETED state should be returned in the response. If not specified, only `ACTIVE` Apps will be returned. */
   showDeleted?: boolean | undefined;
+  /** The maximum number of Apps to return in the response. The server may return fewer than this value at its discretion. If no value is specified (or too large a value is specified), then the server will impose its own limit. */
+  pageSize?: number | undefined;
 }
 export type WebAppList = Array<WebApp>;
 export interface ListWebAppsResponse {
-  /** List of each `WebApp` associated with the specified `FirebaseProject`. */
-  apps?: WebAppList | undefined;
   /** If the result list is too large to fit in a single response, then a token is returned. If the string is empty, then this response is the last page of results. This token can be used in a subsequent call to `ListWebApps` to find the next group of Apps. Page tokens are short-lived and should not be persisted. */
   nextPageToken?: string | undefined;
+  /** List of each `WebApp` associated with the specified `FirebaseProject`. */
+  apps?: WebAppList | undefined;
 }
 export interface PatchProjectsRequest extends Omit<FirebaseProject, "name"> {
   /** The resource name of the Project, in the format: projects/PROJECT_IDENTIFIER PROJECT_IDENTIFIER: the Project's [`ProjectNumber`](../projects#FirebaseProject.FIELDS.project_number) ***(recommended)*** or its [`ProjectId`](../projects#FirebaseProject.FIELDS.project_id). Learn more about using project identifiers in Google's [AIP 2510 standard](https://google.aip.dev/cloud/2510). Note that the value for PROJECT_IDENTIFIER in any response body will be the `ProjectId`. */
@@ -545,10 +545,10 @@ export interface PatchProjectsRequest extends Omit<FirebaseProject, "name"> {
   updateMask?: string | undefined;
 }
 export interface PatchProjectsAndroidAppsRequest extends Omit<AndroidApp, "name"> {
-  /** Specifies which fields of the AndroidApp to update. Note that the following fields are immutable: `name`, `app_id`, `project_id`, and `package_name`. To update `state`, use any of the following endpoints: RemoveAndroidApp or UndeleteAndroidApp. */
-  updateMask?: string | undefined;
   /** The resource name of the AndroidApp, in the format: projects/ PROJECT_IDENTIFIER/androidApps/APP_ID * PROJECT_IDENTIFIER: the parent Project's [`ProjectNumber`](../projects#FirebaseProject.FIELDS.project_number) ***(recommended)*** or its [`ProjectId`](../projects#FirebaseProject.FIELDS.project_id). Learn more about using project identifiers in Google's [AIP 2510 standard](https://google.aip.dev/cloud/2510). Note that the value for PROJECT_IDENTIFIER in any response body will be the `ProjectId`. * APP_ID: the globally unique, Firebase-assigned identifier for the App (see [`appId`](../projects.androidApps#AndroidApp.FIELDS.app_id)). */
   name: string;
+  /** Specifies which fields of the AndroidApp to update. Note that the following fields are immutable: `name`, `app_id`, `project_id`, and `package_name`. To update `state`, use any of the following endpoints: RemoveAndroidApp or UndeleteAndroidApp. */
+  updateMask?: string | undefined;
 }
 export interface PatchProjectsIosAppsRequest extends Omit<IosApp, "name"> {
   /** Specifies which fields of the IosApp to update. Note that the following fields are immutable: `name`, `app_id`, `project_id`, and `bundle_id`. To update `state`, use any of the following endpoints: RemoveIosApp or UndeleteIosApp. */
@@ -571,86 +571,86 @@ export interface RemoveAnalyticsProjectsRequest extends RemoveAnalyticsRequest {
   parent: string;
 }
 export interface RemoveAndroidAppRequest {
-  /** If set to true, the request is only validated. The App will _not_ be removed. */
-  validateOnly?: boolean | undefined;
-  /** If set to true, and the App is not found, the request will succeed but no action will be taken on the server. */
-  allowMissing?: boolean | undefined;
   /** Determines whether to _immediately_ delete the AndroidApp. If set to true, the App is immediately deleted from the Project and cannot be undeleted (that is, restored to the Project). If not set, defaults to false, which means the App will be set to expire in 30 days. Within the 30 days, the App may be restored to the Project using UndeleteAndroidApp. */
   immediate?: boolean | undefined;
+  /** If set to true, and the App is not found, the request will succeed but no action will be taken on the server. */
+  allowMissing?: boolean | undefined;
   /** Checksum provided in the AndroidApp resource. If provided, this checksum ensures that the client has an up-to-date value before proceeding. */
   etag?: string | undefined;
+  /** If set to true, the request is only validated. The App will _not_ be removed. */
+  validateOnly?: boolean | undefined;
 }
 export interface RemoveProjectsAndroidAppsRequest extends RemoveAndroidAppRequest {
   /** Required. The resource name of the AndroidApp, in the format: projects/ PROJECT_IDENTIFIER/androidApps/APP_ID Since an APP_ID is a unique identifier, the Unique Resource from Sub-Collection access pattern may be used here, in the format: projects/-/androidApps/APP_ID Refer to the AndroidApp [name](../projects.androidApps#AndroidApp.FIELDS.name) field for details about PROJECT_IDENTIFIER and APP_ID values. */
   name: string;
 }
 export interface RemoveIosAppRequest {
+  /** Determines whether to _immediately_ delete the IosApp. If set to true, the App is immediately deleted from the Project and cannot be undeleted (that is, restored to the Project). If not set, defaults to false, which means the App will be set to expire in 30 days. Within the 30 days, the App may be restored to the Project using UndeleteIosApp */
+  immediate?: boolean | undefined;
+  /** If set to true, and the App is not found, the request will succeed but no action will be taken on the server. */
+  allowMissing?: boolean | undefined;
   /** If set to true, the request is only validated. The App will _not_ be removed. */
   validateOnly?: boolean | undefined;
   /** Checksum provided in the IosApp resource. If provided, this checksum ensures that the client has an up-to-date value before proceeding. */
   etag?: string | undefined;
-  /** If set to true, and the App is not found, the request will succeed but no action will be taken on the server. */
-  allowMissing?: boolean | undefined;
-  /** Determines whether to _immediately_ delete the IosApp. If set to true, the App is immediately deleted from the Project and cannot be undeleted (that is, restored to the Project). If not set, defaults to false, which means the App will be set to expire in 30 days. Within the 30 days, the App may be restored to the Project using UndeleteIosApp */
-  immediate?: boolean | undefined;
 }
 export interface RemoveProjectsIosAppsRequest extends RemoveIosAppRequest {
   /** Required. The resource name of the IosApp, in the format: projects/ PROJECT_IDENTIFIER/iosApps/APP_ID Since an APP_ID is a unique identifier, the Unique Resource from Sub-Collection access pattern may be used here, in the format: projects/-/iosApps/APP_ID Refer to the IosApp [name](../projects.iosApps#IosApp.FIELDS.name) field for details about PROJECT_IDENTIFIER and APP_ID values. */
   name: string;
 }
 export interface RemoveWebAppRequest {
-  /** If set to true, the request is only validated. The App will _not_ be removed. */
-  validateOnly?: boolean | undefined;
   /** Determines whether to _immediately_ delete the WebApp. If set to true, the App is immediately deleted from the Project and cannot be undeleted (that is, restored to the Project). If not set, defaults to false, which means the App will be set to expire in 30 days. Within the 30 days, the App may be restored to the Project using UndeleteWebApp */
   immediate?: boolean | undefined;
-  /** Checksum provided in the WebApp resource. If provided, this checksum ensures that the client has an up-to-date value before proceeding. */
-  etag?: string | undefined;
   /** If set to true, and the App is not found, the request will succeed but no action will be taken on the server. */
   allowMissing?: boolean | undefined;
+  /** Checksum provided in the WebApp resource. If provided, this checksum ensures that the client has an up-to-date value before proceeding. */
+  etag?: string | undefined;
+  /** If set to true, the request is only validated. The App will _not_ be removed. */
+  validateOnly?: boolean | undefined;
 }
 export interface RemoveProjectsWebAppsRequest extends RemoveWebAppRequest {
   /** Required. The resource name of the WebApp, in the format: projects/ PROJECT_IDENTIFIER/webApps/APP_ID Since an APP_ID is a unique identifier, the Unique Resource from Sub-Collection access pattern may be used here, in the format: projects/-/webApps/APP_ID Refer to the WebApp [name](../projects.webApps#WebApp.FIELDS.name) field for details about PROJECT_IDENTIFIER and APP_ID values. */
   name: string;
 }
 export interface SearchAppsProjectsRequest {
-  /** The parent FirebaseProject for which to list Apps, in the format: projects/ PROJECT_IDENTIFIER Refer to the `FirebaseProject` [`name`](../projects#FirebaseProject.FIELDS.name) field for details about PROJECT_IDENTIFIER values. */
-  parent: string;
   /** Controls whether Apps in the DELETED state should be returned. If not specified, only `ACTIVE` Apps will be returned. */
   showDeleted?: boolean | undefined;
   /** Token returned from a previous call to `SearchFirebaseApps` indicating where in the set of Apps to resume listing. */
   pageToken?: string | undefined;
+  /** The parent FirebaseProject for which to list Apps, in the format: projects/ PROJECT_IDENTIFIER Refer to the `FirebaseProject` [`name`](../projects#FirebaseProject.FIELDS.name) field for details about PROJECT_IDENTIFIER values. */
+  parent: string;
   /** The maximum number of Apps to return in the response. The server may return fewer than this value at its discretion. If no value is specified (or too large a value is specified), then the server will impose its own limit. This value cannot be negative. */
   pageSize?: number | undefined;
   /** A query string compatible with Google's [AIP-160 standard](https://google.aip.dev/160). Use any of the following fields in a query: * [`app_id`](../projects/searchApps#FirebaseAppInfo.FIELDS.app_id) * [`namespace`](../projects/searchApps#FirebaseAppInfo.FIELDS.namespace) * [`platform`](../projects/searchApps#FirebaseAppInfo.FIELDS.platform) This query also supports the following "virtual" fields. These are fields which are not actually part of the returned resource object, but they can be queried as if they are pre-populated with specific values. * `sha1_hash` or `sha1_hashes`: This field is considered to be a _repeated_ `string` field, populated with the list of all SHA-1 certificate fingerprints registered with the AndroidApp. This list is empty if the App is not an `AndroidApp`. * `sha256_hash` or `sha256_hashes`: This field is considered to be a _repeated_ `string` field, populated with the list of all SHA-256 certificate fingerprints registered with the AndroidApp. This list is empty if the App is not an `AndroidApp`. * `app_store_id`: This field is considered to be a _singular_ `string` field, populated with the Apple App Store ID registered with the IosApp. This field is empty if the App is not an `IosApp`. * `team_id`: This field is considered to be a _singular_ `string` field, populated with the Apple team ID registered with the IosApp. This field is empty if the App is not an `IosApp`. */
   filter?: string | undefined;
 }
-export type FirebaseAppInfoPlatformEnum = "PLATFORM_UNSPECIFIED" | "IOS" | "ANDROID" | "WEB";
 export type FirebaseAppInfoStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "DELETED";
+export type FirebaseAppInfoPlatformEnum = "PLATFORM_UNSPECIFIED" | "IOS" | "ANDROID" | "WEB";
 /** A high-level summary of an App. */
 export interface FirebaseAppInfo {
-  /** Output only. Immutable. The globally unique, Firebase-assigned identifier for the `WebApp`. This identifier should be treated as an opaque token, as the data format is not specified. */
-  appId?: string | undefined;
-  /** The resource name of the Firebase App, in the format: projects/PROJECT_ID /iosApps/APP_ID or projects/PROJECT_ID/androidApps/APP_ID or projects/ PROJECT_ID/webApps/APP_ID */
-  name?: string | undefined;
   /** Output only. Immutable. The platform-specific identifier of the App. *Note:* For most use cases, use `appId`, which is the canonical, globally unique identifier for referencing an App. This string is derived from a native identifier for each platform: `packageName` for an `AndroidApp`, `bundleId` for an `IosApp`, and `webId` for a `WebApp`. Its contents should be treated as opaque, as the native identifier format may change as platforms evolve. This string is only unique within a `FirebaseProject` and its associated Apps. */
   namespace?: string | undefined;
   /** Output only. If the App has been removed from the Project, this is the timestamp of when the App is considered expired and will be permanently deleted. After this time, the App cannot be undeleted (that is, restored to the Project). This value is only provided if the App is in the `DELETED` state. */
   expireTime?: string | undefined;
+  /** Output only. Immutable. The globally unique, Firebase-assigned identifier for the `WebApp`. This identifier should be treated as an opaque token, as the data format is not specified. */
+  appId?: string | undefined;
+  /** The user-assigned display name of the Firebase App. */
+  displayName?: string | undefined;
+  /** Output only. The lifecycle state of the App. */
+  state?: FirebaseAppInfoStateEnum | undefined;
   /** The platform of the Firebase App. */
   platform?: FirebaseAppInfoPlatformEnum | undefined;
   /** The globally unique, Google-assigned identifier (UID) for the Firebase API key associated with the App. Be aware that this value is the UID of the API key, _not_ the [`keyString`](https://cloud.google.com/api-keys/docs/reference/rest/v2/projects.locations.keys#Key.FIELDS.key_string) of the API key. The `keyString` is the value that can be found in the App's configuration artifact ([`AndroidApp`](../../rest/v1beta1/projects.androidApps/getConfig) | [`IosApp`](../../rest/v1beta1/projects.iosApps/getConfig) | [`WebApp`](../../rest/v1beta1/projects.webApps/getConfig)). If `api_key_id` is not set in requests to create the App ([`AndroidApp`](../../rest/v1beta1/projects.androidApps/create) | [`IosApp`](../../rest/v1beta1/projects.iosApps/create) | [`WebApp`](../../rest/v1beta1/projects.webApps/create)), then Firebase automatically associates an `api_key_id` with the App. This auto-associated key may be an existing valid key or, if no valid key exists, a new one will be provisioned. */
   apiKeyId?: string | undefined;
-  /** Output only. The lifecycle state of the App. */
-  state?: FirebaseAppInfoStateEnum | undefined;
-  /** The user-assigned display name of the Firebase App. */
-  displayName?: string | undefined;
+  /** The resource name of the Firebase App, in the format: projects/PROJECT_ID /iosApps/APP_ID or projects/PROJECT_ID/androidApps/APP_ID or projects/ PROJECT_ID/webApps/APP_ID */
+  name?: string | undefined;
 }
 export type FirebaseAppInfoList = Array<FirebaseAppInfo>;
 export interface SearchFirebaseAppsResponse {
-  /** If the result list is too large to fit in a single response, then a token is returned. This token can be used in a subsequent calls to `SearchFirebaseApps` to find the next group of Apps. Page tokens are short-lived and should not be persisted. */
-  nextPageToken?: string | undefined;
   /** One page of results from a call to `SearchFirebaseApps`. */
   apps?: FirebaseAppInfoList | undefined;
+  /** If the result list is too large to fit in a single response, then a token is returned. This token can be used in a subsequent calls to `SearchFirebaseApps` to find the next group of Apps. Page tokens are short-lived and should not be persisted. */
+  nextPageToken?: string | undefined;
 }
 export interface UndeleteAndroidAppRequest {
   /** Checksum provided in the AndroidApp resource. If provided, this checksum ensures that the client has an up-to-date value before proceeding. */
@@ -690,8 +690,8 @@ export const addFirebaseProjects: API.OperationMethod<
   AddFirebaseProjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(296, __c37, 0) as any as S.Schema<AddFirebaseProjectsRequest>,
-  output: __S(315, __c39, 3) as any as S.Schema<Operation>,
+  input: __S(312, __c39, 0) as any as S.Schema<AddFirebaseProjectsRequest>,
+  output: __S(331, __c41, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -713,8 +713,8 @@ export const addGoogleAnalyticsProjects: API.OperationMethod<
   AddGoogleAnalyticsProjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(321, __c40, 1) as any as S.Schema<AddGoogleAnalyticsProjectsRequest>,
-  output: __S(315, __c39, 3) as any as S.Schema<Operation>,
+  input: __S(337, __c42, 1) as any as S.Schema<AddGoogleAnalyticsProjectsRequest>,
+  output: __S(331, __c41, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -736,8 +736,8 @@ export const createProjectsAndroidApps: API.OperationMethod<
   CreateProjectsAndroidAppsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(328, __c41, 0) as any as S.Schema<CreateProjectsAndroidAppsRequest>,
-  output: __S(315, __c39, 3) as any as S.Schema<Operation>,
+  input: __S(344, __c43, 0) as any as S.Schema<CreateProjectsAndroidAppsRequest>,
+  output: __S(331, __c41, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -759,8 +759,8 @@ export const createProjectsAndroidAppsSha: API.OperationMethod<
   CreateProjectsAndroidAppsShaError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c44, 0) as any as S.Schema<CreateProjectsAndroidAppsShaRequest>,
-  output: __S(360, __c45, 0) as any as S.Schema<ShaCertificate>,
+  input: __S(368, __c46, 0) as any as S.Schema<CreateProjectsAndroidAppsShaRequest>,
+  output: __S(376, __c47, 0) as any as S.Schema<ShaCertificate>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -777,8 +777,8 @@ export const createProjectsIosApps: API.OperationMethod<
   CreateProjectsIosAppsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c46, 0) as any as S.Schema<CreateProjectsIosAppsRequest>,
-  output: __S(315, __c39, 3) as any as S.Schema<Operation>,
+  input: __S(384, __c48, 0) as any as S.Schema<CreateProjectsIosAppsRequest>,
+  output: __S(331, __c41, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -796,7 +796,7 @@ export const createProjectsWebApps: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateProjectsWebAppsRequest>,
-  output: __S(315, __c39, 3) as any as S.Schema<Operation>,
+  output: __S(331, __c41, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -842,7 +842,7 @@ export const finalizeProjectsDefaultLocation: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c5, 0) as any as S.Schema<FinalizeProjectsDefaultLocationRequest>,
-  output: __S(315, __c39, 3) as any as S.Schema<Operation>,
+  output: __S(331, __c41, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -896,7 +896,7 @@ export const getConfigProjectsAndroidApps: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c8, 0) as any as S.Schema<GetConfigProjectsAndroidAppsRequest>,
-  output: __S(65, __c8, 1) as any as S.Schema<AndroidAppConfig>,
+  output: __S(72, __c9, 0) as any as S.Schema<AndroidAppConfig>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -913,8 +913,8 @@ export const getConfigProjectsIosApps: API.OperationMethod<
   GetConfigProjectsIosAppsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<GetConfigProjectsIosAppsRequest>,
-  output: __S(73, __c9, 1) as any as S.Schema<IosAppConfig>,
+  input: __S(80, __c10, 0) as any as S.Schema<GetConfigProjectsIosAppsRequest>,
+  output: __S(72, __c9, 0) as any as S.Schema<IosAppConfig>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -931,8 +931,8 @@ export const getConfigProjectsWebApps: API.OperationMethod<
   GetConfigProjectsWebAppsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<GetConfigProjectsWebAppsRequest>,
-  output: __S(81, __c10, 1) as any as S.Schema<WebAppConfig>,
+  input: __S(88, __c11, 0) as any as S.Schema<GetConfigProjectsWebAppsRequest>,
+  output: __S(89, __c11, 1) as any as S.Schema<WebAppConfig>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -949,8 +949,8 @@ export const getOperations: API.OperationMethod<
   GetOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<GetOperationsRequest>,
-  output: __S(315, __c39, 3) as any as S.Schema<Operation>,
+  input: __S(96, __c12, 0) as any as S.Schema<GetOperationsRequest>,
+  output: __S(331, __c41, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -967,8 +967,8 @@ export const getProjects: API.OperationMethod<
   GetProjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<GetProjectsRequest>,
-  output: __S(105, __c13, 1) as any as S.Schema<FirebaseProject>,
+  input: __S(104, __c13, 0) as any as S.Schema<GetProjectsRequest>,
+  output: __S(113, __c14, 1) as any as S.Schema<FirebaseProject>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -985,8 +985,8 @@ export const getProjectsAndroidApps: API.OperationMethod<
   GetProjectsAndroidAppsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<GetProjectsAndroidAppsRequest>,
-  output: __S(344, __c43, 0) as any as S.Schema<AndroidApp>,
+  input: __S(120, __c15, 0) as any as S.Schema<GetProjectsAndroidAppsRequest>,
+  output: __S(360, __c45, 0) as any as S.Schema<AndroidApp>,
   errors: [NotFound, Forbidden, AndroidAppNotFound],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -1003,8 +1003,8 @@ export const getProjectsIosApps: API.OperationMethod<
   GetProjectsIosAppsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c15, 0) as any as S.Schema<GetProjectsIosAppsRequest>,
-  output: __S(376, __c47, 0) as any as S.Schema<IosApp>,
+  input: __S(128, __c16, 0) as any as S.Schema<GetProjectsIosAppsRequest>,
+  output: __S(392, __c49, 0) as any as S.Schema<IosApp>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -1021,7 +1021,7 @@ export const getProjectsWebApps: API.OperationMethod<
   GetProjectsWebAppsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c16, 0) as any as S.Schema<GetProjectsWebAppsRequest>,
+  input: __S(136, __c17, 0) as any as S.Schema<GetProjectsWebAppsRequest>,
   output: __S(16, __c2, 0) as any as S.Schema<WebApp>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
@@ -1040,8 +1040,8 @@ export const listAvailableProjects: API.PaginatedOperationMethod<
   GcpOpContext,
   ListAvailableProjectsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(136, __c17, 0) as any as S.Schema<ListAvailableProjectsRequest>,
-  output: __S(139, __c17, 3) as any as S.Schema<ListAvailableProjectsResponse>,
+  input: __S(144, __c18, 0) as any as S.Schema<ListAvailableProjectsRequest>,
+  output: __S(147, __c18, 3) as any as S.Schema<ListAvailableProjectsResponse>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -1060,8 +1060,8 @@ export const listProjects: API.PaginatedOperationMethod<
   GcpOpContext,
   ListFirebaseProjectsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(144, __c18, 0) as any as S.Schema<ListProjectsRequest>,
-  output: __S(146, __c18, 2) as any as S.Schema<ListFirebaseProjectsResponse>,
+  input: __S(152, __c19, 0) as any as S.Schema<ListProjectsRequest>,
+  output: __S(154, __c19, 2) as any as S.Schema<ListFirebaseProjectsResponse>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -1080,8 +1080,8 @@ export const listProjectsAndroidApps: API.PaginatedOperationMethod<
   GcpOpContext,
   ListAndroidAppsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(152, __c19, 0) as any as S.Schema<ListProjectsAndroidAppsRequest>,
-  output: __S(154, __c19, 2) as any as S.Schema<ListAndroidAppsResponse>,
+  input: __S(160, __c20, 0) as any as S.Schema<ListProjectsAndroidAppsRequest>,
+  output: __S(162, __c20, 2) as any as S.Schema<ListAndroidAppsResponse>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -1099,8 +1099,8 @@ export const listProjectsAndroidAppsSha: API.OperationMethod<
   ListProjectsAndroidAppsShaError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c20, 0) as any as S.Schema<ListProjectsAndroidAppsShaRequest>,
-  output: __S(162, __c20, 2) as any as S.Schema<ListShaCertificatesResponse>,
+  input: __S(168, __c21, 0) as any as S.Schema<ListProjectsAndroidAppsShaRequest>,
+  output: __S(170, __c21, 2) as any as S.Schema<ListShaCertificatesResponse>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -1118,8 +1118,8 @@ export const listProjectsAvailableLocations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListAvailableLocationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(168, __c21, 0) as any as S.Schema<ListProjectsAvailableLocationsRequest>,
-  output: __S(172, __c21, 4) as any as S.Schema<ListAvailableLocationsResponse>,
+  input: __S(176, __c22, 0) as any as S.Schema<ListProjectsAvailableLocationsRequest>,
+  output: __S(180, __c22, 4) as any as S.Schema<ListAvailableLocationsResponse>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -1138,8 +1138,8 @@ export const listProjectsIosApps: API.PaginatedOperationMethod<
   GcpOpContext,
   ListIosAppsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(176, __c22, 0) as any as S.Schema<ListProjectsIosAppsRequest>,
-  output: __S(178, __c22, 2) as any as S.Schema<ListIosAppsResponse>,
+  input: __S(184, __c23, 0) as any as S.Schema<ListProjectsIosAppsRequest>,
+  output: __S(186, __c23, 2) as any as S.Schema<ListIosAppsResponse>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -1158,8 +1158,8 @@ export const listProjectsWebApps: API.PaginatedOperationMethod<
   GcpOpContext,
   ListWebAppsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(184, __c23, 0) as any as S.Schema<ListProjectsWebAppsRequest>,
-  output: __S(186, __c23, 2) as any as S.Schema<ListWebAppsResponse>,
+  input: __S(192, __c24, 0) as any as S.Schema<ListProjectsWebAppsRequest>,
+  output: __S(194, __c24, 2) as any as S.Schema<ListWebAppsResponse>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -1177,8 +1177,8 @@ export const patchProjects: API.OperationMethod<
   PatchProjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c24, 0) as any as S.Schema<PatchProjectsRequest>,
-  output: __S(105, __c13, 1) as any as S.Schema<FirebaseProject>,
+  input: __S(200, __c25, 0) as any as S.Schema<PatchProjectsRequest>,
+  output: __S(113, __c14, 1) as any as S.Schema<FirebaseProject>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -1201,8 +1201,8 @@ export const patchProjectsAndroidApps: API.OperationMethod<
   PatchProjectsAndroidAppsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(200, __c25, 0) as any as S.Schema<PatchProjectsAndroidAppsRequest>,
-  output: __S(344, __c43, 0) as any as S.Schema<AndroidApp>,
+  input: __S(208, __c26, 0) as any as S.Schema<PatchProjectsAndroidAppsRequest>,
+  output: __S(360, __c45, 0) as any as S.Schema<AndroidApp>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, AndroidAppNotFound],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -1219,8 +1219,8 @@ export const patchProjectsIosApps: API.OperationMethod<
   PatchProjectsIosAppsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c26, 0) as any as S.Schema<PatchProjectsIosAppsRequest>,
-  output: __S(376, __c47, 0) as any as S.Schema<IosApp>,
+  input: __S(216, __c27, 0) as any as S.Schema<PatchProjectsIosAppsRequest>,
+  output: __S(392, __c49, 0) as any as S.Schema<IosApp>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -1237,7 +1237,7 @@ export const patchProjectsWebApps: API.OperationMethod<
   PatchProjectsWebAppsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(216, __c27, 0) as any as S.Schema<PatchProjectsWebAppsRequest>,
+  input: __S(224, __c28, 0) as any as S.Schema<PatchProjectsWebAppsRequest>,
   output: __S(16, __c2, 0) as any as S.Schema<WebApp>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
@@ -1260,7 +1260,7 @@ export const removeAnalyticsProjects: API.OperationMethod<
   RemoveAnalyticsProjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(225, __c28, 1) as any as S.Schema<RemoveAnalyticsProjectsRequest>,
+  input: __S(233, __c29, 1) as any as S.Schema<RemoveAnalyticsProjectsRequest>,
   output: __S(32, __c4, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
@@ -1284,8 +1284,8 @@ export const removeProjectsAndroidApps: API.OperationMethod<
   RemoveProjectsAndroidAppsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(233, __c29, 1) as any as S.Schema<RemoveProjectsAndroidAppsRequest>,
-  output: __S(315, __c39, 3) as any as S.Schema<Operation>,
+  input: __S(240, __c30, 0) as any as S.Schema<RemoveProjectsAndroidAppsRequest>,
+  output: __S(331, __c41, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, AndroidAppNotFound],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -1302,8 +1302,8 @@ export const removeProjectsIosApps: API.OperationMethod<
   RemoveProjectsIosAppsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(241, __c30, 1) as any as S.Schema<RemoveProjectsIosAppsRequest>,
-  output: __S(315, __c39, 3) as any as S.Schema<Operation>,
+  input: __S(257, __c32, 1) as any as S.Schema<RemoveProjectsIosAppsRequest>,
+  output: __S(331, __c41, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -1320,8 +1320,8 @@ export const removeProjectsWebApps: API.OperationMethod<
   RemoveProjectsWebAppsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(249, __c31, 1) as any as S.Schema<RemoveProjectsWebAppsRequest>,
-  output: __S(315, __c39, 3) as any as S.Schema<Operation>,
+  input: __S(264, __c33, 0) as any as S.Schema<RemoveProjectsWebAppsRequest>,
+  output: __S(331, __c41, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -1339,8 +1339,8 @@ export const searchAppsProjects: API.PaginatedOperationMethod<
   GcpOpContext,
   SearchFirebaseAppsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(256, __c32, 0) as any as S.Schema<SearchAppsProjectsRequest>,
-  output: __S(259, __c32, 3) as any as S.Schema<SearchFirebaseAppsResponse>,
+  input: __S(272, __c34, 0) as any as S.Schema<SearchAppsProjectsRequest>,
+  output: __S(275, __c34, 3) as any as S.Schema<SearchFirebaseAppsResponse>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -1363,8 +1363,8 @@ export const undeleteProjectsAndroidApps: API.OperationMethod<
   UndeleteProjectsAndroidAppsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(264, __c33, 0) as any as S.Schema<UndeleteProjectsAndroidAppsRequest>,
-  output: __S(315, __c39, 3) as any as S.Schema<Operation>,
+  input: __S(280, __c35, 0) as any as S.Schema<UndeleteProjectsAndroidAppsRequest>,
+  output: __S(331, __c41, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -1386,8 +1386,8 @@ export const undeleteProjectsIosApps: API.OperationMethod<
   UndeleteProjectsIosAppsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(281, __c35, 1) as any as S.Schema<UndeleteProjectsIosAppsRequest>,
-  output: __S(315, __c39, 3) as any as S.Schema<Operation>,
+  input: __S(297, __c37, 1) as any as S.Schema<UndeleteProjectsIosAppsRequest>,
+  output: __S(331, __c41, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -1409,8 +1409,8 @@ export const undeleteProjectsWebApps: API.OperationMethod<
   UndeleteProjectsWebAppsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c36, 0) as any as S.Schema<UndeleteProjectsWebAppsRequest>,
-  output: __S(315, __c39, 3) as any as S.Schema<Operation>,
+  input: __S(304, __c38, 0) as any as S.Schema<UndeleteProjectsWebAppsRequest>,
+  output: __S(331, __c41, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -1450,17 +1450,17 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          expireTime: S.optional(S.String),
-          webId: S.optional(S.String),
-          displayName: S.optional(S.String),
-          appUrls: S.optional(__S(336, __c42, 0)),
-          projectId: S.optional(S.String),
-          etag: S.optional(S.String),
-          appId: S.optional(S.String),
-          labels: S.optional(__S(8, __c1, 0)),
-          apiKeyId: S.optional(S.String),
-          state: S.optional(S.String),
           name: S.optional(S.String),
+          appUrls: S.optional(__S(352, __c44, 0)),
+          projectId: S.optional(S.String),
+          labels: S.optional(__S(8, __c1, 0)),
+          webId: S.optional(S.String),
+          etag: S.optional(S.String),
+          expireTime: S.optional(S.String),
+          state: S.optional(S.String),
+          apiKeyId: S.optional(S.String),
+          displayName: S.optional(S.String),
+          appId: S.optional(S.String),
         }),
       ).annotate({ identifier: "WebApp" });
   }
@@ -1492,7 +1492,7 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(304, __c38, 0),
+          __S(320, __c40, 0),
           S.Struct({
             parent: S.String.pipe(T.Label()),
           }),
@@ -1523,10 +1523,10 @@ function __c6(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          databaseURL: S.optional(S.String),
           locationId: S.optional(S.String),
           storageBucket: S.optional(S.String),
           projectId: S.optional(S.String),
-          databaseURL: S.optional(S.String),
         }),
       ).annotate({ identifier: "AdminSdkConfig" });
   }
@@ -1548,17 +1548,17 @@ function __c7(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          displayName: S.optional(S.String),
           id: S.optional(S.String),
           analyticsAccountId: S.optional(S.String),
+          displayName: S.optional(S.String),
         }),
       ).annotate({ identifier: "AnalyticsProperty" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           app: S.optional(S.String),
-          streamId: S.optional(S.String),
           measurementId: S.optional(S.String),
+          streamId: S.optional(S.String),
         }),
       ).annotate({ identifier: "StreamMapping" });
     case 3:
@@ -1586,16 +1586,20 @@ function __c8(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GetConfigProjectsAndroidAppsRequest" });
-    case 1:
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
-          configFileContents: S.optional(S.String),
           configFilename: S.optional(S.String),
+          configFileContents: S.optional(S.String),
         }),
       ).annotate({ identifier: "AndroidAppConfig" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1609,16 +1613,9 @@ function __c9(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GetConfigProjectsIosAppsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          configFilename: S.optional(S.String),
-          configFileContents: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "IosAppConfig" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1635,37 +1632,21 @@ function __c10(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          storageBucket: S.optional(S.String),
-          databaseURL: S.optional(S.String),
-          locationId: S.optional(S.String),
-          apiKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           recaptchaSiteKey: S.optional(S.String),
-          projectNumber: S.optional(S.String),
-          measurementId: S.optional(S.String),
-          appId: S.optional(S.String),
-          realtimeDatabaseUrl: S.optional(S.String),
-          version: S.optional(S.String),
-          authDomain: S.optional(S.String),
-          messagingSenderId: S.optional(S.String),
           projectId: S.optional(S.String),
+          locationId: S.optional(S.String),
+          messagingSenderId: S.optional(S.String),
+          apiKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          version: S.optional(S.String),
+          databaseURL: S.optional(S.String),
+          measurementId: S.optional(S.String),
+          realtimeDatabaseUrl: S.optional(S.String),
+          appId: S.optional(S.String),
+          storageBucket: S.optional(S.String),
+          projectNumber: S.optional(S.String),
+          authDomain: S.optional(S.String),
         }),
       ).annotate({ identifier: "WebAppConfig" });
-  }
-}
-function __c11(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1beta1/{+name}",
-            baseUrl: "https://firebase.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "GetOperationsRequest" });
   }
 }
 function __c12(j: number): any {
@@ -1681,36 +1662,10 @@ function __c12(j: number): any {
             baseUrl: "https://firebase.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsRequest" });
+      ).annotate({ identifier: "GetOperationsRequest" });
   }
 }
 function __c13(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          storageBucket: S.optional(S.String),
-          realtimeDatabaseInstance: S.optional(S.String),
-          locationId: S.optional(S.String),
-          hostingSite: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DefaultResources" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          projectNumber: S.optional(S.String),
-          etag: S.optional(S.String),
-          resources: S.optional(__S(104, __c13, 0)),
-          annotations: S.optional(__S(8, __c1, 0)),
-          displayName: S.optional(S.String),
-          projectId: S.optional(S.String),
-          name: S.optional(S.String),
-          state: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "FirebaseProject" });
-  }
-}
-function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1723,7 +1678,33 @@ function __c14(j: number): any {
             baseUrl: "https://firebase.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsAndroidAppsRequest" });
+      ).annotate({ identifier: "GetProjectsRequest" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          hostingSite: S.optional(S.String),
+          locationId: S.optional(S.String),
+          realtimeDatabaseInstance: S.optional(S.String),
+          storageBucket: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DefaultResources" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          state: S.optional(S.String),
+          projectNumber: S.optional(S.String),
+          projectId: S.optional(S.String),
+          displayName: S.optional(S.String),
+          annotations: S.optional(__S(8, __c1, 0)),
+          etag: S.optional(S.String),
+          resources: S.optional(__S(112, __c14, 0)),
+        }),
+      ).annotate({ identifier: "FirebaseProject" });
   }
 }
 function __c15(j: number): any {
@@ -1739,7 +1720,7 @@ function __c15(j: number): any {
             baseUrl: "https://firebase.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsIosAppsRequest" });
+      ).annotate({ identifier: "GetProjectsAndroidAppsRequest" });
   }
 }
 function __c16(j: number): any {
@@ -1755,10 +1736,26 @@ function __c16(j: number): any {
             baseUrl: "https://firebase.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsWebAppsRequest" });
+      ).annotate({ identifier: "GetProjectsIosAppsRequest" });
   }
 }
 function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1beta1/{+name}",
+            baseUrl: "https://firebase.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectsWebAppsRequest" });
+  }
+}
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1776,23 +1773,23 @@ function __c17(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          project: S.optional(S.String),
           displayName: S.optional(S.String),
           locationId: S.optional(S.String),
-          project: S.optional(S.String),
         }),
       ).annotate({ identifier: "ProjectInfo" });
     case 2:
-      return S.Array(__S(137, __c17, 1));
+      return S.Array(__S(145, __c18, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          projectInfo: S.optional(__S(138, __c17, 2)),
+          projectInfo: S.optional(__S(146, __c18, 2)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListAvailableProjectsResponse" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1809,25 +1806,25 @@ function __c18(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsRequest" });
     case 1:
-      return S.Array(__S(105, __c13, 1));
+      return S.Array(__S(113, __c14, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
+          results: S.optional(__S(153, __c19, 1)),
           nextPageToken: S.optional(S.String),
-          results: S.optional(__S(145, __c18, 1)),
         }),
       ).annotate({ identifier: "ListFirebaseProjectsResponse" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          showDeleted: S.optional(S.Boolean.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          showDeleted: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1837,17 +1834,17 @@ function __c19(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsAndroidAppsRequest" });
     case 1:
-      return S.Array(__S(344, __c43, 0));
+      return S.Array(__S(360, __c45, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
+          apps: S.optional(__S(161, __c20, 1)),
           nextPageToken: S.optional(S.String),
-          apps: S.optional(__S(153, __c19, 1)),
         }),
       ).annotate({ identifier: "ListAndroidAppsResponse" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1862,22 +1859,22 @@ function __c20(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsAndroidAppsShaRequest" });
     case 1:
-      return S.Array(__S(360, __c45, 0));
+      return S.Array(__S(376, __c47, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          certificates: S.optional(__S(161, __c20, 1)),
+          certificates: S.optional(__S(169, __c21, 1)),
         }),
       ).annotate({ identifier: "ListShaCertificatesResponse" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -1892,23 +1889,23 @@ function __c21(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          type: S.optional(S.String),
-          features: S.optional(__S(169, __c21, 1)),
           locationId: S.optional(S.String),
+          features: S.optional(__S(177, __c22, 1)),
+          type: S.optional(S.String),
         }),
       ).annotate({ identifier: "Location" });
     case 3:
-      return S.Array(__S(170, __c21, 2));
+      return S.Array(__S(178, __c22, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          locations: S.optional(__S(171, __c21, 3)),
+          locations: S.optional(__S(179, __c22, 3)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListAvailableLocationsResponse" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1926,25 +1923,25 @@ function __c22(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsIosAppsRequest" });
     case 1:
-      return S.Array(__S(376, __c47, 0));
+      return S.Array(__S(392, __c49, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          apps: S.optional(__S(177, __c22, 1)),
+          apps: S.optional(__S(185, __c23, 1)),
         }),
       ).annotate({ identifier: "ListIosAppsResponse" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           showDeleted: S.optional(S.Boolean.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1958,18 +1955,18 @@ function __c23(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          apps: S.optional(__S(185, __c23, 1)),
           nextPageToken: S.optional(S.String),
+          apps: S.optional(__S(193, __c24, 1)),
         }),
       ).annotate({ identifier: "ListWebAppsResponse" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(105, __c13, 1),
+          __S(113, __c14, 1),
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
@@ -1984,15 +1981,15 @@ function __c24(j: number): any {
       ).annotate({ identifier: "PatchProjectsRequest" });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(344, __c43, 0),
+          __S(360, __c45, 0),
           S.Struct({
-            updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -2004,12 +2001,12 @@ function __c25(j: number): any {
       ).annotate({ identifier: "PatchProjectsAndroidAppsRequest" });
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(376, __c47, 0),
+          __S(392, __c49, 0),
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
@@ -2024,7 +2021,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "PatchProjectsIosAppsRequest" });
   }
 }
-function __c27(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2044,7 +2041,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "PatchProjectsWebAppsRequest" });
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2055,7 +2052,7 @@ function __c28(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Extend(
-          __S(224, __c28, 0),
+          __S(232, __c29, 0),
           S.Struct({
             parent: S.String.pipe(T.Label()),
           }),
@@ -2069,21 +2066,12 @@ function __c28(j: number): any {
       ).annotate({ identifier: "RemoveAnalyticsProjectsRequest" });
   }
 }
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean),
-          allowMissing: S.optional(S.Boolean),
-          immediate: S.optional(S.Boolean),
-          etag: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "RemoveAndroidAppRequest" });
-    case 1:
-      return S.suspend(() =>
         S.Extend(
-          __S(232, __c29, 0),
+          __S(248, __c31, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
           }),
@@ -2097,21 +2085,34 @@ function __c29(j: number): any {
       ).annotate({ identifier: "RemoveProjectsAndroidAppsRequest" });
   }
 }
-function __c30(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          immediate: S.optional(S.Boolean),
+          allowMissing: S.optional(S.Boolean),
+          etag: S.optional(S.String),
+          validateOnly: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "RemoveAndroidAppRequest" });
+  }
+}
+function __c32(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          immediate: S.optional(S.Boolean),
+          allowMissing: S.optional(S.Boolean),
           validateOnly: S.optional(S.Boolean),
           etag: S.optional(S.String),
-          allowMissing: S.optional(S.Boolean),
-          immediate: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "RemoveIosAppRequest" });
     case 1:
       return S.suspend(() =>
         S.Extend(
-          __S(240, __c30, 0),
+          __S(256, __c32, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
           }),
@@ -2125,18 +2126,9 @@ function __c30(j: number): any {
       ).annotate({ identifier: "RemoveProjectsIosAppsRequest" });
   }
 }
-function __c31(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean),
-          immediate: S.optional(S.Boolean),
-          etag: S.optional(S.String),
-          allowMissing: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "RemoveWebAppRequest" });
-    case 1:
       return S.suspend(() =>
         S.Extend(
           __S(248, __c31, 0),
@@ -2153,14 +2145,14 @@ function __c31(j: number): any {
       ).annotate({ identifier: "RemoveProjectsWebAppsRequest" });
   }
 }
-function __c32(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           showDeleted: S.optional(S.Boolean.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
@@ -2174,33 +2166,33 @@ function __c32(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          appId: S.optional(S.String),
-          name: S.optional(S.String),
           namespace: S.optional(S.String),
           expireTime: S.optional(S.String),
+          appId: S.optional(S.String),
+          displayName: S.optional(S.String),
+          state: S.optional(S.String),
           platform: S.optional(S.String),
           apiKeyId: S.optional(S.String),
-          state: S.optional(S.String),
-          displayName: S.optional(S.String),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "FirebaseAppInfo" });
     case 2:
-      return S.Array(__S(257, __c32, 1));
+      return S.Array(__S(273, __c34, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
+          apps: S.optional(__S(274, __c34, 2)),
           nextPageToken: S.optional(S.String),
-          apps: S.optional(__S(258, __c32, 2)),
         }),
       ).annotate({ identifier: "SearchFirebaseAppsResponse" });
   }
 }
-function __c33(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(272, __c34, 0),
+          __S(288, __c36, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
           }),
@@ -2214,7 +2206,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "UndeleteProjectsAndroidAppsRequest" });
   }
 }
-function __c34(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2225,7 +2217,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "UndeleteAndroidAppRequest" });
   }
 }
-function __c35(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2237,7 +2229,7 @@ function __c35(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Extend(
-          __S(280, __c35, 0),
+          __S(296, __c37, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
           }),
@@ -2251,12 +2243,12 @@ function __c35(j: number): any {
       ).annotate({ identifier: "UndeleteProjectsIosAppsRequest" });
   }
 }
-function __c36(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(272, __c34, 0),
+          __S(288, __c36, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
           }),
@@ -2270,12 +2262,12 @@ function __c36(j: number): any {
       ).annotate({ identifier: "UndeleteProjectsWebAppsRequest" });
   }
 }
-function __c37(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(304, __c38, 0),
+          __S(320, __c40, 0),
           S.Struct({
             project: S.String.pipe(T.Label()),
           }),
@@ -2289,7 +2281,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "AddFirebaseProjectsRequest" });
   }
 }
-function __c38(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2299,33 +2291,33 @@ function __c38(j: number): any {
       ).annotate({ identifier: "AddFirebaseRequest" });
   }
 }
-function __c39(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
     case 1:
-      return S.Array(__S(312, __c39, 0));
+      return S.Array(__S(328, __c41, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          code: S.optional(S.Number),
           message: S.optional(S.String),
-          details: S.optional(__S(313, __c39, 1)),
+          details: S.optional(__S(329, __c41, 1)),
+          code: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Status" });
     case 3:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          error: S.optional(__S(314, __c39, 2)),
-          response: S.optional(__S(312, __c39, 0)),
+          metadata: S.optional(__S(328, __c41, 0)),
           done: S.optional(S.Boolean),
-          metadata: S.optional(__S(312, __c39, 0)),
+          response: S.optional(__S(328, __c41, 0)),
+          error: S.optional(__S(330, __c41, 2)),
         }),
       ).annotate({ identifier: "Operation" });
   }
 }
-function __c40(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2337,7 +2329,7 @@ function __c40(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Extend(
-          __S(320, __c40, 0),
+          __S(336, __c42, 0),
           S.Struct({
             parent: S.String.pipe(T.Label()),
           }),
@@ -2351,12 +2343,12 @@ function __c40(j: number): any {
       ).annotate({ identifier: "AddGoogleAnalyticsProjectsRequest" });
   }
 }
-function __c41(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(344, __c43, 0),
+          __S(360, __c45, 0),
           S.Struct({
             parent: S.String.pipe(T.Label()),
           }),
@@ -2370,49 +2362,10 @@ function __c41(j: number): any {
       ).annotate({ identifier: "CreateProjectsAndroidAppsRequest" });
   }
 }
-function __c42(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c43(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          etag: S.optional(S.String),
-          projectId: S.optional(S.String),
-          packageName: S.optional(S.String),
-          sha1Hashes: S.optional(__S(336, __c42, 0)),
-          expireTime: S.optional(S.String),
-          name: S.optional(S.String),
-          apiKeyId: S.optional(S.String),
-          appId: S.optional(S.String),
-          sha256Hashes: S.optional(__S(336, __c42, 0)),
-          state: S.optional(S.String),
-          displayName: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AndroidApp" });
-  }
-}
 function __c44(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Extend(
-          __S(360, __c45, 0),
-          S.Struct({
-            parent: S.String.pipe(T.Label()),
-          }),
-        ).pipe(
-          T.Http({
-            method: "POST",
-            uri: "v1beta1/{+parent}/sha",
-            baseUrl: "https://firebase.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "CreateProjectsAndroidAppsShaRequest" });
+      return S.Array(S.String);
   }
 }
 function __c45(j: number): any {
@@ -2420,11 +2373,19 @@ function __c45(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          shaHash: S.optional(S.String),
           name: S.optional(S.String),
-          certType: S.optional(S.String),
+          displayName: S.optional(S.String),
+          etag: S.optional(S.String),
+          sha1Hashes: S.optional(__S(352, __c44, 0)),
+          expireTime: S.optional(S.String),
+          apiKeyId: S.optional(S.String),
+          packageName: S.optional(S.String),
+          sha256Hashes: S.optional(__S(352, __c44, 0)),
+          state: S.optional(S.String),
+          appId: S.optional(S.String),
+          projectId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ShaCertificate" });
+      ).annotate({ identifier: "AndroidApp" });
   }
 }
 function __c46(j: number): any {
@@ -2439,11 +2400,11 @@ function __c46(j: number): any {
         ).pipe(
           T.Http({
             method: "POST",
-            uri: "v1beta1/{+parent}/iosApps",
+            uri: "v1beta1/{+parent}/sha",
             baseUrl: "https://firebase.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "CreateProjectsIosAppsRequest" });
+      ).annotate({ identifier: "CreateProjectsAndroidAppsShaRequest" });
   }
 }
 function __c47(j: number): any {
@@ -2451,17 +2412,48 @@ function __c47(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          projectId: S.optional(S.String),
-          state: S.optional(S.String),
-          etag: S.optional(S.String),
-          expireTime: S.optional(S.String),
-          appId: S.optional(S.String),
+          shaHash: S.optional(S.String),
+          certType: S.optional(S.String),
           name: S.optional(S.String),
-          teamId: S.optional(S.String),
-          displayName: S.optional(S.String),
-          bundleId: S.optional(S.String),
-          appStoreId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ShaCertificate" });
+  }
+}
+function __c48(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(392, __c49, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
+          T.Http({
+            method: "POST",
+            uri: "v1beta1/{+parent}/iosApps",
+            baseUrl: "https://firebase.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "CreateProjectsIosAppsRequest" });
+  }
+}
+function __c49(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          state: S.optional(S.String),
+          expireTime: S.optional(S.String),
           apiKeyId: S.optional(S.String),
+          projectId: S.optional(S.String),
+          bundleId: S.optional(S.String),
+          displayName: S.optional(S.String),
+          appId: S.optional(S.String),
+          etag: S.optional(S.String),
+          teamId: S.optional(S.String),
+          appStoreId: S.optional(S.String),
         }),
       ).annotate({ identifier: "IosApp" });
   }

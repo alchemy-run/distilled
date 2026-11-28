@@ -84,19 +84,13 @@ export class NotFound
   ) {}
 
 export interface DeleteAgentUsersRequest {
-  /** Required. Third-party user ID. */
-  agentUserId: string;
   /** Request ID used for debugging. */
   requestId?: string | undefined;
+  /** Required. Third-party user ID. */
+  agentUserId: string;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
-export type QueryRequestDeviceViewEnum =
-  | "DEVICE_VIEW_UNSPECIFIED"
-  | "SMART_HOME_TRAIT_ONLY"
-  | "HOME_TRAIT_ONLY"
-  | "HOME_TRAIT_AND_SMART_HOME_TRAIT"
-  | "JSON_TRAIT_ONLY";
 /** Third-party device ID for one device. */
 export interface AgentDeviceId {
   /** Third-party device ID. */
@@ -114,18 +108,24 @@ export interface QueryRequestInput {
   payload?: QueryRequestPayload | undefined;
 }
 export type QueryRequestInputList = Array<QueryRequestInput>;
+export type QueryRequestDeviceViewEnum =
+  | "DEVICE_VIEW_UNSPECIFIED"
+  | "SMART_HOME_TRAIT_ONLY"
+  | "HOME_TRAIT_ONLY"
+  | "HOME_TRAIT_AND_SMART_HOME_TRAIT"
+  | "JSON_TRAIT_ONLY";
 /** Request type for the [`Query`](#google.home.graph.v1.HomeGraphApiService.Query) call. */
 export interface QueryRequest {
-  /** Optional. Specifies the type of device data to be returned in the response. This allows callers to request traditional Smart Home traits, Unified Device Data Model (UDDM) traits, or both. If unspecified, defaults to `SMART_HOME_TRAIT_ONLY`. */
-  deviceView?: QueryRequestDeviceViewEnum | (string & {}) | undefined;
-  /** Required. Inputs containing third-party device IDs for which to get the device states. */
-  inputs?: QueryRequestInputList | undefined;
   /** Optional. If true, the response will include device metadata in the device_metadata field. */
   includeDeviceMetadata?: boolean | undefined;
-  /** Request ID used for debugging. */
-  requestId?: string | undefined;
   /** Required. Third-party user ID. */
   agentUserId?: string | undefined;
+  /** Required. Inputs containing third-party device IDs for which to get the device states. */
+  inputs?: QueryRequestInputList | undefined;
+  /** Optional. Specifies the type of device data to be returned in the response. This allows callers to request traditional Smart Home traits, Unified Device Data Model (UDDM) traits, or both. If unspecified, defaults to `SMART_HOME_TRAIT_ONLY`. */
+  deviceView?: QueryRequestDeviceViewEnum | (string & {}) | undefined;
+  /** Request ID used for debugging. */
+  requestId?: string | undefined;
 }
 export interface QueryDevicesRequest extends QueryRequest {}
 export type DocumentMap = { [key: string]: unknown | undefined };
@@ -141,22 +141,22 @@ export interface JsonTrait {
 export interface TraitData {
   /** The custom timestamp supplied by the provider during a ReportStateAndNotification update (if provided). This field is returned as part of the `QueryResponse`. */
   providerUpdateTime?: string | undefined;
+  /** Contains the dynamic JSON trait payload. */
+  jsonTrait?: JsonTrait | undefined;
   /** The Provider Home API trait payload. */
   trait?: DocumentMap | undefined;
   /** Other metadata for the trait. The time the client update was committed in the server. */
   commitTime?: string | undefined;
-  /** Contains the dynamic JSON trait payload. */
-  jsonTrait?: JsonTrait | undefined;
 }
 export type TraitDataList = Array<TraitData>;
 export type ComponentList = Array<Component>;
 export type StringList = Array<string>;
 /** Component of a provider device. */
 export interface Component {
-  /** Required. ID of the component from the device provider. */
-  id?: string | undefined;
   /** Required. List of trait data associated with the component. */
   traitData?: TraitDataList | undefined;
+  /** Required. ID of the component from the device provider. */
+  id?: string | undefined;
   /** Optional. Child components. */
   childComponents?: ComponentList | undefined;
   /** Required. List of Device types associated with this component. Supported device types are defined in cs//depot/google3/home/homeservicelayer/uddm/types/uddm_device_types.proto and the type string is the enum name, for example: ON_OFF_LIGHT => "ON_OFF_LIGHT". */
@@ -186,10 +186,10 @@ export interface QueryResponsePayload {
 }
 /** Response type for the [`Query`](#google.home.graph.v1.HomeGraphApiService.Query) call. This should follow the same format as the Google smart home `action.devices.QUERY` [response](https://developers.home.google.com/cloud-to-cloud/intents/query). Example: ```json { "requestId": "ff36a3cc-ec34-11e6-b1a0-64510650abcf", "payload": { "devices": { "123": { "on": true, "online": true }, "456": { "on": true, "online": true, "brightness": 80, "color": { "name": "cerulean", "spectrumRGB": 31655 } } } } } ``` */
 export interface QueryResponse {
-  /** Device states for the devices given in the request. */
-  payload?: QueryResponsePayload | undefined;
   /** Request ID used for debugging. Copied from the request. */
   requestId?: string | undefined;
+  /** Device states for the devices given in the request. */
+  payload?: QueryResponsePayload | undefined;
 }
 /** Contains the set of updates for a component. */
 export interface ComponentTraitUpdates {
@@ -216,22 +216,22 @@ export interface JsonTraitEvent {
 }
 /** Contains the details for a single event. */
 export interface EventData {
-  /** Required. The timestamp of the event. */
-  eventTime?: string | undefined;
-  /** Optional. Contains the dynamic JSON trait event payload. */
-  jsonTraitEvent?: JsonTraitEvent | undefined;
   /** Required. The unique event ID from the device provider. */
   eventId?: string | undefined;
   /** Optional. The actual event payload. */
   event?: DocumentMap | undefined;
+  /** Optional. Contains the dynamic JSON trait event payload. */
+  jsonTraitEvent?: JsonTraitEvent | undefined;
+  /** Required. The timestamp of the event. */
+  eventTime?: string | undefined;
 }
 export type EventDataList = Array<EventData>;
 /** Contains a set of events for a specific component. */
 export interface Events {
-  /** Optional. The ID of the provider component if the events are associated with a specific component. Optional for WHDM events, required for UDDM and JSON events. */
-  componentId?: string | undefined;
   /** Required. List of events associated with the component. */
   events?: EventDataList | undefined;
+  /** Optional. The ID of the provider component if the events are associated with a specific component. Optional for WHDM events, required for UDDM and JSON events. */
+  componentId?: string | undefined;
 }
 export type EventsList = Array<Events>;
 /** Contains the set of events for an item. */
@@ -246,12 +246,12 @@ export type HomeEventsList = Array<HomeEvents>;
 export interface ReportStateAndNotificationDevice {
   /** States of devices to update. See the **Device STATES** section of the individual trait [reference guides](https://developers.home.google.com/cloud-to-cloud/traits). */
   states?: DocumentMap | undefined;
-  /** Notifications metadata for devices. See the **Device NOTIFICATIONS** section of the individual trait [reference guides](https://developers.home.google.com/cloud-to-cloud/traits). */
-  notifications?: DocumentMap | undefined;
   /** Optional. UDDM/WHDM trait updates. */
   homeTraits?: HomeTraitUpdatesList | undefined;
   /** Optional. UDDM/WHDM trait events */
   homeEvents?: HomeEventsList | undefined;
+  /** Notifications metadata for devices. See the **Device NOTIFICATIONS** section of the individual trait [reference guides](https://developers.home.google.com/cloud-to-cloud/traits). */
+  notifications?: DocumentMap | undefined;
 }
 /** Payload containing the state and notification information for devices. */
 export interface StateAndNotificationPayload {
@@ -260,16 +260,16 @@ export interface StateAndNotificationPayload {
 }
 /** Request type for the [`ReportStateAndNotification`](#google.home.graph.v1.HomeGraphApiService.ReportStateAndNotification) call. It may include states, notifications, home_traits, home_events, or any combination thereof. Smart Home Device Traits (SHDT) `states` and `notifications` are defined per `device_id` (for example, "123" and "456" in the following example). Google Home Traits `home_traits` and `home_events` are lists of updates or events, each associated with a `device_id` (for example, "789" in the following example). Example: ```json { "requestId": "ff36a3cc-ec34-11e6-b1a0-64510650abcf", "agentUserId": "1234", "payload": { "devices": { "states": { "123": { "on": true }, "456": { "on": true, "brightness": 10 }, }, "homeTraits": [ { "deviceId": "789", "components": [ { "componentId": "main", "traitData": [ { "trait": { "@type": "type.googleapis.com/home.graph.v1.OnOffTrait", "onOff": true } } ] } ] } ], "homeEvents": [ { "deviceId": "789", "events": [ { "componentId": "main", "events": [ { "eventId": "event-123", "eventTime": "2026-01-01T00:00:00Z", "event": { "@type": "type.googleapis.com/home.graph.v1.DoorbellPressTrait.DoorbellPressedEvent" } } ] } ] } ] } } } ``` */
 export interface ReportStateAndNotificationRequest {
-  /** Unique identifier per event (for example, a doorbell press). */
-  eventId?: string | undefined;
-  /** Required. State of devices to update and notification metadata for devices. */
-  payload?: StateAndNotificationPayload | undefined;
   /** Required. Third-party user ID. */
   agentUserId?: string | undefined;
   /** Deprecated. */
   followUpToken?: string | undefined;
   /** Request ID used for debugging. */
   requestId?: string | undefined;
+  /** Required. State of devices to update and notification metadata for devices. */
+  payload?: StateAndNotificationPayload | undefined;
+  /** Unique identifier per event (for example, a doorbell press). */
+  eventId?: string | undefined;
 }
 export interface ReportStateAndNotificationDevicesRequest extends ReportStateAndNotificationRequest {}
 /** Result of reporting state and notifications for a single device. */
@@ -287,39 +287,28 @@ export interface ReportStateAndNotificationResponse {
 }
 /** Request type for the [`RequestSyncDevices`](#google.home.graph.v1.HomeGraphApiService.RequestSyncDevices) call. */
 export interface RequestSyncDevicesRequest {
-  /** Optional. If set, the request will be added to a queue and a response will be returned immediately. This enables concurrent requests for the given `agent_user_id`, but the caller will not receive any error responses. */
-  async?: boolean | undefined;
   /** Required. Third-party user ID. */
   agentUserId?: string | undefined;
+  /** Optional. If set, the request will be added to a queue and a response will be returned immediately. This enables concurrent requests for the given `agent_user_id`, but the caller will not receive any error responses. */
+  async?: boolean | undefined;
 }
 export interface RequestSyncDevicesRequest_ extends RequestSyncDevicesRequest {}
 /** Response type for the [`RequestSyncDevices`](#google.home.graph.v1.HomeGraphApiService.RequestSyncDevices) call. Intentionally empty upon success. An HTTP response code is returned with more details upon failure. */
 export interface RequestSyncDevicesResponse {}
 /** Request type for the [`Sync`](#google.home.graph.v1.HomeGraphApiService.Sync) call. */
 export interface SyncRequest {
-  /** Request ID used for debugging. */
-  requestId?: string | undefined;
   /** Required. Third-party user ID. */
   agentUserId?: string | undefined;
+  /** Request ID used for debugging. */
+  requestId?: string | undefined;
 }
 export interface SyncDevicesRequest extends SyncRequest {}
-/** Device information. */
-export interface DeviceInfo {
-  /** Device manufacturer. */
-  manufacturer?: string | undefined;
-  /** Device model. */
-  model?: string | undefined;
-  /** Device hardware version. */
-  hwVersion?: string | undefined;
-  /** Device software version. */
-  swVersion?: string | undefined;
-}
 /** Identifiers used to describe the device. */
 export interface DeviceNames {
-  /** Additional names provided by the user for the device. */
-  nicknames?: StringList | undefined;
   /** List of names provided by the manufacturer rather than the user, such as serial numbers, SKUs, etc. */
   defaultNames?: StringList | undefined;
+  /** Additional names provided by the user for the device. */
+  nicknames?: StringList | undefined;
   /** Primary name of the device, generally provided by the user. Names will be truncated if over the 60 Unicode code point (character) limit and no errors will be thrown. Developers are responsible for handling long names. */
   name?: string | undefined;
 }
@@ -331,47 +320,58 @@ export interface AgentOtherDeviceId {
   deviceId?: string | undefined;
 }
 export type AgentOtherDeviceIdList = Array<AgentOtherDeviceId>;
+/** Device information. */
+export interface DeviceInfo {
+  /** Device model. */
+  model?: string | undefined;
+  /** Device hardware version. */
+  hwVersion?: string | undefined;
+  /** Device software version. */
+  swVersion?: string | undefined;
+  /** Device manufacturer. */
+  manufacturer?: string | undefined;
+}
 /** Third-party device definition. */
 export interface Device {
-  /** Device manufacturer, model, hardware version, and software version. */
-  deviceInfo?: DeviceInfo | undefined;
-  /** Indicates whether your smart home Action will report state of this device to Google via ReportStateAndNotification. */
-  willReportState?: boolean | undefined;
-  /** Traits supported by the device. See [device traits](https://developers.home.google.com/cloud-to-cloud/traits). */
-  traits?: StringList | undefined;
-  /** Hardware type of the device. See [device types](https://developers.home.google.com/cloud-to-cloud/guides). */
-  type?: string | undefined;
-  /** Custom device attributes stored in Home Graph and provided to your smart home Action in each [QUERY](https://developers.home.google.com/cloud-to-cloud/intents/query) and [EXECUTE](https://developers.home.google.com/cloud-to-cloud/intents/execute) intent. Data in this object has a few constraints: No sensitive information, including but not limited to Personally Identifiable Information. */
-  customData?: DocumentMap | undefined;
-  /** Third-party device ID. */
-  id?: string | undefined;
-  /** Names given to this device by your smart home Action. */
-  name?: DeviceNames | undefined;
-  /** Suggested name for the structure where this device is installed. Google attempts to use this value during user setup. */
-  structureHint?: string | undefined;
-  /** Alternate IDs associated with this device. This is used to identify cloud synced devices enabled for [local fulfillment](https://developers.home.google.com/local-home/overview). */
-  otherDeviceIds?: AgentOtherDeviceIdList | undefined;
-  /** Suggested name for the room where this device is installed. Google attempts to use this value during user setup. */
-  roomHint?: string | undefined;
-  /** Attributes for the traits supported by the device. */
-  attributes?: DocumentMap | undefined;
   /** Indicates whether your smart home Action will report notifications to Google for this device via ReportStateAndNotification. If your smart home Action enables users to control device notifications, you should update this field and call RequestSyncDevices. */
   notificationSupportedByAgent?: boolean | undefined;
+  /** Attributes for the traits supported by the device. */
+  attributes?: DocumentMap | undefined;
+  /** Hardware type of the device. See [device types](https://developers.home.google.com/cloud-to-cloud/guides). */
+  type?: string | undefined;
+  /** Indicates whether your smart home Action will report state of this device to Google via ReportStateAndNotification. */
+  willReportState?: boolean | undefined;
+  /** Third-party device ID. */
+  id?: string | undefined;
+  /** Suggested name for the structure where this device is installed. Google attempts to use this value during user setup. */
+  structureHint?: string | undefined;
+  /** Names given to this device by your smart home Action. */
+  name?: DeviceNames | undefined;
+  /** Suggested name for the room where this device is installed. Google attempts to use this value during user setup. */
+  roomHint?: string | undefined;
+  /** Traits supported by the device. See [device traits](https://developers.home.google.com/cloud-to-cloud/traits). */
+  traits?: StringList | undefined;
+  /** Alternate IDs associated with this device. This is used to identify cloud synced devices enabled for [local fulfillment](https://developers.home.google.com/local-home/overview). */
+  otherDeviceIds?: AgentOtherDeviceIdList | undefined;
+  /** Device manufacturer, model, hardware version, and software version. */
+  deviceInfo?: DeviceInfo | undefined;
+  /** Custom device attributes stored in Home Graph and provided to your smart home Action in each [QUERY](https://developers.home.google.com/cloud-to-cloud/intents/query) and [EXECUTE](https://developers.home.google.com/cloud-to-cloud/intents/execute) intent. Data in this object has a few constraints: No sensitive information, including but not limited to Personally Identifiable Information. */
+  customData?: DocumentMap | undefined;
 }
 export type DeviceList = Array<Device>;
 /** Payload containing device information. */
 export interface SyncResponsePayload {
-  /** Devices associated with the third-party user. */
-  devices?: DeviceList | undefined;
   /** Third-party user ID */
   agentUserId?: string | undefined;
+  /** Devices associated with the third-party user. */
+  devices?: DeviceList | undefined;
 }
 /** Response type for the [`Sync`](#google.home.graph.v1.HomeGraphApiService.Sync) call. This should follow the same format as the Google smart home `action.devices.SYNC` [response](https://developers.home.google.com/cloud-to-cloud/intents/sync). Example: ```json { "requestId": "ff36a3cc-ec34-11e6-b1a0-64510650abcf", "payload": { "agentUserId": "1836.15267389", "devices": [{ "id": "123", "type": "action.devices.types.OUTLET", "traits": [ "action.devices.traits.OnOff" ], "name": { "defaultNames": ["My Outlet 1234"], "name": "Night light", "nicknames": ["wall plug"] }, "willReportState": false, "deviceInfo": { "manufacturer": "lights-out-inc", "model": "hs1234", "hwVersion": "3.2", "swVersion": "11.4" }, "customData": { "fooValue": 74, "barValue": true, "bazValue": "foo" } }] } } ``` */
 export interface SyncResponse {
-  /** Request ID used for debugging. Copied from the request. */
-  requestId?: string | undefined;
   /** Devices associated with the third-party user. */
   payload?: SyncResponsePayload | undefined;
+  /** Request ID used for debugging. Copied from the request. */
+  requestId?: string | undefined;
 }
 export type DeleteAgentUsersError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Unlinks the given third-party user from your smart home Action. All data related to this user will be deleted. For more details on how users link their accounts, see [fulfillment and authentication](https://developers.home.google.com/cloud-to-cloud/primer/fulfillment). The third-party user's identity is passed in via the `agent_user_id` (see DeleteAgentUserRequest). This request must be authorized using service account credentials from your Actions console project. */
@@ -476,8 +476,8 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          agentUserId: S.String.pipe(T.Label()),
           requestId: S.optional(S.String.pipe(T.Query())),
+          agentUserId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -521,11 +521,11 @@ function __c2(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          deviceView: S.optional(S.String),
-          inputs: S.optional(__S(68, __c2, 4)),
           includeDeviceMetadata: S.optional(S.Boolean),
-          requestId: S.optional(S.String),
           agentUserId: S.optional(S.String),
+          inputs: S.optional(__S(68, __c2, 4)),
+          deviceView: S.optional(S.String),
+          requestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "QueryRequest" });
     case 6:
@@ -545,8 +545,8 @@ function __c2(j: number): any {
     case 9:
       return S.suspend(() =>
         S.Struct({
-          id: S.optional(S.String),
           traitData: S.optional(__S(98, __c3, 2)),
+          id: S.optional(S.String),
           childComponents: S.optional(__S(72, __c2, 8)),
           deviceTypes: S.optional(__S(160, __c5, 0)),
         }),
@@ -580,8 +580,8 @@ function __c2(j: number): any {
     case 16:
       return S.suspend(() =>
         S.Struct({
-          payload: S.optional(__S(79, __c2, 15)),
           requestId: S.optional(S.String),
+          payload: S.optional(__S(79, __c2, 15)),
         }),
       ).annotate({ identifier: "QueryResponse" });
   }
@@ -599,9 +599,9 @@ function __c3(j: number): any {
       return S.suspend(() =>
         S.Struct({
           providerUpdateTime: S.optional(S.String),
+          jsonTrait: S.optional(__S(96, __c3, 0)),
           trait: S.optional(__S(128, __c4, 0)),
           commitTime: S.optional(S.String),
-          jsonTrait: S.optional(__S(96, __c3, 0)),
         }),
       ).annotate({ identifier: "TraitData" });
     case 2:
@@ -650,10 +650,10 @@ function __c6(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          eventTime: S.optional(S.String),
-          jsonTraitEvent: S.optional(__S(196, __c6, 4)),
           eventId: S.optional(S.String),
           event: S.optional(__S(128, __c4, 0)),
+          jsonTraitEvent: S.optional(__S(196, __c6, 4)),
+          eventTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "EventData" });
     case 6:
@@ -661,8 +661,8 @@ function __c6(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          componentId: S.optional(S.String),
           events: S.optional(__S(198, __c6, 6)),
+          componentId: S.optional(S.String),
         }),
       ).annotate({ identifier: "Events" });
     case 8:
@@ -680,9 +680,9 @@ function __c6(j: number): any {
       return S.suspend(() =>
         S.Struct({
           states: S.optional(__S(128, __c4, 0)),
-          notifications: S.optional(__S(128, __c4, 0)),
           homeTraits: S.optional(__S(195, __c6, 3)),
           homeEvents: S.optional(__S(202, __c6, 10)),
+          notifications: S.optional(__S(128, __c4, 0)),
         }),
       ).annotate({ identifier: "ReportStateAndNotificationDevice" });
     case 12:
@@ -694,11 +694,11 @@ function __c6(j: number): any {
     case 13:
       return S.suspend(() =>
         S.Struct({
-          eventId: S.optional(S.String),
-          payload: S.optional(__S(204, __c6, 12)),
           agentUserId: S.optional(S.String),
           followUpToken: S.optional(S.String),
           requestId: S.optional(S.String),
+          payload: S.optional(__S(204, __c6, 12)),
+          eventId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ReportStateAndNotificationRequest" });
     case 14:
@@ -733,8 +733,8 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          async: S.optional(S.Boolean),
           agentUserId: S.optional(S.String),
+          async: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "RequestSyncDevicesRequest" });
     case 1:
@@ -754,8 +754,8 @@ function __c8(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          requestId: S.optional(S.String),
           agentUserId: S.optional(S.String),
+          requestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "SyncRequest" });
     case 1:
@@ -771,44 +771,44 @@ function __c8(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          manufacturer: S.optional(S.String),
-          model: S.optional(S.String),
-          hwVersion: S.optional(S.String),
-          swVersion: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DeviceInfo" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          nicknames: S.optional(__S(160, __c5, 0)),
           defaultNames: S.optional(__S(160, __c5, 0)),
+          nicknames: S.optional(__S(160, __c5, 0)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "DeviceNames" });
-    case 4:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           agentId: S.optional(S.String),
           deviceId: S.optional(S.String),
         }),
       ).annotate({ identifier: "AgentOtherDeviceId" });
+    case 4:
+      return S.Array(__S(259, __c8, 3));
     case 5:
-      return S.Array(__S(260, __c8, 4));
+      return S.suspend(() =>
+        S.Struct({
+          model: S.optional(S.String),
+          hwVersion: S.optional(S.String),
+          swVersion: S.optional(S.String),
+          manufacturer: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DeviceInfo" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          deviceInfo: S.optional(__S(258, __c8, 2)),
-          willReportState: S.optional(S.Boolean),
-          traits: S.optional(__S(160, __c5, 0)),
-          type: S.optional(S.String),
-          customData: S.optional(__S(128, __c4, 0)),
-          id: S.optional(S.String),
-          name: S.optional(__S(259, __c8, 3)),
-          structureHint: S.optional(S.String),
-          otherDeviceIds: S.optional(__S(261, __c8, 5)),
-          roomHint: S.optional(S.String),
-          attributes: S.optional(__S(128, __c4, 0)),
           notificationSupportedByAgent: S.optional(S.Boolean),
+          attributes: S.optional(__S(128, __c4, 0)),
+          type: S.optional(S.String),
+          willReportState: S.optional(S.Boolean),
+          id: S.optional(S.String),
+          structureHint: S.optional(S.String),
+          name: S.optional(__S(258, __c8, 2)),
+          roomHint: S.optional(S.String),
+          traits: S.optional(__S(160, __c5, 0)),
+          otherDeviceIds: S.optional(__S(260, __c8, 4)),
+          deviceInfo: S.optional(__S(261, __c8, 5)),
+          customData: S.optional(__S(128, __c4, 0)),
         }),
       ).annotate({ identifier: "Device" });
     case 7:
@@ -816,15 +816,15 @@ function __c8(j: number): any {
     case 8:
       return S.suspend(() =>
         S.Struct({
-          devices: S.optional(__S(263, __c8, 7)),
           agentUserId: S.optional(S.String),
+          devices: S.optional(__S(263, __c8, 7)),
         }),
       ).annotate({ identifier: "SyncResponsePayload" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          requestId: S.optional(S.String),
           payload: S.optional(__S(264, __c8, 8)),
+          requestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "SyncResponse" });
   }

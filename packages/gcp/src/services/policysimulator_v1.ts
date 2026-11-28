@@ -83,42 +83,18 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-/** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
-export interface GoogleTypeDate {
-  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  day?: number | undefined;
-  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  month?: number | undefined;
-  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  year?: number | undefined;
-}
-/** Summary statistics about the replayed log entries. */
-export interface GoogleCloudPolicysimulatorV1ReplayResultsSummary {
-  /** The number of replayed log entries with a difference between baseline and simulated policies. */
-  differenceCount?: number | undefined;
-  /** The number of replayed log entries with no difference between baseline and simulated policies. */
-  unchangedCount?: number | undefined;
-  /** The number of log entries that could not be replayed. */
-  errorCount?: number | undefined;
-  /** The date of the oldest log entry replayed. */
-  oldestDate?: GoogleTypeDate | undefined;
-  /** The date of the newest log entry replayed. */
-  newestDate?: GoogleTypeDate | undefined;
-  /** The total number of log entries replayed. */
-  logCount?: number | undefined;
-}
-export type StringList = Array<string>;
 export type GoogleIamV1AuditLogConfigLogTypeEnum =
   | "LOG_TYPE_UNSPECIFIED"
   | "ADMIN_READ"
   | "DATA_WRITE"
   | "DATA_READ";
+export type StringList = Array<string>;
 /** Provides the configuration for logging a type of permissions. Example: { "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" } ] } This enables 'DATA_READ' and 'DATA_WRITE' logging, while exempting jose@example.com from DATA_READ logging. */
 export interface GoogleIamV1AuditLogConfig {
-  /** Specifies the identities that do not cause logging for this type of permission. Follows the same format of Binding.members. */
-  exemptedMembers?: StringList | undefined;
   /** The log type that this config enables. */
   logType?: GoogleIamV1AuditLogConfigLogTypeEnum | (string & {}) | undefined;
+  /** Specifies the identities that do not cause logging for this type of permission. Follows the same format of Binding.members. */
+  exemptedMembers?: StringList | undefined;
 }
 export type GoogleIamV1AuditLogConfigList = Array<GoogleIamV1AuditLogConfig>;
 /** Specifies the audit configuration for a service. The configuration determines which permission types are logged, and what identities, if any, are exempted from logging. An AuditConfig must have one or more AuditLogConfigs. If there are AuditConfigs for both `allServices` and a specific service, the union of the two AuditConfigs is used for that service: the log_types specified in each AuditConfig are enabled, and the exempted_members in each AuditLogConfig are exempted. Example Policy with multiple AuditConfigs: { "audit_configs": [ { "service": "allServices", "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" }, { "log_type": "ADMIN_READ" } ] }, { "service": "sampleservice.googleapis.com", "audit_log_configs": [ { "log_type": "DATA_READ" }, { "log_type": "DATA_WRITE", "exempted_members": [ "user:aliya@example.com" ] } ] } ] } For sampleservice, this policy enables DATA_READ, DATA_WRITE and ADMIN_READ logging. It also exempts `jose@example.com` from DATA_READ logging, and `aliya@example.com` from DATA_WRITE logging. */
@@ -131,14 +107,14 @@ export interface GoogleIamV1AuditConfig {
 export type GoogleIamV1AuditConfigList = Array<GoogleIamV1AuditConfig>;
 /** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
 export interface GoogleTypeExpr {
-  /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
-  location?: string | undefined;
-  /** Textual representation of an expression in Common Expression Language syntax. */
-  expression?: string | undefined;
   /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
   title?: string | undefined;
+  /** Textual representation of an expression in Common Expression Language syntax. */
+  expression?: string | undefined;
   /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
   description?: string | undefined;
+  /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
+  location?: string | undefined;
 }
 /** Associates `members`, or principals, with a `role`. */
 export interface GoogleIamV1Binding {
@@ -154,12 +130,12 @@ export type GoogleIamV1BindingList = Array<GoogleIamV1Binding>;
 export interface GoogleIamV1Policy {
   /** Specifies cloud audit logging configuration for this policy. */
   auditConfigs?: GoogleIamV1AuditConfigList | undefined;
-  /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
-  etag?: string | undefined;
   /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   version?: number | undefined;
   /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
   bindings?: GoogleIamV1BindingList | undefined;
+  /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
+  etag?: string | undefined;
 }
 export type GoogleIamV1PolicyMap = { [key: string]: GoogleIamV1Policy | undefined };
 export type GoogleCloudPolicysimulatorV1ReplayConfigLogSourceEnum =
@@ -172,6 +148,30 @@ export interface GoogleCloudPolicysimulatorV1ReplayConfig {
   /** The logs to use as input for the Replay. */
   logSource?: GoogleCloudPolicysimulatorV1ReplayConfigLogSourceEnum | (string & {}) | undefined;
 }
+/** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
+export interface GoogleTypeDate {
+  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
+  month?: number | undefined;
+  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
+  day?: number | undefined;
+  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
+  year?: number | undefined;
+}
+/** Summary statistics about the replayed log entries. */
+export interface GoogleCloudPolicysimulatorV1ReplayResultsSummary {
+  /** The number of log entries that could not be replayed. */
+  errorCount?: number | undefined;
+  /** The number of replayed log entries with no difference between baseline and simulated policies. */
+  unchangedCount?: number | undefined;
+  /** The date of the newest log entry replayed. */
+  newestDate?: GoogleTypeDate | undefined;
+  /** The total number of log entries replayed. */
+  logCount?: number | undefined;
+  /** The date of the oldest log entry replayed. */
+  oldestDate?: GoogleTypeDate | undefined;
+  /** The number of replayed log entries with a difference between baseline and simulated policies. */
+  differenceCount?: number | undefined;
+}
 export type GoogleCloudPolicysimulatorV1ReplayStateEnum =
   | "STATE_UNSPECIFIED"
   | "PENDING"
@@ -180,12 +180,12 @@ export type GoogleCloudPolicysimulatorV1ReplayStateEnum =
   | "FAILED";
 /** A resource describing a `Replay`, or simulation. */
 export interface GoogleCloudPolicysimulatorV1Replay {
+  /** Required. The configuration used for the `Replay`. */
+  config?: GoogleCloudPolicysimulatorV1ReplayConfig | undefined;
   /** Output only. Summary statistics about the replayed log entries. */
   resultsSummary?: GoogleCloudPolicysimulatorV1ReplayResultsSummary | undefined;
   /** Output only. The resource name of the `Replay`, which has the following format: `{projects|folders|organizations}/{resource-id}/locations/global/replays/{replay-id}`, where `{resource-id}` is the ID of the project, folder, or organization that owns the Replay. Example: `projects/my-example-project/locations/global/replays/506a5f7f-38ce-4d7d-8e03-479ce1833c36` */
   name?: string | undefined;
-  /** Required. The configuration used for the `Replay`. */
-  config?: GoogleCloudPolicysimulatorV1ReplayConfig | undefined;
   /** Output only. The current state of the `Replay`. */
   state?: GoogleCloudPolicysimulatorV1ReplayStateEnum | (string & {}) | undefined;
 }
@@ -197,10 +197,10 @@ export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface GoogleRpcStatus {
-  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string | undefined;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
   details?: DocumentMapList | undefined;
+  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
+  message?: string | undefined;
   /** The status code, which should be an enum value of google.rpc.Code. */
   code?: number | undefined;
 }
@@ -217,6 +217,25 @@ export interface GoogleLongrunningOperation {
   /** The error result of the operation in case of failure or cancellation. */
   error?: GoogleRpcStatus | undefined;
 }
+export type GoogleCloudPolicysimulatorV1OrgPolicyViolationsPreviewStateEnum =
+  | "PREVIEW_STATE_UNSPECIFIED"
+  | "PREVIEW_PENDING"
+  | "PREVIEW_RUNNING"
+  | "PREVIEW_SUCCEEDED"
+  | "PREVIEW_FAILED";
+/** A summary of the state of all resources scanned for compliance with the changed OrgPolicy. */
+export interface GoogleCloudPolicysimulatorV1OrgPolicyViolationsPreviewResourceCounts {
+  /** Output only. Number of scanned resources with zero violations. */
+  compliant?: number | undefined;
+  /** Output only. Number of resources where the constraint was not enforced, i.e. the Policy set `enforced: false` for that resource. */
+  unenforced?: number | undefined;
+  /** Output only. Number of resources checked for compliance. Must equal: unenforced + noncompliant + compliant + error */
+  scanned?: number | undefined;
+  /** Output only. Number of resources that returned an error when scanned. */
+  errors?: number | undefined;
+  /** Output only. Number of scanned resources with at least one violation. */
+  noncompliant?: number | undefined;
+}
 /** A message that holds specific allowed and denied values. This message can define specific values and subtrees of the Resource Manager resource hierarchy (`Organizations`, `Folders`, `Projects`) that are allowed or denied. This is achieved by using the `under:` and optional `is:` prefixes. The `under:` prefix is used to denote resource subtree values. The `is:` prefix is used to denote specific values, and is required only if the value contains a ":". Values prefixed with "is:" are treated the same as values with no prefix. Ancestry subtrees must be in one of the following formats: - `projects/` (for example, `projects/tokyo-rain-123`) - `folders/` (for example, `folders/1234`) - `organizations/` (for example, `organizations/1234`) The `supports_under` field of the associated `Constraint` defines whether ancestry prefixes can be used. */
 export interface GoogleCloudOrgpolicyV2PolicySpecPolicyRuleStringValues {
   /** List of values denied at this resource. */
@@ -232,27 +251,27 @@ export interface GoogleCloudOrgpolicyV2PolicySpecPolicyRule {
   enforce?: boolean | undefined;
   /** Setting this to true means that all values are allowed. This field can be set only in policies for list constraints. */
   allowAll?: boolean | undefined;
+  /** Optional. Required for managed constraints if parameters are defined. Passes parameter values when policy enforcement is enabled. Ensure that parameter value types match those defined in the constraint definition. For example: ``` { "allowedLocations" : ["us-east1", "us-west1"], "allowAll" : true } ``` */
+  parameters?: DocumentMap | undefined;
   /** Setting this to true means that all values are denied. This field can be set only in policies for list constraints. */
   denyAll?: boolean | undefined;
   /** List of values to be used for this policy rule. This field can be set only in policies for list constraints. */
   values?: GoogleCloudOrgpolicyV2PolicySpecPolicyRuleStringValues | undefined;
-  /** Optional. Required for managed constraints if parameters are defined. Passes parameter values when policy enforcement is enabled. Ensure that parameter value types match those defined in the constraint definition. For example: ``` { "allowedLocations" : ["us-east1", "us-west1"], "allowAll" : true } ``` */
-  parameters?: DocumentMap | undefined;
 }
 export type GoogleCloudOrgpolicyV2PolicySpecPolicyRuleList =
   Array<GoogleCloudOrgpolicyV2PolicySpecPolicyRule>;
 /** Defines a Google Cloud policy specification that is used to specify constraints for configurations of Google Cloud resources. */
 export interface GoogleCloudOrgpolicyV2PolicySpec {
-  /** Ignores policies set above this resource and restores the `constraint_default` enforcement behavior of the specific constraint at this resource. This field can be set in policies for either list or boolean constraints. If set, `rules` must be empty and `inherit_from_parent` must be set to false. */
-  reset?: boolean | undefined;
-  /** Output only. The time stamp this was previously updated. This represents the last time a call to `CreatePolicy` or `UpdatePolicy` was made for that policy. */
-  updateTime?: string | undefined;
-  /** An opaque tag indicating the current version of the policySpec, used for concurrency control. This field is ignored if used in a `CreatePolicy` request. When the policy is returned from either a `GetPolicy` or a `ListPolicies` request, this entity tag (ETag) indicates the version of the current policySpec to use when executing a read-modify-write loop. When the policy is returned from a `GetEffectivePolicy` request, the ETag will be unset. */
-  etag?: string | undefined;
   /** In policies for boolean constraints, the following requirements apply: - There must be exactly one policy rule where a condition is unset. - Boolean policy rules with conditions must set `enforced` to the opposite of the policy rule without a condition. - During policy evaluation, policy rules with conditions that are true for a target resource take precedence. */
   rules?: GoogleCloudOrgpolicyV2PolicySpecPolicyRuleList | undefined;
   /** Determines the inheritance behavior for this policy. If `inherit_from_parent` is true, policy rules set higher up in the hierarchy (up to the closest root) are inherited and present in the effective policy. If it is false, then no rules are inherited, and this policy becomes the new root for evaluation. This field can be set only for policies that configure list constraints. */
   inheritFromParent?: boolean | undefined;
+  /** Output only. The time stamp this was previously updated. This represents the last time a call to `CreatePolicy` or `UpdatePolicy` was made for that policy. */
+  updateTime?: string | undefined;
+  /** An opaque tag indicating the current version of the policySpec, used for concurrency control. This field is ignored if used in a `CreatePolicy` request. When the policy is returned from either a `GetPolicy` or a `ListPolicies` request, this entity tag (ETag) indicates the version of the current policySpec to use when executing a read-modify-write loop. When the policy is returned from a `GetEffectivePolicy` request, the ETag will be unset. */
+  etag?: string | undefined;
+  /** Ignores policies set above this resource and restores the `constraint_default` enforcement behavior of the specific constraint at this resource. This field can be set in policies for either list or boolean constraints. If set, `rules` must be empty and `inherit_from_parent` must be set to false. */
+  reset?: boolean | undefined;
 }
 /** Similar to PolicySpec but with an extra 'launch' field for launch reference. The PolicySpec here is specific for dry-run. */
 export interface GoogleCloudOrgpolicyV2AlternatePolicySpec {
@@ -263,14 +282,14 @@ export interface GoogleCloudOrgpolicyV2AlternatePolicySpec {
 }
 /** Defines an organization policy that is used to specify constraints for configurations of Google Cloud resources. */
 export interface GoogleCloudOrgpolicyV2Policy {
-  /** Dry-run policy. Audit-only policy, can be used to monitor how the policy would have impacted the existing and future resources if it's enforced. */
-  dryRunSpec?: GoogleCloudOrgpolicyV2PolicySpec | undefined;
   /** Deprecated. */
   alternate?: GoogleCloudOrgpolicyV2AlternatePolicySpec | undefined;
-  /** Optional. An opaque tag indicating the current state of the policy, used for concurrency control. This entity tag (ETag) is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
-  etag?: string | undefined;
+  /** Dry-run policy. Audit-only policy, can be used to monitor how the policy would have impacted the existing and future resources if it's enforced. */
+  dryRunSpec?: GoogleCloudOrgpolicyV2PolicySpec | undefined;
   /** Immutable. The resource name of the policy. Must be one of the following forms, where `constraint_name` is the name of the constraint that this policy configures: * `projects/{project_number}/policies/{constraint_name}` * `folders/{folder_number}/policies/{constraint_name}` * `organizations/{organization_number}/policies/{constraint_name}` For example, `projects/123/policies/compute.disableSerialPortAccess`. Note: `projects/{project_id}/policies/{constraint_name}` is also an acceptable name for API requests, but responses will return the name using the equivalent project number. */
   name?: string | undefined;
+  /** Optional. An opaque tag indicating the current state of the policy, used for concurrency control. This entity tag (ETag) is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
+  etag?: string | undefined;
   /** Basic information about the organization policy. */
   spec?: GoogleCloudOrgpolicyV2PolicySpec | undefined;
 }
@@ -283,10 +302,6 @@ export interface GoogleCloudPolicysimulatorV1OrgPolicyOverlayPolicyOverlay {
 }
 export type GoogleCloudPolicysimulatorV1OrgPolicyOverlayPolicyOverlayList =
   Array<GoogleCloudPolicysimulatorV1OrgPolicyOverlayPolicyOverlay>;
-export type GoogleCloudOrgpolicyV2CustomConstraintActionTypeEnum =
-  | "ACTION_TYPE_UNSPECIFIED"
-  | "ALLOW"
-  | "DENY";
 export type GoogleCloudOrgpolicyV2CustomConstraintMethodTypesItemEnum =
   | "METHOD_TYPE_UNSPECIFIED"
   | "CREATE"
@@ -297,24 +312,28 @@ export type GoogleCloudOrgpolicyV2CustomConstraintMethodTypesItemEnum =
 export type GoogleCloudOrgpolicyV2CustomConstraintMethodTypesItemEnumList = Array<
   GoogleCloudOrgpolicyV2CustomConstraintMethodTypesItemEnum | (string & {})
 >;
+export type GoogleCloudOrgpolicyV2CustomConstraintActionTypeEnum =
+  | "ACTION_TYPE_UNSPECIFIED"
+  | "ALLOW"
+  | "DENY";
 /** A custom constraint defined by customers which can *only* be applied to the given resource types and organization. By creating a custom constraint, customers can apply policies of this custom constraint. *Creating a custom constraint itself does NOT apply any policy enforcement*. */
 export interface GoogleCloudOrgpolicyV2CustomConstraint {
-  /** One line display name for the UI. The max length of the display_name is 200 characters. */
-  displayName?: string | undefined;
-  /** Immutable. Name of the constraint. This is unique within the organization. The name must be of the form: * `organizations/{organization_id}/customConstraints/{custom_constraint_id}` Example: `organizations/123/customConstraints/custom.createOnlyE2TypeVms` The max length is 71 characters and the minimum length is 1. Note that the prefix `organizations/{organization_id}/customConstraints/custom.` is not counted. */
-  name?: string | undefined;
   /** A Common Expression Language (CEL) condition which is used in the evaluation of the constraint. For example: `resource.instanceName.matches("(production|test)_(.+_)?[\d]+")` or, `resource.management.auto_upgrade == true` The max length of the condition is 1,500 characters. */
   condition?: string | undefined;
-  /** Allow or deny type. */
-  actionType?: GoogleCloudOrgpolicyV2CustomConstraintActionTypeEnum | (string & {}) | undefined;
-  /** All the operations being applied for this constraint. */
-  methodTypes?: GoogleCloudOrgpolicyV2CustomConstraintMethodTypesItemEnumList | undefined;
-  /** Detailed information about this custom policy constraint. The max length of the description is 2000 characters. */
-  description?: string | undefined;
   /** Output only. The last time this custom constraint was updated. This represents the last time that the `CreateCustomConstraint` or `UpdateCustomConstraint` methods were called. */
   updateTime?: string | undefined;
   /** Immutable. The resource instance type on which this policy applies. Format will be of the form : `/` Example: * `compute.googleapis.com/Instance`. */
   resourceTypes?: StringList | undefined;
+  /** Detailed information about this custom policy constraint. The max length of the description is 2000 characters. */
+  description?: string | undefined;
+  /** Immutable. Name of the constraint. This is unique within the organization. The name must be of the form: * `organizations/{organization_id}/customConstraints/{custom_constraint_id}` Example: `organizations/123/customConstraints/custom.createOnlyE2TypeVms` The max length is 71 characters and the minimum length is 1. Note that the prefix `organizations/{organization_id}/customConstraints/custom.` is not counted. */
+  name?: string | undefined;
+  /** All the operations being applied for this constraint. */
+  methodTypes?: GoogleCloudOrgpolicyV2CustomConstraintMethodTypesItemEnumList | undefined;
+  /** Allow or deny type. */
+  actionType?: GoogleCloudOrgpolicyV2CustomConstraintActionTypeEnum | (string & {}) | undefined;
+  /** One line display name for the UI. The max length of the display_name is 200 characters. */
+  displayName?: string | undefined;
 }
 /** A change to an OrgPolicy custom constraint. */
 export interface GoogleCloudPolicysimulatorV1OrgPolicyOverlayCustomConstraintOverlay {
@@ -334,50 +353,31 @@ export interface GoogleCloudPolicysimulatorV1OrgPolicyOverlay {
     | GoogleCloudPolicysimulatorV1OrgPolicyOverlayCustomConstraintOverlayList
     | undefined;
 }
-/** A summary of the state of all resources scanned for compliance with the changed OrgPolicy. */
-export interface GoogleCloudPolicysimulatorV1OrgPolicyViolationsPreviewResourceCounts {
-  /** Output only. Number of resources where the constraint was not enforced, i.e. the Policy set `enforced: false` for that resource. */
-  unenforced?: number | undefined;
-  /** Output only. Number of resources that returned an error when scanned. */
-  errors?: number | undefined;
-  /** Output only. Number of scanned resources with zero violations. */
-  compliant?: number | undefined;
-  /** Output only. Number of resources checked for compliance. Must equal: unenforced + noncompliant + compliant + error */
-  scanned?: number | undefined;
-  /** Output only. Number of scanned resources with at least one violation. */
-  noncompliant?: number | undefined;
-}
-export type GoogleCloudPolicysimulatorV1OrgPolicyViolationsPreviewStateEnum =
-  | "PREVIEW_STATE_UNSPECIFIED"
-  | "PREVIEW_PENDING"
-  | "PREVIEW_RUNNING"
-  | "PREVIEW_SUCCEEDED"
-  | "PREVIEW_FAILED";
 /** OrgPolicyViolationsPreview is a resource providing a preview of the violations that will exist if an OrgPolicy change is made. The list of violations are modeled as child resources and retrieved via a ListOrgPolicyViolations API call. There are potentially more OrgPolicyViolations than could fit in an embedded field. Thus, the use of a child resource instead of a field. */
 export interface GoogleCloudPolicysimulatorV1OrgPolicyViolationsPreview {
-  /** Required. The proposed changes we are previewing violations for. */
-  overlay?: GoogleCloudPolicysimulatorV1OrgPolicyOverlay | undefined;
   /** Output only. The resource name of the `OrgPolicyViolationsPreview`. It has the following format: `organizations/{organization}/locations/{location}/orgPolicyViolationsPreviews/{orgPolicyViolationsPreview}` Example: `organizations/my-example-org/locations/global/orgPolicyViolationsPreviews/506a5f7f` */
   name?: string | undefined;
-  /** Output only. The number of OrgPolicyViolations in this `OrgPolicyViolationsPreview`. This count may differ from `resource_summary.noncompliant_count` because each OrgPolicyViolation is specific to a resource **and** constraint. If there are multiple constraints being evaluated (i.e. multiple policies in the overlay), a single resource may violate multiple constraints. */
-  violationsCount?: number | undefined;
-  /** Output only. A summary of the state of all resources scanned for compliance with the changed OrgPolicy. */
-  resourceCounts?: GoogleCloudPolicysimulatorV1OrgPolicyViolationsPreviewResourceCounts | undefined;
-  /** Output only. Time when this `OrgPolicyViolationsPreview` was created. */
-  createTime?: string | undefined;
-  /** Output only. The names of the constraints against which all `OrgPolicyViolations` were evaluated. If `OrgPolicyOverlay` only contains `PolicyOverlay` then it contains the name of the configured custom constraint, applicable to the specified policies. Otherwise it contains the name of the constraint specified in `CustomConstraintOverlay`. Format: `organizations/{organization_id}/customConstraints/{custom_constraint_id}` Example: `organizations/123/customConstraints/custom.createOnlyE2TypeVms` */
-  customConstraints?: StringList | undefined;
   /** Output only. The state of the `OrgPolicyViolationsPreview`. */
   state?:
     | GoogleCloudPolicysimulatorV1OrgPolicyViolationsPreviewStateEnum
     | (string & {})
     | undefined;
+  /** Output only. A summary of the state of all resources scanned for compliance with the changed OrgPolicy. */
+  resourceCounts?: GoogleCloudPolicysimulatorV1OrgPolicyViolationsPreviewResourceCounts | undefined;
+  /** Output only. The number of OrgPolicyViolations in this `OrgPolicyViolationsPreview`. This count may differ from `resource_summary.noncompliant_count` because each OrgPolicyViolation is specific to a resource **and** constraint. If there are multiple constraints being evaluated (i.e. multiple policies in the overlay), a single resource may violate multiple constraints. */
+  violationsCount?: number | undefined;
+  /** Required. The proposed changes we are previewing violations for. */
+  overlay?: GoogleCloudPolicysimulatorV1OrgPolicyOverlay | undefined;
+  /** Output only. Time when this `OrgPolicyViolationsPreview` was created. */
+  createTime?: string | undefined;
+  /** Output only. The names of the constraints against which all `OrgPolicyViolations` were evaluated. If `OrgPolicyOverlay` only contains `PolicyOverlay` then it contains the name of the configured custom constraint, applicable to the specified policies. Otherwise it contains the name of the constraint specified in `CustomConstraintOverlay`. Format: `organizations/{organization_id}/customConstraints/{custom_constraint_id}` Example: `organizations/123/customConstraints/custom.createOnlyE2TypeVms` */
+  customConstraints?: StringList | undefined;
 }
 export interface CreateOrganizationsLocationsOrgPolicyViolationsPreviewsRequest extends GoogleCloudPolicysimulatorV1OrgPolicyViolationsPreview {
-  /** Required. The organization under which this OrgPolicyViolationsPreview will be created. Example: `organizations/my-example-org/locations/global` */
-  parent: string;
   /** Optional. An optional user-specified ID for the OrgPolicyViolationsPreview. If not provided, a random ID will be generated. */
   orgPolicyViolationsPreviewId?: string | undefined;
+  /** Required. The organization under which this OrgPolicyViolationsPreview will be created. Example: `organizations/my-example-org/locations/global` */
+  parent: string;
 }
 export interface CreateOrganizationsLocationsReplaysRequest extends GoogleCloudPolicysimulatorV1Replay {
   /** Required. The parent resource where this Replay will be created. This resource must be a project, folder, or organization with a location. Example: `projects/my-example-project/locations/global` */
@@ -444,73 +444,62 @@ export interface GetProjectsLocationsReplaysOperationsRequest {
   name: string;
 }
 export interface ListFoldersLocationsReplaysOperationsRequest {
-  /** The name of the operation's parent resource. */
-  name: string;
   /** The standard list page token. */
   pageToken?: string | undefined;
   /** The standard list page size. */
   pageSize?: number | undefined;
-  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean | undefined;
+  /** The name of the operation's parent resource. */
+  name: string;
   /** The standard list filter. */
   filter?: string | undefined;
+  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
+  returnPartialSuccess?: boolean | undefined;
 }
 export type GoogleLongrunningOperationList = Array<GoogleLongrunningOperation>;
 /** The response message for Operations.ListOperations. */
 export interface GoogleLongrunningListOperationsResponse {
+  /** A list of operations that matches the specified filter in the request. */
+  operations?: GoogleLongrunningOperationList | undefined;
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
   unreachable?: StringList | undefined;
   /** The standard List next-page token. */
   nextPageToken?: string | undefined;
-  /** A list of operations that matches the specified filter in the request. */
-  operations?: GoogleLongrunningOperationList | undefined;
 }
 export interface ListFoldersLocationsReplaysResultsRequest {
-  /** A page token, received from a previous Simulator.ListReplayResults call. Provide this token to retrieve the next page of results. When paginating, all other parameters provided to [Simulator.ListReplayResults[] must match the call that provided the page token. */
-  pageToken?: string | undefined;
-  /** The maximum number of ReplayResult objects to return. Defaults to 5000. The maximum value is 5000; values above 5000 are rounded down to 5000. */
-  pageSize?: number | undefined;
   /** Required. The Replay whose results are listed, in the following format: `{projects|folders|organizations}/{resource-id}/locations/global/replays/{replay-id}` Example: `projects/my-project/locations/global/replays/506a5f7f-38ce-4d7d-8e03-479ce1833c36` */
   parent: string;
+  /** The maximum number of ReplayResult objects to return. Defaults to 5000. The maximum value is 5000; values above 5000 are rounded down to 5000. */
+  pageSize?: number | undefined;
+  /** A page token, received from a previous Simulator.ListReplayResults call. Provide this token to retrieve the next page of results. When paginating, all other parameters provided to [Simulator.ListReplayResults[] must match the call that provided the page token. */
+  pageToken?: string | undefined;
 }
 /** Information about the principal, resource, and permission to check. */
 export interface GoogleCloudPolicysimulatorV1AccessTuple {
+  /** Required. The principal whose access you want to check, in the form of the email address that represents that principal. For example, `alice@example.com` or `my-service-account@my-project.iam.gserviceaccount.com`. The principal must be a Google Account or a service account. Other types of principals are not supported. */
+  principal?: string | undefined;
   /** Required. The full resource name that identifies the resource. For example, `//compute.googleapis.com/projects/my-project/zones/us-central1-a/instances/my-instance`. For examples of full resource names for Google Cloud services, see https://cloud.google.com/iam/help/troubleshooter/full-resource-names. */
   fullResourceName?: string | undefined;
   /** Required. The IAM permission to check for the specified principal and resource. For a complete list of IAM permissions, see https://cloud.google.com/iam/help/permissions/reference. For a complete list of predefined IAM roles and the permissions in each role, see https://cloud.google.com/iam/help/roles/reference. */
   permission?: string | undefined;
-  /** Required. The principal whose access you want to check, in the form of the email address that represents that principal. For example, `alice@example.com` or `my-service-account@my-project.iam.gserviceaccount.com`. The principal must be a Google Account or a service account. Other types of principals are not supported. */
-  principal?: string | undefined;
 }
-export type GoogleCloudPolicysimulatorV1AccessStateDiffAccessChangeEnum =
-  | "ACCESS_CHANGE_TYPE_UNSPECIFIED"
-  | "NO_CHANGE"
-  | "UNKNOWN_CHANGE"
-  | "ACCESS_REVOKED"
-  | "ACCESS_GAINED"
-  | "ACCESS_MAYBE_REVOKED"
-  | "ACCESS_MAYBE_GAINED";
+export type GoogleRpcStatusList = Array<GoogleRpcStatus>;
 export type GoogleCloudPolicysimulatorV1ExplainedAccessAccessStateEnum =
   | "ACCESS_STATE_UNSPECIFIED"
   | "GRANTED"
   | "NOT_GRANTED"
   | "UNKNOWN_CONDITIONAL"
   | "UNKNOWN_INFO_DENIED";
-export type GoogleCloudPolicysimulatorV1BindingExplanationRelevanceEnum =
-  | "HEURISTIC_RELEVANCE_UNSPECIFIED"
-  | "NORMAL"
-  | "HIGH";
-export type GoogleCloudPolicysimulatorV1BindingExplanationRolePermissionEnum =
-  | "ROLE_PERMISSION_UNSPECIFIED"
-  | "ROLE_PERMISSION_INCLUDED"
-  | "ROLE_PERMISSION_NOT_INCLUDED"
-  | "ROLE_PERMISSION_UNKNOWN_INFO_DENIED";
-export type GoogleCloudPolicysimulatorV1BindingExplanationAccessEnum =
+export type GoogleCloudPolicysimulatorV1ExplainedPolicyAccessEnum =
   | "ACCESS_STATE_UNSPECIFIED"
   | "GRANTED"
   | "NOT_GRANTED"
   | "UNKNOWN_CONDITIONAL"
   | "UNKNOWN_INFO_DENIED";
+export type GoogleCloudPolicysimulatorV1BindingExplanationRolePermissionEnum =
+  | "ROLE_PERMISSION_UNSPECIFIED"
+  | "ROLE_PERMISSION_INCLUDED"
+  | "ROLE_PERMISSION_NOT_INCLUDED"
+  | "ROLE_PERMISSION_UNKNOWN_INFO_DENIED";
 export type GoogleCloudPolicysimulatorV1BindingExplanationAnnotatedMembershipMembershipEnum =
   | "MEMBERSHIP_UNSPECIFIED"
   | "MEMBERSHIP_INCLUDED"
@@ -535,24 +524,34 @@ export interface GoogleCloudPolicysimulatorV1BindingExplanationAnnotatedMembersh
 export type GoogleCloudPolicysimulatorV1BindingExplanationAnnotatedMembershipMap = {
   [key: string]: GoogleCloudPolicysimulatorV1BindingExplanationAnnotatedMembership | undefined;
 };
+export type GoogleCloudPolicysimulatorV1BindingExplanationAccessEnum =
+  | "ACCESS_STATE_UNSPECIFIED"
+  | "GRANTED"
+  | "NOT_GRANTED"
+  | "UNKNOWN_CONDITIONAL"
+  | "UNKNOWN_INFO_DENIED";
+export type GoogleCloudPolicysimulatorV1BindingExplanationRelevanceEnum =
+  | "HEURISTIC_RELEVANCE_UNSPECIFIED"
+  | "NORMAL"
+  | "HIGH";
 export type GoogleCloudPolicysimulatorV1BindingExplanationRolePermissionRelevanceEnum =
   | "HEURISTIC_RELEVANCE_UNSPECIFIED"
   | "NORMAL"
   | "HIGH";
 /** Details about how a binding in a policy affects a principal's ability to use a permission. */
 export interface GoogleCloudPolicysimulatorV1BindingExplanation {
-  /** The relevance of this binding to the overall determination for the entire policy. */
-  relevance?: GoogleCloudPolicysimulatorV1BindingExplanationRelevanceEnum | undefined;
   /** Indicates whether the role granted by this binding contains the specified permission. */
   rolePermission?: GoogleCloudPolicysimulatorV1BindingExplanationRolePermissionEnum | undefined;
-  /** Required. Indicates whether _this binding_ provides the specified permission to the specified principal for the specified resource. This field does _not_ indicate whether the principal actually has the permission for the resource. There might be another binding that overrides this binding. To determine whether the principal actually has the permission, use the `access` field in the TroubleshootIamPolicyResponse. */
-  access?: GoogleCloudPolicysimulatorV1BindingExplanationAccessEnum | undefined;
-  /** A condition expression that prevents this binding from granting access unless the expression evaluates to `true`. To learn about IAM Conditions, see https://cloud.google.com/iam/docs/conditions-overview. */
-  condition?: GoogleTypeExpr | undefined;
-  /** The role that this binding grants. For example, `roles/compute.serviceAgent`. For a complete list of predefined IAM roles, as well as the permissions in each role, see https://cloud.google.com/iam/help/roles/reference. */
-  role?: string | undefined;
   /** Indicates whether each principal in the binding includes the principal specified in the request, either directly or indirectly. Each key identifies a principal in the binding, and each value indicates whether the principal in the binding includes the principal in the request. For example, suppose that a binding includes the following principals: * `user:alice@example.com` * `group:product-eng@example.com` The principal in the replayed access tuple is `user:bob@example.com`. This user is a principal of the group `group:product-eng@example.com`. For the first principal in the binding, the key is `user:alice@example.com`, and the `membership` field in the value is set to `MEMBERSHIP_NOT_INCLUDED`. For the second principal in the binding, the key is `group:product-eng@example.com`, and the `membership` field in the value is set to `MEMBERSHIP_INCLUDED`. */
   memberships?: GoogleCloudPolicysimulatorV1BindingExplanationAnnotatedMembershipMap | undefined;
+  /** Required. Indicates whether _this binding_ provides the specified permission to the specified principal for the specified resource. This field does _not_ indicate whether the principal actually has the permission for the resource. There might be another binding that overrides this binding. To determine whether the principal actually has the permission, use the `access` field in the TroubleshootIamPolicyResponse. */
+  access?: GoogleCloudPolicysimulatorV1BindingExplanationAccessEnum | undefined;
+  /** The role that this binding grants. For example, `roles/compute.serviceAgent`. For a complete list of predefined IAM roles, as well as the permissions in each role, see https://cloud.google.com/iam/help/roles/reference. */
+  role?: string | undefined;
+  /** The relevance of this binding to the overall determination for the entire policy. */
+  relevance?: GoogleCloudPolicysimulatorV1BindingExplanationRelevanceEnum | undefined;
+  /** A condition expression that prevents this binding from granting access unless the expression evaluates to `true`. To learn about IAM Conditions, see https://cloud.google.com/iam/docs/conditions-overview. */
+  condition?: GoogleTypeExpr | undefined;
   /** The relevance of the permission's existence, or nonexistence, in the role to the overall determination for the entire policy. */
   rolePermissionRelevance?:
     | GoogleCloudPolicysimulatorV1BindingExplanationRolePermissionRelevanceEnum
@@ -560,22 +559,16 @@ export interface GoogleCloudPolicysimulatorV1BindingExplanation {
 }
 export type GoogleCloudPolicysimulatorV1BindingExplanationList =
   Array<GoogleCloudPolicysimulatorV1BindingExplanation>;
-export type GoogleCloudPolicysimulatorV1ExplainedPolicyAccessEnum =
-  | "ACCESS_STATE_UNSPECIFIED"
-  | "GRANTED"
-  | "NOT_GRANTED"
-  | "UNKNOWN_CONDITIONAL"
-  | "UNKNOWN_INFO_DENIED";
 export type GoogleCloudPolicysimulatorV1ExplainedPolicyRelevanceEnum =
   | "HEURISTIC_RELEVANCE_UNSPECIFIED"
   | "NORMAL"
   | "HIGH";
 /** Details about how a specific IAM Policy contributed to the access check. */
 export interface GoogleCloudPolicysimulatorV1ExplainedPolicy {
-  /** Details about how each binding in the policy affects the principal's ability, or inability, to use the permission for the resource. If the user who created the Replay does not have access to the policy, this field is omitted. */
-  bindingExplanations?: GoogleCloudPolicysimulatorV1BindingExplanationList | undefined;
   /** Indicates whether _this policy_ provides the specified permission to the specified principal for the specified resource. This field does _not_ indicate whether the principal actually has the permission for the resource. There might be another policy that overrides this policy. To determine whether the principal actually has the permission, use the `access` field in the TroubleshootIamPolicyResponse. */
   access?: GoogleCloudPolicysimulatorV1ExplainedPolicyAccessEnum | undefined;
+  /** Details about how each binding in the policy affects the principal's ability, or inability, to use the permission for the resource. If the user who created the Replay does not have access to the policy, this field is omitted. */
+  bindingExplanations?: GoogleCloudPolicysimulatorV1BindingExplanationList | undefined;
   /** The IAM policy attached to the resource. If the user who created the Replay does not have access to the policy, this field is empty. */
   policy?: GoogleIamV1Policy | undefined;
   /** The full resource name that identifies the resource. For example, `//compute.googleapis.com/projects/my-project/zones/us-central1-a/instances/my-instance`. If the user who created the Replay does not have access to the policy, this field is omitted. For examples of full resource names for Google Cloud services, see https://cloud.google.com/iam/help/troubleshooter/full-resource-names. */
@@ -585,24 +578,31 @@ export interface GoogleCloudPolicysimulatorV1ExplainedPolicy {
 }
 export type GoogleCloudPolicysimulatorV1ExplainedPolicyList =
   Array<GoogleCloudPolicysimulatorV1ExplainedPolicy>;
-export type GoogleRpcStatusList = Array<GoogleRpcStatus>;
 /** Details about how a set of policies, listed in ExplainedPolicy, resulted in a certain AccessState when replaying an access tuple. */
 export interface GoogleCloudPolicysimulatorV1ExplainedAccess {
+  /** If the AccessState is `UNKNOWN`, this field contains a list of errors explaining why the result is `UNKNOWN`. If the `AccessState` is `GRANTED` or `NOT_GRANTED`, this field is omitted. */
+  errors?: GoogleRpcStatusList | undefined;
   /** Whether the principal in the access tuple has permission to access the resource in the access tuple under the given policies. */
   accessState?: GoogleCloudPolicysimulatorV1ExplainedAccessAccessStateEnum | undefined;
   /** If the AccessState is `UNKNOWN`, this field contains the policies that led to that result. If the `AccessState` is `GRANTED` or `NOT_GRANTED`, this field is omitted. */
   policies?: GoogleCloudPolicysimulatorV1ExplainedPolicyList | undefined;
-  /** If the AccessState is `UNKNOWN`, this field contains a list of errors explaining why the result is `UNKNOWN`. If the `AccessState` is `GRANTED` or `NOT_GRANTED`, this field is omitted. */
-  errors?: GoogleRpcStatusList | undefined;
 }
+export type GoogleCloudPolicysimulatorV1AccessStateDiffAccessChangeEnum =
+  | "ACCESS_CHANGE_TYPE_UNSPECIFIED"
+  | "NO_CHANGE"
+  | "UNKNOWN_CHANGE"
+  | "ACCESS_REVOKED"
+  | "ACCESS_GAINED"
+  | "ACCESS_MAYBE_REVOKED"
+  | "ACCESS_MAYBE_GAINED";
 /** A summary and comparison of the principal's access under the current (baseline) policies and the proposed (simulated) policies for a single access tuple. */
 export interface GoogleCloudPolicysimulatorV1AccessStateDiff {
-  /** How the principal's access, specified in the AccessState field, changed between the current (baseline) policies and proposed (simulated) policies. */
-  accessChange?: GoogleCloudPolicysimulatorV1AccessStateDiffAccessChangeEnum | undefined;
   /** The results of evaluating the access tuple under the current (baseline) policies. If the AccessState couldn't be fully evaluated, this field explains why. */
   baseline?: GoogleCloudPolicysimulatorV1ExplainedAccess | undefined;
   /** The results of evaluating the access tuple under the proposed (simulated) policies. If the AccessState couldn't be fully evaluated, this field explains why. */
   simulated?: GoogleCloudPolicysimulatorV1ExplainedAccess | undefined;
+  /** How the principal's access, specified in the AccessState field, changed between the current (baseline) policies and proposed (simulated) policies. */
+  accessChange?: GoogleCloudPolicysimulatorV1AccessStateDiffAccessChangeEnum | undefined;
 }
 /** The difference between the results of evaluating an access tuple under the current (baseline) policies and under the proposed (simulated) policies. This difference explains how a principal's access could change if the proposed policies were applied. */
 export interface GoogleCloudPolicysimulatorV1ReplayDiff {
@@ -611,107 +611,107 @@ export interface GoogleCloudPolicysimulatorV1ReplayDiff {
 }
 /** The result of replaying a single access tuple against a simulated state. */
 export interface GoogleCloudPolicysimulatorV1ReplayResult {
-  /** The access tuple that was replayed. This field includes information about the principal, resource, and permission that were involved in the access attempt. */
-  accessTuple?: GoogleCloudPolicysimulatorV1AccessTuple | undefined;
-  /** The difference between the principal's access under the current (baseline) policies and the principal's access under the proposed (simulated) policies. This field is only included for access tuples that were successfully replayed and had different results under the current policies and the proposed policies. */
-  diff?: GoogleCloudPolicysimulatorV1ReplayDiff | undefined;
+  /** The resource name of the `ReplayResult`, in the following format: `{projects|folders|organizations}/{resource-id}/locations/global/replays/{replay-id}/results/{replay-result-id}`, where `{resource-id}` is the ID of the project, folder, or organization that owns the Replay. Example: `projects/my-example-project/locations/global/replays/506a5f7f-38ce-4d7d-8e03-479ce1833c36/results/1234` */
+  name?: string | undefined;
+  /** The Replay that the access tuple was included in. */
+  parent?: string | undefined;
   /** The latest date this access tuple was seen in the logs. */
   lastSeenDate?: GoogleTypeDate | undefined;
   /** The error that caused the access tuple replay to fail. This field is only included for access tuples that were not replayed successfully. */
   error?: GoogleRpcStatus | undefined;
-  /** The Replay that the access tuple was included in. */
-  parent?: string | undefined;
-  /** The resource name of the `ReplayResult`, in the following format: `{projects|folders|organizations}/{resource-id}/locations/global/replays/{replay-id}/results/{replay-result-id}`, where `{resource-id}` is the ID of the project, folder, or organization that owns the Replay. Example: `projects/my-example-project/locations/global/replays/506a5f7f-38ce-4d7d-8e03-479ce1833c36/results/1234` */
-  name?: string | undefined;
+  /** The access tuple that was replayed. This field includes information about the principal, resource, and permission that were involved in the access attempt. */
+  accessTuple?: GoogleCloudPolicysimulatorV1AccessTuple | undefined;
+  /** The difference between the principal's access under the current (baseline) policies and the principal's access under the proposed (simulated) policies. This field is only included for access tuples that were successfully replayed and had different results under the current policies and the proposed policies. */
+  diff?: GoogleCloudPolicysimulatorV1ReplayDiff | undefined;
 }
 export type GoogleCloudPolicysimulatorV1ReplayResultList =
   Array<GoogleCloudPolicysimulatorV1ReplayResult>;
 /** Response message for Simulator.ListReplayResults. */
 export interface GoogleCloudPolicysimulatorV1ListReplayResultsResponse {
-  /** A token that you can use to retrieve the next page of ReplayResult objects. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string | undefined;
   /** The results of running a Replay. */
   replayResults?: GoogleCloudPolicysimulatorV1ReplayResultList | undefined;
+  /** A token that you can use to retrieve the next page of ReplayResult objects. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string | undefined;
 }
 export interface ListOperationsRequest {
   /** The standard list page size. */
   pageSize?: number | undefined;
-  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean | undefined;
   /** The standard list filter. */
   filter?: string | undefined;
   /** The name of the operation's parent resource. */
   name: string;
   /** The standard list page token. */
   pageToken?: string | undefined;
+  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
+  returnPartialSuccess?: boolean | undefined;
 }
 export interface ListOrganizationsLocationsOrgPolicyViolationsPreviewsRequest {
-  /** Optional. A page token, received from a previous call. Provide this to retrieve the subsequent page. When paginating, all other parameters must match the call that provided the page token. */
-  pageToken?: string | undefined;
-  /** Optional. The maximum number of items to return. The service may return fewer than this value. If unspecified, at most 5 items will be returned. The maximum value is 10; values above 10 will be coerced to 10. */
-  pageSize?: number | undefined;
   /** Required. The parent the violations are scoped to. Format: `organizations/{organization}/locations/{location}` Example: `organizations/my-example-org/locations/global` */
   parent: string;
+  /** Optional. The maximum number of items to return. The service may return fewer than this value. If unspecified, at most 5 items will be returned. The maximum value is 10; values above 10 will be coerced to 10. */
+  pageSize?: number | undefined;
+  /** Optional. A page token, received from a previous call. Provide this to retrieve the subsequent page. When paginating, all other parameters must match the call that provided the page token. */
+  pageToken?: string | undefined;
 }
 export type GoogleCloudPolicysimulatorV1OrgPolicyViolationsPreviewList =
   Array<GoogleCloudPolicysimulatorV1OrgPolicyViolationsPreview>;
 /** ListOrgPolicyViolationsPreviewsResponse is the response message for OrgPolicyViolationsPreviewService.ListOrgPolicyViolationsPreviews. */
 export interface GoogleCloudPolicysimulatorV1ListOrgPolicyViolationsPreviewsResponse {
+  /** A token that you can use to retrieve the next page of results. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string | undefined;
   /** The list of OrgPolicyViolationsPreview */
   orgPolicyViolationsPreviews?:
     | GoogleCloudPolicysimulatorV1OrgPolicyViolationsPreviewList
     | undefined;
-  /** A token that you can use to retrieve the next page of results. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string | undefined;
 }
 export interface ListOrganizationsLocationsOrgPolicyViolationsPreviewsOrgPolicyViolationsRequest {
-  /** Optional. The maximum number of items to return. The service may return fewer than this value. If unspecified, at most 1000 items will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number | undefined;
-  /** Required. The OrgPolicyViolationsPreview to get OrgPolicyViolations from. Format: organizations/{organization}/locations/{location}/orgPolicyViolationsPreviews/{orgPolicyViolationsPreview} */
-  parent: string;
   /** Optional. A page token, received from a previous call. Provide this to retrieve the subsequent page. When paginating, all other parameters must match the call that provided the page token. */
   pageToken?: string | undefined;
+  /** Required. The OrgPolicyViolationsPreview to get OrgPolicyViolations from. Format: organizations/{organization}/locations/{location}/orgPolicyViolationsPreviews/{orgPolicyViolationsPreview} */
+  parent: string;
+  /** Optional. The maximum number of items to return. The service may return fewer than this value. If unspecified, at most 1000 items will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
+  pageSize?: number | undefined;
 }
 /** ResourceContext provides the context we know about a resource. It is similar in concept to google.cloud.asset.v1.Resource, but focuses on the information specifically used by Simulator. */
 export interface GoogleCloudPolicysimulatorV1ResourceContext {
-  /** The full name of the resource. Example: `//compute.googleapis.com/projects/my_project_123/zones/zone1/instances/instance1` See [Resource names](https://cloud.google.com/apis/design/resource_names#full_resource_name) for more information. */
-  resource?: string | undefined;
-  /** The ancestry path of the resource in Google Cloud [resource hierarchy](https://cloud.google.com/resource-manager/docs/cloud-platform-resource-hierarchy), represented as a list of relative resource names. An ancestry path starts with the closest ancestor in the hierarchy and ends at root. If the resource is a project, folder, or organization, the ancestry path starts from the resource itself. Example: `["projects/123456789", "folders/5432", "organizations/1234"]` */
-  ancestors?: StringList | undefined;
   /** The asset type of the resource as defined by CAIS. Example: `compute.googleapis.com/Firewall` See [Supported asset types](https://cloud.google.com/asset-inventory/docs/supported-asset-types) for more information. */
   assetType?: string | undefined;
+  /** The ancestry path of the resource in Google Cloud [resource hierarchy](https://cloud.google.com/resource-manager/docs/cloud-platform-resource-hierarchy), represented as a list of relative resource names. An ancestry path starts with the closest ancestor in the hierarchy and ends at root. If the resource is a project, folder, or organization, the ancestry path starts from the resource itself. Example: `["projects/123456789", "folders/5432", "organizations/1234"]` */
+  ancestors?: StringList | undefined;
+  /** The full name of the resource. Example: `//compute.googleapis.com/projects/my_project_123/zones/zone1/instances/instance1` See [Resource names](https://cloud.google.com/apis/design/resource_names#full_resource_name) for more information. */
+  resource?: string | undefined;
 }
 /** OrgPolicyViolation is a resource representing a single resource violating a single OrgPolicy constraint. */
 export interface GoogleCloudPolicysimulatorV1OrgPolicyViolation {
+  /** The resource violating the constraint. */
+  resource?: GoogleCloudPolicysimulatorV1ResourceContext | undefined;
   /** The custom constraint being violated. */
   customConstraint?: GoogleCloudOrgpolicyV2CustomConstraint | undefined;
   /** The name of the `OrgPolicyViolation`. Example: organizations/my-example-org/locations/global/orgPolicyViolationsPreviews/506a5f7f/orgPolicyViolations/38ce` */
   name?: string | undefined;
   /** Any error encountered during the evaluation. */
   error?: GoogleRpcStatus | undefined;
-  /** The resource violating the constraint. */
-  resource?: GoogleCloudPolicysimulatorV1ResourceContext | undefined;
 }
 export type GoogleCloudPolicysimulatorV1OrgPolicyViolationList =
   Array<GoogleCloudPolicysimulatorV1OrgPolicyViolation>;
 /** ListOrgPolicyViolationsResponse is the response message for OrgPolicyViolationsPreviewService.ListOrgPolicyViolations */
 export interface GoogleCloudPolicysimulatorV1ListOrgPolicyViolationsResponse {
-  /** A token that you can use to retrieve the next page of results. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string | undefined;
   /** The list of OrgPolicyViolations */
   orgPolicyViolations?: GoogleCloudPolicysimulatorV1OrgPolicyViolationList | undefined;
+  /** A token that you can use to retrieve the next page of results. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string | undefined;
 }
 export interface ListOrganizationsLocationsReplaysOperationsRequest {
+  /** The name of the operation's parent resource. */
+  name: string;
   /** The standard list filter. */
   filter?: string | undefined;
+  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
+  returnPartialSuccess?: boolean | undefined;
   /** The standard list page size. */
   pageSize?: number | undefined;
   /** The standard list page token. */
   pageToken?: string | undefined;
-  /** The name of the operation's parent resource. */
-  name: string;
-  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean | undefined;
 }
 export interface ListOrganizationsLocationsReplaysResultsRequest {
   /** Required. The Replay whose results are listed, in the following format: `{projects|folders|organizations}/{resource-id}/locations/global/replays/{replay-id}` Example: `projects/my-project/locations/global/replays/506a5f7f-38ce-4d7d-8e03-479ce1833c36` */
@@ -722,22 +722,22 @@ export interface ListOrganizationsLocationsReplaysResultsRequest {
   pageToken?: string | undefined;
 }
 export interface ListProjectsLocationsReplaysOperationsRequest {
-  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean | undefined;
-  /** The standard list page token. */
-  pageToken?: string | undefined;
-  /** The name of the operation's parent resource. */
-  name: string;
-  /** The standard list page size. */
-  pageSize?: number | undefined;
   /** The standard list filter. */
   filter?: string | undefined;
+  /** The standard list page token. */
+  pageToken?: string | undefined;
+  /** The standard list page size. */
+  pageSize?: number | undefined;
+  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
+  returnPartialSuccess?: boolean | undefined;
+  /** The name of the operation's parent resource. */
+  name: string;
 }
 export interface ListProjectsLocationsReplaysResultsRequest {
-  /** A page token, received from a previous Simulator.ListReplayResults call. Provide this token to retrieve the next page of results. When paginating, all other parameters provided to [Simulator.ListReplayResults[] must match the call that provided the page token. */
-  pageToken?: string | undefined;
   /** The maximum number of ReplayResult objects to return. Defaults to 5000. The maximum value is 5000; values above 5000 are rounded down to 5000. */
   pageSize?: number | undefined;
+  /** A page token, received from a previous Simulator.ListReplayResults call. Provide this token to retrieve the next page of results. When paginating, all other parameters provided to [Simulator.ListReplayResults[] must match the call that provided the page token. */
+  pageToken?: string | undefined;
   /** Required. The Replay whose results are listed, in the following format: `{projects|folders|organizations}/{resource-id}/locations/global/replays/{replay-id}` Example: `projects/my-project/locations/global/replays/506a5f7f-38ce-4d7d-8e03-479ce1833c36` */
   parent: string;
 }
@@ -1564,11 +1564,11 @@ function __c12(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
           filter: S.optional(S.String.pipe(T.Query())),
+          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1586,9 +1586,9 @@ function __c13(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          operations: S.optional(__S(208, __c13, 0)),
           unreachable: S.optional(__S(384, __c24, 0)),
           nextPageToken: S.optional(S.String),
-          operations: S.optional(__S(208, __c13, 0)),
         }),
       ).annotate({ identifier: "GoogleLongrunningListOperationsResponse" });
   }
@@ -1598,9 +1598,9 @@ function __c14(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1616,12 +1616,14 @@ function __c15(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          principal: S.optional(S.String),
           fullResourceName: S.optional(S.String),
           permission: S.optional(S.String),
-          principal: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudPolicysimulatorV1AccessTuple" });
     case 1:
+      return S.Array(__S(433, __c27, 1));
+    case 2:
       return S.suspend(() =>
         S.Struct({
           membership: S.optional(S.String),
@@ -1630,50 +1632,48 @@ function __c15(j: number): any {
       ).annotate({
         identifier: "GoogleCloudPolicysimulatorV1BindingExplanationAnnotatedMembership",
       });
-    case 2:
-      return S.Record(S.String, __S(241, __c15, 1));
     case 3:
+      return S.Record(S.String, __S(242, __c15, 2));
+    case 4:
       return S.suspend(() =>
         S.Struct({
-          relevance: S.optional(S.String),
           rolePermission: S.optional(S.String),
+          memberships: S.optional(__S(243, __c15, 3)),
           access: S.optional(S.String),
-          condition: S.optional(__S(400, __c25, 0)),
           role: S.optional(S.String),
-          memberships: S.optional(__S(242, __c15, 2)),
+          relevance: S.optional(S.String),
+          condition: S.optional(__S(400, __c25, 0)),
           rolePermissionRelevance: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudPolicysimulatorV1BindingExplanation" });
-    case 4:
-      return S.Array(__S(243, __c15, 3));
     case 5:
+      return S.Array(__S(244, __c15, 4));
+    case 6:
       return S.suspend(() =>
         S.Struct({
-          bindingExplanations: S.optional(__S(244, __c15, 4)),
           access: S.optional(S.String),
-          policy: S.optional(__S(487, __c30, 7)),
+          bindingExplanations: S.optional(__S(245, __c15, 5)),
+          policy: S.optional(__S(486, __c30, 6)),
           fullResourceName: S.optional(S.String),
           relevance: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudPolicysimulatorV1ExplainedPolicy" });
-    case 6:
-      return S.Array(__S(245, __c15, 5));
     case 7:
-      return S.Array(__S(433, __c27, 1));
+      return S.Array(__S(246, __c15, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
+          errors: S.optional(__S(241, __c15, 1)),
           accessState: S.optional(S.String),
-          policies: S.optional(__S(246, __c15, 6)),
-          errors: S.optional(__S(247, __c15, 7)),
+          policies: S.optional(__S(247, __c15, 7)),
         }),
       ).annotate({ identifier: "GoogleCloudPolicysimulatorV1ExplainedAccess" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          accessChange: S.optional(S.String),
           baseline: S.optional(__S(248, __c15, 8)),
           simulated: S.optional(__S(248, __c15, 8)),
+          accessChange: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudPolicysimulatorV1AccessStateDiff" });
     case 10:
@@ -1685,12 +1685,12 @@ function __c15(j: number): any {
     case 11:
       return S.suspend(() =>
         S.Struct({
+          name: S.optional(S.String),
+          parent: S.optional(S.String),
+          lastSeenDate: S.optional(__S(487, __c30, 7)),
+          error: S.optional(__S(433, __c27, 1)),
           accessTuple: S.optional(__S(240, __c15, 0)),
           diff: S.optional(__S(250, __c15, 10)),
-          lastSeenDate: S.optional(__S(480, __c30, 0)),
-          error: S.optional(__S(433, __c27, 1)),
-          parent: S.optional(S.String),
-          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudPolicysimulatorV1ReplayResult" });
     case 12:
@@ -1698,8 +1698,8 @@ function __c15(j: number): any {
     case 13:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           replayResults: S.optional(__S(252, __c15, 12)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudPolicysimulatorV1ListReplayResultsResponse" });
   }
@@ -1710,10 +1710,10 @@ function __c16(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1729,9 +1729,9 @@ function __c17(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1745,8 +1745,8 @@ function __c17(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          orgPolicyViolationsPreviews: S.optional(__S(273, __c17, 1)),
           nextPageToken: S.optional(S.String),
+          orgPolicyViolationsPreviews: S.optional(__S(273, __c17, 1)),
         }),
       ).annotate({
         identifier: "GoogleCloudPolicysimulatorV1ListOrgPolicyViolationsPreviewsResponse",
@@ -1758,9 +1758,9 @@ function __c18(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1775,18 +1775,18 @@ function __c18(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          resource: S.optional(S.String),
-          ancestors: S.optional(__S(384, __c24, 0)),
           assetType: S.optional(S.String),
+          ancestors: S.optional(__S(384, __c24, 0)),
+          resource: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudPolicysimulatorV1ResourceContext" });
     case 2:
       return S.suspend(() =>
         S.Struct({
+          resource: S.optional(__S(289, __c18, 1)),
           customConstraint: S.optional(__S(529, __c33, 1)),
           name: S.optional(S.String),
           error: S.optional(__S(433, __c27, 1)),
-          resource: S.optional(__S(289, __c18, 1)),
         }),
       ).annotate({ identifier: "GoogleCloudPolicysimulatorV1OrgPolicyViolation" });
     case 3:
@@ -1794,8 +1794,8 @@ function __c18(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           orgPolicyViolations: S.optional(__S(291, __c18, 3)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudPolicysimulatorV1ListOrgPolicyViolationsResponse" });
   }
@@ -1805,11 +1805,11 @@ function __c19(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.String.pipe(T.Label()),
           filter: S.optional(S.String.pipe(T.Query())),
+          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1843,11 +1843,11 @@ function __c21(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1863,8 +1863,8 @@ function __c22(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -1906,10 +1906,10 @@ function __c25(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          location: S.optional(S.String),
-          expression: S.optional(S.String),
           title: S.optional(S.String),
+          expression: S.optional(S.String),
           description: S.optional(S.String),
+          location: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleTypeExpr" });
   }
@@ -1927,8 +1927,8 @@ function __c27(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          message: S.optional(S.String),
           details: S.optional(__S(432, __c27, 0)),
+          message: S.optional(S.String),
           code: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GoogleRpcStatus" });
@@ -1951,31 +1951,31 @@ function __c28(j: number): any {
 function __c29(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          differenceCount: S.optional(S.Number),
-          unchangedCount: S.optional(S.Number),
-          errorCount: S.optional(S.Number),
-          oldestDate: S.optional(__S(480, __c30, 0)),
-          newestDate: S.optional(__S(480, __c30, 0)),
-          logCount: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "GoogleCloudPolicysimulatorV1ReplayResultsSummary" });
+      return S.Record(S.String, __S(486, __c30, 6));
     case 1:
-      return S.Record(S.String, __S(487, __c30, 7));
-    case 2:
       return S.suspend(() =>
         S.Struct({
-          policyOverlay: S.optional(__S(465, __c29, 1)),
+          policyOverlay: S.optional(__S(464, __c29, 0)),
           logSource: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudPolicysimulatorV1ReplayConfig" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          errorCount: S.optional(S.Number),
+          unchangedCount: S.optional(S.Number),
+          newestDate: S.optional(__S(487, __c30, 7)),
+          logCount: S.optional(S.Number),
+          oldestDate: S.optional(__S(487, __c30, 7)),
+          differenceCount: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "GoogleCloudPolicysimulatorV1ReplayResultsSummary" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          resultsSummary: S.optional(__S(464, __c29, 0)),
+          config: S.optional(__S(465, __c29, 1)),
+          resultsSummary: S.optional(__S(466, __c29, 2)),
           name: S.optional(S.String),
-          config: S.optional(__S(466, __c29, 2)),
           state: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudPolicysimulatorV1Replay" });
@@ -1986,30 +1986,22 @@ function __c30(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          day: S.optional(S.Number),
-          month: S.optional(S.Number),
-          year: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "GoogleTypeDate" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          exemptedMembers: S.optional(__S(384, __c24, 0)),
           logType: S.optional(S.String),
+          exemptedMembers: S.optional(__S(384, __c24, 0)),
         }),
       ).annotate({ identifier: "GoogleIamV1AuditLogConfig" });
+    case 1:
+      return S.Array(__S(480, __c30, 0));
     case 2:
-      return S.Array(__S(481, __c30, 1));
-    case 3:
       return S.suspend(() =>
         S.Struct({
           service: S.optional(S.String),
-          auditLogConfigs: S.optional(__S(482, __c30, 2)),
+          auditLogConfigs: S.optional(__S(481, __c30, 1)),
         }),
       ).annotate({ identifier: "GoogleIamV1AuditConfig" });
+    case 3:
+      return S.Array(__S(482, __c30, 2));
     case 4:
-      return S.Array(__S(483, __c30, 3));
-    case 5:
       return S.suspend(() =>
         S.Struct({
           role: S.optional(S.String),
@@ -2017,17 +2009,25 @@ function __c30(j: number): any {
           condition: S.optional(__S(400, __c25, 0)),
         }),
       ).annotate({ identifier: "GoogleIamV1Binding" });
+    case 5:
+      return S.Array(__S(484, __c30, 4));
     case 6:
-      return S.Array(__S(485, __c30, 5));
+      return S.suspend(() =>
+        S.Struct({
+          auditConfigs: S.optional(__S(483, __c30, 3)),
+          version: S.optional(S.Number),
+          bindings: S.optional(__S(485, __c30, 5)),
+          etag: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleIamV1Policy" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          auditConfigs: S.optional(__S(484, __c30, 4)),
-          etag: S.optional(S.String),
-          version: S.optional(S.Number),
-          bindings: S.optional(__S(486, __c30, 6)),
+          month: S.optional(S.Number),
+          day: S.optional(S.Number),
+          year: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "GoogleIamV1Policy" });
+      ).annotate({ identifier: "GoogleTypeDate" });
   }
 }
 function __c31(j: number): any {
@@ -2037,8 +2037,8 @@ function __c31(j: number): any {
         S.Extend(
           __S(524, __c32, 12),
           S.Struct({
-            parent: S.String.pipe(T.Label()),
             orgPolicyViolationsPreviewId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -2055,60 +2055,72 @@ function __c32(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          compliant: S.optional(S.Number),
+          unenforced: S.optional(S.Number),
+          scanned: S.optional(S.Number),
+          errors: S.optional(S.Number),
+          noncompliant: S.optional(S.Number),
+        }),
+      ).annotate({
+        identifier: "GoogleCloudPolicysimulatorV1OrgPolicyViolationsPreviewResourceCounts",
+      });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
           deniedValues: S.optional(__S(384, __c24, 0)),
           allowedValues: S.optional(__S(384, __c24, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudOrgpolicyV2PolicySpecPolicyRuleStringValues" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           condition: S.optional(__S(400, __c25, 0)),
           enforce: S.optional(S.Boolean),
           allowAll: S.optional(S.Boolean),
-          denyAll: S.optional(S.Boolean),
-          values: S.optional(__S(512, __c32, 0)),
           parameters: S.optional(__S(416, __c26, 0)),
+          denyAll: S.optional(S.Boolean),
+          values: S.optional(__S(513, __c32, 1)),
         }),
       ).annotate({ identifier: "GoogleCloudOrgpolicyV2PolicySpecPolicyRule" });
-    case 2:
-      return S.Array(__S(513, __c32, 1));
     case 3:
-      return S.suspend(() =>
-        S.Struct({
-          reset: S.optional(S.Boolean),
-          updateTime: S.optional(S.String),
-          etag: S.optional(S.String),
-          rules: S.optional(__S(514, __c32, 2)),
-          inheritFromParent: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "GoogleCloudOrgpolicyV2PolicySpec" });
+      return S.Array(__S(514, __c32, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          spec: S.optional(__S(515, __c32, 3)),
-          launch: S.optional(S.String),
+          rules: S.optional(__S(515, __c32, 3)),
+          inheritFromParent: S.optional(S.Boolean),
+          updateTime: S.optional(S.String),
+          etag: S.optional(S.String),
+          reset: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "GoogleCloudOrgpolicyV2AlternatePolicySpec" });
+      ).annotate({ identifier: "GoogleCloudOrgpolicyV2PolicySpec" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          dryRunSpec: S.optional(__S(515, __c32, 3)),
-          alternate: S.optional(__S(516, __c32, 4)),
-          etag: S.optional(S.String),
-          name: S.optional(S.String),
-          spec: S.optional(__S(515, __c32, 3)),
+          spec: S.optional(__S(516, __c32, 4)),
+          launch: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GoogleCloudOrgpolicyV2Policy" });
+      ).annotate({ identifier: "GoogleCloudOrgpolicyV2AlternatePolicySpec" });
     case 6:
       return S.suspend(() =>
         S.Struct({
+          alternate: S.optional(__S(517, __c32, 5)),
+          dryRunSpec: S.optional(__S(516, __c32, 4)),
+          name: S.optional(S.String),
+          etag: S.optional(S.String),
+          spec: S.optional(__S(516, __c32, 4)),
+        }),
+      ).annotate({ identifier: "GoogleCloudOrgpolicyV2Policy" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
           policyParent: S.optional(S.String),
-          policy: S.optional(__S(517, __c32, 5)),
+          policy: S.optional(__S(518, __c32, 6)),
         }),
       ).annotate({ identifier: "GoogleCloudPolicysimulatorV1OrgPolicyOverlayPolicyOverlay" });
-    case 7:
-      return S.Array(__S(518, __c32, 6));
     case 8:
+      return S.Array(__S(519, __c32, 7));
+    case 9:
       return S.suspend(() =>
         S.Struct({
           customConstraintParent: S.optional(S.String),
@@ -2117,37 +2129,25 @@ function __c32(j: number): any {
       ).annotate({
         identifier: "GoogleCloudPolicysimulatorV1OrgPolicyOverlayCustomConstraintOverlay",
       });
-    case 9:
-      return S.Array(__S(520, __c32, 8));
     case 10:
-      return S.suspend(() =>
-        S.Struct({
-          policies: S.optional(__S(519, __c32, 7)),
-          customConstraints: S.optional(__S(521, __c32, 9)),
-        }),
-      ).annotate({ identifier: "GoogleCloudPolicysimulatorV1OrgPolicyOverlay" });
+      return S.Array(__S(521, __c32, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
-          unenforced: S.optional(S.Number),
-          errors: S.optional(S.Number),
-          compliant: S.optional(S.Number),
-          scanned: S.optional(S.Number),
-          noncompliant: S.optional(S.Number),
+          policies: S.optional(__S(520, __c32, 8)),
+          customConstraints: S.optional(__S(522, __c32, 10)),
         }),
-      ).annotate({
-        identifier: "GoogleCloudPolicysimulatorV1OrgPolicyViolationsPreviewResourceCounts",
-      });
+      ).annotate({ identifier: "GoogleCloudPolicysimulatorV1OrgPolicyOverlay" });
     case 12:
       return S.suspend(() =>
         S.Struct({
-          overlay: S.optional(__S(522, __c32, 10)),
           name: S.optional(S.String),
+          state: S.optional(S.String),
+          resourceCounts: S.optional(__S(512, __c32, 0)),
           violationsCount: S.optional(S.Number),
-          resourceCounts: S.optional(__S(523, __c32, 11)),
+          overlay: S.optional(__S(523, __c32, 11)),
           createTime: S.optional(S.String),
           customConstraints: S.optional(__S(384, __c24, 0)),
-          state: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudPolicysimulatorV1OrgPolicyViolationsPreview" });
   }
@@ -2159,14 +2159,14 @@ function __c33(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          displayName: S.optional(S.String),
-          name: S.optional(S.String),
           condition: S.optional(S.String),
-          actionType: S.optional(S.String),
-          methodTypes: S.optional(__S(528, __c33, 0)),
-          description: S.optional(S.String),
           updateTime: S.optional(S.String),
           resourceTypes: S.optional(__S(384, __c24, 0)),
+          description: S.optional(S.String),
+          name: S.optional(S.String),
+          methodTypes: S.optional(__S(528, __c33, 0)),
+          actionType: S.optional(S.String),
+          displayName: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudOrgpolicyV2CustomConstraint" });
   }

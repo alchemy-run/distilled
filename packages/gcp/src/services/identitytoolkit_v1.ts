@@ -84,6 +84,14 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
+export interface GoogleCloudIdentitytoolkitV1MfaFactor {
+  /** Display name for this mfa option e.g. "corp cell phone". */
+  displayName?: string | undefined;
+  /** Phone number to receive OTP for MFA. */
+  phoneInfo?: string | undefined;
+}
+export type GoogleCloudIdentitytoolkitV1MfaFactorList =
+  Array<GoogleCloudIdentitytoolkitV1MfaFactor>;
 export type GoogleCloudIdentitytoolkitV1SignUpRequestRecaptchaVersionEnum =
   | "RECAPTCHA_VERSION_UNSPECIFIED"
   | "RECAPTCHA_ENTERPRISE";
@@ -92,51 +100,43 @@ export type GoogleCloudIdentitytoolkitV1SignUpRequestClientTypeEnum =
   | "CLIENT_TYPE_WEB"
   | "CLIENT_TYPE_ANDROID"
   | "CLIENT_TYPE_IOS";
-export interface GoogleCloudIdentitytoolkitV1MfaFactor {
-  /** Phone number to receive OTP for MFA. */
-  phoneInfo?: string | undefined;
-  /** Display name for this mfa option e.g. "corp cell phone". */
-  displayName?: string | undefined;
-}
-export type GoogleCloudIdentitytoolkitV1MfaFactorList =
-  Array<GoogleCloudIdentitytoolkitV1MfaFactor>;
 /** Request message for SignUp. */
 export interface GoogleCloudIdentitytoolkitV1SignUpRequest {
   captchaChallenge?: string | undefined;
-  /** The display name of the user to be created. */
-  displayName?: string | undefined;
-  /** The ID of the user to create. The ID must be unique within the project that the user is being created under. Specifying this field requires a Google OAuth 2.0 credential with the proper [permissions](https://cloud.google.com/identity-platform/docs/access-control). */
-  localId?: string | undefined;
+  /** Whether the user will be disabled upon creation. Disabled accounts are inaccessible except for requests bearing a Google OAuth2 credential with proper [permissions](https://cloud.google.com/identity-platform/docs/access-control). */
+  disabled?: boolean | undefined;
   /** The email to assign to the created user. The length of the email should be less than 256 characters and in the format of `name@domain.tld`. The email should also match the [RFC 822](https://tools.ietf.org/html/rfc822) addr-spec production. An anonymous user will be created if not provided. */
   email?: string | undefined;
-  /** The reCAPTCHA token provided by the reCAPTCHA client-side integration. reCAPTCHA Enterprise uses it for assessment. Required when reCAPTCHA enterprise is enabled. */
-  captchaResponse?: string | undefined;
-  instanceId?: string | undefined;
-  /** The phone number of the user to create. Specifying this field requires a Google OAuth 2.0 credential with the proper [permissions](https://cloud.google.com/identity-platform/docs/access-control). */
-  phoneNumber?: string | undefined;
   /** The ID of the Identity Platform tenant to create a user under. If not set, the user will be created under the default Identity Platform project. */
   tenantId?: string | undefined;
+  /** The ID of the user to create. The ID must be unique within the project that the user is being created under. Specifying this field requires a Google OAuth 2.0 credential with the proper [permissions](https://cloud.google.com/identity-platform/docs/access-control). */
+  localId?: string | undefined;
+  /** Whether the user's email is verified. Specifying this field requires a Google OAuth 2.0 credential with the proper [permissions](https://cloud.google.com/identity-platform/docs/access-control). */
+  emailVerified?: boolean | undefined;
+  /** The password to assign to the created user. The password must be be at least 6 characters long. If set, the `email` field must also be set. */
+  password?: string | Redacted.Redacted<string> | undefined;
+  /** The reCAPTCHA token provided by the reCAPTCHA client-side integration. reCAPTCHA Enterprise uses it for assessment. Required when reCAPTCHA enterprise is enabled. */
+  captchaResponse?: string | undefined;
+  /** A valid ID token for an Identity Platform user. If set, this request will link the authentication credential to the user represented by this ID token. For a non-admin request, both the `email` and `password` fields must be set. For an admin request, `local_id` must not be set. */
+  idToken?: string | Redacted.Redacted<string> | undefined;
+  /** The multi-factor authentication providers for the user to create. */
+  mfaInfo?: GoogleCloudIdentitytoolkitV1MfaFactorList | undefined;
   /** The reCAPTCHA version of the reCAPTCHA token in the captcha_response. */
   recaptchaVersion?:
     | GoogleCloudIdentitytoolkitV1SignUpRequestRecaptchaVersionEnum
     | (string & {})
     | undefined;
-  /** The profile photo url of the user to create. */
-  photoUrl?: string | undefined;
-  /** Whether the user will be disabled upon creation. Disabled accounts are inaccessible except for requests bearing a Google OAuth2 credential with proper [permissions](https://cloud.google.com/identity-platform/docs/access-control). */
-  disabled?: boolean | undefined;
-  /** The client type: web, Android or iOS. Required when enabling reCAPTCHA enterprise protection. */
-  clientType?: GoogleCloudIdentitytoolkitV1SignUpRequestClientTypeEnum | (string & {}) | undefined;
-  /** The multi-factor authentication providers for the user to create. */
-  mfaInfo?: GoogleCloudIdentitytoolkitV1MfaFactorList | undefined;
-  /** Whether the user's email is verified. Specifying this field requires a Google OAuth 2.0 credential with the proper [permissions](https://cloud.google.com/identity-platform/docs/access-control). */
-  emailVerified?: boolean | undefined;
-  /** The password to assign to the created user. The password must be be at least 6 characters long. If set, the `email` field must also be set. */
-  password?: string | Redacted.Redacted<string> | undefined;
-  /** A valid ID token for an Identity Platform user. If set, this request will link the authentication credential to the user represented by this ID token. For a non-admin request, both the `email` and `password` fields must be set. For an admin request, `local_id` must not be set. */
-  idToken?: string | Redacted.Redacted<string> | undefined;
+  /** The phone number of the user to create. Specifying this field requires a Google OAuth 2.0 credential with the proper [permissions](https://cloud.google.com/identity-platform/docs/access-control). */
+  phoneNumber?: string | undefined;
   /** The project ID of the project which the user should belong to. Specifying this field requires a Google OAuth 2.0 credential with the proper [permissions](https://cloud.google.com/identity-platform/docs/access-control). If this is not set, the target project is inferred from the scope associated to the Bearer access token. */
   targetProjectId?: string | undefined;
+  instanceId?: string | undefined;
+  /** The profile photo url of the user to create. */
+  photoUrl?: string | undefined;
+  /** The client type: web, Android or iOS. Required when enabling reCAPTCHA enterprise protection. */
+  clientType?: GoogleCloudIdentitytoolkitV1SignUpRequestClientTypeEnum | (string & {}) | undefined;
+  /** The display name of the user to be created. */
+  displayName?: string | undefined;
 }
 export interface AccountsProjectsRequest extends Omit<
   GoogleCloudIdentitytoolkitV1SignUpRequest,
@@ -149,198 +149,198 @@ export interface AccountsProjectsRequest extends Omit<
 export interface GoogleCloudIdentitytoolkitV1SignUpResponse {
   /** The ID of the created user. Always present in the response. */
   localId?: string | undefined;
-  /** The number of seconds until the ID token expires. */
-  expiresIn?: string | undefined;
-  kind?: string | undefined;
-  /** An Identity Platform refresh token for the created user. This field is only set for non-admin requests. */
-  refreshToken?: string | Redacted.Redacted<string> | undefined;
   /** The created user's display name. */
   displayName?: string | undefined;
+  /** An Identity Platform refresh token for the created user. This field is only set for non-admin requests. */
+  refreshToken?: string | Redacted.Redacted<string> | undefined;
   /** An Identity Platform ID token for the created user. This field is only set for non-admin requests. */
   idToken?: string | Redacted.Redacted<string> | undefined;
   /** The created user's email. */
   email?: string | undefined;
+  /** The number of seconds until the ID token expires. */
+  expiresIn?: string | undefined;
+  kind?: string | undefined;
 }
 export interface AccountsProjectsTenantsRequest extends Omit<
   GoogleCloudIdentitytoolkitV1SignUpRequest,
   "tenantId" | "targetProjectId"
 > {
-  /** The ID of the Identity Platform tenant to create a user under. If not set, the user will be created under the default Identity Platform project. */
-  tenantId: string;
   /** The project ID of the project which the user should belong to. Specifying this field requires a Google OAuth 2.0 credential with the proper [permissions](https://cloud.google.com/identity-platform/docs/access-control). If this is not set, the target project is inferred from the scope associated to the Bearer access token. */
   targetProjectId: string;
+  /** The ID of the Identity Platform tenant to create a user under. If not set, the user will be created under the default Identity Platform project. */
+  tenantId: string;
 }
 export type GoogleCloudIdentitytoolkitV1UploadAccountRequestPasswordHashOrderEnum =
   | "UNSPECIFIED_ORDER"
   | "SALT_AND_PASSWORD"
   | "PASSWORD_AND_SALT";
-export type GoogleCloudIdentitytoolkitV1Argon2ParametersVersionEnum =
-  | "VERSION_UNSPECIFIED"
-  | "VERSION_10"
-  | "VERSION_13";
-export type GoogleCloudIdentitytoolkitV1Argon2ParametersHashTypeEnum =
-  | "HASH_TYPE_UNSPECIFIED"
-  | "ARGON2_D"
-  | "ARGON2_ID"
-  | "ARGON2_I";
-/** The parameters for Argon2 hashing algorithm. */
-export interface GoogleCloudIdentitytoolkitV1Argon2Parameters {
-  /** The additional associated data, if provided, is appended to the hash value to provide an additional layer of security. A base64-encoded string if specified via JSON. */
-  associatedData?: string | undefined;
-  /** Required. The number of iterations to perform. Minimum is 1, maximum is 16. */
-  iterations?: number | undefined;
-  /** Required. The memory cost in kibibytes. Maximum is 32768. */
-  memoryCostKib?: number | undefined;
-  /** The version of the Argon2 algorithm. This defaults to VERSION_13 if not specified. */
-  version?: GoogleCloudIdentitytoolkitV1Argon2ParametersVersionEnum | (string & {}) | undefined;
-  /** Required. The desired hash length in bytes. Minimum is 4 and maximum is 1024. */
-  hashLengthBytes?: number | undefined;
-  /** Required. Must not be HASH_TYPE_UNSPECIFIED. */
-  hashType?: GoogleCloudIdentitytoolkitV1Argon2ParametersHashTypeEnum | (string & {}) | undefined;
-  /** Required. The degree of parallelism, also called threads or lanes. Minimum is 1, maximum is 16. */
-  parallelism?: number | undefined;
-}
-/** Information about TOTP MFA. */
-export interface GoogleCloudIdentitytoolkitV1TotpInfo {}
 /** Information about email MFA. */
 export interface GoogleCloudIdentitytoolkitV1EmailInfo {
   /** Email address that a MFA verification should be sent to. */
   emailAddress?: string | undefined;
 }
+/** Information about TOTP MFA. */
+export interface GoogleCloudIdentitytoolkitV1TotpInfo {}
 /** Information on which multi-factor authentication (MFA) providers are enabled for an account. */
 export interface GoogleCloudIdentitytoolkitV1MfaEnrollment {
-  /** Contains information specific to TOTP MFA. */
-  totpInfo?: GoogleCloudIdentitytoolkitV1TotpInfo | undefined;
-  /** Timestamp when the account enrolled this second factor. */
-  enrolledAt?: string | undefined;
   /** Normally this will show the phone number associated with this enrollment. In some situations, such as after a first factor sign in, it will only show the obfuscated version of the associated phone number. */
   phoneInfo?: string | undefined;
-  /** Display name for this mfa option e.g. "corp cell phone". */
-  displayName?: string | undefined;
+  /** Output only. Unobfuscated phone_info. */
+  unobfuscatedPhoneInfo?: string | undefined;
   /** Contains information specific to email MFA. */
   emailInfo?: GoogleCloudIdentitytoolkitV1EmailInfo | undefined;
   /** ID of this MFA option. */
   mfaEnrollmentId?: string | undefined;
-  /** Output only. Unobfuscated phone_info. */
-  unobfuscatedPhoneInfo?: string | undefined;
+  /** Timestamp when the account enrolled this second factor. */
+  enrolledAt?: string | undefined;
+  /** Display name for this mfa option e.g. "corp cell phone". */
+  displayName?: string | undefined;
+  /** Contains information specific to TOTP MFA. */
+  totpInfo?: GoogleCloudIdentitytoolkitV1TotpInfo | undefined;
 }
 export type GoogleCloudIdentitytoolkitV1MfaEnrollmentList =
   Array<GoogleCloudIdentitytoolkitV1MfaEnrollment>;
 /** Information about the user as provided by various Identity Providers. */
 export interface GoogleCloudIdentitytoolkitV1ProviderUserInfo {
-  /** The user's identifier at the Identity Provider. */
-  federatedId?: string | undefined;
-  /** The user's raw identifier directly returned from Identity Provider. */
-  rawId?: string | undefined;
-  /** The user's screen_name at Twitter or login name at GitHub. */
-  screenName?: string | undefined;
-  /** The user's profile photo URL at the Identity Provider. */
-  photoUrl?: string | undefined;
   /** The user's display name at the Identity Provider. */
   displayName?: string | undefined;
-  /** The user's email address at the Identity Provider. */
-  email?: string | undefined;
+  /** The user's identifier at the Identity Provider. */
+  federatedId?: string | undefined;
+  /** The user's profile photo URL at the Identity Provider. */
+  photoUrl?: string | undefined;
+  /** The user's raw identifier directly returned from Identity Provider. */
+  rawId?: string | undefined;
   /** The user's phone number at the Identity Provider. */
   phoneNumber?: string | undefined;
+  /** The user's email address at the Identity Provider. */
+  email?: string | undefined;
   /** The ID of the Identity Provider. */
   providerId?: string | undefined;
+  /** The user's screen_name at Twitter or login name at GitHub. */
+  screenName?: string | undefined;
 }
 export type GoogleCloudIdentitytoolkitV1ProviderUserInfoList =
   Array<GoogleCloudIdentitytoolkitV1ProviderUserInfo>;
 /** An Identity Platform account's information. */
 export interface GoogleCloudIdentitytoolkitV1UserInfo {
+  /** Whether the account's email address has been verified. */
+  emailVerified?: boolean | undefined;
+  /** The account's password salt. Only accessible by requests bearing a Google OAuth2 credential with proper permissions. */
+  salt?: string | undefined;
+  /** The time, in milliseconds from epoch, when the account was created. */
+  createdAt?: string | undefined;
+  /** The URL of the account's profile photo. This account attribute is not used by Identity Platform. It is available for informational purposes only. */
+  photoUrl?: string | undefined;
+  /** Input only. Plain text password used to update a account's password. This field is only ever used as input in a request. Identity Platform uses cryptographically secure hashing when managing passwords and will never store or transmit a user's password in plain text. */
+  rawPassword?: string | Redacted.Redacted<string> | undefined;
+  /** The timestamp, in milliseconds from the epoch of 1970-01-01T00:00:00Z, when the account's password was last updated. */
+  passwordUpdatedAt?: number | undefined;
+  /** Immutable. The unique ID of the account. */
+  localId?: string | undefined;
+  /** Information on which multi-factor authentication providers are enabled for this account. */
+  mfaInfo?: GoogleCloudIdentitytoolkitV1MfaEnrollmentList | undefined;
+  /** The first email address associated with this account. The account's initial email cannot be changed once set and is used to recover access to this account if lost via the RECOVER_EMAIL flow in GetOobCode. Should match the [RFC 822](https://tools.ietf.org/html/rfc822) addr-spec. */
+  initialEmail?: string | undefined;
+  /** Whether the account is disabled. Disabled accounts are inaccessible except for requests bearing a Google OAuth2 credential with proper permissions. */
+  disabled?: boolean | undefined;
+  /** Timestamp when an ID token was last minted for this account. */
+  lastRefreshAt?: string | undefined;
+  /** Output only. The language preference of the account. This account attribute is not used by Identity Platform. It is available for informational purposes only. */
+  language?: string | undefined;
+  /** Information about the user as provided by various Identity Providers. */
+  providerUserInfo?: GoogleCloudIdentitytoolkitV1ProviderUserInfoList | undefined;
+  /** ID of the tenant this account belongs to. Only set if this account belongs to a tenant. */
+  tenantId?: string | undefined;
   /** Output only. The time zone preference of the account. This account attribute is not used by Identity Platform. It is available for informational purposes only. */
   timeZone?: string | undefined;
   /** The display name of the account. This account attribute is not used by Identity Platform. It is available for informational purposes only. */
   displayName?: string | undefined;
-  /** Oldest timestamp, in seconds since epoch, that an ID token should be considered valid. All ID tokens issued before this time are considered invalid. */
-  validSince?: string | undefined;
-  /** Output only. Whether this account has been authenticated using SignInWithCustomToken. */
-  customAuth?: boolean | undefined;
-  /** Custom claims to be added to any ID tokens minted for the account. Should be at most 1,000 characters in length and in valid JSON format. */
-  customAttributes?: string | undefined;
-  /** Information on which multi-factor authentication providers are enabled for this account. */
-  mfaInfo?: GoogleCloudIdentitytoolkitV1MfaEnrollmentList | undefined;
-  /** The account's phone number. */
-  phoneNumber?: string | undefined;
-  /** The timestamp, in milliseconds from the epoch of 1970-01-01T00:00:00Z, when the account's password was last updated. */
-  passwordUpdatedAt?: number | undefined;
-  /** Whether the account's email address has been verified. */
-  emailVerified?: boolean | undefined;
-  /** ID of the tenant this account belongs to. Only set if this account belongs to a tenant. */
-  tenantId?: string | undefined;
-  /** The time, in milliseconds from epoch, when the account was created. */
-  createdAt?: string | undefined;
-  /** Output only. The date of birth set for the account. This account attribute is not used by Identity Platform. It is available for informational purposes only. */
-  dateOfBirth?: string | undefined;
-  /** The account's password salt. Only accessible by requests bearing a Google OAuth2 credential with proper permissions. */
-  salt?: string | undefined;
-  /** The last time, in milliseconds from epoch, this account was logged into. */
-  lastLoginAt?: string | undefined;
-  /** Information about the user as provided by various Identity Providers. */
-  providerUserInfo?: GoogleCloudIdentitytoolkitV1ProviderUserInfoList | undefined;
-  /** The account's hashed password. Only accessible by requests bearing a Google OAuth2 credential with proper [permissions](https://cloud.google.com/identity-platform/docs/access-control). */
-  passwordHash?: string | Redacted.Redacted<string> | undefined;
-  /** The version of the account's password. Only accessible by requests bearing a Google OAuth2 credential with proper permissions. */
-  version?: number | undefined;
-  /** Timestamp when an ID token was last minted for this account. */
-  lastRefreshAt?: string | undefined;
   /** The account's email address. The length of the email should be less than 256 characters and in the format of `name@domain.tld`. The email should also match the [RFC 822](https://tools.ietf.org/html/rfc822) addr-spec. */
   email?: string | undefined;
   /** Output only. Whether the account can authenticate with email link. */
   emailLinkSignin?: boolean | undefined;
-  /** Input only. Plain text password used to update a account's password. This field is only ever used as input in a request. Identity Platform uses cryptographically secure hashing when managing passwords and will never store or transmit a user's password in plain text. */
-  rawPassword?: string | Redacted.Redacted<string> | undefined;
-  /** The URL of the account's profile photo. This account attribute is not used by Identity Platform. It is available for informational purposes only. */
-  photoUrl?: string | undefined;
-  /** Whether the account is disabled. Disabled accounts are inaccessible except for requests bearing a Google OAuth2 credential with proper permissions. */
-  disabled?: boolean | undefined;
-  /** The first email address associated with this account. The account's initial email cannot be changed once set and is used to recover access to this account if lost via the RECOVER_EMAIL flow in GetOobCode. Should match the [RFC 822](https://tools.ietf.org/html/rfc822) addr-spec. */
-  initialEmail?: string | undefined;
-  /** Output only. The language preference of the account. This account attribute is not used by Identity Platform. It is available for informational purposes only. */
-  language?: string | undefined;
+  /** The version of the account's password. Only accessible by requests bearing a Google OAuth2 credential with proper permissions. */
+  version?: number | undefined;
+  /** Output only. Whether this account has been authenticated using SignInWithCustomToken. */
+  customAuth?: boolean | undefined;
+  /** The last time, in milliseconds from epoch, this account was logged into. */
+  lastLoginAt?: string | undefined;
+  /** The account's phone number. */
+  phoneNumber?: string | undefined;
   /** Output only. This account's screen name at Twitter or login name at GitHub. */
   screenName?: string | undefined;
-  /** Immutable. The unique ID of the account. */
-  localId?: string | undefined;
+  /** Oldest timestamp, in seconds since epoch, that an ID token should be considered valid. All ID tokens issued before this time are considered invalid. */
+  validSince?: string | undefined;
+  /** Custom claims to be added to any ID tokens minted for the account. Should be at most 1,000 characters in length and in valid JSON format. */
+  customAttributes?: string | undefined;
+  /** The account's hashed password. Only accessible by requests bearing a Google OAuth2 credential with proper [permissions](https://cloud.google.com/identity-platform/docs/access-control). */
+  passwordHash?: string | Redacted.Redacted<string> | undefined;
+  /** Output only. The date of birth set for the account. This account attribute is not used by Identity Platform. It is available for informational purposes only. */
+  dateOfBirth?: string | undefined;
 }
 export type GoogleCloudIdentitytoolkitV1UserInfoList = Array<GoogleCloudIdentitytoolkitV1UserInfo>;
+export type GoogleCloudIdentitytoolkitV1Argon2ParametersHashTypeEnum =
+  | "HASH_TYPE_UNSPECIFIED"
+  | "ARGON2_D"
+  | "ARGON2_ID"
+  | "ARGON2_I";
+export type GoogleCloudIdentitytoolkitV1Argon2ParametersVersionEnum =
+  | "VERSION_UNSPECIFIED"
+  | "VERSION_10"
+  | "VERSION_13";
+/** The parameters for Argon2 hashing algorithm. */
+export interface GoogleCloudIdentitytoolkitV1Argon2Parameters {
+  /** Required. The desired hash length in bytes. Minimum is 4 and maximum is 1024. */
+  hashLengthBytes?: number | undefined;
+  /** Required. Must not be HASH_TYPE_UNSPECIFIED. */
+  hashType?: GoogleCloudIdentitytoolkitV1Argon2ParametersHashTypeEnum | (string & {}) | undefined;
+  /** The additional associated data, if provided, is appended to the hash value to provide an additional layer of security. A base64-encoded string if specified via JSON. */
+  associatedData?: string | undefined;
+  /** The version of the Argon2 algorithm. This defaults to VERSION_13 if not specified. */
+  version?: GoogleCloudIdentitytoolkitV1Argon2ParametersVersionEnum | (string & {}) | undefined;
+  /** Required. The number of iterations to perform. Minimum is 1, maximum is 16. */
+  iterations?: number | undefined;
+  /** Required. The memory cost in kibibytes. Maximum is 32768. */
+  memoryCostKib?: number | undefined;
+  /** Required. The degree of parallelism, also called threads or lanes. Minimum is 1, maximum is 16. */
+  parallelism?: number | undefined;
+}
 /** Request message for UploadAccount. */
 export interface GoogleCloudIdentitytoolkitV1UploadAccountRequest {
   /** The parallelization cost parameter to be used by the STANDARD_SCRYPT hashing function. This parameter, along with block_size and cpu_mem_cost help tune the resources needed to hash a password, and should be tuned as processor speeds and memory technologies advance. */
   parallelization?: number | undefined;
-  /** Whether to overwrite an existing account in Identity Platform with a matching `local_id` in the request. If true, the existing account will be overwritten. If false, an error will be returned. */
-  allowOverwrite?: boolean | undefined;
-  /** The signer key used to hash the password. Required for the following hashing functions: * SCRYPT, * HMAC_MD5, * HMAC_SHA1, * HMAC_SHA256, * HMAC_SHA512 */
-  signerKey?: string | undefined;
-  /** The desired key length for the STANDARD_SCRYPT hashing function. Must be at least 1. */
-  dkLen?: number | undefined;
+  /** The CPU memory cost parameter to be used by the STANDARD_SCRYPT hashing function. This parameter, along with block_size and cpu_mem_cost help tune the resources needed to hash a password, and should be tuned as processor speeds and memory technologies advance. */
+  cpuMemCost?: number | undefined;
+  /** The number of rounds used for hash calculation. Only required for the following hashing functions: * MD5 * SHA1 * SHA256 * SHA512 * PBKDF_SHA1 * PBKDF2_SHA256 * SCRYPT */
+  rounds?: number | undefined;
+  /** The block size parameter used by the STANDARD_SCRYPT hashing function. This parameter, along with parallelization and cpu_mem_cost help tune the resources needed to hash a password, and should be tuned as processor speeds and memory technologies advance. */
+  blockSize?: number | undefined;
+  /** One or more bytes to be inserted between the salt and plain text password. For stronger security, this should be a single non-printable character. */
+  saltSeparator?: string | undefined;
+  /** Required. The hashing function used to hash the account passwords. Must be one of the following: * HMAC_SHA256 * HMAC_SHA1 * HMAC_MD5 * SCRYPT * PBKDF_SHA1 * MD5 * HMAC_SHA512 * SHA1 * BCRYPT * PBKDF2_SHA256 * SHA256 * SHA512 * STANDARD_SCRYPT * ARGON2 */
+  hashAlgorithm?: string | undefined;
   /** Password and salt order when verify password. */
   passwordHashOrder?:
     | GoogleCloudIdentitytoolkitV1UploadAccountRequestPasswordHashOrderEnum
     | (string & {})
     | undefined;
-  /** The block size parameter used by the STANDARD_SCRYPT hashing function. This parameter, along with parallelization and cpu_mem_cost help tune the resources needed to hash a password, and should be tuned as processor speeds and memory technologies advance. */
-  blockSize?: number | undefined;
-  /** Required. The hashing function used to hash the account passwords. Must be one of the following: * HMAC_SHA256 * HMAC_SHA1 * HMAC_MD5 * SCRYPT * PBKDF_SHA1 * MD5 * HMAC_SHA512 * SHA1 * BCRYPT * PBKDF2_SHA256 * SHA256 * SHA512 * STANDARD_SCRYPT * ARGON2 */
-  hashAlgorithm?: string | undefined;
+  delegatedProjectNumber?: string | undefined;
   /** The ID of the Identity Platform tenant the account belongs to. */
   tenantId?: string | undefined;
-  /** The number of rounds used for hash calculation. Only required for the following hashing functions: * MD5 * SHA1 * SHA256 * SHA512 * PBKDF_SHA1 * PBKDF2_SHA256 * SCRYPT */
-  rounds?: number | undefined;
-  /** The parameters for Argon2 hashing algorithm. */
-  argon2Parameters?: GoogleCloudIdentitytoolkitV1Argon2Parameters | undefined;
   /** A list of accounts to upload. `local_id` is required for each user; everything else is optional. */
   users?: GoogleCloudIdentitytoolkitV1UserInfoList | undefined;
-  delegatedProjectNumber?: string | undefined;
-  /** One or more bytes to be inserted between the salt and plain text password. For stronger security, this should be a single non-printable character. */
-  saltSeparator?: string | undefined;
-  /** The CPU memory cost parameter to be used by the STANDARD_SCRYPT hashing function. This parameter, along with block_size and cpu_mem_cost help tune the resources needed to hash a password, and should be tuned as processor speeds and memory technologies advance. */
-  cpuMemCost?: number | undefined;
-  /** If true, the service will do the following list of checks before an account is uploaded: * Duplicate emails * Duplicate federated IDs * Federated ID provider validation If the duplication exists within the list of accounts to be uploaded, it will prevent the entire list from being uploaded. If the email or federated ID is a duplicate of a user already within the project/tenant, the account will not be uploaded, but the rest of the accounts will be unaffected. If false, these checks will be skipped. */
-  sanityCheck?: boolean | undefined;
   /** Memory cost for hash calculation. Only required when the hashing function is SCRYPT. */
   memoryCost?: number | undefined;
+  /** The signer key used to hash the password. Required for the following hashing functions: * SCRYPT, * HMAC_MD5, * HMAC_SHA1, * HMAC_SHA256, * HMAC_SHA512 */
+  signerKey?: string | undefined;
+  /** The parameters for Argon2 hashing algorithm. */
+  argon2Parameters?: GoogleCloudIdentitytoolkitV1Argon2Parameters | undefined;
+  /** If true, the service will do the following list of checks before an account is uploaded: * Duplicate emails * Duplicate federated IDs * Federated ID provider validation If the duplication exists within the list of accounts to be uploaded, it will prevent the entire list from being uploaded. If the email or federated ID is a duplicate of a user already within the project/tenant, the account will not be uploaded, but the rest of the accounts will be unaffected. If false, these checks will be skipped. */
+  sanityCheck?: boolean | undefined;
+  /** Whether to overwrite an existing account in Identity Platform with a matching `local_id` in the request. If true, the existing account will be overwritten. If false, an error will be returned. */
+  allowOverwrite?: boolean | undefined;
+  /** The desired key length for the STANDARD_SCRYPT hashing function. Must be at least 1. */
+  dkLen?: number | undefined;
 }
 export interface BatchCreateProjectsAccountsRequest extends GoogleCloudIdentitytoolkitV1UploadAccountRequest {
   /** The Project ID of the Identity Platform project which the account belongs to. */
@@ -348,10 +348,10 @@ export interface BatchCreateProjectsAccountsRequest extends GoogleCloudIdentityt
 }
 /** Error information explaining why an account cannot be uploaded. batch upload. */
 export interface GoogleCloudIdentitytoolkitV1ErrorInfo {
-  /** The index of the item, range is [0, request.size - 1] */
-  index?: number | undefined;
   /** Detailed error message */
   message?: string | undefined;
+  /** The index of the item, range is [0, request.size - 1] */
+  index?: number | undefined;
 }
 export type GoogleCloudIdentitytoolkitV1ErrorInfoList =
   Array<GoogleCloudIdentitytoolkitV1ErrorInfo>;
@@ -365,20 +365,20 @@ export interface BatchCreateProjectsTenantsAccountsRequest extends Omit<
   GoogleCloudIdentitytoolkitV1UploadAccountRequest,
   "tenantId"
 > {
-  /** The Project ID of the Identity Platform project which the account belongs to. */
-  targetProjectId: string;
   /** The ID of the Identity Platform tenant the account belongs to. */
   tenantId: string;
+  /** The Project ID of the Identity Platform project which the account belongs to. */
+  targetProjectId: string;
 }
 export type StringList = Array<string>;
 /** Request message for BatchDeleteAccounts. */
 export interface GoogleCloudIdentitytoolkitV1BatchDeleteAccountsRequest {
   /** If the accounts belong to an Identity Platform tenant, the ID of the tenant. If the accounts belong to a default Identity Platform project, the field is not needed. */
   tenantId?: string | undefined;
-  /** Required. List of user IDs to be deleted. */
-  localIds?: StringList | undefined;
   /** Whether to force deleting accounts that are not in disabled state. If false, only disabled accounts will be deleted, and accounts that are not disabled will be added to the `errors`. */
   force?: boolean | undefined;
+  /** Required. List of user IDs to be deleted. */
+  localIds?: StringList | undefined;
 }
 export interface BatchDeleteProjectsAccountsRequest extends GoogleCloudIdentitytoolkitV1BatchDeleteAccountsRequest {
   /** If `tenant_id` is specified, the ID of the Google Cloud project that the Identity Platform tenant belongs to. Otherwise, the ID of the Google Cloud project that accounts belong to. */
@@ -386,12 +386,12 @@ export interface BatchDeleteProjectsAccountsRequest extends GoogleCloudIdentityt
 }
 /** Error info for account failed to be deleted. */
 export interface GoogleCloudIdentitytoolkitV1BatchDeleteErrorInfo {
-  /** The index of the errored item in the original local_ids field. */
-  index?: number | undefined;
-  /** Detailed error message. */
-  message?: string | undefined;
   /** The corresponding user ID. */
   localId?: string | undefined;
+  /** Detailed error message. */
+  message?: string | undefined;
+  /** The index of the errored item in the original local_ids field. */
+  index?: number | undefined;
 }
 export type GoogleCloudIdentitytoolkitV1BatchDeleteErrorInfoList =
   Array<GoogleCloudIdentitytoolkitV1BatchDeleteErrorInfo>;
@@ -404,95 +404,95 @@ export interface BatchDeleteProjectsTenantsAccountsRequest extends Omit<
   GoogleCloudIdentitytoolkitV1BatchDeleteAccountsRequest,
   "tenantId"
 > {
-  /** If `tenant_id` is specified, the ID of the Google Cloud project that the Identity Platform tenant belongs to. Otherwise, the ID of the Google Cloud project that accounts belong to. */
-  targetProjectId: string;
   /** If the accounts belong to an Identity Platform tenant, the ID of the tenant. If the accounts belong to a default Identity Platform project, the field is not needed. */
   tenantId: string;
+  /** If `tenant_id` is specified, the ID of the Google Cloud project that the Identity Platform tenant belongs to. Otherwise, the ID of the Google Cloud project that accounts belong to. */
+  targetProjectId: string;
 }
 export interface BatchGetProjectsAccountsRequest {
-  /** The maximum number of results to return. Must be at least 1 and no greater than 1000. By default, it is 20. */
-  maxResults?: number | undefined;
   /** If `tenant_id` is specified, the ID of the Google Cloud project that the Identity Platform tenant belongs to. Otherwise, the ID of the Google Cloud project that the accounts belong to. */
   targetProjectId: string;
   /** The pagination token from the response of a previous request. */
   nextPageToken?: string | undefined;
   delegatedProjectNumber?: string | undefined;
+  /** The maximum number of results to return. Must be at least 1 and no greater than 1000. By default, it is 20. */
+  maxResults?: number | undefined;
   /** The ID of the Identity Platform tenant the accounts belongs to. If not specified, accounts on the Identity Platform project are returned. */
   tenantId?: string | undefined;
 }
 /** Response message for DownloadAccount. */
 export interface GoogleCloudIdentitytoolkitV1DownloadAccountResponse {
-  /** If there are more accounts to be downloaded, a token that can be passed back to DownloadAccount to get more accounts. Otherwise, this is blank. */
-  nextPageToken?: string | undefined;
   /** All accounts belonging to the project/tenant limited by max_results in the request. */
   users?: GoogleCloudIdentitytoolkitV1UserInfoList | undefined;
   kind?: string | undefined;
+  /** If there are more accounts to be downloaded, a token that can be passed back to DownloadAccount to get more accounts. Otherwise, this is blank. */
+  nextPageToken?: string | undefined;
 }
 export interface BatchGetProjectsTenantsAccountsRequest {
-  /** The ID of the Identity Platform tenant the accounts belongs to. If not specified, accounts on the Identity Platform project are returned. */
-  tenantId: string;
-  /** If `tenant_id` is specified, the ID of the Google Cloud project that the Identity Platform tenant belongs to. Otherwise, the ID of the Google Cloud project that the accounts belong to. */
-  targetProjectId: string;
   /** The pagination token from the response of a previous request. */
   nextPageToken?: string | undefined;
+  /** If `tenant_id` is specified, the ID of the Google Cloud project that the Identity Platform tenant belongs to. Otherwise, the ID of the Google Cloud project that the accounts belong to. */
+  targetProjectId: string;
   /** The maximum number of results to return. Must be at least 1 and no greater than 1000. By default, it is 20. */
   maxResults?: number | undefined;
+  /** The ID of the Identity Platform tenant the accounts belongs to. If not specified, accounts on the Identity Platform project are returned. */
+  tenantId: string;
   delegatedProjectNumber?: string | undefined;
 }
 export type StringMap = { [key: string]: string | undefined };
 /** Request message for CreateAuthUri. */
 export interface GoogleCloudIdentitytoolkitV1CreateAuthUriRequest {
-  /** A session ID that can be verified against in SignInWithIdp to prevent session fixation attacks. If absent, a random string will be generated and returned as the session ID. */
-  sessionId?: string | undefined;
-  /** Used for the Google provider. The G Suite hosted domain of the user in order to restrict sign-in to users at that domain. */
-  hostedDomain?: string | undefined;
-  /** Used for the Google provider. The type of the authentication flow to be used. If present, this should be `CODE_FLOW` to specify the authorization code flow. Otherwise, the default ID Token flow will be used. */
-  authFlowType?: string | undefined;
+  oauthConsumerKey?: string | undefined;
+  otaApp?: string | undefined;
   /** An opaque string used to maintain contextual information between the authentication request and the callback from the IdP. */
   context?: string | undefined;
-  /** The provider ID of the IdP for the user to sign in with. This should be a provider ID enabled for sign-in, which is either from the list of [default supported IdPs](https://cloud.google.com/identity-platform/docs/reference/rest/v2/defaultSupportedIdps/list), or of the format `oidc.*` or `saml.*`. Some examples are `google.com`, `facebook.com`, `oidc.testapp`, and `saml.testapp`. At least one of the fields `identifier` and `provider_id` must be set. */
-  providerId?: string | undefined;
-  /** A valid URL for the IdP to redirect the user back to. The URL cannot contain fragments or the reserved `state` query parameter. */
-  continueUri?: string | undefined;
-  openidRealm?: string | undefined;
-  oauthConsumerKey?: string | undefined;
+  /** Used for the Google provider. The type of the authentication flow to be used. If present, this should be `CODE_FLOW` to specify the authorization code flow. Otherwise, the default ID Token flow will be used. */
+  authFlowType?: string | undefined;
+  /** A session ID that can be verified against in SignInWithIdp to prevent session fixation attacks. If absent, a random string will be generated and returned as the session ID. */
+  sessionId?: string | undefined;
+  /** The ID of the Identity Platform tenant to create an authorization URI or lookup an email identifier for. If not set, the operation will be performed in the default Identity Platform instance in the project. */
+  tenantId?: string | undefined;
   /** The email identifier of the user account to fetch associated providers for. At least one of the fields `identifier` and `provider_id` must be set. The length of the email address should be less than 256 characters and in the format of `name@domain.tld`. The email address should also match the [RFC 822](https://tools.ietf.org/html/rfc822) addr-spec production. */
   identifier?: string | undefined;
+  /** The provider ID of the IdP for the user to sign in with. This should be a provider ID enabled for sign-in, which is either from the list of [default supported IdPs](https://cloud.google.com/identity-platform/docs/reference/rest/v2/defaultSupportedIdps/list), or of the format `oidc.*` or `saml.*`. Some examples are `google.com`, `facebook.com`, `oidc.testapp`, and `saml.testapp`. At least one of the fields `identifier` and `provider_id` must be set. */
+  providerId?: string | undefined;
+  /** Used for the Google provider. The G Suite hosted domain of the user in order to restrict sign-in to users at that domain. */
+  hostedDomain?: string | undefined;
+  openidRealm?: string | undefined;
+  appId?: string | undefined;
+  /** A valid URL for the IdP to redirect the user back to. The URL cannot contain fragments or the reserved `state` query parameter. */
+  continueUri?: string | undefined;
   /** Additional space-delimited OAuth 2.0 scopes specifying the scope of the authentication request with the IdP. Used for OAuth 2.0 IdPs. For the Google provider, the authorization code flow will be used if this field is set. */
   oauthScope?: string | undefined;
   /** Additional customized query parameters to be added to the authorization URI. The following parameters are reserved and cannot be added: `client_id`, `response_type`, `scope`, `redirect_uri`, `state`. For the Microsoft provider, the Azure AD tenant to sign-in to can be specified in the `tenant` custom parameter. */
   customParameter?: StringMap | undefined;
-  appId?: string | undefined;
-  otaApp?: string | undefined;
-  /** The ID of the Identity Platform tenant to create an authorization URI or lookup an email identifier for. If not set, the operation will be performed in the default Identity Platform instance in the project. */
-  tenantId?: string | undefined;
 }
 export interface CreateAuthUriAccountsRequest extends GoogleCloudIdentitytoolkitV1CreateAuthUriRequest {}
 /** Response message for CreateAuthUri. */
 export interface GoogleCloudIdentitytoolkitV1CreateAuthUriResponse {
-  /** The provider ID from the request, if provided. */
-  providerId?: string | undefined;
-  /** Whether the user has previously signed in with the provider ID in the request. Present only when a registered email identifier is set in the request. */
-  forExistingProvider?: boolean | undefined;
   /** Whether the email identifier represents an existing account. Present only when an email identifier is set in the request. */
   registered?: boolean | undefined;
-  allProviders?: StringList | undefined;
-  /** The session ID from the request, or a random string generated by CreateAuthUri if absent. It is used to prevent session fixation attacks. */
-  sessionId?: string | undefined;
+  /** Whether the user has previously signed in with the provider ID in the request. Present only when a registered email identifier is set in the request. */
+  forExistingProvider?: boolean | undefined;
   /** The list of sign-in methods that the user has previously used. Each element is one of `password`, `emailLink`, or the provider ID of an IdP. Present only when a registered email identifier is set in the request. If [email enumeration protection](https://cloud.google.com/identity-platform/docs/admin/email-enumeration-protection) is enabled, this method returns an empty list. */
   signinMethods?: StringList | undefined;
-  /** Whether a CAPTCHA is needed because there have been too many failed login attempts by the user. Present only when a registered email identifier is set in the request. */
-  captchaRequired?: boolean | undefined;
+  kind?: string | undefined;
+  /** The provider ID from the request, if provided. */
+  providerId?: string | undefined;
   /** The authorization URI for the requested provider. Present only when a provider ID is set in the request. */
   authUri?: string | undefined;
-  kind?: string | undefined;
+  /** The session ID from the request, or a random string generated by CreateAuthUri if absent. It is used to prevent session fixation attacks. */
+  sessionId?: string | undefined;
+  /** Whether a CAPTCHA is needed because there have been too many failed login attempts by the user. Present only when a registered email identifier is set in the request. */
+  captchaRequired?: boolean | undefined;
+  allProviders?: StringList | undefined;
 }
 /** Request message for CreateSessionCookie. */
 export interface GoogleCloudIdentitytoolkitV1CreateSessionCookieRequest {
-  /** Required. A valid Identity Platform ID token. */
-  idToken?: string | Redacted.Redacted<string> | undefined;
   /** The number of seconds until the session cookie expires. Specify a duration in seconds, between five minutes and fourteen days, inclusively. */
   validDuration?: string | undefined;
+  /** Required. A valid Identity Platform ID token. */
+  idToken?: string | Redacted.Redacted<string> | undefined;
   /** The tenant ID of the Identity Platform tenant the account belongs to. */
   tenantId?: string | undefined;
 }
@@ -516,15 +516,15 @@ export interface CreateSessionCookieProjectsTenantsRequest extends Omit<
 }
 /** Request message for DeleteAccount. */
 export interface GoogleCloudIdentitytoolkitV1DeleteAccountRequest {
-  /** The ID of user account to delete. Specifying this field requires a Google OAuth 2.0 credential with proper [permissions](https://cloud.google.com/identity-platform/docs/access-control). Requests from users lacking the credential should pass an ID token instead. */
-  localId?: string | undefined;
-  delegatedProjectNumber?: string | undefined;
-  /** The ID of the tenant that the account belongs to, if applicable. Only require to be specified for authenticated requests bearing a Google OAuth 2.0 credential that specify local_id of an account that belongs to an Identity Platform tenant. */
-  tenantId?: string | undefined;
   /** The ID of the project which the account belongs to. Should only be specified in authenticated requests that specify local_id of an account. */
   targetProjectId?: string | undefined;
+  /** The ID of the tenant that the account belongs to, if applicable. Only require to be specified for authenticated requests bearing a Google OAuth 2.0 credential that specify local_id of an account that belongs to an Identity Platform tenant. */
+  tenantId?: string | undefined;
+  delegatedProjectNumber?: string | undefined;
   /** The Identity Platform ID token of the account to delete. Require to be specified for requests from end users that lack Google OAuth 2.0 credential. Authenticated requests bearing a Google OAuth2 credential with proper permissions may pass local_id to specify the account to delete alternatively. */
   idToken?: string | Redacted.Redacted<string> | undefined;
+  /** The ID of user account to delete. Specifying this field requires a Google OAuth 2.0 credential with proper [permissions](https://cloud.google.com/identity-platform/docs/access-control). Requests from users lacking the credential should pass an ID token instead. */
+  localId?: string | undefined;
 }
 export interface DeleteAccountsRequest extends GoogleCloudIdentitytoolkitV1DeleteAccountRequest {}
 /** Response message for DeleteAccount. */
@@ -540,57 +540,30 @@ export interface DeleteProjectsAccountsRequest extends Omit<
 }
 export interface DeleteProjectsTenantsAccountsRequest extends Omit<
   GoogleCloudIdentitytoolkitV1DeleteAccountRequest,
-  "tenantId" | "targetProjectId"
+  "targetProjectId" | "tenantId"
 > {
-  /** The ID of the tenant that the account belongs to, if applicable. Only require to be specified for authenticated requests bearing a Google OAuth 2.0 credential that specify local_id of an account that belongs to an Identity Platform tenant. */
-  tenantId: string;
   /** The ID of the project which the account belongs to. Should only be specified in authenticated requests that specify local_id of an account. */
   targetProjectId: string;
+  /** The ID of the tenant that the account belongs to, if applicable. Only require to be specified for authenticated requests bearing a Google OAuth 2.0 credential that specify local_id of an account that belongs to an Identity Platform tenant. */
+  tenantId: string;
 }
 export interface GetProjectsV1Request {
+  /** Project Number of the delegated project request. This field should only be used as part of the Firebase V1 migration. */
+  delegatedProjectNumber?: string | undefined;
+  /** The Firebase app ID, for applications that use Firebase. This can be found in the Firebase console for your project. If set, a check will be performed to ensure that the app ID is valid for the retrieved project. If not valid, the request will be rejected with a client error. */
+  firebaseAppId?: string | undefined;
+  /** Android package name to check against the real android package name. If this field is provided, and sha1_cert_hash is not provided, the action will throw an error if this does not match the real android package name. */
+  androidPackageName?: string | undefined;
   /** Whether dynamic link should be returned. */
   returnDynamicLink?: boolean | undefined;
-  /** Project number of the configuration to retrieve. This field is deprecated and should not be used by new integrations. */
-  projectNumber?: string | undefined;
   /** iOS bundle id to check against the real ios bundle id. If this field is provided, the action will throw an error if this does not match the real iOS bundle id. */
   iosBundleId?: string | undefined;
   /** The RP OAuth client ID. If set, a check will be performed to ensure that the OAuth client is valid for the retrieved project and the request rejected with a client error if not valid. */
   clientId?: string | undefined;
   /** SHA-1 Android application cert hash. If set, a check will be performed to ensure that the cert hash is valid for the retrieved project and android_package_name. */
   sha1Cert?: string | undefined;
-  /** The Firebase app ID, for applications that use Firebase. This can be found in the Firebase console for your project. If set, a check will be performed to ensure that the app ID is valid for the retrieved project. If not valid, the request will be rejected with a client error. */
-  firebaseAppId?: string | undefined;
-  /** Project Number of the delegated project request. This field should only be used as part of the Firebase V1 migration. */
-  delegatedProjectNumber?: string | undefined;
-  /** Android package name to check against the real android package name. If this field is provided, and sha1_cert_hash is not provided, the action will throw an error if this does not match the real android package name. */
-  androidPackageName?: string | undefined;
-}
-export type GoogleCloudIdentitytoolkitV1EmailTemplateFormatEnum =
-  | "EMAIL_BODY_FORMAT_UNSPECIFIED"
-  | "PLAINTEXT"
-  | "HTML";
-/** Email template */
-export interface GoogleCloudIdentitytoolkitV1EmailTemplate {
-  /** From address of the email */
-  from?: string | undefined;
-  /** Value is in III language code format (e.g. "zh-CN", "es"). Both '-' and '_' separators are accepted. */
-  locale?: string | undefined;
-  /** Reply-to address */
-  replyTo?: string | undefined;
-  /** Whether the template is disabled. If true, a default template will be used. */
-  disabled?: boolean | undefined;
-  /** Whether the body or subject of the email is customized. */
-  customized?: boolean | undefined;
-  /** Subject of the email */
-  subject?: string | undefined;
-  /** Email body format */
-  format?: GoogleCloudIdentitytoolkitV1EmailTemplateFormatEnum | undefined;
-  /** Email body */
-  body?: string | undefined;
-  /** Local part of From address */
-  fromLocalPart?: string | undefined;
-  /** From display name */
-  fromDisplayName?: string | undefined;
+  /** Project number of the configuration to retrieve. This field is deprecated and should not be used by new integrations. */
+  projectNumber?: string | undefined;
 }
 export type GoogleCloudIdentitytoolkitV1IdpConfigProviderEnum =
   | "PROVIDER_UNSPECIFIED"
@@ -607,48 +580,75 @@ export type GoogleCloudIdentitytoolkitV1IdpConfigProviderEnum =
   | "IOS_GAME_CENTER";
 /** Config of an identity provider. */
 export interface GoogleCloudIdentitytoolkitV1IdpConfig {
-  /** Whitelisted client IDs for audience check. */
-  whitelistedAudiences?: StringList | undefined;
-  provider?: GoogleCloudIdentitytoolkitV1IdpConfigProviderEnum | undefined;
-  /** Percent of users who will be prompted/redirected federated login for this IdP */
-  experimentPercent?: number | undefined;
   /** OAuth2 client secret. */
   secret?: string | Redacted.Redacted<string> | undefined;
+  provider?: GoogleCloudIdentitytoolkitV1IdpConfigProviderEnum | undefined;
+  /** Whitelisted client IDs for audience check. */
+  whitelistedAudiences?: StringList | undefined;
   /** OAuth2 client ID. */
   clientId?: string | undefined;
+  /** Percent of users who will be prompted/redirected federated login for this IdP */
+  experimentPercent?: number | undefined;
   /** True if allows the user to sign in with the provider. */
   enabled?: boolean | undefined;
 }
 export type GoogleCloudIdentitytoolkitV1IdpConfigList =
   Array<GoogleCloudIdentitytoolkitV1IdpConfig>;
+export type GoogleCloudIdentitytoolkitV1EmailTemplateFormatEnum =
+  | "EMAIL_BODY_FORMAT_UNSPECIFIED"
+  | "PLAINTEXT"
+  | "HTML";
+/** Email template */
+export interface GoogleCloudIdentitytoolkitV1EmailTemplate {
+  /** Email body */
+  body?: string | undefined;
+  /** Whether the template is disabled. If true, a default template will be used. */
+  disabled?: boolean | undefined;
+  /** From address of the email */
+  from?: string | undefined;
+  /** Value is in III language code format (e.g. "zh-CN", "es"). Both '-' and '_' separators are accepted. */
+  locale?: string | undefined;
+  /** From display name */
+  fromDisplayName?: string | undefined;
+  /** Reply-to address */
+  replyTo?: string | undefined;
+  /** Email body format */
+  format?: GoogleCloudIdentitytoolkitV1EmailTemplateFormatEnum | undefined;
+  /** Subject of the email */
+  subject?: string | undefined;
+  /** Whether the body or subject of the email is customized. */
+  customized?: boolean | undefined;
+  /** Local part of From address */
+  fromLocalPart?: string | undefined;
+}
 /** Response message for GetProjectConfig. */
 export interface GoogleCloudIdentitytoolkitV1GetProjectConfigResponse {
+  /** OAuth2 provider config. This field is only returned for authenticated calls from a developer. */
+  idpConfig?: GoogleCloudIdentitytoolkitV1IdpConfigList | undefined;
+  /** Email template for reset password. This field is only returned for authenticated calls from a developer. */
+  resetPasswordTemplate?: GoogleCloudIdentitytoolkitV1EmailTemplate | undefined;
+  /** Email template for verify email. This field is only returned for authenticated calls from a developer. */
+  verifyEmailTemplate?: GoogleCloudIdentitytoolkitV1EmailTemplate | undefined;
+  /** Email template for reverting second factor additions. This field is only returned for authenticated calls from a developer. */
+  revertSecondFactorAdditionTemplate?: GoogleCloudIdentitytoolkitV1EmailTemplate | undefined;
+  /** Google Cloud API key. This field is only returned for authenticated calls from a developer. */
+  apiKey?: string | Redacted.Redacted<string> | undefined;
+  /** The Firebase Dynamic Links domain used to construct links for redirects to native apps. */
+  dynamicLinksDomain?: string | undefined;
+  /** Reset password email template for legacy Firebase V1 app. This field is only returned for authenticated calls from a developer. */
+  legacyResetPasswordTemplate?: GoogleCloudIdentitytoolkitV1EmailTemplate | undefined;
+  /** The project id of the retrieved configuration. */
+  projectId?: string | undefined;
+  /** Whether to use email sending. This field is only returned for authenticated calls from a developer. */
+  useEmailSending?: boolean | undefined;
   /** Whether anonymous user is enabled. This field is only returned for authenticated calls from a developer. */
   enableAnonymousUser?: boolean | undefined;
   /** Email template for change email. This field is only returned for authenticated calls from a developer. */
   changeEmailTemplate?: GoogleCloudIdentitytoolkitV1EmailTemplate | undefined;
-  /** Authorized domains for widget redirect. */
-  authorizedDomains?: StringList | undefined;
-  /** The Firebase Dynamic Links domain used to construct links for redirects to native apps. */
-  dynamicLinksDomain?: string | undefined;
-  /** Email template for reset password. This field is only returned for authenticated calls from a developer. */
-  resetPasswordTemplate?: GoogleCloudIdentitytoolkitV1EmailTemplate | undefined;
-  /** Google Cloud API key. This field is only returned for authenticated calls from a developer. */
-  apiKey?: string | Redacted.Redacted<string> | undefined;
-  /** The project id of the retrieved configuration. */
-  projectId?: string | undefined;
-  /** OAuth2 provider config. This field is only returned for authenticated calls from a developer. */
-  idpConfig?: GoogleCloudIdentitytoolkitV1IdpConfigList | undefined;
-  /** Email template for reverting second factor additions. This field is only returned for authenticated calls from a developer. */
-  revertSecondFactorAdditionTemplate?: GoogleCloudIdentitytoolkitV1EmailTemplate | undefined;
-  /** Whether to use email sending. This field is only returned for authenticated calls from a developer. */
-  useEmailSending?: boolean | undefined;
-  /** Email template for verify email. This field is only returned for authenticated calls from a developer. */
-  verifyEmailTemplate?: GoogleCloudIdentitytoolkitV1EmailTemplate | undefined;
-  /** Reset password email template for legacy Firebase V1 app. This field is only returned for authenticated calls from a developer. */
-  legacyResetPasswordTemplate?: GoogleCloudIdentitytoolkitV1EmailTemplate | undefined;
   /** Whether to allow password account sign up. This field is only returned for authenticated calls from a developer. */
   allowPasswordUser?: boolean | undefined;
+  /** Authorized domains for widget redirect. */
+  authorizedDomains?: StringList | undefined;
 }
 export interface GetPublicKeysV1Request {}
 export interface GetPublicKeysV1Response {}
@@ -667,16 +667,16 @@ export interface GetSessionCookiePublicKeysV1Request {}
 export interface GoogleCloudIdentitytoolkitV1OpenIdConnectKey {
   /** Modulus for the RSA public key, it is represented as the base64url encoding of the value's big endian representation. */
   n?: string | undefined;
+  /** Key use. */
+  use?: string | undefined;
   /** Key type. */
   kty?: string | undefined;
   /** Unique string to identify this key. */
   kid?: string | undefined;
-  /** Exponent for the RSA public key, it is represented as the base64url encoding of the value's big endian representation. */
-  e?: string | undefined;
   /** Signature algorithm. */
   alg?: string | undefined;
-  /** Key use. */
-  use?: string | undefined;
+  /** Exponent for the RSA public key, it is represented as the base64url encoding of the value's big endian representation. */
+  e?: string | undefined;
 }
 export type GoogleCloudIdentitytoolkitV1OpenIdConnectKeyList =
   Array<GoogleCloudIdentitytoolkitV1OpenIdConnectKey>;
@@ -697,20 +697,20 @@ export interface GoogleCloudIdentitytoolkitV1IssueSamlResponseRequest {
 export interface IssueSamlResponseAccountsRequest extends GoogleCloudIdentitytoolkitV1IssueSamlResponseRequest {}
 /** Response for IssueSamlResponse request. */
 export interface GoogleCloudIdentitytoolkitV1IssueSamlResponseResponse {
-  /** Signed SAMLResponse created for the Relying Party. */
-  samlResponse?: string | undefined;
-  /** First name of the user. */
-  firstName?: string | undefined;
-  /** The ACS endpoint which consumes the returned SAMLResponse. */
-  acsEndpoint?: string | undefined;
-  /** Email of the user. */
-  email?: string | undefined;
-  /** Whether the logged in user was created by this request. */
-  isNewUser?: boolean | undefined;
   /** Last name of the user. */
   lastName?: string | undefined;
+  /** Signed SAMLResponse created for the Relying Party. */
+  samlResponse?: string | undefined;
+  /** Whether the logged in user was created by this request. */
+  isNewUser?: boolean | undefined;
   /** Generated RelayState. */
   relayState?: string | undefined;
+  /** First name of the user. */
+  firstName?: string | undefined;
+  /** Email of the user. */
+  email?: string | undefined;
+  /** The ACS endpoint which consumes the returned SAMLResponse. */
+  acsEndpoint?: string | undefined;
 }
 /** Federated user identifier at an Identity Provider. */
 export interface GoogleCloudIdentitytoolkitV1FederatedUserIdentifier {
@@ -723,30 +723,30 @@ export type GoogleCloudIdentitytoolkitV1FederatedUserIdentifierList =
   Array<GoogleCloudIdentitytoolkitV1FederatedUserIdentifier>;
 /** Request message for GetAccountInfo. */
 export interface GoogleCloudIdentitytoolkitV1GetAccountInfoRequest {
-  /** The Identity Platform ID token of the account to fetch. Require to be specified for requests from end users. */
-  idToken?: string | Redacted.Redacted<string> | undefined;
   /** The email address of one or more accounts to fetch. The length of email should be less than 256 characters and in the format of `name@domain.tld`. The email should also match the [RFC 822](https://tools.ietf.org/html/rfc822) addr-spec production. Should only be specified by authenticated requests from a developer. */
   email?: StringList | undefined;
-  /** The ID of the Google Cloud project that the account or the Identity Platform tenant specified by `tenant_id` belongs to. Should only be specified by authenticated requests bearing a Google OAuth 2.0 credential with proper [permissions](https://cloud.google.com/identity-platform/docs/access-control). */
-  targetProjectId?: string | undefined;
-  delegatedProjectNumber?: string | undefined;
-  /** The phone number of one or more accounts to fetch. Should only be specified by authenticated requests from a developer and should be in E.164 format, for example, +15555555555. */
-  phoneNumber?: StringList | undefined;
-  /** The ID of the tenant that the account belongs to. Should only be specified by authenticated requests from a developer. */
-  tenantId?: string | undefined;
-  /** The federated user identifier of one or more accounts to fetch. Should only be specified by authenticated requests bearing a Google OAuth 2.0 credential with proper [permissions](https://cloud.google.com/identity-platform/docs/access-control). */
-  federatedUserId?: GoogleCloudIdentitytoolkitV1FederatedUserIdentifierList | undefined;
   /** The ID of one or more accounts to fetch. Should only be specified by authenticated requests bearing a Google OAuth 2.0 credential with proper [permissions](https://cloud.google.com/identity-platform/docs/access-control). */
   localId?: StringList | undefined;
+  /** The phone number of one or more accounts to fetch. Should only be specified by authenticated requests from a developer and should be in E.164 format, for example, +15555555555. */
+  phoneNumber?: StringList | undefined;
+  delegatedProjectNumber?: string | undefined;
+  /** The ID of the tenant that the account belongs to. Should only be specified by authenticated requests from a developer. */
+  tenantId?: string | undefined;
   /** The initial email of one or more accounts to fetch. The length of email should be less than 256 characters and in the format of `name@domain.tld`. The email should also match the [RFC 822](https://tools.ietf.org/html/rfc822) addr-spec production. Should only be specified by authenticated requests from a developer. */
   initialEmail?: StringList | undefined;
+  /** The ID of the Google Cloud project that the account or the Identity Platform tenant specified by `tenant_id` belongs to. Should only be specified by authenticated requests bearing a Google OAuth 2.0 credential with proper [permissions](https://cloud.google.com/identity-platform/docs/access-control). */
+  targetProjectId?: string | undefined;
+  /** The federated user identifier of one or more accounts to fetch. Should only be specified by authenticated requests bearing a Google OAuth 2.0 credential with proper [permissions](https://cloud.google.com/identity-platform/docs/access-control). */
+  federatedUserId?: GoogleCloudIdentitytoolkitV1FederatedUserIdentifierList | undefined;
+  /** The Identity Platform ID token of the account to fetch. Require to be specified for requests from end users. */
+  idToken?: string | Redacted.Redacted<string> | undefined;
 }
 export interface LookupAccountsRequest extends GoogleCloudIdentitytoolkitV1GetAccountInfoRequest {}
 /** Response message for GetAccountInfo. */
 export interface GoogleCloudIdentitytoolkitV1GetAccountInfoResponse {
-  kind?: string | undefined;
   /** The information of specific user account(s) matching the parameters in the request. */
   users?: GoogleCloudIdentitytoolkitV1UserInfoList | undefined;
+  kind?: string | undefined;
 }
 export interface LookupProjectsAccountsRequest extends Omit<
   GoogleCloudIdentitytoolkitV1GetAccountInfoRequest,
@@ -757,28 +757,13 @@ export interface LookupProjectsAccountsRequest extends Omit<
 }
 export interface LookupProjectsTenantsAccountsRequest extends Omit<
   GoogleCloudIdentitytoolkitV1GetAccountInfoRequest,
-  "targetProjectId" | "tenantId"
+  "tenantId" | "targetProjectId"
 > {
-  /** The ID of the Google Cloud project that the account or the Identity Platform tenant specified by `tenant_id` belongs to. Should only be specified by authenticated requests bearing a Google OAuth 2.0 credential with proper [permissions](https://cloud.google.com/identity-platform/docs/access-control). */
-  targetProjectId: string;
   /** The ID of the tenant that the account belongs to. Should only be specified by authenticated requests from a developer. */
   tenantId: string;
+  /** The ID of the Google Cloud project that the account or the Identity Platform tenant specified by `tenant_id` belongs to. Should only be specified by authenticated requests bearing a Google OAuth 2.0 credential with proper [permissions](https://cloud.google.com/identity-platform/docs/access-control). */
+  targetProjectId: string;
 }
-/** Query conditions used to filter results. */
-export interface GoogleCloudIdentitytoolkitV1SqlExpression {
-  /** A string that the account's local ID should match. Only one of `email`, `phone_number`, or `user_id` should be specified in a SqlExpression If more than one is specified, only the first (in that order) will be applied. */
-  userId?: string | undefined;
-  /** A string that the account's phone number should match. Only one of `email`, `phone_number`, or `user_id` should be specified in a SqlExpression. If more than one is specified, only the first (in that order) will be applied. */
-  phoneNumber?: string | undefined;
-  /** A case insensitive string that the account's email should match. Only one of `email`, `phone_number`, or `user_id` should be specified in a SqlExpression. If more than one is specified, only the first (in that order) will be applied. */
-  email?: string | undefined;
-}
-export type GoogleCloudIdentitytoolkitV1SqlExpressionList =
-  Array<GoogleCloudIdentitytoolkitV1SqlExpression>;
-export type GoogleCloudIdentitytoolkitV1QueryUserInfoRequestOrderEnum =
-  | "ORDER_UNSPECIFIED"
-  | "ASC"
-  | "DESC";
 export type GoogleCloudIdentitytoolkitV1QueryUserInfoRequestSortByEnum =
   | "SORT_BY_FIELD_UNSPECIFIED"
   | "USER_ID"
@@ -786,22 +771,37 @@ export type GoogleCloudIdentitytoolkitV1QueryUserInfoRequestSortByEnum =
   | "CREATED_AT"
   | "LAST_LOGIN_AT"
   | "USER_EMAIL";
+/** Query conditions used to filter results. */
+export interface GoogleCloudIdentitytoolkitV1SqlExpression {
+  /** A string that the account's phone number should match. Only one of `email`, `phone_number`, or `user_id` should be specified in a SqlExpression. If more than one is specified, only the first (in that order) will be applied. */
+  phoneNumber?: string | undefined;
+  /** A case insensitive string that the account's email should match. Only one of `email`, `phone_number`, or `user_id` should be specified in a SqlExpression. If more than one is specified, only the first (in that order) will be applied. */
+  email?: string | undefined;
+  /** A string that the account's local ID should match. Only one of `email`, `phone_number`, or `user_id` should be specified in a SqlExpression If more than one is specified, only the first (in that order) will be applied. */
+  userId?: string | undefined;
+}
+export type GoogleCloudIdentitytoolkitV1SqlExpressionList =
+  Array<GoogleCloudIdentitytoolkitV1SqlExpression>;
+export type GoogleCloudIdentitytoolkitV1QueryUserInfoRequestOrderEnum =
+  | "ORDER_UNSPECIFIED"
+  | "ASC"
+  | "DESC";
 /** Request message for QueryUserInfo. */
 export interface GoogleCloudIdentitytoolkitV1QueryUserInfoRequest {
-  /** Query conditions used to filter results. If more than one is passed, only the first SqlExpression is evaluated. */
-  expression?: GoogleCloudIdentitytoolkitV1SqlExpressionList | undefined;
-  /** The maximum number of accounts to return with an upper limit of __500__. Defaults to _500_. Only valid when `return_user_info` is set to `true`. */
-  limit?: string | undefined;
   /** The ID of the tenant to which the result is scoped. */
   tenantId?: string | undefined;
+  /** The field to use for sorting user accounts. Defaults to `USER_ID`. Note: when `phone_number` is specified in `expression`, the result ignores the sorting. Only valid when `return_user_info` is set to `true`. */
+  sortBy?: GoogleCloudIdentitytoolkitV1QueryUserInfoRequestSortByEnum | (string & {}) | undefined;
+  /** Query conditions used to filter results. If more than one is passed, only the first SqlExpression is evaluated. */
+  expression?: GoogleCloudIdentitytoolkitV1SqlExpressionList | undefined;
   /** If `true`, this request will return the accounts matching the query. If `false`, only the __count__ of accounts matching the query will be returned. Defaults to `true`. */
   returnUserInfo?: boolean | undefined;
   /** The number of accounts to skip from the beginning of matching records. Only valid when `return_user_info` is set to `true`. */
   offset?: string | undefined;
+  /** The maximum number of accounts to return with an upper limit of __500__. Defaults to _500_. Only valid when `return_user_info` is set to `true`. */
+  limit?: string | undefined;
   /** The order for sorting query result. Defaults to __ascending__ order. Only valid when `return_user_info` is set to `true`. */
   order?: GoogleCloudIdentitytoolkitV1QueryUserInfoRequestOrderEnum | (string & {}) | undefined;
-  /** The field to use for sorting user accounts. Defaults to `USER_ID`. Note: when `phone_number` is specified in `expression`, the result ignores the sorting. Only valid when `return_user_info` is set to `true`. */
-  sortBy?: GoogleCloudIdentitytoolkitV1QueryUserInfoRequestSortByEnum | (string & {}) | undefined;
 }
 export interface QueryAccountsProjectsRequest extends GoogleCloudIdentitytoolkitV1QueryUserInfoRequest {
   /** The ID of the project to which the result is scoped. */
@@ -809,10 +809,10 @@ export interface QueryAccountsProjectsRequest extends GoogleCloudIdentitytoolkit
 }
 /** Response message for QueryUserInfo. */
 export interface GoogleCloudIdentitytoolkitV1QueryUserInfoResponse {
-  /** If `return_user_info` in the request is true, this is the number of returned accounts in this message. Otherwise, this is the total number of accounts matching the query. */
-  recordsCount?: string | undefined;
   /** If `return_user_info` in the request is true, this is the accounts matching the query. */
   userInfo?: GoogleCloudIdentitytoolkitV1UserInfoList | undefined;
+  /** If `return_user_info` in the request is true, this is the number of returned accounts in this message. Otherwise, this is the total number of accounts matching the query. */
+  recordsCount?: string | undefined;
 }
 export interface QueryProjectsAccountsRequest extends GoogleCloudIdentitytoolkitV1QueryUserInfoRequest {
   /** The ID of the project to which the result is scoped. */
@@ -829,16 +829,16 @@ export interface QueryProjectsTenantsAccountsRequest extends Omit<
 }
 /** Request message for ResetPassword. */
 export interface GoogleCloudIdentitytoolkitV1ResetPasswordRequest {
-  /** The new password to be set for this account. Specifying this field will result in a change to the account and consume the out-of-band code if one was specified and it was of type PASSWORD_RESET. */
-  newPassword?: string | Redacted.Redacted<string> | undefined;
   /** An out-of-band (OOB) code generated by GetOobCode request. Specify only this parameter (or only this parameter and a tenant ID) to get the out-of-band code's type in the response without mutating the account's state. Only a PASSWORD_RESET out-of-band code can be consumed via this method. */
   oobCode?: string | undefined;
-  /** Optional. The tenant ID of the Identity Platform tenant the account belongs to. */
-  tenantId?: string | undefined;
   /** The current password of the account to be modified. Specify this and email to change an account's password without using an out-of-band code. */
   oldPassword?: string | Redacted.Redacted<string> | undefined;
+  /** Optional. The tenant ID of the Identity Platform tenant the account belongs to. */
+  tenantId?: string | undefined;
   /** Optional. The email of the account to be modified. Specify this and the old password in order to change an account's password without using an out-of-band code. */
   email?: string | undefined;
+  /** The new password to be set for this account. Specifying this field will result in a change to the account and consume the out-of-band code if one was specified and it was of type PASSWORD_RESET. */
+  newPassword?: string | Redacted.Redacted<string> | undefined;
 }
 export interface ResetPasswordAccountsRequest extends GoogleCloudIdentitytoolkitV1ResetPasswordRequest {}
 export type GoogleCloudIdentitytoolkitV1ResetPasswordResponseRequestTypeEnum =
@@ -853,21 +853,13 @@ export type GoogleCloudIdentitytoolkitV1ResetPasswordResponseRequestTypeEnum =
   | "REVERT_SECOND_FACTOR_ADDITION";
 /** Response message for ResetPassword. */
 export interface GoogleCloudIdentitytoolkitV1ResetPasswordResponse {
+  newEmail?: string | undefined;
+  mfaInfo?: GoogleCloudIdentitytoolkitV1MfaEnrollment | undefined;
+  requestType?: GoogleCloudIdentitytoolkitV1ResetPasswordResponseRequestTypeEnum | undefined;
   /** The email associated with the out-of-band code that was used. */
   email?: string | undefined;
   kind?: string | undefined;
-  requestType?: GoogleCloudIdentitytoolkitV1ResetPasswordResponseRequestTypeEnum | undefined;
-  newEmail?: string | undefined;
-  mfaInfo?: GoogleCloudIdentitytoolkitV1MfaEnrollment | undefined;
 }
-export type GoogleCloudIdentitytoolkitV1GetOobCodeRequestRecaptchaVersionEnum =
-  | "RECAPTCHA_VERSION_UNSPECIFIED"
-  | "RECAPTCHA_ENTERPRISE";
-export type GoogleCloudIdentitytoolkitV1GetOobCodeRequestClientTypeEnum =
-  | "CLIENT_TYPE_UNSPECIFIED"
-  | "CLIENT_TYPE_WEB"
-  | "CLIENT_TYPE_ANDROID"
-  | "CLIENT_TYPE_IOS";
 export type GoogleCloudIdentitytoolkitV1GetOobCodeRequestRequestTypeEnum =
   | "OOB_REQ_TYPE_UNSPECIFIED"
   | "PASSWORD_RESET"
@@ -878,69 +870,77 @@ export type GoogleCloudIdentitytoolkitV1GetOobCodeRequestRequestTypeEnum =
   | "EMAIL_SIGNIN"
   | "VERIFY_AND_CHANGE_EMAIL"
   | "REVERT_SECOND_FACTOR_ADDITION";
+export type GoogleCloudIdentitytoolkitV1GetOobCodeRequestRecaptchaVersionEnum =
+  | "RECAPTCHA_VERSION_UNSPECIFIED"
+  | "RECAPTCHA_ENTERPRISE";
+export type GoogleCloudIdentitytoolkitV1GetOobCodeRequestClientTypeEnum =
+  | "CLIENT_TYPE_UNSPECIFIED"
+  | "CLIENT_TYPE_WEB"
+  | "CLIENT_TYPE_ANDROID"
+  | "CLIENT_TYPE_IOS";
 /** Request message for GetOobCode. */
 export interface GoogleCloudIdentitytoolkitV1GetOobCodeRequest {
-  /** The tenant ID of the Identity Platform tenant the account belongs to. */
-  tenantId?: string | undefined;
-  /** The Url to continue after user clicks the link sent in email. This is the url that will allow the web widget to handle the OOB code. */
-  continueUrl?: string | undefined;
-  /** An ID token for the account. It is required for VERIFY_AND_CHANGE_EMAIL and VERIFY_EMAIL requests unless return_oob_link is set to true. */
-  idToken?: string | Redacted.Redacted<string> | undefined;
-  /** In order to ensure that the url used can be easily opened up in iOS or android, we create a [Firebase Dynamic Link](https://firebase.google.com/docs/dynamic-links). Most Identity Platform projects will only have one Dynamic Link domain enabled, and can leave this field blank. This field contains a specified Dynamic Link domain for projects that have multiple enabled. */
-  dynamicLinkDomain?: string | undefined;
-  /** Whether the confirmation link containing the OOB code should be returned in the response (no email is sent). Used when a developer wants to construct the email template and send it on their own. By default this is false; to specify this field, and to set it to true, it requires a Google OAuth 2.0 credential with proper [permissions](https://cloud.google.com/identity-platform/docs/access-control) */
-  returnOobLink?: boolean | undefined;
-  /** For a PASSWORD_RESET request, a reCaptcha response is required when the system detects possible abuse activity. In those cases, this is the response from the reCaptcha challenge used to verify the caller. */
-  captchaResp?: string | undefined;
-  /** The reCAPTCHA version of the reCAPTCHA token in the captcha_response. */
-  recaptchaVersion?:
-    | GoogleCloudIdentitytoolkitV1GetOobCodeRequestRecaptchaVersionEnum
-    | (string & {})
-    | undefined;
-  /** The email address the account is being updated to. Required only for VERIFY_AND_CHANGE_EMAIL requests. */
-  newEmail?: string | undefined;
-  /** When set to true, the OOB code link will be be sent as a Universal Link or an Android App Link and will be opened by the corresponding app if installed. If not set, or set to false, the OOB code will be sent to the web widget first and then on continue will redirect to the app if installed. */
-  canHandleCodeInApp?: boolean | undefined;
-  /** Optional. In order to ensure that the url used can be easily opened in iOS or Android, we create a Hosting link '/__/auth/links'. This optional field contains the domain to use when constructing a Hosting link. If not set, '.firebaseapp.com' domain will be used. */
-  linkDomain?: string | undefined;
-  /** The Project ID of the Identity Platform project which the account belongs to. To specify this field, it requires a Google OAuth 2.0 credential with proper [permissions](https://cloud.google.com/identity-platform/docs/access-control). */
-  targetProjectId?: string | undefined;
-  /** If an associated android app can handle the OOB code, whether or not to install the android app on the device where the link is opened if the app is not already installed. */
-  androidInstallApp?: boolean | undefined;
-  /** If an associated iOS app can handle the OOB code, the App Store id of this app. This will allow App Store to open to the correct app if the app is not yet installed. */
-  iOSAppStoreId?: string | undefined;
-  /** The client type: web, Android or iOS. Required when reCAPTCHA Enterprise protection is enabled. */
-  clientType?:
-    | GoogleCloudIdentitytoolkitV1GetOobCodeRequestClientTypeEnum
-    | (string & {})
-    | undefined;
-  /** If an associated android app can handle the OOB code, the Android package name of the android app that will handle the callback when this OOB code is used. This will allow the correct app to open if it is already installed, or allow Google Play Store to open to the correct app if it is not yet installed. */
-  androidPackageName?: string | undefined;
+  /** If an associated android app can handle the OOB code, the minimum version of the app. If the version on the device is lower than this version then the user is taken to Google Play Store to upgrade the app. */
+  androidMinimumVersion?: string | undefined;
   /** Required. The type of out-of-band (OOB) code to send. Depending on this value, other fields in this request will be required and/or have different meanings. There are 4 different OOB codes that can be sent: * PASSWORD_RESET * EMAIL_SIGNIN * VERIFY_EMAIL * VERIFY_AND_CHANGE_EMAIL */
   requestType?:
     | GoogleCloudIdentitytoolkitV1GetOobCodeRequestRequestTypeEnum
     | (string & {})
     | undefined;
-  /** The account's email address to send the OOB code to, and generally the email address of the account that needs to be updated. Required for PASSWORD_RESET, EMAIL_SIGNIN, and VERIFY_EMAIL. Only required for VERIFY_AND_CHANGE_EMAIL requests when return_oob_link is set to true. In this case, it is the original email of the user. */
-  email?: string | undefined;
-  challenge?: string | undefined;
+  /** The reCAPTCHA version of the reCAPTCHA token in the captcha_response. */
+  recaptchaVersion?:
+    | GoogleCloudIdentitytoolkitV1GetOobCodeRequestRecaptchaVersionEnum
+    | (string & {})
+    | undefined;
   /** The IP address of the caller. Required only for PASSWORD_RESET requests. */
   userIp?: string | undefined;
+  /** The client type: web, Android or iOS. Required when reCAPTCHA Enterprise protection is enabled. */
+  clientType?:
+    | GoogleCloudIdentitytoolkitV1GetOobCodeRequestClientTypeEnum
+    | (string & {})
+    | undefined;
+  /** The account's email address to send the OOB code to, and generally the email address of the account that needs to be updated. Required for PASSWORD_RESET, EMAIL_SIGNIN, and VERIFY_EMAIL. Only required for VERIFY_AND_CHANGE_EMAIL requests when return_oob_link is set to true. In this case, it is the original email of the user. */
+  email?: string | undefined;
+  /** The Url to continue after user clicks the link sent in email. This is the url that will allow the web widget to handle the OOB code. */
+  continueUrl?: string | undefined;
+  /** If an associated android app can handle the OOB code, the Android package name of the android app that will handle the callback when this OOB code is used. This will allow the correct app to open if it is already installed, or allow Google Play Store to open to the correct app if it is not yet installed. */
+  androidPackageName?: string | undefined;
+  /** The tenant ID of the Identity Platform tenant the account belongs to. */
+  tenantId?: string | undefined;
   /** If an associated iOS app can handle the OOB code, the iOS bundle id of this app. This will allow the correct app to open if it is already installed. */
   iOSBundleId?: string | undefined;
-  /** If an associated android app can handle the OOB code, the minimum version of the app. If the version on the device is lower than this version then the user is taken to Google Play Store to upgrade the app. */
-  androidMinimumVersion?: string | undefined;
+  /** For a PASSWORD_RESET request, a reCaptcha response is required when the system detects possible abuse activity. In those cases, this is the response from the reCaptcha challenge used to verify the caller. */
+  captchaResp?: string | undefined;
+  /** The Project ID of the Identity Platform project which the account belongs to. To specify this field, it requires a Google OAuth 2.0 credential with proper [permissions](https://cloud.google.com/identity-platform/docs/access-control). */
+  targetProjectId?: string | undefined;
+  /** Whether the confirmation link containing the OOB code should be returned in the response (no email is sent). Used when a developer wants to construct the email template and send it on their own. By default this is false; to specify this field, and to set it to true, it requires a Google OAuth 2.0 credential with proper [permissions](https://cloud.google.com/identity-platform/docs/access-control) */
+  returnOobLink?: boolean | undefined;
+  /** An ID token for the account. It is required for VERIFY_AND_CHANGE_EMAIL and VERIFY_EMAIL requests unless return_oob_link is set to true. */
+  idToken?: string | Redacted.Redacted<string> | undefined;
+  /** Optional. In order to ensure that the url used can be easily opened in iOS or Android, we create a Hosting link '/__/auth/links'. This optional field contains the domain to use when constructing a Hosting link. If not set, '.firebaseapp.com' domain will be used. */
+  linkDomain?: string | undefined;
+  /** When set to true, the OOB code link will be be sent as a Universal Link or an Android App Link and will be opened by the corresponding app if installed. If not set, or set to false, the OOB code will be sent to the web widget first and then on continue will redirect to the app if installed. */
+  canHandleCodeInApp?: boolean | undefined;
+  /** If an associated iOS app can handle the OOB code, the App Store id of this app. This will allow App Store to open to the correct app if the app is not yet installed. */
+  iOSAppStoreId?: string | undefined;
+  /** In order to ensure that the url used can be easily opened up in iOS or android, we create a [Firebase Dynamic Link](https://firebase.google.com/docs/dynamic-links). Most Identity Platform projects will only have one Dynamic Link domain enabled, and can leave this field blank. This field contains a specified Dynamic Link domain for projects that have multiple enabled. */
+  dynamicLinkDomain?: string | undefined;
+  /** The email address the account is being updated to. Required only for VERIFY_AND_CHANGE_EMAIL requests. */
+  newEmail?: string | undefined;
+  /** If an associated android app can handle the OOB code, whether or not to install the android app on the device where the link is opened if the app is not already installed. */
+  androidInstallApp?: boolean | undefined;
+  challenge?: string | undefined;
 }
 export interface SendOobCodeAccountsRequest extends GoogleCloudIdentitytoolkitV1GetOobCodeRequest {}
 /** Response message for GetOobCode. */
 export interface GoogleCloudIdentitytoolkitV1GetOobCodeResponse {
   kind?: string | undefined;
-  /** If return_oob_link is false in the request, the email address the verification was sent to. */
-  email?: string | undefined;
-  /** If return_oob_link is true in the request, the OOB code to send. */
-  oobCode?: string | undefined;
   /** If return_oob_link is true in the request, the OOB link to be sent to the user. This returns the constructed link including [Firebase Dynamic Link](https://firebase.google.com/docs/dynamic-links) related parameters. */
   oobLink?: string | undefined;
+  /** If return_oob_link is true in the request, the OOB code to send. */
+  oobCode?: string | undefined;
+  /** If return_oob_link is false in the request, the email address the verification was sent to. */
+  email?: string | undefined;
 }
 export interface SendOobCodeProjectsAccountsRequest extends Omit<
   GoogleCloudIdentitytoolkitV1GetOobCodeRequest,
@@ -975,21 +975,13 @@ export interface GoogleCloudIdentitytoolkitV1AutoRetrievalInfo {
 export interface GoogleCloudIdentitytoolkitV1SendVerificationCodeRequest {
   /** Receipt of successful iOS app token validation. At least one of (`ios_receipt` and `ios_secret`), `recaptcha_token`, or `play_integrity_token` must be specified to verify the verification code is being sent on behalf of a real app and not an emulator, if 'captcha_response' is not used (reCAPTCHA enterprise is not enabled). This should come from the response of verifyIosClient. If present, the caller should also provide the `ios_secret`, as well as a bundle ID in the `x-ios-bundle-identifier` header, which must match the bundle ID from the verifyIosClient request. */
   iosReceipt?: string | undefined;
-  /** Tenant ID of the Identity Platform tenant the user is signing in to. */
-  tenantId?: string | undefined;
-  /** Optional. The reCAPTCHA Enterprise token provided by the reCAPTCHA client-side integration. Required when reCAPTCHA enterprise is enabled. */
-  captchaResponse?: string | undefined;
+  /** Recaptcha token for app verification. At least one of (`ios_receipt` and `ios_secret`), `recaptcha_token`, or `play_integrity_token` must be specified to verify the verification code is being sent on behalf of a real app and not an emulator, if 'captcha_response' is not used (reCAPTCHA enterprise is not enabled). The recaptcha should be generated by calling getRecaptchaParams and the recaptcha token will be generated on user completion of the recaptcha challenge. */
+  recaptchaToken?: string | Redacted.Redacted<string> | undefined;
   /** Optional. The client type, web, android or ios. Required when reCAPTCHA Enterprise is enabled. */
   clientType?:
     | GoogleCloudIdentitytoolkitV1SendVerificationCodeRequestClientTypeEnum
     | (string & {})
     | undefined;
-  /** The phone number to send the verification code to in E.164 format. */
-  phoneNumber?: string | undefined;
-  /** Recaptcha token for app verification. At least one of (`ios_receipt` and `ios_secret`), `recaptcha_token`, or `play_integrity_token` must be specified to verify the verification code is being sent on behalf of a real app and not an emulator, if 'captcha_response' is not used (reCAPTCHA enterprise is not enabled). The recaptcha should be generated by calling getRecaptchaParams and the recaptcha token will be generated on user completion of the recaptcha challenge. */
-  recaptchaToken?: string | Redacted.Redacted<string> | undefined;
-  /** Android only. Used to assert application identity in place of a recaptcha token (and safety_net_token). At least one of (`ios_receipt` and `ios_secret`), `recaptcha_token`, , or `play_integrity_token` must be specified to verify the verification code is being sent on behalf of a real app and not an emulator, if 'captcha_response' is not used (reCAPTCHA enterprise is not enabled). A Play Integrity Token can be generated via the [PlayIntegrity API](https://developer.android.com/google/play/integrity) with applying SHA256 to the `phone_number` field as the nonce. */
-  playIntegrityToken?: string | Redacted.Redacted<string> | undefined;
   /** Optional. The reCAPTCHA version of the reCAPTCHA token in the captcha_response. Required when reCAPTCHA Enterprise is enabled. */
   recaptchaVersion?:
     | GoogleCloudIdentitytoolkitV1SendVerificationCodeRequestRecaptchaVersionEnum
@@ -997,10 +989,18 @@ export interface GoogleCloudIdentitytoolkitV1SendVerificationCodeRequest {
     | undefined;
   /** Android only. Used by Google Play Services to identify the app for auto-retrieval. */
   autoRetrievalInfo?: GoogleCloudIdentitytoolkitV1AutoRetrievalInfo | undefined;
+  /** The phone number to send the verification code to in E.164 format. */
+  phoneNumber?: string | undefined;
   /** Secret delivered to iOS app as a push notification. Should be passed with an `ios_receipt` as well as the `x-ios-bundle-identifier` header. */
   iosSecret?: string | Redacted.Redacted<string> | undefined;
+  /** Optional. The reCAPTCHA Enterprise token provided by the reCAPTCHA client-side integration. Required when reCAPTCHA enterprise is enabled. */
+  captchaResponse?: string | undefined;
+  /** Tenant ID of the Identity Platform tenant the user is signing in to. */
+  tenantId?: string | undefined;
   /** Android only. Safety Net has been deprecated. Use play_integrity_token instead. */
   safetyNetToken?: string | Redacted.Redacted<string> | undefined;
+  /** Android only. Used to assert application identity in place of a recaptcha token (and safety_net_token). At least one of (`ios_receipt` and `ios_secret`), `recaptcha_token`, , or `play_integrity_token` must be specified to verify the verification code is being sent on behalf of a real app and not an emulator, if 'captcha_response' is not used (reCAPTCHA enterprise is not enabled). A Play Integrity Token can be generated via the [PlayIntegrity API](https://developer.android.com/google/play/integrity) with applying SHA256 to the `phone_number` field as the nonce. */
+  playIntegrityToken?: string | Redacted.Redacted<string> | undefined;
 }
 export interface SendVerificationCodeAccountsRequest extends GoogleCloudIdentitytoolkitV1SendVerificationCodeRequest {}
 /** Response message for SendVerificationCode. */
@@ -1010,243 +1010,243 @@ export interface GoogleCloudIdentitytoolkitV1SendVerificationCodeResponse {
 }
 /** Request message for SignInWithCustomToken. */
 export interface GoogleCloudIdentitytoolkitV1SignInWithCustomTokenRequest {
-  /** The ID of the Identity Platform tenant the user is signing in to. If present, the ID should match the tenant_id in the token. */
-  tenantId?: string | undefined;
-  delegatedProjectNumber?: string | undefined;
-  /** Should always be true. */
-  returnSecureToken?: boolean | undefined;
   /** Required. The custom Auth token asserted by the developer. The token should be a [JSON Web Token (JWT)](https://tools.ietf.org/html/rfc7519) that includes the claims listed in the [API reference](https://cloud.google.com/identity-platform/docs/reference/rest/client/) under the "Custom Token Claims" section. */
   token?: string | Redacted.Redacted<string> | undefined;
   instanceId?: string | undefined;
+  delegatedProjectNumber?: string | undefined;
+  /** The ID of the Identity Platform tenant the user is signing in to. If present, the ID should match the tenant_id in the token. */
+  tenantId?: string | undefined;
+  /** Should always be true. */
+  returnSecureToken?: boolean | undefined;
 }
 export interface SignInWithCustomTokenAccountsRequest extends GoogleCloudIdentitytoolkitV1SignInWithCustomTokenRequest {}
 /** Response message for SignInWithCustomToken. */
 export interface GoogleCloudIdentitytoolkitV1SignInWithCustomTokenResponse {
-  /** An Identity Platform ID token for the authenticated user. */
-  idToken?: string | Redacted.Redacted<string> | undefined;
+  /** Whether the authenticated user was created by this request. */
+  isNewUser?: boolean | undefined;
   /** An Identity Platform refresh token for the authenticated user. */
   refreshToken?: string | Redacted.Redacted<string> | undefined;
   /** The number of seconds until the ID token expires. */
   expiresIn?: string | undefined;
   kind?: string | undefined;
-  /** Whether the authenticated user was created by this request. */
-  isNewUser?: boolean | undefined;
+  /** An Identity Platform ID token for the authenticated user. */
+  idToken?: string | Redacted.Redacted<string> | undefined;
 }
 /** Request message for SignInWithEmailLink */
 export interface GoogleCloudIdentitytoolkitV1SignInWithEmailLinkRequest {
-  /** A valid ID token for an Identity Platform account. If passed, this request will link the email address to the user represented by this ID token and enable sign-in with email link on the account for the future. */
-  idToken?: string | Redacted.Redacted<string> | undefined;
-  /** The ID of the Identity Platform tenant the user is signing in to. If not set, the user will sign in to the default Identity Platform project. */
-  tenantId?: string | undefined;
-  /** Required. The email address the sign-in link was sent to. The length of email should be less than 256 characters and in the format of `name@domain.tld`. The email should also match the [RFC 822](https://tools.ietf.org/html/rfc822) addr-spec production. */
-  email?: string | undefined;
   /** Required. The out-of-band code from the email link. */
   oobCode?: string | undefined;
+  /** The ID of the Identity Platform tenant the user is signing in to. If not set, the user will sign in to the default Identity Platform project. */
+  tenantId?: string | undefined;
+  /** A valid ID token for an Identity Platform account. If passed, this request will link the email address to the user represented by this ID token and enable sign-in with email link on the account for the future. */
+  idToken?: string | Redacted.Redacted<string> | undefined;
+  /** Required. The email address the sign-in link was sent to. The length of email should be less than 256 characters and in the format of `name@domain.tld`. The email should also match the [RFC 822](https://tools.ietf.org/html/rfc822) addr-spec production. */
+  email?: string | undefined;
 }
 export interface SignInWithEmailLinkAccountsRequest extends GoogleCloudIdentitytoolkitV1SignInWithEmailLinkRequest {}
 /** Response message for SignInWithEmailLink. */
 export interface GoogleCloudIdentitytoolkitV1SignInWithEmailLinkResponse {
-  /** Whether the authenticated user was created by this request. */
-  isNewUser?: boolean | undefined;
-  /** Refresh token for the authenticated user. */
-  refreshToken?: string | Redacted.Redacted<string> | undefined;
-  /** An Identity Platform ID token for the authenticated user. */
-  idToken?: string | Redacted.Redacted<string> | undefined;
-  /** An opaque string that functions as proof that the user has successfully passed the first factor check. */
-  mfaPendingCredential?: string | Redacted.Redacted<string> | undefined;
-  /** Info on which multi-factor authentication providers are enabled. Present if the user needs to complete the sign-in using multi-factor authentication. */
-  mfaInfo?: GoogleCloudIdentitytoolkitV1MfaEnrollmentList | undefined;
   /** The email the user signed in with. Always present in the response. */
   email?: string | undefined;
+  /** Whether the authenticated user was created by this request. */
+  isNewUser?: boolean | undefined;
+  kind?: string | undefined;
+  /** Info on which multi-factor authentication providers are enabled. Present if the user needs to complete the sign-in using multi-factor authentication. */
+  mfaInfo?: GoogleCloudIdentitytoolkitV1MfaEnrollmentList | undefined;
+  /** An Identity Platform ID token for the authenticated user. */
+  idToken?: string | Redacted.Redacted<string> | undefined;
+  /** Refresh token for the authenticated user. */
+  refreshToken?: string | Redacted.Redacted<string> | undefined;
   /** The ID of the authenticated user. Always present in the response. */
   localId?: string | undefined;
-  kind?: string | undefined;
+  /** An opaque string that functions as proof that the user has successfully passed the first factor check. */
+  mfaPendingCredential?: string | Redacted.Redacted<string> | undefined;
   /** The number of seconds until the ID token expires. */
   expiresIn?: string | undefined;
 }
 /** Request message for SignInWithGameCenter */
 export interface GoogleCloudIdentitytoolkitV1SignInWithGameCenterRequest {
-  /** The user's Game Center team player ID. A unique identifier for a player of all the games that you distribute using your developer account. https://developer.apple.com/documentation/gamekit/gkplayer/3174857-teamplayerid */
-  teamPlayerId?: string | undefined;
   /** A valid ID token for an Identity Platform account. If present, this request will link the Game Center player ID to the account represented by this ID token. */
   idToken?: string | Redacted.Redacted<string> | undefined;
-  /** The user's Game Center display name. */
-  displayName?: string | undefined;
-  /** Required. A random string used to generate the given signature. */
-  salt?: string | undefined;
+  /** The user's Game Center team player ID. A unique identifier for a player of all the games that you distribute using your developer account. https://developer.apple.com/documentation/gamekit/gkplayer/3174857-teamplayerid */
+  teamPlayerId?: string | undefined;
   /** Required. The time when the signature was created by Apple, in milliseconds since the epoch. */
   timestamp?: string | undefined;
+  /** The ID of the Identity Platform tenant the user is signing in to. */
+  tenantId?: string | undefined;
   /** Required. The URL to fetch the Apple public key in order to verify the given signature is signed by Apple. */
   publicKeyUrl?: string | undefined;
+  /** Required. A random string used to generate the given signature. */
+  salt?: string | undefined;
   /** Required. The verification signature data generated by Apple. */
   signature?: string | undefined;
+  /** The user's Game Center display name. */
+  displayName?: string | undefined;
   /** The user's Game Center game player ID. A unique identifier for a player of the game. https://developer.apple.com/documentation/gamekit/gkplayer/3113960-gameplayerid */
   gamePlayerId?: string | undefined;
   /** Required. The user's Game Center player ID. Deprecated by Apple. Pass `playerID` along with `gamePlayerID` and `teamPlayerID` to initiate the migration of a user's Game Center player ID to `gamePlayerID`. */
   playerId?: string | undefined;
-  /** The ID of the Identity Platform tenant the user is signing in to. */
-  tenantId?: string | undefined;
 }
 export interface SignInWithGameCenterAccountsRequest extends GoogleCloudIdentitytoolkitV1SignInWithGameCenterRequest {}
 /** Response message for SignInWithGameCenter */
 export interface GoogleCloudIdentitytoolkitV1SignInWithGameCenterResponse {
-  /** An Identity Platform ID token for the authenticated user. */
-  idToken?: string | Redacted.Redacted<string> | undefined;
   /** Whether the logged in user was created by this request. */
   isNewUser?: boolean | undefined;
+  /** The ID of the authenticated user. Always present in the response. */
+  localId?: string | undefined;
   /** The user's Game Center team player ID. A unique identifier for a player of all the games that you distribute using your developer account. https://developer.apple.com/documentation/gamekit/gkplayer/3174857-teamplayerid */
   teamPlayerId?: string | undefined;
+  /** Display name of the authenticated user. */
+  displayName?: string | undefined;
+  /** The user's Game Center player ID. Pass `playerID` along with `gamePlayerID` and `teamPlayerID` to initiate the migration of a user's Game Center player ID to `gamePlayerID`. */
+  playerId?: string | undefined;
+  /** The user's Game Center game player ID. A unique identifier for a player of the game. https://developer.apple.com/documentation/gamekit/gkplayer/3113960-gameplayerid */
+  gamePlayerId?: string | undefined;
   /** An Identity Platform refresh token for the authenticated user. */
   refreshToken?: string | Redacted.Redacted<string> | undefined;
   /** The number of seconds until the ID token expires. */
   expiresIn?: string | undefined;
-  /** Display name of the authenticated user. */
-  displayName?: string | undefined;
-  /** The user's Game Center game player ID. A unique identifier for a player of the game. https://developer.apple.com/documentation/gamekit/gkplayer/3113960-gameplayerid */
-  gamePlayerId?: string | undefined;
-  /** The user's Game Center player ID. Pass `playerID` along with `gamePlayerID` and `teamPlayerID` to initiate the migration of a user's Game Center player ID to `gamePlayerID`. */
-  playerId?: string | undefined;
-  /** The ID of the authenticated user. Always present in the response. */
-  localId?: string | undefined;
+  /** An Identity Platform ID token for the authenticated user. */
+  idToken?: string | Redacted.Redacted<string> | undefined;
 }
 /** Request message for SignInWithIdp. */
 export interface GoogleCloudIdentitytoolkitV1SignInWithIdpRequest {
-  /** The session ID returned from a previous CreateAuthUri call. This field is verified against that session ID to prevent session fixation attacks. Required if the user is signing in with an authorization response from a previous CreateAuthUri authorization request. */
-  sessionId?: string | undefined;
-  autoCreate?: boolean | undefined;
-  /** Should always be true. */
-  returnSecureToken?: boolean | undefined;
-  /** An opaque string from a previous SignInWithIdp response. If set, it can be used to repeat the sign-in operation from the previous SignInWithIdp operation. This may be present if the user needs to confirm their account information as part of a previous federated login attempt, or perform account linking. */
-  pendingToken?: string | Redacted.Redacted<string> | undefined;
-  /** Whether or not to return OAuth credentials from the IdP on the following errors: `FEDERATED_USER_ID_ALREADY_LINKED` and `EMAIL_EXISTS`. */
-  returnIdpCredential?: boolean | undefined;
-  /** Required. The URL to which the IdP redirects the user back. This can be set to `http://localhost` if the user is signing in with a manually provided IdP credential. */
-  requestUri?: string | undefined;
-  /** Whether or not to return the OAuth refresh token from the IdP, if available. */
-  returnRefreshToken?: boolean | undefined;
-  /** A valid Identity Platform ID token. If passed, the user's account at the IdP will be linked to the account represented by this ID token. */
-  idToken?: string | Redacted.Redacted<string> | undefined;
-  pendingIdToken?: string | Redacted.Redacted<string> | undefined;
-  delegatedProjectNumber?: string | undefined;
-  /** If the user is signing in with an authorization response obtained via a previous CreateAuthUri authorization request, this is the body of the HTTP POST callback from the IdP, if present. Otherwise, if the user is signing in with a manually provided IdP credential, this should be a URL-encoded form that contains the credential (e.g. an ID token or access token for OAuth 2.0 IdPs) and the provider ID of the IdP that issued the credential. For example, if the user is signing in to the Google provider using a Google ID token, this should be set to id_token`=[GOOGLE_ID_TOKEN]&providerId=google.com`, where `[GOOGLE_ID_TOKEN]` should be replaced with the Google ID token. If the user is signing in to the Facebook provider using a Facebook authentication token, this should be set to id_token`=[FACEBOOK_AUTHENTICATION_TOKEN]&providerId=facebook. com&nonce= [NONCE]`, where `[FACEBOOK_AUTHENTICATION_TOKEN]` should be replaced with the Facebook authentication token. Nonce is required for validating the token. The request will fail if no nonce is provided. If the user is signing in to the Facebook provider using a Facebook access token, this should be set to access_token`=[FACEBOOK_ACCESS_TOKEN]&providerId=facebook. com`, where `[FACEBOOK_ACCESS_TOKEN]` should be replaced with the Facebook access token. If the user is signing in to the Twitter provider using a Twitter OAuth 1.0 credential, this should be set to access_token`=[TWITTER_ACCESS_TOKEN]&oauth_token_secret= [TWITTER_TOKEN_SECRET]&providerId=twitter.com`, where `[TWITTER_ACCESS_TOKEN]` and `[TWITTER_TOKEN_SECRET]` should be replaced with the Twitter OAuth access token and Twitter OAuth token secret respectively. */
-  postBody?: string | undefined;
   /** The ID of the Identity Platform tenant the user is signing in to. If not set, the user will sign in to the default Identity Platform project. */
   tenantId?: string | undefined;
+  autoCreate?: boolean | undefined;
+  /** Required. The URL to which the IdP redirects the user back. This can be set to `http://localhost` if the user is signing in with a manually provided IdP credential. */
+  requestUri?: string | undefined;
+  /** An opaque string from a previous SignInWithIdp response. If set, it can be used to repeat the sign-in operation from the previous SignInWithIdp operation. This may be present if the user needs to confirm their account information as part of a previous federated login attempt, or perform account linking. */
+  pendingToken?: string | Redacted.Redacted<string> | undefined;
+  pendingIdToken?: string | Redacted.Redacted<string> | undefined;
+  /** A valid Identity Platform ID token. If passed, the user's account at the IdP will be linked to the account represented by this ID token. */
+  idToken?: string | Redacted.Redacted<string> | undefined;
+  delegatedProjectNumber?: string | undefined;
+  /** Should always be true. */
+  returnSecureToken?: boolean | undefined;
+  /** Whether or not to return the OAuth refresh token from the IdP, if available. */
+  returnRefreshToken?: boolean | undefined;
+  /** The session ID returned from a previous CreateAuthUri call. This field is verified against that session ID to prevent session fixation attacks. Required if the user is signing in with an authorization response from a previous CreateAuthUri authorization request. */
+  sessionId?: string | undefined;
+  /** If the user is signing in with an authorization response obtained via a previous CreateAuthUri authorization request, this is the body of the HTTP POST callback from the IdP, if present. Otherwise, if the user is signing in with a manually provided IdP credential, this should be a URL-encoded form that contains the credential (e.g. an ID token or access token for OAuth 2.0 IdPs) and the provider ID of the IdP that issued the credential. For example, if the user is signing in to the Google provider using a Google ID token, this should be set to id_token`=[GOOGLE_ID_TOKEN]&providerId=google.com`, where `[GOOGLE_ID_TOKEN]` should be replaced with the Google ID token. If the user is signing in to the Facebook provider using a Facebook authentication token, this should be set to id_token`=[FACEBOOK_AUTHENTICATION_TOKEN]&providerId=facebook. com&nonce= [NONCE]`, where `[FACEBOOK_AUTHENTICATION_TOKEN]` should be replaced with the Facebook authentication token. Nonce is required for validating the token. The request will fail if no nonce is provided. If the user is signing in to the Facebook provider using a Facebook access token, this should be set to access_token`=[FACEBOOK_ACCESS_TOKEN]&providerId=facebook. com`, where `[FACEBOOK_ACCESS_TOKEN]` should be replaced with the Facebook access token. If the user is signing in to the Twitter provider using a Twitter OAuth 1.0 credential, this should be set to access_token`=[TWITTER_ACCESS_TOKEN]&oauth_token_secret= [TWITTER_TOKEN_SECRET]&providerId=twitter.com`, where `[TWITTER_ACCESS_TOKEN]` and `[TWITTER_TOKEN_SECRET]` should be replaced with the Twitter OAuth access token and Twitter OAuth token secret respectively. */
+  postBody?: string | undefined;
+  /** Whether or not to return OAuth credentials from the IdP on the following errors: `FEDERATED_USER_ID_ALREADY_LINKED` and `EMAIL_EXISTS`. */
+  returnIdpCredential?: boolean | undefined;
 }
 export interface SignInWithIdpAccountsRequest extends GoogleCloudIdentitytoolkitV1SignInWithIdpRequest {}
 /** Response message for SignInWithIdp. */
 export interface GoogleCloudIdentitytoolkitV1SignInWithIdpResponse {
-  /** The last name for the user's account at the IdP. */
-  lastName?: string | undefined;
-  /** The OAuth 2.0 refresh token from the IdP, if available and `return_refresh_token` is set to `true`. */
-  oauthRefreshToken?: string | Redacted.Redacted<string> | undefined;
-  /** The full name for the user's account at the IdP. */
-  fullName?: string | undefined;
-  /** The provider ID of the IdP that the user is signing in to. Always present in the response. */
-  providerId?: string | undefined;
-  /** The OAuth access token from the IdP, if available. */
-  oauthAccessToken?: string | Redacted.Redacted<string> | undefined;
-  /** Whether or not a new Identity Platform account was created for the authenticated user. */
-  isNewUser?: boolean | undefined;
-  /** Info on which multi-factor authentication providers are enabled for the account. Present if the user needs to complete the sign-in using multi-factor authentication. */
-  mfaInfo?: GoogleCloudIdentitytoolkitV1MfaEnrollmentList | undefined;
-  /** The OAuth 2.0 authorization code, if available. Only present for the Google provider. */
-  oauthAuthorizationCode?: string | undefined;
-  /** The time zone for the user's account at the IdP. */
-  timeZone?: string | undefined;
-  /** The error message returned if `return_idp_credential` is set to `true` and either the `FEDERATED_USER_ID_ALREADY_LINKED` or `EMAIL_EXISTS` error is encountered. This field's value is either `FEDERATED_USER_ID_ALREADY_LINKED` or `EMAIL_EXISTS`. */
-  errorMessage?: string | undefined;
-  /** The first name for the user's account at the IdP. */
-  firstName?: string | undefined;
-  /** The main (top-level) email address of the user's Identity Platform account, if different from the email address at the IdP. Only present if the "One account per email address" setting is enabled. */
-  originalEmail?: string | undefined;
-  /** The number of seconds until the OAuth access token from the IdP expires. */
-  oauthExpireIn?: number | undefined;
-  /** The nickname for the user's account at the IdP. */
-  nickName?: string | undefined;
-  kind?: string | undefined;
-  /** The user's account ID at the IdP. Always present in the response. */
-  federatedId?: string | undefined;
-  /** The OAuth 1.0 token secret from the IdP, if available. Only present for the Twitter provider. */
-  oauthTokenSecret?: string | Redacted.Redacted<string> | undefined;
-  /** The number of seconds until the Identity Platform ID token expires. */
-  expiresIn?: string | undefined;
-  inputEmail?: string | undefined;
-  /** The value of the `tenant_id` field in the request. */
-  tenantId?: string | undefined;
-  /** Whether or not there is an existing Identity Platform user account with the same email address but linked to a different account at the same IdP. Only present if the "One account per email address" setting is enabled and the email address at the IdP is verified. */
-  emailRecycled?: boolean | undefined;
-  /** An Identity Platform refresh token for the authenticated user. */
-  refreshToken?: string | Redacted.Redacted<string> | undefined;
-  /** A list of provider IDs that the user can sign in to in order to resolve a `need_confirmation` error. Only present if `need_confirmation` is set to `true`. */
-  verifiedProvider?: StringList | undefined;
-  needEmail?: boolean | undefined;
-  /** An opaque string that can be used as a credential from the IdP the user is signing into. The pending token obtained here can be set in a future SignInWithIdp request to sign the same user in with the IdP again. */
-  pendingToken?: string | Redacted.Redacted<string> | undefined;
-  /** The date of birth for the user's account at the IdP. */
-  dateOfBirth?: string | undefined;
-  /** An Identity Platform ID token for the authenticated user. */
-  idToken?: string | Redacted.Redacted<string> | undefined;
-  /** The OpenID Connect ID token from the IdP, if available. */
-  oauthIdToken?: string | Redacted.Redacted<string> | undefined;
   /** Whether the user account's email address is verified. */
   emailVerified?: boolean | undefined;
-  /** The email address of the user's account at the IdP. */
-  email?: string | undefined;
-  /** The stringified JSON response containing all the data corresponding to the user's account at the IdP. */
-  rawUserInfo?: string | undefined;
-  /** The ID of the authenticated Identity Platform user. Always present in the response. */
-  localId?: string | undefined;
-  /** An opaque string that functions as proof that the user has successfully passed the first factor authentication. */
-  mfaPendingCredential?: string | Redacted.Redacted<string> | undefined;
-  /** The screen name for the user's account at the Twitter IdP or the login name for the user's account at the GitHub IdP. */
-  screenName?: string | undefined;
+  /** An Identity Platform refresh token for the authenticated user. */
+  refreshToken?: string | Redacted.Redacted<string> | undefined;
+  /** The time zone for the user's account at the IdP. */
+  timeZone?: string | undefined;
   /** The opaque string set in CreateAuthUri that is used to maintain contextual information between the authentication request and the callback from the IdP. */
   context?: string | undefined;
-  /** The display name for the user's account at the IdP. */
-  displayName?: string | undefined;
-  /** The URL of the user's profile picture at the IdP. */
-  photoUrl?: string | undefined;
-  /** Whether or not there is an existing Identity Platform user account with the same email address as the current account signed in at the IdP, and the account's email address is not verified at the IdP. The user will need to sign in to the existing Identity Platform account and then link the current credential from the IdP to it. Only present if the "One account per email address" setting is enabled. */
-  needConfirmation?: boolean | undefined;
+  kind?: string | undefined;
+  /** The number of seconds until the Identity Platform ID token expires. */
+  expiresIn?: string | undefined;
+  /** The screen name for the user's account at the Twitter IdP or the login name for the user's account at the GitHub IdP. */
+  screenName?: string | undefined;
+  needEmail?: boolean | undefined;
+  /** An opaque string that functions as proof that the user has successfully passed the first factor authentication. */
+  mfaPendingCredential?: string | Redacted.Redacted<string> | undefined;
+  /** The OAuth access token from the IdP, if available. */
+  oauthAccessToken?: string | Redacted.Redacted<string> | undefined;
+  /** The main (top-level) email address of the user's Identity Platform account, if different from the email address at the IdP. Only present if the "One account per email address" setting is enabled. */
+  originalEmail?: string | undefined;
+  /** The error message returned if `return_idp_credential` is set to `true` and either the `FEDERATED_USER_ID_ALREADY_LINKED` or `EMAIL_EXISTS` error is encountered. This field's value is either `FEDERATED_USER_ID_ALREADY_LINKED` or `EMAIL_EXISTS`. */
+  errorMessage?: string | undefined;
+  /** The number of seconds until the OAuth access token from the IdP expires. */
+  oauthExpireIn?: number | undefined;
   /** The language preference for the user's account at the IdP. */
   language?: string | undefined;
+  /** The value of the `tenant_id` field in the request. */
+  tenantId?: string | undefined;
+  /** The OpenID Connect ID token from the IdP, if available. */
+  oauthIdToken?: string | Redacted.Redacted<string> | undefined;
+  /** The provider ID of the IdP that the user is signing in to. Always present in the response. */
+  providerId?: string | undefined;
+  /** Whether or not a new Identity Platform account was created for the authenticated user. */
+  isNewUser?: boolean | undefined;
+  /** The OAuth 1.0 token secret from the IdP, if available. Only present for the Twitter provider. */
+  oauthTokenSecret?: string | Redacted.Redacted<string> | undefined;
+  /** The date of birth for the user's account at the IdP. */
+  dateOfBirth?: string | undefined;
+  inputEmail?: string | undefined;
+  /** The user's account ID at the IdP. Always present in the response. */
+  federatedId?: string | undefined;
+  /** The email address of the user's account at the IdP. */
+  email?: string | undefined;
+  /** The nickname for the user's account at the IdP. */
+  nickName?: string | undefined;
+  /** The last name for the user's account at the IdP. */
+  lastName?: string | undefined;
+  /** The ID of the authenticated Identity Platform user. Always present in the response. */
+  localId?: string | undefined;
+  /** Whether or not there is an existing Identity Platform user account with the same email address as the current account signed in at the IdP, and the account's email address is not verified at the IdP. The user will need to sign in to the existing Identity Platform account and then link the current credential from the IdP to it. Only present if the "One account per email address" setting is enabled. */
+  needConfirmation?: boolean | undefined;
+  /** The OAuth 2.0 authorization code, if available. Only present for the Google provider. */
+  oauthAuthorizationCode?: string | undefined;
+  /** Whether or not there is an existing Identity Platform user account with the same email address but linked to a different account at the same IdP. Only present if the "One account per email address" setting is enabled and the email address at the IdP is verified. */
+  emailRecycled?: boolean | undefined;
+  /** The display name for the user's account at the IdP. */
+  displayName?: string | undefined;
+  /** A list of provider IDs that the user can sign in to in order to resolve a `need_confirmation` error. Only present if `need_confirmation` is set to `true`. */
+  verifiedProvider?: StringList | undefined;
+  /** Info on which multi-factor authentication providers are enabled for the account. Present if the user needs to complete the sign-in using multi-factor authentication. */
+  mfaInfo?: GoogleCloudIdentitytoolkitV1MfaEnrollmentList | undefined;
+  /** An Identity Platform ID token for the authenticated user. */
+  idToken?: string | Redacted.Redacted<string> | undefined;
+  /** An opaque string that can be used as a credential from the IdP the user is signing into. The pending token obtained here can be set in a future SignInWithIdp request to sign the same user in with the IdP again. */
+  pendingToken?: string | Redacted.Redacted<string> | undefined;
+  /** The URL of the user's profile picture at the IdP. */
+  photoUrl?: string | undefined;
+  /** The full name for the user's account at the IdP. */
+  fullName?: string | undefined;
+  /** The first name for the user's account at the IdP. */
+  firstName?: string | undefined;
+  /** The OAuth 2.0 refresh token from the IdP, if available and `return_refresh_token` is set to `true`. */
+  oauthRefreshToken?: string | Redacted.Redacted<string> | undefined;
+  /** The stringified JSON response containing all the data corresponding to the user's account at the IdP. */
+  rawUserInfo?: string | undefined;
 }
-export type GoogleCloudIdentitytoolkitV1SignInWithPasswordRequestRecaptchaVersionEnum =
-  | "RECAPTCHA_VERSION_UNSPECIFIED"
-  | "RECAPTCHA_ENTERPRISE";
 export type GoogleCloudIdentitytoolkitV1SignInWithPasswordRequestClientTypeEnum =
   | "CLIENT_TYPE_UNSPECIFIED"
   | "CLIENT_TYPE_WEB"
   | "CLIENT_TYPE_ANDROID"
   | "CLIENT_TYPE_IOS";
+export type GoogleCloudIdentitytoolkitV1SignInWithPasswordRequestRecaptchaVersionEnum =
+  | "RECAPTCHA_VERSION_UNSPECIFIED"
+  | "RECAPTCHA_ENTERPRISE";
 /** Request message for SignInWithPassword. */
 export interface GoogleCloudIdentitytoolkitV1SignInWithPasswordRequest {
-  pendingIdToken?: string | Redacted.Redacted<string> | undefined;
-  /** The reCAPTCHA version of the reCAPTCHA token in the captcha_response. */
-  recaptchaVersion?:
-    | GoogleCloudIdentitytoolkitV1SignInWithPasswordRequestRecaptchaVersionEnum
-    | (string & {})
-    | undefined;
-  instanceId?: string | undefined;
-  /** Should always be true. */
-  returnSecureToken?: boolean | undefined;
-  /** The ID of the Identity Platform tenant the user is signing in to. If not set, the user will sign in to the default Identity Platform instance in the project. */
-  tenantId?: string | undefined;
-  /** The reCAPTCHA token provided by the reCAPTCHA client-side integration. reCAPTCHA Enterprise uses it for risk assessment. Required when reCAPTCHA Enterprise is enabled. */
-  captchaResponse?: string | undefined;
-  idToken?: string | Redacted.Redacted<string> | undefined;
-  delegatedProjectNumber?: string | undefined;
-  /** Required. The password the user provides to sign in to the account. */
-  password?: string | Redacted.Redacted<string> | undefined;
-  /** Required. The email the user is signing in with. The length of email should be less than 256 characters and in the format of `name@domain.tld`. The email should also match the [RFC 822](https://tools.ietf.org/html/rfc822) addr-spec production. */
-  email?: string | undefined;
-  captchaChallenge?: string | undefined;
   /** The client type, web, android or ios. Required when reCAPTCHA Enterprise is enabled. */
   clientType?:
     | GoogleCloudIdentitytoolkitV1SignInWithPasswordRequestClientTypeEnum
     | (string & {})
     | undefined;
+  /** The reCAPTCHA token provided by the reCAPTCHA client-side integration. reCAPTCHA Enterprise uses it for risk assessment. Required when reCAPTCHA Enterprise is enabled. */
+  captchaResponse?: string | undefined;
+  /** Required. The email the user is signing in with. The length of email should be less than 256 characters and in the format of `name@domain.tld`. The email should also match the [RFC 822](https://tools.ietf.org/html/rfc822) addr-spec production. */
+  email?: string | undefined;
+  instanceId?: string | undefined;
+  idToken?: string | Redacted.Redacted<string> | undefined;
+  delegatedProjectNumber?: string | undefined;
+  pendingIdToken?: string | Redacted.Redacted<string> | undefined;
+  /** Required. The password the user provides to sign in to the account. */
+  password?: string | Redacted.Redacted<string> | undefined;
+  captchaChallenge?: string | undefined;
+  /** Should always be true. */
+  returnSecureToken?: boolean | undefined;
+  /** The reCAPTCHA version of the reCAPTCHA token in the captcha_response. */
+  recaptchaVersion?:
+    | GoogleCloudIdentitytoolkitV1SignInWithPasswordRequestRecaptchaVersionEnum
+    | (string & {})
+    | undefined;
+  /** The ID of the Identity Platform tenant the user is signing in to. If not set, the user will sign in to the default Identity Platform instance in the project. */
+  tenantId?: string | undefined;
 }
 export interface SignInWithPasswordAccountsRequest extends GoogleCloudIdentitytoolkitV1SignInWithPasswordRequest {}
 export type GoogleCloudIdentitytoolkitV1UserNotificationNotificationCodeEnum =
@@ -1259,43 +1259,43 @@ export type GoogleCloudIdentitytoolkitV1UserNotificationNotificationCodeEnum =
   | "MAXIMUM_PASSWORD_LENGTH";
 /** Warning notifications for the user. */
 export interface GoogleCloudIdentitytoolkitV1UserNotification {
-  /** Warning notification string. Can be used as fallback. */
-  notificationMessage?: string | undefined;
   /** Warning notification enum. Can be used for localization. */
   notificationCode?: GoogleCloudIdentitytoolkitV1UserNotificationNotificationCodeEnum | undefined;
+  /** Warning notification string. Can be used as fallback. */
+  notificationMessage?: string | undefined;
 }
 export type GoogleCloudIdentitytoolkitV1UserNotificationList =
   Array<GoogleCloudIdentitytoolkitV1UserNotification>;
 /** Response message for SignInWithPassword. */
 export interface GoogleCloudIdentitytoolkitV1SignInWithPasswordResponse {
-  /** An Identity Platform ID token for the authenticated user. */
-  idToken?: string | Redacted.Redacted<string> | undefined;
   /** Whether the email is for an existing account. Always true. */
   registered?: boolean | undefined;
-  /** The email of the authenticated user. Always present in the response. */
-  email?: string | undefined;
-  /** An opaque string that functions as proof that the user has successfully passed the first factor authentication. */
-  mfaPendingCredential?: string | Redacted.Redacted<string> | undefined;
+  /** An Identity Platform refresh token for the authenticated user. */
+  refreshToken?: string | Redacted.Redacted<string> | undefined;
+  /** An Identity Platform ID token for the authenticated user. */
+  idToken?: string | Redacted.Redacted<string> | undefined;
+  kind?: string | undefined;
   /** Info on which multi-factor authentication providers are enabled for the account. Present if the user needs to complete the sign-in using multi-factor authentication. */
   mfaInfo?: GoogleCloudIdentitytoolkitV1MfaEnrollmentList | undefined;
-  kind?: string | undefined;
+  /** An opaque string that functions as proof that the user has successfully passed the first factor authentication. */
+  mfaPendingCredential?: string | Redacted.Redacted<string> | undefined;
+  oauthAuthorizationCode?: string | undefined;
   /** The user's display name stored in the account's attributes. */
   displayName?: string | undefined;
   /** The access token expiration time in seconds. */
   oauthExpireIn?: number | undefined;
-  /** The user's profile picture stored in the account's attributes. */
-  profilePicture?: string | undefined;
-  /** An Identity Platform refresh token for the authenticated user. */
-  refreshToken?: string | Redacted.Redacted<string> | undefined;
   /** The OAuth2 access token. */
   oauthAccessToken?: string | Redacted.Redacted<string> | undefined;
-  oauthAuthorizationCode?: string | undefined;
-  /** Warning notifications for the user. */
-  userNotifications?: GoogleCloudIdentitytoolkitV1UserNotificationList | undefined;
-  /** The number of seconds until the Identity Platform ID token expires. */
-  expiresIn?: string | undefined;
+  /** The user's profile picture stored in the account's attributes. */
+  profilePicture?: string | undefined;
   /** The ID of the authenticated user. Always present in the response. */
   localId?: string | undefined;
+  /** The number of seconds until the Identity Platform ID token expires. */
+  expiresIn?: string | undefined;
+  /** The email of the authenticated user. Always present in the response. */
+  email?: string | undefined;
+  /** Warning notifications for the user. */
+  userNotifications?: GoogleCloudIdentitytoolkitV1UserNotificationList | undefined;
 }
 export type GoogleCloudIdentitytoolkitV1SignInWithPhoneNumberRequestOperationEnum =
   | "VERIFY_OP_UNSPECIFIED"
@@ -1305,55 +1305,50 @@ export type GoogleCloudIdentitytoolkitV1SignInWithPhoneNumberRequestOperationEnu
   | "LINK";
 /** Request message for SignInWithPhoneNumber. */
 export interface GoogleCloudIdentitytoolkitV1SignInWithPhoneNumberRequest {
-  operation?:
-    | GoogleCloudIdentitytoolkitV1SignInWithPhoneNumberRequestOperationEnum
-    | (string & {})
-    | undefined;
-  /** The ID of the Identity Platform tenant the user is signing in to. If not set, the user will sign in to the default Identity Platform project. */
-  tenantId?: string | undefined;
-  /** A valid ID token for an Identity Platform account. If passed, this request will link the phone number to the user represented by this ID token if the phone number is not in use, or will reauthenticate the user if the phone number is already linked to the user. */
-  idToken?: string | Redacted.Redacted<string> | undefined;
-  /** Do not use. */
-  verificationProof?: string | undefined;
   /** A proof of the phone number verification, provided from a previous signInWithPhoneNumber request. If this is passed, the caller must also pass in the phone_number field the phone number that was verified in the previous request. */
   temporaryProof?: string | undefined;
-  /** Encrypted session information from the response of sendVerificationCode. In the case of authenticating with an SMS code this must be specified, but in the case of using a temporary proof it can be unspecified. */
-  sessionInfo?: string | undefined;
   /** User-entered verification code from an SMS sent to the user's phone. */
   code?: string | undefined;
   /** The user's phone number to sign in with. This is necessary in the case of uing a temporary proof, in which case it must match the phone number that was authenticated in the request that generated the temporary proof. This field is ignored if a session info is passed. */
   phoneNumber?: string | undefined;
+  /** A valid ID token for an Identity Platform account. If passed, this request will link the phone number to the user represented by this ID token if the phone number is not in use, or will reauthenticate the user if the phone number is already linked to the user. */
+  idToken?: string | Redacted.Redacted<string> | undefined;
+  /** Encrypted session information from the response of sendVerificationCode. In the case of authenticating with an SMS code this must be specified, but in the case of using a temporary proof it can be unspecified. */
+  sessionInfo?: string | undefined;
+  /** Do not use. */
+  verificationProof?: string | undefined;
+  /** The ID of the Identity Platform tenant the user is signing in to. If not set, the user will sign in to the default Identity Platform project. */
+  tenantId?: string | undefined;
+  operation?:
+    | GoogleCloudIdentitytoolkitV1SignInWithPhoneNumberRequestOperationEnum
+    | (string & {})
+    | undefined;
 }
 export interface SignInWithPhoneNumberAccountsRequest extends GoogleCloudIdentitytoolkitV1SignInWithPhoneNumberRequest {}
 /** Response message for SignInWithPhoneNumber. */
 export interface GoogleCloudIdentitytoolkitV1SignInWithPhoneNumberResponse {
   /** Refresh token for the authenticated user. */
   refreshToken?: string | Redacted.Redacted<string> | undefined;
-  /** Do not use. */
-  verificationProof?: string | undefined;
-  /** Identity Platform ID token for the authenticated user. */
-  idToken?: string | Redacted.Redacted<string> | undefined;
-  /** The number of seconds until the temporary proof expires. */
-  temporaryProofExpiresIn?: string | undefined;
-  /** Whether the authenticated user was created by this request. */
-  isNewUser?: boolean | undefined;
-  /** A proof of the phone number verification, provided if a phone authentication is successful but the user operation fails. This happens when the request tries to link a phone number to a user with an ID token or reauthenticate with an ID token but the phone number is linked to a different user. */
-  temporaryProof?: string | undefined;
-  /** Do not use. */
-  verificationProofExpiresIn?: string | undefined;
-  /** Phone number of the authenticated user. Always present in the response. */
-  phoneNumber?: string | undefined;
-  /** The number of seconds until the ID token expires. */
-  expiresIn?: string | undefined;
   /** The id of the authenticated user. Present in the case of a successful authentication. In the case when the phone could be verified but the account operation could not be performed, a temporary proof will be returned instead. */
   localId?: string | undefined;
+  /** Whether the authenticated user was created by this request. */
+  isNewUser?: boolean | undefined;
+  /** Do not use. */
+  verificationProofExpiresIn?: string | undefined;
+  /** Do not use. */
+  verificationProof?: string | undefined;
+  /** The number of seconds until the temporary proof expires. */
+  temporaryProofExpiresIn?: string | undefined;
+  /** Phone number of the authenticated user. Always present in the response. */
+  phoneNumber?: string | undefined;
+  /** A proof of the phone number verification, provided if a phone authentication is successful but the user operation fails. This happens when the request tries to link a phone number to a user with an ID token or reauthenticate with an ID token but the phone number is linked to a different user. */
+  temporaryProof?: string | undefined;
+  /** The number of seconds until the ID token expires. */
+  expiresIn?: string | undefined;
+  /** Identity Platform ID token for the authenticated user. */
+  idToken?: string | Redacted.Redacted<string> | undefined;
 }
 export interface SignUpAccountsRequest extends GoogleCloudIdentitytoolkitV1SignUpRequest {}
-/** Multi-factor authentication related information. */
-export interface GoogleCloudIdentitytoolkitV1MfaInfo {
-  /** The second factors the user has enrolled. */
-  enrollments?: GoogleCloudIdentitytoolkitV1MfaEnrollmentList | undefined;
-}
 export type GoogleCloudIdentitytoolkitV1SetAccountInfoRequestDeleteAttributeItemEnum =
   | "USER_ATTRIBUTE_NAME_UNSPECIFIED"
   | "EMAIL"
@@ -1365,88 +1360,93 @@ export type GoogleCloudIdentitytoolkitV1SetAccountInfoRequestDeleteAttributeItem
 export type GoogleCloudIdentitytoolkitV1SetAccountInfoRequestDeleteAttributeItemEnumList = Array<
   GoogleCloudIdentitytoolkitV1SetAccountInfoRequestDeleteAttributeItemEnum | (string & {})
 >;
+/** Multi-factor authentication related information. */
+export interface GoogleCloudIdentitytoolkitV1MfaInfo {
+  /** The second factors the user has enrolled. */
+  enrollments?: GoogleCloudIdentitytoolkitV1MfaEnrollmentList | undefined;
+}
 /** Request message for SetAccountInfo. */
 export interface GoogleCloudIdentitytoolkitV1SetAccountInfoRequest {
-  /** The user's new photo URL for the account's profile photo to be updated in the account's attributes. The length of the URL must be less than or equal to 2048 characters. */
-  photoUrl?: string | undefined;
-  /** The multi-factor authentication related information to be set on the user's account. This will overwrite any previous multi-factor related information on the account. Specifying this field requires a Google OAuth 2.0 credential with proper [permissions] (https://cloud.google.com/identity-platform/docs/access-control). */
-  mfa?: GoogleCloudIdentitytoolkitV1MfaInfo | undefined;
-  /** The timestamp in milliseconds when the account last logged in. */
-  lastLoginAt?: string | undefined;
-  /** The provider to be linked to the user's account. Specifying this field requires a Google OAuth 2.0 credential with proper [permissions] (https://cloud.google.com/identity-platform/docs/access-control). */
-  linkProviderUserInfo?: GoogleCloudIdentitytoolkitV1ProviderUserInfo | undefined;
-  /** The user's new display name to be updated in the account's attributes. The length of the display name must be less than or equal to 256 characters. */
-  displayName?: string | undefined;
-  /** The user's new email to be updated in the account's attributes. The length of email should be less than 256 characters and in the format of `name@domain.tld`. The email should also match the [RFC 822](https://tools.ietf.org/html/rfc822) addr-spec production. If [email enumeration protection](https://cloud.google.com/identity-platform/docs/admin/email-enumeration-protection) is enabled, the email cannot be changed by the user without verifying the email first, but it can be changed by an administrator. */
-  email?: string | undefined;
-  /** Whether the user's email has been verified. Specifying this field requires a Google OAuth 2.0 credential with proper [permissions] (https://cloud.google.com/identity-platform/docs/access-control). */
-  emailVerified?: boolean | undefined;
-  /** The response from reCaptcha challenge. This is required when the system detects possible abuse activities. */
-  captchaResponse?: string | undefined;
-  /** Whether the account should be restricted to only using federated login. */
-  upgradeToFederatedLogin?: boolean | undefined;
-  /** The user's new password to be updated in the account's attributes. The password must be at least 6 characters long. */
-  password?: string | Redacted.Redacted<string> | undefined;
-  /** The phone number to be updated in the account's attributes. */
-  phoneNumber?: string | undefined;
-  /** The tenant ID of the Identity Platform tenant that the account belongs to. Requests from end users should pass an Identity Platform ID token rather than setting this field. */
-  tenantId?: string | undefined;
-  delegatedProjectNumber?: string | undefined;
-  /** A valid Identity Platform ID token. Required when attempting to change user-related information. */
-  idToken?: string | Redacted.Redacted<string> | undefined;
-  /** The Identity Providers that the account should be associated with. */
-  provider?: StringList | undefined;
   /** The project ID for the project that the account belongs to. Specifying this field requires Google OAuth 2.0 credential with proper [permissions] (https://cloud.google.com/identity-platform/docs/access-control). Requests from end users should pass an Identity Platform ID token instead. */
   targetProjectId?: string | undefined;
-  /** Specifies the minimum timestamp in seconds for an Identity Platform ID token to be considered valid. */
-  validSince?: string | undefined;
-  /** The Identity Providers to unlink from the user's account. */
-  deleteProvider?: StringList | undefined;
-  /** The timestamp in milliseconds when the account was created. */
-  createdAt?: string | undefined;
-  captchaChallenge?: string | undefined;
-  /** Whether or not to return an ID and refresh token. Should always be true. */
-  returnSecureToken?: boolean | undefined;
-  /** The ID of the user. Specifying this field requires a Google OAuth 2.0 credential with proper [permissions] (https://cloud.google.com/identity-platform/docs/access-control). For requests from end-users, an ID token should be passed instead. */
-  localId?: string | undefined;
-  instanceId?: string | undefined;
+  /** The tenant ID of the Identity Platform tenant that the account belongs to. Requests from end users should pass an Identity Platform ID token rather than setting this field. */
+  tenantId?: string | undefined;
+  /** The provider to be linked to the user's account. Specifying this field requires a Google OAuth 2.0 credential with proper [permissions] (https://cloud.google.com/identity-platform/docs/access-control). */
+  linkProviderUserInfo?: GoogleCloudIdentitytoolkitV1ProviderUserInfo | undefined;
+  /** The Identity Providers that the account should be associated with. */
+  provider?: StringList | undefined;
+  /** The user's new password to be updated in the account's attributes. The password must be at least 6 characters long. */
+  password?: string | Redacted.Redacted<string> | undefined;
+  /** Whether the user's email has been verified. Specifying this field requires a Google OAuth 2.0 credential with proper [permissions] (https://cloud.google.com/identity-platform/docs/access-control). */
+  emailVerified?: boolean | undefined;
   /** JSON formatted custom attributes to be stored in the Identity Platform ID token. Specifying this field requires a Google OAuth 2.0 credential with proper [permissions] (https://cloud.google.com/identity-platform/docs/access-control). */
   customAttributes?: string | undefined;
+  instanceId?: string | undefined;
+  /** The user's new photo URL for the account's profile photo to be updated in the account's attributes. The length of the URL must be less than or equal to 2048 characters. */
+  photoUrl?: string | undefined;
+  /** Specifies the minimum timestamp in seconds for an Identity Platform ID token to be considered valid. */
+  validSince?: string | undefined;
+  /** The response from reCaptcha challenge. This is required when the system detects possible abuse activities. */
+  captchaResponse?: string | undefined;
+  /** The user's new display name to be updated in the account's attributes. The length of the display name must be less than or equal to 256 characters. */
+  displayName?: string | undefined;
+  /** The timestamp in milliseconds when the account last logged in. */
+  lastLoginAt?: string | undefined;
+  /** The phone number to be updated in the account's attributes. */
+  phoneNumber?: string | undefined;
+  /** The ID of the user. Specifying this field requires a Google OAuth 2.0 credential with proper [permissions] (https://cloud.google.com/identity-platform/docs/access-control). For requests from end-users, an ID token should be passed instead. */
+  localId?: string | undefined;
+  /** Whether or not to return an ID and refresh token. Should always be true. */
+  returnSecureToken?: boolean | undefined;
+  captchaChallenge?: string | undefined;
   /** The account's attributes to be deleted. */
   deleteAttribute?:
     | GoogleCloudIdentitytoolkitV1SetAccountInfoRequestDeleteAttributeItemEnumList
     | undefined;
+  /** Whether the account should be restricted to only using federated login. */
+  upgradeToFederatedLogin?: boolean | undefined;
   /** The out-of-band code to be applied on the user's account. The following out-of-band code types are supported: * VERIFY_EMAIL * RECOVER_EMAIL * REVERT_SECOND_FACTOR_ADDITION * VERIFY_AND_CHANGE_EMAIL */
   oobCode?: string | undefined;
+  /** A valid Identity Platform ID token. Required when attempting to change user-related information. */
+  idToken?: string | Redacted.Redacted<string> | undefined;
+  /** The Identity Providers to unlink from the user's account. */
+  deleteProvider?: StringList | undefined;
+  /** The timestamp in milliseconds when the account was created. */
+  createdAt?: string | undefined;
+  delegatedProjectNumber?: string | undefined;
+  /** The multi-factor authentication related information to be set on the user's account. This will overwrite any previous multi-factor related information on the account. Specifying this field requires a Google OAuth 2.0 credential with proper [permissions] (https://cloud.google.com/identity-platform/docs/access-control). */
+  mfa?: GoogleCloudIdentitytoolkitV1MfaInfo | undefined;
   /** If true, marks the account as disabled, meaning the user will no longer be able to sign-in. */
   disableUser?: boolean | undefined;
+  /** The user's new email to be updated in the account's attributes. The length of email should be less than 256 characters and in the format of `name@domain.tld`. The email should also match the [RFC 822](https://tools.ietf.org/html/rfc822) addr-spec production. If [email enumeration protection](https://cloud.google.com/identity-platform/docs/admin/email-enumeration-protection) is enabled, the email cannot be changed by the user without verifying the email first, but it can be changed by an administrator. */
+  email?: string | undefined;
 }
 export interface UpdateAccountsRequest extends GoogleCloudIdentitytoolkitV1SetAccountInfoRequest {}
 /** Response message for SetAccountInfo */
 export interface GoogleCloudIdentitytoolkitV1SetAccountInfoResponse {
   /** The new email that has been set on the user's account attributes. */
   newEmail?: string | undefined;
-  kind?: string | undefined;
-  /** The linked Identity Providers on the account. */
-  providerUserInfo?: GoogleCloudIdentitytoolkitV1ProviderUserInfoList | undefined;
-  /** The account's email address. */
-  email?: string | undefined;
-  /** Deprecated. No actual password hash is currently returned. */
-  passwordHash?: string | Redacted.Redacted<string> | undefined;
-  /** A refresh token for the account. This is used for legacy user sign up. */
-  refreshToken?: string | Redacted.Redacted<string> | undefined;
-  /** The ID of the authenticated user. */
-  localId?: string | undefined;
-  /** The user's photo URL for the account's profile photo. */
-  photoUrl?: string | undefined;
   /** An Identity Platform ID token for the account. This is used for legacy user sign up. */
   idToken?: string | Redacted.Redacted<string> | undefined;
+  kind?: string | undefined;
+  /** The account's email address. */
+  email?: string | undefined;
+  /** The account's display name. */
+  displayName?: string | undefined;
+  /** The linked Identity Providers on the account. */
+  providerUserInfo?: GoogleCloudIdentitytoolkitV1ProviderUserInfoList | undefined;
   /** Whether the account's email has been verified. */
   emailVerified?: boolean | undefined;
   /** The number of seconds until the Identity Platform ID token expires. */
   expiresIn?: string | undefined;
-  /** The account's display name. */
-  displayName?: string | undefined;
+  /** Deprecated. No actual password hash is currently returned. */
+  passwordHash?: string | Redacted.Redacted<string> | undefined;
+  /** The ID of the authenticated user. */
+  localId?: string | undefined;
+  /** A refresh token for the account. This is used for legacy user sign up. */
+  refreshToken?: string | Redacted.Redacted<string> | undefined;
+  /** The user's photo URL for the account's profile photo. */
+  photoUrl?: string | undefined;
 }
 export interface UpdateProjectsAccountsRequest extends Omit<
   GoogleCloudIdentitytoolkitV1SetAccountInfoRequest,
@@ -1457,19 +1457,19 @@ export interface UpdateProjectsAccountsRequest extends Omit<
 }
 export interface UpdateProjectsTenantsAccountsRequest extends Omit<
   GoogleCloudIdentitytoolkitV1SetAccountInfoRequest,
-  "tenantId" | "targetProjectId"
+  "targetProjectId" | "tenantId"
 > {
-  /** The project ID for the project that the account belongs to. Specifying this field requires Google OAuth 2.0 credential with proper [permissions] (https://cloud.google.com/identity-platform/docs/access-control). Requests from end users should pass an Identity Platform ID token instead. */
-  targetProjectId: string;
   /** The tenant ID of the Identity Platform tenant that the account belongs to. Requests from end users should pass an Identity Platform ID token rather than setting this field. */
   tenantId: string;
+  /** The project ID for the project that the account belongs to. Specifying this field requires Google OAuth 2.0 credential with proper [permissions] (https://cloud.google.com/identity-platform/docs/access-control). Requests from end users should pass an Identity Platform ID token instead. */
+  targetProjectId: string;
 }
 /** Request message for VerifyIosClient */
 export interface GoogleCloudIdentitytoolkitV1VerifyIosClientRequest {
-  /** Whether the app token is in the iOS sandbox. If false, the app token is in the production environment. */
-  isSandbox?: boolean | undefined;
   /** A device token that the iOS client gets after registering to APNs (Apple Push Notification service). */
   appToken?: string | Redacted.Redacted<string> | undefined;
+  /** Whether the app token is in the iOS sandbox. If false, the app token is in the production environment. */
+  isSandbox?: boolean | undefined;
 }
 export interface VerifyIosClientAccountsRequest extends GoogleCloudIdentitytoolkitV1VerifyIosClientRequest {}
 /** Response message for VerifyIosClient. */
@@ -2388,10 +2388,10 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          maxResults: S.optional(S.Number.pipe(T.Query())),
           targetProjectId: S.String.pipe(T.Label()),
           nextPageToken: S.optional(S.String.pipe(T.Query())),
           delegatedProjectNumber: S.optional(S.String.pipe(T.Query())),
+          maxResults: S.optional(S.Number.pipe(T.Query())),
           tenantId: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -2408,9 +2408,9 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           users: S.optional(__S(385, __c48, 1)),
           kind: S.optional(S.String),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudIdentitytoolkitV1DownloadAccountResponse" });
   }
@@ -2420,10 +2420,10 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          tenantId: S.String.pipe(T.Label()),
-          targetProjectId: S.String.pipe(T.Label()),
           nextPageToken: S.optional(S.String.pipe(T.Query())),
+          targetProjectId: S.String.pipe(T.Label()),
           maxResults: S.optional(S.Number.pipe(T.Query())),
+          tenantId: S.String.pipe(T.Label()),
           delegatedProjectNumber: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -2442,20 +2442,20 @@ function __c3(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          sessionId: S.optional(S.String),
-          hostedDomain: S.optional(S.String),
-          authFlowType: S.optional(S.String),
-          context: S.optional(S.String),
-          providerId: S.optional(S.String),
-          continueUri: S.optional(S.String),
-          openidRealm: S.optional(S.String),
           oauthConsumerKey: S.optional(S.String),
+          otaApp: S.optional(S.String),
+          context: S.optional(S.String),
+          authFlowType: S.optional(S.String),
+          sessionId: S.optional(S.String),
+          tenantId: S.optional(S.String),
           identifier: S.optional(S.String),
+          providerId: S.optional(S.String),
+          hostedDomain: S.optional(S.String),
+          openidRealm: S.optional(S.String),
+          appId: S.optional(S.String),
+          continueUri: S.optional(S.String),
           oauthScope: S.optional(S.String),
           customParameter: S.optional(__S(24, __c3, 0)),
-          appId: S.optional(S.String),
-          otaApp: S.optional(S.String),
-          tenantId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudIdentitytoolkitV1CreateAuthUriRequest" });
     case 2:
@@ -2471,15 +2471,15 @@ function __c3(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          providerId: S.optional(S.String),
-          forExistingProvider: S.optional(S.Boolean),
           registered: S.optional(S.Boolean),
-          allProviders: S.optional(__S(440, __c55, 0)),
-          sessionId: S.optional(S.String),
+          forExistingProvider: S.optional(S.Boolean),
           signinMethods: S.optional(__S(440, __c55, 0)),
-          captchaRequired: S.optional(S.Boolean),
-          authUri: S.optional(S.String),
           kind: S.optional(S.String),
+          providerId: S.optional(S.String),
+          authUri: S.optional(S.String),
+          sessionId: S.optional(S.String),
+          captchaRequired: S.optional(S.Boolean),
+          allProviders: S.optional(__S(440, __c55, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudIdentitytoolkitV1CreateAuthUriResponse" });
   }
@@ -2508,8 +2508,8 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          idToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           validDuration: S.optional(S.String),
+          idToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           tenantId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudIdentitytoolkitV1CreateSessionCookieRequest" });
@@ -2560,11 +2560,11 @@ function __c8(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          localId: S.optional(S.String),
-          delegatedProjectNumber: S.optional(S.String),
-          tenantId: S.optional(S.String),
           targetProjectId: S.optional(S.String),
+          tenantId: S.optional(S.String),
+          delegatedProjectNumber: S.optional(S.String),
           idToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          localId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudIdentitytoolkitV1DeleteAccountRequest" });
     case 1:
@@ -2601,8 +2601,8 @@ function __c10(j: number): any {
         S.Extend(
           __S(64, __c8, 0),
           S.Struct({
-            tenantId: S.String.pipe(T.Label()),
             targetProjectId: S.String.pipe(T.Label()),
+            tenantId: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -2619,14 +2619,14 @@ function __c11(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          delegatedProjectNumber: S.optional(S.String.pipe(T.Query())),
+          firebaseAppId: S.optional(S.String.pipe(T.Query())),
+          androidPackageName: S.optional(S.String.pipe(T.Query())),
           returnDynamicLink: S.optional(S.Boolean.pipe(T.Query())),
-          projectNumber: S.optional(S.String.pipe(T.Query())),
           iosBundleId: S.optional(S.String.pipe(T.Query())),
           clientId: S.optional(S.String.pipe(T.Query())),
           sha1Cert: S.optional(S.String.pipe(T.Query())),
-          firebaseAppId: S.optional(S.String.pipe(T.Query())),
-          delegatedProjectNumber: S.optional(S.String.pipe(T.Query())),
-          androidPackageName: S.optional(S.String.pipe(T.Query())),
+          projectNumber: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2638,47 +2638,47 @@ function __c11(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          from: S.optional(S.String),
-          locale: S.optional(S.String),
-          replyTo: S.optional(S.String),
-          disabled: S.optional(S.Boolean),
-          customized: S.optional(S.Boolean),
-          subject: S.optional(S.String),
-          format: S.optional(S.String),
-          body: S.optional(S.String),
-          fromLocalPart: S.optional(S.String),
-          fromDisplayName: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudIdentitytoolkitV1EmailTemplate" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          whitelistedAudiences: S.optional(__S(440, __c55, 0)),
-          provider: S.optional(S.String),
-          experimentPercent: S.optional(S.Number),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          provider: S.optional(S.String),
+          whitelistedAudiences: S.optional(__S(440, __c55, 0)),
           clientId: S.optional(S.String),
+          experimentPercent: S.optional(S.Number),
           enabled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "GoogleCloudIdentitytoolkitV1IdpConfig" });
+    case 2:
+      return S.Array(__S(89, __c11, 1));
     case 3:
-      return S.Array(__S(90, __c11, 2));
+      return S.suspend(() =>
+        S.Struct({
+          body: S.optional(S.String),
+          disabled: S.optional(S.Boolean),
+          from: S.optional(S.String),
+          locale: S.optional(S.String),
+          fromDisplayName: S.optional(S.String),
+          replyTo: S.optional(S.String),
+          format: S.optional(S.String),
+          subject: S.optional(S.String),
+          customized: S.optional(S.Boolean),
+          fromLocalPart: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudIdentitytoolkitV1EmailTemplate" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          enableAnonymousUser: S.optional(S.Boolean),
-          changeEmailTemplate: S.optional(__S(89, __c11, 1)),
-          authorizedDomains: S.optional(__S(440, __c55, 0)),
-          dynamicLinksDomain: S.optional(S.String),
-          resetPasswordTemplate: S.optional(__S(89, __c11, 1)),
+          idpConfig: S.optional(__S(90, __c11, 2)),
+          resetPasswordTemplate: S.optional(__S(91, __c11, 3)),
+          verifyEmailTemplate: S.optional(__S(91, __c11, 3)),
+          revertSecondFactorAdditionTemplate: S.optional(__S(91, __c11, 3)),
           apiKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          dynamicLinksDomain: S.optional(S.String),
+          legacyResetPasswordTemplate: S.optional(__S(91, __c11, 3)),
           projectId: S.optional(S.String),
-          idpConfig: S.optional(__S(91, __c11, 3)),
-          revertSecondFactorAdditionTemplate: S.optional(__S(89, __c11, 1)),
           useEmailSending: S.optional(S.Boolean),
-          verifyEmailTemplate: S.optional(__S(89, __c11, 1)),
-          legacyResetPasswordTemplate: S.optional(__S(89, __c11, 1)),
+          enableAnonymousUser: S.optional(S.Boolean),
+          changeEmailTemplate: S.optional(__S(91, __c11, 3)),
           allowPasswordUser: S.optional(S.Boolean),
+          authorizedDomains: S.optional(__S(440, __c55, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudIdentitytoolkitV1GetProjectConfigResponse" });
   }
@@ -2736,11 +2736,11 @@ function __c14(j: number): any {
       return S.suspend(() =>
         S.Struct({
           n: S.optional(S.String),
+          use: S.optional(S.String),
           kty: S.optional(S.String),
           kid: S.optional(S.String),
-          e: S.optional(S.String),
           alg: S.optional(S.String),
-          use: S.optional(S.String),
+          e: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudIdentitytoolkitV1OpenIdConnectKey" });
     case 2:
@@ -2776,13 +2776,13 @@ function __c15(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          samlResponse: S.optional(S.String),
-          firstName: S.optional(S.String),
-          acsEndpoint: S.optional(S.String),
-          email: S.optional(S.String),
-          isNewUser: S.optional(S.Boolean),
           lastName: S.optional(S.String),
+          samlResponse: S.optional(S.String),
+          isNewUser: S.optional(S.Boolean),
           relayState: S.optional(S.String),
+          firstName: S.optional(S.String),
+          email: S.optional(S.String),
+          acsEndpoint: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudIdentitytoolkitV1IssueSamlResponseResponse" });
   }
@@ -2815,22 +2815,22 @@ function __c17(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          idToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           email: S.optional(__S(440, __c55, 0)),
-          targetProjectId: S.optional(S.String),
-          delegatedProjectNumber: S.optional(S.String),
-          phoneNumber: S.optional(__S(440, __c55, 0)),
-          tenantId: S.optional(S.String),
-          federatedUserId: S.optional(__S(137, __c17, 1)),
           localId: S.optional(__S(440, __c55, 0)),
+          phoneNumber: S.optional(__S(440, __c55, 0)),
+          delegatedProjectNumber: S.optional(S.String),
+          tenantId: S.optional(S.String),
           initialEmail: S.optional(__S(440, __c55, 0)),
+          targetProjectId: S.optional(S.String),
+          federatedUserId: S.optional(__S(137, __c17, 1)),
+          idToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "GoogleCloudIdentitytoolkitV1GetAccountInfoRequest" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          kind: S.optional(S.String),
           users: S.optional(__S(385, __c48, 1)),
+          kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudIdentitytoolkitV1GetAccountInfoResponse" });
   }
@@ -2861,8 +2861,8 @@ function __c19(j: number): any {
         S.Extend(
           __S(138, __c17, 2),
           S.Struct({
-            targetProjectId: S.String.pipe(T.Label()),
             tenantId: S.String.pipe(T.Label()),
+            targetProjectId: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -2898,9 +2898,9 @@ function __c21(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          userId: S.optional(S.String),
           phoneNumber: S.optional(S.String),
           email: S.optional(S.String),
+          userId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudIdentitytoolkitV1SqlExpression" });
     case 1:
@@ -2908,20 +2908,20 @@ function __c21(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          expression: S.optional(__S(169, __c21, 1)),
-          limit: S.optional(S.String),
           tenantId: S.optional(S.String),
+          sortBy: S.optional(S.String),
+          expression: S.optional(__S(169, __c21, 1)),
           returnUserInfo: S.optional(S.Boolean),
           offset: S.optional(S.String),
+          limit: S.optional(S.String),
           order: S.optional(S.String),
-          sortBy: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudIdentitytoolkitV1QueryUserInfoRequest" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          recordsCount: S.optional(S.String),
           userInfo: S.optional(__S(385, __c48, 1)),
+          recordsCount: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudIdentitytoolkitV1QueryUserInfoResponse" });
   }
@@ -2970,11 +2970,11 @@ function __c24(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          newPassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
           oobCode: S.optional(S.String),
-          tenantId: S.optional(S.String),
           oldPassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          tenantId: S.optional(S.String),
           email: S.optional(S.String),
+          newPassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "GoogleCloudIdentitytoolkitV1ResetPasswordRequest" });
     case 1:
@@ -2990,11 +2990,11 @@ function __c24(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          email: S.optional(S.String),
-          kind: S.optional(S.String),
-          requestType: S.optional(S.String),
           newEmail: S.optional(S.String),
           mfaInfo: S.optional(__S(393, __c49, 1)),
+          requestType: S.optional(S.String),
+          email: S.optional(S.String),
+          kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudIdentitytoolkitV1ResetPasswordResponse" });
   }
@@ -3018,36 +3018,36 @@ function __c26(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          tenantId: S.optional(S.String),
-          continueUrl: S.optional(S.String),
-          idToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          dynamicLinkDomain: S.optional(S.String),
-          returnOobLink: S.optional(S.Boolean),
-          captchaResp: S.optional(S.String),
-          recaptchaVersion: S.optional(S.String),
-          newEmail: S.optional(S.String),
-          canHandleCodeInApp: S.optional(S.Boolean),
-          linkDomain: S.optional(S.String),
-          targetProjectId: S.optional(S.String),
-          androidInstallApp: S.optional(S.Boolean),
-          iOSAppStoreId: S.optional(S.String),
-          clientType: S.optional(S.String),
-          androidPackageName: S.optional(S.String),
-          requestType: S.optional(S.String),
-          email: S.optional(S.String),
-          challenge: S.optional(S.String),
-          userIp: S.optional(S.String),
-          iOSBundleId: S.optional(S.String),
           androidMinimumVersion: S.optional(S.String),
+          requestType: S.optional(S.String),
+          recaptchaVersion: S.optional(S.String),
+          userIp: S.optional(S.String),
+          clientType: S.optional(S.String),
+          email: S.optional(S.String),
+          continueUrl: S.optional(S.String),
+          androidPackageName: S.optional(S.String),
+          tenantId: S.optional(S.String),
+          iOSBundleId: S.optional(S.String),
+          captchaResp: S.optional(S.String),
+          targetProjectId: S.optional(S.String),
+          returnOobLink: S.optional(S.Boolean),
+          idToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          linkDomain: S.optional(S.String),
+          canHandleCodeInApp: S.optional(S.Boolean),
+          iOSAppStoreId: S.optional(S.String),
+          dynamicLinkDomain: S.optional(S.String),
+          newEmail: S.optional(S.String),
+          androidInstallApp: S.optional(S.Boolean),
+          challenge: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudIdentitytoolkitV1GetOobCodeRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           kind: S.optional(S.String),
-          email: S.optional(S.String),
-          oobCode: S.optional(S.String),
           oobLink: S.optional(S.String),
+          oobCode: S.optional(S.String),
+          email: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudIdentitytoolkitV1GetOobCodeResponse" });
   }
@@ -3103,16 +3103,16 @@ function __c29(j: number): any {
       return S.suspend(() =>
         S.Struct({
           iosReceipt: S.optional(S.String),
-          tenantId: S.optional(S.String),
-          captchaResponse: S.optional(S.String),
-          clientType: S.optional(S.String),
-          phoneNumber: S.optional(S.String),
           recaptchaToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          playIntegrityToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          clientType: S.optional(S.String),
           recaptchaVersion: S.optional(S.String),
           autoRetrievalInfo: S.optional(__S(232, __c29, 0)),
+          phoneNumber: S.optional(S.String),
           iosSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          captchaResponse: S.optional(S.String),
+          tenantId: S.optional(S.String),
           safetyNetToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          playIntegrityToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "GoogleCloudIdentitytoolkitV1SendVerificationCodeRequest" });
     case 2:
@@ -3138,11 +3138,11 @@ function __c30(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          tenantId: S.optional(S.String),
-          delegatedProjectNumber: S.optional(S.String),
-          returnSecureToken: S.optional(S.Boolean),
           token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           instanceId: S.optional(S.String),
+          delegatedProjectNumber: S.optional(S.String),
+          tenantId: S.optional(S.String),
+          returnSecureToken: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "GoogleCloudIdentitytoolkitV1SignInWithCustomTokenRequest" });
     case 1:
@@ -3158,11 +3158,11 @@ function __c30(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          idToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          isNewUser: S.optional(S.Boolean),
           refreshToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           expiresIn: S.optional(S.String),
           kind: S.optional(S.String),
-          isNewUser: S.optional(S.Boolean),
+          idToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "GoogleCloudIdentitytoolkitV1SignInWithCustomTokenResponse" });
   }
@@ -3172,10 +3172,10 @@ function __c31(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          idToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          tenantId: S.optional(S.String),
-          email: S.optional(S.String),
           oobCode: S.optional(S.String),
+          tenantId: S.optional(S.String),
+          idToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          email: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudIdentitytoolkitV1SignInWithEmailLinkRequest" });
     case 1:
@@ -3191,14 +3191,14 @@ function __c31(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          isNewUser: S.optional(S.Boolean),
-          refreshToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          idToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          mfaPendingCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          mfaInfo: S.optional(__S(400, __c50, 0)),
           email: S.optional(S.String),
-          localId: S.optional(S.String),
+          isNewUser: S.optional(S.Boolean),
           kind: S.optional(S.String),
+          mfaInfo: S.optional(__S(400, __c50, 0)),
+          idToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          refreshToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          localId: S.optional(S.String),
+          mfaPendingCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
           expiresIn: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudIdentitytoolkitV1SignInWithEmailLinkResponse" });
@@ -3209,16 +3209,16 @@ function __c32(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          teamPlayerId: S.optional(S.String),
           idToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          displayName: S.optional(S.String),
-          salt: S.optional(S.String),
+          teamPlayerId: S.optional(S.String),
           timestamp: S.optional(S.String),
+          tenantId: S.optional(S.String),
           publicKeyUrl: S.optional(S.String),
+          salt: S.optional(S.String),
           signature: S.optional(S.String),
+          displayName: S.optional(S.String),
           gamePlayerId: S.optional(S.String),
           playerId: S.optional(S.String),
-          tenantId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudIdentitytoolkitV1SignInWithGameCenterRequest" });
     case 1:
@@ -3234,15 +3234,15 @@ function __c32(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          idToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           isNewUser: S.optional(S.Boolean),
+          localId: S.optional(S.String),
           teamPlayerId: S.optional(S.String),
+          displayName: S.optional(S.String),
+          playerId: S.optional(S.String),
+          gamePlayerId: S.optional(S.String),
           refreshToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           expiresIn: S.optional(S.String),
-          displayName: S.optional(S.String),
-          gamePlayerId: S.optional(S.String),
-          playerId: S.optional(S.String),
-          localId: S.optional(S.String),
+          idToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "GoogleCloudIdentitytoolkitV1SignInWithGameCenterResponse" });
   }
@@ -3252,18 +3252,18 @@ function __c33(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          sessionId: S.optional(S.String),
-          autoCreate: S.optional(S.Boolean),
-          returnSecureToken: S.optional(S.Boolean),
-          pendingToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          returnIdpCredential: S.optional(S.Boolean),
-          requestUri: S.optional(S.String),
-          returnRefreshToken: S.optional(S.Boolean),
-          idToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          pendingIdToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          delegatedProjectNumber: S.optional(S.String),
-          postBody: S.optional(S.String),
           tenantId: S.optional(S.String),
+          autoCreate: S.optional(S.Boolean),
+          requestUri: S.optional(S.String),
+          pendingToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          pendingIdToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          idToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          delegatedProjectNumber: S.optional(S.String),
+          returnSecureToken: S.optional(S.Boolean),
+          returnRefreshToken: S.optional(S.Boolean),
+          sessionId: S.optional(S.String),
+          postBody: S.optional(S.String),
+          returnIdpCredential: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "GoogleCloudIdentitytoolkitV1SignInWithIdpRequest" });
     case 1:
@@ -3279,45 +3279,45 @@ function __c33(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          lastName: S.optional(S.String),
-          oauthRefreshToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          fullName: S.optional(S.String),
-          providerId: S.optional(S.String),
-          oauthAccessToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          isNewUser: S.optional(S.Boolean),
-          mfaInfo: S.optional(__S(400, __c50, 0)),
-          oauthAuthorizationCode: S.optional(S.String),
-          timeZone: S.optional(S.String),
-          errorMessage: S.optional(S.String),
-          firstName: S.optional(S.String),
-          originalEmail: S.optional(S.String),
-          oauthExpireIn: S.optional(S.Number),
-          nickName: S.optional(S.String),
-          kind: S.optional(S.String),
-          federatedId: S.optional(S.String),
-          oauthTokenSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          expiresIn: S.optional(S.String),
-          inputEmail: S.optional(S.String),
-          tenantId: S.optional(S.String),
-          emailRecycled: S.optional(S.Boolean),
-          refreshToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          verifiedProvider: S.optional(__S(440, __c55, 0)),
-          needEmail: S.optional(S.Boolean),
-          pendingToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          dateOfBirth: S.optional(S.String),
-          idToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          oauthIdToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           emailVerified: S.optional(S.Boolean),
-          email: S.optional(S.String),
-          rawUserInfo: S.optional(S.String),
-          localId: S.optional(S.String),
-          mfaPendingCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          screenName: S.optional(S.String),
+          refreshToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          timeZone: S.optional(S.String),
           context: S.optional(S.String),
-          displayName: S.optional(S.String),
-          photoUrl: S.optional(S.String),
-          needConfirmation: S.optional(S.Boolean),
+          kind: S.optional(S.String),
+          expiresIn: S.optional(S.String),
+          screenName: S.optional(S.String),
+          needEmail: S.optional(S.Boolean),
+          mfaPendingCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          oauthAccessToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          originalEmail: S.optional(S.String),
+          errorMessage: S.optional(S.String),
+          oauthExpireIn: S.optional(S.Number),
           language: S.optional(S.String),
+          tenantId: S.optional(S.String),
+          oauthIdToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          providerId: S.optional(S.String),
+          isNewUser: S.optional(S.Boolean),
+          oauthTokenSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          dateOfBirth: S.optional(S.String),
+          inputEmail: S.optional(S.String),
+          federatedId: S.optional(S.String),
+          email: S.optional(S.String),
+          nickName: S.optional(S.String),
+          lastName: S.optional(S.String),
+          localId: S.optional(S.String),
+          needConfirmation: S.optional(S.Boolean),
+          oauthAuthorizationCode: S.optional(S.String),
+          emailRecycled: S.optional(S.Boolean),
+          displayName: S.optional(S.String),
+          verifiedProvider: S.optional(__S(440, __c55, 0)),
+          mfaInfo: S.optional(__S(400, __c50, 0)),
+          idToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          pendingToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          photoUrl: S.optional(S.String),
+          fullName: S.optional(S.String),
+          firstName: S.optional(S.String),
+          oauthRefreshToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          rawUserInfo: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudIdentitytoolkitV1SignInWithIdpResponse" });
   }
@@ -3327,18 +3327,18 @@ function __c34(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pendingIdToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          recaptchaVersion: S.optional(S.String),
-          instanceId: S.optional(S.String),
-          returnSecureToken: S.optional(S.Boolean),
-          tenantId: S.optional(S.String),
+          clientType: S.optional(S.String),
           captchaResponse: S.optional(S.String),
+          email: S.optional(S.String),
+          instanceId: S.optional(S.String),
           idToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           delegatedProjectNumber: S.optional(S.String),
+          pendingIdToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           password: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          email: S.optional(S.String),
           captchaChallenge: S.optional(S.String),
-          clientType: S.optional(S.String),
+          returnSecureToken: S.optional(S.Boolean),
+          recaptchaVersion: S.optional(S.String),
+          tenantId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudIdentitytoolkitV1SignInWithPasswordRequest" });
     case 1:
@@ -3354,8 +3354,8 @@ function __c34(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          notificationMessage: S.optional(S.String),
           notificationCode: S.optional(S.String),
+          notificationMessage: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudIdentitytoolkitV1UserNotification" });
     case 3:
@@ -3363,21 +3363,21 @@ function __c34(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          idToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           registered: S.optional(S.Boolean),
-          email: S.optional(S.String),
-          mfaPendingCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          mfaInfo: S.optional(__S(400, __c50, 0)),
+          refreshToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          idToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           kind: S.optional(S.String),
+          mfaInfo: S.optional(__S(400, __c50, 0)),
+          mfaPendingCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          oauthAuthorizationCode: S.optional(S.String),
           displayName: S.optional(S.String),
           oauthExpireIn: S.optional(S.Number),
-          profilePicture: S.optional(S.String),
-          refreshToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           oauthAccessToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          oauthAuthorizationCode: S.optional(S.String),
-          userNotifications: S.optional(__S(275, __c34, 3)),
-          expiresIn: S.optional(S.String),
+          profilePicture: S.optional(S.String),
           localId: S.optional(S.String),
+          expiresIn: S.optional(S.String),
+          email: S.optional(S.String),
+          userNotifications: S.optional(__S(275, __c34, 3)),
         }),
       ).annotate({ identifier: "GoogleCloudIdentitytoolkitV1SignInWithPasswordResponse" });
   }
@@ -3387,14 +3387,14 @@ function __c35(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          operation: S.optional(S.String),
-          tenantId: S.optional(S.String),
-          idToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          verificationProof: S.optional(S.String),
           temporaryProof: S.optional(S.String),
-          sessionInfo: S.optional(S.String),
           code: S.optional(S.String),
           phoneNumber: S.optional(S.String),
+          idToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          sessionInfo: S.optional(S.String),
+          verificationProof: S.optional(S.String),
+          tenantId: S.optional(S.String),
+          operation: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudIdentitytoolkitV1SignInWithPhoneNumberRequest" });
     case 1:
@@ -3411,15 +3411,15 @@ function __c35(j: number): any {
       return S.suspend(() =>
         S.Struct({
           refreshToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          verificationProof: S.optional(S.String),
-          idToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          temporaryProofExpiresIn: S.optional(S.String),
-          isNewUser: S.optional(S.Boolean),
-          temporaryProof: S.optional(S.String),
-          verificationProofExpiresIn: S.optional(S.String),
-          phoneNumber: S.optional(S.String),
-          expiresIn: S.optional(S.String),
           localId: S.optional(S.String),
+          isNewUser: S.optional(S.Boolean),
+          verificationProofExpiresIn: S.optional(S.String),
+          verificationProof: S.optional(S.String),
+          temporaryProofExpiresIn: S.optional(S.String),
+          phoneNumber: S.optional(S.String),
+          temporaryProof: S.optional(S.String),
+          expiresIn: S.optional(S.String),
+          idToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "GoogleCloudIdentitytoolkitV1SignInWithPhoneNumberResponse" });
   }
@@ -3448,8 +3448,8 @@ function __c37(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          phoneInfo: S.optional(S.String),
           displayName: S.optional(S.String),
+          phoneInfo: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudIdentitytoolkitV1MfaFactor" });
     case 1:
@@ -3458,34 +3458,34 @@ function __c37(j: number): any {
       return S.suspend(() =>
         S.Struct({
           captchaChallenge: S.optional(S.String),
-          displayName: S.optional(S.String),
-          localId: S.optional(S.String),
-          email: S.optional(S.String),
-          captchaResponse: S.optional(S.String),
-          instanceId: S.optional(S.String),
-          phoneNumber: S.optional(S.String),
-          tenantId: S.optional(S.String),
-          recaptchaVersion: S.optional(S.String),
-          photoUrl: S.optional(S.String),
           disabled: S.optional(S.Boolean),
-          clientType: S.optional(S.String),
-          mfaInfo: S.optional(__S(297, __c37, 1)),
+          email: S.optional(S.String),
+          tenantId: S.optional(S.String),
+          localId: S.optional(S.String),
           emailVerified: S.optional(S.Boolean),
           password: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          captchaResponse: S.optional(S.String),
           idToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          mfaInfo: S.optional(__S(297, __c37, 1)),
+          recaptchaVersion: S.optional(S.String),
+          phoneNumber: S.optional(S.String),
           targetProjectId: S.optional(S.String),
+          instanceId: S.optional(S.String),
+          photoUrl: S.optional(S.String),
+          clientType: S.optional(S.String),
+          displayName: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudIdentitytoolkitV1SignUpRequest" });
     case 3:
       return S.suspend(() =>
         S.Struct({
           localId: S.optional(S.String),
-          expiresIn: S.optional(S.String),
-          kind: S.optional(S.String),
-          refreshToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           displayName: S.optional(S.String),
+          refreshToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           idToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           email: S.optional(S.String),
+          expiresIn: S.optional(S.String),
+          kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudIdentitytoolkitV1SignUpResponse" });
   }
@@ -3521,60 +3521,60 @@ function __c39(j: number): any {
 function __c40(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(S.String);
+    case 1:
       return S.suspend(() =>
         S.Struct({
           enrollments: S.optional(__S(400, __c50, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudIdentitytoolkitV1MfaInfo" });
-    case 1:
-      return S.Array(S.String);
     case 2:
       return S.suspend(() =>
         S.Struct({
-          photoUrl: S.optional(S.String),
-          mfa: S.optional(__S(320, __c40, 0)),
-          lastLoginAt: S.optional(S.String),
-          linkProviderUserInfo: S.optional(__S(408, __c51, 0)),
-          displayName: S.optional(S.String),
-          email: S.optional(S.String),
-          emailVerified: S.optional(S.Boolean),
-          captchaResponse: S.optional(S.String),
-          upgradeToFederatedLogin: S.optional(S.Boolean),
-          password: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          phoneNumber: S.optional(S.String),
-          tenantId: S.optional(S.String),
-          delegatedProjectNumber: S.optional(S.String),
-          idToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          provider: S.optional(__S(440, __c55, 0)),
           targetProjectId: S.optional(S.String),
+          tenantId: S.optional(S.String),
+          linkProviderUserInfo: S.optional(__S(408, __c51, 0)),
+          provider: S.optional(__S(440, __c55, 0)),
+          password: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          emailVerified: S.optional(S.Boolean),
+          customAttributes: S.optional(S.String),
+          instanceId: S.optional(S.String),
+          photoUrl: S.optional(S.String),
           validSince: S.optional(S.String),
+          captchaResponse: S.optional(S.String),
+          displayName: S.optional(S.String),
+          lastLoginAt: S.optional(S.String),
+          phoneNumber: S.optional(S.String),
+          localId: S.optional(S.String),
+          returnSecureToken: S.optional(S.Boolean),
+          captchaChallenge: S.optional(S.String),
+          deleteAttribute: S.optional(__S(320, __c40, 0)),
+          upgradeToFederatedLogin: S.optional(S.Boolean),
+          oobCode: S.optional(S.String),
+          idToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           deleteProvider: S.optional(__S(440, __c55, 0)),
           createdAt: S.optional(S.String),
-          captchaChallenge: S.optional(S.String),
-          returnSecureToken: S.optional(S.Boolean),
-          localId: S.optional(S.String),
-          instanceId: S.optional(S.String),
-          customAttributes: S.optional(S.String),
-          deleteAttribute: S.optional(__S(321, __c40, 1)),
-          oobCode: S.optional(S.String),
+          delegatedProjectNumber: S.optional(S.String),
+          mfa: S.optional(__S(321, __c40, 1)),
           disableUser: S.optional(S.Boolean),
+          email: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudIdentitytoolkitV1SetAccountInfoRequest" });
     case 3:
       return S.suspend(() =>
         S.Struct({
           newEmail: S.optional(S.String),
-          kind: S.optional(S.String),
-          providerUserInfo: S.optional(__S(409, __c51, 1)),
-          email: S.optional(S.String),
-          passwordHash: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          refreshToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          localId: S.optional(S.String),
-          photoUrl: S.optional(S.String),
           idToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          kind: S.optional(S.String),
+          email: S.optional(S.String),
+          displayName: S.optional(S.String),
+          providerUserInfo: S.optional(__S(409, __c51, 1)),
           emailVerified: S.optional(S.Boolean),
           expiresIn: S.optional(S.String),
-          displayName: S.optional(S.String),
+          passwordHash: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          localId: S.optional(S.String),
+          refreshToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          photoUrl: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudIdentitytoolkitV1SetAccountInfoResponse" });
   }
@@ -3605,8 +3605,8 @@ function __c42(j: number): any {
         S.Extend(
           __S(322, __c40, 2),
           S.Struct({
-            targetProjectId: S.String.pipe(T.Label()),
             tenantId: S.String.pipe(T.Label()),
+            targetProjectId: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -3623,8 +3623,8 @@ function __c43(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          isSandbox: S.optional(S.Boolean),
           appToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          isSandbox: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "GoogleCloudIdentitytoolkitV1VerifyIosClientRequest" });
     case 1:
@@ -3653,8 +3653,8 @@ function __c44(j: number): any {
         S.Extend(
           __S(298, __c37, 2),
           S.Struct({
-            tenantId: S.String.pipe(T.Label()),
             targetProjectId: S.String.pipe(T.Label()),
+            tenantId: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -3690,12 +3690,12 @@ function __c46(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          associatedData: S.optional(S.String),
-          iterations: S.optional(S.Number),
-          memoryCostKib: S.optional(S.Number),
-          version: S.optional(S.String),
           hashLengthBytes: S.optional(S.Number),
           hashType: S.optional(S.String),
+          associatedData: S.optional(S.String),
+          version: S.optional(S.String),
+          iterations: S.optional(S.Number),
+          memoryCostKib: S.optional(S.Number),
           parallelism: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GoogleCloudIdentitytoolkitV1Argon2Parameters" });
@@ -3703,28 +3703,28 @@ function __c46(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parallelization: S.optional(S.Number),
-          allowOverwrite: S.optional(S.Boolean),
-          signerKey: S.optional(S.String),
-          dkLen: S.optional(S.Number),
-          passwordHashOrder: S.optional(S.String),
-          blockSize: S.optional(S.Number),
-          hashAlgorithm: S.optional(S.String),
-          tenantId: S.optional(S.String),
-          rounds: S.optional(S.Number),
-          argon2Parameters: S.optional(__S(368, __c46, 0)),
-          users: S.optional(__S(385, __c48, 1)),
-          delegatedProjectNumber: S.optional(S.String),
-          saltSeparator: S.optional(S.String),
           cpuMemCost: S.optional(S.Number),
-          sanityCheck: S.optional(S.Boolean),
+          rounds: S.optional(S.Number),
+          blockSize: S.optional(S.Number),
+          saltSeparator: S.optional(S.String),
+          hashAlgorithm: S.optional(S.String),
+          passwordHashOrder: S.optional(S.String),
+          delegatedProjectNumber: S.optional(S.String),
+          tenantId: S.optional(S.String),
+          users: S.optional(__S(385, __c48, 1)),
           memoryCost: S.optional(S.Number),
+          signerKey: S.optional(S.String),
+          argon2Parameters: S.optional(__S(368, __c46, 0)),
+          sanityCheck: S.optional(S.Boolean),
+          allowOverwrite: S.optional(S.Boolean),
+          dkLen: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GoogleCloudIdentitytoolkitV1UploadAccountRequest" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          index: S.optional(S.Number),
           message: S.optional(S.String),
+          index: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GoogleCloudIdentitytoolkitV1ErrorInfo" });
     case 3:
@@ -3751,33 +3751,33 @@ function __c48(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          emailVerified: S.optional(S.Boolean),
+          salt: S.optional(S.String),
+          createdAt: S.optional(S.String),
+          photoUrl: S.optional(S.String),
+          rawPassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          passwordUpdatedAt: S.optional(S.Number),
+          localId: S.optional(S.String),
+          mfaInfo: S.optional(__S(400, __c50, 0)),
+          initialEmail: S.optional(S.String),
+          disabled: S.optional(S.Boolean),
+          lastRefreshAt: S.optional(S.String),
+          language: S.optional(S.String),
+          providerUserInfo: S.optional(__S(409, __c51, 1)),
+          tenantId: S.optional(S.String),
           timeZone: S.optional(S.String),
           displayName: S.optional(S.String),
-          validSince: S.optional(S.String),
-          customAuth: S.optional(S.Boolean),
-          customAttributes: S.optional(S.String),
-          mfaInfo: S.optional(__S(400, __c50, 0)),
-          phoneNumber: S.optional(S.String),
-          passwordUpdatedAt: S.optional(S.Number),
-          emailVerified: S.optional(S.Boolean),
-          tenantId: S.optional(S.String),
-          createdAt: S.optional(S.String),
-          dateOfBirth: S.optional(S.String),
-          salt: S.optional(S.String),
-          lastLoginAt: S.optional(S.String),
-          providerUserInfo: S.optional(__S(409, __c51, 1)),
-          passwordHash: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          version: S.optional(S.Number),
-          lastRefreshAt: S.optional(S.String),
           email: S.optional(S.String),
           emailLinkSignin: S.optional(S.Boolean),
-          rawPassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          photoUrl: S.optional(S.String),
-          disabled: S.optional(S.Boolean),
-          initialEmail: S.optional(S.String),
-          language: S.optional(S.String),
+          version: S.optional(S.Number),
+          customAuth: S.optional(S.Boolean),
+          lastLoginAt: S.optional(S.String),
+          phoneNumber: S.optional(S.String),
           screenName: S.optional(S.String),
-          localId: S.optional(S.String),
+          validSince: S.optional(S.String),
+          customAttributes: S.optional(S.String),
+          passwordHash: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          dateOfBirth: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudIdentitytoolkitV1UserInfo" });
     case 1:
@@ -3795,13 +3795,13 @@ function __c49(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          totpInfo: S.optional(__S(376, __c47, 0)),
-          enrolledAt: S.optional(S.String),
           phoneInfo: S.optional(S.String),
-          displayName: S.optional(S.String),
+          unobfuscatedPhoneInfo: S.optional(S.String),
           emailInfo: S.optional(__S(392, __c49, 0)),
           mfaEnrollmentId: S.optional(S.String),
-          unobfuscatedPhoneInfo: S.optional(S.String),
+          enrolledAt: S.optional(S.String),
+          displayName: S.optional(S.String),
+          totpInfo: S.optional(__S(376, __c47, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudIdentitytoolkitV1MfaEnrollment" });
   }
@@ -3817,14 +3817,14 @@ function __c51(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          federatedId: S.optional(S.String),
-          rawId: S.optional(S.String),
-          screenName: S.optional(S.String),
-          photoUrl: S.optional(S.String),
           displayName: S.optional(S.String),
-          email: S.optional(S.String),
+          federatedId: S.optional(S.String),
+          photoUrl: S.optional(S.String),
+          rawId: S.optional(S.String),
           phoneNumber: S.optional(S.String),
+          email: S.optional(S.String),
           providerId: S.optional(S.String),
+          screenName: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudIdentitytoolkitV1ProviderUserInfo" });
     case 1:
@@ -3838,8 +3838,8 @@ function __c52(j: number): any {
         S.Extend(
           __S(369, __c46, 1),
           S.Struct({
-            targetProjectId: S.String.pipe(T.Label()),
             tenantId: S.String.pipe(T.Label()),
+            targetProjectId: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -3876,16 +3876,16 @@ function __c54(j: number): any {
       return S.suspend(() =>
         S.Struct({
           tenantId: S.optional(S.String),
-          localIds: S.optional(__S(440, __c55, 0)),
           force: S.optional(S.Boolean),
+          localIds: S.optional(__S(440, __c55, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudIdentitytoolkitV1BatchDeleteAccountsRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          index: S.optional(S.Number),
-          message: S.optional(S.String),
           localId: S.optional(S.String),
+          message: S.optional(S.String),
+          index: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GoogleCloudIdentitytoolkitV1BatchDeleteErrorInfo" });
     case 2:
@@ -3911,8 +3911,8 @@ function __c56(j: number): any {
         S.Extend(
           __S(432, __c54, 0),
           S.Struct({
-            targetProjectId: S.String.pipe(T.Label()),
             tenantId: S.String.pipe(T.Label()),
+            targetProjectId: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({

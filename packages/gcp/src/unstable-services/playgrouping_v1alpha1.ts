@@ -85,16 +85,16 @@ export class NotFound
 
 /** A tag is associated with exactly one package name and user. */
 export interface Tag {
-  /** A boolean value of the tag. */
-  booleanValue?: boolean | undefined;
-  /** A signed 64-bit integer value of the tag. */
-  int64Value?: string | undefined;
   /** A time value of the tag. */
   timeValue?: string | undefined;
-  /** Required. Key for the tag. */
-  key?: string | undefined;
   /** A string value of the tag. */
   stringValue?: string | undefined;
+  /** A signed 64-bit integer value of the tag. */
+  int64Value?: string | undefined;
+  /** Required. Key for the tag. */
+  key?: string | undefined;
+  /** A boolean value of the tag. */
+  booleanValue?: boolean | undefined;
 }
 export type TagList = Array<Tag>;
 /** Request message for CreateOrUpdateTags. VerifyToken. */
@@ -119,10 +119,10 @@ export interface VerifyTokenRequest {
   persona?: string | undefined;
 }
 export interface VerifyAppsTokensRequest extends VerifyTokenRequest {
-  /** Required. The token to be verified. Format: tokens/{token} */
-  token: string;
   /** Required. App the token belongs to. Format: apps/{package_name} */
   appPackage: string;
+  /** Required. The token to be verified. Format: tokens/{token} */
+  token: string;
 }
 /** Response message for VerifyToken. */
 export interface VerifyTokenResponse {}
@@ -173,11 +173,11 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          booleanValue: S.optional(S.Boolean),
-          int64Value: S.optional(S.String),
           timeValue: S.optional(S.String),
-          key: S.optional(S.String),
           stringValue: S.optional(S.String),
+          int64Value: S.optional(S.String),
+          key: S.optional(S.String),
+          booleanValue: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "Tag" });
     case 1:
@@ -219,8 +219,8 @@ function __c1(j: number): any {
         S.Extend(
           __S(4, __c1, 0),
           S.Struct({
-            token: S.String.pipe(T.Label()),
             appPackage: S.String.pipe(T.Label()),
+            token: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({

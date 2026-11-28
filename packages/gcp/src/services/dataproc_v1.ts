@@ -84,47 +84,47 @@ export class NotFound
   ) {}
 
 export interface AccessEnvironmentInfoProjectsLocationsBatchesSparkApplicationsRequest {
-  /** Required. The fully qualified name of the batch to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/batches/BATCH_ID/sparkApplications/APPLICATION_ID" */
-  name: string;
   /** Required. Parent (Batch) resource reference. */
   parent?: string | undefined;
+  /** Required. The fully qualified name of the batch to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/batches/BATCH_ID/sparkApplications/APPLICATION_ID" */
+  name: string;
 }
-export type StringMap = { [key: string]: string | undefined };
 export interface SparkRuntimeInfo {
+  scalaVersion?: string | undefined;
   javaHome?: string | undefined;
   javaVersion?: string | undefined;
-  scalaVersion?: string | undefined;
 }
-/** Resources used per task created by the application. */
-export interface TaskResourceRequest {
-  amount?: number | undefined;
-  resourceName?: string | undefined;
-}
-export type TaskResourceRequestMap = { [key: string]: TaskResourceRequest | undefined };
+export type StringMap = { [key: string]: string | undefined };
 /** Resources used per executor used by the application. */
 export interface ExecutorResourceRequest {
-  amount?: string | undefined;
   resourceName?: string | undefined;
-  vendor?: string | undefined;
+  amount?: string | undefined;
   discoveryScript?: string | undefined;
+  vendor?: string | undefined;
 }
 export type ExecutorResourceRequestMap = { [key: string]: ExecutorResourceRequest | undefined };
+/** Resources used per task created by the application. */
+export interface TaskResourceRequest {
+  resourceName?: string | undefined;
+  amount?: number | undefined;
+}
+export type TaskResourceRequestMap = { [key: string]: TaskResourceRequest | undefined };
 /** Resource profile that contains information about all the resources required by executors and tasks. */
 export interface ResourceProfileInfo {
-  taskResources?: TaskResourceRequestMap | undefined;
   resourceProfileId?: number | undefined;
   executorResources?: ExecutorResourceRequestMap | undefined;
+  taskResources?: TaskResourceRequestMap | undefined;
 }
 export type ResourceProfileInfoList = Array<ResourceProfileInfo>;
 /** Details about the Environment that the application is running in. */
 export interface ApplicationEnvironmentInfo {
-  systemProperties?: StringMap | undefined;
-  hadoopProperties?: StringMap | undefined;
   runtime?: SparkRuntimeInfo | undefined;
-  classpathEntries?: StringMap | undefined;
-  metricsProperties?: StringMap | undefined;
-  resourceProfiles?: ResourceProfileInfoList | undefined;
   sparkProperties?: StringMap | undefined;
+  hadoopProperties?: StringMap | undefined;
+  systemProperties?: StringMap | undefined;
+  classpathEntries?: StringMap | undefined;
+  resourceProfiles?: ResourceProfileInfoList | undefined;
+  metricsProperties?: StringMap | undefined;
 }
 /** Environment details of a Saprk Application. */
 export interface AccessSparkApplicationEnvironmentInfoResponse {
@@ -132,10 +132,10 @@ export interface AccessSparkApplicationEnvironmentInfoResponse {
   applicationEnvironmentInfo?: ApplicationEnvironmentInfo | undefined;
 }
 export interface AccessEnvironmentInfoProjectsLocationsSessionsSparkApplicationsRequest {
-  /** Required. Parent (Session) resource reference. */
-  parent?: string | undefined;
   /** Required. The fully qualified name of the session to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/sessions/SESSION_ID/sparkApplications/APPLICATION_ID" */
   name: string;
+  /** Required. Parent (Session) resource reference. */
+  parent?: string | undefined;
 }
 /** Environment details of a Saprk Application. */
 export interface AccessSessionSparkApplicationEnvironmentInfoResponse {
@@ -143,46 +143,46 @@ export interface AccessSessionSparkApplicationEnvironmentInfoResponse {
   applicationEnvironmentInfo?: ApplicationEnvironmentInfo | undefined;
 }
 export interface AccessJobProjectsLocationsBatchesSparkApplicationsRequest {
-  /** Required. Parent (Batch) resource reference. */
-  parent?: string | undefined;
-  /** Required. Job ID to fetch data for. */
-  jobId?: string | undefined;
   /** Required. The fully qualified name of the batch to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/batches/BATCH_ID/sparkApplications/APPLICATION_ID" */
   name: string;
+  /** Required. Job ID to fetch data for. */
+  jobId?: string | undefined;
+  /** Required. Parent (Batch) resource reference. */
+  parent?: string | undefined;
 }
-export type StringList = Array<string>;
 export type IntegerMap = { [key: string]: number | undefined };
+export type StringList = Array<string>;
+export type IntegerList = Array<number>;
 export type JobDataStatusEnum =
   | "JOB_EXECUTION_STATUS_UNSPECIFIED"
   | "JOB_EXECUTION_STATUS_RUNNING"
   | "JOB_EXECUTION_STATUS_SUCCEEDED"
   | "JOB_EXECUTION_STATUS_FAILED"
   | "JOB_EXECUTION_STATUS_UNKNOWN";
-export type IntegerList = Array<number>;
 /** Data corresponding to a spark job. */
 export interface JobData {
-  jobGroup?: string | undefined;
-  numTasks?: number | undefined;
-  stageIds?: StringList | undefined;
-  submissionTime?: string | undefined;
-  numSkippedStages?: number | undefined;
-  name?: string | undefined;
-  numFailedStages?: number | undefined;
-  numActiveTasks?: number | undefined;
-  numSkippedTasks?: number | undefined;
-  numCompletedIndices?: number | undefined;
-  numKilledTasks?: number | undefined;
-  numCompletedTasks?: number | undefined;
-  jobId?: string | undefined;
-  description?: string | undefined;
-  numCompletedStages?: number | undefined;
   killTasksSummary?: IntegerMap | undefined;
-  status?: JobDataStatusEnum | (string & {}) | undefined;
-  completionTime?: string | undefined;
-  numActiveStages?: number | undefined;
-  sqlExecutionId?: string | undefined;
-  skippedStages?: IntegerList | undefined;
+  numKilledTasks?: number | undefined;
+  numCompletedStages?: number | undefined;
+  numTasks?: number | undefined;
+  numSkippedTasks?: number | undefined;
+  stageIds?: StringList | undefined;
+  description?: string | undefined;
+  numActiveTasks?: number | undefined;
+  name?: string | undefined;
+  submissionTime?: string | undefined;
   numFailedTasks?: number | undefined;
+  jobGroup?: string | undefined;
+  numActiveStages?: number | undefined;
+  numSkippedStages?: number | undefined;
+  numCompletedIndices?: number | undefined;
+  numFailedStages?: number | undefined;
+  completionTime?: string | undefined;
+  jobId?: string | undefined;
+  skippedStages?: IntegerList | undefined;
+  sqlExecutionId?: string | undefined;
+  numCompletedTasks?: number | undefined;
+  status?: JobDataStatusEnum | (string & {}) | undefined;
 }
 /** Details of a particular job associated with Spark Application */
 export interface AccessSparkApplicationJobResponse {
@@ -190,10 +190,10 @@ export interface AccessSparkApplicationJobResponse {
   jobData?: JobData | undefined;
 }
 export interface AccessJobProjectsLocationsSessionsSparkApplicationsRequest {
-  /** Required. Parent (Session) resource reference. */
-  parent?: string | undefined;
   /** Required. The fully qualified name of the session to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/sessions/SESSION_ID/sparkApplications/APPLICATION_ID" */
   name: string;
+  /** Required. Parent (Session) resource reference. */
+  parent?: string | undefined;
   /** Required. Job ID to fetch data for. */
   jobId?: string | undefined;
 }
@@ -228,10 +228,10 @@ export interface AccessSparkApplicationNativeBuildInfoResponse {
   buildInfo?: NativeBuildInfoUiData | undefined;
 }
 export interface AccessNativeBuildInfoProjectsLocationsSessionsSparkApplicationsRequest {
-  /** Required. Parent (Session) resource reference. */
-  parent?: string | undefined;
   /** Required. The fully qualified name of the session to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/sessions/SESSION_ID/sparkApplications/APPLICATION_ID" */
   name: string;
+  /** Required. Parent (Session) resource reference. */
+  parent?: string | undefined;
 }
 /** Details of a native build info for a Spark Application */
 export interface AccessSessionSparkApplicationNativeBuildInfoResponse {
@@ -239,10 +239,10 @@ export interface AccessSessionSparkApplicationNativeBuildInfoResponse {
   executionData?: NativeBuildInfoUiData | undefined;
 }
 export interface AccessNativeSqlQueryProjectsLocationsBatchesSparkApplicationsRequest {
-  /** Required. Parent (Batch) resource reference. */
-  parent?: string | undefined;
   /** Required. Execution ID */
   executionId?: string | undefined;
+  /** Required. Parent (Batch) resource reference. */
+  parent?: string | undefined;
   /** Required. The fully qualified name of the batch to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/batches/BATCH_ID/sparkApplications/APPLICATION_ID" */
   name: string;
 }
@@ -256,18 +256,18 @@ export interface FallbackReason {
 export type FallbackReasonList = Array<FallbackReason>;
 /** Native SQL Execution Data */
 export interface NativeSqlExecutionUiData {
-  /** Optional. Description of the fallback. */
-  fallbackDescription?: string | undefined;
-  /** Optional. Description of the execution. */
-  description?: string | undefined;
   /** Optional. Number of nodes fallen back to Spark. */
   numFallbackNodes?: number | undefined;
-  /** Optional. Number of nodes in Native. */
-  numNativeNodes?: number | undefined;
   /** Optional. Fallback node to reason. */
   fallbackNodeToReason?: FallbackReasonList | undefined;
   /** Required. Execution ID of the Native SQL Execution. */
   executionId?: string | undefined;
+  /** Optional. Description of the fallback. */
+  fallbackDescription?: string | undefined;
+  /** Optional. Number of nodes in Native. */
+  numNativeNodes?: number | undefined;
+  /** Optional. Description of the execution. */
+  description?: string | undefined;
 }
 /** Details of a query for a Spark Application */
 export interface AccessSparkApplicationNativeSqlQueryResponse {
@@ -288,46 +288,46 @@ export interface AccessSessionSparkApplicationNativeSqlQueryResponse {
   executionData?: NativeSqlExecutionUiData | undefined;
 }
 export interface AccessProjectsLocationsBatchesSparkApplicationsRequest {
-  /** Required. Parent (Batch) resource reference. */
-  parent?: string | undefined;
   /** Required. The fully qualified name of the batch to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/batches/BATCH_ID/sparkApplications/APPLICATION_ID" */
   name: string;
+  /** Required. Parent (Batch) resource reference. */
+  parent?: string | undefined;
 }
+export type ApplicationInfoQuantileDataStatusEnum =
+  | "QUANTILE_DATA_STATUS_UNSPECIFIED"
+  | "QUANTILE_DATA_STATUS_COMPLETED"
+  | "QUANTILE_DATA_STATUS_FAILED";
 export type ApplicationInfoApplicationContextIngestionStatusEnum =
   | "APPLICATION_CONTEXT_INGESTION_STATUS_UNSPECIFIED"
   | "APPLICATION_CONTEXT_INGESTION_STATUS_COMPLETED";
 /** Specific attempt of an application. */
 export interface ApplicationAttemptInfo {
+  endTime?: string | undefined;
   /** Output only. The event log path for the application attempt. */
   eventLogPath?: string | undefined;
-  sparkUser?: string | undefined;
   completed?: boolean | undefined;
+  durationMillis?: string | undefined;
   lastUpdated?: string | undefined;
   startTime?: string | undefined;
-  endTime?: string | undefined;
-  durationMillis?: string | undefined;
-  attemptId?: string | undefined;
   appSparkVersion?: string | undefined;
+  attemptId?: string | undefined;
+  sparkUser?: string | undefined;
 }
 export type ApplicationAttemptInfoList = Array<ApplicationAttemptInfo>;
-export type ApplicationInfoQuantileDataStatusEnum =
-  | "QUANTILE_DATA_STATUS_UNSPECIFIED"
-  | "QUANTILE_DATA_STATUS_COMPLETED"
-  | "QUANTILE_DATA_STATUS_FAILED";
 /** High level information corresponding to an application. */
 export interface ApplicationInfo {
-  name?: string | undefined;
+  quantileDataStatus?: ApplicationInfoQuantileDataStatusEnum | (string & {}) | undefined;
   applicationContextIngestionStatus?:
     | ApplicationInfoApplicationContextIngestionStatusEnum
     | (string & {})
     | undefined;
-  coresGranted?: number | undefined;
-  applicationId?: string | undefined;
-  maxCores?: number | undefined;
-  attempts?: ApplicationAttemptInfoList | undefined;
   coresPerExecutor?: number | undefined;
-  quantileDataStatus?: ApplicationInfoQuantileDataStatusEnum | (string & {}) | undefined;
+  attempts?: ApplicationAttemptInfoList | undefined;
+  applicationId?: string | undefined;
+  coresGranted?: number | undefined;
   memoryPerExecutorMb?: number | undefined;
+  name?: string | undefined;
+  maxCores?: number | undefined;
 }
 /** A summary of Spark Application */
 export interface AccessSparkApplicationResponse {
@@ -346,38 +346,38 @@ export interface AccessSessionSparkApplicationResponse {
   application?: ApplicationInfo | undefined;
 }
 export interface AccessSqlPlanProjectsLocationsBatchesSparkApplicationsRequest {
-  /** Required. The fully qualified name of the batch to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/batches/BATCH_ID/sparkApplications/APPLICATION_ID" */
-  name: string;
   /** Required. Parent (Batch) resource reference. */
   parent?: string | undefined;
+  /** Required. The fully qualified name of the batch to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/batches/BATCH_ID/sparkApplications/APPLICATION_ID" */
+  name: string;
   /** Required. Execution ID */
   executionId?: string | undefined;
 }
 /** Metrics related to SQL execution. */
 export interface SqlPlanMetric {
   name?: string | undefined;
-  metricType?: string | undefined;
   accumulatorId?: string | undefined;
+  metricType?: string | undefined;
 }
 export type SqlPlanMetricList = Array<SqlPlanMetric>;
 /** Represents a tree of spark plan. */
 export interface SparkPlanGraphCluster {
-  sparkPlanGraphClusterId?: string | undefined;
   /** Optional. Additional metadata for the spark plan graph cluster. */
   metadata?: StringMap | undefined;
-  metrics?: SqlPlanMetricList | undefined;
   nodes?: SparkPlanGraphNodeWrapperList | undefined;
-  desc?: string | undefined;
+  metrics?: SqlPlanMetricList | undefined;
+  sparkPlanGraphClusterId?: string | undefined;
   name?: string | undefined;
+  desc?: string | undefined;
 }
 /** Represents a node in the spark plan tree. */
 export interface SparkPlanGraphNode {
-  name?: string | undefined;
-  metrics?: SqlPlanMetricList | undefined;
-  desc?: string | undefined;
-  sparkPlanGraphNodeId?: string | undefined;
   /** Optional. Additional metadata for the spark plan graph cluster. */
   metadata?: StringMap | undefined;
+  name?: string | undefined;
+  desc?: string | undefined;
+  sparkPlanGraphNodeId?: string | undefined;
+  metrics?: SqlPlanMetricList | undefined;
 }
 /** Wrapper user to represent either a node or a cluster. */
 export interface SparkPlanGraphNodeWrapper {
@@ -393,9 +393,9 @@ export interface SparkPlanGraphEdge {
 export type SparkPlanGraphEdgeList = Array<SparkPlanGraphEdge>;
 /** A graph used for storing information of an executionPlan of DataFrame. */
 export interface SparkPlanGraph {
-  executionId?: string | undefined;
   nodes?: SparkPlanGraphNodeWrapperList | undefined;
   edges?: SparkPlanGraphEdgeList | undefined;
+  executionId?: string | undefined;
 }
 /** SparkPlanGraph for a Spark Application execution limited to maximum 10000 clusters. */
 export interface AccessSparkApplicationSqlSparkPlanGraphResponse {
@@ -403,10 +403,10 @@ export interface AccessSparkApplicationSqlSparkPlanGraphResponse {
   sparkPlanGraph?: SparkPlanGraph | undefined;
 }
 export interface AccessSqlPlanProjectsLocationsSessionsSparkApplicationsRequest {
-  /** Required. Parent (Session) resource reference. */
-  parent?: string | undefined;
   /** Required. Execution ID */
   executionId?: string | undefined;
+  /** Required. Parent (Session) resource reference. */
+  parent?: string | undefined;
   /** Required. The fully qualified name of the session to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/sessions/SESSION_ID/sparkApplications/APPLICATION_ID" */
   name: string;
 }
@@ -416,16 +416,16 @@ export interface AccessSessionSparkApplicationSqlSparkPlanGraphResponse {
   sparkPlanGraph?: SparkPlanGraph | undefined;
 }
 export interface AccessSqlQueryProjectsLocationsBatchesSparkApplicationsRequest {
-  /** Optional. Lists/ hides details of Spark plan nodes. True is set to list and false to hide. */
-  details?: boolean | undefined;
-  /** Optional. Enables/ disables physical plan description on demand */
-  planDescription?: boolean | undefined;
-  /** Required. Execution ID */
-  executionId?: string | undefined;
-  /** Required. The fully qualified name of the batch to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/batches/BATCH_ID/sparkApplications/APPLICATION_ID" */
-  name: string;
   /** Required. Parent (Batch) resource reference. */
   parent?: string | undefined;
+  /** Optional. Enables/ disables physical plan description on demand */
+  planDescription?: boolean | undefined;
+  /** Optional. Lists/ hides details of Spark plan nodes. True is set to list and false to hide. */
+  details?: boolean | undefined;
+  /** Required. The fully qualified name of the batch to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/batches/BATCH_ID/sparkApplications/APPLICATION_ID" */
+  name: string;
+  /** Required. Execution ID */
+  executionId?: string | undefined;
 }
 export type SqlExecutionUiDataJobsValueEnum =
   | "JOB_EXECUTION_STATUS_UNSPECIFIED"
@@ -438,20 +438,20 @@ export type SqlExecutionUiDataJobsValueEnumMap = {
 };
 /** SQL Execution Data */
 export interface SqlExecutionUiData {
-  completionTime?: string | undefined;
-  jobs?: SqlExecutionUiDataJobsValueEnumMap | undefined;
-  errorMessage?: string | undefined;
-  metricValues?: StringMap | undefined;
-  metricValuesIsNull?: boolean | undefined;
-  executionId?: string | undefined;
-  metrics?: SqlPlanMetricList | undefined;
+  details?: string | undefined;
   description?: string | undefined;
-  modifiedConfigs?: StringMap | undefined;
+  physicalPlanDescription?: string | undefined;
+  metrics?: SqlPlanMetricList | undefined;
+  metricValues?: StringMap | undefined;
+  executionId?: string | undefined;
+  stages?: StringList | undefined;
+  completionTime?: string | undefined;
+  metricValuesIsNull?: boolean | undefined;
   rootExecutionId?: string | undefined;
   submissionTime?: string | undefined;
-  details?: string | undefined;
-  stages?: StringList | undefined;
-  physicalPlanDescription?: string | undefined;
+  jobs?: SqlExecutionUiDataJobsValueEnumMap | undefined;
+  errorMessage?: string | undefined;
+  modifiedConfigs?: StringMap | undefined;
 }
 /** Details of a query for a Spark Application */
 export interface AccessSparkApplicationSqlQueryResponse {
@@ -465,10 +465,10 @@ export interface AccessSqlQueryProjectsLocationsSessionsSparkApplicationsRequest
   name: string;
   /** Required. Execution ID */
   executionId?: string | undefined;
-  /** Optional. Enables/ disables physical plan description on demand */
-  planDescription?: boolean | undefined;
   /** Required. Parent (Session) resource reference. */
   parent?: string | undefined;
+  /** Optional. Enables/ disables physical plan description on demand */
+  planDescription?: boolean | undefined;
 }
 /** Details of a query for a Spark Application */
 export interface AccessSessionSparkApplicationSqlQueryResponse {
@@ -476,281 +476,219 @@ export interface AccessSessionSparkApplicationSqlQueryResponse {
   executionData?: SqlExecutionUiData | undefined;
 }
 export interface AccessStageAttemptProjectsLocationsBatchesSparkApplicationsRequest {
+  /** Optional. The list of summary metrics fields to include. Empty list will default to skip all summary metrics fields. Example, if the response should include TaskQuantileMetrics, the request should have task_quantile_metrics in summary_metrics_mask field */
+  summaryMetricsMask?: string | undefined;
   /** Required. Parent (Batch) resource reference. */
   parent?: string | undefined;
   /** Required. The fully qualified name of the batch to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/batches/BATCH_ID/sparkApplications/APPLICATION_ID" */
   name: string;
-  /** Required. Stage Attempt ID */
-  stageAttemptId?: number | undefined;
   /** Required. Stage ID */
   stageId?: string | undefined;
-  /** Optional. The list of summary metrics fields to include. Empty list will default to skip all summary metrics fields. Example, if the response should include TaskQuantileMetrics, the request should have task_quantile_metrics in summary_metrics_mask field */
-  summaryMetricsMask?: string | undefined;
+  /** Required. Stage Attempt ID */
+  stageAttemptId?: number | undefined;
 }
-/** Metrics about the input read by the stage. */
-export interface StageInputMetrics {
-  bytesRead?: string | undefined;
-  recordsRead?: string | undefined;
+/** Details of the speculation task when speculative execution is enabled. */
+export interface SpeculationStageSummary {
+  numTasks?: number | undefined;
+  numFailedTasks?: number | undefined;
+  numKilledTasks?: number | undefined;
+  numActiveTasks?: number | undefined;
+  stageId?: string | undefined;
+  stageAttemptId?: number | undefined;
+  numCompletedTasks?: number | undefined;
 }
-export interface StageShufflePushReadMetrics {
-  corruptMergedBlockChunks?: string | undefined;
-  remoteMergedChunksFetched?: string | undefined;
-  remoteMergedBlocksFetched?: string | undefined;
-  localMergedChunksFetched?: string | undefined;
-  remoteMergedBytesRead?: string | undefined;
-  localMergedBlocksFetched?: string | undefined;
-  localMergedBytesRead?: string | undefined;
-  mergedFetchFallbackCount?: string | undefined;
-  remoteMergedReqsDuration?: string | undefined;
+export interface AccumulableInfo {
+  value?: string | undefined;
+  update?: string | undefined;
+  name?: string | undefined;
+  accumullableInfoId?: string | undefined;
 }
-/** Shuffle data read for the stage. */
-export interface StageShuffleReadMetrics {
-  remoteBytesReadToDisk?: string | undefined;
-  stageShufflePushReadMetrics?: StageShufflePushReadMetrics | undefined;
-  remoteReqsDuration?: string | undefined;
-  localBytesRead?: string | undefined;
-  localBlocksFetched?: string | undefined;
-  bytesRead?: string | undefined;
-  remoteBytesRead?: string | undefined;
-  remoteBlocksFetched?: string | undefined;
-  fetchWaitTimeMillis?: string | undefined;
-  recordsRead?: string | undefined;
-}
-/** Shuffle data written for the stage. */
-export interface StageShuffleWriteMetrics {
-  recordsWritten?: string | undefined;
-  writeTimeNanos?: string | undefined;
-  bytesWritten?: string | undefined;
+export type AccumulableInfoList = Array<AccumulableInfo>;
+export interface ExecutorMetrics {
+  metrics?: StringMap | undefined;
 }
 /** Metrics about the output written by the stage. */
 export interface StageOutputMetrics {
   bytesWritten?: string | undefined;
   recordsWritten?: string | undefined;
 }
+/** Shuffle data written for the stage. */
+export interface StageShuffleWriteMetrics {
+  bytesWritten?: string | undefined;
+  writeTimeNanos?: string | undefined;
+  recordsWritten?: string | undefined;
+}
+/** Metrics about the input read by the stage. */
+export interface StageInputMetrics {
+  recordsRead?: string | undefined;
+  bytesRead?: string | undefined;
+}
+export interface StageShufflePushReadMetrics {
+  remoteMergedReqsDuration?: string | undefined;
+  corruptMergedBlockChunks?: string | undefined;
+  localMergedChunksFetched?: string | undefined;
+  localMergedBytesRead?: string | undefined;
+  remoteMergedBlocksFetched?: string | undefined;
+  remoteMergedBytesRead?: string | undefined;
+  localMergedBlocksFetched?: string | undefined;
+  remoteMergedChunksFetched?: string | undefined;
+  mergedFetchFallbackCount?: string | undefined;
+}
+/** Shuffle data read for the stage. */
+export interface StageShuffleReadMetrics {
+  remoteBlocksFetched?: string | undefined;
+  recordsRead?: string | undefined;
+  stageShufflePushReadMetrics?: StageShufflePushReadMetrics | undefined;
+  remoteBytesReadToDisk?: string | undefined;
+  localBlocksFetched?: string | undefined;
+  remoteReqsDuration?: string | undefined;
+  remoteBytesRead?: string | undefined;
+  fetchWaitTimeMillis?: string | undefined;
+  bytesRead?: string | undefined;
+  localBytesRead?: string | undefined;
+}
 /** Stage Level Aggregated Metrics */
 export interface StageMetrics {
-  stageInputMetrics?: StageInputMetrics | undefined;
-  resultSize?: string | undefined;
-  executorRunTimeMillis?: string | undefined;
-  memoryBytesSpilled?: string | undefined;
-  stageShuffleReadMetrics?: StageShuffleReadMetrics | undefined;
-  peakExecutionMemoryBytes?: string | undefined;
-  diskBytesSpilled?: string | undefined;
-  executorDeserializeCpuTimeNanos?: string | undefined;
-  jvmGcTimeMillis?: string | undefined;
-  stageShuffleWriteMetrics?: StageShuffleWriteMetrics | undefined;
-  executorDeserializeTimeMillis?: string | undefined;
-  resultSerializationTimeMillis?: string | undefined;
-  executorCpuTimeNanos?: string | undefined;
   stageOutputMetrics?: StageOutputMetrics | undefined;
-}
-/** Details of the speculation task when speculative execution is enabled. */
-export interface SpeculationStageSummary {
-  numCompletedTasks?: number | undefined;
-  numKilledTasks?: number | undefined;
-  stageId?: string | undefined;
-  numFailedTasks?: number | undefined;
-  numTasks?: number | undefined;
-  stageAttemptId?: number | undefined;
-  numActiveTasks?: number | undefined;
-}
-export type DoubleList = Array<number>;
-export interface ExecutorMetrics {
-  metrics?: StringMap | undefined;
-}
-export type ExecutorMetricsList = Array<ExecutorMetrics>;
-export interface ExecutorPeakMetricsDistributions {
-  quantiles?: DoubleList | undefined;
-  executorMetrics?: ExecutorMetricsList | undefined;
-}
-export interface ExecutorMetricsDistributions {
-  inputBytes?: DoubleList | undefined;
-  diskBytesSpilled?: DoubleList | undefined;
-  shuffleWriteRecords?: DoubleList | undefined;
-  outputBytes?: DoubleList | undefined;
-  succeededTasks?: DoubleList | undefined;
-  failedTasks?: DoubleList | undefined;
-  memoryBytesSpilled?: DoubleList | undefined;
-  killedTasks?: DoubleList | undefined;
-  shuffleRead?: DoubleList | undefined;
-  outputRecords?: DoubleList | undefined;
-  inputRecords?: DoubleList | undefined;
-  taskTimeMillis?: DoubleList | undefined;
-  peakMemoryMetrics?: ExecutorPeakMetricsDistributions | undefined;
-  quantiles?: DoubleList | undefined;
-  shuffleWrite?: DoubleList | undefined;
-  shuffleReadRecords?: DoubleList | undefined;
+  memoryBytesSpilled?: string | undefined;
+  resultSize?: string | undefined;
+  stageShuffleWriteMetrics?: StageShuffleWriteMetrics | undefined;
+  executorRunTimeMillis?: string | undefined;
+  stageInputMetrics?: StageInputMetrics | undefined;
+  diskBytesSpilled?: string | undefined;
+  peakExecutionMemoryBytes?: string | undefined;
+  executorCpuTimeNanos?: string | undefined;
+  executorDeserializeTimeMillis?: string | undefined;
+  jvmGcTimeMillis?: string | undefined;
+  stageShuffleReadMetrics?: StageShuffleReadMetrics | undefined;
+  resultSerializationTimeMillis?: string | undefined;
+  executorDeserializeCpuTimeNanos?: string | undefined;
 }
 /** Executor resources consumed by a stage. */
 export interface ExecutorStageSummary {
-  shuffleWrite?: string | undefined;
-  outputBytes?: string | undefined;
   inputRecords?: string | undefined;
-  succeededTasks?: number | undefined;
-  executorId?: string | undefined;
-  outputRecords?: string | undefined;
-  shuffleReadRecords?: string | undefined;
-  peakMemoryMetrics?: ExecutorMetrics | undefined;
+  shuffleWrite?: string | undefined;
   shuffleWriteRecords?: string | undefined;
-  stageAttemptId?: number | undefined;
-  inputBytes?: string | undefined;
-  killedTasks?: number | undefined;
-  shuffleRead?: string | undefined;
   taskTimeMillis?: string | undefined;
   diskBytesSpilled?: string | undefined;
-  stageId?: string | undefined;
-  memoryBytesSpilled?: string | undefined;
+  executorId?: string | undefined;
+  shuffleRead?: string | undefined;
+  stageAttemptId?: number | undefined;
+  inputBytes?: string | undefined;
   isExcludedForStage?: boolean | undefined;
+  outputRecords?: string | undefined;
+  killedTasks?: number | undefined;
+  succeededTasks?: number | undefined;
+  peakMemoryMetrics?: ExecutorMetrics | undefined;
+  memoryBytesSpilled?: string | undefined;
+  stageId?: string | undefined;
+  outputBytes?: string | undefined;
+  shuffleReadRecords?: string | undefined;
   failedTasks?: number | undefined;
 }
 export type ExecutorStageSummaryMap = { [key: string]: ExecutorStageSummary | undefined };
-export interface AccumulableInfo {
-  name?: string | undefined;
-  update?: string | undefined;
-  accumullableInfoId?: string | undefined;
-  value?: string | undefined;
+export type DoubleList = Array<number>;
+export type ExecutorMetricsList = Array<ExecutorMetrics>;
+export interface ExecutorPeakMetricsDistributions {
+  executorMetrics?: ExecutorMetricsList | undefined;
+  quantiles?: DoubleList | undefined;
 }
-export type AccumulableInfoList = Array<AccumulableInfo>;
+export interface ExecutorMetricsDistributions {
+  failedTasks?: DoubleList | undefined;
+  quantiles?: DoubleList | undefined;
+  outputRecords?: DoubleList | undefined;
+  inputBytes?: DoubleList | undefined;
+  outputBytes?: DoubleList | undefined;
+  diskBytesSpilled?: DoubleList | undefined;
+  succeededTasks?: DoubleList | undefined;
+  inputRecords?: DoubleList | undefined;
+  shuffleWrite?: DoubleList | undefined;
+  killedTasks?: DoubleList | undefined;
+  shuffleRead?: DoubleList | undefined;
+  shuffleReadRecords?: DoubleList | undefined;
+  memoryBytesSpilled?: DoubleList | undefined;
+  shuffleWriteRecords?: DoubleList | undefined;
+  taskTimeMillis?: DoubleList | undefined;
+  peakMemoryMetrics?: ExecutorPeakMetricsDistributions | undefined;
+}
 /** Metrics about the data written by the task. */
 export type OutputMetrics = StageOutputMetrics;
 /** Metrics about the input data read by the task. */
-export type InputMetrics = StageInputMetrics;
-/** Shuffle data written by task. */
-export interface ShuffleWriteMetrics {
-  writeTimeNanos?: string | undefined;
-  bytesWritten?: string | undefined;
-  recordsWritten?: string | undefined;
+export interface InputMetrics {
+  bytesRead?: string | undefined;
+  recordsRead?: string | undefined;
 }
 export interface ShufflePushReadMetrics {
-  remoteMergedBytesRead?: string | undefined;
-  mergedFetchFallbackCount?: string | undefined;
-  remoteMergedReqsDuration?: string | undefined;
+  remoteMergedChunksFetched?: string | undefined;
   localMergedBytesRead?: string | undefined;
   localMergedBlocksFetched?: string | undefined;
-  localMergedChunksFetched?: string | undefined;
-  remoteMergedChunksFetched?: string | undefined;
+  remoteMergedBytesRead?: string | undefined;
+  mergedFetchFallbackCount?: string | undefined;
   corruptMergedBlockChunks?: string | undefined;
+  localMergedChunksFetched?: string | undefined;
   remoteMergedBlocksFetched?: string | undefined;
+  remoteMergedReqsDuration?: string | undefined;
 }
 /** Shuffle data read by the task. */
 export interface ShuffleReadMetrics {
+  shufflePushReadMetrics?: ShufflePushReadMetrics | undefined;
+  remoteReqsDuration?: string | undefined;
+  localBytesRead?: string | undefined;
+  remoteBlocksFetched?: string | undefined;
+  remoteBytesRead?: string | undefined;
   recordsRead?: string | undefined;
   remoteBytesReadToDisk?: string | undefined;
-  localBytesRead?: string | undefined;
-  remoteBytesRead?: string | undefined;
-  shufflePushReadMetrics?: ShufflePushReadMetrics | undefined;
-  localBlocksFetched?: string | undefined;
   fetchWaitTimeMillis?: string | undefined;
-  remoteBlocksFetched?: string | undefined;
-  remoteReqsDuration?: string | undefined;
+  localBlocksFetched?: string | undefined;
+}
+/** Shuffle data written by task. */
+export interface ShuffleWriteMetrics {
+  writeTimeNanos?: string | undefined;
+  recordsWritten?: string | undefined;
+  bytesWritten?: string | undefined;
 }
 /** Executor Task Metrics */
 export interface TaskMetrics {
-  jvmGcTimeMillis?: string | undefined;
-  memoryBytesSpilled?: string | undefined;
   outputMetrics?: StageOutputMetrics | undefined;
-  resultSerializationTimeMillis?: string | undefined;
-  executorDeserializeTimeMillis?: string | undefined;
+  inputMetrics?: InputMetrics | undefined;
+  memoryBytesSpilled?: string | undefined;
   resultSize?: string | undefined;
-  executorRunTimeMillis?: string | undefined;
-  diskBytesSpilled?: string | undefined;
-  executorCpuTimeNanos?: string | undefined;
+  jvmGcTimeMillis?: string | undefined;
+  executorDeserializeTimeMillis?: string | undefined;
   peakExecutionMemoryBytes?: string | undefined;
-  inputMetrics?: StageInputMetrics | undefined;
-  shuffleWriteMetrics?: ShuffleWriteMetrics | undefined;
-  shuffleReadMetrics?: ShuffleReadMetrics | undefined;
   executorDeserializeCpuTimeNanos?: string | undefined;
+  shuffleReadMetrics?: ShuffleReadMetrics | undefined;
+  resultSerializationTimeMillis?: string | undefined;
+  diskBytesSpilled?: string | undefined;
+  executorRunTimeMillis?: string | undefined;
+  shuffleWriteMetrics?: ShuffleWriteMetrics | undefined;
+  executorCpuTimeNanos?: string | undefined;
 }
 /** Data corresponding to tasks created by spark. */
 export interface TaskData {
-  schedulerDelayMillis?: string | undefined;
-  stageId?: string | undefined;
-  attempt?: number | undefined;
   status?: string | undefined;
-  gettingResultTimeMillis?: string | undefined;
-  partitionId?: number | undefined;
-  taskId?: string | undefined;
-  durationMillis?: string | undefined;
-  hasMetrics?: boolean | undefined;
-  stageAttemptId?: number | undefined;
-  errorMessage?: string | undefined;
-  launchTime?: string | undefined;
   accumulatorUpdates?: AccumulableInfoList | undefined;
-  executorLogs?: StringMap | undefined;
-  executorId?: string | undefined;
-  speculative?: boolean | undefined;
   resultFetchStart?: string | undefined;
-  taskMetrics?: TaskMetrics | undefined;
-  host?: string | undefined;
+  speculative?: boolean | undefined;
   taskLocality?: string | undefined;
+  taskId?: string | undefined;
+  schedulerDelayMillis?: string | undefined;
+  launchTime?: string | undefined;
+  errorMessage?: string | undefined;
+  stageId?: string | undefined;
+  executorId?: string | undefined;
+  host?: string | undefined;
   index?: number | undefined;
+  executorLogs?: StringMap | undefined;
+  partitionId?: number | undefined;
+  gettingResultTimeMillis?: string | undefined;
+  hasMetrics?: boolean | undefined;
+  taskMetrics?: TaskMetrics | undefined;
+  durationMillis?: string | undefined;
+  stageAttemptId?: number | undefined;
+  attempt?: number | undefined;
 }
 export type TaskDataMap = { [key: string]: TaskData | undefined };
-/** Quantile metrics data related to Tasks. Units can be seconds, bytes, milliseconds, etc depending on the message type. */
-export interface Quantiles {
-  sum?: string | undefined;
-  percentile75?: string | undefined;
-  count?: string | undefined;
-  maximum?: string | undefined;
-  percentile50?: string | undefined;
-  percentile25?: string | undefined;
-  minimum?: string | undefined;
-}
-export interface ShuffleWriteQuantileMetrics {
-  writeTimeNanos?: Quantiles | undefined;
-  writeRecords?: Quantiles | undefined;
-  writeBytes?: Quantiles | undefined;
-}
-export interface InputQuantileMetrics {
-  bytesRead?: Quantiles | undefined;
-  recordsRead?: Quantiles | undefined;
-}
-export interface OutputQuantileMetrics {
-  bytesWritten?: Quantiles | undefined;
-  recordsWritten?: Quantiles | undefined;
-}
-export interface ShufflePushReadQuantileMetrics {
-  localMergedBlocksFetched?: Quantiles | undefined;
-  remoteMergedBytesRead?: Quantiles | undefined;
-  mergedFetchFallbackCount?: Quantiles | undefined;
-  remoteMergedReqsDuration?: Quantiles | undefined;
-  remoteMergedBlocksFetched?: Quantiles | undefined;
-  remoteMergedChunksFetched?: Quantiles | undefined;
-  localMergedBytesRead?: Quantiles | undefined;
-  corruptMergedBlockChunks?: Quantiles | undefined;
-  localMergedChunksFetched?: Quantiles | undefined;
-}
-export interface ShuffleReadQuantileMetrics {
-  shufflePushReadMetrics?: ShufflePushReadQuantileMetrics | undefined;
-  remoteBytesReadToDisk?: Quantiles | undefined;
-  fetchWaitTimeMillis?: Quantiles | undefined;
-  remoteBlocksFetched?: Quantiles | undefined;
-  totalBlocksFetched?: Quantiles | undefined;
-  readBytes?: Quantiles | undefined;
-  localBlocksFetched?: Quantiles | undefined;
-  readRecords?: Quantiles | undefined;
-  remoteBytesRead?: Quantiles | undefined;
-  remoteReqsDuration?: Quantiles | undefined;
-}
-export interface TaskQuantileMetrics {
-  gettingResultTimeMillis?: Quantiles | undefined;
-  executorCpuTimeNanos?: Quantiles | undefined;
-  memoryBytesSpilled?: Quantiles | undefined;
-  diskBytesSpilled?: Quantiles | undefined;
-  peakExecutionMemoryBytes?: Quantiles | undefined;
-  executorDeserializeCpuTimeNanos?: Quantiles | undefined;
-  resultSize?: Quantiles | undefined;
-  shuffleWriteMetrics?: ShuffleWriteQuantileMetrics | undefined;
-  durationMillis?: Quantiles | undefined;
-  jvmGcTimeMillis?: Quantiles | undefined;
-  executorDeserializeTimeMillis?: Quantiles | undefined;
-  resultSerializationTimeMillis?: Quantiles | undefined;
-  inputMetrics?: InputQuantileMetrics | undefined;
-  executorRunTimeMillis?: Quantiles | undefined;
-  outputMetrics?: OutputQuantileMetrics | undefined;
-  schedulerDelayMillis?: Quantiles | undefined;
-  shuffleReadMetrics?: ShuffleReadQuantileMetrics | undefined;
-}
 export type StageDataStatusEnum =
   | "STAGE_STATUS_UNSPECIFIED"
   | "STAGE_STATUS_ACTIVE"
@@ -758,42 +696,107 @@ export type StageDataStatusEnum =
   | "STAGE_STATUS_FAILED"
   | "STAGE_STATUS_PENDING"
   | "STAGE_STATUS_SKIPPED";
+/** Quantile metrics data related to Tasks. Units can be seconds, bytes, milliseconds, etc depending on the message type. */
+export interface Quantiles {
+  percentile50?: string | undefined;
+  percentile25?: string | undefined;
+  maximum?: string | undefined;
+  percentile75?: string | undefined;
+  minimum?: string | undefined;
+  sum?: string | undefined;
+  count?: string | undefined;
+}
+export interface InputQuantileMetrics {
+  recordsRead?: Quantiles | undefined;
+  bytesRead?: Quantiles | undefined;
+}
+export interface ShuffleWriteQuantileMetrics {
+  writeRecords?: Quantiles | undefined;
+  writeBytes?: Quantiles | undefined;
+  writeTimeNanos?: Quantiles | undefined;
+}
+export interface ShufflePushReadQuantileMetrics {
+  localMergedBytesRead?: Quantiles | undefined;
+  corruptMergedBlockChunks?: Quantiles | undefined;
+  localMergedChunksFetched?: Quantiles | undefined;
+  remoteMergedReqsDuration?: Quantiles | undefined;
+  remoteMergedBytesRead?: Quantiles | undefined;
+  remoteMergedChunksFetched?: Quantiles | undefined;
+  localMergedBlocksFetched?: Quantiles | undefined;
+  mergedFetchFallbackCount?: Quantiles | undefined;
+  remoteMergedBlocksFetched?: Quantiles | undefined;
+}
+export interface ShuffleReadQuantileMetrics {
+  remoteReqsDuration?: Quantiles | undefined;
+  readBytes?: Quantiles | undefined;
+  shufflePushReadMetrics?: ShufflePushReadQuantileMetrics | undefined;
+  remoteBytesReadToDisk?: Quantiles | undefined;
+  remoteBlocksFetched?: Quantiles | undefined;
+  readRecords?: Quantiles | undefined;
+  fetchWaitTimeMillis?: Quantiles | undefined;
+  totalBlocksFetched?: Quantiles | undefined;
+  localBlocksFetched?: Quantiles | undefined;
+  remoteBytesRead?: Quantiles | undefined;
+}
+export interface OutputQuantileMetrics {
+  recordsWritten?: Quantiles | undefined;
+  bytesWritten?: Quantiles | undefined;
+}
+export interface TaskQuantileMetrics {
+  inputMetrics?: InputQuantileMetrics | undefined;
+  shuffleWriteMetrics?: ShuffleWriteQuantileMetrics | undefined;
+  schedulerDelayMillis?: Quantiles | undefined;
+  shuffleReadMetrics?: ShuffleReadQuantileMetrics | undefined;
+  durationMillis?: Quantiles | undefined;
+  executorDeserializeCpuTimeNanos?: Quantiles | undefined;
+  diskBytesSpilled?: Quantiles | undefined;
+  resultSerializationTimeMillis?: Quantiles | undefined;
+  outputMetrics?: OutputQuantileMetrics | undefined;
+  jvmGcTimeMillis?: Quantiles | undefined;
+  peakExecutionMemoryBytes?: Quantiles | undefined;
+  executorRunTimeMillis?: Quantiles | undefined;
+  resultSize?: Quantiles | undefined;
+  gettingResultTimeMillis?: Quantiles | undefined;
+  memoryBytesSpilled?: Quantiles | undefined;
+  executorDeserializeTimeMillis?: Quantiles | undefined;
+  executorCpuTimeNanos?: Quantiles | undefined;
+}
 /** Data corresponding to a stage. */
 export interface StageData {
-  firstTaskLaunchedTime?: string | undefined;
+  failureReason?: string | undefined;
+  speculationSummary?: SpeculationStageSummary | undefined;
+  stageAttemptId?: number | undefined;
+  schedulingPool?: string | undefined;
+  description?: string | undefined;
+  submissionTime?: string | undefined;
+  name?: string | undefined;
+  accumulatorUpdates?: AccumulableInfoList | undefined;
+  numTasks?: number | undefined;
   numCompletedIndices?: number | undefined;
+  peakExecutorMetrics?: ExecutorMetrics | undefined;
   stageMetrics?: StageMetrics | undefined;
   isShufflePushEnabled?: boolean | undefined;
-  submissionTime?: string | undefined;
-  speculationSummary?: SpeculationStageSummary | undefined;
-  executorMetricsDistributions?: ExecutorMetricsDistributions | undefined;
-  numFailedTasks?: number | undefined;
-  stageAttemptId?: number | undefined;
-  completionTime?: string | undefined;
-  name?: string | undefined;
   executorSummary?: ExecutorStageSummaryMap | undefined;
-  schedulingPool?: string | undefined;
-  accumulatorUpdates?: AccumulableInfoList | undefined;
-  resourceProfileId?: number | undefined;
-  description?: string | undefined;
-  numTasks?: number | undefined;
-  parentStageIds?: StringList | undefined;
-  stageId?: string | undefined;
-  peakExecutorMetrics?: ExecutorMetrics | undefined;
-  rddIds?: StringList | undefined;
   numActiveTasks?: number | undefined;
+  executorMetricsDistributions?: ExecutorMetricsDistributions | undefined;
+  numCompleteTasks?: number | undefined;
+  resourceProfileId?: number | undefined;
+  numFailedTasks?: number | undefined;
   tasks?: TaskDataMap | undefined;
+  locality?: StringMap | undefined;
+  parentStageIds?: StringList | undefined;
   jobIds?: StringList | undefined;
-  failureReason?: string | undefined;
-  shuffleMergersCount?: number | undefined;
+  completionTime?: string | undefined;
   killedTasksSummary?: IntegerMap | undefined;
+  status?: StageDataStatusEnum | (string & {}) | undefined;
+  stageId?: string | undefined;
   /** Summary metrics fields. These are included in response only if present in summary_metrics_mask field in request */
   taskQuantileMetrics?: TaskQuantileMetrics | undefined;
-  numCompleteTasks?: number | undefined;
-  locality?: StringMap | undefined;
-  details?: string | undefined;
-  status?: StageDataStatusEnum | (string & {}) | undefined;
   numKilledTasks?: number | undefined;
+  shuffleMergersCount?: number | undefined;
+  firstTaskLaunchedTime?: string | undefined;
+  details?: string | undefined;
+  rddIds?: StringList | undefined;
 }
 /** Stage Attempt for a Stage of a Spark Application */
 export interface AccessSparkApplicationStageAttemptResponse {
@@ -801,14 +804,14 @@ export interface AccessSparkApplicationStageAttemptResponse {
   stageData?: StageData | undefined;
 }
 export interface AccessStageAttemptProjectsLocationsSessionsSparkApplicationsRequest {
-  /** Required. Parent (Session) resource reference. */
-  parent?: string | undefined;
-  /** Required. Stage ID */
-  stageId?: string | undefined;
   /** Optional. The list of summary metrics fields to include. Empty list will default to skip all summary metrics fields. Example, if the response should include TaskQuantileMetrics, the request should have task_quantile_metrics in summary_metrics_mask field */
   summaryMetricsMask?: string | undefined;
   /** Required. Stage Attempt ID */
   stageAttemptId?: number | undefined;
+  /** Required. Stage ID */
+  stageId?: string | undefined;
+  /** Required. Parent (Session) resource reference. */
+  parent?: string | undefined;
   /** Required. The fully qualified name of the session to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/sessions/SESSION_ID/sparkApplications/APPLICATION_ID" */
   name: string;
 }
@@ -820,18 +823,11 @@ export interface AccessSessionSparkApplicationStageAttemptResponse {
 export interface AccessStageRddGraphProjectsLocationsBatchesSparkApplicationsRequest {
   /** Required. Stage ID */
   stageId?: string | undefined;
-  /** Required. Parent (Batch) resource reference. */
-  parent?: string | undefined;
   /** Required. The fully qualified name of the batch to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/batches/BATCH_ID/sparkApplications/APPLICATION_ID" */
   name: string;
+  /** Required. Parent (Batch) resource reference. */
+  parent?: string | undefined;
 }
-/** A directed edge representing dependency between two RDDs. */
-export interface RddOperationEdge {
-  toId?: number | undefined;
-  fromId?: number | undefined;
-}
-export type RddOperationEdgeList = Array<RddOperationEdge>;
-export type RddOperationClusterList = Array<RddOperationCluster>;
 export type RddOperationNodeOutputDeterministicLevelEnum =
   | "DETERMINISTIC_LEVEL_UNSPECIFIED"
   | "DETERMINISTIC_LEVEL_DETERMINATE"
@@ -839,29 +835,36 @@ export type RddOperationNodeOutputDeterministicLevelEnum =
   | "DETERMINISTIC_LEVEL_INDETERMINATE";
 /** A node in the RDD operation graph. Corresponds to a single RDD. */
 export interface RddOperationNode {
+  nodeId?: number | undefined;
+  barrier?: boolean | undefined;
   cached?: boolean | undefined;
-  callsite?: string | undefined;
   name?: string | undefined;
+  callsite?: string | undefined;
   outputDeterministicLevel?:
     | RddOperationNodeOutputDeterministicLevelEnum
     | (string & {})
     | undefined;
-  barrier?: boolean | undefined;
-  nodeId?: number | undefined;
 }
 export type RddOperationNodeList = Array<RddOperationNode>;
+export type RddOperationClusterList = Array<RddOperationCluster>;
 /** A grouping of nodes representing higher level constructs (stage, job etc.). */
 export interface RddOperationCluster {
-  name?: string | undefined;
-  childClusters?: RddOperationClusterList | undefined;
   rddClusterId?: string | undefined;
+  name?: string | undefined;
   childNodes?: RddOperationNodeList | undefined;
+  childClusters?: RddOperationClusterList | undefined;
 }
+/** A directed edge representing dependency between two RDDs. */
+export interface RddOperationEdge {
+  fromId?: number | undefined;
+  toId?: number | undefined;
+}
+export type RddOperationEdgeList = Array<RddOperationEdge>;
 /** Graph representing RDD dependencies. Consists of edges and a root cluster. */
 export interface RddOperationGraph {
-  incomingEdges?: RddOperationEdgeList | undefined;
-  outgoingEdges?: RddOperationEdgeList | undefined;
   rootCluster?: RddOperationCluster | undefined;
+  outgoingEdges?: RddOperationEdgeList | undefined;
+  incomingEdges?: RddOperationEdgeList | undefined;
   edges?: RddOperationEdgeList | undefined;
   stageId?: string | undefined;
 }
@@ -871,12 +874,12 @@ export interface AccessSparkApplicationStageRddOperationGraphResponse {
   rddOperationGraph?: RddOperationGraph | undefined;
 }
 export interface AccessStageRddGraphProjectsLocationsSessionsSparkApplicationsRequest {
+  /** Required. Parent (Session) resource reference. */
+  parent?: string | undefined;
   /** Required. Stage ID */
   stageId?: string | undefined;
   /** Required. The fully qualified name of the session to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/sessions/SESSION_ID/sparkApplications/APPLICATION_ID" */
   name: string;
-  /** Required. Parent (Session) resource reference. */
-  parent?: string | undefined;
 }
 /** RDD operation graph for a Spark Application Stage limited to maximum 10000 clusters. */
 export interface AccessSessionSparkApplicationStageRddOperationGraphResponse {
@@ -885,10 +888,10 @@ export interface AccessSessionSparkApplicationStageRddOperationGraphResponse {
 }
 /** A request to analyze a batch workload. */
 export interface AnalyzeBatchRequest {
-  /** Optional. A unique ID used to identify the request. If the service receives two AnalyzeBatchRequest (http://cloud/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#google.cloud.dataproc.v1.AnalyzeBatchRequest)s with the same request_id, the second request is ignored and the Operation that corresponds to the first request created and stored in the backend is returned.Recommendation: Set this value to a UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier).The value must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
-  requestId?: string | undefined;
   /** Optional. The requestor ID is used to identify if the request comes from a GCA investigation or the old Ask Gemini Experience. */
   requestorId?: string | undefined;
+  /** Optional. A unique ID used to identify the request. If the service receives two AnalyzeBatchRequest (http://cloud/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#google.cloud.dataproc.v1.AnalyzeBatchRequest)s with the same request_id, the second request is ignored and the Operation that corresponds to the first request created and stored in the backend is returned.Recommendation: Set this value to a UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier).The value must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
+  requestId?: string | undefined;
 }
 export interface AnalyzeProjectsLocationsBatchesRequest extends AnalyzeBatchRequest {
   /** Required. The fully qualified name of the batch to analyze in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/batches/BATCH_ID" */
@@ -898,25 +901,25 @@ export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The Status type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by gRPC (https://github.com/grpc). Each Status message contains three pieces of data: error code, error message, and error details.You can find out more about this error model and how to work with it in the API Design Guide (https://cloud.google.com/apis/design/errors). */
 export interface Status {
-  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string | undefined;
   /** The status code, which should be an enum value of google.rpc.Code. */
   code?: number | undefined;
+  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
+  message?: string | undefined;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
   details?: DocumentMapList | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
-  /** If the value is false, it means the operation is still in progress. If true, the operation is completed, and either error or response is available. */
-  done?: boolean | undefined;
-  /** The normal, successful response of the operation. If the original method returns no data on success, such as Delete, the response is google.protobuf.Empty. If the original method is standard Get/Create/Update, the response should be the resource. For other methods, the response should have the type XxxResponse, where Xxx is the original method name. For example, if the original method name is TakeSnapshot(), the inferred response type is TakeSnapshotResponse. */
-  response?: DocumentMap | undefined;
-  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap | undefined;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the name should be a resource name ending with operations/{unique_id}. */
   name?: string | undefined;
+  /** If the value is false, it means the operation is still in progress. If true, the operation is completed, and either error or response is available. */
+  done?: boolean | undefined;
   /** The error result of the operation in case of failure or cancellation. */
   error?: Status | undefined;
+  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
+  metadata?: DocumentMap | undefined;
+  /** The normal, successful response of the operation. If the original method returns no data on success, such as Delete, the response is google.protobuf.Empty. If the original method is standard Get/Create/Update, the response should be the resource. For other methods, the response should have the type XxxResponse, where Xxx is the original method name. For example, if the original method name is TakeSnapshot(), the inferred response type is TakeSnapshotResponse. */
+  response?: DocumentMap | undefined;
 }
 export interface CancelProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
@@ -936,6 +939,11 @@ export interface CancelProjectsRegionsJobsRequest {
   /** Request body */
   body?: CancelJobRequest | undefined;
 }
+/** A list of queries to run on a cluster. */
+export interface QueryList {
+  /** Required. The queries to execute. You do not need to end a query expression with a semicolon. Multiple queries can be specified in one string by separating each with a semicolon. Here is an example of a Dataproc API snippet that uses a QueryList to specify a HiveJob: "hiveJob": { "queryList": { "queries": [ "query1", "query2", "query3;query4", ] } } */
+  queries?: StringList | undefined;
+}
 export type LoggingConfigDriverLogLevelsValueEnum =
   | "LEVEL_UNSPECIFIED"
   | "ALL"
@@ -954,179 +962,22 @@ export interface LoggingConfig {
   /** The per-package log levels for the driver. This can include "root" package name to configure rootLogger. Examples: - 'com.google = FATAL' - 'root = INFO' - 'org.apache = DEBUG' */
   driverLogLevels?: LoggingConfigDriverLogLevelsValueEnumMap | undefined;
 }
-/** A Dataproc job for running Apache PySpark (https://spark.apache.org/docs/latest/api/python/index.html#pyspark-overview) applications on YARN. */
-export interface PySparkJob {
-  /** Optional. HCFS file URIs of Python files to pass to the PySpark framework. Supported file types: .py, .egg, and .zip. */
-  pythonFileUris?: StringList | undefined;
-  /** Optional. HCFS URIs of archives to be extracted into the working directory of each executor. Supported file types: .jar, .tar, .tar.gz, .tgz, and .zip.Note: Spark applications must be deployed in cluster mode (https://spark.apache.org/docs/latest/cluster-overview.html) for correct environment propagation. */
-  archiveUris?: StringList | undefined;
-  /** Required. The HCFS URI of the main Python file to use as the driver. Must be a .py file. */
-  mainPythonFileUri?: string | undefined;
-  /** Optional. HCFS URIs of jar files to add to the CLASSPATHs of the Python driver and tasks. */
-  jarFileUris?: StringList | undefined;
-  /** Optional. The arguments to pass to the driver. Do not include arguments, such as --conf, that can be set as job properties, since a collision may occur that causes an incorrect job submission. */
-  args?: StringList | undefined;
-  /** Optional. The runtime log config for job execution. */
-  loggingConfig?: LoggingConfig | undefined;
-  /** Optional. HCFS URIs of files to be placed in the working directory of each executor. Useful for naively parallel tasks. */
-  fileUris?: StringList | undefined;
-  /** Optional. A mapping of property names to values, used to configure PySpark. Properties that conflict with values set by the Dataproc API might be overwritten. Can include properties set in /etc/spark/conf/spark-defaults.conf and classes in user code. */
-  properties?: StringMap | undefined;
-}
-/** A list of queries to run on a cluster. */
-export interface QueryList {
-  /** Required. The queries to execute. You do not need to end a query expression with a semicolon. Multiple queries can be specified in one string by separating each with a semicolon. Here is an example of a Dataproc API snippet that uses a QueryList to specify a HiveJob: "hiveJob": { "queryList": { "queries": [ "query1", "query2", "query3;query4", ] } } */
-  queries?: StringList | undefined;
-}
-/** A Dataproc job for running Apache Pig (https://pig.apache.org/) queries on YARN. */
-export interface PigJob {
-  /** Optional. A mapping of property names to values, used to configure Pig. Properties that conflict with values set by the Dataproc API might be overwritten. Can include properties set in /etc/hadoop/conf/*-site.xml, /etc/pig/conf/pig.properties, and classes in user code. */
-  properties?: StringMap | undefined;
-  /** The HCFS URI of the script that contains the Pig queries. */
-  queryFileUri?: string | undefined;
+/** A Dataproc job for running Presto (https://prestosql.io/) queries. IMPORTANT: The Dataproc Presto Optional Component (https://cloud.google.com/dataproc/docs/concepts/components/presto) must be enabled when the cluster is created to submit a Presto job to the cluster. */
+export interface PrestoJob {
   /** Optional. Whether to continue executing queries if a query fails. The default value is false. Setting to true can be useful when executing independent parallel queries. */
   continueOnFailure?: boolean | undefined;
-  /** Optional. The runtime log config for job execution. */
-  loggingConfig?: LoggingConfig | undefined;
-  /** Optional. HCFS URIs of jar files to add to the CLASSPATH of the Pig Client and Hadoop MapReduce (MR) tasks. Can contain Pig UDFs. */
-  jarFileUris?: StringList | undefined;
+  /** Optional. A mapping of property names to values. Used to set Presto session properties (https://prestodb.io/docs/current/sql/set-session.html) Equivalent to using the --session flag in the Presto CLI */
+  properties?: StringMap | undefined;
   /** A list of queries. */
   queryList?: QueryList | undefined;
-  /** Optional. Mapping of query variable names to values (equivalent to the Pig command: name=[value]). */
-  scriptVariables?: StringMap | undefined;
-}
-/** A Dataproc job for running Apache SparkR (https://spark.apache.org/docs/latest/sparkr.html) applications on YARN. */
-export interface SparkRJob {
-  /** Optional. The arguments to pass to the driver. Do not include arguments, such as --conf, that can be set as job properties, since a collision may occur that causes an incorrect job submission. */
-  args?: StringList | undefined;
   /** Optional. The runtime log config for job execution. */
   loggingConfig?: LoggingConfig | undefined;
-  /** Optional. HCFS URIs of files to be placed in the working directory of each executor. Useful for naively parallel tasks. */
-  fileUris?: StringList | undefined;
-  /** Optional. HCFS URIs of archives to be extracted into the working directory of each executor. Supported file types: .jar, .tar, .tar.gz, .tgz, and .zip. */
-  archiveUris?: StringList | undefined;
-  /** Required. The HCFS URI of the main R file to use as the driver. Must be a .R file. */
-  mainRFileUri?: string | undefined;
-  /** Optional. A mapping of property names to values, used to configure SparkR. Properties that conflict with values set by the Dataproc API might be overwritten. Can include properties set in /etc/spark/conf/spark-defaults.conf and classes in user code. */
-  properties?: StringMap | undefined;
-}
-/** A Dataproc job for running Apache Spark (https://spark.apache.org/) applications on YARN. */
-export interface SparkJob {
-  /** The HCFS URI of the jar file that contains the main class. */
-  mainJarFileUri?: string | undefined;
-  /** Optional. The runtime log config for job execution. */
-  loggingConfig?: LoggingConfig | undefined;
-  /** Optional. HCFS URIs of archives to be extracted into the working directory of each executor. Supported file types: .jar, .tar, .tar.gz, .tgz, and .zip. */
-  archiveUris?: StringList | undefined;
-  /** Optional. HCFS URIs of jar files to add to the CLASSPATHs of the Spark driver and tasks. */
-  jarFileUris?: StringList | undefined;
-  /** Optional. HCFS URIs of files to be placed in the working directory of each executor. Useful for naively parallel tasks. */
-  fileUris?: StringList | undefined;
-  /** Optional. The arguments to pass to the driver. Do not include arguments, such as --conf, that can be set as job properties, since a collision may occur that causes an incorrect job submission. */
-  args?: StringList | undefined;
-  /** The name of the driver's main class. The jar file that contains the class must be in the default CLASSPATH or specified in SparkJob.jar_file_uris. */
-  mainClass?: string | undefined;
-  /** Optional. A mapping of property names to values, used to configure Spark. Properties that conflict with values set by the Dataproc API might be overwritten. Can include properties set in /etc/spark/conf/spark-defaults.conf and classes in user code. */
-  properties?: StringMap | undefined;
-}
-/** Driver scheduling configuration. */
-export interface DriverSchedulingConfig {
-  /** Required. The number of vCPUs the driver is requesting. */
-  vcores?: number | undefined;
-  /** Required. The amount of memory in MB the driver is requesting. */
-  memoryMb?: number | undefined;
-}
-/** A Dataproc job for running Trino (https://trino.io/) queries. IMPORTANT: The Dataproc Trino Optional Component (https://cloud.google.com/dataproc/docs/concepts/components/trino) must be enabled when the cluster is created to submit a Trino job to the cluster. */
-export interface TrinoJob {
-  /** Optional. Trino client tags to attach to this query */
-  clientTags?: StringList | undefined;
   /** The HCFS URI of the script that contains SQL queries. */
   queryFileUri?: string | undefined;
-  /** Optional. The format in which query output will be displayed. See the Trino documentation for supported output formats */
+  /** Optional. The format in which query output will be displayed. See the Presto documentation for supported output formats */
   outputFormat?: string | undefined;
-  /** Optional. Whether to continue executing queries if a query fails. The default value is false. Setting to true can be useful when executing independent parallel queries. */
-  continueOnFailure?: boolean | undefined;
-  /** A list of queries. */
-  queryList?: QueryList | undefined;
-  /** Optional. The runtime log config for job execution. */
-  loggingConfig?: LoggingConfig | undefined;
-  /** Optional. A mapping of property names to values. Used to set Trino session properties (https://trino.io/docs/current/sql/set-session.html) Equivalent to using the --session flag in the Trino CLI */
-  properties?: StringMap | undefined;
-}
-/** Dataproc job config. */
-export interface JobPlacement {
-  /** Optional. Cluster labels to identify a cluster where the job will be submitted. */
-  clusterLabels?: StringMap | undefined;
-  /** Output only. A cluster UUID generated by the Dataproc service when the job is submitted. */
-  clusterUuid?: string | undefined;
-  /** Required. The name of the cluster where the job will be submitted. */
-  clusterName?: string | undefined;
-}
-/** A Dataproc job for running Apache Hadoop MapReduce (https://hadoop.apache.org/docs/current/hadoop-mapreduce-client/hadoop-mapreduce-client-core/MapReduceTutorial.html) jobs on Apache Hadoop YARN (https://hadoop.apache.org/docs/r2.7.1/hadoop-yarn/hadoop-yarn-site/YARN.html). */
-export interface HadoopJob {
-  /** Optional. The runtime log config for job execution. */
-  loggingConfig?: LoggingConfig | undefined;
-  /** The name of the driver's main class. The jar file containing the class must be in the default CLASSPATH or specified in jar_file_uris. */
-  mainClass?: string | undefined;
-  /** The HCFS URI of the jar file containing the main class. Examples: 'gs://foo-bucket/analytics-binaries/extract-useful-metrics-mr.jar' 'hdfs:/tmp/test-samples/custom-wordcount.jar' 'file:///home/usr/lib/hadoop-mapreduce/hadoop-mapreduce-examples.jar' */
-  mainJarFileUri?: string | undefined;
-  /** Optional. Jar file URIs to add to the CLASSPATHs of the Hadoop driver and tasks. */
-  jarFileUris?: StringList | undefined;
-  /** Optional. The arguments to pass to the driver. Do not include arguments, such as -libjars or -Dfoo=bar, that can be set as job properties, since a collision might occur that causes an incorrect job submission. */
-  args?: StringList | undefined;
-  /** Optional. A mapping of property names to values, used to configure Hadoop. Properties that conflict with values set by the Dataproc API might be overwritten. Can include properties set in /etc/hadoop/conf/*-site and classes in user code. */
-  properties?: StringMap | undefined;
-  /** Optional. HCFS URIs of archives to be extracted in the working directory of Hadoop drivers and tasks. Supported file types: .jar, .tar, .tar.gz, .tgz, or .zip. */
-  archiveUris?: StringList | undefined;
-  /** Optional. HCFS (Hadoop Compatible Filesystem) URIs of files to be copied to the working directory of Hadoop drivers and distributed tasks. Useful for naively parallel tasks. */
-  fileUris?: StringList | undefined;
-}
-/** A Dataproc job for running Apache Spark SQL (https://spark.apache.org/sql/) queries. */
-export interface SparkSqlJob {
-  /** Optional. Mapping of query variable names to values (equivalent to the Spark SQL command: SET name="value";). */
-  scriptVariables?: StringMap | undefined;
-  /** The HCFS URI of the script that contains SQL queries. */
-  queryFileUri?: string | undefined;
-  /** Optional. The runtime log config for job execution. */
-  loggingConfig?: LoggingConfig | undefined;
-  /** A list of queries. */
-  queryList?: QueryList | undefined;
-  /** Optional. HCFS URIs of jar files to be added to the Spark CLASSPATH. */
-  jarFileUris?: StringList | undefined;
-  /** Optional. A mapping of property names to values, used to configure Spark SQL's SparkConf. Properties that conflict with values set by the Dataproc API might be overwritten. */
-  properties?: StringMap | undefined;
-}
-/** A Dataproc job for running Apache Hive (https://hive.apache.org/) queries on YARN. */
-export interface HiveJob {
-  /** Optional. Mapping of query variable names to values (equivalent to the Hive command: SET name="value";). */
-  scriptVariables?: StringMap | undefined;
-  /** A list of queries. */
-  queryList?: QueryList | undefined;
-  /** Optional. Whether to continue executing queries if a query fails. The default value is false. Setting to true can be useful when executing independent parallel queries. */
-  continueOnFailure?: boolean | undefined;
-  /** Optional. HCFS URIs of jar files to add to the CLASSPATH of the Hive server and Hadoop MapReduce (MR) tasks. Can contain Hive SerDes and UDFs. */
-  jarFileUris?: StringList | undefined;
-  /** The HCFS URI of the script that contains Hive queries. */
-  queryFileUri?: string | undefined;
-  /** Optional. A mapping of property names and values, used to configure Hive. Properties that conflict with values set by the Dataproc API might be overwritten. Can include properties set in /etc/hadoop/conf/*-site.xml, /etc/hive/conf/hive-site.xml, and classes in user code. */
-  properties?: StringMap | undefined;
-}
-/** A Dataproc job for running Apache Flink applications on YARN. */
-export interface FlinkJob {
-  /** The name of the driver's main class. The jar file that contains the class must be in the default CLASSPATH or specified in jarFileUris. */
-  mainClass?: string | undefined;
-  /** Optional. The runtime log config for job execution. */
-  loggingConfig?: LoggingConfig | undefined;
-  /** The HCFS URI of the jar file that contains the main class. */
-  mainJarFileUri?: string | undefined;
-  /** Optional. A mapping of property names to values, used to configure Flink. Properties that conflict with values set by the Dataproc API might be overwritten. Can include properties set in /etc/flink/conf/flink-defaults.conf and classes in user code. */
-  properties?: StringMap | undefined;
-  /** Optional. The arguments to pass to the driver. Do not include arguments, such as --conf, that can be set as job properties, since a collision might occur that causes an incorrect job submission. */
-  args?: StringList | undefined;
-  /** Optional. HCFS URI of the savepoint, which contains the last saved progress for starting the current job. */
-  savepointUri?: string | undefined;
-  /** Optional. HCFS URIs of jar files to add to the CLASSPATHs of the Flink driver and tasks. */
-  jarFileUris?: StringList | undefined;
+  /** Optional. Presto client tags to attach to this query */
+  clientTags?: StringList | undefined;
 }
 export type JobStatusStateEnum =
   | "STATE_UNSPECIFIED"
@@ -1142,46 +993,101 @@ export type JobStatusStateEnum =
 export type JobStatusSubstateEnum = "UNSPECIFIED" | "SUBMITTED" | "QUEUED" | "STALE_STATUS";
 /** Dataproc job status. */
 export interface JobStatus {
-  /** Output only. A state message specifying the overall job state. */
-  state?: JobStatusStateEnum | (string & {}) | undefined;
   /** Output only. The time when this state was entered. */
   stateStartTime?: string | undefined;
+  /** Output only. A state message specifying the overall job state. */
+  state?: JobStatusStateEnum | (string & {}) | undefined;
   /** Output only. Additional state information, which includes status reported by the agent. */
   substate?: JobStatusSubstateEnum | (string & {}) | undefined;
   /** Optional. Job state details, such as an error description if the state is ERROR. */
   details?: string | undefined;
 }
-export type JobStatusList = Array<JobStatus>;
-/** Job scheduling options. */
-export interface JobScheduling {
-  /** Optional. Maximum total number of times a driver can be restarted as a result of the driver exiting with a non-zero code. After the maximum number is reached, the job will be reported as failed.Maximum value is 240.Note: Currently, this restartable job option is not supported in Dataproc workflow templates (https://cloud.google.com/dataproc/docs/concepts/workflows/using-workflows#adding_jobs_to_a_template). */
-  maxFailuresTotal?: number | undefined;
-  /** Optional. Maximum number of times per hour a driver can be restarted as a result of driver exiting with non-zero code before job is reported failed.A job might be reported as thrashing if the driver exits with a non-zero code four times within a 10-minute window.Maximum value is 10.Note: This restartable job option is not supported in Dataproc workflow templates (https://cloud.google.com/dataproc/docs/concepts/workflows/using-workflows#adding_jobs_to_a_template). */
-  maxFailuresPerHour?: number | undefined;
+/** Driver scheduling configuration. */
+export interface DriverSchedulingConfig {
+  /** Required. The number of vCPUs the driver is requesting. */
+  vcores?: number | undefined;
+  /** Required. The amount of memory in MB the driver is requesting. */
+  memoryMb?: number | undefined;
 }
-/** A Dataproc job for running Presto (https://prestosql.io/) queries. IMPORTANT: The Dataproc Presto Optional Component (https://cloud.google.com/dataproc/docs/concepts/components/presto) must be enabled when the cluster is created to submit a Presto job to the cluster. */
-export interface PrestoJob {
+/** A Dataproc job for running Apache Spark SQL (https://spark.apache.org/sql/) queries. */
+export interface SparkSqlJob {
+  /** Optional. A mapping of property names to values, used to configure Spark SQL's SparkConf. Properties that conflict with values set by the Dataproc API might be overwritten. */
+  properties?: StringMap | undefined;
+  /** Optional. HCFS URIs of jar files to be added to the Spark CLASSPATH. */
+  jarFileUris?: StringList | undefined;
+  /** Optional. Mapping of query variable names to values (equivalent to the Spark SQL command: SET name="value";). */
+  scriptVariables?: StringMap | undefined;
   /** A list of queries. */
   queryList?: QueryList | undefined;
   /** Optional. The runtime log config for job execution. */
   loggingConfig?: LoggingConfig | undefined;
-  /** Optional. A mapping of property names to values. Used to set Presto session properties (https://prestodb.io/docs/current/sql/set-session.html) Equivalent to using the --session flag in the Presto CLI */
-  properties?: StringMap | undefined;
   /** The HCFS URI of the script that contains SQL queries. */
   queryFileUri?: string | undefined;
-  /** Optional. The format in which query output will be displayed. See the Presto documentation for supported output formats */
-  outputFormat?: string | undefined;
-  /** Optional. Whether to continue executing queries if a query fails. The default value is false. Setting to true can be useful when executing independent parallel queries. */
-  continueOnFailure?: boolean | undefined;
-  /** Optional. Presto client tags to attach to this query */
-  clientTags?: StringList | undefined;
 }
 /** Encapsulates the full scoping used to reference a job. */
 export interface JobReference {
-  /** Optional. The ID of the Google Cloud Platform project that the job belongs to. If specified, must match the request project ID. */
-  projectId?: string | undefined;
   /** Optional. The job ID, which must be unique within the project.The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), or hyphens (-). The maximum length is 100 characters.If not specified by the caller, the job ID will be provided by the server. */
   jobId?: string | undefined;
+  /** Optional. The ID of the Google Cloud Platform project that the job belongs to. If specified, must match the request project ID. */
+  projectId?: string | undefined;
+}
+/** A Dataproc job for running Trino (https://trino.io/) queries. IMPORTANT: The Dataproc Trino Optional Component (https://cloud.google.com/dataproc/docs/concepts/components/trino) must be enabled when the cluster is created to submit a Trino job to the cluster. */
+export interface TrinoJob {
+  /** Optional. The runtime log config for job execution. */
+  loggingConfig?: LoggingConfig | undefined;
+  /** Optional. A mapping of property names to values. Used to set Trino session properties (https://trino.io/docs/current/sql/set-session.html) Equivalent to using the --session flag in the Trino CLI */
+  properties?: StringMap | undefined;
+  /** The HCFS URI of the script that contains SQL queries. */
+  queryFileUri?: string | undefined;
+  /** Optional. The format in which query output will be displayed. See the Trino documentation for supported output formats */
+  outputFormat?: string | undefined;
+  /** Optional. Whether to continue executing queries if a query fails. The default value is false. Setting to true can be useful when executing independent parallel queries. */
+  continueOnFailure?: boolean | undefined;
+  /** Optional. Trino client tags to attach to this query */
+  clientTags?: StringList | undefined;
+  /** A list of queries. */
+  queryList?: QueryList | undefined;
+}
+/** Dataproc job config. */
+export interface JobPlacement {
+  /** Optional. Cluster labels to identify a cluster where the job will be submitted. */
+  clusterLabels?: StringMap | undefined;
+  /** Required. The name of the cluster where the job will be submitted. */
+  clusterName?: string | undefined;
+  /** Output only. A cluster UUID generated by the Dataproc service when the job is submitted. */
+  clusterUuid?: string | undefined;
+}
+/** A Dataproc job for running Apache Pig (https://pig.apache.org/) queries on YARN. */
+export interface PigJob {
+  /** The HCFS URI of the script that contains the Pig queries. */
+  queryFileUri?: string | undefined;
+  /** Optional. Whether to continue executing queries if a query fails. The default value is false. Setting to true can be useful when executing independent parallel queries. */
+  continueOnFailure?: boolean | undefined;
+  /** Optional. The runtime log config for job execution. */
+  loggingConfig?: LoggingConfig | undefined;
+  /** Optional. A mapping of property names to values, used to configure Pig. Properties that conflict with values set by the Dataproc API might be overwritten. Can include properties set in /etc/hadoop/conf/*-site.xml, /etc/pig/conf/pig.properties, and classes in user code. */
+  properties?: StringMap | undefined;
+  /** A list of queries. */
+  queryList?: QueryList | undefined;
+  /** Optional. Mapping of query variable names to values (equivalent to the Pig command: name=[value]). */
+  scriptVariables?: StringMap | undefined;
+  /** Optional. HCFS URIs of jar files to add to the CLASSPATH of the Pig Client and Hadoop MapReduce (MR) tasks. Can contain Pig UDFs. */
+  jarFileUris?: StringList | undefined;
+}
+/** A Dataproc job for running Apache SparkR (https://spark.apache.org/docs/latest/sparkr.html) applications on YARN. */
+export interface SparkRJob {
+  /** Required. The HCFS URI of the main R file to use as the driver. Must be a .R file. */
+  mainRFileUri?: string | undefined;
+  /** Optional. HCFS URIs of files to be placed in the working directory of each executor. Useful for naively parallel tasks. */
+  fileUris?: StringList | undefined;
+  /** Optional. The runtime log config for job execution. */
+  loggingConfig?: LoggingConfig | undefined;
+  /** Optional. HCFS URIs of archives to be extracted into the working directory of each executor. Supported file types: .jar, .tar, .tar.gz, .tgz, and .zip. */
+  archiveUris?: StringList | undefined;
+  /** Optional. The arguments to pass to the driver. Do not include arguments, such as --conf, that can be set as job properties, since a collision may occur that causes an incorrect job submission. */
+  args?: StringList | undefined;
+  /** Optional. A mapping of property names to values, used to configure SparkR. Properties that conflict with values set by the Dataproc API might be overwritten. Can include properties set in /etc/spark/conf/spark-defaults.conf and classes in user code. */
+  properties?: StringMap | undefined;
 }
 export type YarnApplicationStateEnum =
   | "STATE_UNSPECIFIED"
@@ -1195,66 +1101,163 @@ export type YarnApplicationStateEnum =
   | "KILLED";
 /** A YARN application created by a job. Application information is a subset of org.apache.hadoop.yarn.proto.YarnProtos.ApplicationReportProto.Beta Feature: This report is available for testing purposes only. It may be changed before final release. */
 export interface YarnApplication {
-  /** Required. The application name. */
-  name?: string | undefined;
+  /** Required. The numerical progress of the application, from 1 to 100. */
+  progress?: number | undefined;
   /** Optional. The cumulative memory usage of the application for a job, measured in mb-seconds. */
   memoryMbSeconds?: string | undefined;
   /** Required. The application state. */
   state?: YarnApplicationStateEnum | (string & {}) | undefined;
-  /** Optional. The cumulative CPU time consumed by the application for a job, measured in vcore-seconds. */
-  vcoreSeconds?: string | undefined;
-  /** Required. The numerical progress of the application, from 1 to 100. */
-  progress?: number | undefined;
+  /** Required. The application name. */
+  name?: string | undefined;
   /** Optional. The HTTP URL of the ApplicationMaster, HistoryServer, or TimelineServer that provides application-specific information. The URL uses the internal hostname, and requires a proxy server for resolution and, possibly, access. */
   trackingUrl?: string | undefined;
+  /** Optional. The cumulative CPU time consumed by the application for a job, measured in vcore-seconds. */
+  vcoreSeconds?: string | undefined;
 }
 export type YarnApplicationList = Array<YarnApplication>;
+/** A Dataproc job for running Apache Spark (https://spark.apache.org/) applications on YARN. */
+export interface SparkJob {
+  /** The HCFS URI of the jar file that contains the main class. */
+  mainJarFileUri?: string | undefined;
+  /** Optional. The arguments to pass to the driver. Do not include arguments, such as --conf, that can be set as job properties, since a collision may occur that causes an incorrect job submission. */
+  args?: StringList | undefined;
+  /** Optional. The runtime log config for job execution. */
+  loggingConfig?: LoggingConfig | undefined;
+  /** Optional. A mapping of property names to values, used to configure Spark. Properties that conflict with values set by the Dataproc API might be overwritten. Can include properties set in /etc/spark/conf/spark-defaults.conf and classes in user code. */
+  properties?: StringMap | undefined;
+  /** The name of the driver's main class. The jar file that contains the class must be in the default CLASSPATH or specified in SparkJob.jar_file_uris. */
+  mainClass?: string | undefined;
+  /** Optional. HCFS URIs of files to be placed in the working directory of each executor. Useful for naively parallel tasks. */
+  fileUris?: StringList | undefined;
+  /** Optional. HCFS URIs of archives to be extracted into the working directory of each executor. Supported file types: .jar, .tar, .tar.gz, .tgz, and .zip. */
+  archiveUris?: StringList | undefined;
+  /** Optional. HCFS URIs of jar files to add to the CLASSPATHs of the Spark driver and tasks. */
+  jarFileUris?: StringList | undefined;
+}
+/** A Dataproc job for running Apache Hadoop MapReduce (https://hadoop.apache.org/docs/current/hadoop-mapreduce-client/hadoop-mapreduce-client-core/MapReduceTutorial.html) jobs on Apache Hadoop YARN (https://hadoop.apache.org/docs/r2.7.1/hadoop-yarn/hadoop-yarn-site/YARN.html). */
+export interface HadoopJob {
+  /** Optional. HCFS (Hadoop Compatible Filesystem) URIs of files to be copied to the working directory of Hadoop drivers and distributed tasks. Useful for naively parallel tasks. */
+  fileUris?: StringList | undefined;
+  /** Optional. A mapping of property names to values, used to configure Hadoop. Properties that conflict with values set by the Dataproc API might be overwritten. Can include properties set in /etc/hadoop/conf/*-site and classes in user code. */
+  properties?: StringMap | undefined;
+  /** Optional. HCFS URIs of archives to be extracted in the working directory of Hadoop drivers and tasks. Supported file types: .jar, .tar, .tar.gz, .tgz, or .zip. */
+  archiveUris?: StringList | undefined;
+  /** Optional. Jar file URIs to add to the CLASSPATHs of the Hadoop driver and tasks. */
+  jarFileUris?: StringList | undefined;
+  /** The HCFS URI of the jar file containing the main class. Examples: 'gs://foo-bucket/analytics-binaries/extract-useful-metrics-mr.jar' 'hdfs:/tmp/test-samples/custom-wordcount.jar' 'file:///home/usr/lib/hadoop-mapreduce/hadoop-mapreduce-examples.jar' */
+  mainJarFileUri?: string | undefined;
+  /** Optional. The arguments to pass to the driver. Do not include arguments, such as -libjars or -Dfoo=bar, that can be set as job properties, since a collision might occur that causes an incorrect job submission. */
+  args?: StringList | undefined;
+  /** The name of the driver's main class. The jar file containing the class must be in the default CLASSPATH or specified in jar_file_uris. */
+  mainClass?: string | undefined;
+  /** Optional. The runtime log config for job execution. */
+  loggingConfig?: LoggingConfig | undefined;
+}
+/** Job scheduling options. */
+export interface JobScheduling {
+  /** Optional. Maximum number of times per hour a driver can be restarted as a result of driver exiting with non-zero code before job is reported failed.A job might be reported as thrashing if the driver exits with a non-zero code four times within a 10-minute window.Maximum value is 10.Note: This restartable job option is not supported in Dataproc workflow templates (https://cloud.google.com/dataproc/docs/concepts/workflows/using-workflows#adding_jobs_to_a_template). */
+  maxFailuresPerHour?: number | undefined;
+  /** Optional. Maximum total number of times a driver can be restarted as a result of the driver exiting with a non-zero code. After the maximum number is reached, the job will be reported as failed.Maximum value is 240.Note: Currently, this restartable job option is not supported in Dataproc workflow templates (https://cloud.google.com/dataproc/docs/concepts/workflows/using-workflows#adding_jobs_to_a_template). */
+  maxFailuresTotal?: number | undefined;
+}
+export type JobStatusList = Array<JobStatus>;
+/** A Dataproc job for running Apache PySpark (https://spark.apache.org/docs/latest/api/python/index.html#pyspark-overview) applications on YARN. */
+export interface PySparkJob {
+  /** Required. The HCFS URI of the main Python file to use as the driver. Must be a .py file. */
+  mainPythonFileUri?: string | undefined;
+  /** Optional. HCFS URIs of jar files to add to the CLASSPATHs of the Python driver and tasks. */
+  jarFileUris?: StringList | undefined;
+  /** Optional. HCFS URIs of archives to be extracted into the working directory of each executor. Supported file types: .jar, .tar, .tar.gz, .tgz, and .zip.Note: Spark applications must be deployed in cluster mode (https://spark.apache.org/docs/latest/cluster-overview.html) for correct environment propagation. */
+  archiveUris?: StringList | undefined;
+  /** Optional. HCFS file URIs of Python files to pass to the PySpark framework. Supported file types: .py, .egg, and .zip. */
+  pythonFileUris?: StringList | undefined;
+  /** Optional. The runtime log config for job execution. */
+  loggingConfig?: LoggingConfig | undefined;
+  /** Optional. A mapping of property names to values, used to configure PySpark. Properties that conflict with values set by the Dataproc API might be overwritten. Can include properties set in /etc/spark/conf/spark-defaults.conf and classes in user code. */
+  properties?: StringMap | undefined;
+  /** Optional. The arguments to pass to the driver. Do not include arguments, such as --conf, that can be set as job properties, since a collision may occur that causes an incorrect job submission. */
+  args?: StringList | undefined;
+  /** Optional. HCFS URIs of files to be placed in the working directory of each executor. Useful for naively parallel tasks. */
+  fileUris?: StringList | undefined;
+}
+/** A Dataproc job for running Apache Hive (https://hive.apache.org/) queries on YARN. */
+export interface HiveJob {
+  /** Optional. Whether to continue executing queries if a query fails. The default value is false. Setting to true can be useful when executing independent parallel queries. */
+  continueOnFailure?: boolean | undefined;
+  /** Optional. A mapping of property names and values, used to configure Hive. Properties that conflict with values set by the Dataproc API might be overwritten. Can include properties set in /etc/hadoop/conf/*-site.xml, /etc/hive/conf/hive-site.xml, and classes in user code. */
+  properties?: StringMap | undefined;
+  /** Optional. HCFS URIs of jar files to add to the CLASSPATH of the Hive server and Hadoop MapReduce (MR) tasks. Can contain Hive SerDes and UDFs. */
+  jarFileUris?: StringList | undefined;
+  /** The HCFS URI of the script that contains Hive queries. */
+  queryFileUri?: string | undefined;
+  /** Optional. Mapping of query variable names to values (equivalent to the Hive command: SET name="value";). */
+  scriptVariables?: StringMap | undefined;
+  /** A list of queries. */
+  queryList?: QueryList | undefined;
+}
+/** A Dataproc job for running Apache Flink applications on YARN. */
+export interface FlinkJob {
+  /** Optional. HCFS URI of the savepoint, which contains the last saved progress for starting the current job. */
+  savepointUri?: string | undefined;
+  /** The HCFS URI of the jar file that contains the main class. */
+  mainJarFileUri?: string | undefined;
+  /** The name of the driver's main class. The jar file that contains the class must be in the default CLASSPATH or specified in jarFileUris. */
+  mainClass?: string | undefined;
+  /** Optional. A mapping of property names to values, used to configure Flink. Properties that conflict with values set by the Dataproc API might be overwritten. Can include properties set in /etc/flink/conf/flink-defaults.conf and classes in user code. */
+  properties?: StringMap | undefined;
+  /** Optional. The arguments to pass to the driver. Do not include arguments, such as --conf, that can be set as job properties, since a collision might occur that causes an incorrect job submission. */
+  args?: StringList | undefined;
+  /** Optional. HCFS URIs of jar files to add to the CLASSPATHs of the Flink driver and tasks. */
+  jarFileUris?: StringList | undefined;
+  /** Optional. The runtime log config for job execution. */
+  loggingConfig?: LoggingConfig | undefined;
+}
 /** A Dataproc job resource. */
 export interface Job {
-  /** Output only. A URI pointing to the location of the stdout of the job's driver program. */
-  driverOutputResourceUri?: string | undefined;
-  /** Optional. Job is a PySpark job. */
-  pysparkJob?: PySparkJob | undefined;
-  /** Optional. Job is a Pig job. */
-  pigJob?: PigJob | undefined;
-  /** Optional. Job is a SparkR job. */
-  sparkRJob?: SparkRJob | undefined;
-  /** Optional. Job is a Spark job. */
-  sparkJob?: SparkJob | undefined;
+  /** Optional. Job is a Presto job. */
+  prestoJob?: PrestoJob | undefined;
+  /** Output only. The job status. Additional application-specific status information might be contained in the type_job and yarn_applications fields. */
+  status?: JobStatus | undefined;
+  /** Optional. The labels to associate with this job. Label keys must contain 1 to 63 characters, and must conform to RFC 1035 (https://www.ietf.org/rfc/rfc1035.txt). Label values can be empty, but, if present, must contain 1 to 63 characters, and must conform to RFC 1035 (https://www.ietf.org/rfc/rfc1035.txt). No more than 32 labels can be associated with a job. */
+  labels?: StringMap | undefined;
   /** Optional. Driver scheduling configuration. */
   driverSchedulingConfig?: DriverSchedulingConfig | undefined;
-  /** Output only. Indicates whether the job is completed. If the value is false, the job is still in progress. If true, the job is completed, and status.state field will indicate if it was successful, failed, or cancelled. */
-  done?: boolean | undefined;
+  /** Output only. If present, the location of miscellaneous control files which can be used as part of job setup and handling. If not present, control files might be placed in the same location as driver_output_uri. */
+  driverControlFilesUri?: string | undefined;
+  /** Optional. Job is a SparkSql job. */
+  sparkSqlJob?: SparkSqlJob | undefined;
+  /** Optional. The fully qualified reference to the job, which can be used to obtain the equivalent REST path of the job resource. If this property is not specified when a job is created, the server generates a job_id. */
+  reference?: JobReference | undefined;
   /** Optional. Job is a Trino job. */
   trinoJob?: TrinoJob | undefined;
   /** Required. Job information, including how, when, and where to run the job. */
   placement?: JobPlacement | undefined;
-  /** Optional. Job is a Hadoop job. */
-  hadoopJob?: HadoopJob | undefined;
-  /** Optional. Job is a SparkSql job. */
-  sparkSqlJob?: SparkSqlJob | undefined;
-  /** Optional. Job is a Hive job. */
-  hiveJob?: HiveJob | undefined;
-  /** Output only. A UUID that uniquely identifies a job within the project over time. This is in contrast to a user-settable reference.job_id that might be reused over time. */
-  jobUuid?: string | undefined;
-  /** Optional. Job is a Flink job. */
-  flinkJob?: FlinkJob | undefined;
-  /** Output only. If present, the location of miscellaneous control files which can be used as part of job setup and handling. If not present, control files might be placed in the same location as driver_output_uri. */
-  driverControlFilesUri?: string | undefined;
-  /** Output only. The job status. Additional application-specific status information might be contained in the type_job and yarn_applications fields. */
-  status?: JobStatus | undefined;
-  /** Output only. The previous job status. */
-  statusHistory?: JobStatusList | undefined;
-  /** Optional. Job scheduling configuration. */
-  scheduling?: JobScheduling | undefined;
-  /** Optional. Job is a Presto job. */
-  prestoJob?: PrestoJob | undefined;
-  /** Optional. The fully qualified reference to the job, which can be used to obtain the equivalent REST path of the job resource. If this property is not specified when a job is created, the server generates a job_id. */
-  reference?: JobReference | undefined;
+  /** Optional. Job is a Pig job. */
+  pigJob?: PigJob | undefined;
+  /** Optional. Job is a SparkR job. */
+  sparkRJob?: SparkRJob | undefined;
   /** Output only. The collection of YARN applications spun up by this job.Beta Feature: This report is available for testing purposes only. It might be changed before final release. */
   yarnApplications?: YarnApplicationList | undefined;
-  /** Optional. The labels to associate with this job. Label keys must contain 1 to 63 characters, and must conform to RFC 1035 (https://www.ietf.org/rfc/rfc1035.txt). Label values can be empty, but, if present, must contain 1 to 63 characters, and must conform to RFC 1035 (https://www.ietf.org/rfc/rfc1035.txt). No more than 32 labels can be associated with a job. */
-  labels?: StringMap | undefined;
+  /** Optional. Job is a Spark job. */
+  sparkJob?: SparkJob | undefined;
+  /** Output only. A URI pointing to the location of the stdout of the job's driver program. */
+  driverOutputResourceUri?: string | undefined;
+  /** Optional. Job is a Hadoop job. */
+  hadoopJob?: HadoopJob | undefined;
+  /** Optional. Job scheduling configuration. */
+  scheduling?: JobScheduling | undefined;
+  /** Output only. The previous job status. */
+  statusHistory?: JobStatusList | undefined;
+  /** Output only. Indicates whether the job is completed. If the value is false, the job is still in progress. If true, the job is completed, and status.state field will indicate if it was successful, failed, or cancelled. */
+  done?: boolean | undefined;
+  /** Optional. Job is a PySpark job. */
+  pysparkJob?: PySparkJob | undefined;
+  /** Output only. A UUID that uniquely identifies a job within the project over time. This is in contrast to a user-settable reference.job_id that might be reused over time. */
+  jobUuid?: string | undefined;
+  /** Optional. Job is a Hive job. */
+  hiveJob?: HiveJob | undefined;
+  /** Optional. Job is a Flink job. */
+  flinkJob?: FlinkJob | undefined;
 }
 export interface CancelProjectsRegionsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
@@ -1263,10 +1266,10 @@ export interface CancelProjectsRegionsOperationsRequest {
 export interface ComputeTuningConfigProjectsLocationsBatchesSparkApplicationsRequest {
   /** Required. Spark semantic query ID. */
   semanticQueryId?: string | undefined;
-  /** Required. The fully qualified name of the spark application to retrieve autotuning configuration for in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/batches/BATCH_ID/sparkApplications/APPLICATION_ID" */
-  name: string;
   /** Required. Parent (Batch) resource reference. */
   parent?: string | undefined;
+  /** Required. The fully qualified name of the spark application to retrieve autotuning configuration for in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/batches/BATCH_ID/sparkApplications/APPLICATION_ID" */
+  name: string;
   /** Required. Spark execution ID for the query. */
   executionId?: string | undefined;
 }
@@ -1275,220 +1278,75 @@ export interface ComputeTuningConfigResponse {
   /** Recommended Spark properties for the query (e.g., {"spark.sql.shuffle.partitions": "500"}). */
   recommendedProperties?: StringMap | undefined;
 }
-/** Configuration for the size bounds of an instance group, including its proportional size to other groups. */
-export interface InstanceGroupAutoscalingPolicyConfig {
-  /** Optional. Minimum number of instances for this group.Primary workers - Bounds: 2, max_instances. Default: 2. Secondary workers - Bounds: 0, max_instances. Default: 0. */
-  minInstances?: number | undefined;
-  /** Required. Maximum number of instances for this group. Required for primary workers. Note that by default, clusters will not use secondary workers. Required for secondary workers if the minimum secondary instances is set.Primary workers - Bounds: [min_instances, ). Secondary workers - Bounds: [min_instances, ). Default: 0. */
-  maxInstances?: number | undefined;
-  /** Optional. Weight for the instance group, which is used to determine the fraction of total workers in the cluster from this instance group. For example, if primary workers have weight 2, and secondary workers have weight 1, the cluster will have approximately 2 primary workers for each secondary worker.The cluster may not reach the specified balance if constrained by min/max bounds or other autoscaling settings. For example, if max_instances for secondary workers is 0, then only primary workers will be added. The cluster can also be out of balance when created.If weight is not set on any instance group, the cluster will default to equal weight for all groups: the cluster will attempt to maintain an equal number of workers in each group within the configured size bounds for each group. If weight is set for one group only, the cluster will default to zero weight on the unset group. For example if weight is set only on primary workers, the cluster will use primary workers only and no secondary workers. */
-  weight?: number | undefined;
-}
-/** Basic autoscaling configurations for Spark Standalone. */
-export interface SparkStandaloneAutoscalingConfig {
-  /** Required. Fraction of required executors to remove from Spark Serverless clusters. A scale-down factor of 1.0 will result in scaling down so that there are no more executors for the Spark Job.(more aggressive scaling). A scale-down factor closer to 0 will result in a smaller magnitude of scaling donw (less aggressive scaling).Bounds: 0.0, 1.0. */
-  scaleDownFactor?: number | undefined;
-  /** Optional. Minimum scale-down threshold as a fraction of total cluster size before scaling occurs. For example, in a 20-worker cluster, a threshold of 0.1 means the autoscaler must recommend at least a 2 worker scale-down for the cluster to scale. A threshold of 0 means the autoscaler will scale down on any recommended change.Bounds: 0.0, 1.0. Default: 0.0. */
-  scaleDownMinWorkerFraction?: number | undefined;
-  /** Optional. Remove only idle workers when scaling down cluster */
-  removeOnlyIdleWorkers?: boolean | undefined;
-  /** Required. Timeout for Spark graceful decommissioning of spark workers. Specifies the duration to wait for spark worker to complete spark decommissioning tasks before forcefully removing workers. Only applicable to downscaling operations.Bounds: 0s, 1d. */
-  gracefulDecommissionTimeout?: string | undefined;
-  /** Optional. Minimum scale-up threshold as a fraction of total cluster size before scaling occurs. For example, in a 20-worker cluster, a threshold of 0.1 means the autoscaler must recommend at least a 2-worker scale-up for the cluster to scale. A threshold of 0 means the autoscaler will scale up on any recommended change.Bounds: 0.0, 1.0. Default: 0.0. */
-  scaleUpMinWorkerFraction?: number | undefined;
-  /** Required. Fraction of required workers to add to Spark Standalone clusters. A scale-up factor of 1.0 will result in scaling up so that there are no more required workers for the Spark Job (more aggressive scaling). A scale-up factor closer to 0 will result in a smaller magnitude of scaling up (less aggressive scaling).Bounds: 0.0, 1.0. */
-  scaleUpFactor?: number | undefined;
-}
-/** Basic autoscaling configurations for YARN. */
-export interface BasicYarnAutoscalingConfig {
-  /** Required. Fraction of average YARN pending memory in the last cooldown period for which to remove workers. A scale-down factor of 1 will result in scaling down so that there is no available memory remaining after the update (more aggressive scaling). A scale-down factor of 0 disables removing workers, which can be beneficial for autoscaling a single job. See How autoscaling works (https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/autoscaling#how_autoscaling_works) for more information.Bounds: 0.0, 1.0. */
-  scaleDownFactor?: number | undefined;
-  /** Required. Fraction of average YARN pending memory in the last cooldown period for which to add workers. A scale-up factor of 1.0 will result in scaling up so that there is no pending memory remaining after the update (more aggressive scaling). A scale-up factor closer to 0 will result in a smaller magnitude of scaling up (less aggressive scaling). See How autoscaling works (https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/autoscaling#how_autoscaling_works) for more information.Bounds: 0.0, 1.0. */
-  scaleUpFactor?: number | undefined;
-  /** Required. Timeout for YARN graceful decommissioning of Node Managers. Specifies the duration to wait for jobs to complete before forcefully removing workers (and potentially interrupting jobs). Only applicable to downscaling operations.Bounds: 0s, 1d. */
-  gracefulDecommissionTimeout?: string | undefined;
-  /** Optional. Minimum scale-up threshold as a fraction of total cluster size before scaling occurs. For example, in a 20-worker cluster, a threshold of 0.1 means the autoscaler must recommend at least a 2-worker scale-up for the cluster to scale. A threshold of 0 means the autoscaler will scale up on any recommended change.Bounds: 0.0, 1.0. Default: 0.0. */
-  scaleUpMinWorkerFraction?: number | undefined;
-  /** Optional. Minimum scale-down threshold as a fraction of total cluster size before scaling occurs. For example, in a 20-worker cluster, a threshold of 0.1 means the autoscaler must recommend at least a 2 worker scale-down for the cluster to scale. A threshold of 0 means the autoscaler will scale down on any recommended change.Bounds: 0.0, 1.0. Default: 0.0. */
-  scaleDownMinWorkerFraction?: number | undefined;
-}
-/** Basic algorithm for autoscaling. */
-export interface BasicAutoscalingAlgorithm {
-  /** Optional. Spark Standalone autoscaling configuration */
-  sparkStandaloneConfig?: SparkStandaloneAutoscalingConfig | undefined;
-  /** Optional. Duration between scaling events. A scaling period starts after the update operation from the previous event has completed.Bounds: 2m, 1d. Default: 2m. */
-  cooldownPeriod?: string | undefined;
-  /** Optional. YARN autoscaling configuration. */
-  yarnConfig?: BasicYarnAutoscalingConfig | undefined;
-}
 export type AutoscalingPolicyClusterTypeEnum =
   | "CLUSTER_TYPE_UNSPECIFIED"
   | "STANDARD"
   | "ZERO_SCALE";
+/** Configuration for the size bounds of an instance group, including its proportional size to other groups. */
+export interface InstanceGroupAutoscalingPolicyConfig {
+  /** Optional. Weight for the instance group, which is used to determine the fraction of total workers in the cluster from this instance group. For example, if primary workers have weight 2, and secondary workers have weight 1, the cluster will have approximately 2 primary workers for each secondary worker.The cluster may not reach the specified balance if constrained by min/max bounds or other autoscaling settings. For example, if max_instances for secondary workers is 0, then only primary workers will be added. The cluster can also be out of balance when created.If weight is not set on any instance group, the cluster will default to equal weight for all groups: the cluster will attempt to maintain an equal number of workers in each group within the configured size bounds for each group. If weight is set for one group only, the cluster will default to zero weight on the unset group. For example if weight is set only on primary workers, the cluster will use primary workers only and no secondary workers. */
+  weight?: number | undefined;
+  /** Optional. Minimum number of instances for this group.Primary workers - Bounds: 2, max_instances. Default: 2. Secondary workers - Bounds: 0, max_instances. Default: 0. */
+  minInstances?: number | undefined;
+  /** Required. Maximum number of instances for this group. Required for primary workers. Note that by default, clusters will not use secondary workers. Required for secondary workers if the minimum secondary instances is set.Primary workers - Bounds: [min_instances, ). Secondary workers - Bounds: [min_instances, ). Default: 0. */
+  maxInstances?: number | undefined;
+}
+/** Basic autoscaling configurations for YARN. */
+export interface BasicYarnAutoscalingConfig {
+  /** Optional. Minimum scale-up threshold as a fraction of total cluster size before scaling occurs. For example, in a 20-worker cluster, a threshold of 0.1 means the autoscaler must recommend at least a 2-worker scale-up for the cluster to scale. A threshold of 0 means the autoscaler will scale up on any recommended change.Bounds: 0.0, 1.0. Default: 0.0. */
+  scaleUpMinWorkerFraction?: number | undefined;
+  /** Required. Fraction of average YARN pending memory in the last cooldown period for which to remove workers. A scale-down factor of 1 will result in scaling down so that there is no available memory remaining after the update (more aggressive scaling). A scale-down factor of 0 disables removing workers, which can be beneficial for autoscaling a single job. See How autoscaling works (https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/autoscaling#how_autoscaling_works) for more information.Bounds: 0.0, 1.0. */
+  scaleDownFactor?: number | undefined;
+  /** Required. Timeout for YARN graceful decommissioning of Node Managers. Specifies the duration to wait for jobs to complete before forcefully removing workers (and potentially interrupting jobs). Only applicable to downscaling operations.Bounds: 0s, 1d. */
+  gracefulDecommissionTimeout?: string | undefined;
+  /** Required. Fraction of average YARN pending memory in the last cooldown period for which to add workers. A scale-up factor of 1.0 will result in scaling up so that there is no pending memory remaining after the update (more aggressive scaling). A scale-up factor closer to 0 will result in a smaller magnitude of scaling up (less aggressive scaling). See How autoscaling works (https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/autoscaling#how_autoscaling_works) for more information.Bounds: 0.0, 1.0. */
+  scaleUpFactor?: number | undefined;
+  /** Optional. Minimum scale-down threshold as a fraction of total cluster size before scaling occurs. For example, in a 20-worker cluster, a threshold of 0.1 means the autoscaler must recommend at least a 2 worker scale-down for the cluster to scale. A threshold of 0 means the autoscaler will scale down on any recommended change.Bounds: 0.0, 1.0. Default: 0.0. */
+  scaleDownMinWorkerFraction?: number | undefined;
+}
+/** Basic autoscaling configurations for Spark Standalone. */
+export interface SparkStandaloneAutoscalingConfig {
+  /** Optional. Minimum scale-down threshold as a fraction of total cluster size before scaling occurs. For example, in a 20-worker cluster, a threshold of 0.1 means the autoscaler must recommend at least a 2 worker scale-down for the cluster to scale. A threshold of 0 means the autoscaler will scale down on any recommended change.Bounds: 0.0, 1.0. Default: 0.0. */
+  scaleDownMinWorkerFraction?: number | undefined;
+  /** Required. Fraction of required executors to remove from Spark Serverless clusters. A scale-down factor of 1.0 will result in scaling down so that there are no more executors for the Spark Job.(more aggressive scaling). A scale-down factor closer to 0 will result in a smaller magnitude of scaling donw (less aggressive scaling).Bounds: 0.0, 1.0. */
+  scaleDownFactor?: number | undefined;
+  /** Required. Timeout for Spark graceful decommissioning of spark workers. Specifies the duration to wait for spark worker to complete spark decommissioning tasks before forcefully removing workers. Only applicable to downscaling operations.Bounds: 0s, 1d. */
+  gracefulDecommissionTimeout?: string | undefined;
+  /** Optional. Minimum scale-up threshold as a fraction of total cluster size before scaling occurs. For example, in a 20-worker cluster, a threshold of 0.1 means the autoscaler must recommend at least a 2-worker scale-up for the cluster to scale. A threshold of 0 means the autoscaler will scale up on any recommended change.Bounds: 0.0, 1.0. Default: 0.0. */
+  scaleUpMinWorkerFraction?: number | undefined;
+  /** Optional. Remove only idle workers when scaling down cluster */
+  removeOnlyIdleWorkers?: boolean | undefined;
+  /** Required. Fraction of required workers to add to Spark Standalone clusters. A scale-up factor of 1.0 will result in scaling up so that there are no more required workers for the Spark Job (more aggressive scaling). A scale-up factor closer to 0 will result in a smaller magnitude of scaling up (less aggressive scaling).Bounds: 0.0, 1.0. */
+  scaleUpFactor?: number | undefined;
+}
+/** Basic algorithm for autoscaling. */
+export interface BasicAutoscalingAlgorithm {
+  /** Optional. YARN autoscaling configuration. */
+  yarnConfig?: BasicYarnAutoscalingConfig | undefined;
+  /** Optional. Duration between scaling events. A scaling period starts after the update operation from the previous event has completed.Bounds: 2m, 1d. Default: 2m. */
+  cooldownPeriod?: string | undefined;
+  /** Optional. Spark Standalone autoscaling configuration */
+  sparkStandaloneConfig?: SparkStandaloneAutoscalingConfig | undefined;
+}
 /** Describes an autoscaling policy for Dataproc cluster autoscaler. */
 export interface AutoscalingPolicy {
-  /** Output only. The "resource name" of the autoscaling policy, as described in https://cloud.google.com/apis/design/resource_names. For projects.regions.autoscalingPolicies, the resource name of the policy has the following format: projects/{project_id}/regions/{region}/autoscalingPolicies/{policy_id} For projects.locations.autoscalingPolicies, the resource name of the policy has the following format: projects/{project_id}/locations/{location}/autoscalingPolicies/{policy_id} */
-  name?: string | undefined;
-  /** Optional. Describes how the autoscaler will operate for secondary workers. */
-  secondaryWorkerConfig?: InstanceGroupAutoscalingPolicyConfig | undefined;
-  /** Required. Describes how the autoscaler will operate for primary workers. */
-  workerConfig?: InstanceGroupAutoscalingPolicyConfig | undefined;
-  /** Required. The policy id.The id must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). Cannot begin or end with underscore or hyphen. Must consist of between 3 and 50 characters. */
-  id?: string | undefined;
-  basicAlgorithm?: BasicAutoscalingAlgorithm | undefined;
-  /** Optional. The type of the clusters for which this autoscaling policy is to be configured. */
-  clusterType?: AutoscalingPolicyClusterTypeEnum | (string & {}) | undefined;
   /** Optional. The labels to associate with this autoscaling policy. Label keys must contain 1 to 63 characters, and must conform to RFC 1035 (https://www.ietf.org/rfc/rfc1035.txt). Label values may be empty, but, if present, must contain 1 to 63 characters, and must conform to RFC 1035 (https://www.ietf.org/rfc/rfc1035.txt). No more than 32 labels can be associated with an autoscaling policy. */
   labels?: StringMap | undefined;
+  /** Optional. The type of the clusters for which this autoscaling policy is to be configured. */
+  clusterType?: AutoscalingPolicyClusterTypeEnum | (string & {}) | undefined;
+  /** Required. The policy id.The id must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). Cannot begin or end with underscore or hyphen. Must consist of between 3 and 50 characters. */
+  id?: string | undefined;
+  /** Optional. Describes how the autoscaler will operate for secondary workers. */
+  secondaryWorkerConfig?: InstanceGroupAutoscalingPolicyConfig | undefined;
+  /** Output only. The "resource name" of the autoscaling policy, as described in https://cloud.google.com/apis/design/resource_names. For projects.regions.autoscalingPolicies, the resource name of the policy has the following format: projects/{project_id}/regions/{region}/autoscalingPolicies/{policy_id} For projects.locations.autoscalingPolicies, the resource name of the policy has the following format: projects/{project_id}/locations/{location}/autoscalingPolicies/{policy_id} */
+  name?: string | undefined;
+  /** Required. Describes how the autoscaler will operate for primary workers. */
+  workerConfig?: InstanceGroupAutoscalingPolicyConfig | undefined;
+  basicAlgorithm?: BasicAutoscalingAlgorithm | undefined;
 }
 export interface CreateProjectsLocationsAutoscalingPoliciesRequest extends AutoscalingPolicy {
   /** Required. The "resource name" of the region or location, as described in https://cloud.google.com/apis/design/resource_names. For projects.regions.autoscalingPolicies.create, the resource name of the region has the following format: projects/{project_id}/regions/{region} For projects.locations.autoscalingPolicies.create, the resource name of the location has the following format: projects/{project_id}/locations/{location} */
   parent: string;
-}
-export type BatchStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "PENDING"
-  | "RUNNING"
-  | "CANCELLING"
-  | "CANCELLED"
-  | "SUCCEEDED"
-  | "FAILED";
-/** Spark History Server configuration for the workload. */
-export interface SparkHistoryServerConfig {
-  /** Optional. Resource name of an existing Dataproc Cluster to act as a Spark History Server for the workload.Example: projects/[project_id]/regions/[region]/clusters/[cluster_name] */
-  dataprocCluster?: string | undefined;
-}
-/** Auxiliary services configuration for a workload. */
-export interface PeripheralsConfig {
-  /** Optional. Resource name of an existing Dataproc Metastore service.Example: projects/[project_id]/locations/[region]/services/[service_id] */
-  metastoreService?: string | undefined;
-  /** Optional. The Spark History Server configuration for the workload. */
-  sparkHistoryServerConfig?: SparkHistoryServerConfig | undefined;
-}
-export type AuthenticationConfigUserWorkloadAuthenticationTypeEnum =
-  | "AUTHENTICATION_TYPE_UNSPECIFIED"
-  | "SERVICE_ACCOUNT"
-  | "END_USER_CREDENTIALS";
-/** Authentication configuration for a workload is used to set the default identity for the workload execution. The config specifies the type of identity (service account or user) that will be used by workloads to access resources on the project(s). */
-export interface AuthenticationConfig {
-  /** Optional. Authentication type for the user workload running in containers. */
-  userWorkloadAuthenticationType?:
-    | AuthenticationConfigUserWorkloadAuthenticationTypeEnum
-    | (string & {})
-    | undefined;
-}
-/** Execution configuration for a workload. */
-export interface ExecutionConfig {
-  /** Optional. Tags used for network traffic control. */
-  networkTags?: StringList | undefined;
-  /** Optional. Applies to sessions only. The duration to keep the session alive while it's idling. Exceeding this threshold causes the session to terminate. This field cannot be set on a batch workload. Minimum value is 10 minutes; maximum value is 14 days (see JSON representation of Duration (https://developers.google.com/protocol-buffers/docs/proto3#json)). Defaults to 1 hour if not set. If both ttl and idle_ttl are specified for an interactive session, the conditions are treated as OR conditions: the workload will be terminated when it has been idle for idle_ttl or when ttl has been exceeded, whichever occurs first. */
-  idleTtl?: string | undefined;
-  /** Optional. Subnetwork URI to connect workload to. */
-  subnetworkUri?: string | undefined;
-  /** Optional. Network URI to connect workload to. */
-  networkUri?: string | undefined;
-  /** Optional. The duration after which the workload will be terminated, specified as the JSON representation for Duration (https://protobuf.dev/programming-guides/proto3/#json). When the workload exceeds this duration, it will be unconditionally terminated without waiting for ongoing work to finish. If ttl is not specified for a batch workload, the workload will be allowed to run until it exits naturally (or run forever without exiting). If ttl is not specified for an interactive session, it defaults to 24 hours. If ttl is not specified for a batch that uses 2.1+ runtime version, it defaults to 4 hours. Minimum value is 10 minutes; maximum value is 14 days. If both ttl and idle_ttl are specified (for an interactive session), the conditions are treated as OR conditions: the workload will be terminated when it has been idle for idle_ttl or when ttl has been exceeded, whichever occurs first. */
-  ttl?: string | undefined;
-  /** Optional. The Cloud KMS key to use for encryption. */
-  kmsKey?: string | undefined;
-  /** Optional. Service account that used to execute workload. */
-  serviceAccount?: string | undefined;
-  /** Optional. Associates Resource Manager tags with the workload nodes. There is a max limit of 30 tags. Keys and values can be either in numeric format, such as tagKeys/{tag_key_id} and tagValues/{tag_value_id}, or in namespaced format, such as {org_id|project_id}/{tag_key_short_name} and {tag_value_short_name}. */
-  resourceManagerTags?: StringMap | undefined;
-  /** Optional. A Cloud Storage bucket used to stage workload dependencies, config files, and store workload output and other ephemeral data, such as Spark history files. If you do not specify a staging bucket, Cloud Dataproc will determine a Cloud Storage location according to the region where your workload is running, and then create and manage project-level, per-location staging and temporary buckets. This field requires a Cloud Storage bucket name, not a gs://... URI to a Cloud Storage bucket. */
-  stagingBucket?: string | undefined;
-  /** Optional. Authentication configuration used to set the default identity for the workload execution. The config specifies the type of identity (service account or user) that will be used by workloads to access resources on the project(s). */
-  authenticationConfig?: AuthenticationConfig | undefined;
-}
-/** Environment configuration for a workload. */
-export interface EnvironmentConfig {
-  /** Optional. Peripherals configuration that workload has access to. */
-  peripheralsConfig?: PeripheralsConfig | undefined;
-  /** Optional. Execution configuration for a workload. */
-  executionConfig?: ExecutionConfig | undefined;
-}
-/** A configuration for running an Apache PySpark (https://spark.apache.org/docs/latest/api/python/getting_started/quickstart.html) batch workload. */
-export interface PySparkBatch {
-  /** Optional. HCFS URIs of jar files to add to the classpath of the Spark driver and tasks. */
-  jarFileUris?: StringList | undefined;
-  /** Optional. The arguments to pass to the driver. Do not include arguments that can be set as batch properties, such as --conf, since a collision can occur that causes an incorrect batch submission. */
-  args?: StringList | undefined;
-  /** Optional. HCFS file URIs of Python files to pass to the PySpark framework. Supported file types: .py, .egg, and .zip. */
-  pythonFileUris?: StringList | undefined;
-  /** Optional. HCFS URIs of files to be placed in the working directory of each executor. */
-  fileUris?: StringList | undefined;
-  /** Required. The HCFS URI of the main Python file to use as the Spark driver. Must be a .py file. */
-  mainPythonFileUri?: string | undefined;
-  /** Optional. HCFS URIs of archives to be extracted into the working directory of each executor. Supported file types: .jar, .tar, .tar.gz, .tgz, and .zip. */
-  archiveUris?: StringList | undefined;
-}
-export type StateHistoryStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "PENDING"
-  | "RUNNING"
-  | "CANCELLING"
-  | "CANCELLED"
-  | "SUCCEEDED"
-  | "FAILED";
-/** Historical state information. */
-export interface StateHistory {
-  /** Output only. The time when the batch entered the historical state. */
-  stateStartTime?: string | undefined;
-  /** Output only. The state of the batch at this point in history. */
-  state?: StateHistoryStateEnum | (string & {}) | undefined;
-  /** Output only. Details about the state at this point in history. */
-  stateMessage?: string | undefined;
-}
-export type StateHistoryList = Array<StateHistory>;
-/** A configuration for running a PySpark Notebook batch workload. */
-export interface PySparkNotebookBatch {
-  /** Required. The HCFS URI of the notebook file to execute. */
-  notebookFileUri?: string | undefined;
-  /** Optional. HCFS URIs of Python files to pass to the PySpark framework. */
-  pythonFileUris?: StringList | undefined;
-  /** Optional. HCFS URIs of jar files to be added to the Spark CLASSPATH. */
-  jarFileUris?: StringList | undefined;
-  /** Optional. HCFS URIs of archives to be extracted into the working directory of each executor. Supported file types: .jar, .tar, .tar.gz, .tgz, and .zip. */
-  archiveUris?: StringList | undefined;
-  /** Optional. The parameters to pass to the notebook. */
-  params?: StringMap | undefined;
-  /** Optional. HCFS URIs of files to be placed in the working directory of each executor */
-  fileUris?: StringList | undefined;
-}
-/** A configuration for running an Apache SparkR (https://spark.apache.org/docs/latest/sparkr.html) batch workload. */
-export interface SparkRBatch {
-  /** Optional. HCFS URIs of files to be placed in the working directory of each executor. */
-  fileUris?: StringList | undefined;
-  /** Optional. HCFS URIs of archives to be extracted into the working directory of each executor. Supported file types: .jar, .tar, .tar.gz, .tgz, and .zip. */
-  archiveUris?: StringList | undefined;
-  /** Optional. The arguments to pass to the Spark driver. Do not include arguments that can be set as batch properties, such as --conf, since a collision can occur that causes an incorrect batch submission. */
-  args?: StringList | undefined;
-  /** Required. The HCFS URI of the main R file to use as the driver. Must be a .R or .r file. */
-  mainRFileUri?: string | undefined;
-}
-/** A configuration for running an Apache Spark (https://spark.apache.org/) batch workload. */
-export interface SparkBatch {
-  /** Optional. The arguments to pass to the driver. Do not include arguments that can be set as batch properties, such as --conf, since a collision can occur that causes an incorrect batch submission. */
-  args?: StringList | undefined;
-  /** Optional. The name of the driver main class. The jar file that contains the class must be in the classpath or specified in jar_file_uris. */
-  mainClass?: string | undefined;
-  /** Optional. HCFS URIs of jar files to add to the classpath of the Spark driver and tasks. */
-  jarFileUris?: StringList | undefined;
-  /** Optional. HCFS URIs of files to be placed in the working directory of each executor. */
-  fileUris?: StringList | undefined;
-  /** Optional. HCFS URIs of archives to be extracted into the working directory of each executor. Supported file types: .jar, .tar, .tar.gz, .tgz, and .zip. */
-  archiveUris?: StringList | undefined;
-  /** Optional. The HCFS URI of the jar file that contains the main class. */
-  mainJarFileUri?: string | undefined;
-}
-/** A configuration for running Apache Spark SQL (https://spark.apache.org/sql/) queries as a batch workload. */
-export interface SparkSqlBatch {
-  /** Optional. Mapping of query variable names to values (equivalent to the Spark SQL command: SET name="value";). */
-  queryVariables?: StringMap | undefined;
-  /** Required. The HCFS URI of the script that contains Spark SQL queries to execute. */
-  queryFileUri?: string | undefined;
-  /** Optional. HCFS URIs of jar files to be added to the Spark CLASSPATH. */
-  jarFileUris?: StringList | undefined;
 }
 export type AutotuningConfigScenariosItemEnum =
   | "SCENARIO_UNSPECIFIED"
@@ -1519,35 +1377,120 @@ export interface RepositoryConfig {
 export interface RuntimeConfig {
   /** Optional. A mapping of property names to values, which are used to configure workload execution. */
   properties?: StringMap | undefined;
-  /** Optional. Optional custom container image for the job runtime environment. If not specified, a default container image will be used. */
-  containerImage?: string | undefined;
   /** Optional. Autotuning configuration of the workload. */
   autotuningConfig?: AutotuningConfig | undefined;
-  /** Optional. Dependency repository configuration. */
-  repositoryConfig?: RepositoryConfig | undefined;
+  /** Optional. Optional custom container image for the job runtime environment. If not specified, a default container image will be used. */
+  containerImage?: string | undefined;
   /** Optional. Version of the batch runtime. */
   version?: string | undefined;
   /** Optional. Cohort identifier. Identifies families of the workloads that have the same shape, for example, daily ETL jobs. */
   cohort?: string | undefined;
+  /** Optional. Dependency repository configuration. */
+  repositoryConfig?: RepositoryConfig | undefined;
+}
+/** A configuration for running an Apache Spark (https://spark.apache.org/) batch workload. */
+export interface SparkBatch {
+  /** Optional. The name of the driver main class. The jar file that contains the class must be in the classpath or specified in jar_file_uris. */
+  mainClass?: string | undefined;
+  /** Optional. The HCFS URI of the jar file that contains the main class. */
+  mainJarFileUri?: string | undefined;
+  /** Optional. The arguments to pass to the driver. Do not include arguments that can be set as batch properties, such as --conf, since a collision can occur that causes an incorrect batch submission. */
+  args?: StringList | undefined;
+  /** Optional. HCFS URIs of jar files to add to the classpath of the Spark driver and tasks. */
+  jarFileUris?: StringList | undefined;
+  /** Optional. HCFS URIs of archives to be extracted into the working directory of each executor. Supported file types: .jar, .tar, .tar.gz, .tgz, and .zip. */
+  archiveUris?: StringList | undefined;
+  /** Optional. HCFS URIs of files to be placed in the working directory of each executor. */
+  fileUris?: StringList | undefined;
+}
+export type BatchStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "PENDING"
+  | "RUNNING"
+  | "CANCELLING"
+  | "CANCELLED"
+  | "SUCCEEDED"
+  | "FAILED";
+/** A configuration for running a PySpark Notebook batch workload. */
+export interface PySparkNotebookBatch {
+  /** Optional. The parameters to pass to the notebook. */
+  params?: StringMap | undefined;
+  /** Optional. HCFS URIs of Python files to pass to the PySpark framework. */
+  pythonFileUris?: StringList | undefined;
+  /** Required. The HCFS URI of the notebook file to execute. */
+  notebookFileUri?: string | undefined;
+  /** Optional. HCFS URIs of jar files to be added to the Spark CLASSPATH. */
+  jarFileUris?: StringList | undefined;
+  /** Optional. HCFS URIs of archives to be extracted into the working directory of each executor. Supported file types: .jar, .tar, .tar.gz, .tgz, and .zip. */
+  archiveUris?: StringList | undefined;
+  /** Optional. HCFS URIs of files to be placed in the working directory of each executor */
+  fileUris?: StringList | undefined;
+}
+/** A configuration for running an Apache PySpark (https://spark.apache.org/docs/latest/api/python/getting_started/quickstart.html) batch workload. */
+export interface PySparkBatch {
+  /** Optional. HCFS URIs of jar files to add to the classpath of the Spark driver and tasks. */
+  jarFileUris?: StringList | undefined;
+  /** Optional. HCFS URIs of files to be placed in the working directory of each executor. */
+  fileUris?: StringList | undefined;
+  /** Optional. HCFS URIs of archives to be extracted into the working directory of each executor. Supported file types: .jar, .tar, .tar.gz, .tgz, and .zip. */
+  archiveUris?: StringList | undefined;
+  /** Optional. HCFS file URIs of Python files to pass to the PySpark framework. Supported file types: .py, .egg, and .zip. */
+  pythonFileUris?: StringList | undefined;
+  /** Required. The HCFS URI of the main Python file to use as the Spark driver. Must be a .py file. */
+  mainPythonFileUri?: string | undefined;
+  /** Optional. The arguments to pass to the driver. Do not include arguments that can be set as batch properties, such as --conf, since a collision can occur that causes an incorrect batch submission. */
+  args?: StringList | undefined;
+}
+/** A configuration for running Apache Spark SQL (https://spark.apache.org/sql/) queries as a batch workload. */
+export interface SparkSqlBatch {
+  /** Required. The HCFS URI of the script that contains Spark SQL queries to execute. */
+  queryFileUri?: string | undefined;
+  /** Optional. Mapping of query variable names to values (equivalent to the Spark SQL command: SET name="value";). */
+  queryVariables?: StringMap | undefined;
+  /** Optional. HCFS URIs of jar files to be added to the Spark CLASSPATH. */
+  jarFileUris?: StringList | undefined;
+}
+/** The usage snapshot represents the resources consumed by a workload at a specified time. */
+export interface UsageSnapshot {
+  /** Optional. Accelerator type being used, if any Deprecated: This field is only used in runtime versions below 3.0. */
+  acceleratorType?: string | undefined;
+  /** Optional. Milli (one-thousandth) accelerator for A100-80 accelerators. (see Dataproc Serverless pricing (https://cloud.google.com/dataproc-serverless/pricing)) */
+  milliAcceleratorA10080?: string | undefined;
+  /** Optional. Shuffle Storage in gigabytes (GB). (see Dataproc Serverless pricing (https://cloud.google.com/dataproc-serverless/pricing)) */
+  shuffleStorageGb?: string | undefined;
+  /** Optional. Milli (one-thousandth) Dataproc Compute Units (DCUs) (see Dataproc Serverless pricing (https://cloud.google.com/dataproc-serverless/pricing)). */
+  milliDcu?: string | undefined;
+  /** Optional. The timestamp of the usage snapshot. */
+  snapshotTime?: string | undefined;
+  /** Optional. Shuffle Storage in gigabytes (GB) charged at premium tier. (see Dataproc Serverless pricing (https://cloud.google.com/dataproc-serverless/pricing)) */
+  shuffleStorageGbPremium?: string | undefined;
+  /** Optional. Milli (one-thousandth) Dataproc Compute Units (DCUs) charged at premium tier (see Dataproc Serverless pricing (https://cloud.google.com/dataproc-serverless/pricing)). */
+  milliDcuPremium?: string | undefined;
+  /** Optional. Milli (one-thousandth) accelerator for L4 accelerators. (see Dataproc Serverless pricing (https://cloud.google.com/dataproc-serverless/pricing)) */
+  milliAcceleratorL4?: string | undefined;
+  /** Optional. Milli (one-thousandth) accelerator for A100-40 accelerators. (see Dataproc Serverless pricing (https://cloud.google.com/dataproc-serverless/pricing)) */
+  milliAcceleratorA10040?: string | undefined;
+  /** Optional. Milli (one-thousandth) accelerator. (see Dataproc Serverless pricing (https://cloud.google.com/dataproc-serverless/pricing)) Deprecated: This field is only used in runtime versions below 3.0. */
+  milliAccelerator?: string | undefined;
 }
 /** Usage metrics represent approximate total resources consumed by a workload. */
 export interface UsageMetrics {
-  /** Optional. Accelerator type being used, if any Deprecated: This field is only used in runtime versions below 3.0. */
-  acceleratorType?: string | undefined;
-  /** Optional. A100-40 accelerator usage in (milliAccelerator x seconds) (see Dataproc Serverless pricing (https://cloud.google.com/dataproc-serverless/pricing)). */
-  milliAcceleratorSecondsA10040?: string | undefined;
-  /** Optional. The timestamp of the usage metrics. */
-  updateTime?: string | undefined;
-  /** Optional. Accelerator usage in (milliAccelerator x seconds) (see Dataproc Serverless pricing (https://cloud.google.com/dataproc-serverless/pricing)). Deprecated: This field is only used in runtime versions below 3.0. */
-  milliAcceleratorSeconds?: string | undefined;
-  /** Optional. Shuffle storage usage in (GB x seconds) (see Dataproc Serverless pricing (https://cloud.google.com/dataproc-serverless/pricing)). */
-  shuffleStorageGbSeconds?: string | undefined;
-  /** Optional. A100-80 accelerator usage in (milliAccelerator x seconds) (see Dataproc Serverless pricing (https://cloud.google.com/dataproc-serverless/pricing)). */
-  milliAcceleratorSecondsA10080?: string | undefined;
   /** Optional. L4 accelerator usage in (milliAccelerator x seconds) (see Dataproc Serverless pricing (https://cloud.google.com/dataproc-serverless/pricing)). */
   milliAcceleratorSecondsL4?: string | undefined;
+  /** Optional. The timestamp of the usage metrics. */
+  updateTime?: string | undefined;
+  /** Optional. A100-40 accelerator usage in (milliAccelerator x seconds) (see Dataproc Serverless pricing (https://cloud.google.com/dataproc-serverless/pricing)). */
+  milliAcceleratorSecondsA10040?: string | undefined;
+  /** Optional. Shuffle storage usage in (GB x seconds) (see Dataproc Serverless pricing (https://cloud.google.com/dataproc-serverless/pricing)). */
+  shuffleStorageGbSeconds?: string | undefined;
+  /** Optional. Accelerator usage in (milliAccelerator x seconds) (see Dataproc Serverless pricing (https://cloud.google.com/dataproc-serverless/pricing)). Deprecated: This field is only used in runtime versions below 3.0. */
+  milliAcceleratorSeconds?: string | undefined;
   /** Optional. DCU (Dataproc Compute Units) usage in (milliDCU x seconds) (see Dataproc Serverless pricing (https://cloud.google.com/dataproc-serverless/pricing)). */
   milliDcuSeconds?: string | undefined;
+  /** Optional. Accelerator type being used, if any Deprecated: This field is only used in runtime versions below 3.0. */
+  acceleratorType?: string | undefined;
+  /** Optional. A100-80 accelerator usage in (milliAccelerator x seconds) (see Dataproc Serverless pricing (https://cloud.google.com/dataproc-serverless/pricing)). */
+  milliAcceleratorSecondsA10080?: string | undefined;
 }
 export type CohortInfoCohortSourceEnum = "COHORT_SOURCE_UNSPECIFIED" | "USER_PROVIDED" | "AIRFLOW";
 /** Information about the cohort that the workload belongs to. */
@@ -1557,37 +1500,14 @@ export interface CohortInfo {
   /** Output only. Source of the cohort. */
   cohortSource?: CohortInfoCohortSourceEnum | (string & {}) | undefined;
 }
-/** The usage snapshot represents the resources consumed by a workload at a specified time. */
-export interface UsageSnapshot {
-  /** Optional. The timestamp of the usage snapshot. */
-  snapshotTime?: string | undefined;
-  /** Optional. Milli (one-thousandth) accelerator for A100-80 accelerators. (see Dataproc Serverless pricing (https://cloud.google.com/dataproc-serverless/pricing)) */
-  milliAcceleratorA10080?: string | undefined;
-  /** Optional. Shuffle Storage in gigabytes (GB) charged at premium tier. (see Dataproc Serverless pricing (https://cloud.google.com/dataproc-serverless/pricing)) */
-  shuffleStorageGbPremium?: string | undefined;
-  /** Optional. Milli (one-thousandth) Dataproc Compute Units (DCUs) charged at premium tier (see Dataproc Serverless pricing (https://cloud.google.com/dataproc-serverless/pricing)). */
-  milliDcuPremium?: string | undefined;
-  /** Optional. Accelerator type being used, if any Deprecated: This field is only used in runtime versions below 3.0. */
-  acceleratorType?: string | undefined;
-  /** Optional. Milli (one-thousandth) accelerator for A100-40 accelerators. (see Dataproc Serverless pricing (https://cloud.google.com/dataproc-serverless/pricing)) */
-  milliAcceleratorA10040?: string | undefined;
-  /** Optional. Milli (one-thousandth) accelerator for L4 accelerators. (see Dataproc Serverless pricing (https://cloud.google.com/dataproc-serverless/pricing)) */
-  milliAcceleratorL4?: string | undefined;
-  /** Optional. Milli (one-thousandth) Dataproc Compute Units (DCUs) (see Dataproc Serverless pricing (https://cloud.google.com/dataproc-serverless/pricing)). */
-  milliDcu?: string | undefined;
-  /** Optional. Shuffle Storage in gigabytes (GB). (see Dataproc Serverless pricing (https://cloud.google.com/dataproc-serverless/pricing)) */
-  shuffleStorageGb?: string | undefined;
-  /** Optional. Milli (one-thousandth) accelerator. (see Dataproc Serverless pricing (https://cloud.google.com/dataproc-serverless/pricing)) Deprecated: This field is only used in runtime versions below 3.0. */
-  milliAccelerator?: string | undefined;
-}
 /** Annotatated property value. */
 export interface ValueInfo {
+  /** Property value. */
+  value?: string | undefined;
   /** Optional. Value which was replaced by the corresponding component. */
   overriddenValue?: string | undefined;
   /** Annotation, comment or explanation why the property was set. */
   annotation?: string | undefined;
-  /** Property value. */
-  value?: string | undefined;
 }
 export type ValueInfoMap = { [key: string]: ValueInfo | undefined };
 /** Properties of the workload organized by origin. */
@@ -1597,75 +1517,158 @@ export interface PropertiesInfo {
 }
 /** Runtime information about workload execution. */
 export interface RuntimeInfo {
+  /** Output only. Snapshot of current workload resource usage. */
+  currentUsage?: UsageSnapshot | undefined;
   /** Output only. Approximate workload resource usage, calculated when the workload completes (see Dataproc Serverless pricing (https://cloud.google.com/dataproc-serverless/pricing)).Note: This metric calculation may change in the future, for example, to capture cumulative workload resource consumption during workload execution (see the Dataproc Serverless release notes (https://cloud.google.com/dataproc-serverless/docs/release-notes) for announcements, changes, fixes and other Dataproc developments). */
   approximateUsage?: UsageMetrics | undefined;
+  /** Output only. A URI pointing to the location of the diagnostics tarball. */
+  diagnosticOutputUri?: string | undefined;
   /** Output only. Information about the cohort that the workload belongs to. */
   cohortInfo?: CohortInfo | undefined;
   /** Output only. Map of remote access endpoints (such as web interfaces and APIs) to their URIs. */
   endpoints?: StringMap | undefined;
   /** Output only. A URI pointing to the location of the stdout and stderr of the workload. */
   outputUri?: string | undefined;
-  /** Output only. A URI pointing to the location of the diagnostics tarball. */
-  diagnosticOutputUri?: string | undefined;
-  /** Output only. Snapshot of current workload resource usage. */
-  currentUsage?: UsageSnapshot | undefined;
   /** Optional. Properties of the workload organized by origin. */
   propertiesInfo?: PropertiesInfo | undefined;
 }
+export type StateHistoryStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "PENDING"
+  | "RUNNING"
+  | "CANCELLING"
+  | "CANCELLED"
+  | "SUCCEEDED"
+  | "FAILED";
+/** Historical state information. */
+export interface StateHistory {
+  /** Output only. The state of the batch at this point in history. */
+  state?: StateHistoryStateEnum | (string & {}) | undefined;
+  /** Output only. The time when the batch entered the historical state. */
+  stateStartTime?: string | undefined;
+  /** Output only. Details about the state at this point in history. */
+  stateMessage?: string | undefined;
+}
+export type StateHistoryList = Array<StateHistory>;
+/** A configuration for running an Apache SparkR (https://spark.apache.org/docs/latest/sparkr.html) batch workload. */
+export interface SparkRBatch {
+  /** Optional. The arguments to pass to the Spark driver. Do not include arguments that can be set as batch properties, such as --conf, since a collision can occur that causes an incorrect batch submission. */
+  args?: StringList | undefined;
+  /** Optional. HCFS URIs of archives to be extracted into the working directory of each executor. Supported file types: .jar, .tar, .tar.gz, .tgz, and .zip. */
+  archiveUris?: StringList | undefined;
+  /** Optional. HCFS URIs of files to be placed in the working directory of each executor. */
+  fileUris?: StringList | undefined;
+  /** Required. The HCFS URI of the main R file to use as the driver. Must be a .R or .r file. */
+  mainRFileUri?: string | undefined;
+}
+export type AuthenticationConfigUserWorkloadAuthenticationTypeEnum =
+  | "AUTHENTICATION_TYPE_UNSPECIFIED"
+  | "SERVICE_ACCOUNT"
+  | "END_USER_CREDENTIALS";
+/** Authentication configuration for a workload is used to set the default identity for the workload execution. The config specifies the type of identity (service account or user) that will be used by workloads to access resources on the project(s). */
+export interface AuthenticationConfig {
+  /** Optional. Authentication type for the user workload running in containers. */
+  userWorkloadAuthenticationType?:
+    | AuthenticationConfigUserWorkloadAuthenticationTypeEnum
+    | (string & {})
+    | undefined;
+}
+/** Execution configuration for a workload. */
+export interface ExecutionConfig {
+  /** Optional. Authentication configuration used to set the default identity for the workload execution. The config specifies the type of identity (service account or user) that will be used by workloads to access resources on the project(s). */
+  authenticationConfig?: AuthenticationConfig | undefined;
+  /** Optional. Network URI to connect workload to. */
+  networkUri?: string | undefined;
+  /** Optional. Tags used for network traffic control. */
+  networkTags?: StringList | undefined;
+  /** Optional. A Cloud Storage bucket used to stage workload dependencies, config files, and store workload output and other ephemeral data, such as Spark history files. If you do not specify a staging bucket, Cloud Dataproc will determine a Cloud Storage location according to the region where your workload is running, and then create and manage project-level, per-location staging and temporary buckets. This field requires a Cloud Storage bucket name, not a gs://... URI to a Cloud Storage bucket. */
+  stagingBucket?: string | undefined;
+  /** Optional. Subnetwork URI to connect workload to. */
+  subnetworkUri?: string | undefined;
+  /** Optional. The duration after which the workload will be terminated, specified as the JSON representation for Duration (https://protobuf.dev/programming-guides/proto3/#json). When the workload exceeds this duration, it will be unconditionally terminated without waiting for ongoing work to finish. If ttl is not specified for a batch workload, the workload will be allowed to run until it exits naturally (or run forever without exiting). If ttl is not specified for an interactive session, it defaults to 24 hours. If ttl is not specified for a batch that uses 2.1+ runtime version, it defaults to 4 hours. Minimum value is 10 minutes; maximum value is 14 days. If both ttl and idle_ttl are specified (for an interactive session), the conditions are treated as OR conditions: the workload will be terminated when it has been idle for idle_ttl or when ttl has been exceeded, whichever occurs first. */
+  ttl?: string | undefined;
+  /** Optional. The Cloud KMS key to use for encryption. */
+  kmsKey?: string | undefined;
+  /** Optional. Associates Resource Manager tags with the workload nodes. There is a max limit of 30 tags. Keys and values can be either in numeric format, such as tagKeys/{tag_key_id} and tagValues/{tag_value_id}, or in namespaced format, such as {org_id|project_id}/{tag_key_short_name} and {tag_value_short_name}. */
+  resourceManagerTags?: StringMap | undefined;
+  /** Optional. Applies to sessions only. The duration to keep the session alive while it's idling. Exceeding this threshold causes the session to terminate. This field cannot be set on a batch workload. Minimum value is 10 minutes; maximum value is 14 days (see JSON representation of Duration (https://developers.google.com/protocol-buffers/docs/proto3#json)). Defaults to 1 hour if not set. If both ttl and idle_ttl are specified for an interactive session, the conditions are treated as OR conditions: the workload will be terminated when it has been idle for idle_ttl or when ttl has been exceeded, whichever occurs first. */
+  idleTtl?: string | undefined;
+  /** Optional. Service account that used to execute workload. */
+  serviceAccount?: string | undefined;
+}
+/** Spark History Server configuration for the workload. */
+export interface SparkHistoryServerConfig {
+  /** Optional. Resource name of an existing Dataproc Cluster to act as a Spark History Server for the workload.Example: projects/[project_id]/regions/[region]/clusters/[cluster_name] */
+  dataprocCluster?: string | undefined;
+}
+/** Auxiliary services configuration for a workload. */
+export interface PeripheralsConfig {
+  /** Optional. Resource name of an existing Dataproc Metastore service.Example: projects/[project_id]/locations/[region]/services/[service_id] */
+  metastoreService?: string | undefined;
+  /** Optional. The Spark History Server configuration for the workload. */
+  sparkHistoryServerConfig?: SparkHistoryServerConfig | undefined;
+}
+/** Environment configuration for a workload. */
+export interface EnvironmentConfig {
+  /** Optional. Execution configuration for a workload. */
+  executionConfig?: ExecutionConfig | undefined;
+  /** Optional. Peripherals configuration that workload has access to. */
+  peripheralsConfig?: PeripheralsConfig | undefined;
+}
 /** A representation of a batch workload in the service. */
 export interface Batch {
+  /** Optional. Runtime configuration for the batch execution. */
+  runtimeConfig?: RuntimeConfig | undefined;
   /** Output only. Batch state details, such as a failure description if the state is FAILED. */
   stateMessage?: string | undefined;
+  /** Optional. Spark batch config. */
+  sparkBatch?: SparkBatch | undefined;
   /** Output only. The state of the batch. */
   state?: BatchStateEnum | (string & {}) | undefined;
   /** Output only. The resource name of the batch. */
   name?: string | undefined;
-  /** Output only. The time when the batch entered a current state. */
-  stateTime?: string | undefined;
-  /** Optional. The labels to associate with this batch. Label keys must contain 1 to 63 characters, and must conform to RFC 1035 (https://www.ietf.org/rfc/rfc1035.txt). Label values may be empty, but, if present, must contain 1 to 63 characters, and must conform to RFC 1035 (https://www.ietf.org/rfc/rfc1035.txt). No more than 32 labels can be associated with a batch. */
-  labels?: StringMap | undefined;
-  /** Output only. The resource name of the operation associated with this batch. */
-  operation?: string | undefined;
-  /** Optional. Environment configuration for the batch execution. */
-  environmentConfig?: EnvironmentConfig | undefined;
-  /** Optional. PySpark batch config. */
-  pysparkBatch?: PySparkBatch | undefined;
-  /** Output only. Historical state information for the batch. */
-  stateHistory?: StateHistoryList | undefined;
-  /** Optional. PySpark notebook batch config. */
-  pysparkNotebookBatch?: PySparkNotebookBatch | undefined;
   /** Output only. The email address of the user who created the batch. */
   creator?: string | undefined;
-  /** Optional. SparkR batch config. */
-  sparkRBatch?: SparkRBatch | undefined;
-  /** Optional. Spark batch config. */
-  sparkBatch?: SparkBatch | undefined;
-  /** Output only. A batch UUID (Unique Universal Identifier). The service generates this value when it creates the batch. */
-  uuid?: string | undefined;
-  /** Output only. The time when the batch was created. */
-  createTime?: string | undefined;
+  /** Optional. PySpark notebook batch config. */
+  pysparkNotebookBatch?: PySparkNotebookBatch | undefined;
+  /** Optional. PySpark batch config. */
+  pysparkBatch?: PySparkBatch | undefined;
   /** Optional. SparkSql batch config. */
   sparkSqlBatch?: SparkSqlBatch | undefined;
-  /** Optional. Runtime configuration for the batch execution. */
-  runtimeConfig?: RuntimeConfig | undefined;
+  /** Output only. The resource name of the operation associated with this batch. */
+  operation?: string | undefined;
+  /** Output only. The time when the batch was created. */
+  createTime?: string | undefined;
+  /** Output only. The time when the batch entered a current state. */
+  stateTime?: string | undefined;
   /** Output only. Runtime information about batch execution. */
   runtimeInfo?: RuntimeInfo | undefined;
+  /** Output only. Historical state information for the batch. */
+  stateHistory?: StateHistoryList | undefined;
+  /** Optional. SparkR batch config. */
+  sparkRBatch?: SparkRBatch | undefined;
+  /** Optional. The labels to associate with this batch. Label keys must contain 1 to 63 characters, and must conform to RFC 1035 (https://www.ietf.org/rfc/rfc1035.txt). Label values may be empty, but, if present, must contain 1 to 63 characters, and must conform to RFC 1035 (https://www.ietf.org/rfc/rfc1035.txt). No more than 32 labels can be associated with a batch. */
+  labels?: StringMap | undefined;
+  /** Optional. Environment configuration for the batch execution. */
+  environmentConfig?: EnvironmentConfig | undefined;
+  /** Output only. A batch UUID (Unique Universal Identifier). The service generates this value when it creates the batch. */
+  uuid?: string | undefined;
 }
 export interface CreateProjectsLocationsBatchesRequest extends Batch {
-  /** Required. The parent resource where this batch will be created. */
-  parent: string;
   /** Optional. The ID to use for the batch, which will become the final component of the batch's resource name.This value must be 4-63 characters. Valid characters are /[a-z][0-9]-/. */
   batchId?: string | undefined;
   /** Optional. A unique ID used to identify the request. If the service receives two CreateBatchRequests with the same request_id, the second request is ignored and the operation that corresponds to the first Batch created and stored in the backend is returned.Recommendation: Set this value to a UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier).The value must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
   requestId?: string | undefined;
+  /** Required. The parent resource where this batch will be created. */
+  parent: string;
 }
 export type JupyterConfigKernelEnum = "KERNEL_UNSPECIFIED" | "PYTHON" | "SCALA";
 /** Jupyter configuration for an interactive session. */
 export interface JupyterConfig {
-  /** Optional. Display name, shown in the Jupyter kernelspec card. */
-  displayName?: string | undefined;
   /** Optional. Kernel */
   kernel?: JupyterConfigKernelEnum | (string & {}) | undefined;
+  /** Optional. Display name, shown in the Jupyter kernelspec card. */
+  displayName?: string | undefined;
 }
 export type SessionStateEnum =
   | "STATE_UNSPECIFIED"
@@ -1674,6 +1677,8 @@ export type SessionStateEnum =
   | "TERMINATING"
   | "TERMINATED"
   | "FAILED";
+/** Spark connect configuration for an interactive session. */
+export type SparkConnectConfig = CancelJobRequest;
 export type SessionStateHistoryStateEnum =
   | "STATE_UNSPECIFIED"
   | "CREATING"
@@ -1683,514 +1688,168 @@ export type SessionStateHistoryStateEnum =
   | "FAILED";
 /** Historical state information. */
 export interface SessionStateHistory {
+  /** Output only. Details about the state at this point in the session history. */
+  stateMessage?: string | undefined;
   /** Output only. The state of the session at this point in the session history. */
   state?: SessionStateHistoryStateEnum | (string & {}) | undefined;
   /** Output only. The time when the session entered the historical state. */
   stateStartTime?: string | undefined;
-  /** Output only. Details about the state at this point in the session history. */
-  stateMessage?: string | undefined;
 }
 export type SessionStateHistoryList = Array<SessionStateHistory>;
-/** Spark connect configuration for an interactive session. */
-export type SparkConnectConfig = CancelJobRequest;
 /** A representation of a session. */
 export interface Session {
-  /** Optional. The labels to associate with the session. Label keys must contain 1 to 63 characters, and must conform to RFC 1035 (https://www.ietf.org/rfc/rfc1035.txt). Label values may be empty, but, if present, must contain 1 to 63 characters, and must conform to RFC 1035 (https://www.ietf.org/rfc/rfc1035.txt). No more than 32 labels can be associated with a session. */
-  labels?: StringMap | undefined;
-  /** Output only. The time when the session entered the current state. */
-  stateTime?: string | undefined;
-  /** Output only. Runtime information about session execution. */
-  runtimeInfo?: RuntimeInfo | undefined;
-  /** Identifier. The resource name of the session. */
-  name?: string | undefined;
-  /** Output only. The time when the session was created. */
-  createTime?: string | undefined;
-  /** Optional. Runtime configuration for the session execution. */
-  runtimeConfig?: RuntimeConfig | undefined;
-  /** Optional. Environment configuration for the session execution. */
-  environmentConfig?: EnvironmentConfig | undefined;
-  /** Optional. Jupyter session config. */
-  jupyterSession?: JupyterConfig | undefined;
-  /** Output only. Session state details, such as the failure description if the state is FAILED. */
-  stateMessage?: string | undefined;
-  /** Output only. A state of the session. */
-  state?: SessionStateEnum | (string & {}) | undefined;
-  /** Optional. The email address of the user who owns the session. */
-  user?: string | undefined;
-  /** Optional. The session template used by the session.Resource names and short template IDs are valid. Examples: * projects/[project_id]/locations/[dataproc_region]/sessionTemplates/[template_id] * [template_id]The template must be in the same project and Dataproc region as the session. */
-  sessionTemplate?: string | undefined;
-  /** Output only. A session UUID (Unique Universal Identifier). The service generates this value when it creates the session. */
-  uuid?: string | undefined;
-  /** Output only. Historical state information for the session. */
-  stateHistory?: SessionStateHistoryList | undefined;
-  /** Optional. Spark connect session config. */
-  sparkConnectSession?: CancelJobRequest | undefined;
   /** Output only. The email address of the user who created the session. */
   creator?: string | undefined;
+  /** Output only. Session state details, such as the failure description if the state is FAILED. */
+  stateMessage?: string | undefined;
+  /** Optional. The labels to associate with the session. Label keys must contain 1 to 63 characters, and must conform to RFC 1035 (https://www.ietf.org/rfc/rfc1035.txt). Label values may be empty, but, if present, must contain 1 to 63 characters, and must conform to RFC 1035 (https://www.ietf.org/rfc/rfc1035.txt). No more than 32 labels can be associated with a session. */
+  labels?: StringMap | undefined;
+  /** Optional. Jupyter session config. */
+  jupyterSession?: JupyterConfig | undefined;
+  /** Output only. A session UUID (Unique Universal Identifier). The service generates this value when it creates the session. */
+  uuid?: string | undefined;
+  /** Output only. The time when the session was created. */
+  createTime?: string | undefined;
+  /** Output only. A state of the session. */
+  state?: SessionStateEnum | (string & {}) | undefined;
+  /** Optional. Spark connect session config. */
+  sparkConnectSession?: CancelJobRequest | undefined;
+  /** Output only. The time when the session entered the current state. */
+  stateTime?: string | undefined;
+  /** Optional. Environment configuration for the session execution. */
+  environmentConfig?: EnvironmentConfig | undefined;
+  /** Output only. Historical state information for the session. */
+  stateHistory?: SessionStateHistoryList | undefined;
+  /** Optional. Runtime configuration for the session execution. */
+  runtimeConfig?: RuntimeConfig | undefined;
+  /** Optional. The session template used by the session.Resource names and short template IDs are valid. Examples: * projects/[project_id]/locations/[dataproc_region]/sessionTemplates/[template_id] * [template_id]The template must be in the same project and Dataproc region as the session. */
+  sessionTemplate?: string | undefined;
+  /** Identifier. The resource name of the session. */
+  name?: string | undefined;
+  /** Optional. The email address of the user who owns the session. */
+  user?: string | undefined;
+  /** Output only. Runtime information about session execution. */
+  runtimeInfo?: RuntimeInfo | undefined;
 }
 export interface CreateProjectsLocationsSessionsRequest extends Session {
-  /** Optional. A unique ID used to identify the request. If the service receives two CreateSessionRequests (https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#google.cloud.dataproc.v1.CreateSessionRequest)s with the same ID, the second request is ignored, and the first Session is created and stored in the backend.Recommendation: Set this value to a UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier).The value must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
-  requestId?: string | undefined;
-  /** Required. The parent resource where this session will be created. */
-  parent: string;
   /** Required. The ID to use for the session, which becomes the final component of the session's resource name.This value must be 4-63 characters. Valid characters are /a-z-/. */
   sessionId?: string | undefined;
+  /** Required. The parent resource where this session will be created. */
+  parent: string;
+  /** Optional. A unique ID used to identify the request. If the service receives two CreateSessionRequests (https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#google.cloud.dataproc.v1.CreateSessionRequest)s with the same ID, the second request is ignored, and the first Session is created and stored in the backend.Recommendation: Set this value to a UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier).The value must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
+  requestId?: string | undefined;
 }
 /** A representation of a session template. */
 export interface SessionTemplate {
-  /** Output only. The time when the template was created. */
-  createTime?: string | undefined;
   /** Optional. Environment configuration for session execution. */
   environmentConfig?: EnvironmentConfig | undefined;
-  /** Optional. Jupyter session config. */
-  jupyterSession?: JupyterConfig | undefined;
-  /** Optional. Labels to associate with sessions created using this template. Label keys must contain 1 to 63 characters, and must conform to RFC 1035 (https://www.ietf.org/rfc/rfc1035.txt). Label values can be empty, but, if present, must contain 1 to 63 characters and conform to RFC 1035 (https://www.ietf.org/rfc/rfc1035.txt). No more than 32 labels can be associated with a session. */
-  labels?: StringMap | undefined;
-  /** Required. Identifier. The resource name of the session template. */
-  name?: string | undefined;
-  /** Output only. The email address of the user who created the template. */
-  creator?: string | undefined;
+  /** Optional. User-friendly display name for the session template. Can be up to 63 characters. */
+  displayName?: string | undefined;
   /** Optional. Spark connect session config. */
   sparkConnectSession?: CancelJobRequest | undefined;
+  /** Output only. A session template UUID (Unique Universal Identifier). The service generates this value when it creates the session template. */
+  uuid?: string | undefined;
+  /** Optional. Labels to associate with sessions created using this template. Label keys must contain 1 to 63 characters, and must conform to RFC 1035 (https://www.ietf.org/rfc/rfc1035.txt). Label values can be empty, but, if present, must contain 1 to 63 characters and conform to RFC 1035 (https://www.ietf.org/rfc/rfc1035.txt). No more than 32 labels can be associated with a session. */
+  labels?: StringMap | undefined;
+  /** Optional. Jupyter session config. */
+  jupyterSession?: JupyterConfig | undefined;
+  /** Output only. The time when the template was created. */
+  createTime?: string | undefined;
+  /** Output only. The email address of the user who created the template. */
+  creator?: string | undefined;
+  /** Optional. Brief description of the template. */
+  description?: string | undefined;
   /** Output only. The time the template was last updated. */
   updateTime?: string | undefined;
   /** Optional. Runtime configuration for session execution. */
   runtimeConfig?: RuntimeConfig | undefined;
-  /** Output only. A session template UUID (Unique Universal Identifier). The service generates this value when it creates the session template. */
-  uuid?: string | undefined;
-  /** Optional. Brief description of the template. */
-  description?: string | undefined;
-  /** Optional. User-friendly display name for the session template. Can be up to 63 characters. */
-  displayName?: string | undefined;
+  /** Required. Identifier. The resource name of the session template. */
+  name?: string | undefined;
 }
 export interface CreateProjectsLocationsSessionTemplatesRequest extends SessionTemplate {
   /** Required. The parent resource where this session template will be created. */
   parent: string;
 }
-/** Validation based on regular expressions. */
-export interface RegexValidation {
-  /** Required. RE2 regular expressions used to validate the parameter's value. The value must match the regex in its entirety (substring matches are not sufficient). */
-  regexes?: StringList | undefined;
+/** Encryption settings for encrypting workflow template job arguments. */
+export interface GoogleCloudDataprocV1WorkflowTemplateEncryptionConfig {
+  /** Optional. The Cloud KMS key name to use for encrypting workflow template job arguments.When this this key is provided, the following workflow template job arguments (https://cloud.google.com/dataproc/docs/concepts/workflows/use-workflows#adding_jobs_to_a_template), if present, are CMEK encrypted (https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/customer-managed-encryption#use_cmek_with_workflow_template_data): FlinkJob args (https://cloud.google.com/dataproc/docs/reference/rest/v1/FlinkJob) HadoopJob args (https://cloud.google.com/dataproc/docs/reference/rest/v1/HadoopJob) SparkJob args (https://cloud.google.com/dataproc/docs/reference/rest/v1/SparkJob) SparkRJob args (https://cloud.google.com/dataproc/docs/reference/rest/v1/SparkRJob) PySparkJob args (https://cloud.google.com/dataproc/docs/reference/rest/v1/PySparkJob) SparkSqlJob (https://cloud.google.com/dataproc/docs/reference/rest/v1/SparkSqlJob) scriptVariables and queryList.queries HiveJob (https://cloud.google.com/dataproc/docs/reference/rest/v1/HiveJob) scriptVariables and queryList.queries PigJob (https://cloud.google.com/dataproc/docs/reference/rest/v1/PigJob) scriptVariables and queryList.queries PrestoJob (https://cloud.google.com/dataproc/docs/reference/rest/v1/PrestoJob) scriptVariables and queryList.queries */
+  kmsKey?: string | undefined;
 }
 /** Validation based on a list of allowed values. */
 export interface ValueValidation {
   /** Required. List of allowed values for the parameter. */
   values?: StringList | undefined;
 }
+/** Validation based on regular expressions. */
+export interface RegexValidation {
+  /** Required. RE2 regular expressions used to validate the parameter's value. The value must match the regex in its entirety (substring matches are not sufficient). */
+  regexes?: StringList | undefined;
+}
 /** Configuration for parameter validation. */
 export interface ParameterValidation {
-  /** Validation based on regular expressions. */
-  regex?: RegexValidation | undefined;
   /** Validation based on a list of allowed values. */
   values?: ValueValidation | undefined;
+  /** Validation based on regular expressions. */
+  regex?: RegexValidation | undefined;
 }
 /** A configurable parameter that replaces one or more fields in the template. Parameterizable fields: - Labels - File uris - Job properties - Job arguments - Script variables - Main class (in HadoopJob and SparkJob) - Zone (in ClusterSelector) */
 export interface TemplateParameter {
+  /** Required. Paths to all fields that the parameter replaces. A field is allowed to appear in at most one parameter's list of field paths.A field path is similar in syntax to a google.protobuf.FieldMask. For example, a field path that references the zone field of a workflow template's cluster selector would be specified as placement.clusterSelector.zone.Also, field paths can reference fields using the following syntax: Values in maps can be referenced by key: labels'key' placement.clusterSelector.clusterLabels'key' placement.managedCluster.labels'key' placement.clusterSelector.clusterLabels'key' jobs'step-id'.labels'key' Jobs in the jobs list can be referenced by step-id: jobs'step-id'.hadoopJob.mainJarFileUri jobs'step-id'.hiveJob.queryFileUri jobs'step-id'.pySparkJob.mainPythonFileUri jobs'step-id'.hadoopJob.jarFileUris0 jobs'step-id'.hadoopJob.archiveUris0 jobs'step-id'.hadoopJob.fileUris0 jobs'step-id'.pySparkJob.pythonFileUris0 Items in repeated fields can be referenced by a zero-based index: jobs'step-id'.sparkJob.args0 Other examples: jobs'step-id'.hadoopJob.properties'key' jobs'step-id'.hadoopJob.args0 jobs'step-id'.hiveJob.scriptVariables'key' jobs'step-id'.hadoopJob.mainJarFileUri placement.clusterSelector.zoneIt may not be possible to parameterize maps and repeated fields in their entirety since only individual map values and individual items in repeated fields can be referenced. For example, the following field paths are invalid: placement.clusterSelector.clusterLabels jobs'step-id'.sparkJob.args */
+  fields?: StringList | undefined;
   /** Required. Parameter name. The parameter name is used as the key, and paired with the parameter value, which are passed to the template when the template is instantiated. The name must contain only capital letters (A-Z), numbers (0-9), and underscores (_), and must not start with a number. The maximum length is 40 characters. */
   name?: string | undefined;
   /** Optional. Validation rules to be applied to this parameter's value. */
   validation?: ParameterValidation | undefined;
-  /** Required. Paths to all fields that the parameter replaces. A field is allowed to appear in at most one parameter's list of field paths.A field path is similar in syntax to a google.protobuf.FieldMask. For example, a field path that references the zone field of a workflow template's cluster selector would be specified as placement.clusterSelector.zone.Also, field paths can reference fields using the following syntax: Values in maps can be referenced by key: labels'key' placement.clusterSelector.clusterLabels'key' placement.managedCluster.labels'key' placement.clusterSelector.clusterLabels'key' jobs'step-id'.labels'key' Jobs in the jobs list can be referenced by step-id: jobs'step-id'.hadoopJob.mainJarFileUri jobs'step-id'.hiveJob.queryFileUri jobs'step-id'.pySparkJob.mainPythonFileUri jobs'step-id'.hadoopJob.jarFileUris0 jobs'step-id'.hadoopJob.archiveUris0 jobs'step-id'.hadoopJob.fileUris0 jobs'step-id'.pySparkJob.pythonFileUris0 Items in repeated fields can be referenced by a zero-based index: jobs'step-id'.sparkJob.args0 Other examples: jobs'step-id'.hadoopJob.properties'key' jobs'step-id'.hadoopJob.args0 jobs'step-id'.hiveJob.scriptVariables'key' jobs'step-id'.hadoopJob.mainJarFileUri placement.clusterSelector.zoneIt may not be possible to parameterize maps and repeated fields in their entirety since only individual map values and individual items in repeated fields can be referenced. For example, the following field paths are invalid: placement.clusterSelector.clusterLabels jobs'step-id'.sparkJob.args */
-  fields?: StringList | undefined;
   /** Optional. Brief description of the parameter. Must not exceed 1024 characters. */
   description?: string | undefined;
 }
 export type TemplateParameterList = Array<TemplateParameter>;
-/** Encryption settings for encrypting workflow template job arguments. */
-export interface GoogleCloudDataprocV1WorkflowTemplateEncryptionConfig {
-  /** Optional. The Cloud KMS key name to use for encrypting workflow template job arguments.When this this key is provided, the following workflow template job arguments (https://cloud.google.com/dataproc/docs/concepts/workflows/use-workflows#adding_jobs_to_a_template), if present, are CMEK encrypted (https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/customer-managed-encryption#use_cmek_with_workflow_template_data): FlinkJob args (https://cloud.google.com/dataproc/docs/reference/rest/v1/FlinkJob) HadoopJob args (https://cloud.google.com/dataproc/docs/reference/rest/v1/HadoopJob) SparkJob args (https://cloud.google.com/dataproc/docs/reference/rest/v1/SparkJob) SparkRJob args (https://cloud.google.com/dataproc/docs/reference/rest/v1/SparkRJob) PySparkJob args (https://cloud.google.com/dataproc/docs/reference/rest/v1/PySparkJob) SparkSqlJob (https://cloud.google.com/dataproc/docs/reference/rest/v1/SparkSqlJob) scriptVariables and queryList.queries HiveJob (https://cloud.google.com/dataproc/docs/reference/rest/v1/HiveJob) scriptVariables and queryList.queries PigJob (https://cloud.google.com/dataproc/docs/reference/rest/v1/PigJob) scriptVariables and queryList.queries PrestoJob (https://cloud.google.com/dataproc/docs/reference/rest/v1/PrestoJob) scriptVariables and queryList.queries */
-  kmsKey?: string | undefined;
-}
 /** A job executed by the workflow. */
 export interface OrderedJob {
-  /** Optional. Job scheduling configuration. */
-  scheduling?: JobScheduling | undefined;
-  /** Required. The step id. The id must be unique among all jobs within the template.The step id is used as prefix for job id, as job goog-dataproc-workflow-step-id label, and in prerequisiteStepIds field from other steps.The id must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). Cannot begin or end with underscore or hyphen. Must consist of between 3 and 50 characters. */
-  stepId?: string | undefined;
-  /** Optional. Job is a Flink job. */
-  flinkJob?: FlinkJob | undefined;
-  /** Optional. The optional list of prerequisite job step_ids. If not specified, the job will start at the beginning of workflow. */
-  prerequisiteStepIds?: StringList | undefined;
-  /** Optional. Job is a SparkR job. */
-  sparkRJob?: SparkRJob | undefined;
-  /** Optional. The labels to associate with this job.Label keys must be between 1 and 63 characters long, and must conform to the following regular expression: \p{Ll}\p{Lo}{0,62}Label values must be between 1 and 63 characters long, and must conform to the following regular expression: \p{Ll}\p{Lo}\p{N}_-{0,63}No more than 32 labels can be associated with a given job. */
-  labels?: StringMap | undefined;
-  /** Optional. Job is a Trino job. */
-  trinoJob?: TrinoJob | undefined;
-  /** Optional. Job is a Hive job. */
-  hiveJob?: HiveJob | undefined;
-  /** Optional. Job is a Hadoop job. */
-  hadoopJob?: HadoopJob | undefined;
-  /** Optional. Job is a Pig job. */
-  pigJob?: PigJob | undefined;
   /** Optional. Job is a Spark job. */
   sparkJob?: SparkJob | undefined;
-  /** Optional. Job is a Presto job. */
-  prestoJob?: PrestoJob | undefined;
-  /** Optional. Job is a PySpark job. */
-  pysparkJob?: PySparkJob | undefined;
   /** Optional. Job is a SparkSql job. */
   sparkSqlJob?: SparkSqlJob | undefined;
+  /** Optional. Job is a Presto job. */
+  prestoJob?: PrestoJob | undefined;
+  /** Optional. The optional list of prerequisite job step_ids. If not specified, the job will start at the beginning of workflow. */
+  prerequisiteStepIds?: StringList | undefined;
+  /** Optional. Job is a Hive job. */
+  hiveJob?: HiveJob | undefined;
+  /** Optional. Job is a Flink job. */
+  flinkJob?: FlinkJob | undefined;
+  /** Optional. The labels to associate with this job.Label keys must be between 1 and 63 characters long, and must conform to the following regular expression: \p{Ll}\p{Lo}{0,62}Label values must be between 1 and 63 characters long, and must conform to the following regular expression: \p{Ll}\p{Lo}\p{N}_-{0,63}No more than 32 labels can be associated with a given job. */
+  labels?: StringMap | undefined;
+  /** Required. The step id. The id must be unique among all jobs within the template.The step id is used as prefix for job id, as job goog-dataproc-workflow-step-id label, and in prerequisiteStepIds field from other steps.The id must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). Cannot begin or end with underscore or hyphen. Must consist of between 3 and 50 characters. */
+  stepId?: string | undefined;
+  /** Optional. Job scheduling configuration. */
+  scheduling?: JobScheduling | undefined;
+  /** Optional. Job is a SparkR job. */
+  sparkRJob?: SparkRJob | undefined;
+  /** Optional. Job is a Trino job. */
+  trinoJob?: TrinoJob | undefined;
+  /** Optional. Job is a Pig job. */
+  pigJob?: PigJob | undefined;
+  /** Optional. Job is a PySpark job. */
+  pysparkJob?: PySparkJob | undefined;
+  /** Optional. Job is a Hadoop job. */
+  hadoopJob?: HadoopJob | undefined;
 }
 export type OrderedJobList = Array<OrderedJob>;
-export type FlexibleInstanceGroupConfigHardwareClassEnum =
-  | "HARDWARE_CLASS_UNSPECIFIED"
-  | "STANDARD"
-  | "PERFORMANCE";
-/** The configuration for High Obtainability (HO) flexible instance groups. Flexible instance group configs serve as the single source of truth for desired state. */
-export interface FlexibleInstanceGroupConfig {
-  /** Optional. The hardware class of the instances. This is a create-time specification and is not currently mutable via update masks. */
-  hardwareClass?: FlexibleInstanceGroupConfigHardwareClassEnum | (string & {}) | undefined;
-  /** Optional. The number of vCPUs per instance. Must be a power of 2 (2, 4, 8, 16, 32). This is a create-time specification and is not currently mutable via update masks. */
-  coreCount?: number | undefined;
-  /** Optional. The boot disk size in GB. This is a create-time specification and is not currently mutable via update masks. */
-  bootDiskSizeGb?: number | undefined;
-  /** Optional. The number of VM instances requested.For master instances, this must be 1. For worker and secondary worker instances, this represents the desired capacity of the group and is mutable via cluster update operations and autoscaling. */
-  numInstances?: number | undefined;
+/** Specifies an executable to run on a fully configured node and a timeout period for executable completion. */
+export interface NodeInitializationAction {
+  /** Required. Cloud Storage URI of executable file. */
+  executableFile?: string | undefined;
+  /** Optional. Amount of time executable has to complete. Default is 10 minutes (see JSON representation of Duration (https://developers.google.com/protocol-buffers/docs/proto3#json)).Cluster creation fails with an explanatory error message (the name of the executable that caused the error and the exceeded timeout period) if the executable is not completed at end of the timeout period. */
+  executionTimeout?: string | undefined;
 }
-export type ClusterConfigClusterTierEnum =
-  | "CLUSTER_TIER_UNSPECIFIED"
-  | "CLUSTER_TIER_STANDARD"
-  | "CLUSTER_TIER_PREMIUM";
-/** Specifies a Metastore configuration. */
-export interface MetastoreConfig {
-  /** Required. Resource name of an existing Metastore service.Example: projects/[project_id]/locations/[dataproc_region]/services/[service-name] */
-  dataprocMetastoreService?: string | undefined;
-}
-/** Specifies the resources used to actively manage an instance group. */
-export interface ManagedGroupConfig {
-  /** Output only. The partial URI to the instance group manager for this group. E.g. projects/my-project/regions/us-central1/instanceGroupManagers/my-igm. */
-  instanceGroupManagerUri?: string | undefined;
-  /** Output only. The name of the Instance Template used for the Managed Instance Group. */
-  instanceTemplateName?: string | undefined;
-  /** Output only. The name of the Instance Group Manager for this group. */
-  instanceGroupManagerName?: string | undefined;
-}
-export type AttachedDiskConfigDiskTypeEnum =
-  | "DISK_TYPE_UNSPECIFIED"
-  | "HYPERDISK_BALANCED"
-  | "HYPERDISK_EXTREME"
-  | "HYPERDISK_ML"
-  | "HYPERDISK_THROUGHPUT";
-/** Specifies the config of attached disk options for single VM instance. */
-export interface AttachedDiskConfig {
-  /** Optional. Indicates how much throughput to provision for the attached disk. This sets the number of throughput mb per second that the disk can handle. See https://cloud.google.com/compute/docs/disks/hyperdisks#hyperdisk-features */
-  provisionedThroughput?: string | undefined;
-  /** Optional. Deprecated: Use type instead. */
-  diskType?: AttachedDiskConfigDiskTypeEnum | (string & {}) | undefined;
-  /** Optional. Attached disk type. Currently only supports Hyperdisks. See https://cloud.google.com/compute/docs/disks/hyperdisks. Note: Hyperdisk Balanced High Availability is not supported.Allowed values are: hyperdisk-balanced hyperdisk-extreme hyperdisk-ml hyperdisk-throughput */
-  type?: string | undefined;
-  /** Optional. Disk size in GB. */
-  diskSizeGb?: number | undefined;
-  /** Optional. Indicates how many IOPS to provision for the attached disk. This sets the number of I/O operations per second that the disk can handle. See https://cloud.google.com/compute/docs/disks/hyperdisks#hyperdisk-features */
-  provisionedIops?: string | undefined;
-}
-export type AttachedDiskConfigList = Array<AttachedDiskConfig>;
-/** Specifies the config of boot disk and attached disk options for a group of VM instances. */
-export interface DiskConfig {
-  /** Optional. Type of the boot disk (default is pd-standard). Valid values: pd-balanced (Persistent Disk Balanced Solid State Drive), pd-ssd (Persistent Disk Solid State Drive), or pd-standard (Persistent Disk Hard Disk Drive). See Disk types (https://cloud.google.com/compute/docs/disks#disk-types). */
-  bootDiskType?: string | undefined;
-  /** Optional. Number of attached SSDs, from 0 to 8 (default is 0). If SSDs are not attached, the boot disk is used to store runtime logs and HDFS (https://hadoop.apache.org/docs/r1.2.1/hdfs_user_guide.html) data. If one or more SSDs are attached, this runtime bulk data is spread across them, and the boot disk contains only basic config and installed binaries.Note: Local SSD options may vary by machine type and number of vCPUs selected. */
-  numLocalSsds?: number | undefined;
-  /** Optional. Indicates how much throughput to provision for the disk. This sets the number of throughput mb per second that the disk can handle. Values must be greater than or equal to 1. This field is supported only if boot_disk_type is hyperdisk-balanced. */
-  bootDiskProvisionedThroughput?: string | undefined;
-  /** Optional. A list of attached disk configs for a group of VM instances. */
-  attachedDiskConfigs?: AttachedDiskConfigList | undefined;
-  /** Optional. Size in GB of the boot disk (default is 500GB). */
-  bootDiskSizeGb?: number | undefined;
-  /** Optional. Interface type of local SSDs (default is scsi). Valid values: scsi (Small Computer System Interface), nvme (Non-Volatile Memory Express). See local SSD performance (https://cloud.google.com/compute/docs/disks/local-ssd#performance). */
-  localSsdInterface?: string | undefined;
-  /** Optional. Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle. This field is supported only if boot_disk_type is hyperdisk-balanced. */
-  bootDiskProvisionedIops?: string | undefined;
-}
-/** Configuration to handle the startup of instances during cluster create and update process. */
-export interface StartupConfig {
-  /** Optional. The config setting to enable cluster creation/ updation to be successful only after required_registration_fraction of instances are up and running. This configuration is applicable to only secondary workers for now. The cluster will fail if required_registration_fraction of instances are not available. This will include instance creation, agent registration, and service registration (if enabled). */
-  requiredRegistrationFraction?: number | undefined;
-}
-/** Defines machines types and a rank to which the machines types belong. */
-export interface InstanceSelection {
-  /** Optional. Preference of this instance selection. Lower number means higher preference. The service will first try to create a VM based on the machine-type with priority rank and fallback to next rank based on availability. Machine types and instance selections with the same priority have the same preference. */
-  rank?: number | undefined;
-  /** Optional. Full machine-type names, e.g. "n1-standard-16". */
-  machineTypes?: StringList | undefined;
-  /** Optional. Disk configuration to apply to the instances in this instance selection. If specified on any entry in instanceSelectionList, then it must be specified on every entry in instanceSelectionList and the instanceGroupConfig must not specify any diskConfig. */
-  diskConfig?: DiskConfig | undefined;
-}
-export type InstanceSelectionList = Array<InstanceSelection>;
-/** Defines a mapping from machine types to the number of VMs that are created with each machine type. */
-export interface InstanceSelectionResult {
-  /** Output only. Full machine-type names, e.g. "n1-standard-16". */
-  machineType?: string | undefined;
-  /** Output only. Number of VM provisioned with the machine_type. */
-  vmCount?: number | undefined;
-}
-export type InstanceSelectionResultList = Array<InstanceSelectionResult>;
-/** Defines how to create VMs with a mixture of provisioning models. */
-export interface ProvisioningModelMix {
-  /** Optional. The percentage of target capacity that should use Standard VM. The remaining percentage will use Spot VMs. The percentage applies only to the capacity above standard_capacity_base. eg. If 15 instances are requested and standard_capacity_base is 5 and standard_capacity_percent_above_base is 30, the service will create 5 standard VMs and then start mixing spot and standard VMs for remaining 10 instances. The mix will be 30% standard and 70% spot. */
-  standardCapacityPercentAboveBase?: number | undefined;
-  /** Optional. The base capacity that will always use Standard VMs to avoid risk of more preemption than the minimum capacity you need. The service will create only standard VMs until it reaches standard_capacity_base, then it will start using standard_capacity_percent_above_base to mix Spot with Standard VMs. eg. If 15 instances are requested and standard_capacity_base is 5, the service will create 5 standard VMs and thenstart mixing spot and standard VMs for remaining 10 instances. */
-  standardCapacityBase?: number | undefined;
-}
-/** Instance flexibility Policy allowing a mixture of VM shapes and provisioning models. */
-export interface InstanceFlexibilityPolicy {
-  /** Optional. List of instance selection options that the group will use when creating new VMs. */
-  instanceSelectionList?: InstanceSelectionList | undefined;
-  /** Output only. A map of instance short name to machine type. The key is the short name of the Compute Engine instance, and the value is the full machine-type name (e.g., 'n1-standard-16'). See Machine types for more information on valid machine type strings. */
-  instanceMachineTypes?: StringMap | undefined;
-  /** Output only. A list of instance selection results in the group. */
-  instanceSelectionResults?: InstanceSelectionResultList | undefined;
-  /** Optional. Defines how the Group selects the provisioning model to ensure required reliability. */
-  provisioningModelMix?: ProvisioningModelMix | undefined;
-}
-export type InstanceGroupConfigPreemptibilityEnum =
-  | "PREEMPTIBILITY_UNSPECIFIED"
-  | "NON_PREEMPTIBLE"
-  | "PREEMPTIBLE"
-  | "SPOT";
-/** Specifies the type and number of accelerator cards attached to the instances of an instance. See GPUs on Compute Engine (https://cloud.google.com/compute/docs/gpus/). */
-export interface AcceleratorConfig {
-  /** Full URL, partial URI, or short name of the accelerator type resource to expose to this instance. See Compute Engine AcceleratorTypes (https://cloud.google.com/compute/docs/reference/v1/acceleratorTypes).Examples: https://www.googleapis.com/compute/v1/projects/[project_id]/zones/[zone]/acceleratorTypes/nvidia-tesla-t4 projects/[project_id]/zones/[zone]/acceleratorTypes/nvidia-tesla-t4 nvidia-tesla-t4Auto Zone Exception: If you are using Auto Zone Placement (https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement), you must use the short name of the accelerator type resource, for example, nvidia-tesla-t4. */
-  acceleratorTypeUri?: string | undefined;
-  /** The number of the accelerator cards of this type exposed to this instance. */
-  acceleratorCount?: number | undefined;
-}
-export type AcceleratorConfigList = Array<AcceleratorConfig>;
-/** A reference to a Compute Engine instance. */
-export interface InstanceReference {
-  /** The user-friendly name of the Compute Engine instance. */
-  instanceName?: string | undefined;
-  /** The unique identifier of the Compute Engine instance. */
-  instanceId?: string | undefined;
-  /** The public RSA key used for sharing data with this instance. */
-  publicKey?: string | undefined;
-  /** The public ECIES key used for sharing data with this instance. */
-  publicEciesKey?: string | undefined;
-}
-export type InstanceReferenceList = Array<InstanceReference>;
-/** The config settings for Compute Engine resources in an instance group, such as a master or worker group. */
-export interface InstanceGroupConfig {
-  /** Output only. Specifies that this instance group contains preemptible instances. */
-  isPreemptible?: boolean | undefined;
-  /** Output only. The config for Compute Engine Instance Group Manager that manages this group. This is only used for preemptible instance groups. */
-  managedGroupConfig?: ManagedGroupConfig | undefined;
-  /** Optional. Disk option config settings. */
-  diskConfig?: DiskConfig | undefined;
-  /** Optional. Configuration to handle the startup of instances during cluster create and update process. */
-  startupConfig?: StartupConfig | undefined;
-  /** Optional. Instance flexibility Policy allowing a mixture of VM shapes and provisioning models. */
-  instanceFlexibilityPolicy?: InstanceFlexibilityPolicy | undefined;
-  /** Optional. Specifies the preemptibility of the instance group.The default value for master and worker groups is NON_PREEMPTIBLE. This default cannot be changed.The default value for secondary instances is PREEMPTIBLE. */
-  preemptibility?: InstanceGroupConfigPreemptibilityEnum | (string & {}) | undefined;
-  /** Optional. The number of VM instances in the instance group. For HA cluster master_config groups, must be set to 3. For standard cluster master_config groups, must be set to 1. */
-  numInstances?: number | undefined;
-  /** Output only. The list of instance names, derived from cluster_name, num_instances, and the instance group. */
-  instanceNames?: StringList | undefined;
-  /** Optional. Specifies the minimum cpu platform for the Instance Group. See Minimum CPU Platform (https://cloud.google.com/dataproc/docs/concepts/compute/dataproc-min-cpu). */
-  minCpuPlatform?: string | undefined;
-  /** Optional. The minimum number of primary worker instances to create. If min_num_instances is set, cluster creation will succeed if the number of primary workers created is at least equal to the min_num_instances number.Example: Cluster creation request with num_instances = 5 and min_num_instances = 3: If 4 VMs are created and 1 instance fails, the failed VM is deleted. The cluster is resized to 4 instances and placed in a RUNNING state. If 2 instances are created and 3 instances fail, the cluster in placed in an ERROR state. The failed VMs are not deleted. */
-  minNumInstances?: number | undefined;
-  /** Optional. The Compute Engine accelerator configuration for these instances. */
-  accelerators?: AcceleratorConfigList | undefined;
-  /** Optional. The Compute Engine image resource used for cluster instances.The URI can represent an image or image family.Image examples: https://www.googleapis.com/compute/v1/projects/[project_id]/global/images/[image-id] projects/[project_id]/global/images/[image-id] image-idImage family examples. The service will use the most recent image from the family: https://www.googleapis.com/compute/v1/projects/[project_id]/global/images/family/[custom-image-family-name] projects/[project_id]/global/images/family/[custom-image-family-name]If the URI is unspecified, it will be inferred from SoftwareConfig.image_version or the system default. */
-  imageUri?: string | undefined;
-  /** Output only. List of references to Compute Engine instances. */
-  instanceReferences?: InstanceReferenceList | undefined;
-  /** Optional. The Compute Engine machine type used for cluster instances.A full URL, partial URI, or short name are valid. Examples: https://www.googleapis.com/compute/v1/projects/[project_id]/zones/[zone]/machineTypes/n1-standard-2 projects/[project_id]/zones/[zone]/machineTypes/n1-standard-2 n1-standard-2Auto Zone Exception: If you are using Auto Zone Placement (https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement), you must use the short name of the machine type resource, for example, n1-standard-2. */
-  machineTypeUri?: string | undefined;
-}
-/** Encryption settings for the cluster. */
-export interface EncryptionConfig {
-  /** Optional. The Cloud KMS key resource name to use for cluster persistent disk and job argument encryption. See Use CMEK with cluster data (https://cloud.google.com//dataproc/docs/concepts/configuring-clusters/customer-managed-encryption#use_cmek_with_cluster_data) for more information.When this key resource name is provided, the following job arguments of the following job types submitted to the cluster are encrypted using CMEK: FlinkJob args (https://cloud.google.com/dataproc/docs/reference/rest/v1/FlinkJob) HadoopJob args (https://cloud.google.com/dataproc/docs/reference/rest/v1/HadoopJob) SparkJob args (https://cloud.google.com/dataproc/docs/reference/rest/v1/SparkJob) SparkRJob args (https://cloud.google.com/dataproc/docs/reference/rest/v1/SparkRJob) PySparkJob args (https://cloud.google.com/dataproc/docs/reference/rest/v1/PySparkJob) SparkSqlJob (https://cloud.google.com/dataproc/docs/reference/rest/v1/SparkSqlJob) scriptVariables and queryList.queries HiveJob (https://cloud.google.com/dataproc/docs/reference/rest/v1/HiveJob) scriptVariables and queryList.queries PigJob (https://cloud.google.com/dataproc/docs/reference/rest/v1/PigJob) scriptVariables and queryList.queries PrestoJob (https://cloud.google.com/dataproc/docs/reference/rest/v1/PrestoJob) scriptVariables and queryList.queries */
-  kmsKey?: string | undefined;
-  /** Optional. The Cloud KMS key resource name to use for persistent disk encryption for all instances in the cluster. See Use CMEK with cluster data (https://cloud.google.com//dataproc/docs/concepts/configuring-clusters/customer-managed-encryption#use_cmek_with_cluster_data) for more information. */
-  gcePdKmsKeyName?: string | undefined;
-}
-/** Endpoint config for this cluster */
-export interface EndpointConfig {
-  /** Output only. The map of port descriptions to URLs. Will only be populated if enable_http_port_access is true. */
-  httpPorts?: StringMap | undefined;
-  /** Optional. If true, enable http access to specific ports on the cluster from external sources. Defaults to false. */
-  enableHttpPortAccess?: boolean | undefined;
-}
-export type NodeGroupRolesItemEnum = "ROLE_UNSPECIFIED" | "DRIVER";
-export type NodeGroupRolesItemEnumList = Array<NodeGroupRolesItemEnum | (string & {})>;
-/** Node Group. The NodeGroup resource is not related to the NodeGroupAffinity resource. */
-export interface NodeGroup {
-  /** Required. Node group roles. */
-  roles?: NodeGroupRolesItemEnumList | undefined;
-  /** Optional. Node group labels. Label keys must consist of from 1 to 63 characters and conform to RFC 1035 (https://www.ietf.org/rfc/rfc1035.txt). Label values can be empty. If specified, they must consist of from 1 to 63 characters and conform to RFC 1035 (https://www.ietf.org/rfc/rfc1035.txt). The node group must have no more than 32 labels. */
-  labels?: StringMap | undefined;
-  /** The Node group resource name (https://aip.dev/122). */
-  name?: string | undefined;
-  /** Optional. The node group instance group configuration. */
-  nodeGroupConfig?: InstanceGroupConfig | undefined;
-}
-/** Node group identification and configuration information. */
-export interface AuxiliaryNodeGroup {
-  /** Required. Node group configuration. */
-  nodeGroup?: NodeGroup | undefined;
-  /** Optional. A node group ID. Generated if not specified.The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). Cannot begin or end with underscore or hyphen. Must consist of from 3 to 33 characters. */
-  nodeGroupId?: string | undefined;
-}
-export type AuxiliaryNodeGroupList = Array<AuxiliaryNodeGroup>;
-/** Autoscaling Policy config associated with the cluster. */
-export interface AutoscalingConfig {
-  /** Optional. The autoscaling policy used by the cluster.Only resource names including projectid and location (region) are valid. Examples: https://www.googleapis.com/compute/v1/projects/[project_id]/locations/[dataproc_region]/autoscalingPolicies/[policy_id] projects/[project_id]/locations/[dataproc_region]/autoscalingPolicies/[policy_id]Note that the policy must be in the same project and region. */
-  policyUri?: string | undefined;
-}
-export type ClusterConfigEngineEnum = "ENGINE_UNSPECIFIED" | "DEFAULT" | "LIGHTNING";
-/** Config for scheduling the request to create Compute Engine resources for the cluster, when available. */
-export interface SchedulingConfig {
-  /** Optional. Required lifetime of the resources, once provisioned. Min 10 mins, Max/Default 7 days . Note that the cluster can still be deleted before reaching this time. This time is a maximum amount of time before the cluster is forcibly deleted. Lower times are more likely to start running sooner. */
-  requestedRunDuration?: string | undefined;
-  /** Optional. How long to wait for worker resources to be allocated before failing the cluster creation request. Max/Default value: 13 days */
-  schedulingTimeout?: string | undefined;
-}
-export type ConfidentialInstanceConfigConfidentialInstanceTypeEnum =
-  | "CONFIDENTIAL_INSTANCE_TYPE_UNSPECIFIED"
-  | "SEV"
-  | "SEV_SNP"
-  | "TDX";
-/** Confidential Instance Config for clusters using Confidential VMs (https://cloud.google.com/confidential-computing/confidential-vm/docs) */
-export interface ConfidentialInstanceConfig {
-  /** Optional. Defines the type of Confidential Compute technology to use. */
-  confidentialInstanceType?:
-    | ConfidentialInstanceConfigConfidentialInstanceTypeEnum
-    | (string & {})
-    | undefined;
-  /** Optional. Deprecated: Use 'confidential_instance_type' instead. Defines whether the instance should have confidential compute enabled. */
-  enableConfidentialCompute?: boolean | undefined;
-}
-/** Shielded Instance Config for clusters using Compute Engine Shielded VMs (https://cloud.google.com/security/shielded-cloud/shielded-vm). */
-export interface ShieldedInstanceConfig {
-  /** Optional. Defines whether instances have integrity monitoring enabled. */
-  enableIntegrityMonitoring?: boolean | undefined;
-  /** Optional. Defines whether instances have Secure Boot enabled. */
-  enableSecureBoot?: boolean | undefined;
-  /** Optional. Defines whether instances have the vTPM enabled. */
-  enableVtpm?: boolean | undefined;
-}
-export type MultiZoneConfigTargetShapeEnum = "TARGET_SHAPE_UNSPECIFIED" | "ANY";
-/** Configuration for multi-zonal clusters that can create instances across multiple Zones within the Region. */
-export interface MultiZoneConfig {
-  /** Optional. The distribution shape of the nodes in the multi-zonal cluster. */
-  targetShape?: MultiZoneConfigTargetShapeEnum | (string & {}) | undefined;
-}
-export type GceClusterConfigPrivateIpv6GoogleAccessEnum =
-  | "PRIVATE_IPV6_GOOGLE_ACCESS_UNSPECIFIED"
-  | "INHERIT_FROM_SUBNETWORK"
-  | "OUTBOUND"
-  | "BIDIRECTIONAL";
-export type ReservationAffinityConsumeReservationTypeEnum =
-  | "TYPE_UNSPECIFIED"
-  | "NO_RESERVATION"
-  | "ANY_RESERVATION"
-  | "SPECIFIC_RESERVATION";
-/** Reservation Affinity for consuming Zonal reservation. */
-export interface ReservationAffinity {
-  /** Optional. Corresponds to the label key of reservation resource. */
-  key?: string | undefined;
-  /** Optional. Corresponds to the label values of reservation resource. */
-  values?: StringList | undefined;
-  /** Optional. Type of reservation to consume */
-  consumeReservationType?:
-    | ReservationAffinityConsumeReservationTypeEnum
-    | (string & {})
-    | undefined;
-}
-/** Node Group Affinity for clusters using sole-tenant node groups. The NodeGroupAffinity resource is not related to the NodeGroup resource. */
-export interface NodeGroupAffinity {
-  /** Required. The URI of a sole-tenant node group resource (https://cloud.google.com/compute/docs/reference/rest/v1/nodeGroups) that the cluster will be created on.A full URL, partial URI, or node group name are valid. Examples: https://www.googleapis.com/compute/v1/projects/[project_id]/zones/[zone]/nodeGroups/node-group-1 projects/[project_id]/zones/[zone]/nodeGroups/node-group-1 node-group-1 */
-  nodeGroupUri?: string | undefined;
-}
-/** Common config settings for resources of Compute Engine cluster instances, applicable to all instances in the cluster. */
-export interface GceClusterConfig {
-  /** Optional. Confidential Instance Config for clusters using Confidential VMs (https://cloud.google.com/confidential-computing/confidential-vm/docs). */
-  confidentialInstanceConfig?: ConfidentialInstanceConfig | undefined;
-  /** Optional. The VM service account (https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/service-accounts#service_accounts_in_dataproc) (also see VM Data Plane identity (https://cloud.google.com/dataproc/docs/concepts/iam/dataproc-principals#vm_service_account_data_plane_identity)) used by cluster VM instances to access Google Cloud Platform services.If not specified, the Compute Engine default service account (https://cloud.google.com/compute/docs/access/service-accounts#default_service_account) is used. */
-  serviceAccount?: string | undefined;
-  /** Optional. Shielded Instance Config for clusters using Compute Engine Shielded VMs (https://cloud.google.com/security/shielded-cloud/shielded-vm). */
-  shieldedInstanceConfig?: ShieldedInstanceConfig | undefined;
-  /** Optional. The Compute Engine network to be used for machine communications. Cannot be specified with subnetwork_uri. If neither network_uri nor subnetwork_uri is specified, the "default" network of the project is used, if it exists. Cannot be a Custom Subnet Network (see Using Subnetworks (https://cloud.google.com/compute/docs/subnetworks) for more information).A full URL, partial URI, or short name are valid. Examples: https://www.googleapis.com/compute/v1/projects/[project_id]/global/networks/default projects/[project_id]/global/networks/default default */
-  networkUri?: string | undefined;
-  /** Optional. The Compute Engine metadata entries to add to all instances (see Project and instance metadata (https://cloud.google.com/compute/docs/storing-retrieving-metadata#project_and_instance_metadata)). */
-  metadata?: StringMap | undefined;
-  /** Optional. Controls how instances within this Cluster are allowed to exist in multiple Zones within the Region. Only one of zone_uri or multi_zone_config must be set. */
-  multiZoneConfig?: MultiZoneConfig | undefined;
-  /** Optional. This setting applies to subnetwork-enabled networks. It is set to true by default in clusters created with image versions 2.2.x.When set to true: All cluster VMs have internal IP addresses. Google Private Access (https://cloud.google.com/vpc/docs/private-google-access) must be enabled to access the Dataproc API and other Google Cloud APIs. Off-cluster dependencies must be configured to be accessible without external IP addresses.When set to false: Cluster VMs are not restricted to internal IP addresses. Ephemeral external IP addresses are assigned to each cluster VM. */
-  internalIpOnly?: boolean | undefined;
-  /** Optional. Resource manager tags (https://cloud.google.com/resource-manager/docs/tags/tags-creating-and-managing) to add to all instances (see Use secure tags (https://cloud.google.com/dataproc/docs/guides/use-secure-tags)). */
-  resourceManagerTags?: StringMap | undefined;
-  /** Optional. The URIs of service account scopes to be included in Compute Engine instances. The following base set of scopes is always included: https://www.googleapis.com/auth/cloud.useraccounts.readonly https://www.googleapis.com/auth/devstorage.read_write https://www.googleapis.com/auth/logging.writeIf no scopes are specified, the following defaults are also provided: https://www.googleapis.com/auth/bigquery https://www.googleapis.com/auth/bigtable.admin.table https://www.googleapis.com/auth/bigtable.data https://www.googleapis.com/auth/devstorage.full_control */
-  serviceAccountScopes?: StringList | undefined;
-  /** Optional. The Compute Engine zone where the cluster will be located. If omitted, the service will pick a zone in the cluster's Compute Engine region. On a get request, zone will always be present.A full URL, partial URI, or short name are valid. Examples: https://www.googleapis.com/compute/v1/projects/[project_id]/zones/[zone] projects/[project_id]/zones/[zone] [zone] */
-  zoneUri?: string | undefined;
-  /** Optional. The type of IPv6 access for a cluster. */
-  privateIpv6GoogleAccess?: GceClusterConfigPrivateIpv6GoogleAccessEnum | (string & {}) | undefined;
-  /** Optional. The Compute Engine subnetwork to be used for machine communications. Cannot be specified with network_uri.A full URL, partial URI, or short name are valid. Examples: https://www.googleapis.com/compute/v1/projects/[project_id]/regions/[region]/subnetworks/sub0 projects/[project_id]/regions/[region]/subnetworks/sub0 sub0 */
-  subnetworkUri?: string | undefined;
-  /** Optional. Reservation Affinity for consuming Zonal reservation. */
-  reservationAffinity?: ReservationAffinity | undefined;
-  /** The Compute Engine network tags to add to all instances (see Tagging instances (https://cloud.google.com/vpc/docs/add-remove-network-tags)). */
-  tags?: StringList | undefined;
-  /** Optional. An optional list of Compute Engine zones where the cluster will not be located when Auto Zone is enabled. Only one of zone_uri or auto_zone_exclude_zone_uris can be set. If both are omitted, the service will pick a zone in the cluster Compute Engine region. If auto_zone_exclude_zone_uris is set and there is more than one non-excluded zone, the service will pick one of the non-excluded zones. Otherwise, cluster creation will fail with INVALID_ARGUMENT error.A full URL, partial URI, or short name are valid. Examples: https://www.googleapis.com/compute/v1/projects/[project_id]/zones/[zone] projects/[project_id]/zones/[zone] [zone] */
-  autoZoneExcludeZoneUris?: StringList | undefined;
-  /** Optional. Node Group Affinity for sole-tenant clusters. */
-  nodeGroupAffinity?: NodeGroupAffinity | undefined;
-}
+export type NodeInitializationActionList = Array<NodeInitializationAction>;
 /** Deprecated. Used only for the deprecated beta. A full, namespace-isolated deployment target for an existing GKE cluster. */
 export interface NamespacedGkeDeploymentTarget {
   /** Optional. The target GKE cluster to deploy to. Format: 'projects/{project}/locations/{location}/clusters/{cluster_id}' */
   targetGkeCluster?: string | undefined;
   /** Optional. A namespace within the GKE cluster to deploy into. */
   clusterNamespace?: string | undefined;
-}
-/** GkeNodePoolAutoscaling contains information the cluster autoscaler needs to adjust the size of the node pool to the current cluster usage. */
-export interface GkeNodePoolAutoscalingConfig {
-  /** The minimum number of nodes in the node pool. Must be >= 0 and <= max_node_count. */
-  minNodeCount?: number | undefined;
-  /** The maximum number of nodes in the node pool. Must be >= min_node_count, and must be > 0. Note: Quota must be sufficient to scale up the cluster. */
-  maxNodeCount?: number | undefined;
-}
-/** A GkeNodeConfigAcceleratorConfig represents a Hardware Accelerator request for a node pool. */
-export interface GkeNodePoolAcceleratorConfig {
-  /** The number of accelerator cards exposed to an instance. */
-  acceleratorCount?: string | undefined;
-  /** The accelerator type resource namename (see GPUs on Compute Engine). */
-  acceleratorType?: string | undefined;
-  /** Size of partitions to create on the GPU. Valid values are described in the NVIDIA mig user guide (https://docs.nvidia.com/datacenter/tesla/mig-user-guide/#partitioning). */
-  gpuPartitionSize?: string | undefined;
-}
-export type GkeNodePoolAcceleratorConfigList = Array<GkeNodePoolAcceleratorConfig>;
-/** Parameters that describe cluster nodes. */
-export interface GkeNodeConfig {
-  /** Optional. Whether the nodes are created as Spot VM instances (https://cloud.google.com/compute/docs/instances/spot). Spot VMs are the latest update to legacy preemptible VMs. Spot VMs do not have a maximum lifetime. Legacy and Spot preemptible nodes cannot be used in a node pool with the CONTROLLER role or in the DEFAULT node pool if the CONTROLLER role is not assigned (the DEFAULT node pool will assume the CONTROLLER role). */
-  spot?: boolean | undefined;
-  /** Optional. A list of hardware accelerators (https://cloud.google.com/compute/docs/gpus) to attach to each node. */
-  accelerators?: GkeNodePoolAcceleratorConfigList | undefined;
-  /** Optional. Specifies the service account (https://cloud.google.com/dataproc/docs/guides/dpgke/dataproc-gke-iam) to be used by the node pools. Specify the email address of the service account or its full resource name.Format: projects/{project}/serviceAccounts/{service_account_email} or {service_account_email}. */
-  serviceAccount?: string | undefined;
-  /** Optional. The name of a Compute Engine machine type (https://cloud.google.com/compute/docs/machine-types). */
-  machineType?: string | undefined;
-  /** Optional. Whether the nodes are created as legacy preemptible VM instances (https://cloud.google.com/compute/docs/instances/preemptible). Also see Spot VMs, preemptible VM instances without a maximum lifetime. Legacy and Spot preemptible nodes cannot be used in a node pool with the CONTROLLER role or in the DEFAULT node pool if the CONTROLLER role is not assigned (the DEFAULT node pool will assume the CONTROLLER role). */
-  preemptible?: boolean | undefined;
-  /** Optional. The Customer Managed Encryption Key (CMEK) (https://cloud.google.com/kubernetes-engine/docs/how-to/using-cmek) used to encrypt the boot disk attached to each node in the node pool. Specify the key using the following format: projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{crypto_key} */
-  bootDiskKmsKey?: string | undefined;
-  /** Optional. The number of local SSD disks to attach to the node, which is limited by the maximum number of disks allowable per zone (see Adding Local SSDs (https://cloud.google.com/compute/docs/disks/local-ssd)). */
-  localSsdCount?: number | undefined;
-  /** Optional. Minimum CPU platform (https://cloud.google.com/compute/docs/instances/specify-min-cpu-platform) to be used by this instance. The instance may be scheduled on the specified or a newer CPU platform. Specify the friendly names of CPU platforms, such as "Intel Haswell"` or Intel Sandy Bridge". */
-  minCpuPlatform?: string | undefined;
-}
-/** The configuration of a GKE node pool used by a Dataproc-on-GKE cluster (https://cloud.google.com/dataproc/docs/concepts/jobs/dataproc-gke#create-a-dataproc-on-gke-cluster). */
-export interface GkeNodePoolConfig {
-  /** Optional. The autoscaler configuration for this node pool. The autoscaler is enabled only when a valid configuration is present. */
-  autoscaling?: GkeNodePoolAutoscalingConfig | undefined;
-  /** Optional. The node pool configuration. */
-  config?: GkeNodeConfig | undefined;
-  /** Optional. The list of Compute Engine zones (https://cloud.google.com/compute/docs/zones#available) where node pool nodes associated with a Dataproc on GKE virtual cluster will be located.Note: All node pools associated with a virtual cluster must be located in the same region as the virtual cluster, and they must be located in the same zone within that region.If a location is not specified during node pool creation, Dataproc on GKE will choose the zone. */
-  locations?: StringList | undefined;
 }
 export type GkeNodePoolTargetRolesItemEnum =
   | "ROLE_UNSPECIFIED"
@@ -2201,14 +1860,59 @@ export type GkeNodePoolTargetRolesItemEnum =
 export type GkeNodePoolTargetRolesItemEnumList = Array<
   GkeNodePoolTargetRolesItemEnum | (string & {})
 >;
+/** A GkeNodeConfigAcceleratorConfig represents a Hardware Accelerator request for a node pool. */
+export interface GkeNodePoolAcceleratorConfig {
+  /** Size of partitions to create on the GPU. Valid values are described in the NVIDIA mig user guide (https://docs.nvidia.com/datacenter/tesla/mig-user-guide/#partitioning). */
+  gpuPartitionSize?: string | undefined;
+  /** The accelerator type resource namename (see GPUs on Compute Engine). */
+  acceleratorType?: string | undefined;
+  /** The number of accelerator cards exposed to an instance. */
+  acceleratorCount?: string | undefined;
+}
+export type GkeNodePoolAcceleratorConfigList = Array<GkeNodePoolAcceleratorConfig>;
+/** Parameters that describe cluster nodes. */
+export interface GkeNodeConfig {
+  /** Optional. Specifies the service account (https://cloud.google.com/dataproc/docs/guides/dpgke/dataproc-gke-iam) to be used by the node pools. Specify the email address of the service account or its full resource name.Format: projects/{project}/serviceAccounts/{service_account_email} or {service_account_email}. */
+  serviceAccount?: string | undefined;
+  /** Optional. The Customer Managed Encryption Key (CMEK) (https://cloud.google.com/kubernetes-engine/docs/how-to/using-cmek) used to encrypt the boot disk attached to each node in the node pool. Specify the key using the following format: projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{crypto_key} */
+  bootDiskKmsKey?: string | undefined;
+  /** Optional. The name of a Compute Engine machine type (https://cloud.google.com/compute/docs/machine-types). */
+  machineType?: string | undefined;
+  /** Optional. The number of local SSD disks to attach to the node, which is limited by the maximum number of disks allowable per zone (see Adding Local SSDs (https://cloud.google.com/compute/docs/disks/local-ssd)). */
+  localSsdCount?: number | undefined;
+  /** Optional. Whether the nodes are created as legacy preemptible VM instances (https://cloud.google.com/compute/docs/instances/preemptible). Also see Spot VMs, preemptible VM instances without a maximum lifetime. Legacy and Spot preemptible nodes cannot be used in a node pool with the CONTROLLER role or in the DEFAULT node pool if the CONTROLLER role is not assigned (the DEFAULT node pool will assume the CONTROLLER role). */
+  preemptible?: boolean | undefined;
+  /** Optional. Minimum CPU platform (https://cloud.google.com/compute/docs/instances/specify-min-cpu-platform) to be used by this instance. The instance may be scheduled on the specified or a newer CPU platform. Specify the friendly names of CPU platforms, such as "Intel Haswell"` or Intel Sandy Bridge". */
+  minCpuPlatform?: string | undefined;
+  /** Optional. A list of hardware accelerators (https://cloud.google.com/compute/docs/gpus) to attach to each node. */
+  accelerators?: GkeNodePoolAcceleratorConfigList | undefined;
+  /** Optional. Whether the nodes are created as Spot VM instances (https://cloud.google.com/compute/docs/instances/spot). Spot VMs are the latest update to legacy preemptible VMs. Spot VMs do not have a maximum lifetime. Legacy and Spot preemptible nodes cannot be used in a node pool with the CONTROLLER role or in the DEFAULT node pool if the CONTROLLER role is not assigned (the DEFAULT node pool will assume the CONTROLLER role). */
+  spot?: boolean | undefined;
+}
+/** GkeNodePoolAutoscaling contains information the cluster autoscaler needs to adjust the size of the node pool to the current cluster usage. */
+export interface GkeNodePoolAutoscalingConfig {
+  /** The maximum number of nodes in the node pool. Must be >= min_node_count, and must be > 0. Note: Quota must be sufficient to scale up the cluster. */
+  maxNodeCount?: number | undefined;
+  /** The minimum number of nodes in the node pool. Must be >= 0 and <= max_node_count. */
+  minNodeCount?: number | undefined;
+}
+/** The configuration of a GKE node pool used by a Dataproc-on-GKE cluster (https://cloud.google.com/dataproc/docs/concepts/jobs/dataproc-gke#create-a-dataproc-on-gke-cluster). */
+export interface GkeNodePoolConfig {
+  /** Optional. The node pool configuration. */
+  config?: GkeNodeConfig | undefined;
+  /** Optional. The autoscaler configuration for this node pool. The autoscaler is enabled only when a valid configuration is present. */
+  autoscaling?: GkeNodePoolAutoscalingConfig | undefined;
+  /** Optional. The list of Compute Engine zones (https://cloud.google.com/compute/docs/zones#available) where node pool nodes associated with a Dataproc on GKE virtual cluster will be located.Note: All node pools associated with a virtual cluster must be located in the same region as the virtual cluster, and they must be located in the same zone within that region.If a location is not specified during node pool creation, Dataproc on GKE will choose the zone. */
+  locations?: StringList | undefined;
+}
 /** GKE node pools that Dataproc workloads run on. */
 export interface GkeNodePoolTarget {
-  /** Required. The target GKE node pool. Format: 'projects/{project}/locations/{location}/clusters/{cluster}/nodePools/{node_pool}' */
-  nodePool?: string | undefined;
-  /** Input only. The configuration for the GKE node pool.If specified, Dataproc attempts to create a node pool with the specified shape. If one with the same name already exists, it is verified against all specified fields. If a field differs, the virtual cluster creation will fail.If omitted, any node pool with the specified name is used. If a node pool with the specified name does not exist, Dataproc create a node pool with default values.This is an input only field. It will not be returned by the API. */
-  nodePoolConfig?: GkeNodePoolConfig | undefined;
   /** Required. The roles associated with the GKE node pool. */
   roles?: GkeNodePoolTargetRolesItemEnumList | undefined;
+  /** Input only. The configuration for the GKE node pool.If specified, Dataproc attempts to create a node pool with the specified shape. If one with the same name already exists, it is verified against all specified fields. If a field differs, the virtual cluster creation will fail.If omitted, any node pool with the specified name is used. If a node pool with the specified name does not exist, Dataproc create a node pool with default values.This is an input only field. It will not be returned by the API. */
+  nodePoolConfig?: GkeNodePoolConfig | undefined;
+  /** Required. The target GKE node pool. Format: 'projects/{project}/locations/{location}/clusters/{cluster}/nodePools/{node_pool}' */
+  nodePool?: string | undefined;
 }
 export type GkeNodePoolTargetList = Array<GkeNodePoolTarget>;
 /** The cluster's GKE config. */
@@ -2220,6 +1924,308 @@ export interface GkeClusterConfig {
   /** Optional. GKE node pools where workloads will be scheduled. At least one node pool must be assigned the DEFAULT GkeNodePoolTarget.Role. If a GkeNodePoolTarget is not specified, Dataproc constructs a DEFAULT GkeNodePoolTarget. Each role can be given to only one GkeNodePoolTarget. All node pools must have the same location settings. */
   nodePoolTarget?: GkeNodePoolTargetList | undefined;
 }
+/** Autoscaling Policy config associated with the cluster. */
+export interface AutoscalingConfig {
+  /** Optional. The autoscaling policy used by the cluster.Only resource names including projectid and location (region) are valid. Examples: https://www.googleapis.com/compute/v1/projects/[project_id]/locations/[dataproc_region]/autoscalingPolicies/[policy_id] projects/[project_id]/locations/[dataproc_region]/autoscalingPolicies/[policy_id]Note that the policy must be in the same project and region. */
+  policyUri?: string | undefined;
+}
+/** Configuration to handle the startup of instances during cluster create and update process. */
+export interface StartupConfig {
+  /** Optional. The config setting to enable cluster creation/ updation to be successful only after required_registration_fraction of instances are up and running. This configuration is applicable to only secondary workers for now. The cluster will fail if required_registration_fraction of instances are not available. This will include instance creation, agent registration, and service registration (if enabled). */
+  requiredRegistrationFraction?: number | undefined;
+}
+/** Specifies the type and number of accelerator cards attached to the instances of an instance. See GPUs on Compute Engine (https://cloud.google.com/compute/docs/gpus/). */
+export interface AcceleratorConfig {
+  /** The number of the accelerator cards of this type exposed to this instance. */
+  acceleratorCount?: number | undefined;
+  /** Full URL, partial URI, or short name of the accelerator type resource to expose to this instance. See Compute Engine AcceleratorTypes (https://cloud.google.com/compute/docs/reference/v1/acceleratorTypes).Examples: https://www.googleapis.com/compute/v1/projects/[project_id]/zones/[zone]/acceleratorTypes/nvidia-tesla-t4 projects/[project_id]/zones/[zone]/acceleratorTypes/nvidia-tesla-t4 nvidia-tesla-t4Auto Zone Exception: If you are using Auto Zone Placement (https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement), you must use the short name of the accelerator type resource, for example, nvidia-tesla-t4. */
+  acceleratorTypeUri?: string | undefined;
+}
+export type AcceleratorConfigList = Array<AcceleratorConfig>;
+export type InstanceGroupConfigPreemptibilityEnum =
+  | "PREEMPTIBILITY_UNSPECIFIED"
+  | "NON_PREEMPTIBLE"
+  | "PREEMPTIBLE"
+  | "SPOT";
+/** Defines a mapping from machine types to the number of VMs that are created with each machine type. */
+export interface InstanceSelectionResult {
+  /** Output only. Number of VM provisioned with the machine_type. */
+  vmCount?: number | undefined;
+  /** Output only. Full machine-type names, e.g. "n1-standard-16". */
+  machineType?: string | undefined;
+}
+export type InstanceSelectionResultList = Array<InstanceSelectionResult>;
+/** Defines how to create VMs with a mixture of provisioning models. */
+export interface ProvisioningModelMix {
+  /** Optional. The base capacity that will always use Standard VMs to avoid risk of more preemption than the minimum capacity you need. The service will create only standard VMs until it reaches standard_capacity_base, then it will start using standard_capacity_percent_above_base to mix Spot with Standard VMs. eg. If 15 instances are requested and standard_capacity_base is 5, the service will create 5 standard VMs and thenstart mixing spot and standard VMs for remaining 10 instances. */
+  standardCapacityBase?: number | undefined;
+  /** Optional. The percentage of target capacity that should use Standard VM. The remaining percentage will use Spot VMs. The percentage applies only to the capacity above standard_capacity_base. eg. If 15 instances are requested and standard_capacity_base is 5 and standard_capacity_percent_above_base is 30, the service will create 5 standard VMs and then start mixing spot and standard VMs for remaining 10 instances. The mix will be 30% standard and 70% spot. */
+  standardCapacityPercentAboveBase?: number | undefined;
+}
+export type AttachedDiskConfigDiskTypeEnum =
+  | "DISK_TYPE_UNSPECIFIED"
+  | "HYPERDISK_BALANCED"
+  | "HYPERDISK_EXTREME"
+  | "HYPERDISK_ML"
+  | "HYPERDISK_THROUGHPUT";
+/** Specifies the config of attached disk options for single VM instance. */
+export interface AttachedDiskConfig {
+  /** Optional. Indicates how many IOPS to provision for the attached disk. This sets the number of I/O operations per second that the disk can handle. See https://cloud.google.com/compute/docs/disks/hyperdisks#hyperdisk-features */
+  provisionedIops?: string | undefined;
+  /** Optional. Disk size in GB. */
+  diskSizeGb?: number | undefined;
+  /** Optional. Indicates how much throughput to provision for the attached disk. This sets the number of throughput mb per second that the disk can handle. See https://cloud.google.com/compute/docs/disks/hyperdisks#hyperdisk-features */
+  provisionedThroughput?: string | undefined;
+  /** Optional. Deprecated: Use type instead. */
+  diskType?: AttachedDiskConfigDiskTypeEnum | (string & {}) | undefined;
+  /** Optional. Attached disk type. Currently only supports Hyperdisks. See https://cloud.google.com/compute/docs/disks/hyperdisks. Note: Hyperdisk Balanced High Availability is not supported.Allowed values are: hyperdisk-balanced hyperdisk-extreme hyperdisk-ml hyperdisk-throughput */
+  type?: string | undefined;
+}
+export type AttachedDiskConfigList = Array<AttachedDiskConfig>;
+/** Specifies the config of boot disk and attached disk options for a group of VM instances. */
+export interface DiskConfig {
+  /** Optional. Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle. This field is supported only if boot_disk_type is hyperdisk-balanced. */
+  bootDiskProvisionedIops?: string | undefined;
+  /** Optional. Size in GB of the boot disk (default is 500GB). */
+  bootDiskSizeGb?: number | undefined;
+  /** Optional. A list of attached disk configs for a group of VM instances. */
+  attachedDiskConfigs?: AttachedDiskConfigList | undefined;
+  /** Optional. Type of the boot disk (default is pd-standard). Valid values: pd-balanced (Persistent Disk Balanced Solid State Drive), pd-ssd (Persistent Disk Solid State Drive), or pd-standard (Persistent Disk Hard Disk Drive). See Disk types (https://cloud.google.com/compute/docs/disks#disk-types). */
+  bootDiskType?: string | undefined;
+  /** Optional. Number of attached SSDs, from 0 to 8 (default is 0). If SSDs are not attached, the boot disk is used to store runtime logs and HDFS (https://hadoop.apache.org/docs/r1.2.1/hdfs_user_guide.html) data. If one or more SSDs are attached, this runtime bulk data is spread across them, and the boot disk contains only basic config and installed binaries.Note: Local SSD options may vary by machine type and number of vCPUs selected. */
+  numLocalSsds?: number | undefined;
+  /** Optional. Interface type of local SSDs (default is scsi). Valid values: scsi (Small Computer System Interface), nvme (Non-Volatile Memory Express). See local SSD performance (https://cloud.google.com/compute/docs/disks/local-ssd#performance). */
+  localSsdInterface?: string | undefined;
+  /** Optional. Indicates how much throughput to provision for the disk. This sets the number of throughput mb per second that the disk can handle. Values must be greater than or equal to 1. This field is supported only if boot_disk_type is hyperdisk-balanced. */
+  bootDiskProvisionedThroughput?: string | undefined;
+}
+/** Defines machines types and a rank to which the machines types belong. */
+export interface InstanceSelection {
+  /** Optional. Preference of this instance selection. Lower number means higher preference. The service will first try to create a VM based on the machine-type with priority rank and fallback to next rank based on availability. Machine types and instance selections with the same priority have the same preference. */
+  rank?: number | undefined;
+  /** Optional. Full machine-type names, e.g. "n1-standard-16". */
+  machineTypes?: StringList | undefined;
+  /** Optional. Disk configuration to apply to the instances in this instance selection. If specified on any entry in instanceSelectionList, then it must be specified on every entry in instanceSelectionList and the instanceGroupConfig must not specify any diskConfig. */
+  diskConfig?: DiskConfig | undefined;
+}
+export type InstanceSelectionList = Array<InstanceSelection>;
+/** Instance flexibility Policy allowing a mixture of VM shapes and provisioning models. */
+export interface InstanceFlexibilityPolicy {
+  /** Output only. A list of instance selection results in the group. */
+  instanceSelectionResults?: InstanceSelectionResultList | undefined;
+  /** Optional. Defines how the Group selects the provisioning model to ensure required reliability. */
+  provisioningModelMix?: ProvisioningModelMix | undefined;
+  /** Optional. List of instance selection options that the group will use when creating new VMs. */
+  instanceSelectionList?: InstanceSelectionList | undefined;
+  /** Output only. A map of instance short name to machine type. The key is the short name of the Compute Engine instance, and the value is the full machine-type name (e.g., 'n1-standard-16'). See Machine types for more information on valid machine type strings. */
+  instanceMachineTypes?: StringMap | undefined;
+}
+/** Specifies the resources used to actively manage an instance group. */
+export interface ManagedGroupConfig {
+  /** Output only. The name of the Instance Template used for the Managed Instance Group. */
+  instanceTemplateName?: string | undefined;
+  /** Output only. The name of the Instance Group Manager for this group. */
+  instanceGroupManagerName?: string | undefined;
+  /** Output only. The partial URI to the instance group manager for this group. E.g. projects/my-project/regions/us-central1/instanceGroupManagers/my-igm. */
+  instanceGroupManagerUri?: string | undefined;
+}
+/** A reference to a Compute Engine instance. */
+export interface InstanceReference {
+  /** The public RSA key used for sharing data with this instance. */
+  publicKey?: string | undefined;
+  /** The user-friendly name of the Compute Engine instance. */
+  instanceName?: string | undefined;
+  /** The unique identifier of the Compute Engine instance. */
+  instanceId?: string | undefined;
+  /** The public ECIES key used for sharing data with this instance. */
+  publicEciesKey?: string | undefined;
+}
+export type InstanceReferenceList = Array<InstanceReference>;
+/** The config settings for Compute Engine resources in an instance group, such as a master or worker group. */
+export interface InstanceGroupConfig {
+  /** Optional. Configuration to handle the startup of instances during cluster create and update process. */
+  startupConfig?: StartupConfig | undefined;
+  /** Optional. The Compute Engine accelerator configuration for these instances. */
+  accelerators?: AcceleratorConfigList | undefined;
+  /** Optional. The Compute Engine machine type used for cluster instances.A full URL, partial URI, or short name are valid. Examples: https://www.googleapis.com/compute/v1/projects/[project_id]/zones/[zone]/machineTypes/n1-standard-2 projects/[project_id]/zones/[zone]/machineTypes/n1-standard-2 n1-standard-2Auto Zone Exception: If you are using Auto Zone Placement (https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement), you must use the short name of the machine type resource, for example, n1-standard-2. */
+  machineTypeUri?: string | undefined;
+  /** Optional. Specifies the preemptibility of the instance group.The default value for master and worker groups is NON_PREEMPTIBLE. This default cannot be changed.The default value for secondary instances is PREEMPTIBLE. */
+  preemptibility?: InstanceGroupConfigPreemptibilityEnum | (string & {}) | undefined;
+  /** Output only. Specifies that this instance group contains preemptible instances. */
+  isPreemptible?: boolean | undefined;
+  /** Optional. Instance flexibility Policy allowing a mixture of VM shapes and provisioning models. */
+  instanceFlexibilityPolicy?: InstanceFlexibilityPolicy | undefined;
+  /** Optional. Specifies the minimum cpu platform for the Instance Group. See Minimum CPU Platform (https://cloud.google.com/dataproc/docs/concepts/compute/dataproc-min-cpu). */
+  minCpuPlatform?: string | undefined;
+  /** Optional. The Compute Engine image resource used for cluster instances.The URI can represent an image or image family.Image examples: https://www.googleapis.com/compute/v1/projects/[project_id]/global/images/[image-id] projects/[project_id]/global/images/[image-id] image-idImage family examples. The service will use the most recent image from the family: https://www.googleapis.com/compute/v1/projects/[project_id]/global/images/family/[custom-image-family-name] projects/[project_id]/global/images/family/[custom-image-family-name]If the URI is unspecified, it will be inferred from SoftwareConfig.image_version or the system default. */
+  imageUri?: string | undefined;
+  /** Output only. The config for Compute Engine Instance Group Manager that manages this group. This is only used for preemptible instance groups. */
+  managedGroupConfig?: ManagedGroupConfig | undefined;
+  /** Output only. List of references to Compute Engine instances. */
+  instanceReferences?: InstanceReferenceList | undefined;
+  /** Optional. Disk option config settings. */
+  diskConfig?: DiskConfig | undefined;
+  /** Output only. The list of instance names, derived from cluster_name, num_instances, and the instance group. */
+  instanceNames?: StringList | undefined;
+  /** Optional. The minimum number of primary worker instances to create. If min_num_instances is set, cluster creation will succeed if the number of primary workers created is at least equal to the min_num_instances number.Example: Cluster creation request with num_instances = 5 and min_num_instances = 3: If 4 VMs are created and 1 instance fails, the failed VM is deleted. The cluster is resized to 4 instances and placed in a RUNNING state. If 2 instances are created and 3 instances fail, the cluster in placed in an ERROR state. The failed VMs are not deleted. */
+  minNumInstances?: number | undefined;
+  /** Optional. The number of VM instances in the instance group. For HA cluster master_config groups, must be set to 3. For standard cluster master_config groups, must be set to 1. */
+  numInstances?: number | undefined;
+}
+export type NodeGroupRolesItemEnum = "ROLE_UNSPECIFIED" | "DRIVER";
+export type NodeGroupRolesItemEnumList = Array<NodeGroupRolesItemEnum | (string & {})>;
+/** Node Group. The NodeGroup resource is not related to the NodeGroupAffinity resource. */
+export interface NodeGroup {
+  /** Optional. The node group instance group configuration. */
+  nodeGroupConfig?: InstanceGroupConfig | undefined;
+  /** The Node group resource name (https://aip.dev/122). */
+  name?: string | undefined;
+  /** Optional. Node group labels. Label keys must consist of from 1 to 63 characters and conform to RFC 1035 (https://www.ietf.org/rfc/rfc1035.txt). Label values can be empty. If specified, they must consist of from 1 to 63 characters and conform to RFC 1035 (https://www.ietf.org/rfc/rfc1035.txt). The node group must have no more than 32 labels. */
+  labels?: StringMap | undefined;
+  /** Required. Node group roles. */
+  roles?: NodeGroupRolesItemEnumList | undefined;
+}
+/** Node group identification and configuration information. */
+export interface AuxiliaryNodeGroup {
+  /** Required. Node group configuration. */
+  nodeGroup?: NodeGroup | undefined;
+  /** Optional. A node group ID. Generated if not specified.The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). Cannot begin or end with underscore or hyphen. Must consist of from 3 to 33 characters. */
+  nodeGroupId?: string | undefined;
+}
+export type AuxiliaryNodeGroupList = Array<AuxiliaryNodeGroup>;
+/** Config for scheduling the request to create Compute Engine resources for the cluster, when available. */
+export interface SchedulingConfig {
+  /** Optional. How long to wait for worker resources to be allocated before failing the cluster creation request. Max/Default value: 13 days */
+  schedulingTimeout?: string | undefined;
+  /** Optional. Required lifetime of the resources, once provisioned. Min 10 mins, Max/Default 7 days . Note that the cluster can still be deleted before reaching this time. This time is a maximum amount of time before the cluster is forcibly deleted. Lower times are more likely to start running sooner. */
+  requestedRunDuration?: string | undefined;
+}
+export type FlexibleInstanceGroupConfigHardwareClassEnum =
+  | "HARDWARE_CLASS_UNSPECIFIED"
+  | "STANDARD"
+  | "PERFORMANCE";
+/** The configuration for High Obtainability (HO) flexible instance groups. Flexible instance group configs serve as the single source of truth for desired state. */
+export interface FlexibleInstanceGroupConfig {
+  /** Optional. The number of VM instances requested.For master instances, this must be 1. For worker and secondary worker instances, this represents the desired capacity of the group and is mutable via cluster update operations and autoscaling. */
+  numInstances?: number | undefined;
+  /** Optional. The boot disk size in GB. This is a create-time specification and is not currently mutable via update masks. */
+  bootDiskSizeGb?: number | undefined;
+  /** Optional. The number of vCPUs per instance. Must be a power of 2 (2, 4, 8, 16, 32). This is a create-time specification and is not currently mutable via update masks. */
+  coreCount?: number | undefined;
+  /** Optional. The hardware class of the instances. This is a create-time specification and is not currently mutable via update masks. */
+  hardwareClass?: FlexibleInstanceGroupConfigHardwareClassEnum | (string & {}) | undefined;
+}
+export type MetricMetricSourceEnum =
+  | "METRIC_SOURCE_UNSPECIFIED"
+  | "MONITORING_AGENT_DEFAULTS"
+  | "HDFS"
+  | "SPARK"
+  | "YARN"
+  | "SPARK_HISTORY_SERVER"
+  | "HIVESERVER2"
+  | "HIVEMETASTORE"
+  | "FLINK";
+/** A custom metric. */
+export interface Metric {
+  /** Required. A standard set of metrics is collected unless metricOverrides are specified for the metric source (see Custom metrics (https://cloud.google.com/dataproc/docs/guides/dataproc-metrics#custom_metrics) for more information). */
+  metricSource?: MetricMetricSourceEnum | (string & {}) | undefined;
+  /** Optional. Specify one or more Custom metrics (https://cloud.google.com/dataproc/docs/guides/dataproc-metrics#custom_metrics) to collect for the metric course (for the SPARK metric source (any Spark metric (https://spark.apache.org/docs/latest/monitoring.html#metrics) can be specified).Provide metrics in the following format:METRIC_SOURCE:INSTANCE :GROUP:METRIC Use camelcase as appropriate.Examples: yarn:ResourceManager:QueueMetrics:AppsCompleted spark:driver:DAGScheduler:job.allJobs sparkHistoryServer:JVM:Memory:NonHeapMemoryUsage.committed hiveserver2:JVM:Memory:NonHeapMemoryUsage.used Notes: Only the specified overridden metrics are collected for the metric source. For example, if one or more spark:executive metrics are listed as metric overrides, other SPARK metrics are not collected. The collection of the metrics for other enabled custom metric sources is unaffected. For example, if both SPARK and YARN metric sources are enabled, and overrides are provided for Spark metrics only, all YARN metrics are collected. */
+  metricOverrides?: StringList | undefined;
+}
+export type MetricList = Array<Metric>;
+/** Metric config. */
+export interface DataprocMetricConfig {
+  /** Required. Metrics sources to enable. */
+  metrics?: MetricList | undefined;
+}
+/** Encryption settings for the cluster. */
+export interface EncryptionConfig {
+  /** Optional. The Cloud KMS key resource name to use for cluster persistent disk and job argument encryption. See Use CMEK with cluster data (https://cloud.google.com//dataproc/docs/concepts/configuring-clusters/customer-managed-encryption#use_cmek_with_cluster_data) for more information.When this key resource name is provided, the following job arguments of the following job types submitted to the cluster are encrypted using CMEK: FlinkJob args (https://cloud.google.com/dataproc/docs/reference/rest/v1/FlinkJob) HadoopJob args (https://cloud.google.com/dataproc/docs/reference/rest/v1/HadoopJob) SparkJob args (https://cloud.google.com/dataproc/docs/reference/rest/v1/SparkJob) SparkRJob args (https://cloud.google.com/dataproc/docs/reference/rest/v1/SparkRJob) PySparkJob args (https://cloud.google.com/dataproc/docs/reference/rest/v1/PySparkJob) SparkSqlJob (https://cloud.google.com/dataproc/docs/reference/rest/v1/SparkSqlJob) scriptVariables and queryList.queries HiveJob (https://cloud.google.com/dataproc/docs/reference/rest/v1/HiveJob) scriptVariables and queryList.queries PigJob (https://cloud.google.com/dataproc/docs/reference/rest/v1/PigJob) scriptVariables and queryList.queries PrestoJob (https://cloud.google.com/dataproc/docs/reference/rest/v1/PrestoJob) scriptVariables and queryList.queries */
+  kmsKey?: string | undefined;
+  /** Optional. The Cloud KMS key resource name to use for persistent disk encryption for all instances in the cluster. See Use CMEK with cluster data (https://cloud.google.com//dataproc/docs/concepts/configuring-clusters/customer-managed-encryption#use_cmek_with_cluster_data) for more information. */
+  gcePdKmsKeyName?: string | undefined;
+}
+/** Specifies a Metastore configuration. */
+export interface MetastoreConfig {
+  /** Required. Resource name of an existing Metastore service.Example: projects/[project_id]/locations/[dataproc_region]/services/[service-name] */
+  dataprocMetastoreService?: string | undefined;
+}
+export type ClusterConfigEngineEnum = "ENGINE_UNSPECIFIED" | "DEFAULT" | "LIGHTNING";
+/** Specifies the cluster auto-delete schedule configuration. */
+export interface LifecycleConfig {
+  /** Optional. The lifetime duration of cluster. The cluster will be auto-deleted at the end of this period. Minimum value is 10 minutes; maximum value is 14 days (see JSON representation of Duration (https://developers.google.com/protocol-buffers/docs/proto3#json)). */
+  autoDeleteTtl?: string | undefined;
+  /** Optional. The duration to keep the cluster started while idling (when no jobs are running). Passing this threshold will cause the cluster to be stopped. Minimum value is 5 minutes; maximum value is 14 days (see JSON representation of Duration (https://developers.google.com/protocol-buffers/docs/proto3#json)). */
+  idleStopTtl?: string | undefined;
+  /** Optional. The lifetime duration of the cluster. The cluster will be auto-stopped at the end of this period, calculated from the time of submission of the create or update cluster request. Minimum value is 10 minutes; maximum value is 14 days (see JSON representation of Duration (https://developers.google.com/protocol-buffers/docs/proto3#json)). */
+  autoStopTtl?: string | undefined;
+  /** Optional. The time when cluster will be auto-deleted (see JSON representation of Timestamp (https://developers.google.com/protocol-buffers/docs/proto3#json)). */
+  autoDeleteTime?: string | undefined;
+  /** Optional. The time when cluster will be auto-stopped (see JSON representation of Timestamp (https://developers.google.com/protocol-buffers/docs/proto3#json)). */
+  autoStopTime?: string | undefined;
+  /** Optional. The duration to keep the cluster alive while idling (when no jobs are running). Passing this threshold will cause the cluster to be deleted. Minimum value is 5 minutes; maximum value is 14 days (see JSON representation of Duration (https://developers.google.com/protocol-buffers/docs/proto3#json)). */
+  idleDeleteTtl?: string | undefined;
+  /** Output only. The time when cluster became idle (most recent job finished) and became eligible for deletion due to idleness (see JSON representation of Timestamp (https://developers.google.com/protocol-buffers/docs/proto3#json)). */
+  idleStartTime?: string | undefined;
+}
+/** Specifies Kerberos related configuration. */
+export interface KerberosConfig {
+  /** Optional. The Cloud Storage URI of a KMS encrypted file containing the password to the user provided truststore. For the self-signed certificate, this password is generated by the service. */
+  truststorePasswordUri?: string | undefined;
+  /** Optional. The Cloud Storage URI of the truststore file used for SSL encryption. If not provided, the service will provide a self-signed certificate. */
+  truststoreUri?: string | undefined;
+  /** Optional. The URI of the KMS key used to encrypt sensitive files. */
+  kmsKeyUri?: string | undefined;
+  /** Optional. The Cloud Storage URI of a KMS encrypted file containing the master key of the KDC database. */
+  kdcDbKeyUri?: string | undefined;
+  /** Optional. The name of the on-cluster Kerberos realm. If not specified, the uppercased domain of hostnames will be the realm. */
+  realm?: string | undefined;
+  /** Optional. The Cloud Storage URI of a KMS encrypted file containing the password to the user provided keystore. For the self-signed certificate, this password is generated by the service. */
+  keystorePasswordUri?: string | undefined;
+  /** Optional. The Cloud Storage URI of the keystore file used for SSL encryption. If not provided, the service will provide a self-signed certificate. */
+  keystoreUri?: string | undefined;
+  /** Optional. Flag to indicate whether to Kerberize the cluster (default: false). Set this field to true to enable Kerberos on a cluster. */
+  enableKerberos?: boolean | undefined;
+  /** Optional. The Cloud Storage URI of a KMS encrypted file containing the root principal password. */
+  rootPrincipalPasswordUri?: string | undefined;
+  /** Optional. The KDC (IP or hostname) for the remote trusted realm in a cross realm trust relationship. */
+  crossRealmTrustKdc?: string | undefined;
+  /** Optional. The lifetime of the ticket granting ticket, in hours. If not specified, or user specifies 0, then default value 10 will be used. */
+  tgtLifetimeHours?: number | undefined;
+  /** Optional. The Cloud Storage URI of a KMS encrypted file containing the password to the user provided key. For the self-signed certificate, this password is generated by the service. */
+  keyPasswordUri?: string | undefined;
+  /** Optional. The Cloud Storage URI of a KMS encrypted file containing the shared password between the on-cluster Kerberos realm and the remote trusted realm, in a cross realm trust relationship. */
+  crossRealmTrustSharedPasswordUri?: string | undefined;
+  /** Optional. The admin server (IP or hostname) for the remote trusted realm in a cross realm trust relationship. */
+  crossRealmTrustAdminServer?: string | undefined;
+  /** Optional. The remote realm the on-cluster KDC will trust, should the user enable cross realm trust. */
+  crossRealmTrustRealm?: string | undefined;
+}
+/** Identity related configuration, including service account based secure multi-tenancy user mappings. */
+export interface IdentityConfig {
+  /** Optional. Whether to enable SSH access for the cluster. The default is true for image versions prior to 3.1 and false for image versions 3.1 and later. The default behavior can be changed when creating clusters using image versions 2.3.30 and later. */
+  enableSsh?: boolean | undefined;
+  /** Required. Map of user to service account. */
+  userServiceAccountMapping?: StringMap | undefined;
+}
+/** Security related configuration, including encryption, Kerberos, etc. */
+export interface SecurityConfig {
+  /** Optional. Kerberos related configuration. */
+  kerberosConfig?: KerberosConfig | undefined;
+  /** Optional. Identity related configuration, including service account based secure multi-tenancy user mappings. */
+  identityConfig?: IdentityConfig | undefined;
+}
+/** Endpoint config for this cluster */
+export interface EndpointConfig {
+  /** Output only. The map of port descriptions to URLs. Will only be populated if enable_http_port_access is true. */
+  httpPorts?: StringMap | undefined;
+  /** Optional. If true, enable http access to specific ports on the cluster from external sources. Defaults to false. */
+  enableHttpPortAccess?: boolean | undefined;
+}
+export type ClusterConfigClusterTierEnum =
+  | "CLUSTER_TIER_UNSPECIFIED"
+  | "CLUSTER_TIER_STANDARD"
+  | "CLUSTER_TIER_PREMIUM";
 export type SoftwareConfigOptionalComponentsItemEnum =
   | "COMPONENT_UNSPECIFIED"
   | "ALLOYDB_CONNECTOR"
@@ -2246,181 +2252,178 @@ export type SoftwareConfigOptionalComponentsItemEnumList = Array<
 >;
 /** Specifies the selection and config of software inside the cluster. */
 export interface SoftwareConfig {
-  /** Optional. The set of components to activate on the cluster. */
-  optionalComponents?: SoftwareConfigOptionalComponentsItemEnumList | undefined;
   /** Optional. The properties to set on daemon config files.Property keys are specified in prefix:property format, for example core:hadoop.tmp.dir. The following are supported prefixes and their mappings: capacity-scheduler: capacity-scheduler.xml core: core-site.xml distcp: distcp-default.xml hdfs: hdfs-site.xml hive: hive-site.xml mapred: mapred-site.xml pig: pig.properties spark: spark-defaults.conf yarn: yarn-site.xmlFor more information, see Cluster properties (https://cloud.google.com/dataproc/docs/concepts/cluster-properties). */
   properties?: StringMap | undefined;
   /** Optional. The version of software inside the cluster. It must be one of the supported Image Versions (https://cloud.google.com/dataproc/docs/concepts/versioning/dataproc-versions#supported-dataproc-image-versions), such as "1.2" (including a subminor version, such as "1.2.29"), or the "preview" version (https://cloud.google.com/dataproc/docs/concepts/versioning/dataproc-versions#other_versions). If unspecified, it defaults to the latest Debian version. */
   imageVersion?: string | undefined;
-}
-/** Specifies an executable to run on a fully configured node and a timeout period for executable completion. */
-export interface NodeInitializationAction {
-  /** Optional. Amount of time executable has to complete. Default is 10 minutes (see JSON representation of Duration (https://developers.google.com/protocol-buffers/docs/proto3#json)).Cluster creation fails with an explanatory error message (the name of the executable that caused the error and the exceeded timeout period) if the executable is not completed at end of the timeout period. */
-  executionTimeout?: string | undefined;
-  /** Required. Cloud Storage URI of executable file. */
-  executableFile?: string | undefined;
-}
-export type NodeInitializationActionList = Array<NodeInitializationAction>;
-/** Specifies Kerberos related configuration. */
-export interface KerberosConfig {
-  /** Optional. The URI of the KMS key used to encrypt sensitive files. */
-  kmsKeyUri?: string | undefined;
-  /** Optional. The Cloud Storage URI of a KMS encrypted file containing the password to the user provided truststore. For the self-signed certificate, this password is generated by the service. */
-  truststorePasswordUri?: string | undefined;
-  /** Optional. The Cloud Storage URI of the keystore file used for SSL encryption. If not provided, the service will provide a self-signed certificate. */
-  keystoreUri?: string | undefined;
-  /** Optional. The Cloud Storage URI of a KMS encrypted file containing the password to the user provided keystore. For the self-signed certificate, this password is generated by the service. */
-  keystorePasswordUri?: string | undefined;
-  /** Optional. The remote realm the on-cluster KDC will trust, should the user enable cross realm trust. */
-  crossRealmTrustRealm?: string | undefined;
-  /** Optional. The Cloud Storage URI of the truststore file used for SSL encryption. If not provided, the service will provide a self-signed certificate. */
-  truststoreUri?: string | undefined;
-  /** Optional. The Cloud Storage URI of a KMS encrypted file containing the master key of the KDC database. */
-  kdcDbKeyUri?: string | undefined;
-  /** Optional. The KDC (IP or hostname) for the remote trusted realm in a cross realm trust relationship. */
-  crossRealmTrustKdc?: string | undefined;
-  /** Optional. The name of the on-cluster Kerberos realm. If not specified, the uppercased domain of hostnames will be the realm. */
-  realm?: string | undefined;
-  /** Optional. The admin server (IP or hostname) for the remote trusted realm in a cross realm trust relationship. */
-  crossRealmTrustAdminServer?: string | undefined;
-  /** Optional. Flag to indicate whether to Kerberize the cluster (default: false). Set this field to true to enable Kerberos on a cluster. */
-  enableKerberos?: boolean | undefined;
-  /** Optional. The Cloud Storage URI of a KMS encrypted file containing the shared password between the on-cluster Kerberos realm and the remote trusted realm, in a cross realm trust relationship. */
-  crossRealmTrustSharedPasswordUri?: string | undefined;
-  /** Optional. The Cloud Storage URI of a KMS encrypted file containing the password to the user provided key. For the self-signed certificate, this password is generated by the service. */
-  keyPasswordUri?: string | undefined;
-  /** Optional. The Cloud Storage URI of a KMS encrypted file containing the root principal password. */
-  rootPrincipalPasswordUri?: string | undefined;
-  /** Optional. The lifetime of the ticket granting ticket, in hours. If not specified, or user specifies 0, then default value 10 will be used. */
-  tgtLifetimeHours?: number | undefined;
-}
-/** Identity related configuration, including service account based secure multi-tenancy user mappings. */
-export interface IdentityConfig {
-  /** Required. Map of user to service account. */
-  userServiceAccountMapping?: StringMap | undefined;
-  /** Optional. Whether to enable SSH access for the cluster. The default is true for image versions prior to 3.1 and false for image versions 3.1 and later. The default behavior can be changed when creating clusters using image versions 2.3.30 and later. */
-  enableSsh?: boolean | undefined;
-}
-/** Security related configuration, including encryption, Kerberos, etc. */
-export interface SecurityConfig {
-  /** Optional. Kerberos related configuration. */
-  kerberosConfig?: KerberosConfig | undefined;
-  /** Optional. Identity related configuration, including service account based secure multi-tenancy user mappings. */
-  identityConfig?: IdentityConfig | undefined;
-}
-/** Specifies the cluster auto-delete schedule configuration. */
-export interface LifecycleConfig {
-  /** Optional. The duration to keep the cluster started while idling (when no jobs are running). Passing this threshold will cause the cluster to be stopped. Minimum value is 5 minutes; maximum value is 14 days (see JSON representation of Duration (https://developers.google.com/protocol-buffers/docs/proto3#json)). */
-  idleStopTtl?: string | undefined;
-  /** Output only. The time when cluster became idle (most recent job finished) and became eligible for deletion due to idleness (see JSON representation of Timestamp (https://developers.google.com/protocol-buffers/docs/proto3#json)). */
-  idleStartTime?: string | undefined;
-  /** Optional. The lifetime duration of the cluster. The cluster will be auto-stopped at the end of this period, calculated from the time of submission of the create or update cluster request. Minimum value is 10 minutes; maximum value is 14 days (see JSON representation of Duration (https://developers.google.com/protocol-buffers/docs/proto3#json)). */
-  autoStopTtl?: string | undefined;
-  /** Optional. The time when cluster will be auto-stopped (see JSON representation of Timestamp (https://developers.google.com/protocol-buffers/docs/proto3#json)). */
-  autoStopTime?: string | undefined;
-  /** Optional. The duration to keep the cluster alive while idling (when no jobs are running). Passing this threshold will cause the cluster to be deleted. Minimum value is 5 minutes; maximum value is 14 days (see JSON representation of Duration (https://developers.google.com/protocol-buffers/docs/proto3#json)). */
-  idleDeleteTtl?: string | undefined;
-  /** Optional. The lifetime duration of cluster. The cluster will be auto-deleted at the end of this period. Minimum value is 10 minutes; maximum value is 14 days (see JSON representation of Duration (https://developers.google.com/protocol-buffers/docs/proto3#json)). */
-  autoDeleteTtl?: string | undefined;
-  /** Optional. The time when cluster will be auto-deleted (see JSON representation of Timestamp (https://developers.google.com/protocol-buffers/docs/proto3#json)). */
-  autoDeleteTime?: string | undefined;
-}
-export type MetricMetricSourceEnum =
-  | "METRIC_SOURCE_UNSPECIFIED"
-  | "MONITORING_AGENT_DEFAULTS"
-  | "HDFS"
-  | "SPARK"
-  | "YARN"
-  | "SPARK_HISTORY_SERVER"
-  | "HIVESERVER2"
-  | "HIVEMETASTORE"
-  | "FLINK";
-/** A custom metric. */
-export interface Metric {
-  /** Required. A standard set of metrics is collected unless metricOverrides are specified for the metric source (see Custom metrics (https://cloud.google.com/dataproc/docs/guides/dataproc-metrics#custom_metrics) for more information). */
-  metricSource?: MetricMetricSourceEnum | (string & {}) | undefined;
-  /** Optional. Specify one or more Custom metrics (https://cloud.google.com/dataproc/docs/guides/dataproc-metrics#custom_metrics) to collect for the metric course (for the SPARK metric source (any Spark metric (https://spark.apache.org/docs/latest/monitoring.html#metrics) can be specified).Provide metrics in the following format:METRIC_SOURCE:INSTANCE :GROUP:METRIC Use camelcase as appropriate.Examples: yarn:ResourceManager:QueueMetrics:AppsCompleted spark:driver:DAGScheduler:job.allJobs sparkHistoryServer:JVM:Memory:NonHeapMemoryUsage.committed hiveserver2:JVM:Memory:NonHeapMemoryUsage.used Notes: Only the specified overridden metrics are collected for the metric source. For example, if one or more spark:executive metrics are listed as metric overrides, other SPARK metrics are not collected. The collection of the metrics for other enabled custom metric sources is unaffected. For example, if both SPARK and YARN metric sources are enabled, and overrides are provided for Spark metrics only, all YARN metrics are collected. */
-  metricOverrides?: StringList | undefined;
-}
-export type MetricList = Array<Metric>;
-/** Metric config. */
-export interface DataprocMetricConfig {
-  /** Required. Metrics sources to enable. */
-  metrics?: MetricList | undefined;
+  /** Optional. The set of components to activate on the cluster. */
+  optionalComponents?: SoftwareConfigOptionalComponentsItemEnumList | undefined;
 }
 export type ClusterConfigClusterTypeEnum =
   | "CLUSTER_TYPE_UNSPECIFIED"
   | "STANDARD"
   | "SINGLE_NODE"
   | "ZERO_SCALE";
+export type GceClusterConfigPrivateIpv6GoogleAccessEnum =
+  | "PRIVATE_IPV6_GOOGLE_ACCESS_UNSPECIFIED"
+  | "INHERIT_FROM_SUBNETWORK"
+  | "OUTBOUND"
+  | "BIDIRECTIONAL";
+export type ReservationAffinityConsumeReservationTypeEnum =
+  | "TYPE_UNSPECIFIED"
+  | "NO_RESERVATION"
+  | "ANY_RESERVATION"
+  | "SPECIFIC_RESERVATION";
+/** Reservation Affinity for consuming Zonal reservation. */
+export interface ReservationAffinity {
+  /** Optional. Corresponds to the label values of reservation resource. */
+  values?: StringList | undefined;
+  /** Optional. Type of reservation to consume */
+  consumeReservationType?:
+    | ReservationAffinityConsumeReservationTypeEnum
+    | (string & {})
+    | undefined;
+  /** Optional. Corresponds to the label key of reservation resource. */
+  key?: string | undefined;
+}
+/** Shielded Instance Config for clusters using Compute Engine Shielded VMs (https://cloud.google.com/security/shielded-cloud/shielded-vm). */
+export interface ShieldedInstanceConfig {
+  /** Optional. Defines whether instances have the vTPM enabled. */
+  enableVtpm?: boolean | undefined;
+  /** Optional. Defines whether instances have integrity monitoring enabled. */
+  enableIntegrityMonitoring?: boolean | undefined;
+  /** Optional. Defines whether instances have Secure Boot enabled. */
+  enableSecureBoot?: boolean | undefined;
+}
+export type MultiZoneConfigTargetShapeEnum = "TARGET_SHAPE_UNSPECIFIED" | "ANY";
+/** Configuration for multi-zonal clusters that can create instances across multiple Zones within the Region. */
+export interface MultiZoneConfig {
+  /** Optional. The distribution shape of the nodes in the multi-zonal cluster. */
+  targetShape?: MultiZoneConfigTargetShapeEnum | (string & {}) | undefined;
+}
+export type ConfidentialInstanceConfigConfidentialInstanceTypeEnum =
+  | "CONFIDENTIAL_INSTANCE_TYPE_UNSPECIFIED"
+  | "SEV"
+  | "SEV_SNP"
+  | "TDX";
+/** Confidential Instance Config for clusters using Confidential VMs (https://cloud.google.com/confidential-computing/confidential-vm/docs) */
+export interface ConfidentialInstanceConfig {
+  /** Optional. Defines the type of Confidential Compute technology to use. */
+  confidentialInstanceType?:
+    | ConfidentialInstanceConfigConfidentialInstanceTypeEnum
+    | (string & {})
+    | undefined;
+  /** Optional. Deprecated: Use 'confidential_instance_type' instead. Defines whether the instance should have confidential compute enabled. */
+  enableConfidentialCompute?: boolean | undefined;
+}
+/** Node Group Affinity for clusters using sole-tenant node groups. The NodeGroupAffinity resource is not related to the NodeGroup resource. */
+export interface NodeGroupAffinity {
+  /** Required. The URI of a sole-tenant node group resource (https://cloud.google.com/compute/docs/reference/rest/v1/nodeGroups) that the cluster will be created on.A full URL, partial URI, or node group name are valid. Examples: https://www.googleapis.com/compute/v1/projects/[project_id]/zones/[zone]/nodeGroups/node-group-1 projects/[project_id]/zones/[zone]/nodeGroups/node-group-1 node-group-1 */
+  nodeGroupUri?: string | undefined;
+}
+/** Common config settings for resources of Compute Engine cluster instances, applicable to all instances in the cluster. */
+export interface GceClusterConfig {
+  /** Optional. The type of IPv6 access for a cluster. */
+  privateIpv6GoogleAccess?: GceClusterConfigPrivateIpv6GoogleAccessEnum | (string & {}) | undefined;
+  /** Optional. The Compute Engine network to be used for machine communications. Cannot be specified with subnetwork_uri. If neither network_uri nor subnetwork_uri is specified, the "default" network of the project is used, if it exists. Cannot be a Custom Subnet Network (see Using Subnetworks (https://cloud.google.com/compute/docs/subnetworks) for more information).A full URL, partial URI, or short name are valid. Examples: https://www.googleapis.com/compute/v1/projects/[project_id]/global/networks/default projects/[project_id]/global/networks/default default */
+  networkUri?: string | undefined;
+  /** Optional. Reservation Affinity for consuming Zonal reservation. */
+  reservationAffinity?: ReservationAffinity | undefined;
+  /** The Compute Engine network tags to add to all instances (see Tagging instances (https://cloud.google.com/vpc/docs/add-remove-network-tags)). */
+  tags?: StringList | undefined;
+  /** Optional. The Compute Engine metadata entries to add to all instances (see Project and instance metadata (https://cloud.google.com/compute/docs/storing-retrieving-metadata#project_and_instance_metadata)). */
+  metadata?: StringMap | undefined;
+  /** Optional. Resource manager tags (https://cloud.google.com/resource-manager/docs/tags/tags-creating-and-managing) to add to all instances (see Use secure tags (https://cloud.google.com/dataproc/docs/guides/use-secure-tags)). */
+  resourceManagerTags?: StringMap | undefined;
+  /** Optional. Shielded Instance Config for clusters using Compute Engine Shielded VMs (https://cloud.google.com/security/shielded-cloud/shielded-vm). */
+  shieldedInstanceConfig?: ShieldedInstanceConfig | undefined;
+  /** Optional. The Compute Engine zone where the cluster will be located. If omitted, the service will pick a zone in the cluster's Compute Engine region. On a get request, zone will always be present.A full URL, partial URI, or short name are valid. Examples: https://www.googleapis.com/compute/v1/projects/[project_id]/zones/[zone] projects/[project_id]/zones/[zone] [zone] */
+  zoneUri?: string | undefined;
+  /** Optional. This setting applies to subnetwork-enabled networks. It is set to true by default in clusters created with image versions 2.2.x.When set to true: All cluster VMs have internal IP addresses. Google Private Access (https://cloud.google.com/vpc/docs/private-google-access) must be enabled to access the Dataproc API and other Google Cloud APIs. Off-cluster dependencies must be configured to be accessible without external IP addresses.When set to false: Cluster VMs are not restricted to internal IP addresses. Ephemeral external IP addresses are assigned to each cluster VM. */
+  internalIpOnly?: boolean | undefined;
+  /** Optional. The VM service account (https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/service-accounts#service_accounts_in_dataproc) (also see VM Data Plane identity (https://cloud.google.com/dataproc/docs/concepts/iam/dataproc-principals#vm_service_account_data_plane_identity)) used by cluster VM instances to access Google Cloud Platform services.If not specified, the Compute Engine default service account (https://cloud.google.com/compute/docs/access/service-accounts#default_service_account) is used. */
+  serviceAccount?: string | undefined;
+  /** Optional. Controls how instances within this Cluster are allowed to exist in multiple Zones within the Region. Only one of zone_uri or multi_zone_config must be set. */
+  multiZoneConfig?: MultiZoneConfig | undefined;
+  /** Optional. Confidential Instance Config for clusters using Confidential VMs (https://cloud.google.com/confidential-computing/confidential-vm/docs). */
+  confidentialInstanceConfig?: ConfidentialInstanceConfig | undefined;
+  /** Optional. Node Group Affinity for sole-tenant clusters. */
+  nodeGroupAffinity?: NodeGroupAffinity | undefined;
+  /** Optional. The Compute Engine subnetwork to be used for machine communications. Cannot be specified with network_uri.A full URL, partial URI, or short name are valid. Examples: https://www.googleapis.com/compute/v1/projects/[project_id]/regions/[region]/subnetworks/sub0 projects/[project_id]/regions/[region]/subnetworks/sub0 sub0 */
+  subnetworkUri?: string | undefined;
+  /** Optional. The URIs of service account scopes to be included in Compute Engine instances. The following base set of scopes is always included: https://www.googleapis.com/auth/cloud.useraccounts.readonly https://www.googleapis.com/auth/devstorage.read_write https://www.googleapis.com/auth/logging.writeIf no scopes are specified, the following defaults are also provided: https://www.googleapis.com/auth/bigquery https://www.googleapis.com/auth/bigtable.admin.table https://www.googleapis.com/auth/bigtable.data https://www.googleapis.com/auth/devstorage.full_control */
+  serviceAccountScopes?: StringList | undefined;
+  /** Optional. An optional list of Compute Engine zones where the cluster will not be located when Auto Zone is enabled. Only one of zone_uri or auto_zone_exclude_zone_uris can be set. If both are omitted, the service will pick a zone in the cluster Compute Engine region. If auto_zone_exclude_zone_uris is set and there is more than one non-excluded zone, the service will pick one of the non-excluded zones. Otherwise, cluster creation will fail with INVALID_ARGUMENT error.A full URL, partial URI, or short name are valid. Examples: https://www.googleapis.com/compute/v1/projects/[project_id]/zones/[zone] projects/[project_id]/zones/[zone] [zone] */
+  autoZoneExcludeZoneUris?: StringList | undefined;
+}
 /** The cluster config. */
 export interface ClusterConfig {
-  /** Optional. The High Obtainability (HO) config settings for the cluster's master instances.In High Obtainability (HO) mode, flexible configs are the single source of truth for desired cluster configuration across node groups: * For single-node clusters: master_flexible_config must be specified, and no worker configs should be set. * For multi-node (standard) clusters: both master_flexible_config and worker_flexible_config must be specified. Mixing standard and flexible configs across node groups is not allowed.Only one of master_config or master_flexible_config can be set. */
-  masterFlexibleConfig?: FlexibleInstanceGroupConfig | undefined;
-  /** Optional. A Cloud Storage bucket used to collect checkpoint diagnostic data (https://cloud.google.com/dataproc/docs/support/diagnose-clusters#checkpoint_diagnostic_data). If you do not specify a diagnostic bucket, The service will use the temp bucket to collect the checkpoint diagnostic data. This field requires a Cloud Storage bucket name, not a gs://... URI to a Cloud Storage bucket. */
-  diagnosticBucket?: string | undefined;
-  /** Optional. The cluster tier. */
-  clusterTier?: ClusterConfigClusterTierEnum | (string & {}) | undefined;
-  /** Optional. Metastore configuration. */
-  metastoreConfig?: MetastoreConfig | undefined;
-  /** Optional. The Compute Engine config settings for a cluster's secondary worker instances */
-  secondaryWorkerConfig?: InstanceGroupConfig | undefined;
-  /** Optional. The High Obtainability (HO) config settings for a cluster's secondary worker instances.In High Obtainability (HO) mode, flexible configs are the single source of truth for desired cluster configuration. num_instances represents the desired capacity of the secondary worker group and is mutable via cluster updates and autoscaling.Only one of secondary_worker_config or secondary_worker_flexible_config can be set.In High Obtainability (HO) mode, secondary workers are optional. If secondary workers are used in an HO cluster, they must be configured using secondary_worker_flexible_config (not secondary_worker_config). */
-  secondaryWorkerFlexibleConfig?: FlexibleInstanceGroupConfig | undefined;
-  /** Optional. Encryption settings for the cluster. */
-  encryptionConfig?: EncryptionConfig | undefined;
-  /** Optional. Port/endpoint configuration for this cluster */
-  endpointConfig?: EndpointConfig | undefined;
-  /** Optional. The node group settings. */
-  auxiliaryNodeGroups?: AuxiliaryNodeGroupList | undefined;
-  /** Optional. The High Obtainability (HO) config settings for the cluster's worker instances.In High Obtainability (HO) mode, flexible configs are the single source of truth for desired cluster configuration. num_instances represents the desired capacity of the worker group and is mutable via cluster updates and autoscaling.Only one of worker_config or worker_flexible_config can be set.In High Obtainability (HO) mode, for multi-node (standard) clusters, both master_flexible_config and worker_flexible_config must be specified. Mixing standard and flexible configs across node groups is not allowed. Single-node clusters do not specify worker configs. */
-  workerFlexibleConfig?: FlexibleInstanceGroupConfig | undefined;
-  /** Optional. Autoscaling config for the policy associated with the cluster. Cluster does not autoscale if this field is unset. */
-  autoscalingConfig?: AutoscalingConfig | undefined;
-  /** Optional. The cluster engine. */
-  engine?: ClusterConfigEngineEnum | (string & {}) | undefined;
-  /** Optional. Config for scheduling the resources to be allocated when available. */
-  schedulingConfig?: SchedulingConfig | undefined;
-  /** Optional. A Cloud Storage bucket used to store ephemeral cluster and jobs data, such as Spark and MapReduce history files. If you do not specify a temp bucket, the service will determine a Cloud Storage location (US, ASIA, or EU) for your cluster's temp bucket according to the Compute Engine zone where your cluster is deployed, and then create and manage this project-level, per-location bucket. The default bucket has a TTL of 90 days, but you can use any TTL (or none) if you specify a bucket (see staging and temp buckets (https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/staging-bucket)). This field requires a Cloud Storage bucket name, not a gs://... URI to a Cloud Storage bucket. */
-  tempBucket?: string | undefined;
-  /** Optional. The shared Compute Engine config settings for all instances in a cluster. */
-  gceClusterConfig?: GceClusterConfig | undefined;
-  /** Optional. A Cloud Storage bucket used to stage job dependencies, config files, and job driver console output. If you do not specify a staging bucket, the service will determine a Cloud Storage location (US, ASIA, or EU) for your cluster's staging bucket according to the Compute Engine zone where your cluster is deployed, and then create and manage this project-level, per-location bucket (see staging and temp buckets (https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/staging-bucket)). This field requires a Cloud Storage bucket name, not a gs://... URI to a Cloud Storage bucket. */
-  configBucket?: string | undefined;
-  /** Optional. BETA. The Kubernetes Engine config for clusters deployed to Kubernetes. These config settings are mutually exclusive with Compute Engine-based options, such as gce_cluster_config, master_config, worker_config, secondary_worker_config, and autoscaling_config. */
-  gkeClusterConfig?: GkeClusterConfig | undefined;
-  /** Optional. The config settings for cluster software. */
-  softwareConfig?: SoftwareConfig | undefined;
   /** Optional. Commands to execute on each node after config is completed. By default, executables are run on master and all worker nodes. You can test a node's role metadata to run an executable on a master or worker node, as shown below using curl (you can also use wget): ROLE=$(curl -H Metadata-Flavor:Google http://metadata/computeMetadata/v1/instance/attributes/dataproc-role) if [[ "${ROLE}" == 'Master' ]]; then ... master specific actions ... else ... worker specific actions ... fi */
   initializationActions?: NodeInitializationActionList | undefined;
-  /** Optional. The Compute Engine config settings for the cluster's worker instances. */
-  workerConfig?: InstanceGroupConfig | undefined;
-  /** Optional. Security settings for the cluster. */
-  securityConfig?: SecurityConfig | undefined;
-  /** Optional. Lifecycle setting for the cluster. */
-  lifecycleConfig?: LifecycleConfig | undefined;
-  /** Optional. The Compute Engine config settings for the cluster's master instance. */
-  masterConfig?: InstanceGroupConfig | undefined;
+  /** Optional. A Cloud Storage bucket used to collect checkpoint diagnostic data (https://cloud.google.com/dataproc/docs/support/diagnose-clusters#checkpoint_diagnostic_data). If you do not specify a diagnostic bucket, The service will use the temp bucket to collect the checkpoint diagnostic data. This field requires a Cloud Storage bucket name, not a gs://... URI to a Cloud Storage bucket. */
+  diagnosticBucket?: string | undefined;
+  /** Optional. BETA. The Kubernetes Engine config for clusters deployed to Kubernetes. These config settings are mutually exclusive with Compute Engine-based options, such as gce_cluster_config, master_config, worker_config, secondary_worker_config, and autoscaling_config. */
+  gkeClusterConfig?: GkeClusterConfig | undefined;
+  /** Optional. Autoscaling config for the policy associated with the cluster. Cluster does not autoscale if this field is unset. */
+  autoscalingConfig?: AutoscalingConfig | undefined;
+  /** Optional. The node group settings. */
+  auxiliaryNodeGroups?: AuxiliaryNodeGroupList | undefined;
+  /** Optional. Config for scheduling the resources to be allocated when available. */
+  schedulingConfig?: SchedulingConfig | undefined;
+  /** Optional. The High Obtainability (HO) config settings for a cluster's secondary worker instances.In High Obtainability (HO) mode, flexible configs are the single source of truth for desired cluster configuration. num_instances represents the desired capacity of the secondary worker group and is mutable via cluster updates and autoscaling.Only one of secondary_worker_config or secondary_worker_flexible_config can be set.In High Obtainability (HO) mode, secondary workers are optional. If secondary workers are used in an HO cluster, they must be configured using secondary_worker_flexible_config (not secondary_worker_config). */
+  secondaryWorkerFlexibleConfig?: FlexibleInstanceGroupConfig | undefined;
+  /** Optional. A Cloud Storage bucket used to store ephemeral cluster and jobs data, such as Spark and MapReduce history files. If you do not specify a temp bucket, the service will determine a Cloud Storage location (US, ASIA, or EU) for your cluster's temp bucket according to the Compute Engine zone where your cluster is deployed, and then create and manage this project-level, per-location bucket. The default bucket has a TTL of 90 days, but you can use any TTL (or none) if you specify a bucket (see staging and temp buckets (https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/staging-bucket)). This field requires a Cloud Storage bucket name, not a gs://... URI to a Cloud Storage bucket. */
+  tempBucket?: string | undefined;
+  /** Optional. A Cloud Storage bucket used to stage job dependencies, config files, and job driver console output. If you do not specify a staging bucket, the service will determine a Cloud Storage location (US, ASIA, or EU) for your cluster's staging bucket according to the Compute Engine zone where your cluster is deployed, and then create and manage this project-level, per-location bucket (see staging and temp buckets (https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/staging-bucket)). This field requires a Cloud Storage bucket name, not a gs://... URI to a Cloud Storage bucket. */
+  configBucket?: string | undefined;
   /** Optional. The config for metrics. */
   dataprocMetricConfig?: DataprocMetricConfig | undefined;
+  /** Optional. Encryption settings for the cluster. */
+  encryptionConfig?: EncryptionConfig | undefined;
+  /** Optional. The Compute Engine config settings for a cluster's secondary worker instances */
+  secondaryWorkerConfig?: InstanceGroupConfig | undefined;
+  /** Optional. The High Obtainability (HO) config settings for the cluster's worker instances.In High Obtainability (HO) mode, flexible configs are the single source of truth for desired cluster configuration. num_instances represents the desired capacity of the worker group and is mutable via cluster updates and autoscaling.Only one of worker_config or worker_flexible_config can be set.In High Obtainability (HO) mode, for multi-node (standard) clusters, both master_flexible_config and worker_flexible_config must be specified. Mixing standard and flexible configs across node groups is not allowed. Single-node clusters do not specify worker configs. */
+  workerFlexibleConfig?: FlexibleInstanceGroupConfig | undefined;
+  /** Optional. Metastore configuration. */
+  metastoreConfig?: MetastoreConfig | undefined;
+  /** Optional. The High Obtainability (HO) config settings for the cluster's master instances.In High Obtainability (HO) mode, flexible configs are the single source of truth for desired cluster configuration across node groups: * For single-node clusters: master_flexible_config must be specified, and no worker configs should be set. * For multi-node (standard) clusters: both master_flexible_config and worker_flexible_config must be specified. Mixing standard and flexible configs across node groups is not allowed.Only one of master_config or master_flexible_config can be set. */
+  masterFlexibleConfig?: FlexibleInstanceGroupConfig | undefined;
+  /** Optional. The cluster engine. */
+  engine?: ClusterConfigEngineEnum | (string & {}) | undefined;
+  /** Optional. Lifecycle setting for the cluster. */
+  lifecycleConfig?: LifecycleConfig | undefined;
+  /** Optional. Security settings for the cluster. */
+  securityConfig?: SecurityConfig | undefined;
+  /** Optional. Port/endpoint configuration for this cluster */
+  endpointConfig?: EndpointConfig | undefined;
+  /** Optional. The cluster tier. */
+  clusterTier?: ClusterConfigClusterTierEnum | (string & {}) | undefined;
+  /** Optional. The Compute Engine config settings for the cluster's worker instances. */
+  workerConfig?: InstanceGroupConfig | undefined;
+  /** Optional. The config settings for cluster software. */
+  softwareConfig?: SoftwareConfig | undefined;
   /** Optional. The type of the cluster. */
   clusterType?: ClusterConfigClusterTypeEnum | (string & {}) | undefined;
+  /** Optional. The shared Compute Engine config settings for all instances in a cluster. */
+  gceClusterConfig?: GceClusterConfig | undefined;
+  /** Optional. The Compute Engine config settings for the cluster's master instance. */
+  masterConfig?: InstanceGroupConfig | undefined;
 }
 /** Cluster that is managed by the workflow. */
 export interface ManagedCluster {
   /** Optional. The labels to associate with this cluster.Label keys must be between 1 and 63 characters long, and must conform to the following PCRE regular expression: \p{Ll}\p{Lo}{0,62}Label values must be between 1 and 63 characters long, and must conform to the following PCRE regular expression: \p{Ll}\p{Lo}\p{N}_-{0,63}No more than 32 labels can be associated with a given cluster. */
   labels?: StringMap | undefined;
-  /** Required. The cluster name prefix. A unique cluster name will be formed by appending a random suffix.The name must contain only lower-case letters (a-z), numbers (0-9), and hyphens (-). Must begin with a letter. Cannot begin or end with hyphen. Must consist of between 2 and 35 characters. */
-  clusterName?: string | undefined;
   /** Required. The cluster configuration. */
   config?: ClusterConfig | undefined;
+  /** Required. The cluster name prefix. A unique cluster name will be formed by appending a random suffix.The name must contain only lower-case letters (a-z), numbers (0-9), and hyphens (-). Must begin with a letter. Cannot begin or end with hyphen. Must consist of between 2 and 35 characters. */
+  clusterName?: string | undefined;
 }
 /** A selector that chooses target cluster for jobs based on metadata. */
 export interface ClusterSelector {
-  /** Optional. The zone where workflow process executes. This parameter does not affect the selection of the cluster.If unspecified, the zone of the first cluster matching the selector is used. */
-  zone?: string | undefined;
   /** Required. The cluster labels. Cluster must have all labels to match. */
   clusterLabels?: StringMap | undefined;
+  /** Optional. The zone where workflow process executes. This parameter does not affect the selection of the cluster.If unspecified, the zone of the first cluster matching the selector is used. */
+  zone?: string | undefined;
 }
 /** Specifies workflow execution target.Either managed_cluster or cluster_selector is required. */
 export interface WorkflowTemplatePlacement {
@@ -2431,27 +2434,27 @@ export interface WorkflowTemplatePlacement {
 }
 /** A Dataproc workflow template resource. */
 export interface WorkflowTemplate {
-  /** Optional. Template parameters whose values are substituted into the template. Values for parameters must be provided when the template is instantiated. */
-  parameters?: TemplateParameterList | undefined;
-  id?: string | undefined;
-  /** Optional. The labels to associate with this template. These labels will be propagated to all jobs and clusters created by the workflow instance.Label keys must contain 1 to 63 characters, and must conform to RFC 1035 (https://www.ietf.org/rfc/rfc1035.txt).Label values may be empty, but, if present, must contain 1 to 63 characters, and must conform to RFC 1035 (https://www.ietf.org/rfc/rfc1035.txt).No more than 32 labels can be associated with a template. */
-  labels?: StringMap | undefined;
   /** Output only. The time template was last updated. */
   updateTime?: string | undefined;
-  /** Optional. Used to perform a consistent read-modify-write.This field should be left blank for a CreateWorkflowTemplate request. It is required for an UpdateWorkflowTemplate request, and must match the current server version. A typical update template flow would fetch the current template with a GetWorkflowTemplate request, which will return the current template with the version field filled in with the current server version. The user updates other fields in the template, then returns it as part of the UpdateWorkflowTemplate request. */
-  version?: number | undefined;
-  /** Optional. Timeout duration for the DAG of jobs, expressed in seconds (see JSON representation of duration (https://developers.google.com/protocol-buffers/docs/proto3#json)). The timeout duration must be from 10 minutes ("600s") to 24 hours ("86400s"). The timer begins when the first job is submitted. If the workflow is running at the end of the timeout period, any remaining jobs are cancelled, the workflow is ended, and if the workflow was running on a managed cluster, the cluster is deleted. */
-  dagTimeout?: string | undefined;
-  /** Output only. The resource name of the workflow template, as described in https://cloud.google.com/apis/design/resource_names. For projects.regions.workflowTemplates, the resource name of the template has the following format: projects/{project_id}/regions/{region}/workflowTemplates/{template_id} For projects.locations.workflowTemplates, the resource name of the template has the following format: projects/{project_id}/locations/{location}/workflowTemplates/{template_id} */
-  name?: string | undefined;
   /** Optional. Encryption settings for encrypting workflow template job arguments. */
   encryptionConfig?: GoogleCloudDataprocV1WorkflowTemplateEncryptionConfig | undefined;
+  /** Output only. The time template was created. */
+  createTime?: string | undefined;
+  id?: string | undefined;
+  /** Optional. Template parameters whose values are substituted into the template. Values for parameters must be provided when the template is instantiated. */
+  parameters?: TemplateParameterList | undefined;
   /** Required. The Directed Acyclic Graph of Jobs to submit. */
   jobs?: OrderedJobList | undefined;
   /** Required. WorkflowTemplate scheduling information. */
   placement?: WorkflowTemplatePlacement | undefined;
-  /** Output only. The time template was created. */
-  createTime?: string | undefined;
+  /** Optional. Timeout duration for the DAG of jobs, expressed in seconds (see JSON representation of duration (https://developers.google.com/protocol-buffers/docs/proto3#json)). The timeout duration must be from 10 minutes ("600s") to 24 hours ("86400s"). The timer begins when the first job is submitted. If the workflow is running at the end of the timeout period, any remaining jobs are cancelled, the workflow is ended, and if the workflow was running on a managed cluster, the cluster is deleted. */
+  dagTimeout?: string | undefined;
+  /** Optional. The labels to associate with this template. These labels will be propagated to all jobs and clusters created by the workflow instance.Label keys must contain 1 to 63 characters, and must conform to RFC 1035 (https://www.ietf.org/rfc/rfc1035.txt).Label values may be empty, but, if present, must contain 1 to 63 characters, and must conform to RFC 1035 (https://www.ietf.org/rfc/rfc1035.txt).No more than 32 labels can be associated with a template. */
+  labels?: StringMap | undefined;
+  /** Output only. The resource name of the workflow template, as described in https://cloud.google.com/apis/design/resource_names. For projects.regions.workflowTemplates, the resource name of the template has the following format: projects/{project_id}/regions/{region}/workflowTemplates/{template_id} For projects.locations.workflowTemplates, the resource name of the template has the following format: projects/{project_id}/locations/{location}/workflowTemplates/{template_id} */
+  name?: string | undefined;
+  /** Optional. Used to perform a consistent read-modify-write.This field should be left blank for a CreateWorkflowTemplate request. It is required for an UpdateWorkflowTemplate request, and must match the current server version. A typical update template flow would fetch the current template with a GetWorkflowTemplate request, which will return the current template with the version field filled in with the current server version. The user updates other fields in the template, then returns it as part of the UpdateWorkflowTemplate request. */
+  version?: number | undefined;
 }
 export interface CreateProjectsLocationsWorkflowTemplatesRequest extends WorkflowTemplate {
   /** Required. The resource name of the region or location, as described in https://cloud.google.com/apis/design/resource_names. For projects.regions.workflowTemplates.create, the resource name of the region has the following format: projects/{project_id}/regions/{region} For projects.locations.workflowTemplates.create, the resource name of the location has the following format: projects/{project_id}/locations/{location} */
@@ -2481,29 +2484,36 @@ export type ClusterStatusStateEnum =
   | "SCHEDULED";
 /** The status of a cluster and its instances. */
 export interface ClusterStatus {
+  /** Output only. Time when this state was entered (see JSON representation of Timestamp (https://developers.google.com/protocol-buffers/docs/proto3#json)). */
+  stateStartTime?: string | undefined;
+  /** Optional. Details of cluster's state. */
+  detail?: string | undefined;
   /** Output only. Additional state information that includes status reported by the agent. */
   substate?: ClusterStatusSubstateEnum | (string & {}) | undefined;
   /** Output only. The cluster's state. */
   state?: ClusterStatusStateEnum | (string & {}) | undefined;
-  /** Optional. Details of cluster's state. */
-  detail?: string | undefined;
-  /** Output only. Time when this state was entered (see JSON representation of Timestamp (https://developers.google.com/protocol-buffers/docs/proto3#json)). */
-  stateStartTime?: string | undefined;
 }
 export type ClusterStatusList = Array<ClusterStatus>;
+/** Contains cluster daemon metrics, such as HDFS and YARN stats.Beta Feature: This report is available for testing purposes only. It may be changed before final release. */
+export interface ClusterMetrics {
+  /** The HDFS metrics. */
+  hdfsMetrics?: StringMap | undefined;
+  /** YARN metrics. */
+  yarnMetrics?: StringMap | undefined;
+}
 /** The software configuration for this Dataproc cluster running on Kubernetes. */
 export interface KubernetesSoftwareConfig {
-  /** The components that should be installed in this Dataproc cluster. The key must be a string from the KubernetesComponent enumeration. The value is the version of the software to be installed. At least one entry must be specified. */
-  componentVersion?: StringMap | undefined;
   /** The properties to set on daemon config files.Property keys are specified in prefix:property format, for example spark:spark.kubernetes.container.image. The following are supported prefixes and their mappings: spark: spark-defaults.confFor more information, see Cluster properties (https://cloud.google.com/dataproc/docs/concepts/cluster-properties). */
   properties?: StringMap | undefined;
+  /** The components that should be installed in this Dataproc cluster. The key must be a string from the KubernetesComponent enumeration. The value is the version of the software to be installed. At least one entry must be specified. */
+  componentVersion?: StringMap | undefined;
 }
 /** The configuration for running the Dataproc cluster on Kubernetes. */
 export interface KubernetesClusterConfig {
-  /** Optional. The software configuration for this Dataproc cluster running on Kubernetes. */
-  kubernetesSoftwareConfig?: KubernetesSoftwareConfig | undefined;
   /** Optional. A namespace within the Kubernetes cluster to deploy into. If this namespace does not exist, it is created. If it exists, Dataproc verifies that another Dataproc VirtualCluster is not installed into it. If not specified, the name of the Dataproc Cluster is used. */
   kubernetesNamespace?: string | undefined;
+  /** Optional. The software configuration for this Dataproc cluster running on Kubernetes. */
+  kubernetesSoftwareConfig?: KubernetesSoftwareConfig | undefined;
   /** Required. The configuration for running the Dataproc cluster on GKE. */
   gkeClusterConfig?: GkeClusterConfig | undefined;
 }
@@ -2523,56 +2533,49 @@ export interface VirtualClusterConfig {
   /** Optional. Configuration of auxiliary services used by this cluster. */
   auxiliaryServicesConfig?: AuxiliaryServicesConfig | undefined;
 }
-/** Contains cluster daemon metrics, such as HDFS and YARN stats.Beta Feature: This report is available for testing purposes only. It may be changed before final release. */
-export interface ClusterMetrics {
-  /** The HDFS metrics. */
-  hdfsMetrics?: StringMap | undefined;
-  /** YARN metrics. */
-  yarnMetrics?: StringMap | undefined;
-}
 /** Describes the identifying information, config, and status of a cluster */
 export interface Cluster {
-  /** Output only. Cluster status. */
-  status?: ClusterStatus | undefined;
-  /** Output only. The previous cluster status. */
-  statusHistory?: ClusterStatusList | undefined;
-  /** Optional. The labels to associate with this cluster. Label keys must contain 1 to 63 characters, and must conform to RFC 1035 (https://www.ietf.org/rfc/rfc1035.txt). Label values may be empty, but, if present, must contain 1 to 63 characters, and must conform to RFC 1035 (https://www.ietf.org/rfc/rfc1035.txt). No more than 32 labels can be associated with a cluster. */
-  labels?: StringMap | undefined;
-  /** Optional. The cluster config for a cluster of Compute Engine Instances. Note that the service may set default values, and values may change when clusters are updated.Exactly one of ClusterConfig or VirtualClusterConfig must be specified. */
-  config?: ClusterConfig | undefined;
-  /** Optional. The virtual cluster config is used when creating a cluster that does not directly control the underlying compute resources, for example, when creating a GKE cluster (https://cloud.google.com/dataproc/docs/guides/dpgke/dataproc-gke-overview). the service may set default values, and values may change when clusters are updated. Exactly one of config or virtual_cluster_config must be specified. */
-  virtualClusterConfig?: VirtualClusterConfig | undefined;
-  /** Output only. Contains cluster daemon metrics such as HDFS and YARN stats.Beta Feature: This report is available for testing purposes only. It may be changed before final release. */
-  metrics?: ClusterMetrics | undefined;
-  /** Required. The Google Cloud Platform project ID that the cluster belongs to. */
-  projectId?: string | undefined;
   /** Output only. A cluster UUID (Unique Universal Identifier). The service generates this value when it creates the cluster. */
   clusterUuid?: string | undefined;
+  /** Output only. The previous cluster status. */
+  statusHistory?: ClusterStatusList | undefined;
+  /** Optional. The cluster config for a cluster of Compute Engine Instances. Note that the service may set default values, and values may change when clusters are updated.Exactly one of ClusterConfig or VirtualClusterConfig must be specified. */
+  config?: ClusterConfig | undefined;
+  /** Output only. Contains cluster daemon metrics such as HDFS and YARN stats.Beta Feature: This report is available for testing purposes only. It may be changed before final release. */
+  metrics?: ClusterMetrics | undefined;
+  /** Optional. The virtual cluster config is used when creating a cluster that does not directly control the underlying compute resources, for example, when creating a GKE cluster (https://cloud.google.com/dataproc/docs/guides/dpgke/dataproc-gke-overview). the service may set default values, and values may change when clusters are updated. Exactly one of config or virtual_cluster_config must be specified. */
+  virtualClusterConfig?: VirtualClusterConfig | undefined;
   /** Required. The cluster name, which must be unique within a project. The name must start with a lowercase letter, and can contain up to 51 lowercase letters, numbers, and hyphens. It cannot end with a hyphen. The name of a deleted cluster can be reused. */
   clusterName?: string | undefined;
+  /** Output only. Cluster status. */
+  status?: ClusterStatus | undefined;
+  /** Required. The Google Cloud Platform project ID that the cluster belongs to. */
+  projectId?: string | undefined;
+  /** Optional. The labels to associate with this cluster. Label keys must contain 1 to 63 characters, and must conform to RFC 1035 (https://www.ietf.org/rfc/rfc1035.txt). Label values may be empty, but, if present, must contain 1 to 63 characters, and must conform to RFC 1035 (https://www.ietf.org/rfc/rfc1035.txt). No more than 32 labels can be associated with a cluster. */
+  labels?: StringMap | undefined;
 }
 export interface CreateProjectsRegionsClustersRequest extends Omit<Cluster, "projectId"> {
-  /** Required. The ID of the Google Cloud Platform project that the cluster belongs to. */
-  projectId: string;
   /** Required. The region in which to handle the request. */
   region: string;
+  /** Optional. A unique ID used to identify the request. If the server receives two CreateClusterRequest (https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#google.cloud.dataproc.v1.CreateClusterRequest)s with the same id, then the second request will be ignored and the first google.longrunning.Operation created and stored in the backend is returned.It is recommended to always set this value to a UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier).The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
+  requestId?: string | undefined;
   /** Optional. Failure action when primary worker creation fails. */
   actionOnFailedPrimaryWorkers?:
     | CreateProjectsRegionsClustersActionOnFailedPrimaryWorkersEnum
     | (string & {})
     | undefined;
-  /** Optional. A unique ID used to identify the request. If the server receives two CreateClusterRequest (https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#google.cloud.dataproc.v1.CreateClusterRequest)s with the same id, then the second request will be ignored and the first google.longrunning.Operation created and stored in the backend is returned.It is recommended to always set this value to a UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier).The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
-  requestId?: string | undefined;
+  /** Required. The ID of the Google Cloud Platform project that the cluster belongs to. */
+  projectId: string;
 }
 export interface CreateProjectsRegionsClustersNodeGroupsRequest extends NodeGroup {
-  /** Optional. A unique ID used to identify the request. If the server receives two CreateNodeGroupRequest (https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#google.cloud.dataproc.v1.CreateNodeGroupRequest) with the same ID, the second request is ignored and the first google.longrunning.Operation created and stored in the backend is returned.Recommendation: Set this value to a UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier).The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
-  requestId?: string | undefined;
-  /** Optional. An optional node group ID. Generated if not specified.The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). Cannot begin or end with underscore or hyphen. Must consist of from 3 to 33 characters. */
-  nodeGroupId?: string | undefined;
-  /** Optional. operation id of the parent operation sending the create request */
-  parentOperationId?: string | undefined;
   /** Required. The parent resource where this node group will be created. Format: projects/{project}/regions/{region}/clusters/{cluster} */
   parent: string;
+  /** Optional. An optional node group ID. Generated if not specified.The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). Cannot begin or end with underscore or hyphen. Must consist of from 3 to 33 characters. */
+  nodeGroupId?: string | undefined;
+  /** Optional. A unique ID used to identify the request. If the server receives two CreateNodeGroupRequest (https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#google.cloud.dataproc.v1.CreateNodeGroupRequest) with the same ID, the second request is ignored and the first google.longrunning.Operation created and stored in the backend is returned.Recommendation: Set this value to a UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier).The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
+  requestId?: string | undefined;
+  /** Optional. operation id of the parent operation sending the create request */
+  parentOperationId?: string | undefined;
 }
 export interface CreateProjectsRegionsWorkflowTemplatesRequest extends WorkflowTemplate {
   /** Required. The resource name of the region or location, as described in https://cloud.google.com/apis/design/resource_names. For projects.regions.workflowTemplates.create, the resource name of the region has the following format: projects/{project_id}/regions/{region} For projects.locations.workflowTemplates.create, the resource name of the location has the following format: projects/{project_id}/locations/{location} */
@@ -2611,36 +2614,36 @@ export interface DeleteProjectsRegionsAutoscalingPoliciesRequest {
   name: string;
 }
 export interface DeleteProjectsRegionsClustersRequest {
-  /** Required. The cluster name. */
-  clusterName: string;
-  /** Required. The region in which to handle the request. */
-  region: string;
-  /** Optional. Specifying the cluster_uuid means the RPC should fail (with error NOT_FOUND) if cluster with specified UUID does not exist. */
-  clusterUuid?: string | undefined;
-  /** Required. The ID of the Google Cloud Platform project that the cluster belongs to. */
-  projectId: string;
   /** Optional. A unique ID used to identify the request. If the server receives two DeleteClusterRequest (https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#google.cloud.dataproc.v1.DeleteClusterRequest)s with the same id, then the second request will be ignored and the first google.longrunning.Operation created and stored in the backend is returned.It is recommended to always set this value to a UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier).The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
   requestId?: string | undefined;
+  /** Required. The ID of the Google Cloud Platform project that the cluster belongs to. */
+  projectId: string;
+  /** Required. The region in which to handle the request. */
+  region: string;
+  /** Required. The cluster name. */
+  clusterName: string;
+  /** Optional. Specifying the cluster_uuid means the RPC should fail (with error NOT_FOUND) if cluster with specified UUID does not exist. */
+  clusterUuid?: string | undefined;
   /** Optional. The graceful termination timeout for the deletion of the cluster. Indicate the time the request will wait to complete the running jobs on the cluster before its forceful deletion. Default value is 0 indicating that the user has not enabled the graceful termination. Value can be between 60 second and 6 Hours, in case the graceful termination is enabled. (There is no separate flag to check the enabling or disabling of graceful termination, it can be checked by the values in the field). */
   gracefulTerminationTimeout?: string | undefined;
 }
 export interface DeleteProjectsRegionsJobsRequest {
   /** Required. The Dataproc region in which to handle the request. */
   region: string;
-  /** Required. The ID of the Google Cloud Platform project that the job belongs to. */
-  projectId: string;
   /** Required. The job ID. */
   jobId: string;
+  /** Required. The ID of the Google Cloud Platform project that the job belongs to. */
+  projectId: string;
 }
 export interface DeleteProjectsRegionsOperationsRequest {
   /** The name of the operation resource to be deleted. */
   name: string;
 }
 export interface DeleteProjectsRegionsWorkflowTemplatesRequest {
-  /** Optional. The version of workflow template to delete. If specified, will only delete the template if the current server version matches specified version. */
-  version?: number | undefined;
   /** Required. The resource name of the workflow template, as described in https://cloud.google.com/apis/design/resource_names. For projects.regions.workflowTemplates.delete, the resource name of the template has the following format: projects/{project_id}/regions/{region}/workflowTemplates/{template_id} For projects.locations.workflowTemplates.instantiate, the resource name of the template has the following format: projects/{project_id}/locations/{location}/workflowTemplates/{template_id} */
   name: string;
+  /** Optional. The version of workflow template to delete. If specified, will only delete the template if the current server version matches specified version. */
+  version?: number | undefined;
 }
 /** Represents a time interval, encoded as a Timestamp start (inclusive) and a Timestamp end (exclusive).The start must be less than or equal to the end. When the start equals the end, the interval is empty (matches no time). When both start and end are unspecified, the interval matches any time. */
 export interface Interval {
@@ -2655,28 +2658,28 @@ export type DiagnoseClusterRequestTarballAccessEnum =
   | "GOOGLE_DATAPROC_DIAGNOSE";
 /** A request to collect cluster diagnostic information. */
 export interface DiagnoseClusterRequest {
-  /** Optional. Specifies a list of jobs on which diagnosis is to be performed. Format: projects/{project}/regions/{region}/jobs/{job} */
-  jobs?: StringList | undefined;
   /** Optional. Time interval in which diagnosis should be carried out on the cluster. */
   diagnosisInterval?: Interval | undefined;
-  /** Optional. DEPRECATED Specifies the yarn application on which diagnosis is to be performed. */
-  yarnApplicationId?: string | undefined;
-  /** Optional. Specifies a list of yarn applications on which diagnosis is to be performed. */
-  yarnApplicationIds?: StringList | undefined;
-  /** Optional. (Optional) The access type to the diagnostic tarball. If not specified, falls back to default access of the bucket */
-  tarballAccess?: DiagnoseClusterRequestTarballAccessEnum | (string & {}) | undefined;
-  /** Optional. (Optional) The output Cloud Storage directory for the diagnostic tarball. If not specified, a task-specific directory in the cluster's staging bucket will be used. */
-  tarballGcsDir?: string | undefined;
+  /** Optional. Specifies a list of jobs on which diagnosis is to be performed. Format: projects/{project}/regions/{region}/jobs/{job} */
+  jobs?: StringList | undefined;
   /** Optional. DEPRECATED Specifies the job on which diagnosis is to be performed. Format: projects/{project}/regions/{region}/jobs/{job} */
   job?: string | undefined;
+  /** Optional. DEPRECATED Specifies the yarn application on which diagnosis is to be performed. */
+  yarnApplicationId?: string | undefined;
+  /** Optional. (Optional) The access type to the diagnostic tarball. If not specified, falls back to default access of the bucket */
+  tarballAccess?: DiagnoseClusterRequestTarballAccessEnum | (string & {}) | undefined;
+  /** Optional. Specifies a list of yarn applications on which diagnosis is to be performed. */
+  yarnApplicationIds?: StringList | undefined;
+  /** Optional. (Optional) The output Cloud Storage directory for the diagnostic tarball. If not specified, a task-specific directory in the cluster's staging bucket will be used. */
+  tarballGcsDir?: string | undefined;
 }
 export interface DiagnoseProjectsRegionsClustersRequest extends DiagnoseClusterRequest {
-  /** Required. The ID of the Google Cloud Platform project that the cluster belongs to. */
-  projectId: string;
   /** Required. The cluster name. */
   clusterName: string;
   /** Required. The region in which to handle the request. */
   region: string;
+  /** Required. The ID of the Google Cloud Platform project that the cluster belongs to. */
+  projectId: string;
 }
 /** Encapsulates settings provided to GetIamPolicy. */
 export interface GetPolicyOptions {
@@ -2694,33 +2697,33 @@ export interface GetIamPolicyProjectsLocationsAutoscalingPoliciesRequest extends
 }
 /** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec.Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
 export interface Expr {
-  /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
-  location?: string | undefined;
-  /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
-  title?: string | undefined;
-  /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
-  description?: string | undefined;
   /** Textual representation of an expression in Common Expression Language syntax. */
   expression?: string | undefined;
+  /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
+  location?: string | undefined;
+  /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
+  description?: string | undefined;
+  /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
+  title?: string | undefined;
 }
 /** Associates members, or principals, with a role. */
 export interface Binding {
   /** Specifies the principals requesting access for a Google Cloud resource. members can have the following values: allUsers: A special identifier that represents anyone who is on the internet; with or without a Google account. allAuthenticatedUsers: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. user:{emailid}: An email address that represents a specific Google account. For example, alice@example.com . serviceAccount:{emailid}: An email address that represents a Google service account. For example, my-other-app@appspot.gserviceaccount.com. serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]: An identifier for a Kubernetes service account (https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, my-project.svc.id.goog[my-namespace/my-kubernetes-sa]. group:{emailid}: An email address that represents a Google group. For example, admins@example.com. domain:{domain}: The G Suite domain (primary) that represents all the users of that domain. For example, google.com or example.com. principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}: A single identity in a workforce identity pool. principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}: All workforce identities in a group. principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}: All workforce identities with a specific attribute value. principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*: All identities in a workforce identity pool. principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}: A single identity in a workload identity pool. principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}: A workload identity pool group. principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}: All identities in a workload identity pool with a certain attribute. principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*: All identities in a workload identity pool. deleted:user:{emailid}?uid={uniqueid}: An email address (plus unique identifier) representing a user that has been recently deleted. For example, alice@example.com?uid=123456789012345678901. If the user is recovered, this value reverts to user:{emailid} and the recovered user retains the role in the binding. deleted:serviceAccount:{emailid}?uid={uniqueid}: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901. If the service account is undeleted, this value reverts to serviceAccount:{emailid} and the undeleted service account retains the role in the binding. deleted:group:{emailid}?uid={uniqueid}: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, admins@example.com?uid=123456789012345678901. If the group is recovered, this value reverts to group:{emailid} and the recovered group retains the role in the binding. deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}: Deleted single identity in a workforce identity pool. For example, deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value. */
   members?: StringList | undefined;
-  /** The condition that is associated with this binding.If the condition evaluates to true, then this binding applies to the current request.If the condition evaluates to false, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding.To learn which resources support conditions in their IAM policies, see the IAM documentation (https://cloud.google.com/iam/help/conditions/resource-policies). */
-  condition?: Expr | undefined;
   /** Role that is assigned to the list of members, or principals. For example, roles/viewer, roles/editor, or roles/owner.For an overview of the IAM roles and permissions, see the IAM documentation (https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see here (https://cloud.google.com/iam/docs/understanding-roles). */
   role?: string | undefined;
+  /** The condition that is associated with this binding.If the condition evaluates to true, then this binding applies to the current request.If the condition evaluates to false, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding.To learn which resources support conditions in their IAM policies, see the IAM documentation (https://cloud.google.com/iam/help/conditions/resource-policies). */
+  condition?: Expr | undefined;
 }
 export type BindingList = Array<Binding>;
 /** An Identity and Access Management (IAM) policy, which specifies access controls for Google Cloud resources.A Policy is a collection of bindings. A binding binds one or more members, or principals, to a single role. Principals can be user accounts, service accounts, Google groups, and domains (such as G Suite). A role is a named list of permissions; each role can be an IAM predefined role or a user-created custom role.For some types of Google Cloud resources, a binding can also specify a condition, which is a logical expression that allows access to a resource only if the expression evaluates to true. A condition can add constraints based on attributes of the request, the resource, or both. To learn which resources support conditions in their IAM policies, see the IAM documentation (https://cloud.google.com/iam/help/conditions/resource-policies).JSON example: { "bindings": [ { "role": "roles/resourcemanager.organizationAdmin", "members": [ "user:mike@example.com", "group:admins@example.com", "domain:google.com", "serviceAccount:my-project-id@appspot.gserviceaccount.com" ] }, { "role": "roles/resourcemanager.organizationViewer", "members": [ "user:eve@example.com" ], "condition": { "title": "expirable access", "description": "Does not grant access after Sep 2020", "expression": "request.time < timestamp('2020-10-01T00:00:00.000Z')", } } ], "etag": "BwWWja0YfJA=", "version": 3 } YAML example: bindings: - members: - user:mike@example.com - group:admins@example.com - domain:google.com - serviceAccount:my-project-id@appspot.gserviceaccount.com role: roles/resourcemanager.organizationAdmin - members: - user:eve@example.com role: roles/resourcemanager.organizationViewer condition: title: expirable access description: Does not grant access after Sep 2020 expression: request.time < timestamp('2020-10-01T00:00:00.000Z') etag: BwWWja0YfJA= version: 3 For a description of IAM and its features, see the IAM documentation (https://cloud.google.com/iam/docs/). */
 export interface Policy {
-  /** Associates a list of members, or principals, with a role. Optionally, may specify a condition that determines how and when the bindings are applied. Each of the bindings must contain at least one principal.The bindings in a Policy can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the bindings grant 50 different roles to user:alice@example.com, and not to any other principal, then you can add another 1,450 principals to the bindings in the Policy. */
-  bindings?: BindingList | undefined;
-  /** etag is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the etag in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An etag is returned in the response to getIamPolicy, and systems are expected to put that etag in the request to setIamPolicy to ensure that their change will be applied to the same version of the policy.Important: If you use IAM Conditions, you must include the etag field whenever you call setIamPolicy. If you omit this field, then IAM allows you to overwrite a version 3 policy with a version 1 policy, and all of the conditions in the version 3 policy are lost. */
-  etag?: string | undefined;
   /** Specifies the format of the policy.Valid values are 0, 1, and 3. Requests that specify an invalid value are rejected.Any operation that affects conditional role bindings must specify version 3. This requirement applies to the following operations: Getting a policy that includes a conditional role binding Adding a conditional role binding to a policy Changing a conditional role binding in a policy Removing any role binding, with or without a condition, from a policy that includes conditionsImportant: If you use IAM Conditions, you must include the etag field whenever you call setIamPolicy. If you omit this field, then IAM allows you to overwrite a version 3 policy with a version 1 policy, and all of the conditions in the version 3 policy are lost.If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset.To learn which resources support conditions in their IAM policies, see the IAM documentation (https://cloud.google.com/iam/help/conditions/resource-policies). */
   version?: number | undefined;
+  /** etag is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the etag in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An etag is returned in the response to getIamPolicy, and systems are expected to put that etag in the request to setIamPolicy to ensure that their change will be applied to the same version of the policy.Important: If you use IAM Conditions, you must include the etag field whenever you call setIamPolicy. If you omit this field, then IAM allows you to overwrite a version 3 policy with a version 1 policy, and all of the conditions in the version 3 policy are lost. */
+  etag?: string | undefined;
+  /** Associates a list of members, or principals, with a role. Optionally, may specify a condition that determines how and when the bindings are applied. Each of the bindings must contain at least one principal.The bindings in a Policy can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the bindings grant 50 different roles to user:alice@example.com, and not to any other principal, then you can add another 1,450 principals to the bindings in the Policy. */
+  bindings?: BindingList | undefined;
 }
 export interface GetIamPolicyProjectsLocationsWorkflowTemplatesRequest extends GetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
@@ -2767,10 +2770,10 @@ export interface GetProjectsLocationsSessionTemplatesRequest {
   name: string;
 }
 export interface GetProjectsLocationsWorkflowTemplatesRequest {
-  /** Optional. The version of workflow template to retrieve. Only previously instantiated versions can be retrieved.If unspecified, retrieves the current version. */
-  version?: number | undefined;
   /** Required. The resource name of the workflow template, as described in https://cloud.google.com/apis/design/resource_names. For projects.regions.workflowTemplates.get, the resource name of the template has the following format: projects/{project_id}/regions/{region}/workflowTemplates/{template_id} For projects.locations.workflowTemplates.get, the resource name of the template has the following format: projects/{project_id}/locations/{location}/workflowTemplates/{template_id} */
   name: string;
+  /** Optional. The version of workflow template to retrieve. Only previously instantiated versions can be retrieved.If unspecified, retrieves the current version. */
+  version?: number | undefined;
 }
 export interface GetProjectsRegionsAutoscalingPoliciesRequest {
   /** Required. The "resource name" of the autoscaling policy, as described in https://cloud.google.com/apis/design/resource_names. For projects.regions.autoscalingPolicies.get, the resource name of the policy has the following format: projects/{project_id}/regions/{region}/autoscalingPolicies/{policy_id} For projects.locations.autoscalingPolicies.get, the resource name of the policy has the following format: projects/{project_id}/locations/{location}/autoscalingPolicies/{policy_id} */
@@ -2828,19 +2831,19 @@ export interface InstantiateInlineProjectsLocationsWorkflowTemplatesRequest exte
   requestId?: string | undefined;
 }
 export interface InstantiateInlineProjectsRegionsWorkflowTemplatesRequest extends WorkflowTemplate {
-  /** Optional. A tag that prevents multiple concurrent workflow instances with the same tag from running. This mitigates risk of concurrent instances started due to retries.It is recommended to always set this value to a UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier).The tag must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
-  requestId?: string | undefined;
   /** Required. The resource name of the region or location, as described in https://cloud.google.com/apis/design/resource_names. For projects.regions.workflowTemplates,instantiateinline, the resource name of the region has the following format: projects/{project_id}/regions/{region} For projects.locations.workflowTemplates.instantiateinline, the resource name of the location has the following format: projects/{project_id}/locations/{location} */
   parent: string;
+  /** Optional. A tag that prevents multiple concurrent workflow instances with the same tag from running. This mitigates risk of concurrent instances started due to retries.It is recommended to always set this value to a UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier).The tag must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
+  requestId?: string | undefined;
 }
 /** A request to instantiate a workflow template. */
 export interface InstantiateWorkflowTemplateRequest {
-  /** Optional. Map from parameter names to values that should be used for those parameters. Values may not exceed 1000 characters. */
-  parameters?: StringMap | undefined;
   /** Optional. A tag that prevents multiple concurrent workflow instances with the same tag from running. This mitigates risk of concurrent instances started due to retries.It is recommended to always set this value to a UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier).The tag must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
   requestId?: string | undefined;
   /** Optional. The version of workflow template to instantiate. If specified, the workflow will be instantiated only if the current version of the workflow template has the supplied version.This option cannot be used to instantiate a previous version of workflow template. */
   version?: number | undefined;
+  /** Optional. Map from parameter names to values that should be used for those parameters. Values may not exceed 1000 characters. */
+  parameters?: StringMap | undefined;
 }
 export interface InstantiateProjectsLocationsWorkflowTemplatesRequest extends InstantiateWorkflowTemplateRequest {
   /** Required. The resource name of the workflow template, as described in https://cloud.google.com/apis/design/resource_names. For projects.regions.workflowTemplates.instantiate, the resource name of the template has the following format: projects/{project_id}/regions/{region}/workflowTemplates/{template_id} For projects.locations.workflowTemplates.instantiate, the resource name of the template has the following format: projects/{project_id}/locations/{location}/workflowTemplates/{template_id} */
@@ -2851,20 +2854,20 @@ export interface InstantiateProjectsRegionsWorkflowTemplatesRequest extends Inst
   name: string;
 }
 export interface ListProjectsLocationsAutoscalingPoliciesRequest {
-  /** Required. The "resource name" of the region or location, as described in https://cloud.google.com/apis/design/resource_names. For projects.regions.autoscalingPolicies.list, the resource name of the region has the following format: projects/{project_id}/regions/{region} For projects.locations.autoscalingPolicies.list, the resource name of the location has the following format: projects/{project_id}/locations/{location} */
-  parent: string;
   /** Optional. The maximum number of results to return in each response. Must be less than or equal to 1000. Defaults to 100. */
   pageSize?: number | undefined;
+  /** Required. The "resource name" of the region or location, as described in https://cloud.google.com/apis/design/resource_names. For projects.regions.autoscalingPolicies.list, the resource name of the region has the following format: projects/{project_id}/regions/{region} For projects.locations.autoscalingPolicies.list, the resource name of the location has the following format: projects/{project_id}/locations/{location} */
+  parent: string;
   /** Optional. The page token, returned by a previous call, to request the next page of results. */
   pageToken?: string | undefined;
 }
 export type AutoscalingPolicyList = Array<AutoscalingPolicy>;
 /** A response to a request to list autoscaling policies in a project. */
 export interface ListAutoscalingPoliciesResponse {
-  /** Output only. Autoscaling policies list. */
-  policies?: AutoscalingPolicyList | undefined;
   /** Output only. This token is included in the response if there are more results to fetch. */
   nextPageToken?: string | undefined;
+  /** Output only. Autoscaling policies list. */
+  policies?: AutoscalingPolicyList | undefined;
 }
 export interface ListProjectsLocationsBatchesRequest {
   /** Optional. The maximum number of batches to return in each response. The service may return fewer than this value. The default page size is 20; the maximum page size is 1000. */
@@ -2873,70 +2876,70 @@ export interface ListProjectsLocationsBatchesRequest {
   orderBy?: string | undefined;
   /** Optional. A filter for the batches to return in the response.A filter is a logical expression constraining the values of various fields in each batch resource. Filters are case sensitive, and may contain multiple clauses combined with logical operators (AND/OR). Supported fields: * batch_id * batch_uuid * state * create_time * labels * runtime_info.cohort_info.cohort e.g. state = RUNNING and create_time < "2023-01-01T00:00:00Z" filters for batches in state RUNNING that were created before 2023-01-01. state = RUNNING and labels.environment=production filters for batches in state in a RUNNING state that have a production environment label.See https://google.aip.dev/assets/misc/ebnf-filtering.txt for a detailed description of the filter syntax and a list of supported comparisons. */
   filter?: string | undefined;
-  /** Required. The parent, which owns this collection of batches. */
-  parent: string;
   /** Optional. A page token received from a previous ListBatches call. Provide this token to retrieve the subsequent page. */
   pageToken?: string | undefined;
+  /** Required. The parent, which owns this collection of batches. */
+  parent: string;
 }
 export type BatchList = Array<Batch>;
 /** A list of batch workloads. */
 export interface ListBatchesResponse {
-  /** Output only. List of Batches that could not be included in the response. Attempting to get one of these resources may indicate why it was not included in the list response. */
-  unreachable?: StringList | undefined;
   /** Output only. The batches from the specified collection. */
   batches?: BatchList | undefined;
+  /** Output only. List of Batches that could not be included in the response. Attempting to get one of these resources may indicate why it was not included in the list response. */
+  unreachable?: StringList | undefined;
   /** A token, which can be sent as page_token to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsOperationsRequest {
+  /** When set to true, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field.This can only be true when reading across collections. For example, when parent is set to "projects/example/locations/-".This field is not supported by default and will result in an UNIMPLEMENTED error if set unless explicitly documented otherwise in service or product specific documentation. */
+  returnPartialSuccess?: boolean | undefined;
+  /** The standard list filter. */
+  filter?: string | undefined;
   /** The name of the operation's parent resource. */
   name: string;
   /** The standard list page token. */
   pageToken?: string | undefined;
-  /** The standard list filter. */
-  filter?: string | undefined;
-  /** When set to true, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field.This can only be true when reading across collections. For example, when parent is set to "projects/example/locations/-".This field is not supported by default and will result in an UNIMPLEMENTED error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean | undefined;
   /** The standard list page size. */
   pageSize?: number | undefined;
 }
 export type OperationList = Array<Operation>;
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
-  /** A list of operations that matches the specified filter in the request. */
-  operations?: OperationList | undefined;
   /** Unordered list. Unreachable resources. Populated when the request sets ListOperationsRequest.return_partial_success and reads across collections. For example, when attempting to list all resources across all supported locations. */
   unreachable?: StringList | undefined;
   /** The standard List next-page token. */
   nextPageToken?: string | undefined;
+  /** A list of operations that matches the specified filter in the request. */
+  operations?: OperationList | undefined;
 }
 export interface ListProjectsLocationsSessionsRequest {
+  /** Optional. A filter for the sessions to return in the response.A filter is a logical expression constraining the values of various fields in each session resource. Filters are case sensitive, and may contain multiple clauses combined with logical operators (AND, OR). Supported fields are session_id, session_uuid, state, create_time, and labels.Example: state = ACTIVE and create_time < "2023-01-01T00:00:00Z" is a filter for sessions in an ACTIVE state that were created before 2023-01-01. state = ACTIVE and labels.environment=production is a filter for sessions in an ACTIVE state that have a production environment label.See https://google.aip.dev/assets/misc/ebnf-filtering.txt for a detailed description of the filter syntax and a list of supported comparators. */
+  filter?: string | undefined;
+  /** Optional. The maximum number of sessions to return in each response. The service may return fewer than this value. */
+  pageSize?: number | undefined;
   /** Required. The parent, which owns this collection of sessions. */
   parent: string;
   /** Optional. A page token received from a previous ListSessions call. Provide this token to retrieve the subsequent page. */
   pageToken?: string | undefined;
-  /** Optional. The maximum number of sessions to return in each response. The service may return fewer than this value. */
-  pageSize?: number | undefined;
-  /** Optional. A filter for the sessions to return in the response.A filter is a logical expression constraining the values of various fields in each session resource. Filters are case sensitive, and may contain multiple clauses combined with logical operators (AND, OR). Supported fields are session_id, session_uuid, state, create_time, and labels.Example: state = ACTIVE and create_time < "2023-01-01T00:00:00Z" is a filter for sessions in an ACTIVE state that were created before 2023-01-01. state = ACTIVE and labels.environment=production is a filter for sessions in an ACTIVE state that have a production environment label.See https://google.aip.dev/assets/misc/ebnf-filtering.txt for a detailed description of the filter syntax and a list of supported comparators. */
-  filter?: string | undefined;
 }
 export type SessionList = Array<Session>;
 /** A list of interactive sessions. */
 export interface ListSessionsResponse {
-  /** A token, which can be sent as page_token, to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string | undefined;
   /** Output only. The sessions from the specified collection. */
   sessions?: SessionList | undefined;
+  /** A token, which can be sent as page_token, to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsSessionTemplatesRequest {
+  /** Required. The parent that owns this collection of session templates. */
+  parent: string;
   /** Optional. The maximum number of sessions to return in each response. The service may return fewer than this value. */
   pageSize?: number | undefined;
   /** Optional. A filter for the session templates to return in the response. Filters are case sensitive and have the following syntax:field = value AND field = value ... */
   filter?: string | undefined;
   /** Optional. A page token received from a previous ListSessions call. Provide this token to retrieve the subsequent page. */
   pageToken?: string | undefined;
-  /** Required. The parent that owns this collection of session templates. */
-  parent: string;
 }
 export type SessionTemplateList = Array<SessionTemplate>;
 /** A list of session templates. */
@@ -2965,49 +2968,49 @@ export interface ListWorkflowTemplatesResponse {
   unreachable?: StringList | undefined;
 }
 export interface ListProjectsRegionsAutoscalingPoliciesRequest {
-  /** Optional. The maximum number of results to return in each response. Must be less than or equal to 1000. Defaults to 100. */
-  pageSize?: number | undefined;
-  /** Required. The "resource name" of the region or location, as described in https://cloud.google.com/apis/design/resource_names. For projects.regions.autoscalingPolicies.list, the resource name of the region has the following format: projects/{project_id}/regions/{region} For projects.locations.autoscalingPolicies.list, the resource name of the location has the following format: projects/{project_id}/locations/{location} */
-  parent: string;
   /** Optional. The page token, returned by a previous call, to request the next page of results. */
   pageToken?: string | undefined;
+  /** Required. The "resource name" of the region or location, as described in https://cloud.google.com/apis/design/resource_names. For projects.regions.autoscalingPolicies.list, the resource name of the region has the following format: projects/{project_id}/regions/{region} For projects.locations.autoscalingPolicies.list, the resource name of the location has the following format: projects/{project_id}/locations/{location} */
+  parent: string;
+  /** Optional. The maximum number of results to return in each response. Must be less than or equal to 1000. Defaults to 100. */
+  pageSize?: number | undefined;
 }
 export interface ListProjectsRegionsClustersRequest {
-  /** Required. The ID of the Google Cloud Platform project that the cluster belongs to. */
-  projectId: string;
-  /** Optional. A page token received from a previous ListClusters call. Provide this token to retrieve the subsequent page. */
-  pageToken?: string | undefined;
-  /** Optional. A filter constraining the clusters to list. Filters are case-sensitive and have the following syntax:field = value AND field = value ...where field is one of status.state, clusterName, or labels.[KEY], and [KEY] is a label key. value can be "*" to match all values. status.state can be one of the following: ACTIVE, INACTIVE, CREATING, RUNNING, ERROR, DELETING, UPDATING, STOPPING, or STOPPED. ACTIVE contains the CREATING, UPDATING, and RUNNING states. INACTIVE contains the DELETING, ERROR, STOPPING, and STOPPED states. clusterName is the name of the cluster provided at creation time. Only the logical AND operator is supported; space-separated items are treated as having an implicit AND operator.Example filter:status.state = ACTIVE AND clusterName = mycluster AND labels.env = staging AND labels.starred = * */
-  filter?: string | undefined;
-  /** Required. The region in which to handle the request. */
-  region: string;
   /** Optional. The maximum number of clusters to return in each response. The service may return fewer than this value. If unspecified, the default value is 200. The maximum value is 1000. */
   pageSize?: number | undefined;
+  /** Optional. A page token received from a previous ListClusters call. Provide this token to retrieve the subsequent page. */
+  pageToken?: string | undefined;
+  /** Required. The ID of the Google Cloud Platform project that the cluster belongs to. */
+  projectId: string;
+  /** Required. The region in which to handle the request. */
+  region: string;
+  /** Optional. A filter constraining the clusters to list. Filters are case-sensitive and have the following syntax:field = value AND field = value ...where field is one of status.state, clusterName, or labels.[KEY], and [KEY] is a label key. value can be "*" to match all values. status.state can be one of the following: ACTIVE, INACTIVE, CREATING, RUNNING, ERROR, DELETING, UPDATING, STOPPING, or STOPPED. ACTIVE contains the CREATING, UPDATING, and RUNNING states. INACTIVE contains the DELETING, ERROR, STOPPING, and STOPPED states. clusterName is the name of the cluster provided at creation time. Only the logical AND operator is supported; space-separated items are treated as having an implicit AND operator.Example filter:status.state = ACTIVE AND clusterName = mycluster AND labels.env = staging AND labels.starred = * */
+  filter?: string | undefined;
 }
 export type ClusterList = Array<Cluster>;
 /** The list of all clusters in a project. */
 export interface ListClustersResponse {
-  /** Output only. The clusters in the project. */
-  clusters?: ClusterList | undefined;
   /** Output only. This token is included in the response if there are more results to fetch. To fetch additional results, provide this value as the page_token in a subsequent ListClustersRequest. */
   nextPageToken?: string | undefined;
+  /** Output only. The clusters in the project. */
+  clusters?: ClusterList | undefined;
 }
 export type ListProjectsRegionsJobsJobStateMatcherEnum = "ALL" | "ACTIVE" | "NON_ACTIVE";
 export interface ListProjectsRegionsJobsRequest {
-  /** Required. The ID of the Google Cloud Platform project that the job belongs to. */
-  projectId: string;
-  /** Optional. The page token, returned by a previous call, to request the next page of results. */
-  pageToken?: string | undefined;
-  /** Optional. The number of results to return in each response. */
-  pageSize?: number | undefined;
-  /** Optional. If set, the returned jobs list includes only jobs that were submitted to the named cluster. */
-  clusterName?: string | undefined;
   /** Optional. A filter constraining the jobs to list. Filters are case-sensitive and have the following syntax:field = value AND field = value ...where field is status.state or insertTime, or labels.[KEY], and [KEY] is a label key. value can be * to match all values. status.state can be either ACTIVE or NON_ACTIVE. Allows insertTime to be a timestamp in RFC 3339 format in double quotes, such as 2025-01-01T00:00:00Z. Only the logical AND operator is supported; space-separated items are treated as having an implicit AND operator.Example filter:status.state = ACTIVE AND labels.env = staging AND labels.starred = * AND insertTime <= "2025-01-01T00:00:00Z" */
   filter?: string | undefined;
+  /** Required. The ID of the Google Cloud Platform project that the job belongs to. */
+  projectId: string;
   /** Required. The Dataproc region in which to handle the request. */
   region: string;
+  /** Optional. The page token, returned by a previous call, to request the next page of results. */
+  pageToken?: string | undefined;
+  /** Optional. If set, the returned jobs list includes only jobs that were submitted to the named cluster. */
+  clusterName?: string | undefined;
   /** Optional. Specifies enumerated categories of jobs to list. (default = match ALL jobs).If filter is provided, jobStateMatcher will be ignored. */
   jobStateMatcher?: ListProjectsRegionsJobsJobStateMatcherEnum | (string & {}) | undefined;
+  /** Optional. The number of results to return in each response. */
+  pageSize?: number | undefined;
 }
 export type JobList = Array<Job>;
 /** A list of jobs in a project. */
@@ -3020,24 +3023,24 @@ export interface ListJobsResponse {
   jobs?: JobList | undefined;
 }
 export interface ListProjectsRegionsOperationsRequest {
-  /** When set to true, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field.This can only be true when reading across collections. For example, when parent is set to "projects/example/locations/-".This field is not supported by default and will result in an UNIMPLEMENTED error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean | undefined;
-  /** The standard list page size. */
-  pageSize?: number | undefined;
   /** The standard list filter. */
   filter?: string | undefined;
-  /** The standard list page token. */
-  pageToken?: string | undefined;
+  /** When set to true, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field.This can only be true when reading across collections. For example, when parent is set to "projects/example/locations/-".This field is not supported by default and will result in an UNIMPLEMENTED error if set unless explicitly documented otherwise in service or product specific documentation. */
+  returnPartialSuccess?: boolean | undefined;
   /** The name of the operation's parent resource. */
   name: string;
+  /** The standard list page size. */
+  pageSize?: number | undefined;
+  /** The standard list page token. */
+  pageToken?: string | undefined;
 }
 export interface ListProjectsRegionsWorkflowTemplatesRequest {
-  /** Optional. The maximum number of results to return in each response. */
-  pageSize?: number | undefined;
-  /** Required. The resource name of the region or location, as described in https://cloud.google.com/apis/design/resource_names. For projects.regions.workflowTemplates,list, the resource name of the region has the following format: projects/{project_id}/regions/{region} For projects.locations.workflowTemplates.list, the resource name of the location has the following format: projects/{project_id}/locations/{location} */
-  parent: string;
   /** Optional. The page token, returned by a previous call, to request the next page of results. */
   pageToken?: string | undefined;
+  /** Required. The resource name of the region or location, as described in https://cloud.google.com/apis/design/resource_names. For projects.regions.workflowTemplates,list, the resource name of the region has the following format: projects/{project_id}/regions/{region} For projects.locations.workflowTemplates.list, the resource name of the location has the following format: projects/{project_id}/locations/{location} */
+  parent: string;
+  /** Optional. The maximum number of results to return in each response. */
+  pageSize?: number | undefined;
 }
 export interface PatchProjectsLocationsSessionTemplatesRequest extends Omit<
   SessionTemplate,
@@ -3048,31 +3051,42 @@ export interface PatchProjectsLocationsSessionTemplatesRequest extends Omit<
 }
 export interface PatchProjectsRegionsClustersRequest extends Omit<
   Cluster,
-  "projectId" | "clusterName"
+  "clusterName" | "projectId"
 > {
-  /** Required. The ID of the Google Cloud Platform project the cluster belongs to. */
-  projectId: string;
-  /** Required. The region in which to handle the request. */
-  region: string;
-  /** Required. Specifies the path, relative to Cluster, of the field to update. For example, to change the number of workers in a cluster to 5, the update_mask parameter would be specified as config.worker_config.num_instances, and the PATCH request body would specify the new value, as follows: { "config":{ "workerConfig":{ "numInstances":"5" } } } Similarly, to change the number of preemptible workers in a cluster to 5, the update_mask parameter would be config.secondary_worker_config.num_instances, and the PATCH request body would be set as follows: { "config":{ "secondaryWorkerConfig":{ "numInstances":"5" } } } *Note:* Currently, only the following fields can be updated: *Mask* *Purpose* *labels* Update labels *config.worker_config.num_instances* Resize primary worker group *config.secondary_worker_config.num_instances* Resize secondary worker group config.autoscaling_config.policy_uri Use, stop using, or change autoscaling policies */
-  updateMask?: string | undefined;
   /** Optional. A unique ID used to identify the request. If the server receives two UpdateClusterRequest (https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#google.cloud.dataproc.v1.UpdateClusterRequest)s with the same id, then the second request will be ignored and the first google.longrunning.Operation created and stored in the backend is returned.It is recommended to always set this value to a UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier).The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
   requestId?: string | undefined;
   /** Optional. Timeout for graceful YARN decommissioning. Graceful decommissioning allows removing nodes from the cluster without interrupting jobs in progress. Timeout specifies how long to wait for jobs in progress to finish before forcefully removing nodes (and potentially interrupting jobs). Default timeout is 0 (for forceful decommission), and the maximum allowed timeout is 1 day. (see JSON representation of Duration (https://developers.google.com/protocol-buffers/docs/proto3#json)).Supported in image versions 1.2 and higher. */
   gracefulDecommissionTimeout?: string | undefined;
+  /** Required. The ID of the Google Cloud Platform project the cluster belongs to. */
+  projectId: string;
+  /** Required. Specifies the path, relative to Cluster, of the field to update. For example, to change the number of workers in a cluster to 5, the update_mask parameter would be specified as config.worker_config.num_instances, and the PATCH request body would specify the new value, as follows: { "config":{ "workerConfig":{ "numInstances":"5" } } } Similarly, to change the number of preemptible workers in a cluster to 5, the update_mask parameter would be config.secondary_worker_config.num_instances, and the PATCH request body would be set as follows: { "config":{ "secondaryWorkerConfig":{ "numInstances":"5" } } } *Note:* Currently, only the following fields can be updated: *Mask* *Purpose* *labels* Update labels *config.worker_config.num_instances* Resize primary worker group *config.secondary_worker_config.num_instances* Resize secondary worker group config.autoscaling_config.policy_uri Use, stop using, or change autoscaling policies */
+  updateMask?: string | undefined;
   /** Required. The cluster name. */
   clusterName: string;
-}
-export interface PatchProjectsRegionsJobsRequest extends Job {
-  /** Required. Specifies the path, relative to Job, of the field to update. For example, to update the labels of a Job the update_mask parameter would be specified as labels, and the PATCH request body would specify the new value. *Note:* Currently, labels is the only field that can be updated. */
-  updateMask?: string | undefined;
-  /** Required. The job ID. */
-  jobId: string;
-  /** Required. The ID of the Google Cloud Platform project that the job belongs to. */
-  projectId: string;
-  /** Required. The Dataproc region in which to handle the request. */
+  /** Required. The region in which to handle the request. */
   region: string;
 }
+export interface PatchProjectsRegionsJobsRequest extends Job {
+  /** Required. The job ID. */
+  jobId: string;
+  /** Required. The Dataproc region in which to handle the request. */
+  region: string;
+  /** Required. Specifies the path, relative to Job, of the field to update. For example, to update the labels of a Job the update_mask parameter would be specified as labels, and the PATCH request body would specify the new value. *Note:* Currently, labels is the only field that can be updated. */
+  updateMask?: string | undefined;
+  /** Required. The ID of the Google Cloud Platform project that the job belongs to. */
+  projectId: string;
+}
+export type NodePoolRepairActionEnum = "REPAIR_ACTION_UNSPECIFIED" | "DELETE";
+/** indicating a list of workers of same type */
+export interface NodePool {
+  /** Required. A unique id of the node pool. Primary and Secondary workers can be specified using special reserved ids PRIMARY_WORKER_POOL and SECONDARY_WORKER_POOL respectively. Aux node pools can be referenced using corresponding pool id. */
+  id?: string | undefined;
+  /** Required. Repair action to take on specified resources of the node pool. */
+  repairAction?: NodePoolRepairActionEnum | (string & {}) | undefined;
+  /** Name of instances to be repaired. These instances must belong to specified node pool. */
+  instanceNames?: StringList | undefined;
+}
+export type NodePoolList = Array<NodePool>;
 export type ClusterToRepairClusterRepairActionEnum =
   | "CLUSTER_REPAIR_ACTION_UNSPECIFIED"
   | "REPAIR_ERROR_DUE_TO_UPDATE_CLUSTER";
@@ -3081,41 +3095,30 @@ export interface ClusterToRepair {
   /** Required. Repair action to take on the cluster resource. */
   clusterRepairAction?: ClusterToRepairClusterRepairActionEnum | (string & {}) | undefined;
 }
-export type NodePoolRepairActionEnum = "REPAIR_ACTION_UNSPECIFIED" | "DELETE";
-/** indicating a list of workers of same type */
-export interface NodePool {
-  /** Required. Repair action to take on specified resources of the node pool. */
-  repairAction?: NodePoolRepairActionEnum | (string & {}) | undefined;
-  /** Name of instances to be repaired. These instances must belong to specified node pool. */
-  instanceNames?: StringList | undefined;
-  /** Required. A unique id of the node pool. Primary and Secondary workers can be specified using special reserved ids PRIMARY_WORKER_POOL and SECONDARY_WORKER_POOL respectively. Aux node pools can be referenced using corresponding pool id. */
-  id?: string | undefined;
-}
-export type NodePoolList = Array<NodePool>;
 /** A request to repair a cluster. */
 export interface RepairClusterRequest {
-  /** Optional. Whether the request is submitted by a super user. If true, IAM will check 'dataproc.clusters.repair' permission instead of 'dataproc.clusters.update' permission. This is to give Dataproc superuser the ability to repair clusters without granting the overly broad update permission. */
-  dataprocSuperUser?: boolean | undefined;
-  /** Optional. Cluster to be repaired */
-  cluster?: ClusterToRepair | undefined;
-  /** Optional. Timeout for graceful YARN decommissioning. Graceful decommissioning facilitates the removal of cluster nodes without interrupting jobs in progress. The timeout specifies the amount of time to wait for jobs finish before forcefully removing nodes. The default timeout is 0 for forceful decommissioning, and the maximum timeout period is 1 day. (see JSON Mapping--Duration (https://developers.google.com/protocol-buffers/docs/proto3#json)).graceful_decommission_timeout is supported in image versions 1.2+. */
-  gracefulDecommissionTimeout?: string | undefined;
-  /** Optional. A unique ID used to identify the request. If the server receives two RepairClusterRequests with the same ID, the second request is ignored, and the first google.longrunning.Operation created and stored in the backend is returned.Recommendation: Set this value to a UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier).The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
-  requestId?: string | undefined;
-  /** Optional. operation id of the parent operation sending the repair request */
-  parentOperationId?: string | undefined;
-  /** Optional. Specifying the cluster_uuid means the RPC will fail (with error NOT_FOUND) if a cluster with the specified UUID does not exist. */
-  clusterUuid?: string | undefined;
   /** Optional. Node pools and corresponding repair action to be taken. All node pools should be unique in this request. i.e. Multiple entries for the same node pool id are not allowed. */
   nodePools?: NodePoolList | undefined;
+  /** Optional. Whether the request is submitted by a super user. If true, IAM will check 'dataproc.clusters.repair' permission instead of 'dataproc.clusters.update' permission. This is to give Dataproc superuser the ability to repair clusters without granting the overly broad update permission. */
+  dataprocSuperUser?: boolean | undefined;
+  /** Optional. Timeout for graceful YARN decommissioning. Graceful decommissioning facilitates the removal of cluster nodes without interrupting jobs in progress. The timeout specifies the amount of time to wait for jobs finish before forcefully removing nodes. The default timeout is 0 for forceful decommissioning, and the maximum timeout period is 1 day. (see JSON Mapping--Duration (https://developers.google.com/protocol-buffers/docs/proto3#json)).graceful_decommission_timeout is supported in image versions 1.2+. */
+  gracefulDecommissionTimeout?: string | undefined;
+  /** Optional. operation id of the parent operation sending the repair request */
+  parentOperationId?: string | undefined;
+  /** Optional. A unique ID used to identify the request. If the server receives two RepairClusterRequests with the same ID, the second request is ignored, and the first google.longrunning.Operation created and stored in the backend is returned.Recommendation: Set this value to a UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier).The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
+  requestId?: string | undefined;
+  /** Optional. Specifying the cluster_uuid means the RPC will fail (with error NOT_FOUND) if a cluster with the specified UUID does not exist. */
+  clusterUuid?: string | undefined;
+  /** Optional. Cluster to be repaired */
+  cluster?: ClusterToRepair | undefined;
 }
 export interface RepairProjectsRegionsClustersRequest extends RepairClusterRequest {
-  /** Required. The cluster name. */
-  clusterName: string;
-  /** Required. The region in which to handle the request. */
-  region: string;
   /** Required. The ID of the Google Cloud Platform project the cluster belongs to. */
   projectId: string;
+  /** Required. The region in which to handle the request. */
+  region: string;
+  /** Required. The cluster name. */
+  clusterName: string;
 }
 export type RepairNodeGroupRequestRepairActionEnum = "REPAIR_ACTION_UNSPECIFIED" | "REPLACE";
 export interface RepairNodeGroupRequest {
@@ -3134,12 +3137,12 @@ export interface RepairProjectsRegionsClustersNodeGroupsRequest extends RepairNo
 export interface ResizeNodeGroupRequest {
   /** Optional. A unique ID used to identify the request. If the server receives two ResizeNodeGroupRequest (https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#google.cloud.dataproc.v1.ResizeNodeGroupRequests) with the same ID, the second request is ignored and the first google.longrunning.Operation created and stored in the backend is returned.Recommendation: Set this value to a UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier).The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
   requestId?: string | undefined;
-  /** Optional. operation id of the parent operation sending the resize request */
-  parentOperationId?: string | undefined;
-  /** Required. The number of running instances for the node group to maintain. The group adds or removes instances to maintain the number of instances specified by this parameter. */
-  size?: number | undefined;
   /** Optional. Timeout for graceful YARN decommissioning. Graceful decommissioning (https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/scaling-clusters#graceful_decommissioning) allows the removal of nodes from the Compute Engine node group without interrupting jobs in progress. This timeout specifies how long to wait for jobs in progress to finish before forcefully removing nodes (and potentially interrupting jobs). Default timeout is 0 (for forceful decommission), and the maximum allowed timeout is 1 day. (see JSON representation of Duration (https://developers.google.com/protocol-buffers/docs/proto3#json)).Only supported on Dataproc image versions 1.2 and higher. */
   gracefulDecommissionTimeout?: string | undefined;
+  /** Required. The number of running instances for the node group to maintain. The group adds or removes instances to maintain the number of instances specified by this parameter. */
+  size?: number | undefined;
+  /** Optional. operation id of the parent operation sending the resize request */
+  parentOperationId?: string | undefined;
 }
 export interface ResizeProjectsRegionsClustersNodeGroupsRequest extends ResizeNodeGroupRequest {
   /** Required. The name of the node group to resize. Format: projects/{project}/regions/{region}/clusters/{cluster}/nodeGroups/{nodeGroup} */
@@ -3150,19 +3153,19 @@ export type SearchExecutorsProjectsLocationsBatchesSparkApplicationsExecutorStat
   | "EXECUTOR_STATUS_ACTIVE"
   | "EXECUTOR_STATUS_DEAD";
 export interface SearchExecutorsProjectsLocationsBatchesSparkApplicationsRequest {
+  /** Optional. Maximum number of executors to return in each response. The service may return fewer than this. The default page size is 10; the maximum page size is 100. */
+  pageSize?: number | undefined;
+  /** Optional. A page token received from a previous AccessSparkApplicationExecutorsList call. Provide this token to retrieve the subsequent page. */
+  pageToken?: string | undefined;
   /** Optional. Filter to select whether active/ dead or all executors should be selected. */
   executorStatus?:
     | SearchExecutorsProjectsLocationsBatchesSparkApplicationsExecutorStatusEnum
     | (string & {})
     | undefined;
-  /** Required. The fully qualified name of the batch to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/batches/BATCH_ID/sparkApplications/APPLICATION_ID" */
-  name: string;
-  /** Optional. Maximum number of executors to return in each response. The service may return fewer than this. The default page size is 10; the maximum page size is 100. */
-  pageSize?: number | undefined;
   /** Required. Parent (Batch) resource reference. */
   parent?: string | undefined;
-  /** Optional. A page token received from a previous AccessSparkApplicationExecutorsList call. Provide this token to retrieve the subsequent page. */
-  pageToken?: string | undefined;
+  /** Required. The fully qualified name of the batch to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/batches/BATCH_ID/sparkApplications/APPLICATION_ID" */
+  name: string;
 }
 export interface ResourceInformation {
   addresses?: StringList | undefined;
@@ -3170,42 +3173,42 @@ export interface ResourceInformation {
 }
 export type ResourceInformationMap = { [key: string]: ResourceInformation | undefined };
 export interface MemoryMetrics {
-  usedOnHeapStorageMemory?: string | undefined;
-  usedOffHeapStorageMemory?: string | undefined;
   totalOnHeapStorageMemory?: string | undefined;
+  usedOffHeapStorageMemory?: string | undefined;
   totalOffHeapStorageMemory?: string | undefined;
+  usedOnHeapStorageMemory?: string | undefined;
 }
 /** Details about executors used by the application. */
 export interface ExecutorSummary {
-  attributes?: StringMap | undefined;
-  resources?: ResourceInformationMap | undefined;
-  completedTasks?: number | undefined;
-  totalInputBytes?: string | undefined;
-  totalCores?: number | undefined;
-  maxMemory?: string | undefined;
-  diskUsed?: string | undefined;
-  totalShuffleWrite?: string | undefined;
-  removeReason?: string | undefined;
-  executorLogs?: StringMap | undefined;
-  peakMemoryMetrics?: ExecutorMetrics | undefined;
-  excludedInStages?: StringList | undefined;
-  totalDurationMillis?: string | undefined;
-  maxTasks?: number | undefined;
-  executorId?: string | undefined;
-  rddBlocks?: number | undefined;
-  failedTasks?: number | undefined;
-  memoryMetrics?: MemoryMetrics | undefined;
-  resourceProfileId?: number | undefined;
-  activeTasks?: number | undefined;
-  totalGcTimeMillis?: string | undefined;
-  totalShuffleRead?: string | undefined;
-  totalTasks?: number | undefined;
-  hostPort?: string | undefined;
   isActive?: boolean | undefined;
-  isExcluded?: boolean | undefined;
+  totalInputBytes?: string | undefined;
+  rddBlocks?: number | undefined;
   addTime?: string | undefined;
+  activeTasks?: number | undefined;
+  peakMemoryMetrics?: ExecutorMetrics | undefined;
+  removeReason?: string | undefined;
+  totalShuffleRead?: string | undefined;
+  excludedInStages?: StringList | undefined;
+  attributes?: StringMap | undefined;
+  failedTasks?: number | undefined;
+  hostPort?: string | undefined;
+  resourceProfileId?: number | undefined;
+  diskUsed?: string | undefined;
+  executorId?: string | undefined;
   memoryUsed?: string | undefined;
+  totalCores?: number | undefined;
+  maxTasks?: number | undefined;
+  completedTasks?: number | undefined;
+  totalShuffleWrite?: string | undefined;
+  executorLogs?: StringMap | undefined;
+  resources?: ResourceInformationMap | undefined;
+  totalTasks?: number | undefined;
+  memoryMetrics?: MemoryMetrics | undefined;
+  maxMemory?: string | undefined;
+  isExcluded?: boolean | undefined;
+  totalGcTimeMillis?: string | undefined;
   removeTime?: string | undefined;
+  totalDurationMillis?: string | undefined;
 }
 export type ExecutorSummaryList = Array<ExecutorSummary>;
 /** List of Executors associated with a Spark Application. */
@@ -3220,19 +3223,19 @@ export type SearchExecutorsProjectsLocationsSessionsSparkApplicationsExecutorSta
   | "EXECUTOR_STATUS_ACTIVE"
   | "EXECUTOR_STATUS_DEAD";
 export interface SearchExecutorsProjectsLocationsSessionsSparkApplicationsRequest {
-  /** Optional. A page token received from a previous SearchSessionSparkApplicationExecutors call. Provide this token to retrieve the subsequent page. */
-  pageToken?: string | undefined;
+  /** Optional. Maximum number of executors to return in each response. The service may return fewer than this. The default page size is 10; the maximum page size is 100. */
+  pageSize?: number | undefined;
   /** Required. Parent (Session) resource reference. */
   parent?: string | undefined;
   /** Required. The fully qualified name of the session to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/sessions/SESSION_ID/sparkApplications/APPLICATION_ID" */
   name: string;
+  /** Optional. A page token received from a previous SearchSessionSparkApplicationExecutors call. Provide this token to retrieve the subsequent page. */
+  pageToken?: string | undefined;
   /** Optional. Filter to select whether active/ dead or all executors should be selected. */
   executorStatus?:
     | SearchExecutorsProjectsLocationsSessionsSparkApplicationsExecutorStatusEnum
     | (string & {})
     | undefined;
-  /** Optional. Maximum number of executors to return in each response. The service may return fewer than this. The default page size is 10; the maximum page size is 100. */
-  pageSize?: number | undefined;
 }
 /** List of Executors associated with a Spark Application. */
 export interface SearchSessionSparkApplicationExecutorsResponse {
@@ -3242,18 +3245,18 @@ export interface SearchSessionSparkApplicationExecutorsResponse {
   nextPageToken?: string | undefined;
 }
 export interface SearchExecutorStageSummaryProjectsLocationsBatchesSparkApplicationsRequest {
+  /** Optional. Maximum number of executors to return in each response. The service may return fewer than this. The default page size is 10; the maximum page size is 100. */
+  pageSize?: number | undefined;
+  /** Required. Parent (Batch) resource reference. */
+  parent?: string | undefined;
+  /** Optional. A page token received from a previous AccessSparkApplicationExecutorsList call. Provide this token to retrieve the subsequent page. */
+  pageToken?: string | undefined;
   /** Required. Stage ID */
   stageId?: string | undefined;
   /** Required. Stage Attempt ID */
   stageAttemptId?: number | undefined;
-  /** Optional. A page token received from a previous AccessSparkApplicationExecutorsList call. Provide this token to retrieve the subsequent page. */
-  pageToken?: string | undefined;
   /** Required. The fully qualified name of the batch to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/batches/BATCH_ID/sparkApplications/APPLICATION_ID" */
   name: string;
-  /** Required. Parent (Batch) resource reference. */
-  parent?: string | undefined;
-  /** Optional. Maximum number of executors to return in each response. The service may return fewer than this. The default page size is 10; the maximum page size is 100. */
-  pageSize?: number | undefined;
 }
 export type ExecutorStageSummaryList = Array<ExecutorStageSummary>;
 /** List of Executors associated with a Spark Application Stage. */
@@ -3264,14 +3267,14 @@ export interface SearchSparkApplicationExecutorStageSummaryResponse {
   nextPageToken?: string | undefined;
 }
 export interface SearchExecutorStageSummaryProjectsLocationsSessionsSparkApplicationsRequest {
-  /** Required. The fully qualified name of the session to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/sessions/SESSION_ID/sparkApplications/APPLICATION_ID" */
-  name: string;
-  /** Optional. Maximum number of executors to return in each response. The service may return fewer than this. The default page size is 10; the maximum page size is 100. */
-  pageSize?: number | undefined;
   /** Required. Stage Attempt ID */
   stageAttemptId?: number | undefined;
   /** Required. Parent (Session) resource reference. */
   parent?: string | undefined;
+  /** Required. The fully qualified name of the session to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/sessions/SESSION_ID/sparkApplications/APPLICATION_ID" */
+  name: string;
+  /** Optional. Maximum number of executors to return in each response. The service may return fewer than this. The default page size is 10; the maximum page size is 100. */
+  pageSize?: number | undefined;
   /** Required. Stage ID */
   stageId?: string | undefined;
   /** Optional. A page token received from a previous SearchSessionSparkApplicationExecutorStageSummary call. Provide this token to retrieve the subsequent page. */
@@ -3279,10 +3282,10 @@ export interface SearchExecutorStageSummaryProjectsLocationsSessionsSparkApplica
 }
 /** List of Executors associated with a Spark Application Stage. */
 export interface SearchSessionSparkApplicationExecutorStageSummaryResponse {
-  /** Details about executors used by the application stage. */
-  sparkApplicationStageExecutors?: ExecutorStageSummaryList | undefined;
   /** This token is included in the response if there are more results to fetch. To fetch additional results, provide this value as the page_token in a subsequent SearchSessionSparkApplicationExecutorStageSummaryRequest. */
   nextPageToken?: string | undefined;
+  /** Details about executors used by the application stage. */
+  sparkApplicationStageExecutors?: ExecutorStageSummaryList | undefined;
 }
 export type SearchJobsProjectsLocationsBatchesSparkApplicationsJobStatusEnum =
   | "JOB_EXECUTION_STATUS_UNSPECIFIED"
@@ -3291,10 +3294,8 @@ export type SearchJobsProjectsLocationsBatchesSparkApplicationsJobStatusEnum =
   | "JOB_EXECUTION_STATUS_FAILED"
   | "JOB_EXECUTION_STATUS_UNKNOWN";
 export interface SearchJobsProjectsLocationsBatchesSparkApplicationsRequest {
-  /** Optional. A page token received from a previous SearchSparkApplicationJobs call. Provide this token to retrieve the subsequent page. */
-  pageToken?: string | undefined;
-  /** Optional. Maximum number of jobs to return in each response. The service may return fewer than this. The default page size is 10; the maximum page size is 100. */
-  pageSize?: number | undefined;
+  /** Required. The fully qualified name of the batch to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/batches/BATCH_ID/sparkApplications/APPLICATION_ID" */
+  name: string;
   /** Optional. List only jobs in the specific state. */
   jobStatus?:
     | SearchJobsProjectsLocationsBatchesSparkApplicationsJobStatusEnum
@@ -3302,16 +3303,18 @@ export interface SearchJobsProjectsLocationsBatchesSparkApplicationsRequest {
     | undefined;
   /** Required. Parent (Batch) resource reference. */
   parent?: string | undefined;
-  /** Required. The fully qualified name of the batch to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/batches/BATCH_ID/sparkApplications/APPLICATION_ID" */
-  name: string;
+  /** Optional. A page token received from a previous SearchSparkApplicationJobs call. Provide this token to retrieve the subsequent page. */
+  pageToken?: string | undefined;
+  /** Optional. Maximum number of jobs to return in each response. The service may return fewer than this. The default page size is 10; the maximum page size is 100. */
+  pageSize?: number | undefined;
 }
 export type JobDataList = Array<JobData>;
 /** A list of Jobs associated with a Spark Application. */
 export interface SearchSparkApplicationJobsResponse {
-  /** This token is included in the response if there are more results to fetch. To fetch additional results, provide this value as the page_token in a subsequent SearchSparkApplicationJobsRequest. */
-  nextPageToken?: string | undefined;
   /** Output only. Data corresponding to a spark job. */
   sparkApplicationJobs?: JobDataList | undefined;
+  /** This token is included in the response if there are more results to fetch. To fetch additional results, provide this value as the page_token in a subsequent SearchSparkApplicationJobsRequest. */
+  nextPageToken?: string | undefined;
 }
 export type SearchJobsProjectsLocationsSessionsSparkApplicationsJobStatusEnum =
   | "JOB_EXECUTION_STATUS_UNSPECIFIED"
@@ -3320,8 +3323,10 @@ export type SearchJobsProjectsLocationsSessionsSparkApplicationsJobStatusEnum =
   | "JOB_EXECUTION_STATUS_FAILED"
   | "JOB_EXECUTION_STATUS_UNKNOWN";
 export interface SearchJobsProjectsLocationsSessionsSparkApplicationsRequest {
-  /** Optional. Maximum number of jobs to return in each response. The service may return fewer than this. The default page size is 10; the maximum page size is 100. */
-  pageSize?: number | undefined;
+  /** Required. The fully qualified name of the session to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/sessions/SESSION_ID/sparkApplications/APPLICATION_ID" */
+  name: string;
+  /** Required. Parent (Session) resource reference. */
+  parent?: string | undefined;
   /** Optional. List only jobs in the specific state. */
   jobStatus?:
     | SearchJobsProjectsLocationsSessionsSparkApplicationsJobStatusEnum
@@ -3329,12 +3334,10 @@ export interface SearchJobsProjectsLocationsSessionsSparkApplicationsRequest {
     | undefined;
   /** Optional. A page token received from a previous SearchSessionSparkApplicationJobs call. Provide this token to retrieve the subsequent page. */
   pageToken?: string | undefined;
-  /** Required. The fully qualified name of the session to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/sessions/SESSION_ID/sparkApplications/APPLICATION_ID" */
-  name: string;
-  /** Required. Parent (Session) resource reference. */
-  parent?: string | undefined;
   /** Optional. List of Job IDs to filter by if provided. */
   jobIds?: StringList | undefined;
+  /** Optional. Maximum number of jobs to return in each response. The service may return fewer than this. The default page size is 10; the maximum page size is 100. */
+  pageSize?: number | undefined;
 }
 /** A list of Jobs associated with a Spark Application. */
 export interface SearchSessionSparkApplicationJobsResponse {
@@ -3344,14 +3347,14 @@ export interface SearchSessionSparkApplicationJobsResponse {
   nextPageToken?: string | undefined;
 }
 export interface SearchNativeSqlQueriesProjectsLocationsBatchesSparkApplicationsRequest {
-  /** Optional. A page token received from a previous SearchSparkApplicationNativeSqlQueries call. Provide this token to retrieve the subsequent page. */
-  pageToken?: string | undefined;
   /** Optional. Maximum number of queries to return in each response. The service may return fewer than this. The default page size is 10; the maximum page size is 100. */
   pageSize?: number | undefined;
-  /** Required. The fully qualified name of the batch to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/batches/BATCH_ID/sparkApplications/APPLICATION_ID" */
-  name: string;
+  /** Optional. A page token received from a previous SearchSparkApplicationNativeSqlQueries call. Provide this token to retrieve the subsequent page. */
+  pageToken?: string | undefined;
   /** Required. Parent (Batch) resource reference. */
   parent?: string | undefined;
+  /** Required. The fully qualified name of the batch to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/batches/BATCH_ID/sparkApplications/APPLICATION_ID" */
+  name: string;
 }
 export type NativeSqlExecutionUiDataList = Array<NativeSqlExecutionUiData>;
 /** List of all Native SQL queries details for a Spark Application. */
@@ -3362,129 +3365,129 @@ export interface SearchSparkApplicationNativeSqlQueriesResponse {
   nextPageToken?: string | undefined;
 }
 export interface SearchNativeSqlQueriesProjectsLocationsSessionsSparkApplicationsRequest {
-  /** Optional. A page token received from a previous SearchSessionSparkApplicationSqlQueries call. Provide this token to retrieve the subsequent page. */
-  pageToken?: string | undefined;
   /** Required. Parent (Session) resource reference. */
   parent?: string | undefined;
   /** Required. The fully qualified name of the session to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/sessions/SESSION_ID/sparkApplications/APPLICATION_ID" */
   name: string;
   /** Optional. Maximum number of queries to return in each response. The service may return fewer than this. The default page size is 10; the maximum page size is 100. */
   pageSize?: number | undefined;
+  /** Optional. A page token received from a previous SearchSessionSparkApplicationSqlQueries call. Provide this token to retrieve the subsequent page. */
+  pageToken?: string | undefined;
 }
 /** List of all Native queries for a Spark Application. */
 export interface SearchSessionSparkApplicationNativeSqlQueriesResponse {
-  /** This token is included in the response if there are more results to fetch. To fetch additional results, provide this value as the page_token in a subsequent SearchSessionSparkApplicationSqlQueriesRequest. */
-  nextPageToken?: string | undefined;
   /** Output only. Native SQL Execution Data */
   sparkApplicationNativeSqlQueries?: NativeSqlExecutionUiDataList | undefined;
+  /** This token is included in the response if there are more results to fetch. To fetch additional results, provide this value as the page_token in a subsequent SearchSessionSparkApplicationSqlQueriesRequest. */
+  nextPageToken?: string | undefined;
 }
 export type SearchProjectsLocationsBatchesSparkApplicationsApplicationStatusEnum =
   | "APPLICATION_STATUS_UNSPECIFIED"
   | "APPLICATION_STATUS_RUNNING"
   | "APPLICATION_STATUS_COMPLETED";
 export interface SearchProjectsLocationsBatchesSparkApplicationsRequest {
-  /** Optional. Maximum number of applications to return in each response. The service may return fewer than this. The default page size is 10; the maximum page size is 100. */
-  pageSize?: number | undefined;
-  /** Optional. Latest start timestamp to list. */
-  maxTime?: string | undefined;
   /** Required. The fully qualified name of the batch to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/batches/BATCH_ID" */
   parent: string;
   /** Optional. Earliest end timestamp to list. */
   minEndTime?: string | undefined;
+  /** Optional. Maximum number of applications to return in each response. The service may return fewer than this. The default page size is 10; the maximum page size is 100. */
+  pageSize?: number | undefined;
+  /** Optional. Latest end timestamp to list. */
+  maxEndTime?: string | undefined;
+  /** Optional. Earliest start timestamp to list. */
+  minTime?: string | undefined;
+  /** Optional. Latest start timestamp to list. */
+  maxTime?: string | undefined;
   /** Optional. Search only applications in the chosen state. */
   applicationStatus?:
     | SearchProjectsLocationsBatchesSparkApplicationsApplicationStatusEnum
     | (string & {})
     | undefined;
-  /** Optional. Latest end timestamp to list. */
-  maxEndTime?: string | undefined;
-  /** Optional. Earliest start timestamp to list. */
-  minTime?: string | undefined;
   /** Optional. A page token received from a previous SearchSparkApplications call. Provide this token to retrieve the subsequent page. */
   pageToken?: string | undefined;
 }
 /** A summary of Spark Application */
 export interface SparkApplication {
-  /** Identifier. Name of the spark application */
-  name?: string | undefined;
   /** Output only. High level information corresponding to an application. */
   application?: ApplicationInfo | undefined;
+  /** Identifier. Name of the spark application */
+  name?: string | undefined;
 }
 export type SparkApplicationList = Array<SparkApplication>;
 /** A list of summary of Spark Applications */
 export interface SearchSparkApplicationsResponse {
-  /** This token is included in the response if there are more results to fetch. To fetch additional results, provide this value as the page_token in a subsequent SearchSparkApplicationsRequest. */
-  nextPageToken?: string | undefined;
   /** Output only. High level information corresponding to an application. */
   sparkApplications?: SparkApplicationList | undefined;
+  /** This token is included in the response if there are more results to fetch. To fetch additional results, provide this value as the page_token in a subsequent SearchSparkApplicationsRequest. */
+  nextPageToken?: string | undefined;
 }
 export type SearchProjectsLocationsSessionsSparkApplicationsApplicationStatusEnum =
   | "APPLICATION_STATUS_UNSPECIFIED"
   | "APPLICATION_STATUS_RUNNING"
   | "APPLICATION_STATUS_COMPLETED";
 export interface SearchProjectsLocationsSessionsSparkApplicationsRequest {
+  /** Optional. Latest end timestamp to list. */
+  maxEndTime?: string | undefined;
+  /** Optional. Earliest start timestamp to list. */
+  minTime?: string | undefined;
   /** Optional. Latest start timestamp to list. */
   maxTime?: string | undefined;
-  /** Optional. Earliest end timestamp to list. */
-  minEndTime?: string | undefined;
-  /** Optional. A page token received from a previous SearchSessionSparkApplications call. Provide this token to retrieve the subsequent page. */
-  pageToken?: string | undefined;
-  /** Required. The fully qualified name of the session to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/sessions/SESSION_ID" */
-  parent: string;
   /** Optional. Search only applications in the chosen state. */
   applicationStatus?:
     | SearchProjectsLocationsSessionsSparkApplicationsApplicationStatusEnum
     | (string & {})
     | undefined;
-  /** Optional. Latest end timestamp to list. */
-  maxEndTime?: string | undefined;
-  /** Optional. Earliest start timestamp to list. */
-  minTime?: string | undefined;
+  /** Optional. Earliest end timestamp to list. */
+  minEndTime?: string | undefined;
+  /** Optional. A page token received from a previous SearchSessionSparkApplications call. Provide this token to retrieve the subsequent page. */
+  pageToken?: string | undefined;
   /** Optional. Maximum number of applications to return in each response. The service may return fewer than this. The default page size is 10; the maximum page size is 100. */
   pageSize?: number | undefined;
+  /** Required. The fully qualified name of the session to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/sessions/SESSION_ID" */
+  parent: string;
 }
 /** A list of summary of Spark Applications */
 export interface SearchSessionSparkApplicationsResponse {
-  /** Output only. High level information corresponding to an application. */
-  sparkApplications?: SparkApplicationList | undefined;
   /** This token is included in the response if there are more results to fetch. To fetch additional results, provide this value as the page_token in a subsequent SearchSessionSparkApplicationsRequest. */
   nextPageToken?: string | undefined;
+  /** Output only. High level information corresponding to an application. */
+  sparkApplications?: SparkApplicationList | undefined;
 }
 export interface SearchSqlQueriesProjectsLocationsBatchesSparkApplicationsRequest {
-  /** Optional. Enables/ disables physical plan description on demand */
-  planDescription?: boolean | undefined;
-  /** Optional. Maximum number of queries to return in each response. The service may return fewer than this. The default page size is 10; the maximum page size is 100. */
-  pageSize?: number | undefined;
-  /** Required. The fully qualified name of the batch to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/batches/BATCH_ID/sparkApplications/APPLICATION_ID" */
-  name: string;
-  /** Optional. A page token received from a previous SearchSparkApplicationSqlQueries call. Provide this token to retrieve the subsequent page. */
-  pageToken?: string | undefined;
   /** Optional. Lists/ hides details of Spark plan nodes. True is set to list and false to hide. */
   details?: boolean | undefined;
   /** Required. Parent (Batch) resource reference. */
   parent?: string | undefined;
+  /** Optional. A page token received from a previous SearchSparkApplicationSqlQueries call. Provide this token to retrieve the subsequent page. */
+  pageToken?: string | undefined;
+  /** Required. The fully qualified name of the batch to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/batches/BATCH_ID/sparkApplications/APPLICATION_ID" */
+  name: string;
+  /** Optional. Enables/ disables physical plan description on demand */
+  planDescription?: boolean | undefined;
+  /** Optional. Maximum number of queries to return in each response. The service may return fewer than this. The default page size is 10; the maximum page size is 100. */
+  pageSize?: number | undefined;
 }
 export type SqlExecutionUiDataList = Array<SqlExecutionUiData>;
 /** List of all queries for a Spark Application. */
 export interface SearchSparkApplicationSqlQueriesResponse {
-  /** This token is included in the response if there are more results to fetch. To fetch additional results, provide this value as the page_token in a subsequent SearchSparkApplicationSqlQueriesRequest. */
-  nextPageToken?: string | undefined;
   /** Output only. SQL Execution Data */
   sparkApplicationSqlQueries?: SqlExecutionUiDataList | undefined;
+  /** This token is included in the response if there are more results to fetch. To fetch additional results, provide this value as the page_token in a subsequent SearchSparkApplicationSqlQueriesRequest. */
+  nextPageToken?: string | undefined;
 }
 export interface SearchSqlQueriesProjectsLocationsSessionsSparkApplicationsRequest {
-  /** Optional. Maximum number of queries to return in each response. The service may return fewer than this. The default page size is 10; the maximum page size is 100. */
-  pageSize?: number | undefined;
-  /** Required. The fully qualified name of the session to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/sessions/SESSION_ID/sparkApplications/APPLICATION_ID" */
-  name: string;
-  /** Optional. A page token received from a previous SearchSessionSparkApplicationSqlQueries call. Provide this token to retrieve the subsequent page. */
-  pageToken?: string | undefined;
-  /** Required. Parent (Session) resource reference. */
-  parent?: string | undefined;
-  /** Optional. Lists/ hides details of Spark plan nodes. True is set to list and false to hide. */
-  details?: boolean | undefined;
   /** Optional. List of Spark Connect operation IDs to filter by if provided. */
   operationIds?: StringList | undefined;
+  /** Optional. Maximum number of queries to return in each response. The service may return fewer than this. The default page size is 10; the maximum page size is 100. */
+  pageSize?: number | undefined;
+  /** Required. Parent (Session) resource reference. */
+  parent?: string | undefined;
+  /** Required. The fully qualified name of the session to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/sessions/SESSION_ID/sparkApplications/APPLICATION_ID" */
+  name: string;
+  /** Optional. Lists/ hides details of Spark plan nodes. True is set to list and false to hide. */
+  details?: boolean | undefined;
+  /** Optional. A page token received from a previous SearchSessionSparkApplicationSqlQueries call. Provide this token to retrieve the subsequent page. */
+  pageToken?: string | undefined;
   /** Optional. Enables/ disables physical plan description on demand */
   planDescription?: boolean | undefined;
 }
@@ -3498,16 +3501,16 @@ export interface SearchSessionSparkApplicationSqlQueriesResponse {
 export interface SearchStageAttemptsProjectsLocationsBatchesSparkApplicationsRequest {
   /** Optional. A page token received from a previous SearchSparkApplicationStageAttempts call. Provide this token to retrieve the subsequent page. */
   pageToken?: string | undefined;
-  /** Required. The fully qualified name of the batch to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/batches/BATCH_ID/sparkApplications/APPLICATION_ID" */
-  name: string;
   /** Optional. The list of summary metrics fields to include. Empty list will default to skip all summary metrics fields. Example, if the response should include TaskQuantileMetrics, the request should have task_quantile_metrics in summary_metrics_mask field */
   summaryMetricsMask?: string | undefined;
+  /** Required. The fully qualified name of the batch to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/batches/BATCH_ID/sparkApplications/APPLICATION_ID" */
+  name: string;
+  /** Required. Parent (Batch) resource reference. */
+  parent?: string | undefined;
   /** Optional. Maximum number of stage attempts (paging based on stage_attempt_id) to return in each response. The service may return fewer than this. The default page size is 10; the maximum page size is 100. */
   pageSize?: number | undefined;
   /** Required. Stage ID for which attempts are to be fetched */
   stageId?: string | undefined;
-  /** Required. Parent (Batch) resource reference. */
-  parent?: string | undefined;
 }
 export type StageDataList = Array<StageData>;
 /** A list of Stage Attempts for a Stage of a Spark Application. */
@@ -3518,25 +3521,25 @@ export interface SearchSparkApplicationStageAttemptsResponse {
   nextPageToken?: string | undefined;
 }
 export interface SearchStageAttemptsProjectsLocationsSessionsSparkApplicationsRequest {
-  /** Required. The fully qualified name of the session to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/sessions/SESSION_ID/sparkApplications/APPLICATION_ID" */
-  name: string;
-  /** Optional. Maximum number of stage attempts (paging based on stage_attempt_id) to return in each response. The service may return fewer than this. The default page size is 10; the maximum page size is 100. */
-  pageSize?: number | undefined;
-  /** Required. Parent (Session) resource reference. */
-  parent?: string | undefined;
-  /** Optional. A page token received from a previous SearchSessionSparkApplicationStageAttempts call. Provide this token to retrieve the subsequent page. */
-  pageToken?: string | undefined;
   /** Optional. The list of summary metrics fields to include. Empty list will default to skip all summary metrics fields. Example, if the response should include TaskQuantileMetrics, the request should have task_quantile_metrics in summary_metrics_mask field */
   summaryMetricsMask?: string | undefined;
+  /** Optional. A page token received from a previous SearchSessionSparkApplicationStageAttempts call. Provide this token to retrieve the subsequent page. */
+  pageToken?: string | undefined;
+  /** Required. The fully qualified name of the session to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/sessions/SESSION_ID/sparkApplications/APPLICATION_ID" */
+  name: string;
+  /** Required. Parent (Session) resource reference. */
+  parent?: string | undefined;
   /** Required. Stage ID for which attempts are to be fetched */
   stageId?: string | undefined;
+  /** Optional. Maximum number of stage attempts (paging based on stage_attempt_id) to return in each response. The service may return fewer than this. The default page size is 10; the maximum page size is 100. */
+  pageSize?: number | undefined;
 }
 /** A list of Stage Attempts for a Stage of a Spark Application. */
 export interface SearchSessionSparkApplicationStageAttemptsResponse {
-  /** Output only. Data corresponding to a stage attempts */
-  sparkApplicationStageAttempts?: StageDataList | undefined;
   /** This token is included in the response if there are more results to fetch. To fetch additional results, provide this value as the page_token in a subsequent SearchSessionSparkApplicationStageAttemptsRequest. */
   nextPageToken?: string | undefined;
+  /** Output only. Data corresponding to a stage attempts */
+  sparkApplicationStageAttempts?: StageDataList | undefined;
 }
 export type SearchStageAttemptTasksProjectsLocationsBatchesSparkApplicationsTaskStatusEnum =
   | "TASK_STATUS_UNSPECIFIED"
@@ -3546,33 +3549,33 @@ export type SearchStageAttemptTasksProjectsLocationsBatchesSparkApplicationsTask
   | "TASK_STATUS_KILLED"
   | "TASK_STATUS_PENDING";
 export interface SearchStageAttemptTasksProjectsLocationsBatchesSparkApplicationsRequest {
-  /** Optional. Stage ID */
-  stageId?: string | undefined;
   /** Optional. Stage Attempt ID */
   stageAttemptId?: number | undefined;
-  /** Optional. A page token received from a previous ListSparkApplicationStageAttemptTasks call. Provide this token to retrieve the subsequent page. */
-  pageToken?: string | undefined;
-  /** Optional. Sort the tasks by runtime. */
-  sortRuntime?: boolean | undefined;
-  /** Required. Parent (Batch) resource reference. */
-  parent?: string | undefined;
   /** Optional. List only tasks in the state. */
   taskStatus?:
     | SearchStageAttemptTasksProjectsLocationsBatchesSparkApplicationsTaskStatusEnum
     | (string & {})
     | undefined;
-  /** Optional. Maximum number of tasks to return in each response. The service may return fewer than this. The default page size is 10; the maximum page size is 100. */
-  pageSize?: number | undefined;
+  /** Optional. Sort the tasks by runtime. */
+  sortRuntime?: boolean | undefined;
   /** Required. The fully qualified name of the batch to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/batches/BATCH_ID/sparkApplications/APPLICATION_ID" */
   name: string;
+  /** Optional. Maximum number of tasks to return in each response. The service may return fewer than this. The default page size is 10; the maximum page size is 100. */
+  pageSize?: number | undefined;
+  /** Optional. Stage ID */
+  stageId?: string | undefined;
+  /** Required. Parent (Batch) resource reference. */
+  parent?: string | undefined;
+  /** Optional. A page token received from a previous ListSparkApplicationStageAttemptTasks call. Provide this token to retrieve the subsequent page. */
+  pageToken?: string | undefined;
 }
 export type TaskDataList = Array<TaskData>;
 /** List of tasks for a stage of a Spark Application */
 export interface SearchSparkApplicationStageAttemptTasksResponse {
-  /** This token is included in the response if there are more results to fetch. To fetch additional results, provide this value as the page_token in a subsequent ListSparkApplicationStageAttemptTasksRequest. */
-  nextPageToken?: string | undefined;
   /** Output only. Data corresponding to tasks created by spark. */
   sparkApplicationStageAttemptTasks?: TaskDataList | undefined;
+  /** This token is included in the response if there are more results to fetch. To fetch additional results, provide this value as the page_token in a subsequent ListSparkApplicationStageAttemptTasksRequest. */
+  nextPageToken?: string | undefined;
 }
 export type SearchStageAttemptTasksProjectsLocationsSessionsSparkApplicationsTaskStatusEnum =
   | "TASK_STATUS_UNSPECIFIED"
@@ -3582,25 +3585,25 @@ export type SearchStageAttemptTasksProjectsLocationsSessionsSparkApplicationsTas
   | "TASK_STATUS_KILLED"
   | "TASK_STATUS_PENDING";
 export interface SearchStageAttemptTasksProjectsLocationsSessionsSparkApplicationsRequest {
-  /** Required. Parent (Session) resource reference. */
-  parent?: string | undefined;
+  /** Optional. Stage Attempt ID */
+  stageAttemptId?: number | undefined;
   /** Optional. List only tasks in the state. */
   taskStatus?:
     | SearchStageAttemptTasksProjectsLocationsSessionsSparkApplicationsTaskStatusEnum
     | (string & {})
     | undefined;
-  /** Optional. Stage ID */
-  stageId?: string | undefined;
-  /** Optional. Sort the tasks by runtime. */
-  sortRuntime?: boolean | undefined;
-  /** Optional. Maximum number of tasks to return in each response. The service may return fewer than this. The default page size is 10; the maximum page size is 100. */
-  pageSize?: number | undefined;
   /** Required. The fully qualified name of the session to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/sessions/SESSION_ID/sparkApplications/APPLICATION_ID" */
   name: string;
+  /** Optional. Maximum number of tasks to return in each response. The service may return fewer than this. The default page size is 10; the maximum page size is 100. */
+  pageSize?: number | undefined;
+  /** Required. Parent (Session) resource reference. */
+  parent?: string | undefined;
+  /** Optional. Stage ID */
+  stageId?: string | undefined;
   /** Optional. A page token received from a previous SearchSessionSparkApplicationStageAttemptTasks call. Provide this token to retrieve the subsequent page. */
   pageToken?: string | undefined;
-  /** Optional. Stage Attempt ID */
-  stageAttemptId?: number | undefined;
+  /** Optional. Sort the tasks by runtime. */
+  sortRuntime?: boolean | undefined;
 }
 /** List of tasks for a stage of a Spark Application */
 export interface SearchSessionSparkApplicationStageAttemptTasksResponse {
@@ -3617,28 +3620,28 @@ export type SearchStagesProjectsLocationsBatchesSparkApplicationsStageStatusEnum
   | "STAGE_STATUS_PENDING"
   | "STAGE_STATUS_SKIPPED";
 export interface SearchStagesProjectsLocationsBatchesSparkApplicationsRequest {
-  /** Optional. The list of summary metrics fields to include. Empty list will default to skip all summary metrics fields. Example, if the response should include TaskQuantileMetrics, the request should have task_quantile_metrics in summary_metrics_mask field */
-  summaryMetricsMask?: string | undefined;
   /** Required. Parent (Batch) resource reference. */
   parent?: string | undefined;
+  /** Optional. The list of summary metrics fields to include. Empty list will default to skip all summary metrics fields. Example, if the response should include TaskQuantileMetrics, the request should have task_quantile_metrics in summary_metrics_mask field */
+  summaryMetricsMask?: string | undefined;
   /** Required. The fully qualified name of the batch to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/batches/BATCH_ID/sparkApplications/APPLICATION_ID" */
   name: string;
   /** Optional. Maximum number of stages (paging based on stage_id) to return in each response. The service may return fewer than this. The default page size is 10; the maximum page size is 100. */
   pageSize?: number | undefined;
-  /** Optional. A page token received from a previous FetchSparkApplicationStagesList call. Provide this token to retrieve the subsequent page. */
-  pageToken?: string | undefined;
   /** Optional. List only stages in the given state. */
   stageStatus?:
     | SearchStagesProjectsLocationsBatchesSparkApplicationsStageStatusEnum
     | (string & {})
     | undefined;
+  /** Optional. A page token received from a previous FetchSparkApplicationStagesList call. Provide this token to retrieve the subsequent page. */
+  pageToken?: string | undefined;
 }
 /** A list of stages associated with a Spark Application. */
 export interface SearchSparkApplicationStagesResponse {
-  /** Output only. Data corresponding to a stage. */
-  sparkApplicationStages?: StageDataList | undefined;
   /** This token is included in the response if there are more results to fetch. To fetch additional results, provide this value as the page_token in a subsequent SearchSparkApplicationStages. */
   nextPageToken?: string | undefined;
+  /** Output only. Data corresponding to a stage. */
+  sparkApplicationStages?: StageDataList | undefined;
 }
 export type SearchStagesProjectsLocationsSessionsSparkApplicationsStageStatusEnum =
   | "STAGE_STATUS_UNSPECIFIED"
@@ -3648,30 +3651,30 @@ export type SearchStagesProjectsLocationsSessionsSparkApplicationsStageStatusEnu
   | "STAGE_STATUS_PENDING"
   | "STAGE_STATUS_SKIPPED";
 export interface SearchStagesProjectsLocationsSessionsSparkApplicationsRequest {
-  /** Required. Parent (Session) resource reference. */
-  parent?: string | undefined;
-  /** Optional. The list of summary metrics fields to include. Empty list will default to skip all summary metrics fields. Example, if the response should include TaskQuantileMetrics, the request should have task_quantile_metrics in summary_metrics_mask field */
-  summaryMetricsMask?: string | undefined;
-  /** Optional. A page token received from a previous SearchSessionSparkApplicationStages call. Provide this token to retrieve the subsequent page. */
-  pageToken?: string | undefined;
   /** Optional. List of Stage IDs to filter by if provided. */
   stageIds?: StringList | undefined;
-  /** Required. The fully qualified name of the session to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/sessions/SESSION_ID/sparkApplications/APPLICATION_ID" */
-  name: string;
-  /** Optional. Maximum number of stages (paging based on stage_id) to return in each response. The service may return fewer than this. The default page size is 10; the maximum page size is 100. */
-  pageSize?: number | undefined;
   /** Optional. List only stages in the given state. */
   stageStatus?:
     | SearchStagesProjectsLocationsSessionsSparkApplicationsStageStatusEnum
     | (string & {})
     | undefined;
+  /** Required. Parent (Session) resource reference. */
+  parent?: string | undefined;
+  /** Optional. The list of summary metrics fields to include. Empty list will default to skip all summary metrics fields. Example, if the response should include TaskQuantileMetrics, the request should have task_quantile_metrics in summary_metrics_mask field */
+  summaryMetricsMask?: string | undefined;
+  /** Required. The fully qualified name of the session to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/sessions/SESSION_ID/sparkApplications/APPLICATION_ID" */
+  name: string;
+  /** Optional. Maximum number of stages (paging based on stage_id) to return in each response. The service may return fewer than this. The default page size is 10; the maximum page size is 100. */
+  pageSize?: number | undefined;
+  /** Optional. A page token received from a previous SearchSessionSparkApplicationStages call. Provide this token to retrieve the subsequent page. */
+  pageToken?: string | undefined;
 }
 /** A list of stages associated with a Spark Application. */
 export interface SearchSessionSparkApplicationStagesResponse {
-  /** This token is included in the response if there are more results to fetch. To fetch additional results, provide this value as the page_token in a subsequent SearchSessionSparkApplicationStages. */
-  nextPageToken?: string | undefined;
   /** Output only. Data corresponding to a stage. */
   sparkApplicationStages?: StageDataList | undefined;
+  /** This token is included in the response if there are more results to fetch. To fetch additional results, provide this value as the page_token in a subsequent SearchSessionSparkApplicationStages. */
+  nextPageToken?: string | undefined;
 }
 /** Request message for SetIamPolicy method. */
 export interface SetIamPolicyRequest {
@@ -3716,10 +3719,10 @@ export interface StartClusterRequest {
 export interface StartProjectsRegionsClustersRequest extends StartClusterRequest {
   /** Required. The ID of the Google Cloud Platform project the cluster belongs to. */
   projectId: string;
-  /** Required. The cluster name. */
-  clusterName: string;
   /** Required. The region in which to handle the request. */
   region: string;
+  /** Required. The cluster name. */
+  clusterName: string;
 }
 /** A request to stop a cluster. */
 export interface StopClusterRequest {
@@ -3750,10 +3753,10 @@ export interface SubmitAsOperationProjectsRegionsJobsRequest extends SubmitJobRe
   region: string;
 }
 export interface SubmitProjectsRegionsJobsRequest extends SubmitJobRequest {
-  /** Required. The Dataproc region in which to handle the request. */
-  region: string;
   /** Required. The ID of the Google Cloud Platform project that the job belongs to. */
   projectId: string;
+  /** Required. The Dataproc region in which to handle the request. */
+  region: string;
 }
 export interface SummarizeExecutorsProjectsLocationsBatchesSparkApplicationsRequest {
   /** Required. The fully qualified name of the batch to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/batches/BATCH_ID/sparkApplications/APPLICATION_ID" */
@@ -3763,34 +3766,34 @@ export interface SummarizeExecutorsProjectsLocationsBatchesSparkApplicationsRequ
 }
 /** Consolidated summary about executors used by the application. */
 export interface ConsolidatedExecutorSummary {
-  diskUsed?: string | undefined;
-  totalShuffleWrite?: string | undefined;
-  totalInputBytes?: string | undefined;
-  memoryMetrics?: MemoryMetrics | undefined;
-  isExcluded?: number | undefined;
-  totalDurationMillis?: string | undefined;
-  count?: number | undefined;
-  totalShuffleRead?: string | undefined;
-  memoryUsed?: string | undefined;
   activeTasks?: number | undefined;
-  maxMemory?: string | undefined;
-  totalGcTimeMillis?: string | undefined;
-  completedTasks?: number | undefined;
-  failedTasks?: number | undefined;
   totalTasks?: number | undefined;
+  diskUsed?: string | undefined;
   rddBlocks?: number | undefined;
+  totalGcTimeMillis?: string | undefined;
+  totalDurationMillis?: string | undefined;
   totalCores?: number | undefined;
+  memoryUsed?: string | undefined;
+  completedTasks?: number | undefined;
+  count?: number | undefined;
+  memoryMetrics?: MemoryMetrics | undefined;
+  maxMemory?: string | undefined;
+  totalShuffleWrite?: string | undefined;
+  failedTasks?: number | undefined;
+  totalInputBytes?: string | undefined;
+  isExcluded?: number | undefined;
+  totalShuffleRead?: string | undefined;
 }
 /** Consolidated summary of executors for a Spark Application. */
 export interface SummarizeSparkApplicationExecutorsResponse {
+  /** Consolidated summary for active executors. */
+  activeExecutorSummary?: ConsolidatedExecutorSummary | undefined;
+  /** Overall consolidated summary for all executors. */
+  totalExecutorSummary?: ConsolidatedExecutorSummary | undefined;
   /** Consolidated summary for dead executors. */
   deadExecutorSummary?: ConsolidatedExecutorSummary | undefined;
   /** Spark Application Id */
   applicationId?: string | undefined;
-  /** Overall consolidated summary for all executors. */
-  totalExecutorSummary?: ConsolidatedExecutorSummary | undefined;
-  /** Consolidated summary for active executors. */
-  activeExecutorSummary?: ConsolidatedExecutorSummary | undefined;
 }
 export interface SummarizeExecutorsProjectsLocationsSessionsSparkApplicationsRequest {
   /** Required. The fully qualified name of the session to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/sessions/SESSION_ID/sparkApplications/APPLICATION_ID" */
@@ -3800,35 +3803,35 @@ export interface SummarizeExecutorsProjectsLocationsSessionsSparkApplicationsReq
 }
 /** Consolidated summary of executors for a Spark Application. */
 export interface SummarizeSessionSparkApplicationExecutorsResponse {
-  /** Consolidated summary for active executors. */
-  activeExecutorSummary?: ConsolidatedExecutorSummary | undefined;
   /** Consolidated summary for dead executors. */
   deadExecutorSummary?: ConsolidatedExecutorSummary | undefined;
   /** Overall consolidated summary for all executors. */
   totalExecutorSummary?: ConsolidatedExecutorSummary | undefined;
   /** Spark Application Id */
   applicationId?: string | undefined;
+  /** Consolidated summary for active executors. */
+  activeExecutorSummary?: ConsolidatedExecutorSummary | undefined;
 }
 export interface SummarizeJobsProjectsLocationsBatchesSparkApplicationsRequest {
-  /** Required. Parent (Batch) resource reference. */
-  parent?: string | undefined;
   /** Required. The fully qualified name of the batch to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/batches/BATCH_ID/sparkApplications/APPLICATION_ID" */
   name: string;
+  /** Required. Parent (Batch) resource reference. */
+  parent?: string | undefined;
 }
 /** Data related to Jobs page summary */
 export interface JobsSummary {
-  /** Number of active jobs */
-  activeJobs?: number | undefined;
   /** Number of failed jobs */
   failedJobs?: number | undefined;
-  /** Attempts info */
-  attempts?: ApplicationAttemptInfoList | undefined;
-  /** Number of completed jobs */
-  completedJobs?: number | undefined;
   /** Spark Application Id */
   applicationId?: string | undefined;
   /** Spark Scheduling mode */
   schedulingMode?: string | undefined;
+  /** Number of active jobs */
+  activeJobs?: number | undefined;
+  /** Number of completed jobs */
+  completedJobs?: number | undefined;
+  /** Attempts info */
+  attempts?: ApplicationAttemptInfoList | undefined;
 }
 /** Summary of a Spark Application jobs. */
 export interface SummarizeSparkApplicationJobsResponse {
@@ -3836,12 +3839,12 @@ export interface SummarizeSparkApplicationJobsResponse {
   jobsSummary?: JobsSummary | undefined;
 }
 export interface SummarizeJobsProjectsLocationsSessionsSparkApplicationsRequest {
+  /** Required. The fully qualified name of the session to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/sessions/SESSION_ID/sparkApplications/APPLICATION_ID" */
+  name: string;
   /** Required. Parent (Session) resource reference. */
   parent?: string | undefined;
   /** Optional. List of Job IDs to filter by if provided. */
   jobIds?: StringList | undefined;
-  /** Required. The fully qualified name of the session to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/sessions/SESSION_ID/sparkApplications/APPLICATION_ID" */
-  name: string;
 }
 /** Summary of a Spark Application jobs. */
 export interface SummarizeSessionSparkApplicationJobsResponse {
@@ -3849,25 +3852,25 @@ export interface SummarizeSessionSparkApplicationJobsResponse {
   jobsSummary?: JobsSummary | undefined;
 }
 export interface SummarizeStageAttemptTasksProjectsLocationsBatchesSparkApplicationsRequest {
+  /** Required. Stage ID */
+  stageId?: string | undefined;
   /** Required. Parent (Batch) resource reference. */
   parent?: string | undefined;
   /** Required. The fully qualified name of the batch to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/batches/BATCH_ID/sparkApplications/APPLICATION_ID" */
   name: string;
   /** Required. Stage Attempt ID */
   stageAttemptId?: number | undefined;
-  /** Required. Stage ID */
-  stageId?: string | undefined;
 }
 /** Data related to tasks summary for a Spark Stage Attempt */
 export interface StageAttemptTasksSummary {
-  numPendingTasks?: number | undefined;
-  numKilledTasks?: number | undefined;
-  numTasks?: number | undefined;
-  numSuccessTasks?: number | undefined;
   numRunningTasks?: number | undefined;
   stageId?: string | undefined;
-  numFailedTasks?: number | undefined;
+  numPendingTasks?: number | undefined;
+  numSuccessTasks?: number | undefined;
+  numTasks?: number | undefined;
   stageAttemptId?: number | undefined;
+  numFailedTasks?: number | undefined;
+  numKilledTasks?: number | undefined;
   applicationId?: string | undefined;
 }
 /** Summary of tasks for a Spark Application stage attempt. */
@@ -3876,14 +3879,14 @@ export interface SummarizeSparkApplicationStageAttemptTasksResponse {
   stageAttemptTasksSummary?: StageAttemptTasksSummary | undefined;
 }
 export interface SummarizeStageAttemptTasksProjectsLocationsSessionsSparkApplicationsRequest {
-  /** Required. The fully qualified name of the session to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/sessions/SESSION_ID/sparkApplications/APPLICATION_ID" */
-  name: string;
-  /** Required. Stage ID */
-  stageId?: string | undefined;
-  /** Required. Stage Attempt ID */
-  stageAttemptId?: number | undefined;
   /** Required. Parent (Session) resource reference. */
   parent?: string | undefined;
+  /** Required. Stage Attempt ID */
+  stageAttemptId?: number | undefined;
+  /** Required. Stage ID */
+  stageId?: string | undefined;
+  /** Required. The fully qualified name of the session to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/sessions/SESSION_ID/sparkApplications/APPLICATION_ID" */
+  name: string;
 }
 /** Summary of tasks for a Spark Application stage attempt. */
 export interface SummarizeSessionSparkApplicationStageAttemptTasksResponse {
@@ -3898,12 +3901,12 @@ export interface SummarizeStagesProjectsLocationsBatchesSparkApplicationsRequest
 }
 /** Data related to Stages page summary */
 export interface StagesSummary {
+  numPendingStages?: number | undefined;
+  numActiveStages?: number | undefined;
   numFailedStages?: number | undefined;
   numCompletedStages?: number | undefined;
-  numPendingStages?: number | undefined;
-  numSkippedStages?: number | undefined;
-  numActiveStages?: number | undefined;
   applicationId?: string | undefined;
+  numSkippedStages?: number | undefined;
 }
 /** Summary of a Spark Application stages. */
 export interface SummarizeSparkApplicationStagesResponse {
@@ -3998,79 +4001,6 @@ export interface UpdateProjectsRegionsWorkflowTemplatesRequest extends Omit<
   /** Output only. The resource name of the workflow template, as described in https://cloud.google.com/apis/design/resource_names. For projects.regions.workflowTemplates, the resource name of the template has the following format: projects/{project_id}/regions/{region}/workflowTemplates/{template_id} For projects.locations.workflowTemplates, the resource name of the template has the following format: projects/{project_id}/locations/{location}/workflowTemplates/{template_id} */
   name: string;
 }
-/** Stream Block Data. */
-export interface StreamBlockData {
-  useDisk?: boolean | undefined;
-  storageLevel?: string | undefined;
-  deserialized?: boolean | undefined;
-  useMemory?: boolean | undefined;
-  executorId?: string | undefined;
-  name?: string | undefined;
-  memSize?: string | undefined;
-  diskSize?: string | undefined;
-  hostPort?: string | undefined;
-}
-/** Represents session-level information for Spark Connect */
-export interface SparkConnectSessionInfo {
-  /** Timestamp when the session finished. */
-  finishTimestamp?: string | undefined;
-  /** User ID of the user who started the session. */
-  userId?: string | undefined;
-  /** Timestamp when the session started. */
-  startTimestamp?: string | undefined;
-  /** Required. Session ID of the session. */
-  sessionId?: string | undefined;
-  /** Optional. Total number of executions in the session. */
-  totalExecution?: string | undefined;
-}
-/** Process Summary */
-export interface ProcessSummary {
-  processLogs?: StringMap | undefined;
-  totalCores?: number | undefined;
-  removeTime?: string | undefined;
-  addTime?: string | undefined;
-  hostPort?: string | undefined;
-  isActive?: boolean | undefined;
-  processId?: string | undefined;
-}
-/** Pool Data */
-export interface PoolData {
-  name?: string | undefined;
-  stageIds?: StringList | undefined;
-}
-/** Details about RDD usage. */
-export interface RddDataDistribution {
-  offHeapMemoryRemaining?: string | undefined;
-  diskUsed?: string | undefined;
-  memoryUsed?: string | undefined;
-  offHeapMemoryUsed?: string | undefined;
-  onHeapMemoryUsed?: string | undefined;
-  address?: string | undefined;
-  onHeapMemoryRemaining?: string | undefined;
-  memoryRemaining?: string | undefined;
-}
-export type RddDataDistributionList = Array<RddDataDistribution>;
-/** Information about RDD partitions. */
-export interface RddPartitionInfo {
-  executors?: StringList | undefined;
-  memoryUsed?: string | undefined;
-  storageLevel?: string | undefined;
-  diskUsed?: string | undefined;
-  blockName?: string | undefined;
-}
-export type RddPartitionInfoList = Array<RddPartitionInfo>;
-/** Overall data about RDD storage. */
-export interface RddStorageInfo {
-  dataDistribution?: RddDataDistributionList | undefined;
-  storageLevel?: string | undefined;
-  name?: string | undefined;
-  memoryUsed?: string | undefined;
-  partitions?: RddPartitionInfoList | undefined;
-  rddStorageId?: number | undefined;
-  numCachedPartitions?: number | undefined;
-  numPartitions?: number | undefined;
-  diskUsed?: string | undefined;
-}
 export type SparkConnectExecutionInfoStateEnum =
   | "EXECUTION_STATE_UNKNOWN"
   | "EXECUTION_STATE_STARTED"
@@ -4082,125 +4012,198 @@ export type SparkConnectExecutionInfoStateEnum =
   | "EXECUTION_STATE_CLOSED";
 /** Represents the lifecycle and details of an Execution via Spark Connect */
 export interface SparkConnectExecutionInfo {
-  /** Optional. Tags associated with the Spark session. */
-  sparkSessionTags?: StringList | undefined;
-  /** statement of the execution. */
-  statement?: string | undefined;
   /** Optional. List of sql execution ids associated with the execution. */
   sqlExecIds?: StringList | undefined;
   /** Optional. List of job ids associated with the execution. */
   jobIds?: StringList | undefined;
-  /** Detailed information about the execution. */
-  detail?: string | undefined;
-  /** Timestamp when the execution finished. */
-  finishTimestamp?: string | undefined;
   /** Required. Job tag of the execution. */
   jobTag?: string | undefined;
-  /** Unique identifier for the operation. */
-  operationId?: string | undefined;
+  /** statement of the execution. */
+  statement?: string | undefined;
   /** User ID of the user who started the execution. */
   userId?: string | undefined;
-  /** Timestamp when the execution started. */
-  startTimestamp?: string | undefined;
-  /** Output only. Current state of the execution. */
-  state?: SparkConnectExecutionInfoStateEnum | (string & {}) | undefined;
-  /** Timestamp when the execution was closed. */
-  closeTimestamp?: string | undefined;
+  /** Detailed information about the execution. */
+  detail?: string | undefined;
   /** Required. Session ID, ties the execution to a specific Spark Connect session. */
   sessionId?: string | undefined;
-}
-/** Streaming */
-export interface StreamingQueryData {
-  isActive?: boolean | undefined;
-  runId?: string | undefined;
+  /** Timestamp when the execution finished. */
+  finishTimestamp?: string | undefined;
+  /** Optional. Tags associated with the Spark session. */
+  sparkSessionTags?: StringList | undefined;
+  /** Timestamp when the execution started. */
   startTimestamp?: string | undefined;
-  exception?: string | undefined;
-  streamingQueryId?: string | undefined;
-  name?: string | undefined;
-  endTimestamp?: string | undefined;
+  /** Timestamp when the execution was closed. */
+  closeTimestamp?: string | undefined;
+  /** Output only. Current state of the execution. */
+  state?: SparkConnectExecutionInfoStateEnum | (string & {}) | undefined;
+  /** Unique identifier for the operation. */
+  operationId?: string | undefined;
 }
-export interface StateOperatorProgress {
-  memoryUsedBytes?: string | undefined;
-  numRowsTotal?: string | undefined;
-  numRowsDroppedByWatermark?: string | undefined;
-  operatorName?: string | undefined;
-  commitTimeMs?: string | undefined;
-  numStateStoreInstances?: string | undefined;
-  numShufflePartitions?: string | undefined;
-  numRowsRemoved?: string | undefined;
-  allUpdatesTimeMs?: string | undefined;
-  customMetrics?: StringMap | undefined;
-  allRemovalsTimeMs?: string | undefined;
-  numRowsUpdated?: string | undefined;
-}
-export type StateOperatorProgressList = Array<StateOperatorProgress>;
-export interface SinkProgress {
-  metrics?: StringMap | undefined;
-  description?: string | undefined;
-  numOutputRows?: string | undefined;
-}
-export interface SourceProgress {
-  latestOffset?: string | undefined;
-  endOffset?: string | undefined;
-  numInputRows?: string | undefined;
-  inputRowsPerSecond?: number | undefined;
-  processedRowsPerSecond?: number | undefined;
-  startOffset?: string | undefined;
-  metrics?: StringMap | undefined;
-  description?: string | undefined;
-}
-export type SourceProgressList = Array<SourceProgress>;
-export interface StreamingQueryProgress {
-  eventTime?: StringMap | undefined;
-  durationMillis?: StringMap | undefined;
-  stateOperators?: StateOperatorProgressList | undefined;
-  batchDuration?: string | undefined;
-  timestamp?: string | undefined;
-  runId?: string | undefined;
-  name?: string | undefined;
-  sink?: SinkProgress | undefined;
-  streamingQueryProgressId?: string | undefined;
-  sources?: SourceProgressList | undefined;
-  batchId?: string | undefined;
-  observedMetrics?: StringMap | undefined;
+/** Represents session-level information for Spark Connect */
+export interface SparkConnectSessionInfo {
+  /** Optional. Total number of executions in the session. */
+  totalExecution?: string | undefined;
+  /** Required. Session ID of the session. */
+  sessionId?: string | undefined;
+  /** Timestamp when the session started. */
+  startTimestamp?: string | undefined;
+  /** User ID of the user who started the session. */
+  userId?: string | undefined;
+  /** Timestamp when the session finished. */
+  finishTimestamp?: string | undefined;
 }
 export interface AppSummary {
   numCompletedJobs?: number | undefined;
   numCompletedStages?: number | undefined;
 }
+/** Information about RDD partitions. */
+export interface RddPartitionInfo {
+  memoryUsed?: string | undefined;
+  executors?: StringList | undefined;
+  diskUsed?: string | undefined;
+  storageLevel?: string | undefined;
+  blockName?: string | undefined;
+}
+export type RddPartitionInfoList = Array<RddPartitionInfo>;
+/** Details about RDD usage. */
+export interface RddDataDistribution {
+  onHeapMemoryRemaining?: string | undefined;
+  memoryRemaining?: string | undefined;
+  address?: string | undefined;
+  onHeapMemoryUsed?: string | undefined;
+  memoryUsed?: string | undefined;
+  diskUsed?: string | undefined;
+  offHeapMemoryUsed?: string | undefined;
+  offHeapMemoryRemaining?: string | undefined;
+}
+export type RddDataDistributionList = Array<RddDataDistribution>;
+/** Overall data about RDD storage. */
+export interface RddStorageInfo {
+  partitions?: RddPartitionInfoList | undefined;
+  dataDistribution?: RddDataDistributionList | undefined;
+  name?: string | undefined;
+  diskUsed?: string | undefined;
+  numPartitions?: number | undefined;
+  rddStorageId?: number | undefined;
+  numCachedPartitions?: number | undefined;
+  storageLevel?: string | undefined;
+  memoryUsed?: string | undefined;
+}
+/** Pool Data */
+export interface PoolData {
+  name?: string | undefined;
+  stageIds?: StringList | undefined;
+}
+/** Stream Block Data. */
+export interface StreamBlockData {
+  executorId?: string | undefined;
+  diskSize?: string | undefined;
+  useDisk?: boolean | undefined;
+  hostPort?: string | undefined;
+  deserialized?: boolean | undefined;
+  memSize?: string | undefined;
+  useMemory?: boolean | undefined;
+  name?: string | undefined;
+  storageLevel?: string | undefined;
+}
+/** Streaming */
+export interface StreamingQueryData {
+  streamingQueryId?: string | undefined;
+  name?: string | undefined;
+  isActive?: boolean | undefined;
+  startTimestamp?: string | undefined;
+  endTimestamp?: string | undefined;
+  runId?: string | undefined;
+  exception?: string | undefined;
+}
+/** Process Summary */
+export interface ProcessSummary {
+  addTime?: string | undefined;
+  removeTime?: string | undefined;
+  hostPort?: string | undefined;
+  isActive?: boolean | undefined;
+  processId?: string | undefined;
+  totalCores?: number | undefined;
+  processLogs?: StringMap | undefined;
+}
+export interface StateOperatorProgress {
+  numStateStoreInstances?: string | undefined;
+  numRowsDroppedByWatermark?: string | undefined;
+  allRemovalsTimeMs?: string | undefined;
+  operatorName?: string | undefined;
+  customMetrics?: StringMap | undefined;
+  numRowsTotal?: string | undefined;
+  numRowsUpdated?: string | undefined;
+  memoryUsedBytes?: string | undefined;
+  numRowsRemoved?: string | undefined;
+  numShufflePartitions?: string | undefined;
+  allUpdatesTimeMs?: string | undefined;
+  commitTimeMs?: string | undefined;
+}
+export type StateOperatorProgressList = Array<StateOperatorProgress>;
+export interface SourceProgress {
+  metrics?: StringMap | undefined;
+  latestOffset?: string | undefined;
+  numInputRows?: string | undefined;
+  description?: string | undefined;
+  endOffset?: string | undefined;
+  inputRowsPerSecond?: number | undefined;
+  startOffset?: string | undefined;
+  processedRowsPerSecond?: number | undefined;
+}
+export type SourceProgressList = Array<SourceProgress>;
+export interface SinkProgress {
+  description?: string | undefined;
+  numOutputRows?: string | undefined;
+  metrics?: StringMap | undefined;
+}
+export interface StreamingQueryProgress {
+  stateOperators?: StateOperatorProgressList | undefined;
+  streamingQueryProgressId?: string | undefined;
+  timestamp?: string | undefined;
+  eventTime?: StringMap | undefined;
+  name?: string | undefined;
+  durationMillis?: StringMap | undefined;
+  sources?: SourceProgressList | undefined;
+  observedMetrics?: StringMap | undefined;
+  sink?: SinkProgress | undefined;
+  runId?: string | undefined;
+  batchId?: string | undefined;
+  batchDuration?: string | undefined;
+}
 /** Outer message that contains the data obtained from spark listener, packaged with information that is required to process it. */
 export interface SparkWrapperObject {
-  executorStageSummary?: ExecutorStageSummary | undefined;
-  streamBlockData?: StreamBlockData | undefined;
-  /** Spark Connect Session Info */
-  sparkConnectSessionInfo?: SparkConnectSessionInfo | undefined;
-  speculationStageSummary?: SpeculationStageSummary | undefined;
-  processSummary?: ProcessSummary | undefined;
-  applicationEnvironmentInfo?: ApplicationEnvironmentInfo | undefined;
-  poolData?: PoolData | undefined;
-  stageData?: StageData | undefined;
-  /** Application Id created by Spark. */
-  applicationId?: string | undefined;
-  executorSummary?: ExecutorSummary | undefined;
-  rddStorageInfo?: RddStorageInfo | undefined;
+  applicationInfo?: ApplicationInfo | undefined;
   /** Spark Connect Execution Info */
   sparkConnectExecutionInfo?: SparkConnectExecutionInfo | undefined;
+  /** Application Id created by Spark. */
+  applicationId?: string | undefined;
+  /** Spark Connect Session Info */
+  sparkConnectSessionInfo?: SparkConnectSessionInfo | undefined;
+  appSummary?: AppSummary | undefined;
+  /** VM Timestamp associated with the data object. */
+  eventTimestamp?: string | undefined;
+  stageData?: StageData | undefined;
   sparkPlanGraph?: SparkPlanGraph | undefined;
   /** Native Build Info */
   nativeBuildInfoUiData?: NativeBuildInfoUiData | undefined;
-  streamingQueryData?: StreamingQueryData | undefined;
-  streamingQueryProgress?: StreamingQueryProgress | undefined;
-  applicationInfo?: ApplicationInfo | undefined;
-  jobData?: JobData | undefined;
-  taskData?: TaskData | undefined;
-  rddOperationGraph?: RddOperationGraph | undefined;
   resourceProfileInfo?: ResourceProfileInfo | undefined;
-  /** VM Timestamp associated with the data object. */
-  eventTimestamp?: string | undefined;
+  taskData?: TaskData | undefined;
+  rddStorageInfo?: RddStorageInfo | undefined;
+  executorStageSummary?: ExecutorStageSummary | undefined;
+  poolData?: PoolData | undefined;
+  rddOperationGraph?: RddOperationGraph | undefined;
+  streamBlockData?: StreamBlockData | undefined;
   sqlExecutionUiData?: SqlExecutionUiData | undefined;
+  streamingQueryData?: StreamingQueryData | undefined;
+  processSummary?: ProcessSummary | undefined;
   /** Native SQL Execution Info */
   nativeSqlExecutionUiData?: NativeSqlExecutionUiData | undefined;
-  appSummary?: AppSummary | undefined;
+  speculationStageSummary?: SpeculationStageSummary | undefined;
+  executorSummary?: ExecutorSummary | undefined;
+  streamingQueryProgress?: StreamingQueryProgress | undefined;
+  jobData?: JobData | undefined;
+  applicationEnvironmentInfo?: ApplicationEnvironmentInfo | undefined;
 }
 export type SparkWrapperObjectList = Array<SparkWrapperObject>;
 /** Write Spark Application data to internal storage systems */
@@ -4217,10 +4220,10 @@ export interface WriteProjectsLocationsBatchesSparkApplicationsRequest extends W
 export interface WriteSparkApplicationContextResponse {}
 /** Write Spark Application data to internal storage systems */
 export interface WriteSessionSparkApplicationContextRequest {
-  /** Required. Parent (Batch) resource reference. */
-  parent?: string | undefined;
   /** Required. The batch of spark application context objects sent for ingestion. */
   sparkWrapperObjects?: SparkWrapperObjectList | undefined;
+  /** Required. Parent (Batch) resource reference. */
+  parent?: string | undefined;
 }
 export interface WriteProjectsLocationsSessionsSparkApplicationsRequest extends WriteSessionSparkApplicationContextRequest {
   /** Required. The fully qualified name of the spark application to write data about in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/sessions/SESSION_ID/sparkApplications/APPLICATION_ID" */
@@ -4240,11 +4243,11 @@ export const accessEnvironmentInfoProjectsLocationsBatchesSparkApplications: API
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3776,
-    __c118,
+    3744,
+    __c117,
     0,
   ) as any as S.Schema<AccessEnvironmentInfoProjectsLocationsBatchesSparkApplicationsRequest>,
-  output: __S(3808, __c119, 0) as any as S.Schema<AccessSparkApplicationEnvironmentInfoResponse>,
+  output: __S(3776, __c118, 0) as any as S.Schema<AccessSparkApplicationEnvironmentInfoResponse>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -4265,13 +4268,13 @@ export const accessEnvironmentInfoProjectsLocationsSessionsSparkApplications: AP
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4288,
-    __c134,
+    4256,
+    __c133,
     0,
   ) as any as S.Schema<AccessEnvironmentInfoProjectsLocationsSessionsSparkApplicationsRequest>,
   output: __S(
-    3808,
-    __c119,
+    3776,
+    __c118,
     0,
   ) as any as S.Schema<AccessSessionSparkApplicationEnvironmentInfoResponse>,
   errors: [NotFound, Forbidden],
@@ -4294,11 +4297,11 @@ export const accessJobProjectsLocationsBatchesSparkApplications: API.OperationMe
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4640,
-    __c145,
+    4608,
+    __c144,
     0,
   ) as any as S.Schema<AccessJobProjectsLocationsBatchesSparkApplicationsRequest>,
-  output: __S(4672, __c146, 0) as any as S.Schema<AccessSparkApplicationJobResponse>,
+  output: __S(4640, __c145, 0) as any as S.Schema<AccessSparkApplicationJobResponse>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -4319,11 +4322,11 @@ export const accessJobProjectsLocationsSessionsSparkApplications: API.OperationM
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5120,
-    __c160,
+    5088,
+    __c159,
     0,
   ) as any as S.Schema<AccessJobProjectsLocationsSessionsSparkApplicationsRequest>,
-  output: __S(4672, __c146, 0) as any as S.Schema<AccessSessionSparkApplicationJobResponse>,
+  output: __S(4640, __c145, 0) as any as S.Schema<AccessSessionSparkApplicationJobResponse>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -4344,11 +4347,11 @@ export const accessNativeBuildInfoProjectsLocationsBatchesSparkApplications: API
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5600,
-    __c175,
+    5568,
+    __c174,
     0,
   ) as any as S.Schema<AccessNativeBuildInfoProjectsLocationsBatchesSparkApplicationsRequest>,
-  output: __S(5601, __c175, 1) as any as S.Schema<AccessSparkApplicationNativeBuildInfoResponse>,
+  output: __S(5569, __c174, 1) as any as S.Schema<AccessSparkApplicationNativeBuildInfoResponse>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -4369,13 +4372,13 @@ export const accessNativeBuildInfoProjectsLocationsSessionsSparkApplications: AP
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    6080,
-    __c190,
+    6048,
+    __c189,
     0,
   ) as any as S.Schema<AccessNativeBuildInfoProjectsLocationsSessionsSparkApplicationsRequest>,
   output: __S(
-    6081,
-    __c190,
+    6049,
+    __c189,
     1,
   ) as any as S.Schema<AccessSessionSparkApplicationNativeBuildInfoResponse>,
   errors: [NotFound, Forbidden],
@@ -4423,8 +4426,8 @@ export const accessNativeSqlQueryProjectsLocationsSessionsSparkApplications: API
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    544,
-    __c17,
+    512,
+    __c16,
     0,
   ) as any as S.Schema<AccessNativeSqlQueryProjectsLocationsSessionsSparkApplicationsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<AccessSessionSparkApplicationNativeSqlQueryResponse>,
@@ -4448,11 +4451,11 @@ export const accessProjectsLocationsBatchesSparkApplications: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    992,
-    __c31,
+    960,
+    __c30,
     0,
   ) as any as S.Schema<AccessProjectsLocationsBatchesSparkApplicationsRequest>,
-  output: __S(1024, __c32, 0) as any as S.Schema<AccessSparkApplicationResponse>,
+  output: __S(992, __c31, 0) as any as S.Schema<AccessSparkApplicationResponse>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -4473,11 +4476,11 @@ export const accessProjectsLocationsSessionsSparkApplications: API.OperationMeth
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1568,
-    __c49,
+    1536,
+    __c48,
     0,
   ) as any as S.Schema<AccessProjectsLocationsSessionsSparkApplicationsRequest>,
-  output: __S(1024, __c32, 0) as any as S.Schema<AccessSessionSparkApplicationResponse>,
+  output: __S(992, __c31, 0) as any as S.Schema<AccessSessionSparkApplicationResponse>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -4498,11 +4501,11 @@ export const accessSqlPlanProjectsLocationsBatchesSparkApplications: API.Operati
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1952,
-    __c61,
+    1920,
+    __c60,
     0,
   ) as any as S.Schema<AccessSqlPlanProjectsLocationsBatchesSparkApplicationsRequest>,
-  output: __S(1984, __c62, 0) as any as S.Schema<AccessSparkApplicationSqlSparkPlanGraphResponse>,
+  output: __S(1952, __c61, 0) as any as S.Schema<AccessSparkApplicationSqlSparkPlanGraphResponse>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -4523,13 +4526,13 @@ export const accessSqlPlanProjectsLocationsSessionsSparkApplications: API.Operat
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2080,
-    __c65,
+    2048,
+    __c64,
     0,
   ) as any as S.Schema<AccessSqlPlanProjectsLocationsSessionsSparkApplicationsRequest>,
   output: __S(
-    1984,
-    __c62,
+    1952,
+    __c61,
     0,
   ) as any as S.Schema<AccessSessionSparkApplicationSqlSparkPlanGraphResponse>,
   errors: [NotFound, Forbidden],
@@ -4552,11 +4555,11 @@ export const accessSqlQueryProjectsLocationsBatchesSparkApplications: API.Operat
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2112,
-    __c66,
+    2080,
+    __c65,
     0,
   ) as any as S.Schema<AccessSqlQueryProjectsLocationsBatchesSparkApplicationsRequest>,
-  output: __S(2144, __c67, 0) as any as S.Schema<AccessSparkApplicationSqlQueryResponse>,
+  output: __S(2112, __c66, 0) as any as S.Schema<AccessSparkApplicationSqlQueryResponse>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -4577,11 +4580,11 @@ export const accessSqlQueryProjectsLocationsSessionsSparkApplications: API.Opera
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2240,
-    __c70,
+    2208,
+    __c69,
     0,
   ) as any as S.Schema<AccessSqlQueryProjectsLocationsSessionsSparkApplicationsRequest>,
-  output: __S(2144, __c67, 0) as any as S.Schema<AccessSessionSparkApplicationSqlQueryResponse>,
+  output: __S(2112, __c66, 0) as any as S.Schema<AccessSessionSparkApplicationSqlQueryResponse>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -4602,11 +4605,11 @@ export const accessStageAttemptProjectsLocationsBatchesSparkApplications: API.Op
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2272,
-    __c71,
+    2240,
+    __c70,
     0,
   ) as any as S.Schema<AccessStageAttemptProjectsLocationsBatchesSparkApplicationsRequest>,
-  output: __S(2304, __c72, 0) as any as S.Schema<AccessSparkApplicationStageAttemptResponse>,
+  output: __S(2272, __c71, 0) as any as S.Schema<AccessSparkApplicationStageAttemptResponse>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -4627,11 +4630,11 @@ export const accessStageAttemptProjectsLocationsSessionsSparkApplications: API.O
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2464,
-    __c77,
+    2432,
+    __c76,
     0,
   ) as any as S.Schema<AccessStageAttemptProjectsLocationsSessionsSparkApplicationsRequest>,
-  output: __S(2304, __c72, 0) as any as S.Schema<AccessSessionSparkApplicationStageAttemptResponse>,
+  output: __S(2272, __c71, 0) as any as S.Schema<AccessSessionSparkApplicationStageAttemptResponse>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -4652,13 +4655,13 @@ export const accessStageRddGraphProjectsLocationsBatchesSparkApplications: API.O
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2496,
-    __c78,
+    2464,
+    __c77,
     0,
   ) as any as S.Schema<AccessStageRddGraphProjectsLocationsBatchesSparkApplicationsRequest>,
   output: __S(
-    2528,
-    __c79,
+    2496,
+    __c78,
     0,
   ) as any as S.Schema<AccessSparkApplicationStageRddOperationGraphResponse>,
   errors: [NotFound, Forbidden],
@@ -4681,13 +4684,13 @@ export const accessStageRddGraphProjectsLocationsSessionsSparkApplications: API.
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2592,
-    __c81,
+    2560,
+    __c80,
     0,
   ) as any as S.Schema<AccessStageRddGraphProjectsLocationsSessionsSparkApplicationsRequest>,
   output: __S(
-    2528,
-    __c79,
+    2496,
+    __c78,
     0,
   ) as any as S.Schema<AccessSessionSparkApplicationStageRddOperationGraphResponse>,
   errors: [NotFound, Forbidden],
@@ -4711,8 +4714,8 @@ export const analyzeProjectsLocationsBatches: API.OperationMethod<
   AnalyzeProjectsLocationsBatchesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2625, __c82, 1) as any as S.Schema<AnalyzeProjectsLocationsBatchesRequest>,
-  output: __S(2659, __c83, 3) as any as S.Schema<Operation>,
+  input: __S(2593, __c81, 1) as any as S.Schema<AnalyzeProjectsLocationsBatchesRequest>,
+  output: __S(2627, __c82, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -4734,8 +4737,8 @@ export const cancelProjectsLocationsOperations: API.OperationMethod<
   CancelProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2688, __c84, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
-  output: __S(2720, __c85, 0) as any as S.Schema<Empty>,
+  input: __S(2656, __c83, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
+  output: __S(2688, __c84, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -4757,8 +4760,8 @@ export const cancelProjectsRegionsJobs: API.OperationMethod<
   CancelProjectsRegionsJobsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2752, __c86, 0) as any as S.Schema<CancelProjectsRegionsJobsRequest>,
-  output: __S(2823, __c88, 7) as any as S.Schema<Job>,
+  input: __S(2720, __c85, 0) as any as S.Schema<CancelProjectsRegionsJobsRequest>,
+  output: __S(2791, __c87, 7) as any as S.Schema<Job>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -4780,8 +4783,8 @@ export const cancelProjectsRegionsOperations: API.OperationMethod<
   CancelProjectsRegionsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2848, __c89, 0) as any as S.Schema<CancelProjectsRegionsOperationsRequest>,
-  output: __S(2720, __c85, 0) as any as S.Schema<Empty>,
+  input: __S(2816, __c88, 0) as any as S.Schema<CancelProjectsRegionsOperationsRequest>,
+  output: __S(2688, __c84, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -4802,11 +4805,11 @@ export const computeTuningConfigProjectsLocationsBatchesSparkApplications: API.O
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2880,
-    __c90,
+    2848,
+    __c89,
     0,
   ) as any as S.Schema<ComputeTuningConfigProjectsLocationsBatchesSparkApplicationsRequest>,
-  output: __S(2881, __c90, 1) as any as S.Schema<ComputeTuningConfigResponse>,
+  output: __S(2849, __c89, 1) as any as S.Schema<ComputeTuningConfigResponse>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -4828,8 +4831,8 @@ export const createProjectsLocationsAutoscalingPolicies: API.OperationMethod<
   CreateProjectsLocationsAutoscalingPoliciesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2912, __c91, 0) as any as S.Schema<CreateProjectsLocationsAutoscalingPoliciesRequest>,
-  output: __S(2948, __c92, 4) as any as S.Schema<AutoscalingPolicy>,
+  input: __S(2880, __c90, 0) as any as S.Schema<CreateProjectsLocationsAutoscalingPoliciesRequest>,
+  output: __S(2916, __c91, 4) as any as S.Schema<AutoscalingPolicy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -4852,8 +4855,8 @@ export const createProjectsLocationsBatches: API.OperationMethod<
   CreateProjectsLocationsBatchesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2976, __c93, 0) as any as S.Schema<CreateProjectsLocationsBatchesRequest>,
-  output: __S(2659, __c83, 3) as any as S.Schema<Operation>,
+  input: __S(2944, __c92, 0) as any as S.Schema<CreateProjectsLocationsBatchesRequest>,
+  output: __S(2627, __c82, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -4875,8 +4878,8 @@ export const createProjectsLocationsSessions: API.OperationMethod<
   CreateProjectsLocationsSessionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3168, __c99, 0) as any as S.Schema<CreateProjectsLocationsSessionsRequest>,
-  output: __S(2659, __c83, 3) as any as S.Schema<Operation>,
+  input: __S(3136, __c98, 0) as any as S.Schema<CreateProjectsLocationsSessionsRequest>,
+  output: __S(2627, __c82, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -4898,8 +4901,8 @@ export const createProjectsLocationsSessionTemplates: API.OperationMethod<
   CreateProjectsLocationsSessionTemplatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3264, __c102, 0) as any as S.Schema<CreateProjectsLocationsSessionTemplatesRequest>,
-  output: __S(3296, __c103, 0) as any as S.Schema<SessionTemplate>,
+  input: __S(3232, __c101, 0) as any as S.Schema<CreateProjectsLocationsSessionTemplatesRequest>,
+  output: __S(3264, __c102, 0) as any as S.Schema<SessionTemplate>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -4921,8 +4924,8 @@ export const createProjectsLocationsWorkflowTemplates: API.OperationMethod<
   CreateProjectsLocationsWorkflowTemplatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3328, __c104, 0) as any as S.Schema<CreateProjectsLocationsWorkflowTemplatesRequest>,
-  output: __S(3467, __c108, 11) as any as S.Schema<WorkflowTemplate>,
+  input: __S(3296, __c103, 0) as any as S.Schema<CreateProjectsLocationsWorkflowTemplatesRequest>,
+  output: __S(3435, __c107, 11) as any as S.Schema<WorkflowTemplate>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -4944,8 +4947,8 @@ export const createProjectsRegionsAutoscalingPolicies: API.OperationMethod<
   CreateProjectsRegionsAutoscalingPoliciesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3488, __c109, 0) as any as S.Schema<CreateProjectsRegionsAutoscalingPoliciesRequest>,
-  output: __S(2948, __c92, 4) as any as S.Schema<AutoscalingPolicy>,
+  input: __S(3456, __c108, 0) as any as S.Schema<CreateProjectsRegionsAutoscalingPoliciesRequest>,
+  output: __S(2916, __c91, 4) as any as S.Schema<AutoscalingPolicy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -4968,8 +4971,8 @@ export const createProjectsRegionsClusters: API.OperationMethod<
   CreateProjectsRegionsClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3520, __c110, 0) as any as S.Schema<CreateProjectsRegionsClustersRequest>,
-  output: __S(2659, __c83, 3) as any as S.Schema<Operation>,
+  input: __S(3488, __c109, 0) as any as S.Schema<CreateProjectsRegionsClustersRequest>,
+  output: __S(2627, __c82, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -4991,8 +4994,8 @@ export const createProjectsRegionsClustersNodeGroups: API.OperationMethod<
   CreateProjectsRegionsClustersNodeGroupsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3584, __c112, 0) as any as S.Schema<CreateProjectsRegionsClustersNodeGroupsRequest>,
-  output: __S(2659, __c83, 3) as any as S.Schema<Operation>,
+  input: __S(3552, __c111, 0) as any as S.Schema<CreateProjectsRegionsClustersNodeGroupsRequest>,
+  output: __S(2627, __c82, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -5014,8 +5017,8 @@ export const createProjectsRegionsWorkflowTemplates: API.OperationMethod<
   CreateProjectsRegionsWorkflowTemplatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3616, __c113, 0) as any as S.Schema<CreateProjectsRegionsWorkflowTemplatesRequest>,
-  output: __S(3467, __c108, 11) as any as S.Schema<WorkflowTemplate>,
+  input: __S(3584, __c112, 0) as any as S.Schema<CreateProjectsRegionsWorkflowTemplatesRequest>,
+  output: __S(3435, __c107, 11) as any as S.Schema<WorkflowTemplate>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -5037,8 +5040,8 @@ export const deleteProjectsLocationsAutoscalingPolicies: API.OperationMethod<
   DeleteProjectsLocationsAutoscalingPoliciesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3648, __c114, 0) as any as S.Schema<DeleteProjectsLocationsAutoscalingPoliciesRequest>,
-  output: __S(2720, __c85, 0) as any as S.Schema<Empty>,
+  input: __S(3616, __c113, 0) as any as S.Schema<DeleteProjectsLocationsAutoscalingPoliciesRequest>,
+  output: __S(2688, __c84, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -5061,8 +5064,8 @@ export const deleteProjectsLocationsBatches: API.OperationMethod<
   DeleteProjectsLocationsBatchesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3680, __c115, 0) as any as S.Schema<DeleteProjectsLocationsBatchesRequest>,
-  output: __S(2720, __c85, 0) as any as S.Schema<Empty>,
+  input: __S(3648, __c114, 0) as any as S.Schema<DeleteProjectsLocationsBatchesRequest>,
+  output: __S(2688, __c84, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -5084,8 +5087,8 @@ export const deleteProjectsLocationsOperations: API.OperationMethod<
   DeleteProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3712, __c116, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
-  output: __S(2720, __c85, 0) as any as S.Schema<Empty>,
+  input: __S(3680, __c115, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
+  output: __S(2688, __c84, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -5107,8 +5110,8 @@ export const deleteProjectsLocationsSessions: API.OperationMethod<
   DeleteProjectsLocationsSessionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3744, __c117, 0) as any as S.Schema<DeleteProjectsLocationsSessionsRequest>,
-  output: __S(2659, __c83, 3) as any as S.Schema<Operation>,
+  input: __S(3712, __c116, 0) as any as S.Schema<DeleteProjectsLocationsSessionsRequest>,
+  output: __S(2627, __c82, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -5130,8 +5133,8 @@ export const deleteProjectsLocationsSessionTemplates: API.OperationMethod<
   DeleteProjectsLocationsSessionTemplatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3904, __c122, 0) as any as S.Schema<DeleteProjectsLocationsSessionTemplatesRequest>,
-  output: __S(2720, __c85, 0) as any as S.Schema<Empty>,
+  input: __S(3872, __c121, 0) as any as S.Schema<DeleteProjectsLocationsSessionTemplatesRequest>,
+  output: __S(2688, __c84, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -5153,8 +5156,8 @@ export const deleteProjectsLocationsWorkflowTemplates: API.OperationMethod<
   DeleteProjectsLocationsWorkflowTemplatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3936, __c123, 0) as any as S.Schema<DeleteProjectsLocationsWorkflowTemplatesRequest>,
-  output: __S(2720, __c85, 0) as any as S.Schema<Empty>,
+  input: __S(3904, __c122, 0) as any as S.Schema<DeleteProjectsLocationsWorkflowTemplatesRequest>,
+  output: __S(2688, __c84, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -5176,8 +5179,8 @@ export const deleteProjectsRegionsAutoscalingPolicies: API.OperationMethod<
   DeleteProjectsRegionsAutoscalingPoliciesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3968, __c124, 0) as any as S.Schema<DeleteProjectsRegionsAutoscalingPoliciesRequest>,
-  output: __S(2720, __c85, 0) as any as S.Schema<Empty>,
+  input: __S(3936, __c123, 0) as any as S.Schema<DeleteProjectsRegionsAutoscalingPoliciesRequest>,
+  output: __S(2688, __c84, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -5200,8 +5203,8 @@ export const deleteProjectsRegionsClusters: API.OperationMethod<
   DeleteProjectsRegionsClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4000, __c125, 0) as any as S.Schema<DeleteProjectsRegionsClustersRequest>,
-  output: __S(2659, __c83, 3) as any as S.Schema<Operation>,
+  input: __S(3968, __c124, 0) as any as S.Schema<DeleteProjectsRegionsClustersRequest>,
+  output: __S(2627, __c82, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -5223,8 +5226,8 @@ export const deleteProjectsRegionsJobs: API.OperationMethod<
   DeleteProjectsRegionsJobsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4032, __c126, 0) as any as S.Schema<DeleteProjectsRegionsJobsRequest>,
-  output: __S(2720, __c85, 0) as any as S.Schema<Empty>,
+  input: __S(4000, __c125, 0) as any as S.Schema<DeleteProjectsRegionsJobsRequest>,
+  output: __S(2688, __c84, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -5246,8 +5249,8 @@ export const deleteProjectsRegionsOperations: API.OperationMethod<
   DeleteProjectsRegionsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4064, __c127, 0) as any as S.Schema<DeleteProjectsRegionsOperationsRequest>,
-  output: __S(2720, __c85, 0) as any as S.Schema<Empty>,
+  input: __S(4032, __c126, 0) as any as S.Schema<DeleteProjectsRegionsOperationsRequest>,
+  output: __S(2688, __c84, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -5269,8 +5272,8 @@ export const deleteProjectsRegionsWorkflowTemplates: API.OperationMethod<
   DeleteProjectsRegionsWorkflowTemplatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4096, __c128, 0) as any as S.Schema<DeleteProjectsRegionsWorkflowTemplatesRequest>,
-  output: __S(2720, __c85, 0) as any as S.Schema<Empty>,
+  input: __S(4064, __c127, 0) as any as S.Schema<DeleteProjectsRegionsWorkflowTemplatesRequest>,
+  output: __S(2688, __c84, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -5292,8 +5295,8 @@ export const diagnoseProjectsRegionsClusters: API.OperationMethod<
   DiagnoseProjectsRegionsClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4130, __c129, 2) as any as S.Schema<DiagnoseProjectsRegionsClustersRequest>,
-  output: __S(2659, __c83, 3) as any as S.Schema<Operation>,
+  input: __S(4098, __c128, 2) as any as S.Schema<DiagnoseProjectsRegionsClustersRequest>,
+  output: __S(2627, __c82, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -5316,11 +5319,11 @@ export const getIamPolicyProjectsLocationsAutoscalingPolicies: API.OperationMeth
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4160,
-    __c130,
+    4128,
+    __c129,
     0,
   ) as any as S.Schema<GetIamPolicyProjectsLocationsAutoscalingPoliciesRequest>,
-  output: __S(4227, __c132, 3) as any as S.Schema<Policy>,
+  output: __S(4195, __c131, 3) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -5343,11 +5346,11 @@ export const getIamPolicyProjectsLocationsWorkflowTemplates: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4256,
-    __c133,
+    4224,
+    __c132,
     0,
   ) as any as S.Schema<GetIamPolicyProjectsLocationsWorkflowTemplatesRequest>,
-  output: __S(4227, __c132, 3) as any as S.Schema<Policy>,
+  output: __S(4195, __c131, 3) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -5370,11 +5373,11 @@ export const getIamPolicyProjectsRegionsAutoscalingPolicies: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4320,
-    __c135,
+    4288,
+    __c134,
     0,
   ) as any as S.Schema<GetIamPolicyProjectsRegionsAutoscalingPoliciesRequest>,
-  output: __S(4227, __c132, 3) as any as S.Schema<Policy>,
+  output: __S(4195, __c131, 3) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -5396,8 +5399,8 @@ export const getIamPolicyProjectsRegionsClusters: API.OperationMethod<
   GetIamPolicyProjectsRegionsClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4352, __c136, 0) as any as S.Schema<GetIamPolicyProjectsRegionsClustersRequest>,
-  output: __S(4227, __c132, 3) as any as S.Schema<Policy>,
+  input: __S(4320, __c135, 0) as any as S.Schema<GetIamPolicyProjectsRegionsClustersRequest>,
+  output: __S(4195, __c131, 3) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -5419,8 +5422,8 @@ export const getIamPolicyProjectsRegionsJobs: API.OperationMethod<
   GetIamPolicyProjectsRegionsJobsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4384, __c137, 0) as any as S.Schema<GetIamPolicyProjectsRegionsJobsRequest>,
-  output: __S(4227, __c132, 3) as any as S.Schema<Policy>,
+  input: __S(4352, __c136, 0) as any as S.Schema<GetIamPolicyProjectsRegionsJobsRequest>,
+  output: __S(4195, __c131, 3) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -5442,8 +5445,8 @@ export const getIamPolicyProjectsRegionsOperations: API.OperationMethod<
   GetIamPolicyProjectsRegionsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4416, __c138, 0) as any as S.Schema<GetIamPolicyProjectsRegionsOperationsRequest>,
-  output: __S(4227, __c132, 3) as any as S.Schema<Policy>,
+  input: __S(4384, __c137, 0) as any as S.Schema<GetIamPolicyProjectsRegionsOperationsRequest>,
+  output: __S(4195, __c131, 3) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -5466,11 +5469,11 @@ export const getIamPolicyProjectsRegionsWorkflowTemplates: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4448,
-    __c139,
+    4416,
+    __c138,
     0,
   ) as any as S.Schema<GetIamPolicyProjectsRegionsWorkflowTemplatesRequest>,
-  output: __S(4227, __c132, 3) as any as S.Schema<Policy>,
+  output: __S(4195, __c131, 3) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -5487,8 +5490,8 @@ export const getProjectsLocationsAutoscalingPolicies: API.OperationMethod<
   GetProjectsLocationsAutoscalingPoliciesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4480, __c140, 0) as any as S.Schema<GetProjectsLocationsAutoscalingPoliciesRequest>,
-  output: __S(2948, __c92, 4) as any as S.Schema<AutoscalingPolicy>,
+  input: __S(4448, __c139, 0) as any as S.Schema<GetProjectsLocationsAutoscalingPoliciesRequest>,
+  output: __S(2916, __c91, 4) as any as S.Schema<AutoscalingPolicy>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -5505,8 +5508,8 @@ export const getProjectsLocationsBatches: API.OperationMethod<
   GetProjectsLocationsBatchesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4512, __c141, 0) as any as S.Schema<GetProjectsLocationsBatchesRequest>,
-  output: __S(3143, __c98, 7) as any as S.Schema<Batch>,
+  input: __S(4480, __c140, 0) as any as S.Schema<GetProjectsLocationsBatchesRequest>,
+  output: __S(3111, __c97, 7) as any as S.Schema<Batch>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -5523,8 +5526,8 @@ export const getProjectsLocationsOperations: API.OperationMethod<
   GetProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4544, __c142, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
-  output: __S(2659, __c83, 3) as any as S.Schema<Operation>,
+  input: __S(4512, __c141, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
+  output: __S(2627, __c82, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -5541,8 +5544,8 @@ export const getProjectsLocationsSessions: API.OperationMethod<
   GetProjectsLocationsSessionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4576, __c143, 0) as any as S.Schema<GetProjectsLocationsSessionsRequest>,
-  output: __S(3234, __c101, 2) as any as S.Schema<Session>,
+  input: __S(4544, __c142, 0) as any as S.Schema<GetProjectsLocationsSessionsRequest>,
+  output: __S(3202, __c100, 2) as any as S.Schema<Session>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -5559,8 +5562,8 @@ export const getProjectsLocationsSessionTemplates: API.OperationMethod<
   GetProjectsLocationsSessionTemplatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4608, __c144, 0) as any as S.Schema<GetProjectsLocationsSessionTemplatesRequest>,
-  output: __S(3296, __c103, 0) as any as S.Schema<SessionTemplate>,
+  input: __S(4576, __c143, 0) as any as S.Schema<GetProjectsLocationsSessionTemplatesRequest>,
+  output: __S(3264, __c102, 0) as any as S.Schema<SessionTemplate>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -5577,8 +5580,8 @@ export const getProjectsLocationsWorkflowTemplates: API.OperationMethod<
   GetProjectsLocationsWorkflowTemplatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4800, __c150, 0) as any as S.Schema<GetProjectsLocationsWorkflowTemplatesRequest>,
-  output: __S(3467, __c108, 11) as any as S.Schema<WorkflowTemplate>,
+  input: __S(4768, __c149, 0) as any as S.Schema<GetProjectsLocationsWorkflowTemplatesRequest>,
+  output: __S(3435, __c107, 11) as any as S.Schema<WorkflowTemplate>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -5595,8 +5598,8 @@ export const getProjectsRegionsAutoscalingPolicies: API.OperationMethod<
   GetProjectsRegionsAutoscalingPoliciesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4832, __c151, 0) as any as S.Schema<GetProjectsRegionsAutoscalingPoliciesRequest>,
-  output: __S(2948, __c92, 4) as any as S.Schema<AutoscalingPolicy>,
+  input: __S(4800, __c150, 0) as any as S.Schema<GetProjectsRegionsAutoscalingPoliciesRequest>,
+  output: __S(2916, __c91, 4) as any as S.Schema<AutoscalingPolicy>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -5613,8 +5616,8 @@ export const getProjectsRegionsClusters: API.OperationMethod<
   GetProjectsRegionsClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4864, __c152, 0) as any as S.Schema<GetProjectsRegionsClustersRequest>,
-  output: __S(3559, __c111, 7) as any as S.Schema<Cluster>,
+  input: __S(4832, __c151, 0) as any as S.Schema<GetProjectsRegionsClustersRequest>,
+  output: __S(3527, __c110, 7) as any as S.Schema<Cluster>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -5631,8 +5634,8 @@ export const getProjectsRegionsClustersNodeGroups: API.OperationMethod<
   GetProjectsRegionsClustersNodeGroupsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4896, __c153, 0) as any as S.Schema<GetProjectsRegionsClustersNodeGroupsRequest>,
-  output: __S(3376, __c105, 16) as any as S.Schema<NodeGroup>,
+  input: __S(4864, __c152, 0) as any as S.Schema<GetProjectsRegionsClustersNodeGroupsRequest>,
+  output: __S(3344, __c104, 16) as any as S.Schema<NodeGroup>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -5649,8 +5652,8 @@ export const getProjectsRegionsJobs: API.OperationMethod<
   GetProjectsRegionsJobsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4928, __c154, 0) as any as S.Schema<GetProjectsRegionsJobsRequest>,
-  output: __S(2823, __c88, 7) as any as S.Schema<Job>,
+  input: __S(4896, __c153, 0) as any as S.Schema<GetProjectsRegionsJobsRequest>,
+  output: __S(2791, __c87, 7) as any as S.Schema<Job>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -5667,8 +5670,8 @@ export const getProjectsRegionsOperations: API.OperationMethod<
   GetProjectsRegionsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4960, __c155, 0) as any as S.Schema<GetProjectsRegionsOperationsRequest>,
-  output: __S(2659, __c83, 3) as any as S.Schema<Operation>,
+  input: __S(4928, __c154, 0) as any as S.Schema<GetProjectsRegionsOperationsRequest>,
+  output: __S(2627, __c82, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -5685,8 +5688,8 @@ export const getProjectsRegionsWorkflowTemplates: API.OperationMethod<
   GetProjectsRegionsWorkflowTemplatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4992, __c156, 0) as any as S.Schema<GetProjectsRegionsWorkflowTemplatesRequest>,
-  output: __S(3467, __c108, 11) as any as S.Schema<WorkflowTemplate>,
+  input: __S(4960, __c155, 0) as any as S.Schema<GetProjectsRegionsWorkflowTemplatesRequest>,
+  output: __S(3435, __c107, 11) as any as S.Schema<WorkflowTemplate>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -5708,8 +5711,8 @@ export const injectCredentialsProjectsRegionsClusters: API.OperationMethod<
   InjectCredentialsProjectsRegionsClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5025, __c157, 1) as any as S.Schema<InjectCredentialsProjectsRegionsClustersRequest>,
-  output: __S(2659, __c83, 3) as any as S.Schema<Operation>,
+  input: __S(4993, __c156, 1) as any as S.Schema<InjectCredentialsProjectsRegionsClustersRequest>,
+  output: __S(2627, __c82, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -5732,11 +5735,11 @@ export const instantiateInlineProjectsLocationsWorkflowTemplates: API.OperationM
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5056,
-    __c158,
+    5024,
+    __c157,
     0,
   ) as any as S.Schema<InstantiateInlineProjectsLocationsWorkflowTemplatesRequest>,
-  output: __S(2659, __c83, 3) as any as S.Schema<Operation>,
+  output: __S(2627, __c82, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -5759,11 +5762,11 @@ export const instantiateInlineProjectsRegionsWorkflowTemplates: API.OperationMet
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5088,
-    __c159,
+    5056,
+    __c158,
     0,
   ) as any as S.Schema<InstantiateInlineProjectsRegionsWorkflowTemplatesRequest>,
-  output: __S(2659, __c83, 3) as any as S.Schema<Operation>,
+  output: __S(2627, __c82, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -5786,11 +5789,11 @@ export const instantiateProjectsLocationsWorkflowTemplates: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5152,
-    __c161,
+    5120,
+    __c160,
     0,
   ) as any as S.Schema<InstantiateProjectsLocationsWorkflowTemplatesRequest>,
-  output: __S(2659, __c83, 3) as any as S.Schema<Operation>,
+  output: __S(2627, __c82, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -5813,11 +5816,11 @@ export const instantiateProjectsRegionsWorkflowTemplates: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5216,
-    __c163,
+    5184,
+    __c162,
     0,
   ) as any as S.Schema<InstantiateProjectsRegionsWorkflowTemplatesRequest>,
-  output: __S(2659, __c83, 3) as any as S.Schema<Operation>,
+  output: __S(2627, __c82, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -5835,8 +5838,8 @@ export const listProjectsLocationsAutoscalingPolicies: API.PaginatedOperationMet
   GcpOpContext,
   ListAutoscalingPoliciesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(5248, __c164, 0) as any as S.Schema<ListProjectsLocationsAutoscalingPoliciesRequest>,
-  output: __S(5281, __c165, 1) as any as S.Schema<ListAutoscalingPoliciesResponse>,
+  input: __S(5216, __c163, 0) as any as S.Schema<ListProjectsLocationsAutoscalingPoliciesRequest>,
+  output: __S(5249, __c164, 1) as any as S.Schema<ListAutoscalingPoliciesResponse>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -5855,8 +5858,8 @@ export const listProjectsLocationsBatches: API.PaginatedOperationMethod<
   GcpOpContext,
   ListBatchesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(5312, __c166, 0) as any as S.Schema<ListProjectsLocationsBatchesRequest>,
-  output: __S(5314, __c166, 2) as any as S.Schema<ListBatchesResponse>,
+  input: __S(5280, __c165, 0) as any as S.Schema<ListProjectsLocationsBatchesRequest>,
+  output: __S(5282, __c165, 2) as any as S.Schema<ListBatchesResponse>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -5875,8 +5878,8 @@ export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(5344, __c167, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
-  output: __S(5377, __c168, 1) as any as S.Schema<ListOperationsResponse>,
+  input: __S(5312, __c166, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
+  output: __S(5345, __c167, 1) as any as S.Schema<ListOperationsResponse>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -5895,8 +5898,8 @@ export const listProjectsLocationsSessions: API.PaginatedOperationMethod<
   GcpOpContext,
   ListSessionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(5408, __c169, 0) as any as S.Schema<ListProjectsLocationsSessionsRequest>,
-  output: __S(5410, __c169, 2) as any as S.Schema<ListSessionsResponse>,
+  input: __S(5376, __c168, 0) as any as S.Schema<ListProjectsLocationsSessionsRequest>,
+  output: __S(5378, __c168, 2) as any as S.Schema<ListSessionsResponse>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -5915,8 +5918,8 @@ export const listProjectsLocationsSessionTemplates: API.PaginatedOperationMethod
   GcpOpContext,
   ListSessionTemplatesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(5440, __c170, 0) as any as S.Schema<ListProjectsLocationsSessionTemplatesRequest>,
-  output: __S(5442, __c170, 2) as any as S.Schema<ListSessionTemplatesResponse>,
+  input: __S(5408, __c169, 0) as any as S.Schema<ListProjectsLocationsSessionTemplatesRequest>,
+  output: __S(5410, __c169, 2) as any as S.Schema<ListSessionTemplatesResponse>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -5935,8 +5938,8 @@ export const listProjectsLocationsWorkflowTemplates: API.PaginatedOperationMetho
   GcpOpContext,
   ListWorkflowTemplatesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(5472, __c171, 0) as any as S.Schema<ListProjectsLocationsWorkflowTemplatesRequest>,
-  output: __S(5505, __c172, 1) as any as S.Schema<ListWorkflowTemplatesResponse>,
+  input: __S(5440, __c170, 0) as any as S.Schema<ListProjectsLocationsWorkflowTemplatesRequest>,
+  output: __S(5473, __c171, 1) as any as S.Schema<ListWorkflowTemplatesResponse>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -5955,8 +5958,8 @@ export const listProjectsRegionsAutoscalingPolicies: API.PaginatedOperationMetho
   GcpOpContext,
   ListAutoscalingPoliciesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(5536, __c173, 0) as any as S.Schema<ListProjectsRegionsAutoscalingPoliciesRequest>,
-  output: __S(5281, __c165, 1) as any as S.Schema<ListAutoscalingPoliciesResponse>,
+  input: __S(5504, __c172, 0) as any as S.Schema<ListProjectsRegionsAutoscalingPoliciesRequest>,
+  output: __S(5249, __c164, 1) as any as S.Schema<ListAutoscalingPoliciesResponse>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -5975,8 +5978,8 @@ export const listProjectsRegionsClusters: API.PaginatedOperationMethod<
   GcpOpContext,
   ListClustersResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(5568, __c174, 0) as any as S.Schema<ListProjectsRegionsClustersRequest>,
-  output: __S(5570, __c174, 2) as any as S.Schema<ListClustersResponse>,
+  input: __S(5536, __c173, 0) as any as S.Schema<ListProjectsRegionsClustersRequest>,
+  output: __S(5538, __c173, 2) as any as S.Schema<ListClustersResponse>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -5995,8 +5998,8 @@ export const listProjectsRegionsJobs: API.PaginatedOperationMethod<
   GcpOpContext,
   ListJobsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(5664, __c177, 0) as any as S.Schema<ListProjectsRegionsJobsRequest>,
-  output: __S(5666, __c177, 2) as any as S.Schema<ListJobsResponse>,
+  input: __S(5632, __c176, 0) as any as S.Schema<ListProjectsRegionsJobsRequest>,
+  output: __S(5634, __c176, 2) as any as S.Schema<ListJobsResponse>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6015,8 +6018,8 @@ export const listProjectsRegionsOperations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(5696, __c178, 0) as any as S.Schema<ListProjectsRegionsOperationsRequest>,
-  output: __S(5377, __c168, 1) as any as S.Schema<ListOperationsResponse>,
+  input: __S(5664, __c177, 0) as any as S.Schema<ListProjectsRegionsOperationsRequest>,
+  output: __S(5345, __c167, 1) as any as S.Schema<ListOperationsResponse>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6035,8 +6038,8 @@ export const listProjectsRegionsWorkflowTemplates: API.PaginatedOperationMethod<
   GcpOpContext,
   ListWorkflowTemplatesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(5728, __c179, 0) as any as S.Schema<ListProjectsRegionsWorkflowTemplatesRequest>,
-  output: __S(5505, __c172, 1) as any as S.Schema<ListWorkflowTemplatesResponse>,
+  input: __S(5696, __c178, 0) as any as S.Schema<ListProjectsRegionsWorkflowTemplatesRequest>,
+  output: __S(5473, __c171, 1) as any as S.Schema<ListWorkflowTemplatesResponse>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6059,8 +6062,8 @@ export const patchProjectsLocationsSessionTemplates: API.OperationMethod<
   PatchProjectsLocationsSessionTemplatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5760, __c180, 0) as any as S.Schema<PatchProjectsLocationsSessionTemplatesRequest>,
-  output: __S(3296, __c103, 0) as any as S.Schema<SessionTemplate>,
+  input: __S(5728, __c179, 0) as any as S.Schema<PatchProjectsLocationsSessionTemplatesRequest>,
+  output: __S(3264, __c102, 0) as any as S.Schema<SessionTemplate>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6082,8 +6085,8 @@ export const patchProjectsRegionsClusters: API.OperationMethod<
   PatchProjectsRegionsClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5792, __c181, 0) as any as S.Schema<PatchProjectsRegionsClustersRequest>,
-  output: __S(2659, __c83, 3) as any as S.Schema<Operation>,
+  input: __S(5760, __c180, 0) as any as S.Schema<PatchProjectsRegionsClustersRequest>,
+  output: __S(2627, __c82, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6105,8 +6108,8 @@ export const patchProjectsRegionsJobs: API.OperationMethod<
   PatchProjectsRegionsJobsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5824, __c182, 0) as any as S.Schema<PatchProjectsRegionsJobsRequest>,
-  output: __S(2823, __c88, 7) as any as S.Schema<Job>,
+  input: __S(5792, __c181, 0) as any as S.Schema<PatchProjectsRegionsJobsRequest>,
+  output: __S(2791, __c87, 7) as any as S.Schema<Job>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6128,8 +6131,8 @@ export const repairProjectsRegionsClusters: API.OperationMethod<
   RepairProjectsRegionsClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5860, __c183, 4) as any as S.Schema<RepairProjectsRegionsClustersRequest>,
-  output: __S(2659, __c83, 3) as any as S.Schema<Operation>,
+  input: __S(5828, __c182, 4) as any as S.Schema<RepairProjectsRegionsClustersRequest>,
+  output: __S(2627, __c82, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6151,8 +6154,8 @@ export const repairProjectsRegionsClustersNodeGroups: API.OperationMethod<
   RepairProjectsRegionsClustersNodeGroupsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5889, __c184, 1) as any as S.Schema<RepairProjectsRegionsClustersNodeGroupsRequest>,
-  output: __S(2659, __c83, 3) as any as S.Schema<Operation>,
+  input: __S(5857, __c183, 1) as any as S.Schema<RepairProjectsRegionsClustersNodeGroupsRequest>,
+  output: __S(2627, __c82, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6174,8 +6177,8 @@ export const resizeProjectsRegionsClustersNodeGroups: API.OperationMethod<
   ResizeProjectsRegionsClustersNodeGroupsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5921, __c185, 1) as any as S.Schema<ResizeProjectsRegionsClustersNodeGroupsRequest>,
-  output: __S(2659, __c83, 3) as any as S.Schema<Operation>,
+  input: __S(5889, __c184, 1) as any as S.Schema<ResizeProjectsRegionsClustersNodeGroupsRequest>,
+  output: __S(2627, __c82, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6197,11 +6200,11 @@ export const searchExecutorsProjectsLocationsBatchesSparkApplications: API.Pagin
   SearchSparkApplicationExecutorsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    5952,
-    __c186,
+    5920,
+    __c185,
     0,
   ) as any as S.Schema<SearchExecutorsProjectsLocationsBatchesSparkApplicationsRequest>,
-  output: __S(5985, __c187, 1) as any as S.Schema<SearchSparkApplicationExecutorsResponse>,
+  output: __S(5953, __c186, 1) as any as S.Schema<SearchSparkApplicationExecutorsResponse>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6224,11 +6227,11 @@ export const searchExecutorsProjectsLocationsSessionsSparkApplications: API.Pagi
   SearchSessionSparkApplicationExecutorsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    6112,
-    __c191,
+    6080,
+    __c190,
     0,
   ) as any as S.Schema<SearchExecutorsProjectsLocationsSessionsSparkApplicationsRequest>,
-  output: __S(5985, __c187, 1) as any as S.Schema<SearchSessionSparkApplicationExecutorsResponse>,
+  output: __S(5953, __c186, 1) as any as S.Schema<SearchSessionSparkApplicationExecutorsResponse>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6251,13 +6254,13 @@ export const searchExecutorStageSummaryProjectsLocationsBatchesSparkApplications
   SearchSparkApplicationExecutorStageSummaryResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    6144,
-    __c192,
+    6112,
+    __c191,
     0,
   ) as any as S.Schema<SearchExecutorStageSummaryProjectsLocationsBatchesSparkApplicationsRequest>,
   output: __S(
-    6177,
-    __c193,
+    6113,
+    __c191,
     1,
   ) as any as S.Schema<SearchSparkApplicationExecutorStageSummaryResponse>,
   errors: [NotFound, Forbidden],
@@ -6282,8 +6285,8 @@ export const searchExecutorStageSummaryProjectsLocationsSessionsSparkApplication
   SearchSessionSparkApplicationExecutorStageSummaryResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    6208,
-    __c194,
+    6176,
+    __c193,
     0,
   ) as any as S.Schema<SearchExecutorStageSummaryProjectsLocationsSessionsSparkApplicationsRequest>,
   output: __S(
@@ -6313,8 +6316,8 @@ export const searchJobsProjectsLocationsBatchesSparkApplications: API.PaginatedO
   SearchSparkApplicationJobsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    6240,
-    __c195,
+    6208,
+    __c194,
     0,
   ) as any as S.Schema<SearchJobsProjectsLocationsBatchesSparkApplicationsRequest>,
   output: __S(6241, __c195, 1) as any as S.Schema<SearchSparkApplicationJobsResponse>,
@@ -6340,11 +6343,11 @@ export const searchJobsProjectsLocationsSessionsSparkApplications: API.Paginated
   SearchSessionSparkApplicationJobsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    6304,
-    __c197,
+    6272,
+    __c196,
     0,
   ) as any as S.Schema<SearchJobsProjectsLocationsSessionsSparkApplicationsRequest>,
-  output: __S(6305, __c197, 1) as any as S.Schema<SearchSessionSparkApplicationJobsResponse>,
+  output: __S(6241, __c195, 1) as any as S.Schema<SearchSessionSparkApplicationJobsResponse>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6367,8 +6370,8 @@ export const searchNativeSqlQueriesProjectsLocationsBatchesSparkApplications: AP
   SearchSparkApplicationNativeSqlQueriesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    6336,
-    __c198,
+    6304,
+    __c197,
     0,
   ) as any as S.Schema<SearchNativeSqlQueriesProjectsLocationsBatchesSparkApplicationsRequest>,
   output: __S(6337, __c198, 1) as any as S.Schema<SearchSparkApplicationNativeSqlQueriesResponse>,
@@ -6394,13 +6397,13 @@ export const searchNativeSqlQueriesProjectsLocationsSessionsSparkApplications: A
   SearchSessionSparkApplicationNativeSqlQueriesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    6400,
-    __c200,
+    6368,
+    __c199,
     0,
   ) as any as S.Schema<SearchNativeSqlQueriesProjectsLocationsSessionsSparkApplicationsRequest>,
   output: __S(
-    6401,
-    __c200,
+    6337,
+    __c198,
     1,
   ) as any as S.Schema<SearchSessionSparkApplicationNativeSqlQueriesResponse>,
   errors: [NotFound, Forbidden],
@@ -6425,11 +6428,11 @@ export const searchProjectsLocationsBatchesSparkApplications: API.PaginatedOpera
   SearchSparkApplicationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    6432,
-    __c201,
+    6400,
+    __c200,
     0,
   ) as any as S.Schema<SearchProjectsLocationsBatchesSparkApplicationsRequest>,
-  output: __S(6433, __c201, 1) as any as S.Schema<SearchSparkApplicationsResponse>,
+  output: __S(6401, __c200, 1) as any as S.Schema<SearchSparkApplicationsResponse>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6452,11 +6455,11 @@ export const searchProjectsLocationsSessionsSparkApplications: API.PaginatedOper
   SearchSessionSparkApplicationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    6496,
-    __c203,
+    6464,
+    __c202,
     0,
   ) as any as S.Schema<SearchProjectsLocationsSessionsSparkApplicationsRequest>,
-  output: __S(6497, __c203, 1) as any as S.Schema<SearchSessionSparkApplicationsResponse>,
+  output: __S(6465, __c202, 1) as any as S.Schema<SearchSessionSparkApplicationsResponse>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6479,11 +6482,11 @@ export const searchSqlQueriesProjectsLocationsBatchesSparkApplications: API.Pagi
   SearchSparkApplicationSqlQueriesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    6528,
-    __c204,
+    6496,
+    __c203,
     0,
   ) as any as S.Schema<SearchSqlQueriesProjectsLocationsBatchesSparkApplicationsRequest>,
-  output: __S(6561, __c205, 1) as any as S.Schema<SearchSparkApplicationSqlQueriesResponse>,
+  output: __S(6497, __c203, 1) as any as S.Schema<SearchSparkApplicationSqlQueriesResponse>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6510,7 +6513,7 @@ export const searchSqlQueriesProjectsLocationsSessionsSparkApplications: API.Pag
     __c3,
     0,
   ) as any as S.Schema<SearchSqlQueriesProjectsLocationsSessionsSparkApplicationsRequest>,
-  output: __S(6561, __c205, 1) as any as S.Schema<SearchSessionSparkApplicationSqlQueriesResponse>,
+  output: __S(97, __c3, 1) as any as S.Schema<SearchSessionSparkApplicationSqlQueriesResponse>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6537,7 +6540,7 @@ export const searchStageAttemptsProjectsLocationsBatchesSparkApplications: API.P
     __c4,
     0,
   ) as any as S.Schema<SearchStageAttemptsProjectsLocationsBatchesSparkApplicationsRequest>,
-  output: __S(160, __c5, 0) as any as S.Schema<SearchSparkApplicationStageAttemptsResponse>,
+  output: __S(129, __c4, 1) as any as S.Schema<SearchSparkApplicationStageAttemptsResponse>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6560,11 +6563,11 @@ export const searchStageAttemptsProjectsLocationsSessionsSparkApplications: API.
   SearchSessionSparkApplicationStageAttemptsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    224,
-    __c7,
+    192,
+    __c6,
     0,
   ) as any as S.Schema<SearchStageAttemptsProjectsLocationsSessionsSparkApplicationsRequest>,
-  output: __S(160, __c5, 0) as any as S.Schema<SearchSessionSparkApplicationStageAttemptsResponse>,
+  output: __S(193, __c6, 1) as any as S.Schema<SearchSessionSparkApplicationStageAttemptsResponse>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6587,11 +6590,11 @@ export const searchStageAttemptTasksProjectsLocationsBatchesSparkApplications: A
   SearchSparkApplicationStageAttemptTasksResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    256,
-    __c8,
+    224,
+    __c7,
     0,
   ) as any as S.Schema<SearchStageAttemptTasksProjectsLocationsBatchesSparkApplicationsRequest>,
-  output: __S(289, __c9, 1) as any as S.Schema<SearchSparkApplicationStageAttemptTasksResponse>,
+  output: __S(225, __c7, 1) as any as S.Schema<SearchSparkApplicationStageAttemptTasksResponse>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6614,8 +6617,8 @@ export const searchStageAttemptTasksProjectsLocationsSessionsSparkApplications: 
   SearchSessionSparkApplicationStageAttemptTasksResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    320,
-    __c10,
+    288,
+    __c9,
     0,
   ) as any as S.Schema<SearchStageAttemptTasksProjectsLocationsSessionsSparkApplicationsRequest>,
   output: __S(
@@ -6645,11 +6648,11 @@ export const searchStagesProjectsLocationsBatchesSparkApplications: API.Paginate
   SearchSparkApplicationStagesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    352,
-    __c11,
+    320,
+    __c10,
     0,
   ) as any as S.Schema<SearchStagesProjectsLocationsBatchesSparkApplicationsRequest>,
-  output: __S(353, __c11, 1) as any as S.Schema<SearchSparkApplicationStagesResponse>,
+  output: __S(321, __c10, 1) as any as S.Schema<SearchSparkApplicationStagesResponse>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6672,11 +6675,11 @@ export const searchStagesProjectsLocationsSessionsSparkApplications: API.Paginat
   SearchSessionSparkApplicationStagesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    384,
-    __c12,
+    352,
+    __c11,
     0,
   ) as any as S.Schema<SearchStagesProjectsLocationsSessionsSparkApplicationsRequest>,
-  output: __S(385, __c12, 1) as any as S.Schema<SearchSessionSparkApplicationStagesResponse>,
+  output: __S(353, __c11, 1) as any as S.Schema<SearchSessionSparkApplicationStagesResponse>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6700,11 +6703,11 @@ export const setIamPolicyProjectsLocationsAutoscalingPolicies: API.OperationMeth
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    416,
-    __c13,
+    384,
+    __c12,
     0,
   ) as any as S.Schema<SetIamPolicyProjectsLocationsAutoscalingPoliciesRequest>,
-  output: __S(4227, __c132, 3) as any as S.Schema<Policy>,
+  output: __S(4195, __c131, 3) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6727,11 +6730,11 @@ export const setIamPolicyProjectsLocationsWorkflowTemplates: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    480,
-    __c15,
+    448,
+    __c14,
     0,
   ) as any as S.Schema<SetIamPolicyProjectsLocationsWorkflowTemplatesRequest>,
-  output: __S(4227, __c132, 3) as any as S.Schema<Policy>,
+  output: __S(4195, __c131, 3) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6754,11 +6757,11 @@ export const setIamPolicyProjectsRegionsAutoscalingPolicies: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    512,
-    __c16,
+    480,
+    __c15,
     0,
   ) as any as S.Schema<SetIamPolicyProjectsRegionsAutoscalingPoliciesRequest>,
-  output: __S(4227, __c132, 3) as any as S.Schema<Policy>,
+  output: __S(4195, __c131, 3) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6780,8 +6783,8 @@ export const setIamPolicyProjectsRegionsClusters: API.OperationMethod<
   SetIamPolicyProjectsRegionsClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c18, 0) as any as S.Schema<SetIamPolicyProjectsRegionsClustersRequest>,
-  output: __S(4227, __c132, 3) as any as S.Schema<Policy>,
+  input: __S(544, __c17, 0) as any as S.Schema<SetIamPolicyProjectsRegionsClustersRequest>,
+  output: __S(4195, __c131, 3) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6803,8 +6806,8 @@ export const setIamPolicyProjectsRegionsJobs: API.OperationMethod<
   SetIamPolicyProjectsRegionsJobsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c19, 0) as any as S.Schema<SetIamPolicyProjectsRegionsJobsRequest>,
-  output: __S(4227, __c132, 3) as any as S.Schema<Policy>,
+  input: __S(576, __c18, 0) as any as S.Schema<SetIamPolicyProjectsRegionsJobsRequest>,
+  output: __S(4195, __c131, 3) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6826,8 +6829,8 @@ export const setIamPolicyProjectsRegionsOperations: API.OperationMethod<
   SetIamPolicyProjectsRegionsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c20, 0) as any as S.Schema<SetIamPolicyProjectsRegionsOperationsRequest>,
-  output: __S(4227, __c132, 3) as any as S.Schema<Policy>,
+  input: __S(608, __c19, 0) as any as S.Schema<SetIamPolicyProjectsRegionsOperationsRequest>,
+  output: __S(4195, __c131, 3) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6849,8 +6852,8 @@ export const setIamPolicyProjectsRegionsWorkflowTemplates: API.OperationMethod<
   SetIamPolicyProjectsRegionsWorkflowTemplatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<SetIamPolicyProjectsRegionsWorkflowTemplatesRequest>,
-  output: __S(4227, __c132, 3) as any as S.Schema<Policy>,
+  input: __S(640, __c20, 0) as any as S.Schema<SetIamPolicyProjectsRegionsWorkflowTemplatesRequest>,
+  output: __S(4195, __c131, 3) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6872,8 +6875,8 @@ export const startProjectsRegionsClusters: API.OperationMethod<
   StartProjectsRegionsClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c22, 0) as any as S.Schema<StartProjectsRegionsClustersRequest>,
-  output: __S(2659, __c83, 3) as any as S.Schema<Operation>,
+  input: __S(672, __c21, 0) as any as S.Schema<StartProjectsRegionsClustersRequest>,
+  output: __S(2627, __c82, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6895,8 +6898,8 @@ export const stopProjectsRegionsClusters: API.OperationMethod<
   StopProjectsRegionsClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c24, 0) as any as S.Schema<StopProjectsRegionsClustersRequest>,
-  output: __S(2659, __c83, 3) as any as S.Schema<Operation>,
+  input: __S(736, __c23, 0) as any as S.Schema<StopProjectsRegionsClustersRequest>,
+  output: __S(2627, __c82, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6918,8 +6921,8 @@ export const submitAsOperationProjectsRegionsJobs: API.OperationMethod<
   SubmitAsOperationProjectsRegionsJobsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c25, 0) as any as S.Schema<SubmitAsOperationProjectsRegionsJobsRequest>,
-  output: __S(2659, __c83, 3) as any as S.Schema<Operation>,
+  input: __S(768, __c24, 0) as any as S.Schema<SubmitAsOperationProjectsRegionsJobsRequest>,
+  output: __S(2627, __c82, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6941,8 +6944,8 @@ export const submitProjectsRegionsJobs: API.OperationMethod<
   SubmitProjectsRegionsJobsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c27, 0) as any as S.Schema<SubmitProjectsRegionsJobsRequest>,
-  output: __S(2823, __c88, 7) as any as S.Schema<Job>,
+  input: __S(832, __c26, 0) as any as S.Schema<SubmitProjectsRegionsJobsRequest>,
+  output: __S(2791, __c87, 7) as any as S.Schema<Job>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6963,11 +6966,11 @@ export const summarizeExecutorsProjectsLocationsBatchesSparkApplications: API.Op
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    896,
-    __c28,
+    864,
+    __c27,
     0,
   ) as any as S.Schema<SummarizeExecutorsProjectsLocationsBatchesSparkApplicationsRequest>,
-  output: __S(897, __c28, 1) as any as S.Schema<SummarizeSparkApplicationExecutorsResponse>,
+  output: __S(865, __c27, 1) as any as S.Schema<SummarizeSparkApplicationExecutorsResponse>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6988,11 +6991,11 @@ export const summarizeExecutorsProjectsLocationsSessionsSparkApplications: API.O
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    960,
-    __c30,
+    928,
+    __c29,
     0,
   ) as any as S.Schema<SummarizeExecutorsProjectsLocationsSessionsSparkApplicationsRequest>,
-  output: __S(961, __c30, 1) as any as S.Schema<SummarizeSessionSparkApplicationExecutorsResponse>,
+  output: __S(929, __c29, 1) as any as S.Schema<SummarizeSessionSparkApplicationExecutorsResponse>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -7013,11 +7016,11 @@ export const summarizeJobsProjectsLocationsBatchesSparkApplications: API.Operati
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1120,
-    __c35,
+    1088,
+    __c34,
     0,
   ) as any as S.Schema<SummarizeJobsProjectsLocationsBatchesSparkApplicationsRequest>,
-  output: __S(1153, __c36, 1) as any as S.Schema<SummarizeSparkApplicationJobsResponse>,
+  output: __S(1121, __c35, 1) as any as S.Schema<SummarizeSparkApplicationJobsResponse>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -7038,11 +7041,11 @@ export const summarizeJobsProjectsLocationsSessionsSparkApplications: API.Operat
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1184,
-    __c37,
+    1152,
+    __c36,
     0,
   ) as any as S.Schema<SummarizeJobsProjectsLocationsSessionsSparkApplicationsRequest>,
-  output: __S(1153, __c36, 1) as any as S.Schema<SummarizeSessionSparkApplicationJobsResponse>,
+  output: __S(1121, __c35, 1) as any as S.Schema<SummarizeSessionSparkApplicationJobsResponse>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -7063,13 +7066,13 @@ export const summarizeStageAttemptTasksProjectsLocationsBatchesSparkApplications
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1216,
-    __c38,
+    1184,
+    __c37,
     0,
   ) as any as S.Schema<SummarizeStageAttemptTasksProjectsLocationsBatchesSparkApplicationsRequest>,
   output: __S(
-    1249,
-    __c39,
+    1217,
+    __c38,
     1,
   ) as any as S.Schema<SummarizeSparkApplicationStageAttemptTasksResponse>,
   errors: [NotFound, Forbidden],
@@ -7092,13 +7095,13 @@ export const summarizeStageAttemptTasksProjectsLocationsSessionsSparkApplication
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1280,
-    __c40,
+    1248,
+    __c39,
     0,
   ) as any as S.Schema<SummarizeStageAttemptTasksProjectsLocationsSessionsSparkApplicationsRequest>,
   output: __S(
-    1249,
-    __c39,
+    1217,
+    __c38,
     1,
   ) as any as S.Schema<SummarizeSessionSparkApplicationStageAttemptTasksResponse>,
   errors: [NotFound, Forbidden],
@@ -7121,11 +7124,11 @@ export const summarizeStagesProjectsLocationsBatchesSparkApplications: API.Opera
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1312,
-    __c41,
+    1280,
+    __c40,
     0,
   ) as any as S.Schema<SummarizeStagesProjectsLocationsBatchesSparkApplicationsRequest>,
-  output: __S(1345, __c42, 1) as any as S.Schema<SummarizeSparkApplicationStagesResponse>,
+  output: __S(1313, __c41, 1) as any as S.Schema<SummarizeSparkApplicationStagesResponse>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -7146,11 +7149,11 @@ export const summarizeStagesProjectsLocationsSessionsSparkApplications: API.Oper
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1376,
-    __c43,
+    1344,
+    __c42,
     0,
   ) as any as S.Schema<SummarizeStagesProjectsLocationsSessionsSparkApplicationsRequest>,
-  output: __S(1345, __c42, 1) as any as S.Schema<SummarizeSessionSparkApplicationStagesResponse>,
+  output: __S(1313, __c41, 1) as any as S.Schema<SummarizeSessionSparkApplicationStagesResponse>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -7172,8 +7175,8 @@ export const terminateProjectsLocationsSessions: API.OperationMethod<
   TerminateProjectsLocationsSessionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1409, __c44, 1) as any as S.Schema<TerminateProjectsLocationsSessionsRequest>,
-  output: __S(2659, __c83, 3) as any as S.Schema<Operation>,
+  input: __S(1377, __c43, 1) as any as S.Schema<TerminateProjectsLocationsSessionsRequest>,
+  output: __S(2627, __c82, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -7196,11 +7199,11 @@ export const testIamPermissionsProjectsLocationsAutoscalingPolicies: API.Operati
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1440,
-    __c45,
+    1408,
+    __c44,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsAutoscalingPoliciesRequest>,
-  output: __S(1472, __c46, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(1440, __c45, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -7223,11 +7226,11 @@ export const testIamPermissionsProjectsLocationsWorkflowTemplates: API.Operation
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1504,
-    __c47,
+    1472,
+    __c46,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsWorkflowTemplatesRequest>,
-  output: __S(1472, __c46, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(1440, __c45, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -7250,11 +7253,11 @@ export const testIamPermissionsProjectsRegionsAutoscalingPolicies: API.Operation
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1536,
-    __c48,
+    1504,
+    __c47,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsRegionsAutoscalingPoliciesRequest>,
-  output: __S(1472, __c46, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(1440, __c45, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -7276,8 +7279,8 @@ export const testIamPermissionsProjectsRegionsClusters: API.OperationMethod<
   TestIamPermissionsProjectsRegionsClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c50, 0) as any as S.Schema<TestIamPermissionsProjectsRegionsClustersRequest>,
-  output: __S(1472, __c46, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  input: __S(1568, __c49, 0) as any as S.Schema<TestIamPermissionsProjectsRegionsClustersRequest>,
+  output: __S(1440, __c45, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -7299,8 +7302,8 @@ export const testIamPermissionsProjectsRegionsJobs: API.OperationMethod<
   TestIamPermissionsProjectsRegionsJobsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c51, 0) as any as S.Schema<TestIamPermissionsProjectsRegionsJobsRequest>,
-  output: __S(1472, __c46, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  input: __S(1600, __c50, 0) as any as S.Schema<TestIamPermissionsProjectsRegionsJobsRequest>,
+  output: __S(1440, __c45, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -7322,8 +7325,8 @@ export const testIamPermissionsProjectsRegionsOperations: API.OperationMethod<
   TestIamPermissionsProjectsRegionsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c52, 0) as any as S.Schema<TestIamPermissionsProjectsRegionsOperationsRequest>,
-  output: __S(1472, __c46, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  input: __S(1632, __c51, 0) as any as S.Schema<TestIamPermissionsProjectsRegionsOperationsRequest>,
+  output: __S(1440, __c45, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -7346,11 +7349,11 @@ export const testIamPermissionsProjectsRegionsWorkflowTemplates: API.OperationMe
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1696,
-    __c53,
+    1664,
+    __c52,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsRegionsWorkflowTemplatesRequest>,
-  output: __S(1472, __c46, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(1440, __c45, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -7372,8 +7375,8 @@ export const updateProjectsLocationsAutoscalingPolicies: API.OperationMethod<
   UpdateProjectsLocationsAutoscalingPoliciesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c54, 0) as any as S.Schema<UpdateProjectsLocationsAutoscalingPoliciesRequest>,
-  output: __S(2948, __c92, 4) as any as S.Schema<AutoscalingPolicy>,
+  input: __S(1696, __c53, 0) as any as S.Schema<UpdateProjectsLocationsAutoscalingPoliciesRequest>,
+  output: __S(2916, __c91, 4) as any as S.Schema<AutoscalingPolicy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -7395,8 +7398,8 @@ export const updateProjectsLocationsWorkflowTemplates: API.OperationMethod<
   UpdateProjectsLocationsWorkflowTemplatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c55, 0) as any as S.Schema<UpdateProjectsLocationsWorkflowTemplatesRequest>,
-  output: __S(3467, __c108, 11) as any as S.Schema<WorkflowTemplate>,
+  input: __S(1728, __c54, 0) as any as S.Schema<UpdateProjectsLocationsWorkflowTemplatesRequest>,
+  output: __S(3435, __c107, 11) as any as S.Schema<WorkflowTemplate>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -7418,8 +7421,8 @@ export const updateProjectsRegionsAutoscalingPolicies: API.OperationMethod<
   UpdateProjectsRegionsAutoscalingPoliciesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c56, 0) as any as S.Schema<UpdateProjectsRegionsAutoscalingPoliciesRequest>,
-  output: __S(2948, __c92, 4) as any as S.Schema<AutoscalingPolicy>,
+  input: __S(1760, __c55, 0) as any as S.Schema<UpdateProjectsRegionsAutoscalingPoliciesRequest>,
+  output: __S(2916, __c91, 4) as any as S.Schema<AutoscalingPolicy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -7441,8 +7444,8 @@ export const updateProjectsRegionsWorkflowTemplates: API.OperationMethod<
   UpdateProjectsRegionsWorkflowTemplatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c57, 0) as any as S.Schema<UpdateProjectsRegionsWorkflowTemplatesRequest>,
-  output: __S(3467, __c108, 11) as any as S.Schema<WorkflowTemplate>,
+  input: __S(1792, __c56, 0) as any as S.Schema<UpdateProjectsRegionsWorkflowTemplatesRequest>,
+  output: __S(3435, __c107, 11) as any as S.Schema<WorkflowTemplate>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -7465,11 +7468,11 @@ export const writeProjectsLocationsBatchesSparkApplications: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1856,
-    __c58,
-    0,
+    1825,
+    __c57,
+    1,
   ) as any as S.Schema<WriteProjectsLocationsBatchesSparkApplicationsRequest>,
-  output: __S(2720, __c85, 0) as any as S.Schema<WriteSparkApplicationContextResponse>,
+  output: __S(2688, __c84, 0) as any as S.Schema<WriteSparkApplicationContextResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -7492,11 +7495,11 @@ export const writeProjectsLocationsSessionsSparkApplications: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1920,
-    __c60,
-    0,
+    1889,
+    __c59,
+    1,
   ) as any as S.Schema<WriteProjectsLocationsSessionsSparkApplicationsRequest>,
-  output: __S(2720, __c85, 0) as any as S.Schema<WriteSessionSparkApplicationContextResponse>,
+  output: __S(2688, __c84, 0) as any as S.Schema<WriteSessionSparkApplicationContextResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -7511,8 +7514,8 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.optional(S.String.pipe(T.Query())),
           executionId: S.optional(S.String.pipe(T.Query())),
+          parent: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -7550,12 +7553,12 @@ function __c2(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          fallbackDescription: S.optional(S.String),
-          description: S.optional(S.String),
           numFallbackNodes: S.optional(S.Number),
-          numNativeNodes: S.optional(S.Number),
           fallbackNodeToReason: S.optional(__S(65, __c2, 1)),
           executionId: S.optional(S.String),
+          fallbackDescription: S.optional(S.String),
+          numNativeNodes: S.optional(S.Number),
+          description: S.optional(S.String),
         }),
       ).annotate({ identifier: "NativeSqlExecutionUiData" });
   }
@@ -7565,12 +7568,12 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          operationIds: S.optional(__S(4672, __c146, 0).pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
           details: S.optional(S.Boolean.pipe(T.Query())),
-          operationIds: S.optional(__S(4704, __c147, 0).pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           planDescription: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -7582,6 +7585,13 @@ function __c3(j: number): any {
       ).annotate({
         identifier: "SearchSqlQueriesProjectsLocationsSessionsSparkApplicationsRequest",
       });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          nextPageToken: S.optional(S.String),
+          sparkApplicationSqlQueries: S.optional(__S(6528, __c204, 0)),
+        }),
+      ).annotate({ identifier: "SearchSessionSparkApplicationSqlQueriesResponse" });
   }
 }
 function __c4(j: number): any {
@@ -7590,11 +7600,11 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pageToken: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
           summaryMetricsMask: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
+          parent: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           stageId: S.optional(S.String.pipe(T.Query())),
-          parent: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -7605,36 +7615,32 @@ function __c4(j: number): any {
       ).annotate({
         identifier: "SearchStageAttemptsProjectsLocationsBatchesSparkApplicationsRequest",
       });
-  }
-}
-function __c5(j: number): any {
-  switch (j) {
-    case 0:
+    case 1:
       return S.suspend(() =>
         S.Struct({
-          sparkApplicationStageAttempts: S.optional(__S(192, __c6, 0)),
+          sparkApplicationStageAttempts: S.optional(__S(160, __c5, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "SearchSparkApplicationStageAttemptsResponse" });
   }
 }
-function __c6(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2385, __c74, 17));
+      return S.Array(__S(2354, __c73, 18));
   }
 }
-function __c7(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          parent: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           summaryMetricsMask: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
+          parent: S.optional(S.String.pipe(T.Query())),
           stageId: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -7645,21 +7651,28 @@ function __c7(j: number): any {
       ).annotate({
         identifier: "SearchStageAttemptsProjectsLocationsSessionsSparkApplicationsRequest",
       });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          nextPageToken: S.optional(S.String),
+          sparkApplicationStageAttempts: S.optional(__S(160, __c5, 0)),
+        }),
+      ).annotate({ identifier: "SearchSessionSparkApplicationStageAttemptsResponse" });
   }
 }
-function __c8(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          stageId: S.optional(S.String.pipe(T.Query())),
           stageAttemptId: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          sortRuntime: S.optional(S.Boolean.pipe(T.Query())),
-          parent: S.optional(S.String.pipe(T.Query())),
           taskStatus: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
+          sortRuntime: S.optional(S.Boolean.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          stageId: S.optional(S.String.pipe(T.Query())),
+          parent: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -7670,34 +7683,34 @@ function __c8(j: number): any {
       ).annotate({
         identifier: "SearchStageAttemptTasksProjectsLocationsBatchesSparkApplicationsRequest",
       });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          sparkApplicationStageAttemptTasks: S.optional(__S(256, __c8, 0)),
+          nextPageToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SearchSparkApplicationStageAttemptTasksResponse" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(2312, __c72, 8));
   }
 }
 function __c9(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2344, __c73, 8));
-    case 1:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
-          sparkApplicationStageAttemptTasks: S.optional(__S(288, __c9, 0)),
-        }),
-      ).annotate({ identifier: "SearchSparkApplicationStageAttemptTasksResponse" });
-  }
-}
-function __c10(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          parent: S.optional(S.String.pipe(T.Query())),
-          taskStatus: S.optional(S.String.pipe(T.Query())),
-          stageId: S.optional(S.String.pipe(T.Query())),
-          sortRuntime: S.optional(S.Boolean.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           stageAttemptId: S.optional(S.Number.pipe(T.Query())),
+          taskStatus: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          parent: S.optional(S.String.pipe(T.Query())),
+          stageId: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          sortRuntime: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -7708,19 +7721,26 @@ function __c10(j: number): any {
       ).annotate({
         identifier: "SearchStageAttemptTasksProjectsLocationsSessionsSparkApplicationsRequest",
       });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          nextPageToken: S.optional(S.String),
+          sparkApplicationStageAttemptTasks: S.optional(__S(256, __c8, 0)),
+        }),
+      ).annotate({ identifier: "SearchSessionSparkApplicationStageAttemptTasksResponse" });
   }
 }
-function __c11(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          summaryMetricsMask: S.optional(S.String.pipe(T.Query())),
           parent: S.optional(S.String.pipe(T.Query())),
+          summaryMetricsMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           stageStatus: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -7732,24 +7752,24 @@ function __c11(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          sparkApplicationStages: S.optional(__S(192, __c6, 0)),
           nextPageToken: S.optional(S.String),
+          sparkApplicationStages: S.optional(__S(160, __c5, 0)),
         }),
       ).annotate({ identifier: "SearchSparkApplicationStagesResponse" });
   }
 }
-function __c12(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          stageIds: S.optional(__S(4672, __c146, 0).pipe(T.Query())),
+          stageStatus: S.optional(S.String.pipe(T.Query())),
           parent: S.optional(S.String.pipe(T.Query())),
           summaryMetricsMask: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          stageIds: S.optional(__S(4704, __c147, 0).pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          stageStatus: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -7761,18 +7781,18 @@ function __c12(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          sparkApplicationStages: S.optional(__S(160, __c5, 0)),
           nextPageToken: S.optional(S.String),
-          sparkApplicationStages: S.optional(__S(192, __c6, 0)),
         }),
       ).annotate({ identifier: "SearchSessionSparkApplicationStagesResponse" });
   }
 }
-function __c13(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(448, __c14, 0),
+          __S(416, __c13, 0),
           S.Struct({
             resource: S.String.pipe(T.Label()),
           }),
@@ -7786,22 +7806,22 @@ function __c13(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsAutoscalingPoliciesRequest" });
   }
 }
-function __c14(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          policy: S.optional(__S(4227, __c132, 3)),
+          policy: S.optional(__S(4195, __c131, 3)),
         }),
       ).annotate({ identifier: "SetIamPolicyRequest" });
   }
 }
-function __c15(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(448, __c14, 0),
+          __S(416, __c13, 0),
           S.Struct({
             resource: S.String.pipe(T.Label()),
           }),
@@ -7815,12 +7835,12 @@ function __c15(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsWorkflowTemplatesRequest" });
   }
 }
-function __c16(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(448, __c14, 0),
+          __S(416, __c13, 0),
           S.Struct({
             resource: S.String.pipe(T.Label()),
           }),
@@ -7834,7 +7854,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsRegionsAutoscalingPoliciesRequest" });
   }
 }
-function __c17(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7854,12 +7874,12 @@ function __c17(j: number): any {
       });
   }
 }
-function __c18(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(448, __c14, 0),
+          __S(416, __c13, 0),
           S.Struct({
             resource: S.String.pipe(T.Label()),
           }),
@@ -7873,12 +7893,12 @@ function __c18(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsRegionsClustersRequest" });
   }
 }
-function __c19(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(448, __c14, 0),
+          __S(416, __c13, 0),
           S.Struct({
             resource: S.String.pipe(T.Label()),
           }),
@@ -7892,12 +7912,12 @@ function __c19(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsRegionsJobsRequest" });
   }
 }
-function __c20(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(448, __c14, 0),
+          __S(416, __c13, 0),
           S.Struct({
             resource: S.String.pipe(T.Label()),
           }),
@@ -7911,12 +7931,12 @@ function __c20(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsRegionsOperationsRequest" });
   }
 }
-function __c21(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(448, __c14, 0),
+          __S(416, __c13, 0),
           S.Struct({
             resource: S.String.pipe(T.Label()),
           }),
@@ -7930,16 +7950,16 @@ function __c21(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsRegionsWorkflowTemplatesRequest" });
   }
 }
-function __c22(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(736, __c23, 0),
+          __S(704, __c22, 0),
           S.Struct({
             projectId: S.String.pipe(T.Label()),
-            clusterName: S.String.pipe(T.Label()),
             region: S.String.pipe(T.Label()),
+            clusterName: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -7951,7 +7971,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "StartProjectsRegionsClustersRequest" });
   }
 }
-function __c23(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7962,12 +7982,12 @@ function __c23(j: number): any {
       ).annotate({ identifier: "StartClusterRequest" });
   }
 }
-function __c24(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(736, __c23, 0),
+          __S(704, __c22, 0),
           S.Struct({
             projectId: S.String.pipe(T.Label()),
             region: S.String.pipe(T.Label()),
@@ -7983,12 +8003,12 @@ function __c24(j: number): any {
       ).annotate({ identifier: "StopProjectsRegionsClustersRequest" });
   }
 }
-function __c25(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(832, __c26, 0),
+          __S(800, __c25, 0),
           S.Struct({
             projectId: S.String.pipe(T.Label()),
             region: S.String.pipe(T.Label()),
@@ -8003,26 +8023,26 @@ function __c25(j: number): any {
       ).annotate({ identifier: "SubmitAsOperationProjectsRegionsJobsRequest" });
   }
 }
-function __c26(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           requestId: S.optional(S.String),
-          job: S.optional(__S(2823, __c88, 7)),
+          job: S.optional(__S(2791, __c87, 7)),
         }),
       ).annotate({ identifier: "SubmitJobRequest" });
   }
 }
-function __c27(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(832, __c26, 0),
+          __S(800, __c25, 0),
           S.Struct({
-            region: S.String.pipe(T.Label()),
             projectId: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -8034,7 +8054,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "SubmitProjectsRegionsJobsRequest" });
   }
 }
-function __c28(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8054,41 +8074,41 @@ function __c28(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          deadExecutorSummary: S.optional(__S(928, __c29, 0)),
+          activeExecutorSummary: S.optional(__S(896, __c28, 0)),
+          totalExecutorSummary: S.optional(__S(896, __c28, 0)),
+          deadExecutorSummary: S.optional(__S(896, __c28, 0)),
           applicationId: S.optional(S.String),
-          totalExecutorSummary: S.optional(__S(928, __c29, 0)),
-          activeExecutorSummary: S.optional(__S(928, __c29, 0)),
         }),
       ).annotate({ identifier: "SummarizeSparkApplicationExecutorsResponse" });
   }
 }
-function __c29(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          diskUsed: S.optional(S.String),
-          totalShuffleWrite: S.optional(S.String),
-          totalInputBytes: S.optional(S.String),
-          memoryMetrics: S.optional(__S(6016, __c188, 0)),
-          isExcluded: S.optional(S.Number),
-          totalDurationMillis: S.optional(S.String),
-          count: S.optional(S.Number),
-          totalShuffleRead: S.optional(S.String),
-          memoryUsed: S.optional(S.String),
           activeTasks: S.optional(S.Number),
-          maxMemory: S.optional(S.String),
-          totalGcTimeMillis: S.optional(S.String),
-          completedTasks: S.optional(S.Number),
-          failedTasks: S.optional(S.Number),
           totalTasks: S.optional(S.Number),
+          diskUsed: S.optional(S.String),
           rddBlocks: S.optional(S.Number),
+          totalGcTimeMillis: S.optional(S.String),
+          totalDurationMillis: S.optional(S.String),
           totalCores: S.optional(S.Number),
+          memoryUsed: S.optional(S.String),
+          completedTasks: S.optional(S.Number),
+          count: S.optional(S.Number),
+          memoryMetrics: S.optional(__S(5984, __c187, 0)),
+          maxMemory: S.optional(S.String),
+          totalShuffleWrite: S.optional(S.String),
+          failedTasks: S.optional(S.Number),
+          totalInputBytes: S.optional(S.String),
+          isExcluded: S.optional(S.Number),
+          totalShuffleRead: S.optional(S.String),
         }),
       ).annotate({ identifier: "ConsolidatedExecutorSummary" });
   }
 }
-function __c30(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8108,21 +8128,21 @@ function __c30(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          activeExecutorSummary: S.optional(__S(928, __c29, 0)),
-          deadExecutorSummary: S.optional(__S(928, __c29, 0)),
-          totalExecutorSummary: S.optional(__S(928, __c29, 0)),
+          deadExecutorSummary: S.optional(__S(896, __c28, 0)),
+          totalExecutorSummary: S.optional(__S(896, __c28, 0)),
           applicationId: S.optional(S.String),
+          activeExecutorSummary: S.optional(__S(896, __c28, 0)),
         }),
       ).annotate({ identifier: "SummarizeSessionSparkApplicationExecutorsResponse" });
   }
 }
-function __c31(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          parent: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -8133,14 +8153,34 @@ function __c31(j: number): any {
       ).annotate({ identifier: "AccessProjectsLocationsBatchesSparkApplicationsRequest" });
   }
 }
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          application: S.optional(__S(1056, __c33, 0)),
+        }),
+      ).annotate({ identifier: "AccessSparkApplicationResponse" });
+  }
+}
 function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          application: S.optional(__S(1088, __c34, 0)),
+          endTime: S.optional(S.String),
+          eventLogPath: S.optional(S.String),
+          completed: S.optional(S.Boolean),
+          durationMillis: S.optional(S.String),
+          lastUpdated: S.optional(S.String),
+          startTime: S.optional(S.String),
+          appSparkVersion: S.optional(S.String),
+          attemptId: S.optional(S.String),
+          sparkUser: S.optional(S.String),
         }),
-      ).annotate({ identifier: "AccessSparkApplicationResponse" });
+      ).annotate({ identifier: "ApplicationAttemptInfo" });
+    case 1:
+      return S.Array(__S(1024, __c32, 0));
   }
 }
 function __c33(j: number): any {
@@ -8148,19 +8188,17 @@ function __c33(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          eventLogPath: S.optional(S.String),
-          sparkUser: S.optional(S.String),
-          completed: S.optional(S.Boolean),
-          lastUpdated: S.optional(S.String),
-          startTime: S.optional(S.String),
-          endTime: S.optional(S.String),
-          durationMillis: S.optional(S.String),
-          attemptId: S.optional(S.String),
-          appSparkVersion: S.optional(S.String),
+          quantileDataStatus: S.optional(S.String),
+          applicationContextIngestionStatus: S.optional(S.String),
+          coresPerExecutor: S.optional(S.Number),
+          attempts: S.optional(__S(1025, __c32, 1)),
+          applicationId: S.optional(S.String),
+          coresGranted: S.optional(S.Number),
+          memoryPerExecutorMb: S.optional(S.Number),
+          name: S.optional(S.String),
+          maxCores: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "ApplicationAttemptInfo" });
-    case 1:
-      return S.Array(__S(1056, __c33, 0));
+      ).annotate({ identifier: "ApplicationInfo" });
   }
 }
 function __c34(j: number): any {
@@ -8168,26 +8206,8 @@ function __c34(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          applicationContextIngestionStatus: S.optional(S.String),
-          coresGranted: S.optional(S.Number),
-          applicationId: S.optional(S.String),
-          maxCores: S.optional(S.Number),
-          attempts: S.optional(__S(1057, __c33, 1)),
-          coresPerExecutor: S.optional(S.Number),
-          quantileDataStatus: S.optional(S.String),
-          memoryPerExecutorMb: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "ApplicationInfo" });
-  }
-}
-function __c35(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          parent: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          parent: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -8198,35 +8218,35 @@ function __c35(j: number): any {
       ).annotate({ identifier: "SummarizeJobsProjectsLocationsBatchesSparkApplicationsRequest" });
   }
 }
-function __c36(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          activeJobs: S.optional(S.Number),
           failedJobs: S.optional(S.Number),
-          attempts: S.optional(__S(1057, __c33, 1)),
-          completedJobs: S.optional(S.Number),
           applicationId: S.optional(S.String),
           schedulingMode: S.optional(S.String),
+          activeJobs: S.optional(S.Number),
+          completedJobs: S.optional(S.Number),
+          attempts: S.optional(__S(1025, __c32, 1)),
         }),
       ).annotate({ identifier: "JobsSummary" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          jobsSummary: S.optional(__S(1152, __c36, 0)),
+          jobsSummary: S.optional(__S(1120, __c35, 0)),
         }),
       ).annotate({ identifier: "SummarizeSparkApplicationJobsResponse" });
   }
 }
-function __c37(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.optional(S.String.pipe(T.Query())),
-          jobIds: S.optional(__S(4704, __c147, 0).pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          parent: S.optional(S.String.pipe(T.Query())),
+          jobIds: S.optional(__S(4672, __c146, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -8237,15 +8257,15 @@ function __c37(j: number): any {
       ).annotate({ identifier: "SummarizeJobsProjectsLocationsSessionsSparkApplicationsRequest" });
   }
 }
-function __c38(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          stageId: S.optional(S.String.pipe(T.Query())),
           parent: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           stageAttemptId: S.optional(S.Number.pipe(T.Query())),
-          stageId: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -8258,39 +8278,39 @@ function __c38(j: number): any {
       });
   }
 }
-function __c39(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          numPendingTasks: S.optional(S.Number),
-          numKilledTasks: S.optional(S.Number),
-          numTasks: S.optional(S.Number),
-          numSuccessTasks: S.optional(S.Number),
           numRunningTasks: S.optional(S.Number),
           stageId: S.optional(S.String),
-          numFailedTasks: S.optional(S.Number),
+          numPendingTasks: S.optional(S.Number),
+          numSuccessTasks: S.optional(S.Number),
+          numTasks: S.optional(S.Number),
           stageAttemptId: S.optional(S.Number),
+          numFailedTasks: S.optional(S.Number),
+          numKilledTasks: S.optional(S.Number),
           applicationId: S.optional(S.String),
         }),
       ).annotate({ identifier: "StageAttemptTasksSummary" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          stageAttemptTasksSummary: S.optional(__S(1248, __c39, 0)),
+          stageAttemptTasksSummary: S.optional(__S(1216, __c38, 0)),
         }),
       ).annotate({ identifier: "SummarizeSparkApplicationStageAttemptTasksResponse" });
   }
 }
-function __c40(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
-          stageId: S.optional(S.String.pipe(T.Query())),
-          stageAttemptId: S.optional(S.Number.pipe(T.Query())),
           parent: S.optional(S.String.pipe(T.Query())),
+          stageAttemptId: S.optional(S.Number.pipe(T.Query())),
+          stageId: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -8303,7 +8323,7 @@ function __c40(j: number): any {
       });
   }
 }
-function __c41(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8320,33 +8340,33 @@ function __c41(j: number): any {
       ).annotate({ identifier: "SummarizeStagesProjectsLocationsBatchesSparkApplicationsRequest" });
   }
 }
-function __c42(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          numPendingStages: S.optional(S.Number),
+          numActiveStages: S.optional(S.Number),
           numFailedStages: S.optional(S.Number),
           numCompletedStages: S.optional(S.Number),
-          numPendingStages: S.optional(S.Number),
-          numSkippedStages: S.optional(S.Number),
-          numActiveStages: S.optional(S.Number),
           applicationId: S.optional(S.String),
+          numSkippedStages: S.optional(S.Number),
         }),
       ).annotate({ identifier: "StagesSummary" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          stagesSummary: S.optional(__S(1344, __c42, 0)),
+          stagesSummary: S.optional(__S(1312, __c41, 0)),
         }),
       ).annotate({ identifier: "SummarizeSparkApplicationStagesResponse" });
   }
 }
-function __c43(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          stageIds: S.optional(__S(4704, __c147, 0).pipe(T.Query())),
+          stageIds: S.optional(__S(4672, __c146, 0).pipe(T.Query())),
           parent: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
         }).pipe(
@@ -8361,7 +8381,7 @@ function __c43(j: number): any {
       });
   }
 }
-function __c44(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8372,7 +8392,7 @@ function __c44(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Extend(
-          __S(1408, __c44, 0),
+          __S(1376, __c43, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
           }),
@@ -8386,12 +8406,12 @@ function __c44(j: number): any {
       ).annotate({ identifier: "TerminateProjectsLocationsSessionsRequest" });
   }
 }
-function __c45(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(1472, __c46, 0),
+          __S(1440, __c45, 0),
           S.Struct({
             resource: S.String.pipe(T.Label()),
           }),
@@ -8405,22 +8425,22 @@ function __c45(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsAutoscalingPoliciesRequest" });
   }
 }
-function __c46(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          permissions: S.optional(__S(4704, __c147, 0)),
+          permissions: S.optional(__S(4672, __c146, 0)),
         }),
       ).annotate({ identifier: "TestIamPermissionsRequest" });
   }
 }
-function __c47(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(1472, __c46, 0),
+          __S(1440, __c45, 0),
           S.Struct({
             resource: S.String.pipe(T.Label()),
           }),
@@ -8434,12 +8454,12 @@ function __c47(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsWorkflowTemplatesRequest" });
   }
 }
-function __c48(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(1472, __c46, 0),
+          __S(1440, __c45, 0),
           S.Struct({
             resource: S.String.pipe(T.Label()),
           }),
@@ -8453,7 +8473,7 @@ function __c48(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsRegionsAutoscalingPoliciesRequest" });
   }
 }
-function __c49(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8470,12 +8490,12 @@ function __c49(j: number): any {
       ).annotate({ identifier: "AccessProjectsLocationsSessionsSparkApplicationsRequest" });
   }
 }
-function __c50(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(1472, __c46, 0),
+          __S(1440, __c45, 0),
           S.Struct({
             resource: S.String.pipe(T.Label()),
           }),
@@ -8489,12 +8509,12 @@ function __c50(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsRegionsClustersRequest" });
   }
 }
-function __c51(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(1472, __c46, 0),
+          __S(1440, __c45, 0),
           S.Struct({
             resource: S.String.pipe(T.Label()),
           }),
@@ -8508,12 +8528,12 @@ function __c51(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsRegionsJobsRequest" });
   }
 }
-function __c52(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(1472, __c46, 0),
+          __S(1440, __c45, 0),
           S.Struct({
             resource: S.String.pipe(T.Label()),
           }),
@@ -8527,12 +8547,12 @@ function __c52(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsRegionsOperationsRequest" });
   }
 }
-function __c53(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(1472, __c46, 0),
+          __S(1440, __c45, 0),
           S.Struct({
             resource: S.String.pipe(T.Label()),
           }),
@@ -8546,12 +8566,12 @@ function __c53(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsRegionsWorkflowTemplatesRequest" });
   }
 }
-function __c54(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(2948, __c92, 4),
+          __S(2916, __c91, 4),
           S.Struct({
             name: S.String.pipe(T.Label()),
           }),
@@ -8561,12 +8581,12 @@ function __c54(j: number): any {
       ).annotate({ identifier: "UpdateProjectsLocationsAutoscalingPoliciesRequest" });
   }
 }
-function __c55(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(3467, __c108, 11),
+          __S(3435, __c107, 11),
           S.Struct({
             name: S.String.pipe(T.Label()),
           }),
@@ -8576,12 +8596,12 @@ function __c55(j: number): any {
       ).annotate({ identifier: "UpdateProjectsLocationsWorkflowTemplatesRequest" });
   }
 }
-function __c56(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(2948, __c92, 4),
+          __S(2916, __c91, 4),
           S.Struct({
             name: S.String.pipe(T.Label()),
           }),
@@ -8591,12 +8611,12 @@ function __c56(j: number): any {
       ).annotate({ identifier: "UpdateProjectsRegionsAutoscalingPoliciesRequest" });
   }
 }
-function __c57(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(3467, __c108, 11),
+          __S(3435, __c107, 11),
           S.Struct({
             name: S.String.pipe(T.Label()),
           }),
@@ -8606,12 +8626,19 @@ function __c57(j: number): any {
       ).annotate({ identifier: "UpdateProjectsRegionsWorkflowTemplatesRequest" });
   }
 }
-function __c58(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
+        S.Struct({
+          parent: S.optional(S.String),
+          sparkWrapperObjects: S.optional(__S(1875, __c58, 19)),
+        }),
+      ).annotate({ identifier: "WriteSparkApplicationContextRequest" });
+    case 1:
+      return S.suspend(() =>
         S.Extend(
-          __S(1908, __c59, 20),
+          __S(1824, __c57, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
           }),
@@ -8625,235 +8652,235 @@ function __c58(j: number): any {
       ).annotate({ identifier: "WriteProjectsLocationsBatchesSparkApplicationsRequest" });
   }
 }
-function __c59(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          useDisk: S.optional(S.Boolean),
-          storageLevel: S.optional(S.String),
-          deserialized: S.optional(S.Boolean),
-          useMemory: S.optional(S.Boolean),
-          executorId: S.optional(S.String),
-          name: S.optional(S.String),
-          memSize: S.optional(S.String),
-          diskSize: S.optional(S.String),
-          hostPort: S.optional(S.String),
+          sqlExecIds: S.optional(__S(4672, __c146, 0)),
+          jobIds: S.optional(__S(4672, __c146, 0)),
+          jobTag: S.optional(S.String),
+          statement: S.optional(S.String),
+          userId: S.optional(S.String),
+          detail: S.optional(S.String),
+          sessionId: S.optional(S.String),
+          finishTimestamp: S.optional(S.String),
+          sparkSessionTags: S.optional(__S(4672, __c146, 0)),
+          startTimestamp: S.optional(S.String),
+          closeTimestamp: S.optional(S.String),
+          state: S.optional(S.String),
+          operationId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "StreamBlockData" });
+      ).annotate({ identifier: "SparkConnectExecutionInfo" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          finishTimestamp: S.optional(S.String),
-          userId: S.optional(S.String),
-          startTimestamp: S.optional(S.String),
-          sessionId: S.optional(S.String),
           totalExecution: S.optional(S.String),
+          sessionId: S.optional(S.String),
+          startTimestamp: S.optional(S.String),
+          userId: S.optional(S.String),
+          finishTimestamp: S.optional(S.String),
         }),
       ).annotate({ identifier: "SparkConnectSessionInfo" });
     case 2:
-      return S.suspend(() =>
-        S.Struct({
-          processLogs: S.optional(__S(3872, __c121, 0)),
-          totalCores: S.optional(S.Number),
-          removeTime: S.optional(S.String),
-          addTime: S.optional(S.String),
-          hostPort: S.optional(S.String),
-          isActive: S.optional(S.Boolean),
-          processId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ProcessSummary" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          stageIds: S.optional(__S(4704, __c147, 0)),
-        }),
-      ).annotate({ identifier: "PoolData" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          offHeapMemoryRemaining: S.optional(S.String),
-          diskUsed: S.optional(S.String),
-          memoryUsed: S.optional(S.String),
-          offHeapMemoryUsed: S.optional(S.String),
-          onHeapMemoryUsed: S.optional(S.String),
-          address: S.optional(S.String),
-          onHeapMemoryRemaining: S.optional(S.String),
-          memoryRemaining: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "RddDataDistribution" });
-    case 5:
-      return S.Array(__S(1892, __c59, 4));
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          executors: S.optional(__S(4704, __c147, 0)),
-          memoryUsed: S.optional(S.String),
-          storageLevel: S.optional(S.String),
-          diskUsed: S.optional(S.String),
-          blockName: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "RddPartitionInfo" });
-    case 7:
-      return S.Array(__S(1894, __c59, 6));
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          dataDistribution: S.optional(__S(1893, __c59, 5)),
-          storageLevel: S.optional(S.String),
-          name: S.optional(S.String),
-          memoryUsed: S.optional(S.String),
-          partitions: S.optional(__S(1895, __c59, 7)),
-          rddStorageId: S.optional(S.Number),
-          numCachedPartitions: S.optional(S.Number),
-          numPartitions: S.optional(S.Number),
-          diskUsed: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "RddStorageInfo" });
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          sparkSessionTags: S.optional(__S(4704, __c147, 0)),
-          statement: S.optional(S.String),
-          sqlExecIds: S.optional(__S(4704, __c147, 0)),
-          jobIds: S.optional(__S(4704, __c147, 0)),
-          detail: S.optional(S.String),
-          finishTimestamp: S.optional(S.String),
-          jobTag: S.optional(S.String),
-          operationId: S.optional(S.String),
-          userId: S.optional(S.String),
-          startTimestamp: S.optional(S.String),
-          state: S.optional(S.String),
-          closeTimestamp: S.optional(S.String),
-          sessionId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SparkConnectExecutionInfo" });
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          isActive: S.optional(S.Boolean),
-          runId: S.optional(S.String),
-          startTimestamp: S.optional(S.String),
-          exception: S.optional(S.String),
-          streamingQueryId: S.optional(S.String),
-          name: S.optional(S.String),
-          endTimestamp: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "StreamingQueryData" });
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          memoryUsedBytes: S.optional(S.String),
-          numRowsTotal: S.optional(S.String),
-          numRowsDroppedByWatermark: S.optional(S.String),
-          operatorName: S.optional(S.String),
-          commitTimeMs: S.optional(S.String),
-          numStateStoreInstances: S.optional(S.String),
-          numShufflePartitions: S.optional(S.String),
-          numRowsRemoved: S.optional(S.String),
-          allUpdatesTimeMs: S.optional(S.String),
-          customMetrics: S.optional(__S(3872, __c121, 0)),
-          allRemovalsTimeMs: S.optional(S.String),
-          numRowsUpdated: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "StateOperatorProgress" });
-    case 12:
-      return S.Array(__S(1899, __c59, 11));
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          metrics: S.optional(__S(3872, __c121, 0)),
-          description: S.optional(S.String),
-          numOutputRows: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SinkProgress" });
-    case 14:
-      return S.suspend(() =>
-        S.Struct({
-          latestOffset: S.optional(S.String),
-          endOffset: S.optional(S.String),
-          numInputRows: S.optional(S.String),
-          inputRowsPerSecond: S.optional(S.Number),
-          processedRowsPerSecond: S.optional(S.Number),
-          startOffset: S.optional(S.String),
-          metrics: S.optional(__S(3872, __c121, 0)),
-          description: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SourceProgress" });
-    case 15:
-      return S.Array(__S(1902, __c59, 14));
-    case 16:
-      return S.suspend(() =>
-        S.Struct({
-          eventTime: S.optional(__S(3872, __c121, 0)),
-          durationMillis: S.optional(__S(3872, __c121, 0)),
-          stateOperators: S.optional(__S(1900, __c59, 12)),
-          batchDuration: S.optional(S.String),
-          timestamp: S.optional(S.String),
-          runId: S.optional(S.String),
-          name: S.optional(S.String),
-          sink: S.optional(__S(1901, __c59, 13)),
-          streamingQueryProgressId: S.optional(S.String),
-          sources: S.optional(__S(1903, __c59, 15)),
-          batchId: S.optional(S.String),
-          observedMetrics: S.optional(__S(3872, __c121, 0)),
-        }),
-      ).annotate({ identifier: "StreamingQueryProgress" });
-    case 17:
       return S.suspend(() =>
         S.Struct({
           numCompletedJobs: S.optional(S.Number),
           numCompletedStages: S.optional(S.Number),
         }),
       ).annotate({ identifier: "AppSummary" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          memoryUsed: S.optional(S.String),
+          executors: S.optional(__S(4672, __c146, 0)),
+          diskUsed: S.optional(S.String),
+          storageLevel: S.optional(S.String),
+          blockName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RddPartitionInfo" });
+    case 4:
+      return S.Array(__S(1859, __c58, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          onHeapMemoryRemaining: S.optional(S.String),
+          memoryRemaining: S.optional(S.String),
+          address: S.optional(S.String),
+          onHeapMemoryUsed: S.optional(S.String),
+          memoryUsed: S.optional(S.String),
+          diskUsed: S.optional(S.String),
+          offHeapMemoryUsed: S.optional(S.String),
+          offHeapMemoryRemaining: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RddDataDistribution" });
+    case 6:
+      return S.Array(__S(1861, __c58, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          partitions: S.optional(__S(1860, __c58, 4)),
+          dataDistribution: S.optional(__S(1862, __c58, 6)),
+          name: S.optional(S.String),
+          diskUsed: S.optional(S.String),
+          numPartitions: S.optional(S.Number),
+          rddStorageId: S.optional(S.Number),
+          numCachedPartitions: S.optional(S.Number),
+          storageLevel: S.optional(S.String),
+          memoryUsed: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RddStorageInfo" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          stageIds: S.optional(__S(4672, __c146, 0)),
+        }),
+      ).annotate({ identifier: "PoolData" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          executorId: S.optional(S.String),
+          diskSize: S.optional(S.String),
+          useDisk: S.optional(S.Boolean),
+          hostPort: S.optional(S.String),
+          deserialized: S.optional(S.Boolean),
+          memSize: S.optional(S.String),
+          useMemory: S.optional(S.Boolean),
+          name: S.optional(S.String),
+          storageLevel: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "StreamBlockData" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          streamingQueryId: S.optional(S.String),
+          name: S.optional(S.String),
+          isActive: S.optional(S.Boolean),
+          startTimestamp: S.optional(S.String),
+          endTimestamp: S.optional(S.String),
+          runId: S.optional(S.String),
+          exception: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "StreamingQueryData" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          addTime: S.optional(S.String),
+          removeTime: S.optional(S.String),
+          hostPort: S.optional(S.String),
+          isActive: S.optional(S.Boolean),
+          processId: S.optional(S.String),
+          totalCores: S.optional(S.Number),
+          processLogs: S.optional(__S(3840, __c120, 0)),
+        }),
+      ).annotate({ identifier: "ProcessSummary" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          numStateStoreInstances: S.optional(S.String),
+          numRowsDroppedByWatermark: S.optional(S.String),
+          allRemovalsTimeMs: S.optional(S.String),
+          operatorName: S.optional(S.String),
+          customMetrics: S.optional(__S(3840, __c120, 0)),
+          numRowsTotal: S.optional(S.String),
+          numRowsUpdated: S.optional(S.String),
+          memoryUsedBytes: S.optional(S.String),
+          numRowsRemoved: S.optional(S.String),
+          numShufflePartitions: S.optional(S.String),
+          allUpdatesTimeMs: S.optional(S.String),
+          commitTimeMs: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "StateOperatorProgress" });
+    case 13:
+      return S.Array(__S(1868, __c58, 12));
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          metrics: S.optional(__S(3840, __c120, 0)),
+          latestOffset: S.optional(S.String),
+          numInputRows: S.optional(S.String),
+          description: S.optional(S.String),
+          endOffset: S.optional(S.String),
+          inputRowsPerSecond: S.optional(S.Number),
+          startOffset: S.optional(S.String),
+          processedRowsPerSecond: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "SourceProgress" });
+    case 15:
+      return S.Array(__S(1870, __c58, 14));
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          description: S.optional(S.String),
+          numOutputRows: S.optional(S.String),
+          metrics: S.optional(__S(3840, __c120, 0)),
+        }),
+      ).annotate({ identifier: "SinkProgress" });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          stateOperators: S.optional(__S(1869, __c58, 13)),
+          streamingQueryProgressId: S.optional(S.String),
+          timestamp: S.optional(S.String),
+          eventTime: S.optional(__S(3840, __c120, 0)),
+          name: S.optional(S.String),
+          durationMillis: S.optional(__S(3840, __c120, 0)),
+          sources: S.optional(__S(1871, __c58, 15)),
+          observedMetrics: S.optional(__S(3840, __c120, 0)),
+          sink: S.optional(__S(1872, __c58, 16)),
+          runId: S.optional(S.String),
+          batchId: S.optional(S.String),
+          batchDuration: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "StreamingQueryProgress" });
     case 18:
       return S.suspend(() =>
         S.Struct({
-          executorStageSummary: S.optional(__S(2432, __c76, 0)),
-          streamBlockData: S.optional(__S(1888, __c59, 0)),
-          sparkConnectSessionInfo: S.optional(__S(1889, __c59, 1)),
-          speculationStageSummary: S.optional(__S(2372, __c74, 4)),
-          processSummary: S.optional(__S(1890, __c59, 2)),
-          applicationEnvironmentInfo: S.optional(__S(3847, __c120, 7)),
-          poolData: S.optional(__S(1891, __c59, 3)),
-          stageData: S.optional(__S(2385, __c74, 17)),
+          applicationInfo: S.optional(__S(1056, __c33, 0)),
+          sparkConnectExecutionInfo: S.optional(__S(1856, __c58, 0)),
           applicationId: S.optional(S.String),
-          executorSummary: S.optional(__S(6050, __c189, 2)),
-          rddStorageInfo: S.optional(__S(1896, __c59, 8)),
-          sparkConnectExecutionInfo: S.optional(__S(1897, __c59, 9)),
-          sparkPlanGraph: S.optional(__S(2022, __c63, 6)),
-          nativeBuildInfoUiData: S.optional(__S(5634, __c176, 2)),
-          streamingQueryData: S.optional(__S(1898, __c59, 10)),
-          streamingQueryProgress: S.optional(__S(1904, __c59, 16)),
-          applicationInfo: S.optional(__S(1088, __c34, 0)),
-          jobData: S.optional(__S(4768, __c149, 0)),
-          taskData: S.optional(__S(2344, __c73, 8)),
-          rddOperationGraph: S.optional(__S(2566, __c80, 6)),
-          resourceProfileInfo: S.optional(__S(3845, __c120, 5)),
+          sparkConnectSessionInfo: S.optional(__S(1857, __c58, 1)),
+          appSummary: S.optional(__S(1858, __c58, 2)),
           eventTimestamp: S.optional(S.String),
-          sqlExecutionUiData: S.optional(__S(2208, __c69, 0)),
+          stageData: S.optional(__S(2354, __c73, 18)),
+          sparkPlanGraph: S.optional(__S(1990, __c62, 6)),
+          nativeBuildInfoUiData: S.optional(__S(5602, __c175, 2)),
+          resourceProfileInfo: S.optional(__S(3813, __c119, 5)),
+          taskData: S.optional(__S(2312, __c72, 8)),
+          rddStorageInfo: S.optional(__S(1863, __c58, 7)),
+          executorStageSummary: S.optional(__S(2400, __c75, 0)),
+          poolData: S.optional(__S(1864, __c58, 8)),
+          rddOperationGraph: S.optional(__S(2534, __c79, 6)),
+          streamBlockData: S.optional(__S(1865, __c58, 9)),
+          sqlExecutionUiData: S.optional(__S(2176, __c68, 0)),
+          streamingQueryData: S.optional(__S(1866, __c58, 10)),
+          processSummary: S.optional(__S(1867, __c58, 11)),
           nativeSqlExecutionUiData: S.optional(__S(66, __c2, 2)),
-          appSummary: S.optional(__S(1905, __c59, 17)),
+          speculationStageSummary: S.optional(__S(2336, __c73, 0)),
+          executorSummary: S.optional(__S(6018, __c188, 2)),
+          streamingQueryProgress: S.optional(__S(1873, __c58, 17)),
+          jobData: S.optional(__S(4736, __c148, 0)),
+          applicationEnvironmentInfo: S.optional(__S(3815, __c119, 7)),
         }),
       ).annotate({ identifier: "SparkWrapperObject" });
     case 19:
-      return S.Array(__S(1906, __c59, 18));
-    case 20:
-      return S.suspend(() =>
-        S.Struct({
-          parent: S.optional(S.String),
-          sparkWrapperObjects: S.optional(__S(1907, __c59, 19)),
-        }),
-      ).annotate({ identifier: "WriteSparkApplicationContextRequest" });
+      return S.Array(__S(1874, __c58, 18));
   }
 }
-function __c60(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
+        S.Struct({
+          sparkWrapperObjects: S.optional(__S(1875, __c58, 19)),
+          parent: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "WriteSessionSparkApplicationContextRequest" });
+    case 1:
+      return S.suspend(() =>
         S.Extend(
-          __S(1908, __c59, 20),
+          __S(1888, __c59, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
           }),
@@ -8867,13 +8894,13 @@ function __c60(j: number): any {
       ).annotate({ identifier: "WriteProjectsLocationsSessionsSparkApplicationsRequest" });
   }
 }
-function __c61(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           parent: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
           executionId: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -8885,48 +8912,48 @@ function __c61(j: number): any {
       ).annotate({ identifier: "AccessSqlPlanProjectsLocationsBatchesSparkApplicationsRequest" });
   }
 }
+function __c61(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sparkPlanGraph: S.optional(__S(1990, __c62, 6)),
+        }),
+      ).annotate({ identifier: "AccessSparkApplicationSqlSparkPlanGraphResponse" });
+  }
+}
 function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          sparkPlanGraph: S.optional(__S(2022, __c63, 6)),
-        }),
-      ).annotate({ identifier: "AccessSparkApplicationSqlSparkPlanGraphResponse" });
-  }
-}
-function __c63(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
+          metadata: S.optional(__S(3840, __c120, 0)),
+          nodes: S.optional(S.suspend(() => __S(1987, __c62, 3))),
+          metrics: S.optional(__S(2017, __c63, 1)),
           sparkPlanGraphClusterId: S.optional(S.String),
-          metadata: S.optional(__S(3872, __c121, 0)),
-          metrics: S.optional(__S(2049, __c64, 1)),
-          nodes: S.optional(S.suspend(() => __S(2019, __c63, 3))),
-          desc: S.optional(S.String),
           name: S.optional(S.String),
+          desc: S.optional(S.String),
         }),
       ).annotate({ identifier: "SparkPlanGraphCluster" });
     case 1:
       return S.suspend(() =>
         S.Struct({
+          metadata: S.optional(__S(3840, __c120, 0)),
           name: S.optional(S.String),
-          metrics: S.optional(__S(2049, __c64, 1)),
           desc: S.optional(S.String),
           sparkPlanGraphNodeId: S.optional(S.String),
-          metadata: S.optional(__S(3872, __c121, 0)),
+          metrics: S.optional(__S(2017, __c63, 1)),
         }),
       ).annotate({ identifier: "SparkPlanGraphNode" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          cluster: S.optional(__S(2016, __c63, 0)),
-          node: S.optional(__S(2017, __c63, 1)),
+          cluster: S.optional(__S(1984, __c62, 0)),
+          node: S.optional(__S(1985, __c62, 1)),
         }),
       ).annotate({ identifier: "SparkPlanGraphNodeWrapper" });
     case 3:
-      return S.Array(__S(2018, __c63, 2));
+      return S.Array(__S(1986, __c62, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -8935,15 +8962,29 @@ function __c63(j: number): any {
         }),
       ).annotate({ identifier: "SparkPlanGraphEdge" });
     case 5:
-      return S.Array(__S(2020, __c63, 4));
+      return S.Array(__S(1988, __c62, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
+          nodes: S.optional(__S(1987, __c62, 3)),
+          edges: S.optional(__S(1989, __c62, 5)),
           executionId: S.optional(S.String),
-          nodes: S.optional(__S(2019, __c63, 3)),
-          edges: S.optional(__S(2021, __c63, 5)),
         }),
       ).annotate({ identifier: "SparkPlanGraph" });
+  }
+}
+function __c63(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          accumulatorId: S.optional(S.String),
+          metricType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SqlPlanMetric" });
+    case 1:
+      return S.Array(__S(2016, __c63, 0));
   }
 }
 function __c64(j: number): any {
@@ -8951,22 +8992,8 @@ function __c64(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          metricType: S.optional(S.String),
-          accumulatorId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SqlPlanMetric" });
-    case 1:
-      return S.Array(__S(2048, __c64, 0));
-  }
-}
-function __c65(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          parent: S.optional(S.String.pipe(T.Query())),
           executionId: S.optional(S.String.pipe(T.Query())),
+          parent: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -8978,16 +9005,16 @@ function __c65(j: number): any {
       ).annotate({ identifier: "AccessSqlPlanProjectsLocationsSessionsSparkApplicationsRequest" });
   }
 }
-function __c66(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          details: S.optional(S.Boolean.pipe(T.Query())),
-          planDescription: S.optional(S.Boolean.pipe(T.Query())),
-          executionId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
           parent: S.optional(S.String.pipe(T.Query())),
+          planDescription: S.optional(S.Boolean.pipe(T.Query())),
+          details: S.optional(S.Boolean.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
+          executionId: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -8998,20 +9025,43 @@ function __c66(j: number): any {
       ).annotate({ identifier: "AccessSqlQueryProjectsLocationsBatchesSparkApplicationsRequest" });
   }
 }
-function __c67(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          executionData: S.optional(__S(2208, __c69, 0)),
+          executionData: S.optional(__S(2176, __c68, 0)),
         }),
       ).annotate({ identifier: "AccessSparkApplicationSqlQueryResponse" });
+  }
+}
+function __c67(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.String);
   }
 }
 function __c68(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, S.String);
+      return S.suspend(() =>
+        S.Struct({
+          details: S.optional(S.String),
+          description: S.optional(S.String),
+          physicalPlanDescription: S.optional(S.String),
+          metrics: S.optional(__S(2017, __c63, 1)),
+          metricValues: S.optional(__S(3840, __c120, 0)),
+          executionId: S.optional(S.String),
+          stages: S.optional(__S(4672, __c146, 0)),
+          completionTime: S.optional(S.String),
+          metricValuesIsNull: S.optional(S.Boolean),
+          rootExecutionId: S.optional(S.String),
+          submissionTime: S.optional(S.String),
+          jobs: S.optional(__S(2144, __c67, 0)),
+          errorMessage: S.optional(S.String),
+          modifiedConfigs: S.optional(__S(3840, __c120, 0)),
+        }),
+      ).annotate({ identifier: "SqlExecutionUiData" });
   }
 }
 function __c69(j: number): any {
@@ -9019,34 +9069,11 @@ function __c69(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          completionTime: S.optional(S.String),
-          jobs: S.optional(__S(2176, __c68, 0)),
-          errorMessage: S.optional(S.String),
-          metricValues: S.optional(__S(3872, __c121, 0)),
-          metricValuesIsNull: S.optional(S.Boolean),
-          executionId: S.optional(S.String),
-          metrics: S.optional(__S(2049, __c64, 1)),
-          description: S.optional(S.String),
-          modifiedConfigs: S.optional(__S(3872, __c121, 0)),
-          rootExecutionId: S.optional(S.String),
-          submissionTime: S.optional(S.String),
-          details: S.optional(S.String),
-          stages: S.optional(__S(4704, __c147, 0)),
-          physicalPlanDescription: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SqlExecutionUiData" });
-  }
-}
-function __c70(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           details: S.optional(S.Boolean.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           executionId: S.optional(S.String.pipe(T.Query())),
-          planDescription: S.optional(S.Boolean.pipe(T.Query())),
           parent: S.optional(S.String.pipe(T.Query())),
+          planDescription: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -9057,16 +9084,16 @@ function __c70(j: number): any {
       ).annotate({ identifier: "AccessSqlQueryProjectsLocationsSessionsSparkApplicationsRequest" });
   }
 }
-function __c71(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          summaryMetricsMask: S.optional(S.String.pipe(T.Query())),
           parent: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          stageAttemptId: S.optional(S.Number.pipe(T.Query())),
           stageId: S.optional(S.String.pipe(T.Query())),
-          summaryMetricsMask: S.optional(S.String.pipe(T.Query())),
+          stageAttemptId: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -9079,14 +9106,124 @@ function __c71(j: number): any {
       });
   }
 }
+function __c71(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          stageData: S.optional(__S(2354, __c73, 18)),
+        }),
+      ).annotate({ identifier: "AccessSparkApplicationStageAttemptResponse" });
+  }
+}
 function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          stageData: S.optional(__S(2385, __c74, 17)),
+          value: S.optional(S.String),
+          update: S.optional(S.String),
+          name: S.optional(S.String),
+          accumullableInfoId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "AccessSparkApplicationStageAttemptResponse" });
+      ).annotate({ identifier: "AccumulableInfo" });
+    case 1:
+      return S.Array(__S(2304, __c72, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          bytesWritten: S.optional(S.String),
+          recordsWritten: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "StageOutputMetrics" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          bytesRead: S.optional(S.String),
+          recordsRead: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "InputMetrics" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          remoteMergedChunksFetched: S.optional(S.String),
+          localMergedBytesRead: S.optional(S.String),
+          localMergedBlocksFetched: S.optional(S.String),
+          remoteMergedBytesRead: S.optional(S.String),
+          mergedFetchFallbackCount: S.optional(S.String),
+          corruptMergedBlockChunks: S.optional(S.String),
+          localMergedChunksFetched: S.optional(S.String),
+          remoteMergedBlocksFetched: S.optional(S.String),
+          remoteMergedReqsDuration: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ShufflePushReadMetrics" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          shufflePushReadMetrics: S.optional(__S(2308, __c72, 4)),
+          remoteReqsDuration: S.optional(S.String),
+          localBytesRead: S.optional(S.String),
+          remoteBlocksFetched: S.optional(S.String),
+          remoteBytesRead: S.optional(S.String),
+          recordsRead: S.optional(S.String),
+          remoteBytesReadToDisk: S.optional(S.String),
+          fetchWaitTimeMillis: S.optional(S.String),
+          localBlocksFetched: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ShuffleReadMetrics" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          writeTimeNanos: S.optional(S.String),
+          recordsWritten: S.optional(S.String),
+          bytesWritten: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ShuffleWriteMetrics" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          outputMetrics: S.optional(__S(2306, __c72, 2)),
+          inputMetrics: S.optional(__S(2307, __c72, 3)),
+          memoryBytesSpilled: S.optional(S.String),
+          resultSize: S.optional(S.String),
+          jvmGcTimeMillis: S.optional(S.String),
+          executorDeserializeTimeMillis: S.optional(S.String),
+          peakExecutionMemoryBytes: S.optional(S.String),
+          executorDeserializeCpuTimeNanos: S.optional(S.String),
+          shuffleReadMetrics: S.optional(__S(2309, __c72, 5)),
+          resultSerializationTimeMillis: S.optional(S.String),
+          diskBytesSpilled: S.optional(S.String),
+          executorRunTimeMillis: S.optional(S.String),
+          shuffleWriteMetrics: S.optional(__S(2310, __c72, 6)),
+          executorCpuTimeNanos: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TaskMetrics" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.String),
+          accumulatorUpdates: S.optional(__S(2305, __c72, 1)),
+          resultFetchStart: S.optional(S.String),
+          speculative: S.optional(S.Boolean),
+          taskLocality: S.optional(S.String),
+          taskId: S.optional(S.String),
+          schedulerDelayMillis: S.optional(S.String),
+          launchTime: S.optional(S.String),
+          errorMessage: S.optional(S.String),
+          stageId: S.optional(S.String),
+          executorId: S.optional(S.String),
+          host: S.optional(S.String),
+          index: S.optional(S.Number),
+          executorLogs: S.optional(__S(3840, __c120, 0)),
+          partitionId: S.optional(S.Number),
+          gettingResultTimeMillis: S.optional(S.String),
+          hasMetrics: S.optional(S.Boolean),
+          taskMetrics: S.optional(__S(2311, __c72, 7)),
+          durationMillis: S.optional(S.String),
+          stageAttemptId: S.optional(S.Number),
+          attempt: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "TaskData" });
   }
 }
 function __c73(j: number): any {
@@ -9094,109 +9231,235 @@ function __c73(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          bytesRead: S.optional(S.String),
-          recordsRead: S.optional(S.String),
+          numTasks: S.optional(S.Number),
+          numFailedTasks: S.optional(S.Number),
+          numKilledTasks: S.optional(S.Number),
+          numActiveTasks: S.optional(S.Number),
+          stageId: S.optional(S.String),
+          stageAttemptId: S.optional(S.Number),
+          numCompletedTasks: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "StageInputMetrics" });
+      ).annotate({ identifier: "SpeculationStageSummary" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           bytesWritten: S.optional(S.String),
+          writeTimeNanos: S.optional(S.String),
           recordsWritten: S.optional(S.String),
         }),
-      ).annotate({ identifier: "StageOutputMetrics" });
+      ).annotate({ identifier: "StageShuffleWriteMetrics" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          update: S.optional(S.String),
-          accumullableInfoId: S.optional(S.String),
-          value: S.optional(S.String),
+          recordsRead: S.optional(S.String),
+          bytesRead: S.optional(S.String),
         }),
-      ).annotate({ identifier: "AccumulableInfo" });
+      ).annotate({ identifier: "StageInputMetrics" });
     case 3:
-      return S.Array(__S(2338, __c73, 2));
+      return S.suspend(() =>
+        S.Struct({
+          remoteMergedReqsDuration: S.optional(S.String),
+          corruptMergedBlockChunks: S.optional(S.String),
+          localMergedChunksFetched: S.optional(S.String),
+          localMergedBytesRead: S.optional(S.String),
+          remoteMergedBlocksFetched: S.optional(S.String),
+          remoteMergedBytesRead: S.optional(S.String),
+          localMergedBlocksFetched: S.optional(S.String),
+          remoteMergedChunksFetched: S.optional(S.String),
+          mergedFetchFallbackCount: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "StageShufflePushReadMetrics" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          writeTimeNanos: S.optional(S.String),
-          bytesWritten: S.optional(S.String),
-          recordsWritten: S.optional(S.String),
+          remoteBlocksFetched: S.optional(S.String),
+          recordsRead: S.optional(S.String),
+          stageShufflePushReadMetrics: S.optional(__S(2339, __c73, 3)),
+          remoteBytesReadToDisk: S.optional(S.String),
+          localBlocksFetched: S.optional(S.String),
+          remoteReqsDuration: S.optional(S.String),
+          remoteBytesRead: S.optional(S.String),
+          fetchWaitTimeMillis: S.optional(S.String),
+          bytesRead: S.optional(S.String),
+          localBytesRead: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ShuffleWriteMetrics" });
+      ).annotate({ identifier: "StageShuffleReadMetrics" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          remoteMergedBytesRead: S.optional(S.String),
-          mergedFetchFallbackCount: S.optional(S.String),
-          remoteMergedReqsDuration: S.optional(S.String),
-          localMergedBytesRead: S.optional(S.String),
-          localMergedBlocksFetched: S.optional(S.String),
-          localMergedChunksFetched: S.optional(S.String),
-          remoteMergedChunksFetched: S.optional(S.String),
-          corruptMergedBlockChunks: S.optional(S.String),
-          remoteMergedBlocksFetched: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ShufflePushReadMetrics" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          recordsRead: S.optional(S.String),
-          remoteBytesReadToDisk: S.optional(S.String),
-          localBytesRead: S.optional(S.String),
-          remoteBytesRead: S.optional(S.String),
-          shufflePushReadMetrics: S.optional(__S(2341, __c73, 5)),
-          localBlocksFetched: S.optional(S.String),
-          fetchWaitTimeMillis: S.optional(S.String),
-          remoteBlocksFetched: S.optional(S.String),
-          remoteReqsDuration: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ShuffleReadMetrics" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          jvmGcTimeMillis: S.optional(S.String),
+          stageOutputMetrics: S.optional(__S(2306, __c72, 2)),
           memoryBytesSpilled: S.optional(S.String),
-          outputMetrics: S.optional(__S(2337, __c73, 1)),
-          resultSerializationTimeMillis: S.optional(S.String),
-          executorDeserializeTimeMillis: S.optional(S.String),
           resultSize: S.optional(S.String),
+          stageShuffleWriteMetrics: S.optional(__S(2337, __c73, 1)),
           executorRunTimeMillis: S.optional(S.String),
+          stageInputMetrics: S.optional(__S(2338, __c73, 2)),
           diskBytesSpilled: S.optional(S.String),
-          executorCpuTimeNanos: S.optional(S.String),
           peakExecutionMemoryBytes: S.optional(S.String),
-          inputMetrics: S.optional(__S(2336, __c73, 0)),
-          shuffleWriteMetrics: S.optional(__S(2340, __c73, 4)),
-          shuffleReadMetrics: S.optional(__S(2342, __c73, 6)),
+          executorCpuTimeNanos: S.optional(S.String),
+          executorDeserializeTimeMillis: S.optional(S.String),
+          jvmGcTimeMillis: S.optional(S.String),
+          stageShuffleReadMetrics: S.optional(__S(2340, __c73, 4)),
+          resultSerializationTimeMillis: S.optional(S.String),
           executorDeserializeCpuTimeNanos: S.optional(S.String),
         }),
-      ).annotate({ identifier: "TaskMetrics" });
+      ).annotate({ identifier: "StageMetrics" });
+    case 6:
+      return S.Record(S.String, __S(2400, __c75, 0));
+    case 7:
+      return S.Array(__S(2368, __c74, 0));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          schedulerDelayMillis: S.optional(S.String),
-          stageId: S.optional(S.String),
-          attempt: S.optional(S.Number),
-          status: S.optional(S.String),
-          gettingResultTimeMillis: S.optional(S.String),
-          partitionId: S.optional(S.Number),
-          taskId: S.optional(S.String),
-          durationMillis: S.optional(S.String),
-          hasMetrics: S.optional(S.Boolean),
-          stageAttemptId: S.optional(S.Number),
-          errorMessage: S.optional(S.String),
-          launchTime: S.optional(S.String),
-          accumulatorUpdates: S.optional(__S(2339, __c73, 3)),
-          executorLogs: S.optional(__S(3872, __c121, 0)),
-          executorId: S.optional(S.String),
-          speculative: S.optional(S.Boolean),
-          resultFetchStart: S.optional(S.String),
-          taskMetrics: S.optional(__S(2343, __c73, 7)),
-          host: S.optional(S.String),
-          taskLocality: S.optional(S.String),
-          index: S.optional(S.Number),
+          executorMetrics: S.optional(__S(2343, __c73, 7)),
+          quantiles: S.optional(__S(4705, __c147, 1)),
         }),
-      ).annotate({ identifier: "TaskData" });
+      ).annotate({ identifier: "ExecutorPeakMetricsDistributions" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          failedTasks: S.optional(__S(4705, __c147, 1)),
+          quantiles: S.optional(__S(4705, __c147, 1)),
+          outputRecords: S.optional(__S(4705, __c147, 1)),
+          inputBytes: S.optional(__S(4705, __c147, 1)),
+          outputBytes: S.optional(__S(4705, __c147, 1)),
+          diskBytesSpilled: S.optional(__S(4705, __c147, 1)),
+          succeededTasks: S.optional(__S(4705, __c147, 1)),
+          inputRecords: S.optional(__S(4705, __c147, 1)),
+          shuffleWrite: S.optional(__S(4705, __c147, 1)),
+          killedTasks: S.optional(__S(4705, __c147, 1)),
+          shuffleRead: S.optional(__S(4705, __c147, 1)),
+          shuffleReadRecords: S.optional(__S(4705, __c147, 1)),
+          memoryBytesSpilled: S.optional(__S(4705, __c147, 1)),
+          shuffleWriteRecords: S.optional(__S(4705, __c147, 1)),
+          taskTimeMillis: S.optional(__S(4705, __c147, 1)),
+          peakMemoryMetrics: S.optional(__S(2344, __c73, 8)),
+        }),
+      ).annotate({ identifier: "ExecutorMetricsDistributions" });
+    case 10:
+      return S.Record(S.String, __S(2312, __c72, 8));
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          percentile50: S.optional(S.String),
+          percentile25: S.optional(S.String),
+          maximum: S.optional(S.String),
+          percentile75: S.optional(S.String),
+          minimum: S.optional(S.String),
+          sum: S.optional(S.String),
+          count: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Quantiles" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          recordsRead: S.optional(__S(2347, __c73, 11)),
+          bytesRead: S.optional(__S(2347, __c73, 11)),
+        }),
+      ).annotate({ identifier: "InputQuantileMetrics" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          writeRecords: S.optional(__S(2347, __c73, 11)),
+          writeBytes: S.optional(__S(2347, __c73, 11)),
+          writeTimeNanos: S.optional(__S(2347, __c73, 11)),
+        }),
+      ).annotate({ identifier: "ShuffleWriteQuantileMetrics" });
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          localMergedBytesRead: S.optional(__S(2347, __c73, 11)),
+          corruptMergedBlockChunks: S.optional(__S(2347, __c73, 11)),
+          localMergedChunksFetched: S.optional(__S(2347, __c73, 11)),
+          remoteMergedReqsDuration: S.optional(__S(2347, __c73, 11)),
+          remoteMergedBytesRead: S.optional(__S(2347, __c73, 11)),
+          remoteMergedChunksFetched: S.optional(__S(2347, __c73, 11)),
+          localMergedBlocksFetched: S.optional(__S(2347, __c73, 11)),
+          mergedFetchFallbackCount: S.optional(__S(2347, __c73, 11)),
+          remoteMergedBlocksFetched: S.optional(__S(2347, __c73, 11)),
+        }),
+      ).annotate({ identifier: "ShufflePushReadQuantileMetrics" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          remoteReqsDuration: S.optional(__S(2347, __c73, 11)),
+          readBytes: S.optional(__S(2347, __c73, 11)),
+          shufflePushReadMetrics: S.optional(__S(2350, __c73, 14)),
+          remoteBytesReadToDisk: S.optional(__S(2347, __c73, 11)),
+          remoteBlocksFetched: S.optional(__S(2347, __c73, 11)),
+          readRecords: S.optional(__S(2347, __c73, 11)),
+          fetchWaitTimeMillis: S.optional(__S(2347, __c73, 11)),
+          totalBlocksFetched: S.optional(__S(2347, __c73, 11)),
+          localBlocksFetched: S.optional(__S(2347, __c73, 11)),
+          remoteBytesRead: S.optional(__S(2347, __c73, 11)),
+        }),
+      ).annotate({ identifier: "ShuffleReadQuantileMetrics" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          recordsWritten: S.optional(__S(2347, __c73, 11)),
+          bytesWritten: S.optional(__S(2347, __c73, 11)),
+        }),
+      ).annotate({ identifier: "OutputQuantileMetrics" });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          inputMetrics: S.optional(__S(2348, __c73, 12)),
+          shuffleWriteMetrics: S.optional(__S(2349, __c73, 13)),
+          schedulerDelayMillis: S.optional(__S(2347, __c73, 11)),
+          shuffleReadMetrics: S.optional(__S(2351, __c73, 15)),
+          durationMillis: S.optional(__S(2347, __c73, 11)),
+          executorDeserializeCpuTimeNanos: S.optional(__S(2347, __c73, 11)),
+          diskBytesSpilled: S.optional(__S(2347, __c73, 11)),
+          resultSerializationTimeMillis: S.optional(__S(2347, __c73, 11)),
+          outputMetrics: S.optional(__S(2352, __c73, 16)),
+          jvmGcTimeMillis: S.optional(__S(2347, __c73, 11)),
+          peakExecutionMemoryBytes: S.optional(__S(2347, __c73, 11)),
+          executorRunTimeMillis: S.optional(__S(2347, __c73, 11)),
+          resultSize: S.optional(__S(2347, __c73, 11)),
+          gettingResultTimeMillis: S.optional(__S(2347, __c73, 11)),
+          memoryBytesSpilled: S.optional(__S(2347, __c73, 11)),
+          executorDeserializeTimeMillis: S.optional(__S(2347, __c73, 11)),
+          executorCpuTimeNanos: S.optional(__S(2347, __c73, 11)),
+        }),
+      ).annotate({ identifier: "TaskQuantileMetrics" });
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          failureReason: S.optional(S.String),
+          speculationSummary: S.optional(__S(2336, __c73, 0)),
+          stageAttemptId: S.optional(S.Number),
+          schedulingPool: S.optional(S.String),
+          description: S.optional(S.String),
+          submissionTime: S.optional(S.String),
+          name: S.optional(S.String),
+          accumulatorUpdates: S.optional(__S(2305, __c72, 1)),
+          numTasks: S.optional(S.Number),
+          numCompletedIndices: S.optional(S.Number),
+          peakExecutorMetrics: S.optional(__S(2368, __c74, 0)),
+          stageMetrics: S.optional(__S(2341, __c73, 5)),
+          isShufflePushEnabled: S.optional(S.Boolean),
+          executorSummary: S.optional(__S(2342, __c73, 6)),
+          numActiveTasks: S.optional(S.Number),
+          executorMetricsDistributions: S.optional(__S(2345, __c73, 9)),
+          numCompleteTasks: S.optional(S.Number),
+          resourceProfileId: S.optional(S.Number),
+          numFailedTasks: S.optional(S.Number),
+          tasks: S.optional(__S(2346, __c73, 10)),
+          locality: S.optional(__S(3840, __c120, 0)),
+          parentStageIds: S.optional(__S(4672, __c146, 0)),
+          jobIds: S.optional(__S(4672, __c146, 0)),
+          completionTime: S.optional(S.String),
+          killedTasksSummary: S.optional(__S(4704, __c147, 0)),
+          status: S.optional(S.String),
+          stageId: S.optional(S.String),
+          taskQuantileMetrics: S.optional(__S(2353, __c73, 17)),
+          numKilledTasks: S.optional(S.Number),
+          shuffleMergersCount: S.optional(S.Number),
+          firstTaskLaunchedTime: S.optional(S.String),
+          details: S.optional(S.String),
+          rddIds: S.optional(__S(4672, __c146, 0)),
+        }),
+      ).annotate({ identifier: "StageData" });
   }
 }
 function __c74(j: number): any {
@@ -9204,228 +9467,9 @@ function __c74(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          corruptMergedBlockChunks: S.optional(S.String),
-          remoteMergedChunksFetched: S.optional(S.String),
-          remoteMergedBlocksFetched: S.optional(S.String),
-          localMergedChunksFetched: S.optional(S.String),
-          remoteMergedBytesRead: S.optional(S.String),
-          localMergedBlocksFetched: S.optional(S.String),
-          localMergedBytesRead: S.optional(S.String),
-          mergedFetchFallbackCount: S.optional(S.String),
-          remoteMergedReqsDuration: S.optional(S.String),
+          metrics: S.optional(__S(3840, __c120, 0)),
         }),
-      ).annotate({ identifier: "StageShufflePushReadMetrics" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          remoteBytesReadToDisk: S.optional(S.String),
-          stageShufflePushReadMetrics: S.optional(__S(2368, __c74, 0)),
-          remoteReqsDuration: S.optional(S.String),
-          localBytesRead: S.optional(S.String),
-          localBlocksFetched: S.optional(S.String),
-          bytesRead: S.optional(S.String),
-          remoteBytesRead: S.optional(S.String),
-          remoteBlocksFetched: S.optional(S.String),
-          fetchWaitTimeMillis: S.optional(S.String),
-          recordsRead: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "StageShuffleReadMetrics" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          recordsWritten: S.optional(S.String),
-          writeTimeNanos: S.optional(S.String),
-          bytesWritten: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "StageShuffleWriteMetrics" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          stageInputMetrics: S.optional(__S(2336, __c73, 0)),
-          resultSize: S.optional(S.String),
-          executorRunTimeMillis: S.optional(S.String),
-          memoryBytesSpilled: S.optional(S.String),
-          stageShuffleReadMetrics: S.optional(__S(2369, __c74, 1)),
-          peakExecutionMemoryBytes: S.optional(S.String),
-          diskBytesSpilled: S.optional(S.String),
-          executorDeserializeCpuTimeNanos: S.optional(S.String),
-          jvmGcTimeMillis: S.optional(S.String),
-          stageShuffleWriteMetrics: S.optional(__S(2370, __c74, 2)),
-          executorDeserializeTimeMillis: S.optional(S.String),
-          resultSerializationTimeMillis: S.optional(S.String),
-          executorCpuTimeNanos: S.optional(S.String),
-          stageOutputMetrics: S.optional(__S(2337, __c73, 1)),
-        }),
-      ).annotate({ identifier: "StageMetrics" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          numCompletedTasks: S.optional(S.Number),
-          numKilledTasks: S.optional(S.Number),
-          stageId: S.optional(S.String),
-          numFailedTasks: S.optional(S.Number),
-          numTasks: S.optional(S.Number),
-          stageAttemptId: S.optional(S.Number),
-          numActiveTasks: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "SpeculationStageSummary" });
-    case 5:
-      return S.Array(__S(2400, __c75, 0));
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          quantiles: S.optional(__S(4737, __c148, 1)),
-          executorMetrics: S.optional(__S(2373, __c74, 5)),
-        }),
-      ).annotate({ identifier: "ExecutorPeakMetricsDistributions" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          inputBytes: S.optional(__S(4737, __c148, 1)),
-          diskBytesSpilled: S.optional(__S(4737, __c148, 1)),
-          shuffleWriteRecords: S.optional(__S(4737, __c148, 1)),
-          outputBytes: S.optional(__S(4737, __c148, 1)),
-          succeededTasks: S.optional(__S(4737, __c148, 1)),
-          failedTasks: S.optional(__S(4737, __c148, 1)),
-          memoryBytesSpilled: S.optional(__S(4737, __c148, 1)),
-          killedTasks: S.optional(__S(4737, __c148, 1)),
-          shuffleRead: S.optional(__S(4737, __c148, 1)),
-          outputRecords: S.optional(__S(4737, __c148, 1)),
-          inputRecords: S.optional(__S(4737, __c148, 1)),
-          taskTimeMillis: S.optional(__S(4737, __c148, 1)),
-          peakMemoryMetrics: S.optional(__S(2374, __c74, 6)),
-          quantiles: S.optional(__S(4737, __c148, 1)),
-          shuffleWrite: S.optional(__S(4737, __c148, 1)),
-          shuffleReadRecords: S.optional(__S(4737, __c148, 1)),
-        }),
-      ).annotate({ identifier: "ExecutorMetricsDistributions" });
-    case 8:
-      return S.Record(S.String, __S(2432, __c76, 0));
-    case 9:
-      return S.Record(S.String, __S(2344, __c73, 8));
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          sum: S.optional(S.String),
-          percentile75: S.optional(S.String),
-          count: S.optional(S.String),
-          maximum: S.optional(S.String),
-          percentile50: S.optional(S.String),
-          percentile25: S.optional(S.String),
-          minimum: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Quantiles" });
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          writeTimeNanos: S.optional(__S(2378, __c74, 10)),
-          writeRecords: S.optional(__S(2378, __c74, 10)),
-          writeBytes: S.optional(__S(2378, __c74, 10)),
-        }),
-      ).annotate({ identifier: "ShuffleWriteQuantileMetrics" });
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          bytesRead: S.optional(__S(2378, __c74, 10)),
-          recordsRead: S.optional(__S(2378, __c74, 10)),
-        }),
-      ).annotate({ identifier: "InputQuantileMetrics" });
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          bytesWritten: S.optional(__S(2378, __c74, 10)),
-          recordsWritten: S.optional(__S(2378, __c74, 10)),
-        }),
-      ).annotate({ identifier: "OutputQuantileMetrics" });
-    case 14:
-      return S.suspend(() =>
-        S.Struct({
-          localMergedBlocksFetched: S.optional(__S(2378, __c74, 10)),
-          remoteMergedBytesRead: S.optional(__S(2378, __c74, 10)),
-          mergedFetchFallbackCount: S.optional(__S(2378, __c74, 10)),
-          remoteMergedReqsDuration: S.optional(__S(2378, __c74, 10)),
-          remoteMergedBlocksFetched: S.optional(__S(2378, __c74, 10)),
-          remoteMergedChunksFetched: S.optional(__S(2378, __c74, 10)),
-          localMergedBytesRead: S.optional(__S(2378, __c74, 10)),
-          corruptMergedBlockChunks: S.optional(__S(2378, __c74, 10)),
-          localMergedChunksFetched: S.optional(__S(2378, __c74, 10)),
-        }),
-      ).annotate({ identifier: "ShufflePushReadQuantileMetrics" });
-    case 15:
-      return S.suspend(() =>
-        S.Struct({
-          shufflePushReadMetrics: S.optional(__S(2382, __c74, 14)),
-          remoteBytesReadToDisk: S.optional(__S(2378, __c74, 10)),
-          fetchWaitTimeMillis: S.optional(__S(2378, __c74, 10)),
-          remoteBlocksFetched: S.optional(__S(2378, __c74, 10)),
-          totalBlocksFetched: S.optional(__S(2378, __c74, 10)),
-          readBytes: S.optional(__S(2378, __c74, 10)),
-          localBlocksFetched: S.optional(__S(2378, __c74, 10)),
-          readRecords: S.optional(__S(2378, __c74, 10)),
-          remoteBytesRead: S.optional(__S(2378, __c74, 10)),
-          remoteReqsDuration: S.optional(__S(2378, __c74, 10)),
-        }),
-      ).annotate({ identifier: "ShuffleReadQuantileMetrics" });
-    case 16:
-      return S.suspend(() =>
-        S.Struct({
-          gettingResultTimeMillis: S.optional(__S(2378, __c74, 10)),
-          executorCpuTimeNanos: S.optional(__S(2378, __c74, 10)),
-          memoryBytesSpilled: S.optional(__S(2378, __c74, 10)),
-          diskBytesSpilled: S.optional(__S(2378, __c74, 10)),
-          peakExecutionMemoryBytes: S.optional(__S(2378, __c74, 10)),
-          executorDeserializeCpuTimeNanos: S.optional(__S(2378, __c74, 10)),
-          resultSize: S.optional(__S(2378, __c74, 10)),
-          shuffleWriteMetrics: S.optional(__S(2379, __c74, 11)),
-          durationMillis: S.optional(__S(2378, __c74, 10)),
-          jvmGcTimeMillis: S.optional(__S(2378, __c74, 10)),
-          executorDeserializeTimeMillis: S.optional(__S(2378, __c74, 10)),
-          resultSerializationTimeMillis: S.optional(__S(2378, __c74, 10)),
-          inputMetrics: S.optional(__S(2380, __c74, 12)),
-          executorRunTimeMillis: S.optional(__S(2378, __c74, 10)),
-          outputMetrics: S.optional(__S(2381, __c74, 13)),
-          schedulerDelayMillis: S.optional(__S(2378, __c74, 10)),
-          shuffleReadMetrics: S.optional(__S(2383, __c74, 15)),
-        }),
-      ).annotate({ identifier: "TaskQuantileMetrics" });
-    case 17:
-      return S.suspend(() =>
-        S.Struct({
-          firstTaskLaunchedTime: S.optional(S.String),
-          numCompletedIndices: S.optional(S.Number),
-          stageMetrics: S.optional(__S(2371, __c74, 3)),
-          isShufflePushEnabled: S.optional(S.Boolean),
-          submissionTime: S.optional(S.String),
-          speculationSummary: S.optional(__S(2372, __c74, 4)),
-          executorMetricsDistributions: S.optional(__S(2375, __c74, 7)),
-          numFailedTasks: S.optional(S.Number),
-          stageAttemptId: S.optional(S.Number),
-          completionTime: S.optional(S.String),
-          name: S.optional(S.String),
-          executorSummary: S.optional(__S(2376, __c74, 8)),
-          schedulingPool: S.optional(S.String),
-          accumulatorUpdates: S.optional(__S(2339, __c73, 3)),
-          resourceProfileId: S.optional(S.Number),
-          description: S.optional(S.String),
-          numTasks: S.optional(S.Number),
-          parentStageIds: S.optional(__S(4704, __c147, 0)),
-          stageId: S.optional(S.String),
-          peakExecutorMetrics: S.optional(__S(2400, __c75, 0)),
-          rddIds: S.optional(__S(4704, __c147, 0)),
-          numActiveTasks: S.optional(S.Number),
-          tasks: S.optional(__S(2377, __c74, 9)),
-          jobIds: S.optional(__S(4704, __c147, 0)),
-          failureReason: S.optional(S.String),
-          shuffleMergersCount: S.optional(S.Number),
-          killedTasksSummary: S.optional(__S(4736, __c148, 0)),
-          taskQuantileMetrics: S.optional(__S(2384, __c74, 16)),
-          numCompleteTasks: S.optional(S.Number),
-          locality: S.optional(__S(3872, __c121, 0)),
-          details: S.optional(S.String),
-          status: S.optional(S.String),
-          numKilledTasks: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "StageData" });
+      ).annotate({ identifier: "ExecutorMetrics" });
   }
 }
 function __c75(j: number): any {
@@ -9433,9 +9477,27 @@ function __c75(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          metrics: S.optional(__S(3872, __c121, 0)),
+          inputRecords: S.optional(S.String),
+          shuffleWrite: S.optional(S.String),
+          shuffleWriteRecords: S.optional(S.String),
+          taskTimeMillis: S.optional(S.String),
+          diskBytesSpilled: S.optional(S.String),
+          executorId: S.optional(S.String),
+          shuffleRead: S.optional(S.String),
+          stageAttemptId: S.optional(S.Number),
+          inputBytes: S.optional(S.String),
+          isExcludedForStage: S.optional(S.Boolean),
+          outputRecords: S.optional(S.String),
+          killedTasks: S.optional(S.Number),
+          succeededTasks: S.optional(S.Number),
+          peakMemoryMetrics: S.optional(__S(2368, __c74, 0)),
+          memoryBytesSpilled: S.optional(S.String),
+          stageId: S.optional(S.String),
+          outputBytes: S.optional(S.String),
+          shuffleReadRecords: S.optional(S.String),
+          failedTasks: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "ExecutorMetrics" });
+      ).annotate({ identifier: "ExecutorStageSummary" });
   }
 }
 function __c76(j: number): any {
@@ -9443,38 +9505,10 @@ function __c76(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          shuffleWrite: S.optional(S.String),
-          outputBytes: S.optional(S.String),
-          inputRecords: S.optional(S.String),
-          succeededTasks: S.optional(S.Number),
-          executorId: S.optional(S.String),
-          outputRecords: S.optional(S.String),
-          shuffleReadRecords: S.optional(S.String),
-          peakMemoryMetrics: S.optional(__S(2400, __c75, 0)),
-          shuffleWriteRecords: S.optional(S.String),
-          stageAttemptId: S.optional(S.Number),
-          inputBytes: S.optional(S.String),
-          killedTasks: S.optional(S.Number),
-          shuffleRead: S.optional(S.String),
-          taskTimeMillis: S.optional(S.String),
-          diskBytesSpilled: S.optional(S.String),
-          stageId: S.optional(S.String),
-          memoryBytesSpilled: S.optional(S.String),
-          isExcludedForStage: S.optional(S.Boolean),
-          failedTasks: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "ExecutorStageSummary" });
-  }
-}
-function __c77(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          parent: S.optional(S.String.pipe(T.Query())),
-          stageId: S.optional(S.String.pipe(T.Query())),
           summaryMetricsMask: S.optional(S.String.pipe(T.Query())),
           stageAttemptId: S.optional(S.Number.pipe(T.Query())),
+          stageId: S.optional(S.String.pipe(T.Query())),
+          parent: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -9488,14 +9522,14 @@ function __c77(j: number): any {
       });
   }
 }
-function __c78(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           stageId: S.optional(S.String.pipe(T.Query())),
-          parent: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          parent: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -9508,14 +9542,61 @@ function __c78(j: number): any {
       });
   }
 }
+function __c78(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          rddOperationGraph: S.optional(__S(2534, __c79, 6)),
+        }),
+      ).annotate({ identifier: "AccessSparkApplicationStageRddOperationGraphResponse" });
+  }
+}
 function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          rddOperationGraph: S.optional(__S(2566, __c80, 6)),
+          nodeId: S.optional(S.Number),
+          barrier: S.optional(S.Boolean),
+          cached: S.optional(S.Boolean),
+          name: S.optional(S.String),
+          callsite: S.optional(S.String),
+          outputDeterministicLevel: S.optional(S.String),
         }),
-      ).annotate({ identifier: "AccessSparkApplicationStageRddOperationGraphResponse" });
+      ).annotate({ identifier: "RddOperationNode" });
+    case 1:
+      return S.Array(__S(2528, __c79, 0));
+    case 2:
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(2531, __c79, 3)));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          rddClusterId: S.optional(S.String),
+          name: S.optional(S.String),
+          childNodes: S.optional(__S(2529, __c79, 1)),
+          childClusters: S.optional(__S(2530, __c79, 2)),
+        }),
+      ).annotate({ identifier: "RddOperationCluster" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          fromId: S.optional(S.Number),
+          toId: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "RddOperationEdge" });
+    case 5:
+      return S.Array(__S(2532, __c79, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          rootCluster: S.optional(__S(2531, __c79, 3)),
+          outgoingEdges: S.optional(__S(2533, __c79, 5)),
+          incomingEdges: S.optional(__S(2533, __c79, 5)),
+          edges: S.optional(__S(2533, __c79, 5)),
+          stageId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RddOperationGraph" });
   }
 }
 function __c80(j: number): any {
@@ -9523,56 +9604,9 @@ function __c80(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          toId: S.optional(S.Number),
-          fromId: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "RddOperationEdge" });
-    case 1:
-      return S.Array(__S(2560, __c80, 0));
-    case 2:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(2565, __c80, 5)));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          cached: S.optional(S.Boolean),
-          callsite: S.optional(S.String),
-          name: S.optional(S.String),
-          outputDeterministicLevel: S.optional(S.String),
-          barrier: S.optional(S.Boolean),
-          nodeId: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "RddOperationNode" });
-    case 4:
-      return S.Array(__S(2563, __c80, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          childClusters: S.optional(__S(2562, __c80, 2)),
-          rddClusterId: S.optional(S.String),
-          childNodes: S.optional(__S(2564, __c80, 4)),
-        }),
-      ).annotate({ identifier: "RddOperationCluster" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          incomingEdges: S.optional(__S(2561, __c80, 1)),
-          outgoingEdges: S.optional(__S(2561, __c80, 1)),
-          rootCluster: S.optional(__S(2565, __c80, 5)),
-          edges: S.optional(__S(2561, __c80, 1)),
-          stageId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "RddOperationGraph" });
-  }
-}
-function __c81(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
+          parent: S.optional(S.String.pipe(T.Query())),
           stageId: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          parent: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -9585,19 +9619,19 @@ function __c81(j: number): any {
       });
   }
 }
-function __c82(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          requestId: S.optional(S.String),
           requestorId: S.optional(S.String),
+          requestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "AnalyzeBatchRequest" });
     case 1:
       return S.suspend(() =>
         S.Extend(
-          __S(2624, __c82, 0),
+          __S(2592, __c81, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
           }),
@@ -9611,33 +9645,33 @@ function __c82(j: number): any {
       ).annotate({ identifier: "AnalyzeProjectsLocationsBatchesRequest" });
   }
 }
-function __c83(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
     case 1:
-      return S.Array(__S(2656, __c83, 0));
+      return S.Array(__S(2624, __c82, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          message: S.optional(S.String),
           code: S.optional(S.Number),
-          details: S.optional(__S(2657, __c83, 1)),
+          message: S.optional(S.String),
+          details: S.optional(__S(2625, __c82, 1)),
         }),
       ).annotate({ identifier: "Status" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          done: S.optional(S.Boolean),
-          response: S.optional(__S(2656, __c83, 0)),
-          metadata: S.optional(__S(2656, __c83, 0)),
           name: S.optional(S.String),
-          error: S.optional(__S(2658, __c83, 2)),
+          done: S.optional(S.Boolean),
+          error: S.optional(__S(2626, __c82, 2)),
+          metadata: S.optional(__S(2624, __c82, 0)),
+          response: S.optional(__S(2624, __c82, 0)),
         }),
       ).annotate({ identifier: "Operation" });
   }
 }
-function __c84(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9653,13 +9687,13 @@ function __c84(j: number): any {
       ).annotate({ identifier: "CancelProjectsLocationsOperationsRequest" });
   }
 }
-function __c85(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "Empty" });
   }
 }
-function __c86(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9667,7 +9701,7 @@ function __c86(j: number): any {
           jobId: S.String.pipe(T.Label()),
           projectId: S.String.pipe(T.Label()),
           region: S.String.pipe(T.Label()),
-          body: S.optional(__S(2720, __c85, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(2688, __c84, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -9678,227 +9712,227 @@ function __c86(j: number): any {
       ).annotate({ identifier: "CancelProjectsRegionsJobsRequest" });
   }
 }
+function __c86(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          queries: S.optional(__S(4672, __c146, 0)),
+        }),
+      ).annotate({ identifier: "QueryList" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          driverLogLevels: S.optional(__S(2144, __c67, 0)),
+        }),
+      ).annotate({ identifier: "LoggingConfig" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          continueOnFailure: S.optional(S.Boolean),
+          properties: S.optional(__S(3840, __c120, 0)),
+          queryList: S.optional(__S(2752, __c86, 0)),
+          loggingConfig: S.optional(__S(2753, __c86, 1)),
+          queryFileUri: S.optional(S.String),
+          outputFormat: S.optional(S.String),
+          clientTags: S.optional(__S(4672, __c146, 0)),
+        }),
+      ).annotate({ identifier: "PrestoJob" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          properties: S.optional(__S(3840, __c120, 0)),
+          jarFileUris: S.optional(__S(4672, __c146, 0)),
+          scriptVariables: S.optional(__S(3840, __c120, 0)),
+          queryList: S.optional(__S(2752, __c86, 0)),
+          loggingConfig: S.optional(__S(2753, __c86, 1)),
+          queryFileUri: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SparkSqlJob" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          loggingConfig: S.optional(__S(2753, __c86, 1)),
+          properties: S.optional(__S(3840, __c120, 0)),
+          queryFileUri: S.optional(S.String),
+          outputFormat: S.optional(S.String),
+          continueOnFailure: S.optional(S.Boolean),
+          clientTags: S.optional(__S(4672, __c146, 0)),
+          queryList: S.optional(__S(2752, __c86, 0)),
+        }),
+      ).annotate({ identifier: "TrinoJob" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          queryFileUri: S.optional(S.String),
+          continueOnFailure: S.optional(S.Boolean),
+          loggingConfig: S.optional(__S(2753, __c86, 1)),
+          properties: S.optional(__S(3840, __c120, 0)),
+          queryList: S.optional(__S(2752, __c86, 0)),
+          scriptVariables: S.optional(__S(3840, __c120, 0)),
+          jarFileUris: S.optional(__S(4672, __c146, 0)),
+        }),
+      ).annotate({ identifier: "PigJob" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          mainRFileUri: S.optional(S.String),
+          fileUris: S.optional(__S(4672, __c146, 0)),
+          loggingConfig: S.optional(__S(2753, __c86, 1)),
+          archiveUris: S.optional(__S(4672, __c146, 0)),
+          args: S.optional(__S(4672, __c146, 0)),
+          properties: S.optional(__S(3840, __c120, 0)),
+        }),
+      ).annotate({ identifier: "SparkRJob" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          mainJarFileUri: S.optional(S.String),
+          args: S.optional(__S(4672, __c146, 0)),
+          loggingConfig: S.optional(__S(2753, __c86, 1)),
+          properties: S.optional(__S(3840, __c120, 0)),
+          mainClass: S.optional(S.String),
+          fileUris: S.optional(__S(4672, __c146, 0)),
+          archiveUris: S.optional(__S(4672, __c146, 0)),
+          jarFileUris: S.optional(__S(4672, __c146, 0)),
+        }),
+      ).annotate({ identifier: "SparkJob" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          fileUris: S.optional(__S(4672, __c146, 0)),
+          properties: S.optional(__S(3840, __c120, 0)),
+          archiveUris: S.optional(__S(4672, __c146, 0)),
+          jarFileUris: S.optional(__S(4672, __c146, 0)),
+          mainJarFileUri: S.optional(S.String),
+          args: S.optional(__S(4672, __c146, 0)),
+          mainClass: S.optional(S.String),
+          loggingConfig: S.optional(__S(2753, __c86, 1)),
+        }),
+      ).annotate({ identifier: "HadoopJob" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          maxFailuresPerHour: S.optional(S.Number),
+          maxFailuresTotal: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "JobScheduling" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          mainPythonFileUri: S.optional(S.String),
+          jarFileUris: S.optional(__S(4672, __c146, 0)),
+          archiveUris: S.optional(__S(4672, __c146, 0)),
+          pythonFileUris: S.optional(__S(4672, __c146, 0)),
+          loggingConfig: S.optional(__S(2753, __c86, 1)),
+          properties: S.optional(__S(3840, __c120, 0)),
+          args: S.optional(__S(4672, __c146, 0)),
+          fileUris: S.optional(__S(4672, __c146, 0)),
+        }),
+      ).annotate({ identifier: "PySparkJob" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          continueOnFailure: S.optional(S.Boolean),
+          properties: S.optional(__S(3840, __c120, 0)),
+          jarFileUris: S.optional(__S(4672, __c146, 0)),
+          queryFileUri: S.optional(S.String),
+          scriptVariables: S.optional(__S(3840, __c120, 0)),
+          queryList: S.optional(__S(2752, __c86, 0)),
+        }),
+      ).annotate({ identifier: "HiveJob" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          savepointUri: S.optional(S.String),
+          mainJarFileUri: S.optional(S.String),
+          mainClass: S.optional(S.String),
+          properties: S.optional(__S(3840, __c120, 0)),
+          args: S.optional(__S(4672, __c146, 0)),
+          jarFileUris: S.optional(__S(4672, __c146, 0)),
+          loggingConfig: S.optional(__S(2753, __c86, 1)),
+        }),
+      ).annotate({ identifier: "FlinkJob" });
+  }
+}
 function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          driverLogLevels: S.optional(__S(2176, __c68, 0)),
+          stateStartTime: S.optional(S.String),
+          state: S.optional(S.String),
+          substate: S.optional(S.String),
+          details: S.optional(S.String),
         }),
-      ).annotate({ identifier: "LoggingConfig" });
+      ).annotate({ identifier: "JobStatus" });
     case 1:
-      return S.suspend(() =>
-        S.Struct({
-          pythonFileUris: S.optional(__S(4704, __c147, 0)),
-          archiveUris: S.optional(__S(4704, __c147, 0)),
-          mainPythonFileUri: S.optional(S.String),
-          jarFileUris: S.optional(__S(4704, __c147, 0)),
-          args: S.optional(__S(4704, __c147, 0)),
-          loggingConfig: S.optional(__S(2784, __c87, 0)),
-          fileUris: S.optional(__S(4704, __c147, 0)),
-          properties: S.optional(__S(3872, __c121, 0)),
-        }),
-      ).annotate({ identifier: "PySparkJob" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          queries: S.optional(__S(4704, __c147, 0)),
-        }),
-      ).annotate({ identifier: "QueryList" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          properties: S.optional(__S(3872, __c121, 0)),
-          queryFileUri: S.optional(S.String),
-          continueOnFailure: S.optional(S.Boolean),
-          loggingConfig: S.optional(__S(2784, __c87, 0)),
-          jarFileUris: S.optional(__S(4704, __c147, 0)),
-          queryList: S.optional(__S(2786, __c87, 2)),
-          scriptVariables: S.optional(__S(3872, __c121, 0)),
-        }),
-      ).annotate({ identifier: "PigJob" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          args: S.optional(__S(4704, __c147, 0)),
-          loggingConfig: S.optional(__S(2784, __c87, 0)),
-          fileUris: S.optional(__S(4704, __c147, 0)),
-          archiveUris: S.optional(__S(4704, __c147, 0)),
-          mainRFileUri: S.optional(S.String),
-          properties: S.optional(__S(3872, __c121, 0)),
-        }),
-      ).annotate({ identifier: "SparkRJob" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          mainJarFileUri: S.optional(S.String),
-          loggingConfig: S.optional(__S(2784, __c87, 0)),
-          archiveUris: S.optional(__S(4704, __c147, 0)),
-          jarFileUris: S.optional(__S(4704, __c147, 0)),
-          fileUris: S.optional(__S(4704, __c147, 0)),
-          args: S.optional(__S(4704, __c147, 0)),
-          mainClass: S.optional(S.String),
-          properties: S.optional(__S(3872, __c121, 0)),
-        }),
-      ).annotate({ identifier: "SparkJob" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          clientTags: S.optional(__S(4704, __c147, 0)),
-          queryFileUri: S.optional(S.String),
-          outputFormat: S.optional(S.String),
-          continueOnFailure: S.optional(S.Boolean),
-          queryList: S.optional(__S(2786, __c87, 2)),
-          loggingConfig: S.optional(__S(2784, __c87, 0)),
-          properties: S.optional(__S(3872, __c121, 0)),
-        }),
-      ).annotate({ identifier: "TrinoJob" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          loggingConfig: S.optional(__S(2784, __c87, 0)),
-          mainClass: S.optional(S.String),
-          mainJarFileUri: S.optional(S.String),
-          jarFileUris: S.optional(__S(4704, __c147, 0)),
-          args: S.optional(__S(4704, __c147, 0)),
-          properties: S.optional(__S(3872, __c121, 0)),
-          archiveUris: S.optional(__S(4704, __c147, 0)),
-          fileUris: S.optional(__S(4704, __c147, 0)),
-        }),
-      ).annotate({ identifier: "HadoopJob" });
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          scriptVariables: S.optional(__S(3872, __c121, 0)),
-          queryFileUri: S.optional(S.String),
-          loggingConfig: S.optional(__S(2784, __c87, 0)),
-          queryList: S.optional(__S(2786, __c87, 2)),
-          jarFileUris: S.optional(__S(4704, __c147, 0)),
-          properties: S.optional(__S(3872, __c121, 0)),
-        }),
-      ).annotate({ identifier: "SparkSqlJob" });
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          scriptVariables: S.optional(__S(3872, __c121, 0)),
-          queryList: S.optional(__S(2786, __c87, 2)),
-          continueOnFailure: S.optional(S.Boolean),
-          jarFileUris: S.optional(__S(4704, __c147, 0)),
-          queryFileUri: S.optional(S.String),
-          properties: S.optional(__S(3872, __c121, 0)),
-        }),
-      ).annotate({ identifier: "HiveJob" });
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          mainClass: S.optional(S.String),
-          loggingConfig: S.optional(__S(2784, __c87, 0)),
-          mainJarFileUri: S.optional(S.String),
-          properties: S.optional(__S(3872, __c121, 0)),
-          args: S.optional(__S(4704, __c147, 0)),
-          savepointUri: S.optional(S.String),
-          jarFileUris: S.optional(__S(4704, __c147, 0)),
-        }),
-      ).annotate({ identifier: "FlinkJob" });
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          maxFailuresTotal: S.optional(S.Number),
-          maxFailuresPerHour: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "JobScheduling" });
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          queryList: S.optional(__S(2786, __c87, 2)),
-          loggingConfig: S.optional(__S(2784, __c87, 0)),
-          properties: S.optional(__S(3872, __c121, 0)),
-          queryFileUri: S.optional(S.String),
-          outputFormat: S.optional(S.String),
-          continueOnFailure: S.optional(S.Boolean),
-          clientTags: S.optional(__S(4704, __c147, 0)),
-        }),
-      ).annotate({ identifier: "PrestoJob" });
-  }
-}
-function __c88(j: number): any {
-  switch (j) {
-    case 0:
       return S.suspend(() =>
         S.Struct({
           vcores: S.optional(S.Number),
           memoryMb: S.optional(S.Number),
         }),
       ).annotate({ identifier: "DriverSchedulingConfig" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          clusterLabels: S.optional(__S(3872, __c121, 0)),
-          clusterUuid: S.optional(S.String),
-          clusterName: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "JobPlacement" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          state: S.optional(S.String),
-          stateStartTime: S.optional(S.String),
-          substate: S.optional(S.String),
-          details: S.optional(S.String),
+          jobId: S.optional(S.String),
+          projectId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "JobStatus" });
+      ).annotate({ identifier: "JobReference" });
     case 3:
-      return S.Array(__S(2818, __c88, 2));
+      return S.suspend(() =>
+        S.Struct({
+          clusterLabels: S.optional(__S(3840, __c120, 0)),
+          clusterName: S.optional(S.String),
+          clusterUuid: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "JobPlacement" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          projectId: S.optional(S.String),
-          jobId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "JobReference" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
+          progress: S.optional(S.Number),
           memoryMbSeconds: S.optional(S.String),
           state: S.optional(S.String),
-          vcoreSeconds: S.optional(S.String),
-          progress: S.optional(S.Number),
+          name: S.optional(S.String),
           trackingUrl: S.optional(S.String),
+          vcoreSeconds: S.optional(S.String),
         }),
       ).annotate({ identifier: "YarnApplication" });
+    case 5:
+      return S.Array(__S(2788, __c87, 4));
     case 6:
-      return S.Array(__S(2821, __c88, 5));
+      return S.Array(__S(2784, __c87, 0));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          driverOutputResourceUri: S.optional(S.String),
-          pysparkJob: S.optional(__S(2785, __c87, 1)),
-          pigJob: S.optional(__S(2787, __c87, 3)),
-          sparkRJob: S.optional(__S(2788, __c87, 4)),
-          sparkJob: S.optional(__S(2789, __c87, 5)),
-          driverSchedulingConfig: S.optional(__S(2816, __c88, 0)),
-          done: S.optional(S.Boolean),
-          trinoJob: S.optional(__S(2790, __c87, 6)),
-          placement: S.optional(__S(2817, __c88, 1)),
-          hadoopJob: S.optional(__S(2791, __c87, 7)),
-          sparkSqlJob: S.optional(__S(2792, __c87, 8)),
-          hiveJob: S.optional(__S(2793, __c87, 9)),
-          jobUuid: S.optional(S.String),
-          flinkJob: S.optional(__S(2794, __c87, 10)),
+          prestoJob: S.optional(__S(2754, __c86, 2)),
+          status: S.optional(__S(2784, __c87, 0)),
+          labels: S.optional(__S(3840, __c120, 0)),
+          driverSchedulingConfig: S.optional(__S(2785, __c87, 1)),
           driverControlFilesUri: S.optional(S.String),
-          status: S.optional(__S(2818, __c88, 2)),
-          statusHistory: S.optional(__S(2819, __c88, 3)),
-          scheduling: S.optional(__S(2795, __c87, 11)),
-          prestoJob: S.optional(__S(2796, __c87, 12)),
-          reference: S.optional(__S(2820, __c88, 4)),
-          yarnApplications: S.optional(__S(2822, __c88, 6)),
-          labels: S.optional(__S(3872, __c121, 0)),
+          sparkSqlJob: S.optional(__S(2755, __c86, 3)),
+          reference: S.optional(__S(2786, __c87, 2)),
+          trinoJob: S.optional(__S(2756, __c86, 4)),
+          placement: S.optional(__S(2787, __c87, 3)),
+          pigJob: S.optional(__S(2757, __c86, 5)),
+          sparkRJob: S.optional(__S(2758, __c86, 6)),
+          yarnApplications: S.optional(__S(2789, __c87, 5)),
+          sparkJob: S.optional(__S(2759, __c86, 7)),
+          driverOutputResourceUri: S.optional(S.String),
+          hadoopJob: S.optional(__S(2760, __c86, 8)),
+          scheduling: S.optional(__S(2761, __c86, 9)),
+          statusHistory: S.optional(__S(2790, __c87, 6)),
+          done: S.optional(S.Boolean),
+          pysparkJob: S.optional(__S(2762, __c86, 10)),
+          jobUuid: S.optional(S.String),
+          hiveJob: S.optional(__S(2763, __c86, 11)),
+          flinkJob: S.optional(__S(2764, __c86, 12)),
         }),
       ).annotate({ identifier: "Job" });
   }
 }
-function __c89(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9914,14 +9948,14 @@ function __c89(j: number): any {
       ).annotate({ identifier: "CancelProjectsRegionsOperationsRequest" });
   }
 }
-function __c90(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           semanticQueryId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
           parent: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
           executionId: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -9936,17 +9970,17 @@ function __c90(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          recommendedProperties: S.optional(__S(3872, __c121, 0)),
+          recommendedProperties: S.optional(__S(3840, __c120, 0)),
         }),
       ).annotate({ identifier: "ComputeTuningConfigResponse" });
   }
 }
-function __c91(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(2948, __c92, 4),
+          __S(2916, __c91, 4),
           S.Struct({
             parent: S.String.pipe(T.Label()),
           }),
@@ -9960,69 +9994,69 @@ function __c91(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsAutoscalingPoliciesRequest" });
   }
 }
-function __c92(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          weight: S.optional(S.Number),
           minInstances: S.optional(S.Number),
           maxInstances: S.optional(S.Number),
-          weight: S.optional(S.Number),
         }),
       ).annotate({ identifier: "InstanceGroupAutoscalingPolicyConfig" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          scaleDownFactor: S.optional(S.Number),
-          scaleDownMinWorkerFraction: S.optional(S.Number),
-          removeOnlyIdleWorkers: S.optional(S.Boolean),
-          gracefulDecommissionTimeout: S.optional(S.String),
           scaleUpMinWorkerFraction: S.optional(S.Number),
-          scaleUpFactor: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "SparkStandaloneAutoscalingConfig" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
           scaleDownFactor: S.optional(S.Number),
-          scaleUpFactor: S.optional(S.Number),
           gracefulDecommissionTimeout: S.optional(S.String),
-          scaleUpMinWorkerFraction: S.optional(S.Number),
+          scaleUpFactor: S.optional(S.Number),
           scaleDownMinWorkerFraction: S.optional(S.Number),
         }),
       ).annotate({ identifier: "BasicYarnAutoscalingConfig" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          scaleDownMinWorkerFraction: S.optional(S.Number),
+          scaleDownFactor: S.optional(S.Number),
+          gracefulDecommissionTimeout: S.optional(S.String),
+          scaleUpMinWorkerFraction: S.optional(S.Number),
+          removeOnlyIdleWorkers: S.optional(S.Boolean),
+          scaleUpFactor: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "SparkStandaloneAutoscalingConfig" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          sparkStandaloneConfig: S.optional(__S(2945, __c92, 1)),
+          yarnConfig: S.optional(__S(2913, __c91, 1)),
           cooldownPeriod: S.optional(S.String),
-          yarnConfig: S.optional(__S(2946, __c92, 2)),
+          sparkStandaloneConfig: S.optional(__S(2914, __c91, 2)),
         }),
       ).annotate({ identifier: "BasicAutoscalingAlgorithm" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          secondaryWorkerConfig: S.optional(__S(2944, __c92, 0)),
-          workerConfig: S.optional(__S(2944, __c92, 0)),
-          id: S.optional(S.String),
-          basicAlgorithm: S.optional(__S(2947, __c92, 3)),
+          labels: S.optional(__S(3840, __c120, 0)),
           clusterType: S.optional(S.String),
-          labels: S.optional(__S(3872, __c121, 0)),
+          id: S.optional(S.String),
+          secondaryWorkerConfig: S.optional(__S(2912, __c91, 0)),
+          name: S.optional(S.String),
+          workerConfig: S.optional(__S(2912, __c91, 0)),
+          basicAlgorithm: S.optional(__S(2915, __c91, 3)),
         }),
       ).annotate({ identifier: "AutoscalingPolicy" });
   }
 }
-function __c93(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(3143, __c98, 7),
+          __S(3111, __c97, 7),
           S.Struct({
-            parent: S.String.pipe(T.Label()),
             batchId: S.optional(S.String.pipe(T.Query())),
             requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -10034,13 +10068,13 @@ function __c93(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsBatchesRequest" });
   }
 }
-function __c94(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c95(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10050,72 +10084,139 @@ function __c95(j: number): any {
       ).annotate({ identifier: "SparkHistoryServerConfig" });
   }
 }
-function __c96(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          metastoreService: S.optional(S.String),
-          sparkHistoryServerConfig: S.optional(__S(3040, __c95, 0)),
-        }),
-      ).annotate({ identifier: "PeripheralsConfig" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          userWorkloadAuthenticationType: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AuthenticationConfig" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          networkTags: S.optional(__S(4704, __c147, 0)),
-          idleTtl: S.optional(S.String),
-          subnetworkUri: S.optional(S.String),
-          networkUri: S.optional(S.String),
-          ttl: S.optional(S.String),
-          kmsKey: S.optional(S.String),
-          serviceAccount: S.optional(S.String),
-          resourceManagerTags: S.optional(__S(3872, __c121, 0)),
-          stagingBucket: S.optional(S.String),
-          authenticationConfig: S.optional(__S(3073, __c96, 1)),
-        }),
-      ).annotate({ identifier: "ExecutionConfig" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          peripheralsConfig: S.optional(__S(3072, __c96, 0)),
-          executionConfig: S.optional(__S(3074, __c96, 2)),
-        }),
-      ).annotate({ identifier: "EnvironmentConfig" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          scenarios: S.optional(__S(3008, __c94, 0)),
+          scenarios: S.optional(__S(2976, __c93, 0)),
         }),
       ).annotate({ identifier: "AutotuningConfig" });
-    case 5:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           pypiRepository: S.optional(S.String),
         }),
       ).annotate({ identifier: "PyPiRepositoryConfig" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          pypiRepositoryConfig: S.optional(__S(3041, __c95, 1)),
+        }),
+      ).annotate({ identifier: "RepositoryConfig" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          properties: S.optional(__S(3840, __c120, 0)),
+          autotuningConfig: S.optional(__S(3040, __c95, 0)),
+          containerImage: S.optional(S.String),
+          version: S.optional(S.String),
+          cohort: S.optional(S.String),
+          repositoryConfig: S.optional(__S(3042, __c95, 2)),
+        }),
+      ).annotate({ identifier: "RuntimeConfig" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          userWorkloadAuthenticationType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AuthenticationConfig" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          authenticationConfig: S.optional(__S(3044, __c95, 4)),
+          networkUri: S.optional(S.String),
+          networkTags: S.optional(__S(4672, __c146, 0)),
+          stagingBucket: S.optional(S.String),
+          subnetworkUri: S.optional(S.String),
+          ttl: S.optional(S.String),
+          kmsKey: S.optional(S.String),
+          resourceManagerTags: S.optional(__S(3840, __c120, 0)),
+          idleTtl: S.optional(S.String),
+          serviceAccount: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ExecutionConfig" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          pypiRepositoryConfig: S.optional(__S(3077, __c96, 5)),
+          metastoreService: S.optional(S.String),
+          sparkHistoryServerConfig: S.optional(__S(3008, __c94, 0)),
         }),
-      ).annotate({ identifier: "RepositoryConfig" });
+      ).annotate({ identifier: "PeripheralsConfig" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          properties: S.optional(__S(3872, __c121, 0)),
-          containerImage: S.optional(S.String),
-          autotuningConfig: S.optional(__S(3076, __c96, 4)),
-          repositoryConfig: S.optional(__S(3078, __c96, 6)),
-          version: S.optional(S.String),
-          cohort: S.optional(S.String),
+          executionConfig: S.optional(__S(3045, __c95, 5)),
+          peripheralsConfig: S.optional(__S(3046, __c95, 6)),
         }),
-      ).annotate({ identifier: "RuntimeConfig" });
+      ).annotate({ identifier: "EnvironmentConfig" });
+  }
+}
+function __c96(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          acceleratorType: S.optional(S.String),
+          milliAcceleratorA10080: S.optional(S.String),
+          shuffleStorageGb: S.optional(S.String),
+          milliDcu: S.optional(S.String),
+          snapshotTime: S.optional(S.String),
+          shuffleStorageGbPremium: S.optional(S.String),
+          milliDcuPremium: S.optional(S.String),
+          milliAcceleratorL4: S.optional(S.String),
+          milliAcceleratorA10040: S.optional(S.String),
+          milliAccelerator: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "UsageSnapshot" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          milliAcceleratorSecondsL4: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          milliAcceleratorSecondsA10040: S.optional(S.String),
+          shuffleStorageGbSeconds: S.optional(S.String),
+          milliAcceleratorSeconds: S.optional(S.String),
+          milliDcuSeconds: S.optional(S.String),
+          acceleratorType: S.optional(S.String),
+          milliAcceleratorSecondsA10080: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "UsageMetrics" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          cohort: S.optional(S.String),
+          cohortSource: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CohortInfo" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          value: S.optional(S.String),
+          overriddenValue: S.optional(S.String),
+          annotation: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ValueInfo" });
+    case 4:
+      return S.Record(S.String, __S(3075, __c96, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          autotuningProperties: S.optional(__S(3076, __c96, 4)),
+        }),
+      ).annotate({ identifier: "PropertiesInfo" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          currentUsage: S.optional(__S(3072, __c96, 0)),
+          approximateUsage: S.optional(__S(3073, __c96, 1)),
+          diagnosticOutputUri: S.optional(S.String),
+          cohortInfo: S.optional(__S(3074, __c96, 2)),
+          endpoints: S.optional(__S(3840, __c120, 0)),
+          outputUri: S.optional(S.String),
+          propertiesInfo: S.optional(__S(3077, __c96, 5)),
+        }),
+      ).annotate({ identifier: "RuntimeInfo" });
   }
 }
 function __c97(j: number): any {
@@ -10123,165 +10224,98 @@ function __c97(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          acceleratorType: S.optional(S.String),
-          milliAcceleratorSecondsA10040: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          milliAcceleratorSeconds: S.optional(S.String),
-          shuffleStorageGbSeconds: S.optional(S.String),
-          milliAcceleratorSecondsA10080: S.optional(S.String),
-          milliAcceleratorSecondsL4: S.optional(S.String),
-          milliDcuSeconds: S.optional(S.String),
+          mainClass: S.optional(S.String),
+          mainJarFileUri: S.optional(S.String),
+          args: S.optional(__S(4672, __c146, 0)),
+          jarFileUris: S.optional(__S(4672, __c146, 0)),
+          archiveUris: S.optional(__S(4672, __c146, 0)),
+          fileUris: S.optional(__S(4672, __c146, 0)),
         }),
-      ).annotate({ identifier: "UsageMetrics" });
+      ).annotate({ identifier: "SparkBatch" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          cohort: S.optional(S.String),
-          cohortSource: S.optional(S.String),
+          params: S.optional(__S(3840, __c120, 0)),
+          pythonFileUris: S.optional(__S(4672, __c146, 0)),
+          notebookFileUri: S.optional(S.String),
+          jarFileUris: S.optional(__S(4672, __c146, 0)),
+          archiveUris: S.optional(__S(4672, __c146, 0)),
+          fileUris: S.optional(__S(4672, __c146, 0)),
         }),
-      ).annotate({ identifier: "CohortInfo" });
+      ).annotate({ identifier: "PySparkNotebookBatch" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          snapshotTime: S.optional(S.String),
-          milliAcceleratorA10080: S.optional(S.String),
-          shuffleStorageGbPremium: S.optional(S.String),
-          milliDcuPremium: S.optional(S.String),
-          acceleratorType: S.optional(S.String),
-          milliAcceleratorA10040: S.optional(S.String),
-          milliAcceleratorL4: S.optional(S.String),
-          milliDcu: S.optional(S.String),
-          shuffleStorageGb: S.optional(S.String),
-          milliAccelerator: S.optional(S.String),
+          jarFileUris: S.optional(__S(4672, __c146, 0)),
+          fileUris: S.optional(__S(4672, __c146, 0)),
+          archiveUris: S.optional(__S(4672, __c146, 0)),
+          pythonFileUris: S.optional(__S(4672, __c146, 0)),
+          mainPythonFileUri: S.optional(S.String),
+          args: S.optional(__S(4672, __c146, 0)),
         }),
-      ).annotate({ identifier: "UsageSnapshot" });
+      ).annotate({ identifier: "PySparkBatch" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          overriddenValue: S.optional(S.String),
-          annotation: S.optional(S.String),
-          value: S.optional(S.String),
+          queryFileUri: S.optional(S.String),
+          queryVariables: S.optional(__S(3840, __c120, 0)),
+          jarFileUris: S.optional(__S(4672, __c146, 0)),
         }),
-      ).annotate({ identifier: "ValueInfo" });
+      ).annotate({ identifier: "SparkSqlBatch" });
     case 4:
-      return S.Record(S.String, __S(3107, __c97, 3));
-    case 5:
       return S.suspend(() =>
         S.Struct({
-          autotuningProperties: S.optional(__S(3108, __c97, 4)),
+          state: S.optional(S.String),
+          stateStartTime: S.optional(S.String),
+          stateMessage: S.optional(S.String),
         }),
-      ).annotate({ identifier: "PropertiesInfo" });
+      ).annotate({ identifier: "StateHistory" });
+    case 5:
+      return S.Array(__S(3108, __c97, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          approximateUsage: S.optional(__S(3104, __c97, 0)),
-          cohortInfo: S.optional(__S(3105, __c97, 1)),
-          endpoints: S.optional(__S(3872, __c121, 0)),
-          outputUri: S.optional(S.String),
-          diagnosticOutputUri: S.optional(S.String),
-          currentUsage: S.optional(__S(3106, __c97, 2)),
-          propertiesInfo: S.optional(__S(3109, __c97, 5)),
+          args: S.optional(__S(4672, __c146, 0)),
+          archiveUris: S.optional(__S(4672, __c146, 0)),
+          fileUris: S.optional(__S(4672, __c146, 0)),
+          mainRFileUri: S.optional(S.String),
         }),
-      ).annotate({ identifier: "RuntimeInfo" });
+      ).annotate({ identifier: "SparkRBatch" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          runtimeConfig: S.optional(__S(3043, __c95, 3)),
+          stateMessage: S.optional(S.String),
+          sparkBatch: S.optional(__S(3104, __c97, 0)),
+          state: S.optional(S.String),
+          name: S.optional(S.String),
+          creator: S.optional(S.String),
+          pysparkNotebookBatch: S.optional(__S(3105, __c97, 1)),
+          pysparkBatch: S.optional(__S(3106, __c97, 2)),
+          sparkSqlBatch: S.optional(__S(3107, __c97, 3)),
+          operation: S.optional(S.String),
+          createTime: S.optional(S.String),
+          stateTime: S.optional(S.String),
+          runtimeInfo: S.optional(__S(3078, __c96, 6)),
+          stateHistory: S.optional(__S(3109, __c97, 5)),
+          sparkRBatch: S.optional(__S(3110, __c97, 6)),
+          labels: S.optional(__S(3840, __c120, 0)),
+          environmentConfig: S.optional(__S(3047, __c95, 7)),
+          uuid: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Batch" });
   }
 }
 function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          jarFileUris: S.optional(__S(4704, __c147, 0)),
-          args: S.optional(__S(4704, __c147, 0)),
-          pythonFileUris: S.optional(__S(4704, __c147, 0)),
-          fileUris: S.optional(__S(4704, __c147, 0)),
-          mainPythonFileUri: S.optional(S.String),
-          archiveUris: S.optional(__S(4704, __c147, 0)),
-        }),
-      ).annotate({ identifier: "PySparkBatch" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          stateStartTime: S.optional(S.String),
-          state: S.optional(S.String),
-          stateMessage: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "StateHistory" });
-    case 2:
-      return S.Array(__S(3137, __c98, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          notebookFileUri: S.optional(S.String),
-          pythonFileUris: S.optional(__S(4704, __c147, 0)),
-          jarFileUris: S.optional(__S(4704, __c147, 0)),
-          archiveUris: S.optional(__S(4704, __c147, 0)),
-          params: S.optional(__S(3872, __c121, 0)),
-          fileUris: S.optional(__S(4704, __c147, 0)),
-        }),
-      ).annotate({ identifier: "PySparkNotebookBatch" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          fileUris: S.optional(__S(4704, __c147, 0)),
-          archiveUris: S.optional(__S(4704, __c147, 0)),
-          args: S.optional(__S(4704, __c147, 0)),
-          mainRFileUri: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SparkRBatch" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          args: S.optional(__S(4704, __c147, 0)),
-          mainClass: S.optional(S.String),
-          jarFileUris: S.optional(__S(4704, __c147, 0)),
-          fileUris: S.optional(__S(4704, __c147, 0)),
-          archiveUris: S.optional(__S(4704, __c147, 0)),
-          mainJarFileUri: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SparkBatch" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          queryVariables: S.optional(__S(3872, __c121, 0)),
-          queryFileUri: S.optional(S.String),
-          jarFileUris: S.optional(__S(4704, __c147, 0)),
-        }),
-      ).annotate({ identifier: "SparkSqlBatch" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          stateMessage: S.optional(S.String),
-          state: S.optional(S.String),
-          name: S.optional(S.String),
-          stateTime: S.optional(S.String),
-          labels: S.optional(__S(3872, __c121, 0)),
-          operation: S.optional(S.String),
-          environmentConfig: S.optional(__S(3075, __c96, 3)),
-          pysparkBatch: S.optional(__S(3136, __c98, 0)),
-          stateHistory: S.optional(__S(3138, __c98, 2)),
-          pysparkNotebookBatch: S.optional(__S(3139, __c98, 3)),
-          creator: S.optional(S.String),
-          sparkRBatch: S.optional(__S(3140, __c98, 4)),
-          sparkBatch: S.optional(__S(3141, __c98, 5)),
-          uuid: S.optional(S.String),
-          createTime: S.optional(S.String),
-          sparkSqlBatch: S.optional(__S(3142, __c98, 6)),
-          runtimeConfig: S.optional(__S(3079, __c96, 7)),
-          runtimeInfo: S.optional(__S(3110, __c97, 6)),
-        }),
-      ).annotate({ identifier: "Batch" });
-  }
-}
-function __c99(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
         S.Extend(
-          __S(3234, __c101, 2),
+          __S(3202, __c100, 2),
           S.Struct({
-            requestId: S.optional(S.String.pipe(T.Query())),
-            parent: S.String.pipe(T.Label()),
             sessionId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -10293,58 +10327,58 @@ function __c99(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsSessionsRequest" });
   }
 }
+function __c99(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          kernel: S.optional(S.String),
+          displayName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "JupyterConfig" });
+  }
+}
 function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          displayName: S.optional(S.String),
-          kernel: S.optional(S.String),
+          stateMessage: S.optional(S.String),
+          state: S.optional(S.String),
+          stateStartTime: S.optional(S.String),
         }),
-      ).annotate({ identifier: "JupyterConfig" });
+      ).annotate({ identifier: "SessionStateHistory" });
+    case 1:
+      return S.Array(__S(3200, __c100, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          creator: S.optional(S.String),
+          stateMessage: S.optional(S.String),
+          labels: S.optional(__S(3840, __c120, 0)),
+          jupyterSession: S.optional(__S(3168, __c99, 0)),
+          uuid: S.optional(S.String),
+          createTime: S.optional(S.String),
+          state: S.optional(S.String),
+          sparkConnectSession: S.optional(__S(2688, __c84, 0)),
+          stateTime: S.optional(S.String),
+          environmentConfig: S.optional(__S(3047, __c95, 7)),
+          stateHistory: S.optional(__S(3201, __c100, 1)),
+          runtimeConfig: S.optional(__S(3043, __c95, 3)),
+          sessionTemplate: S.optional(S.String),
+          name: S.optional(S.String),
+          user: S.optional(S.String),
+          runtimeInfo: S.optional(__S(3078, __c96, 6)),
+        }),
+      ).annotate({ identifier: "Session" });
   }
 }
 function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          state: S.optional(S.String),
-          stateStartTime: S.optional(S.String),
-          stateMessage: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SessionStateHistory" });
-    case 1:
-      return S.Array(__S(3232, __c101, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          labels: S.optional(__S(3872, __c121, 0)),
-          stateTime: S.optional(S.String),
-          runtimeInfo: S.optional(__S(3110, __c97, 6)),
-          name: S.optional(S.String),
-          createTime: S.optional(S.String),
-          runtimeConfig: S.optional(__S(3079, __c96, 7)),
-          environmentConfig: S.optional(__S(3075, __c96, 3)),
-          jupyterSession: S.optional(__S(3200, __c100, 0)),
-          stateMessage: S.optional(S.String),
-          state: S.optional(S.String),
-          user: S.optional(S.String),
-          sessionTemplate: S.optional(S.String),
-          uuid: S.optional(S.String),
-          stateHistory: S.optional(__S(3233, __c101, 1)),
-          sparkConnectSession: S.optional(__S(2720, __c85, 0)),
-          creator: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Session" });
-  }
-}
-function __c102(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
         S.Extend(
-          __S(3296, __c103, 0),
+          __S(3264, __c102, 0),
           S.Struct({
             parent: S.String.pipe(T.Label()),
           }),
@@ -10358,33 +10392,33 @@ function __c102(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsSessionTemplatesRequest" });
   }
 }
-function __c103(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          createTime: S.optional(S.String),
-          environmentConfig: S.optional(__S(3075, __c96, 3)),
-          jupyterSession: S.optional(__S(3200, __c100, 0)),
-          labels: S.optional(__S(3872, __c121, 0)),
-          name: S.optional(S.String),
-          creator: S.optional(S.String),
-          sparkConnectSession: S.optional(__S(2720, __c85, 0)),
-          updateTime: S.optional(S.String),
-          runtimeConfig: S.optional(__S(3079, __c96, 7)),
-          uuid: S.optional(S.String),
-          description: S.optional(S.String),
+          environmentConfig: S.optional(__S(3047, __c95, 7)),
           displayName: S.optional(S.String),
+          sparkConnectSession: S.optional(__S(2688, __c84, 0)),
+          uuid: S.optional(S.String),
+          labels: S.optional(__S(3840, __c120, 0)),
+          jupyterSession: S.optional(__S(3168, __c99, 0)),
+          createTime: S.optional(S.String),
+          creator: S.optional(S.String),
+          description: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          runtimeConfig: S.optional(__S(3043, __c95, 3)),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "SessionTemplate" });
   }
 }
-function __c104(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(3467, __c108, 11),
+          __S(3435, __c107, 11),
           S.Struct({
             parent: S.String.pipe(T.Label()),
           }),
@@ -10398,129 +10432,360 @@ function __c104(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsWorkflowTemplatesRequest" });
   }
 }
-function __c105(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          instanceGroupManagerUri: S.optional(S.String),
-          instanceTemplateName: S.optional(S.String),
-          instanceGroupManagerName: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ManagedGroupConfig" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          provisionedThroughput: S.optional(S.String),
-          diskType: S.optional(S.String),
-          type: S.optional(S.String),
-          diskSizeGb: S.optional(S.Number),
-          provisionedIops: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AttachedDiskConfig" });
-    case 2:
-      return S.Array(__S(3361, __c105, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          bootDiskType: S.optional(S.String),
-          numLocalSsds: S.optional(S.Number),
-          bootDiskProvisionedThroughput: S.optional(S.String),
-          attachedDiskConfigs: S.optional(__S(3362, __c105, 2)),
-          bootDiskSizeGb: S.optional(S.Number),
-          localSsdInterface: S.optional(S.String),
-          bootDiskProvisionedIops: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DiskConfig" });
-    case 4:
       return S.suspend(() =>
         S.Struct({
           requiredRegistrationFraction: S.optional(S.Number),
         }),
       ).annotate({ identifier: "StartupConfig" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          acceleratorCount: S.optional(S.Number),
+          acceleratorTypeUri: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AcceleratorConfig" });
+    case 2:
+      return S.Array(__S(3329, __c104, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          vmCount: S.optional(S.Number),
+          machineType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "InstanceSelectionResult" });
+    case 4:
+      return S.Array(__S(3331, __c104, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          rank: S.optional(S.Number),
-          machineTypes: S.optional(__S(4704, __c147, 0)),
-          diskConfig: S.optional(__S(3363, __c105, 3)),
+          standardCapacityBase: S.optional(S.Number),
+          standardCapacityPercentAboveBase: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "InstanceSelection" });
+      ).annotate({ identifier: "ProvisioningModelMix" });
     case 6:
-      return S.Array(__S(3365, __c105, 5));
-    case 7:
       return S.suspend(() =>
         S.Struct({
-          machineType: S.optional(S.String),
-          vmCount: S.optional(S.Number),
+          provisionedIops: S.optional(S.String),
+          diskSizeGb: S.optional(S.Number),
+          provisionedThroughput: S.optional(S.String),
+          diskType: S.optional(S.String),
+          type: S.optional(S.String),
         }),
-      ).annotate({ identifier: "InstanceSelectionResult" });
+      ).annotate({ identifier: "AttachedDiskConfig" });
+    case 7:
+      return S.Array(__S(3334, __c104, 6));
     case 8:
-      return S.Array(__S(3367, __c105, 7));
+      return S.suspend(() =>
+        S.Struct({
+          bootDiskProvisionedIops: S.optional(S.String),
+          bootDiskSizeGb: S.optional(S.Number),
+          attachedDiskConfigs: S.optional(__S(3335, __c104, 7)),
+          bootDiskType: S.optional(S.String),
+          numLocalSsds: S.optional(S.Number),
+          localSsdInterface: S.optional(S.String),
+          bootDiskProvisionedThroughput: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DiskConfig" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          standardCapacityPercentAboveBase: S.optional(S.Number),
-          standardCapacityBase: S.optional(S.Number),
+          rank: S.optional(S.Number),
+          machineTypes: S.optional(__S(4672, __c146, 0)),
+          diskConfig: S.optional(__S(3336, __c104, 8)),
         }),
-      ).annotate({ identifier: "ProvisioningModelMix" });
+      ).annotate({ identifier: "InstanceSelection" });
     case 10:
-      return S.suspend(() =>
-        S.Struct({
-          instanceSelectionList: S.optional(__S(3366, __c105, 6)),
-          instanceMachineTypes: S.optional(__S(3872, __c121, 0)),
-          instanceSelectionResults: S.optional(__S(3368, __c105, 8)),
-          provisioningModelMix: S.optional(__S(3369, __c105, 9)),
-        }),
-      ).annotate({ identifier: "InstanceFlexibilityPolicy" });
+      return S.Array(__S(3337, __c104, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
-          acceleratorTypeUri: S.optional(S.String),
-          acceleratorCount: S.optional(S.Number),
+          instanceSelectionResults: S.optional(__S(3332, __c104, 4)),
+          provisioningModelMix: S.optional(__S(3333, __c104, 5)),
+          instanceSelectionList: S.optional(__S(3338, __c104, 10)),
+          instanceMachineTypes: S.optional(__S(3840, __c120, 0)),
         }),
-      ).annotate({ identifier: "AcceleratorConfig" });
+      ).annotate({ identifier: "InstanceFlexibilityPolicy" });
     case 12:
-      return S.Array(__S(3371, __c105, 11));
+      return S.suspend(() =>
+        S.Struct({
+          instanceTemplateName: S.optional(S.String),
+          instanceGroupManagerName: S.optional(S.String),
+          instanceGroupManagerUri: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ManagedGroupConfig" });
     case 13:
       return S.suspend(() =>
         S.Struct({
+          publicKey: S.optional(S.String),
           instanceName: S.optional(S.String),
           instanceId: S.optional(S.String),
-          publicKey: S.optional(S.String),
           publicEciesKey: S.optional(S.String),
         }),
       ).annotate({ identifier: "InstanceReference" });
     case 14:
-      return S.Array(__S(3373, __c105, 13));
+      return S.Array(__S(3341, __c104, 13));
     case 15:
       return S.suspend(() =>
         S.Struct({
-          isPreemptible: S.optional(S.Boolean),
-          managedGroupConfig: S.optional(__S(3360, __c105, 0)),
-          diskConfig: S.optional(__S(3363, __c105, 3)),
-          startupConfig: S.optional(__S(3364, __c105, 4)),
-          instanceFlexibilityPolicy: S.optional(__S(3370, __c105, 10)),
-          preemptibility: S.optional(S.String),
-          numInstances: S.optional(S.Number),
-          instanceNames: S.optional(__S(4704, __c147, 0)),
-          minCpuPlatform: S.optional(S.String),
-          minNumInstances: S.optional(S.Number),
-          accelerators: S.optional(__S(3372, __c105, 12)),
-          imageUri: S.optional(S.String),
-          instanceReferences: S.optional(__S(3374, __c105, 14)),
+          startupConfig: S.optional(__S(3328, __c104, 0)),
+          accelerators: S.optional(__S(3330, __c104, 2)),
           machineTypeUri: S.optional(S.String),
+          preemptibility: S.optional(S.String),
+          isPreemptible: S.optional(S.Boolean),
+          instanceFlexibilityPolicy: S.optional(__S(3339, __c104, 11)),
+          minCpuPlatform: S.optional(S.String),
+          imageUri: S.optional(S.String),
+          managedGroupConfig: S.optional(__S(3340, __c104, 12)),
+          instanceReferences: S.optional(__S(3342, __c104, 14)),
+          diskConfig: S.optional(__S(3336, __c104, 8)),
+          instanceNames: S.optional(__S(4672, __c146, 0)),
+          minNumInstances: S.optional(S.Number),
+          numInstances: S.optional(S.Number),
         }),
       ).annotate({ identifier: "InstanceGroupConfig" });
     case 16:
       return S.suspend(() =>
         S.Struct({
-          roles: S.optional(__S(3008, __c94, 0)),
-          labels: S.optional(__S(3872, __c121, 0)),
+          nodeGroupConfig: S.optional(__S(3343, __c104, 15)),
           name: S.optional(S.String),
-          nodeGroupConfig: S.optional(__S(3375, __c105, 15)),
+          labels: S.optional(__S(3840, __c120, 0)),
+          roles: S.optional(__S(2976, __c93, 0)),
         }),
       ).annotate({ identifier: "NodeGroup" });
+  }
+}
+function __c105(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          executableFile: S.optional(S.String),
+          executionTimeout: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "NodeInitializationAction" });
+    case 1:
+      return S.Array(__S(3360, __c105, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          targetGkeCluster: S.optional(S.String),
+          clusterNamespace: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "NamespacedGkeDeploymentTarget" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          gpuPartitionSize: S.optional(S.String),
+          acceleratorType: S.optional(S.String),
+          acceleratorCount: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GkeNodePoolAcceleratorConfig" });
+    case 4:
+      return S.Array(__S(3363, __c105, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          serviceAccount: S.optional(S.String),
+          bootDiskKmsKey: S.optional(S.String),
+          machineType: S.optional(S.String),
+          localSsdCount: S.optional(S.Number),
+          preemptible: S.optional(S.Boolean),
+          minCpuPlatform: S.optional(S.String),
+          accelerators: S.optional(__S(3364, __c105, 4)),
+          spot: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "GkeNodeConfig" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          maxNodeCount: S.optional(S.Number),
+          minNodeCount: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "GkeNodePoolAutoscalingConfig" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          config: S.optional(__S(3365, __c105, 5)),
+          autoscaling: S.optional(__S(3366, __c105, 6)),
+          locations: S.optional(__S(4672, __c146, 0)),
+        }),
+      ).annotate({ identifier: "GkeNodePoolConfig" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          roles: S.optional(__S(2976, __c93, 0)),
+          nodePoolConfig: S.optional(__S(3367, __c105, 7)),
+          nodePool: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GkeNodePoolTarget" });
+    case 9:
+      return S.Array(__S(3368, __c105, 8));
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          namespacedGkeDeploymentTarget: S.optional(__S(3362, __c105, 2)),
+          gkeClusterTarget: S.optional(S.String),
+          nodePoolTarget: S.optional(__S(3369, __c105, 9)),
+        }),
+      ).annotate({ identifier: "GkeClusterConfig" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          policyUri: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AutoscalingConfig" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          nodeGroup: S.optional(__S(3344, __c104, 16)),
+          nodeGroupId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AuxiliaryNodeGroup" });
+    case 13:
+      return S.Array(__S(3372, __c105, 12));
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          schedulingTimeout: S.optional(S.String),
+          requestedRunDuration: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SchedulingConfig" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          numInstances: S.optional(S.Number),
+          bootDiskSizeGb: S.optional(S.Number),
+          coreCount: S.optional(S.Number),
+          hardwareClass: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "FlexibleInstanceGroupConfig" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          metricSource: S.optional(S.String),
+          metricOverrides: S.optional(__S(4672, __c146, 0)),
+        }),
+      ).annotate({ identifier: "Metric" });
+    case 17:
+      return S.Array(__S(3376, __c105, 16));
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          metrics: S.optional(__S(3377, __c105, 17)),
+        }),
+      ).annotate({ identifier: "DataprocMetricConfig" });
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          kmsKey: S.optional(S.String),
+          gcePdKmsKeyName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EncryptionConfig" });
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          dataprocMetastoreService: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MetastoreConfig" });
+    case 21:
+      return S.suspend(() =>
+        S.Struct({
+          autoDeleteTtl: S.optional(S.String),
+          idleStopTtl: S.optional(S.String),
+          autoStopTtl: S.optional(S.String),
+          autoDeleteTime: S.optional(S.String),
+          autoStopTime: S.optional(S.String),
+          idleDeleteTtl: S.optional(S.String),
+          idleStartTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "LifecycleConfig" });
+    case 22:
+      return S.suspend(() =>
+        S.Struct({
+          truststorePasswordUri: S.optional(S.String),
+          truststoreUri: S.optional(S.String),
+          kmsKeyUri: S.optional(S.String),
+          kdcDbKeyUri: S.optional(S.String),
+          realm: S.optional(S.String),
+          keystorePasswordUri: S.optional(S.String),
+          keystoreUri: S.optional(S.String),
+          enableKerberos: S.optional(S.Boolean),
+          rootPrincipalPasswordUri: S.optional(S.String),
+          crossRealmTrustKdc: S.optional(S.String),
+          tgtLifetimeHours: S.optional(S.Number),
+          keyPasswordUri: S.optional(S.String),
+          crossRealmTrustSharedPasswordUri: S.optional(S.String),
+          crossRealmTrustAdminServer: S.optional(S.String),
+          crossRealmTrustRealm: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "KerberosConfig" });
+    case 23:
+      return S.suspend(() =>
+        S.Struct({
+          enableSsh: S.optional(S.Boolean),
+          userServiceAccountMapping: S.optional(__S(3840, __c120, 0)),
+        }),
+      ).annotate({ identifier: "IdentityConfig" });
+    case 24:
+      return S.suspend(() =>
+        S.Struct({
+          kerberosConfig: S.optional(__S(3382, __c105, 22)),
+          identityConfig: S.optional(__S(3383, __c105, 23)),
+        }),
+      ).annotate({ identifier: "SecurityConfig" });
+    case 25:
+      return S.suspend(() =>
+        S.Struct({
+          httpPorts: S.optional(__S(3840, __c120, 0)),
+          enableHttpPortAccess: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "EndpointConfig" });
+    case 26:
+      return S.suspend(() =>
+        S.Struct({
+          properties: S.optional(__S(3840, __c120, 0)),
+          imageVersion: S.optional(S.String),
+          optionalComponents: S.optional(__S(2976, __c93, 0)),
+        }),
+      ).annotate({ identifier: "SoftwareConfig" });
+    case 27:
+      return S.suspend(() =>
+        S.Struct({
+          values: S.optional(__S(4672, __c146, 0)),
+          consumeReservationType: S.optional(S.String),
+          key: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ReservationAffinity" });
+    case 28:
+      return S.suspend(() =>
+        S.Struct({
+          enableVtpm: S.optional(S.Boolean),
+          enableIntegrityMonitoring: S.optional(S.Boolean),
+          enableSecureBoot: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "ShieldedInstanceConfig" });
+    case 29:
+      return S.suspend(() =>
+        S.Struct({
+          targetShape: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MultiZoneConfig" });
+    case 30:
+      return S.suspend(() =>
+        S.Struct({
+          confidentialInstanceType: S.optional(S.String),
+          enableConfidentialCompute: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "ConfidentialInstanceConfig" });
+    case 31:
+      return S.suspend(() =>
+        S.Struct({
+          nodeGroupUri: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "NodeGroupAffinity" });
   }
 }
 function __c106(j: number): any {
@@ -10528,245 +10793,54 @@ function __c106(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          hardwareClass: S.optional(S.String),
-          coreCount: S.optional(S.Number),
-          bootDiskSizeGb: S.optional(S.Number),
-          numInstances: S.optional(S.Number),
+          privateIpv6GoogleAccess: S.optional(S.String),
+          networkUri: S.optional(S.String),
+          reservationAffinity: S.optional(__S(3387, __c105, 27)),
+          tags: S.optional(__S(4672, __c146, 0)),
+          metadata: S.optional(__S(3840, __c120, 0)),
+          resourceManagerTags: S.optional(__S(3840, __c120, 0)),
+          shieldedInstanceConfig: S.optional(__S(3388, __c105, 28)),
+          zoneUri: S.optional(S.String),
+          internalIpOnly: S.optional(S.Boolean),
+          serviceAccount: S.optional(S.String),
+          multiZoneConfig: S.optional(__S(3389, __c105, 29)),
+          confidentialInstanceConfig: S.optional(__S(3390, __c105, 30)),
+          nodeGroupAffinity: S.optional(__S(3391, __c105, 31)),
+          subnetworkUri: S.optional(S.String),
+          serviceAccountScopes: S.optional(__S(4672, __c146, 0)),
+          autoZoneExcludeZoneUris: S.optional(__S(4672, __c146, 0)),
         }),
-      ).annotate({ identifier: "FlexibleInstanceGroupConfig" });
+      ).annotate({ identifier: "GceClusterConfig" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          dataprocMetastoreService: S.optional(S.String),
+          initializationActions: S.optional(__S(3361, __c105, 1)),
+          diagnosticBucket: S.optional(S.String),
+          gkeClusterConfig: S.optional(__S(3370, __c105, 10)),
+          autoscalingConfig: S.optional(__S(3371, __c105, 11)),
+          auxiliaryNodeGroups: S.optional(__S(3373, __c105, 13)),
+          schedulingConfig: S.optional(__S(3374, __c105, 14)),
+          secondaryWorkerFlexibleConfig: S.optional(__S(3375, __c105, 15)),
+          tempBucket: S.optional(S.String),
+          configBucket: S.optional(S.String),
+          dataprocMetricConfig: S.optional(__S(3378, __c105, 18)),
+          encryptionConfig: S.optional(__S(3379, __c105, 19)),
+          secondaryWorkerConfig: S.optional(__S(3343, __c104, 15)),
+          workerFlexibleConfig: S.optional(__S(3375, __c105, 15)),
+          metastoreConfig: S.optional(__S(3380, __c105, 20)),
+          masterFlexibleConfig: S.optional(__S(3375, __c105, 15)),
+          engine: S.optional(S.String),
+          lifecycleConfig: S.optional(__S(3381, __c105, 21)),
+          securityConfig: S.optional(__S(3384, __c105, 24)),
+          endpointConfig: S.optional(__S(3385, __c105, 25)),
+          clusterTier: S.optional(S.String),
+          workerConfig: S.optional(__S(3343, __c104, 15)),
+          softwareConfig: S.optional(__S(3386, __c105, 26)),
+          clusterType: S.optional(S.String),
+          gceClusterConfig: S.optional(__S(3392, __c106, 0)),
+          masterConfig: S.optional(__S(3343, __c104, 15)),
         }),
-      ).annotate({ identifier: "MetastoreConfig" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          kmsKey: S.optional(S.String),
-          gcePdKmsKeyName: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "EncryptionConfig" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          httpPorts: S.optional(__S(3872, __c121, 0)),
-          enableHttpPortAccess: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "EndpointConfig" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          nodeGroup: S.optional(__S(3376, __c105, 16)),
-          nodeGroupId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AuxiliaryNodeGroup" });
-    case 5:
-      return S.Array(__S(3396, __c106, 4));
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          policyUri: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AutoscalingConfig" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          requestedRunDuration: S.optional(S.String),
-          schedulingTimeout: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SchedulingConfig" });
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          confidentialInstanceType: S.optional(S.String),
-          enableConfidentialCompute: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "ConfidentialInstanceConfig" });
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          enableIntegrityMonitoring: S.optional(S.Boolean),
-          enableSecureBoot: S.optional(S.Boolean),
-          enableVtpm: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "ShieldedInstanceConfig" });
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          targetShape: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "MultiZoneConfig" });
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          key: S.optional(S.String),
-          values: S.optional(__S(4704, __c147, 0)),
-          consumeReservationType: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ReservationAffinity" });
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          nodeGroupUri: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "NodeGroupAffinity" });
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          confidentialInstanceConfig: S.optional(__S(3400, __c106, 8)),
-          serviceAccount: S.optional(S.String),
-          shieldedInstanceConfig: S.optional(__S(3401, __c106, 9)),
-          networkUri: S.optional(S.String),
-          metadata: S.optional(__S(3872, __c121, 0)),
-          multiZoneConfig: S.optional(__S(3402, __c106, 10)),
-          internalIpOnly: S.optional(S.Boolean),
-          resourceManagerTags: S.optional(__S(3872, __c121, 0)),
-          serviceAccountScopes: S.optional(__S(4704, __c147, 0)),
-          zoneUri: S.optional(S.String),
-          privateIpv6GoogleAccess: S.optional(S.String),
-          subnetworkUri: S.optional(S.String),
-          reservationAffinity: S.optional(__S(3403, __c106, 11)),
-          tags: S.optional(__S(4704, __c147, 0)),
-          autoZoneExcludeZoneUris: S.optional(__S(4704, __c147, 0)),
-          nodeGroupAffinity: S.optional(__S(3404, __c106, 12)),
-        }),
-      ).annotate({ identifier: "GceClusterConfig" });
-    case 14:
-      return S.suspend(() =>
-        S.Struct({
-          targetGkeCluster: S.optional(S.String),
-          clusterNamespace: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "NamespacedGkeDeploymentTarget" });
-    case 15:
-      return S.suspend(() =>
-        S.Struct({
-          minNodeCount: S.optional(S.Number),
-          maxNodeCount: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "GkeNodePoolAutoscalingConfig" });
-    case 16:
-      return S.suspend(() =>
-        S.Struct({
-          acceleratorCount: S.optional(S.String),
-          acceleratorType: S.optional(S.String),
-          gpuPartitionSize: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GkeNodePoolAcceleratorConfig" });
-    case 17:
-      return S.Array(__S(3408, __c106, 16));
-    case 18:
-      return S.suspend(() =>
-        S.Struct({
-          spot: S.optional(S.Boolean),
-          accelerators: S.optional(__S(3409, __c106, 17)),
-          serviceAccount: S.optional(S.String),
-          machineType: S.optional(S.String),
-          preemptible: S.optional(S.Boolean),
-          bootDiskKmsKey: S.optional(S.String),
-          localSsdCount: S.optional(S.Number),
-          minCpuPlatform: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GkeNodeConfig" });
-    case 19:
-      return S.suspend(() =>
-        S.Struct({
-          autoscaling: S.optional(__S(3407, __c106, 15)),
-          config: S.optional(__S(3410, __c106, 18)),
-          locations: S.optional(__S(4704, __c147, 0)),
-        }),
-      ).annotate({ identifier: "GkeNodePoolConfig" });
-    case 20:
-      return S.suspend(() =>
-        S.Struct({
-          nodePool: S.optional(S.String),
-          nodePoolConfig: S.optional(__S(3411, __c106, 19)),
-          roles: S.optional(__S(3008, __c94, 0)),
-        }),
-      ).annotate({ identifier: "GkeNodePoolTarget" });
-    case 21:
-      return S.Array(__S(3412, __c106, 20));
-    case 22:
-      return S.suspend(() =>
-        S.Struct({
-          namespacedGkeDeploymentTarget: S.optional(__S(3406, __c106, 14)),
-          gkeClusterTarget: S.optional(S.String),
-          nodePoolTarget: S.optional(__S(3413, __c106, 21)),
-        }),
-      ).annotate({ identifier: "GkeClusterConfig" });
-    case 23:
-      return S.suspend(() =>
-        S.Struct({
-          optionalComponents: S.optional(__S(3008, __c94, 0)),
-          properties: S.optional(__S(3872, __c121, 0)),
-          imageVersion: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SoftwareConfig" });
-    case 24:
-      return S.suspend(() =>
-        S.Struct({
-          executionTimeout: S.optional(S.String),
-          executableFile: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "NodeInitializationAction" });
-    case 25:
-      return S.Array(__S(3416, __c106, 24));
-    case 26:
-      return S.suspend(() =>
-        S.Struct({
-          kmsKeyUri: S.optional(S.String),
-          truststorePasswordUri: S.optional(S.String),
-          keystoreUri: S.optional(S.String),
-          keystorePasswordUri: S.optional(S.String),
-          crossRealmTrustRealm: S.optional(S.String),
-          truststoreUri: S.optional(S.String),
-          kdcDbKeyUri: S.optional(S.String),
-          crossRealmTrustKdc: S.optional(S.String),
-          realm: S.optional(S.String),
-          crossRealmTrustAdminServer: S.optional(S.String),
-          enableKerberos: S.optional(S.Boolean),
-          crossRealmTrustSharedPasswordUri: S.optional(S.String),
-          keyPasswordUri: S.optional(S.String),
-          rootPrincipalPasswordUri: S.optional(S.String),
-          tgtLifetimeHours: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "KerberosConfig" });
-    case 27:
-      return S.suspend(() =>
-        S.Struct({
-          userServiceAccountMapping: S.optional(__S(3872, __c121, 0)),
-          enableSsh: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "IdentityConfig" });
-    case 28:
-      return S.suspend(() =>
-        S.Struct({
-          kerberosConfig: S.optional(__S(3418, __c106, 26)),
-          identityConfig: S.optional(__S(3419, __c106, 27)),
-        }),
-      ).annotate({ identifier: "SecurityConfig" });
-    case 29:
-      return S.suspend(() =>
-        S.Struct({
-          idleStopTtl: S.optional(S.String),
-          idleStartTime: S.optional(S.String),
-          autoStopTtl: S.optional(S.String),
-          autoStopTime: S.optional(S.String),
-          idleDeleteTtl: S.optional(S.String),
-          autoDeleteTtl: S.optional(S.String),
-          autoDeleteTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "LifecycleConfig" });
-    case 30:
-      return S.suspend(() =>
-        S.Struct({
-          metricSource: S.optional(S.String),
-          metricOverrides: S.optional(__S(4704, __c147, 0)),
-        }),
-      ).annotate({ identifier: "Metric" });
-    case 31:
-      return S.Array(__S(3422, __c106, 30));
+      ).annotate({ identifier: "ClusterConfig" });
   }
 }
 function __c107(j: number): any {
@@ -10774,146 +10848,106 @@ function __c107(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          metrics: S.optional(__S(3423, __c106, 31)),
+          kmsKey: S.optional(S.String),
         }),
-      ).annotate({ identifier: "DataprocMetricConfig" });
+      ).annotate({ identifier: "GoogleCloudDataprocV1WorkflowTemplateEncryptionConfig" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          masterFlexibleConfig: S.optional(__S(3392, __c106, 0)),
-          diagnosticBucket: S.optional(S.String),
-          clusterTier: S.optional(S.String),
-          metastoreConfig: S.optional(__S(3393, __c106, 1)),
-          secondaryWorkerConfig: S.optional(__S(3375, __c105, 15)),
-          secondaryWorkerFlexibleConfig: S.optional(__S(3392, __c106, 0)),
-          encryptionConfig: S.optional(__S(3394, __c106, 2)),
-          endpointConfig: S.optional(__S(3395, __c106, 3)),
-          auxiliaryNodeGroups: S.optional(__S(3397, __c106, 5)),
-          workerFlexibleConfig: S.optional(__S(3392, __c106, 0)),
-          autoscalingConfig: S.optional(__S(3398, __c106, 6)),
-          engine: S.optional(S.String),
-          schedulingConfig: S.optional(__S(3399, __c106, 7)),
-          tempBucket: S.optional(S.String),
-          gceClusterConfig: S.optional(__S(3405, __c106, 13)),
-          configBucket: S.optional(S.String),
-          gkeClusterConfig: S.optional(__S(3414, __c106, 22)),
-          softwareConfig: S.optional(__S(3415, __c106, 23)),
-          initializationActions: S.optional(__S(3417, __c106, 25)),
-          workerConfig: S.optional(__S(3375, __c105, 15)),
-          securityConfig: S.optional(__S(3420, __c106, 28)),
-          lifecycleConfig: S.optional(__S(3421, __c106, 29)),
-          masterConfig: S.optional(__S(3375, __c105, 15)),
-          dataprocMetricConfig: S.optional(__S(3424, __c107, 0)),
-          clusterType: S.optional(S.String),
+          values: S.optional(__S(4672, __c146, 0)),
         }),
-      ).annotate({ identifier: "ClusterConfig" });
+      ).annotate({ identifier: "ValueValidation" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          regexes: S.optional(__S(4672, __c146, 0)),
+        }),
+      ).annotate({ identifier: "RegexValidation" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          values: S.optional(__S(3425, __c107, 1)),
+          regex: S.optional(__S(3426, __c107, 2)),
+        }),
+      ).annotate({ identifier: "ParameterValidation" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          fields: S.optional(__S(4672, __c146, 0)),
+          name: S.optional(S.String),
+          validation: S.optional(__S(3427, __c107, 3)),
+          description: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TemplateParameter" });
+    case 5:
+      return S.Array(__S(3428, __c107, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          sparkJob: S.optional(__S(2759, __c86, 7)),
+          sparkSqlJob: S.optional(__S(2755, __c86, 3)),
+          prestoJob: S.optional(__S(2754, __c86, 2)),
+          prerequisiteStepIds: S.optional(__S(4672, __c146, 0)),
+          hiveJob: S.optional(__S(2763, __c86, 11)),
+          flinkJob: S.optional(__S(2764, __c86, 12)),
+          labels: S.optional(__S(3840, __c120, 0)),
+          stepId: S.optional(S.String),
+          scheduling: S.optional(__S(2761, __c86, 9)),
+          sparkRJob: S.optional(__S(2758, __c86, 6)),
+          trinoJob: S.optional(__S(2756, __c86, 4)),
+          pigJob: S.optional(__S(2757, __c86, 5)),
+          pysparkJob: S.optional(__S(2762, __c86, 10)),
+          hadoopJob: S.optional(__S(2760, __c86, 8)),
+        }),
+      ).annotate({ identifier: "OrderedJob" });
+    case 7:
+      return S.Array(__S(3430, __c107, 6));
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          labels: S.optional(__S(3840, __c120, 0)),
+          config: S.optional(__S(3393, __c106, 1)),
+          clusterName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ManagedCluster" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          clusterLabels: S.optional(__S(3840, __c120, 0)),
+          zone: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ClusterSelector" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          managedCluster: S.optional(__S(3432, __c107, 8)),
+          clusterSelector: S.optional(__S(3433, __c107, 9)),
+        }),
+      ).annotate({ identifier: "WorkflowTemplatePlacement" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          updateTime: S.optional(S.String),
+          encryptionConfig: S.optional(__S(3424, __c107, 0)),
+          createTime: S.optional(S.String),
+          id: S.optional(S.String),
+          parameters: S.optional(__S(3429, __c107, 5)),
+          jobs: S.optional(__S(3431, __c107, 7)),
+          placement: S.optional(__S(3434, __c107, 10)),
+          dagTimeout: S.optional(S.String),
+          labels: S.optional(__S(3840, __c120, 0)),
+          name: S.optional(S.String),
+          version: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "WorkflowTemplate" });
   }
 }
 function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          regexes: S.optional(__S(4704, __c147, 0)),
-        }),
-      ).annotate({ identifier: "RegexValidation" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          values: S.optional(__S(4704, __c147, 0)),
-        }),
-      ).annotate({ identifier: "ValueValidation" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          regex: S.optional(__S(3456, __c108, 0)),
-          values: S.optional(__S(3457, __c108, 1)),
-        }),
-      ).annotate({ identifier: "ParameterValidation" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          validation: S.optional(__S(3458, __c108, 2)),
-          fields: S.optional(__S(4704, __c147, 0)),
-          description: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TemplateParameter" });
-    case 4:
-      return S.Array(__S(3459, __c108, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          kmsKey: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudDataprocV1WorkflowTemplateEncryptionConfig" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          scheduling: S.optional(__S(2795, __c87, 11)),
-          stepId: S.optional(S.String),
-          flinkJob: S.optional(__S(2794, __c87, 10)),
-          prerequisiteStepIds: S.optional(__S(4704, __c147, 0)),
-          sparkRJob: S.optional(__S(2788, __c87, 4)),
-          labels: S.optional(__S(3872, __c121, 0)),
-          trinoJob: S.optional(__S(2790, __c87, 6)),
-          hiveJob: S.optional(__S(2793, __c87, 9)),
-          hadoopJob: S.optional(__S(2791, __c87, 7)),
-          pigJob: S.optional(__S(2787, __c87, 3)),
-          sparkJob: S.optional(__S(2789, __c87, 5)),
-          prestoJob: S.optional(__S(2796, __c87, 12)),
-          pysparkJob: S.optional(__S(2785, __c87, 1)),
-          sparkSqlJob: S.optional(__S(2792, __c87, 8)),
-        }),
-      ).annotate({ identifier: "OrderedJob" });
-    case 7:
-      return S.Array(__S(3462, __c108, 6));
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          labels: S.optional(__S(3872, __c121, 0)),
-          clusterName: S.optional(S.String),
-          config: S.optional(__S(3425, __c107, 1)),
-        }),
-      ).annotate({ identifier: "ManagedCluster" });
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          zone: S.optional(S.String),
-          clusterLabels: S.optional(__S(3872, __c121, 0)),
-        }),
-      ).annotate({ identifier: "ClusterSelector" });
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          managedCluster: S.optional(__S(3464, __c108, 8)),
-          clusterSelector: S.optional(__S(3465, __c108, 9)),
-        }),
-      ).annotate({ identifier: "WorkflowTemplatePlacement" });
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          parameters: S.optional(__S(3460, __c108, 4)),
-          id: S.optional(S.String),
-          labels: S.optional(__S(3872, __c121, 0)),
-          updateTime: S.optional(S.String),
-          version: S.optional(S.Number),
-          dagTimeout: S.optional(S.String),
-          name: S.optional(S.String),
-          encryptionConfig: S.optional(__S(3461, __c108, 5)),
-          jobs: S.optional(__S(3463, __c108, 7)),
-          placement: S.optional(__S(3466, __c108, 10)),
-          createTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "WorkflowTemplate" });
-  }
-}
-function __c109(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
         S.Extend(
-          __S(2948, __c92, 4),
+          __S(2916, __c91, 4),
           S.Struct({
             parent: S.String.pipe(T.Label()),
           }),
@@ -10927,17 +10961,17 @@ function __c109(j: number): any {
       ).annotate({ identifier: "CreateProjectsRegionsAutoscalingPoliciesRequest" });
   }
 }
-function __c110(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(3559, __c111, 7),
+          __S(3527, __c110, 7),
           S.Struct({
-            projectId: S.String.pipe(T.Label()),
             region: S.String.pipe(T.Label()),
-            actionOnFailedPrimaryWorkers: S.optional(S.String.pipe(T.Query())),
             requestId: S.optional(S.String.pipe(T.Query())),
+            actionOnFailedPrimaryWorkers: S.optional(S.String.pipe(T.Query())),
+            projectId: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -10949,83 +10983,83 @@ function __c110(j: number): any {
       ).annotate({ identifier: "CreateProjectsRegionsClustersRequest" });
   }
 }
-function __c111(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          stateStartTime: S.optional(S.String),
+          detail: S.optional(S.String),
           substate: S.optional(S.String),
           state: S.optional(S.String),
-          detail: S.optional(S.String),
-          stateStartTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "ClusterStatus" });
     case 1:
-      return S.Array(__S(3552, __c111, 0));
+      return S.Array(__S(3520, __c110, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          componentVersion: S.optional(__S(3872, __c121, 0)),
-          properties: S.optional(__S(3872, __c121, 0)),
+          hdfsMetrics: S.optional(__S(3840, __c120, 0)),
+          yarnMetrics: S.optional(__S(3840, __c120, 0)),
         }),
-      ).annotate({ identifier: "KubernetesSoftwareConfig" });
+      ).annotate({ identifier: "ClusterMetrics" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          kubernetesSoftwareConfig: S.optional(__S(3554, __c111, 2)),
-          kubernetesNamespace: S.optional(S.String),
-          gkeClusterConfig: S.optional(__S(3414, __c106, 22)),
+          properties: S.optional(__S(3840, __c120, 0)),
+          componentVersion: S.optional(__S(3840, __c120, 0)),
         }),
-      ).annotate({ identifier: "KubernetesClusterConfig" });
+      ).annotate({ identifier: "KubernetesSoftwareConfig" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          sparkHistoryServerConfig: S.optional(__S(3040, __c95, 0)),
-          metastoreConfig: S.optional(__S(3393, __c106, 1)),
+          kubernetesNamespace: S.optional(S.String),
+          kubernetesSoftwareConfig: S.optional(__S(3523, __c110, 3)),
+          gkeClusterConfig: S.optional(__S(3370, __c105, 10)),
         }),
-      ).annotate({ identifier: "AuxiliaryServicesConfig" });
+      ).annotate({ identifier: "KubernetesClusterConfig" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          stagingBucket: S.optional(S.String),
-          kubernetesClusterConfig: S.optional(__S(3555, __c111, 3)),
-          auxiliaryServicesConfig: S.optional(__S(3556, __c111, 4)),
+          sparkHistoryServerConfig: S.optional(__S(3008, __c94, 0)),
+          metastoreConfig: S.optional(__S(3380, __c105, 20)),
         }),
-      ).annotate({ identifier: "VirtualClusterConfig" });
+      ).annotate({ identifier: "AuxiliaryServicesConfig" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          hdfsMetrics: S.optional(__S(3872, __c121, 0)),
-          yarnMetrics: S.optional(__S(3872, __c121, 0)),
+          stagingBucket: S.optional(S.String),
+          kubernetesClusterConfig: S.optional(__S(3524, __c110, 4)),
+          auxiliaryServicesConfig: S.optional(__S(3525, __c110, 5)),
         }),
-      ).annotate({ identifier: "ClusterMetrics" });
+      ).annotate({ identifier: "VirtualClusterConfig" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          status: S.optional(__S(3552, __c111, 0)),
-          statusHistory: S.optional(__S(3553, __c111, 1)),
-          labels: S.optional(__S(3872, __c121, 0)),
-          config: S.optional(__S(3425, __c107, 1)),
-          virtualClusterConfig: S.optional(__S(3557, __c111, 5)),
-          metrics: S.optional(__S(3558, __c111, 6)),
-          projectId: S.optional(S.String),
           clusterUuid: S.optional(S.String),
+          statusHistory: S.optional(__S(3521, __c110, 1)),
+          config: S.optional(__S(3393, __c106, 1)),
+          metrics: S.optional(__S(3522, __c110, 2)),
+          virtualClusterConfig: S.optional(__S(3526, __c110, 6)),
           clusterName: S.optional(S.String),
+          status: S.optional(__S(3520, __c110, 0)),
+          projectId: S.optional(S.String),
+          labels: S.optional(__S(3840, __c120, 0)),
         }),
       ).annotate({ identifier: "Cluster" });
   }
 }
-function __c112(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(3376, __c105, 16),
+          __S(3344, __c104, 16),
           S.Struct({
-            requestId: S.optional(S.String.pipe(T.Query())),
-            nodeGroupId: S.optional(S.String.pipe(T.Query())),
-            parentOperationId: S.optional(S.String.pipe(T.Query())),
             parent: S.String.pipe(T.Label()),
+            nodeGroupId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parentOperationId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -11037,12 +11071,12 @@ function __c112(j: number): any {
       ).annotate({ identifier: "CreateProjectsRegionsClustersNodeGroupsRequest" });
   }
 }
-function __c113(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(3467, __c108, 11),
+          __S(3435, __c107, 11),
           S.Struct({
             parent: S.String.pipe(T.Label()),
           }),
@@ -11056,7 +11090,7 @@ function __c113(j: number): any {
       ).annotate({ identifier: "CreateProjectsRegionsWorkflowTemplatesRequest" });
   }
 }
-function __c114(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11072,7 +11106,7 @@ function __c114(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsAutoscalingPoliciesRequest" });
   }
 }
-function __c115(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11088,7 +11122,7 @@ function __c115(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsBatchesRequest" });
   }
 }
-function __c116(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11104,7 +11138,7 @@ function __c116(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsOperationsRequest" });
   }
 }
-function __c117(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11121,13 +11155,13 @@ function __c117(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsSessionsRequest" });
   }
 }
-function __c118(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           parent: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -11140,77 +11174,77 @@ function __c118(j: number): any {
       });
   }
 }
+function __c118(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          applicationEnvironmentInfo: S.optional(__S(3815, __c119, 7)),
+        }),
+      ).annotate({ identifier: "AccessSparkApplicationEnvironmentInfoResponse" });
+  }
+}
 function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          applicationEnvironmentInfo: S.optional(__S(3847, __c120, 7)),
-        }),
-      ).annotate({ identifier: "AccessSparkApplicationEnvironmentInfoResponse" });
-  }
-}
-function __c120(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
+          scalaVersion: S.optional(S.String),
           javaHome: S.optional(S.String),
           javaVersion: S.optional(S.String),
-          scalaVersion: S.optional(S.String),
         }),
       ).annotate({ identifier: "SparkRuntimeInfo" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          amount: S.optional(S.Number),
           resourceName: S.optional(S.String),
+          amount: S.optional(S.String),
+          discoveryScript: S.optional(S.String),
+          vendor: S.optional(S.String),
         }),
-      ).annotate({ identifier: "TaskResourceRequest" });
+      ).annotate({ identifier: "ExecutorResourceRequest" });
     case 2:
-      return S.Record(S.String, __S(3841, __c120, 1));
+      return S.Record(S.String, __S(3809, __c119, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          amount: S.optional(S.String),
           resourceName: S.optional(S.String),
-          vendor: S.optional(S.String),
-          discoveryScript: S.optional(S.String),
+          amount: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "ExecutorResourceRequest" });
+      ).annotate({ identifier: "TaskResourceRequest" });
     case 4:
-      return S.Record(S.String, __S(3843, __c120, 3));
+      return S.Record(S.String, __S(3811, __c119, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          taskResources: S.optional(__S(3842, __c120, 2)),
           resourceProfileId: S.optional(S.Number),
-          executorResources: S.optional(__S(3844, __c120, 4)),
+          executorResources: S.optional(__S(3810, __c119, 2)),
+          taskResources: S.optional(__S(3812, __c119, 4)),
         }),
       ).annotate({ identifier: "ResourceProfileInfo" });
     case 6:
-      return S.Array(__S(3845, __c120, 5));
+      return S.Array(__S(3813, __c119, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          systemProperties: S.optional(__S(3872, __c121, 0)),
-          hadoopProperties: S.optional(__S(3872, __c121, 0)),
-          runtime: S.optional(__S(3840, __c120, 0)),
-          classpathEntries: S.optional(__S(3872, __c121, 0)),
-          metricsProperties: S.optional(__S(3872, __c121, 0)),
-          resourceProfiles: S.optional(__S(3846, __c120, 6)),
-          sparkProperties: S.optional(__S(3872, __c121, 0)),
+          runtime: S.optional(__S(3808, __c119, 0)),
+          sparkProperties: S.optional(__S(3840, __c120, 0)),
+          hadoopProperties: S.optional(__S(3840, __c120, 0)),
+          systemProperties: S.optional(__S(3840, __c120, 0)),
+          classpathEntries: S.optional(__S(3840, __c120, 0)),
+          resourceProfiles: S.optional(__S(3814, __c119, 6)),
+          metricsProperties: S.optional(__S(3840, __c120, 0)),
         }),
       ).annotate({ identifier: "ApplicationEnvironmentInfo" });
   }
 }
-function __c121(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c122(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11226,7 +11260,7 @@ function __c122(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsSessionTemplatesRequest" });
   }
 }
-function __c123(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11243,7 +11277,7 @@ function __c123(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsWorkflowTemplatesRequest" });
   }
 }
-function __c124(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11259,16 +11293,16 @@ function __c124(j: number): any {
       ).annotate({ identifier: "DeleteProjectsRegionsAutoscalingPoliciesRequest" });
   }
 }
-function __c125(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          clusterName: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          clusterUuid: S.optional(S.String.pipe(T.Query())),
-          projectId: S.String.pipe(T.Label()),
           requestId: S.optional(S.String.pipe(T.Query())),
+          projectId: S.String.pipe(T.Label()),
+          region: S.String.pipe(T.Label()),
+          clusterName: S.String.pipe(T.Label()),
+          clusterUuid: S.optional(S.String.pipe(T.Query())),
           gracefulTerminationTimeout: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -11280,14 +11314,14 @@ function __c125(j: number): any {
       ).annotate({ identifier: "DeleteProjectsRegionsClustersRequest" });
   }
 }
-function __c126(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           region: S.String.pipe(T.Label()),
-          projectId: S.String.pipe(T.Label()),
           jobId: S.String.pipe(T.Label()),
+          projectId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -11298,7 +11332,7 @@ function __c126(j: number): any {
       ).annotate({ identifier: "DeleteProjectsRegionsJobsRequest" });
   }
 }
-function __c127(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11314,13 +11348,13 @@ function __c127(j: number): any {
       ).annotate({ identifier: "DeleteProjectsRegionsOperationsRequest" });
   }
 }
-function __c128(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          version: S.optional(S.Number.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          version: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -11331,7 +11365,7 @@ function __c128(j: number): any {
       ).annotate({ identifier: "DeleteProjectsRegionsWorkflowTemplatesRequest" });
   }
 }
-function __c129(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11343,23 +11377,23 @@ function __c129(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          jobs: S.optional(__S(4704, __c147, 0)),
-          diagnosisInterval: S.optional(__S(4128, __c129, 0)),
-          yarnApplicationId: S.optional(S.String),
-          yarnApplicationIds: S.optional(__S(4704, __c147, 0)),
-          tarballAccess: S.optional(S.String),
-          tarballGcsDir: S.optional(S.String),
+          diagnosisInterval: S.optional(__S(4096, __c128, 0)),
+          jobs: S.optional(__S(4672, __c146, 0)),
           job: S.optional(S.String),
+          yarnApplicationId: S.optional(S.String),
+          tarballAccess: S.optional(S.String),
+          yarnApplicationIds: S.optional(__S(4672, __c146, 0)),
+          tarballGcsDir: S.optional(S.String),
         }),
       ).annotate({ identifier: "DiagnoseClusterRequest" });
     case 2:
       return S.suspend(() =>
         S.Extend(
-          __S(4129, __c129, 1),
+          __S(4097, __c128, 1),
           S.Struct({
-            projectId: S.String.pipe(T.Label()),
             clusterName: S.String.pipe(T.Label()),
             region: S.String.pipe(T.Label()),
+            projectId: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -11371,12 +11405,12 @@ function __c129(j: number): any {
       ).annotate({ identifier: "DiagnoseProjectsRegionsClustersRequest" });
   }
 }
-function __c130(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(4193, __c131, 1),
+          __S(4161, __c130, 1),
           S.Struct({
             resource: S.String.pipe(T.Label()),
           }),
@@ -11390,7 +11424,7 @@ function __c130(j: number): any {
       ).annotate({ identifier: "GetIamPolicyProjectsLocationsAutoscalingPoliciesRequest" });
   }
 }
-function __c131(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11401,48 +11435,48 @@ function __c131(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          options: S.optional(__S(4192, __c131, 0)),
+          options: S.optional(__S(4160, __c130, 0)),
         }),
       ).annotate({ identifier: "GetIamPolicyRequest" });
+  }
+}
+function __c131(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          expression: S.optional(S.String),
+          location: S.optional(S.String),
+          description: S.optional(S.String),
+          title: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Expr" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          members: S.optional(__S(4672, __c146, 0)),
+          role: S.optional(S.String),
+          condition: S.optional(__S(4192, __c131, 0)),
+        }),
+      ).annotate({ identifier: "Binding" });
+    case 2:
+      return S.Array(__S(4193, __c131, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          version: S.optional(S.Number),
+          etag: S.optional(S.String),
+          bindings: S.optional(__S(4194, __c131, 2)),
+        }),
+      ).annotate({ identifier: "Policy" });
   }
 }
 function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          location: S.optional(S.String),
-          title: S.optional(S.String),
-          description: S.optional(S.String),
-          expression: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Expr" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          members: S.optional(__S(4704, __c147, 0)),
-          condition: S.optional(__S(4224, __c132, 0)),
-          role: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Binding" });
-    case 2:
-      return S.Array(__S(4225, __c132, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          bindings: S.optional(__S(4226, __c132, 2)),
-          etag: S.optional(S.String),
-          version: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "Policy" });
-  }
-}
-function __c133(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
         S.Extend(
-          __S(4193, __c131, 1),
+          __S(4161, __c130, 1),
           S.Struct({
             resource: S.String.pipe(T.Label()),
           }),
@@ -11456,13 +11490,13 @@ function __c133(j: number): any {
       ).annotate({ identifier: "GetIamPolicyProjectsLocationsWorkflowTemplatesRequest" });
   }
 }
-function __c134(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          parent: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -11475,12 +11509,12 @@ function __c134(j: number): any {
       });
   }
 }
-function __c135(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(4193, __c131, 1),
+          __S(4161, __c130, 1),
           S.Struct({
             resource: S.String.pipe(T.Label()),
           }),
@@ -11494,12 +11528,12 @@ function __c135(j: number): any {
       ).annotate({ identifier: "GetIamPolicyProjectsRegionsAutoscalingPoliciesRequest" });
   }
 }
-function __c136(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(4193, __c131, 1),
+          __S(4161, __c130, 1),
           S.Struct({
             resource: S.String.pipe(T.Label()),
           }),
@@ -11513,12 +11547,12 @@ function __c136(j: number): any {
       ).annotate({ identifier: "GetIamPolicyProjectsRegionsClustersRequest" });
   }
 }
-function __c137(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(4193, __c131, 1),
+          __S(4161, __c130, 1),
           S.Struct({
             resource: S.String.pipe(T.Label()),
           }),
@@ -11532,12 +11566,12 @@ function __c137(j: number): any {
       ).annotate({ identifier: "GetIamPolicyProjectsRegionsJobsRequest" });
   }
 }
-function __c138(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(4193, __c131, 1),
+          __S(4161, __c130, 1),
           S.Struct({
             resource: S.String.pipe(T.Label()),
           }),
@@ -11551,12 +11585,12 @@ function __c138(j: number): any {
       ).annotate({ identifier: "GetIamPolicyProjectsRegionsOperationsRequest" });
   }
 }
-function __c139(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(4193, __c131, 1),
+          __S(4161, __c130, 1),
           S.Struct({
             resource: S.String.pipe(T.Label()),
           }),
@@ -11570,7 +11604,7 @@ function __c139(j: number): any {
       ).annotate({ identifier: "GetIamPolicyProjectsRegionsWorkflowTemplatesRequest" });
   }
 }
-function __c140(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11582,7 +11616,7 @@ function __c140(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsAutoscalingPoliciesRequest" });
   }
 }
-function __c141(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11594,7 +11628,7 @@ function __c141(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsBatchesRequest" });
   }
 }
-function __c142(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11606,7 +11640,7 @@ function __c142(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsOperationsRequest" });
   }
 }
-function __c143(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11618,7 +11652,7 @@ function __c143(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsSessionsRequest" });
   }
 }
-function __c144(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11630,14 +11664,14 @@ function __c144(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsSessionTemplatesRequest" });
   }
 }
-function __c145(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.optional(S.String.pipe(T.Query())),
-          jobId: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          jobId: S.optional(S.String.pipe(T.Query())),
+          parent: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -11648,23 +11682,23 @@ function __c145(j: number): any {
       ).annotate({ identifier: "AccessJobProjectsLocationsBatchesSparkApplicationsRequest" });
   }
 }
-function __c146(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          jobData: S.optional(__S(4768, __c149, 0)),
+          jobData: S.optional(__S(4736, __c148, 0)),
         }),
       ).annotate({ identifier: "AccessSparkApplicationJobResponse" });
   }
 }
-function __c147(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c148(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Number);
@@ -11672,51 +11706,51 @@ function __c148(j: number): any {
       return S.Array(S.Number);
   }
 }
+function __c148(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          killTasksSummary: S.optional(__S(4704, __c147, 0)),
+          numKilledTasks: S.optional(S.Number),
+          numCompletedStages: S.optional(S.Number),
+          numTasks: S.optional(S.Number),
+          numSkippedTasks: S.optional(S.Number),
+          stageIds: S.optional(__S(4672, __c146, 0)),
+          description: S.optional(S.String),
+          numActiveTasks: S.optional(S.Number),
+          name: S.optional(S.String),
+          submissionTime: S.optional(S.String),
+          numFailedTasks: S.optional(S.Number),
+          jobGroup: S.optional(S.String),
+          numActiveStages: S.optional(S.Number),
+          numSkippedStages: S.optional(S.Number),
+          numCompletedIndices: S.optional(S.Number),
+          numFailedStages: S.optional(S.Number),
+          completionTime: S.optional(S.String),
+          jobId: S.optional(S.String),
+          skippedStages: S.optional(__S(4705, __c147, 1)),
+          sqlExecutionId: S.optional(S.String),
+          numCompletedTasks: S.optional(S.Number),
+          status: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "JobData" });
+  }
+}
 function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          jobGroup: S.optional(S.String),
-          numTasks: S.optional(S.Number),
-          stageIds: S.optional(__S(4704, __c147, 0)),
-          submissionTime: S.optional(S.String),
-          numSkippedStages: S.optional(S.Number),
-          name: S.optional(S.String),
-          numFailedStages: S.optional(S.Number),
-          numActiveTasks: S.optional(S.Number),
-          numSkippedTasks: S.optional(S.Number),
-          numCompletedIndices: S.optional(S.Number),
-          numKilledTasks: S.optional(S.Number),
-          numCompletedTasks: S.optional(S.Number),
-          jobId: S.optional(S.String),
-          description: S.optional(S.String),
-          numCompletedStages: S.optional(S.Number),
-          killTasksSummary: S.optional(__S(4736, __c148, 0)),
-          status: S.optional(S.String),
-          completionTime: S.optional(S.String),
-          numActiveStages: S.optional(S.Number),
-          sqlExecutionId: S.optional(S.String),
-          skippedStages: S.optional(__S(4737, __c148, 1)),
-          numFailedTasks: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "JobData" });
-  }
-}
-function __c150(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          version: S.optional(S.Number.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          version: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://dataproc.googleapis.com/" }),
         ),
       ).annotate({ identifier: "GetProjectsLocationsWorkflowTemplatesRequest" });
   }
 }
-function __c151(j: number): any {
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11728,7 +11762,7 @@ function __c151(j: number): any {
       ).annotate({ identifier: "GetProjectsRegionsAutoscalingPoliciesRequest" });
   }
 }
-function __c152(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11746,7 +11780,7 @@ function __c152(j: number): any {
       ).annotate({ identifier: "GetProjectsRegionsClustersRequest" });
   }
 }
-function __c153(j: number): any {
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11758,7 +11792,7 @@ function __c153(j: number): any {
       ).annotate({ identifier: "GetProjectsRegionsClustersNodeGroupsRequest" });
   }
 }
-function __c154(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11776,7 +11810,7 @@ function __c154(j: number): any {
       ).annotate({ identifier: "GetProjectsRegionsJobsRequest" });
   }
 }
-function __c155(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11788,7 +11822,7 @@ function __c155(j: number): any {
       ).annotate({ identifier: "GetProjectsRegionsOperationsRequest" });
   }
 }
-function __c156(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11801,7 +11835,7 @@ function __c156(j: number): any {
       ).annotate({ identifier: "GetProjectsRegionsWorkflowTemplatesRequest" });
   }
 }
-function __c157(j: number): any {
+function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11813,7 +11847,7 @@ function __c157(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Extend(
-          __S(5024, __c157, 0),
+          __S(4992, __c156, 0),
           S.Struct({
             project: S.String.pipe(T.Label()),
             region: S.String.pipe(T.Label()),
@@ -11829,12 +11863,12 @@ function __c157(j: number): any {
       ).annotate({ identifier: "InjectCredentialsProjectsRegionsClustersRequest" });
   }
 }
-function __c158(j: number): any {
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(3467, __c108, 11),
+          __S(3435, __c107, 11),
           S.Struct({
             parent: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
@@ -11849,15 +11883,15 @@ function __c158(j: number): any {
       ).annotate({ identifier: "InstantiateInlineProjectsLocationsWorkflowTemplatesRequest" });
   }
 }
-function __c159(j: number): any {
+function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(3467, __c108, 11),
+          __S(3435, __c107, 11),
           S.Struct({
-            requestId: S.optional(S.String.pipe(T.Query())),
             parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -11869,13 +11903,13 @@ function __c159(j: number): any {
       ).annotate({ identifier: "InstantiateInlineProjectsRegionsWorkflowTemplatesRequest" });
   }
 }
-function __c160(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          parent: S.optional(S.String.pipe(T.Query())),
           jobId: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -11887,12 +11921,12 @@ function __c160(j: number): any {
       ).annotate({ identifier: "AccessJobProjectsLocationsSessionsSparkApplicationsRequest" });
   }
 }
-function __c161(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(5184, __c162, 0),
+          __S(5152, __c161, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
           }),
@@ -11906,24 +11940,24 @@ function __c161(j: number): any {
       ).annotate({ identifier: "InstantiateProjectsLocationsWorkflowTemplatesRequest" });
   }
 }
-function __c162(j: number): any {
+function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parameters: S.optional(__S(3872, __c121, 0)),
           requestId: S.optional(S.String),
           version: S.optional(S.Number),
+          parameters: S.optional(__S(3840, __c120, 0)),
         }),
       ).annotate({ identifier: "InstantiateWorkflowTemplateRequest" });
   }
 }
-function __c163(j: number): any {
+function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(5184, __c162, 0),
+          __S(5152, __c161, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
           }),
@@ -11937,13 +11971,13 @@ function __c163(j: number): any {
       ).annotate({ identifier: "InstantiateProjectsRegionsWorkflowTemplatesRequest" });
   }
 }
-function __c164(j: number): any {
+function __c163(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -11955,20 +11989,20 @@ function __c164(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsAutoscalingPoliciesRequest" });
   }
 }
-function __c165(j: number): any {
+function __c164(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2948, __c92, 4));
+      return S.Array(__S(2916, __c91, 4));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          policies: S.optional(__S(5280, __c165, 0)),
           nextPageToken: S.optional(S.String),
+          policies: S.optional(__S(5248, __c164, 0)),
         }),
       ).annotate({ identifier: "ListAutoscalingPoliciesResponse" });
   }
 }
-function __c166(j: number): any {
+function __c165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11976,8 +12010,8 @@ function __c166(j: number): any {
           pageSize: S.optional(S.Number.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -11987,26 +12021,26 @@ function __c166(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsBatchesRequest" });
     case 1:
-      return S.Array(__S(3143, __c98, 7));
+      return S.Array(__S(3111, __c97, 7));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(4704, __c147, 0)),
-          batches: S.optional(__S(5313, __c166, 1)),
+          batches: S.optional(__S(5281, __c165, 1)),
+          unreachable: S.optional(__S(4672, __c146, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListBatchesResponse" });
   }
 }
-function __c167(j: number): any {
+function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
-          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://dataproc.googleapis.com/" }),
@@ -12014,29 +12048,29 @@ function __c167(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsOperationsRequest" });
   }
 }
-function __c168(j: number): any {
+function __c167(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2659, __c83, 3));
+      return S.Array(__S(2627, __c82, 3));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          operations: S.optional(__S(5376, __c168, 0)),
-          unreachable: S.optional(__S(4704, __c147, 0)),
+          unreachable: S.optional(__S(4672, __c146, 0)),
           nextPageToken: S.optional(S.String),
+          operations: S.optional(__S(5344, __c167, 0)),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
 }
-function __c169(j: number): any {
+function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          filter: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -12046,25 +12080,25 @@ function __c169(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsSessionsRequest" });
     case 1:
-      return S.Array(__S(3234, __c101, 2));
+      return S.Array(__S(3202, __c100, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
+          sessions: S.optional(__S(5377, __c168, 1)),
           nextPageToken: S.optional(S.String),
-          sessions: S.optional(__S(5409, __c169, 1)),
         }),
       ).annotate({ identifier: "ListSessionsResponse" });
   }
 }
-function __c170(j: number): any {
+function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -12074,17 +12108,17 @@ function __c170(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsSessionTemplatesRequest" });
     case 1:
-      return S.Array(__S(3296, __c103, 0));
+      return S.Array(__S(3264, __c102, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          sessionTemplates: S.optional(__S(5441, __c170, 1)),
+          sessionTemplates: S.optional(__S(5409, __c169, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListSessionTemplatesResponse" });
   }
 }
-function __c171(j: number): any {
+function __c170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12102,28 +12136,28 @@ function __c171(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsWorkflowTemplatesRequest" });
   }
 }
-function __c172(j: number): any {
+function __c171(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(3467, __c108, 11));
+      return S.Array(__S(3435, __c107, 11));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          templates: S.optional(__S(5504, __c172, 0)),
+          templates: S.optional(__S(5472, __c171, 0)),
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(4704, __c147, 0)),
+          unreachable: S.optional(__S(4672, __c146, 0)),
         }),
       ).annotate({ identifier: "ListWorkflowTemplatesResponse" });
   }
 }
-function __c173(j: number): any {
+function __c172(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -12134,16 +12168,16 @@ function __c173(j: number): any {
       ).annotate({ identifier: "ListProjectsRegionsAutoscalingPoliciesRequest" });
   }
 }
-function __c174(j: number): any {
+function __c173(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
-          region: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          projectId: S.String.pipe(T.Label()),
+          region: S.String.pipe(T.Label()),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -12153,17 +12187,17 @@ function __c174(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsRegionsClustersRequest" });
     case 1:
-      return S.Array(__S(3559, __c111, 7));
+      return S.Array(__S(3527, __c110, 7));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          clusters: S.optional(__S(5569, __c174, 1)),
           nextPageToken: S.optional(S.String),
+          clusters: S.optional(__S(5537, __c173, 1)),
         }),
       ).annotate({ identifier: "ListClustersResponse" });
   }
 }
-function __c175(j: number): any {
+function __c174(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12183,12 +12217,12 @@ function __c175(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          buildInfo: S.optional(__S(5634, __c176, 2)),
+          buildInfo: S.optional(__S(5602, __c175, 2)),
         }),
       ).annotate({ identifier: "AccessSparkApplicationNativeBuildInfoResponse" });
   }
 }
-function __c176(j: number): any {
+function __c175(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12198,28 +12232,28 @@ function __c176(j: number): any {
         }),
       ).annotate({ identifier: "BuildInfo" });
     case 1:
-      return S.Array(__S(5632, __c176, 0));
+      return S.Array(__S(5600, __c175, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           buildClass: S.optional(S.String),
-          buildInfo: S.optional(__S(5633, __c176, 1)),
+          buildInfo: S.optional(__S(5601, __c175, 1)),
         }),
       ).annotate({ identifier: "NativeBuildInfoUiData" });
   }
 }
-function __c177(j: number): any {
+function __c176(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          clusterName: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          projectId: S.String.pipe(T.Label()),
           region: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          clusterName: S.optional(S.String.pipe(T.Query())),
           jobStateMatcher: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -12229,15 +12263,31 @@ function __c177(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsRegionsJobsRequest" });
     case 1:
-      return S.Array(__S(2823, __c88, 7));
+      return S.Array(__S(2791, __c87, 7));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(4704, __c147, 0)),
-          jobs: S.optional(__S(5665, __c177, 1)),
+          unreachable: S.optional(__S(4672, __c146, 0)),
+          jobs: S.optional(__S(5633, __c176, 1)),
         }),
       ).annotate({ identifier: "ListJobsResponse" });
+  }
+}
+function __c177(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          filter: S.optional(S.String.pipe(T.Query())),
+          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://dataproc.googleapis.com/" }),
+        ),
+      ).annotate({ identifier: "ListProjectsRegionsOperationsRequest" });
   }
 }
 function __c178(j: number): any {
@@ -12245,25 +12295,9 @@ function __c178(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://dataproc.googleapis.com/" }),
-        ),
-      ).annotate({ identifier: "ListProjectsRegionsOperationsRequest" });
-  }
-}
-function __c179(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -12274,12 +12308,12 @@ function __c179(j: number): any {
       ).annotate({ identifier: "ListProjectsRegionsWorkflowTemplatesRequest" });
   }
 }
-function __c180(j: number): any {
+function __c179(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(3296, __c103, 0),
+          __S(3264, __c102, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
           }),
@@ -12293,19 +12327,19 @@ function __c180(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsSessionTemplatesRequest" });
   }
 }
-function __c181(j: number): any {
+function __c180(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(3559, __c111, 7),
+          __S(3527, __c110, 7),
           S.Struct({
-            projectId: S.String.pipe(T.Label()),
-            region: S.String.pipe(T.Label()),
-            updateMask: S.optional(S.String.pipe(T.Query())),
             requestId: S.optional(S.String.pipe(T.Query())),
             gracefulDecommissionTimeout: S.optional(S.String.pipe(T.Query())),
+            projectId: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
             clusterName: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -12317,17 +12351,17 @@ function __c181(j: number): any {
       ).annotate({ identifier: "PatchProjectsRegionsClustersRequest" });
   }
 }
-function __c182(j: number): any {
+function __c181(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(2823, __c88, 7),
+          __S(2791, __c87, 7),
           S.Struct({
-            updateMask: S.optional(S.String.pipe(T.Query())),
             jobId: S.String.pipe(T.Label()),
-            projectId: S.String.pipe(T.Label()),
             region: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            projectId: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -12339,44 +12373,44 @@ function __c182(j: number): any {
       ).annotate({ identifier: "PatchProjectsRegionsJobsRequest" });
   }
 }
-function __c183(j: number): any {
+function __c182(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          repairAction: S.optional(S.String),
+          instanceNames: S.optional(__S(4672, __c146, 0)),
+        }),
+      ).annotate({ identifier: "NodePool" });
+    case 1:
+      return S.Array(__S(5824, __c182, 0));
+    case 2:
       return S.suspend(() =>
         S.Struct({
           clusterRepairAction: S.optional(S.String),
         }),
       ).annotate({ identifier: "ClusterToRepair" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          repairAction: S.optional(S.String),
-          instanceNames: S.optional(__S(4704, __c147, 0)),
-          id: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "NodePool" });
-    case 2:
-      return S.Array(__S(5857, __c183, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
+          nodePools: S.optional(__S(5825, __c182, 1)),
           dataprocSuperUser: S.optional(S.Boolean),
-          cluster: S.optional(__S(5856, __c183, 0)),
           gracefulDecommissionTimeout: S.optional(S.String),
-          requestId: S.optional(S.String),
           parentOperationId: S.optional(S.String),
+          requestId: S.optional(S.String),
           clusterUuid: S.optional(S.String),
-          nodePools: S.optional(__S(5858, __c183, 2)),
+          cluster: S.optional(__S(5826, __c182, 2)),
         }),
       ).annotate({ identifier: "RepairClusterRequest" });
     case 4:
       return S.suspend(() =>
         S.Extend(
-          __S(5859, __c183, 3),
+          __S(5827, __c182, 3),
           S.Struct({
-            clusterName: S.String.pipe(T.Label()),
-            region: S.String.pipe(T.Label()),
             projectId: S.String.pipe(T.Label()),
+            region: S.String.pipe(T.Label()),
+            clusterName: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -12388,20 +12422,20 @@ function __c183(j: number): any {
       ).annotate({ identifier: "RepairProjectsRegionsClustersRequest" });
   }
 }
-function __c184(j: number): any {
+function __c183(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           requestId: S.optional(S.String),
-          instanceNames: S.optional(__S(4704, __c147, 0)),
+          instanceNames: S.optional(__S(4672, __c146, 0)),
           repairAction: S.optional(S.String),
         }),
       ).annotate({ identifier: "RepairNodeGroupRequest" });
     case 1:
       return S.suspend(() =>
         S.Extend(
-          __S(5888, __c184, 0),
+          __S(5856, __c183, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
           }),
@@ -12415,21 +12449,21 @@ function __c184(j: number): any {
       ).annotate({ identifier: "RepairProjectsRegionsClustersNodeGroupsRequest" });
   }
 }
-function __c185(j: number): any {
+function __c184(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           requestId: S.optional(S.String),
-          parentOperationId: S.optional(S.String),
-          size: S.optional(S.Number),
           gracefulDecommissionTimeout: S.optional(S.String),
+          size: S.optional(S.Number),
+          parentOperationId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ResizeNodeGroupRequest" });
     case 1:
       return S.suspend(() =>
         S.Extend(
-          __S(5920, __c185, 0),
+          __S(5888, __c184, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
           }),
@@ -12443,16 +12477,16 @@ function __c185(j: number): any {
       ).annotate({ identifier: "ResizeProjectsRegionsClustersNodeGroupsRequest" });
   }
 }
-function __c186(j: number): any {
+function __c185(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          executorStatus: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          parent: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          executorStatus: S.optional(S.String.pipe(T.Query())),
+          parent: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -12463,17 +12497,30 @@ function __c186(j: number): any {
       ).annotate({ identifier: "SearchExecutorsProjectsLocationsBatchesSparkApplicationsRequest" });
   }
 }
-function __c187(j: number): any {
+function __c186(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(6050, __c189, 2));
+      return S.Array(__S(6018, __c188, 2));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          sparkApplicationExecutors: S.optional(__S(5984, __c187, 0)),
+          sparkApplicationExecutors: S.optional(__S(5952, __c186, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "SearchSparkApplicationExecutorsResponse" });
+  }
+}
+function __c187(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          totalOnHeapStorageMemory: S.optional(S.String),
+          usedOffHeapStorageMemory: S.optional(S.String),
+          totalOffHeapStorageMemory: S.optional(S.String),
+          usedOnHeapStorageMemory: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MemoryMetrics" });
   }
 }
 function __c188(j: number): any {
@@ -12481,12 +12528,46 @@ function __c188(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          usedOnHeapStorageMemory: S.optional(S.String),
-          usedOffHeapStorageMemory: S.optional(S.String),
-          totalOnHeapStorageMemory: S.optional(S.String),
-          totalOffHeapStorageMemory: S.optional(S.String),
+          addresses: S.optional(__S(4672, __c146, 0)),
+          name: S.optional(S.String),
         }),
-      ).annotate({ identifier: "MemoryMetrics" });
+      ).annotate({ identifier: "ResourceInformation" });
+    case 1:
+      return S.Record(S.String, __S(6016, __c188, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          isActive: S.optional(S.Boolean),
+          totalInputBytes: S.optional(S.String),
+          rddBlocks: S.optional(S.Number),
+          addTime: S.optional(S.String),
+          activeTasks: S.optional(S.Number),
+          peakMemoryMetrics: S.optional(__S(2368, __c74, 0)),
+          removeReason: S.optional(S.String),
+          totalShuffleRead: S.optional(S.String),
+          excludedInStages: S.optional(__S(4672, __c146, 0)),
+          attributes: S.optional(__S(3840, __c120, 0)),
+          failedTasks: S.optional(S.Number),
+          hostPort: S.optional(S.String),
+          resourceProfileId: S.optional(S.Number),
+          diskUsed: S.optional(S.String),
+          executorId: S.optional(S.String),
+          memoryUsed: S.optional(S.String),
+          totalCores: S.optional(S.Number),
+          maxTasks: S.optional(S.Number),
+          completedTasks: S.optional(S.Number),
+          totalShuffleWrite: S.optional(S.String),
+          executorLogs: S.optional(__S(3840, __c120, 0)),
+          resources: S.optional(__S(6017, __c188, 1)),
+          totalTasks: S.optional(S.Number),
+          memoryMetrics: S.optional(__S(5984, __c187, 0)),
+          maxMemory: S.optional(S.String),
+          isExcluded: S.optional(S.Boolean),
+          totalGcTimeMillis: S.optional(S.String),
+          removeTime: S.optional(S.String),
+          totalDurationMillis: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ExecutorSummary" });
   }
 }
 function __c189(j: number): any {
@@ -12494,55 +12575,8 @@ function __c189(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          addresses: S.optional(__S(4704, __c147, 0)),
-          name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ResourceInformation" });
-    case 1:
-      return S.Record(S.String, __S(6048, __c189, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          attributes: S.optional(__S(3872, __c121, 0)),
-          resources: S.optional(__S(6049, __c189, 1)),
-          completedTasks: S.optional(S.Number),
-          totalInputBytes: S.optional(S.String),
-          totalCores: S.optional(S.Number),
-          maxMemory: S.optional(S.String),
-          diskUsed: S.optional(S.String),
-          totalShuffleWrite: S.optional(S.String),
-          removeReason: S.optional(S.String),
-          executorLogs: S.optional(__S(3872, __c121, 0)),
-          peakMemoryMetrics: S.optional(__S(2400, __c75, 0)),
-          excludedInStages: S.optional(__S(4704, __c147, 0)),
-          totalDurationMillis: S.optional(S.String),
-          maxTasks: S.optional(S.Number),
-          executorId: S.optional(S.String),
-          rddBlocks: S.optional(S.Number),
-          failedTasks: S.optional(S.Number),
-          memoryMetrics: S.optional(__S(6016, __c188, 0)),
-          resourceProfileId: S.optional(S.Number),
-          activeTasks: S.optional(S.Number),
-          totalGcTimeMillis: S.optional(S.String),
-          totalShuffleRead: S.optional(S.String),
-          totalTasks: S.optional(S.Number),
-          hostPort: S.optional(S.String),
-          isActive: S.optional(S.Boolean),
-          isExcluded: S.optional(S.Boolean),
-          addTime: S.optional(S.String),
-          memoryUsed: S.optional(S.String),
-          removeTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ExecutorSummary" });
-  }
-}
-function __c190(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          parent: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          parent: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -12556,21 +12590,21 @@ function __c190(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          executionData: S.optional(__S(5634, __c176, 2)),
+          executionData: S.optional(__S(5602, __c175, 2)),
         }),
       ).annotate({ identifier: "AccessSessionSparkApplicationNativeBuildInfoResponse" });
   }
 }
-function __c191(j: number): any {
+function __c190(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           executorStatus: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -12583,17 +12617,17 @@ function __c191(j: number): any {
       });
   }
 }
-function __c192(j: number): any {
+function __c191(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          parent: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           stageId: S.optional(S.String.pipe(T.Query())),
           stageAttemptId: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          parent: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -12604,30 +12638,30 @@ function __c192(j: number): any {
       ).annotate({
         identifier: "SearchExecutorStageSummaryProjectsLocationsBatchesSparkApplicationsRequest",
       });
-  }
-}
-function __c193(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(2432, __c76, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          sparkApplicationStageExecutors: S.optional(__S(6176, __c193, 0)),
+          sparkApplicationStageExecutors: S.optional(__S(6144, __c192, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "SearchSparkApplicationExecutorStageSummaryResponse" });
   }
 }
-function __c194(j: number): any {
+function __c192(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(2400, __c75, 0));
+  }
+}
+function __c193(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           stageAttemptId: S.optional(S.Number.pipe(T.Query())),
           parent: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           stageId: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
@@ -12640,18 +12674,25 @@ function __c194(j: number): any {
       ).annotate({
         identifier: "SearchExecutorStageSummaryProjectsLocationsSessionsSparkApplicationsRequest",
       });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          nextPageToken: S.optional(S.String),
+          sparkApplicationStageExecutors: S.optional(__S(6144, __c192, 0)),
+        }),
+      ).annotate({ identifier: "SearchSessionSparkApplicationExecutorStageSummaryResponse" });
   }
 }
-function __c195(j: number): any {
+function __c194(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
           jobStatus: S.optional(S.String.pipe(T.Query())),
           parent: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -12660,11 +12701,17 @@ function __c195(j: number): any {
           }),
         ),
       ).annotate({ identifier: "SearchJobsProjectsLocationsBatchesSparkApplicationsRequest" });
+  }
+}
+function __c195(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(4736, __c148, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
+          sparkApplicationJobs: S.optional(__S(6240, __c195, 0)),
           nextPageToken: S.optional(S.String),
-          sparkApplicationJobs: S.optional(__S(6272, __c196, 0)),
         }),
       ).annotate({ identifier: "SearchSparkApplicationJobsResponse" });
   }
@@ -12672,20 +12719,14 @@ function __c195(j: number): any {
 function __c196(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(4768, __c149, 0));
-  }
-}
-function __c197(j: number): any {
-  switch (j) {
-    case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          jobStatus: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           parent: S.optional(S.String.pipe(T.Query())),
-          jobIds: S.optional(__S(4704, __c147, 0).pipe(T.Query())),
+          jobStatus: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          jobIds: S.optional(__S(4672, __c146, 0).pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -12694,24 +12735,17 @@ function __c197(j: number): any {
           }),
         ),
       ).annotate({ identifier: "SearchJobsProjectsLocationsSessionsSparkApplicationsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          sparkApplicationJobs: S.optional(__S(6272, __c196, 0)),
-          nextPageToken: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SearchSessionSparkApplicationJobsResponse" });
   }
 }
-function __c198(j: number): any {
+function __c197(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -12722,10 +12756,16 @@ function __c198(j: number): any {
       ).annotate({
         identifier: "SearchNativeSqlQueriesProjectsLocationsBatchesSparkApplicationsRequest",
       });
+  }
+}
+function __c198(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(66, __c2, 2));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          sparkApplicationNativeSqlQueries: S.optional(__S(6368, __c199, 0)),
+          sparkApplicationNativeSqlQueries: S.optional(__S(6336, __c198, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "SearchSparkApplicationNativeSqlQueriesResponse" });
@@ -12734,18 +12774,12 @@ function __c198(j: number): any {
 function __c199(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(66, __c2, 2));
-  }
-}
-function __c200(j: number): any {
-  switch (j) {
-    case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -12756,27 +12790,20 @@ function __c200(j: number): any {
       ).annotate({
         identifier: "SearchNativeSqlQueriesProjectsLocationsSessionsSparkApplicationsRequest",
       });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          nextPageToken: S.optional(S.String),
-          sparkApplicationNativeSqlQueries: S.optional(__S(6368, __c199, 0)),
-        }),
-      ).annotate({ identifier: "SearchSessionSparkApplicationNativeSqlQueriesResponse" });
   }
 }
-function __c201(j: number): any {
+function __c200(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          maxTime: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           minEndTime: S.optional(S.String.pipe(T.Query())),
-          applicationStatus: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           maxEndTime: S.optional(S.String.pipe(T.Query())),
           minTime: S.optional(S.String.pipe(T.Query())),
+          maxTime: S.optional(S.String.pipe(T.Query())),
+          applicationStatus: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -12789,10 +12816,23 @@ function __c201(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          sparkApplications: S.optional(__S(6433, __c201, 1)),
           nextPageToken: S.optional(S.String),
-          sparkApplications: S.optional(__S(6465, __c202, 1)),
         }),
       ).annotate({ identifier: "SearchSparkApplicationsResponse" });
+  }
+}
+function __c201(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          application: S.optional(__S(1056, __c33, 0)),
+          name: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SparkApplication" });
+    case 1:
+      return S.Array(__S(6432, __c201, 0));
   }
 }
 function __c202(j: number): any {
@@ -12800,27 +12840,14 @@ function __c202(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          application: S.optional(__S(1088, __c34, 0)),
-        }),
-      ).annotate({ identifier: "SparkApplication" });
-    case 1:
-      return S.Array(__S(6464, __c202, 0));
-  }
-}
-function __c203(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          maxTime: S.optional(S.String.pipe(T.Query())),
-          minEndTime: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          applicationStatus: S.optional(S.String.pipe(T.Query())),
           maxEndTime: S.optional(S.String.pipe(T.Query())),
           minTime: S.optional(S.String.pipe(T.Query())),
+          maxTime: S.optional(S.String.pipe(T.Query())),
+          applicationStatus: S.optional(S.String.pipe(T.Query())),
+          minEndTime: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -12832,23 +12859,23 @@ function __c203(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          sparkApplications: S.optional(__S(6465, __c202, 1)),
           nextPageToken: S.optional(S.String),
+          sparkApplications: S.optional(__S(6433, __c201, 1)),
         }),
       ).annotate({ identifier: "SearchSessionSparkApplicationsResponse" });
   }
 }
-function __c204(j: number): any {
+function __c203(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          planDescription: S.optional(S.Boolean.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           details: S.optional(S.Boolean.pipe(T.Query())),
           parent: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
+          planDescription: S.optional(S.Boolean.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -12859,19 +12886,19 @@ function __c204(j: number): any {
       ).annotate({
         identifier: "SearchSqlQueriesProjectsLocationsBatchesSparkApplicationsRequest",
       });
-  }
-}
-function __c205(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(2208, __c69, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
+          sparkApplicationSqlQueries: S.optional(__S(6528, __c204, 0)),
           nextPageToken: S.optional(S.String),
-          sparkApplicationSqlQueries: S.optional(__S(6560, __c205, 0)),
         }),
       ).annotate({ identifier: "SearchSparkApplicationSqlQueriesResponse" });
+  }
+}
+function __c204(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(2176, __c68, 0));
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

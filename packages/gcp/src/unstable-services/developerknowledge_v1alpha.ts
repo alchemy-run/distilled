@@ -91,6 +91,22 @@ export interface AnswerQueryRequest {
   query?: string | undefined;
 }
 export interface AnswerQueryV1alphaRequest extends AnswerQueryRequest {}
+/** Citation source. */
+export interface CitationSource {
+  /** Output only. Contains the index of the Answer.AnswerReference in the `references` repeated field. */
+  referenceIndex?: number | undefined;
+}
+export type CitationSourceList = Array<CitationSource>;
+/** Citation info for a segment. */
+export interface AnswerCitation {
+  /** Output only. Indicates the end of the segment, measured in bytes (UTF-8 unicode), exclusive. If there are multi-byte characters, such as non-ASCII characters, the index measurement is longer than the string length. */
+  endIndex?: number | undefined;
+  /** Output only. Contains citation sources for the attributed segment. */
+  sources?: CitationSourceList | undefined;
+  /** Output only. Indicates the start of the segment, measured in bytes (UTF-8 unicode), inclusive. If there are multi-byte characters, such as non-ASCII characters, the index measurement is longer than the string length. */
+  startIndex?: number | undefined;
+}
+export type AnswerCitationList = Array<AnswerCitation>;
 export type DocumentViewEnum =
   | "DOCUMENT_VIEW_UNSPECIFIED"
   | "DOCUMENT_VIEW_BASIC"
@@ -98,37 +114,37 @@ export type DocumentViewEnum =
   | "DOCUMENT_VIEW_CONTENT";
 /** A Document represents a page of documentation in the Developer Knowledge corpus, like the page at https://docs.cloud.google.com/storage/docs/creating-buckets. */
 export interface Document {
-  /** Output only. Specifies the DocumentView of the document. */
-  view?: DocumentViewEnum | undefined;
   /** Output only. Provides the title of the document. */
   title?: string | undefined;
+  /** Output only. Provides a description of the document. */
+  description?: string | undefined;
+  /** Output only. Specifies the DocumentView of the document. */
+  view?: DocumentViewEnum | undefined;
   /** Output only. Contains the full content of the document in Markdown format. */
   content?: string | undefined;
+  /** Output only. The length of the `content` field in bytes. */
+  contentLengthBytes?: number | undefined;
   /** Identifier. Contains the resource name of the document. Format: `documents/{uri_without_scheme}` Example: `documents/docs.cloud.google.com/storage/docs/creating-buckets` */
   name?: string | undefined;
+  /** Output only. Represents the timestamp when the content or metadata of the document was last updated. */
+  updateTime?: string | undefined;
   /** Output only. Provides the URI of the content, such as `https://docs.cloud.google.com/storage/docs/creating-buckets`. */
   uri?: string | undefined;
   /** Output only. Specifies the data source of the document. Example data source: `firebase.google.com` */
   dataSource?: string | undefined;
-  /** Output only. The length of the `content` field in bytes. */
-  contentLengthBytes?: number | undefined;
-  /** Output only. Provides a description of the document. */
-  description?: string | undefined;
-  /** Output only. Represents the timestamp when the content or metadata of the document was last updated. */
-  updateTime?: string | undefined;
 }
 /** A DocumentChunk represents a piece of content from a Document in the DeveloperKnowledge corpus. To fetch the entire document content, pass the `parent` to DeveloperKnowledge.GetDocument or DeveloperKnowledge.BatchGetDocuments. */
 export interface DocumentChunk {
-  /** Output only. Contains the content of the document chunk. */
-  content?: string | undefined;
-  /** Output only. Represents metadata about the Document this chunk is from. The DocumentView of this Document message will be set to `DOCUMENT_VIEW_BASIC`. It is included here for convenience so that clients do not need to call DeveloperKnowledge.GetDocument or DeveloperKnowledge.BatchGetDocuments if they only need the metadata fields. Otherwise, clients should use DeveloperKnowledge.GetDocument or DeveloperKnowledge.BatchGetDocuments to fetch the full document content. */
-  document?: Document | undefined;
-  /** Output only. Specifies the ID of this chunk within the document. The chunk ID is unique within a document, but not globally unique across documents. The chunk ID is not stable and may change over time. */
-  id?: string | undefined;
   /** Output only. Represents the relevance score of the chunk to the search query. Higher score indicates higher chunk relevance. The score is in range [0.0, 1.0]. */
   relevanceScore?: number | undefined;
   /** Output only. Contains the resource name of the document this chunk is from. Format: `documents/{uri_without_scheme}` Example: `documents/docs.cloud.google.com/storage/docs/creating-buckets` */
   parent?: string | undefined;
+  /** Output only. Represents metadata about the Document this chunk is from. The DocumentView of this Document message will be set to `DOCUMENT_VIEW_BASIC`. It is included here for convenience so that clients do not need to call DeveloperKnowledge.GetDocument or DeveloperKnowledge.BatchGetDocuments if they only need the metadata fields. Otherwise, clients should use DeveloperKnowledge.GetDocument or DeveloperKnowledge.BatchGetDocuments to fetch the full document content. */
+  document?: Document | undefined;
+  /** Output only. Contains the content of the document chunk. */
+  content?: string | undefined;
+  /** Output only. Specifies the ID of this chunk within the document. The chunk ID is unique within a document, but not globally unique across documents. The chunk ID is not stable and may change over time. */
+  id?: string | undefined;
 }
 /** Represents a reference to a document. */
 export interface DocumentReference {
@@ -141,47 +157,31 @@ export interface AnswerReference {
   documentReference?: DocumentReference | undefined;
 }
 export type AnswerReferenceList = Array<AnswerReference>;
-/** Citation source. */
-export interface CitationSource {
-  /** Output only. Contains the index of the Answer.AnswerReference in the `references` repeated field. */
-  referenceIndex?: number | undefined;
-}
-export type CitationSourceList = Array<CitationSource>;
-/** Citation info for a segment. */
-export interface AnswerCitation {
-  /** Output only. Indicates the start of the segment, measured in bytes (UTF-8 unicode), inclusive. If there are multi-byte characters, such as non-ASCII characters, the index measurement is longer than the string length. */
-  startIndex?: number | undefined;
-  /** Output only. Indicates the end of the segment, measured in bytes (UTF-8 unicode), exclusive. If there are multi-byte characters, such as non-ASCII characters, the index measurement is longer than the string length. */
-  endIndex?: number | undefined;
-  /** Output only. Contains citation sources for the attributed segment. */
-  sources?: CitationSourceList | undefined;
-}
-export type AnswerCitationList = Array<AnswerCitation>;
 /** An answer to a query. */
 export interface Answer {
-  /** Output only. Contains references for the answer. */
-  references?: AnswerReferenceList | undefined;
-  /** Output only. Contains citations for the answer. */
-  citations?: AnswerCitationList | undefined;
   /** Contains the text of the answer. */
   answerText?: string | undefined;
+  /** Output only. Contains citations for the answer. */
+  citations?: AnswerCitationList | undefined;
+  /** Output only. Contains references for the answer. */
+  references?: AnswerReferenceList | undefined;
 }
 /** Response message for DeveloperKnowledge.AnswerQuery. */
 export interface AnswerQueryResponse {
   /** The answer to the query. */
   answer?: Answer | undefined;
 }
+export type StringList = Array<string>;
 export type BatchGetDocumentsViewEnum =
   | "DOCUMENT_VIEW_UNSPECIFIED"
   | "DOCUMENT_VIEW_BASIC"
   | "DOCUMENT_VIEW_FULL"
   | "DOCUMENT_VIEW_CONTENT";
-export type StringList = Array<string>;
 export interface BatchGetDocumentsRequest {
-  /** Optional. Specifies the DocumentView of the document. If unspecified, DeveloperKnowledge.BatchGetDocuments defaults to `DOCUMENT_VIEW_CONTENT`. */
-  view?: BatchGetDocumentsViewEnum | (string & {}) | undefined;
   /** Required. Specifies the names of the documents to retrieve. A maximum of 20 documents can be retrieved in a batch. The documents are returned in the same order as the `names` in the request. Format: `documents/{uri_without_scheme}` Example: `documents/docs.cloud.google.com/storage/docs/creating-buckets` Each name must not exceed 500 characters; values longer than 500 characters will result in an `INVALID_ARGUMENT` error. */
   names?: StringList | undefined;
+  /** Optional. Specifies the DocumentView of the document. If unspecified, DeveloperKnowledge.BatchGetDocuments defaults to `DOCUMENT_VIEW_CONTENT`. */
+  view?: BatchGetDocumentsViewEnum | (string & {}) | undefined;
 }
 export type DocumentList = Array<Document>;
 /** Response message for DeveloperKnowledge.BatchGetDocuments. */
@@ -213,10 +213,10 @@ export interface SearchDocumentChunksDocumentsRequest {
 export type DocumentChunkList = Array<DocumentChunk>;
 /** Response message for DeveloperKnowledge.SearchDocumentChunks. */
 export interface SearchDocumentChunksResponse {
-  /** Provides a token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string | undefined;
   /** Contains the search results for the given query. Each DocumentChunk in this list contains a snippet of content relevant to the search query. Use the DocumentChunk.parent field of each result with DeveloperKnowledge.GetDocument or DeveloperKnowledge.BatchGetDocuments to retrieve the full document content. */
   results?: DocumentChunkList | undefined;
+  /** Provides a token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string | undefined;
 }
 export type AnswerQueryV1alphaError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Answers a query using grounded generation. */
@@ -315,41 +315,41 @@ function __c0(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          documentChunk: S.optional(__S(32, __c2, 0)),
-        }),
-      ).annotate({ identifier: "DocumentReference" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          documentReference: S.optional(__S(2, __c0, 2)),
-        }),
-      ).annotate({ identifier: "AnswerReference" });
-    case 4:
-      return S.Array(__S(3, __c0, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
           referenceIndex: S.optional(S.Number),
         }),
       ).annotate({ identifier: "CitationSource" });
+    case 3:
+      return S.Array(__S(2, __c0, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          endIndex: S.optional(S.Number),
+          sources: S.optional(__S(3, __c0, 3)),
+          startIndex: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "AnswerCitation" });
+    case 5:
+      return S.Array(__S(4, __c0, 4));
     case 6:
-      return S.Array(__S(5, __c0, 5));
+      return S.suspend(() =>
+        S.Struct({
+          documentChunk: S.optional(__S(32, __c2, 0)),
+        }),
+      ).annotate({ identifier: "DocumentReference" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          startIndex: S.optional(S.Number),
-          endIndex: S.optional(S.Number),
-          sources: S.optional(__S(6, __c0, 6)),
+          documentReference: S.optional(__S(6, __c0, 6)),
         }),
-      ).annotate({ identifier: "AnswerCitation" });
+      ).annotate({ identifier: "AnswerReference" });
     case 8:
       return S.Array(__S(7, __c0, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          references: S.optional(__S(4, __c0, 4)),
-          citations: S.optional(__S(8, __c0, 8)),
           answerText: S.optional(S.String),
+          citations: S.optional(__S(5, __c0, 5)),
+          references: S.optional(__S(8, __c0, 8)),
         }),
       ).annotate({ identifier: "Answer" });
     case 10:
@@ -365,15 +365,15 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          view: S.optional(S.String),
           title: S.optional(S.String),
+          description: S.optional(S.String),
+          view: S.optional(S.String),
           content: S.optional(S.String),
+          contentLengthBytes: S.optional(S.Number),
           name: S.optional(S.String),
+          updateTime: S.optional(S.String),
           uri: S.optional(S.String),
           dataSource: S.optional(S.String),
-          contentLengthBytes: S.optional(S.Number),
-          description: S.optional(S.String),
-          updateTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "Document" });
   }
@@ -383,11 +383,11 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          content: S.optional(S.String),
-          document: S.optional(__S(16, __c1, 0)),
-          id: S.optional(S.String),
           relevanceScore: S.optional(S.Number),
           parent: S.optional(S.String),
+          document: S.optional(__S(16, __c1, 0)),
+          content: S.optional(S.String),
+          id: S.optional(S.String),
         }),
       ).annotate({ identifier: "DocumentChunk" });
   }
@@ -399,8 +399,8 @@ function __c3(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          view: S.optional(S.String.pipe(T.Query())),
           names: S.optional(__S(48, __c3, 0).pipe(T.Query())),
+          view: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -458,8 +458,8 @@ function __c5(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           results: S.optional(__S(81, __c5, 1)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "SearchDocumentChunksResponse" });
   }
