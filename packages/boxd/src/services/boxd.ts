@@ -462,6 +462,22 @@ export interface CreateSnapshotResponse {
   /** How many of the source machine's automations this version captured . Every machine created from it is born with them paused, as a fork is, so nothing runs twice; `run restart <id>` inside that machine starts one there. 0 when the source has none running. */
   pausedAutomations: number;
 }
+export interface CreateStagedSnapshotRequest {
+  /** source VM name or id (owned by the caller, must be running) */
+  vm?: string | undefined;
+  /** snapshot name (unique per owner; re-save bumps the version) */
+  name?: string | undefined;
+}
+export interface CreateStagedSnapshotResponse {
+  snapshotId: string;
+  name: string;
+  /** the version being captured */
+  version: string;
+  /** "pending" until the artifact lands on the origin */
+  status: string;
+  /** How many of the source machine's automations this version captured . Every machine created from it is born with them paused, as a fork is, so nothing runs twice; `run restart <id>` inside that machine starts one there. 0 when the source has none running. */
+  pausedAutomations: number;
+}
 export interface CreateTeamRequest {
   /** name or id; "" = your home org */
   orgId?: string | undefined;
@@ -750,7 +766,7 @@ export interface CreateVmResponse {
   machine?: GetVmResponse | undefined;
 }
 export interface CreateVmFromSnapshotRequest {
-  /** snapshot name or id */
+  /** snapshot name or id, or "<name>@<version>" (see `version`) */
   snapshot?: string | undefined;
   /** new VM name (optional; auto-generated if empty) */
   name?: string | undefined;
@@ -767,6 +783,8 @@ export interface CreateVmFromSnapshotRequest {
   /** Delete-after timer the machine is born with. A snapshot carries no timer, so unset means none. See CreateVmRequest.delete_after_secs. */
   deleteAfterSecs?: string | undefined;
   deleteAfterCron?: string | undefined;
+  /** The version to create from; unset = the snapshot's current one. One of the versions ListSnapshotVersions shows as "ready" and "local": NOT_FOUND for a version the snapshot does not keep, FAILED_PRECONDITION for one still being saved or not on local disk. `snapshot` may name it instead, as "<name>@<version>" ("base@4"): the whole string is tried as a name first, so a snapshot whose own name ends that way still resolves. */
+  version?: string | undefined;
 }
 export interface CreateVmFromSnapshotResponse {
   vmId: string;
@@ -1311,6 +1329,20 @@ export interface GetOrgRdpDefaultResponse {
   set: boolean;
   /** what a new Windows machine in the org starts with */
   enabled: boolean;
+}
+export interface GetOrgSnapshotVersionsKeepRequest {
+  /** name or id; "" = your default org (the one a list with no org shows; an API key's own org) */
+  orgId?: string | undefined;
+}
+export interface GetOrgSnapshotVersionsKeepResponse {
+  /** the org has its own setting */
+  set: boolean;
+  /** how many versions of its snapshots are kept now */
+  keep: number;
+  /** the platform's count, which an org without a setting follows */
+  platformKeep: number;
+  /** the most an org may set */
+  maxKeep: number;
 }
 export interface GetOrgUsageRequest {
   /** Org name or id; "" = your default org (for an API key: the key's org). */
@@ -1955,6 +1987,39 @@ export interface ListSnapshotsResponse {
   snapshots: SnapshotInfoList;
   elsewhere: RegionCountList;
 }
+export interface ListSnapshotVersionsRequest {
+  /** snapshot name or id */
+  name?: string | undefined;
+  /** org context (name or id); empty = active/anchor */
+  org?: string | undefined;
+}
+/** One version of a snapshot. */
+export interface SnapshotVersionInfo {
+  version: string;
+  /** The version a create that names none uses. The newest ordinary save, unless SetSnapshotCurrentVersion chose another. */
+  current: boolean;
+  /** "ready", or "saving" for a save still in flight. */
+  status: string;
+  /** Where its bytes are, as SnapshotInfo.storage: a machine can be created from it only while "local". */
+  storage: string;
+  sizeBytes: string;
+  /** when it was saved; epoch MILLISECONDS */
+  createdAt: string;
+  /** The size of a machine created from it. */
+  vcpu: number;
+  memoryBytes: string;
+  /** The guest OS of the machine it was saved from: "linux" or "windows". */
+  os: string;
+  /** Ready, and above the current version: saved staged (CreateStagedSnapshot), or set aside when an older version was made current. A machine is created from it only by naming it; SetSnapshotCurrentVersion makes it current. */
+  staged: boolean;
+}
+export type SnapshotVersionInfoList = Array<SnapshotVersionInfo>;
+export interface ListSnapshotVersionsResponse {
+  snapshotId: string;
+  name: string;
+  /** Newest first. A version you may not use is left out: one saved from a private machine stays its creator's, even after a later save made the snapshot shared. */
+  versions: SnapshotVersionInfoList;
+}
 export interface ListTeamsRequest {
   /** name or id; "" = your home org */
   orgId?: string | undefined;
@@ -2318,6 +2383,26 @@ export interface SetOrgRdpDefaultResponse {
   machinesSkipped: number;
   snapshotsChanged: number;
 }
+export interface SetOrgSnapshotVersionsKeepRequest {
+  /** name or id; "" = your default org (the one a list with no org shows; an API key's own org) */
+  orgId?: string | undefined;
+  /** How many versions of each snapshot to keep, the current one included: 1 to `max_keep` (GetOrgSnapshotVersionsKeep). Absent clears the org's setting: its snapshots follow the platform's again. */
+  keep?: number | undefined;
+  /** Check the request and count what it would delete, and change nothing. Ask this before lowering the count or clearing it: the versions beyond the new count are deleted for good. */
+  dryRun?: boolean | undefined;
+}
+export interface SetOrgSnapshotVersionsKeepResponse {
+  /** The org's setting after this call (with `dry_run`: as it would be). */
+  set: boolean;
+  /** how many versions of its snapshots are kept */
+  keep: number;
+  /** the platform's count, which an org without a setting follows */
+  platformKeep: number;
+  /** the most an org may set */
+  maxKeep: number;
+  /** How many versions of the org's snapshots are deleted because of this change (older ones, and staged ones beyond the count), on the platform's next cleanup pass (within a minute). With `dry_run`, how many would be. */
+  versionsDeleted: number;
+}
 export interface SetProxyPortRequest {
   name?: string | undefined;
   /** use `vm` */
@@ -2342,6 +2427,23 @@ export interface SetSecretScopeRequest {
 }
 export interface SetSecretScopeResponse {
   message: string;
+}
+export interface SetSnapshotCurrentVersionRequest {
+  /** Snapshot name or id, or `name@4` to name the version too. */
+  snapshot?: string | undefined;
+  /** org context (name or id); empty = active/anchor */
+  org?: string | undefined;
+  /** The version to make current, when `snapshot` names none. Naming two different ones is INVALID_ARGUMENT, and so is naming none. */
+  version?: string | undefined;
+}
+export interface SetSnapshotCurrentVersionResponse {
+  snapshotId: string;
+  name: string;
+  /** the current version now */
+  version: string;
+  previousVersion: string;
+  /** false when it was the current version already */
+  changed: boolean;
 }
 export interface SetSshRequest {
   /** name or id */
@@ -2651,8 +2753,8 @@ export const agentEvents: API.StreamingOperationMethod<
   AgentEventsError,
   BoxdOpContext
 > = /*@__PURE__*/ API.makeStreaming(() => ({
-  input: __S(1072, __c67, 0) as any as S.Schema<AgentEventsRequest>,
-  output: __S(1084, __c67, 12) as any as S.Schema<AgentEventsStream>,
+  input: __S(1168, __c73, 0) as any as S.Schema<AgentEventsRequest>,
+  output: __S(1180, __c73, 12) as any as S.Schema<AgentEventsStream>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -2668,7 +2770,7 @@ export const attachDisk: API.OperationMethod<
   AttachDiskError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c86, 0) as any as S.Schema<AttachDiskRequest>,
+  input: __S(1472, __c92, 0) as any as S.Schema<AttachDiskRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<AttachDiskResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
@@ -2685,7 +2787,7 @@ export const clearBackupSchedule: API.OperationMethod<
   ClearBackupScheduleError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1584, __c99, 0) as any as S.Schema<ClearBackupScheduleRequest>,
+  input: __S(1680, __c105, 0) as any as S.Schema<ClearBackupScheduleRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<ClearBackupScheduleResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
@@ -2702,7 +2804,7 @@ export const clearOrgDomain: API.OperationMethod<
   ClearOrgDomainError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c112, 0) as any as S.Schema<ClearOrgDomainRequest>,
+  input: __S(1888, __c118, 0) as any as S.Schema<ClearOrgDomainRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<ClearOrgDomainResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
@@ -2720,8 +2822,8 @@ export const closeAgentSession: API.OperationMethod<
   CloseAgentSessionError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c126, 0) as any as S.Schema<CloseAgentSessionRequest>,
-  output: __S(2017, __c126, 1) as any as S.Schema<CloseAgentSessionResponse>,
+  input: __S(2112, __c132, 0) as any as S.Schema<CloseAgentSessionRequest>,
+  output: __S(2113, __c132, 1) as any as S.Schema<CloseAgentSessionResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -2737,8 +2839,8 @@ export const completeAgentLogin: API.OperationMethod<
   CompleteAgentLoginError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2224, __c139, 0) as any as S.Schema<CompleteAgentLoginRequest>,
-  output: __S(2225, __c139, 1) as any as S.Schema<CompleteAgentLoginResponse>,
+  input: __S(2320, __c145, 0) as any as S.Schema<CompleteAgentLoginRequest>,
+  output: __S(2321, __c145, 1) as any as S.Schema<CompleteAgentLoginResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -2755,8 +2857,8 @@ export const computerAction: API.OperationMethod<
   ComputerActionError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2445, __c152, 13) as any as S.Schema<ComputerActionRequest>,
-  output: __S(2447, __c152, 15) as any as S.Schema<ComputerActionResponse>,
+  input: __S(2525, __c157, 13) as any as S.Schema<ComputerActionRequest>,
+  output: __S(2527, __c157, 15) as any as S.Schema<ComputerActionResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -2773,7 +2875,7 @@ export const copyPath: API.OperationMethod<
   CopyPathError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2608, __c163, 0) as any as S.Schema<CopyPathRequest>,
+  input: __S(2704, __c169, 0) as any as S.Schema<CopyPathRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<CopyPathResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
@@ -2896,8 +2998,8 @@ export const createNetwork: API.OperationMethod<
   CreateNetworkError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1008, __c63, 0) as any as S.Schema<CreateNetworkRequest>,
-  output: __S(1009, __c63, 1) as any as S.Schema<CreateNetworkResponse>,
+  input: __S(1088, __c68, 0) as any as S.Schema<CreateNetworkRequest>,
+  output: __S(1089, __c68, 1) as any as S.Schema<CreateNetworkResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -2914,8 +3016,8 @@ export const createOrg: API.OperationMethod<
   CreateOrgError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c64, 0) as any as S.Schema<CreateOrgRequest>,
-  output: __S(1025, __c64, 1) as any as S.Schema<CreateOrgResponse>,
+  input: __S(1104, __c69, 0) as any as S.Schema<CreateOrgRequest>,
+  output: __S(1105, __c69, 1) as any as S.Schema<CreateOrgResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -2931,8 +3033,8 @@ export const createProxy: API.OperationMethod<
   CreateProxyError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1040, __c65, 0) as any as S.Schema<CreateProxyRequest>,
-  output: __S(1041, __c65, 1) as any as S.Schema<CreateProxyResponse>,
+  input: __S(1120, __c70, 0) as any as S.Schema<CreateProxyRequest>,
+  output: __S(1121, __c70, 1) as any as S.Schema<CreateProxyResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -2949,14 +3051,32 @@ export const createSnapshot: API.OperationMethod<
   CreateSnapshotError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c66, 0) as any as S.Schema<CreateSnapshotRequest>,
-  output: __S(1057, __c66, 1) as any as S.Schema<CreateSnapshotResponse>,
+  input: __S(1136, __c71, 0) as any as S.Schema<CreateSnapshotRequest>,
+  output: __S(1152, __c72, 0) as any as S.Schema<CreateSnapshotResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateSnapshot",
+}));
+
+export type CreateStagedSnapshotError = BoxdOpError;
+/** A staged save: CreateSnapshot, but the version is saved without becoming the snapshot's current one. Machines created from the snapshot keep getting the current version; this one is created from by naming it (CreateVmFromSnapshot's `version`, or `name@7`), and SetSnapshotCurrentVersion makes it current. ListSnapshotVersions shows it "saving", then "ready" with `staged` set. The snapshot must already have a version: FAILED_PRECONDITION for the first save of a name. A snapshot keeps as many staged versions as the org keeps versions (GetOrgSnapshotVersionsKeep): one more replaces the oldest staged one. A call of its own, not a field of CreateSnapshot, so that a server from before staged saves refuses it (UNIMPLEMENTED) instead of saving a version that becomes current. */
+export const createStagedSnapshot: API.OperationMethod<
+  CreateStagedSnapshotRequest & MaxMessageBytesInput,
+  CreateStagedSnapshotResponse,
+  CreateStagedSnapshotError,
+  BoxdOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1200, __c75, 0) as any as S.Schema<CreateStagedSnapshotRequest>,
+  output: __S(1152, __c72, 0) as any as S.Schema<CreateStagedSnapshotResponse>,
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
+  protocol: BoxdProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateStagedSnapshot",
 }));
 
 export type CreateTeamError = BoxdOpError;
@@ -2966,8 +3086,8 @@ export const createTeam: API.OperationMethod<
   CreateTeamError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1104, __c69, 0) as any as S.Schema<CreateTeamRequest>,
-  output: __S(1122, __c70, 2) as any as S.Schema<CreateTeamResponse>,
+  input: __S(1216, __c76, 0) as any as S.Schema<CreateTeamRequest>,
+  output: __S(1234, __c77, 2) as any as S.Schema<CreateTeamResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -2983,8 +3103,8 @@ export const createToken: API.OperationMethod<
   CreateTokenError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1136, __c71, 0) as any as S.Schema<CreateTokenRequest>,
-  output: __S(1137, __c71, 1) as any as S.Schema<CreateTokenResponse>,
+  input: __S(1248, __c78, 0) as any as S.Schema<CreateTokenRequest>,
+  output: __S(1249, __c78, 1) as any as S.Schema<CreateTokenResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -3000,8 +3120,8 @@ export const createVm: API.OperationMethod<
   CreateVmError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1154, __c72, 2) as any as S.Schema<CreateVmRequest>,
-  output: __S(1168, __c73, 0) as any as S.Schema<CreateVmResponse>,
+  input: __S(1266, __c79, 2) as any as S.Schema<CreateVmRequest>,
+  output: __S(1280, __c80, 0) as any as S.Schema<CreateVmResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -3017,8 +3137,8 @@ export const createVmFromSnapshot: API.OperationMethod<
   CreateVmFromSnapshotError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1264, __c79, 0) as any as S.Schema<CreateVmFromSnapshotRequest>,
-  output: __S(1168, __c73, 0) as any as S.Schema<CreateVmFromSnapshotResponse>,
+  input: __S(1376, __c86, 0) as any as S.Schema<CreateVmFromSnapshotRequest>,
+  output: __S(1280, __c80, 0) as any as S.Schema<CreateVmFromSnapshotResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -3035,7 +3155,7 @@ export const deleteAgentLogin: API.OperationMethod<
   DeleteAgentLoginError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c80, 0) as any as S.Schema<DeleteAgentLoginRequest>,
+  input: __S(1392, __c87, 0) as any as S.Schema<DeleteAgentLoginRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<DeleteAgentLoginResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
@@ -3052,7 +3172,7 @@ export const deleteApiKey: API.OperationMethod<
   DeleteApiKeyError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1296, __c81, 0) as any as S.Schema<DeleteApiKeyRequest>,
+  input: __S(1408, __c88, 0) as any as S.Schema<DeleteApiKeyRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<DeleteApiKeyResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
@@ -3070,7 +3190,7 @@ export const deleteBackup: API.OperationMethod<
   DeleteBackupError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c82, 0) as any as S.Schema<DeleteBackupRequest>,
+  input: __S(1424, __c89, 0) as any as S.Schema<DeleteBackupRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<DeleteBackupResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
@@ -3087,7 +3207,7 @@ export const deleteCheckpoint: API.OperationMethod<
   DeleteCheckpointError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1328, __c83, 0) as any as S.Schema<DeleteCheckpointRequest>,
+  input: __S(1440, __c90, 0) as any as S.Schema<DeleteCheckpointRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<DeleteCheckpointResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
@@ -3104,7 +3224,7 @@ export const deletePath: API.OperationMethod<
   DeletePathError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c84, 0) as any as S.Schema<DeletePathRequest>,
+  input: __S(1456, __c91, 0) as any as S.Schema<DeletePathRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<DeletePathResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
@@ -3121,7 +3241,7 @@ export const deleteProxy: API.OperationMethod<
   DeleteProxyError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1360, __c85, 0) as any as S.Schema<DeleteProxyRequest>,
+  input: __S(1488, __c93, 0) as any as S.Schema<DeleteProxyRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<DeleteProxyResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
@@ -3138,7 +3258,7 @@ export const deleteSnapshot: API.OperationMethod<
   DeleteSnapshotError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1392, __c87, 0) as any as S.Schema<DeleteSnapshotRequest>,
+  input: __S(1504, __c94, 0) as any as S.Schema<DeleteSnapshotRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<DeleteSnapshotResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
@@ -3155,7 +3275,7 @@ export const destroyDisk: API.OperationMethod<
   DestroyDiskError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c88, 0) as any as S.Schema<DestroyDiskRequest>,
+  input: __S(1520, __c95, 0) as any as S.Schema<DestroyDiskRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<DestroyDiskResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
@@ -3172,7 +3292,7 @@ export const destroyTeam: API.OperationMethod<
   DestroyTeamError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1424, __c89, 0) as any as S.Schema<DestroyTeamRequest>,
+  input: __S(1536, __c96, 0) as any as S.Schema<DestroyTeamRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<DestroyTeamResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
@@ -3189,7 +3309,7 @@ export const destroyVm: API.OperationMethod<
   DestroyVmError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c90, 0) as any as S.Schema<DestroyVmRequest>,
+  input: __S(1552, __c97, 0) as any as S.Schema<DestroyVmRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<DestroyVmResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
@@ -3206,7 +3326,7 @@ export const detachDisk: API.OperationMethod<
   DetachDiskError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1456, __c91, 0) as any as S.Schema<DetachDiskRequest>,
+  input: __S(1568, __c98, 0) as any as S.Schema<DetachDiskRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<DetachDiskResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
@@ -3223,8 +3343,8 @@ export const downloadFile: API.OperationMethod<
   DownloadFileError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c92, 0) as any as S.Schema<DownloadFileRequest>,
-  output: __S(1488, __c93, 0) as any as S.Schema<DownloadFileResponse>,
+  input: __S(1584, __c99, 0) as any as S.Schema<DownloadFileRequest>,
+  output: __S(1600, __c100, 0) as any as S.Schema<DownloadFileResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -3241,8 +3361,8 @@ export const downloadFileStream: API.StreamingOperationMethod<
   DownloadFileStreamError,
   BoxdOpContext
 > = /*@__PURE__*/ API.makeStreaming(() => ({
-  input: __S(1504, __c94, 0) as any as S.Schema<DownloadFileStreamRequest>,
-  output: __S(1507, __c94, 3) as any as S.Schema<DownloadFileStreamStream>,
+  input: __S(1616, __c101, 0) as any as S.Schema<DownloadFileStreamRequest>,
+  output: __S(1619, __c101, 3) as any as S.Schema<DownloadFileStreamStream>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -3258,8 +3378,8 @@ export const exposePort: API.OperationMethod<
   ExposePortError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1520, __c95, 0) as any as S.Schema<ExposePortRequest>,
-  output: __S(1536, __c96, 0) as any as S.Schema<ExposePortResponse>,
+  input: __S(1632, __c102, 0) as any as S.Schema<ExposePortRequest>,
+  output: __S(1648, __c103, 0) as any as S.Schema<ExposePortResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -3276,8 +3396,8 @@ export const findElsewhere: API.OperationMethod<
   FindElsewhereError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1552, __c97, 0) as any as S.Schema<FindElsewhereRequest>,
-  output: __S(1555, __c97, 3) as any as S.Schema<FindElsewhereResponse>,
+  input: __S(1664, __c104, 0) as any as S.Schema<FindElsewhereRequest>,
+  output: __S(1667, __c104, 3) as any as S.Schema<FindElsewhereResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -3293,8 +3413,8 @@ export const forkVm: API.OperationMethod<
   ForkVmError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c98, 0) as any as S.Schema<ForkVmRequest>,
-  output: __S(1569, __c98, 1) as any as S.Schema<ForkVmResponse>,
+  input: __S(1696, __c106, 0) as any as S.Schema<ForkVmRequest>,
+  output: __S(1697, __c106, 1) as any as S.Schema<ForkVmResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -3311,8 +3431,8 @@ export const fsList: API.StreamingOperationMethod<
   FsListError,
   BoxdOpContext
 > = /*@__PURE__*/ API.makeStreaming(() => ({
-  input: __S(1600, __c100, 0) as any as S.Schema<FsListRequest>,
-  output: __S(1604, __c100, 4) as any as S.Schema<FsListStream>,
+  input: __S(1712, __c107, 0) as any as S.Schema<FsListRequest>,
+  output: __S(1716, __c107, 4) as any as S.Schema<FsListStream>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -3329,7 +3449,7 @@ export const fsMkdir: API.OperationMethod<
   FsMkdirError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c102, 0) as any as S.Schema<FsMkdirRequest>,
+  input: __S(1744, __c109, 0) as any as S.Schema<FsMkdirRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<FsMkdirResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
@@ -3347,8 +3467,8 @@ export const fsRead: API.StreamingOperationMethod<
   FsReadError,
   BoxdOpContext
 > = /*@__PURE__*/ API.makeStreaming(() => ({
-  input: __S(1648, __c103, 0) as any as S.Schema<FsReadRequest>,
-  output: __S(1651, __c103, 3) as any as S.Schema<FsReadStream>,
+  input: __S(1760, __c110, 0) as any as S.Schema<FsReadRequest>,
+  output: __S(1763, __c110, 3) as any as S.Schema<FsReadStream>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -3365,8 +3485,8 @@ export const fsRealpath: API.OperationMethod<
   FsRealpathError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c104, 0) as any as S.Schema<FsRealpathRequest>,
-  output: __S(1665, __c104, 1) as any as S.Schema<FsRealpathResponse>,
+  input: __S(1776, __c111, 0) as any as S.Schema<FsRealpathRequest>,
+  output: __S(1777, __c111, 1) as any as S.Schema<FsRealpathResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -3383,7 +3503,7 @@ export const fsRemove: API.OperationMethod<
   FsRemoveError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1680, __c105, 0) as any as S.Schema<FsRemoveRequest>,
+  input: __S(1792, __c112, 0) as any as S.Schema<FsRemoveRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<FsRemoveResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
@@ -3400,7 +3520,7 @@ export const fsRename: API.OperationMethod<
   FsRenameError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c106, 0) as any as S.Schema<FsRenameRequest>,
+  input: __S(1808, __c113, 0) as any as S.Schema<FsRenameRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<FsRenameResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
@@ -3417,8 +3537,8 @@ export const fsStat: API.OperationMethod<
   FsStatError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1712, __c107, 0) as any as S.Schema<FsStatRequest>,
-  output: __S(1713, __c107, 1) as any as S.Schema<FsStatResponse>,
+  input: __S(1824, __c114, 0) as any as S.Schema<FsStatRequest>,
+  output: __S(1825, __c114, 1) as any as S.Schema<FsStatResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -3435,8 +3555,8 @@ export const getAgentLogin: API.OperationMethod<
   GetAgentLoginError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c108, 0) as any as S.Schema<GetAgentLoginRequest>,
-  output: __S(2240, __c140, 0) as any as S.Schema<GetAgentLoginResponse>,
+  input: __S(1840, __c115, 0) as any as S.Schema<GetAgentLoginRequest>,
+  output: __S(2336, __c146, 0) as any as S.Schema<GetAgentLoginResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -3452,8 +3572,8 @@ export const getAgentSession: API.OperationMethod<
   GetAgentSessionError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1744, __c109, 0) as any as S.Schema<GetAgentSessionRequest>,
-  output: __S(1760, __c110, 0) as any as S.Schema<GetAgentSessionResponse>,
+  input: __S(1856, __c116, 0) as any as S.Schema<GetAgentSessionRequest>,
+  output: __S(1872, __c117, 0) as any as S.Schema<GetAgentSessionResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -3469,8 +3589,8 @@ export const getBackupSchedule: API.OperationMethod<
   GetBackupScheduleError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1776, __c111, 0) as any as S.Schema<GetBackupScheduleRequest>,
-  output: __S(1777, __c111, 1) as any as S.Schema<GetBackupScheduleResponse>,
+  input: __S(1904, __c119, 0) as any as S.Schema<GetBackupScheduleRequest>,
+  output: __S(1905, __c119, 1) as any as S.Schema<GetBackupScheduleResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -3487,8 +3607,8 @@ export const getBilling: API.OperationMethod<
   GetBillingError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1808, __c113, 0) as any as S.Schema<GetBillingRequest>,
-  output: __S(1809, __c113, 1) as any as S.Schema<GetBillingResponse>,
+  input: __S(1920, __c120, 0) as any as S.Schema<GetBillingRequest>,
+  output: __S(1921, __c120, 1) as any as S.Schema<GetBillingResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -3504,8 +3624,8 @@ export const getConfig: API.OperationMethod<
   GetConfigError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1840, __c115, 0) as any as S.Schema<GetConfigRequest>,
-  output: __S(1841, __c115, 1) as any as S.Schema<GetConfigResponse>,
+  input: __S(1952, __c122, 0) as any as S.Schema<GetConfigRequest>,
+  output: __S(1953, __c122, 1) as any as S.Schema<GetConfigResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -3521,8 +3641,8 @@ export const getOrgBackupsDefault: API.OperationMethod<
   GetOrgBackupsDefaultError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c116, 0) as any as S.Schema<GetOrgBackupsDefaultRequest>,
-  output: __S(1872, __c117, 0) as any as S.Schema<GetOrgBackupsDefaultResponse>,
+  input: __S(1968, __c123, 0) as any as S.Schema<GetOrgBackupsDefaultRequest>,
+  output: __S(1984, __c124, 0) as any as S.Schema<GetOrgBackupsDefaultResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -3539,8 +3659,8 @@ export const getOrgBilling: API.OperationMethod<
   GetOrgBillingError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c118, 0) as any as S.Schema<GetOrgBillingRequest>,
-  output: __S(1891, __c118, 3) as any as S.Schema<GetOrgBillingResponse>,
+  input: __S(2000, __c125, 0) as any as S.Schema<GetOrgBillingRequest>,
+  output: __S(2003, __c125, 3) as any as S.Schema<GetOrgBillingResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -3556,8 +3676,8 @@ export const getOrgBotProtectionDefault: API.OperationMethod<
   GetOrgBotProtectionDefaultError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1904, __c119, 0) as any as S.Schema<GetOrgBotProtectionDefaultRequest>,
-  output: __S(1905, __c119, 1) as any as S.Schema<GetOrgBotProtectionDefaultResponse>,
+  input: __S(2016, __c126, 0) as any as S.Schema<GetOrgBotProtectionDefaultRequest>,
+  output: __S(2017, __c126, 1) as any as S.Schema<GetOrgBotProtectionDefaultResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -3573,8 +3693,8 @@ export const getOrgDomain: API.OperationMethod<
   GetOrgDomainError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c120, 0) as any as S.Schema<GetOrgDomainRequest>,
-  output: __S(1937, __c121, 1) as any as S.Schema<GetOrgDomainResponse>,
+  input: __S(2032, __c127, 0) as any as S.Schema<GetOrgDomainRequest>,
+  output: __S(2049, __c128, 1) as any as S.Schema<GetOrgDomainResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -3590,8 +3710,8 @@ export const getOrgIdleIgnoreOutboundDefault: API.OperationMethod<
   GetOrgIdleIgnoreOutboundDefaultError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1952, __c122, 0) as any as S.Schema<GetOrgIdleIgnoreOutboundDefaultRequest>,
-  output: __S(1953, __c122, 1) as any as S.Schema<GetOrgIdleIgnoreOutboundDefaultResponse>,
+  input: __S(2064, __c129, 0) as any as S.Schema<GetOrgIdleIgnoreOutboundDefaultRequest>,
+  output: __S(2065, __c129, 1) as any as S.Schema<GetOrgIdleIgnoreOutboundDefaultResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -3607,8 +3727,8 @@ export const getOrgMachineDefaults: API.OperationMethod<
   GetOrgMachineDefaultsError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1968, __c123, 0) as any as S.Schema<GetOrgMachineDefaultsRequest>,
-  output: __S(1971, __c123, 3) as any as S.Schema<GetOrgMachineDefaultsResponse>,
+  input: __S(2080, __c130, 0) as any as S.Schema<GetOrgMachineDefaultsRequest>,
+  output: __S(2083, __c130, 3) as any as S.Schema<GetOrgMachineDefaultsResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -3625,8 +3745,8 @@ export const getOrgMachineLimit: API.OperationMethod<
   GetOrgMachineLimitError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1984, __c124, 0) as any as S.Schema<GetOrgMachineLimitRequest>,
-  output: __S(1985, __c124, 1) as any as S.Schema<GetOrgMachineLimitResponse>,
+  input: __S(2096, __c131, 0) as any as S.Schema<GetOrgMachineLimitRequest>,
+  output: __S(2097, __c131, 1) as any as S.Schema<GetOrgMachineLimitResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -3642,8 +3762,8 @@ export const getOrgMembers: API.OperationMethod<
   GetOrgMembersError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2000, __c125, 0) as any as S.Schema<GetOrgMembersRequest>,
-  output: __S(2005, __c125, 5) as any as S.Schema<GetOrgMembersResponse>,
+  input: __S(2128, __c133, 0) as any as S.Schema<GetOrgMembersRequest>,
+  output: __S(2133, __c133, 5) as any as S.Schema<GetOrgMembersResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -3659,14 +3779,31 @@ export const getOrgRdpDefault: API.OperationMethod<
   GetOrgRdpDefaultError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2032, __c127, 0) as any as S.Schema<GetOrgRdpDefaultRequest>,
-  output: __S(2033, __c127, 1) as any as S.Schema<GetOrgRdpDefaultResponse>,
+  input: __S(2144, __c134, 0) as any as S.Schema<GetOrgRdpDefaultRequest>,
+  output: __S(2145, __c134, 1) as any as S.Schema<GetOrgRdpDefaultResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrgRdpDefault",
+}));
+
+export type GetOrgSnapshotVersionsKeepError = BoxdOpError;
+export const getOrgSnapshotVersionsKeep: API.OperationMethod<
+  GetOrgSnapshotVersionsKeepRequest & MaxMessageBytesInput,
+  GetOrgSnapshotVersionsKeepResponse,
+  GetOrgSnapshotVersionsKeepError,
+  BoxdOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2160, __c135, 0) as any as S.Schema<GetOrgSnapshotVersionsKeepRequest>,
+  output: __S(2161, __c135, 1) as any as S.Schema<GetOrgSnapshotVersionsKeepResponse>,
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
+  protocol: BoxdProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrgSnapshotVersionsKeep",
 }));
 
 export type GetOrgUsageError = BoxdOpError;
@@ -3677,8 +3814,8 @@ export const getOrgUsage: API.OperationMethod<
   GetOrgUsageError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c128, 0) as any as S.Schema<GetOrgUsageRequest>,
-  output: __S(2050, __c128, 2) as any as S.Schema<GetOrgUsageResponse>,
+  input: __S(2176, __c136, 0) as any as S.Schema<GetOrgUsageRequest>,
+  output: __S(2178, __c136, 2) as any as S.Schema<GetOrgUsageResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -3694,8 +3831,8 @@ export const getSnapshot: API.OperationMethod<
   GetSnapshotError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c130, 0) as any as S.Schema<GetSnapshotRequest>,
-  output: __S(2081, __c130, 1) as any as S.Schema<GetSnapshotResponse>,
+  input: __S(2208, __c138, 0) as any as S.Schema<GetSnapshotRequest>,
+  output: __S(2209, __c138, 1) as any as S.Schema<GetSnapshotResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -3711,8 +3848,8 @@ export const getTeam: API.OperationMethod<
   GetTeamError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2112, __c132, 0) as any as S.Schema<GetTeamRequest>,
-  output: __S(1122, __c70, 2) as any as S.Schema<GetTeamResponse>,
+  input: __S(2240, __c140, 0) as any as S.Schema<GetTeamRequest>,
+  output: __S(1234, __c77, 2) as any as S.Schema<GetTeamResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -3729,8 +3866,8 @@ export const getVm: API.OperationMethod<
   GetVmError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2128, __c133, 0) as any as S.Schema<GetVmRequest>,
-  output: __S(1221, __c76, 5) as any as S.Schema<GetVmResponse2>,
+  input: __S(2256, __c141, 0) as any as S.Schema<GetVmRequest>,
+  output: __S(1333, __c83, 5) as any as S.Schema<GetVmResponse2>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -3746,8 +3883,8 @@ export const getVmUsage: API.OperationMethod<
   GetVmUsageError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2144, __c134, 0) as any as S.Schema<GetVmUsageRequest>,
-  output: __S(2145, __c134, 1) as any as S.Schema<GetVmUsageResponse>,
+  input: __S(2272, __c142, 0) as any as S.Schema<GetVmUsageRequest>,
+  output: __S(2273, __c142, 1) as any as S.Schema<GetVmUsageResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -3763,7 +3900,7 @@ export const hibernateVm: API.OperationMethod<
   HibernateVmError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2160, __c135, 0) as any as S.Schema<HibernateVmRequest>,
+  input: __S(2288, __c143, 0) as any as S.Schema<HibernateVmRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<HibernateVmResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
@@ -3781,8 +3918,8 @@ export const interruptAgent: API.OperationMethod<
   InterruptAgentError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c136, 0) as any as S.Schema<InterruptAgentRequest>,
-  output: __S(2177, __c136, 1) as any as S.Schema<InterruptAgentResponse>,
+  input: __S(2304, __c144, 0) as any as S.Schema<InterruptAgentRequest>,
+  output: __S(2305, __c144, 1) as any as S.Schema<InterruptAgentResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -3799,8 +3936,8 @@ export const inviteOrgMember: API.OperationMethod<
   InviteOrgMemberError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2192, __c137, 0) as any as S.Schema<InviteOrgMemberRequest>,
-  output: __S(2193, __c137, 1) as any as S.Schema<InviteOrgMemberResponse>,
+  input: __S(2352, __c147, 0) as any as S.Schema<InviteOrgMemberRequest>,
+  output: __S(2353, __c147, 1) as any as S.Schema<InviteOrgMemberResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -3817,7 +3954,7 @@ export const linkSshKey: API.OperationMethod<
   LinkSshKeyError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c138, 0) as any as S.Schema<LinkSshKeyRequest>,
+  input: __S(2368, __c148, 0) as any as S.Schema<LinkSshKeyRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<LinkSshKeyResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
@@ -3835,8 +3972,8 @@ export const listAgentRuns: API.OperationMethod<
   ListAgentRunsError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2256, __c141, 0) as any as S.Schema<ListAgentRunsRequest>,
-  output: __S(2259, __c141, 3) as any as S.Schema<ListAgentRunsResponse>,
+  input: __S(2384, __c149, 0) as any as S.Schema<ListAgentRunsRequest>,
+  output: __S(2387, __c149, 3) as any as S.Schema<ListAgentRunsResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -3852,8 +3989,8 @@ export const listAgentSessions: API.OperationMethod<
   ListAgentSessionsError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c142, 0) as any as S.Schema<ListAgentSessionsRequest>,
-  output: __S(2274, __c142, 2) as any as S.Schema<ListAgentSessionsResponse>,
+  input: __S(2400, __c150, 0) as any as S.Schema<ListAgentSessionsRequest>,
+  output: __S(2402, __c150, 2) as any as S.Schema<ListAgentSessionsResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -3869,8 +4006,8 @@ export const listApiKeys: API.OperationMethod<
   ListApiKeysError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2288, __c143, 0) as any as S.Schema<ListApiKeysRequest>,
-  output: __S(2291, __c143, 3) as any as S.Schema<ListApiKeysResponse>,
+  input: __S(2416, __c151, 0) as any as S.Schema<ListApiKeysRequest>,
+  output: __S(2419, __c151, 3) as any as S.Schema<ListApiKeysResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -3886,8 +4023,8 @@ export const listBackups: API.OperationMethod<
   ListBackupsError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2304, __c144, 0) as any as S.Schema<ListBackupsRequest>,
-  output: __S(2307, __c144, 3) as any as S.Schema<ListBackupsResponse>,
+  input: __S(2432, __c152, 0) as any as S.Schema<ListBackupsRequest>,
+  output: __S(2435, __c152, 3) as any as S.Schema<ListBackupsResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -3903,8 +4040,8 @@ export const listBillingActivity: API.OperationMethod<
   ListBillingActivityError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2320, __c145, 0) as any as S.Schema<ListBillingActivityRequest>,
-  output: __S(2323, __c145, 3) as any as S.Schema<ListBillingActivityResponse>,
+  input: __S(2448, __c153, 0) as any as S.Schema<ListBillingActivityRequest>,
+  output: __S(2451, __c153, 3) as any as S.Schema<ListBillingActivityResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -3920,8 +4057,8 @@ export const listCheckpoints: API.OperationMethod<
   ListCheckpointsError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2336, __c146, 0) as any as S.Schema<ListCheckpointsRequest>,
-  output: __S(2339, __c146, 3) as any as S.Schema<ListCheckpointsResponse>,
+  input: __S(2464, __c154, 0) as any as S.Schema<ListCheckpointsRequest>,
+  output: __S(2467, __c154, 3) as any as S.Schema<ListCheckpointsResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -3937,8 +4074,8 @@ export const listCustomDomains: API.OperationMethod<
   ListCustomDomainsError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2352, __c147, 0) as any as S.Schema<ListCustomDomainsRequest>,
-  output: __S(2353, __c147, 1) as any as S.Schema<ListCustomDomainsResponse>,
+  input: __S(2480, __c155, 0) as any as S.Schema<ListCustomDomainsRequest>,
+  output: __S(2481, __c155, 1) as any as S.Schema<ListCustomDomainsResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -3955,8 +4092,8 @@ export const listDir: API.OperationMethod<
   ListDirError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2368, __c148, 0) as any as S.Schema<ListDirRequest>,
-  output: __S(2371, __c148, 3) as any as S.Schema<ListDirResponse>,
+  input: __S(2496, __c156, 0) as any as S.Schema<ListDirRequest>,
+  output: __S(2499, __c156, 3) as any as S.Schema<ListDirResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -3972,8 +4109,8 @@ export const listDisks: API.OperationMethod<
   ListDisksError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2384, __c149, 0) as any as S.Schema<ListDisksRequest>,
-  output: __S(2389, __c149, 5) as any as S.Schema<ListDisksResponse>,
+  input: __S(2528, __c158, 0) as any as S.Schema<ListDisksRequest>,
+  output: __S(2533, __c158, 5) as any as S.Schema<ListDisksResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -3989,8 +4126,8 @@ export const listExposedPorts: API.OperationMethod<
   ListExposedPortsError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2416, __c151, 0) as any as S.Schema<ListExposedPortsRequest>,
-  output: __S(2418, __c151, 2) as any as S.Schema<ListExposedPortsResponse>,
+  input: __S(2560, __c160, 0) as any as S.Schema<ListExposedPortsRequest>,
+  output: __S(2562, __c160, 2) as any as S.Schema<ListExposedPortsResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -4007,8 +4144,8 @@ export const listHarnesses: API.OperationMethod<
   ListHarnessesError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2448, __c153, 0) as any as S.Schema<ListHarnessesRequest>,
-  output: __S(2451, __c153, 3) as any as S.Schema<ListHarnessesResponse>,
+  input: __S(2576, __c161, 0) as any as S.Schema<ListHarnessesRequest>,
+  output: __S(2579, __c161, 3) as any as S.Schema<ListHarnessesResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -4024,8 +4161,8 @@ export const listNetworks: API.OperationMethod<
   ListNetworksError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2464, __c154, 0) as any as S.Schema<ListNetworksRequest>,
-  output: __S(2467, __c154, 3) as any as S.Schema<ListNetworksResponse>,
+  input: __S(2592, __c162, 0) as any as S.Schema<ListNetworksRequest>,
+  output: __S(2595, __c162, 3) as any as S.Schema<ListNetworksResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -4042,8 +4179,8 @@ export const listOrgs: API.OperationMethod<
   ListOrgsError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2480, __c155, 0) as any as S.Schema<ListOrgsRequest>,
-  output: __S(2483, __c155, 3) as any as S.Schema<ListOrgsResponse>,
+  input: __S(2608, __c163, 0) as any as S.Schema<ListOrgsRequest>,
+  output: __S(2611, __c163, 3) as any as S.Schema<ListOrgsResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -4059,8 +4196,8 @@ export const listProxies: API.OperationMethod<
   ListProxiesError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c156, 0) as any as S.Schema<ListProxiesRequest>,
-  output: __S(2499, __c156, 3) as any as S.Schema<ListProxiesResponse>,
+  input: __S(2624, __c164, 0) as any as S.Schema<ListProxiesRequest>,
+  output: __S(2627, __c164, 3) as any as S.Schema<ListProxiesResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -4077,8 +4214,8 @@ export const listProxyNodes: API.OperationMethod<
   ListProxyNodesError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2512, __c157, 0) as any as S.Schema<ListProxyNodesRequest>,
-  output: __S(2515, __c157, 3) as any as S.Schema<ListProxyNodesResponse>,
+  input: __S(2640, __c165, 0) as any as S.Schema<ListProxyNodesRequest>,
+  output: __S(2643, __c165, 3) as any as S.Schema<ListProxyNodesResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -4095,8 +4232,8 @@ export const listRegions: API.OperationMethod<
   ListRegionsError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2528, __c158, 0) as any as S.Schema<ListRegionsRequest>,
-  output: __S(2531, __c158, 3) as any as S.Schema<ListRegionsResponse>,
+  input: __S(2656, __c166, 0) as any as S.Schema<ListRegionsRequest>,
+  output: __S(2659, __c166, 3) as any as S.Schema<ListRegionsResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -4112,14 +4249,32 @@ export const listSnapshots: API.OperationMethod<
   ListSnapshotsError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2544, __c159, 0) as any as S.Schema<ListSnapshotsRequest>,
-  output: __S(2546, __c159, 2) as any as S.Schema<ListSnapshotsResponse>,
+  input: __S(2672, __c167, 0) as any as S.Schema<ListSnapshotsRequest>,
+  output: __S(2674, __c167, 2) as any as S.Schema<ListSnapshotsResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSnapshots",
+}));
+
+export type ListSnapshotVersionsError = BoxdOpError;
+/** The versions a snapshot keeps, newest first. Saving over a snapshot's name makes a new version; how many are kept is the org's setting (SetOrgSnapshotVersionsKeep). A machine can be created from any of them that is ready and on local disk (CreateVmFromSnapshotRequest.version). */
+export const listSnapshotVersions: API.OperationMethod<
+  ListSnapshotVersionsRequest & MaxMessageBytesInput,
+  ListSnapshotVersionsResponse,
+  ListSnapshotVersionsError,
+  BoxdOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2688, __c168, 0) as any as S.Schema<ListSnapshotVersionsRequest>,
+  output: __S(2691, __c168, 3) as any as S.Schema<ListSnapshotVersionsResponse>,
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
+  protocol: BoxdProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSnapshotVersions",
 }));
 
 export type ListTeamsError = BoxdOpError;
@@ -4130,8 +4285,8 @@ export const listTeams: API.OperationMethod<
   ListTeamsError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2560, __c160, 0) as any as S.Schema<ListTeamsRequest>,
-  output: __S(2562, __c160, 2) as any as S.Schema<ListTeamsResponse>,
+  input: __S(2720, __c170, 0) as any as S.Schema<ListTeamsRequest>,
+  output: __S(2722, __c170, 2) as any as S.Schema<ListTeamsResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -4147,8 +4302,8 @@ export const listTokens: API.OperationMethod<
   ListTokensError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2576, __c161, 0) as any as S.Schema<ListTokensRequest>,
-  output: __S(2579, __c161, 3) as any as S.Schema<ListTokensResponse>,
+  input: __S(2736, __c171, 0) as any as S.Schema<ListTokensRequest>,
+  output: __S(2739, __c171, 3) as any as S.Schema<ListTokensResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -4164,8 +4319,8 @@ export const listVars: API.OperationMethod<
   ListVarsError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2592, __c162, 0) as any as S.Schema<ListVarsRequest>,
-  output: __S(2595, __c162, 3) as any as S.Schema<ListVarsResponse>,
+  input: __S(2752, __c172, 0) as any as S.Schema<ListVarsRequest>,
+  output: __S(2755, __c172, 3) as any as S.Schema<ListVarsResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -4181,8 +4336,8 @@ export const listVms: API.OperationMethod<
   ListVmsError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2624, __c164, 0) as any as S.Schema<ListVmsRequest>,
-  output: __S(2626, __c164, 2) as any as S.Schema<ListVmsResponse>,
+  input: __S(2768, __c173, 0) as any as S.Schema<ListVmsRequest>,
+  output: __S(2770, __c173, 2) as any as S.Schema<ListVmsResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -4199,7 +4354,7 @@ export const mkdir: API.OperationMethod<
   MkdirError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2640, __c165, 0) as any as S.Schema<MkdirRequest>,
+  input: __S(2784, __c174, 0) as any as S.Schema<MkdirRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<MkdirResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
@@ -4216,7 +4371,7 @@ export const rebootVm: API.OperationMethod<
   RebootVmError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2656, __c166, 0) as any as S.Schema<RebootVmRequest>,
+  input: __S(2800, __c175, 0) as any as S.Schema<RebootVmRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<RebootVmResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
@@ -4233,7 +4388,7 @@ export const removeCustomDomain: API.OperationMethod<
   RemoveCustomDomainError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2672, __c167, 0) as any as S.Schema<RemoveCustomDomainRequest>,
+  input: __S(2816, __c176, 0) as any as S.Schema<RemoveCustomDomainRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<RemoveCustomDomainResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
@@ -4251,7 +4406,7 @@ export const removeOrgMember: API.OperationMethod<
   RemoveOrgMemberError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2688, __c168, 0) as any as S.Schema<RemoveOrgMemberRequest>,
+  input: __S(2832, __c177, 0) as any as S.Schema<RemoveOrgMemberRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<RemoveOrgMemberResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
@@ -4268,7 +4423,7 @@ export const removeTeamMember: API.OperationMethod<
   RemoveTeamMemberError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2704, __c169, 0) as any as S.Schema<RemoveTeamMemberRequest>,
+  input: __S(2848, __c178, 0) as any as S.Schema<RemoveTeamMemberRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<RemoveTeamMemberResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
@@ -4285,8 +4440,8 @@ export const removeVar: API.OperationMethod<
   RemoveVarError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2720, __c170, 0) as any as S.Schema<RemoveVarRequest>,
-  output: __S(2736, __c171, 0) as any as S.Schema<RemoveVarResponse>,
+  input: __S(2864, __c179, 0) as any as S.Schema<RemoveVarRequest>,
+  output: __S(2880, __c180, 0) as any as S.Schema<RemoveVarResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -4302,7 +4457,7 @@ export const renameOrg: API.OperationMethod<
   RenameOrgError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2752, __c172, 0) as any as S.Schema<RenameOrgRequest>,
+  input: __S(80, __c5, 0) as any as S.Schema<RenameOrgRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<RenameOrgResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
@@ -4319,7 +4474,7 @@ export const renamePath: API.OperationMethod<
   RenamePathError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2768, __c173, 0) as any as S.Schema<RenamePathRequest>,
+  input: __S(96, __c6, 0) as any as S.Schema<RenamePathRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<RenamePathResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
@@ -4336,7 +4491,7 @@ export const renameTeam: API.OperationMethod<
   RenameTeamError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2784, __c174, 0) as any as S.Schema<RenameTeamRequest>,
+  input: __S(112, __c7, 0) as any as S.Schema<RenameTeamRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<RenameTeamResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
@@ -4353,8 +4508,8 @@ export const renameVm: API.OperationMethod<
   RenameVmError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c5, 0) as any as S.Schema<RenameVmRequest>,
-  output: __S(96, __c6, 0) as any as S.Schema<RenameVmResponse>,
+  input: __S(128, __c8, 0) as any as S.Schema<RenameVmRequest>,
+  output: __S(144, __c9, 0) as any as S.Schema<RenameVmResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -4370,8 +4525,8 @@ export const requestOrgMachineLimit: API.OperationMethod<
   RequestOrgMachineLimitError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<RequestOrgMachineLimitRequest>,
-  output: __S(113, __c7, 1) as any as S.Schema<RequestOrgMachineLimitResponse>,
+  input: __S(160, __c10, 0) as any as S.Schema<RequestOrgMachineLimitRequest>,
+  output: __S(161, __c10, 1) as any as S.Schema<RequestOrgMachineLimitResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -4387,8 +4542,8 @@ export const requestOrgRegion: API.OperationMethod<
   RequestOrgRegionError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c8, 0) as any as S.Schema<RequestOrgRegionRequest>,
-  output: __S(129, __c8, 1) as any as S.Schema<RequestOrgRegionResponse>,
+  input: __S(176, __c11, 0) as any as S.Schema<RequestOrgRegionRequest>,
+  output: __S(177, __c11, 1) as any as S.Schema<RequestOrgRegionResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -4404,8 +4559,8 @@ export const resetRdpPassword: API.OperationMethod<
   ResetRdpPasswordError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<ResetRdpPasswordRequest>,
-  output: __S(145, __c9, 1) as any as S.Schema<ResetRdpPasswordResponse>,
+  input: __S(192, __c12, 0) as any as S.Schema<ResetRdpPasswordRequest>,
+  output: __S(193, __c12, 1) as any as S.Schema<ResetRdpPasswordResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -4422,8 +4577,8 @@ export const resizeVm: API.OperationMethod<
   ResizeVmError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<ResizeVmRequest>,
-  output: __S(161, __c10, 1) as any as S.Schema<ResizeVmResponse>,
+  input: __S(208, __c13, 0) as any as S.Schema<ResizeVmRequest>,
+  output: __S(209, __c13, 1) as any as S.Schema<ResizeVmResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -4440,7 +4595,7 @@ export const restoreBackup: API.OperationMethod<
   RestoreBackupError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<RestoreBackupRequest>,
+  input: __S(224, __c14, 0) as any as S.Schema<RestoreBackupRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<RestoreBackupResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
@@ -4457,7 +4612,7 @@ export const restoreCheckpoint: API.OperationMethod<
   RestoreCheckpointError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<RestoreCheckpointRequest>,
+  input: __S(240, __c15, 0) as any as S.Schema<RestoreCheckpointRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<RestoreCheckpointResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
@@ -4474,8 +4629,8 @@ export const resumeVm: API.OperationMethod<
   ResumeVmError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<ResumeVmRequest>,
-  output: __S(209, __c13, 1) as any as S.Schema<ResumeVmResponse>,
+  input: __S(272, __c17, 0) as any as S.Schema<ResumeVmRequest>,
+  output: __S(273, __c17, 1) as any as S.Schema<ResumeVmResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -4491,7 +4646,7 @@ export const revokeOrgInvite: API.OperationMethod<
   RevokeOrgInviteError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<RevokeOrgInviteRequest>,
+  input: __S(288, __c18, 0) as any as S.Schema<RevokeOrgInviteRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<RevokeOrgInviteResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
@@ -4508,7 +4663,7 @@ export const revokeToken: API.OperationMethod<
   RevokeTokenError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<RevokeTokenRequest>,
+  input: __S(304, __c19, 0) as any as S.Schema<RevokeTokenRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<RevokeTokenResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
@@ -4525,8 +4680,8 @@ export const sendToAgent: API.OperationMethod<
   SendToAgentError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c17, 0) as any as S.Schema<SendToAgentRequest>,
-  output: __S(273, __c17, 1) as any as S.Schema<SendToAgentResponse>,
+  input: __S(320, __c20, 0) as any as S.Schema<SendToAgentRequest>,
+  output: __S(321, __c20, 1) as any as S.Schema<SendToAgentResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -4542,7 +4697,7 @@ export const setAutoHibernateTimeout: API.OperationMethod<
   SetAutoHibernateTimeoutError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<SetAutoHibernateTimeoutRequest>,
+  input: __S(336, __c21, 0) as any as S.Schema<SetAutoHibernateTimeoutRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<SetAutoHibernateTimeoutResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
@@ -4559,7 +4714,7 @@ export const setAutoSuspendTimeout: API.OperationMethod<
   SetAutoSuspendTimeoutError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c19, 0) as any as S.Schema<SetAutoSuspendTimeoutRequest>,
+  input: __S(352, __c22, 0) as any as S.Schema<SetAutoSuspendTimeoutRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<SetAutoSuspendTimeoutResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
@@ -4577,7 +4732,7 @@ export const setBackupSchedule: API.OperationMethod<
   SetBackupScheduleError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<SetBackupScheduleRequest>,
+  input: __S(368, __c23, 0) as any as S.Schema<SetBackupScheduleRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<SetBackupScheduleResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
@@ -4594,7 +4749,7 @@ export const setBotProtection: API.OperationMethod<
   SetBotProtectionError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<SetBotProtectionRequest>,
+  input: __S(384, __c24, 0) as any as S.Schema<SetBotProtectionRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<SetBotProtectionResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
@@ -4611,8 +4766,8 @@ export const setDeleteAfter: API.OperationMethod<
   SetDeleteAfterError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c22, 0) as any as S.Schema<SetDeleteAfterRequest>,
-  output: __S(353, __c22, 1) as any as S.Schema<SetDeleteAfterResponse>,
+  input: __S(400, __c25, 0) as any as S.Schema<SetDeleteAfterRequest>,
+  output: __S(401, __c25, 1) as any as S.Schema<SetDeleteAfterResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -4628,7 +4783,7 @@ export const setIdleIgnoreOutbound: API.OperationMethod<
   SetIdleIgnoreOutboundError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c23, 0) as any as S.Schema<SetIdleIgnoreOutboundRequest>,
+  input: __S(416, __c26, 0) as any as S.Schema<SetIdleIgnoreOutboundRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<SetIdleIgnoreOutboundResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
@@ -4646,8 +4801,8 @@ export const setOrgBackupsDefault: API.OperationMethod<
   SetOrgBackupsDefaultError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c24, 0) as any as S.Schema<SetOrgBackupsDefaultRequest>,
-  output: __S(1872, __c117, 0) as any as S.Schema<SetOrgBackupsDefaultResponse>,
+  input: __S(448, __c28, 0) as any as S.Schema<SetOrgBackupsDefaultRequest>,
+  output: __S(1984, __c124, 0) as any as S.Schema<SetOrgBackupsDefaultResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -4664,8 +4819,8 @@ export const setOrgBotProtectionDefault: API.OperationMethod<
   SetOrgBotProtectionDefaultError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c25, 0) as any as S.Schema<SetOrgBotProtectionDefaultRequest>,
-  output: __S(401, __c25, 1) as any as S.Schema<SetOrgBotProtectionDefaultResponse>,
+  input: __S(464, __c29, 0) as any as S.Schema<SetOrgBotProtectionDefaultRequest>,
+  output: __S(465, __c29, 1) as any as S.Schema<SetOrgBotProtectionDefaultResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -4682,8 +4837,8 @@ export const setOrgDomain: API.OperationMethod<
   SetOrgDomainError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c26, 0) as any as S.Schema<SetOrgDomainRequest>,
-  output: __S(1937, __c121, 1) as any as S.Schema<SetOrgDomainResponse>,
+  input: __S(480, __c30, 0) as any as S.Schema<SetOrgDomainRequest>,
+  output: __S(2049, __c128, 1) as any as S.Schema<SetOrgDomainResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -4700,8 +4855,8 @@ export const setOrgIdleIgnoreOutboundDefault: API.OperationMethod<
   SetOrgIdleIgnoreOutboundDefaultError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c28, 0) as any as S.Schema<SetOrgIdleIgnoreOutboundDefaultRequest>,
-  output: __S(464, __c29, 0) as any as S.Schema<SetOrgIdleIgnoreOutboundDefaultResponse>,
+  input: __S(496, __c31, 0) as any as S.Schema<SetOrgIdleIgnoreOutboundDefaultRequest>,
+  output: __S(512, __c32, 0) as any as S.Schema<SetOrgIdleIgnoreOutboundDefaultResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -4718,7 +4873,7 @@ export const setOrgMachineDefaults: API.OperationMethod<
   SetOrgMachineDefaultsError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c30, 0) as any as S.Schema<SetOrgMachineDefaultsRequest>,
+  input: __S(528, __c33, 0) as any as S.Schema<SetOrgMachineDefaultsRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<SetOrgMachineDefaultsResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
@@ -4736,7 +4891,7 @@ export const setOrgMemberRole: API.OperationMethod<
   SetOrgMemberRoleError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c31, 0) as any as S.Schema<SetOrgMemberRoleRequest>,
+  input: __S(544, __c34, 0) as any as S.Schema<SetOrgMemberRoleRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<SetOrgMemberRoleResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
@@ -4753,14 +4908,32 @@ export const setOrgRdpDefault: API.OperationMethod<
   SetOrgRdpDefaultError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c32, 0) as any as S.Schema<SetOrgRdpDefaultRequest>,
-  output: __S(464, __c29, 0) as any as S.Schema<SetOrgRdpDefaultResponse>,
+  input: __S(560, __c35, 0) as any as S.Schema<SetOrgRdpDefaultRequest>,
+  output: __S(512, __c32, 0) as any as S.Schema<SetOrgRdpDefaultResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetOrgRdpDefault",
+}));
+
+export type SetOrgSnapshotVersionsKeepError = BoxdOpError;
+/** How many versions of each of its snapshots the org keeps. Saving over a snapshot's name makes a new version; the org keeps the current one and the newest ones before it, up to this count, and older ones are deleted. An org without a setting follows the platform's, which keeps the current version alone unless the cluster's operator changed it. It applies to every snapshot of the org. Lowering it permanently deletes the versions beyond the new count within a minute: `dry_run` says how many first. Raising it keeps more from the next save on; a version already deleted does not come back. Set/Clear require org admin; Get is readable by any member. */
+export const setOrgSnapshotVersionsKeep: API.OperationMethod<
+  SetOrgSnapshotVersionsKeepRequest & MaxMessageBytesInput,
+  SetOrgSnapshotVersionsKeepResponse,
+  SetOrgSnapshotVersionsKeepError,
+  BoxdOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(576, __c36, 0) as any as S.Schema<SetOrgSnapshotVersionsKeepRequest>,
+  output: __S(577, __c36, 1) as any as S.Schema<SetOrgSnapshotVersionsKeepResponse>,
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
+  protocol: BoxdProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetOrgSnapshotVersionsKeep",
 }));
 
 export type SetProxyPortError = BoxdOpError;
@@ -4770,7 +4943,7 @@ export const setProxyPort: API.OperationMethod<
   SetProxyPortError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(528, __c33, 0) as any as S.Schema<SetProxyPortRequest>,
+  input: __S(592, __c37, 0) as any as S.Schema<SetProxyPortRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<SetProxyPortResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
@@ -4787,7 +4960,7 @@ export const setRdp: API.OperationMethod<
   SetRdpError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c34, 0) as any as S.Schema<SetRdpRequest>,
+  input: __S(608, __c38, 0) as any as S.Schema<SetRdpRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<SetRdpResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
@@ -4804,14 +4977,32 @@ export const setSecretScope: API.OperationMethod<
   SetSecretScopeError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c35, 0) as any as S.Schema<SetSecretScopeRequest>,
-  output: __S(2736, __c171, 0) as any as S.Schema<SetSecretScopeResponse>,
+  input: __S(640, __c40, 0) as any as S.Schema<SetSecretScopeRequest>,
+  output: __S(2880, __c180, 0) as any as S.Schema<SetSecretScopeResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetSecretScope",
+}));
+
+export type SetSnapshotCurrentVersionError = BoxdOpError;
+/** Make one of a snapshot's versions its current one (a staged version, or an older one to roll back to). */
+export const setSnapshotCurrentVersion: API.OperationMethod<
+  SetSnapshotCurrentVersionRequest & MaxMessageBytesInput,
+  SetSnapshotCurrentVersionResponse,
+  SetSnapshotCurrentVersionError,
+  BoxdOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(656, __c41, 0) as any as S.Schema<SetSnapshotCurrentVersionRequest>,
+  output: __S(657, __c41, 1) as any as S.Schema<SetSnapshotCurrentVersionResponse>,
+  errors: [],
+  serviceErrors: BoxdServiceErrors,
+  protocol: BoxdProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetSnapshotCurrentVersion",
 }));
 
 export type SetSshError = BoxdOpError;
@@ -4821,7 +5012,7 @@ export const setSsh: API.OperationMethod<
   SetSshError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c36, 0) as any as S.Schema<SetSshRequest>,
+  input: __S(672, __c42, 0) as any as S.Schema<SetSshRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<SetSshResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
@@ -4839,7 +5030,7 @@ export const setTeamDefaultSnapshot: API.OperationMethod<
   SetTeamDefaultSnapshotError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c37, 0) as any as S.Schema<SetTeamDefaultSnapshotRequest>,
+  input: __S(688, __c43, 0) as any as S.Schema<SetTeamDefaultSnapshotRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<SetTeamDefaultSnapshotResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
@@ -4856,7 +5047,7 @@ export const setTeamMemberRole: API.OperationMethod<
   SetTeamMemberRoleError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c38, 0) as any as S.Schema<SetTeamMemberRoleRequest>,
+  input: __S(704, __c44, 0) as any as S.Schema<SetTeamMemberRoleRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<SetTeamMemberRoleResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
@@ -4874,8 +5065,8 @@ export const setVar: API.OperationMethod<
   SetVarError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c40, 0) as any as S.Schema<SetVarRequest>,
-  output: __S(2736, __c171, 0) as any as S.Schema<SetVarResponse>,
+  input: __S(720, __c45, 0) as any as S.Schema<SetVarRequest>,
+  output: __S(2880, __c180, 0) as any as S.Schema<SetVarResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -4892,8 +5083,8 @@ export const setVmEgressAllow: API.OperationMethod<
   SetVmEgressAllowError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(656, __c41, 0) as any as S.Schema<SetVmEgressAllowRequest>,
-  output: __S(657, __c41, 1) as any as S.Schema<SetVmEgressAllowResponse>,
+  input: __S(736, __c46, 0) as any as S.Schema<SetVmEgressAllowRequest>,
+  output: __S(737, __c46, 1) as any as S.Schema<SetVmEgressAllowResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -4910,8 +5101,8 @@ export const setVmNetworks: API.OperationMethod<
   SetVmNetworksError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c42, 0) as any as S.Schema<SetVmNetworksRequest>,
-  output: __S(673, __c42, 1) as any as S.Schema<SetVmNetworksResponse>,
+  input: __S(752, __c47, 0) as any as S.Schema<SetVmNetworksRequest>,
+  output: __S(753, __c47, 1) as any as S.Schema<SetVmNetworksResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -4928,7 +5119,7 @@ export const shareVm: API.OperationMethod<
   ShareVmError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(688, __c43, 0) as any as S.Schema<ShareVmRequest>,
+  input: __S(768, __c48, 0) as any as S.Schema<ShareVmRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<ShareVmResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
@@ -4946,8 +5137,8 @@ export const startAgentLogin: API.OperationMethod<
   StartAgentLoginError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c44, 0) as any as S.Schema<StartAgentLoginRequest>,
-  output: __S(705, __c44, 1) as any as S.Schema<StartAgentLoginResponse>,
+  input: __S(784, __c49, 0) as any as S.Schema<StartAgentLoginRequest>,
+  output: __S(785, __c49, 1) as any as S.Schema<StartAgentLoginResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -4963,8 +5154,8 @@ export const startAgentSession: API.OperationMethod<
   StartAgentSessionError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(720, __c45, 0) as any as S.Schema<StartAgentSessionRequest>,
-  output: __S(1760, __c110, 0) as any as S.Schema<StartAgentSessionResponse>,
+  input: __S(816, __c51, 0) as any as S.Schema<StartAgentSessionRequest>,
+  output: __S(1872, __c117, 0) as any as S.Schema<StartAgentSessionResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -4980,7 +5171,7 @@ export const startVm: API.OperationMethod<
   StartVmError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c46, 0) as any as S.Schema<StartVmRequest>,
+  input: __S(832, __c52, 0) as any as S.Schema<StartVmRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<StartVmResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
@@ -4997,7 +5188,7 @@ export const stopVm: API.OperationMethod<
   StopVmError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(752, __c47, 0) as any as S.Schema<StopVmRequest>,
+  input: __S(848, __c53, 0) as any as S.Schema<StopVmRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<StopVmResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
@@ -5014,8 +5205,8 @@ export const streamLogs: API.StreamingOperationMethod<
   StreamLogsError,
   BoxdOpContext
 > = /*@__PURE__*/ API.makeStreaming(() => ({
-  input: __S(768, __c48, 0) as any as S.Schema<StreamLogsRequest>,
-  output: __S(770, __c48, 2) as any as S.Schema<StreamLogsStream>,
+  input: __S(864, __c54, 0) as any as S.Schema<StreamLogsRequest>,
+  output: __S(866, __c54, 2) as any as S.Schema<StreamLogsStream>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -5032,8 +5223,8 @@ export const suggestVmName: API.OperationMethod<
   SuggestVmNameError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(784, __c49, 0) as any as S.Schema<SuggestVmNameRequest>,
-  output: __S(96, __c6, 0) as any as S.Schema<SuggestVmNameResponse>,
+  input: __S(880, __c55, 0) as any as S.Schema<SuggestVmNameRequest>,
+  output: __S(144, __c9, 0) as any as S.Schema<SuggestVmNameResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -5049,8 +5240,8 @@ export const suspendVm: API.OperationMethod<
   SuspendVmError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(816, __c51, 0) as any as S.Schema<SuspendVmRequest>,
-  output: __S(817, __c51, 1) as any as S.Schema<SuspendVmResponse>,
+  input: __S(896, __c56, 0) as any as S.Schema<SuspendVmRequest>,
+  output: __S(897, __c56, 1) as any as S.Schema<SuspendVmResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -5067,8 +5258,8 @@ export const triggerBackup: API.OperationMethod<
   TriggerBackupError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c52, 0) as any as S.Schema<TriggerBackupRequest>,
-  output: __S(833, __c52, 1) as any as S.Schema<TriggerBackupResponse>,
+  input: __S(912, __c57, 0) as any as S.Schema<TriggerBackupRequest>,
+  output: __S(913, __c57, 1) as any as S.Schema<TriggerBackupResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -5085,8 +5276,8 @@ export const unarchiveSnapshot: API.OperationMethod<
   UnarchiveSnapshotError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(848, __c53, 0) as any as S.Schema<UnarchiveSnapshotRequest>,
-  output: __S(849, __c53, 1) as any as S.Schema<UnarchiveSnapshotResponse>,
+  input: __S(928, __c58, 0) as any as S.Schema<UnarchiveSnapshotRequest>,
+  output: __S(929, __c58, 1) as any as S.Schema<UnarchiveSnapshotResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -5102,8 +5293,8 @@ export const unexposePort: API.OperationMethod<
   UnexposePortError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c54, 0) as any as S.Schema<UnexposePortRequest>,
-  output: __S(865, __c54, 1) as any as S.Schema<UnexposePortResponse>,
+  input: __S(944, __c59, 0) as any as S.Schema<UnexposePortRequest>,
+  output: __S(945, __c59, 1) as any as S.Schema<UnexposePortResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -5119,7 +5310,7 @@ export const unshareVm: API.OperationMethod<
   UnshareVmError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(880, __c55, 0) as any as S.Schema<UnshareVmRequest>,
+  input: __S(960, __c60, 0) as any as S.Schema<UnshareVmRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<UnshareVmResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
@@ -5137,8 +5328,8 @@ export const updateMachineSpec: API.OperationMethod<
   UpdateMachineSpecError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c56, 0) as any as S.Schema<UpdateMachineSpecRequest>,
-  output: __S(899, __c56, 3) as any as S.Schema<UpdateMachineSpecResponse>,
+  input: __S(1008, __c63, 0) as any as S.Schema<UpdateMachineSpecRequest>,
+  output: __S(1011, __c63, 3) as any as S.Schema<UpdateMachineSpecResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -5155,8 +5346,8 @@ export const updateVmLabels: API.OperationMethod<
   UpdateVmLabelsError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(912, __c57, 0) as any as S.Schema<UpdateVmLabelsRequest>,
-  output: __S(913, __c57, 1) as any as S.Schema<UpdateVmLabelsResponse>,
+  input: __S(1024, __c64, 0) as any as S.Schema<UpdateVmLabelsRequest>,
+  output: __S(1025, __c64, 1) as any as S.Schema<UpdateVmLabelsResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -5172,8 +5363,8 @@ export const uploadFile: API.OperationMethod<
   UploadFileError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c58, 0) as any as S.Schema<UploadFileRequest>,
-  output: __S(929, __c58, 1) as any as S.Schema<UploadFileResponse>,
+  input: __S(1040, __c65, 0) as any as S.Schema<UploadFileRequest>,
+  output: __S(1041, __c65, 1) as any as S.Schema<UploadFileResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -5189,7 +5380,7 @@ export const wakeVm: API.OperationMethod<
   WakeVmError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(944, __c59, 0) as any as S.Schema<WakeVmRequest>,
+  input: __S(1056, __c66, 0) as any as S.Schema<WakeVmRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<WakeVmResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
@@ -5206,8 +5397,8 @@ export const whoami: API.OperationMethod<
   WhoamiError,
   BoxdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c60, 0) as any as S.Schema<WhoamiRequest>,
-  output: __S(961, __c60, 1) as any as S.Schema<WhoamiResponse>,
+  input: __S(1072, __c67, 0) as any as S.Schema<WhoamiRequest>,
+  output: __S(1073, __c67, 1) as any as S.Schema<WhoamiResponse>,
   errors: [],
   serviceErrors: BoxdServiceErrors,
   protocol: BoxdProtocol,
@@ -5291,13 +5482,47 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          orgId: S.optional(S.String),
+          name: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/boxd.api.v1.BoxdApi/RenameOrg", code: 200 })),
+      ).annotate({ identifier: "RenameOrgRequest" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          vmId: S.optional(S.String),
+          oldPath: S.optional(S.String),
+          newPath: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/boxd.api.v1.BoxdApi/RenamePath", code: 200 })),
+      ).annotate({ identifier: "RenamePathRequest" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          teamId: S.optional(S.String),
+          name: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/boxd.api.v1.BoxdApi/RenameTeam", code: 200 })),
+      ).annotate({ identifier: "RenameTeamRequest" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           vmId: S.optional(S.String),
           newName: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/boxd.api.v1.BoxdApi/RenameVm", code: 200 })),
       ).annotate({ identifier: "RenameVmRequest" });
   }
 }
-function __c6(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5307,7 +5532,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "RenameVmResponse" });
   }
 }
-function __c7(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5328,7 +5553,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "RequestOrgMachineLimitResponse" });
   }
 }
-function __c8(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5347,7 +5572,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "RequestOrgRegionResponse" });
   }
 }
-function __c9(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5366,7 +5591,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "ResetRdpPasswordResponse" });
   }
 }
-function __c10(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5386,7 +5611,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "ResizeVmResponse" });
   }
 }
-function __c11(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5397,7 +5622,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "RestoreBackupRequest" });
   }
 }
-function __c12(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5408,42 +5633,6 @@ function __c12(j: number): any {
           T.Http({ method: "POST", uri: "/boxd.api.v1.BoxdApi/RestoreCheckpoint", code: 200 }),
         ),
       ).annotate({ identifier: "RestoreCheckpointRequest" });
-  }
-}
-function __c13(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          vmId: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/boxd.api.v1.BoxdApi/ResumeVm", code: 200 })),
-      ).annotate({ identifier: "ResumeVmRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          resumeUs: S.String,
-        }),
-      ).annotate({ identifier: "ResumeVmResponse" });
-  }
-}
-function __c14(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
-        }).pipe(T.Http({ method: "POST", uri: "/boxd.api.v1.BoxdApi/RevokeOrgInvite", code: 200 })),
-      ).annotate({ identifier: "RevokeOrgInviteRequest" });
-  }
-}
-function __c15(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          jti: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/boxd.api.v1.BoxdApi/RevokeToken", code: 200 })),
-      ).annotate({ identifier: "RevokeTokenRequest" });
   }
 }
 function __c16(j: number): any {
@@ -5474,6 +5663,42 @@ function __c17(j: number): any {
       return S.suspend(() =>
         S.Struct({
           vmId: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/boxd.api.v1.BoxdApi/ResumeVm", code: 200 })),
+      ).annotate({ identifier: "ResumeVmRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          resumeUs: S.String,
+        }),
+      ).annotate({ identifier: "ResumeVmResponse" });
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
+        }).pipe(T.Http({ method: "POST", uri: "/boxd.api.v1.BoxdApi/RevokeOrgInvite", code: 200 })),
+      ).annotate({ identifier: "RevokeOrgInviteRequest" });
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          jti: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/boxd.api.v1.BoxdApi/RevokeToken", code: 200 })),
+      ).annotate({ identifier: "RevokeTokenRequest" });
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          vmId: S.optional(S.String),
           sessionId: S.optional(S.String),
           text: S.optional(S.String),
           when: S.optional(S.String),
@@ -5491,7 +5716,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "SendToAgentResponse" });
   }
 }
-function __c18(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5508,7 +5733,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "SetAutoHibernateTimeoutRequest" });
   }
 }
-function __c19(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5521,7 +5746,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "SetAutoSuspendTimeoutRequest" });
   }
 }
-function __c20(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5536,7 +5761,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "SetBackupScheduleRequest" });
   }
 }
-function __c21(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5550,7 +5775,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "SetBotProtectionRequest" });
   }
 }
-function __c22(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5568,7 +5793,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "SetDeleteAfterResponse" });
   }
 }
-function __c23(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5579,59 +5804,6 @@ function __c23(j: number): any {
           T.Http({ method: "POST", uri: "/boxd.api.v1.BoxdApi/SetIdleIgnoreOutbound", code: 200 }),
         ),
       ).annotate({ identifier: "SetIdleIgnoreOutboundRequest" });
-  }
-}
-function __c24(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          orgId: S.optional(S.String),
-          periodSecs: S.optional(S.Number),
-          retentionSecs: S.optional(S.Number),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/boxd.api.v1.BoxdApi/SetOrgBackupsDefault", code: 200 }),
-        ),
-      ).annotate({ identifier: "SetOrgBackupsDefaultRequest" });
-  }
-}
-function __c25(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          orgId: S.optional(S.String),
-          mode: S.optional(S.String),
-          newMachinesOnly: S.optional(S.Boolean),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/boxd.api.v1.BoxdApi/SetOrgBotProtectionDefault",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "SetOrgBotProtectionDefaultRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          machinesChanged: S.Number,
-          snapshotsChanged: S.Number,
-          machinesOff: S.Number,
-          machinesSkipped: S.Number,
-        }),
-      ).annotate({ identifier: "SetOrgBotProtectionDefaultResponse" });
-  }
-}
-function __c26(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          orgId: S.optional(S.String),
-          domain: S.optional(S.String),
-          region: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/boxd.api.v1.BoxdApi/SetOrgDomain", code: 200 })),
-      ).annotate({ identifier: "SetOrgDomainRequest" });
   }
 }
 function __c27(j: number): any {
@@ -5659,6 +5831,59 @@ function __c28(j: number): any {
       return S.suspend(() =>
         S.Struct({
           orgId: S.optional(S.String),
+          periodSecs: S.optional(S.Number),
+          retentionSecs: S.optional(S.Number),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/boxd.api.v1.BoxdApi/SetOrgBackupsDefault", code: 200 }),
+        ),
+      ).annotate({ identifier: "SetOrgBackupsDefaultRequest" });
+  }
+}
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          orgId: S.optional(S.String),
+          mode: S.optional(S.String),
+          newMachinesOnly: S.optional(S.Boolean),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/boxd.api.v1.BoxdApi/SetOrgBotProtectionDefault",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "SetOrgBotProtectionDefaultRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          machinesChanged: S.Number,
+          snapshotsChanged: S.Number,
+          machinesOff: S.Number,
+          machinesSkipped: S.Number,
+        }),
+      ).annotate({ identifier: "SetOrgBotProtectionDefaultResponse" });
+  }
+}
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          orgId: S.optional(S.String),
+          domain: S.optional(S.String),
+          region: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/boxd.api.v1.BoxdApi/SetOrgDomain", code: 200 })),
+      ).annotate({ identifier: "SetOrgDomainRequest" });
+  }
+}
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          orgId: S.optional(S.String),
           enabled: S.optional(S.Boolean),
           applyExisting: S.optional(S.Boolean),
           newMachinesOnly: S.optional(S.Boolean),
@@ -5672,7 +5897,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "SetOrgIdleIgnoreOutboundDefaultRequest" });
   }
 }
-function __c29(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5684,7 +5909,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "SetOrgIdleIgnoreOutboundDefaultResponse" });
   }
 }
-function __c30(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5699,7 +5924,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "SetOrgMachineDefaultsRequest" });
   }
 }
-function __c31(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5713,7 +5938,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "SetOrgMemberRoleRequest" });
   }
 }
-function __c32(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5727,7 +5952,35 @@ function __c32(j: number): any {
       ).annotate({ identifier: "SetOrgRdpDefaultRequest" });
   }
 }
-function __c33(j: number): any {
+function __c36(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          orgId: S.optional(S.String),
+          keep: S.optional(S.Number),
+          dryRun: S.optional(S.Boolean),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/boxd.api.v1.BoxdApi/SetOrgSnapshotVersionsKeep",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "SetOrgSnapshotVersionsKeepRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          set: S.Boolean,
+          keep: S.Number,
+          platformKeep: S.Number,
+          maxKeep: S.Number,
+          versionsDeleted: S.Number,
+        }),
+      ).annotate({ identifier: "SetOrgSnapshotVersionsKeepResponse" });
+  }
+}
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5740,7 +5993,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "SetProxyPortRequest" });
   }
 }
-function __c34(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5749,57 +6002,6 @@ function __c34(j: number): any {
           enabled: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/boxd.api.v1.BoxdApi/SetRdp", code: 200 })),
       ).annotate({ identifier: "SetRdpRequest" });
-  }
-}
-function __c35(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          org: S.optional(S.String),
-          name: S.optional(S.String),
-          from: S.optional(S.String),
-          to: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/boxd.api.v1.BoxdApi/SetSecretScope", code: 200 })),
-      ).annotate({ identifier: "SetSecretScopeRequest" });
-  }
-}
-function __c36(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          vmId: S.optional(S.String),
-          enabled: S.optional(S.Boolean),
-        }).pipe(T.Http({ method: "POST", uri: "/boxd.api.v1.BoxdApi/SetSsh", code: 200 })),
-      ).annotate({ identifier: "SetSshRequest" });
-  }
-}
-function __c37(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          teamId: S.optional(S.String),
-          snapshotId: S.optional(S.String),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/boxd.api.v1.BoxdApi/SetTeamDefaultSnapshot", code: 200 }),
-        ),
-      ).annotate({ identifier: "SetTeamDefaultSnapshotRequest" });
-  }
-}
-function __c38(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          teamId: S.optional(S.String),
-          userId: S.optional(S.String),
-          role: S.optional(S.String),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/boxd.api.v1.BoxdApi/SetTeamMemberRole", code: 200 }),
-        ),
-      ).annotate({ identifier: "SetTeamMemberRoleRequest" });
   }
 }
 function __c39(j: number): any {
@@ -5829,6 +6031,85 @@ function __c40(j: number): any {
       return S.suspend(() =>
         S.Struct({
           org: S.optional(S.String),
+          name: S.optional(S.String),
+          from: S.optional(S.String),
+          to: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/boxd.api.v1.BoxdApi/SetSecretScope", code: 200 })),
+      ).annotate({ identifier: "SetSecretScopeRequest" });
+  }
+}
+function __c41(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          snapshot: S.optional(S.String),
+          org: S.optional(S.String),
+          version: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/boxd.api.v1.BoxdApi/SetSnapshotCurrentVersion",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "SetSnapshotCurrentVersionRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          snapshotId: S.String,
+          name: S.String,
+          version: S.String,
+          previousVersion: S.String,
+          changed: S.Boolean,
+        }),
+      ).annotate({ identifier: "SetSnapshotCurrentVersionResponse" });
+  }
+}
+function __c42(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          vmId: S.optional(S.String),
+          enabled: S.optional(S.Boolean),
+        }).pipe(T.Http({ method: "POST", uri: "/boxd.api.v1.BoxdApi/SetSsh", code: 200 })),
+      ).annotate({ identifier: "SetSshRequest" });
+  }
+}
+function __c43(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          teamId: S.optional(S.String),
+          snapshotId: S.optional(S.String),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/boxd.api.v1.BoxdApi/SetTeamDefaultSnapshot", code: 200 }),
+        ),
+      ).annotate({ identifier: "SetTeamDefaultSnapshotRequest" });
+  }
+}
+function __c44(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          teamId: S.optional(S.String),
+          userId: S.optional(S.String),
+          role: S.optional(S.String),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/boxd.api.v1.BoxdApi/SetTeamMemberRole", code: 200 }),
+        ),
+      ).annotate({ identifier: "SetTeamMemberRoleRequest" });
+  }
+}
+function __c45(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          org: S.optional(S.String),
           kind: S.optional(S.String),
           name: S.optional(S.String),
           value: S.optional(S.String.pipe(T.SensitiveValue({}))),
@@ -5839,7 +6120,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "SetVarRequest" });
   }
 }
-function __c41(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5858,7 +6139,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "SetVmEgressAllowResponse" });
   }
 }
-function __c42(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5875,7 +6156,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "SetVmNetworksResponse" });
   }
 }
-function __c43(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5885,7 +6166,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "ShareVmRequest" });
   }
 }
-function __c44(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5906,74 +6187,6 @@ function __c44(j: number): any {
           intervalSecs: S.Number,
         }),
       ).annotate({ identifier: "StartAgentLoginResponse" });
-  }
-}
-function __c45(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          vmId: S.optional(S.String),
-          harness: S.optional(S.String),
-          model: S.optional(S.String),
-          cwd: S.optional(S.String),
-          instructions: S.optional(S.String),
-          env: S.optional(__S(1232, __c77, 0)),
-          requestId: S.optional(S.String),
-          effort: S.optional(S.String),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/boxd.api.v1.BoxdApi/StartAgentSession", code: 200 }),
-        ),
-      ).annotate({ identifier: "StartAgentSessionRequest" });
-  }
-}
-function __c46(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          vmId: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/boxd.api.v1.BoxdApi/StartVm", code: 200 })),
-      ).annotate({ identifier: "StartVmRequest" });
-  }
-}
-function __c47(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          vmId: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/boxd.api.v1.BoxdApi/StopVm", code: 200 })),
-      ).annotate({ identifier: "StopVmRequest" });
-  }
-}
-function __c48(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          vmId: S.optional(S.String),
-          follow: S.optional(S.Boolean),
-        }).pipe(T.Http({ method: "POST", uri: "/boxd.api.v1.BoxdApi/StreamLogs", code: 200 })),
-      ).annotate({ identifier: "StreamLogsRequest" });
-    case 1:
-      return S.Array(__S(1488, __c93, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          items: __S(769, __c48, 1),
-        }),
-      ).annotate({ identifier: "StreamLogsStream" });
-  }
-}
-function __c49(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(
-          T.Http({ method: "POST", uri: "/boxd.api.v1.BoxdApi/SuggestVmName", code: 200 }),
-        ),
-      ).annotate({ identifier: "SuggestVmNameRequest" });
   }
 }
 function __c50(j: number): any {
@@ -6002,6 +6215,74 @@ function __c51(j: number): any {
       return S.suspend(() =>
         S.Struct({
           vmId: S.optional(S.String),
+          harness: S.optional(S.String),
+          model: S.optional(S.String),
+          cwd: S.optional(S.String),
+          instructions: S.optional(S.String),
+          env: S.optional(__S(1344, __c84, 0)),
+          requestId: S.optional(S.String),
+          effort: S.optional(S.String),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/boxd.api.v1.BoxdApi/StartAgentSession", code: 200 }),
+        ),
+      ).annotate({ identifier: "StartAgentSessionRequest" });
+  }
+}
+function __c52(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          vmId: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/boxd.api.v1.BoxdApi/StartVm", code: 200 })),
+      ).annotate({ identifier: "StartVmRequest" });
+  }
+}
+function __c53(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          vmId: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/boxd.api.v1.BoxdApi/StopVm", code: 200 })),
+      ).annotate({ identifier: "StopVmRequest" });
+  }
+}
+function __c54(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          vmId: S.optional(S.String),
+          follow: S.optional(S.Boolean),
+        }).pipe(T.Http({ method: "POST", uri: "/boxd.api.v1.BoxdApi/StreamLogs", code: 200 })),
+      ).annotate({ identifier: "StreamLogsRequest" });
+    case 1:
+      return S.Array(__S(1600, __c100, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          items: __S(865, __c54, 1),
+        }),
+      ).annotate({ identifier: "StreamLogsStream" });
+  }
+}
+function __c55(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(
+          T.Http({ method: "POST", uri: "/boxd.api.v1.BoxdApi/SuggestVmName", code: 200 }),
+        ),
+      ).annotate({ identifier: "SuggestVmNameRequest" });
+  }
+}
+function __c56(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          vmId: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/boxd.api.v1.BoxdApi/SuspendVm", code: 200 })),
       ).annotate({ identifier: "SuspendVmRequest" });
     case 1:
@@ -6012,7 +6293,7 @@ function __c51(j: number): any {
       ).annotate({ identifier: "SuspendVmResponse" });
   }
 }
-function __c52(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6028,7 +6309,7 @@ function __c52(j: number): any {
       ).annotate({ identifier: "TriggerBackupResponse" });
   }
 }
-function __c53(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6042,13 +6323,13 @@ function __c53(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          snapshot: S.optional(__S(2096, __c131, 0)),
+          snapshot: S.optional(__S(2224, __c139, 0)),
           message: S.String,
         }),
       ).annotate({ identifier: "UnarchiveSnapshotResponse" });
   }
 }
-function __c54(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6061,12 +6342,12 @@ function __c54(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          forward: S.optional(__S(1536, __c96, 0)),
+          forward: S.optional(__S(1648, __c103, 0)),
         }),
       ).annotate({ identifier: "UnexposePortResponse" });
   }
 }
-function __c55(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6074,119 +6355,6 @@ function __c55(j: number): any {
           vmId: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/boxd.api.v1.BoxdApi/UnshareVm", code: 200 })),
       ).annotate({ identifier: "UnshareVmRequest" });
-  }
-}
-function __c56(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          vm: S.optional(S.String),
-          patch: S.optional(S.String),
-          dryRun: S.optional(S.Boolean),
-          reboot: S.optional(S.Boolean),
-          retryPackages: S.optional(S.Boolean),
-          expectedSpec: S.optional(S.String),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/boxd.api.v1.BoxdApi/UpdateMachineSpec", code: 200 }),
-        ),
-      ).annotate({ identifier: "UpdateMachineSpecRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          field: S.String,
-          apply: S.String,
-          added: __S(992, __c62, 0),
-          removed: __S(992, __c62, 0),
-          changed: __S(992, __c62, 0),
-          before: S.String,
-          after: S.String,
-          note: S.String,
-          warnings: __S(992, __c62, 0),
-          skipped: __S(992, __c62, 0),
-          unskipped: __S(992, __c62, 0),
-        }),
-      ).annotate({ identifier: "MachineSpecChange" });
-    case 2:
-      return S.Array(__S(897, __c56, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          changes: __S(898, __c56, 2),
-          rebootRequired: S.Boolean,
-          rebootRecommended: S.Boolean,
-          spec: S.optional(__S(1249, __c78, 1)),
-          applied: S.Boolean,
-          rebooted: S.Boolean,
-          resizeError: S.String,
-        }),
-      ).annotate({ identifier: "UpdateMachineSpecResponse" });
-  }
-}
-function __c57(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          vm: S.optional(S.String),
-          set: S.optional(__S(1232, __c77, 0)),
-          remove: S.optional(__S(992, __c62, 0)),
-          replaceAll: S.optional(S.Boolean),
-        }).pipe(T.Http({ method: "POST", uri: "/boxd.api.v1.BoxdApi/UpdateVmLabels", code: 200 })),
-      ).annotate({ identifier: "UpdateVmLabelsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          labels: __S(1232, __c77, 0),
-        }),
-      ).annotate({ identifier: "UpdateVmLabelsResponse" });
-  }
-}
-function __c58(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          vmId: S.optional(S.String),
-          path: S.optional(S.String),
-          data: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/boxd.api.v1.BoxdApi/UploadFile", code: 200 })),
-      ).annotate({ identifier: "UploadFileRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          bytesWritten: S.String,
-        }),
-      ).annotate({ identifier: "UploadFileResponse" });
-  }
-}
-function __c59(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          vmId: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/boxd.api.v1.BoxdApi/WakeVm", code: 200 })),
-      ).annotate({ identifier: "WakeVmRequest" });
-  }
-}
-function __c60(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(
-          T.Http({ method: "POST", uri: "/boxd.api.v1.BoxdApi/Whoami", code: 200 }),
-        ),
-      ).annotate({ identifier: "WhoamiRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          userId: S.String,
-          pubkeyFingerprints: __S(992, __c62, 0),
-          billing: S.optional(__S(1824, __c114, 0)),
-          displayName: S.String,
-        }),
-      ).annotate({ identifier: "WhoamiResponse" });
   }
 }
 function __c61(j: number): any {
@@ -6222,6 +6390,119 @@ function __c63(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          vm: S.optional(S.String),
+          patch: S.optional(S.String),
+          dryRun: S.optional(S.Boolean),
+          reboot: S.optional(S.Boolean),
+          retryPackages: S.optional(S.Boolean),
+          expectedSpec: S.optional(S.String),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/boxd.api.v1.BoxdApi/UpdateMachineSpec", code: 200 }),
+        ),
+      ).annotate({ identifier: "UpdateMachineSpecRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          field: S.String,
+          apply: S.String,
+          added: __S(992, __c62, 0),
+          removed: __S(992, __c62, 0),
+          changed: __S(992, __c62, 0),
+          before: S.String,
+          after: S.String,
+          note: S.String,
+          warnings: __S(992, __c62, 0),
+          skipped: __S(992, __c62, 0),
+          unskipped: __S(992, __c62, 0),
+        }),
+      ).annotate({ identifier: "MachineSpecChange" });
+    case 2:
+      return S.Array(__S(1009, __c63, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          changes: __S(1010, __c63, 2),
+          rebootRequired: S.Boolean,
+          rebootRecommended: S.Boolean,
+          spec: S.optional(__S(1361, __c85, 1)),
+          applied: S.Boolean,
+          rebooted: S.Boolean,
+          resizeError: S.String,
+        }),
+      ).annotate({ identifier: "UpdateMachineSpecResponse" });
+  }
+}
+function __c64(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          vm: S.optional(S.String),
+          set: S.optional(__S(1344, __c84, 0)),
+          remove: S.optional(__S(992, __c62, 0)),
+          replaceAll: S.optional(S.Boolean),
+        }).pipe(T.Http({ method: "POST", uri: "/boxd.api.v1.BoxdApi/UpdateVmLabels", code: 200 })),
+      ).annotate({ identifier: "UpdateVmLabelsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          labels: __S(1344, __c84, 0),
+        }),
+      ).annotate({ identifier: "UpdateVmLabelsResponse" });
+  }
+}
+function __c65(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          vmId: S.optional(S.String),
+          path: S.optional(S.String),
+          data: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/boxd.api.v1.BoxdApi/UploadFile", code: 200 })),
+      ).annotate({ identifier: "UploadFileRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          bytesWritten: S.String,
+        }),
+      ).annotate({ identifier: "UploadFileResponse" });
+  }
+}
+function __c66(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          vmId: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/boxd.api.v1.BoxdApi/WakeVm", code: 200 })),
+      ).annotate({ identifier: "WakeVmRequest" });
+  }
+}
+function __c67(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(
+          T.Http({ method: "POST", uri: "/boxd.api.v1.BoxdApi/Whoami", code: 200 }),
+        ),
+      ).annotate({ identifier: "WhoamiRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          userId: S.String,
+          pubkeyFingerprints: __S(992, __c62, 0),
+          billing: S.optional(__S(1936, __c121, 0)),
+          displayName: S.String,
+        }),
+      ).annotate({ identifier: "WhoamiResponse" });
+  }
+}
+function __c68(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           name: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/boxd.api.v1.BoxdApi/CreateNetwork", code: 200 })),
       ).annotate({ identifier: "CreateNetworkRequest" });
@@ -6233,7 +6514,7 @@ function __c63(j: number): any {
       ).annotate({ identifier: "CreateNetworkResponse" });
   }
 }
-function __c64(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6250,7 +6531,7 @@ function __c64(j: number): any {
       ).annotate({ identifier: "CreateOrgResponse" });
   }
 }
-function __c65(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6272,7 +6553,7 @@ function __c65(j: number): any {
       ).annotate({ identifier: "CreateProxyResponse" });
   }
 }
-function __c66(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6281,7 +6562,11 @@ function __c66(j: number): any {
           name: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/boxd.api.v1.BoxdApi/CreateSnapshot", code: 200 })),
       ).annotate({ identifier: "CreateSnapshotRequest" });
-    case 1:
+  }
+}
+function __c72(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           snapshotId: S.String,
@@ -6293,7 +6578,7 @@ function __c66(j: number): any {
       ).annotate({ identifier: "CreateSnapshotResponse" });
   }
 }
-function __c67(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6349,11 +6634,11 @@ function __c67(j: number): any {
         }),
       ).annotate({ identifier: "AgentPlanItem" });
     case 7:
-      return S.Array(__S(1078, __c67, 6));
+      return S.Array(__S(1174, __c73, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          items: __S(1079, __c67, 7),
+          items: __S(1175, __c73, 7),
         }),
       ).annotate({ identifier: "AgentPlan" });
     case 9:
@@ -6370,29 +6655,29 @@ function __c67(j: number): any {
           turn: S.String,
           timeMs: S.String,
           turnStarted: S.optional(__S(48, __c3, 0)),
-          userMessage: S.optional(__S(1073, __c67, 1)),
-          messageDelta: S.optional(__S(1074, __c67, 2)),
-          message: S.optional(__S(1074, __c67, 2)),
-          thinkingDelta: S.optional(__S(1074, __c67, 2)),
-          toolStarted: S.optional(__S(1075, __c67, 3)),
-          toolOutput: S.optional(__S(1076, __c67, 4)),
-          toolFinished: S.optional(__S(1077, __c67, 5)),
-          plan: S.optional(__S(1080, __c67, 8)),
-          usage: S.optional(__S(1088, __c68, 0)),
-          turnFinished: S.optional(__S(1081, __c67, 9)),
+          userMessage: S.optional(__S(1169, __c73, 1)),
+          messageDelta: S.optional(__S(1170, __c73, 2)),
+          message: S.optional(__S(1170, __c73, 2)),
+          thinkingDelta: S.optional(__S(1170, __c73, 2)),
+          toolStarted: S.optional(__S(1171, __c73, 3)),
+          toolOutput: S.optional(__S(1172, __c73, 4)),
+          toolFinished: S.optional(__S(1173, __c73, 5)),
+          plan: S.optional(__S(1176, __c73, 8)),
+          usage: S.optional(__S(1184, __c74, 0)),
+          turnFinished: S.optional(__S(1177, __c73, 9)),
         }),
       ).annotate({ identifier: "AgentEvent" });
     case 11:
-      return S.Array(__S(1082, __c67, 10));
+      return S.Array(__S(1178, __c73, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
-          items: __S(1083, __c67, 11),
+          items: __S(1179, __c73, 11),
         }),
       ).annotate({ identifier: "AgentEventsStream" });
   }
 }
-function __c68(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6405,7 +6690,20 @@ function __c68(j: number): any {
       ).annotate({ identifier: "AgentUsage" });
   }
 }
-function __c69(j: number): any {
+function __c75(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          vm: S.optional(S.String),
+          name: S.optional(S.String),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/boxd.api.v1.BoxdApi/CreateStagedSnapshot", code: 200 }),
+        ),
+      ).annotate({ identifier: "CreateStagedSnapshotRequest" });
+  }
+}
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6416,7 +6714,7 @@ function __c69(j: number): any {
       ).annotate({ identifier: "CreateTeamRequest" });
   }
 }
-function __c70(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6429,7 +6727,7 @@ function __c70(j: number): any {
         }),
       ).annotate({ identifier: "TeamMemberInfo" });
     case 1:
-      return S.Array(__S(1120, __c70, 0));
+      return S.Array(__S(1232, __c77, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -6439,13 +6737,13 @@ function __c70(j: number): any {
           createdByUserId: S.String,
           createdAt: S.String,
           isAdmin: S.Boolean,
-          members: __S(1121, __c70, 1),
+          members: __S(1233, __c77, 1),
           defaultSnapshotId: S.String,
         }),
       ).annotate({ identifier: "CreateTeamResponse" });
   }
 }
-function __c71(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6462,7 +6760,7 @@ function __c71(j: number): any {
       ).annotate({ identifier: "CreateTokenResponse" });
   }
 }
-function __c72(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6472,23 +6770,23 @@ function __c72(j: number): any {
         }),
       ).annotate({ identifier: "EnvVar" });
     case 1:
-      return S.Array(__S(1152, __c72, 0));
+      return S.Array(__S(1264, __c79, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
           imageRef: S.optional(S.String),
-          env: S.optional(__S(1153, __c72, 1)),
+          env: S.optional(__S(1265, __c79, 1)),
           cmd: S.optional(__S(992, __c62, 0)),
           restartPolicy: S.optional(S.String),
-          config: S.optional(__S(1190, __c74, 6)),
+          config: S.optional(__S(1302, __c81, 6)),
           org: S.optional(S.String),
           shared: S.optional(S.Boolean),
           networks: S.optional(__S(992, __c62, 0)),
           isolated: S.optional(S.Boolean),
           team: S.optional(S.String),
-          labels: S.optional(__S(1232, __c77, 0)),
-          spec: S.optional(__S(1249, __c78, 1)),
+          labels: S.optional(__S(1344, __c84, 0)),
+          spec: S.optional(__S(1361, __c85, 1)),
           deleteAfterSecs: S.optional(S.String),
           deleteAfterCron: S.optional(S.String),
           os: S.optional(S.String),
@@ -6496,7 +6794,7 @@ function __c72(j: number): any {
       ).annotate({ identifier: "CreateVmRequest" });
   }
 }
-function __c73(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6509,12 +6807,12 @@ function __c73(j: number): any {
           status: S.String,
           bootTimeMs: S.String,
           pausedAutomations: S.Number,
-          machine: S.optional(__S(1221, __c76, 5)),
+          machine: S.optional(__S(1333, __c83, 5)),
         }),
       ).annotate({ identifier: "CreateVmResponse" });
   }
 }
-function __c74(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6531,12 +6829,12 @@ function __c74(j: number): any {
         }),
       ).annotate({ identifier: "ProxyEntry" });
     case 2:
-      return S.Array(__S(1185, __c74, 1));
+      return S.Array(__S(1297, __c81, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           ssh: S.optional(S.Boolean),
-          proxies: S.optional(__S(1186, __c74, 2)),
+          proxies: S.optional(__S(1298, __c81, 2)),
           rdp: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "NetworkConfig" });
@@ -6549,28 +6847,28 @@ function __c74(j: number): any {
         }),
       ).annotate({ identifier: "VolumeMount" });
     case 5:
-      return S.Array(__S(1188, __c74, 4));
+      return S.Array(__S(1300, __c81, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           vcpu: S.optional(S.Number),
           memoryBytes: S.optional(S.String),
           diskBytes: S.optional(S.String),
-          srf: S.optional(__S(1184, __c74, 0)),
-          network: S.optional(__S(1187, __c74, 3)),
-          volumes: S.optional(__S(1189, __c74, 5)),
+          srf: S.optional(__S(1296, __c81, 0)),
+          network: S.optional(__S(1299, __c81, 3)),
+          volumes: S.optional(__S(1301, __c81, 5)),
           idleIgnoreOutbound: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "VmConfig" });
   }
 }
-function __c75(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(16, __c1, 0));
   }
 }
-function __c76(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6594,7 +6892,7 @@ function __c76(j: number): any {
         }),
       ).annotate({ identifier: "MachineRequirement" });
     case 2:
-      return S.Array(__S(1217, __c76, 1));
+      return S.Array(__S(1329, __c83, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -6608,7 +6906,7 @@ function __c76(j: number): any {
         }),
       ).annotate({ identifier: "MachinePackage" });
     case 4:
-      return S.Array(__S(1219, __c76, 3));
+      return S.Array(__S(1331, __c83, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -6635,23 +6933,23 @@ function __c76(j: number): any {
           lastConnectedMs: S.String,
           orgId: S.String,
           billingOrgId: S.String,
-          sourceInfo: S.optional(__S(1216, __c76, 0)),
+          sourceInfo: S.optional(__S(1328, __c83, 0)),
           networks: __S(992, __c62, 0),
           isolated: S.Boolean,
-          customDomains: __S(1200, __c75, 0),
+          customDomains: __S(1312, __c82, 0),
           egressAllow: __S(992, __c62, 0),
           botProtection: S.Boolean,
           deleteAtMs: S.String,
           deleteAfterCron: S.String,
           idleIgnoreOutbound: S.Boolean,
           botProtectionMode: S.String,
-          labels: __S(1232, __c77, 0),
-          spec: S.optional(__S(1249, __c78, 1)),
-          createdSpec: S.optional(__S(1249, __c78, 1)),
+          labels: __S(1344, __c84, 0),
+          spec: S.optional(__S(1361, __c85, 1)),
+          createdSpec: S.optional(__S(1361, __c85, 1)),
           createdBy: S.String,
           createdByName: S.String,
-          requirements: __S(1218, __c76, 2),
-          packages: __S(1220, __c76, 4),
+          requirements: __S(1330, __c83, 2),
+          packages: __S(1332, __c83, 4),
           sshDisabled: S.Boolean,
           region: S.String,
           os: S.String,
@@ -6662,13 +6960,13 @@ function __c76(j: number): any {
       ).annotate({ identifier: "GetVmResponse" });
   }
 }
-function __c77(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c78(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6681,14 +6979,14 @@ function __c78(j: number): any {
       return S.suspend(() =>
         S.Struct({
           version: S.optional(S.Number),
-          base: S.optional(__S(1248, __c78, 0)),
+          base: S.optional(__S(1360, __c85, 0)),
           size: S.optional(S.String),
-          labels: S.optional(__S(1232, __c77, 0)),
+          labels: S.optional(__S(1344, __c84, 0)),
           networks: S.optional(__S(992, __c62, 0)),
           isolated: S.optional(S.Boolean),
           egress: S.optional(__S(992, __c62, 0)),
-          env: S.optional(__S(1232, __c77, 0)),
-          connections: S.optional(__S(1232, __c77, 0)),
+          env: S.optional(__S(1344, __c84, 0)),
+          connections: S.optional(__S(1344, __c84, 0)),
           agents: S.optional(__S(992, __c62, 0)),
           assignTo: S.optional(S.String),
           secrets: S.optional(__S(992, __c62, 0)),
@@ -6697,27 +6995,28 @@ function __c78(j: number): any {
       ).annotate({ identifier: "MachineSpec" });
   }
 }
-function __c79(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           snapshot: S.optional(S.String),
           name: S.optional(S.String),
-          config: S.optional(__S(1190, __c74, 6)),
+          config: S.optional(__S(1302, __c81, 6)),
           org: S.optional(S.String),
           isolated: S.optional(S.Boolean),
-          labels: S.optional(__S(1232, __c77, 0)),
-          spec: S.optional(__S(1249, __c78, 1)),
+          labels: S.optional(__S(1344, __c84, 0)),
+          spec: S.optional(__S(1361, __c85, 1)),
           deleteAfterSecs: S.optional(S.String),
           deleteAfterCron: S.optional(S.String),
+          version: S.optional(S.String),
         }).pipe(
           T.Http({ method: "POST", uri: "/boxd.api.v1.BoxdApi/CreateVmFromSnapshot", code: 200 }),
         ),
       ).annotate({ identifier: "CreateVmFromSnapshotRequest" });
   }
 }
-function __c80(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6731,7 +7030,7 @@ function __c80(j: number): any {
       ).annotate({ identifier: "DeleteAgentLoginRequest" });
   }
 }
-function __c81(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6741,7 +7040,7 @@ function __c81(j: number): any {
       ).annotate({ identifier: "DeleteApiKeyRequest" });
   }
 }
-function __c82(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6752,7 +7051,7 @@ function __c82(j: number): any {
       ).annotate({ identifier: "DeleteBackupRequest" });
   }
 }
-function __c83(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6765,7 +7064,7 @@ function __c83(j: number): any {
       ).annotate({ identifier: "DeleteCheckpointRequest" });
   }
 }
-function __c84(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6776,19 +7075,7 @@ function __c84(j: number): any {
       ).annotate({ identifier: "DeletePathRequest" });
   }
 }
-function __c85(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          vmName: S.optional(S.String),
-          vm: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/boxd.api.v1.BoxdApi/DeleteProxy", code: 200 })),
-      ).annotate({ identifier: "DeleteProxyRequest" });
-  }
-}
-function __c86(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6801,7 +7088,19 @@ function __c86(j: number): any {
       ).annotate({ identifier: "AttachDiskRequest" });
   }
 }
-function __c87(j: number): any {
+function __c93(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          vmName: S.optional(S.String),
+          vm: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/boxd.api.v1.BoxdApi/DeleteProxy", code: 200 })),
+      ).annotate({ identifier: "DeleteProxyRequest" });
+  }
+}
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6812,7 +7111,7 @@ function __c87(j: number): any {
       ).annotate({ identifier: "DeleteSnapshotRequest" });
   }
 }
-function __c88(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6822,7 +7121,7 @@ function __c88(j: number): any {
       ).annotate({ identifier: "DestroyDiskRequest" });
   }
 }
-function __c89(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6832,7 +7131,7 @@ function __c89(j: number): any {
       ).annotate({ identifier: "DestroyTeamRequest" });
   }
 }
-function __c90(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6842,7 +7141,7 @@ function __c90(j: number): any {
       ).annotate({ identifier: "DestroyVmRequest" });
   }
 }
-function __c91(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6853,7 +7152,7 @@ function __c91(j: number): any {
       ).annotate({ identifier: "DetachDiskRequest" });
   }
 }
-function __c92(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6864,7 +7163,7 @@ function __c92(j: number): any {
       ).annotate({ identifier: "DownloadFileRequest" });
   }
 }
-function __c93(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6874,7 +7173,7 @@ function __c93(j: number): any {
       ).annotate({ identifier: "DownloadFileResponse" });
   }
 }
-function __c94(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6893,16 +7192,16 @@ function __c94(j: number): any {
         }),
       ).annotate({ identifier: "DownloadFileChunk" });
     case 2:
-      return S.Array(__S(1505, __c94, 1));
+      return S.Array(__S(1617, __c101, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          items: __S(1506, __c94, 2),
+          items: __S(1618, __c101, 2),
         }),
       ).annotate({ identifier: "DownloadFileStreamStream" });
   }
 }
-function __c95(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6915,7 +7214,7 @@ function __c95(j: number): any {
       ).annotate({ identifier: "ExposePortRequest" });
   }
 }
-function __c96(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6930,7 +7229,7 @@ function __c96(j: number): any {
       ).annotate({ identifier: "ExposePortResponse" });
   }
 }
-function __c97(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6950,29 +7249,41 @@ function __c97(j: number): any {
         }),
       ).annotate({ identifier: "ElsewhereItem" });
     case 2:
-      return S.Array(__S(1553, __c97, 1));
+      return S.Array(__S(1665, __c104, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          exact: __S(1554, __c97, 2),
-          close: __S(1554, __c97, 2),
+          exact: __S(1666, __c104, 2),
+          close: __S(1666, __c104, 2),
           unavailable: __S(992, __c62, 0),
         }),
       ).annotate({ identifier: "FindElsewhereResponse" });
   }
 }
-function __c98(j: number): any {
+function __c105(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          vm: S.optional(S.String),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/boxd.api.v1.BoxdApi/ClearBackupSchedule", code: 200 }),
+        ),
+      ).annotate({ identifier: "ClearBackupScheduleRequest" });
+  }
+}
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           sourceVmId: S.optional(S.String),
           name: S.optional(S.String),
-          config: S.optional(__S(1190, __c74, 6)),
+          config: S.optional(__S(1302, __c81, 6)),
           shared: S.optional(S.Boolean),
           networks: S.optional(__S(992, __c62, 0)),
           isolated: S.optional(S.Boolean),
-          labels: S.optional(__S(1232, __c77, 0)),
+          labels: S.optional(__S(1344, __c84, 0)),
           deleteAfterSecs: S.optional(S.String),
           deleteAfterCron: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/boxd.api.v1.BoxdApi/ForkVm", code: 200 })),
@@ -6989,24 +7300,12 @@ function __c98(j: number): any {
           forkedFrom: S.String,
           bootTimeMs: S.String,
           pausedAutomations: S.Number,
-          machine: S.optional(__S(1221, __c76, 5)),
+          machine: S.optional(__S(1333, __c83, 5)),
         }),
       ).annotate({ identifier: "ForkVmResponse" });
   }
 }
-function __c99(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          vm: S.optional(S.String),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/boxd.api.v1.BoxdApi/ClearBackupSchedule", code: 200 }),
-        ),
-      ).annotate({ identifier: "ClearBackupScheduleRequest" });
-  }
-}
-function __c100(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7016,24 +7315,24 @@ function __c100(j: number): any {
         }).pipe(T.Http({ method: "POST", uri: "/boxd.api.v1.BoxdApi/FsList", code: 200 })),
       ).annotate({ identifier: "FsListRequest" });
     case 1:
-      return S.Array(__S(1616, __c101, 0));
+      return S.Array(__S(1728, __c108, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          entries: __S(1601, __c100, 1),
+          entries: __S(1713, __c107, 1),
         }),
       ).annotate({ identifier: "FsListChunk" });
     case 3:
-      return S.Array(__S(1602, __c100, 2));
+      return S.Array(__S(1714, __c107, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          items: __S(1603, __c100, 3),
+          items: __S(1715, __c107, 3),
         }),
       ).annotate({ identifier: "FsListStream" });
   }
 }
-function __c101(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7052,7 +7351,7 @@ function __c101(j: number): any {
       ).annotate({ identifier: "FsEntry" });
   }
 }
-function __c102(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7064,7 +7363,7 @@ function __c102(j: number): any {
       ).annotate({ identifier: "FsMkdirRequest" });
   }
 }
-function __c103(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7078,23 +7377,23 @@ function __c103(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          entry: S.optional(__S(1616, __c101, 0)),
+          entry: S.optional(__S(1728, __c108, 0)),
           data: S.String,
           eof: S.Boolean,
           bytesRead: S.String,
         }),
       ).annotate({ identifier: "FsReadChunk" });
     case 2:
-      return S.Array(__S(1649, __c103, 1));
+      return S.Array(__S(1761, __c110, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          items: __S(1650, __c103, 2),
+          items: __S(1762, __c110, 2),
         }),
       ).annotate({ identifier: "FsReadStream" });
   }
 }
-function __c104(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7111,7 +7410,7 @@ function __c104(j: number): any {
       ).annotate({ identifier: "FsRealpathResponse" });
   }
 }
-function __c105(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7123,7 +7422,7 @@ function __c105(j: number): any {
       ).annotate({ identifier: "FsRemoveRequest" });
   }
 }
-function __c106(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7136,7 +7435,7 @@ function __c106(j: number): any {
       ).annotate({ identifier: "FsRenameRequest" });
   }
 }
-function __c107(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7148,12 +7447,12 @@ function __c107(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          entry: S.optional(__S(1616, __c101, 0)),
+          entry: S.optional(__S(1728, __c108, 0)),
         }),
       ).annotate({ identifier: "FsStatResponse" });
   }
 }
-function __c108(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7165,7 +7464,7 @@ function __c108(j: number): any {
       ).annotate({ identifier: "GetAgentLoginRequest" });
   }
 }
-function __c109(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7176,7 +7475,7 @@ function __c109(j: number): any {
       ).annotate({ identifier: "GetAgentSessionRequest" });
   }
 }
-function __c110(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7198,7 +7497,18 @@ function __c110(j: number): any {
       ).annotate({ identifier: "GetAgentSessionResponse" });
   }
 }
-function __c111(j: number): any {
+function __c118(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          orgId: S.optional(S.String),
+          region: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/boxd.api.v1.BoxdApi/ClearOrgDomain", code: 200 })),
+      ).annotate({ identifier: "ClearOrgDomainRequest" });
+  }
+}
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7221,18 +7531,7 @@ function __c111(j: number): any {
       ).annotate({ identifier: "GetBackupScheduleResponse" });
   }
 }
-function __c112(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          orgId: S.optional(S.String),
-          region: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/boxd.api.v1.BoxdApi/ClearOrgDomain", code: 200 })),
-      ).annotate({ identifier: "ClearOrgDomainRequest" });
-  }
-}
-function __c113(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7243,12 +7542,12 @@ function __c113(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          billing: S.optional(__S(1824, __c114, 0)),
+          billing: S.optional(__S(1936, __c121, 0)),
         }),
       ).annotate({ identifier: "GetBillingResponse" });
   }
 }
-function __c114(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7267,7 +7566,7 @@ function __c114(j: number): any {
       ).annotate({ identifier: "BillingInfo" });
   }
 }
-function __c115(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7284,7 +7583,7 @@ function __c115(j: number): any {
       ).annotate({ identifier: "GetConfigResponse" });
   }
 }
-function __c116(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7296,7 +7595,7 @@ function __c116(j: number): any {
       ).annotate({ identifier: "GetOrgBackupsDefaultRequest" });
   }
 }
-function __c117(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7308,7 +7607,7 @@ function __c117(j: number): any {
       ).annotate({ identifier: "GetOrgBackupsDefaultResponse" });
   }
 }
-function __c118(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7327,7 +7626,7 @@ function __c118(j: number): any {
         }),
       ).annotate({ identifier: "OrgBilledVm" });
     case 2:
-      return S.Array(__S(1889, __c118, 1));
+      return S.Array(__S(2001, __c125, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -7338,7 +7637,7 @@ function __c118(j: number): any {
           vcpu: S.Number,
           memoryBytes: S.String,
           vmCount: S.Number,
-          vms: __S(1890, __c118, 2),
+          vms: __S(2002, __c125, 2),
           balanceMicro: S.String,
           billingMode: S.String,
           accruingMicro: S.optional(S.String),
@@ -7350,7 +7649,7 @@ function __c118(j: number): any {
       ).annotate({ identifier: "GetOrgBillingResponse" });
   }
 }
-function __c119(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7374,7 +7673,7 @@ function __c119(j: number): any {
       ).annotate({ identifier: "GetOrgBotProtectionDefaultResponse" });
   }
 }
-function __c120(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7385,7 +7684,7 @@ function __c120(j: number): any {
       ).annotate({ identifier: "GetOrgDomainRequest" });
   }
 }
-function __c121(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7400,12 +7699,12 @@ function __c121(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          domain: S.optional(__S(1936, __c121, 0)),
+          domain: S.optional(__S(2048, __c128, 0)),
         }),
       ).annotate({ identifier: "GetOrgDomainResponse" });
   }
 }
-function __c122(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7429,7 +7728,7 @@ function __c122(j: number): any {
       ).annotate({ identifier: "GetOrgIdleIgnoreOutboundDefaultResponse" });
   }
 }
-function __c123(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7447,7 +7746,7 @@ function __c123(j: number): any {
         }),
       ).annotate({ identifier: "GrantedMachineSize" });
     case 2:
-      return S.Array(__S(1969, __c123, 1));
+      return S.Array(__S(2081, __c130, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -7456,13 +7755,13 @@ function __c123(j: number): any {
           memoryBytes: S.String,
           ceilingVcpu: S.Number,
           ceilingMemoryBytes: S.String,
-          grantedSizes: __S(1970, __c123, 2),
+          grantedSizes: __S(2082, __c130, 2),
           region: S.String,
         }),
       ).annotate({ identifier: "GetOrgMachineDefaultsResponse" });
   }
 }
-function __c124(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7486,49 +7785,7 @@ function __c124(j: number): any {
       ).annotate({ identifier: "GetOrgMachineLimitResponse" });
   }
 }
-function __c125(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          orgId: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/boxd.api.v1.BoxdApi/GetOrgMembers", code: 200 })),
-      ).annotate({ identifier: "GetOrgMembersRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          userId: S.String,
-          role: S.String,
-          displayName: S.String,
-          githubUsername: S.String,
-        }),
-      ).annotate({ identifier: "OrgMemberInfo" });
-    case 2:
-      return S.Array(__S(2001, __c125, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          token: S.String.pipe(T.SensitiveValue({})),
-          email: S.String,
-          acceptUrl: S.String,
-          createdAt: S.String,
-          expiresAt: S.String,
-          role: S.String,
-          emailStatus: S.String,
-        }),
-      ).annotate({ identifier: "OrgInviteInfo" });
-    case 4:
-      return S.Array(__S(2003, __c125, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          members: __S(2002, __c125, 2),
-          invites: __S(2004, __c125, 4),
-        }),
-      ).annotate({ identifier: "GetOrgMembersResponse" });
-  }
-}
-function __c126(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7549,7 +7806,49 @@ function __c126(j: number): any {
       ).annotate({ identifier: "CloseAgentSessionResponse" });
   }
 }
-function __c127(j: number): any {
+function __c133(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          orgId: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/boxd.api.v1.BoxdApi/GetOrgMembers", code: 200 })),
+      ).annotate({ identifier: "GetOrgMembersRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          userId: S.String,
+          role: S.String,
+          displayName: S.String,
+          githubUsername: S.String,
+        }),
+      ).annotate({ identifier: "OrgMemberInfo" });
+    case 2:
+      return S.Array(__S(2129, __c133, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          token: S.String.pipe(T.SensitiveValue({})),
+          email: S.String,
+          acceptUrl: S.String,
+          createdAt: S.String,
+          expiresAt: S.String,
+          role: S.String,
+          emailStatus: S.String,
+        }),
+      ).annotate({ identifier: "OrgInviteInfo" });
+    case 4:
+      return S.Array(__S(2131, __c133, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          members: __S(2130, __c133, 2),
+          invites: __S(2132, __c133, 4),
+        }),
+      ).annotate({ identifier: "GetOrgMembersResponse" });
+  }
+}
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7568,7 +7867,32 @@ function __c127(j: number): any {
       ).annotate({ identifier: "GetOrgRdpDefaultResponse" });
   }
 }
-function __c128(j: number): any {
+function __c135(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          orgId: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/boxd.api.v1.BoxdApi/GetOrgSnapshotVersionsKeep",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetOrgSnapshotVersionsKeepRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          set: S.Boolean,
+          keep: S.Number,
+          platformKeep: S.Number,
+          maxKeep: S.Number,
+        }),
+      ).annotate({ identifier: "GetOrgSnapshotVersionsKeepResponse" });
+  }
+}
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7579,7 +7903,7 @@ function __c128(j: number): any {
         }).pipe(T.Http({ method: "POST", uri: "/boxd.api.v1.BoxdApi/GetOrgUsage", code: 200 })),
       ).annotate({ identifier: "GetOrgUsageRequest" });
     case 1:
-      return S.Array(__S(2066, __c129, 2));
+      return S.Array(__S(2194, __c137, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -7588,15 +7912,15 @@ function __c128(j: number): any {
           periodStart: S.String,
           periodEnd: S.String,
           currency: S.String,
-          rates: S.optional(__S(2064, __c129, 0)),
+          rates: S.optional(__S(2192, __c137, 0)),
           totalCostMicro: S.String,
-          vms: __S(2049, __c128, 1),
+          vms: __S(2177, __c136, 1),
           complete: S.Boolean,
         }),
       ).annotate({ identifier: "GetOrgUsageResponse" });
   }
 }
-function __c129(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7627,7 +7951,7 @@ function __c129(j: number): any {
           vcpu: S.Number,
           memoryBytes: S.String,
           diskBytes: S.String,
-          seconds: S.optional(__S(2065, __c129, 1)),
+          seconds: S.optional(__S(2193, __c137, 1)),
           vcpuHours: S.Number,
           ramGibHours: S.Number,
           diskGibHours: S.Number,
@@ -7637,7 +7961,7 @@ function __c129(j: number): any {
       ).annotate({ identifier: "VmUsage" });
   }
 }
-function __c130(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7649,12 +7973,12 @@ function __c130(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          snapshot: S.optional(__S(2096, __c131, 0)),
+          snapshot: S.optional(__S(2224, __c139, 0)),
         }),
       ).annotate({ identifier: "GetSnapshotResponse" });
   }
 }
-function __c131(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7679,7 +8003,7 @@ function __c131(j: number): any {
       ).annotate({ identifier: "SnapshotInfo" });
   }
 }
-function __c132(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7689,7 +8013,7 @@ function __c132(j: number): any {
       ).annotate({ identifier: "GetTeamRequest" });
   }
 }
-function __c133(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7699,7 +8023,7 @@ function __c133(j: number): any {
       ).annotate({ identifier: "GetVmRequest" });
   }
 }
-function __c134(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7716,13 +8040,13 @@ function __c134(j: number): any {
           periodStart: S.String,
           periodEnd: S.String,
           currency: S.String,
-          rates: S.optional(__S(2064, __c129, 0)),
-          usage: S.optional(__S(2066, __c129, 2)),
+          rates: S.optional(__S(2192, __c137, 0)),
+          usage: S.optional(__S(2194, __c137, 2)),
         }),
       ).annotate({ identifier: "GetVmUsageResponse" });
   }
 }
-function __c135(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7732,7 +8056,7 @@ function __c135(j: number): any {
       ).annotate({ identifier: "HibernateVmRequest" });
   }
 }
-function __c136(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7751,7 +8075,44 @@ function __c136(j: number): any {
       ).annotate({ identifier: "InterruptAgentResponse" });
   }
 }
-function __c137(j: number): any {
+function __c145(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          vmId: S.optional(S.String),
+          harness: S.optional(S.String),
+          code: S.optional(S.String),
+          handle: S.optional(S.String),
+          org: S.optional(S.String),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/boxd.api.v1.BoxdApi/CompleteAgentLogin", code: 200 }),
+        ),
+      ).annotate({ identifier: "CompleteAgentLoginRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          pending: S.Boolean,
+          login: S.optional(__S(2336, __c146, 0)),
+        }),
+      ).annotate({ identifier: "CompleteAgentLoginResponse" });
+  }
+}
+function __c146(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          harness: S.String,
+          signedIn: S.Boolean,
+          account: S.String,
+          orgId: S.String,
+          updatedAtMs: S.String,
+        }),
+      ).annotate({ identifier: "AgentLogin" });
+  }
+}
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7773,7 +8134,7 @@ function __c137(j: number): any {
       ).annotate({ identifier: "InviteOrgMemberResponse" });
   }
 }
-function __c138(j: number): any {
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7785,44 +8146,7 @@ function __c138(j: number): any {
       ).annotate({ identifier: "LinkSshKeyRequest" });
   }
 }
-function __c139(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          vmId: S.optional(S.String),
-          harness: S.optional(S.String),
-          code: S.optional(S.String),
-          handle: S.optional(S.String),
-          org: S.optional(S.String),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/boxd.api.v1.BoxdApi/CompleteAgentLogin", code: 200 }),
-        ),
-      ).annotate({ identifier: "CompleteAgentLoginRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          pending: S.Boolean,
-          login: S.optional(__S(2240, __c140, 0)),
-        }),
-      ).annotate({ identifier: "CompleteAgentLoginResponse" });
-  }
-}
-function __c140(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          harness: S.String,
-          signedIn: S.Boolean,
-          account: S.String,
-          orgId: S.String,
-          updatedAtMs: S.String,
-        }),
-      ).annotate({ identifier: "AgentLogin" });
-  }
-}
-function __c141(j: number): any {
+function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7851,22 +8175,22 @@ function __c141(j: number): any {
           startedAtMs: S.String,
           endedAtMs: S.String,
           steps: S.Number,
-          usage: S.optional(__S(1088, __c68, 0)),
+          usage: S.optional(__S(1184, __c74, 0)),
           effort: S.String,
         }),
       ).annotate({ identifier: "AgentRun" });
     case 2:
-      return S.Array(__S(2257, __c141, 1));
+      return S.Array(__S(2385, __c149, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          runs: __S(2258, __c141, 2),
+          runs: __S(2386, __c149, 2),
           nextPageToken: S.String,
         }),
       ).annotate({ identifier: "ListAgentRunsResponse" });
   }
 }
-function __c142(j: number): any {
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7878,16 +8202,16 @@ function __c142(j: number): any {
         ),
       ).annotate({ identifier: "ListAgentSessionsRequest" });
     case 1:
-      return S.Array(__S(1760, __c110, 0));
+      return S.Array(__S(1872, __c117, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          sessions: __S(2273, __c142, 1),
+          sessions: __S(2401, __c150, 1),
         }),
       ).annotate({ identifier: "ListAgentSessionsResponse" });
   }
 }
-function __c143(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7911,16 +8235,16 @@ function __c143(j: number): any {
         }),
       ).annotate({ identifier: "ApiKeyInfo" });
     case 2:
-      return S.Array(__S(2289, __c143, 1));
+      return S.Array(__S(2417, __c151, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          keys: __S(2290, __c143, 2),
+          keys: __S(2418, __c151, 2),
         }),
       ).annotate({ identifier: "ListApiKeysResponse" });
   }
 }
-function __c144(j: number): any {
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7941,16 +8265,16 @@ function __c144(j: number): any {
         }),
       ).annotate({ identifier: "BackupInfo" });
     case 2:
-      return S.Array(__S(2305, __c144, 1));
+      return S.Array(__S(2433, __c152, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          backups: __S(2306, __c144, 2),
+          backups: __S(2434, __c152, 2),
         }),
       ).annotate({ identifier: "ListBackupsResponse" });
   }
 }
-function __c145(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7974,20 +8298,20 @@ function __c145(j: number): any {
         }),
       ).annotate({ identifier: "BillingActivityEntry" });
     case 2:
-      return S.Array(__S(2321, __c145, 1));
+      return S.Array(__S(2449, __c153, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           currency: S.String,
           balanceMicro: S.String,
-          entries: __S(2322, __c145, 2),
+          entries: __S(2450, __c153, 2),
           nextPageToken: S.String,
           comped: S.Boolean,
         }),
       ).annotate({ identifier: "ListBillingActivityResponse" });
   }
 }
-function __c146(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8008,16 +8332,16 @@ function __c146(j: number): any {
         }),
       ).annotate({ identifier: "CheckpointInfo" });
     case 2:
-      return S.Array(__S(2337, __c146, 1));
+      return S.Array(__S(2465, __c154, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          checkpoints: __S(2338, __c146, 2),
+          checkpoints: __S(2466, __c154, 2),
         }),
       ).annotate({ identifier: "ListCheckpointsResponse" });
   }
 }
-function __c147(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8028,12 +8352,12 @@ function __c147(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          domains: __S(1200, __c75, 0),
+          domains: __S(1312, __c82, 0),
         }),
       ).annotate({ identifier: "ListCustomDomainsResponse" });
   }
 }
-function __c148(j: number): any {
+function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8054,92 +8378,17 @@ function __c148(j: number): any {
         }),
       ).annotate({ identifier: "DirEntry" });
     case 2:
-      return S.Array(__S(2369, __c148, 1));
+      return S.Array(__S(2497, __c156, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          entries: __S(2370, __c148, 2),
+          entries: __S(2498, __c156, 2),
           truncated: S.Boolean,
         }),
       ).annotate({ identifier: "ListDirResponse" });
   }
 }
-function __c149(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          withElsewhere: S.optional(S.Boolean),
-        }).pipe(T.Http({ method: "POST", uri: "/boxd.api.v1.BoxdApi/ListDisks", code: 200 })),
-      ).annotate({ identifier: "ListDisksRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          vmId: S.String,
-          vmName: S.String,
-          mountPath: S.String,
-          mountMode: S.String,
-        }),
-      ).annotate({ identifier: "DiskAttachment" });
-    case 2:
-      return S.Array(__S(2385, __c149, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          diskId: S.String,
-          name: S.String,
-          sizeBytes: S.String,
-          status: S.String,
-          attachments: __S(2386, __c149, 2),
-          createdAt: S.String,
-          region: S.String,
-        }),
-      ).annotate({ identifier: "DiskInfo" });
-    case 4:
-      return S.Array(__S(2387, __c149, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          disks: __S(2388, __c149, 4),
-          elsewhere: __S(2401, __c150, 1),
-        }),
-      ).annotate({ identifier: "ListDisksResponse" });
-  }
-}
-function __c150(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          region: S.String,
-          count: S.String,
-        }),
-      ).annotate({ identifier: "RegionCount" });
-    case 1:
-      return S.Array(__S(2400, __c150, 0));
-  }
-}
-function __c151(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          vm: S.optional(S.String),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/boxd.api.v1.BoxdApi/ListExposedPorts", code: 200 }),
-        ),
-      ).annotate({ identifier: "ListExposedPortsRequest" });
-    case 1:
-      return S.Array(__S(1536, __c96, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          forwards: __S(2417, __c151, 1),
-        }),
-      ).annotate({ identifier: "ListExposedPortsResponse" });
-  }
-}
-function __c152(j: number): any {
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8151,13 +8400,13 @@ function __c152(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          to: S.optional(__S(2432, __c152, 0)),
+          to: S.optional(__S(2512, __c157, 0)),
         }),
       ).annotate({ identifier: "ComputerMouseMove" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          at: S.optional(__S(2432, __c152, 0)),
+          at: S.optional(__S(2512, __c157, 0)),
           button: S.optional(S.String),
           count: S.optional(S.Number),
           modifiers: S.optional(S.String),
@@ -8166,16 +8415,16 @@ function __c152(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          at: S.optional(__S(2432, __c152, 0)),
+          at: S.optional(__S(2512, __c157, 0)),
           button: S.optional(S.String),
         }),
       ).annotate({ identifier: "ComputerMouseButton" });
     case 4:
-      return S.Array(__S(2432, __c152, 0));
+      return S.Array(__S(2512, __c157, 0));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          path: S.optional(__S(2436, __c152, 4)),
+          path: S.optional(__S(2516, __c157, 4)),
           button: S.optional(S.String),
           modifiers: S.optional(S.String),
         }),
@@ -8183,7 +8432,7 @@ function __c152(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          at: S.optional(__S(2432, __c152, 0)),
+          at: S.optional(__S(2512, __c157, 0)),
           deltaX: S.optional(S.Number),
           deltaY: S.optional(S.Number),
           modifiers: S.optional(S.String),
@@ -8232,7 +8481,7 @@ function __c152(j: number): any {
           quality: S.optional(S.Number),
           maxWidth: S.optional(S.Number),
           maxHeight: S.optional(S.Number),
-          region: S.optional(__S(2443, __c152, 11)),
+          region: S.optional(__S(2523, __c157, 11)),
           delayMs: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ComputerScreenshotOptions" });
@@ -8242,18 +8491,18 @@ function __c152(j: number): any {
           vmId: S.optional(S.String),
           screenshot: S.optional(__S(48, __c3, 0)),
           cursorPosition: S.optional(__S(48, __c3, 0)),
-          mouseMove: S.optional(__S(2433, __c152, 1)),
-          click: S.optional(__S(2434, __c152, 2)),
-          mouseDown: S.optional(__S(2435, __c152, 3)),
-          mouseUp: S.optional(__S(2435, __c152, 3)),
-          drag: S.optional(__S(2437, __c152, 5)),
-          scroll: S.optional(__S(2438, __c152, 6)),
-          type: S.optional(__S(2439, __c152, 7)),
-          key: S.optional(__S(2440, __c152, 8)),
-          wait: S.optional(__S(2441, __c152, 9)),
-          setScreenSize: S.optional(__S(2442, __c152, 10)),
+          mouseMove: S.optional(__S(2513, __c157, 1)),
+          click: S.optional(__S(2514, __c157, 2)),
+          mouseDown: S.optional(__S(2515, __c157, 3)),
+          mouseUp: S.optional(__S(2515, __c157, 3)),
+          drag: S.optional(__S(2517, __c157, 5)),
+          scroll: S.optional(__S(2518, __c157, 6)),
+          type: S.optional(__S(2519, __c157, 7)),
+          key: S.optional(__S(2520, __c157, 8)),
+          wait: S.optional(__S(2521, __c157, 9)),
+          setScreenSize: S.optional(__S(2522, __c157, 10)),
           returnScreenshot: S.optional(S.Boolean),
-          screenshotOptions: S.optional(__S(2444, __c152, 12)),
+          screenshotOptions: S.optional(__S(2524, __c157, 12)),
         }).pipe(T.Http({ method: "POST", uri: "/boxd.api.v1.BoxdApi/ComputerAction", code: 200 })),
       ).annotate({ identifier: "ComputerActionRequest" });
     case 14:
@@ -8270,14 +8519,89 @@ function __c152(j: number): any {
         S.Struct({
           screenWidth: S.Number,
           screenHeight: S.Number,
-          cursor: S.optional(__S(2432, __c152, 0)),
-          screenshot: S.optional(__S(2446, __c152, 14)),
+          cursor: S.optional(__S(2512, __c157, 0)),
+          screenshot: S.optional(__S(2526, __c157, 14)),
           screenHeld: S.Boolean,
         }),
       ).annotate({ identifier: "ComputerActionResponse" });
   }
 }
-function __c153(j: number): any {
+function __c158(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          withElsewhere: S.optional(S.Boolean),
+        }).pipe(T.Http({ method: "POST", uri: "/boxd.api.v1.BoxdApi/ListDisks", code: 200 })),
+      ).annotate({ identifier: "ListDisksRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          vmId: S.String,
+          vmName: S.String,
+          mountPath: S.String,
+          mountMode: S.String,
+        }),
+      ).annotate({ identifier: "DiskAttachment" });
+    case 2:
+      return S.Array(__S(2529, __c158, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          diskId: S.String,
+          name: S.String,
+          sizeBytes: S.String,
+          status: S.String,
+          attachments: __S(2530, __c158, 2),
+          createdAt: S.String,
+          region: S.String,
+        }),
+      ).annotate({ identifier: "DiskInfo" });
+    case 4:
+      return S.Array(__S(2531, __c158, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          disks: __S(2532, __c158, 4),
+          elsewhere: __S(2545, __c159, 1),
+        }),
+      ).annotate({ identifier: "ListDisksResponse" });
+  }
+}
+function __c159(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          region: S.String,
+          count: S.String,
+        }),
+      ).annotate({ identifier: "RegionCount" });
+    case 1:
+      return S.Array(__S(2544, __c159, 0));
+  }
+}
+function __c160(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          vm: S.optional(S.String),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/boxd.api.v1.BoxdApi/ListExposedPorts", code: 200 }),
+        ),
+      ).annotate({ identifier: "ListExposedPortsRequest" });
+    case 1:
+      return S.Array(__S(1648, __c103, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          forwards: __S(2561, __c160, 1),
+        }),
+      ).annotate({ identifier: "ListExposedPortsResponse" });
+  }
+}
+function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8297,16 +8621,16 @@ function __c153(j: number): any {
         }),
       ).annotate({ identifier: "Harness" });
     case 2:
-      return S.Array(__S(2449, __c153, 1));
+      return S.Array(__S(2577, __c161, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          harnesses: __S(2450, __c153, 2),
+          harnesses: __S(2578, __c161, 2),
         }),
       ).annotate({ identifier: "ListHarnessesResponse" });
   }
 }
-function __c154(j: number): any {
+function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8323,16 +8647,16 @@ function __c154(j: number): any {
         }),
       ).annotate({ identifier: "NetworkInfo" });
     case 2:
-      return S.Array(__S(2465, __c154, 1));
+      return S.Array(__S(2593, __c162, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          networks: __S(2466, __c154, 2),
+          networks: __S(2594, __c162, 2),
         }),
       ).annotate({ identifier: "ListNetworksResponse" });
   }
 }
-function __c155(j: number): any {
+function __c163(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8350,17 +8674,17 @@ function __c155(j: number): any {
         }),
       ).annotate({ identifier: "OrgSummary" });
     case 2:
-      return S.Array(__S(2481, __c155, 1));
+      return S.Array(__S(2609, __c163, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          orgs: __S(2482, __c155, 2),
+          orgs: __S(2610, __c163, 2),
           defaultOrgId: S.String,
         }),
       ).annotate({ identifier: "ListOrgsResponse" });
   }
 }
-function __c156(j: number): any {
+function __c164(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8384,16 +8708,16 @@ function __c156(j: number): any {
         }),
       ).annotate({ identifier: "ProxyInfo" });
     case 2:
-      return S.Array(__S(2497, __c156, 1));
+      return S.Array(__S(2625, __c164, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          proxies: __S(2498, __c156, 2),
+          proxies: __S(2626, __c164, 2),
         }),
       ).annotate({ identifier: "ListProxiesResponse" });
   }
 }
-function __c157(j: number): any {
+function __c165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8409,16 +8733,16 @@ function __c157(j: number): any {
         }),
       ).annotate({ identifier: "ProxyNodeInfo" });
     case 2:
-      return S.Array(__S(2513, __c157, 1));
+      return S.Array(__S(2641, __c165, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          proxies: __S(2514, __c157, 2),
+          proxies: __S(2642, __c165, 2),
         }),
       ).annotate({ identifier: "ListProxyNodesResponse" });
   }
 }
-function __c158(j: number): any {
+function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8441,18 +8765,18 @@ function __c158(j: number): any {
         }),
       ).annotate({ identifier: "Region" });
     case 2:
-      return S.Array(__S(2529, __c158, 1));
+      return S.Array(__S(2657, __c166, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          regions: __S(2530, __c158, 2),
+          regions: __S(2658, __c166, 2),
           orgId: S.String,
           thisRegion: S.String,
         }),
       ).annotate({ identifier: "ListRegionsResponse" });
   }
 }
-function __c159(j: number): any {
+function __c167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8462,17 +8786,67 @@ function __c159(j: number): any {
         }).pipe(T.Http({ method: "POST", uri: "/boxd.api.v1.BoxdApi/ListSnapshots", code: 200 })),
       ).annotate({ identifier: "ListSnapshotsRequest" });
     case 1:
-      return S.Array(__S(2096, __c131, 0));
+      return S.Array(__S(2224, __c139, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          snapshots: __S(2545, __c159, 1),
-          elsewhere: __S(2401, __c150, 1),
+          snapshots: __S(2673, __c167, 1),
+          elsewhere: __S(2545, __c159, 1),
         }),
       ).annotate({ identifier: "ListSnapshotsResponse" });
   }
 }
-function __c160(j: number): any {
+function __c168(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          org: S.optional(S.String),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/boxd.api.v1.BoxdApi/ListSnapshotVersions", code: 200 }),
+        ),
+      ).annotate({ identifier: "ListSnapshotVersionsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          version: S.String,
+          current: S.Boolean,
+          status: S.String,
+          storage: S.String,
+          sizeBytes: S.String,
+          createdAt: S.String,
+          vcpu: S.Number,
+          memoryBytes: S.String,
+          os: S.String,
+          staged: S.Boolean,
+        }),
+      ).annotate({ identifier: "SnapshotVersionInfo" });
+    case 2:
+      return S.Array(__S(2689, __c168, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          snapshotId: S.String,
+          name: S.String,
+          versions: __S(2690, __c168, 2),
+        }),
+      ).annotate({ identifier: "ListSnapshotVersionsResponse" });
+  }
+}
+function __c169(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          vmId: S.optional(S.String),
+          oldPath: S.optional(S.String),
+          newPath: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/boxd.api.v1.BoxdApi/CopyPath", code: 200 })),
+      ).annotate({ identifier: "CopyPathRequest" });
+  }
+}
+function __c170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8481,16 +8855,16 @@ function __c160(j: number): any {
         }).pipe(T.Http({ method: "POST", uri: "/boxd.api.v1.BoxdApi/ListTeams", code: 200 })),
       ).annotate({ identifier: "ListTeamsRequest" });
     case 1:
-      return S.Array(__S(1122, __c70, 2));
+      return S.Array(__S(1234, __c77, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          teams: __S(2561, __c160, 1),
+          teams: __S(2721, __c170, 1),
         }),
       ).annotate({ identifier: "ListTeamsResponse" });
   }
 }
-function __c161(j: number): any {
+function __c171(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8507,16 +8881,16 @@ function __c161(j: number): any {
         }),
       ).annotate({ identifier: "TokenInfo" });
     case 2:
-      return S.Array(__S(2577, __c161, 1));
+      return S.Array(__S(2737, __c171, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          tokens: __S(2578, __c161, 2),
+          tokens: __S(2738, __c171, 2),
         }),
       ).annotate({ identifier: "ListTokensResponse" });
   }
 }
-function __c162(j: number): any {
+function __c172(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8538,28 +8912,16 @@ function __c162(j: number): any {
         }),
       ).annotate({ identifier: "VarItem" });
     case 2:
-      return S.Array(__S(2593, __c162, 1));
+      return S.Array(__S(2753, __c172, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          vars: __S(2594, __c162, 2),
+          vars: __S(2754, __c172, 2),
         }),
       ).annotate({ identifier: "ListVarsResponse" });
   }
 }
-function __c163(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          vmId: S.optional(S.String),
-          oldPath: S.optional(S.String),
-          newPath: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/boxd.api.v1.BoxdApi/CopyPath", code: 200 })),
-      ).annotate({ identifier: "CopyPathRequest" });
-  }
-}
-function __c164(j: number): any {
+function __c173(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8571,18 +8933,18 @@ function __c164(j: number): any {
         }).pipe(T.Http({ method: "POST", uri: "/boxd.api.v1.BoxdApi/ListVms", code: 200 })),
       ).annotate({ identifier: "ListVmsRequest" });
     case 1:
-      return S.Array(__S(1221, __c76, 5));
+      return S.Array(__S(1333, __c83, 5));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          vms: __S(2625, __c164, 1),
+          vms: __S(2769, __c173, 1),
           sshHostKey: S.String,
-          elsewhere: __S(2401, __c150, 1),
+          elsewhere: __S(2545, __c159, 1),
         }),
       ).annotate({ identifier: "ListVmsResponse" });
   }
 }
-function __c165(j: number): any {
+function __c174(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8593,7 +8955,7 @@ function __c165(j: number): any {
       ).annotate({ identifier: "MkdirRequest" });
   }
 }
-function __c166(j: number): any {
+function __c175(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8603,7 +8965,7 @@ function __c166(j: number): any {
       ).annotate({ identifier: "RebootVmRequest" });
   }
 }
-function __c167(j: number): any {
+function __c176(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8615,7 +8977,7 @@ function __c167(j: number): any {
       ).annotate({ identifier: "RemoveCustomDomainRequest" });
   }
 }
-function __c168(j: number): any {
+function __c177(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8626,7 +8988,7 @@ function __c168(j: number): any {
       ).annotate({ identifier: "RemoveOrgMemberRequest" });
   }
 }
-function __c169(j: number): any {
+function __c178(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8639,7 +9001,7 @@ function __c169(j: number): any {
       ).annotate({ identifier: "RemoveTeamMemberRequest" });
   }
 }
-function __c170(j: number): any {
+function __c179(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8652,7 +9014,7 @@ function __c170(j: number): any {
       ).annotate({ identifier: "RemoveVarRequest" });
   }
 }
-function __c171(j: number): any {
+function __c180(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8660,40 +9022,6 @@ function __c171(j: number): any {
           message: S.String,
         }),
       ).annotate({ identifier: "RemoveVarResponse" });
-  }
-}
-function __c172(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          orgId: S.optional(S.String),
-          name: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/boxd.api.v1.BoxdApi/RenameOrg", code: 200 })),
-      ).annotate({ identifier: "RenameOrgRequest" });
-  }
-}
-function __c173(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          vmId: S.optional(S.String),
-          oldPath: S.optional(S.String),
-          newPath: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/boxd.api.v1.BoxdApi/RenamePath", code: 200 })),
-      ).annotate({ identifier: "RenamePathRequest" });
-  }
-}
-function __c174(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          teamId: S.optional(S.String),
-          name: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/boxd.api.v1.BoxdApi/RenameTeam", code: 200 })),
-      ).annotate({ identifier: "RenameTeamRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.
