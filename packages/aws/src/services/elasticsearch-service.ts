@@ -436,6 +436,19 @@ export interface LogPublishingOption {
   Enabled?: boolean | undefined;
 }
 export type LogPublishingOptions = { [key in LogType]?: LogPublishingOption | undefined };
+export type KmsKeyArn = string;
+export interface S3TablesEncryptionConfiguration {
+  Enabled?: boolean | undefined;
+  KmsKeyArn?: string | undefined;
+}
+export interface ServiceManagedS3TablesCatalog {
+  EncryptionConfiguration?: S3TablesEncryptionConfiguration | undefined;
+}
+export type CatalogConfiguration = { ServiceManagedS3Tables: ServiceManagedS3TablesCatalog };
+export interface CatalogOptions {
+  Enabled: boolean;
+  Catalog?: CatalogConfiguration | undefined;
+}
 export type TLSSecurityPolicy =
   | "Policy-Min-TLS-1-0-2019-07"
   | "Policy-Min-TLS-1-2-2019-07"
@@ -523,6 +536,7 @@ export interface CreateElasticsearchDomainRequest {
   NodeToNodeEncryptionOptions?: NodeToNodeEncryptionOptions | undefined;
   AdvancedOptions?: { [key: string]: string | undefined } | undefined;
   LogPublishingOptions?: { [key: string]: LogPublishingOption | undefined } | undefined;
+  CatalogOptions?: CatalogOptions | undefined;
   DomainEndpointOptions?: DomainEndpointOptions | undefined;
   AdvancedSecurityOptions?: AdvancedSecurityOptionsInput | undefined;
   AutoTuneOptions?: AutoTuneOptionsInput | undefined;
@@ -636,6 +650,7 @@ export interface ElasticsearchDomainStatus {
   NodeToNodeEncryptionOptions?: NodeToNodeEncryptionOptions | undefined;
   AdvancedOptions?: { [key: string]: string | undefined } | undefined;
   LogPublishingOptions?: { [key: string]: LogPublishingOption | undefined } | undefined;
+  CatalogOptions?: CatalogOptions | undefined;
   ServiceSoftwareOptions?: ServiceSoftwareOptions | undefined;
   DomainEndpointOptions?: DomainEndpointOptions | undefined;
   AdvancedSecurityOptions?: AdvancedSecurityOptions | undefined;
@@ -935,6 +950,10 @@ export interface LogPublishingOptionsStatus {
   Options?: { [key: string]: LogPublishingOption | undefined } | undefined;
   Status?: OptionStatus | undefined;
 }
+export interface CatalogOptionsStatus {
+  Options?: CatalogOptions | undefined;
+  Status?: OptionStatus | undefined;
+}
 export interface DomainEndpointOptionsStatus {
   Options: DomainEndpointOptions;
   Status: OptionStatus;
@@ -989,6 +1008,7 @@ export interface ElasticsearchDomainConfig {
   NodeToNodeEncryptionOptions?: NodeToNodeEncryptionOptionsStatus | undefined;
   AdvancedOptions?: AdvancedOptionsStatus | undefined;
   LogPublishingOptions?: LogPublishingOptionsStatus | undefined;
+  CatalogOptions?: CatalogOptionsStatus | undefined;
   DomainEndpointOptions?: DomainEndpointOptionsStatus | undefined;
   AdvancedSecurityOptions?: AdvancedSecurityOptionsStatus | undefined;
   AutoTuneOptions?: AutoTuneOptionsStatus | undefined;
@@ -1414,6 +1434,7 @@ export interface UpdateElasticsearchDomainConfigRequest {
   AdvancedOptions?: { [key: string]: string | undefined } | undefined;
   AccessPolicies?: string | undefined;
   LogPublishingOptions?: { [key: string]: LogPublishingOption | undefined } | undefined;
+  CatalogOptions?: CatalogOptions | undefined;
   DomainEndpointOptions?: DomainEndpointOptions | undefined;
   AdvancedSecurityOptions?: AdvancedSecurityOptionsInput | undefined;
   NodeToNodeEncryptionOptions?: NodeToNodeEncryptionOptions | undefined;
@@ -3432,11 +3453,12 @@ function __c18(j: number): any {
           NodeToNodeEncryptionOptions: S.optional(__S(711, __c22, 7)),
           AdvancedOptions: S.optional(__S(712, __c22, 8)),
           LogPublishingOptions: S.optional(__S(714, __c22, 10)),
-          DomainEndpointOptions: S.optional(__S(715, __c22, 11)),
+          CatalogOptions: S.optional(__S(718, __c22, 14)),
+          DomainEndpointOptions: S.optional(__S(719, __c22, 15)),
           AdvancedSecurityOptions: S.optional(__S(834, __c26, 2)),
           AutoTuneOptions: S.optional(__S(576, __c18, 0)),
           TagList: S.optional(__S(161, __c5, 1)),
-          DeploymentStrategyOptions: S.optional(__S(717, __c22, 13)),
+          DeploymentStrategyOptions: S.optional(__S(721, __c22, 17)),
           AutomatedSnapshotPauseOptions: S.optional(__S(835, __c26, 3)),
           UseCase: S.optional(S.String),
           EngineMode: S.optional(S.String),
@@ -3556,6 +3578,20 @@ function __c22(j: number): any {
       return S.Record(S.String, /*@__PURE__*/ __S(713, __c22, 9).pipe(S.optional));
     case 11:
       return S.suspend(() =>
+        S.Struct({ Enabled: S.optional(S.Boolean), KmsKeyArn: S.optional(S.String) }),
+      ).annotate({ identifier: "S3TablesEncryptionConfiguration" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({ EncryptionConfiguration: S.optional(__S(715, __c22, 11)) }),
+      ).annotate({ identifier: "ServiceManagedS3TablesCatalog" });
+    case 13:
+      return S.Union([/*@__PURE__*/ S.Struct({ ServiceManagedS3Tables: __S(716, __c22, 12) })]);
+    case 14:
+      return S.suspend(() =>
+        S.Struct({ Enabled: S.Boolean, Catalog: S.optional(__S(717, __c22, 13)) }),
+      ).annotate({ identifier: "CatalogOptions" });
+    case 15:
+      return S.suspend(() =>
         S.Struct({
           EnforceHTTPS: S.optional(S.Boolean),
           TLSSecurityPolicy: S.optional(S.String),
@@ -3564,35 +3600,35 @@ function __c22(j: number): any {
           CustomEndpointCertificateArn: S.optional(S.String),
         }),
       ).annotate({ identifier: "DomainEndpointOptions" });
-    case 12:
+    case 16:
       return S.suspend(() => S.Struct({ MetadataContent: S.String, EntityId: S.String })).annotate({
         identifier: "SAMLIdp",
       });
-    case 13:
+    case 17:
       return S.suspend(() => S.Struct({ DeploymentStrategy: S.String })).annotate({
         identifier: "DeploymentStrategyOptions",
       });
-    case 14:
+    case 18:
       return S.suspend(() =>
         S.Struct({
           Enabled: S.optional(S.Boolean),
-          Idp: S.optional(__S(716, __c22, 12)),
+          Idp: S.optional(__S(720, __c22, 16)),
           SubjectKey: S.optional(S.String),
           RolesKey: S.optional(S.String),
           SessionTimeoutMinutes: S.optional(S.Number),
         }),
       ).annotate({ identifier: "SAMLOptionsOutput" });
-    case 15:
+    case 19:
       return S.suspend(() =>
         S.Struct({
           Enabled: S.optional(S.Boolean),
           InternalUserDatabaseEnabled: S.optional(S.Boolean),
-          SAMLOptions: S.optional(__S(718, __c22, 14)),
+          SAMLOptions: S.optional(__S(722, __c22, 18)),
           AnonymousAuthDisableDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           AnonymousAuthEnabled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "AdvancedSecurityOptions" });
-    case 16:
+    case 20:
       return S.suspend(() =>
         S.Struct({
           Name: S.optional(S.String),
@@ -3601,9 +3637,9 @@ function __c22(j: number): any {
           ValueType: S.optional(S.String),
         }),
       ).annotate({ identifier: "ModifyingProperties" });
-    case 17:
-      return S.Array(__S(720, __c22, 16));
-    case 18:
+    case 21:
+      return S.Array(__S(724, __c22, 20));
+    case 22:
       return S.suspend(() =>
         S.Struct({
           Enabled: S.Boolean,
@@ -3658,15 +3694,16 @@ function __c24(j: number): any {
           NodeToNodeEncryptionOptions: S.optional(__S(711, __c22, 7)),
           AdvancedOptions: S.optional(__S(712, __c22, 8)),
           LogPublishingOptions: S.optional(__S(714, __c22, 10)),
+          CatalogOptions: S.optional(__S(718, __c22, 14)),
           ServiceSoftwareOptions: S.optional(__S(512, __c16, 0)),
-          DomainEndpointOptions: S.optional(__S(715, __c22, 11)),
-          AdvancedSecurityOptions: S.optional(__S(719, __c22, 15)),
+          DomainEndpointOptions: S.optional(__S(719, __c22, 15)),
+          AdvancedSecurityOptions: S.optional(__S(723, __c22, 19)),
           AutoTuneOptions: S.optional(__S(768, __c24, 0)),
           ChangeProgressDetails: S.optional(__S(736, __c23, 0)),
           DomainProcessingStatus: S.optional(S.String),
-          ModifyingProperties: S.optional(__S(721, __c22, 17)),
-          DeploymentStrategyOptions: S.optional(__S(717, __c22, 13)),
-          AutomatedSnapshotPauseOptions: S.optional(__S(722, __c22, 18)),
+          ModifyingProperties: S.optional(__S(725, __c22, 21)),
+          DeploymentStrategyOptions: S.optional(__S(721, __c22, 17)),
+          AutomatedSnapshotPauseOptions: S.optional(__S(726, __c22, 22)),
           UseCase: S.optional(S.String),
           EngineMode: S.optional(S.String),
         }),
@@ -3705,7 +3742,7 @@ function __c26(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Enabled: S.optional(S.Boolean),
-          Idp: S.optional(__S(716, __c22, 12)),
+          Idp: S.optional(__S(720, __c22, 16)),
           MasterUserName: S.optional(SensitiveString),
           MasterBackendRole: S.optional(S.String),
           SubjectKey: S.optional(S.String),
@@ -4189,7 +4226,7 @@ function __c47(j: number): any {
         ),
       ).annotate({ identifier: "DescribeElasticsearchDomainConfigRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ DomainConfig: __S(1555, __c48, 19) }).pipe(ns)).annotate({
+      return S.suspend(() => S.Struct({ DomainConfig: __S(1556, __c48, 20) }).pipe(ns)).annotate({
         identifier: "DescribeElasticsearchDomainConfigResponse",
       });
   }
@@ -4251,13 +4288,20 @@ function __c48(j: number): any {
       ).annotate({ identifier: "LogPublishingOptionsStatus" });
     case 11:
       return S.suspend(() =>
-        S.Struct({ Options: __S(715, __c22, 11), Status: __S(1536, __c48, 0) }),
-      ).annotate({ identifier: "DomainEndpointOptionsStatus" });
+        S.Struct({
+          Options: S.optional(__S(718, __c22, 14)),
+          Status: S.optional(__S(1536, __c48, 0)),
+        }),
+      ).annotate({ identifier: "CatalogOptionsStatus" });
     case 12:
       return S.suspend(() =>
         S.Struct({ Options: __S(719, __c22, 15), Status: __S(1536, __c48, 0) }),
-      ).annotate({ identifier: "AdvancedSecurityOptionsStatus" });
+      ).annotate({ identifier: "DomainEndpointOptionsStatus" });
     case 13:
+      return S.suspend(() =>
+        S.Struct({ Options: __S(723, __c22, 19), Status: __S(1536, __c48, 0) }),
+      ).annotate({ identifier: "AdvancedSecurityOptionsStatus" });
+    case 14:
       return S.suspend(() =>
         S.Struct({
           DesiredState: S.optional(S.String),
@@ -4265,7 +4309,7 @@ function __c48(j: number): any {
           MaintenanceSchedules: S.optional(__S(802, __c25, 2)),
         }),
       ).annotate({ identifier: "AutoTuneOptions" });
-    case 14:
+    case 15:
       return S.suspend(() =>
         S.Struct({
           CreationDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -4276,26 +4320,26 @@ function __c48(j: number): any {
           PendingDeletion: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "AutoTuneStatus" });
-    case 15:
-      return S.suspend(() =>
-        S.Struct({
-          Options: S.optional(__S(1549, __c48, 13)),
-          Status: S.optional(__S(1550, __c48, 14)),
-        }),
-      ).annotate({ identifier: "AutoTuneOptionsStatus" });
     case 16:
       return S.suspend(() =>
-        S.Struct({ Options: __S(717, __c22, 13), Status: __S(1536, __c48, 0) }),
-      ).annotate({ identifier: "DeploymentStrategyOptionsStatus" });
+        S.Struct({
+          Options: S.optional(__S(1550, __c48, 14)),
+          Status: S.optional(__S(1551, __c48, 15)),
+        }),
+      ).annotate({ identifier: "AutoTuneOptionsStatus" });
     case 17:
       return S.suspend(() =>
-        S.Struct({ Options: __S(722, __c22, 18), Status: __S(1536, __c48, 0) }),
-      ).annotate({ identifier: "AutomatedSnapshotPauseOptionsStatus" });
+        S.Struct({ Options: __S(721, __c22, 17), Status: __S(1536, __c48, 0) }),
+      ).annotate({ identifier: "DeploymentStrategyOptionsStatus" });
     case 18:
+      return S.suspend(() =>
+        S.Struct({ Options: __S(726, __c22, 22), Status: __S(1536, __c48, 0) }),
+      ).annotate({ identifier: "AutomatedSnapshotPauseOptionsStatus" });
+    case 19:
       return S.suspend(() => S.Struct({ Options: S.String, Status: __S(1536, __c48, 0) })).annotate(
         { identifier: "UseCaseStatus" },
       );
-    case 19:
+    case 20:
       return S.suspend(() =>
         S.Struct({
           ElasticsearchVersion: S.optional(__S(1537, __c48, 1)),
@@ -4309,15 +4353,16 @@ function __c48(j: number): any {
           NodeToNodeEncryptionOptions: S.optional(__S(1544, __c48, 8)),
           AdvancedOptions: S.optional(__S(1545, __c48, 9)),
           LogPublishingOptions: S.optional(__S(1546, __c48, 10)),
-          DomainEndpointOptions: S.optional(__S(1547, __c48, 11)),
-          AdvancedSecurityOptions: S.optional(__S(1548, __c48, 12)),
-          AutoTuneOptions: S.optional(__S(1551, __c48, 15)),
+          CatalogOptions: S.optional(__S(1547, __c48, 11)),
+          DomainEndpointOptions: S.optional(__S(1548, __c48, 12)),
+          AdvancedSecurityOptions: S.optional(__S(1549, __c48, 13)),
+          AutoTuneOptions: S.optional(__S(1552, __c48, 16)),
           ChangeProgressDetails: S.optional(__S(736, __c23, 0)),
-          ModifyingProperties: S.optional(__S(721, __c22, 17)),
-          DeploymentStrategyOptions: S.optional(__S(1552, __c48, 16)),
-          AutomatedSnapshotPauseOptions: S.optional(__S(1553, __c48, 17)),
-          UseCase: S.optional(__S(1554, __c48, 18)),
-          EngineMode: S.optional(__S(1554, __c48, 18)),
+          ModifyingProperties: S.optional(__S(725, __c22, 21)),
+          DeploymentStrategyOptions: S.optional(__S(1553, __c48, 17)),
+          AutomatedSnapshotPauseOptions: S.optional(__S(1554, __c48, 18)),
+          UseCase: S.optional(__S(1555, __c48, 19)),
+          EngineMode: S.optional(__S(1555, __c48, 19)),
         }),
       ).annotate({ identifier: "ElasticsearchDomainConfig" });
   }
@@ -5275,13 +5320,14 @@ function __c82(j: number): any {
           AdvancedOptions: S.optional(__S(712, __c22, 8)),
           AccessPolicies: S.optional(S.String),
           LogPublishingOptions: S.optional(__S(714, __c22, 10)),
-          DomainEndpointOptions: S.optional(__S(715, __c22, 11)),
+          CatalogOptions: S.optional(__S(718, __c22, 14)),
+          DomainEndpointOptions: S.optional(__S(719, __c22, 15)),
           AdvancedSecurityOptions: S.optional(__S(834, __c26, 2)),
           NodeToNodeEncryptionOptions: S.optional(__S(711, __c22, 7)),
           EncryptionAtRestOptions: S.optional(__S(710, __c22, 6)),
-          AutoTuneOptions: S.optional(__S(1549, __c48, 13)),
+          AutoTuneOptions: S.optional(__S(1550, __c48, 14)),
           DryRun: S.optional(S.Boolean),
-          DeploymentStrategyOptions: S.optional(__S(717, __c22, 13)),
+          DeploymentStrategyOptions: S.optional(__S(721, __c22, 17)),
           AutomatedSnapshotPauseOptions: S.optional(__S(835, __c26, 3)),
           UseCase: S.optional(S.String),
           EngineMode: S.optional(S.String),
@@ -5304,7 +5350,7 @@ function __c82(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          DomainConfig: __S(1555, __c48, 19),
+          DomainConfig: __S(1556, __c48, 20),
           DryRunResults: S.optional(__S(2625, __c82, 1)),
         }).pipe(ns),
       ).annotate({ identifier: "UpdateElasticsearchDomainConfigResponse" });

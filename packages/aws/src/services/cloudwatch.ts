@@ -1202,6 +1202,7 @@ export interface GetOTelEnrichmentOutput {
   ExcludeFilters?: (OTelEnrichmentMetricSelector & { Namespace: Namespace })[] | undefined;
   CreatedAt?: Date | undefined;
   UpdatedAt?: Date | undefined;
+  EnableTagEnrichment?: boolean | undefined;
 }
 export interface GetResourceMetricsConfigurationInput {
   ResourceArn?: string | undefined;
@@ -1558,12 +1559,14 @@ export interface StartMetricStreamsOutput {}
 export interface StartOTelEnrichmentInput {
   IncludeFilters?: OTelEnrichmentMetricSelector[] | undefined;
   ExcludeFilters?: OTelEnrichmentMetricSelector[] | undefined;
+  EnableTagEnrichment?: boolean | undefined;
 }
 export interface StartOTelEnrichmentOutput {
   IncludeFilters?: (OTelEnrichmentMetricSelector & { Namespace: Namespace })[] | undefined;
   ExcludeFilters?: (OTelEnrichmentMetricSelector & { Namespace: Namespace })[] | undefined;
   CreatedAt?: Date | undefined;
   UpdatedAt?: Date | undefined;
+  EnableTagEnrichment?: boolean | undefined;
 }
 export interface StopMetricStreamsInput {
   Names?: string[] | undefined;
@@ -1585,12 +1588,14 @@ export interface UntagResourceOutput {}
 export interface UpdateOTelEnrichmentInput {
   IncludeFilters?: OTelEnrichmentMetricSelector[] | undefined;
   ExcludeFilters?: OTelEnrichmentMetricSelector[] | undefined;
+  EnableTagEnrichment?: boolean | undefined;
 }
 export interface UpdateOTelEnrichmentOutput {
   IncludeFilters?: (OTelEnrichmentMetricSelector & { Namespace: Namespace })[] | undefined;
   ExcludeFilters?: (OTelEnrichmentMetricSelector & { Namespace: Namespace })[] | undefined;
   CreatedAt?: Date | undefined;
   UpdatedAt?: Date | undefined;
+  EnableTagEnrichment?: boolean | undefined;
 }
 export interface UpdateResourceMetricsConfigurationInput {
   ResourceArn?: string | undefined;
@@ -3765,17 +3770,22 @@ export type StartOTelEnrichmentError = ValidationException | CommonErrors;
  * Enables enrichment and PromQL access for CloudWatch vended metrics for supported Amazon Web Services resources in the account. Once enabled,
  * metrics that contain a resource identifier dimension (for example, EC2
  * `CPUUtilization` with an `InstanceId` dimension) are enriched
- * with resource ARN and resource tag labels and become queryable using PromQL.
+ * with resource ARN labels and, optionally, resource tag labels, and become queryable
+ * using PromQL.
  *
- * Before calling this operation, you must enable resource tags on telemetry for your
- * account. For more information, see Enable
+ * To include resource tag labels, you must also enable resource tags on telemetry for
+ * the account. For more information, see Enable
+ * resource tags on telemetry. If `EnableTagEnrichment` is
+ * `false`, enrichment reads no resource tags, so it does not require
  * resource tags on telemetry.
  *
  * Optionally, `IncludeFilters` and `ExcludeFilters` limit
- * enrichment to a subset of the account's metrics. These filters are stored only when this
- * operation starts enrichment. Calling `StartOTelEnrichment` for an account
- * where enrichment is already running has no effect and does not modify the filters that
- * are applied. To change them, use UpdateOTelEnrichment.
+ * enrichment to a subset of the account's metrics, and `EnableTagEnrichment`
+ * controls whether enriched metrics include resource tag labels. These settings are
+ * stored only when this operation starts enrichment. Calling
+ * `StartOTelEnrichment` for an account where enrichment is already running
+ * has no effect and does not modify the filters or the tag enrichment setting that are
+ * applied. To change them, use UpdateOTelEnrichment.
  */
 export const startOTelEnrichment: API.OperationMethod<
   StartOTelEnrichmentInput & RegionInput,
@@ -5054,6 +5064,7 @@ function __c54(j: number): any {
           ExcludeFilters: S.optional(__S(409, __c51, 1)),
           CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          EnableTagEnrichment: S.optional(S.Boolean),
         }).pipe(ns),
       ).annotate({ identifier: "GetOTelEnrichmentOutput" });
   }
@@ -5560,6 +5571,7 @@ function __c76(j: number): any {
         S.Struct({
           IncludeFilters: S.optional(__S(409, __c51, 1)),
           ExcludeFilters: S.optional(__S(409, __c51, 1)),
+          EnableTagEnrichment: S.optional(S.Boolean),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "StartOTelEnrichmentInput" });
   }
@@ -5573,6 +5585,7 @@ function __c77(j: number): any {
           ExcludeFilters: S.optional(__S(409, __c51, 1)),
           CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          EnableTagEnrichment: S.optional(S.Boolean),
         }).pipe(ns),
       ).annotate({ identifier: "StartOTelEnrichmentOutput" });
   }
@@ -5624,6 +5637,7 @@ function __c82(j: number): any {
         S.Struct({
           IncludeFilters: S.optional(__S(409, __c51, 1)),
           ExcludeFilters: S.optional(__S(409, __c51, 1)),
+          EnableTagEnrichment: S.optional(S.Boolean),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateOTelEnrichmentInput" });
   }
