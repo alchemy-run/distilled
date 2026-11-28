@@ -516,7 +516,7 @@ export interface HostConfigUlimitsItem {
 export type HostConfigUlimitsList = Array<HostConfigUlimitsItem>;
 /** A list of volume bindings for this container. Each volume binding is a string in one of these forms: - `host-src:container-dest[:options]` to bind-mount a host path into the container. Both `host-src`, and `container-dest` must be an _absolute_ path. - `volume-name:container-dest[:options]` to bind-mount a volume managed by a volume driver into the container. `container-dest` must be an _absolute_ path. `options` is an optional, comma-delimited list of: - `nocopy` disables automatic copying of data from the container path to the volume. The `nocopy` flag only applies to named volumes. - `[ro|rw]` mounts a volume read-only or read-write, respectively. If omitted or set to `rw`, volumes are mounted read-write. - `[z|Z]` applies SELinux labels to allow or deny multiple containers to read and write to the same volume. - `z`: a _shared_ content label is applied to the content. This label indicates that multiple containers can share the volume content, for both reading and writing. - `Z`: a _private unshared_ label is applied to the content. This label indicates that only the current container can use a private volume. Labeling systems such as SELinux require proper labels to be placed on volume content that is mounted into a container. Without a label, the security system can prevent a container's processes from using the content. By default, the labels set by the host operating system are not modified. - `[[r]shared|[r]slave|[r]private]` specifies mount [propagation behavior](https://www.kernel.org/doc/Documentation/filesystems/sharedsubtree.txt). This only applies to bind-mounted volumes, not internal volumes or named volumes. Mount propagation requires the source mount point (the location where the source directory is mounted in the host operating system) to have the correct propagation properties. For shared volumes, the source mount point must be set to `shared`. For slave volumes, the mount must be set to either `shared` or `slave`. */
 export type HostConfigBindsList = Array<string>;
-/** Name of the logging driver used for the container or "none" if logging is disabled. */
+/** Name of the logging driver used for the container or "none" if logging is disabled. The logging drivers that are available depend on the platform and on how the daemon was built. The `Plugins.Log` field of the [`/info`](#operation/SystemInfo) response lists the logging drivers that are available. */
 export type HostConfigLogConfigType =
   | "local"
   | "json-file"
@@ -532,7 +532,7 @@ export type HostConfigLogConfigType =
 export type HostConfigLogConfigConfigMap = { [key: string]: string | undefined };
 /** The logging configuration for this container */
 export interface HostConfigLogConfig {
-  /** Name of the logging driver used for the container or "none" if logging is disabled. */
+  /** Name of the logging driver used for the container or "none" if logging is disabled. The logging drivers that are available depend on the platform and on how the daemon was built. The `Plugins.Log` field of the [`/info`](#operation/SystemInfo) response lists the logging drivers that are available. */
   Type?: HostConfigLogConfigType | (string & {}) | undefined;
   /** Driver-specific configuration options for the logging driver. */
   Config?: HostConfigLogConfigConfigMap | undefined;
@@ -3807,7 +3807,7 @@ export type PluginsInfoVolumeList = Array<string>;
 export type PluginsInfoNetworkList = Array<string>;
 /** Names of available authorization plugins. */
 export type PluginsInfoAuthorizationList = Array<string>;
-/** Names of available logging-drivers, and logging-driver plugins. */
+/** Names of available logging-drivers, and logging-driver plugins. The list of logging-drivers depends on the platform and on how the daemon was built. */
 export type PluginsInfoLogList = Array<string>;
 /** Available plugins per type. <p><br /></p> > **Note**: Only unmanaged (V1) plugins are included in this list. > V1 plugins are "lazily" loaded, and are not returned in this list > if there is no resource using the plugin. */
 export interface PluginsInfo {
@@ -3817,7 +3817,7 @@ export interface PluginsInfo {
   Network?: PluginsInfoNetworkList | undefined;
   /** Names of available authorization plugins. */
   Authorization?: PluginsInfoAuthorizationList | undefined;
-  /** Names of available logging-drivers, and logging-driver plugins. */
+  /** Names of available logging-drivers, and logging-driver plugins. The list of logging-drivers depends on the platform and on how the daemon was built. */
   Log?: PluginsInfoLogList | undefined;
 }
 /** The driver to use for managing cgroups. */
