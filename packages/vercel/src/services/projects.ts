@@ -4537,6 +4537,7 @@ export interface CreateProjectTransferRequestRequest {
   callbackSecret?: string | Redacted.Redacted<string> | undefined;
 }
 export interface CreateProjectTransferRequestResponse {
+  /** Code that can be used to accept the project transfer request. */
   code: string;
 }
 export interface CreateTraceSessionRequest {
