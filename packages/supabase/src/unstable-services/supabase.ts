@@ -1041,7 +1041,7 @@ export interface PlanGateErrorBodyError {
   code: PlanGateErrorBodyErrorCode;
   /** Entitlement feature key that failed the check */
   feature: string;
-  /** Billing page URL for the organization, present when the org is resolvable */
+  /** Dashboard URL where the feature can be unlocked: the organization billing page, or the project add-ons page when a per-project add-on is missing. Present when the organization or project is resolvable */
   upgrade_url?: string | undefined;
 }
 export interface PlanGateErrorBody {

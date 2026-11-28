@@ -962,13 +962,6 @@
     },
     {
       "op": "add",
-      "path": "/shapes/com.supabase.api#V1RestorePitrBackup/errors/0",
-      "value": {
-        "target": "com.supabase.api#BadRequest"
-      }
-    },
-    {
-      "op": "add",
       "path": "/shapes/com.supabase.api#V1GetRestorePoint/errors/0",
       "value": {
         "target": "com.supabase.api#BadRequest"
