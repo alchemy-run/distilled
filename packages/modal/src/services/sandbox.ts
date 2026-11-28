@@ -350,6 +350,8 @@ export interface Sandbox {
   outboundPolicy?: OutboundPolicy | undefined;
   /** Layout of the `sub` claim in the sandbox's OIDC identity tokens. Values other than those of OidcSubjectVersion are rejected. Sidecars added to a sandbox use the value from the sandbox's create request, and the value on a sidecar's own definition is ignored. */
   oidcSubjectVersion?: OidcSubjectVersion | (string & {}) | undefined;
+  /** How long the Sandbox drains before it stops at its timeout or when idle: it refuses new exec commands and lets running ones finish for up to this long. Only persistent Sandboxes accept it for now. */
+  drainTimeoutSecs?: number | undefined;
 }
 export interface SandboxTag {
   tagName?: string | undefined;
@@ -2437,6 +2439,7 @@ function __c24(j: number): any {
           includeX509Svid: S.optional(S.Boolean),
           outboundPolicy: S.optional(__S(814, __c25, 14)),
           oidcSubjectVersion: S.optional(S.String),
+          drainTimeoutSecs: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Sandbox" });
   }
