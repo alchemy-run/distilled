@@ -583,7 +583,8 @@ export interface GetChangeStackRequest {
 }
 export interface TrailStackPullRequestJSON {
   current: boolean;
-  pr_number: number;
+  /** Null for native trails. */
+  pr_number: number | null;
   status: string | null;
   title: string | null;
   /** Null when no trail in this repo links the pull request. */
@@ -592,9 +593,9 @@ export interface TrailStackPullRequestJSON {
 /** Bottom of the stack (closest to the base branch) first. */
 export type TrailStackResponseStackPullRequestsList = Array<TrailStackPullRequestJSON>;
 export interface TrailStackResponseStack {
-  /** The stack's target branch, which every stacked merge lands on. Empty when the forge did not report it. */
+  /** The bottom stack member's target branch. Empty when the target is unknown. */
   base?: string | undefined;
-  /** 1-based index of this trail's proposal in pull_requests. */
+  /** 1-based index of this trail in pull_requests. */
   position: number;
   /** Bottom of the stack (closest to the base branch) first. */
   pull_requests: TrailStackResponseStackPullRequestsList | null;
@@ -1005,7 +1006,7 @@ export const getChange: API.OperationMethod<
 }));
 
 export type GetChangeStackError = EntireOpError;
-/** Get a change's forge stack membership (repo_id addressing) */
+/** Get a change's stack membership (repo_id addressing) */
 export const getChangeStack: API.OperationMethod<
   GetChangeStackRequest,
   TrailStackResponse,
@@ -2034,7 +2035,7 @@ function __c21(j: number): any {
       return S.suspend(() =>
         S.Struct({
           current: S.Boolean,
-          pr_number: S.Number,
+          pr_number: S.NullOr(S.Number),
           status: S.NullOr(S.String),
           title: S.NullOr(S.String),
           trail_number: S.NullOr(S.Number),
