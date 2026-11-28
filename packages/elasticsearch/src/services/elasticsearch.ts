@@ -42287,6 +42287,18 @@ export interface XpackUsageEsqlTook {
   /** Queries that took 1 day or more. */
   gt_1d: number;
 }
+export type XpackUsageEsqlResolvedSettingsValueMap = { [key: string]: number | undefined };
+/** Per-setting usage counters broken down by the setting's effective value in each query, whether the query supplied it or used the default. Keyed by ES|QL query setting name. Each value maps a value category to a count. */
+export type XpackUsageEsqlResolvedSettingsMap = {
+  [key: string]: XpackUsageEsqlResolvedSettingsValueMap | undefined;
+};
+/** Like `settings`, but counts the settings set inside the definitions of the views a query uses. Counted separately from the query's own settings. */
+export type XpackUsageEsqlViewSettingsMap = { [key: string]: number | undefined };
+export type XpackUsageEsqlViewResolvedSettingsValueMap = { [key: string]: number | undefined };
+/** Like `resolved_settings`, but for the views a query uses: counts the effective value of each setting in the view definitions, whether a view set it or used the default. Counted separately from the query's own settings. */
+export type XpackUsageEsqlViewResolvedSettingsMap = {
+  [key: string]: XpackUsageEsqlViewResolvedSettingsValueMap | undefined;
+};
 export interface XpackUsageEsql {
   available: boolean;
   enabled: boolean;
@@ -42300,6 +42312,12 @@ export interface XpackUsageEsql {
   settings: XpackUsageEsqlSettingsMap;
   /** Histogram of query execution times. Each query is counted in exactly one bucket, the one its `took` time falls in. */
   took: XpackUsageEsqlTook;
+  /** Per-setting usage counters broken down by the setting's effective value in each query, whether the query supplied it or used the default. Keyed by ES|QL query setting name. Each value maps a value category to a count. */
+  resolved_settings: XpackUsageEsqlResolvedSettingsMap;
+  /** Like `settings`, but counts the settings set inside the definitions of the views a query uses. Counted separately from the query's own settings. */
+  view_settings: XpackUsageEsqlViewSettingsMap;
+  /** Like `resolved_settings`, but for the views a query uses: counts the effective value of each setting in the view definitions, whether a view set it or used the default. Counted separately from the query's own settings. */
+  view_resolved_settings: XpackUsageEsqlViewResolvedSettingsMap;
 }
 export interface XpackUsageFlattened {
   available: boolean;
@@ -44406,7 +44424,7 @@ export const clusterStats: API.OperationMethod<
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(33600, __c1050, 0) as any as S.Schema<ClusterStatsRequest>,
-  output: __S(33687, __c1052, 23) as any as S.Schema<ClusterStatsResponse>,
+  output: __S(33686, __c1052, 22) as any as S.Schema<ClusterStatsResponse>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -44424,7 +44442,7 @@ export const clusterStats1: API.OperationMethod<
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(33856, __c1058, 0) as any as S.Schema<ClusterStats1Request>,
-  output: __S(33687, __c1052, 23) as any as S.Schema<ClusterStats1Response>,
+  output: __S(33686, __c1052, 22) as any as S.Schema<ClusterStats1Response>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -84160,6 +84178,9 @@ function __c1000(j: number): any {
           functions: __S(192, __c6, 0),
           settings: __S(192, __c6, 0),
           took: __S(32002, __c1000, 2),
+          resolved_settings: __S(33826, __c1057, 2),
+          view_settings: __S(192, __c6, 0),
+          view_resolved_settings: __S(33826, __c1057, 2),
         }),
       ).annotate({ identifier: "XpackUsageEsql" });
     case 4:
@@ -86537,8 +86558,6 @@ function __c1052(j: number): any {
         }),
       ).annotate({ identifier: "ClusterStatsClusterNodes" });
     case 9:
-      return S.Record(S.String, __S(192, __c6, 0));
-    case 10:
       return S.suspend(() =>
         S.Struct({
           snapshots: S.Number,
@@ -86548,7 +86567,7 @@ function __c1052(j: number): any {
           cleanups: S.Number,
         }),
       ).annotate({ identifier: "ClusterStatsSnapshotCurrentCounts" });
-    case 11:
+    case 10:
       return S.suspend(() =>
         S.Struct({
           total: S.Number,
@@ -86557,7 +86576,7 @@ function __c1052(j: number): any {
           states: __S(192, __c6, 0),
         }),
       ).annotate({ identifier: "ClusterStatsRepositoryStatsShards" });
-    case 12:
+    case 11:
       return S.suspend(() =>
         S.Struct({
           snapshots: S.Number,
@@ -86566,28 +86585,28 @@ function __c1052(j: number): any {
           deletions: S.Number,
           snapshot_deletions: S.Number,
           active_deletions: S.Number,
-          shards: __S(33675, __c1052, 11),
+          shards: __S(33674, __c1052, 10),
         }),
       ).annotate({ identifier: "ClusterStatsRepositoryStatsCurrentCounts" });
-    case 13:
+    case 12:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
           oldest_start_time_millis: S.Number,
           oldest_start_time: S.optional(S.String),
-          current_counts: __S(33676, __c1052, 12),
+          current_counts: __S(33675, __c1052, 11),
         }),
       ).annotate({ identifier: "ClusterStatsPerRepositoryStats" });
+    case 13:
+      return S.Record(S.String, __S(33676, __c1052, 12));
     case 14:
-      return S.Record(S.String, __S(33677, __c1052, 13));
-    case 15:
       return S.suspend(() =>
         S.Struct({
-          current_counts: __S(33674, __c1052, 10),
-          repositories: __S(33678, __c1052, 14),
+          current_counts: __S(33673, __c1052, 9),
+          repositories: __S(33677, __c1052, 13),
         }),
       ).annotate({ identifier: "ClusterStatsClusterSnapshotStats" });
-    case 16:
+    case 15:
       return S.suspend(() =>
         S.Struct({
           cluster_uuid: S.String,
@@ -86607,9 +86626,9 @@ function __c1052(j: number): any {
           mem_total: S.optional(S.String),
         }),
       ).annotate({ identifier: "ClusterStatsRemoteClusterInfo" });
+    case 16:
+      return S.Record(S.String, __S(33679, __c1052, 15));
     case 17:
-      return S.Record(S.String, __S(33680, __c1052, 16));
-    case 18:
       return S.suspend(() =>
         S.Struct({
           max: S.Number,
@@ -86617,42 +86636,42 @@ function __c1052(j: number): any {
           p90: S.Number,
         }),
       ).annotate({ identifier: "ClusterStatsCCSUsageTimeValue" });
-    case 19:
+    case 18:
       return S.suspend(() =>
         S.Struct({
           total: S.Number,
           skipped: S.Number,
-          took: __S(33682, __c1052, 18),
+          took: __S(33681, __c1052, 17),
         }),
       ).annotate({ identifier: "ClusterStatsCCSUsageClusterStats" });
+    case 19:
+      return S.Record(S.String, __S(33682, __c1052, 18));
     case 20:
-      return S.Record(S.String, __S(33683, __c1052, 19));
-    case 21:
       return S.suspend(() =>
         S.Struct({
           total: S.Number,
           success: S.Number,
           skipped: S.Number,
-          took: __S(33682, __c1052, 18),
-          took_mrt_true: S.optional(__S(33682, __c1052, 18)),
-          took_mrt_false: S.optional(__S(33682, __c1052, 18)),
+          took: __S(33681, __c1052, 17),
+          took_mrt_true: S.optional(__S(33681, __c1052, 17)),
+          took_mrt_false: S.optional(__S(33681, __c1052, 17)),
           remotes_per_search_max: S.Number,
           remotes_per_search_avg: S.Number,
           failure_reasons: __S(192, __c6, 0),
           features: __S(192, __c6, 0),
           clients: __S(192, __c6, 0),
-          clusters: __S(33684, __c1052, 20),
+          clusters: __S(33683, __c1052, 19),
         }),
       ).annotate({ identifier: "ClusterStatsCCSUsageStats" });
-    case 22:
+    case 21:
       return S.suspend(() =>
         S.Struct({
-          clusters: S.optional(__S(33681, __c1052, 17)),
-          _search: __S(33685, __c1052, 21),
-          _esql: S.optional(__S(33685, __c1052, 21)),
+          clusters: S.optional(__S(33680, __c1052, 16)),
+          _search: __S(33684, __c1052, 20),
+          _esql: S.optional(__S(33684, __c1052, 20)),
         }),
       ).annotate({ identifier: "ClusterStatsCCSStats" });
-    case 23:
+    case 22:
       return S.suspend(() =>
         S.Struct({
           _nodes: S.optional(__S(33728, __c1054, 0)),
@@ -86660,11 +86679,11 @@ function __c1052(j: number): any {
           cluster_uuid: S.String,
           indices: __S(33649, __c1051, 17),
           nodes: __S(33672, __c1052, 8),
-          repositories: __S(33673, __c1052, 9),
-          snapshots: __S(33679, __c1052, 15),
+          repositories: __S(33826, __c1057, 2),
+          snapshots: __S(33678, __c1052, 14),
           status: S.optional(S.String),
           timestamp: S.Number,
-          ccs: __S(33686, __c1052, 22),
+          ccs: __S(33685, __c1052, 21),
         }),
       ).annotate({ identifier: "ClusterStatsResponse" });
   }
@@ -86955,6 +86974,8 @@ function __c1057(j: number): any {
       ).annotate({ identifier: "ClusterStatsRuntimeFieldTypes" });
     case 1:
       return S.Array(__S(33824, __c1057, 0));
+    case 2:
+      return S.Record(S.String, __S(192, __c6, 0));
   }
 }
 function __c1058(j: number): any {
