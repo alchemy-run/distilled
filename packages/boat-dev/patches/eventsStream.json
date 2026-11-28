@@ -1,0 +1,105 @@
+{
+  "description": "Stream eventsStream's events. GET /sandboxes/{sandboxId}/events/stream answers 200 application/x-ndjson, one EventStreamFrame per line (the spec's own components.schemas.EventStreamFrame), but the converter reads only application/json bodies, so the operation generated with an empty output. Mark it server-streaming with the frames as its output's items, so it generates as API.makeStreaming: `.stream(input)` emits each frame as Boat writes it, and BoatProtocol frames the body as NDJSON. The frame shape is transcribed from that schema.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#EventStreamFrameType",
+      "value": {
+        "type": "enum",
+        "members": {
+          "TEXT_DELTA": {
+            "target": "smithy.api#Unit",
+            "traits": { "smithy.api#enumValue": "text_delta" }
+          },
+          "EVENT": { "target": "smithy.api#Unit", "traits": { "smithy.api#enumValue": "event" } },
+          "HEARTBEAT": {
+            "target": "smithy.api#Unit",
+            "traits": { "smithy.api#enumValue": "heartbeat" }
+          },
+          "DONE": { "target": "smithy.api#Unit", "traits": { "smithy.api#enumValue": "done" } },
+          "RECONNECT": {
+            "target": "smithy.api#Unit",
+            "traits": { "smithy.api#enumValue": "reconnect" }
+          },
+          "ERROR": { "target": "smithy.api#Unit", "traits": { "smithy.api#enumValue": "error" } }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#EventStreamFrameStreamedMessageIds",
+      "value": {
+        "type": "list",
+        "member": { "target": "smithy.api#String" }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#EventStreamFrame",
+      "value": {
+        "type": "structure",
+        "members": {
+          "type": {
+            "target": "com.boat.api#EventStreamFrameType",
+            "traits": { "smithy.api#required": {} }
+          },
+          "conversationId": { "target": "smithy.api#String" },
+          "promptId": {
+            "target": "smithy.api#String",
+            "traits": { "com.distilled.openapi#nullable": {} }
+          },
+          "messageId": { "target": "smithy.api#String" },
+          "offset": { "target": "smithy.api#Integer" },
+          "text": { "target": "smithy.api#String" },
+          "event": { "target": "com.boat.api#SandboxEvent" },
+          "cursor": {
+            "target": "smithy.api#String",
+            "traits": { "com.distilled.openapi#nullable": {} }
+          },
+          "streamedMessageIds": { "target": "com.boat.api#EventStreamFrameStreamedMessageIds" },
+          "promptRun": { "target": "com.boat.api#PromptRun" },
+          "error": { "target": "smithy.api#String" },
+          "message": { "target": "smithy.api#String" }
+        },
+        "traits": {
+          "smithy.api#documentation": "One line of `GET /sandboxes/{sandboxId}/events/stream` (application/x-ndjson).\n- `text_delta`: reply text as the model writes it. `conversationId`, `promptId`, `messageId`, `text`, and `offset`: the number of characters of `messageId` sent before this line. A stream that opens in the middle of a reply gets the text so far at `offset` 0.\n- `event`: one event, the same object that `GET /events` returns. It is sent again when the event changes (a tool result arrives): replace the event with the same `event.id`. `cursor` continues the stream after this event. `streamedMessageIds` names the `text_delta` messages whose text `event.data.content` now records: if you showed those texts, do not show the content again. Without `streamedMessageIds`, the text was not streamed: show the content.\n- `heartbeat`: sent after 15 s with no other line.\n- `done`: last line, only with `promptId`, when that prompt ended. `promptRun` is the object of `GET /sandboxes/{sandboxId}/prompts/{promptId}`.\n- `reconnect`: last line after 10 minutes. Open the stream again with its `cursor`.\n- `error`: last line on a failure. `error`, `message`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#EventStreamFrameList",
+      "value": {
+        "type": "list",
+        "member": { "target": "com.boat.api#EventStreamFrame" }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#EventsStreamResponse",
+      "value": {
+        "type": "structure",
+        "members": {
+          "items": {
+            "target": "com.boat.api#EventStreamFrameList",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "Every line of the event stream, in order. It ends after a `done`, `reconnect` or `error` frame."
+            }
+          }
+        },
+        "traits": { "smithy.api#output": {} }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.boat.api#EventsStream/output/target",
+      "value": "com.boat.api#EventsStreamResponse"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#EventsStream/traits/com.distilled.grpc#serverStreaming",
+      "value": {}
+    }
+  ]
+}
