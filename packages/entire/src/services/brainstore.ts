@@ -115,6 +115,11 @@ export interface GetBrainstoreHealthResponse {
   service?: string | undefined;
   timestamp?: string | undefined;
 }
+export interface GetMemoryRequest {
+  repo_id: string;
+  /** Content-derived fact id (factmerge.RecordID shape). */
+  fact_id: string;
+}
 export interface GetReconcileRunRequest {
   repo_id: string;
   /** Reconcile run id (run:<24 hex>) */
@@ -400,8 +405,8 @@ export const createTrailMergeRecord: API.OperationMethod<
   CreateTrailMergeRecordError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<CreateTrailMergeRecordRequest>,
-  output: __S(65, __c8, 1) as any as S.Schema<CreateTrailMergeRecordResponse>,
+  input: __S(72, __c9, 0) as any as S.Schema<CreateTrailMergeRecordRequest>,
+  output: __S(73, __c9, 1) as any as S.Schema<CreateTrailMergeRecordResponse>,
   errors: [],
   serviceErrors: EntireServiceErrors,
   protocol: EntireCellProtocol,
@@ -418,7 +423,7 @@ export const editMemory: API.OperationMethod<
   EditMemoryError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<EditMemoryRequest>,
+  input: __S(80, __c10, 0) as any as S.Schema<EditMemoryRequest>,
   output: __S(18, __c2, 2) as any as S.Schema<MemoryItem>,
   errors: [],
   serviceErrors: EntireServiceErrors,
@@ -436,14 +441,32 @@ export const getBrainstoreHealth: API.OperationMethod<
   GetBrainstoreHealthError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<GetBrainstoreHealthRequest>,
-  output: __S(81, __c10, 1) as any as S.Schema<GetBrainstoreHealthResponse>,
+  input: __S(88, __c11, 0) as any as S.Schema<GetBrainstoreHealthRequest>,
+  output: __S(89, __c11, 1) as any as S.Schema<GetBrainstoreHealthResponse>,
   errors: [],
   serviceErrors: EntireServiceErrors,
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetBrainstoreHealth",
+}));
+
+export type GetMemoryError = EntireOpError;
+/** Read one memory by fact id Returns one read-model row in any status -- superseded and retracted included, so a client can follow supersededBy hop by hop to the active head of an edit chain (e.g. after a 409 on editMemory) without paging the list. Requires repo read access. */
+export const getMemory: API.OperationMethod<
+  GetMemoryRequest,
+  MemoryItem,
+  GetMemoryError,
+  EntireOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(96, __c12, 0) as any as S.Schema<GetMemoryRequest>,
+  output: __S(18, __c2, 2) as any as S.Schema<MemoryItem>,
+  errors: [],
+  serviceErrors: EntireServiceErrors,
+  protocol: EntireCellProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMemory",
 }));
 
 export type GetReconcileRunError = EntireOpError;
@@ -454,8 +477,8 @@ export const getReconcileRun: API.OperationMethod<
   GetReconcileRunError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<GetReconcileRunRequest>,
-  output: __S(90, __c11, 2) as any as S.Schema<GetReconcileRunResponse>,
+  input: __S(104, __c13, 0) as any as S.Schema<GetReconcileRunRequest>,
+  output: __S(106, __c13, 2) as any as S.Schema<GetReconcileRunResponse>,
   errors: [],
   serviceErrors: EntireServiceErrors,
   protocol: EntireCellProtocol,
@@ -474,8 +497,8 @@ export const listFactChanges: API.PaginatedOperationMethod<
   ListFactChangesResponseItemsItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(96, __c12, 0) as any as S.Schema<ListFactChangesRequest>,
-    output: __S(102, __c12, 6) as any as S.Schema<ListFactChangesResponse>,
+    input: __S(112, __c14, 0) as any as S.Schema<ListFactChangesRequest>,
+    output: __S(118, __c14, 6) as any as S.Schema<ListFactChangesResponse>,
     errors: [],
     serviceErrors: EntireServiceErrors,
     protocol: EntireCellProtocol,
@@ -502,8 +525,8 @@ export const listMemories: API.PaginatedOperationMethod<
   MemoryItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(104, __c13, 0) as any as S.Schema<ListMemoriesRequest>,
-    output: __S(105, __c13, 1) as any as S.Schema<ListMemoriesResponse>,
+    input: __S(120, __c15, 0) as any as S.Schema<ListMemoriesRequest>,
+    output: __S(121, __c15, 1) as any as S.Schema<ListMemoriesResponse>,
     errors: [],
     serviceErrors: EntireServiceErrors,
     protocol: EntireCellProtocol,
@@ -528,8 +551,8 @@ export const listMemoryFacetCandidates: API.OperationMethod<
   ListMemoryFacetCandidatesError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c15, 0) as any as S.Schema<ListMemoryFacetCandidatesRequest>,
-  output: __S(123, __c15, 3) as any as S.Schema<ListMemoryFacetCandidatesResponse>,
+  input: __S(136, __c17, 0) as any as S.Schema<ListMemoryFacetCandidatesRequest>,
+  output: __S(139, __c17, 3) as any as S.Schema<ListMemoryFacetCandidatesResponse>,
   errors: [],
   serviceErrors: EntireServiceErrors,
   protocol: EntireCellProtocol,
@@ -546,8 +569,8 @@ export const openReconcileRun: API.OperationMethod<
   OpenReconcileRunError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c16, 0) as any as S.Schema<OpenReconcileRunRequest>,
-  output: __S(129, __c16, 1) as any as S.Schema<OpenReconcileRunResponse>,
+  input: __S(32, __c4, 0) as any as S.Schema<OpenReconcileRunRequest>,
+  output: __S(33, __c4, 1) as any as S.Schema<OpenReconcileRunResponse>,
   errors: [],
   serviceErrors: EntireServiceErrors,
   protocol: EntireCellProtocol,
@@ -564,8 +587,8 @@ export const queryMemories: API.OperationMethod<
   QueryMemoriesError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<QueryMemoriesRequest>,
-  output: __S(33, __c4, 1) as any as S.Schema<QueryMemoriesResponse>,
+  input: __S(40, __c5, 0) as any as S.Schema<QueryMemoriesRequest>,
+  output: __S(41, __c5, 1) as any as S.Schema<QueryMemoriesResponse>,
   errors: [],
   serviceErrors: EntireServiceErrors,
   protocol: EntireCellProtocol,
@@ -582,7 +605,7 @@ export const retractMemory: API.OperationMethod<
   RetractMemoryError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<RetractMemoryRequest>,
+  input: __S(48, __c6, 0) as any as S.Schema<RetractMemoryRequest>,
   output: __S(18, __c2, 2) as any as S.Schema<MemoryItem>,
   errors: [],
   serviceErrors: EntireServiceErrors,
@@ -600,8 +623,8 @@ export const submitReconcileProposals: API.OperationMethod<
   SubmitReconcileProposalsError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(50, __c6, 2) as any as S.Schema<SubmitReconcileProposalsRequest>,
-  output: __S(51, __c6, 3) as any as S.Schema<SubmitReconcileProposalsResponse>,
+  input: __S(58, __c7, 2) as any as S.Schema<SubmitReconcileProposalsRequest>,
+  output: __S(59, __c7, 3) as any as S.Schema<SubmitReconcileProposalsResponse>,
   errors: [],
   serviceErrors: EntireServiceErrors,
   protocol: EntireCellProtocol,
@@ -618,8 +641,8 @@ export const upsertFacts: API.OperationMethod<
   UpsertFactsError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<UpsertFactsRequest>,
-  output: __S(57, __c7, 1) as any as S.Schema<UpsertFactsResponse>,
+  input: __S(64, __c8, 0) as any as S.Schema<UpsertFactsRequest>,
+  output: __S(65, __c8, 1) as any as S.Schema<UpsertFactsResponse>,
   errors: [],
   serviceErrors: EntireServiceErrors,
   protocol: EntireCellProtocol,
@@ -725,6 +748,43 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           repo_id: S.String.pipe(T.Label()),
+          dryRun: S.optional(S.Boolean),
+          model: S.optional(S.String),
+          promptVersion: S.optional(S.String),
+          watermark: S.optional(S.String),
+          leaseSeconds: S.optional(S.Number),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/v1/repos/{repo_id}/brain/reconcile/runs",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "OpenReconcileRunRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          runId: S.optional(S.String),
+          status: S.optional(S.String),
+          dryRun: S.optional(S.Boolean),
+          model: S.optional(S.String),
+          promptVersion: S.optional(S.String),
+          watermark: S.optional(S.String),
+          createdAt: S.optional(S.String),
+          expiresAt: S.optional(S.String),
+          stage: S.optional(S.String),
+          retryOf: S.optional(S.String),
+          leaseGeneration: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "OpenReconcileRunResponse" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          repo_id: S.String.pipe(T.Label()),
           sessionIds: S.optional(__S(8, __c1, 0)),
           checkpointIds: S.optional(__S(8, __c1, 0)),
           commits: S.optional(__S(8, __c1, 0)),
@@ -742,13 +802,13 @@ function __c4(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          items: S.optional(__S(112, __c14, 0)),
+          items: S.optional(__S(128, __c16, 0)),
           nextPageToken: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "QueryMemoriesResponse" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -765,7 +825,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "RetractMemoryRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -783,13 +843,13 @@ function __c6(j: number): any {
         }),
       ).annotate({ identifier: "SubmitReconcileProposalsRequestProposalsItem" });
     case 1:
-      return S.Array(__S(48, __c6, 0));
+      return S.Array(__S(56, __c7, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           repo_id: S.String.pipe(T.Label()),
           run_id: S.String.pipe(T.Label()),
-          proposals: __S(49, __c6, 1),
+          proposals: __S(57, __c7, 1),
         }).pipe(
           T.Http({
             method: "POST",
@@ -806,7 +866,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "SubmitReconcileProposalsResponse" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -824,7 +884,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "UpsertFactsResponse" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -850,7 +910,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "CreateTrailMergeRecordResponse" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -868,7 +928,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "EditMemoryRequest" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -884,7 +944,24 @@ function __c10(j: number): any {
       ).annotate({ identifier: "GetBrainstoreHealthResponse" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          repo_id: S.String.pipe(T.Label()),
+          fact_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/v1/repos/{repo_id}/brain/memories/{fact_id}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetMemoryRequest" });
+  }
+}
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -916,14 +993,14 @@ function __c11(j: number): any {
           retryOf: S.optional(S.String),
           leaseGeneration: S.optional(S.Number),
           updatedAt: S.String,
-          routingPlan: S.NullOr(__S(89, __c11, 1)),
+          routingPlan: S.NullOr(__S(105, __c13, 1)),
           report: S.NullOr(S.Unknown),
-          result: S.NullOr(__S(89, __c11, 1)),
+          result: S.NullOr(__S(105, __c13, 1)),
         }),
       ).annotate({ identifier: "GetReconcileRunResponse" });
   }
 }
-function __c12(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -944,7 +1021,7 @@ function __c12(j: number): any {
         }),
       ).annotate({ identifier: "FactRecordProvenanceItem" });
     case 2:
-      return S.Array(__S(97, __c12, 1));
+      return S.Array(__S(113, __c14, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -962,7 +1039,7 @@ function __c12(j: number): any {
           confidence: S.optional(S.String),
           related_ids: S.optional(__S(8, __c1, 0)),
           superseded_by: S.optional(S.String),
-          provenance: S.optional(__S(98, __c12, 2)),
+          provenance: S.optional(__S(114, __c14, 2)),
           created_at: S.optional(S.String),
           updated_at: S.optional(S.String),
         }),
@@ -970,7 +1047,7 @@ function __c12(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          record: S.optional(__S(99, __c12, 3)),
+          record: S.optional(__S(115, __c14, 3)),
           trailId: S.optional(S.String),
           createdBy: S.optional(S.String),
           createdByHandle: S.optional(S.String),
@@ -978,17 +1055,17 @@ function __c12(j: number): any {
         }),
       ).annotate({ identifier: "ListFactChangesResponseItemsItem" });
     case 5:
-      return S.Array(__S(100, __c12, 4));
+      return S.Array(__S(116, __c14, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          items: __S(101, __c12, 5),
+          items: __S(117, __c14, 5),
           nextPageToken: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "ListFactChangesResponse" });
   }
 }
-function __c13(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1009,19 +1086,19 @@ function __c13(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          items: __S(112, __c14, 0),
+          items: __S(128, __c16, 0),
           nextPageToken: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "ListMemoriesResponse" });
   }
 }
-function __c14(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(18, __c2, 2));
   }
 }
-function __c15(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1045,50 +1122,13 @@ function __c15(j: number): any {
         }),
       ).annotate({ identifier: "ListMemoryFacetCandidatesResponseItemsItem" });
     case 2:
-      return S.Array(__S(121, __c15, 1));
+      return S.Array(__S(137, __c17, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          items: __S(122, __c15, 2),
+          items: __S(138, __c17, 2),
         }),
       ).annotate({ identifier: "ListMemoryFacetCandidatesResponse" });
-  }
-}
-function __c16(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          repo_id: S.String.pipe(T.Label()),
-          dryRun: S.optional(S.Boolean),
-          model: S.optional(S.String),
-          promptVersion: S.optional(S.String),
-          watermark: S.optional(S.String),
-          leaseSeconds: S.optional(S.Number),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/v1/repos/{repo_id}/brain/reconcile/runs",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "OpenReconcileRunRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          runId: S.optional(S.String),
-          status: S.optional(S.String),
-          dryRun: S.optional(S.Boolean),
-          model: S.optional(S.String),
-          promptVersion: S.optional(S.String),
-          watermark: S.optional(S.String),
-          createdAt: S.optional(S.String),
-          expiresAt: S.optional(S.String),
-          stage: S.optional(S.String),
-          retryOf: S.optional(S.String),
-          leaseGeneration: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "OpenReconcileRunResponse" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

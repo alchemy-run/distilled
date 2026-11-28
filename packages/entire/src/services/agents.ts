@@ -453,7 +453,7 @@ export interface AgentVersion {
   version: number;
 }
 export interface ListAgentModelPricesRequest {
-  /** Project ULID the models are for, in either case. Models only some projects may use are listed only for such a project the caller can view. */
+  /** Project ULID the models are for, in either case. Models only some projects may use are listed only for such a project the caller can inspect. */
   project_id?: string | undefined;
 }
 export type AgentHarnessPricesHarness = "claude" | "codex" | "pi";
@@ -511,7 +511,7 @@ export interface AgentModelPrices {
   rate_card_updated_at: string | null;
 }
 export interface ListAgentModelsRequest {
-  /** Project ULID the models are for, in either case. Models only some projects may use are listed only for such a project the caller can view. */
+  /** Project ULID the models are for, in either case. Models only some projects may use are listed only for such a project the caller can inspect. */
   project_id?: string | undefined;
 }
 /** Model family, kept for legacy clients and self-hosted agents. Hosted writers can send a unique model id without it. */
