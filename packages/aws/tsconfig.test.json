@@ -32,6 +32,7 @@
       "@distilled.cloud/s3/Retry": ["../s3/src/retry.ts"],
       "@distilled.cloud/s3/Sensitive": ["../s3/src/sensitive.ts"],
       "@distilled.cloud/s3/SigV4": ["../s3/src/sigv4.ts"],
+      "@distilled.cloud/s3/Signer": ["../s3/src/signer.ts"],
       "@distilled.cloud/s3/Traits": ["../s3/src/traits.ts"],
       "@distilled.cloud/s3/client/*": ["../s3/src/client/*.ts"],
       "@distilled.cloud/s3/eventstream/*": ["../s3/src/eventstream/*.ts"],
