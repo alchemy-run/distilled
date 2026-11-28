@@ -86,7 +86,7 @@ export interface ReadRequest {
   timestamp?: number | undefined;
   /** Start from number of records before the next sequence number. */
   tail_offset?: number | undefined;
-  /** Start reading from the tail if the requested position is beyond it. Otherwise, a `416 Range Not Satisfiable` response is returned. */
+  /** Start reading from the tail if the requested position is beyond it (`seq_num > tail.seq_num` or `timestamp > tail.timestamp`). Without `clamp`, such a request returns `416 Range Not Satisfiable`. */
   clamp?: boolean | undefined;
   /** Record count limit. Non-streaming reads are capped by the default limit of 1000 records. */
   count?: number | undefined;
@@ -94,7 +94,7 @@ export interface ReadRequest {
   bytes?: number | undefined;
   /** Exclusive timestamp to read until. */
   until?: number | undefined;
-  /** Duration in seconds to wait for new records. The default duration is 0 if there is a bound on `count`, `bytes`, or `until`, and otherwise infinite. Non-streaming reads are always bounded on `count` and `bytes`, so you can achieve long poll semantics by specifying a non-zero duration up to 60 seconds. In the context of an SSE or S2S streaming read, the duration will bound how much time can elapse between records throughout the lifetime of the session. */
+  /** Duration in seconds to wait for new records. The default duration is 0 if there is a bound on `count`, `bytes`, or `until`, and otherwise infinite. Non-streaming reads are always bounded on `count` and `bytes`, so you can achieve long poll semantics by specifying a non-zero duration up to 60 seconds. In the context of an SSE or S2S streaming read, the duration will bound how much time can elapse between records throughout the lifetime of the session. When `wait` is 0 (explicitly or by default), a unary read that reaches the tail with no records returns `416`. A streaming read that reaches the tail before `count`, `bytes`, or `until` stops it ends cleanly after a message carrying the tail, as it also does once `wait` elapses. */
   wait?: number | undefined;
   /** Defines the interpretation of record data (header name, header value, and body) with the JSON content type. Use `raw` (default) for efficient transmission and storage of Unicode data -- storage will be in UTF-8. Use `base64` for safe transmission with efficient storage of binary data. */
   s2Format?: Format | (string & {}) | undefined;
