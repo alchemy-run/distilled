@@ -327,10 +327,6 @@
     },
     {
       "op": "remove",
-      "path": "/shapes/com.posthog.visual_review#ApproveSnapshotInput/members/new_hash/traits/smithy.api#required"
-    },
-    {
-      "op": "remove",
       "path": "/shapes/com.posthog.visual_review#RecomputeResult/members/run/traits"
     },
     {

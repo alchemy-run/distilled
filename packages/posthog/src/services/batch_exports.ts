@@ -194,6 +194,8 @@ export type BatchExportModelEnum = "events" | "persons" | "sessions" | "hogql";
 export type DatabricksDestinationRequestTypeEnum = "Databricks";
 /** Typed configuration for a Databricks batch-export destination. Credentials live in the linked Integration, not in this config. Mirrors `DatabricksBatchExportInputs` in `products/batch_exports/backend/service.py`. */
 export interface DatabricksDestinationConfig {
+  /** Whether this export reads the new events table. Use it to try the new table on one export, such as a copy of a production export, before your other exports move. Setting it to false does not keep the export on the old table after all exports move. */
+  use_new_events_schema?: boolean | undefined;
   /** Databricks SQL warehouse HTTP path. */
   http_path: string;
   /** Unity Catalog name. */
@@ -222,6 +224,8 @@ export type CompressionEnum = "brotli" | "gzip" | "lz4" | "snappy" | "zstd";
 export type FileFormatEnum = "Parquet" | "JSONLines";
 /** Typed configuration for an Azure Blob Storage batch-export destination. Credentials live in the linked Integration, not in this config. Mirrors `AzureBlobBatchExportInputs` in `products/batch_exports/backend/service.py`. */
 export interface AzureBlobDestinationConfig {
+  /** Whether this export reads the new events table. Use it to try the new table on one export, such as a copy of a production export, before your other exports move. Setting it to false does not keep the export on the old table after all exports move. */
+  use_new_events_schema?: boolean | undefined;
   /** Azure Blob Storage container name. */
   container_name: string;
   /** Object key prefix applied to every exported file. */
@@ -246,6 +250,8 @@ export interface AzureBlobDestinationRequest {
 export type BigQueryDestinationRequestTypeEnum = "BigQuery";
 /** Typed configuration for a BigQuery batch-export destination. Credentials live in the linked Integration, not in this config. Mirrors the non-credential fields of `BigQueryBatchExportInputs` in `products/batch_exports/backend/service.py`. */
 export interface BigQueryDestinationConfig {
+  /** Whether this export reads the new events table. Use it to try the new table on one export, such as a copy of a production export, before your other exports move. Setting it to false does not keep the export on the old table after all exports move. */
+  use_new_events_schema?: boolean | undefined;
   /** BigQuery dataset ID to write to. */
   dataset_id: string;
   /** BigQuery table ID inside the dataset. */
@@ -264,6 +270,8 @@ export interface BigQueryDestinationRequest {
 export type PostgresDestinationRequestTypeEnum = "Postgres";
 /** Typed configuration for a PostgreSQL batch-export destination. Connection credentials live in the linked Integration, never here. Mirrors the non-credential fields of `PostgresBatchExportInputs` in `products/batch_exports/backend/service.py`. */
 export interface PostgresDestinationConfig {
+  /** Whether this export reads the new events table. Use it to try the new table on one export, such as a copy of a production export, before your other exports move. Setting it to false does not keep the export on the old table after all exports move. */
+  use_new_events_schema?: boolean | undefined;
   /** PostgreSQL database name to connect to. */
   database: string;
   /** PostgreSQL schema name containing the destination table. */
@@ -284,6 +292,8 @@ export interface PostgresDestinationRequest {
 export type AwsS3DestinationRequestTypeEnum = "AwsS3";
 /** Typed configuration for an AWS S3 batch-export destination. AWS credentials live in the linked aws-s3 Integration. Mirrors the non-credential fields of `AwsS3BatchExportInputs` in `products/batch_exports/backend/service.py`. */
 export interface AwsS3DestinationConfig {
+  /** Whether this export reads the new events table. Use it to try the new table on one export, such as a copy of a production export, before your other exports move. Setting it to false does not keep the export on the old table after all exports move. */
+  use_new_events_schema?: boolean | undefined;
   /** Name of the destination bucket. */
   bucket_name: string;
   /** Region the bucket is in (e.g. 'us-east-1'). */
@@ -314,6 +324,8 @@ export interface AwsS3DestinationRequest {
 export type S3CompatibleDestinationRequestTypeEnum = "S3Compatible";
 /** Typed configuration for an S3-compatible batch-export destination (Cloudflare R2, DigitalOcean Spaces, etc.). Credentials and the provider `endpoint_url` live in the linked s3-compatible Integration. Mirrors the non-credential fields of `S3CompatibleBatchExportInputs` in `products/batch_exports/backend/service.py`. */
 export interface S3CompatibleDestinationConfig {
+  /** Whether this export reads the new events table. Use it to try the new table on one export, such as a copy of a production export, before your other exports move. Setting it to false does not keep the export on the old table after all exports move. */
+  use_new_events_schema?: boolean | undefined;
   /** Name of the destination bucket. */
   bucket_name: string;
   /** Region the bucket is in (e.g. 'us-east-1'). */
@@ -342,6 +354,8 @@ export interface S3CompatibleDestinationRequest {
 export type SnowflakeDestinationRequestTypeEnum = "Snowflake";
 /** Typed configuration for a Snowflake batch-export destination. Account, user, authentication type and credentials live in the linked Integration, never here. Mirrors the non-credential fields of `SnowflakeBatchExportInputs` in `products/batch_exports/backend/service.py`. */
 export interface SnowflakeDestinationConfig {
+  /** Whether this export reads the new events table. Use it to try the new table on one export, such as a copy of a production export, before your other exports move. Setting it to false does not keep the export on the old table after all exports move. */
+  use_new_events_schema?: boolean | undefined;
   /** Snowflake database to write to. */
   database: string;
   /** Snowflake compute warehouse to use. */
@@ -383,6 +397,8 @@ export interface RedshiftCopyInputs {
 }
 /** Typed configuration for a Redshift batch-export destination. Connection credentials live in the linked Integration, never here. Mirrors the non-credential fields of `RedshiftBatchExportInputs` in `products/batch_exports/backend/service.py`. */
 export interface RedshiftDestinationConfig {
+  /** Whether this export reads the new events table. Use it to try the new table on one export, such as a copy of a production export, before your other exports move. Setting it to false does not keep the export on the old table after all exports move. */
+  use_new_events_schema?: boolean | undefined;
   /** Redshift database name to connect to. */
   database: string;
   /** Redshift cluster or Serverless workgroup endpoint. Required when using an AWS Redshift integration; plain Redshift integrations store the host themselves. */

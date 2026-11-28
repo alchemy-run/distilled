@@ -73,8 +73,8 @@ export class Forbidden
       body: /*@__PURE__*/ S.optional(
         /*@__PURE__*/ S.Union([
           /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
-          /*@__PURE__*/ S.suspend(() => __S(2848, __c89, 0)),
-          /*@__PURE__*/ S.suspend(() => __S(2848, __c89, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(2880, __c90, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(2880, __c90, 0)),
           S.String,
         ]),
       ),
@@ -1652,7 +1652,7 @@ export interface ReportMetricWrite {
 }
 /** Optional typed impact measurements, at most 6. Mark one metric `primary` for the key observation and the rest `supporting`, for users, sessions, occurrences, conversion, latency, or revenue. Every metric needs a live `query`: an InsightVizNode wrapping one bounded TrendsQuery built only from EventsNode or ActionsNode sources, with at most 1000 estimated longitudinal points. An affected-users metric counts distinct people through one series with `math: dau`; never sum its buckets. A `value`/`value_at` snapshot is only an optional cached fallback, and a metric without a query is invalid. */
 export type CreateSignalsReportRequestMetricsList = Array<ReportMetricWrite>;
-/** Optional follow-up prompts to offer above the report's `Ask AI` box: questions to ask, or next-step actions to request (e.g. carrying out the report's recommendation). The reader clicks one to fill the box with it, then sends or edits it. Write the prompts your own research left open, phrased as the reader would send them. */
+/** Optional follow-up prompts to offer above the report's `Ask AI` box: questions to ask, or next-step actions to request (e.g. carrying out the report's recommendation). The reader clicks one to fill the box with it, then sends or edits it. Write the prompts your own research left open, phrased as the reader would send them. The report stores at most 3 unique prompts of up to 200 characters each. A prompt past those bounds is left out, not cut, and the rest of the report is stored. `quality_hints` says which bound left a prompt out. */
 export type CreateSignalsReportRequestSuggestedPromptsList = Array<string>;
 /** * `depends_on` - Depends on * `part_of` - Part of * `follow_up_of` - Follow-up of * `duplicate_of` - Duplicate of * `recurrence_of` - Recurrence of */
 export type ReportLinkKindEnum =
@@ -1708,7 +1708,7 @@ export interface CreateSignalsReportRequest {
   charts?: CreateSignalsReportRequestChartsList | undefined;
   /** Optional typed impact measurements, at most 6. Mark one metric `primary` for the key observation and the rest `supporting`, for users, sessions, occurrences, conversion, latency, or revenue. Every metric needs a live `query`: an InsightVizNode wrapping one bounded TrendsQuery built only from EventsNode or ActionsNode sources, with at most 1000 estimated longitudinal points. An affected-users metric counts distinct people through one series with `math: dau`; never sum its buckets. A `value`/`value_at` snapshot is only an optional cached fallback, and a metric without a query is invalid. */
   metrics?: CreateSignalsReportRequestMetricsList | undefined;
-  /** Optional follow-up prompts to offer above the report's `Ask AI` box: questions to ask, or next-step actions to request (e.g. carrying out the report's recommendation). The reader clicks one to fill the box with it, then sends or edits it. Write the prompts your own research left open, phrased as the reader would send them. */
+  /** Optional follow-up prompts to offer above the report's `Ask AI` box: questions to ask, or next-step actions to request (e.g. carrying out the report's recommendation). The reader clicks one to fill the box with it, then sends or edits it. Write the prompts your own research left open, phrased as the reader would send them. The report stores at most 3 unique prompts of up to 200 characters each. A prompt past those bounds is left out, not cut, and the rest of the report is stored. `quality_hints` says which bound left a prompt out. */
   suggested_prompts?: CreateSignalsReportRequestSuggestedPromptsList | undefined;
   /** Typed, directed links from the new report to reports that already exist. Send them here, not in a later `edit-report` call, because autostart reads them when the report is created: a `duplicate_of` link to a report that already has a pull request, or a `depends_on` link to a report with no pull request yet, stops a second draft PR. Only the new report gets a row, so link from the side the sentence starts at. Links of the same kind must stay acyclic and every report must be in this project. */
   links?: CreateSignalsReportRequestLinksList | undefined;
@@ -1721,19 +1721,19 @@ export interface CreateSignalsReportRequest {
 }
 /** * `repair` - repair * `hint` - hint */
 export type ReportQualityHintSeverityEnum = "repair" | "hint";
-/** * `title` - title * `summary` - summary */
-export type ReportQualityHintFieldEnum = "title" | "summary";
+/** * `title` - title * `summary` - summary * `suggested_prompts` - suggested_prompts */
+export type ReportQualityHintFieldEnum = "title" | "summary" | "suggested_prompts";
 export interface ReportQualityHint {
   /** Stable id of the quality check, e.g. `literal_newline_escapes`. */
   check_id: string;
   /** `repair`: the text was fixed before it was stored. `hint`: the text was stored as sent. * `repair` - repair * `hint` - hint */
   severity: ReportQualityHintSeverityEnum;
-  /** The field the check matched. * `title` - title * `summary` - summary */
+  /** The field the check matched. * `title` - title * `summary` - summary * `suggested_prompts` - suggested_prompts */
   field: ReportQualityHintFieldEnum;
   /** What the check found and what to do next time. */
   message: string;
 }
-/** Quality checks the title or summary matched. A `repair` hint means the stored text differs from what you sent: escape the JSON one time only next time. A `hint` means the text was stored as sent: correct it with edit_report if the hint applies. Empty when no check matched. */
+/** Quality checks the title, summary, or suggested prompts matched. A `repair` hint means what was stored differs from what you sent: escape the JSON one time only next time, and keep suggested prompts within their bounds. A `hint` means the text was stored as sent: correct it with edit_report if the hint applies. Empty when no check matched. */
 export type EmitReportResponseQualityHintsList = Array<ReportQualityHint>;
 export interface EmitReportResponse {
   /** The authored report's id (null only when a preflight gate skipped the call). Returned even when suppressed, so you can edit/dedup against it. With `source_issue_already_reported`, the id of the open report that already names the issue: edit that report. */
@@ -1750,7 +1750,7 @@ export interface EmitReportResponse {
   remediation: string | null;
   /** True when this call authored nothing because the emission had already landed -- the fields above describe that first report. Expected on a retry; treat the report as filed and don't send it again. */
   idempotent_replay: boolean;
-  /** Quality checks the title or summary matched. A `repair` hint means the stored text differs from what you sent: escape the JSON one time only next time. A `hint` means the text was stored as sent: correct it with edit_report if the hint applies. Empty when no check matched. */
+  /** Quality checks the title, summary, or suggested prompts matched. A `repair` hint means what was stored differs from what you sent: escape the JSON one time only next time, and keep suggested prompts within their bounds. A `hint` means the text was stored as sent: correct it with edit_report if the hint applies. Empty when no check matched. */
   quality_hints: EmitReportResponseQualityHintsList;
 }
 /** * `selected` - Selected * `no_suitable_owner` - No suitable owner * `lookup_failed` - Lookup failed */
@@ -2331,6 +2331,36 @@ export type SignalScoutConfigPauseReasonEnum =
   | "background_removed";
 /** * `team` - Team * `background` - Background */
 export type SignalScoutConfigManagedByEnum = "team" | "background";
+/** * `slack_dm` - Slack direct message * `slack_channel` - Slack channel */
+export type SignalScoutMessageDeliveryTargetTypeEnum = "slack_dm" | "slack_channel";
+export interface SignalScoutMessageTarget {
+  type: SignalScoutMessageDeliveryTargetTypeEnum | (string & {});
+  /** Slack member ID, for `slack_dm`. */
+  user?: string | undefined;
+  /** Slack channel ID, for `slack_channel`. Never a shared channel. */
+  channel?: string | undefined;
+}
+export type SignalScoutMessageRouteToList = Array<SignalScoutMessageTarget>;
+export interface SignalScoutMessageRoute {
+  /** Slug the scout names to send on this route. */
+  key: string;
+  /** When the scout should send, shown in its run prompt. */
+  when: string;
+  to: SignalScoutMessageRouteToList;
+}
+/** Routes the scout may message on, through `slack.integration_id`. Omit to keep, `[]` to clear. */
+export type SignalScoutRoutedOutputDestinationsMessagesList = Array<SignalScoutMessageRoute>;
+/** Output destinations plus message routes. Only the config create and update paths take routes, so the scout and source-product create tools keep their schemas small. */
+export interface SignalScoutRoutedOutputDestinations {
+  /** Slack destination for each emitted scout finding or report. Null or omitted disables Slack delivery. */
+  slack?: SignalScoutSlackDestination | null | undefined;
+  /** The CDP destination another product provisioned for this scout's reports. Null or omitted means no webhook. Unlike Slack, Signals does not deliver this itself: the reference lives here so the owning product can manage the destination's lifecycle. */
+  webhook?: SignalScoutWebhookDestination | null | undefined;
+  /** Whether this scout's reports appear in the shared inbox. Defaults to true. Set false to keep the reports this scout authors out of the inbox and its Slack notifications, for example for a digest scout read in Slack. Reports this scout only edits are not affected. An update that omits this key keeps the stored value. */
+  inbox?: boolean | undefined;
+  /** Routes the scout may message on, through `slack.integration_id`. Omit to keep, `[]` to clear. */
+  messages?: SignalScoutRoutedOutputDestinationsMessagesList | undefined;
+}
 /** Optional JSON Schema (draft 2020-12) describing ONE structured record this scout produces via `scout-record-output` -- e.g. a per-report quality judgment (`{"type": "object", "properties": {"verdict": {"enum": ["good", "bad", "unsure"]}, "reason": {"type": "string"}}, "required": ["verdict", "reason"]}`). The root must be `"type": "object"`. Setting a schema turns the structured-output channel on: the run prompt renders the schema and every submitted record is validated against it and recorded in the project as a `$scout_structured_output` event, queryable like any event. The channel also requires emit -- a dry-run scout has nowhere to record to. Cardinality is the scout's call (one record per run, one per judged entity, ...). Null = channel off. Setting a schema requires skill-authoring authorization (the `llm_skill:write` scope and skill editor access) since the scout reads it verbatim in its prompt; clearing it needs only the config write. Records validate against the schema in force when the run was dispatched. */
 export type SignalScoutConfigStructuredOutputSchemaMap = { [key: string]: unknown | undefined };
 /** MCP gateway servers (by id) this scout's runs may use, chosen from the connections members shared to the whole team. Selection is per scout: an empty list gives the scout no MCP servers. Applies from the scout's next run. */
@@ -2380,7 +2410,7 @@ export interface SignalScoutConfig {
   /** Optional five-field cron expression evaluated in the project timezone, e.g. '30 9 * * *'. Takes precedence over `run_interval_minutes` when set. Null means the rolling interval schedule. */
   run_cron_schedule: string | null;
   /** Destinations that receive each finding or report this scout emits. Empty when none is configured. */
-  output_destinations: SignalScoutOutputDestinations;
+  output_destinations: SignalScoutRoutedOutputDestinations;
   /** Optional JSON Schema (draft 2020-12) describing ONE structured record this scout produces via `scout-record-output` -- e.g. a per-report quality judgment (`{"type": "object", "properties": {"verdict": {"enum": ["good", "bad", "unsure"]}, "reason": {"type": "string"}}, "required": ["verdict", "reason"]}`). The root must be `"type": "object"`. Setting a schema turns the structured-output channel on: the run prompt renders the schema and every submitted record is validated against it and recorded in the project as a `$scout_structured_output` event, queryable like any event. The channel also requires emit -- a dry-run scout has nowhere to record to. Cardinality is the scout's call (one record per run, one per judged entity, ...). Null = channel off. Setting a schema requires skill-authoring authorization (the `llm_skill:write` scope and skill editor access) since the scout reads it verbatim in its prompt; clearing it needs only the config write. Records validate against the schema in force when the run was dispatched. */
   structured_output_schema: SignalScoutConfigStructuredOutputSchemaMap | null;
   /** What the scout's sandbox can reach over the network while it runs. `trusted` (the default) restricts runs to the platform's trusted-domain allowlist (PostHog, GitHub, common package registries). `full` lets the scout reach any site, for skills that read external sources such as documentation or papers. * `trusted` - Trusted domains only * `full` - Full */
@@ -2516,7 +2546,7 @@ export interface CreateSignalsScoutConfigRequest {
   /** Minutes between runs (30-43200). Defaults to 1440 (every 24 hours). */
   run_interval_minutes?: number | undefined;
   /** Destinations that receive each finding or report this scout emits. Empty by default. */
-  output_destinations?: SignalScoutOutputDestinations | undefined;
+  output_destinations?: SignalScoutRoutedOutputDestinations | undefined;
   /** What the scout's sandbox can reach over the network while it runs. Defaults to `trusted`, the platform's trusted-domain allowlist (PostHog, GitHub, common package registries). Set `full` to let this scout reach any site, for skills that read external sources such as documentation or papers. * `trusted` - Trusted domains only * `full` - Full */
   network_access?: SignalScoutConfigNetworkAccessEnum | (string & {}) | undefined;
   /** Exempt this scout from the inactivity pause, which otherwise switches off a scout that goes a fortnight without surfacing anything anyone engages with. Set it on watchdog scouts whose value is staying quiet. Defaults to false. */
@@ -2988,7 +3018,7 @@ export type EditSignalsScoutReportRequestSuggestedReviewersList = Array<Suggeste
 export type EditSignalsScoutReportRequestChartsList = Array<ReportChart>;
 /** The report's full impact-metric set, at most 6. Omit it or send null to keep the current set, send an empty list to clear it, or send the complete replacement. Mark one metric `primary` for the key observation and the rest `supporting`, for users, sessions, occurrences, conversion, latency, or revenue. Every metric needs a live `query`: an InsightVizNode wrapping one bounded TrendsQuery built only from EventsNode or ActionsNode sources, with at most 1000 estimated longitudinal points. An affected-users metric counts distinct people through one series with `math: dau`; never sum its buckets. A `value`/`value_at` snapshot is only an optional cached fallback, and a metric without a query is invalid. */
 export type EditSignalsScoutReportRequestMetricsList = Array<ReportMetricWrite>;
-/** The full set of follow-up prompts (questions or next-step actions) the report should offer above its `Ask AI` box. Replaces the report's prompts rather than adding to them, so send every one you want kept. Omit the field (or send null) to leave them untouched, and send an empty list to take them down, which is what you want once a rewrite has left them pointing at the old report. */
+/** The full set of follow-up prompts (questions or next-step actions) the report should offer above its `Ask AI` box. Replaces the report's prompts rather than adding to them, so send every one you want kept. Omit the field (or send null) to leave them untouched, and send an empty list to take them down, which is what you want once a rewrite has left them pointing at the old report. The report stores at most 3 unique prompts of up to 200 characters each. A prompt past those bounds is left out, not cut, and the rest of the report is stored. `quality_hints` says which bound left a prompt out. When every prompt you send is left out, the stored prompts stay as they were. */
 export type EditSignalsScoutReportRequestSuggestedPromptsList = Array<string>;
 /** Typed, directed links from this report to others, recording how the work relates. Use `depends_on` when you split one finding into a stack and the second report's fix cannot land until the first one's does, so the order is recorded rather than left to a reader of the diffs. Additive: links join what the report already has rather than replacing them, and only this report gets a row, so link from the side the sentence starts at. Links of the same kind must stay acyclic and every report must be in this project. */
 export type EditSignalsScoutReportRequestLinksList = Array<ReportLinkWrite>;
@@ -3031,7 +3061,7 @@ export interface EditSignalsScoutReportRequest {
   charts?: EditSignalsScoutReportRequestChartsList | null | undefined;
   /** The report's full impact-metric set, at most 6. Omit it or send null to keep the current set, send an empty list to clear it, or send the complete replacement. Mark one metric `primary` for the key observation and the rest `supporting`, for users, sessions, occurrences, conversion, latency, or revenue. Every metric needs a live `query`: an InsightVizNode wrapping one bounded TrendsQuery built only from EventsNode or ActionsNode sources, with at most 1000 estimated longitudinal points. An affected-users metric counts distinct people through one series with `math: dau`; never sum its buckets. A `value`/`value_at` snapshot is only an optional cached fallback, and a metric without a query is invalid. */
   metrics?: EditSignalsScoutReportRequestMetricsList | null | undefined;
-  /** The full set of follow-up prompts (questions or next-step actions) the report should offer above its `Ask AI` box. Replaces the report's prompts rather than adding to them, so send every one you want kept. Omit the field (or send null) to leave them untouched, and send an empty list to take them down, which is what you want once a rewrite has left them pointing at the old report. */
+  /** The full set of follow-up prompts (questions or next-step actions) the report should offer above its `Ask AI` box. Replaces the report's prompts rather than adding to them, so send every one you want kept. Omit the field (or send null) to leave them untouched, and send an empty list to take them down, which is what you want once a rewrite has left them pointing at the old report. The report stores at most 3 unique prompts of up to 200 characters each. A prompt past those bounds is left out, not cut, and the rest of the report is stored. `quality_hints` says which bound left a prompt out. When every prompt you send is left out, the stored prompts stay as they were. */
   suggested_prompts?: EditSignalsScoutReportRequestSuggestedPromptsList | null | undefined;
   /** Typed, directed links from this report to others, recording how the work relates. Use `depends_on` when you split one finding into a stack and the second report's fix cannot land until the first one's does, so the order is recorded rather than left to a reader of the diffs. Additive: links join what the report already has rather than replacing them, and only this report gets a row, so link from the side the sentence starts at. Links of the same kind must stay acyclic and every report must be in this project. */
   links?: EditSignalsScoutReportRequestLinksList | undefined;
@@ -3066,7 +3096,7 @@ export interface EditReportWarning {
 }
 /** Request fields the edit did not apply, each with the reason. Empty when every field applied. */
 export type EditReportResponseWarningsList = Array<EditReportWarning>;
-/** Quality checks the title or summary matched. A `repair` hint means the stored text differs from what you sent: escape the JSON one time only next time. A `hint` means the text was stored as sent: correct it with edit_report if the hint applies. Empty when no check matched. */
+/** Quality checks the title, summary, or suggested prompts matched. A `repair` hint means what was stored differs from what you sent: escape the JSON one time only next time, and keep suggested prompts within their bounds. A `hint` means the text was stored as sent: correct it with edit_report if the hint applies. Empty when no check matched. */
 export type EditReportResponseQualityHintsList = Array<ReportQualityHint>;
 export interface EditReportResponse {
   /** Id of the edited report. */
@@ -3107,7 +3137,7 @@ export interface EditReportResponse {
   decision_fields_set: EditReportResponseDecisionFieldsSetList;
   /** Request fields the edit did not apply, each with the reason. Empty when every field applied. */
   warnings: EditReportResponseWarningsList;
-  /** Quality checks the title or summary matched. A `repair` hint means the stored text differs from what you sent: escape the JSON one time only next time. A `hint` means the text was stored as sent: correct it with edit_report if the hint applies. Empty when no check matched. */
+  /** Quality checks the title, summary, or suggested prompts matched. A `repair` hint means what was stored differs from what you sent: escape the JSON one time only next time, and keep suggested prompts within their bounds. A `hint` means the text was stored as sent: correct it with edit_report if the hint applies. Empty when no check matched. */
   quality_hints: EditReportResponseQualityHintsList;
   /** Whether your note raised the report's corroboration count instead of landing as its own entry. Only notes marked corroboration_only can collapse; free-form notes remain in the work log. */
   corroboration_collapsed: boolean;
@@ -6290,6 +6320,8 @@ export type SlackScoutChannelSourceChannelsList = Array<SlackScoutChannel>;
 export interface SlackScoutChannelSource {
   /** Id of the Slack data warehouse source. */
   id: string;
+  /** Name that tells the project's Slack sources apart: the source's table prefix, or the date it was connected when it has no prefix. */
+  label: string;
   /** Channels the source syncs, ordered by name. */
   channels: SlackScoutChannelSourceChannelsList;
 }
@@ -7747,6 +7779,35 @@ export interface ScratchpadEntry {
 }
 export type SearchSignalsScoutScratchpadResponseBodyList = Array<ScratchpadEntry>;
 export type SearchSignalsScoutScratchpadResponse = SearchSignalsScoutScratchpadResponseBodyList;
+export interface SendSignalsScoutMessageRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** UUID of the `SignalScoutRun` bridge row. */
+  run_id: string;
+  /** Key of the route to send on, from the scout config's `output_destinations.messages`. The route decides who receives the message; the scout never names a recipient. */
+  route: string;
+  /** Id of the report this message is about. Required unless the scout is on a dry run. The report must belong to this project and must have been written or edited by this run. */
+  report_id?: string | null | undefined;
+  /** Short plain-text title. At most 80 characters. */
+  title: string;
+  /** Markdown body with the links the reader needs. At most 500 characters. A link whose label looks like an address on another host is shown as the bare URL. */
+  body: string;
+  /** Stable id for the subject of the message, for example `pr-12345`. A message whose route and key were sent in the last 30 days is refused as a duplicate. A second call in the same run with the same route and key replaces the queued message. */
+  dedupe_key: string;
+}
+/** * `queued` - Queued * `replaced` - Replaced * `duplicate` - Duplicate * `over_cap` - Over Cap * `dry_run` - Dry Run */
+export type SendMessageOutcomeEnum = "queued" | "replaced" | "duplicate" | "over_cap" | "dry_run";
+/** On `duplicate`: the keys recently sent on this route, newest first. Empty otherwise. */
+export type SendScoutMessageResponseRecentDedupeKeysList = Array<string>;
+/** Outcome of a `scout-send-message` call. */
+export interface SendScoutMessageResponse {
+  /** `queued`: saved and sent when the run ends. `replaced`: this run already queued a message on this route and key, and it now holds this content. `duplicate`: the route and key were sent in the last 30 days, so nothing was queued. `over_cap`: the scout reached its message limit, so nothing was queued. `dry_run`: recorded for review and never sent. * `queued` - Queued * `replaced` - Replaced * `duplicate` - Duplicate * `over_cap` - Over Cap * `dry_run` - Dry Run */
+  outcome: SendMessageOutcomeEnum;
+  /** Id of the queued message, or null when nothing was queued. */
+  message_id: string | null;
+  /** On `duplicate`: the keys recently sent on this route, newest first. Empty otherwise. */
+  recent_dedupe_keys: SendScoutMessageResponseRecentDedupeKeysList;
+}
 export type SignalsAnomaliesSearchRetrieveRequestGroupBy = "series" | "insight";
 export type SignalsAnomaliesSearchRetrieveRequestInterval = "hour" | "day" | "week" | "month";
 export type SignalsAnomaliesSearchRetrieveRequestOrder = "unusual" | "recent";
@@ -8669,7 +8730,7 @@ export type SignalsScoutEmitReportRequestSuggestedReviewersList = Array<Suggeste
 export type SignalsScoutEmitReportRequestChartsList = Array<ReportChart>;
 /** Optional typed impact measurements, at most 6. Mark one metric `primary` for the key observation and the rest `supporting`, for users, sessions, occurrences, conversion, latency, or revenue. Every metric needs a live `query`: an InsightVizNode wrapping one bounded TrendsQuery built only from EventsNode or ActionsNode sources, with at most 1000 estimated longitudinal points. An affected-users metric counts distinct people through one series with `math: dau`; never sum its buckets. A `value`/`value_at` snapshot is only an optional cached fallback, and a metric without a query is invalid. */
 export type SignalsScoutEmitReportRequestMetricsList = Array<ReportMetricWrite>;
-/** Optional follow-up prompts to offer above the report's `Ask AI` box: questions to ask, or next-step actions to request (e.g. carrying out the report's recommendation). The reader clicks one to fill the box with it, then sends or edits it. Write the prompts your own research left open, phrased as the reader would send them. */
+/** Optional follow-up prompts to offer above the report's `Ask AI` box: questions to ask, or next-step actions to request (e.g. carrying out the report's recommendation). The reader clicks one to fill the box with it, then sends or edits it. Write the prompts your own research left open, phrased as the reader would send them. The report stores at most 3 unique prompts of up to 200 characters each. A prompt past those bounds is left out, not cut, and the rest of the report is stored. `quality_hints` says which bound left a prompt out. */
 export type SignalsScoutEmitReportRequestSuggestedPromptsList = Array<string>;
 /** Typed, directed links from the new report to reports that already exist. Send them here, not in a later `edit-report` call, because autostart reads them when the report is created: a `duplicate_of` link to a report that already has a pull request, or a `depends_on` link to a report with no pull request yet, stops a second draft PR. Only the new report gets a row, so link from the side the sentence starts at. Links of the same kind must stay acyclic and every report must be in this project. */
 export type SignalsScoutEmitReportRequestLinksList = Array<ReportLinkWrite>;
@@ -8706,7 +8767,7 @@ export interface SignalsScoutEmitReportRequest {
   charts?: SignalsScoutEmitReportRequestChartsList | undefined;
   /** Optional typed impact measurements, at most 6. Mark one metric `primary` for the key observation and the rest `supporting`, for users, sessions, occurrences, conversion, latency, or revenue. Every metric needs a live `query`: an InsightVizNode wrapping one bounded TrendsQuery built only from EventsNode or ActionsNode sources, with at most 1000 estimated longitudinal points. An affected-users metric counts distinct people through one series with `math: dau`; never sum its buckets. A `value`/`value_at` snapshot is only an optional cached fallback, and a metric without a query is invalid. */
   metrics?: SignalsScoutEmitReportRequestMetricsList | undefined;
-  /** Optional follow-up prompts to offer above the report's `Ask AI` box: questions to ask, or next-step actions to request (e.g. carrying out the report's recommendation). The reader clicks one to fill the box with it, then sends or edits it. Write the prompts your own research left open, phrased as the reader would send them. */
+  /** Optional follow-up prompts to offer above the report's `Ask AI` box: questions to ask, or next-step actions to request (e.g. carrying out the report's recommendation). The reader clicks one to fill the box with it, then sends or edits it. Write the prompts your own research left open, phrased as the reader would send them. The report stores at most 3 unique prompts of up to 200 characters each. A prompt past those bounds is left out, not cut, and the rest of the report is stored. `quality_hints` says which bound left a prompt out. */
   suggested_prompts?: SignalsScoutEmitReportRequestSuggestedPromptsList | undefined;
   /** Typed, directed links from the new report to reports that already exist. Send them here, not in a later `edit-report` call, because autostart reads them when the report is created: a `duplicate_of` link to a report that already has a pull request, or a `depends_on` link to a report with no pull request yet, stops a second draft PR. Only the new report gets a row, so link from the side the sentence starts at. Links of the same kind must stay acyclic and every report must be in this project. */
   links?: SignalsScoutEmitReportRequestLinksList | undefined;
@@ -9329,6 +9390,9 @@ export interface SignalScoutSlackDestinationUpdate {
   /** When true, post a report as a thread: a short lead in the channel and the rest split into replies at the summary's section labels, which can be Markdown headings or bold labels. Keeps a long summary from being clipped at Slack's section limit. On by default; set it false to post a single message, which can truncate a long summary. It does not change how findings post. */
   thread_reports?: boolean | undefined;
 }
+/** Routes the scout may message on, through `slack.integration_id`. Omit to keep, `[]` to clear. */
+export type SignalScoutOutputDestinationsUpdateMessagesList = Array<SignalScoutMessageRoute>;
+/** Output destinations plus message routes. Only the config create and update paths take routes, so the scout and source-product create tools keep their schemas small. */
 export interface SignalScoutOutputDestinationsUpdate {
   /** Slack destination for each emitted scout finding or report. Null or omitted disables Slack delivery. */
   slack?: SignalScoutSlackDestinationUpdate | null | undefined;
@@ -9336,6 +9400,8 @@ export interface SignalScoutOutputDestinationsUpdate {
   webhook?: SignalScoutWebhookDestination | null | undefined;
   /** Whether this scout's reports appear in the shared inbox. Defaults to true. Set false to keep the reports this scout authors out of the inbox and its Slack notifications, for example for a digest scout read in Slack. Reports this scout only edits are not affected. An update that omits this key keeps the stored value. */
   inbox?: boolean | undefined;
+  /** Routes the scout may message on, through `slack.integration_id`. Omit to keep, `[]` to clear. */
+  messages?: SignalScoutOutputDestinationsUpdateMessagesList | undefined;
 }
 /** Optional JSON Schema (draft 2020-12) describing ONE structured record this scout produces via `scout-record-output` -- e.g. a per-report quality judgment (`{"type": "object", "properties": {"verdict": {"enum": ["good", "bad", "unsure"]}, "reason": {"type": "string"}}, "required": ["verdict", "reason"]}`). The root must be `"type": "object"`. Setting a schema turns the structured-output channel on: the run prompt renders the schema and every submitted record is validated against it and recorded in the project as a `$scout_structured_output` event, queryable like any event. The channel also requires emit -- a dry-run scout has nowhere to record to. Cardinality is the scout's call (one record per run, one per judged entity, ...). Null = channel off. Setting a schema requires skill-authoring authorization (the `llm_skill:write` scope and skill editor access) since the scout reads it verbatim in its prompt; clearing it needs only the config write. Records validate against the schema in force when the run was dispatched. */
 export type UpdateSignalsScoutConfigRequestStructuredOutputSchemaMap = {
@@ -9514,8 +9580,8 @@ export const archiveSignalsScoutConfigTrialComparison: API.OperationMethod<
   ArchiveSignalsScoutConfigTrialComparisonError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3776, __c118, 0) as any as S.Schema<ArchiveSignalsScoutConfigTrialComparisonRequest>,
-  output: __S(3874, __c121, 2) as any as S.Schema<ScoutTrialComparison>,
+  input: __S(3808, __c119, 0) as any as S.Schema<ArchiveSignalsScoutConfigTrialComparisonRequest>,
+  output: __S(3906, __c122, 2) as any as S.Schema<ScoutTrialComparison>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -9532,8 +9598,8 @@ export const bulkSignalsReportClaim: API.OperationMethod<
   BulkSignalsReportClaimError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4480, __c140, 0) as any as S.Schema<BulkSignalsReportClaimRequest>,
-  output: __S(4483, __c140, 3) as any as S.Schema<SignalReportBulkClaimResponse>,
+  input: __S(4512, __c141, 0) as any as S.Schema<BulkSignalsReportClaimRequest>,
+  output: __S(4515, __c141, 3) as any as S.Schema<SignalReportBulkClaimResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -9550,8 +9616,8 @@ export const cancelSignalsScoutReportCheck: API.OperationMethod<
   CancelSignalsScoutReportCheckError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4832, __c151, 0) as any as S.Schema<CancelSignalsScoutReportCheckRequest>,
-  output: __S(4864, __c152, 0) as any as S.Schema<ScoutCheckSummary>,
+  input: __S(4864, __c152, 0) as any as S.Schema<CancelSignalsScoutReportCheckRequest>,
+  output: __S(4896, __c153, 0) as any as S.Schema<ScoutCheckSummary>,
   errors: [BadRequest, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -9568,8 +9634,8 @@ export const checkSignalsScoutRecordResult: API.OperationMethod<
   CheckSignalsScoutRecordResultError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5344, __c167, 0) as any as S.Schema<CheckSignalsScoutRecordResultRequest>,
-  output: __S(5345, __c167, 1) as any as S.Schema<RecordCheckResultResponse>,
+  input: __S(5376, __c168, 0) as any as S.Schema<CheckSignalsScoutRecordResultRequest>,
+  output: __S(5377, __c168, 1) as any as S.Schema<RecordCheckResultResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -9586,8 +9652,8 @@ export const claimSignalsReport: API.OperationMethod<
   ClaimSignalsReportError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5760, __c180, 0) as any as S.Schema<ClaimSignalsReportRequest>,
-  output: __S(5954, __c186, 2) as any as S.Schema<SignalReport>,
+  input: __S(5792, __c181, 0) as any as S.Schema<ClaimSignalsReportRequest>,
+  output: __S(5986, __c187, 2) as any as S.Schema<SignalReport>,
   errors: [BadRequest, Conflict],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -9604,8 +9670,8 @@ export const createSignalsAnomaliesPoint: API.OperationMethod<
   CreateSignalsAnomaliesPointError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6434, __c201, 2) as any as S.Schema<CreateSignalsAnomaliesPointRequest>,
-  output: __S(6437, __c201, 5) as any as S.Schema<AnomalyPointsResponse>,
+  input: __S(6466, __c202, 2) as any as S.Schema<CreateSignalsAnomaliesPointRequest>,
+  output: __S(6469, __c202, 5) as any as S.Schema<AnomalyPointsResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -9749,8 +9815,8 @@ export const createSignalsReportPrReviewComment: API.OperationMethod<
   CreateSignalsReportPrReviewCommentError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2656, __c83, 0) as any as S.Schema<CreateSignalsReportPrReviewCommentRequest>,
-  output: __S(2720, __c85, 0) as any as S.Schema<PullRequestReviewCommentCreateResponse>,
+  input: __S(2688, __c84, 0) as any as S.Schema<CreateSignalsReportPrReviewCommentRequest>,
+  output: __S(2752, __c86, 0) as any as S.Schema<PullRequestReviewCommentCreateResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -9767,8 +9833,8 @@ export const createSignalsReportPrReviewCommentReaction: API.OperationMethod<
   CreateSignalsReportPrReviewCommentReactionError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2784, __c87, 0) as any as S.Schema<CreateSignalsReportPrReviewCommentReactionRequest>,
-  output: __S(2785, __c87, 1) as any as S.Schema<PullRequestReviewCommentReactionCreateResponse>,
+  input: __S(2816, __c88, 0) as any as S.Schema<CreateSignalsReportPrReviewCommentReactionRequest>,
+  output: __S(2817, __c88, 1) as any as S.Schema<PullRequestReviewCommentReactionCreateResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -9790,8 +9856,8 @@ export const createSignalsReportsActionsRun: API.OperationMethod<
   CreateSignalsReportsActionsRunError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2816, __c88, 0) as any as S.Schema<CreateSignalsReportsActionsRunRequest>,
-  output: __S(2817, __c88, 1) as any as S.Schema<SignalReportTaskActionRunResponse>,
+  input: __S(2848, __c89, 0) as any as S.Schema<CreateSignalsReportsActionsRunRequest>,
+  output: __S(2849, __c89, 1) as any as S.Schema<SignalReportTaskActionRunResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -9808,8 +9874,8 @@ export const createSignalsReportsFeedback: API.OperationMethod<
   CreateSignalsReportsFeedbackError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2880, __c90, 0) as any as S.Schema<CreateSignalsReportsFeedbackRequest>,
-  output: __S(2881, __c90, 1) as any as S.Schema<SignalReportFeedbackResponse>,
+  input: __S(2912, __c91, 0) as any as S.Schema<CreateSignalsReportsFeedbackRequest>,
+  output: __S(2913, __c91, 1) as any as S.Schema<SignalReportFeedbackResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -9826,8 +9892,8 @@ export const createSignalsReportsMerge: API.OperationMethod<
   CreateSignalsReportsMergeError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2912, __c91, 0) as any as S.Schema<CreateSignalsReportsMergeRequest>,
-  output: __S(2915, __c91, 3) as any as S.Schema<SignalReportMergeResponse>,
+  input: __S(2944, __c92, 0) as any as S.Schema<CreateSignalsReportsMergeRequest>,
+  output: __S(2947, __c92, 3) as any as S.Schema<SignalReportMergeResponse>,
   errors: [NotFound, Conflict],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -9844,8 +9910,8 @@ export const createSignalsReportsPlanStep: API.OperationMethod<
   CreateSignalsReportsPlanStepError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2944, __c92, 0) as any as S.Schema<CreateSignalsReportsPlanStepRequest>,
-  output: __S(5954, __c186, 2) as any as S.Schema<SignalReport>,
+  input: __S(2976, __c93, 0) as any as S.Schema<CreateSignalsReportsPlanStepRequest>,
+  output: __S(5986, __c187, 2) as any as S.Schema<SignalReport>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -9862,8 +9928,8 @@ export const createSignalsReportsRefund: API.OperationMethod<
   CreateSignalsReportsRefundError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2976, __c93, 0) as any as S.Schema<CreateSignalsReportsRefundRequest>,
-  output: __S(2977, __c93, 1) as any as S.Schema<SignalReportRefundResponse>,
+  input: __S(3008, __c94, 0) as any as S.Schema<CreateSignalsReportsRefundRequest>,
+  output: __S(3009, __c94, 1) as any as S.Schema<SignalReportRefundResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -9880,8 +9946,8 @@ export const createSignalsReportsReingest: API.OperationMethod<
   CreateSignalsReportsReingestError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3008, __c94, 0) as any as S.Schema<CreateSignalsReportsReingestRequest>,
-  output: __S(3040, __c95, 0) as any as S.Schema<SignalReportReingestionStatus>,
+  input: __S(3040, __c95, 0) as any as S.Schema<CreateSignalsReportsReingestRequest>,
+  output: __S(3072, __c96, 0) as any as S.Schema<SignalReportReingestionStatus>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -9898,8 +9964,8 @@ export const createSignalsReportsReviewersMe: API.OperationMethod<
   CreateSignalsReportsReviewersMeError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3072, __c96, 0) as any as S.Schema<CreateSignalsReportsReviewersMeRequest>,
-  output: __S(3104, __c97, 0) as any as S.Schema<CreateSignalsReportsReviewersMeResponse>,
+  input: __S(3104, __c97, 0) as any as S.Schema<CreateSignalsReportsReviewersMeRequest>,
+  output: __S(3136, __c98, 0) as any as S.Schema<CreateSignalsReportsReviewersMeResponse>,
   errors: [BadRequest],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -9916,8 +9982,8 @@ export const createSignalsReportsSourceMetadata: API.OperationMethod<
   CreateSignalsReportsSourceMetadataError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3136, __c98, 0) as any as S.Schema<CreateSignalsReportsSourceMetadataRequest>,
-  output: __S(3139, __c98, 3) as any as S.Schema<SignalReportSourceMetadataResponse>,
+  input: __S(3168, __c99, 0) as any as S.Schema<CreateSignalsReportsSourceMetadataRequest>,
+  output: __S(3171, __c99, 3) as any as S.Schema<SignalReportSourceMetadataResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -9934,8 +10000,8 @@ export const createSignalsReportsState: API.OperationMethod<
   CreateSignalsReportsStateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3168, __c99, 0) as any as S.Schema<CreateSignalsReportsStateRequest>,
-  output: __S(5954, __c186, 2) as any as S.Schema<SignalReport>,
+  input: __S(3200, __c100, 0) as any as S.Schema<CreateSignalsReportsStateRequest>,
+  output: __S(5986, __c187, 2) as any as S.Schema<SignalReport>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -9952,8 +10018,8 @@ export const createSignalsReportsViewed: API.OperationMethod<
   CreateSignalsReportsViewedError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3200, __c100, 0) as any as S.Schema<CreateSignalsReportsViewedRequest>,
-  output: __S(3104, __c97, 0) as any as S.Schema<CreateSignalsReportsViewedResponse>,
+  input: __S(3232, __c101, 0) as any as S.Schema<CreateSignalsReportsViewedRequest>,
+  output: __S(3136, __c98, 0) as any as S.Schema<CreateSignalsReportsViewedResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -9970,8 +10036,8 @@ export const createSignalsReviewerExclusion: API.OperationMethod<
   CreateSignalsReviewerExclusionError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3232, __c101, 0) as any as S.Schema<CreateSignalsReviewerExclusionRequest>,
-  output: __S(3233, __c101, 1) as any as S.Schema<ReviewerExclusionCreateResult>,
+  input: __S(3264, __c102, 0) as any as S.Schema<CreateSignalsReviewerExclusionRequest>,
+  output: __S(3265, __c102, 1) as any as S.Schema<ReviewerExclusionCreateResult>,
   errors: [BadRequest, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -9988,8 +10054,8 @@ export const createSignalsScout: API.OperationMethod<
   CreateSignalsScoutError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3299, __c103, 3) as any as S.Schema<CreateSignalsScoutRequest>,
-  output: __S(3301, __c103, 5) as any as S.Schema<SignalScoutCreateResponse>,
+  input: __S(3332, __c104, 4) as any as S.Schema<CreateSignalsScoutRequest>,
+  output: __S(3334, __c104, 6) as any as S.Schema<SignalScoutCreateResponse>,
   errors: [BadRequest, Conflict],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -10006,8 +10072,8 @@ export const createSignalsScoutChatTask: API.OperationMethod<
   CreateSignalsScoutChatTaskError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3424, __c107, 0) as any as S.Schema<CreateSignalsScoutChatTaskRequest>,
-  output: __S(3425, __c107, 1) as any as S.Schema<ScoutChatTask>,
+  input: __S(3456, __c108, 0) as any as S.Schema<CreateSignalsScoutChatTaskRequest>,
+  output: __S(3457, __c108, 1) as any as S.Schema<ScoutChatTask>,
   errors: [Forbidden],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -10024,8 +10090,8 @@ export const createSignalsScoutConfig: API.OperationMethod<
   CreateSignalsScoutConfigError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3456, __c108, 0) as any as S.Schema<CreateSignalsScoutConfigRequest>,
-  output: __S(3397, __c106, 5) as any as S.Schema<SignalScoutConfig>,
+  input: __S(3488, __c109, 0) as any as S.Schema<CreateSignalsScoutConfigRequest>,
+  output: __S(3433, __c107, 9) as any as S.Schema<SignalScoutConfig>,
   errors: [BadRequest, Forbidden],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -10042,8 +10108,8 @@ export const createSignalsScoutConfigTrialComparison: API.OperationMethod<
   CreateSignalsScoutConfigTrialComparisonError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3490, __c109, 2) as any as S.Schema<CreateSignalsScoutConfigTrialComparisonRequest>,
-  output: __S(3104, __c97, 0) as any as S.Schema<CreateSignalsScoutConfigTrialComparisonResponse>,
+  input: __S(3522, __c110, 2) as any as S.Schema<CreateSignalsScoutConfigTrialComparisonRequest>,
+  output: __S(3136, __c98, 0) as any as S.Schema<CreateSignalsScoutConfigTrialComparisonResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -10060,8 +10126,8 @@ export const createSignalsScoutConfigTrialEvaluation: API.OperationMethod<
   CreateSignalsScoutConfigTrialEvaluationError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3520, __c110, 0) as any as S.Schema<CreateSignalsScoutConfigTrialEvaluationRequest>,
-  output: __S(3104, __c97, 0) as any as S.Schema<CreateSignalsScoutConfigTrialEvaluationResponse>,
+  input: __S(3552, __c111, 0) as any as S.Schema<CreateSignalsScoutConfigTrialEvaluationRequest>,
+  output: __S(3136, __c98, 0) as any as S.Schema<CreateSignalsScoutConfigTrialEvaluationResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -10078,8 +10144,8 @@ export const createSignalsScoutNote: API.OperationMethod<
   CreateSignalsScoutNoteError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3552, __c111, 0) as any as S.Schema<CreateSignalsScoutNoteRequest>,
-  output: __S(3584, __c112, 0) as any as S.Schema<ScoutNote>,
+  input: __S(3584, __c112, 0) as any as S.Schema<CreateSignalsScoutNoteRequest>,
+  output: __S(3616, __c113, 0) as any as S.Schema<ScoutNote>,
   errors: [BadRequest],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -10096,8 +10162,8 @@ export const createSignalsScoutReportCheck: API.OperationMethod<
   CreateSignalsScoutReportCheckError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3616, __c113, 0) as any as S.Schema<CreateSignalsScoutReportCheckRequest>,
-  output: __S(4864, __c152, 0) as any as S.Schema<ScoutCheckSummary>,
+  input: __S(3648, __c114, 0) as any as S.Schema<CreateSignalsScoutReportCheckRequest>,
+  output: __S(4896, __c153, 0) as any as S.Schema<ScoutCheckSummary>,
   errors: [BadRequest, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -10114,8 +10180,8 @@ export const createSignalsSlackChannelScout: API.OperationMethod<
   CreateSignalsSlackChannelScoutError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3648, __c114, 0) as any as S.Schema<CreateSignalsSlackChannelScoutRequest>,
-  output: __S(3649, __c114, 1) as any as S.Schema<SlackChannelScoutCreateResponse>,
+  input: __S(3680, __c115, 0) as any as S.Schema<CreateSignalsSlackChannelScoutRequest>,
+  output: __S(3681, __c115, 1) as any as S.Schema<SlackChannelScoutCreateResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -10131,8 +10197,8 @@ export const createSignalsSourceConfig: API.OperationMethod<
   CreateSignalsSourceConfigError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3680, __c115, 0) as any as S.Schema<CreateSignalsSourceConfigRequest>,
-  output: __S(3713, __c116, 1) as any as S.Schema<SignalSourceConfigOutput>,
+  input: __S(3712, __c116, 0) as any as S.Schema<CreateSignalsSourceConfigRequest>,
+  output: __S(3745, __c117, 1) as any as S.Schema<SignalSourceConfigOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -10150,11 +10216,11 @@ export const createSignalsSourceConfigsAlertPatternPreview: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3744,
-    __c117,
+    3776,
+    __c118,
     0,
   ) as any as S.Schema<CreateSignalsSourceConfigsAlertPatternPreviewRequest>,
-  output: __S(3747, __c117, 3) as any as S.Schema<AlertPatternPreviewResponse>,
+  output: __S(3779, __c118, 3) as any as S.Schema<AlertPatternPreviewResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -10171,8 +10237,8 @@ export const createSignalsSourceConfigsFilterPreview: API.OperationMethod<
   CreateSignalsSourceConfigsFilterPreviewError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3968, __c124, 0) as any as S.Schema<CreateSignalsSourceConfigsFilterPreviewRequest>,
-  output: __S(3972, __c124, 4) as any as S.Schema<SourceFilterPreviewResponse>,
+  input: __S(4000, __c125, 0) as any as S.Schema<CreateSignalsSourceConfigsFilterPreviewRequest>,
+  output: __S(4004, __c125, 4) as any as S.Schema<SourceFilterPreviewResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -10188,8 +10254,8 @@ export const createSignalsTrial: API.OperationMethod<
   CreateSignalsTrialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4000, __c125, 0) as any as S.Schema<CreateSignalsTrialRequest>,
-  output: __S(4032, __c126, 0) as any as S.Schema<SelfDrivingTrialStatus>,
+  input: __S(4032, __c126, 0) as any as S.Schema<CreateSignalsTrialRequest>,
+  output: __S(4064, __c127, 0) as any as S.Schema<SelfDrivingTrialStatus>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -10206,7 +10272,7 @@ export const dismissSignalsScoutSuggestion: API.OperationMethod<
   DismissSignalsScoutSuggestionError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4064, __c127, 0) as any as S.Schema<DismissSignalsScoutSuggestionRequest>,
+  input: __S(4096, __c128, 0) as any as S.Schema<DismissSignalsScoutSuggestionRequest>,
   output: __S(897, __c28, 1) as any as S.Schema<ScoutSuggestionItem>,
   errors: [NotFound],
   serviceErrors: PosthogServiceErrors,
@@ -10224,8 +10290,8 @@ export const editSignalsScoutReport: API.OperationMethod<
   EditSignalsScoutReportError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4096, __c128, 0) as any as S.Schema<EditSignalsScoutReportRequest>,
-  output: __S(4099, __c128, 3) as any as S.Schema<EditReportResponse>,
+  input: __S(4128, __c129, 0) as any as S.Schema<EditSignalsScoutReportRequest>,
+  output: __S(4131, __c129, 3) as any as S.Schema<EditReportResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -10241,8 +10307,8 @@ export const generateSignalsScoutRubric: API.OperationMethod<
   GenerateSignalsScoutRubricError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4128, __c129, 0) as any as S.Schema<GenerateSignalsScoutRubricRequest>,
-  output: __S(3104, __c97, 0) as any as S.Schema<GenerateSignalsScoutRubricResponse>,
+  input: __S(4160, __c130, 0) as any as S.Schema<GenerateSignalsScoutRubricRequest>,
+  output: __S(3136, __c98, 0) as any as S.Schema<GenerateSignalsScoutRubricResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -10259,8 +10325,8 @@ export const getSignalsActivitySummaryVersion: API.OperationMethod<
   GetSignalsActivitySummaryVersionError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4160, __c130, 0) as any as S.Schema<GetSignalsActivitySummaryVersionRequest>,
-  output: __S(4163, __c130, 3) as any as S.Schema<GetSignalsActivitySummaryVersionResponse>,
+  input: __S(4192, __c131, 0) as any as S.Schema<GetSignalsActivitySummaryVersionRequest>,
+  output: __S(4195, __c131, 3) as any as S.Schema<GetSignalsActivitySummaryVersionResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -10277,8 +10343,8 @@ export const getSignalsAnomaliesInsight: API.OperationMethod<
   GetSignalsAnomaliesInsightError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4288, __c134, 0) as any as S.Schema<GetSignalsAnomaliesInsightRequest>,
-  output: __S(4293, __c134, 5) as any as S.Schema<AnomalyInsightResponse>,
+  input: __S(4320, __c135, 0) as any as S.Schema<GetSignalsAnomaliesInsightRequest>,
+  output: __S(4325, __c135, 5) as any as S.Schema<AnomalyInsightResponse>,
   errors: [NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -10294,8 +10360,8 @@ export const getSignalsReport: API.OperationMethod<
   GetSignalsReportError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4320, __c135, 0) as any as S.Schema<GetSignalsReportRequest>,
-  output: __S(5954, __c186, 2) as any as S.Schema<SignalReport>,
+  input: __S(4352, __c136, 0) as any as S.Schema<GetSignalsReportRequest>,
+  output: __S(5986, __c187, 2) as any as S.Schema<SignalReport>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -10312,8 +10378,8 @@ export const getSignalsReportArtefact: API.OperationMethod<
   GetSignalsReportArtefactError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4352, __c136, 0) as any as S.Schema<GetSignalsReportArtefactRequest>,
-  output: __S(4384, __c137, 0) as any as S.Schema<SignalReportArtefact>,
+  input: __S(4384, __c137, 0) as any as S.Schema<GetSignalsReportArtefactRequest>,
+  output: __S(4416, __c138, 0) as any as S.Schema<SignalReportArtefact>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -10330,8 +10396,8 @@ export const getSignalsReportCheck: API.OperationMethod<
   GetSignalsReportCheckError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4416, __c138, 0) as any as S.Schema<GetSignalsReportCheckRequest>,
-  output: __S(4449, __c139, 1) as any as S.Schema<SignalReportCheck>,
+  input: __S(4448, __c139, 0) as any as S.Schema<GetSignalsReportCheckRequest>,
+  output: __S(4481, __c140, 1) as any as S.Schema<SignalReportCheck>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -10348,8 +10414,8 @@ export const getSignalsReportsAvailableReviewer: API.OperationMethod<
   GetSignalsReportsAvailableReviewerError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4512, __c141, 0) as any as S.Schema<GetSignalsReportsAvailableReviewerRequest>,
-  output: __S(4515, __c141, 3) as any as S.Schema<GetSignalsReportsAvailableReviewerResponse>,
+  input: __S(4544, __c142, 0) as any as S.Schema<GetSignalsReportsAvailableReviewerRequest>,
+  output: __S(4547, __c142, 3) as any as S.Schema<GetSignalsReportsAvailableReviewerResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -10365,8 +10431,8 @@ export const getSignalsReportsFeedbackState: API.OperationMethod<
   GetSignalsReportsFeedbackStateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4544, __c142, 0) as any as S.Schema<GetSignalsReportsFeedbackStateRequest>,
-  output: __S(4545, __c142, 1) as any as S.Schema<SignalReportFeedbackState>,
+  input: __S(4576, __c143, 0) as any as S.Schema<GetSignalsReportsFeedbackStateRequest>,
+  output: __S(4577, __c143, 1) as any as S.Schema<SignalReportFeedbackState>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -10383,8 +10449,8 @@ export const getSignalsReportsForMe: API.OperationMethod<
   GetSignalsReportsForMeError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4576, __c143, 0) as any as S.Schema<GetSignalsReportsForMeRequest>,
-  output: __S(4583, __c143, 7) as any as S.Schema<PersonalRanking>,
+  input: __S(4608, __c144, 0) as any as S.Schema<GetSignalsReportsForMeRequest>,
+  output: __S(4615, __c144, 7) as any as S.Schema<PersonalRanking>,
   errors: [NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -10401,8 +10467,8 @@ export const getSignalsReportsRefundSummary: API.OperationMethod<
   GetSignalsReportsRefundSummaryError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4608, __c144, 0) as any as S.Schema<GetSignalsReportsRefundSummaryRequest>,
-  output: __S(4609, __c144, 1) as any as S.Schema<SignalReportRefundSummaryResponse>,
+  input: __S(4640, __c145, 0) as any as S.Schema<GetSignalsReportsRefundSummaryRequest>,
+  output: __S(4641, __c145, 1) as any as S.Schema<SignalReportRefundSummaryResponse>,
   errors: [NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -10419,8 +10485,8 @@ export const getSignalsReportsSectionCount: API.OperationMethod<
   GetSignalsReportsSectionCountError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4640, __c145, 0) as any as S.Schema<GetSignalsReportsSectionCountRequest>,
-  output: __S(4641, __c145, 1) as any as S.Schema<SignalReportSectionCounts>,
+  input: __S(4672, __c146, 0) as any as S.Schema<GetSignalsReportsSectionCountRequest>,
+  output: __S(4673, __c146, 1) as any as S.Schema<SignalReportSectionCounts>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -10437,8 +10503,8 @@ export const getSignalsReportsSignal: API.OperationMethod<
   GetSignalsReportsSignalError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4672, __c146, 0) as any as S.Schema<GetSignalsReportsSignalRequest>,
-  output: __S(4675, __c146, 3) as any as S.Schema<ReportSignalsResponse>,
+  input: __S(4704, __c147, 0) as any as S.Schema<GetSignalsReportsSignalRequest>,
+  output: __S(4707, __c147, 3) as any as S.Schema<ReportSignalsResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -10455,8 +10521,8 @@ export const getSignalsReportsTagOption: API.OperationMethod<
   GetSignalsReportsTagOptionError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4704, __c147, 0) as any as S.Schema<GetSignalsReportsTagOptionRequest>,
-  output: __S(4705, __c147, 1) as any as S.Schema<SignalReportTagOptions>,
+  input: __S(4736, __c148, 0) as any as S.Schema<GetSignalsReportsTagOptionRequest>,
+  output: __S(4737, __c148, 1) as any as S.Schema<SignalReportTagOptions>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -10473,8 +10539,8 @@ export const getSignalsReviewerExclusion: API.OperationMethod<
   GetSignalsReviewerExclusionError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4736, __c148, 0) as any as S.Schema<GetSignalsReviewerExclusionRequest>,
-  output: __S(3264, __c102, 0) as any as S.Schema<ReviewerExclusion>,
+  input: __S(4768, __c149, 0) as any as S.Schema<GetSignalsReviewerExclusionRequest>,
+  output: __S(3296, __c103, 0) as any as S.Schema<ReviewerExclusion>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -10491,8 +10557,8 @@ export const getSignalsScoutConfig: API.OperationMethod<
   GetSignalsScoutConfigError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4768, __c149, 0) as any as S.Schema<GetSignalsScoutConfigRequest>,
-  output: __S(3397, __c106, 5) as any as S.Schema<SignalScoutConfig>,
+  input: __S(4800, __c150, 0) as any as S.Schema<GetSignalsScoutConfigRequest>,
+  output: __S(3433, __c107, 9) as any as S.Schema<SignalScoutConfig>,
   errors: [NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -10509,8 +10575,8 @@ export const getSignalsScoutConfigTrialComparison: API.OperationMethod<
   GetSignalsScoutConfigTrialComparisonError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4800, __c150, 0) as any as S.Schema<GetSignalsScoutConfigTrialComparisonRequest>,
-  output: __S(3874, __c121, 2) as any as S.Schema<ScoutTrialComparison>,
+  input: __S(4832, __c151, 0) as any as S.Schema<GetSignalsScoutConfigTrialComparisonRequest>,
+  output: __S(3906, __c122, 2) as any as S.Schema<ScoutTrialComparison>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -10527,8 +10593,8 @@ export const getSignalsScoutConfigTrialEvaluation: API.OperationMethod<
   GetSignalsScoutConfigTrialEvaluationError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4896, __c153, 0) as any as S.Schema<GetSignalsScoutConfigTrialEvaluationRequest>,
-  output: __S(3926, __c122, 22) as any as S.Schema<ScoutTrialEvaluation>,
+  input: __S(4928, __c154, 0) as any as S.Schema<GetSignalsScoutConfigTrialEvaluationRequest>,
+  output: __S(3958, __c123, 22) as any as S.Schema<ScoutTrialEvaluation>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -10545,8 +10611,8 @@ export const getSignalsScoutMetadata: API.OperationMethod<
   GetSignalsScoutMetadataError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4928, __c154, 0) as any as S.Schema<GetSignalsScoutMetadataRequest>,
-  output: __S(4930, __c154, 2) as any as S.Schema<ScoutMetadata>,
+  input: __S(4960, __c155, 0) as any as S.Schema<GetSignalsScoutMetadataRequest>,
+  output: __S(4962, __c155, 2) as any as S.Schema<ScoutMetadata>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -10563,8 +10629,8 @@ export const getSignalsScoutProjectProfile: API.OperationMethod<
   GetSignalsScoutProjectProfileError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4960, __c155, 0) as any as S.Schema<GetSignalsScoutProjectProfileRequest>,
-  output: __S(5018, __c156, 26) as any as S.Schema<ProjectProfile>,
+  input: __S(4992, __c156, 0) as any as S.Schema<GetSignalsScoutProjectProfileRequest>,
+  output: __S(5050, __c157, 26) as any as S.Schema<ProjectProfile>,
   errors: [NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -10580,8 +10646,8 @@ export const getSignalsScoutRubric: API.OperationMethod<
   GetSignalsScoutRubricError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5024, __c157, 0) as any as S.Schema<GetSignalsScoutRubricRequest>,
-  output: __S(5060, __c158, 4) as any as S.Schema<ScoutRubricDocument>,
+  input: __S(5056, __c158, 0) as any as S.Schema<GetSignalsScoutRubricRequest>,
+  output: __S(5092, __c159, 4) as any as S.Schema<ScoutRubricDocument>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -10598,8 +10664,8 @@ export const getSignalsScoutRun: API.OperationMethod<
   GetSignalsScoutRunError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5088, __c159, 0) as any as S.Schema<GetSignalsScoutRunRequest>,
-  output: __S(5120, __c160, 0) as any as S.Schema<SignalScoutRunDetail>,
+  input: __S(5120, __c160, 0) as any as S.Schema<GetSignalsScoutRunRequest>,
+  output: __S(5152, __c161, 0) as any as S.Schema<SignalScoutRunDetail>,
   errors: [NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -10616,8 +10682,8 @@ export const getSignalsSlackChannelScoutsChannel: API.OperationMethod<
   GetSignalsSlackChannelScoutsChannelError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5184, __c162, 0) as any as S.Schema<GetSignalsSlackChannelScoutsChannelRequest>,
-  output: __S(5189, __c162, 5) as any as S.Schema<SlackScoutChannelSources>,
+  input: __S(5216, __c163, 0) as any as S.Schema<GetSignalsSlackChannelScoutsChannelRequest>,
+  output: __S(5221, __c163, 5) as any as S.Schema<SlackScoutChannelSources>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -10633,8 +10699,8 @@ export const getSignalsSourceConfig: API.OperationMethod<
   GetSignalsSourceConfigError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5216, __c163, 0) as any as S.Schema<GetSignalsSourceConfigRequest>,
-  output: __S(3713, __c116, 1) as any as S.Schema<SignalSourceConfigOutput>,
+  input: __S(5248, __c164, 0) as any as S.Schema<GetSignalsSourceConfigRequest>,
+  output: __S(3745, __c117, 1) as any as S.Schema<SignalSourceConfigOutput>,
   errors: [Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -10651,8 +10717,8 @@ export const getSignalsSourceConfigsFilterCatalog: API.OperationMethod<
   GetSignalsSourceConfigsFilterCatalogError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5248, __c164, 0) as any as S.Schema<GetSignalsSourceConfigsFilterCatalogRequest>,
-  output: __S(5253, __c164, 5) as any as S.Schema<SourceFilterCatalogList>,
+  input: __S(5280, __c165, 0) as any as S.Schema<GetSignalsSourceConfigsFilterCatalogRequest>,
+  output: __S(5285, __c165, 5) as any as S.Schema<SourceFilterCatalogList>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -10669,8 +10735,8 @@ export const listSignalsActivitySummary: API.OperationMethod<
   ListSignalsActivitySummaryError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5280, __c165, 0) as any as S.Schema<ListSignalsActivitySummaryRequest>,
-  output: __S(5281, __c165, 1) as any as S.Schema<ActivitySummary>,
+  input: __S(5312, __c166, 0) as any as S.Schema<ListSignalsActivitySummaryRequest>,
+  output: __S(5313, __c166, 1) as any as S.Schema<ActivitySummary>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -10687,7 +10753,7 @@ export const listSignalsConfig: API.OperationMethod<
   ListSignalsConfigError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5312, __c166, 0) as any as S.Schema<ListSignalsConfigRequest>,
+  input: __S(5344, __c167, 0) as any as S.Schema<ListSignalsConfigRequest>,
   output: __S(129, __c4, 1) as any as S.Schema<SignalTeamConfig>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
@@ -10704,8 +10770,8 @@ export const listSignalsInboxStatus: API.OperationMethod<
   ListSignalsInboxStatusError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5376, __c168, 0) as any as S.Schema<ListSignalsInboxStatusRequest>,
-  output: __S(5377, __c168, 1) as any as S.Schema<InboxStatus>,
+  input: __S(5408, __c169, 0) as any as S.Schema<ListSignalsInboxStatusRequest>,
+  output: __S(5409, __c169, 1) as any as S.Schema<InboxStatus>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -10721,8 +10787,8 @@ export const listSignalsInboxSummary: API.OperationMethod<
   ListSignalsInboxSummaryError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5408, __c169, 0) as any as S.Schema<ListSignalsInboxSummaryRequest>,
-  output: __S(5413, __c169, 5) as any as S.Schema<InboxSummary>,
+  input: __S(5440, __c170, 0) as any as S.Schema<ListSignalsInboxSummaryRequest>,
+  output: __S(5445, __c170, 5) as any as S.Schema<InboxSummary>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -10738,7 +10804,7 @@ export const listSignalsOnboarding: API.OperationMethod<
   ListSignalsOnboardingError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5440, __c170, 0) as any as S.Schema<ListSignalsOnboardingRequest>,
+  input: __S(5472, __c171, 0) as any as S.Schema<ListSignalsOnboardingRequest>,
   output: __S(933, __c29, 5) as any as S.Schema<InboxOnboardingState>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
@@ -10756,8 +10822,8 @@ export const listSignalsProcessing: API.OperationMethod<
   ListSignalsProcessingError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5472, __c171, 0) as any as S.Schema<ListSignalsProcessingRequest>,
-  output: __S(5475, __c171, 3) as any as S.Schema<PaginatedPauseStateResponseList>,
+  input: __S(5504, __c172, 0) as any as S.Schema<ListSignalsProcessingRequest>,
+  output: __S(5507, __c172, 3) as any as S.Schema<PaginatedPauseStateResponseList>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -10774,8 +10840,8 @@ export const listSignalsPullRequests: API.OperationMethod<
   ListSignalsPullRequestsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5504, __c172, 0) as any as S.Schema<ListSignalsPullRequestsRequest>,
-  output: __S(5508, __c172, 4) as any as S.Schema<PRBrowserPage>,
+  input: __S(5536, __c173, 0) as any as S.Schema<ListSignalsPullRequestsRequest>,
+  output: __S(5540, __c173, 4) as any as S.Schema<PRBrowserPage>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -10792,8 +10858,8 @@ export const listSignalsReportArtefacts: API.OperationMethod<
   ListSignalsReportArtefactsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5536, __c173, 0) as any as S.Schema<ListSignalsReportArtefactsRequest>,
-  output: __S(5538, __c173, 2) as any as S.Schema<PaginatedSignalReportArtefactList>,
+  input: __S(5568, __c174, 0) as any as S.Schema<ListSignalsReportArtefactsRequest>,
+  output: __S(5570, __c174, 2) as any as S.Schema<PaginatedSignalReportArtefactList>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -10810,8 +10876,8 @@ export const listSignalsReportChecks: API.OperationMethod<
   ListSignalsReportChecksError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5568, __c174, 0) as any as S.Schema<ListSignalsReportChecksRequest>,
-  output: __S(5570, __c174, 2) as any as S.Schema<PaginatedSignalReportCheckList>,
+  input: __S(5600, __c175, 0) as any as S.Schema<ListSignalsReportChecksRequest>,
+  output: __S(5602, __c175, 2) as any as S.Schema<PaginatedSignalReportCheckList>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -10827,8 +10893,8 @@ export const listSignalsReports: API.OperationMethod<
   ListSignalsReportsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5600, __c175, 0) as any as S.Schema<ListSignalsReportsRequest>,
-  output: __S(5619, __c175, 19) as any as S.Schema<PaginatedSignalReportListList>,
+  input: __S(5632, __c176, 0) as any as S.Schema<ListSignalsReportsRequest>,
+  output: __S(5651, __c176, 19) as any as S.Schema<PaginatedSignalReportListList>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -10845,8 +10911,8 @@ export const listSignalsReportsActions: API.OperationMethod<
   ListSignalsReportsActionsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5696, __c178, 0) as any as S.Schema<ListSignalsReportsActionsRequest>,
-  output: __S(5699, __c178, 3) as any as S.Schema<SignalReportTaskActionListResponse>,
+  input: __S(5728, __c179, 0) as any as S.Schema<ListSignalsReportsActionsRequest>,
+  output: __S(5731, __c179, 3) as any as S.Schema<SignalReportTaskActionListResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -10863,8 +10929,8 @@ export const listSignalsReportsRankingOutcomes: API.OperationMethod<
   ListSignalsReportsRankingOutcomesError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5728, __c179, 0) as any as S.Schema<ListSignalsReportsRankingOutcomesRequest>,
-  output: __S(5731, __c179, 3) as any as S.Schema<RankingOutcomesResponse>,
+  input: __S(5760, __c180, 0) as any as S.Schema<ListSignalsReportsRankingOutcomesRequest>,
+  output: __S(5763, __c180, 3) as any as S.Schema<RankingOutcomesResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -10881,8 +10947,8 @@ export const listSignalsReviewerExclusions: API.OperationMethod<
   ListSignalsReviewerExclusionsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6016, __c188, 0) as any as S.Schema<ListSignalsReviewerExclusionsRequest>,
-  output: __S(6018, __c188, 2) as any as S.Schema<ListSignalsReviewerExclusionsResponse>,
+  input: __S(6048, __c189, 0) as any as S.Schema<ListSignalsReviewerExclusionsRequest>,
+  output: __S(6050, __c189, 2) as any as S.Schema<ListSignalsReviewerExclusionsResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -10899,8 +10965,8 @@ export const listSignalsScoutConfig: API.OperationMethod<
   ListSignalsScoutConfigError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6048, __c189, 0) as any as S.Schema<ListSignalsScoutConfigRequest>,
-  output: __S(6081, __c190, 1) as any as S.Schema<ListSignalsScoutConfigResponse>,
+  input: __S(6080, __c190, 0) as any as S.Schema<ListSignalsScoutConfigRequest>,
+  output: __S(6113, __c191, 1) as any as S.Schema<ListSignalsScoutConfigResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -10917,8 +10983,8 @@ export const listSignalsScoutMembers: API.OperationMethod<
   ListSignalsScoutMembersError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6112, __c191, 0) as any as S.Schema<ListSignalsScoutMembersRequest>,
-  output: __S(6120, __c191, 8) as any as S.Schema<ListSignalsScoutMembersResponse>,
+  input: __S(6144, __c192, 0) as any as S.Schema<ListSignalsScoutMembersRequest>,
+  output: __S(6152, __c192, 8) as any as S.Schema<ListSignalsScoutMembersResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -10935,8 +11001,8 @@ export const listSignalsScoutNotes: API.OperationMethod<
   ListSignalsScoutNotesError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6144, __c192, 0) as any as S.Schema<ListSignalsScoutNotesRequest>,
-  output: __S(6146, __c192, 2) as any as S.Schema<ListSignalsScoutNotesResponse>,
+  input: __S(6176, __c193, 0) as any as S.Schema<ListSignalsScoutNotesRequest>,
+  output: __S(6178, __c193, 2) as any as S.Schema<ListSignalsScoutNotesResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -10953,8 +11019,8 @@ export const listSignalsScoutReportCheck: API.OperationMethod<
   ListSignalsScoutReportCheckError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6176, __c193, 0) as any as S.Schema<ListSignalsScoutReportCheckRequest>,
-  output: __S(6209, __c194, 1) as any as S.Schema<ListSignalsScoutReportCheckResponse>,
+  input: __S(6208, __c194, 0) as any as S.Schema<ListSignalsScoutReportCheckRequest>,
+  output: __S(6241, __c195, 1) as any as S.Schema<ListSignalsScoutReportCheckResponse>,
   errors: [BadRequest],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -10971,8 +11037,8 @@ export const listSignalsScoutReportChecks: API.OperationMethod<
   ListSignalsScoutReportChecksError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6240, __c195, 0) as any as S.Schema<ListSignalsScoutReportChecksRequest>,
-  output: __S(6209, __c194, 1) as any as S.Schema<ListSignalsScoutReportChecksResponse>,
+  input: __S(6272, __c196, 0) as any as S.Schema<ListSignalsScoutReportChecksRequest>,
+  output: __S(6241, __c195, 1) as any as S.Schema<ListSignalsScoutReportChecksResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -10989,8 +11055,8 @@ export const listSignalsScoutReportDiscussions: API.OperationMethod<
   ListSignalsScoutReportDiscussionsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6272, __c196, 0) as any as S.Schema<ListSignalsScoutReportDiscussionsRequest>,
-  output: __S(6276, __c196, 4) as any as S.Schema<ListSignalsScoutReportDiscussionsResponse>,
+  input: __S(6304, __c197, 0) as any as S.Schema<ListSignalsScoutReportDiscussionsRequest>,
+  output: __S(6308, __c197, 4) as any as S.Schema<ListSignalsScoutReportDiscussionsResponse>,
   errors: [Forbidden],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -11007,8 +11073,8 @@ export const listSignalsScoutRuns: API.OperationMethod<
   ListSignalsScoutRunsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6304, __c197, 0) as any as S.Schema<ListSignalsScoutRunsRequest>,
-  output: __S(6338, __c198, 2) as any as S.Schema<ListSignalsScoutRunsResponse>,
+  input: __S(6336, __c198, 0) as any as S.Schema<ListSignalsScoutRunsRequest>,
+  output: __S(6370, __c199, 2) as any as S.Schema<ListSignalsScoutRunsResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -11025,8 +11091,8 @@ export const listSignalsScoutSuggestions: API.OperationMethod<
   ListSignalsScoutSuggestionsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6368, __c199, 0) as any as S.Schema<ListSignalsScoutSuggestionsRequest>,
-  output: __S(6369, __c199, 1) as any as S.Schema<ScoutSuggestionSet>,
+  input: __S(6400, __c200, 0) as any as S.Schema<ListSignalsScoutSuggestionsRequest>,
+  output: __S(6401, __c200, 1) as any as S.Schema<ScoutSuggestionSet>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -11042,8 +11108,8 @@ export const listSignalsSourceConfigs: API.OperationMethod<
   ListSignalsSourceConfigsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6400, __c200, 0) as any as S.Schema<ListSignalsSourceConfigsRequest>,
-  output: __S(6402, __c200, 2) as any as S.Schema<PaginatedSignalSourceConfigListOutput>,
+  input: __S(6432, __c201, 0) as any as S.Schema<ListSignalsSourceConfigsRequest>,
+  output: __S(6434, __c201, 2) as any as S.Schema<PaginatedSignalSourceConfigListOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -11059,8 +11125,8 @@ export const listSignalsTrial: API.OperationMethod<
   ListSignalsTrialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6496, __c203, 0) as any as S.Schema<ListSignalsTrialRequest>,
-  output: __S(4032, __c126, 0) as any as S.Schema<SelfDrivingTrialStatus>,
+  input: __S(6528, __c204, 0) as any as S.Schema<ListSignalsTrialRequest>,
+  output: __S(4064, __c127, 0) as any as S.Schema<SelfDrivingTrialStatus>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -11077,8 +11143,8 @@ export const pauseSignalsProcessingDestroy: API.OperationMethod<
   PauseSignalsProcessingDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6528, __c204, 0) as any as S.Schema<PauseSignalsProcessingDestroyRequest>,
-  output: __S(6560, __c205, 0) as any as S.Schema<PauseResponse>,
+  input: __S(6560, __c205, 0) as any as S.Schema<PauseSignalsProcessingDestroyRequest>,
+  output: __S(6592, __c206, 0) as any as S.Schema<PauseResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -11095,8 +11161,8 @@ export const refreshSignalsScoutSuggestion: API.OperationMethod<
   RefreshSignalsScoutSuggestionError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6592, __c206, 0) as any as S.Schema<RefreshSignalsScoutSuggestionRequest>,
-  output: __S(3104, __c97, 0) as any as S.Schema<RefreshSignalsScoutSuggestionResponse>,
+  input: __S(6624, __c207, 0) as any as S.Schema<RefreshSignalsScoutSuggestionRequest>,
+  output: __S(3136, __c98, 0) as any as S.Schema<RefreshSignalsScoutSuggestionResponse>,
   errors: [Forbidden, Conflict],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -11113,8 +11179,8 @@ export const resumeSignalsScoutConfigTrialComparison: API.OperationMethod<
   ResumeSignalsScoutConfigTrialComparisonError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6624, __c207, 0) as any as S.Schema<ResumeSignalsScoutConfigTrialComparisonRequest>,
-  output: __S(3104, __c97, 0) as any as S.Schema<ResumeSignalsScoutConfigTrialComparisonResponse>,
+  input: __S(6656, __c208, 0) as any as S.Schema<ResumeSignalsScoutConfigTrialComparisonRequest>,
+  output: __S(3136, __c98, 0) as any as S.Schema<ResumeSignalsScoutConfigTrialComparisonResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -11131,8 +11197,8 @@ export const reviewSignalsReportPrCommentDestroy: API.OperationMethod<
   ReviewSignalsReportPrCommentDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6656, __c208, 0) as any as S.Schema<ReviewSignalsReportPrCommentDestroyRequest>,
-  output: __S(3104, __c97, 0) as any as S.Schema<ReviewSignalsReportPrCommentDestroyResponse>,
+  input: __S(6688, __c209, 0) as any as S.Schema<ReviewSignalsReportPrCommentDestroyRequest>,
+  output: __S(3136, __c98, 0) as any as S.Schema<ReviewSignalsReportPrCommentDestroyResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -11153,13 +11219,13 @@ export const reviewSignalsReportPrCommentReactionDestroy: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    6688,
-    __c209,
+    6720,
+    __c210,
     0,
   ) as any as S.Schema<ReviewSignalsReportPrCommentReactionDestroyRequest>,
   output: __S(
-    3104,
-    __c97,
+    3136,
+    __c98,
     0,
   ) as any as S.Schema<ReviewSignalsReportPrCommentReactionDestroyResponse>,
   errors: [Forbidden, NotFound],
@@ -11183,8 +11249,8 @@ export const runSignalsScoutConfig: API.OperationMethod<
   RunSignalsScoutConfigError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6720, __c210, 0) as any as S.Schema<RunSignalsScoutConfigRequest>,
-  output: __S(3104, __c97, 0) as any as S.Schema<RunSignalsScoutConfigResponse>,
+  input: __S(6752, __c211, 0) as any as S.Schema<RunSignalsScoutConfigRequest>,
+  output: __S(3136, __c98, 0) as any as S.Schema<RunSignalsScoutConfigResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -11201,8 +11267,8 @@ export const searchSignalsActivitySummaryMember: API.OperationMethod<
   SearchSignalsActivitySummaryMemberError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6752, __c211, 0) as any as S.Schema<SearchSignalsActivitySummaryMemberRequest>,
-  output: __S(6759, __c211, 7) as any as S.Schema<ActivitySummarySearchResult>,
+  input: __S(6784, __c212, 0) as any as S.Schema<SearchSignalsActivitySummaryMemberRequest>,
+  output: __S(6791, __c212, 7) as any as S.Schema<ActivitySummarySearchResult>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -11219,8 +11285,8 @@ export const searchSignalsReport: API.OperationMethod<
   SearchSignalsReportError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6784, __c212, 0) as any as S.Schema<SearchSignalsReportRequest>,
-  output: __S(6787, __c212, 3) as any as S.Schema<SignalReportSearchResponse>,
+  input: __S(6816, __c213, 0) as any as S.Schema<SearchSignalsReportRequest>,
+  output: __S(6819, __c213, 3) as any as S.Schema<SignalReportSearchResponse>,
   errors: [NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -11237,14 +11303,32 @@ export const searchSignalsScoutScratchpad: API.OperationMethod<
   SearchSignalsScoutScratchpadError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6816, __c213, 0) as any as S.Schema<SearchSignalsScoutScratchpadRequest>,
-  output: __S(6818, __c213, 2) as any as S.Schema<SearchSignalsScoutScratchpadResponse>,
+  input: __S(6848, __c214, 0) as any as S.Schema<SearchSignalsScoutScratchpadRequest>,
+  output: __S(6850, __c214, 2) as any as S.Schema<SearchSignalsScoutScratchpadResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SearchSignalsScoutScratchpad",
+}));
+
+export type SendSignalsScoutMessageError = BadRequest | NotFound | PosthogOpError;
+/** Send a message through an owner-set route Ask to message a person or channel through one of the scout config's routes (`output_destinations.messages`). Name the route `key`, never a recipient. Outside a dry run the message must point at a report this run wrote or edited. Nothing is posted during the run: the message is queued and sent when the run ends, and a second call with the same route and `dedupe_key` replaces it. A scout sends at most 5 messages in any 24 hours, and a route and key sent in the last 30 days is refused as a duplicate. */
+export const sendSignalsScoutMessage: API.OperationMethod<
+  SendSignalsScoutMessageRequest,
+  SendScoutMessageResponse,
+  SendSignalsScoutMessageError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(160, __c5, 0) as any as S.Schema<SendSignalsScoutMessageRequest>,
+  output: __S(161, __c5, 1) as any as S.Schema<SendScoutMessageResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: PosthogServiceErrors,
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SendSignalsScoutMessage",
 }));
 
 export type SignalsAnomaliesSearchRetrieveError = PosthogOpError;
@@ -11255,8 +11339,8 @@ export const signalsAnomaliesSearchRetrieve: API.OperationMethod<
   SignalsAnomaliesSearchRetrieveError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c5, 0) as any as S.Schema<SignalsAnomaliesSearchRetrieveRequest>,
-  output: __S(173, __c5, 13) as any as S.Schema<AnomalySearchResponse>,
+  input: __S(192, __c6, 0) as any as S.Schema<SignalsAnomaliesSearchRetrieveRequest>,
+  output: __S(205, __c6, 13) as any as S.Schema<AnomalySearchResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -11273,8 +11357,8 @@ export const signalSignalsScoutEmit: API.OperationMethod<
   SignalSignalsScoutEmitError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(195, __c6, 3) as any as S.Schema<SignalSignalsScoutEmitRequest>,
-  output: __S(196, __c6, 4) as any as S.Schema<EmitFindingResponse>,
+  input: __S(227, __c7, 3) as any as S.Schema<SignalSignalsScoutEmitRequest>,
+  output: __S(228, __c7, 4) as any as S.Schema<EmitFindingResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -11290,8 +11374,8 @@ export const signalsMonthlyUsage: API.OperationMethod<
   SignalsMonthlyUsageError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c7, 0) as any as S.Schema<SignalsMonthlyUsageRequest>,
-  output: __S(230, __c7, 6) as any as S.Schema<MonthlyUsage>,
+  input: __S(256, __c8, 0) as any as S.Schema<SignalsMonthlyUsageRequest>,
+  output: __S(262, __c8, 6) as any as S.Schema<MonthlyUsage>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -11308,8 +11392,8 @@ export const signalsReportArtefactsDestroy: API.OperationMethod<
   SignalsReportArtefactsDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c8, 0) as any as S.Schema<SignalsReportArtefactsDestroyRequest>,
-  output: __S(3104, __c97, 0) as any as S.Schema<SignalsReportArtefactsDestroyResponse>,
+  input: __S(288, __c9, 0) as any as S.Schema<SignalsReportArtefactsDestroyRequest>,
+  output: __S(3136, __c98, 0) as any as S.Schema<SignalsReportArtefactsDestroyResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -11326,8 +11410,8 @@ export const signalsReportArtefactsDiff: API.OperationMethod<
   SignalsReportArtefactsDiffError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c9, 0) as any as S.Schema<SignalsReportArtefactsDiffRequest>,
-  output: __S(289, __c9, 1) as any as S.Schema<CommitDiffResponse>,
+  input: __S(320, __c10, 0) as any as S.Schema<SignalsReportArtefactsDiffRequest>,
+  output: __S(321, __c10, 1) as any as S.Schema<CommitDiffResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -11344,8 +11428,8 @@ export const signalsReportChecksApproveCreate: API.OperationMethod<
   SignalsReportChecksApproveCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c10, 0) as any as S.Schema<SignalsReportChecksApproveCreateRequest>,
-  output: __S(4449, __c139, 1) as any as S.Schema<SignalReportCheck>,
+  input: __S(352, __c11, 0) as any as S.Schema<SignalsReportChecksApproveCreateRequest>,
+  output: __S(4481, __c140, 1) as any as S.Schema<SignalReportCheck>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -11362,8 +11446,8 @@ export const signalsReportChecksDestroy: API.OperationMethod<
   SignalsReportChecksDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c11, 0) as any as S.Schema<SignalsReportChecksDestroyRequest>,
-  output: __S(4449, __c139, 1) as any as S.Schema<SignalReportCheck>,
+  input: __S(384, __c12, 0) as any as S.Schema<SignalsReportChecksDestroyRequest>,
+  output: __S(4481, __c140, 1) as any as S.Schema<SignalReportCheck>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -11380,8 +11464,8 @@ export const signalsReportChecksReplaceCreate: API.OperationMethod<
   SignalsReportChecksReplaceCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(385, __c12, 1) as any as S.Schema<SignalsReportChecksReplaceCreateRequest>,
-  output: __S(4449, __c139, 1) as any as S.Schema<SignalReportCheck>,
+  input: __S(417, __c13, 1) as any as S.Schema<SignalsReportChecksReplaceCreateRequest>,
+  output: __S(4481, __c140, 1) as any as S.Schema<SignalReportCheck>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -11398,8 +11482,8 @@ export const signalsReportPrChecks: API.OperationMethod<
   SignalsReportPrChecksError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c13, 0) as any as S.Schema<SignalsReportPrChecksRequest>,
-  output: __S(419, __c13, 3) as any as S.Schema<PullRequestChecksResponse>,
+  input: __S(448, __c14, 0) as any as S.Schema<SignalsReportPrChecksRequest>,
+  output: __S(451, __c14, 3) as any as S.Schema<PullRequestChecksResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -11416,8 +11500,8 @@ export const signalsReportPrComments: API.OperationMethod<
   SignalsReportPrCommentsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c14, 0) as any as S.Schema<SignalsReportPrCommentsRequest>,
-  output: __S(450, __c14, 2) as any as S.Schema<PullRequestCommentsResponse>,
+  input: __S(512, __c16, 0) as any as S.Schema<SignalsReportPrCommentsRequest>,
+  output: __S(514, __c16, 2) as any as S.Schema<PullRequestCommentsResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -11434,8 +11518,8 @@ export const signalsReportsBulkStateCreate: API.OperationMethod<
   SignalsReportsBulkStateCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c16, 0) as any as S.Schema<SignalsReportsBulkStateCreateRequest>,
-  output: __S(515, __c16, 3) as any as S.Schema<SignalReportBulkStateResponse>,
+  input: __S(544, __c17, 0) as any as S.Schema<SignalsReportsBulkStateCreateRequest>,
+  output: __S(547, __c17, 3) as any as S.Schema<SignalReportBulkStateResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -11452,8 +11536,8 @@ export const signalsReportsDestroy: API.OperationMethod<
   SignalsReportsDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c17, 0) as any as S.Schema<SignalsReportsDestroyRequest>,
-  output: __S(3040, __c95, 0) as any as S.Schema<SignalReportDeletionStatus>,
+  input: __S(576, __c18, 0) as any as S.Schema<SignalsReportsDestroyRequest>,
+  output: __S(3072, __c96, 0) as any as S.Schema<SignalReportDeletionStatus>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -11469,8 +11553,8 @@ export const signalsReportSpend: API.OperationMethod<
   SignalsReportSpendError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c18, 0) as any as S.Schema<SignalsReportSpendRequest>,
-  output: __S(577, __c18, 1) as any as S.Schema<ReportSpend>,
+  input: __S(608, __c19, 0) as any as S.Schema<SignalsReportSpendRequest>,
+  output: __S(609, __c19, 1) as any as S.Schema<ReportSpend>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -11487,8 +11571,8 @@ export const signalsReportsPlanStepsDestroy: API.OperationMethod<
   SignalsReportsPlanStepsDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c20, 0) as any as S.Schema<SignalsReportsPlanStepsDestroyRequest>,
-  output: __S(5954, __c186, 2) as any as S.Schema<SignalReport>,
+  input: __S(672, __c21, 0) as any as S.Schema<SignalsReportsPlanStepsDestroyRequest>,
+  output: __S(5986, __c187, 2) as any as S.Schema<SignalReport>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -11505,8 +11589,8 @@ export const signalsReportsPrCiStatuses: API.OperationMethod<
   SignalsReportsPrCiStatusesError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<SignalsReportsPrCiStatusesRequest>,
-  output: __S(675, __c21, 3) as any as S.Schema<PullRequestCiStatusesResponse>,
+  input: __S(704, __c22, 0) as any as S.Schema<SignalsReportsPrCiStatusesRequest>,
+  output: __S(707, __c22, 3) as any as S.Schema<PullRequestCiStatusesResponse>,
   errors: [BadRequest],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -11522,8 +11606,8 @@ export const signalsReportsReadStateCreate: API.OperationMethod<
   SignalsReportsReadStateCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c22, 0) as any as S.Schema<SignalsReportsReadStateCreateRequest>,
-  output: __S(706, __c22, 2) as any as S.Schema<ReportReadStateResponse>,
+  input: __S(736, __c23, 0) as any as S.Schema<SignalsReportsReadStateCreateRequest>,
+  output: __S(738, __c23, 2) as any as S.Schema<ReportReadStateResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -11540,8 +11624,8 @@ export const signalsReportsRefreshMetricsCreate: API.OperationMethod<
   SignalsReportsRefreshMetricsCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c23, 0) as any as S.Schema<SignalsReportsRefreshMetricsCreateRequest>,
-  output: __S(739, __c23, 3) as any as S.Schema<SignalReportMetricRefreshResponse>,
+  input: __S(768, __c24, 0) as any as S.Schema<SignalsReportsRefreshMetricsCreateRequest>,
+  output: __S(771, __c24, 3) as any as S.Schema<SignalReportMetricRefreshResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -11558,8 +11642,8 @@ export const signalsReportsReviewersMeDestroy: API.OperationMethod<
   SignalsReportsReviewersMeDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c24, 0) as any as S.Schema<SignalsReportsReviewersMeDestroyRequest>,
-  output: __S(3104, __c97, 0) as any as S.Schema<SignalsReportsReviewersMeDestroyResponse>,
+  input: __S(800, __c25, 0) as any as S.Schema<SignalsReportsReviewersMeDestroyRequest>,
+  output: __S(3136, __c98, 0) as any as S.Schema<SignalsReportsReviewersMeDestroyResponse>,
   errors: [BadRequest],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -11576,8 +11660,8 @@ export const signalsReviewerExclusionsRevokeCreate: API.OperationMethod<
   SignalsReviewerExclusionsRevokeCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c25, 0) as any as S.Schema<SignalsReviewerExclusionsRevokeCreateRequest>,
-  output: __S(3264, __c102, 0) as any as S.Schema<ReviewerExclusion>,
+  input: __S(832, __c26, 0) as any as S.Schema<SignalsReviewerExclusionsRevokeCreateRequest>,
+  output: __S(3296, __c103, 0) as any as S.Schema<ReviewerExclusion>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -11594,8 +11678,8 @@ export const signalsScoutConfigDestroy: API.OperationMethod<
   SignalsScoutConfigDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c26, 0) as any as S.Schema<SignalsScoutConfigDestroyRequest>,
-  output: __S(3104, __c97, 0) as any as S.Schema<SignalsScoutConfigDestroyResponse>,
+  input: __S(992, __c31, 0) as any as S.Schema<SignalsScoutConfigDestroyRequest>,
+  output: __S(3136, __c98, 0) as any as S.Schema<SignalsScoutConfigDestroyResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -11612,8 +11696,8 @@ export const signalsScoutConfigToolCatalogue: API.OperationMethod<
   SignalsScoutConfigToolCatalogueError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c31, 0) as any as S.Schema<SignalsScoutConfigToolCatalogueRequest>,
-  output: __S(999, __c31, 7) as any as S.Schema<ScoutToolCatalogue>,
+  input: __S(1024, __c32, 0) as any as S.Schema<SignalsScoutConfigToolCatalogueRequest>,
+  output: __S(1031, __c32, 7) as any as S.Schema<ScoutToolCatalogue>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -11630,8 +11714,8 @@ export const signalsScoutConfigTrial: API.OperationMethod<
   SignalsScoutConfigTrialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c32, 0) as any as S.Schema<SignalsScoutConfigTrialRequest>,
-  output: __S(3104, __c97, 0) as any as S.Schema<SignalsScoutConfigTrialResponse>,
+  input: __S(1056, __c33, 0) as any as S.Schema<SignalsScoutConfigTrialRequest>,
+  output: __S(3136, __c98, 0) as any as S.Schema<SignalsScoutConfigTrialResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -11648,8 +11732,8 @@ export const signalsScoutConfigTrialComparisonHistory: API.OperationMethod<
   SignalsScoutConfigTrialComparisonHistoryError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c33, 0) as any as S.Schema<SignalsScoutConfigTrialComparisonHistoryRequest>,
-  output: __S(1058, __c33, 2) as any as S.Schema<ScoutTrialComparisonHistory>,
+  input: __S(1088, __c34, 0) as any as S.Schema<SignalsScoutConfigTrialComparisonHistoryRequest>,
+  output: __S(1090, __c34, 2) as any as S.Schema<ScoutTrialComparisonHistory>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -11666,8 +11750,8 @@ export const signalsScoutConfigTrialHistory: API.OperationMethod<
   SignalsScoutConfigTrialHistoryError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c34, 0) as any as S.Schema<SignalsScoutConfigTrialHistoryRequest>,
-  output: __S(1091, __c34, 3) as any as S.Schema<ScoutTrialHistory>,
+  input: __S(1120, __c35, 0) as any as S.Schema<SignalsScoutConfigTrialHistoryRequest>,
+  output: __S(1123, __c35, 3) as any as S.Schema<ScoutTrialHistory>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -11684,8 +11768,8 @@ export const signalsScoutConfigTrialResult: API.OperationMethod<
   SignalsScoutConfigTrialResultError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c35, 0) as any as S.Schema<SignalsScoutConfigTrialResultRequest>,
-  output: __S(1125, __c35, 5) as any as S.Schema<ScoutTrialResult>,
+  input: __S(1152, __c36, 0) as any as S.Schema<SignalsScoutConfigTrialResultRequest>,
+  output: __S(1157, __c36, 5) as any as S.Schema<ScoutTrialResult>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -11702,8 +11786,8 @@ export const signalsScoutConfigTrialSetup: API.OperationMethod<
   SignalsScoutConfigTrialSetupError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c36, 0) as any as S.Schema<SignalsScoutConfigTrialSetupRequest>,
-  output: __S(1155, __c36, 3) as any as S.Schema<ScoutTrialSetup>,
+  input: __S(1184, __c37, 0) as any as S.Schema<SignalsScoutConfigTrialSetupRequest>,
+  output: __S(1187, __c37, 3) as any as S.Schema<ScoutTrialSetup>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -11720,7 +11804,7 @@ export const signalsScoutEmitReport: API.OperationMethod<
   SignalsScoutEmitReportError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c37, 0) as any as S.Schema<SignalsScoutEmitReportRequest>,
+  input: __S(1216, __c38, 0) as any as S.Schema<SignalsScoutEmitReportRequest>,
   output: __S(2144, __c67, 0) as any as S.Schema<EmitReportResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: PosthogServiceErrors,
@@ -11738,8 +11822,8 @@ export const signalsScoutLighthouseAudit: API.OperationMethod<
   SignalsScoutLighthouseAuditError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c38, 0) as any as S.Schema<SignalsScoutLighthouseAuditRequest>,
-  output: __S(1223, __c38, 7) as any as S.Schema<LighthouseAuditResponse>,
+  input: __S(1248, __c39, 0) as any as S.Schema<SignalsScoutLighthouseAuditRequest>,
+  output: __S(1255, __c39, 7) as any as S.Schema<LighthouseAuditResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -11756,8 +11840,8 @@ export const signalsScoutNotesDestroy: API.OperationMethod<
   SignalsScoutNotesDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c39, 0) as any as S.Schema<SignalsScoutNotesDestroyRequest>,
-  output: __S(3104, __c97, 0) as any as S.Schema<SignalsScoutNotesDestroyResponse>,
+  input: __S(1280, __c40, 0) as any as S.Schema<SignalsScoutNotesDestroyRequest>,
+  output: __S(3136, __c98, 0) as any as S.Schema<SignalsScoutNotesDestroyResponse>,
   errors: [NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -11774,8 +11858,8 @@ export const signalsScoutRecordOutput: API.OperationMethod<
   SignalsScoutRecordOutputError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1282, __c40, 2) as any as S.Schema<SignalsScoutRecordOutputRequest>,
-  output: __S(1283, __c40, 3) as any as S.Schema<RecordStructuredOutputResponse>,
+  input: __S(1346, __c42, 2) as any as S.Schema<SignalsScoutRecordOutputRequest>,
+  output: __S(1347, __c42, 3) as any as S.Schema<RecordStructuredOutputResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -11792,8 +11876,8 @@ export const signalsScoutRunsEmissionReports: API.OperationMethod<
   SignalsScoutRunsEmissionReportsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c42, 0) as any as S.Schema<SignalsScoutRunsEmissionReportsRequest>,
-  output: __S(1379, __c43, 3) as any as S.Schema<SignalsScoutRunsEmissionReportsResponse>,
+  input: __S(1376, __c43, 0) as any as S.Schema<SignalsScoutRunsEmissionReportsRequest>,
+  output: __S(1411, __c44, 3) as any as S.Schema<SignalsScoutRunsEmissionReportsResponse>,
   errors: [NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -11810,8 +11894,8 @@ export const signalsScoutRunsEmissionReportsBatch: API.OperationMethod<
   SignalsScoutRunsEmissionReportsBatchError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c44, 0) as any as S.Schema<SignalsScoutRunsEmissionReportsBatchRequest>,
-  output: __S(1379, __c43, 3) as any as S.Schema<SignalsScoutRunsEmissionReportsBatchResponse>,
+  input: __S(1440, __c45, 0) as any as S.Schema<SignalsScoutRunsEmissionReportsBatchRequest>,
+  output: __S(1411, __c44, 3) as any as S.Schema<SignalsScoutRunsEmissionReportsBatchResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -11828,8 +11912,8 @@ export const signalsScoutRunsEmissions: API.OperationMethod<
   SignalsScoutRunsEmissionsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c45, 0) as any as S.Schema<SignalsScoutRunsEmissionsRequest>,
-  output: __S(1474, __c46, 2) as any as S.Schema<SignalsScoutRunsEmissionsResponse>,
+  input: __S(1472, __c46, 0) as any as S.Schema<SignalsScoutRunsEmissionsRequest>,
+  output: __S(1506, __c47, 2) as any as S.Schema<SignalsScoutRunsEmissionsResponse>,
   errors: [NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -11846,8 +11930,8 @@ export const signalsScoutRunsEmissionsBatch: API.OperationMethod<
   SignalsScoutRunsEmissionsBatchError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c47, 0) as any as S.Schema<SignalsScoutRunsEmissionsBatchRequest>,
-  output: __S(1474, __c46, 2) as any as S.Schema<SignalsScoutRunsEmissionsBatchResponse>,
+  input: __S(1536, __c48, 0) as any as S.Schema<SignalsScoutRunsEmissionsBatchRequest>,
+  output: __S(1506, __c47, 2) as any as S.Schema<SignalsScoutRunsEmissionsBatchResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -11864,8 +11948,8 @@ export const signalsScoutRunsFindingsSummary: API.OperationMethod<
   SignalsScoutRunsFindingsSummaryError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c48, 0) as any as S.Schema<SignalsScoutRunsFindingsSummaryRequest>,
-  output: __S(1537, __c48, 1) as any as S.Schema<FleetFindingsSummary>,
+  input: __S(1568, __c49, 0) as any as S.Schema<SignalsScoutRunsFindingsSummaryRequest>,
+  output: __S(1569, __c49, 1) as any as S.Schema<FleetFindingsSummary>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -11882,8 +11966,8 @@ export const signalsScoutRunsRecentEmissions: API.OperationMethod<
   SignalsScoutRunsRecentEmissionsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c49, 0) as any as S.Schema<SignalsScoutRunsRecentEmissionsRequest>,
-  output: __S(1474, __c46, 2) as any as S.Schema<SignalsScoutRunsRecentEmissionsResponse>,
+  input: __S(1600, __c50, 0) as any as S.Schema<SignalsScoutRunsRecentEmissionsRequest>,
+  output: __S(1506, __c47, 2) as any as S.Schema<SignalsScoutRunsRecentEmissionsResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -11900,8 +11984,8 @@ export const signalsScoutRunsRecentPerScout: API.OperationMethod<
   SignalsScoutRunsRecentPerScoutError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c50, 0) as any as S.Schema<SignalsScoutRunsRecentPerScoutRequest>,
-  output: __S(6338, __c198, 2) as any as S.Schema<SignalsScoutRunsRecentPerScoutResponse>,
+  input: __S(1632, __c51, 0) as any as S.Schema<SignalsScoutRunsRecentPerScoutRequest>,
+  output: __S(6370, __c199, 2) as any as S.Schema<SignalsScoutRunsRecentPerScoutResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -11918,8 +12002,8 @@ export const signalsScoutScratchpadDiscard: API.OperationMethod<
   SignalsScoutScratchpadDiscardError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c51, 0) as any as S.Schema<SignalsScoutScratchpadDiscardRequest>,
-  output: __S(1664, __c52, 0) as any as S.Schema<ForgetResponse>,
+  input: __S(1664, __c52, 0) as any as S.Schema<SignalsScoutScratchpadDiscardRequest>,
+  output: __S(1696, __c53, 0) as any as S.Schema<ForgetResponse>,
   errors: [Forbidden],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -11936,8 +12020,8 @@ export const signalsScoutScratchpadForget: API.OperationMethod<
   SignalsScoutScratchpadForgetError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c53, 0) as any as S.Schema<SignalsScoutScratchpadForgetRequest>,
-  output: __S(1664, __c52, 0) as any as S.Schema<ForgetResponse>,
+  input: __S(1728, __c54, 0) as any as S.Schema<SignalsScoutScratchpadForgetRequest>,
+  output: __S(1696, __c53, 0) as any as S.Schema<ForgetResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -11954,8 +12038,8 @@ export const signalsScoutScratchpadRemember: API.OperationMethod<
   SignalsScoutScratchpadRememberError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c54, 0) as any as S.Schema<SignalsScoutScratchpadRememberRequest>,
-  output: __S(6851, __c214, 3) as any as S.Schema<ScratchpadEntry>,
+  input: __S(1792, __c56, 0) as any as S.Schema<SignalsScoutScratchpadRememberRequest>,
+  output: __S(6883, __c215, 3) as any as S.Schema<ScratchpadEntry>,
   errors: [BadRequest, Conflict],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -11971,8 +12055,8 @@ export const signalsSourceConfigsDestroy: API.OperationMethod<
   SignalsSourceConfigsDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c56, 0) as any as S.Schema<SignalsSourceConfigsDestroyRequest>,
-  output: __S(3104, __c97, 0) as any as S.Schema<SignalsSourceConfigsDestroyResponse>,
+  input: __S(1824, __c57, 0) as any as S.Schema<SignalsSourceConfigsDestroyRequest>,
+  output: __S(3136, __c98, 0) as any as S.Schema<SignalsSourceConfigsDestroyResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -11989,8 +12073,8 @@ export const signalsSourceConfigsFilterValidateCreate: API.OperationMethod<
   SignalsSourceConfigsFilterValidateCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c57, 0) as any as S.Schema<SignalsSourceConfigsFilterValidateCreateRequest>,
-  output: __S(1825, __c57, 1) as any as S.Schema<SourceFilterValidateResponse>,
+  input: __S(1856, __c58, 0) as any as S.Schema<SignalsSourceConfigsFilterValidateCreateRequest>,
+  output: __S(1857, __c58, 1) as any as S.Schema<SourceFilterValidateResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -12006,8 +12090,8 @@ export const signalsSourceSpend: API.OperationMethod<
   SignalsSourceSpendError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c58, 0) as any as S.Schema<SignalsSourceSpendRequest>,
-  output: __S(1859, __c58, 3) as any as S.Schema<SignalsSourceSpendResponse>,
+  input: __S(1888, __c59, 0) as any as S.Schema<SignalsSourceSpendRequest>,
+  output: __S(1891, __c59, 3) as any as S.Schema<SignalsSourceSpendResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -12023,8 +12107,8 @@ export const signalsSpendOverview: API.OperationMethod<
   SignalsSpendOverviewError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c59, 0) as any as S.Schema<SignalsSpendOverviewRequest>,
-  output: __S(1891, __c59, 3) as any as S.Schema<SpendOverview>,
+  input: __S(1920, __c60, 0) as any as S.Schema<SignalsSpendOverviewRequest>,
+  output: __S(1923, __c60, 3) as any as S.Schema<SpendOverview>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -12041,8 +12125,8 @@ export const stopSignalsScoutConfig: API.OperationMethod<
   StopSignalsScoutConfigError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c60, 0) as any as S.Schema<StopSignalsScoutConfigRequest>,
-  output: __S(5120, __c160, 0) as any as S.Schema<SignalScoutRunDetail>,
+  input: __S(1952, __c61, 0) as any as S.Schema<StopSignalsScoutConfigRequest>,
+  output: __S(5152, __c161, 0) as any as S.Schema<SignalScoutRunDetail>,
   errors: [BadRequest, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -12063,8 +12147,8 @@ export const submitSignalsScoutMonitoringResult: API.OperationMethod<
   SubmitSignalsScoutMonitoringResultError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1952, __c61, 0) as any as S.Schema<SubmitSignalsScoutMonitoringResultRequest>,
-  output: __S(1953, __c61, 1) as any as S.Schema<SubmitMonitoringResultResponse>,
+  input: __S(1984, __c62, 0) as any as S.Schema<SubmitSignalsScoutMonitoringResultRequest>,
+  output: __S(1985, __c62, 1) as any as S.Schema<SubmitMonitoringResultResponse>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -12081,8 +12165,8 @@ export const syncSignalsScoutConfig: API.OperationMethod<
   SyncSignalsScoutConfigError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1984, __c62, 0) as any as S.Schema<SyncSignalsScoutConfigRequest>,
-  output: __S(6081, __c190, 1) as any as S.Schema<SyncSignalsScoutConfigResponse>,
+  input: __S(2016, __c63, 0) as any as S.Schema<SyncSignalsScoutConfigRequest>,
+  output: __S(6113, __c191, 1) as any as S.Schema<SyncSignalsScoutConfigResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -12099,8 +12183,8 @@ export const testSignalsScoutConfigPrecheck: API.OperationMethod<
   TestSignalsScoutConfigPrecheckError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c63, 0) as any as S.Schema<TestSignalsScoutConfigPrecheckRequest>,
-  output: __S(2017, __c63, 1) as any as S.Schema<SignalScoutPrecheckTest>,
+  input: __S(2048, __c64, 0) as any as S.Schema<TestSignalsScoutConfigPrecheckRequest>,
+  output: __S(2049, __c64, 1) as any as S.Schema<SignalScoutPrecheckTest>,
   errors: [BadRequest, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -12117,8 +12201,8 @@ export const updateSignalsProcessingPause: API.OperationMethod<
   UpdateSignalsProcessingPauseError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c64, 0) as any as S.Schema<UpdateSignalsProcessingPauseRequest>,
-  output: __S(6560, __c205, 0) as any as S.Schema<PauseResponse>,
+  input: __S(2080, __c65, 0) as any as S.Schema<UpdateSignalsProcessingPauseRequest>,
+  output: __S(6592, __c206, 0) as any as S.Schema<PauseResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -12135,7 +12219,7 @@ export const updateSignalsReportArtefactsPartial: API.OperationMethod<
   UpdateSignalsReportArtefactsPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c65, 0) as any as S.Schema<UpdateSignalsReportArtefactsPartialRequest>,
+  input: __S(2208, __c69, 0) as any as S.Schema<UpdateSignalsReportArtefactsPartialRequest>,
   output: __S(2560, __c80, 0) as any as S.Schema<SignalReportArtefactWriteResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: PosthogServiceErrors,
@@ -12153,8 +12237,8 @@ export const updateSignalsReportPrReviewComment: API.OperationMethod<
   UpdateSignalsReportPrReviewCommentError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c69, 0) as any as S.Schema<UpdateSignalsReportPrReviewCommentRequest>,
-  output: __S(2720, __c85, 0) as any as S.Schema<PullRequestReviewCommentCreateResponse>,
+  input: __S(2240, __c70, 0) as any as S.Schema<UpdateSignalsReportPrReviewCommentRequest>,
+  output: __S(2752, __c86, 0) as any as S.Schema<PullRequestReviewCommentCreateResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -12171,8 +12255,8 @@ export const updateSignalsReportsActionability: API.OperationMethod<
   UpdateSignalsReportsActionabilityError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2240, __c70, 0) as any as S.Schema<UpdateSignalsReportsActionabilityRequest>,
-  output: __S(5954, __c186, 2) as any as S.Schema<SignalReport>,
+  input: __S(2272, __c71, 0) as any as S.Schema<UpdateSignalsReportsActionabilityRequest>,
+  output: __S(5986, __c187, 2) as any as S.Schema<SignalReport>,
   errors: [BadRequest, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -12189,8 +12273,8 @@ export const updateSignalsReportsPartial: API.OperationMethod<
   UpdateSignalsReportsPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c71, 0) as any as S.Schema<UpdateSignalsReportsPartialRequest>,
-  output: __S(5954, __c186, 2) as any as S.Schema<SignalReport>,
+  input: __S(2304, __c72, 0) as any as S.Schema<UpdateSignalsReportsPartialRequest>,
+  output: __S(5986, __c187, 2) as any as S.Schema<SignalReport>,
   errors: [BadRequest, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -12211,8 +12295,8 @@ export const updateSignalsReportsPlanStepsDependsOn: API.OperationMethod<
   UpdateSignalsReportsPlanStepsDependsOnError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2304, __c72, 0) as any as S.Schema<UpdateSignalsReportsPlanStepsDependsOnRequest>,
-  output: __S(5954, __c186, 2) as any as S.Schema<SignalReport>,
+  input: __S(2336, __c73, 0) as any as S.Schema<UpdateSignalsReportsPlanStepsDependsOnRequest>,
+  output: __S(5986, __c187, 2) as any as S.Schema<SignalReport>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -12229,8 +12313,8 @@ export const updateSignalsReportsPriority: API.OperationMethod<
   UpdateSignalsReportsPriorityError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2336, __c73, 0) as any as S.Schema<UpdateSignalsReportsPriorityRequest>,
-  output: __S(5954, __c186, 2) as any as S.Schema<SignalReport>,
+  input: __S(2368, __c74, 0) as any as S.Schema<UpdateSignalsReportsPriorityRequest>,
+  output: __S(5986, __c187, 2) as any as S.Schema<SignalReport>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -12247,8 +12331,8 @@ export const updateSignalsReportsRepository: API.OperationMethod<
   UpdateSignalsReportsRepositoryError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2368, __c74, 0) as any as S.Schema<UpdateSignalsReportsRepositoryRequest>,
-  output: __S(5954, __c186, 2) as any as S.Schema<SignalReport>,
+  input: __S(2400, __c75, 0) as any as S.Schema<UpdateSignalsReportsRepositoryRequest>,
+  output: __S(5986, __c187, 2) as any as S.Schema<SignalReport>,
   errors: [BadRequest, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -12265,8 +12349,8 @@ export const updateSignalsReportsReviewer: API.OperationMethod<
   UpdateSignalsReportsReviewerError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2402, __c75, 2) as any as S.Schema<UpdateSignalsReportsReviewerRequest>,
-  output: __S(2407, __c75, 7) as any as S.Schema<SignalReportSuggestedReviewersArtefact>,
+  input: __S(2434, __c76, 2) as any as S.Schema<UpdateSignalsReportsReviewerRequest>,
+  output: __S(2439, __c76, 7) as any as S.Schema<SignalReportSuggestedReviewersArtefact>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -12283,8 +12367,8 @@ export const updateSignalsReviewerExclusionsPartial: API.OperationMethod<
   UpdateSignalsReviewerExclusionsPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2432, __c76, 0) as any as S.Schema<UpdateSignalsReviewerExclusionsPartialRequest>,
-  output: __S(3264, __c102, 0) as any as S.Schema<ReviewerExclusion>,
+  input: __S(2464, __c77, 0) as any as S.Schema<UpdateSignalsReviewerExclusionsPartialRequest>,
+  output: __S(3296, __c103, 0) as any as S.Schema<ReviewerExclusion>,
   errors: [BadRequest],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -12301,8 +12385,8 @@ export const updateSignalsScoutConfig: API.OperationMethod<
   UpdateSignalsScoutConfigError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2464, __c77, 0) as any as S.Schema<UpdateSignalsScoutConfigRequest>,
-  output: __S(3397, __c106, 5) as any as S.Schema<SignalScoutConfig>,
+  input: __S(2496, __c78, 0) as any as S.Schema<UpdateSignalsScoutConfigRequest>,
+  output: __S(3433, __c107, 9) as any as S.Schema<SignalScoutConfig>,
   errors: [BadRequest, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -12318,8 +12402,8 @@ export const updateSignalsScoutRubric: API.OperationMethod<
   UpdateSignalsScoutRubricError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c78, 0) as any as S.Schema<UpdateSignalsScoutRubricRequest>,
-  output: __S(5060, __c158, 4) as any as S.Schema<ScoutRubricDocument>,
+  input: __S(2592, __c81, 0) as any as S.Schema<UpdateSignalsScoutRubricRequest>,
+  output: __S(5092, __c159, 4) as any as S.Schema<ScoutRubricDocument>,
   errors: [Conflict],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -12335,8 +12419,8 @@ export const updateSignalsSourceConfig: API.OperationMethod<
   UpdateSignalsSourceConfigError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2592, __c81, 0) as any as S.Schema<UpdateSignalsSourceConfigRequest>,
-  output: __S(3713, __c116, 1) as any as S.Schema<SignalSourceConfigOutput>,
+  input: __S(2624, __c82, 0) as any as S.Schema<UpdateSignalsSourceConfigRequest>,
+  output: __S(3745, __c117, 1) as any as S.Schema<SignalSourceConfigOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -12356,8 +12440,8 @@ export const updateSignalsSourceConfigsPartial: API.OperationMethod<
   UpdateSignalsSourceConfigsPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2624, __c82, 0) as any as S.Schema<UpdateSignalsSourceConfigsPartialRequest>,
-  output: __S(3713, __c116, 1) as any as S.Schema<SignalSourceConfigOutput>,
+  input: __S(2656, __c83, 0) as any as S.Schema<UpdateSignalsSourceConfigsPartialRequest>,
+  output: __S(3745, __c117, 1) as any as S.Schema<SignalSourceConfigOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -12426,7 +12510,7 @@ function __c3(j: number): any {
           github_issue_writeback_enabled: S.optional(S.Boolean),
           pull_request_label_enabled: S.optional(S.Boolean),
           pull_request_label: S.optional(S.NullOr(S.String)),
-          implementation_repositories: S.optional(__S(3840, __c120, 0)),
+          implementation_repositories: S.optional(__S(3872, __c121, 0)),
           anomaly_scoring_enabled: S.optional(S.Boolean),
         }).pipe(
           T.Http({ method: "POST", uri: "/api/projects/{project_id}/signals/config/", code: 200 }),
@@ -12461,7 +12545,7 @@ function __c4(j: number): any {
           github_issue_writeback_enabled: S.optional(S.Boolean),
           pull_request_label_enabled: S.optional(S.Boolean),
           pull_request_label: S.optional(S.NullOr(S.String)),
-          implementation_repositories: S.optional(__S(3840, __c120, 0)),
+          implementation_repositories: S.optional(__S(3872, __c121, 0)),
           anomaly_scoring_enabled: S.optional(S.Boolean),
           anomaly_scoring_available: S.Boolean,
           reports_generated_today: S.Number,
@@ -12473,6 +12557,36 @@ function __c4(j: number): any {
   }
 }
 function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          run_id: S.String.pipe(T.Label()),
+          route: S.String,
+          report_id: S.optional(S.NullOr(S.String)),
+          title: S.String,
+          body: S.String,
+          dedupe_key: S.String,
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/signals/scout/runs/{run_id}/send_message/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "SendSignalsScoutMessageRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          outcome: S.String,
+          message_id: S.NullOr(S.String),
+          recent_dedupe_keys: __S(3872, __c121, 0),
+        }),
+      ).annotate({ identifier: "SendScoutMessageResponse" });
+  }
+}
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12508,7 +12622,7 @@ function __c5(j: number): any {
         }),
       ).annotate({ identifier: "AnomalyIntervalRange" });
     case 2:
-      return S.Array(__S(161, __c5, 1));
+      return S.Array(__S(193, __c6, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -12520,7 +12634,7 @@ function __c5(j: number): any {
         }),
       ).annotate({ identifier: "AnomalyFlaggedPoint" });
     case 4:
-      return S.Array(__S(163, __c5, 3));
+      return S.Array(__S(195, __c6, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -12529,7 +12643,7 @@ function __c5(j: number): any {
         }),
       ).annotate({ identifier: "AnomalyDashboard" });
     case 6:
-      return S.Array(__S(165, __c5, 5));
+      return S.Array(__S(197, __c6, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -12548,13 +12662,13 @@ function __c5(j: number): any {
           scored_through: S.NullOr(S.String),
           first_flagged_bucket: S.NullOr(S.String),
           last_flagged_bucket: S.NullOr(S.String),
-          flagged_points: __S(164, __c5, 4),
-          dashboards: __S(166, __c5, 6),
-          points: S.optional(__S(6465, __c202, 1)),
+          flagged_points: __S(196, __c6, 4),
+          dashboards: __S(198, __c6, 6),
+          points: S.optional(__S(6497, __c203, 1)),
         }),
       ).annotate({ identifier: "AnomalySeries" });
     case 8:
-      return S.Array(__S(167, __c5, 7));
+      return S.Array(__S(199, __c6, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
@@ -12567,7 +12681,7 @@ function __c5(j: number): any {
         }),
       ).annotate({ identifier: "AnomalyTopSeries" });
     case 10:
-      return S.Array(__S(169, __c5, 9));
+      return S.Array(__S(201, __c6, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
@@ -12580,11 +12694,11 @@ function __c5(j: number): any {
           flagged_buckets: S.Number,
           anomaly_rate: S.NullOr(S.Number),
           last_flagged_bucket: S.NullOr(S.String),
-          top_series: __S(170, __c5, 10),
+          top_series: __S(202, __c6, 10),
         }),
       ).annotate({ identifier: "AnomalyInsightRow" });
     case 12:
-      return S.Array(__S(171, __c5, 11));
+      return S.Array(__S(203, __c6, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
@@ -12595,11 +12709,11 @@ function __c5(j: number): any {
           scored_history_ready: S.Boolean,
           date_from: S.String,
           date_to: S.String,
-          interval_ranges: __S(162, __c5, 2),
+          interval_ranges: __S(194, __c6, 2),
           group_by: S.String,
           order: S.String,
-          series: __S(168, __c5, 8),
-          insights: __S(172, __c5, 12),
+          series: __S(200, __c6, 8),
+          insights: __S(204, __c6, 12),
           has_more: S.Boolean,
           truncated: S.Boolean,
           series_capped: S.Boolean,
@@ -12611,7 +12725,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "AnomalySearchResponse" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12629,19 +12743,19 @@ function __c6(j: number): any {
         }),
       ).annotate({ identifier: "EvidenceEntry" });
     case 2:
-      return S.Array(__S(193, __c6, 1));
+      return S.Array(__S(225, __c7, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           run_id: S.String.pipe(T.Label()),
           description: S.String,
-          evidence: __S(194, __c6, 2),
+          evidence: __S(226, __c7, 2),
           hypothesis: S.optional(S.NullOr(S.String)),
           severity: S.optional(S.NullOr(S.String)),
-          dedupe_keys: S.optional(__S(3840, __c120, 0)),
-          tags: S.optional(__S(3840, __c120, 0)),
-          time_range: S.optional(S.NullOr(__S(192, __c6, 0))),
+          dedupe_keys: S.optional(__S(3872, __c121, 0)),
+          tags: S.optional(__S(3872, __c121, 0)),
+          time_range: S.optional(S.NullOr(__S(224, __c7, 0))),
           mcp_trace_id: S.optional(S.NullOr(S.String)),
           finding_id: S.optional(S.NullOr(S.String)),
         }).pipe(
@@ -12663,7 +12777,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "EmitFindingResponse" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12688,7 +12802,7 @@ function __c7(j: number): any {
         }),
       ).annotate({ identifier: "MonthlySourceUsage" });
     case 2:
-      return S.Array(__S(225, __c7, 1));
+      return S.Array(__S(257, __c8, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -12703,7 +12817,7 @@ function __c7(j: number): any {
         }),
       ).annotate({ identifier: "MonthlyScoutUsage" });
     case 4:
-      return S.Array(__S(227, __c7, 3));
+      return S.Array(__S(259, __c8, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -12724,14 +12838,14 @@ function __c7(j: number): any {
           unsettled_credits: S.String,
           untracked_scout_run_count: S.Number,
           attribution_incomplete: S.Boolean,
-          sources: __S(226, __c7, 2),
-          scouts: __S(228, __c7, 4),
-          pricing: __S(229, __c7, 5),
+          sources: __S(258, __c8, 2),
+          scouts: __S(260, __c8, 4),
+          pricing: __S(261, __c8, 5),
         }),
       ).annotate({ identifier: "MonthlyUsage" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12749,7 +12863,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "SignalsReportArtefactsDestroyRequest" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12774,7 +12888,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "CommitDiffResponse" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12792,7 +12906,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "SignalsReportChecksApproveCreateRequest" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12810,15 +12924,15 @@ function __c11(j: number): any {
       ).annotate({ identifier: "SignalsReportChecksDestroyRequest" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           metric_id: S.optional(S.NullOr(S.String)),
-          query: S.optional(S.NullOr(__S(3328, __c104, 0))),
-          monitoring: __S(5632, __c176, 0),
-          comparison: __S(5634, __c176, 2),
+          query: S.optional(S.NullOr(__S(3360, __c105, 0))),
+          monitoring: __S(5664, __c177, 0),
+          comparison: __S(5666, __c177, 2),
           baseline_value: S.optional(S.NullOr(S.Number)),
           metric_kind: S.optional(S.NullOr(S.String)),
           value_format: S.optional(S.NullOr(S.String)),
@@ -12833,7 +12947,7 @@ function __c12(j: number): any {
           id: S.String.pipe(T.Label()),
           title: S.String,
           rationale: S.optional(S.String),
-          config: __S(384, __c12, 0),
+          config: __S(416, __c13, 0),
           soak_minutes: S.optional(S.Number),
           run_interval_minutes: S.optional(S.Number),
           runs_remaining: S.optional(S.Number),
@@ -12847,7 +12961,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "SignalsReportChecksReplaceCreateRequest" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12873,40 +12987,14 @@ function __c13(j: number): any {
         }),
       ).annotate({ identifier: "PullRequestCheck" });
     case 2:
-      return S.Array(__S(417, __c13, 1));
+      return S.Array(__S(449, __c14, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          checks: __S(418, __c13, 2),
+          checks: __S(450, __c14, 2),
           has_conflict: S.Boolean,
         }),
       ).annotate({ identifier: "PullRequestChecksResponse" });
-  }
-}
-function __c14(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
-          pull_request_id: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/projects/{project_id}/signals/reports/{id}/pr_comments/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "SignalsReportPrCommentsRequest" });
-    case 1:
-      return S.Array(__S(2689, __c84, 1));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          comments: __S(449, __c14, 1),
-        }),
-      ).annotate({ identifier: "PullRequestCommentsResponse" });
   }
 }
 function __c15(j: number): any {
@@ -12942,12 +13030,38 @@ function __c16(j: number): any {
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          pull_request_id: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/signals/reports/{id}/pr_comments/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "SignalsReportPrCommentsRequest" });
+    case 1:
+      return S.Array(__S(2721, __c85, 1));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          comments: __S(513, __c16, 1),
+        }),
+      ).annotate({ identifier: "PullRequestCommentsResponse" });
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
           state: S.String,
           dismissal_reason: S.optional(S.String),
           dismissal_note: S.optional(S.String),
           corrected_repository: S.optional(S.String),
           snooze_for: S.optional(S.Number),
-          ids: __S(3840, __c120, 0),
+          ids: __S(3872, __c121, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -12966,11 +13080,11 @@ function __c16(j: number): any {
         }),
       ).annotate({ identifier: "SignalReportBulkStateResult" });
     case 2:
-      return S.Array(__S(513, __c16, 1));
+      return S.Array(__S(545, __c17, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          results: __S(514, __c16, 2),
+          results: __S(546, __c17, 2),
           transitioned_count: S.Number,
           skipped_count: S.Number,
           failed_count: S.Number,
@@ -12979,7 +13093,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "SignalReportBulkStateResponse" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12996,7 +13110,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "SignalsReportsDestroyRequest" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13014,15 +13128,15 @@ function __c18(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          generation: __S(608, __c19, 0),
-          implementation: __S(608, __c19, 0),
-          shared_scout_runs: __S(608, __c19, 0),
+          generation: __S(640, __c20, 0),
+          implementation: __S(640, __c20, 0),
+          shared_scout_runs: __S(640, __c20, 0),
           scout_authored: S.Boolean,
         }),
       ).annotate({ identifier: "ReportSpend" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13033,7 +13147,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "SpendAmount" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13052,7 +13166,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "SignalsReportsPlanStepsDestroyRequest" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13075,22 +13189,22 @@ function __c21(j: number): any {
         }),
       ).annotate({ identifier: "PullRequestCiStatus" });
     case 2:
-      return S.Array(__S(673, __c21, 1));
+      return S.Array(__S(705, __c22, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          statuses: __S(674, __c21, 2),
+          statuses: __S(706, __c22, 2),
         }),
       ).annotate({ identifier: "PullRequestCiStatusesResponse" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          report_ids: __S(3840, __c120, 0),
+          report_ids: __S(3872, __c121, 0),
           read: S.optional(S.Boolean),
         }).pipe(
           T.Http({
@@ -13105,18 +13219,18 @@ function __c22(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          states: __S(705, __c22, 1),
+          states: __S(737, __c23, 1),
         }),
       ).annotate({ identifier: "ReportReadStateResponse" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          report_ids: __S(3840, __c120, 0),
+          report_ids: __S(3872, __c121, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -13129,20 +13243,20 @@ function __c23(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          metrics: __S(5665, __c177, 1),
+          metrics: __S(5697, __c178, 1),
         }),
       ).annotate({ identifier: "SignalReportMetricSnapshots" });
     case 2:
-      return S.Array(__S(737, __c23, 1));
+      return S.Array(__S(769, __c24, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          reports: __S(738, __c23, 2),
+          reports: __S(770, __c24, 2),
         }),
       ).annotate({ identifier: "SignalReportMetricRefreshResponse" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13159,7 +13273,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "SignalsReportsReviewersMeDestroyRequest" });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13176,23 +13290,6 @@ function __c25(j: number): any {
       ).annotate({ identifier: "SignalsReviewerExclusionsRevokeCreateRequest" });
   }
 }
-function __c26(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/api/projects/{project_id}/signals/scout/configs/{id}/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "SignalsScoutConfigDestroyRequest" });
-  }
-}
 function __c27(j: number): any {
   switch (j) {
     case 0:
@@ -13204,9 +13301,9 @@ function __c27(j: number): any {
           step: S.String,
           setup_mode: S.optional(S.String),
           sources: __S(929, __c29, 1),
-          scanner_ids: __S(3840, __c120, 0),
+          scanner_ids: __S(3872, __c121, 0),
           suggestions: __S(960, __c30, 0),
-          activation_scouts: S.optional(__S(3840, __c120, 0)),
+          activation_scouts: S.optional(__S(3872, __c121, 0)),
           automatic_implementation: S.Boolean,
           implementation_priority: S.String,
         }).pipe(
@@ -13267,8 +13364,8 @@ function __c29(j: number): any {
           started_at: S.optional(S.String),
           status: S.String,
           report_id: S.optional(S.String),
-          checked_products: S.optional(__S(3840, __c120, 0)),
-          missing_data: S.optional(__S(3840, __c120, 0)),
+          checked_products: S.optional(__S(3872, __c121, 0)),
+          missing_data: S.optional(__S(3872, __c121, 0)),
         }),
       ).annotate({ identifier: "FirstReportState" });
     case 3:
@@ -13286,9 +13383,9 @@ function __c29(j: number): any {
           step: S.String,
           setup_mode: S.optional(S.String),
           sources: __S(929, __c29, 1),
-          scanner_ids: __S(3840, __c120, 0),
+          scanner_ids: __S(3872, __c121, 0),
           suggestions: __S(960, __c30, 0),
-          activation_scouts: S.optional(__S(3840, __c120, 0)),
+          activation_scouts: S.optional(__S(3872, __c121, 0)),
           automatic_implementation: S.Boolean,
           implementation_priority: S.String,
         }),
@@ -13297,7 +13394,7 @@ function __c29(j: number): any {
       return S.suspend(() =>
         S.Struct({
           github_optional_available: S.optional(S.Boolean),
-          setup_default_skills: S.optional(__S(3840, __c120, 0)),
+          setup_default_skills: S.optional(__S(3872, __c121, 0)),
           first_report_completion_notification: S.optional(S.Boolean),
           first_report_notification_email: S.optional(S.NullOr(S.String)),
           first_report: S.optional(S.NullOr(__S(930, __c29, 2))),
@@ -13320,6 +13417,23 @@ function __c31(j: number): any {
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/api/projects/{project_id}/signals/scout/configs/{id}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "SignalsScoutConfigDestroyRequest" });
+  }
+}
+function __c32(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -13336,11 +13450,11 @@ function __c31(j: number): any {
           summary: S.String,
           category: S.String,
           feature: S.String,
-          required_scopes: __S(3840, __c120, 0),
+          required_scopes: __S(3872, __c121, 0),
           is_read_only: S.Boolean,
           requires_ai_consent: S.Boolean,
           holdable: S.Boolean,
-          missing_scopes: __S(3840, __c120, 0),
+          missing_scopes: __S(3872, __c121, 0),
           feature_flag: S.NullOr(S.String),
           feature_flag_behavior: S.NullOr(S.String),
           feature_flag_variant: S.NullOr(S.String),
@@ -13349,39 +13463,39 @@ function __c31(j: number): any {
         }),
       ).annotate({ identifier: "ScoutToolCatalogueEntry" });
     case 2:
-      return S.Array(__S(993, __c31, 1));
+      return S.Array(__S(1025, __c32, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           label: S.String,
-          tools: __S(3840, __c120, 0),
+          tools: __S(3872, __c121, 0),
         }),
       ).annotate({ identifier: "ScoutToolPreset" });
     case 4:
-      return S.Array(__S(995, __c31, 3));
+      return S.Array(__S(1027, __c32, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          scopes: __S(3840, __c120, 0),
+          scopes: __S(3872, __c121, 0),
         }),
       ).annotate({ identifier: "ScoutScopePreset" });
     case 6:
-      return S.Array(__S(997, __c31, 5));
+      return S.Array(__S(1029, __c32, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          tools: __S(994, __c31, 2),
-          tool_presets: __S(996, __c31, 4),
-          run_context_tools: __S(3840, __c120, 0),
-          presets: __S(998, __c31, 6),
-          grantable_write_scopes: __S(3840, __c120, 0),
+          tools: __S(1026, __c32, 2),
+          tool_presets: __S(1028, __c32, 4),
+          run_context_tools: __S(3872, __c121, 0),
+          presets: __S(1030, __c32, 6),
+          grantable_write_scopes: __S(3872, __c121, 0),
         }),
       ).annotate({ identifier: "ScoutToolCatalogue" });
   }
 }
-function __c32(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13405,7 +13519,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "SignalsScoutConfigTrialRequest" });
   }
 }
-function __c33(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13424,18 +13538,18 @@ function __c33(j: number): any {
         ),
       ).annotate({ identifier: "SignalsScoutConfigTrialComparisonHistoryRequest" });
     case 1:
-      return S.Array(__S(3874, __c121, 2));
+      return S.Array(__S(3906, __c122, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          results: __S(1057, __c33, 1),
+          results: __S(1089, __c34, 1),
           has_more: S.Boolean,
           next_cursor: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "ScoutTrialComparisonHistory" });
   }
 }
-function __c34(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13468,17 +13582,17 @@ function __c34(j: number): any {
         }),
       ).annotate({ identifier: "ScoutTrialHistoryItem" });
     case 2:
-      return S.Array(__S(1089, __c34, 1));
+      return S.Array(__S(1121, __c35, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          results: __S(1090, __c34, 2),
+          results: __S(1122, __c35, 2),
           has_more: S.Boolean,
         }),
       ).annotate({ identifier: "ScoutTrialHistory" });
   }
 }
-function __c35(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13495,26 +13609,26 @@ function __c35(j: number): any {
         ),
       ).annotate({ identifier: "SignalsScoutConfigTrialResultRequest" });
     case 1:
-      return S.Array(__S(3328, __c104, 0));
+      return S.Array(__S(3360, __c105, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           source_report_id: S.optional(S.NullOr(S.String)),
-          document: __S(3328, __c104, 0),
-          payload: S.optional(__S(3328, __c104, 0)),
-          edits: S.optional(__S(1121, __c35, 1)),
-          operator_metadata: S.optional(__S(3328, __c104, 0)),
-          evidence: S.optional(__S(1121, __c35, 1)),
-          artefacts: S.optional(__S(1121, __c35, 1)),
+          document: __S(3360, __c105, 0),
+          payload: S.optional(__S(3360, __c105, 0)),
+          edits: S.optional(__S(1153, __c36, 1)),
+          operator_metadata: S.optional(__S(3360, __c105, 0)),
+          evidence: S.optional(__S(1153, __c36, 1)),
+          artefacts: S.optional(__S(1153, __c36, 1)),
           content_revision_count: S.optional(S.Number),
           corroboration_count: S.optional(S.Number),
         }),
       ).annotate({ identifier: "TrialReport" });
     case 3:
-      return S.Array(__S(1122, __c35, 2));
+      return S.Array(__S(1154, __c36, 2));
     case 4:
-      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(6851, __c214, 3)));
+      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(6883, __c215, 3)));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -13535,8 +13649,8 @@ function __c35(j: number): any {
           error: S.NullOr(S.String),
           summary: S.String,
           invalid_reason: S.NullOr(S.String),
-          reports: __S(1123, __c35, 3),
-          memory: __S(1124, __c35, 4),
+          reports: __S(1155, __c36, 3),
+          memory: __S(1156, __c36, 4),
           cost_usd: S.NullOr(S.Number),
           input_tokens: S.NullOr(S.Number),
           output_tokens: S.NullOr(S.Number),
@@ -13544,7 +13658,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "ScoutTrialResult" });
   }
 }
-function __c36(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13564,11 +13678,11 @@ function __c36(j: number): any {
       return S.suspend(() =>
         S.Struct({
           model: S.String,
-          reasoning_efforts: __S(3840, __c120, 0),
+          reasoning_efforts: __S(3872, __c121, 0),
         }),
       ).annotate({ identifier: "ScoutTrialModelChoice" });
     case 2:
-      return S.Array(__S(1153, __c36, 1));
+      return S.Array(__S(1185, __c37, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -13580,12 +13694,12 @@ function __c36(j: number): any {
           blocked_reason: S.NullOr(S.String),
           model: S.NullOr(S.String),
           reasoning_effort: S.NullOr(S.String),
-          models: __S(1154, __c36, 2),
+          models: __S(1186, __c37, 2),
         }),
       ).annotate({ identifier: "ScoutTrialSetup" });
   }
 }
-function __c37(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13602,12 +13716,12 @@ function __c37(j: number): any {
           priority: S.optional(S.NullOr(S.String)),
           priority_explanation: S.optional(S.NullOr(S.String)),
           suggested_reviewers: S.optional(__S(2179, __c68, 3)),
-          charts: S.optional(__S(5825, __c182, 1)),
+          charts: S.optional(__S(5857, __c183, 1)),
           metrics: S.optional(__S(2182, __c68, 6)),
-          suggested_prompts: S.optional(__S(3840, __c120, 0)),
+          suggested_prompts: S.optional(__S(3872, __c121, 0)),
           links: S.optional(__S(2184, __c68, 8)),
           source_issues: S.optional(__S(2186, __c68, 10)),
-          tags: S.optional(__S(3840, __c120, 0)),
+          tags: S.optional(__S(3872, __c121, 0)),
           idempotency_key: S.optional(S.NullOr(S.String)),
         }).pipe(
           T.Http({
@@ -13619,7 +13733,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "SignalsScoutEmitReportRequest" });
   }
 }
-function __c38(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13655,7 +13769,7 @@ function __c38(j: number): any {
         }),
       ).annotate({ identifier: "LcpPhase" });
     case 4:
-      return S.Array(__S(1219, __c38, 3));
+      return S.Array(__S(1251, __c39, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -13665,7 +13779,7 @@ function __c38(j: number): any {
         }),
       ).annotate({ identifier: "AuditOpportunity" });
     case 6:
-      return S.Array(__S(1221, __c38, 5));
+      return S.Array(__S(1253, __c39, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -13674,17 +13788,17 @@ function __c38(j: number): any {
           form_factor: S.String,
           lighthouse_version: S.NullOr(S.String),
           performance_score: S.NullOr(S.Number),
-          metrics: __S(1217, __c38, 1),
-          lcp_element: S.NullOr(__S(1218, __c38, 2)),
-          lcp_phases: __S(1220, __c38, 4),
-          lcp_checks_failed: __S(1222, __c38, 6),
-          opportunities: __S(1222, __c38, 6),
+          metrics: __S(1249, __c39, 1),
+          lcp_element: S.NullOr(__S(1250, __c39, 2)),
+          lcp_phases: __S(1252, __c39, 4),
+          lcp_checks_failed: __S(1254, __c39, 6),
+          opportunities: __S(1254, __c39, 6),
           audits_remaining: S.Number,
         }),
       ).annotate({ identifier: "LighthouseAuditResponse" });
   }
 }
-function __c39(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13701,40 +13815,6 @@ function __c39(j: number): any {
       ).annotate({ identifier: "SignalsScoutNotesDestroyRequest" });
   }
 }
-function __c40(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          payload: __S(3328, __c104, 0),
-          subject: S.optional(S.NullOr(S.String)),
-        }),
-      ).annotate({ identifier: "StructuredOutputRecord" });
-    case 1:
-      return S.Array(__S(1280, __c40, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          run_id: S.String.pipe(T.Label()),
-          records: __S(1281, __c40, 1),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/projects/{project_id}/signals/scout/runs/{run_id}/record-output/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "SignalsScoutRecordOutputRequest" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          recorded_count: S.Number,
-          record_ids: __S(3840, __c120, 0),
-        }),
-      ).annotate({ identifier: "RecordStructuredOutputResponse" });
-  }
-}
 function __c41(j: number): any {
   switch (j) {
     case 0:
@@ -13746,9 +13826,9 @@ function __c41(j: number): any {
           step: S.String,
           setup_mode: S.optional(S.String),
           sources: __S(929, __c29, 1),
-          scanner_ids: __S(3840, __c120, 0),
+          scanner_ids: __S(3872, __c121, 0),
           suggestions: __S(960, __c30, 0),
-          activation_scouts: S.optional(__S(3840, __c120, 0)),
+          activation_scouts: S.optional(__S(3872, __c121, 0)),
           automatic_implementation: S.Boolean,
           implementation_priority: S.String,
         }).pipe(
@@ -13766,6 +13846,40 @@ function __c42(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          payload: __S(3360, __c105, 0),
+          subject: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "StructuredOutputRecord" });
+    case 1:
+      return S.Array(__S(1344, __c42, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          run_id: S.String.pipe(T.Label()),
+          records: __S(1345, __c42, 1),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/signals/scout/runs/{run_id}/record-output/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "SignalsScoutRecordOutputRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          recorded_count: S.Number,
+          record_ids: __S(3872, __c121, 0),
+        }),
+      ).annotate({ identifier: "RecordStructuredOutputResponse" });
+  }
+}
+function __c43(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           project_id: S.String.pipe(T.Label()),
           run_id: S.String.pipe(T.Label()),
         }).pipe(
@@ -13778,7 +13892,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "SignalsScoutRunsEmissionReportsRequest" });
   }
 }
-function __c43(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13793,24 +13907,24 @@ function __c43(j: number): any {
         S.Struct({
           finding_id: S.String,
           source_id: S.String,
-          report: S.NullOr(__S(1376, __c43, 0)),
+          report: S.NullOr(__S(1408, __c44, 0)),
         }),
       ).annotate({ identifier: "ScoutEmissionReportLink" });
     case 2:
-      return S.Array(__S(1377, __c43, 1));
+      return S.Array(__S(1409, __c44, 1));
     case 3:
-      return S.suspend(() => __S(1378, __c43, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1410, __c44, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "SignalsScoutRunsEmissionReportsResponse",
       });
   }
 }
-function __c44(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          run_ids: __S(3840, __c120, 0),
+          run_ids: __S(3872, __c121, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -13821,7 +13935,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "SignalsScoutRunsEmissionReportsBatchRequest" });
   }
 }
-function __c45(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13838,7 +13952,7 @@ function __c45(j: number): any {
       ).annotate({ identifier: "SignalsScoutRunsEmissionsRequest" });
   }
 }
-function __c46(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13848,26 +13962,26 @@ function __c46(j: number): any {
           finding_id: S.String,
           description: S.String,
           severity: S.NullOr(S.String),
-          tags: __S(3840, __c120, 0),
+          tags: __S(3872, __c121, 0),
           source_id: S.String,
           emitted_at: S.String,
         }),
       ).annotate({ identifier: "SignalScoutEmission" });
     case 1:
-      return S.Array(__S(1472, __c46, 0));
+      return S.Array(__S(1504, __c47, 0));
     case 2:
-      return S.suspend(() => __S(1473, __c46, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1505, __c47, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "SignalsScoutRunsEmissionsResponse",
       });
   }
 }
-function __c47(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          run_ids: __S(3840, __c120, 0),
+          run_ids: __S(3872, __c121, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -13878,7 +13992,7 @@ function __c47(j: number): any {
       ).annotate({ identifier: "SignalsScoutRunsEmissionsBatchRequest" });
   }
 }
-function __c48(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13906,7 +14020,7 @@ function __c48(j: number): any {
       ).annotate({ identifier: "FleetFindingsSummary" });
   }
 }
-function __c49(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13926,7 +14040,7 @@ function __c49(j: number): any {
       ).annotate({ identifier: "SignalsScoutRunsRecentEmissionsRequest" });
   }
 }
-function __c50(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13945,7 +14059,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "SignalsScoutRunsRecentPerScoutRequest" });
   }
 }
-function __c51(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13962,7 +14076,7 @@ function __c51(j: number): any {
       ).annotate({ identifier: "SignalsScoutScratchpadDiscardRequest" });
   }
 }
-function __c52(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13972,7 +14086,7 @@ function __c52(j: number): any {
       ).annotate({ identifier: "ForgetResponse" });
   }
 }
-function __c53(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13987,27 +14101,6 @@ function __c53(j: number): any {
           }),
         ),
       ).annotate({ identifier: "SignalsScoutScratchpadForgetRequest" });
-  }
-}
-function __c54(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          key: S.String,
-          content: S.String,
-          run_id: S.optional(S.NullOr(S.String)),
-          expires_at: S.optional(S.NullOr(S.String)),
-          if_updated_at: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/projects/{project_id}/signals/scout/scratchpad/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "SignalsScoutScratchpadRememberRequest" });
   }
 }
 function __c55(j: number): any {
@@ -14033,6 +14126,27 @@ function __c56(j: number): any {
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
+          key: S.String,
+          content: S.String,
+          run_id: S.optional(S.NullOr(S.String)),
+          expires_at: S.optional(S.NullOr(S.String)),
+          if_updated_at: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/signals/scout/scratchpad/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "SignalsScoutScratchpadRememberRequest" });
+  }
+}
+function __c57(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -14044,7 +14158,7 @@ function __c56(j: number): any {
       ).annotate({ identifier: "SignalsSourceConfigsDestroyRequest" });
   }
 }
-function __c57(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14053,7 +14167,7 @@ function __c57(j: number): any {
           source_product: S.String,
           source_type: S.String,
           expression: S.String,
-          scope_ids: S.optional(S.NullOr(__S(3840, __c120, 0))),
+          scope_ids: S.optional(S.NullOr(__S(3872, __c121, 0))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -14075,7 +14189,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "SourceFilterValidateResponse" });
   }
 }
-function __c58(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14095,18 +14209,18 @@ function __c58(j: number): any {
           source_product: S.String,
           source_type: S.String,
           signal_count: S.Number,
-          spend: __S(608, __c19, 0),
+          spend: __S(640, __c20, 0),
         }),
       ).annotate({ identifier: "SourceSpend" });
     case 2:
-      return S.Array(__S(1857, __c58, 1));
+      return S.Array(__S(1889, __c59, 1));
     case 3:
-      return S.suspend(() => __S(1858, __c58, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1890, __c59, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "SignalsSourceSpendResponse",
       });
   }
 }
-function __c59(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14120,24 +14234,24 @@ function __c59(j: number): any {
       return S.suspend(() =>
         S.Struct({
           skill_name: S.String,
-          spend: __S(608, __c19, 0),
+          spend: __S(640, __c20, 0),
           average_spend: S.NullOr(S.Number),
         }),
       ).annotate({ identifier: "ScoutSpend" });
     case 2:
-      return S.Array(__S(1889, __c59, 1));
+      return S.Array(__S(1921, __c60, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           period_start: S.String,
           period_end: S.String,
-          scouts: __S(1890, __c59, 2),
-          scout_spend: __S(608, __c19, 0),
+          scouts: __S(1922, __c60, 2),
+          scout_spend: __S(640, __c20, 0),
         }),
       ).annotate({ identifier: "SpendOverview" });
   }
 }
-function __c60(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14154,7 +14268,7 @@ function __c60(j: number): any {
       ).annotate({ identifier: "StopSignalsScoutConfigRequest" });
   }
 }
-function __c61(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14165,7 +14279,7 @@ function __c61(j: number): any {
           evidence_reason: S.String,
           expectation_matches: S.NullOr(S.Boolean),
           explanation: S.String,
-          evidence_refs: __S(3840, __c120, 0),
+          evidence_refs: __S(3872, __c121, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -14184,7 +14298,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "SubmitMonitoringResultResponse" });
   }
 }
-function __c62(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14201,7 +14315,7 @@ function __c62(j: number): any {
       ).annotate({ identifier: "SyncSignalsScoutConfigRequest" });
   }
 }
-function __c63(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14226,15 +14340,15 @@ function __c63(j: number): any {
           now: S.String,
           interval_minutes: S.Number,
           row_count: S.Number,
-          columns: __S(3840, __c120, 0),
+          columns: __S(3872, __c121, 0),
           rows_text: S.String,
           error: S.NullOr(S.String),
-          acting_user: S.NullOr(__S(3360, __c105, 0)),
+          acting_user: S.NullOr(__S(3392, __c106, 0)),
         }),
       ).annotate({ identifier: "SignalScoutPrecheckTest" });
   }
 }
-function __c64(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14249,25 +14363,6 @@ function __c64(j: number): any {
           }),
         ),
       ).annotate({ identifier: "UpdateSignalsProcessingPauseRequest" });
-  }
-}
-function __c65(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          report_id: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
-          content: S.optional(S.Unknown),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "/api/projects/{project_id}/signals/reports/{report_id}/artefacts/{id}/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "UpdateSignalsReportArtefactsPartialRequest" });
   }
 }
 function __c66(j: number): any {
@@ -14286,12 +14381,12 @@ function __c66(j: number): any {
           priority: S.optional(S.NullOr(S.String)),
           priority_explanation: S.optional(S.NullOr(S.String)),
           suggested_reviewers: S.optional(__S(2179, __c68, 3)),
-          charts: S.optional(__S(5825, __c182, 1)),
+          charts: S.optional(__S(5857, __c183, 1)),
           metrics: S.optional(__S(2182, __c68, 6)),
-          suggested_prompts: S.optional(__S(3840, __c120, 0)),
+          suggested_prompts: S.optional(__S(3872, __c121, 0)),
           links: S.optional(__S(2184, __c68, 8)),
           source_issues: S.optional(__S(2186, __c68, 10)),
-          tags: S.optional(__S(3840, __c120, 0)),
+          tags: S.optional(__S(3872, __c121, 0)),
           idempotency_key: S.optional(S.NullOr(S.String)),
         }).pipe(
           T.Http({ method: "POST", uri: "/api/projects/{project_id}/signals/reports/", code: 200 }),
@@ -14353,7 +14448,7 @@ function __c68(j: number): any {
           role: S.optional(S.String),
           value: S.optional(S.NullOr(S.Number)),
           value_at: S.optional(S.NullOr(S.String)),
-          series: S.optional(S.NullOr(__S(5792, __c181, 0))),
+          series: S.optional(S.NullOr(__S(5824, __c182, 0))),
           value_format: S.optional(S.String),
           unit: S.optional(S.NullOr(S.String)),
           query: S.Unknown,
@@ -14400,6 +14495,25 @@ function __c69(j: number): any {
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
+          report_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          content: S.optional(S.Unknown),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/api/projects/{project_id}/signals/reports/{report_id}/artefacts/{id}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateSignalsReportArtefactsPartialRequest" });
+  }
+}
+function __c70(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
           comment_id: S.String.pipe(T.Label()),
           pull_request_id: S.optional(S.String.pipe(T.Query())),
@@ -14414,7 +14528,7 @@ function __c69(j: number): any {
       ).annotate({ identifier: "UpdateSignalsReportPrReviewCommentRequest" });
   }
 }
-function __c70(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14433,7 +14547,7 @@ function __c70(j: number): any {
       ).annotate({ identifier: "UpdateSignalsReportsActionabilityRequest" });
   }
 }
-function __c71(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14452,7 +14566,7 @@ function __c71(j: number): any {
       ).annotate({ identifier: "UpdateSignalsReportsPartialRequest" });
   }
 }
-function __c72(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14460,7 +14574,7 @@ function __c72(j: number): any {
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
           step_id: S.String.pipe(T.Label()),
-          depends_on: __S(3840, __c120, 0),
+          depends_on: __S(3872, __c121, 0),
           reason: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -14472,7 +14586,7 @@ function __c72(j: number): any {
       ).annotate({ identifier: "UpdateSignalsReportsPlanStepsDependsOnRequest" });
   }
 }
-function __c73(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14490,7 +14604,7 @@ function __c73(j: number): any {
       ).annotate({ identifier: "UpdateSignalsReportsPriorityRequest" });
   }
 }
-function __c74(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14508,7 +14622,7 @@ function __c74(j: number): any {
       ).annotate({ identifier: "UpdateSignalsReportsRepositoryRequest" });
   }
 }
-function __c75(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14520,16 +14634,16 @@ function __c75(j: number): any {
         }),
       ).annotate({ identifier: "SuggestedReviewerEntryWrite" });
     case 1:
-      return S.Array(__S(2400, __c75, 0));
+      return S.Array(__S(2432, __c76, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
           action: S.optional(S.String),
-          expected_reviewers: S.optional(__S(5856, __c183, 0)),
-          content: __S(2401, __c75, 1),
-          targets: S.optional(__S(2401, __c75, 1)),
+          expected_reviewers: S.optional(__S(5888, __c184, 0)),
+          content: __S(2433, __c76, 1),
+          targets: S.optional(__S(2433, __c76, 1)),
           removal_reason: S.optional(S.String),
           removal_note: S.optional(S.String),
         }).pipe(
@@ -14549,25 +14663,25 @@ function __c75(j: number): any {
         }),
       ).annotate({ identifier: "SuggestedReviewerCommit" });
     case 4:
-      return S.Array(__S(2403, __c75, 3));
+      return S.Array(__S(2435, __c76, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           github_login: S.NullOr(S.String),
           user_uuid: S.NullOr(S.String),
           github_name: S.NullOr(S.String),
-          relevant_commits: __S(2404, __c75, 4),
+          relevant_commits: __S(2436, __c76, 4),
           reason: S.NullOr(S.String),
           is_skill_owner: S.Boolean,
           is_default_owner: S.Boolean,
           source_skill: S.NullOr(S.String),
           source_label: S.String,
           explanation: S.NullOr(S.String),
-          user: S.NullOr(__S(5888, __c184, 0)),
+          user: S.NullOr(__S(5920, __c185, 0)),
         }),
       ).annotate({ identifier: "SuggestedReviewerEntryRead" });
     case 6:
-      return S.Array(__S(2405, __c75, 5));
+      return S.Array(__S(2437, __c76, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -14575,18 +14689,18 @@ function __c75(j: number): any {
           pull_request_id: S.NullOr(S.String),
           id: S.String,
           type: S.String,
-          content: __S(2406, __c75, 6),
+          content: __S(2438, __c76, 6),
           created_at: S.String,
           updated_at: S.NullOr(S.String),
           actor_kind: S.String,
           actor_agent: S.NullOr(S.String),
-          created_by: S.NullOr(__S(5888, __c184, 0)),
+          created_by: S.NullOr(__S(5920, __c185, 0)),
           task_id: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "SignalReportSuggestedReviewersArtefact" });
   }
 }
-function __c76(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14606,7 +14720,7 @@ function __c76(j: number): any {
       ).annotate({ identifier: "UpdateSignalsReviewerExclusionsPartialRequest" });
   }
 }
-function __c77(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14618,23 +14732,23 @@ function __c77(j: number): any {
           emit: S.optional(S.Boolean),
           run_interval_minutes: S.optional(S.Number),
           run_cron_schedule: S.optional(S.NullOr(S.String)),
-          output_destinations: S.optional(__S(3394, __c106, 2)),
-          structured_output_schema: S.optional(S.NullOr(__S(3328, __c104, 0))),
+          output_destinations: S.optional(__S(3432, __c107, 8)),
+          structured_output_schema: S.optional(S.NullOr(__S(3360, __c105, 0))),
           network_access: S.optional(S.String),
           model: S.optional(S.NullOr(S.String)),
           custom_image_id: S.optional(S.NullOr(S.String)),
           auto_pause_exempt: S.optional(S.Boolean),
-          tags: S.optional(__S(3840, __c120, 0)),
-          mcp_gateway_server_ids: S.optional(__S(3840, __c120, 0)),
-          repositories: S.optional(__S(3840, __c120, 0)),
-          write_scopes: S.optional(__S(3840, __c120, 0)),
-          report_actions: S.optional(__S(3840, __c120, 0)),
+          tags: S.optional(__S(3872, __c121, 0)),
+          mcp_gateway_server_ids: S.optional(__S(3872, __c121, 0)),
+          repositories: S.optional(__S(3872, __c121, 0)),
+          write_scopes: S.optional(__S(3872, __c121, 0)),
+          report_actions: S.optional(__S(3872, __c121, 0)),
           max_report_actions_per_day: S.optional(S.Number),
           precheck_query: S.optional(S.NullOr(S.String)),
           precheck_disabled: S.optional(S.Boolean),
           suggestion_id: S.optional(S.String),
           lifecycle_locked: S.optional(S.Boolean),
-          allowed_mcp_tools: S.optional(S.NullOr(__S(3840, __c120, 0))),
+          allowed_mcp_tools: S.optional(S.NullOr(__S(3872, __c121, 0))),
           tool_preset: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -14646,26 +14760,6 @@ function __c77(j: number): any {
       ).annotate({ identifier: "UpdateSignalsScoutConfigRequest" });
   }
 }
-function __c78(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
-          revision: S.Number,
-          criteria: __S(5057, __c158, 1),
-          adopt_generation_id: S.optional(S.NullOr(S.String)),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/api/projects/{project_id}/signals/scout/rubrics/{id}/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "UpdateSignalsScoutRubricRequest" });
-  }
-}
 function __c79(j: number): any {
   switch (j) {
     case 0:
@@ -14673,7 +14767,7 @@ function __c79(j: number): any {
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           report_id: S.String.pipe(T.Label()),
-          expected_reviewers: S.optional(__S(5856, __c183, 0)),
+          expected_reviewers: S.optional(__S(5888, __c184, 0)),
           reviewer_outcome: S.optional(S.String),
           reviewer_retry_reason: S.optional(S.String),
           claim_id: S.optional(S.String),
@@ -14713,20 +14807,17 @@ function __c81(j: number): any {
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          source_product: S.optional(S.String),
-          source_type: S.optional(S.String),
-          enabled: S.optional(S.Boolean),
-          config: S.optional(__S(3328, __c104, 0)),
-          config_set: S.optional(__S(3328, __c104, 0)),
-          config_remove: S.optional(__S(3840, __c120, 0)),
+          revision: S.Number,
+          criteria: __S(5089, __c159, 1),
+          adopt_generation_id: S.optional(S.NullOr(S.String)),
         }).pipe(
           T.Http({
             method: "PUT",
-            uri: "/api/projects/{project_id}/signals/source_configs/{id}/",
+            uri: "/api/projects/{project_id}/signals/scout/rubrics/{id}/",
             code: 200,
           }),
         ),
-      ).annotate({ identifier: "UpdateSignalsSourceConfigRequest" });
+      ).annotate({ identifier: "UpdateSignalsScoutRubricRequest" });
   }
 }
 function __c82(j: number): any {
@@ -14739,9 +14830,32 @@ function __c82(j: number): any {
           source_product: S.optional(S.String),
           source_type: S.optional(S.String),
           enabled: S.optional(S.Boolean),
-          config: S.optional(__S(3328, __c104, 0)),
-          config_set: S.optional(__S(3328, __c104, 0)),
-          config_remove: S.optional(__S(3840, __c120, 0)),
+          config: S.optional(__S(3360, __c105, 0)),
+          config_set: S.optional(__S(3360, __c105, 0)),
+          config_remove: S.optional(__S(3872, __c121, 0)),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/api/projects/{project_id}/signals/source_configs/{id}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateSignalsSourceConfigRequest" });
+  }
+}
+function __c83(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          source_product: S.optional(S.String),
+          source_type: S.optional(S.String),
+          enabled: S.optional(S.Boolean),
+          config: S.optional(__S(3360, __c105, 0)),
+          config_set: S.optional(__S(3360, __c105, 0)),
+          config_remove: S.optional(__S(3872, __c121, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -14752,7 +14866,7 @@ function __c82(j: number): any {
       ).annotate({ identifier: "UpdateSignalsSourceConfigsPartialRequest" });
   }
 }
-function __c83(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14775,10 +14889,10 @@ function __c83(j: number): any {
       ).annotate({ identifier: "CreateSignalsReportPrReviewCommentRequest" });
   }
 }
-function __c84(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2752, __c86, 0));
+      return S.Array(__S(2784, __c87, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -14796,22 +14910,22 @@ function __c84(j: number): any {
           diff_hunk: S.NullOr(S.String),
           in_reply_to_id: S.NullOr(S.String),
           commit_id: S.NullOr(S.String),
-          reactions: __S(2688, __c84, 0),
+          reactions: __S(2720, __c85, 0),
         }),
       ).annotate({ identifier: "PullRequestComment" });
   }
 }
-function __c85(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          comment: __S(2689, __c84, 1),
+          comment: __S(2721, __c85, 1),
         }),
       ).annotate({ identifier: "PullRequestReviewCommentCreateResponse" });
   }
 }
-function __c86(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14823,7 +14937,7 @@ function __c86(j: number): any {
       ).annotate({ identifier: "PullRequestCommentReaction" });
   }
 }
-function __c87(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14844,12 +14958,12 @@ function __c87(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          reaction: __S(2752, __c86, 0),
+          reaction: __S(2784, __c87, 0),
         }),
       ).annotate({ identifier: "PullRequestReviewCommentReactionCreateResponse" });
   }
 }
-function __c88(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14879,7 +14993,7 @@ function __c88(j: number): any {
       ).annotate({ identifier: "SignalReportTaskActionRunResponse" });
   }
 }
-function __c89(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14891,7 +15005,7 @@ function __c89(j: number): any {
       ).annotate({ identifier: "GitHubInstallationUnavailableError" });
   }
 }
-function __c90(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14916,14 +15030,14 @@ function __c90(j: number): any {
       ).annotate({ identifier: "SignalReportFeedbackResponse" });
   }
 }
-function __c91(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          source_report_ids: __S(3840, __c120, 0),
+          source_report_ids: __S(3872, __c121, 0),
           reason: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -14943,17 +15057,17 @@ function __c91(j: number): any {
         }),
       ).annotate({ identifier: "SignalReportMergeSourceResult" });
     case 2:
-      return S.Array(__S(2913, __c91, 1));
+      return S.Array(__S(2945, __c92, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          report: __S(5954, __c186, 2),
-          sources: __S(2914, __c91, 2),
+          report: __S(5986, __c187, 2),
+          sources: __S(2946, __c92, 2),
         }),
       ).annotate({ identifier: "SignalReportMergeResponse" });
   }
 }
-function __c92(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14961,7 +15075,7 @@ function __c92(j: number): any {
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
           report_id: S.String,
-          depends_on: S.optional(__S(3840, __c120, 0)),
+          depends_on: S.optional(__S(3872, __c121, 0)),
           reason: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -14973,7 +15087,7 @@ function __c92(j: number): any {
       ).annotate({ identifier: "CreateSignalsReportsPlanStepRequest" });
   }
 }
-function __c93(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15008,7 +15122,7 @@ function __c93(j: number): any {
       ).annotate({ identifier: "SignalReportRefundResponse" });
   }
 }
-function __c94(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15025,7 +15139,7 @@ function __c94(j: number): any {
       ).annotate({ identifier: "CreateSignalsReportsReingestRequest" });
   }
 }
-function __c95(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15036,7 +15150,7 @@ function __c95(j: number): any {
       ).annotate({ identifier: "SignalReportReingestionStatus" });
   }
 }
-function __c96(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15055,7 +15169,7 @@ function __c96(j: number): any {
       ).annotate({ identifier: "CreateSignalsReportsReviewersMeRequest" });
   }
 }
-function __c97(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -15063,13 +15177,13 @@ function __c97(j: number): any {
       });
   }
 }
-function __c98(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          report_ids: __S(3840, __c120, 0),
+          report_ids: __S(3872, __c121, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -15082,21 +15196,21 @@ function __c98(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          source_products: __S(3840, __c120, 0),
+          source_products: __S(3872, __c121, 0),
           scout_name: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "SignalReportSourceMetadata" });
     case 2:
-      return S.Array(__S(3137, __c98, 1));
+      return S.Array(__S(3169, __c99, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          reports: __S(3138, __c98, 2),
+          reports: __S(3170, __c99, 2),
         }),
       ).annotate({ identifier: "SignalReportSourceMetadataResponse" });
   }
 }
-function __c99(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15118,7 +15232,7 @@ function __c99(j: number): any {
       ).annotate({ identifier: "CreateSignalsReportsStateRequest" });
   }
 }
-function __c100(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15135,7 +15249,7 @@ function __c100(j: number): any {
       ).annotate({ identifier: "CreateSignalsReportsViewedRequest" });
   }
 }
-function __c101(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15158,13 +15272,13 @@ function __c101(j: number): any {
         S.Struct({
           instruction_saved: S.Boolean,
           report_removed: S.NullOr(S.Boolean),
-          exclusion: S.NullOr(__S(3264, __c102, 0)),
+          exclusion: S.NullOr(__S(3296, __c103, 0)),
           detail: S.String,
         }),
       ).annotate({ identifier: "ReviewerExclusionCreateResult" });
   }
 }
-function __c102(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15181,7 +15295,7 @@ function __c102(j: number): any {
       ).annotate({ identifier: "ReviewerExclusion" });
   }
 }
-function __c103(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15192,33 +15306,41 @@ function __c103(j: number): any {
         }),
       ).annotate({ identifier: "LLMSkillFileInput" });
     case 1:
-      return S.Array(__S(3296, __c103, 0));
+      return S.Array(__S(3328, __c104, 0));
     case 2:
+      return S.suspend(() =>
+        S.Struct({
+          slack: S.optional(S.NullOr(__S(3424, __c107, 0))),
+          webhook: S.optional(S.NullOr(__S(3425, __c107, 1))),
+          inbox: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "SignalScoutOutputDestinations" });
+    case 3:
       return S.suspend(() =>
         S.Struct({
           model: S.optional(S.NullOr(S.String)),
           custom_image_id: S.optional(S.NullOr(S.String)),
-          tags: S.optional(__S(3840, __c120, 0)),
-          structured_output_schema: S.optional(S.NullOr(__S(3328, __c104, 0))),
-          mcp_gateway_server_ids: S.optional(__S(3840, __c120, 0)),
-          repositories: S.optional(__S(3840, __c120, 0)),
-          write_scopes: S.optional(__S(3840, __c120, 0)),
-          report_actions: S.optional(__S(3840, __c120, 0)),
+          tags: S.optional(__S(3872, __c121, 0)),
+          structured_output_schema: S.optional(S.NullOr(__S(3360, __c105, 0))),
+          mcp_gateway_server_ids: S.optional(__S(3872, __c121, 0)),
+          repositories: S.optional(__S(3872, __c121, 0)),
+          write_scopes: S.optional(__S(3872, __c121, 0)),
+          report_actions: S.optional(__S(3872, __c121, 0)),
           max_report_actions_per_day: S.optional(S.Number),
           lifecycle_locked: S.optional(S.Boolean),
-          allowed_mcp_tools: S.optional(S.NullOr(__S(3840, __c120, 0))),
+          allowed_mcp_tools: S.optional(S.NullOr(__S(3872, __c121, 0))),
           tool_preset: S.optional(S.String),
           precheck_query: S.optional(S.NullOr(S.String)),
           enabled: S.optional(S.Boolean),
           emit: S.optional(S.Boolean),
           run_interval_minutes: S.optional(S.Number),
-          output_destinations: S.optional(__S(3394, __c106, 2)),
+          output_destinations: S.optional(__S(3330, __c104, 2)),
           network_access: S.optional(S.String),
           auto_pause_exempt: S.optional(S.Boolean),
           run_cron_schedule: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "SignalScoutConfigOptions" });
-    case 3:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
@@ -15226,40 +15348,40 @@ function __c103(j: number): any {
           name: S.optional(S.String),
           description: S.String,
           body: S.String,
-          files: S.optional(__S(3297, __c103, 1)),
-          config: S.optional(__S(3298, __c103, 2)),
+          files: S.optional(__S(3329, __c104, 1)),
+          config: S.optional(__S(3331, __c104, 3)),
           suggestion_id: S.optional(S.String),
         }).pipe(
           T.Http({ method: "POST", uri: "/api/projects/{project_id}/signals/scout/", code: 200 }),
         ),
       ).annotate({ identifier: "CreateSignalsScoutRequest" });
-    case 4:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           name: S.String,
           description: S.String,
           version: S.Number,
-          allowed_tools: __S(3840, __c120, 0),
+          allowed_tools: __S(3872, __c121, 0),
         }),
       ).annotate({ identifier: "SignalScoutSkillSummary" });
-    case 5:
+    case 6:
       return S.suspend(() =>
         S.Struct({
           created: S.Boolean,
-          skill: __S(3300, __c103, 4),
-          config: __S(3397, __c106, 5),
+          skill: __S(3333, __c104, 5),
+          config: __S(3433, __c107, 9),
         }),
       ).annotate({ identifier: "SignalScoutCreateResponse" });
   }
 }
-function __c104(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c105(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15271,20 +15393,20 @@ function __c105(j: number): any {
           last_name: S.optional(S.String),
           email: S.optional(S.String),
           is_email_verified: S.optional(S.NullOr(S.Boolean)),
-          hedgehog_config: S.optional(S.NullOr(__S(3328, __c104, 0))),
+          hedgehog_config: S.optional(S.NullOr(__S(3360, __c105, 0))),
           role_at_organization: S.optional(S.NullOr(S.Unknown)),
         }),
       ).annotate({ identifier: "UserBasic" });
   }
 }
-function __c106(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           integration_id: S.Number,
           channel: S.optional(S.NullOr(S.String)),
-          users: S.optional(S.NullOr(__S(3840, __c120, 0))),
+          users: S.optional(S.NullOr(__S(3872, __c121, 0))),
           thread_reports: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "SignalScoutSlackDestination" });
@@ -15297,23 +15419,44 @@ function __c106(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          slack: S.optional(S.NullOr(__S(3392, __c106, 0))),
-          webhook: S.optional(S.NullOr(__S(3393, __c106, 1))),
-          inbox: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "SignalScoutOutputDestinations" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
           phase: S.String,
           reason: S.String,
           superseded_by: S.String,
           sunset_at: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "ScoutDeprecation" });
+    case 3:
+      return S.Array(__S(3392, __c106, 0));
     case 4:
-      return S.Array(__S(3360, __c105, 0));
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          user: S.optional(S.String),
+          channel: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SignalScoutMessageTarget" });
     case 5:
+      return S.Array(__S(3428, __c107, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          key: S.String,
+          when: S.String,
+          to: __S(3429, __c107, 5),
+        }),
+      ).annotate({ identifier: "SignalScoutMessageRoute" });
+    case 7:
+      return S.Array(__S(3430, __c107, 6));
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          slack: S.optional(S.NullOr(__S(3424, __c107, 0))),
+          webhook: S.optional(S.NullOr(__S(3425, __c107, 1))),
+          inbox: S.optional(S.Boolean),
+          messages: S.optional(__S(3431, __c107, 7)),
+        }),
+      ).annotate({ identifier: "SignalScoutRoutedOutputDestinations" });
+    case 9:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
@@ -15322,8 +15465,8 @@ function __c106(j: number): any {
           display_name: S.optional(S.String),
           scout_origin: S.String,
           scout_role: S.String,
-          deprecation: S.NullOr(__S(3395, __c106, 3)),
-          owners: __S(3396, __c106, 4),
+          deprecation: S.NullOr(__S(3426, __c107, 2)),
+          owners: __S(3427, __c107, 3),
           enabled: S.Boolean,
           status: S.String,
           pause_reason: S.NullOr(S.String),
@@ -15331,18 +15474,18 @@ function __c106(j: number): any {
           emit: S.Boolean,
           run_interval_minutes: S.Number,
           run_cron_schedule: S.NullOr(S.String),
-          output_destinations: __S(3394, __c106, 2),
-          structured_output_schema: S.NullOr(__S(3328, __c104, 0)),
+          output_destinations: __S(3432, __c107, 8),
+          structured_output_schema: S.NullOr(__S(3360, __c105, 0)),
           network_access: S.String,
           model: S.NullOr(S.String),
           custom_image_id: S.NullOr(S.String),
-          mcp_gateway_server_ids: __S(3840, __c120, 0),
-          repositories: S.optional(__S(3840, __c120, 0)),
-          write_scopes: __S(3840, __c120, 0),
-          report_actions: __S(3840, __c120, 0),
+          mcp_gateway_server_ids: __S(3872, __c121, 0),
+          repositories: S.optional(__S(3872, __c121, 0)),
+          write_scopes: __S(3872, __c121, 0),
+          report_actions: __S(3872, __c121, 0),
           max_report_actions_per_day: S.Number,
           lifecycle_locked: S.Boolean,
-          allowed_mcp_tools: S.NullOr(__S(3840, __c120, 0)),
+          allowed_mcp_tools: S.NullOr(__S(3872, __c121, 0)),
           tool_preset: S.NullOr(S.String),
           precheck_query: S.NullOr(S.String),
           precheck_disabled: S.Boolean,
@@ -15354,9 +15497,9 @@ function __c106(j: number): any {
           last_run_at: S.NullOr(S.String),
           consecutive_failure_count: S.Number,
           status_changed_at: S.NullOr(S.String),
-          status_changed_by: S.NullOr(__S(3360, __c105, 0)),
+          status_changed_by: S.NullOr(__S(3392, __c106, 0)),
           auto_pause_exempt: S.Boolean,
-          tags: S.optional(__S(3840, __c120, 0)),
+          tags: S.optional(__S(3872, __c121, 0)),
           source_product: S.NullOr(S.String),
           source_id: S.NullOr(S.String),
           created_at: S.String,
@@ -15365,7 +15508,7 @@ function __c106(j: number): any {
       ).annotate({ identifier: "SignalScoutConfig" });
   }
 }
-function __c107(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15390,7 +15533,7 @@ function __c107(j: number): any {
       ).annotate({ identifier: "ScoutChatTask" });
   }
 }
-function __c108(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15398,21 +15541,21 @@ function __c108(j: number): any {
           project_id: S.String.pipe(T.Label()),
           model: S.optional(S.NullOr(S.String)),
           custom_image_id: S.optional(S.NullOr(S.String)),
-          tags: S.optional(__S(3840, __c120, 0)),
-          structured_output_schema: S.optional(S.NullOr(__S(3328, __c104, 0))),
-          mcp_gateway_server_ids: S.optional(__S(3840, __c120, 0)),
-          repositories: S.optional(__S(3840, __c120, 0)),
-          write_scopes: S.optional(__S(3840, __c120, 0)),
-          report_actions: S.optional(__S(3840, __c120, 0)),
+          tags: S.optional(__S(3872, __c121, 0)),
+          structured_output_schema: S.optional(S.NullOr(__S(3360, __c105, 0))),
+          mcp_gateway_server_ids: S.optional(__S(3872, __c121, 0)),
+          repositories: S.optional(__S(3872, __c121, 0)),
+          write_scopes: S.optional(__S(3872, __c121, 0)),
+          report_actions: S.optional(__S(3872, __c121, 0)),
           max_report_actions_per_day: S.optional(S.Number),
           lifecycle_locked: S.optional(S.Boolean),
-          allowed_mcp_tools: S.optional(S.NullOr(__S(3840, __c120, 0))),
+          allowed_mcp_tools: S.optional(S.NullOr(__S(3872, __c121, 0))),
           tool_preset: S.optional(S.String),
           precheck_query: S.optional(S.NullOr(S.String)),
           enabled: S.optional(S.Boolean),
           emit: S.optional(S.Boolean),
           run_interval_minutes: S.optional(S.Number),
-          output_destinations: S.optional(__S(3394, __c106, 2)),
+          output_destinations: S.optional(__S(3432, __c107, 8)),
           network_access: S.optional(S.String),
           auto_pause_exempt: S.optional(S.Boolean),
           run_cron_schedule: S.optional(S.NullOr(S.String)),
@@ -15428,21 +15571,21 @@ function __c108(j: number): any {
       ).annotate({ identifier: "CreateSignalsScoutConfigRequest" });
   }
 }
-function __c109(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           label: S.String,
-          launch_ids: __S(3840, __c120, 0),
+          launch_ids: __S(3872, __c121, 0),
           model: S.String,
           reasoning_effort: S.String,
           skill_body: S.optional(S.String),
         }),
       ).annotate({ identifier: "ScoutTrialComparisonVariantRequest" });
     case 1:
-      return S.Array(__S(3488, __c109, 0));
+      return S.Array(__S(3520, __c110, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -15450,7 +15593,7 @@ function __c109(j: number): any {
           id: S.String.pipe(T.Label()),
           comparison_id: S.String,
           baseline_variant_id: S.String,
-          variants: __S(3489, __c109, 1),
+          variants: __S(3521, __c110, 1),
           note: S.optional(S.String),
           expected_skill_version: S.optional(S.Number),
         }).pipe(
@@ -15463,7 +15606,7 @@ function __c109(j: number): any {
       ).annotate({ identifier: "CreateSignalsScoutConfigTrialComparisonRequest" });
   }
 }
-function __c110(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15472,7 +15615,7 @@ function __c110(j: number): any {
           id: S.String.pipe(T.Label()),
           evaluation_id: S.String,
           baseline_variant_id: S.String,
-          variants: __S(3809, __c119, 1),
+          variants: __S(3841, __c120, 1),
           rubric_source: S.String,
         }).pipe(
           T.Http({
@@ -15484,7 +15627,7 @@ function __c110(j: number): any {
       ).annotate({ identifier: "CreateSignalsScoutConfigTrialEvaluationRequest" });
   }
 }
-function __c111(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15504,7 +15647,7 @@ function __c111(j: number): any {
       ).annotate({ identifier: "CreateSignalsScoutNoteRequest" });
   }
 }
-function __c112(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15520,7 +15663,7 @@ function __c112(j: number): any {
       ).annotate({ identifier: "ScoutNote" });
   }
 }
-function __c113(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15546,7 +15689,7 @@ function __c113(j: number): any {
       ).annotate({ identifier: "CreateSignalsScoutReportCheckRequest" });
   }
 }
-function __c114(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15554,7 +15697,7 @@ function __c114(j: number): any {
           project_id: S.String.pipe(T.Label()),
           display_name: S.String,
           source_id: S.String,
-          channel_ids: __S(3840, __c120, 0),
+          channel_ids: __S(3872, __c121, 0),
           steer: S.optional(S.String),
           run_cron_schedule: S.optional(S.NullOr(S.String)),
           emit: S.optional(S.Boolean),
@@ -15575,7 +15718,7 @@ function __c114(j: number): any {
       ).annotate({ identifier: "SlackChannelScoutCreateResponse" });
   }
 }
-function __c115(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15584,9 +15727,9 @@ function __c115(j: number): any {
           source_product: S.optional(S.String),
           source_type: S.optional(S.String),
           enabled: S.optional(S.Boolean),
-          config: S.optional(__S(3328, __c104, 0)),
-          config_set: S.optional(__S(3328, __c104, 0)),
-          config_remove: S.optional(__S(3840, __c120, 0)),
+          config: S.optional(__S(3360, __c105, 0)),
+          config_set: S.optional(__S(3360, __c105, 0)),
+          config_remove: S.optional(__S(3872, __c121, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -15597,7 +15740,7 @@ function __c115(j: number): any {
       ).annotate({ identifier: "CreateSignalsSourceConfigRequest" });
   }
 }
-function __c116(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15618,23 +15761,23 @@ function __c116(j: number): any {
           source_product: S.optional(S.String),
           source_type: S.optional(S.String),
           enabled: S.optional(S.Boolean),
-          config: S.optional(__S(3328, __c104, 0)),
+          config: S.optional(__S(3360, __c105, 0)),
           created_at: S.optional(S.String),
           updated_at: S.optional(S.String),
           status: S.optional(S.NullOr(S.String)),
-          filter_status: S.NullOr(__S(3712, __c116, 0)),
+          filter_status: S.NullOr(__S(3744, __c117, 0)),
         }),
       ).annotate({ identifier: "SignalSourceConfigOutput" });
   }
 }
-function __c117(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          alert_allow_patterns: S.optional(__S(3840, __c120, 0)),
-          alert_block_patterns: S.optional(__S(3840, __c120, 0)),
+          alert_allow_patterns: S.optional(__S(3872, __c121, 0)),
+          alert_block_patterns: S.optional(__S(3872, __c121, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -15654,19 +15797,19 @@ function __c117(j: number): any {
         }),
       ).annotate({ identifier: "AlertPatternPreviewAlert" });
     case 2:
-      return S.Array(__S(3745, __c117, 1));
+      return S.Array(__S(3777, __c118, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           alert_allow_patterns_error: S.NullOr(S.String),
           alert_block_patterns_error: S.NullOr(S.String),
-          alerts: __S(3746, __c117, 2),
+          alerts: __S(3778, __c118, 2),
           has_more: S.Boolean,
         }),
       ).annotate({ identifier: "AlertPatternPreviewResponse" });
   }
 }
-function __c118(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15685,41 +15828,41 @@ function __c118(j: number): any {
       ).annotate({ identifier: "ArchiveSignalsScoutConfigTrialComparisonRequest" });
   }
 }
-function __c119(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           label: S.String,
-          launch_ids: __S(3840, __c120, 0),
+          launch_ids: __S(3872, __c121, 0),
         }),
       ).annotate({ identifier: "ScoutTrialEvaluationVariant" });
     case 1:
-      return S.Array(__S(3808, __c119, 0));
-  }
-}
-function __c120(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
+      return S.Array(__S(3840, __c120, 0));
   }
 }
 function __c121(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(S.String);
+  }
+}
+function __c122(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           label: S.String,
-          launch_ids: __S(3840, __c120, 0),
+          launch_ids: __S(3872, __c121, 0),
           model: S.String,
           reasoning_effort: S.String,
           skill_body_sha256: S.String,
         }),
       ).annotate({ identifier: "ScoutTrialComparisonVariant" });
     case 1:
-      return S.Array(__S(3872, __c121, 0));
+      return S.Array(__S(3904, __c122, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -15729,23 +15872,23 @@ function __c121(j: number): any {
           created_at: S.String,
           baseline_variant_id: S.String,
           rubric_revision: S.Number,
-          variants: __S(3873, __c121, 1),
+          variants: __S(3905, __c122, 1),
           status: S.String,
           archived: S.Boolean,
           error: S.NullOr(S.String),
-          evaluation: S.NullOr(__S(3926, __c122, 22)),
+          evaluation: S.NullOr(__S(3958, __c123, 22)),
         }),
       ).annotate({ identifier: "ScoutTrialComparison" });
   }
 }
-function __c122(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           evaluation_id: S.String,
           baseline_variant_id: S.String,
-          variants: __S(3809, __c119, 1),
+          variants: __S(3841, __c120, 1),
           rubric_source: S.String,
         }),
       ).annotate({ identifier: "ScoutTrialEvaluationRequest" });
@@ -15753,7 +15896,7 @@ function __c122(j: number): any {
       return S.suspend(() =>
         S.Struct({
           status: S.String,
-          variant_ids: S.optional(__S(3840, __c120, 0)),
+          variant_ids: S.optional(__S(3872, __c121, 0)),
           summary: S.String,
         }),
       ).annotate({ identifier: "TrialComparisonOutcome" });
@@ -15769,10 +15912,10 @@ function __c122(j: number): any {
           instructions_truncated: S.Boolean,
           report_channel: S.String,
           report_disposition_instructions: S.String,
-          reference_files: __S(3840, __c120, 0),
+          reference_files: __S(3872, __c121, 0),
           reference_files_truncated: S.Boolean,
-          reference_texts: __S(3937, __c123, 1),
-          reference_limits: __S(3938, __c123, 2),
+          reference_texts: __S(3969, __c124, 1),
+          reference_limits: __S(3970, __c124, 2),
         }),
       ).annotate({ identifier: "ScoutRubricReferenceContext" });
     case 3:
@@ -15786,7 +15929,7 @@ function __c122(j: number): any {
         }),
       ).annotate({ identifier: "TrialEvaluationCriterion" });
     case 4:
-      return S.Array(__S(3907, __c122, 3));
+      return S.Array(__S(3939, __c123, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -15801,7 +15944,7 @@ function __c122(j: number): any {
         }),
       ).annotate({ identifier: "TrialCriterionAggregate" });
     case 6:
-      return S.Array(__S(3909, __c122, 5));
+      return S.Array(__S(3941, __c123, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -15815,11 +15958,11 @@ function __c122(j: number): any {
           score: S.NullOr(S.Number),
           coverage: S.NullOr(S.Number),
           baseline_delta: S.optional(S.NullOr(S.Number)),
-          criteria: __S(3910, __c122, 6),
+          criteria: __S(3942, __c123, 6),
         }),
       ).annotate({ identifier: "TrialVariantAggregate" });
     case 8:
-      return S.Array(__S(3911, __c122, 7));
+      return S.Array(__S(3943, __c123, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
@@ -15828,7 +15971,7 @@ function __c122(j: number): any {
         }),
       ).annotate({ identifier: "TrialCriterionEvidence" });
     case 10:
-      return S.Array(__S(3913, __c122, 9));
+      return S.Array(__S(3945, __c123, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
@@ -15836,11 +15979,11 @@ function __c122(j: number): any {
           verdict: S.String,
           reason: S.String,
           confidence: S.String,
-          evidence: __S(3914, __c122, 10),
+          evidence: __S(3946, __c123, 10),
         }),
       ).annotate({ identifier: "TrialCriterionVerdict" });
     case 12:
-      return S.Array(__S(3915, __c122, 11));
+      return S.Array(__S(3947, __c123, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
@@ -15850,14 +15993,14 @@ function __c122(j: number): any {
           score: S.optional(S.NullOr(S.Number)),
           coverage: S.optional(S.NullOr(S.Number)),
           summary: S.String,
-          criteria: S.optional(__S(3916, __c122, 12)),
+          criteria: S.optional(__S(3948, __c123, 12)),
           error: S.optional(S.NullOr(S.String)),
           input_tokens: S.optional(S.NullOr(S.Number)),
           output_tokens: S.optional(S.NullOr(S.Number)),
         }),
       ).annotate({ identifier: "TrialRunJudgment" });
     case 14:
-      return S.Array(__S(3917, __c122, 13));
+      return S.Array(__S(3949, __c123, 13));
     case 15:
       return S.suspend(() =>
         S.Struct({
@@ -15869,7 +16012,7 @@ function __c122(j: number): any {
         }),
       ).annotate({ identifier: "TrialEvidenceFile" });
     case 16:
-      return S.Array(__S(3919, __c122, 15));
+      return S.Array(__S(3951, __c123, 15));
     case 17:
       return S.suspend(() =>
         S.Struct({
@@ -15879,7 +16022,7 @@ function __c122(j: number): any {
         }),
       ).annotate({ identifier: "TrialEvidenceSource" });
     case 18:
-      return S.Array(__S(3921, __c122, 17));
+      return S.Array(__S(3953, __c123, 17));
     case 19:
       return S.suspend(() =>
         S.Struct({
@@ -15897,13 +16040,13 @@ function __c122(j: number): any {
           skill_body_sha256: S.String,
           input_tokens: S.optional(S.NullOr(S.Number)),
           output_tokens: S.optional(S.NullOr(S.Number)),
-          files: S.optional(__S(3920, __c122, 16)),
-          sources: S.optional(__S(3922, __c122, 18)),
-          limitations: S.optional(__S(3840, __c120, 0)),
+          files: S.optional(__S(3952, __c123, 16)),
+          sources: S.optional(__S(3954, __c123, 18)),
+          limitations: S.optional(__S(3872, __c121, 0)),
         }),
       ).annotate({ identifier: "TrialRunEvidence" });
     case 20:
-      return S.Array(__S(3923, __c122, 19));
+      return S.Array(__S(3955, __c123, 19));
     case 21:
       return S.suspend(() =>
         S.Struct({
@@ -15913,35 +16056,35 @@ function __c122(j: number): any {
           created_at: S.String,
           completed_at: S.String,
           summary: S.String,
-          outcome: S.optional(S.NullOr(__S(3905, __c122, 1))),
+          outcome: S.optional(S.NullOr(__S(3937, __c123, 1))),
           rubric_source: S.String,
           rubric_revision: S.Number,
-          rubric_reference_context: S.optional(S.NullOr(__S(3906, __c122, 2))),
+          rubric_reference_context: S.optional(S.NullOr(__S(3938, __c123, 2))),
           rubric_reference_generation_id: S.optional(S.NullOr(S.String)),
-          criteria: __S(3908, __c122, 4),
+          criteria: __S(3940, __c123, 4),
           baseline_variant_id: S.String,
           judge_model: S.String,
           judge_prompt_version: S.String,
-          variants: __S(3912, __c122, 8),
-          runs: __S(3918, __c122, 14),
-          evidence: __S(3924, __c122, 20),
-          limitations: __S(3840, __c120, 0),
+          variants: __S(3944, __c123, 8),
+          runs: __S(3950, __c123, 14),
+          evidence: __S(3956, __c123, 20),
+          limitations: __S(3872, __c121, 0),
         }),
       ).annotate({ identifier: "TrialComparisonReport" });
     case 22:
       return S.suspend(() =>
         S.Struct({
-          request: __S(3904, __c122, 0),
+          request: __S(3936, __c123, 0),
           evaluation_id: S.String,
           context_id: S.String,
           status: S.String,
           error: S.NullOr(S.String),
-          report: S.NullOr(__S(3925, __c122, 21)),
+          report: S.NullOr(__S(3957, __c123, 21)),
         }),
       ).annotate({ identifier: "ScoutTrialEvaluation" });
   }
 }
-function __c123(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15952,17 +16095,17 @@ function __c123(j: number): any {
         }),
       ).annotate({ identifier: "ScoutRubricReferenceText" });
     case 1:
-      return S.Array(__S(3936, __c123, 0));
+      return S.Array(__S(3968, __c124, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           omitted_files: S.Number,
-          truncated_files: __S(3840, __c120, 0),
+          truncated_files: __S(3872, __c121, 0),
         }),
       ).annotate({ identifier: "ScoutRubricReferenceLimits" });
   }
 }
-function __c124(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15971,7 +16114,7 @@ function __c124(j: number): any {
           source_product: S.String,
           source_type: S.String,
           expression: S.String,
-          scope_ids: S.optional(S.NullOr(__S(3840, __c120, 0))),
+          scope_ids: S.optional(S.NullOr(__S(3872, __c121, 0))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -15991,12 +16134,12 @@ function __c124(j: number): any {
           url: S.NullOr(S.String),
           created_at: S.NullOr(S.String),
           malformed: S.Boolean,
-          field_values: __S(3969, __c124, 1),
-          failed_conditions: S.NullOr(__S(3840, __c120, 0)),
+          field_values: __S(4001, __c125, 1),
+          failed_conditions: S.NullOr(__S(3872, __c121, 0)),
         }),
       ).annotate({ identifier: "SourceFilterPreviewRecord" });
     case 3:
-      return S.Array(__S(3970, __c124, 2));
+      return S.Array(__S(4002, __c125, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -16011,13 +16154,13 @@ function __c124(j: number): any {
           passing_count: S.Number,
           excluded_count: S.Number,
           malformed_count: S.Number,
-          passing: __S(3971, __c124, 3),
-          excluded: __S(3971, __c124, 3),
+          passing: __S(4003, __c125, 3),
+          excluded: __S(4003, __c125, 3),
         }),
       ).annotate({ identifier: "SourceFilterPreviewResponse" });
   }
 }
-function __c125(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16029,7 +16172,7 @@ function __c125(j: number): any {
       ).annotate({ identifier: "CreateSignalsTrialRequest" });
   }
 }
-function __c126(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16059,7 +16202,7 @@ function __c126(j: number): any {
       ).annotate({ identifier: "SelfDrivingTrialStatus" });
   }
 }
-function __c127(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16076,14 +16219,14 @@ function __c127(j: number): any {
       ).annotate({ identifier: "DismissSignalsScoutSuggestionRequest" });
   }
 }
-function __c128(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           run_id: S.String.pipe(T.Label()),
-          expected_reviewers: S.optional(__S(5856, __c183, 0)),
+          expected_reviewers: S.optional(__S(5888, __c184, 0)),
           reviewer_outcome: S.optional(S.String),
           reviewer_retry_reason: S.optional(S.String),
           reviewer_outcome_reason: S.optional(S.String),
@@ -16095,13 +16238,13 @@ function __c128(j: number): any {
           append_evidence: S.optional(S.NullOr(__S(2177, __c68, 1))),
           suggested_reviewers: S.optional(__S(2179, __c68, 3)),
           repository: S.optional(S.NullOr(S.String)),
-          charts: S.optional(S.NullOr(__S(5825, __c182, 1))),
+          charts: S.optional(S.NullOr(__S(5857, __c183, 1))),
           metrics: S.optional(S.NullOr(__S(2182, __c68, 6))),
-          suggested_prompts: S.optional(S.NullOr(__S(3840, __c120, 0))),
+          suggested_prompts: S.optional(S.NullOr(__S(3872, __c121, 0))),
           links: S.optional(__S(2184, __c68, 8)),
           source_issues: S.optional(__S(2186, __c68, 10)),
-          pull_requests: S.optional(__S(3840, __c120, 0)),
-          tags: S.optional(S.NullOr(__S(3840, __c120, 0))),
+          pull_requests: S.optional(__S(3872, __c121, 0)),
+          tags: S.optional(S.NullOr(__S(3872, __c121, 0))),
           supersedes_implementation: S.optional(S.Boolean),
           actionability: S.optional(S.NullOr(S.String)),
           actionability_explanation: S.optional(S.NullOr(S.String)),
@@ -16124,12 +16267,12 @@ function __c128(j: number): any {
         }),
       ).annotate({ identifier: "EditReportWarning" });
     case 2:
-      return S.Array(__S(4097, __c128, 1));
+      return S.Array(__S(4129, __c129, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           report_id: S.String,
-          updated_fields: __S(3840, __c120, 0),
+          updated_fields: __S(3872, __c121, 0),
           note_appended: S.Boolean,
           evidence_appended: S.Number,
           links_appended: S.Number,
@@ -16145,15 +16288,15 @@ function __c128(j: number): any {
           is_content_revision: S.Boolean,
           content_revision_count: S.Number,
           supersedes_implementation: S.Boolean,
-          decision_fields_set: __S(3840, __c120, 0),
-          warnings: __S(4098, __c128, 2),
+          decision_fields_set: __S(3872, __c121, 0),
+          warnings: __S(4130, __c129, 2),
           quality_hints: __S(2188, __c68, 12),
           corroboration_collapsed: S.Boolean,
         }),
       ).annotate({ identifier: "EditReportResponse" });
   }
 }
-function __c129(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16171,7 +16314,7 @@ function __c129(j: number): any {
       ).annotate({ identifier: "GenerateSignalsScoutRubricRequest" });
   }
 }
-function __c130(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16195,27 +16338,27 @@ function __c130(j: number): any {
           prompt_version: S.Number,
           headline: S.NullOr(S.String),
           recent_shift: S.NullOr(S.String),
-          themes: __S(4257, __c133, 1),
-          modes: __S(4192, __c131, 0),
+          themes: __S(4289, __c134, 1),
+          modes: __S(4224, __c132, 0),
           profile: S.NullOr(S.String),
-          computed: S.NullOr(__S(4232, __c132, 8)),
+          computed: S.NullOr(__S(4264, __c133, 8)),
         }),
       ).annotate({ identifier: "ActivitySummaryVersion" });
     case 2:
-      return S.Array(__S(4161, __c130, 1));
+      return S.Array(__S(4193, __c131, 1));
     case 3:
-      return S.suspend(() => __S(4162, __c130, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(4194, __c131, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetSignalsActivitySummaryVersionResponse",
       });
   }
 }
-function __c131(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c132(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16230,7 +16373,7 @@ function __c132(j: number): any {
         }),
       ).annotate({ identifier: "ActivitySummaryOwnedObject" });
     case 1:
-      return S.Array(__S(4224, __c132, 0));
+      return S.Array(__S(4256, __c133, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -16244,7 +16387,7 @@ function __c132(j: number): any {
         }),
       ).annotate({ identifier: "ActivitySummaryWatchedObject" });
     case 3:
-      return S.Array(__S(4226, __c132, 2));
+      return S.Array(__S(4258, __c133, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -16255,7 +16398,7 @@ function __c132(j: number): any {
         }),
       ).annotate({ identifier: "ActivitySummaryPageVisits" });
     case 5:
-      return S.Array(__S(4228, __c132, 4));
+      return S.Array(__S(4260, __c133, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -16264,23 +16407,23 @@ function __c132(j: number): any {
         }),
       ).annotate({ identifier: "ActivitySummaryLineRef" });
     case 7:
-      return S.Array(__S(4230, __c132, 6));
+      return S.Array(__S(4262, __c133, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
           schema_version: S.Number,
-          owned: __S(4225, __c132, 1),
-          watched: __S(4227, __c132, 3),
-          pages: __S(4229, __c132, 5),
-          products: __S(4258, __c133, 2),
+          owned: __S(4257, __c133, 1),
+          watched: __S(4259, __c133, 3),
+          pages: __S(4261, __c133, 5),
+          products: __S(4290, __c134, 2),
           task_count: S.Number,
-          tasks: __S(4231, __c132, 7),
-          mcp_sessions: __S(4231, __c132, 7),
+          tasks: __S(4263, __c133, 7),
+          mcp_sessions: __S(4263, __c133, 7),
         }),
       ).annotate({ identifier: "ActivitySummaryComputed" });
   }
 }
-function __c133(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16288,22 +16431,22 @@ function __c133(j: number): any {
           label: S.String,
           mode: S.NullOr(S.String),
           strength: S.NullOr(S.String),
-          refs: __S(3840, __c120, 0),
+          refs: __S(3872, __c121, 0),
           last_seen: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "ActivitySummaryTheme" });
     case 1:
-      return S.Array(__S(4256, __c133, 0));
+      return S.Array(__S(4288, __c134, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          works_in: __S(4192, __c131, 0),
-          visits: __S(4192, __c131, 0),
+          works_in: __S(4224, __c132, 0),
+          visits: __S(4224, __c132, 0),
         }),
       ).annotate({ identifier: "ActivitySummaryProductSplit" });
   }
 }
-function __c134(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16332,13 +16475,13 @@ function __c134(j: number): any {
           score: S.NullOr(S.Number),
           flag: S.NullOr(S.Boolean),
           scored_at: S.NullOr(S.String),
-          details: S.NullOr(__S(3328, __c104, 0)),
+          details: S.NullOr(__S(3360, __c105, 0)),
           anomaly_kind: S.NullOr(S.String),
           anomaly_reason: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "AnomalyBucket" });
     case 2:
-      return S.Array(__S(4289, __c134, 1));
+      return S.Array(__S(4321, __c135, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -16351,11 +16494,11 @@ function __c134(j: number): any {
           expected_buckets: S.Number,
           coverage: S.NullOr(S.Number),
           last_flagged_bucket: S.NullOr(S.String),
-          buckets: __S(4290, __c134, 2),
+          buckets: __S(4322, __c135, 2),
         }),
       ).annotate({ identifier: "AnomalyInsightSeries" });
     case 4:
-      return S.Array(__S(4291, __c134, 3));
+      return S.Array(__S(4323, __c135, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -16374,14 +16517,14 @@ function __c134(j: number): any {
           anomaly_rate: S.NullOr(S.Number),
           date_from: S.String,
           date_to: S.String,
-          series: __S(4292, __c134, 4),
+          series: __S(4324, __c135, 4),
           truncated: S.Boolean,
           message: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "AnomalyInsightResponse" });
   }
 }
-function __c135(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16398,7 +16541,7 @@ function __c135(j: number): any {
       ).annotate({ identifier: "GetSignalsReportRequest" });
   }
 }
-function __c136(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16416,7 +16559,7 @@ function __c136(j: number): any {
       ).annotate({ identifier: "GetSignalsReportArtefactRequest" });
   }
 }
-function __c137(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16430,13 +16573,13 @@ function __c137(j: number): any {
           updated_at: S.NullOr(S.String),
           actor_kind: S.String,
           actor_agent: S.NullOr(S.String),
-          created_by: S.NullOr(__S(5888, __c184, 0)),
+          created_by: S.NullOr(__S(5920, __c185, 0)),
           task_id: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "SignalReportArtefact" });
   }
 }
-function __c138(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16454,7 +16597,7 @@ function __c138(j: number): any {
       ).annotate({ identifier: "GetSignalsReportCheckRequest" });
   }
 }
-function __c139(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16475,7 +16618,7 @@ function __c139(j: number): any {
           kind: S.String,
           status: S.String,
           config: S.Unknown,
-          monitoring_timing: S.optional(S.NullOr(__S(4448, __c139, 0))),
+          monitoring_timing: S.optional(S.NullOr(__S(4480, __c140, 0))),
           approved_at: S.NullOr(S.String),
           next_run_at: S.String,
           soak_minutes: S.NullOr(S.Number),
@@ -16493,13 +16636,13 @@ function __c139(j: number): any {
       ).annotate({ identifier: "SignalReportCheck" });
   }
 }
-function __c140(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          ids: __S(3840, __c120, 0),
+          ids: __S(3872, __c121, 0),
           takeover_agent_claims: S.optional(S.Boolean),
         }).pipe(
           T.Http({
@@ -16518,11 +16661,11 @@ function __c140(j: number): any {
         }),
       ).annotate({ identifier: "SignalReportBulkClaimResult" });
     case 2:
-      return S.Array(__S(4481, __c140, 1));
+      return S.Array(__S(4513, __c141, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          results: __S(4482, __c140, 2),
+          results: __S(4514, __c141, 2),
           claimed_count: S.Number,
           conflict_count: S.Number,
           not_found_count: S.Number,
@@ -16530,7 +16673,7 @@ function __c140(j: number): any {
       ).annotate({ identifier: "SignalReportBulkClaimResponse" });
   }
 }
-function __c141(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16553,14 +16696,14 @@ function __c141(j: number): any {
         }),
       ).annotate({ identifier: "GetSignalsReportsAvailableReviewerResponseBodyValue" });
     case 2:
-      return S.Record(S.String, __S(4513, __c141, 1));
+      return S.Record(S.String, __S(4545, __c142, 1));
     case 3:
-      return S.suspend(() => __S(4514, __c141, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(4546, __c142, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetSignalsReportsAvailableReviewerResponse",
       });
   }
 }
-function __c142(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16584,7 +16727,7 @@ function __c142(j: number): any {
       ).annotate({ identifier: "SignalReportFeedbackState" });
   }
 }
-function __c143(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16607,7 +16750,7 @@ function __c143(j: number): any {
       return S.suspend(() =>
         S.Struct({
           theme: S.NullOr(S.String),
-          needs_you: __S(4192, __c131, 0),
+          needs_you: __S(4224, __c132, 0),
         }),
       ).annotate({ identifier: "PersonalRankingMatched" });
     case 2:
@@ -16618,7 +16761,7 @@ function __c143(j: number): any {
           status: S.String,
           priority: S.NullOr(S.String),
           implementation_pr_state: S.NullOr(S.String),
-          ranking: __S(5922, __c185, 2),
+          ranking: __S(5954, __c186, 2),
         }),
       ).annotate({ identifier: "PersonalRankingReport" });
     case 3:
@@ -16628,13 +16771,13 @@ function __c143(j: number): any {
           tier: S.String,
           reason: S.String,
           next_step: S.NullOr(S.String),
-          matched: __S(4577, __c143, 1),
+          matched: __S(4609, __c144, 1),
           ranked_by: S.String,
-          report: __S(4578, __c143, 2),
+          report: __S(4610, __c144, 2),
         }),
       ).annotate({ identifier: "PersonalRankingEntry" });
     case 4:
-      return S.Array(__S(4579, __c143, 3));
+      return S.Array(__S(4611, __c144, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -16644,7 +16787,7 @@ function __c143(j: number): any {
         }),
       ).annotate({ identifier: "PersonalRankingFold" });
     case 6:
-      return S.Array(__S(4581, __c143, 5));
+      return S.Array(__S(4613, __c144, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -16660,13 +16803,13 @@ function __c143(j: number): any {
           activity_summary_version: S.NullOr(S.Number),
           candidates_considered: S.Number,
           ranked_count: S.Number,
-          results: __S(4580, __c143, 4),
-          folded: __S(4582, __c143, 6),
+          results: __S(4612, __c144, 4),
+          folded: __S(4614, __c144, 6),
         }),
       ).annotate({ identifier: "PersonalRanking" });
   }
 }
-function __c144(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16691,7 +16834,7 @@ function __c144(j: number): any {
       ).annotate({ identifier: "SignalReportRefundSummaryResponse" });
   }
 }
-function __c145(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16704,7 +16847,7 @@ function __c145(j: number): any {
           connected: S.optional(S.String.pipe(T.Query())),
           created_after: S.optional(S.String.pipe(T.Query())),
           created_before: S.optional(S.String.pipe(T.Query())),
-          exclude: S.optional(__S(3840, __c120, 0).pipe(T.Query())),
+          exclude: S.optional(__S(3872, __c121, 0).pipe(T.Query())),
           include_unlisted: S.optional(S.Boolean.pipe(T.Query())),
           needs_you: S.optional(S.Boolean.pipe(T.Query())),
           pr_targets: S.optional(S.Boolean.pipe(T.Query())),
@@ -16718,7 +16861,7 @@ function __c145(j: number): any {
           source_id: S.optional(S.String.pipe(T.Query())),
           source_product: S.optional(S.String.pipe(T.Query())),
           suggested_reviewers: S.optional(S.String.pipe(T.Query())),
-          tags: S.optional(__S(3840, __c120, 0).pipe(T.Query())),
+          tags: S.optional(__S(3872, __c121, 0).pipe(T.Query())),
           task_id: S.optional(S.String.pipe(T.Query())),
           teammate_uuid: S.optional(S.String.pipe(T.Query())),
           unclaimed: S.optional(S.Boolean.pipe(T.Query())),
@@ -16741,7 +16884,7 @@ function __c145(j: number): any {
       ).annotate({ identifier: "SignalReportSectionCounts" });
   }
 }
-function __c146(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16760,7 +16903,7 @@ function __c146(j: number): any {
       return S.suspend(() =>
         S.Struct({
           total_spend: S.NullOr(S.Number),
-          spend_accounting_failed_stages: __S(3840, __c120, 0),
+          spend_accounting_failed_stages: __S(3872, __c121, 0),
           signal_id: S.String,
           content: S.String,
           source_product: S.String,
@@ -16773,17 +16916,17 @@ function __c146(j: number): any {
         }),
       ).annotate({ identifier: "SignalNode" });
     case 2:
-      return S.Array(__S(4673, __c146, 1));
+      return S.Array(__S(4705, __c147, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          report: __S(5954, __c186, 2),
-          signals: __S(4674, __c146, 2),
+          report: __S(5986, __c187, 2),
+          signals: __S(4706, __c147, 2),
         }),
       ).annotate({ identifier: "ReportSignalsResponse" });
   }
 }
-function __c147(j: number): any {
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16800,12 +16943,12 @@ function __c147(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          tags: __S(3840, __c120, 0),
+          tags: __S(3872, __c121, 0),
         }),
       ).annotate({ identifier: "SignalReportTagOptions" });
   }
 }
-function __c148(j: number): any {
+function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16822,7 +16965,7 @@ function __c148(j: number): any {
       ).annotate({ identifier: "GetSignalsReviewerExclusionRequest" });
   }
 }
-function __c149(j: number): any {
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16839,7 +16982,7 @@ function __c149(j: number): any {
       ).annotate({ identifier: "GetSignalsScoutConfigRequest" });
   }
 }
-function __c150(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16857,7 +17000,7 @@ function __c150(j: number): any {
       ).annotate({ identifier: "GetSignalsScoutConfigTrialComparisonRequest" });
   }
 }
-function __c151(j: number): any {
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16875,7 +17018,7 @@ function __c151(j: number): any {
       ).annotate({ identifier: "CancelSignalsScoutReportCheckRequest" });
   }
 }
-function __c152(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16896,7 +17039,7 @@ function __c152(j: number): any {
       ).annotate({ identifier: "ScoutCheckSummary" });
   }
 }
-function __c153(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16914,7 +17057,7 @@ function __c153(j: number): any {
       ).annotate({ identifier: "GetSignalsScoutConfigTrialEvaluationRequest" });
   }
 }
-function __c154(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16943,12 +17086,12 @@ function __c154(j: number): any {
         S.Struct({
           enrolled: S.Boolean,
           banner_message: S.NullOr(S.String),
-          limits: __S(4929, __c154, 1),
+          limits: __S(4961, __c155, 1),
         }),
       ).annotate({ identifier: "ScoutMetadata" });
   }
 }
-function __c155(j: number): any {
+function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16984,26 +17127,26 @@ function __c155(j: number): any {
         }),
       ).annotate({ identifier: "InboxReportStatusBucket" });
     case 3:
-      return S.Array(__S(4962, __c155, 2));
+      return S.Array(__S(4994, __c156, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           total: S.Number,
-          by_status: __S(4963, __c155, 3),
+          by_status: __S(4995, __c156, 3),
         }),
       ).annotate({ identifier: "ExistingInboxReports" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          emit_eligibility: S.NullOr(__S(4961, __c155, 1)),
-          existing_inbox_reports: S.NullOr(__S(4964, __c155, 4)),
+          emit_eligibility: S.NullOr(__S(4993, __c156, 1)),
+          existing_inbox_reports: S.NullOr(__S(4996, __c156, 4)),
         }),
       ).annotate({ identifier: "ProjectProfileSummary" });
     case 6:
       return S.suspend(() =>
         S.Struct({
           product_description: S.NullOr(S.String),
-          app_urls: __S(3840, __c120, 0),
+          app_urls: __S(3872, __c121, 0),
         }),
       ).annotate({ identifier: "ProjectContext" });
     case 7:
@@ -17015,7 +17158,7 @@ function __c155(j: number): any {
         }),
       ).annotate({ identifier: "ProductIntentEntry" });
     case 8:
-      return S.Array(__S(4967, __c155, 7));
+      return S.Array(__S(4999, __c156, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
@@ -17024,7 +17167,7 @@ function __c155(j: number): any {
         }),
       ).annotate({ identifier: "IntegrationEntry" });
     case 10:
-      return S.Array(__S(4969, __c155, 9));
+      return S.Array(__S(5001, __c156, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
@@ -17037,7 +17180,7 @@ function __c155(j: number): any {
         }),
       ).annotate({ identifier: "ExternalDataSourceEntry" });
     case 12:
-      return S.Array(__S(4971, __c155, 11));
+      return S.Array(__S(5003, __c156, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
@@ -17046,12 +17189,12 @@ function __c155(j: number): any {
         }),
       ).annotate({ identifier: "SignalSourceConfigEntry" });
     case 14:
-      return S.Array(__S(4973, __c155, 13));
+      return S.Array(__S(5005, __c156, 13));
     case 15:
       return S.suspend(() =>
         S.Struct({
-          enabled: __S(4974, __c155, 14),
-          disabled: __S(4974, __c155, 14),
+          enabled: __S(5006, __c156, 14),
+          disabled: __S(5006, __c156, 14),
         }),
       ).annotate({ identifier: "SignalSourceConfigsBuckets" });
     case 16:
@@ -17068,12 +17211,12 @@ function __c155(j: number): any {
         }),
       ).annotate({ identifier: "ScoutFleetEntry" });
     case 17:
-      return S.Array(__S(4976, __c155, 16));
+      return S.Array(__S(5008, __c156, 16));
     case 18:
       return S.suspend(() =>
         S.Struct({
-          enabled: __S(4977, __c155, 17),
-          disabled: __S(4977, __c155, 17),
+          enabled: __S(5009, __c156, 17),
+          disabled: __S(5009, __c156, 17),
           emitted_lookback_days: S.Number,
         }),
       ).annotate({ identifier: "ScoutFleet" });
@@ -17087,12 +17230,12 @@ function __c155(j: number): any {
         }),
       ).annotate({ identifier: "ScopeActivityEntry" });
     case 20:
-      return S.Array(__S(4979, __c155, 19));
+      return S.Array(__S(5011, __c156, 19));
     case 21:
       return S.suspend(() =>
         S.Struct({
           window_days: S.Number,
-          by_scope: __S(4980, __c155, 20),
+          by_scope: __S(5012, __c156, 20),
         }),
       ).annotate({ identifier: "RecentActivity" });
     case 22:
@@ -17100,20 +17243,20 @@ function __c155(j: number): any {
         S.Struct({
           report_id: S.String,
           report_title: S.NullOr(S.String),
-          before: __S(3840, __c120, 0),
-          after: __S(3840, __c120, 0),
+          before: __S(3872, __c121, 0),
+          after: __S(3872, __c121, 0),
           removal_reason: S.optional(S.NullOr(S.String)),
-          removal_reason_reviewers: S.optional(__S(3840, __c120, 0)),
+          removal_reason_reviewers: S.optional(__S(3872, __c121, 0)),
           at: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "ReviewerCorrectionEntry" });
     case 23:
-      return S.Array(__S(4982, __c155, 22));
+      return S.Array(__S(5014, __c156, 22));
     case 24:
       return S.suspend(() =>
         S.Struct({
           window_days: S.Number,
-          corrections: __S(4983, __c155, 23),
+          corrections: __S(5015, __c156, 23),
         }),
       ).annotate({ identifier: "RecentReviewerCorrections" });
     case 25:
@@ -17127,7 +17270,7 @@ function __c155(j: number): any {
         }),
       ).annotate({ identifier: "RecentDashboardEntry" });
     case 26:
-      return S.Array(__S(4985, __c155, 25));
+      return S.Array(__S(5017, __c156, 25));
     case 27:
       return S.suspend(() =>
         S.Struct({
@@ -17139,13 +17282,13 @@ function __c155(j: number): any {
         }),
       ).annotate({ identifier: "RecentSurveyEntry" });
     case 28:
-      return S.Array(__S(4987, __c155, 27));
+      return S.Array(__S(5019, __c156, 27));
     case 29:
       return S.suspend(() =>
         S.Struct({
           total_count: S.Number,
           active_count: S.Number,
-          recent: __S(4988, __c155, 28),
+          recent: __S(5020, __c156, 28),
         }),
       ).annotate({ identifier: "RecentSurveys" });
     case 30:
@@ -17159,17 +17302,17 @@ function __c155(j: number): any {
         }),
       ).annotate({ identifier: "RecentFeatureFlagEntry" });
     case 31:
-      return S.Array(__S(4990, __c155, 30));
+      return S.Array(__S(5022, __c156, 30));
   }
 }
-function __c156(j: number): any {
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           total_count: S.Number,
           active_count: S.Number,
-          recent: __S(4991, __c155, 31),
+          recent: __S(5023, __c156, 31),
         }),
       ).annotate({ identifier: "RecentFeatureFlags" });
     case 1:
@@ -17183,13 +17326,13 @@ function __c156(j: number): any {
         }),
       ).annotate({ identifier: "RecentExperimentEntry" });
     case 2:
-      return S.Array(__S(4993, __c156, 1));
+      return S.Array(__S(5025, __c157, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           total_count: S.Number,
           running_count: S.Number,
-          recent: __S(4994, __c156, 2),
+          recent: __S(5026, __c157, 2),
         }),
       ).annotate({ identifier: "RecentExperiments" });
     case 4:
@@ -17205,13 +17348,13 @@ function __c156(j: number): any {
         }),
       ).annotate({ identifier: "RecentAlertEntry" });
     case 5:
-      return S.Array(__S(4996, __c156, 4));
+      return S.Array(__S(5028, __c157, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           total_count: S.Number,
           enabled_count: S.Number,
-          recent: __S(4997, __c156, 5),
+          recent: __S(5029, __c157, 5),
         }),
       ).annotate({ identifier: "RecentAlerts" });
     case 7:
@@ -17226,13 +17369,13 @@ function __c156(j: number): any {
         }),
       ).annotate({ identifier: "RecentHogFunctionEntry" });
     case 8:
-      return S.Array(__S(4999, __c156, 7));
+      return S.Array(__S(5031, __c157, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
           total_count: S.Number,
           enabled_count: S.Number,
-          recent: __S(5000, __c156, 8),
+          recent: __S(5032, __c157, 8),
         }),
       ).annotate({ identifier: "RecentHogFunctions" });
     case 10:
@@ -17245,13 +17388,13 @@ function __c156(j: number): any {
         }),
       ).annotate({ identifier: "RecentHogFlowEntry" });
     case 11:
-      return S.Array(__S(5002, __c156, 10));
+      return S.Array(__S(5034, __c157, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
           total_count: S.Number,
           active_count: S.Number,
-          recent: __S(5003, __c156, 11),
+          recent: __S(5035, __c157, 11),
         }),
       ).annotate({ identifier: "RecentHogFlows" });
     case 13:
@@ -17263,12 +17406,12 @@ function __c156(j: number): any {
         }),
       ).annotate({ identifier: "RecentNotebookEntry" });
     case 14:
-      return S.Array(__S(5005, __c156, 13));
+      return S.Array(__S(5037, __c157, 13));
     case 15:
       return S.suspend(() =>
         S.Struct({
           total_count: S.Number,
-          recent: __S(5006, __c156, 14),
+          recent: __S(5038, __c157, 14),
         }),
       ).annotate({ identifier: "RecentNotebooks" });
     case 16:
@@ -17282,12 +17425,12 @@ function __c156(j: number): any {
         }),
       ).annotate({ identifier: "RecentCohortEntry" });
     case 17:
-      return S.Array(__S(5008, __c156, 16));
+      return S.Array(__S(5040, __c157, 16));
     case 18:
       return S.suspend(() =>
         S.Struct({
           total_count: S.Number,
-          recent: __S(5009, __c156, 17),
+          recent: __S(5041, __c157, 17),
         }),
       ).annotate({ identifier: "RecentCohorts" });
     case 19:
@@ -17299,12 +17442,12 @@ function __c156(j: number): any {
         }),
       ).annotate({ identifier: "RecentActionEntry" });
     case 20:
-      return S.Array(__S(5011, __c156, 19));
+      return S.Array(__S(5043, __c157, 19));
     case 21:
       return S.suspend(() =>
         S.Struct({
           total_count: S.Number,
-          recent: __S(5012, __c156, 20),
+          recent: __S(5044, __c157, 20),
         }),
       ).annotate({ identifier: "RecentActions" });
     case 22:
@@ -17321,55 +17464,55 @@ function __c156(j: number): any {
         }),
       ).annotate({ identifier: "TopEventEntry" });
     case 23:
-      return S.Array(__S(5014, __c156, 22));
+      return S.Array(__S(5046, __c157, 22));
     case 24:
       return S.suspend(() =>
         S.Struct({
-          project_context: __S(4966, __c155, 6),
-          products_in_use: __S(3840, __c120, 0),
-          product_intents: __S(4968, __c155, 8),
-          integrations: __S(4970, __c155, 10),
-          external_data_sources: __S(4972, __c155, 12),
-          signal_source_configs: __S(4975, __c155, 15),
-          emit_eligibility: __S(4961, __c155, 1),
-          scout_fleet: __S(4978, __c155, 18),
-          existing_inbox_reports: __S(4964, __c155, 4),
-          recent_activity: __S(4981, __c155, 21),
-          recent_reviewer_corrections: __S(4984, __c155, 24),
-          recent_dashboards: __S(4986, __c155, 26),
-          recent_surveys: __S(4989, __c155, 29),
-          recent_feature_flags: __S(4992, __c156, 0),
-          recent_experiments: __S(4995, __c156, 3),
-          recent_alerts: __S(4998, __c156, 6),
-          recent_hog_functions: __S(5001, __c156, 9),
-          recent_hog_flows: __S(5004, __c156, 12),
-          recent_notebooks: __S(5007, __c156, 15),
-          recent_cohorts: __S(5010, __c156, 18),
-          recent_actions: __S(5013, __c156, 21),
-          top_events: S.NullOr(__S(5015, __c156, 23)),
+          project_context: __S(4998, __c156, 6),
+          products_in_use: __S(3872, __c121, 0),
+          product_intents: __S(5000, __c156, 8),
+          integrations: __S(5002, __c156, 10),
+          external_data_sources: __S(5004, __c156, 12),
+          signal_source_configs: __S(5007, __c156, 15),
+          emit_eligibility: __S(4993, __c156, 1),
+          scout_fleet: __S(5010, __c156, 18),
+          existing_inbox_reports: __S(4996, __c156, 4),
+          recent_activity: __S(5013, __c156, 21),
+          recent_reviewer_corrections: __S(5016, __c156, 24),
+          recent_dashboards: __S(5018, __c156, 26),
+          recent_surveys: __S(5021, __c156, 29),
+          recent_feature_flags: __S(5024, __c157, 0),
+          recent_experiments: __S(5027, __c157, 3),
+          recent_alerts: __S(5030, __c157, 6),
+          recent_hog_functions: __S(5033, __c157, 9),
+          recent_hog_flows: __S(5036, __c157, 12),
+          recent_notebooks: __S(5039, __c157, 15),
+          recent_cohorts: __S(5042, __c157, 18),
+          recent_actions: __S(5045, __c157, 21),
+          top_events: S.NullOr(__S(5047, __c157, 23)),
         }),
       ).annotate({ identifier: "ProjectProfileInventory" });
     case 25:
       return S.suspend(() =>
         S.Struct({
-          inventory: __S(5016, __c156, 24),
+          inventory: __S(5048, __c157, 24),
         }),
       ).annotate({ identifier: "ProjectProfilePayload" });
     case 26:
       return S.suspend(() =>
         S.Struct({
-          summary: __S(4965, __c155, 5),
+          summary: __S(4997, __c156, 5),
           profile_id: S.String,
           computed_at: S.String,
           expires_at: S.String,
           stale: S.Boolean,
           source_version: S.String,
-          payload: S.optional(__S(5017, __c156, 25)),
+          payload: S.optional(__S(5049, __c157, 25)),
         }),
       ).annotate({ identifier: "ProjectProfile" });
   }
 }
-function __c157(j: number): any {
+function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17386,7 +17529,7 @@ function __c157(j: number): any {
       ).annotate({ identifier: "GetSignalsScoutRubricRequest" });
   }
 }
-function __c158(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17401,7 +17544,7 @@ function __c158(j: number): any {
         }),
       ).annotate({ identifier: "ScoutRubricCriterion" });
     case 1:
-      return S.Array(__S(5056, __c158, 0));
+      return S.Array(__S(5088, __c159, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -17414,10 +17557,10 @@ function __c158(j: number): any {
           instructions_truncated: S.Boolean,
           report_channel: S.String,
           report_disposition_instructions: S.String,
-          reference_files: __S(3840, __c120, 0),
+          reference_files: __S(3872, __c121, 0),
           reference_files_truncated: S.Boolean,
-          reference_texts: __S(3937, __c123, 1),
-          reference_limits: __S(3938, __c123, 2),
+          reference_texts: __S(3969, __c124, 1),
+          reference_limits: __S(3970, __c124, 2),
         }),
       ).annotate({ identifier: "ScoutRubricReferenceContextDocument" });
     case 3:
@@ -17431,9 +17574,9 @@ function __c158(j: number): any {
           task_id: S.NullOr(S.String),
           task_run_id: S.NullOr(S.String),
           error: S.NullOr(S.String),
-          suggestions: __S(5057, __c158, 1),
+          suggestions: __S(5089, __c159, 1),
           summary: S.String,
-          reference_context: S.NullOr(__S(5058, __c158, 2)),
+          reference_context: S.NullOr(__S(5090, __c159, 2)),
         }),
       ).annotate({ identifier: "ScoutRubricGeneration" });
     case 4:
@@ -17442,15 +17585,15 @@ function __c158(j: number): any {
           config_id: S.String,
           skill_name: S.String,
           revision: S.Number,
-          criteria: __S(5057, __c158, 1),
-          generation: S.NullOr(__S(5059, __c158, 3)),
-          reference_context: S.NullOr(__S(5058, __c158, 2)),
+          criteria: __S(5089, __c159, 1),
+          generation: S.NullOr(__S(5091, __c159, 3)),
+          reference_context: S.NullOr(__S(5090, __c159, 2)),
           reference_generation_id: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "ScoutRubricDocument" });
   }
 }
-function __c159(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17467,7 +17610,7 @@ function __c159(j: number): any {
       ).annotate({ identifier: "GetSignalsScoutRunRequest" });
   }
 }
-function __c160(j: number): any {
+function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17487,15 +17630,15 @@ function __c160(j: number): any {
           error: S.optional(S.NullOr(S.String)),
           failure_reason: S.optional(S.NullOr(S.String)),
           emitted_count: S.Number,
-          emitted_finding_ids: __S(3840, __c120, 0),
-          emitted_report_ids: __S(3840, __c120, 0),
-          edited_report_ids: __S(3840, __c120, 0),
-          metadata: __S(5155, __c161, 3),
+          emitted_finding_ids: __S(3872, __c121, 0),
+          emitted_report_ids: __S(3872, __c121, 0),
+          edited_report_ids: __S(3872, __c121, 0),
+          metadata: __S(5187, __c162, 3),
         }),
       ).annotate({ identifier: "SignalScoutRunDetail" });
   }
 }
-function __c161(j: number): any {
+function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17506,7 +17649,7 @@ function __c161(j: number): any {
         }),
       ).annotate({ identifier: "SignalScoutRunDetailMetadataReportActionStartsItem" });
     case 1:
-      return S.Array(__S(5152, __c161, 0));
+      return S.Array(__S(5184, __c162, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -17533,19 +17676,19 @@ function __c161(j: number): any {
             reasoning_effort: S.optional(S.String),
             service_tier: S.optional(S.String),
             network_access: S.optional(S.String),
-            write_scopes: S.optional(__S(3840, __c120, 0)),
-            report_actions: S.optional(__S(3840, __c120, 0)),
-            report_action_starts: S.optional(__S(5153, __c161, 1)),
+            write_scopes: S.optional(__S(3872, __c121, 0)),
+            report_actions: S.optional(__S(3872, __c121, 0)),
+            report_action_starts: S.optional(__S(5185, __c162, 1)),
             triggered_by: S.optional(S.String),
             run_note: S.optional(S.String),
-            derived: S.optional(__S(5154, __c161, 2)),
+            derived: S.optional(__S(5186, __c162, 2)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "SignalScoutRunDetailMetadata" });
   }
 }
-function __c162(j: number): any {
+function __c163(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17568,25 +17711,26 @@ function __c162(j: number): any {
         }),
       ).annotate({ identifier: "SlackScoutChannel" });
     case 2:
-      return S.Array(__S(5185, __c162, 1));
+      return S.Array(__S(5217, __c163, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          channels: __S(5186, __c162, 2),
+          label: S.String,
+          channels: __S(5218, __c163, 2),
         }),
       ).annotate({ identifier: "SlackScoutChannelSource" });
     case 4:
-      return S.Array(__S(5187, __c162, 3));
+      return S.Array(__S(5219, __c163, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          sources: __S(5188, __c162, 4),
+          sources: __S(5220, __c163, 4),
         }),
       ).annotate({ identifier: "SlackScoutChannelSources" });
   }
 }
-function __c163(j: number): any {
+function __c164(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17603,7 +17747,7 @@ function __c163(j: number): any {
       ).annotate({ identifier: "GetSignalsSourceConfigRequest" });
   }
 }
-function __c164(j: number): any {
+function __c165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17626,29 +17770,29 @@ function __c164(j: number): any {
         }),
       ).annotate({ identifier: "SourceFilterCatalogField" });
     case 2:
-      return S.Array(__S(5249, __c164, 1));
+      return S.Array(__S(5281, __c165, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           source_product: S.String,
           source_type: S.String,
           catalog_version: S.Number,
-          filter_fields: __S(5250, __c164, 2),
-          starter_expressions: __S(3840, __c120, 0),
+          filter_fields: __S(5282, __c165, 2),
+          starter_expressions: __S(3872, __c121, 0),
           preview_supported: S.Boolean,
         }),
       ).annotate({ identifier: "SourceFilterCatalog" });
     case 4:
-      return S.Array(__S(5251, __c164, 3));
+      return S.Array(__S(5283, __c165, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          results: __S(5252, __c164, 4),
+          results: __S(5284, __c165, 4),
         }),
       ).annotate({ identifier: "SourceFilterCatalogList" });
   }
 }
-function __c165(j: number): any {
+function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17668,10 +17812,10 @@ function __c165(j: number): any {
           status: S.String,
           headline: S.NullOr(S.String),
           profile: S.NullOr(S.String),
-          themes: __S(4257, __c133, 1),
-          modes: __S(4192, __c131, 0),
+          themes: __S(4289, __c134, 1),
+          modes: __S(4224, __c132, 0),
           recent_shift: S.NullOr(S.String),
-          computed: S.NullOr(__S(4232, __c132, 8)),
+          computed: S.NullOr(__S(4264, __c133, 8)),
           generated_at: S.NullOr(S.String),
           version: S.Number,
           prompt_version: S.NullOr(S.Number),
@@ -17680,7 +17824,7 @@ function __c165(j: number): any {
       ).annotate({ identifier: "ActivitySummary" });
   }
 }
-function __c166(j: number): any {
+function __c167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17692,7 +17836,7 @@ function __c166(j: number): any {
       ).annotate({ identifier: "ListSignalsConfigRequest" });
   }
 }
-function __c167(j: number): any {
+function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17723,7 +17867,7 @@ function __c167(j: number): any {
       ).annotate({ identifier: "RecordCheckResultResponse" });
   }
 }
-function __c168(j: number): any {
+function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17748,7 +17892,7 @@ function __c168(j: number): any {
       ).annotate({ identifier: "InboxStatus" });
   }
 }
-function __c169(j: number): any {
+function __c170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17771,7 +17915,7 @@ function __c169(j: number): any {
         }),
       ).annotate({ identifier: "InboxSummaryPullRequest" });
     case 2:
-      return S.Array(__S(5409, __c169, 1));
+      return S.Array(__S(5441, __c170, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -17780,7 +17924,7 @@ function __c169(j: number): any {
         }),
       ).annotate({ identifier: "InboxSummaryPerson" });
     case 4:
-      return S.Array(__S(5411, __c169, 3));
+      return S.Array(__S(5443, __c170, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -17789,13 +17933,13 @@ function __c169(j: number): any {
           merged_pr_count: S.Number,
           people_count: S.NullOr(S.Number),
           participation_complete: S.Boolean,
-          pull_requests: __S(5410, __c169, 2),
-          people: S.NullOr(__S(5412, __c169, 4)),
+          pull_requests: __S(5442, __c170, 2),
+          people: S.NullOr(__S(5444, __c170, 4)),
         }),
       ).annotate({ identifier: "InboxSummary" });
   }
 }
-function __c170(j: number): any {
+function __c171(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17811,7 +17955,7 @@ function __c170(j: number): any {
       ).annotate({ identifier: "ListSignalsOnboardingRequest" });
   }
 }
-function __c171(j: number): any {
+function __c172(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17834,19 +17978,19 @@ function __c171(j: number): any {
         }),
       ).annotate({ identifier: "PauseStateResponse" });
     case 2:
-      return S.Array(__S(5473, __c171, 1));
+      return S.Array(__S(5505, __c172, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: S.optional(__S(5474, __c171, 2)),
+          results: S.optional(__S(5506, __c172, 2)),
         }),
       ).annotate({ identifier: "PaginatedPauseStateResponseList" });
   }
 }
-function __c172(j: number): any {
+function __c173(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17879,23 +18023,23 @@ function __c172(j: number): any {
           author: S.String,
           created_at: S.String,
           updated_at: S.String,
-          report: S.NullOr(__S(5505, __c172, 1)),
+          report: S.NullOr(__S(5537, __c173, 1)),
           monitoring_disabled_reason: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "PRBrowserItem" });
     case 3:
-      return S.Array(__S(5506, __c172, 2));
+      return S.Array(__S(5538, __c173, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          results: __S(5507, __c172, 3),
+          results: __S(5539, __c173, 3),
           github_login: S.NullOr(S.String),
           has_integration: S.Boolean,
         }),
       ).annotate({ identifier: "PRBrowserPage" });
   }
 }
-function __c173(j: number): any {
+function __c174(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17914,19 +18058,19 @@ function __c173(j: number): any {
         ),
       ).annotate({ identifier: "ListSignalsReportArtefactsRequest" });
     case 1:
-      return S.Array(__S(4384, __c137, 0));
+      return S.Array(__S(4416, __c138, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(5537, __c173, 1),
+          results: __S(5569, __c174, 1),
         }),
       ).annotate({ identifier: "PaginatedSignalReportArtefactList" });
   }
 }
-function __c174(j: number): any {
+function __c175(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17944,19 +18088,19 @@ function __c174(j: number): any {
         ),
       ).annotate({ identifier: "ListSignalsReportChecksRequest" });
     case 1:
-      return S.Array(__S(4449, __c139, 1));
+      return S.Array(__S(4481, __c140, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(5569, __c174, 1),
+          results: __S(5601, __c175, 1),
         }),
       ).annotate({ identifier: "PaginatedSignalReportCheckList" });
   }
 }
-function __c175(j: number): any {
+function __c176(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17970,7 +18114,7 @@ function __c175(j: number): any {
           count_only: S.optional(S.Boolean.pipe(T.Query())),
           created_after: S.optional(S.String.pipe(T.Query())),
           created_before: S.optional(S.String.pipe(T.Query())),
-          exclude: S.optional(__S(3840, __c120, 0).pipe(T.Query())),
+          exclude: S.optional(__S(3872, __c121, 0).pipe(T.Query())),
           has_implementation_pr: S.optional(S.Boolean.pipe(T.Query())),
           include_all_statuses: S.optional(S.Boolean.pipe(T.Query())),
           include_source_metadata: S.optional(S.Boolean.pipe(T.Query())),
@@ -17994,7 +18138,7 @@ function __c175(j: number): any {
           source_product: S.optional(S.String.pipe(T.Query())),
           status: S.optional(S.String.pipe(T.Query())),
           suggested_reviewers: S.optional(S.String.pipe(T.Query())),
-          tags: S.optional(__S(3840, __c120, 0).pipe(T.Query())),
+          tags: S.optional(__S(3872, __c121, 0).pipe(T.Query())),
           task_id: S.optional(S.String.pipe(T.Query())),
           teammate_uuid: S.optional(S.String.pipe(T.Query())),
           unclaimed: S.optional(S.Boolean.pipe(T.Query())),
@@ -18015,7 +18159,7 @@ function __c175(j: number): any {
         }),
       ).annotate({ identifier: "MonitoringReading" });
     case 2:
-      return S.Array(__S(5601, __c175, 1));
+      return S.Array(__S(5633, __c176, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -18025,12 +18169,12 @@ function __c175(j: number): any {
           metric_kind: S.NullOr(S.String),
           value_format: S.NullOr(S.String),
           unit: S.NullOr(S.String),
-          comparison: __S(5634, __c176, 2),
-          monitoring: __S(5632, __c176, 0),
+          comparison: __S(5666, __c177, 2),
+          monitoring: __S(5664, __c177, 0),
           baseline_value: S.NullOr(S.Number),
           ends_at: S.String,
           next_measurement_at: S.NullOr(S.String),
-          readings: __S(5602, __c175, 2),
+          readings: __S(5634, __c176, 2),
         }),
       ).annotate({ identifier: "MonitoringLeadCheck" });
     case 4:
@@ -18044,15 +18188,15 @@ function __c175(j: number): any {
         }),
       ).annotate({ identifier: "MonitoringCheckSummary" });
     case 5:
-      return S.Array(__S(5604, __c175, 4));
+      return S.Array(__S(5636, __c176, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           state: S.String,
           started_at: S.String,
           ends_at: S.String,
-          lead_check: S.NullOr(__S(5603, __c175, 3)),
-          checks: __S(5605, __c175, 5),
+          lead_check: S.NullOr(__S(5635, __c176, 3)),
+          checks: __S(5637, __c176, 5),
         }),
       ).annotate({ identifier: "ReportMonitoringSummary" });
     case 7:
@@ -18068,7 +18212,7 @@ function __c175(j: number): any {
         S.Struct({
           kind: S.String,
           ended_at: S.String,
-          follow_up: S.NullOr(__S(5607, __c175, 7)),
+          follow_up: S.NullOr(__S(5639, __c176, 7)),
         }),
       ).annotate({ identifier: "ReportMonitoringOutcome" });
     case 9:
@@ -18090,13 +18234,13 @@ function __c175(j: number): any {
         }),
       ).annotate({ identifier: "LinkPlanStep" });
     case 11:
-      return S.Array(__S(5610, __c175, 10));
+      return S.Array(__S(5642, __c176, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           title: S.NullOr(S.String),
-          steps: __S(5611, __c175, 11),
+          steps: __S(5643, __c176, 11),
           lead_step_id: S.String,
         }),
       ).annotate({ identifier: "LinkPlanSummary" });
@@ -18104,18 +18248,18 @@ function __c175(j: number): any {
       return S.suspend(() =>
         S.Struct({
           kind: S.String,
-          report: __S(5609, __c175, 9),
+          report: __S(5641, __c176, 9),
         }),
       ).annotate({ identifier: "OtherReportLink" });
     case 14:
-      return S.Array(__S(5613, __c175, 13));
+      return S.Array(__S(5645, __c176, 13));
     case 15:
       return S.suspend(() =>
         S.Struct({
           kind: S.String,
-          report: S.NullOr(__S(5609, __c175, 9)),
-          plan: S.NullOr(__S(5612, __c175, 12)),
-          other_links: __S(5614, __c175, 14),
+          report: S.NullOr(__S(5641, __c176, 9)),
+          plan: S.NullOr(__S(5644, __c176, 12)),
+          other_links: __S(5646, __c176, 14),
         }),
       ).annotate({ identifier: "ReportLinkSummary" });
     case 16:
@@ -18125,7 +18269,7 @@ function __c175(j: number): any {
           title: S.NullOr(S.String),
           summary: S.NullOr(S.String),
           summary_lead: S.String,
-          reviewer_assignment: S.NullOr(__S(5984, __c187, 0)),
+          reviewer_assignment: S.NullOr(__S(6016, __c188, 0)),
           status: S.String,
           monitoring_started_at: S.optional(S.NullOr(S.String)),
           monitoring_ended_at: S.optional(S.NullOr(S.String)),
@@ -18133,56 +18277,56 @@ function __c175(j: number): any {
           signal_count: S.Number,
           signals_at_run: S.Number,
           collapsed_note_count: S.Number,
-          startup_failure: S.NullOr(__S(5985, __c187, 1)),
+          startup_failure: S.NullOr(__S(6017, __c188, 1)),
           created_at: S.String,
           updated_at: S.String,
           artefact_count: S.Number,
-          charts: __S(5825, __c182, 1),
-          metrics: __S(5665, __c177, 1),
-          suggested_prompts: __S(3840, __c120, 0),
-          tags: __S(3840, __c120, 0),
-          source_suggestion: S.NullOr(__S(5986, __c187, 2)),
+          charts: __S(5857, __c183, 1),
+          metrics: __S(5697, __c178, 1),
+          suggested_prompts: __S(3872, __c121, 0),
+          tags: __S(3872, __c121, 0),
+          source_suggestion: S.NullOr(__S(6018, __c188, 2)),
           priority: S.NullOr(S.String),
           actionability: S.NullOr(S.String),
           already_addressed: S.NullOr(S.Boolean),
-          decisions: S.NullOr(__S(5991, __c187, 7)),
+          decisions: S.NullOr(__S(6023, __c188, 7)),
           dismissal_reason: S.NullOr(S.String),
           dismissal_note: S.NullOr(S.String),
           suppression_source: S.NullOr(S.String),
           suppression_explanation: S.NullOr(S.String),
           repo_slug: S.NullOr(S.String),
           is_self_improvement_report: S.Boolean,
-          research_context: S.NullOr(__S(5992, __c187, 8)),
+          research_context: S.NullOr(__S(6024, __c188, 8)),
           is_suggested_reviewer: S.Boolean,
-          source_products: __S(3840, __c120, 0),
+          source_products: __S(3872, __c121, 0),
           scout_name: S.NullOr(S.String),
           implementation_pr_url: S.NullOr(S.String),
-          pull_requests: __S(5995, __c187, 11),
+          pull_requests: __S(6027, __c188, 11),
           implementation_pr_state: S.NullOr(S.String),
           implementation_pr_merged: S.Boolean,
           tracker_issue_url: S.NullOr(S.String),
           tracker_issue_reference: S.NullOr(S.String),
           tracker_issue_error: S.NullOr(S.String),
-          source_issues: __S(3840, __c120, 0),
+          source_issues: __S(3872, __c121, 0),
           work_state: S.String,
-          assignee: S.NullOr(__S(5996, __c187, 12)),
+          assignee: S.NullOr(__S(6028, __c188, 12)),
           implementation_in_flight: S.Boolean,
-          refund: S.NullOr(__S(5997, __c187, 13)),
+          refund: S.NullOr(__S(6029, __c188, 13)),
           refund_ineligibility_reason: S.NullOr(S.String),
           billing_exempt_reason: S.NullOr(S.String),
           channel_id: S.NullOr(S.String),
-          ranking: __S(5922, __c185, 2),
-          plan: S.NullOr(__S(6000, __c187, 16)),
+          ranking: __S(5954, __c186, 2),
+          plan: S.NullOr(__S(6032, __c188, 16)),
           inbox_merge_key: S.NullOr(S.Number),
           personal_tier: S.NullOr(S.String),
           personal_reason: S.NullOr(S.String),
-          monitoring_summary: S.NullOr(__S(5606, __c175, 6)),
-          monitoring_outcome: S.NullOr(__S(5608, __c175, 8)),
-          link_summary: S.NullOr(__S(5615, __c175, 15)),
+          monitoring_summary: S.NullOr(__S(5638, __c176, 6)),
+          monitoring_outcome: S.NullOr(__S(5640, __c176, 8)),
+          link_summary: S.NullOr(__S(5647, __c176, 15)),
         }),
       ).annotate({ identifier: "SignalReportList" });
     case 17:
-      return S.Array(__S(5616, __c175, 16));
+      return S.Array(__S(5648, __c176, 16));
     case 18:
       return S.suspend(() =>
         S.Struct({
@@ -18200,10 +18344,10 @@ function __c175(j: number): any {
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(5617, __c175, 17),
+          results: __S(5649, __c176, 17),
           ranker: S.optional(S.NullOr(S.String)),
           ranking_id: S.optional(S.NullOr(S.String)),
-          personal_ranking_status: S.optional(S.NullOr(__S(5618, __c175, 18))),
+          personal_ranking_status: S.optional(S.NullOr(__S(5650, __c176, 18))),
           count_is_capped: S.optional(S.Boolean),
           ranking_pill: S.optional(S.NullOr(S.Boolean)),
           source_metadata_available: S.optional(S.Boolean),
@@ -18211,7 +18355,7 @@ function __c175(j: number): any {
       ).annotate({ identifier: "PaginatedSignalReportListList" });
   }
 }
-function __c176(j: number): any {
+function __c177(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18234,12 +18378,12 @@ function __c176(j: number): any {
         S.Struct({
           operator: S.String,
           value: S.optional(S.NullOr(S.Number)),
-          bounds: S.optional(S.NullOr(__S(5633, __c176, 1))),
+          bounds: S.optional(S.NullOr(__S(5665, __c177, 1))),
         }),
       ).annotate({ identifier: "CheckComparison" });
   }
 }
-function __c177(j: number): any {
+function __c178(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18250,8 +18394,8 @@ function __c177(j: number): any {
           role: S.optional(S.String),
           value: S.optional(S.NullOr(S.Number)),
           value_at: S.optional(S.NullOr(S.String)),
-          series: S.optional(S.NullOr(__S(5792, __c181, 0))),
-          series_buckets: S.optional(S.NullOr(__S(3840, __c120, 0))),
+          series: S.optional(S.NullOr(__S(5824, __c182, 0))),
+          series_buckets: S.optional(S.NullOr(__S(3872, __c121, 0))),
           value_format: S.optional(S.String),
           unit: S.optional(S.NullOr(S.String)),
           caption: S.optional(S.NullOr(S.String)),
@@ -18264,10 +18408,10 @@ function __c177(j: number): any {
         }),
       ).annotate({ identifier: "ReportMetricList" });
     case 1:
-      return S.Array(__S(5664, __c177, 0));
+      return S.Array(__S(5696, __c178, 0));
   }
 }
-function __c178(j: number): any {
+function __c179(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18293,16 +18437,16 @@ function __c178(j: number): any {
         }),
       ).annotate({ identifier: "SignalReportTaskAction" });
     case 2:
-      return S.Array(__S(5697, __c178, 1));
+      return S.Array(__S(5729, __c179, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          results: __S(5698, __c178, 2),
+          results: __S(5730, __c179, 2),
         }),
       ).annotate({ identifier: "SignalReportTaskActionListResponse" });
   }
 }
-function __c179(j: number): any {
+function __c180(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18329,18 +18473,18 @@ function __c179(j: number): any {
         }),
       ).annotate({ identifier: "RankingOutcomeInfo" });
     case 2:
-      return S.Array(__S(5729, __c179, 1));
+      return S.Array(__S(5761, __c180, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           status: S.String,
           model: S.NullOr(S.String),
-          outcomes: __S(5730, __c179, 2),
+          outcomes: __S(5762, __c180, 2),
         }),
       ).annotate({ identifier: "RankingOutcomesResponse" });
   }
 }
-function __c180(j: number): any {
+function __c181(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18348,7 +18492,7 @@ function __c180(j: number): any {
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
           claim_id: S.optional(S.String),
-          pull_requests: S.optional(__S(3840, __c120, 0)),
+          pull_requests: S.optional(__S(3872, __c121, 0)),
           takeover: S.optional(S.Boolean),
           takeover_claim_id: S.optional(S.String),
           pr_url: S.optional(S.String),
@@ -18363,13 +18507,13 @@ function __c180(j: number): any {
       ).annotate({ identifier: "ClaimSignalsReportRequest" });
   }
 }
-function __c181(j: number): any {
+function __c182(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Number);
   }
 }
-function __c182(j: number): any {
+function __c183(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18382,10 +18526,10 @@ function __c182(j: number): any {
         }),
       ).annotate({ identifier: "ReportChart" });
     case 1:
-      return S.Array(__S(5824, __c182, 0));
+      return S.Array(__S(5856, __c183, 0));
   }
 }
-function __c183(j: number): any {
+function __c184(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18396,7 +18540,7 @@ function __c183(j: number): any {
       ).annotate({ identifier: "ReviewerState" });
   }
 }
-function __c184(j: number): any {
+function __c185(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18410,7 +18554,7 @@ function __c184(j: number): any {
       ).annotate({ identifier: "User" });
   }
 }
-function __c185(j: number): any {
+function __c186(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18422,19 +18566,19 @@ function __c185(j: number): any {
         }),
       ).annotate({ identifier: "ReportRankingPrediction" });
     case 1:
-      return S.Array(__S(5920, __c185, 0));
+      return S.Array(__S(5952, __c186, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           status: S.String,
           model: S.NullOr(S.String),
           scored_at: S.NullOr(S.String),
-          predictions: __S(5921, __c185, 1),
+          predictions: __S(5953, __c186, 1),
         }),
       ).annotate({ identifier: "ReportRanking" });
   }
 }
-function __c186(j: number): any {
+function __c187(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18445,8 +18589,8 @@ function __c186(j: number): any {
           role: S.optional(S.String),
           value: S.optional(S.NullOr(S.Number)),
           value_at: S.optional(S.NullOr(S.String)),
-          series: S.optional(S.NullOr(__S(5792, __c181, 0))),
-          series_buckets: S.optional(S.NullOr(__S(3840, __c120, 0))),
+          series: S.optional(S.NullOr(__S(5824, __c182, 0))),
+          series_buckets: S.optional(S.NullOr(__S(3872, __c121, 0))),
           value_format: S.optional(S.String),
           unit: S.optional(S.NullOr(S.String)),
           query: S.optional(S.Unknown),
@@ -18459,7 +18603,7 @@ function __c186(j: number): any {
         }),
       ).annotate({ identifier: "ReportMetric" });
     case 1:
-      return S.Array(__S(5952, __c186, 0));
+      return S.Array(__S(5984, __c187, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -18467,7 +18611,7 @@ function __c186(j: number): any {
           title: S.NullOr(S.String),
           summary: S.NullOr(S.String),
           summary_lead: S.String,
-          reviewer_assignment: S.NullOr(__S(5984, __c187, 0)),
+          reviewer_assignment: S.NullOr(__S(6016, __c188, 0)),
           status: S.String,
           monitoring_started_at: S.optional(S.NullOr(S.String)),
           monitoring_ended_at: S.optional(S.NullOr(S.String)),
@@ -18475,58 +18619,58 @@ function __c186(j: number): any {
           signal_count: S.Number,
           signals_at_run: S.Number,
           collapsed_note_count: S.Number,
-          startup_failure: S.NullOr(__S(5985, __c187, 1)),
+          startup_failure: S.NullOr(__S(6017, __c188, 1)),
           created_at: S.String,
           updated_at: S.String,
           artefact_count: S.Number,
-          charts: __S(5825, __c182, 1),
-          metrics: __S(5953, __c186, 1),
-          suggested_prompts: __S(3840, __c120, 0),
-          tags: __S(3840, __c120, 0),
-          source_suggestion: S.NullOr(__S(5986, __c187, 2)),
+          charts: __S(5857, __c183, 1),
+          metrics: __S(5985, __c187, 1),
+          suggested_prompts: __S(3872, __c121, 0),
+          tags: __S(3872, __c121, 0),
+          source_suggestion: S.NullOr(__S(6018, __c188, 2)),
           priority: S.NullOr(S.String),
           actionability: S.NullOr(S.String),
           already_addressed: S.NullOr(S.Boolean),
-          decisions: S.NullOr(__S(5991, __c187, 7)),
+          decisions: S.NullOr(__S(6023, __c188, 7)),
           dismissal_reason: S.NullOr(S.String),
           dismissal_note: S.NullOr(S.String),
           suppression_source: S.NullOr(S.String),
           suppression_explanation: S.NullOr(S.String),
           repo_slug: S.NullOr(S.String),
           is_self_improvement_report: S.Boolean,
-          research_context: S.NullOr(__S(5992, __c187, 8)),
+          research_context: S.NullOr(__S(6024, __c188, 8)),
           is_suggested_reviewer: S.Boolean,
-          source_products: __S(3840, __c120, 0),
+          source_products: __S(3872, __c121, 0),
           scout_name: S.NullOr(S.String),
           implementation_pr_url: S.NullOr(S.String),
-          pull_requests: __S(5995, __c187, 11),
+          pull_requests: __S(6027, __c188, 11),
           implementation_pr_state: S.NullOr(S.String),
           implementation_pr_merged: S.Boolean,
           tracker_issue_url: S.NullOr(S.String),
           tracker_issue_reference: S.NullOr(S.String),
           tracker_issue_error: S.NullOr(S.String),
-          source_issues: __S(3840, __c120, 0),
+          source_issues: __S(3872, __c121, 0),
           work_state: S.String,
-          assignee: S.NullOr(__S(5996, __c187, 12)),
+          assignee: S.NullOr(__S(6028, __c188, 12)),
           implementation_in_flight: S.Boolean,
-          refund: S.NullOr(__S(5997, __c187, 13)),
+          refund: S.NullOr(__S(6029, __c188, 13)),
           refund_ineligibility_reason: S.NullOr(S.String),
           billing_exempt_reason: S.NullOr(S.String),
           channel_id: S.NullOr(S.String),
-          ranking: __S(5922, __c185, 2),
-          plan: S.NullOr(__S(6000, __c187, 16)),
+          ranking: __S(5954, __c186, 2),
+          plan: S.NullOr(__S(6032, __c188, 16)),
         }),
       ).annotate({ identifier: "SignalReport" });
   }
 }
-function __c187(j: number): any {
+function __c188(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          state: __S(5856, __c183, 0),
-          pinned_user_uuids: __S(3840, __c120, 0),
-          excluded_user_uuids: __S(3840, __c120, 0),
+          state: __S(5888, __c184, 0),
+          pinned_user_uuids: __S(3872, __c121, 0),
+          excluded_user_uuids: __S(3872, __c121, 0),
           confirmed: S.Boolean,
           needs_review: S.Boolean,
           enabled: S.Boolean,
@@ -18555,7 +18699,7 @@ function __c187(j: number): any {
       return S.suspend(() =>
         S.Struct({
           kind: S.String,
-          user: S.NullOr(__S(5888, __c184, 0)),
+          user: S.NullOr(__S(5920, __c185, 0)),
           agent: S.NullOr(S.String),
           task_id: S.NullOr(S.String),
         }),
@@ -18564,7 +18708,7 @@ function __c187(j: number): any {
       return S.suspend(() =>
         S.Struct({
           reason: S.NullOr(S.String),
-          set_by: __S(5987, __c187, 3),
+          set_by: __S(6019, __c188, 3),
           set_at: S.String,
           value: S.NullOr(S.String),
         }),
@@ -18573,7 +18717,7 @@ function __c187(j: number): any {
       return S.suspend(() =>
         S.Struct({
           reason: S.NullOr(S.String),
-          set_by: __S(5987, __c187, 3),
+          set_by: __S(6019, __c188, 3),
           set_at: S.String,
           value: S.NullOr(S.String),
         }),
@@ -18582,7 +18726,7 @@ function __c187(j: number): any {
       return S.suspend(() =>
         S.Struct({
           reason: S.NullOr(S.String),
-          set_by: __S(5987, __c187, 3),
+          set_by: __S(6019, __c188, 3),
           set_at: S.String,
           value: S.NullOr(S.Boolean),
         }),
@@ -18590,10 +18734,10 @@ function __c187(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          repository: S.NullOr(__S(5988, __c187, 4)),
-          priority: S.NullOr(__S(5989, __c187, 5)),
-          actionability: S.NullOr(__S(5988, __c187, 4)),
-          already_addressed: S.NullOr(__S(5990, __c187, 6)),
+          repository: S.NullOr(__S(6020, __c188, 4)),
+          priority: S.NullOr(__S(6021, __c188, 5)),
+          actionability: S.NullOr(__S(6020, __c188, 4)),
+          already_addressed: S.NullOr(__S(6022, __c188, 6)),
         }),
       ).annotate({ identifier: "ReportDecisions" });
     case 8:
@@ -18607,7 +18751,7 @@ function __c187(j: number): any {
       return S.suspend(() =>
         S.Struct({
           kind: S.NullOr(S.String),
-          user: S.NullOr(__S(5888, __c184, 0)),
+          user: S.NullOr(__S(5920, __c185, 0)),
           agent: S.NullOr(S.String),
           task_id: S.NullOr(S.String),
         }),
@@ -18621,23 +18765,23 @@ function __c187(j: number): any {
           merged: S.Boolean,
           review_decision: S.NullOr(S.String),
           merged_at: S.NullOr(S.String),
-          attached_by: S.NullOr(__S(5993, __c187, 9)),
+          attached_by: S.NullOr(__S(6025, __c188, 9)),
           claim_id: S.NullOr(S.String),
           attached_at: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "SignalReportPullRequest" });
     case 11:
-      return S.Array(__S(5994, __c187, 10));
+      return S.Array(__S(6026, __c188, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
           claim_id: S.NullOr(S.String),
           kind: S.String,
-          user: S.NullOr(__S(5888, __c184, 0)),
+          user: S.NullOr(__S(5920, __c185, 0)),
           task_id: S.NullOr(S.String),
           agent: S.NullOr(S.String),
           claimed_at: S.NullOr(S.String),
-          responsible_user: S.NullOr(__S(5888, __c184, 0)),
+          responsible_user: S.NullOr(__S(5920, __c185, 0)),
         }),
       ).annotate({ identifier: "SignalReportAssignee" });
     case 13:
@@ -18661,26 +18805,26 @@ function __c187(j: number): any {
           id: S.String,
           title: S.NullOr(S.String),
           status: S.String,
-          depends_on: __S(3840, __c120, 0),
+          depends_on: __S(3872, __c121, 0),
           implementation_pr_url: S.NullOr(S.String),
           implementation_pr_state: S.NullOr(S.String),
           suppression_source: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "ReportPlanStep" });
     case 15:
-      return S.Array(__S(5998, __c187, 14));
+      return S.Array(__S(6030, __c188, 14));
     case 16:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           title: S.NullOr(S.String),
           status: S.String,
-          steps: __S(5999, __c187, 15),
+          steps: __S(6031, __c188, 15),
         }),
       ).annotate({ identifier: "ReportPlan" });
   }
 }
-function __c188(j: number): any {
+function __c189(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18695,14 +18839,14 @@ function __c188(j: number): any {
         ),
       ).annotate({ identifier: "ListSignalsReviewerExclusionsRequest" });
     case 1:
-      return S.Array(__S(3264, __c102, 0));
+      return S.Array(__S(3296, __c103, 0));
     case 2:
-      return S.suspend(() => __S(6017, __c188, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(6049, __c189, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListSignalsReviewerExclusionsResponse",
       });
   }
 }
-function __c189(j: number): any {
+function __c190(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18721,17 +18865,17 @@ function __c189(j: number): any {
       ).annotate({ identifier: "ListSignalsScoutConfigRequest" });
   }
 }
-function __c190(j: number): any {
+function __c191(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(3397, __c106, 5));
+      return S.Array(__S(3433, __c107, 9));
     case 1:
-      return S.suspend(() => __S(6080, __c190, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(6112, __c191, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListSignalsScoutConfigResponse",
       });
   }
 }
-function __c191(j: number): any {
+function __c192(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18757,7 +18901,7 @@ function __c191(j: number): any {
         }),
       ).annotate({ identifier: "ScoutMemberTeam" });
     case 2:
-      return S.Array(__S(6113, __c191, 1));
+      return S.Array(__S(6145, __c192, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -18766,14 +18910,14 @@ function __c191(j: number): any {
         }),
       ).annotate({ identifier: "ScoutMemberActivityObject" });
     case 4:
-      return S.Array(__S(6115, __c191, 3));
+      return S.Array(__S(6147, __c192, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           headline: S.NullOr(S.String),
-          themes: __S(3840, __c120, 0),
-          owned: __S(6116, __c191, 4),
-          watched: __S(6116, __c191, 4),
+          themes: __S(3872, __c121, 0),
+          owned: __S(6148, __c192, 4),
+          watched: __S(6148, __c192, 4),
           generated_at: S.NullOr(S.String),
           stale: S.Boolean,
         }),
@@ -18786,19 +18930,19 @@ function __c191(j: number): any {
           first_name: S.String,
           last_name: S.String,
           github_login: S.NullOr(S.String),
-          teams: __S(6114, __c191, 2),
-          activity: S.optional(S.NullOr(__S(6117, __c191, 5))),
+          teams: __S(6146, __c192, 2),
+          activity: S.optional(S.NullOr(__S(6149, __c192, 5))),
         }),
       ).annotate({ identifier: "ScoutMember" });
     case 7:
-      return S.Array(__S(6118, __c191, 6));
+      return S.Array(__S(6150, __c192, 6));
     case 8:
-      return S.suspend(() => __S(6119, __c191, 7).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(6151, __c192, 7).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListSignalsScoutMembersResponse",
       });
   }
 }
-function __c192(j: number): any {
+function __c193(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18822,14 +18966,14 @@ function __c192(j: number): any {
         ),
       ).annotate({ identifier: "ListSignalsScoutNotesRequest" });
     case 1:
-      return S.Array(__S(3584, __c112, 0));
+      return S.Array(__S(3616, __c113, 0));
     case 2:
-      return S.suspend(() => __S(6145, __c192, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(6177, __c193, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListSignalsScoutNotesResponse",
       });
   }
 }
-function __c193(j: number): any {
+function __c194(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18846,17 +18990,17 @@ function __c193(j: number): any {
       ).annotate({ identifier: "ListSignalsScoutReportCheckRequest" });
   }
 }
-function __c194(j: number): any {
+function __c195(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(4864, __c152, 0));
+      return S.Array(__S(4896, __c153, 0));
     case 1:
-      return S.suspend(() => __S(6208, __c194, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(6240, __c195, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListSignalsScoutReportCheckResponse",
       });
   }
 }
-function __c195(j: number): any {
+function __c196(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18874,7 +19018,7 @@ function __c195(j: number): any {
       ).annotate({ identifier: "ListSignalsScoutReportChecksRequest" });
   }
 }
-function __c196(j: number): any {
+function __c197(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18912,18 +19056,18 @@ function __c196(j: number): any {
           status: S.NullOr(S.String),
           task_summary: S.NullOr(S.String),
           question: S.NullOr(S.String),
-          started_by: S.NullOr(__S(6273, __c196, 1)),
+          started_by: S.NullOr(__S(6305, __c197, 1)),
         }),
       ).annotate({ identifier: "ScoutReportDiscussion" });
     case 3:
-      return S.Array(__S(6274, __c196, 2));
+      return S.Array(__S(6306, __c197, 2));
     case 4:
-      return S.suspend(() => __S(6275, __c196, 3).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(6307, __c197, 3).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListSignalsScoutReportDiscussionsResponse",
       });
   }
 }
-function __c197(j: number): any {
+function __c198(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18947,7 +19091,7 @@ function __c197(j: number): any {
       ).annotate({ identifier: "ListSignalsScoutRunsRequest" });
   }
 }
-function __c198(j: number): any {
+function __c199(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18968,21 +19112,21 @@ function __c198(j: number): any {
           error: S.optional(S.NullOr(S.String)),
           failure_reason: S.optional(S.NullOr(S.String)),
           emitted_count: S.Number,
-          emitted_finding_ids: __S(3840, __c120, 0),
-          emitted_report_ids: __S(3840, __c120, 0),
-          edited_report_ids: __S(3840, __c120, 0),
-          metadata: __S(5155, __c161, 3),
+          emitted_finding_ids: __S(3872, __c121, 0),
+          emitted_report_ids: __S(3872, __c121, 0),
+          edited_report_ids: __S(3872, __c121, 0),
+          metadata: __S(5187, __c162, 3),
         }),
       ).annotate({ identifier: "SignalScoutRunSummary" });
     case 1:
-      return S.Array(__S(6336, __c198, 0));
+      return S.Array(__S(6368, __c199, 0));
     case 2:
-      return S.suspend(() => __S(6337, __c198, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(6369, __c199, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListSignalsScoutRunsResponse",
       });
   }
 }
-function __c199(j: number): any {
+function __c200(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19002,13 +19146,13 @@ function __c199(j: number): any {
           status: S.String,
           generated_at: S.NullOr(S.String),
           model: S.String,
-          fleet_snapshot: __S(3840, __c120, 0),
+          fleet_snapshot: __S(3872, __c121, 0),
           items: __S(960, __c30, 0),
         }),
       ).annotate({ identifier: "ScoutSuggestionSet" });
   }
 }
-function __c200(j: number): any {
+function __c201(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19025,19 +19169,19 @@ function __c200(j: number): any {
         ),
       ).annotate({ identifier: "ListSignalsSourceConfigsRequest" });
     case 1:
-      return S.Array(__S(3713, __c116, 1));
+      return S.Array(__S(3745, __c117, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: S.optional(__S(6401, __c200, 1)),
+          results: S.optional(__S(6433, __c201, 1)),
         }),
       ).annotate({ identifier: "PaginatedSignalSourceConfigListOutput" });
   }
 }
-function __c201(j: number): any {
+function __c202(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19048,12 +19192,12 @@ function __c201(j: number): any {
         }),
       ).annotate({ identifier: "AnomalySeriesRef" });
     case 1:
-      return S.Array(__S(6432, __c201, 0));
+      return S.Array(__S(6464, __c202, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          series: __S(6433, __c201, 1),
+          series: __S(6465, __c202, 1),
         }).pipe(
           T.Http({
             method: "POST",
@@ -19069,21 +19213,21 @@ function __c201(j: number): any {
           series_key: S.String,
           interval: S.String,
           date_from: S.String,
-          points: __S(6465, __c202, 1),
+          points: __S(6497, __c203, 1),
         }),
       ).annotate({ identifier: "AnomalySeriesPoints" });
     case 4:
-      return S.Array(__S(6435, __c201, 3));
+      return S.Array(__S(6467, __c202, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           date_to: S.String,
-          series: __S(6436, __c201, 4),
+          series: __S(6468, __c202, 4),
         }),
       ).annotate({ identifier: "AnomalyPointsResponse" });
   }
 }
-function __c202(j: number): any {
+function __c203(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19096,10 +19240,10 @@ function __c202(j: number): any {
         }),
       ).annotate({ identifier: "AnomalySeriesPoint" });
     case 1:
-      return S.Array(__S(6464, __c202, 0));
+      return S.Array(__S(6496, __c203, 0));
   }
 }
-function __c203(j: number): any {
+function __c204(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19111,7 +19255,7 @@ function __c203(j: number): any {
       ).annotate({ identifier: "ListSignalsTrialRequest" });
   }
 }
-function __c204(j: number): any {
+function __c205(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19127,7 +19271,7 @@ function __c204(j: number): any {
       ).annotate({ identifier: "PauseSignalsProcessingDestroyRequest" });
   }
 }
-function __c205(j: number): any {
+function __c206(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19138,7 +19282,7 @@ function __c205(j: number): any {
       ).annotate({ identifier: "PauseResponse" });
   }
 }
-function __c206(j: number): any {
+function __c207(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19154,7 +19298,7 @@ function __c206(j: number): any {
       ).annotate({ identifier: "RefreshSignalsScoutSuggestionRequest" });
   }
 }
-function __c207(j: number): any {
+function __c208(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19172,7 +19316,7 @@ function __c207(j: number): any {
       ).annotate({ identifier: "ResumeSignalsScoutConfigTrialComparisonRequest" });
   }
 }
-function __c208(j: number): any {
+function __c209(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19191,7 +19335,7 @@ function __c208(j: number): any {
       ).annotate({ identifier: "ReviewSignalsReportPrCommentDestroyRequest" });
   }
 }
-function __c209(j: number): any {
+function __c210(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19211,7 +19355,7 @@ function __c209(j: number): any {
       ).annotate({ identifier: "ReviewSignalsReportPrCommentReactionDestroyRequest" });
   }
 }
-function __c210(j: number): any {
+function __c211(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19229,14 +19373,14 @@ function __c210(j: number): any {
       ).annotate({ identifier: "RunSignalsScoutConfigRequest" });
   }
 }
-function __c211(j: number): any {
+function __c212(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           active_since_days: S.optional(S.Number.pipe(T.Query())),
-          exclude_user_uuids: S.optional(__S(3840, __c120, 0).pipe(T.Query())),
+          exclude_user_uuids: S.optional(__S(3872, __c121, 0).pipe(T.Query())),
           include_profile: S.optional(S.Boolean.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           mode: S.optional(S.String.pipe(T.Query())),
@@ -19247,7 +19391,7 @@ function __c211(j: number): any {
           product: S.optional(S.String.pipe(T.Query())),
           query: S.optional(S.String.pipe(T.Query())),
           search_mode: S.optional(S.String.pipe(T.Query())),
-          user_uuids: S.optional(__S(3840, __c120, 0).pipe(T.Query())),
+          user_uuids: S.optional(__S(3872, __c121, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -19264,7 +19408,7 @@ function __c211(j: number): any {
         }),
       ).annotate({ identifier: "ActivitySummarySearchMatch" });
     case 2:
-      return S.Array(__S(6753, __c211, 1));
+      return S.Array(__S(6785, __c212, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -19279,7 +19423,7 @@ function __c211(j: number): any {
         }),
       ).annotate({ identifier: "ActivitySummarySearchObject" });
     case 4:
-      return S.Array(__S(6755, __c211, 3));
+      return S.Array(__S(6787, __c212, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -19288,23 +19432,23 @@ function __c211(j: number): any {
           last_name: S.String,
           github_login: S.NullOr(S.String),
           score: S.NullOr(S.Number),
-          matched_on: __S(6754, __c211, 2),
-          objects: __S(6756, __c211, 4),
+          matched_on: __S(6786, __c212, 2),
+          objects: __S(6788, __c212, 4),
           headline: S.NullOr(S.String),
-          themes: __S(4257, __c133, 1),
-          modes: __S(4192, __c131, 0),
-          products: __S(4258, __c133, 2),
+          themes: __S(4289, __c134, 1),
+          modes: __S(4224, __c132, 0),
+          products: __S(4290, __c134, 2),
           generated_at: S.NullOr(S.String),
           stale: S.Boolean,
           profile: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "ActivitySummarySearchHit" });
     case 6:
-      return S.Array(__S(6757, __c211, 5));
+      return S.Array(__S(6789, __c212, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          results: __S(6758, __c211, 6),
+          results: __S(6790, __c212, 6),
           total: S.Number,
           semantic_used: S.Boolean,
           not_ready_count: S.Number,
@@ -19312,7 +19456,7 @@ function __c211(j: number): any {
       ).annotate({ identifier: "ActivitySummarySearchResult" });
   }
 }
-function __c212(j: number): any {
+function __c213(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19343,22 +19487,22 @@ function __c212(j: number): any {
           summary_snippet: S.String,
           dismissal_reason: S.NullOr(S.String),
           dismissal_note: S.NullOr(S.String),
-          match_kinds: __S(4192, __c131, 0),
+          match_kinds: __S(4224, __c132, 0),
           score: S.Number,
         }),
       ).annotate({ identifier: "SignalReportSearchHit" });
     case 2:
-      return S.Array(__S(6785, __c212, 1));
+      return S.Array(__S(6817, __c213, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          results: __S(6786, __c212, 2),
+          results: __S(6818, __c213, 2),
           semantic_available: S.Boolean,
         }),
       ).annotate({ identifier: "SignalReportSearchResponse" });
   }
 }
-function __c213(j: number): any {
+function __c214(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19385,14 +19529,14 @@ function __c213(j: number): any {
         ),
       ).annotate({ identifier: "SearchSignalsScoutScratchpadRequest" });
     case 1:
-      return S.Array(__S(6851, __c214, 3));
+      return S.Array(__S(6883, __c215, 3));
     case 2:
-      return S.suspend(() => __S(6817, __c213, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(6849, __c214, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "SearchSignalsScoutScratchpadResponse",
       });
   }
 }
-function __c214(j: number): any {
+function __c215(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19407,7 +19551,7 @@ function __c214(j: number): any {
         }),
       ).annotate({ identifier: "ScratchpadRevision" });
     case 1:
-      return S.Array(__S(6848, __c214, 0));
+      return S.Array(__S(6880, __c215, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -19429,11 +19573,11 @@ function __c214(j: number): any {
           created_by_run_id: S.NullOr(S.String),
           created_by_skill: S.optional(S.NullOr(S.String)),
           created_by_run_url: S.optional(S.NullOr(S.String)),
-          revisions: S.optional(S.NullOr(__S(6849, __c214, 1))),
+          revisions: S.optional(S.NullOr(__S(6881, __c215, 1))),
           expired: S.optional(S.Boolean),
           last_changed_by_skill: S.optional(S.NullOr(S.String)),
           last_changed_at: S.optional(S.NullOr(S.String)),
-          revived_expiry: S.optional(S.NullOr(__S(6850, __c214, 2))),
+          revived_expiry: S.optional(S.NullOr(__S(6882, __c215, 2))),
         }),
       ).annotate({ identifier: "ScratchpadEntry" });
   }

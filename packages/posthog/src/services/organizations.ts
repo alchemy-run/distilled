@@ -2120,24 +2120,24 @@ export interface TeamWorkflowsConfig {
   /** How many hours a marketing message over the frequency cap waits for a free slot before it is skipped. Null skips it right away. */
   marketing_frequency_cap_hold_hours?: number | null | undefined;
 }
-/** Domains to block from /flags requests, up to 100. A domain also covers its subdomains. It is compared with the Origin header, or with Referer when Origin is missing or names no domain. */
+/** Domains to block from /flags requests, up to 100. A domain also covers its subdomains. It is compared with Origin, or with Referer when Origin names no domain. */
 export type TeamFeatureFlagPolicyConfigBlockedHostsList = Array<string>;
 /** IP addresses or CIDR ranges to block from /flags requests, up to 100. The widest ranges are /8 for IPv4 and /16 for IPv6. */
 export type TeamFeatureFlagPolicyConfigBlockedIpsList = Array<string>;
-/** Domains allowed to make /flags requests, up to 100. When not empty, pages whose domain is not listed or is hidden get no flags. Requests with no Origin and no Referer, such as those from server-side and mobile SDKs, are not checked. Same rules as blocked_hosts, but shared hosting domains such as vercel.app are rejected. A blocked domain wins. */
+/** Domains allowed to make /flags requests, up to 100. When not empty, pages whose domain is not listed or is hidden get no flags. Requests without Origin or Referer, such as from server-side and mobile SDKs, are not checked. Same rules as blocked_hosts, but shared hosts such as vercel.app are rejected. A blocked domain wins. */
 export type TeamFeatureFlagPolicyConfigAllowedHostsList = Array<string>;
-/** IP addresses or CIDR ranges allowed to make /flags requests, up to 100. When not empty, every other caller gets no flags, including servers and browsers on allowed domains. Behind a reverse proxy, the proxy's address is checked, so requests through the managed reverse proxy get no flags. Entries follow the same rules as blocked_ips. A blocked address wins. */
+/** IP addresses or CIDR ranges allowed to make /flags requests, up to 100. When not empty, all other callers get no flags, even browsers on allowed domains. Add IPv6 addresses too, as callers may connect over IPv6. Behind a proxy, such as the managed reverse proxy, the proxy's address is checked. Same entry rules as blocked_ips. A blocked address wins. */
 export type TeamFeatureFlagPolicyConfigAllowedIpsList = Array<string>;
 export interface TeamFeatureFlagPolicyConfig {
   /** When enabled, a new feature flag needs at least one tag, and a tagged flag cannot lose its last one. A create that declares it comes from a survey, experiment, early access feature, product tour, or web experiment is exempt, because those forms have no tag input. The caller sets that declaration, so a flag can still be created without a tag. */
   require_tags?: boolean | undefined;
-  /** Domains to block from /flags requests, up to 100. A domain also covers its subdomains. It is compared with the Origin header, or with Referer when Origin is missing or names no domain. */
+  /** Domains to block from /flags requests, up to 100. A domain also covers its subdomains. It is compared with Origin, or with Referer when Origin names no domain. */
   blocked_hosts?: TeamFeatureFlagPolicyConfigBlockedHostsList | undefined;
   /** IP addresses or CIDR ranges to block from /flags requests, up to 100. The widest ranges are /8 for IPv4 and /16 for IPv6. */
   blocked_ips?: TeamFeatureFlagPolicyConfigBlockedIpsList | undefined;
-  /** Domains allowed to make /flags requests, up to 100. When not empty, pages whose domain is not listed or is hidden get no flags. Requests with no Origin and no Referer, such as those from server-side and mobile SDKs, are not checked. Same rules as blocked_hosts, but shared hosting domains such as vercel.app are rejected. A blocked domain wins. */
+  /** Domains allowed to make /flags requests, up to 100. When not empty, pages whose domain is not listed or is hidden get no flags. Requests without Origin or Referer, such as from server-side and mobile SDKs, are not checked. Same rules as blocked_hosts, but shared hosts such as vercel.app are rejected. A blocked domain wins. */
   allowed_hosts?: TeamFeatureFlagPolicyConfigAllowedHostsList | undefined;
-  /** IP addresses or CIDR ranges allowed to make /flags requests, up to 100. When not empty, every other caller gets no flags, including servers and browsers on allowed domains. Behind a reverse proxy, the proxy's address is checked, so requests through the managed reverse proxy get no flags. Entries follow the same rules as blocked_ips. A blocked address wins. */
+  /** IP addresses or CIDR ranges allowed to make /flags requests, up to 100. When not empty, all other callers get no flags, even browsers on allowed domains. Add IPv6 addresses too, as callers may connect over IPv6. Behind a proxy, such as the managed reverse proxy, the proxy's address is checked. Same entry rules as blocked_ips. A blocked address wins. */
   allowed_ips?: TeamFeatureFlagPolicyConfigAllowedIpsList | undefined;
 }
 /** * `0` - Disabled * `1` - Stateless * `2` - Stateful */
@@ -2248,6 +2248,7 @@ export interface CreateOrganizationsProjectRequest {
   marketing_analytics_config?: TeamMarketingAnalyticsConfig | undefined;
   customer_analytics_config?: TeamCustomerAnalyticsConfig | undefined;
   workflows_config?: TeamWorkflowsConfig | undefined;
+  /** A list sent replaces the saved one. Omitted fields are kept. */
   feature_flag_policy_config?: TeamFeatureFlagPolicyConfig | undefined;
   base_currency?: BaseCurrencyEnum | (string & {}) | undefined;
   /** Enables capturing clicks that had no effect (rage-click detection). */
@@ -2516,6 +2517,7 @@ export interface ProjectBackwardCompat {
   marketing_analytics_config?: TeamMarketingAnalyticsConfig | undefined;
   customer_analytics_config?: TeamCustomerAnalyticsConfig | undefined;
   workflows_config?: TeamWorkflowsConfig | undefined;
+  /** A list sent replaces the saved one. Omitted fields are kept. */
   feature_flag_policy_config?: TeamFeatureFlagPolicyConfig | undefined;
   base_currency?: BaseCurrencyEnum | undefined;
   /** Enables capturing clicks that had no effect (rage-click detection). */
@@ -2679,6 +2681,7 @@ export interface CreateOrganizationsProjectsChangeOrganizationRequest {
   marketing_analytics_config?: TeamMarketingAnalyticsConfig | undefined;
   customer_analytics_config?: TeamCustomerAnalyticsConfig | undefined;
   workflows_config?: TeamWorkflowsConfig | undefined;
+  /** A list sent replaces the saved one. Omitted fields are kept. */
   feature_flag_policy_config?: TeamFeatureFlagPolicyConfig | undefined;
   base_currency?: BaseCurrencyEnum | (string & {}) | undefined;
   /** Enables capturing clicks that had no effect (rage-click detection). */
@@ -2844,6 +2847,7 @@ export interface CreateOrganizationsProjectsDefaultEvaluationContextRequest {
   marketing_analytics_config?: TeamMarketingAnalyticsConfig | undefined;
   customer_analytics_config?: TeamCustomerAnalyticsConfig | undefined;
   workflows_config?: TeamWorkflowsConfig | undefined;
+  /** A list sent replaces the saved one. Omitted fields are kept. */
   feature_flag_policy_config?: TeamFeatureFlagPolicyConfig | undefined;
   base_currency?: BaseCurrencyEnum | (string & {}) | undefined;
   /** Enables capturing clicks that had no effect (rage-click detection). */
@@ -4902,6 +4906,7 @@ export interface OrganizationsProjectsAddProductIntentPartialUpdateRequest {
   marketing_analytics_config?: TeamMarketingAnalyticsConfig | undefined;
   customer_analytics_config?: TeamCustomerAnalyticsConfig | undefined;
   workflows_config?: TeamWorkflowsConfig | undefined;
+  /** A list sent replaces the saved one. Omitted fields are kept. */
   feature_flag_policy_config?: TeamFeatureFlagPolicyConfig | undefined;
   base_currency?: BaseCurrencyEnum | (string & {}) | undefined;
   /** Enables capturing clicks that had no effect (rage-click detection). */
@@ -5114,6 +5119,7 @@ export interface OrganizationsProjectsGenerateConversationsPublicTokenCreateRequ
   marketing_analytics_config?: TeamMarketingAnalyticsConfig | undefined;
   customer_analytics_config?: TeamCustomerAnalyticsConfig | undefined;
   workflows_config?: TeamWorkflowsConfig | undefined;
+  /** A list sent replaces the saved one. Omitted fields are kept. */
   feature_flag_policy_config?: TeamFeatureFlagPolicyConfig | undefined;
   base_currency?: BaseCurrencyEnum | (string & {}) | undefined;
   /** Enables capturing clicks that had no effect (rage-click detection). */
@@ -5277,6 +5283,7 @@ export interface OrganizationsProjectsResetTokenPartialUpdateRequest {
   marketing_analytics_config?: TeamMarketingAnalyticsConfig | undefined;
   customer_analytics_config?: TeamCustomerAnalyticsConfig | undefined;
   workflows_config?: TeamWorkflowsConfig | undefined;
+  /** A list sent replaces the saved one. Omitted fields are kept. */
   feature_flag_policy_config?: TeamFeatureFlagPolicyConfig | undefined;
   base_currency?: BaseCurrencyEnum | (string & {}) | undefined;
   /** Enables capturing clicks that had no effect (rage-click detection). */
@@ -5674,6 +5681,7 @@ export interface UpdateOrganizationsProjectRequest {
   marketing_analytics_config?: TeamMarketingAnalyticsConfig | undefined;
   customer_analytics_config?: TeamCustomerAnalyticsConfig | undefined;
   workflows_config?: TeamWorkflowsConfig | undefined;
+  /** A list sent replaces the saved one. Omitted fields are kept. */
   feature_flag_policy_config?: TeamFeatureFlagPolicyConfig | undefined;
   base_currency?: BaseCurrencyEnum | (string & {}) | undefined;
   /** Enables capturing clicks that had no effect (rage-click detection). */
@@ -5848,6 +5856,7 @@ export interface UpdateOrganizationsProjectsCompleteProductOnboardingPartialRequ
   marketing_analytics_config?: TeamMarketingAnalyticsConfig | undefined;
   customer_analytics_config?: TeamCustomerAnalyticsConfig | undefined;
   workflows_config?: TeamWorkflowsConfig | undefined;
+  /** A list sent replaces the saved one. Omitted fields are kept. */
   feature_flag_policy_config?: TeamFeatureFlagPolicyConfig | undefined;
   base_currency?: BaseCurrencyEnum | (string & {}) | undefined;
   /** Enables capturing clicks that had no effect (rage-click detection). */
@@ -6013,6 +6022,7 @@ export interface UpdateOrganizationsProjectsDefaultReleaseConditionRequest {
   marketing_analytics_config?: TeamMarketingAnalyticsConfig | undefined;
   customer_analytics_config?: TeamCustomerAnalyticsConfig | undefined;
   workflows_config?: TeamWorkflowsConfig | undefined;
+  /** A list sent replaces the saved one. Omitted fields are kept. */
   feature_flag_policy_config?: TeamFeatureFlagPolicyConfig | undefined;
   base_currency?: BaseCurrencyEnum | (string & {}) | undefined;
   /** Enables capturing clicks that had no effect (rage-click detection). */
@@ -6178,6 +6188,7 @@ export interface UpdateOrganizationsProjectsExperimentsConfigPartialRequest {
   marketing_analytics_config?: TeamMarketingAnalyticsConfig | undefined;
   customer_analytics_config?: TeamCustomerAnalyticsConfig | undefined;
   workflows_config?: TeamWorkflowsConfig | undefined;
+  /** A list sent replaces the saved one. Omitted fields are kept. */
   feature_flag_policy_config?: TeamFeatureFlagPolicyConfig | undefined;
   base_currency?: BaseCurrencyEnum | (string & {}) | undefined;
   /** Enables capturing clicks that had no effect (rage-click detection). */
@@ -6361,6 +6372,7 @@ export interface UpdateOrganizationsProjectsPartialRequest {
   marketing_analytics_config?: TeamMarketingAnalyticsConfig | undefined;
   customer_analytics_config?: TeamCustomerAnalyticsConfig | undefined;
   workflows_config?: TeamWorkflowsConfig | undefined;
+  /** A list sent replaces the saved one. Omitted fields are kept. */
   feature_flag_policy_config?: TeamFeatureFlagPolicyConfig | undefined;
   base_currency?: BaseCurrencyEnum | (string & {}) | undefined;
   /** Enables capturing clicks that had no effect (rage-click detection). */

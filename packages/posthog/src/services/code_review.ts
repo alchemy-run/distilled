@@ -133,7 +133,13 @@ export interface CodeReviewApprovalRepository {
   routing_fork_labels: CodeReviewApprovalRepositoryRoutingForkLabelsMap;
   /** Whether a clean PostHog Review run on a pull request that opened or was marked ready starts a silent auto-approval review of that head, whatever review_mode says. A silent review posts only an approval: any other verdict is stored and nothing is written to the pull request. Only for review_mode 'label' in a repository where PostHog Review runs automatic reviews: 'all' refuses it, and setting review_mode to 'all' turns it off. With routing_mode 'fallback', a head waits for that silent review before routing. Defaults to false. */
   review_on_clean_external_review: boolean;
-  /** The caller's access level on the code review auto-approval resource, resolved for the team that owns this row. 'editor' can turn reviews on. 'manager' is required to turn them off or to change review_mode, trigger_label, routing_mode, routing_fork_labels or review_on_clean_external_review. */
+  /** Whether `stamp --allow-broadcast` and review requests with allow_broadcast set to true may ask people to review. When auto-approval does not approve the pull request, it posts the pull request to broadcast_slack_channel_id. Turning it on needs a channel. Defaults to false. */
+  broadcast_enabled: boolean;
+  /** Slack channel ID, such as 'C0123456789', where auto-approval posts pull requests that need a person to review. It uses the project's Slack integration, which must be able to post in the channel. Blank when no channel is set. */
+  broadcast_slack_channel_id: string;
+  /** Display name of the Slack channel in broadcast_slack_channel_id, without the '#'. Letters, digits, '-' and '_' only, up to 80 characters, like a Slack channel name. Shown in replies only, so a stale name does not change where requests go. */
+  broadcast_slack_channel_name: string;
+  /** The caller's access level on the code review auto-approval resource, resolved for the team that owns this row. 'editor' can turn reviews on. 'manager' is required to turn them off or to change review_mode, trigger_label, routing_mode, routing_fork_labels, review_on_clean_external_review, broadcast_enabled, broadcast_slack_channel_id or broadcast_slack_channel_name. */
   user_access_level: string | null;
   created_at: string;
   updated_at: string;
@@ -253,6 +259,12 @@ export interface CreateCodeReviewApprovalsRepositoryRequest {
   routing_fork_labels?: CreateCodeReviewApprovalsRepositoryRequestRoutingForkLabelsMap | undefined;
   /** Whether a clean PostHog Review run on a pull request that opened or was marked ready starts a silent auto-approval review of that head, whatever review_mode says. A silent review posts only an approval: any other verdict is stored and nothing is written to the pull request. Only for review_mode 'label' in a repository where PostHog Review runs automatic reviews: 'all' refuses it, and setting review_mode to 'all' turns it off. With routing_mode 'fallback', a head waits for that silent review before routing. Defaults to false. */
   review_on_clean_external_review?: boolean | undefined;
+  /** Whether `stamp --allow-broadcast` and review requests with allow_broadcast set to true may ask people to review. When auto-approval does not approve the pull request, it posts the pull request to broadcast_slack_channel_id. Turning it on needs a channel. Defaults to false. */
+  broadcast_enabled?: boolean | undefined;
+  /** Slack channel ID, such as 'C0123456789', where auto-approval posts pull requests that need a person to review. It uses the project's Slack integration, which must be able to post in the channel. Blank when no channel is set. */
+  broadcast_slack_channel_id?: string | undefined;
+  /** Display name of the Slack channel in broadcast_slack_channel_id, without the '#'. Letters, digits, '-' and '_' only, up to 80 characters, like a Slack channel name. Shown in replies only, so a stale name does not change where requests go. */
+  broadcast_slack_channel_name?: string | undefined;
 }
 export interface CreateCodeReviewApprovalsRunRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -261,6 +273,10 @@ export interface CreateCodeReviewApprovalsRunRequest {
   repository: string;
   /** Pull request number on GitHub. */
   pr_number: number;
+  /** Also ask people to review. Auto-approval reviews first. When it does not approve, it posts the pull request to the repository's Slack channel for people to review. When it approves, nothing is posted. The repository must have broadcasting turned on. Asking again returns the request that is already active. Only set it when the user asks for people to review. */
+  allow_broadcast?: boolean | undefined;
+  /** A short note for the people who review, shown in Slack only and never on GitHub. Needs allow_broadcast set to true. A request that is already active keeps its note. */
+  note?: string | undefined;
 }
 /** * `self_driving` - Self-driving * `bot_admission` - Bot author * `manual` - Manual * `reviewhog_clean` - Clean PostHog Review * `label` - Label * `all` - All */
 export type ReviewTriggerEnum =
@@ -307,6 +323,53 @@ export interface ReviewReasoning {
   /** A plain-language summary of what the change does. */
   change_summary: string | null;
 }
+/** * `pending` - Waiting for Stamphog * `open` - Waiting for a person * `approved` - Approved by a person * `stamphog_approved` - Approved by Stamphog * `merged` - Merged * `closed` - Closed */
+export type BroadcastRequestStatusEnum =
+  | "pending"
+  | "open"
+  | "approved"
+  | "stamphog_approved"
+  | "merged"
+  | "closed";
+/** * `github` - Pull request comment * `slack` - Slack * `api` - API * `slack_link` - Slack link */
+export type BroadcastRequestSourceEnum = "github" | "slack" | "api" | "slack_link";
+/** Slack display names of the people who said they will look, in the order they said it. */
+export type CodeReviewApprovalBroadcastRequestLookingList = Array<string>;
+/** * `slack_message` - Slack message */
+export type BroadcastRequestDeliveryKindEnum = "slack_message";
+export interface CodeReviewApprovalBroadcastRequestDelivery {
+  /** Where the request was posted. 'slack_message' is a message in the repository's Slack channel. * `slack_message` - Slack message */
+  kind: BroadcastRequestDeliveryKindEnum;
+  /** Link that opens the posted message, as Slack returned it. Null when Slack did not return one. */
+  url: string | null;
+}
+/** Where the request was posted. Empty until auto-approval does not approve. */
+export type CodeReviewApprovalBroadcastRequestDeliveriesList =
+  Array<CodeReviewApprovalBroadcastRequestDelivery>;
+export interface CodeReviewApprovalBroadcastRequest {
+  /** ID of the Broadcast request. */
+  id: string;
+  /** 'pending' while auto-approval reviews the head, so nothing is posted yet. 'open' when auto-approval did not approve and the request waits for a person. 'approved' when a person approved the current head; a new push sets 'open' again. 'stamphog_approved' when auto-approval approved, so no person needs to look. 'merged' or 'closed' when the pull request merged or closed. Only 'pending', 'open' and 'approved' are active, and a pull request has at most one active request. * `pending` - Waiting for Stamphog * `open` - Waiting for a person * `approved` - Approved by a person * `stamphog_approved` - Approved by Stamphog * `merged` - Merged * `closed` - Closed */
+  status: BroadcastRequestStatusEnum;
+  /** The pull request head the request follows. A push moves it. */
+  head_sha: string;
+  /** Where the request came from: a pull request comment ('github'), a Slack mention ('slack') or the API ('api'). * `github` - Pull request comment * `slack` - Slack * `api` - API * `slack_link` - Slack link */
+  requested_via: BroadcastRequestSourceEnum;
+  /** The requester's note for the people who review, shown in Slack only. Blank when there is none. */
+  note: string;
+  /** Slack display names of the people who said they will look, in the order they said it. */
+  looking: CodeReviewApprovalBroadcastRequestLookingList;
+  /** GitHub login of the person whose approval of the current head set 'approved'. Blank otherwise. */
+  approved_by_login: string;
+  /** Where the request was posted. Empty until auto-approval does not approve. */
+  deliveries: CodeReviewApprovalBroadcastRequestDeliveriesList;
+  /** How many broadcast messages the requester caused in the 7 days up to this request's message, this one included. Counted once when the message is posted. Null until then. */
+  requester_card_count: number | null;
+  /** When somebody asked for people to review. */
+  created_at: string;
+  /** When the request last changed. */
+  updated_at: string;
+}
 export interface ReviewRun {
   id: string;
   /** ID of the pull request this review run belongs to. */
@@ -347,6 +410,8 @@ export interface ReviewRun {
   verdict_posted_at: string | null;
   /** When this run's GitHub approval was retracted because the head moved, null if it wasn't. */
   approval_dismissed_at: string | null;
+  /** The newest request for people to review this pull request, or null when nobody asked. Set by a review request with allow_broadcast set to true, or by `@posthog stamp --allow-broadcast`. It belongs to the pull request, so every run of the pull request shows it. */
+  broadcast_request: CodeReviewApprovalBroadcastRequest | null;
   /** When the review run was created. */
   created_at: string;
   /** When the review run was last updated. */
@@ -360,6 +425,8 @@ export interface ReviewRequestResponse {
   run: ReviewRun;
   /** True when this request queued a new run. False when a queued, running, or finished run already covered the current head, which is returned instead. */
   created: boolean;
+  /** The request for people to review that this request made or found active. Null unless allow_broadcast was true. */
+  broadcast_request: CodeReviewApprovalBroadcastRequest | null;
 }
 /** * `all` - All repositories * `selected` - Only selected repositories */
 export type ReviewInstallationClaimScopeEnum = "all" | "selected";
@@ -718,6 +785,8 @@ export interface CodeReviewApprovalPullRequest {
   routing_mode: RoutingModeEnum;
   /** The latest reviewer routing record of the pull request, or null when routing never wrote one: routing is off, the pull request is still a draft, or no routing event arrived yet. Use the routing runs list for the owners each run requested or cut. */
   routing: CodeReviewApprovalPullRequestRouting | null;
+  /** The newest request for people to review this pull request, or null when nobody asked. Set by a review request with allow_broadcast set to true, or by `@posthog stamp --allow-broadcast`. */
+  broadcast_request: CodeReviewApprovalBroadcastRequest | null;
   /** When this pull request was first captured. */
   created_at: string;
   /** When this pull request was last updated. */
@@ -1905,6 +1974,12 @@ export interface UpdateCodeReviewApprovalsRepositoryRequest {
   routing_fork_labels?: UpdateCodeReviewApprovalsRepositoryRequestRoutingForkLabelsMap | undefined;
   /** Whether a clean PostHog Review run on a pull request that opened or was marked ready starts a silent auto-approval review of that head, whatever review_mode says. A silent review posts only an approval: any other verdict is stored and nothing is written to the pull request. Only for review_mode 'label' in a repository where PostHog Review runs automatic reviews: 'all' refuses it, and setting review_mode to 'all' turns it off. With routing_mode 'fallback', a head waits for that silent review before routing. Defaults to false. */
   review_on_clean_external_review?: boolean | undefined;
+  /** Whether `stamp --allow-broadcast` and review requests with allow_broadcast set to true may ask people to review. When auto-approval does not approve the pull request, it posts the pull request to broadcast_slack_channel_id. Turning it on needs a channel. Defaults to false. */
+  broadcast_enabled?: boolean | undefined;
+  /** Slack channel ID, such as 'C0123456789', where auto-approval posts pull requests that need a person to review. It uses the project's Slack integration, which must be able to post in the channel. Blank when no channel is set. */
+  broadcast_slack_channel_id?: string | undefined;
+  /** Display name of the Slack channel in broadcast_slack_channel_id, without the '#'. Letters, digits, '-' and '_' only, up to 80 characters, like a Slack channel name. Shown in replies only, so a stale name does not change where requests go. */
+  broadcast_slack_channel_name?: string | undefined;
 }
 /** On fork pull requests, routing adds the mapped label instead of requesting a review from the team, so an outside author cannot notify it. Keys are owners.yaml team slugs such as 'team-devex', values are GitHub label names. A team with no entry gets a review request as usual. Sending the field replaces the whole map, and an empty object removes every label. */
 export type UpdateCodeReviewApprovalsRepositoryPartialRequestRoutingForkLabelsMap = {
@@ -1934,6 +2009,12 @@ export interface UpdateCodeReviewApprovalsRepositoryPartialRequest {
     | undefined;
   /** Whether a clean PostHog Review run on a pull request that opened or was marked ready starts a silent auto-approval review of that head, whatever review_mode says. A silent review posts only an approval: any other verdict is stored and nothing is written to the pull request. Only for review_mode 'label' in a repository where PostHog Review runs automatic reviews: 'all' refuses it, and setting review_mode to 'all' turns it off. With routing_mode 'fallback', a head waits for that silent review before routing. Defaults to false. */
   review_on_clean_external_review?: boolean | undefined;
+  /** Whether `stamp --allow-broadcast` and review requests with allow_broadcast set to true may ask people to review. When auto-approval does not approve the pull request, it posts the pull request to broadcast_slack_channel_id. Turning it on needs a channel. Defaults to false. */
+  broadcast_enabled?: boolean | undefined;
+  /** Slack channel ID, such as 'C0123456789', where auto-approval posts pull requests that need a person to review. It uses the project's Slack integration, which must be able to post in the channel. Blank when no channel is set. */
+  broadcast_slack_channel_id?: string | undefined;
+  /** Display name of the Slack channel in broadcast_slack_channel_id, without the '#'. Letters, digits, '-' and '_' only, up to 80 characters, like a Slack channel name. Shown in replies only, so a stale name does not change where requests go. */
+  broadcast_slack_channel_name?: string | undefined;
 }
 export interface UpdateCodeReviewBlindSpotPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -2332,7 +2413,7 @@ export const getCodeReviewApprovalsRun: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c24, 0) as any as S.Schema<GetCodeReviewApprovalsRunRequest>,
-  output: __S(1203, __c75, 3) as any as S.Schema<ReviewRun>,
+  output: __S(1219, __c76, 3) as any as S.Schema<ReviewRun>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3339,6 +3420,7 @@ function __c18(j: number): any {
           changed_files: S.Number,
           routing_mode: S.String,
           routing: S.NullOr(__S(288, __c18, 0)),
+          broadcast_request: S.NullOr(__S(1202, __c75, 2)),
           created_at: S.String,
           updated_at: S.String,
         }),
@@ -4172,7 +4254,7 @@ function __c39(j: number): any {
         ),
       ).annotate({ identifier: "ListCodeReviewApprovalsRunsRequest" });
     case 1:
-      return S.Array(__S(1203, __c75, 3));
+      return S.Array(__S(1219, __c76, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -4375,6 +4457,9 @@ function __c50(j: number): any {
           routing_mode: S.String,
           routing_fork_labels: __S(800, __c50, 0),
           review_on_clean_external_review: S.Boolean,
+          broadcast_enabled: S.Boolean,
+          broadcast_slack_channel_id: S.String,
+          broadcast_slack_channel_name: S.String,
           user_access_level: S.NullOr(S.String),
           created_at: S.String,
           updated_at: S.String,
@@ -4550,6 +4635,9 @@ function __c60(j: number): any {
           routing_mode: S.optional(S.String),
           routing_fork_labels: S.optional(__S(800, __c50, 0)),
           review_on_clean_external_review: S.optional(S.Boolean),
+          broadcast_enabled: S.optional(S.Boolean),
+          broadcast_slack_channel_id: S.optional(S.String),
+          broadcast_slack_channel_name: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -4576,6 +4664,9 @@ function __c61(j: number): any {
           routing_mode: S.optional(S.String),
           routing_fork_labels: S.optional(__S(800, __c50, 0)),
           review_on_clean_external_review: S.optional(S.Boolean),
+          broadcast_enabled: S.optional(S.Boolean),
+          broadcast_slack_channel_id: S.optional(S.String),
+          broadcast_slack_channel_name: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -4818,6 +4909,9 @@ function __c73(j: number): any {
           routing_mode: S.optional(S.String),
           routing_fork_labels: S.optional(__S(800, __c50, 0)),
           review_on_clean_external_review: S.optional(S.Boolean),
+          broadcast_enabled: S.optional(S.Boolean),
+          broadcast_slack_channel_id: S.optional(S.String),
+          broadcast_slack_channel_name: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4836,6 +4930,8 @@ function __c74(j: number): any {
           project_id: S.String.pipe(T.Label()),
           repository: S.String,
           pr_number: S.Number,
+          allow_broadcast: S.optional(S.Boolean),
+          note: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4847,13 +4943,43 @@ function __c74(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          run: __S(1203, __c75, 3),
+          run: __S(1219, __c76, 3),
           created: S.Boolean,
+          broadcast_request: S.NullOr(__S(1202, __c75, 2)),
         }),
       ).annotate({ identifier: "ReviewRequestResponse" });
   }
 }
 function __c75(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          kind: S.String,
+          url: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "CodeReviewApprovalBroadcastRequestDelivery" });
+    case 1:
+      return S.Array(__S(1200, __c75, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          status: S.String,
+          head_sha: S.String,
+          requested_via: S.String,
+          note: S.String,
+          looking: __S(1152, __c72, 0),
+          approved_by_login: S.String,
+          deliveries: __S(1201, __c75, 1),
+          requester_card_count: S.NullOr(S.Number),
+          created_at: S.String,
+          updated_at: S.String,
+        }),
+      ).annotate({ identifier: "CodeReviewApprovalBroadcastRequest" });
+  }
+}
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4894,13 +5020,14 @@ function __c75(j: number): any {
           trigger: S.String,
           status: S.String,
           verdict: S.String,
-          gate_result: __S(1200, __c75, 0),
-          output: __S(1201, __c75, 1),
-          reasoning: S.NullOr(__S(1202, __c75, 2)),
+          gate_result: __S(1216, __c76, 0),
+          output: __S(1217, __c76, 1),
+          reasoning: S.NullOr(__S(1218, __c76, 2)),
           error: S.String,
           posted_review_id: S.NullOr(S.Number),
           verdict_posted_at: S.NullOr(S.String),
           approval_dismissed_at: S.NullOr(S.String),
+          broadcast_request: S.NullOr(__S(1202, __c75, 2)),
           created_at: S.String,
           updated_at: S.String,
           completed_at: S.NullOr(S.String),

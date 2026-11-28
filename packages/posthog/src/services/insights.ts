@@ -3873,6 +3873,8 @@ export interface Response8 {
   warnings?: Response8WarningsList | null | undefined;
 }
 export interface WebVitalsPathBreakdownResultItem {
+  /** Number of `$web_vitals` samples for this metric and page in the period. Unset when served from precomputed buckets. */
+  count?: number | null | undefined;
   path?: string | undefined;
   value?: number | undefined;
 }
@@ -4166,6 +4168,7 @@ export type IntegrationKind =
   | "apple-ads"
   | "postgresql"
   | "aws-s3"
+  | "aws-warehouse-sources"
   | "aws-redshift"
   | "s3-compatible"
   | "snowflake"
@@ -5658,7 +5661,9 @@ export interface ExperimentWarehouseNativeRowsLeftOut {
     | ExperimentWarehouseNativeRowsLeftOutExposedWithoutRowsMap
     | null
     | undefined;
-  /** Exposure rows whose variant is not one the flag serves, counted by the value seen. */
+  /** Exposure rows whose variant is not one the flag serves, in total, including the values that `unknown_variants` leaves out. */
+  unknown_variant_rows?: number | null | undefined;
+  /** Exposure rows whose variant is not one the flag serves, counted by the value seen. At most the 50 most common values. */
   unknown_variants?: ExperimentWarehouseNativeRowsLeftOutUnknownVariantsMap | null | undefined;
 }
 export type ExperimentQueryResponseVariantResultsCase0List =
@@ -6388,6 +6393,8 @@ export interface WebVitalsPathBreakdownQuery {
   interval?: IntervalType | (string & {}) | null | undefined;
   kind?: string | undefined;
   metric?: WebVitalsMetric | (string & {}) | undefined;
+  /** Drop pages with fewer samples than this in the period, so a page with a handful of slow loads does not outrank a busy page with a real problem. No floor when omitted. */
+  minSamples?: number | null | undefined;
   /** Modifiers used when performing the query */
   modifiers?: HogQLQueryModifiers | null | undefined;
   orderBy?: WebVitalsPathBreakdownQueryOrderByList | null | undefined;
