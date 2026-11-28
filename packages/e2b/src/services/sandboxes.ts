@@ -108,6 +108,8 @@ export type SandboxNetworkConfigRulesMap = {
 export interface SandboxNetworkConfig {
   /** Whether sandbox URLs accept traffic without the sandbox's traffic access token. When omitted or null on create, the project's default applies, which is true unless the project changed it. */
   allowPublicTraffic?: boolean | null | undefined;
+  /** Whether services listening only on loopback (127.0.0.1, localhost, ::1) inside the sandbox are reachable through sandbox URLs. Services listening on all interfaces are reachable either way. When omitted or null on create, the project's default applies, which is true unless the project changed it. A sandbox keeps the value it was created with through pause and resume. Setting it to false needs a template built with a recent envd: for an older template the create is refused until the template is rebuilt, and a project default of false does not apply, so its sandboxes keep exposing them. */
+  exposeLocalhostPorts?: boolean | null | undefined;
   /** List of allowed destinations for egress traffic. Each entry can be a CIDR block (e.g. "8.8.8.8/32"), a bare IP address (e.g. "8.8.8.8"), or a domain name (e.g. "example.com", "*.example.com"). Allowed entries always take precedence over denied entries. When allowOut contains a domain, the servers in dnsServers (8.8.8.8 by default) are also allowed. */
   allowOut?: SandboxNetworkConfigAllowOutList | undefined;
   /** List of denied CIDR blocks or IP addresses for egress traffic. Domain names are not supported for deny rules. */
@@ -159,6 +161,7 @@ export interface CreateSandboxRequest {
   /** Controls the snapshot kind taken when the sandbox auto-pauses on timeout (only relevant when autoPause is true). When false, the auto-pause drops the in-memory state and persists only the filesystem (a filesystem-only snapshot); resuming it cold-boots (reboots) the sandbox from disk. Such a snapshot cannot be auto-resumed by traffic and must be resumed explicitly, so it cannot be combined with autoResume. Defaults to true (full memory snapshot). */
   autoPauseMemory?: boolean | undefined;
   autoResume?: SandboxAutoResumeConfig | undefined;
+  pausedRetentionSeconds?: number | null | undefined;
   /** Allow sandbox to access the internet. When set to false, it behaves the same as specifying denyOut to 0.0.0.0/0 in the network config. */
   allow_internet_access?: boolean | undefined;
   network?: SandboxNetworkConfig | undefined;
@@ -254,6 +257,10 @@ export interface SandboxDetail {
   network?: SandboxNetworkConfig | undefined;
   lifecycle?: SandboxLifecycle | undefined;
   pauseMode?: SandboxPauseMode | undefined;
+  /** Seconds the sandbox may stay paused and unused before it is deleted. Null when no retention is set. */
+  pausedRetentionSeconds: number | null;
+  /** When the paused sandbox will be deleted. Null while the sandbox is running or pausing, and when no retention is set. */
+  expiresAt: string | null;
   volumeMounts?: SandboxDetailVolumeMountsList | undefined;
 }
 export type ListSandboxesRequestStateList = Array<SandboxState | (string & {})>;
@@ -296,6 +303,10 @@ export interface ListedSandbox {
   state: SandboxState;
   envdVersion: string;
   envdUnresponsiveAtPause?: boolean | undefined;
+  /** Seconds the sandbox may stay paused and unused before it is deleted. Null when no retention is set. */
+  pausedRetentionSeconds: number | null;
+  /** When the paused sandbox will be deleted. Null while the sandbox is running or pausing, and when no retention is set. */
+  expiresAt: string | null;
   volumeMounts?: ListedSandboxVolumeMountsList | undefined;
 }
 export type ListSandboxesResponseBodyList = Array<ListedSandbox>;
@@ -381,6 +392,11 @@ export interface PauseSandboxRequest {
   requireHealthyGuest?: boolean | undefined;
 }
 export interface PauseSandboxResponse {}
+export interface PutSandboxPausedRetentionRequest {
+  sandboxID: string;
+  pausedRetentionSeconds: number | null;
+}
+export interface PutSandboxPausedRetentionResponse {}
 export interface RefreshSandboxRequest {
   sandboxID: string;
   /** Duration for which the sandbox should be kept alive in seconds */
@@ -463,8 +479,8 @@ export const createSandboxSnapshot: API.OperationMethod<
   CreateSandboxSnapshotError,
   E2BOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<CreateSandboxSnapshotRequest>,
-  output: __S(97, __c12, 1) as any as S.Schema<SnapshotInfo>,
+  input: __S(104, __c13, 0) as any as S.Schema<CreateSandboxSnapshotRequest>,
+  output: __S(105, __c13, 1) as any as S.Schema<SnapshotInfo>,
   errors: [],
   serviceErrors: E2BServiceErrors,
   protocol: E2BProtocol,
@@ -481,8 +497,8 @@ export const deleteSandbox: API.OperationMethod<
   DeleteSandboxError,
   E2BOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<DeleteSandboxRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<DeleteSandboxResponse>,
+  input: __S(112, __c14, 0) as any as S.Schema<DeleteSandboxRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<DeleteSandboxResponse>,
   errors: [],
   serviceErrors: E2BServiceErrors,
   protocol: E2BProtocol,
@@ -499,8 +515,8 @@ export const forkSandbox: API.OperationMethod<
   ForkSandboxError,
   E2BOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c15, 0) as any as S.Schema<ForkSandboxRequest>,
-  output: __S(124, __c15, 4) as any as S.Schema<ForkSandboxResponse>,
+  input: __S(128, __c16, 0) as any as S.Schema<ForkSandboxRequest>,
+  output: __S(132, __c16, 4) as any as S.Schema<ForkSandboxResponse>,
   errors: [],
   serviceErrors: E2BServiceErrors,
   protocol: E2BProtocol,
@@ -517,8 +533,8 @@ export const getSandbox: API.OperationMethod<
   GetSandboxError,
   E2BOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c16, 0) as any as S.Schema<GetSandboxRequest>,
-  output: __S(130, __c16, 2) as any as S.Schema<SandboxDetail>,
+  input: __S(136, __c17, 0) as any as S.Schema<GetSandboxRequest>,
+  output: __S(138, __c17, 2) as any as S.Schema<SandboxDetail>,
   errors: [],
   serviceErrors: E2BServiceErrors,
   protocol: E2BProtocol,
@@ -537,8 +553,8 @@ export const listSandboxes: API.PaginatedOperationMethod<
   ListedSandbox
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(137, __c17, 1) as any as S.Schema<ListSandboxesRequest>,
-    output: __S(140, __c17, 4) as any as S.Schema<ListSandboxesResponse>,
+    input: __S(145, __c18, 1) as any as S.Schema<ListSandboxesRequest>,
+    output: __S(148, __c18, 4) as any as S.Schema<ListSandboxesResponse>,
     errors: [],
     serviceErrors: E2BServiceErrors,
     protocol: E2BProtocol,
@@ -563,8 +579,8 @@ export const listSandboxesMetrics: API.OperationMethod<
   ListSandboxesMetricsError,
   E2BOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c18, 0) as any as S.Schema<ListSandboxesMetricsRequest>,
-  output: __S(146, __c18, 2) as any as S.Schema<SandboxesWithMetrics>,
+  input: __S(152, __c19, 0) as any as S.Schema<ListSandboxesMetricsRequest>,
+  output: __S(154, __c19, 2) as any as S.Schema<SandboxesWithMetrics>,
   errors: [],
   serviceErrors: E2BServiceErrors,
   protocol: E2BProtocol,
@@ -581,8 +597,8 @@ export const listSandboxLogs: API.OperationMethod<
   ListSandboxLogsError,
   E2BOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c20, 0) as any as S.Schema<ListSandboxLogsRequest>,
-  output: __S(163, __c20, 3) as any as S.Schema<SandboxLogsV2Response>,
+  input: __S(168, __c21, 0) as any as S.Schema<ListSandboxLogsRequest>,
+  output: __S(171, __c21, 3) as any as S.Schema<SandboxLogsV2Response>,
   errors: [],
   serviceErrors: E2BServiceErrors,
   protocol: E2BProtocol,
@@ -599,8 +615,8 @@ export const listSandboxMetrics: API.OperationMethod<
   ListSandboxMetricsError,
   E2BOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(168, __c21, 0) as any as S.Schema<ListSandboxMetricsRequest>,
-  output: __S(170, __c21, 2) as any as S.Schema<ListSandboxMetricsResponse>,
+  input: __S(176, __c22, 0) as any as S.Schema<ListSandboxMetricsRequest>,
+  output: __S(178, __c22, 2) as any as S.Schema<ListSandboxMetricsResponse>,
   errors: [],
   serviceErrors: E2BServiceErrors,
   protocol: E2BProtocol,
@@ -618,13 +634,31 @@ export const pauseSandbox: API.OperationMethod<
   E2BOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c8, 0) as any as S.Schema<PauseSandboxRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<PauseSandboxResponse>,
+  output: __S(120, __c15, 0) as any as S.Schema<PauseSandboxResponse>,
   errors: [],
   serviceErrors: E2BServiceErrors,
   protocol: E2BProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PauseSandbox",
+}));
+
+export type PutSandboxPausedRetentionError = E2BOpError;
+/** Set the paused sandbox retention Replace the sandbox's paused retention (pausedRetentionSeconds); null removes it. For a paused sandbox the clock restarts: expiresAt becomes the time of the request plus the new retention, or null when the retention is removed. A running sandbox keeps the new retention for when its current run ends. */
+export const putSandboxPausedRetention: API.OperationMethod<
+  PutSandboxPausedRetentionRequest,
+  PutSandboxPausedRetentionResponse,
+  PutSandboxPausedRetentionError,
+  E2BOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(72, __c9, 0) as any as S.Schema<PutSandboxPausedRetentionRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<PutSandboxPausedRetentionResponse>,
+  errors: [],
+  serviceErrors: E2BServiceErrors,
+  protocol: E2BProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutSandboxPausedRetention",
 }));
 
 export type RefreshSandboxError = E2BOpError;
@@ -635,8 +669,8 @@ export const refreshSandbox: API.OperationMethod<
   RefreshSandboxError,
   E2BOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<RefreshSandboxRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<RefreshSandboxResponse>,
+  input: __S(80, __c10, 0) as any as S.Schema<RefreshSandboxRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<RefreshSandboxResponse>,
   errors: [],
   serviceErrors: E2BServiceErrors,
   protocol: E2BProtocol,
@@ -653,8 +687,8 @@ export const setSandboxTimeout: API.OperationMethod<
   SetSandboxTimeoutError,
   E2BOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<SetSandboxTimeoutRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<SetSandboxTimeoutResponse>,
+  input: __S(88, __c11, 0) as any as S.Schema<SetSandboxTimeoutRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<SetSandboxTimeoutResponse>,
   errors: [],
   serviceErrors: E2BServiceErrors,
   protocol: E2BProtocol,
@@ -671,8 +705,8 @@ export const updateSandboxNetwork: API.OperationMethod<
   UpdateSandboxNetworkError,
   E2BOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<UpdateSandboxNetworkRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<UpdateSandboxNetworkResponse>,
+  input: __S(96, __c12, 0) as any as S.Schema<UpdateSandboxNetworkRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<UpdateSandboxNetworkResponse>,
   errors: [],
   serviceErrors: E2BServiceErrors,
   protocol: E2BProtocol,
@@ -750,6 +784,7 @@ function __c2(j: number): any {
           autoPause: S.optional(S.Boolean),
           autoPauseMemory: S.optional(S.Boolean),
           autoResume: S.optional(__S(16, __c2, 0)),
+          pausedRetentionSeconds: S.optional(S.NullOr(S.Number)),
           allow_internet_access: S.optional(S.Boolean),
           network: S.optional(__S(33, __c4, 1)),
           metadata: S.optional(__S(56, __c7, 0)),
@@ -775,6 +810,7 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           allowPublicTraffic: S.optional(S.NullOr(S.Boolean)),
+          exposeLocalhostPorts: S.optional(S.NullOr(S.Boolean)),
           allowOut: S.optional(__S(24, __c3, 0)),
           denyOut: S.optional(__S(24, __c3, 0)),
           dnsServers: S.optional(__S(24, __c3, 0)),
@@ -860,12 +896,25 @@ function __c9(j: number): any {
       return S.suspend(() =>
         S.Struct({
           sandboxID: S.String.pipe(T.Label()),
+          pausedRetentionSeconds: S.NullOr(S.Number),
+        }).pipe(
+          T.Http({ method: "PUT", uri: "/sandboxes/{sandboxID}/paused-retention", code: 200 }),
+        ),
+      ).annotate({ identifier: "PutSandboxPausedRetentionRequest" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sandboxID: S.String.pipe(T.Label()),
           duration: S.optional(S.Number),
         }).pipe(T.Http({ method: "POST", uri: "/sandboxes/{sandboxID}/refreshes", code: 200 })),
       ).annotate({ identifier: "RefreshSandboxRequest" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -876,7 +925,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "SetSandboxTimeoutRequest" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -892,7 +941,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "UpdateSandboxNetworkRequest" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -911,7 +960,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "SnapshotInfo" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -921,13 +970,13 @@ function __c13(j: number): any {
       ).annotate({ identifier: "DeleteSandboxRequest" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteSandboxResponse" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -949,18 +998,18 @@ function __c15(j: number): any {
       return S.suspend(() =>
         S.Struct({
           sandbox: S.optional(__S(8, __c1, 0)),
-          error: S.optional(__S(121, __c15, 1)),
+          error: S.optional(__S(129, __c16, 1)),
         }),
       ).annotate({ identifier: "SandboxForkResult" });
     case 3:
-      return S.Array(__S(122, __c15, 2));
+      return S.Array(__S(130, __c16, 2));
     case 4:
-      return S.suspend(() => __S(123, __c15, 3).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(131, __c16, 3).pipe(T.RawResponseRoot())).annotate({
         identifier: "ForkSandboxResponse",
       });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -995,14 +1044,16 @@ function __c16(j: number): any {
           metadata: S.optional(__S(56, __c7, 0)),
           state: S.String,
           network: S.optional(__S(33, __c4, 1)),
-          lifecycle: S.optional(__S(129, __c16, 1)),
+          lifecycle: S.optional(__S(137, __c17, 1)),
           pauseMode: S.optional(S.String),
+          pausedRetentionSeconds: S.NullOr(S.Number),
+          expiresAt: S.NullOr(S.String),
           volumeMounts: S.optional(__S(49, __c6, 1)),
         }),
       ).annotate({ identifier: "SandboxDetail" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -1010,7 +1061,7 @@ function __c17(j: number): any {
       return S.suspend(() =>
         S.Struct({
           metadata: S.optional(S.String.pipe(T.Query())),
-          state: S.optional(__S(136, __c17, 0).pipe(T.Query(), T.CommaDelimited({}))),
+          state: S.optional(__S(144, __c18, 0).pipe(T.Query(), T.CommaDelimited({}))),
           order: S.optional(S.String.pipe(T.Query())),
           startedAfter: S.optional(S.String.pipe(T.Query())),
           template: S.optional(S.String.pipe(T.Query())),
@@ -1034,21 +1085,23 @@ function __c17(j: number): any {
           state: S.String,
           envdVersion: S.String,
           envdUnresponsiveAtPause: S.optional(S.Boolean),
+          pausedRetentionSeconds: S.NullOr(S.Number),
+          expiresAt: S.NullOr(S.String),
           volumeMounts: S.optional(__S(49, __c6, 1)),
         }),
       ).annotate({ identifier: "ListedSandbox" });
     case 3:
-      return S.Array(__S(138, __c17, 2));
+      return S.Array(__S(146, __c18, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          items: __S(139, __c17, 3).pipe(T.RawResponse()),
+          items: __S(147, __c18, 3).pipe(T.RawResponse()),
           nextToken: S.optional(S.String.pipe(T.Header("X-Next-Token"))),
         }),
       ).annotate({ identifier: "ListSandboxesResponse" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1057,16 +1110,16 @@ function __c18(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/sandboxes/metrics", code: 200 })),
       ).annotate({ identifier: "ListSandboxesMetricsRequest" });
     case 1:
-      return S.Record(S.String, __S(152, __c19, 0));
+      return S.Record(S.String, __S(160, __c20, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          sandboxes: __S(145, __c18, 1),
+          sandboxes: __S(153, __c19, 1),
         }),
       ).annotate({ identifier: "SandboxesWithMetrics" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1084,7 +1137,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "SandboxMetric" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1107,16 +1160,16 @@ function __c20(j: number): any {
         }),
       ).annotate({ identifier: "SandboxLogEntry" });
     case 2:
-      return S.Array(__S(161, __c20, 1));
+      return S.Array(__S(169, __c21, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          logs: __S(162, __c20, 2),
+          logs: __S(170, __c21, 2),
         }),
       ).annotate({ identifier: "SandboxLogsV2Response" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1127,9 +1180,9 @@ function __c21(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/sandboxes/{sandboxID}/metrics", code: 200 })),
       ).annotate({ identifier: "ListSandboxMetricsRequest" });
     case 1:
-      return S.Array(__S(152, __c19, 0));
+      return S.Array(__S(160, __c20, 0));
     case 2:
-      return S.suspend(() => __S(169, __c21, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(177, __c22, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListSandboxMetricsResponse",
       });
   }
