@@ -246,6 +246,12 @@ export interface GetFileMetadataResponse {
   contentType?: string | undefined;
   /** ISO 8601 timestamp of when the file was added to the bucket */
   uploadedAt: string;
+  /** ISO 8601 original file modification time, when set by the uploader */
+  mtime?: string | undefined;
+  /** Sub-millisecond remainder of mtime, in nanoseconds (0-999_999) */
+  mtimeNanos?: number | undefined;
+  /** POSIX st_mode of the file, when set by the uploader */
+  mode?: number | undefined;
 }
 export interface GetResourceGroupRequest {
   namespace: string;
@@ -284,6 +290,8 @@ export interface ListFilesResponseBodyItem {
   mtimeNanos?: number | undefined;
   uploadedAt: string;
   contentType?: string | undefined;
+  /** POSIX st_mode, when set by the uploader. With the S_IFLNK type bits (0o120000), the file is a symlink whose content is the target */
+  mode?: number | undefined;
 }
 export type ListFilesResponseBodyList = Array<ListFilesResponseBodyItem>;
 export type ListFilesResponse = ListFilesResponseBodyList;
@@ -347,6 +355,8 @@ export interface ListPathsInfoResponseBodyItem {
   mtimeNanos?: number | undefined;
   uploadedAt: string;
   contentType?: string | undefined;
+  /** POSIX st_mode, when set by the uploader. With the S_IFLNK type bits (0o120000), the file is a symlink whose content is the target */
+  mode?: number | undefined;
 }
 export type ListPathsInfoResponseBodyList = Array<ListPathsInfoResponseBodyItem>;
 export type ListPathsInfoResponse = ListPathsInfoResponseBodyList;
@@ -452,7 +462,7 @@ export const assignResourceGroup: API.OperationMethod<
 }));
 
 export type BatchFileOperationsError = UnprocessableEntity | HuggingFaceOpError;
-/** Batch file operations Accepts NDJSON (newline-delimited JSON) where each line is an addFile, copyFile, or deleteFile instruction. All add/copy operations must come before all delete operations. JSON-lines payload: ```json '{"type":"addFile","path":"...","xetHash":"...","mtime":...,"mtimeNanos":...,"contentType":"..."}' + '{"type":"copyFile","path":"...","xetHash":"...","sourceRepoType":"...","sourceRepoId":"...","mtime":...,"mtimeNanos":...,"contentType":"..."}' + '{"type":"deleteFile","path":"..."}' ``` */
+/** Batch file operations Accepts NDJSON (newline-delimited JSON) where each line is an addFile, copyFile, updateMetadata, or deleteFile instruction. All add/copy/update operations must come before all delete operations. addFile and copyFile set the whole state of the file: `mtime` and `mode` are cleared when omitted. updateMetadata only changes the metadata it is given, on an existing file, without touching its content or `uploadedAt`. `mode` is the POSIX st_mode (decimal integer); with the S_IFLNK file type bits, the file is a symlink whose content is the target. JSON-lines payload: ```json '{"type":"addFile","path":"...","xetHash":"...","mtime":...,"mtimeNanos":...,"contentType":"...","mode":...}' + '{"type":"copyFile","path":"...","xetHash":"...","sourceRepoType":"...","sourceRepoId":"...","mtime":...,"mtimeNanos":...,"contentType":"...","mode":...}' + '{"type":"updateMetadata","path":"...","mtime":...,"mtimeNanos":...,"contentType":"...","mode":...}' + '{"type":"deleteFile","path":"..."}' ``` */
 export const batchFileOperations: API.OperationMethod<
   BatchFileOperationsRequest,
   BatchFileOperationsResponse,
@@ -755,6 +765,9 @@ function __c2(j: number): any {
           size: S.Number,
           contentType: S.optional(S.String),
           uploadedAt: S.String,
+          mtime: S.optional(S.String),
+          mtimeNanos: S.optional(S.Number),
+          mode: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GetFileMetadataResponse" });
   }
@@ -813,6 +826,7 @@ function __c5(j: number): any {
           mtimeNanos: S.optional(S.Number),
           uploadedAt: S.String,
           contentType: S.optional(S.String),
+          mode: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ListFilesResponseBodyItem" });
     case 1:

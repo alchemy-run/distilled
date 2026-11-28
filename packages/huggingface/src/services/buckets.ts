@@ -284,6 +284,12 @@ export interface GetFileMetadataResponse {
   contentType?: string | undefined;
   /** ISO 8601 timestamp of when the file was added to the bucket */
   uploadedAt: string;
+  /** ISO 8601 original file modification time, when set by the uploader */
+  mtime?: string | undefined;
+  /** Sub-millisecond remainder of mtime, in nanoseconds (0-999_999) */
+  mtimeNanos?: number | undefined;
+  /** POSIX st_mode of the file, when set by the uploader */
+  mode?: number | undefined;
 }
 export interface GetResourceGroupRequest {
   namespace: string;
@@ -322,6 +328,8 @@ export interface ListFilesResponseBodyItem {
   mtimeNanos?: number | undefined;
   uploadedAt: string;
   contentType?: string | undefined;
+  /** POSIX st_mode, when set by the uploader. With the S_IFLNK type bits (0o120000), the file is a symlink whose content is the target */
+  mode?: number | undefined;
 }
 export type ListFilesResponseBodyList = Array<ListFilesResponseBodyItem>;
 export type ListFilesResponse = ListFilesResponseBodyList;
@@ -385,6 +393,8 @@ export interface ListPathsInfoResponseBodyItem {
   mtimeNanos?: number | undefined;
   uploadedAt: string;
   contentType?: string | undefined;
+  /** POSIX st_mode, when set by the uploader. With the S_IFLNK type bits (0o120000), the file is a symlink whose content is the target */
+  mode?: number | undefined;
 }
 export type ListPathsInfoResponseBodyList = Array<ListPathsInfoResponseBodyItem>;
 export type ListPathsInfoResponse = ListPathsInfoResponseBodyList;
@@ -473,7 +483,7 @@ export const assignResourceGroup: API.OperationMethod<
 }));
 
 export type BatchFileOperationsError = UnprocessableEntity | HuggingFaceOpError;
-/** Batch file operations Accepts NDJSON (newline-delimited JSON) where each line is an addFile, copyFile, or deleteFile instruction. All add/copy operations must come before all delete operations. JSON-lines payload: ```json '{"type":"addFile","path":"...","xetHash":"...","mtime":...,"mtimeNanos":...,"contentType":"..."}' + '{"type":"copyFile","path":"...","xetHash":"...","sourceRepoType":"...","sourceRepoId":"...","mtime":...,"mtimeNanos":...,"contentType":"..."}' + '{"type":"deleteFile","path":"..."}' ``` */
+/** Batch file operations Accepts NDJSON (newline-delimited JSON) where each line is an addFile, copyFile, updateMetadata, or deleteFile instruction. All add/copy/update operations must come before all delete operations. addFile and copyFile set the whole state of the file: `mtime` and `mode` are cleared when omitted. updateMetadata only changes the metadata it is given, on an existing file, without touching its content or `uploadedAt`. `mode` is the POSIX st_mode (decimal integer); with the S_IFLNK file type bits, the file is a symlink whose content is the target. JSON-lines payload: ```json '{"type":"addFile","path":"...","xetHash":"...","mtime":...,"mtimeNanos":...,"contentType":"...","mode":...}' + '{"type":"copyFile","path":"...","xetHash":"...","sourceRepoType":"...","sourceRepoId":"...","mtime":...,"mtimeNanos":...,"contentType":"...","mode":...}' + '{"type":"updateMetadata","path":"...","mtime":...,"mtimeNanos":...,"contentType":"...","mode":...}' + '{"type":"deleteFile","path":"..."}' ``` */
 export const batchFileOperations: API.OperationMethod<
   BatchFileOperationsRequest,
   BatchFileOperationsResponse,
@@ -545,7 +555,7 @@ export const duplicateXetFiles: API.OperationMethod<
 }));
 
 export type FollowChangesError = HuggingFaceOpError;
-/** Follow changes Server-sent events (`Accept: text/event-stream`) of the bucket's file changes, so clients can stop polling `/tree`. Events: - `ready`: `{"cursor"}` -- replay (if any) is done, live changes follow. `cursor` may be absent if the feed has seen no change yet. - `changes`: `{"cursor", "changes": [{"path", "op": "add" | "update" | "delete", "size"?, "xetHash"?, "uploadedAt"?, "mtime"?, "mtimeNanos"?}]}` -- a batch of changes coalesced over ~200ms. An `update` only carries the fields that changed (an identical re-upload has just `uploadedAt`); `mtime`/`mtimeNanos` are `null` when a re-upload cleared them. `xetHash` is omitted without content read access. - `reset`: `{"reason": "cursor_too_old"}` -- the requested `cursor`/`since` is older than what the server buffers (about 15 minutes); the stream ends and the client must re-list. A `since` at or after the bucket's `updatedAt` never resets, however old. - `reconnect`: `{"cursor"}` -- sent after 20 minutes or when the server shuts down (deploys), then the stream ends; reconnect with that cursor. Treat any other end of the stream the same way: reconnect with the last cursor you received. A `: ping` comment is sent every 30s. Resume with `?cursor=` (exclusive) or `?since=` (inclusive); without either, only live changes are sent. */
+/** Follow changes Server-sent events (`Accept: text/event-stream`) of the bucket's file changes, so clients can stop polling `/tree`. Events: - `ready`: `{"cursor"}` -- replay (if any) is done, live changes follow. `cursor` may be absent if the feed has seen no change yet. - `changes`: `{"cursor", "changes": [{"path", "op": "add" | "update" | "delete", "size"?, "xetHash"?, "uploadedAt"?, "mtime"?, "mtimeNanos"?, "mode"?, "contentType"?}]}` -- a batch of changes coalesced over ~200ms. An `update` only carries the fields that changed (an identical re-upload has just `uploadedAt`, an `updateMetadata` just the metadata it changed); `mtime`/`mtimeNanos`/`mode` are `null` when a re-upload cleared them. `contentType` is only sent on an `update` that changed it. `xetHash` is omitted without content read access. - `reset`: `{"reason": "cursor_too_old"}` -- the requested `cursor`/`since` is older than what the server buffers (about 15 minutes); the stream ends and the client must re-list. A `since` at or after the bucket's `updatedAt` never resets, however old. - `reconnect`: `{"cursor"}` -- sent after 20 minutes or when the server shuts down (deploys), then the stream ends; reconnect with that cursor. Treat any other end of the stream the same way: reconnect with the last cursor you received. A `: ping` comment is sent every 30s. Resume with `?cursor=` (exclusive) or `?since=` (inclusive); without either, only live changes are sent. */
 export const followChanges: API.OperationMethod<
   FollowChangesRequest,
   FollowChangesResponse,
@@ -827,6 +837,9 @@ function __c5(j: number): any {
           size: S.Number,
           contentType: S.optional(S.String),
           uploadedAt: S.String,
+          mtime: S.optional(S.String),
+          mtimeNanos: S.optional(S.Number),
+          mode: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GetFileMetadataResponse" });
   }
@@ -881,6 +894,7 @@ function __c8(j: number): any {
           mtimeNanos: S.optional(S.Number),
           uploadedAt: S.String,
           contentType: S.optional(S.String),
+          mode: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ListFilesResponseBodyItem" });
     case 1:
