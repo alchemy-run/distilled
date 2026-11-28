@@ -83,6 +83,26 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
+export type DimensionValueMatchTypeEnum =
+  | "EXACT"
+  | "BEGINS_WITH"
+  | "CONTAINS"
+  | "WILDCARD_EXPRESSION";
+/** Represents a DimensionValue resource. */
+export interface DimensionValue {
+  /** The value of the dimension. */
+  value?: string | undefined;
+  /** The kind of resource this is, in this case dfareporting#dimensionValue. */
+  kind?: string | undefined;
+  /** The eTag of this response for caching purposes. */
+  etag?: string | undefined;
+  /** Determines how the 'value' field is matched when filtering. If not specified, defaults to EXACT. If set to WILDCARD_EXPRESSION, '*' is allowed as a placeholder for variable length character sequences, and it can be escaped with a backslash. Note, only paid search dimensions ('dfa:paidSearch*') allow a matchType other than EXACT. */
+  matchType?: DimensionValueMatchTypeEnum | (string & {}) | undefined;
+  /** The ID associated with the value if available. */
+  id?: string | undefined;
+  /** The name of the dimension. */
+  dimensionName?: string | undefined;
+}
 export type CreativeAssetMetadataDetectedFeaturesItemEnum =
   | "CSS_FONT_FACE"
   | "CSS_BACKGROUND_SIZE"
@@ -153,137 +173,109 @@ export type CreativeAssetMetadataDetectedFeaturesItemEnum =
 export type CreativeAssetMetadataDetectedFeaturesItemEnumList = Array<
   CreativeAssetMetadataDetectedFeaturesItemEnum | (string & {})
 >;
-export type CreativeAssetIdTypeEnum = "IMAGE" | "FLASH" | "VIDEO" | "HTML" | "HTML_IMAGE" | "AUDIO";
-/** Creative Asset ID. */
-export interface CreativeAssetId {
-  /** Type of asset to upload. This is a required field. FLASH and IMAGE are no longer supported for new uploads. All image assets should use HTML_IMAGE. */
-  type?: CreativeAssetIdTypeEnum | (string & {}) | undefined;
-  /** Name of the creative asset. This is a required field while inserting an asset. After insertion, this assetIdentifier is used to identify the uploaded asset. Characters in the name must be alphanumeric or one of the following: ".-_ ". Spaces are allowed. */
-  name?: string | undefined;
-}
-export type DimensionValueMatchTypeEnum =
-  | "EXACT"
-  | "BEGINS_WITH"
-  | "CONTAINS"
-  | "WILDCARD_EXPRESSION";
-/** Represents a DimensionValue resource. */
-export interface DimensionValue {
-  /** The name of the dimension. */
-  dimensionName?: string | undefined;
-  /** The ID associated with the value if available. */
-  id?: string | undefined;
-  /** The value of the dimension. */
-  value?: string | undefined;
-  /** The kind of resource this is, in this case dfareporting#dimensionValue. */
-  kind?: string | undefined;
-  /** The eTag of this response for caching purposes. */
-  etag?: string | undefined;
-  /** Determines how the 'value' field is matched when filtering. If not specified, defaults to EXACT. If set to WILDCARD_EXPRESSION, '*' is allowed as a placeholder for variable length character sequences, and it can be escaped with a backslash. Note, only paid search dimensions ('dfa:paidSearch*') allow a matchType other than EXACT. */
-  matchType?: DimensionValueMatchTypeEnum | (string & {}) | undefined;
-}
-export type CreativeCustomEventAdvertiserCustomEventTypeEnum =
-  | "ADVERTISER_EVENT_TIMER"
-  | "ADVERTISER_EVENT_EXIT"
-  | "ADVERTISER_EVENT_COUNTER";
 /** Click-through URL */
 export interface CreativeClickThroughUrl {
-  /** ID of the landing page for the click-through URL. */
-  landingPageId?: string | undefined;
   /** Read-only convenience field representing the actual URL that will be used for this click-through. The URL is computed as follows: - If landingPageId is specified then that landing page's URL is assigned to this field. - Otherwise, the customClickThroughUrl is assigned to this field. */
   computedClickThroughUrl?: string | undefined;
   /** Custom click-through URL. Applicable if the landingPageId field is left unset. */
   customClickThroughUrl?: string | undefined;
+  /** ID of the landing page for the click-through URL. */
+  landingPageId?: string | undefined;
 }
-/** Offset Position. */
-export interface OffsetPosition {
-  /** Offset distance from top side of an asset or a window. */
-  top?: number | undefined;
-  /** Offset distance from left side of an asset or a window. */
-  left?: number | undefined;
+/** Creative Click Tag. */
+export interface ClickTag {
+  /** Parameter name for the specified click tag. For DISPLAY_IMAGE_GALLERY creative assets, this field must match the value of the creative asset's creativeAssetId.name field. */
+  name?: string | undefined;
+  /** Advertiser event name associated with the click tag. This field is used by DISPLAY_IMAGE_GALLERY and HTML5_BANNER creatives. Applicable to DISPLAY when the primary asset type is not HTML_IMAGE. */
+  eventName?: string | undefined;
+  /** Parameter value for the specified click tag. This field contains a click-through url. */
+  clickThroughUrl?: CreativeClickThroughUrl | undefined;
 }
-/** Represents the dimensions of ads, placements, creatives, or creative assets. */
-export interface Size {
-  /** Width of this size. Acceptable values are 0 to 32767, inclusive. */
-  width?: number | undefined;
-  /** Height of this size. Acceptable values are 0 to 32767, inclusive. */
-  height?: number | undefined;
-  /** ID of this size. This is a read-only, auto-generated field. */
-  id?: string | undefined;
-  /** IAB standard size. This is a read-only, auto-generated field. */
-  iab?: boolean | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#size". */
-  kind?: string | undefined;
-}
-export type PopupWindowPropertiesPositionTypeEnum = "CENTER" | "COORDINATES";
-/** Popup Window Properties. */
-export interface PopupWindowProperties {
-  /** Upper-left corner coordinates of the popup window. Applicable if positionType is COORDINATES. */
-  offset?: OffsetPosition | undefined;
-  /** Whether to display the browser menu bar. */
-  showMenuBar?: boolean | undefined;
-  /** Popup dimension for a creative. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA and all VPAID */
-  dimension?: Size | undefined;
-  /** Whether to display the browser tool bar. */
-  showToolBar?: boolean | undefined;
-  /** Whether to display the browser address bar. */
-  showAddressBar?: boolean | undefined;
-  /** Whether to display the browser scroll bar. */
-  showScrollBar?: boolean | undefined;
-  /** Whether to display the browser status bar. */
-  showStatusBar?: boolean | undefined;
-  /** Title of popup window. */
-  title?: string | undefined;
-  /** Popup window position either centered or at specific coordinate. */
-  positionType?: PopupWindowPropertiesPositionTypeEnum | (string & {}) | undefined;
-}
+export type ClickTagList = Array<ClickTag>;
+export type CreativeCustomEventArtworkTypeEnum =
+  | "ARTWORK_TYPE_FLASH"
+  | "ARTWORK_TYPE_HTML5"
+  | "ARTWORK_TYPE_MIXED"
+  | "ARTWORK_TYPE_IMAGE";
 export type CreativeCustomEventTargetTypeEnum =
   | "TARGET_BLANK"
   | "TARGET_TOP"
   | "TARGET_SELF"
   | "TARGET_PARENT"
   | "TARGET_POPUP";
-export type CreativeCustomEventArtworkTypeEnum =
-  | "ARTWORK_TYPE_FLASH"
-  | "ARTWORK_TYPE_HTML5"
-  | "ARTWORK_TYPE_MIXED"
-  | "ARTWORK_TYPE_IMAGE";
+/** Represents the dimensions of ads, placements, creatives, or creative assets. */
+export interface Size {
+  /** ID of this size. This is a read-only, auto-generated field. */
+  id?: string | undefined;
+  /** Width of this size. Acceptable values are 0 to 32767, inclusive. */
+  width?: number | undefined;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#size". */
+  kind?: string | undefined;
+  /** IAB standard size. This is a read-only, auto-generated field. */
+  iab?: boolean | undefined;
+  /** Height of this size. Acceptable values are 0 to 32767, inclusive. */
+  height?: number | undefined;
+}
+export type PopupWindowPropertiesPositionTypeEnum = "CENTER" | "COORDINATES";
+/** Offset Position. */
+export interface OffsetPosition {
+  /** Offset distance from left side of an asset or a window. */
+  left?: number | undefined;
+  /** Offset distance from top side of an asset or a window. */
+  top?: number | undefined;
+}
+/** Popup Window Properties. */
+export interface PopupWindowProperties {
+  /** Popup dimension for a creative. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA and all VPAID */
+  dimension?: Size | undefined;
+  /** Whether to display the browser scroll bar. */
+  showScrollBar?: boolean | undefined;
+  /** Whether to display the browser address bar. */
+  showAddressBar?: boolean | undefined;
+  /** Whether to display the browser status bar. */
+  showStatusBar?: boolean | undefined;
+  /** Whether to display the browser tool bar. */
+  showToolBar?: boolean | undefined;
+  /** Title of popup window. */
+  title?: string | undefined;
+  /** Popup window position either centered or at specific coordinate. */
+  positionType?: PopupWindowPropertiesPositionTypeEnum | (string & {}) | undefined;
+  /** Upper-left corner coordinates of the popup window. Applicable if positionType is COORDINATES. */
+  offset?: OffsetPosition | undefined;
+  /** Whether to display the browser menu bar. */
+  showMenuBar?: boolean | undefined;
+}
+export type CreativeCustomEventAdvertiserCustomEventTypeEnum =
+  | "ADVERTISER_EVENT_TIMER"
+  | "ADVERTISER_EVENT_EXIT"
+  | "ADVERTISER_EVENT_COUNTER";
 /** Creative Custom Event. */
 export interface CreativeCustomEvent {
+  /** Artwork type used by the creative.This is a read-only field. */
+  artworkType?: CreativeCustomEventArtworkTypeEnum | (string & {}) | undefined;
+  /** ID of this event. This is a required field and should not be modified after insertion. */
+  id?: string | undefined;
+  /** Artwork label column, used to link events in Campaign Manager back to events in Studio. This is a required field and should not be modified after insertion. */
+  artworkLabel?: string | undefined;
+  /** User-entered name for the event. */
+  advertiserCustomEventName?: string | undefined;
+  /** Exit click-through URL for the event. This field is used only for exit events. */
+  exitClickThroughUrl?: CreativeClickThroughUrl | undefined;
+  /** Target type used by the event. */
+  targetType?: CreativeCustomEventTargetTypeEnum | (string & {}) | undefined;
+  /** Unique ID of this event used by Reporting and Data Transfer. This is a read-only field. */
+  advertiserCustomEventId?: string | undefined;
   /** Video reporting ID, used to differentiate multiple videos in a single creative. This is a read-only field. */
   videoReportingId?: string | undefined;
+  /** Properties for rich media popup windows. This field is used only for exit events. */
+  popupWindowProperties?: PopupWindowProperties | undefined;
   /** Type of the event. This is a read-only field. */
   advertiserCustomEventType?:
     | CreativeCustomEventAdvertiserCustomEventTypeEnum
     | (string & {})
     | undefined;
-  /** Exit click-through URL for the event. This field is used only for exit events. */
-  exitClickThroughUrl?: CreativeClickThroughUrl | undefined;
-  /** User-entered name for the event. */
-  advertiserCustomEventName?: string | undefined;
-  /** Properties for rich media popup windows. This field is used only for exit events. */
-  popupWindowProperties?: PopupWindowProperties | undefined;
-  /** Target type used by the event. */
-  targetType?: CreativeCustomEventTargetTypeEnum | (string & {}) | undefined;
-  /** Artwork type used by the creative.This is a read-only field. */
-  artworkType?: CreativeCustomEventArtworkTypeEnum | (string & {}) | undefined;
-  /** Artwork label column, used to link events in Campaign Manager back to events in Studio. This is a required field and should not be modified after insertion. */
-  artworkLabel?: string | undefined;
-  /** ID of this event. This is a required field and should not be modified after insertion. */
-  id?: string | undefined;
-  /** Unique ID of this event used by Reporting and Data Transfer. This is a read-only field. */
-  advertiserCustomEventId?: string | undefined;
 }
 export type CreativeCustomEventList = Array<CreativeCustomEvent>;
-/** Creative Click Tag. */
-export interface ClickTag {
-  /** Advertiser event name associated with the click tag. This field is used by DISPLAY_IMAGE_GALLERY and HTML5_BANNER creatives. Applicable to DISPLAY when the primary asset type is not HTML_IMAGE. */
-  eventName?: string | undefined;
-  /** Parameter name for the specified click tag. For DISPLAY_IMAGE_GALLERY creative assets, this field must match the value of the creative asset's creativeAssetId.name field. */
-  name?: string | undefined;
-  /** Parameter value for the specified click tag. This field contains a click-through url. */
-  clickThroughUrl?: CreativeClickThroughUrl | undefined;
-}
-export type ClickTagList = Array<ClickTag>;
 export type CreativeAssetMetadataWarnedValidationRulesItemEnum =
   | "CLICK_TAG_NON_TOP_LEVEL"
   | "CLICK_TAG_MISSING"
@@ -314,36 +306,44 @@ export type CreativeAssetMetadataWarnedValidationRulesItemEnum =
 export type CreativeAssetMetadataWarnedValidationRulesItemEnumList = Array<
   CreativeAssetMetadataWarnedValidationRulesItemEnum | (string & {})
 >;
+export type CreativeAssetIdTypeEnum = "IMAGE" | "FLASH" | "VIDEO" | "HTML" | "HTML_IMAGE" | "AUDIO";
+/** Creative Asset ID. */
+export interface CreativeAssetId {
+  /** Type of asset to upload. This is a required field. FLASH and IMAGE are no longer supported for new uploads. All image assets should use HTML_IMAGE. */
+  type?: CreativeAssetIdTypeEnum | (string & {}) | undefined;
+  /** Name of the creative asset. This is a required field while inserting an asset. After insertion, this assetIdentifier is used to identify the uploaded asset. Characters in the name must be alphanumeric or one of the following: ".-_ ". Spaces are allowed. */
+  name?: string | undefined;
+}
 /** CreativeAssets contains properties of a creative asset file which will be uploaded or has already been uploaded. Refer to the creative sample code for how to upload assets and insert a creative. */
 export interface CreativeAssetMetadata {
-  /** List of feature dependencies for the creative asset that are detected by Campaign Manager. Feature dependencies are features that a browser must be able to support in order to render your HTML5 creative correctly. This is a read-only, auto-generated field. */
-  detectedFeatures?: CreativeAssetMetadataDetectedFeaturesItemEnumList | undefined;
+  /** Dimension value for the numeric ID of the asset. This is a read-only, auto-generated field. */
+  idDimensionValue?: DimensionValue | undefined;
   /** True if the uploaded asset is a rich media asset. This is a read-only, auto-generated field. */
   richMedia?: boolean | undefined;
   /** Numeric ID of the asset. This is a read-only, auto-generated field. */
   id?: string | undefined;
-  /** ID of the creative asset. This is a required field. */
-  assetIdentifier?: CreativeAssetId | undefined;
-  /** Dimension value for the numeric ID of the asset. This is a read-only, auto-generated field. */
-  idDimensionValue?: DimensionValue | undefined;
-  /** List of counter events configured for the asset. This is a read-only, auto-generated field and only applicable to a rich media asset. */
-  counterCustomEvents?: CreativeCustomEventList | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#creativeAssetMetadata". */
   kind?: string | undefined;
-  /** List of timer events configured for the asset. This is a read-only, auto-generated field and only applicable to a rich media asset. */
-  timerCustomEvents?: CreativeCustomEventList | undefined;
+  /** List of feature dependencies for the creative asset that are detected by Campaign Manager. Feature dependencies are features that a browser must be able to support in order to render your HTML5 creative correctly. This is a read-only, auto-generated field. */
+  detectedFeatures?: CreativeAssetMetadataDetectedFeaturesItemEnumList | undefined;
   /** List of detected click tags for assets. This is a read-only, auto-generated field. This field is empty for a rich media asset. */
   clickTags?: ClickTagList | undefined;
+  /** List of counter events configured for the asset. This is a read-only, auto-generated field and only applicable to a rich media asset. */
+  counterCustomEvents?: CreativeCustomEventList | undefined;
   /** Rules validated during code generation that generated a warning. This is a read-only, auto-generated field. Possible values are: - "ADMOB_REFERENCED" - "ASSET_FORMAT_UNSUPPORTED_DCM" - "ASSET_INVALID" - "CLICK_TAG_HARD_CODED" - "CLICK_TAG_INVALID" - "CLICK_TAG_IN_GWD" - "CLICK_TAG_MISSING" - "CLICK_TAG_MORE_THAN_ONE" - "CLICK_TAG_NON_TOP_LEVEL" - "COMPONENT_UNSUPPORTED_DCM" - "ENABLER_UNSUPPORTED_METHOD_DCM" - "EXTERNAL_FILE_REFERENCED" - "FILE_DETAIL_EMPTY" - "FILE_TYPE_INVALID" - "GWD_PROPERTIES_INVALID" - "HTML5_FEATURE_UNSUPPORTED" - "LINKED_FILE_NOT_FOUND" - "MAX_FLASH_VERSION_11" - "MRAID_REFERENCED" - "NOT_SSL_COMPLIANT" - "ORPHANED_ASSET" - "PRIMARY_HTML_MISSING" - "SVG_INVALID" - "ZIP_INVALID" */
   warnedValidationRules?: CreativeAssetMetadataWarnedValidationRulesItemEnumList | undefined;
+  /** List of timer events configured for the asset. This is a read-only, auto-generated field and only applicable to a rich media asset. */
+  timerCustomEvents?: CreativeCustomEventList | undefined;
   /** List of exit events configured for the asset. This is a read-only, auto-generated field and only applicable to a rich media asset. */
   exitCustomEvents?: CreativeCustomEventList | undefined;
+  /** ID of the creative asset. This is a required field. */
+  assetIdentifier?: CreativeAssetId | undefined;
 }
 export interface UploadMediaRequest extends CreativeAssetMetadata {
-  /** Advertiser ID of this creative. This is a required field. */
-  advertiserId: string;
   /** User profile ID associated with this request. */
   profileId: string;
+  /** Advertiser ID of this creative. This is a required field. */
+  advertiserId: string;
 }
 export type UploadMediaError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Inserts a new creative asset. */
@@ -367,105 +367,105 @@ export const uploadMedia: API.OperationMethod<
 function __c0(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.String);
+      return S.suspend(() =>
+        S.Struct({
+          value: S.optional(S.String),
+          kind: S.optional(S.String),
+          etag: S.optional(S.String),
+          matchType: S.optional(S.String),
+          id: S.optional(S.String),
+          dimensionName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DimensionValue" });
     case 1:
+      return S.Array(S.String);
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          computedClickThroughUrl: S.optional(S.String),
+          customClickThroughUrl: S.optional(S.String),
+          landingPageId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreativeClickThroughUrl" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          eventName: S.optional(S.String),
+          clickThroughUrl: S.optional(__S(2, __c0, 2)),
+        }),
+      ).annotate({ identifier: "ClickTag" });
+    case 4:
+      return S.Array(__S(3, __c0, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          width: S.optional(S.Number),
+          kind: S.optional(S.String),
+          iab: S.optional(S.Boolean),
+          height: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "Size" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          left: S.optional(S.Number),
+          top: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "OffsetPosition" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          dimension: S.optional(__S(5, __c0, 5)),
+          showScrollBar: S.optional(S.Boolean),
+          showAddressBar: S.optional(S.Boolean),
+          showStatusBar: S.optional(S.Boolean),
+          showToolBar: S.optional(S.Boolean),
+          title: S.optional(S.String),
+          positionType: S.optional(S.String),
+          offset: S.optional(__S(6, __c0, 6)),
+          showMenuBar: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "PopupWindowProperties" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          artworkType: S.optional(S.String),
+          id: S.optional(S.String),
+          artworkLabel: S.optional(S.String),
+          advertiserCustomEventName: S.optional(S.String),
+          exitClickThroughUrl: S.optional(__S(2, __c0, 2)),
+          targetType: S.optional(S.String),
+          advertiserCustomEventId: S.optional(S.String),
+          videoReportingId: S.optional(S.String),
+          popupWindowProperties: S.optional(__S(7, __c0, 7)),
+          advertiserCustomEventType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreativeCustomEvent" });
+    case 9:
+      return S.Array(__S(8, __c0, 8));
+    case 10:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreativeAssetId" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          dimensionName: S.optional(S.String),
-          id: S.optional(S.String),
-          value: S.optional(S.String),
-          kind: S.optional(S.String),
-          etag: S.optional(S.String),
-          matchType: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DimensionValue" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          landingPageId: S.optional(S.String),
-          computedClickThroughUrl: S.optional(S.String),
-          customClickThroughUrl: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CreativeClickThroughUrl" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          top: S.optional(S.Number),
-          left: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "OffsetPosition" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          width: S.optional(S.Number),
-          height: S.optional(S.Number),
-          id: S.optional(S.String),
-          iab: S.optional(S.Boolean),
-          kind: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Size" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          offset: S.optional(__S(4, __c0, 4)),
-          showMenuBar: S.optional(S.Boolean),
-          dimension: S.optional(__S(5, __c0, 5)),
-          showToolBar: S.optional(S.Boolean),
-          showAddressBar: S.optional(S.Boolean),
-          showScrollBar: S.optional(S.Boolean),
-          showStatusBar: S.optional(S.Boolean),
-          title: S.optional(S.String),
-          positionType: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PopupWindowProperties" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          videoReportingId: S.optional(S.String),
-          advertiserCustomEventType: S.optional(S.String),
-          exitClickThroughUrl: S.optional(__S(3, __c0, 3)),
-          advertiserCustomEventName: S.optional(S.String),
-          popupWindowProperties: S.optional(__S(6, __c0, 6)),
-          targetType: S.optional(S.String),
-          artworkType: S.optional(S.String),
-          artworkLabel: S.optional(S.String),
-          id: S.optional(S.String),
-          advertiserCustomEventId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CreativeCustomEvent" });
-    case 8:
-      return S.Array(__S(7, __c0, 7));
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          eventName: S.optional(S.String),
-          name: S.optional(S.String),
-          clickThroughUrl: S.optional(__S(3, __c0, 3)),
-        }),
-      ).annotate({ identifier: "ClickTag" });
-    case 10:
-      return S.Array(__S(9, __c0, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
-          detectedFeatures: S.optional(__S(0, __c0, 0)),
+          idDimensionValue: S.optional(__S(0, __c0, 0)),
           richMedia: S.optional(S.Boolean),
           id: S.optional(S.String),
-          assetIdentifier: S.optional(__S(1, __c0, 1)),
-          idDimensionValue: S.optional(__S(2, __c0, 2)),
-          counterCustomEvents: S.optional(__S(8, __c0, 8)),
           kind: S.optional(S.String),
-          timerCustomEvents: S.optional(__S(8, __c0, 8)),
-          clickTags: S.optional(__S(10, __c0, 10)),
-          warnedValidationRules: S.optional(__S(0, __c0, 0)),
-          exitCustomEvents: S.optional(__S(8, __c0, 8)),
+          detectedFeatures: S.optional(__S(1, __c0, 1)),
+          clickTags: S.optional(__S(4, __c0, 4)),
+          counterCustomEvents: S.optional(__S(9, __c0, 9)),
+          warnedValidationRules: S.optional(__S(1, __c0, 1)),
+          timerCustomEvents: S.optional(__S(9, __c0, 9)),
+          exitCustomEvents: S.optional(__S(9, __c0, 9)),
+          assetIdentifier: S.optional(__S(10, __c0, 10)),
         }),
       ).annotate({ identifier: "CreativeAssetMetadata" });
     case 12:
@@ -473,8 +473,8 @@ function __c0(j: number): any {
         S.Extend(
           __S(11, __c0, 11),
           S.Struct({
-            advertiserId: S.String.pipe(T.Label()),
             profileId: S.String.pipe(T.Label()),
+            advertiserId: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({

@@ -85,12 +85,12 @@ export class NotFound
   ) {}
 
 export interface CheckFreeAccessPublicationsRequest {
-  /** Required. The URI of the content. */
-  uri?: string | undefined;
-  /** Required. The resource name of the publication. Format: publications/{publication} */
-  name: string;
   /** Required. The HTTP referrer. */
   httpReferrer?: string | undefined;
+  /** Required. The resource name of the publication. Format: publications/{publication} */
+  name: string;
+  /** Required. The URI of the content. */
+  uri?: string | undefined;
 }
 /** Response message for CheckFreeAccess */
 export interface CheckFreeAccessResponse {
@@ -98,10 +98,10 @@ export interface CheckFreeAccessResponse {
   isAllowed?: boolean | undefined;
 }
 export interface CheckProgramAccessPublicationsRequest {
-  /** Required. The canonical `https://` URL of the article being accessed, matching the `` element on the rendered page. When calling the REST `GET` endpoint directly without a client library, callers must percent-encode the `canonicalUrl` query parameter; the service URL-decodes it automatically. */
-  canonicalUrl?: string | undefined;
   /** Required. The specific product ID being accessed. */
   productId?: string | undefined;
+  /** Required. The canonical `https://` URL of the article being accessed, matching the `` element on the rendered page. When calling the REST `GET` endpoint directly without a client library, callers must percent-encode the `canonicalUrl` query parameter; the service URL-decodes it automatically. */
+  canonicalUrl?: string | undefined;
   /** Required. The encrypted site token string received from the Chrome HTTP header. */
   swgUserToken?: string | Redacted.Redacted<string> | undefined;
   /** Required. The resource name of the publication. Format: publications/{publication} */
@@ -117,23 +117,17 @@ export interface CheckProgramAccessResponse {
   /** The entitlement access status. */
   status?: CheckProgramAccessResponseStatusEnum | undefined;
 }
-/** Represents a domain property associated with a publication, typically used to verify ownership and scope access. */
-export interface DomainProperty {
-  /** Required. The URL of the domain property (e.g., "https://example.com"). */
-  url?: string | undefined;
-  /** Output only. Whether the domain ownership has been verified (e.g., via Google Search Console). */
-  ownershipVerified?: boolean | undefined;
+/** Subscription Linking (SL) product settings and status. */
+export interface SlProduct {
+  /** Optional. Whether the Subscription Linking product is enabled. */
+  enabled?: boolean | undefined;
+  /** Optional. The Google Cloud Project number associated with the publication. */
+  gcpProjectNumber?: string | undefined;
 }
 export type PublicationPublicationTypeEnum =
   | "PUBLICATION_TYPE_UNSPECIFIED"
   | "FOR_PROFIT"
   | "NON_PROFIT";
-export type DomainPropertyList = Array<DomainProperty>;
-export type PublicationOnboardingStateEnum =
-  | "ONBOARDING_STATE_UNSPECIFIED"
-  | "ACTION_REQUIRED"
-  | "PENDING_VERIFICATION"
-  | "COMPLETE";
 export type ContentPolicyStatusStateEnum =
   | "STATE_UNSPECIFIED"
   | "OK"
@@ -149,71 +143,77 @@ export interface ContentPolicyStatus {
   /** Output only. The current policy state. */
   state?: ContentPolicyStatusStateEnum | (string & {}) | undefined;
 }
-export type PublicationPaymentOptionEnum =
-  | "PAYMENT_OPTION_UNSPECIFIED"
-  | "NONE"
-  | "SUBSCRIPTIONS"
-  | "CONTRIBUTIONS";
-export type StringList = Array<string>;
 /** Details about the acceptance of the Terms of Service (TOS). */
 export interface TosAcceptance {
-  /** Optional. Whether the user opted in to receive product updates and email communications. */
-  emailOptIn?: boolean | undefined;
   /** Required. Whether the user has accepted the Terms of Service. */
   userAccepted?: boolean | undefined;
+  /** Optional. Whether the user opted in to receive product updates and email communications. */
+  emailOptIn?: boolean | undefined;
 }
 /** Configuration and status of the Reader Revenue Manager (RRM) product for a publication. */
 export interface RrmProduct {
   /** Optional. The details of the TOS acceptance. */
   tosAcceptance?: TosAcceptance | undefined;
-  /** Optional. Whether the RRM product is enabled for the publication. */
-  enabled?: boolean | undefined;
   /** Output only. The URL to the product-specific Terms of Service. */
   productTosUrl?: string | undefined;
-}
-/** Subscription Linking (SL) product settings and status. */
-export interface SlProduct {
-  /** Optional. Whether the Subscription Linking product is enabled. */
+  /** Optional. Whether the RRM product is enabled for the publication. */
   enabled?: boolean | undefined;
-  /** Optional. The Google Cloud Project number associated with the publication. */
-  gcpProjectNumber?: string | undefined;
 }
+export type StringList = Array<string>;
+export type PublicationPaymentOptionEnum =
+  | "PAYMENT_OPTION_UNSPECIFIED"
+  | "NONE"
+  | "SUBSCRIPTIONS"
+  | "CONTRIBUTIONS";
+/** Represents a domain property associated with a publication, typically used to verify ownership and scope access. */
+export interface DomainProperty {
+  /** Required. The URL of the domain property (e.g., "https://example.com"). */
+  url?: string | undefined;
+  /** Output only. Whether the domain ownership has been verified (e.g., via Google Search Console). */
+  ownershipVerified?: boolean | undefined;
+}
+export type DomainPropertyList = Array<DomainProperty>;
+export type PublicationOnboardingStateEnum =
+  | "ONBOARDING_STATE_UNSPECIFIED"
+  | "ACTION_REQUIRED"
+  | "PENDING_VERIFICATION"
+  | "COMPLETE";
 /** Represents a publisher's publication in Reader Revenue Manager. */
 export interface Publication {
-  /** Optional. The URL to the publisher's Privacy Policy. */
-  publicationPrivacyPolicyUrl?: string | undefined;
-  /** Optional. The URL to the publisher's own Terms of Service. */
-  publicationTosUrl?: string | undefined;
-  /** Required. The primary domain property associated with the publication. */
-  primaryDomain?: DomainProperty | undefined;
-  /** Optional. The publication entity type (for-profit vs non-profit). Defaults to FOR_PROFIT if omitted. */
-  publicationType?: PublicationPublicationTypeEnum | (string & {}) | undefined;
-  /** Identifier. The resource name of the publication. Format: organizations/{organization}/publications/{publication} */
-  name?: string | undefined;
-  /** Required. The user-visible display name of the publication. */
-  displayName?: string | undefined;
-  /** Output only. The unique identifier of the organization that owns this publication. */
-  organizationId?: string | undefined;
-  /** Optional. Additional domain properties verified for the publication. */
-  additionalDomains?: DomainPropertyList | undefined;
-  /** Required. The ISO 3166-1 alpha-2 region code where the publication is registered (e.g., "US"). */
-  regionCode?: string | undefined;
-  /** Output only. The current onboarding state. */
-  onboardingState?: PublicationOnboardingStateEnum | (string & {}) | undefined;
-  /** Output only. The content policy compliance status of the publication. */
-  contentPolicyStatus?: ContentPolicyStatus | undefined;
-  /** Required. The primary language of the publication (BCP-47 code, e.g., "en-US"). */
-  languageCode?: string | undefined;
-  /** Output only. The configured payment option. */
-  paymentOption?: PublicationPaymentOptionEnum | (string & {}) | undefined;
-  /** Output only. The list of active products/features enabled for this publication. */
-  products?: StringList | undefined;
-  /** Optional. Reader Revenue Manager product settings and status. */
-  rrmProduct?: RrmProduct | undefined;
   /** Optional. Subscription Linking product configurations. */
   slProduct?: SlProduct | undefined;
+  /** Optional. The URL to the publisher's own Terms of Service. */
+  publicationTosUrl?: string | undefined;
+  /** Optional. The publication entity type (for-profit vs non-profit). Defaults to FOR_PROFIT if omitted. */
+  publicationType?: PublicationPublicationTypeEnum | (string & {}) | undefined;
+  /** Output only. The content policy compliance status of the publication. */
+  contentPolicyStatus?: ContentPolicyStatus | undefined;
+  /** Optional. Reader Revenue Manager product settings and status. */
+  rrmProduct?: RrmProduct | undefined;
   /** Output only. The unique identifier of the publication. */
   publicationId?: string | undefined;
+  /** Output only. The list of active products/features enabled for this publication. */
+  products?: StringList | undefined;
+  /** Required. The user-visible display name of the publication. */
+  displayName?: string | undefined;
+  /** Output only. The configured payment option. */
+  paymentOption?: PublicationPaymentOptionEnum | (string & {}) | undefined;
+  /** Optional. The URL to the publisher's Privacy Policy. */
+  publicationPrivacyPolicyUrl?: string | undefined;
+  /** Identifier. The resource name of the publication. Format: organizations/{organization}/publications/{publication} */
+  name?: string | undefined;
+  /** Required. The ISO 3166-1 alpha-2 region code where the publication is registered (e.g., "US"). */
+  regionCode?: string | undefined;
+  /** Required. The primary language of the publication (BCP-47 code, e.g., "en-US"). */
+  languageCode?: string | undefined;
+  /** Output only. The unique identifier of the organization that owns this publication. */
+  organizationId?: string | undefined;
+  /** Required. The primary domain property associated with the publication. */
+  primaryDomain?: DomainProperty | undefined;
+  /** Optional. Additional domain properties verified for the publication. */
+  additionalDomains?: DomainPropertyList | undefined;
+  /** Output only. The current onboarding state. */
+  onboardingState?: PublicationOnboardingStateEnum | (string & {}) | undefined;
 }
 export interface CreateOrganizationsPublicationsRequest extends Omit<Publication, "publicationId"> {
   /** Optional. The unique identifier of the publication to create. If not specified, the server will generate a random publication ID. */
@@ -221,19 +221,18 @@ export interface CreateOrganizationsPublicationsRequest extends Omit<Publication
   /** Required. The parent resource where this publication will be created. Format: `organizations/{organization}`. */
   parent: string;
 }
-export type CtaStateEnum = "STATE_UNSPECIFIED" | "DRAFT" | "ACTIVE";
 /** Configuration for newsletter signup calls-to-action (CTAs). */
 export interface NewsletterConfig {
-  /** Optional. Whether checking the opt-in checkbox is required. */
-  optInRequired?: boolean | undefined;
-  /** Optional. Whether the user is required to provide their name to sign up. */
-  nameRequired?: boolean | undefined;
-  /** Optional. Custom consent or disclosure text shown to the user. */
-  customConsentText?: string | undefined;
-  /** Required. The title of the newsletter signup prompt. */
-  title?: string | undefined;
   /** Optional. A custom message displayed to the user in the signup prompt. */
   customMessage?: string | undefined;
+  /** Optional. Custom consent or disclosure text shown to the user. */
+  customConsentText?: string | undefined;
+  /** Optional. Whether checking the opt-in checkbox is required. */
+  optInRequired?: boolean | undefined;
+  /** Required. The title of the newsletter signup prompt. */
+  title?: string | undefined;
+  /** Optional. Whether the user is required to provide their name to sign up. */
+  nameRequired?: boolean | undefined;
 }
 export type IntegerList = Array<number>;
 /** A preset question referencing a template in the survey question catalog. */
@@ -251,14 +250,14 @@ export interface CustomAnswerChoice {
 export type CustomAnswerChoiceList = Array<CustomAnswerChoice>;
 /** A custom question defined by the publisher. */
 export interface CustomQuestion {
-  /** Output only. Server-assigned unique identifier for the custom question. */
-  id?: string | undefined;
-  /** Required. The question prompt displayed to readers (up to 140 characters). */
-  displayText?: string | undefined;
   /** Optional. Reporting category label sent to Google Analytics (up to 100 characters). */
   categoryLabel?: string | undefined;
   /** Required. Ordered list of answer choices for the custom question (2-5 items). */
   answerChoices?: CustomAnswerChoiceList | undefined;
+  /** Required. The question prompt displayed to readers (up to 140 characters). */
+  displayText?: string | undefined;
+  /** Output only. Server-assigned unique identifier for the custom question. */
+  id?: string | undefined;
 }
 /** A single question within a survey, which can be either a preset question from the catalog or a custom publisher-defined question. */
 export interface SurveyQuestion {
@@ -278,26 +277,27 @@ export interface SurveyConfig {
   reportUrl?: string | undefined;
 }
 export type CtaTypeEnum = "TYPE_UNSPECIFIED" | "NEWSLETTER_SIGNUP" | "SURVEY";
+export type CtaStateEnum = "STATE_UNSPECIFIED" | "DRAFT" | "ACTIVE";
 /** Represents a Call-To-Action (CTA) configuration for a publication. */
 export interface Cta {
-  /** Optional. The user-visible display name of the CTA (up to 40 characters). Defaults to a server-specified name based on the CTA type when omitted on creation. */
-  displayName?: string | undefined;
-  /** Optional. The current state of this CTA. */
-  state?: CtaStateEnum | (string & {}) | undefined;
   /** Optional. Configuration specific to newsletter signup CTAs. Only populated if type is `NEWSLETTER_SIGNUP`. */
   newsletterConfig?: NewsletterConfig | undefined;
   /** Optional. Configuration specific to survey CTAs. Only populated if type is `SURVEY`. */
   surveyConfig?: SurveyConfig | undefined;
   /** Required. The type of this CTA. */
   type?: CtaTypeEnum | (string & {}) | undefined;
+  /** Optional. The current state of this CTA. */
+  state?: CtaStateEnum | (string & {}) | undefined;
   /** Identifier. The resource name of the Cta. Format: organizations/{organization}/publications/{publication}/ctas/{cta} */
   name?: string | undefined;
+  /** Optional. The user-visible display name of the CTA (up to 40 characters). Defaults to a server-specified name based on the CTA type when omitted on creation. */
+  displayName?: string | undefined;
 }
 export interface CreateOrganizationsPublicationsCtasRequest extends Cta {
-  /** Required. The parent publication resource where this CTA will be created. Format: `organizations/{organization}/publications/{publication}`. */
-  parent: string;
   /** Optional. The unique identifier of the CTA to create. If not specified, the server will generate a random CTA ID. */
   ctaId?: string | undefined;
+  /** Required. The parent publication resource where this CTA will be created. Format: `organizations/{organization}/publications/{publication}`. */
+  parent: string;
 }
 /** Request message for `GeneratePlatformSiteTokens`. */
 export interface GeneratePlatformSiteTokensRequest {}
@@ -329,10 +329,10 @@ export interface GetOrganizationsPublicationsCtasRequest {
   name: string;
 }
 export interface GetSurveyQuestionCatalogOrganizationsPublicationsRequest {
-  /** Optional. The BCP-47 language code (e.g., "en-US", "es-419") to override the publication's configured primary language. */
-  languageCode?: string | undefined;
   /** Required. The resource name of the survey question catalog to retrieve. Format: `organizations/{organization}/publications/{publication}/surveyQuestionCatalog`. */
   name: string;
+  /** Optional. The BCP-47 language code (e.g., "en-US", "es-419") to override the publication's configured primary language. */
+  languageCode?: string | undefined;
 }
 export type AnswerChoiceTemplateCategoryEnum =
   | "ANSWER_CATEGORY_UNSPECIFIED"
@@ -673,14 +673,14 @@ export type AnswerChoiceTemplateCategoryEnum =
   | "DIGITAL_SUBSCRIPTION_BENEFITS__SHARED_ACCESS";
 /** A predefined answer choice template for a catalog question. */
 export interface AnswerChoiceTemplate {
-  /** Output only. Text label used for aggregating responses by category in analytics. */
-  categoryLabel?: string | undefined;
   /** Output only. Localized answer choice text displayed to readers. */
   displayText?: string | undefined;
-  /** Output only. Category of the answer based on the IAB Audience Taxonomy. */
-  category?: AnswerChoiceTemplateCategoryEnum | undefined;
   /** Output only. Unique identifier of the answer choice within the question. */
   id?: number | undefined;
+  /** Output only. Text label used for aggregating responses by category in analytics. */
+  categoryLabel?: string | undefined;
+  /** Output only. Category of the answer based on the IAB Audience Taxonomy. */
+  category?: AnswerChoiceTemplateCategoryEnum | undefined;
 }
 export type AnswerChoiceTemplateList = Array<AnswerChoiceTemplate>;
 export type QuestionTemplateConfigurationTypeEnum =
@@ -702,42 +702,42 @@ export type QuestionTemplateCategoryEnum =
 export interface QuestionTemplate {
   /** Output only. Possible answer choices for this question. */
   answerChoices?: AnswerChoiceTemplateList | undefined;
-  /** Output only. Unique identifier of the question template. */
-  id?: number | undefined;
-  /** Output only. Text label used for aggregating responses by category in analytics. */
-  categoryLabel?: string | undefined;
   /** Output only. Localized question text displayed to readers. */
   displayText?: string | undefined;
+  /** Output only. Unique identifier of the question template. */
+  id?: number | undefined;
   /** Output only. The type of answer choice configuration for this question. */
   configurationType?: QuestionTemplateConfigurationTypeEnum | undefined;
   /** Output only. Category of the question based on the IAB Audience Taxonomy. */
   category?: QuestionTemplateCategoryEnum | undefined;
+  /** Output only. Text label used for aggregating responses by category in analytics. */
+  categoryLabel?: string | undefined;
 }
 export type QuestionTemplateList = Array<QuestionTemplate>;
 /** Represents the catalog of predefined survey questions and localized answer choices available for a publication. */
 export interface SurveyQuestionCatalog {
-  /** Output only. The list of available predefined question templates. */
-  questions?: QuestionTemplateList | undefined;
   /** Identifier. The resource name of the survey question catalog. Format: `organizations/{organization}/publications/{publication}/surveyQuestionCatalog`. */
   name?: string | undefined;
+  /** Output only. The list of available predefined question templates. */
+  questions?: QuestionTemplateList | undefined;
 }
 export interface ListOrganizationsPublicationsRequest {
   /** Optional. A filter expression to filter the publications returned. */
   filter?: string | undefined;
-  /** Optional. The maximum number of publications to return. The service may return fewer than this value. If unspecified, at most 50 publications will be returned. */
-  pageSize?: number | undefined;
-  /** Required. The parent organization whose publications to list, or "organizations/-" for all organizations a user has access to. Format: `organizations/{organization}`. */
-  parent: string;
   /** Optional. A page token, received from a previous `ListPublications` call, to retrieve the next page. */
   pageToken?: string | undefined;
+  /** Required. The parent organization whose publications to list, or "organizations/-" for all organizations a user has access to. Format: `organizations/{organization}`. */
+  parent: string;
+  /** Optional. The maximum number of publications to return. The service may return fewer than this value. If unspecified, at most 50 publications will be returned. */
+  pageSize?: number | undefined;
 }
 export type PublicationList = Array<Publication>;
 /** Response message for `ListPublications`. */
 export interface ListPublicationsResponse {
-  /** Output only. A token to retrieve the next page of results, or empty if there are no more results. */
-  nextPageToken?: string | undefined;
   /** Output only. The list of publications. */
   publications?: PublicationList | undefined;
+  /** Output only. A token to retrieve the next page of results, or empty if there are no more results. */
+  nextPageToken?: string | undefined;
 }
 export interface ListOrganizationsPublicationsCtasRequest {
   /** Required. The parent publication resource whose CTAs to list. Format: `organizations/{organization}/publications/{publication}`. */
@@ -1041,8 +1041,8 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          languageCode: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          languageCode: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1054,10 +1054,10 @@ function __c1(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          categoryLabel: S.optional(S.String),
           displayText: S.optional(S.String),
-          category: S.optional(S.String),
           id: S.optional(S.Number),
+          categoryLabel: S.optional(S.String),
+          category: S.optional(S.String),
         }),
       ).annotate({ identifier: "AnswerChoiceTemplate" });
     case 2:
@@ -1066,11 +1066,11 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           answerChoices: S.optional(__S(18, __c1, 2)),
-          id: S.optional(S.Number),
-          categoryLabel: S.optional(S.String),
           displayText: S.optional(S.String),
+          id: S.optional(S.Number),
           configurationType: S.optional(S.String),
           category: S.optional(S.String),
+          categoryLabel: S.optional(S.String),
         }),
       ).annotate({ identifier: "QuestionTemplate" });
     case 4:
@@ -1078,8 +1078,8 @@ function __c1(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          questions: S.optional(__S(20, __c1, 4)),
           name: S.optional(S.String),
+          questions: S.optional(__S(20, __c1, 4)),
         }),
       ).annotate({ identifier: "SurveyQuestionCatalog" });
   }
@@ -1090,9 +1090,9 @@ function __c2(j: number): any {
       return S.suspend(() =>
         S.Struct({
           filter: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1106,8 +1106,8 @@ function __c2(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           publications: S.optional(__S(33, __c2, 1)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListPublicationsResponse" });
   }
@@ -1184,9 +1184,9 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          uri: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
           httpReferrer: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
+          uri: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1208,8 +1208,8 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          canonicalUrl: S.optional(S.String.pipe(T.Query())),
           productId: S.optional(S.String.pipe(T.Query())),
+          canonicalUrl: S.optional(S.String.pipe(T.Query())),
           swgUserToken: S.optional(S.String.pipe(T.Query(), T.SensitiveValue({}))),
           name: S.String.pipe(T.Label()),
         }).pipe(
@@ -1253,63 +1253,63 @@ function __c9(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          url: S.optional(S.String),
-          ownershipVerified: S.optional(S.Boolean),
+          enabled: S.optional(S.Boolean),
+          gcpProjectNumber: S.optional(S.String),
         }),
-      ).annotate({ identifier: "DomainProperty" });
+      ).annotate({ identifier: "SlProduct" });
     case 1:
-      return S.Array(__S(144, __c9, 0));
-    case 2:
       return S.suspend(() =>
         S.Struct({
           policyInfoUrl: S.optional(S.String),
           state: S.optional(S.String),
         }),
       ).annotate({ identifier: "ContentPolicyStatus" });
-    case 3:
-      return S.Array(S.String);
-    case 4:
+    case 2:
       return S.suspend(() =>
         S.Struct({
-          emailOptIn: S.optional(S.Boolean),
           userAccepted: S.optional(S.Boolean),
+          emailOptIn: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "TosAcceptance" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          tosAcceptance: S.optional(__S(146, __c9, 2)),
+          productTosUrl: S.optional(S.String),
+          enabled: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "RrmProduct" });
+    case 4:
+      return S.Array(S.String);
     case 5:
       return S.suspend(() =>
         S.Struct({
-          tosAcceptance: S.optional(__S(148, __c9, 4)),
-          enabled: S.optional(S.Boolean),
-          productTosUrl: S.optional(S.String),
+          url: S.optional(S.String),
+          ownershipVerified: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "RrmProduct" });
+      ).annotate({ identifier: "DomainProperty" });
     case 6:
-      return S.suspend(() =>
-        S.Struct({
-          enabled: S.optional(S.Boolean),
-          gcpProjectNumber: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SlProduct" });
+      return S.Array(__S(149, __c9, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          publicationPrivacyPolicyUrl: S.optional(S.String),
+          slProduct: S.optional(__S(144, __c9, 0)),
           publicationTosUrl: S.optional(S.String),
-          primaryDomain: S.optional(__S(144, __c9, 0)),
           publicationType: S.optional(S.String),
-          name: S.optional(S.String),
-          displayName: S.optional(S.String),
-          organizationId: S.optional(S.String),
-          additionalDomains: S.optional(__S(145, __c9, 1)),
-          regionCode: S.optional(S.String),
-          onboardingState: S.optional(S.String),
-          contentPolicyStatus: S.optional(__S(146, __c9, 2)),
-          languageCode: S.optional(S.String),
-          paymentOption: S.optional(S.String),
-          products: S.optional(__S(147, __c9, 3)),
-          rrmProduct: S.optional(__S(149, __c9, 5)),
-          slProduct: S.optional(__S(150, __c9, 6)),
+          contentPolicyStatus: S.optional(__S(145, __c9, 1)),
+          rrmProduct: S.optional(__S(147, __c9, 3)),
           publicationId: S.optional(S.String),
+          products: S.optional(__S(148, __c9, 4)),
+          displayName: S.optional(S.String),
+          paymentOption: S.optional(S.String),
+          publicationPrivacyPolicyUrl: S.optional(S.String),
+          name: S.optional(S.String),
+          regionCode: S.optional(S.String),
+          languageCode: S.optional(S.String),
+          organizationId: S.optional(S.String),
+          primaryDomain: S.optional(__S(149, __c9, 5)),
+          additionalDomains: S.optional(__S(150, __c9, 6)),
+          onboardingState: S.optional(S.String),
         }),
       ).annotate({ identifier: "Publication" });
   }
@@ -1321,8 +1321,8 @@ function __c10(j: number): any {
         S.Extend(
           __S(185, __c11, 9),
           S.Struct({
-            parent: S.String.pipe(T.Label()),
             ctaId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -1339,11 +1339,11 @@ function __c11(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          optInRequired: S.optional(S.Boolean),
-          nameRequired: S.optional(S.Boolean),
-          customConsentText: S.optional(S.String),
-          title: S.optional(S.String),
           customMessage: S.optional(S.String),
+          customConsentText: S.optional(S.String),
+          optInRequired: S.optional(S.Boolean),
+          title: S.optional(S.String),
+          nameRequired: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "NewsletterConfig" });
     case 1:
@@ -1366,10 +1366,10 @@ function __c11(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          id: S.optional(S.String),
-          displayText: S.optional(S.String),
           categoryLabel: S.optional(S.String),
           answerChoices: S.optional(__S(180, __c11, 4)),
+          displayText: S.optional(S.String),
+          id: S.optional(S.String),
         }),
       ).annotate({ identifier: "CustomQuestion" });
     case 6:
@@ -1392,12 +1392,12 @@ function __c11(j: number): any {
     case 9:
       return S.suspend(() =>
         S.Struct({
-          displayName: S.optional(S.String),
-          state: S.optional(S.String),
           newsletterConfig: S.optional(__S(176, __c11, 0)),
           surveyConfig: S.optional(__S(184, __c11, 8)),
           type: S.optional(S.String),
+          state: S.optional(S.String),
           name: S.optional(S.String),
+          displayName: S.optional(S.String),
         }),
       ).annotate({ identifier: "Cta" });
   }

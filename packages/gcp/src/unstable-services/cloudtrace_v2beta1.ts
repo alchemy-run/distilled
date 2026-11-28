@@ -114,18 +114,18 @@ export interface GetProjectsTraceSinksRequest {
 export interface ListProjectsTraceSinksRequest {
   /** Optional. The maximum number of results to return from this request. Non-positive values are ignored. The presence of `next_page_token` in the response indicates that more results might be available. */
   pageSize?: number | undefined;
-  /** Optional. If present, then retrieve the next batch of results from the preceding call to this method. `page_token` must be the value of `next_page_token` from the previous response. The values of other method parameters should be identical to those in the previous call. */
-  pageToken?: string | undefined;
   /** Required. The parent resource whose sinks are to be listed (currently only project parent resources are supported): "projects/[PROJECT_ID]" */
   parent: string;
+  /** Optional. If present, then retrieve the next batch of results from the preceding call to this method. `page_token` must be the value of `next_page_token` from the previous response. The values of other method parameters should be identical to those in the previous call. */
+  pageToken?: string | undefined;
 }
 export type TraceSinkList = Array<TraceSink>;
 /** Result returned from `ListTraceSinks`. */
 export interface ListTraceSinksResponse {
-  /** A list of sinks. */
-  sinks?: TraceSinkList | undefined;
   /** A paginated response where more pages might be available has `next_page_token` set. To get the next set of results, call the same method again using the value of `next_page_token` as `page_token`. */
   nextPageToken?: string | undefined;
+  /** A list of sinks. */
+  sinks?: TraceSinkList | undefined;
 }
 export interface PatchProjectsTraceSinksRequest extends Omit<TraceSink, "name"> {
   /** Required. The full resource name of the sink to update, including the parent resource and the sink identifier: "projects/[PROJECT_NUMBER]/traceSinks/[SINK_ID]" Example: `"projects/12345/traceSinks/my-sink-id"`. */
@@ -318,8 +318,8 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -333,8 +333,8 @@ function __c4(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          sinks: S.optional(__S(17, __c4, 1)),
           nextPageToken: S.optional(S.String),
+          sinks: S.optional(__S(17, __c4, 1)),
         }),
       ).annotate({ identifier: "ListTraceSinksResponse" });
   }

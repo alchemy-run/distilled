@@ -84,16 +84,21 @@ export class NotFound
   ) {}
 
 export interface ApproveCommentsRequest {
-  postId: string;
-  blogId: string;
   commentId: string;
+  blogId: string;
+  postId: string;
 }
 export interface CommentPost {
   /** The identifier of the post containing this comment. */
   id?: string | undefined;
 }
+export type CommentStatusEnum = "LIVE" | "EMPTIED" | "PENDING" | "SPAM";
 export interface CommentBlog {
   /** The identifier of the blog containing this comment. */
+  id?: string | undefined;
+}
+export interface CommentInReplyTo {
+  /** The identified of the parent of this comment. */
   id?: string | undefined;
 }
 export interface CommentAuthorImage {
@@ -103,53 +108,48 @@ export interface CommentAuthorImage {
 export interface CommentAuthor {
   /** The creator's avatar. */
   image?: CommentAuthorImage | undefined;
-  /** The URL of the creator's Profile page. */
-  url?: string | undefined;
-  /** The identifier of the creator. */
-  id?: string | undefined;
   /** The display name. */
   displayName?: string | undefined;
-}
-export interface CommentInReplyTo {
-  /** The identified of the parent of this comment. */
+  /** The identifier of the creator. */
   id?: string | undefined;
+  /** The URL of the creator's Profile page. */
+  url?: string | undefined;
 }
-export type CommentStatusEnum = "LIVE" | "EMPTIED" | "PENDING" | "SPAM";
 export interface Comment {
   /** Data about the post containing this comment. */
   post?: CommentPost | undefined;
-  /** Data about the blog containing this comment. */
-  blog?: CommentBlog | undefined;
-  /** The author of this Comment. */
-  author?: CommentAuthor | undefined;
-  /** Data about the comment this is in reply to. */
-  inReplyTo?: CommentInReplyTo | undefined;
-  /** The kind of this entry. Always blogger#comment. */
-  kind?: string | undefined;
-  /** The identifier for this resource. */
-  id?: string | undefined;
-  /** The API REST URL to fetch this resource from. */
-  selfLink?: string | undefined;
-  /** RFC 3339 date-time when this comment was published. */
-  published?: string | undefined;
-  /** RFC 3339 date-time when this comment was last updated. */
-  updated?: string | undefined;
-  /** The actual content of the comment. May include HTML markup. */
-  content?: string | undefined;
   /** The status of the comment (only populated for admin users). */
   status?: CommentStatusEnum | (string & {}) | undefined;
+  /** RFC 3339 date-time when this comment was published. */
+  published?: string | undefined;
+  /** The actual content of the comment. May include HTML markup. */
+  content?: string | undefined;
+  /** The API REST URL to fetch this resource from. */
+  selfLink?: string | undefined;
+  /** Data about the blog containing this comment. */
+  blog?: CommentBlog | undefined;
+  /** RFC 3339 date-time when this comment was last updated. */
+  updated?: string | undefined;
+  /** The identifier for this resource. */
+  id?: string | undefined;
+  /** The kind of this entry. Always blogger#comment. */
+  kind?: string | undefined;
+  /** Data about the comment this is in reply to. */
+  inReplyTo?: CommentInReplyTo | undefined;
+  /** The author of this Comment. */
+  author?: CommentAuthor | undefined;
 }
 export interface DeleteCommentsRequest {
   commentId: string;
-  postId: string;
   blogId: string;
+  postId: string;
 }
 export interface DeleteCommentsResponse {}
 export interface DeletePagesRequest {
-  pageId: string;
   blogId: string;
   /** Move to Trash if possible */
   useTrash?: boolean | undefined;
+  pageId: string;
 }
 export interface DeletePagesResponse {}
 export interface DeletePostsRequest {
@@ -161,62 +161,48 @@ export interface DeletePostsRequest {
 export interface DeletePostsResponse {}
 export type GetBlogsViewEnum = "VIEW_TYPE_UNSPECIFIED" | "READER" | "AUTHOR" | "ADMIN";
 export interface GetBlogsRequest {
-  blogId: string;
-  maxPosts?: number | undefined;
   /** Unspecified is interpreted as READER. */
   view?: GetBlogsViewEnum | (string & {}) | undefined;
-}
-export interface BlogPages {
-  /** The count of pages in this blog. */
-  totalItems?: number | undefined;
-  /** The URL of the container for pages in this blog. */
-  selfLink?: string | undefined;
-}
-export interface BlogLocale {
-  /** The language this blog is authored in. */
-  language?: string | undefined;
-  /** The country this blog's locale is set to. */
-  country?: string | undefined;
-  /** The language variant this blog is authored in. */
-  variant?: string | undefined;
+  blogId: string;
+  maxPosts?: number | undefined;
 }
 export type BlogStatusEnum = "LIVE" | "DELETED";
+export type PostReaderCommentsEnum =
+  | "ALLOW"
+  | "DONT_ALLOW_SHOW_EXISTING"
+  | "DONT_ALLOW_HIDE_EXISTING";
 export type StringList = Array<string>;
 export type PostAuthorImage = CommentAuthorImage;
 export interface PostAuthor {
-  /** The display name. */
-  displayName?: string | undefined;
-  /** The identifier of the creator. */
-  id?: string | undefined;
   /** The creator's avatar. */
   image?: CommentAuthorImage | undefined;
+  /** The identifier of the creator. */
+  id?: string | undefined;
+  /** The display name. */
+  displayName?: string | undefined;
   /** The URL of the creator's Profile page. */
   url?: string | undefined;
 }
 export type CommentList_ = Array<Comment>;
 export interface PostReplies {
-  /** The count of comments on this post. */
-  totalItems?: string | undefined;
   /** The List of Comments for this Post. */
   items?: CommentList_ | undefined;
   /** The URL of the comments on this post. */
   selfLink?: string | undefined;
-}
-export type PostReaderCommentsEnum =
-  | "ALLOW"
-  | "DONT_ALLOW_SHOW_EXISTING"
-  | "DONT_ALLOW_HIDE_EXISTING";
-export interface PostLocation {
-  /** Location name. */
-  name?: string | undefined;
-  /** Location's latitude. */
-  lat?: number | undefined;
-  /** Location's viewport span. Can be used when rendering a map preview. */
-  span?: string | undefined;
-  /** Location's longitude. */
-  lng?: number | undefined;
+  /** The count of comments on this post. */
+  totalItems?: string | undefined;
 }
 export type PostStatusEnum = "LIVE" | "DRAFT" | "SCHEDULED" | "SOFT_TRASHED";
+export interface PostLocation {
+  /** Location's longitude. */
+  lng?: number | undefined;
+  /** Location name. */
+  name?: string | undefined;
+  /** Location's viewport span. Can be used when rendering a map preview. */
+  span?: string | undefined;
+  /** Location's latitude. */
+  lat?: number | undefined;
+}
 export interface PostImagesItem {
   url?: string | undefined;
 }
@@ -226,18 +212,18 @@ export interface PostBlog {
   id?: string | undefined;
 }
 export interface Post {
-  /** The API REST URL to fetch this resource from. */
-  selfLink?: string | undefined;
-  /** Etag of the resource. */
-  etag?: string | undefined;
-  /** The URL where this Post is displayed. */
-  url?: string | undefined;
-  /** The identifier of this Post. */
-  id?: string | undefined;
+  /** The content of the Post. May contain HTML markup. */
+  content?: string | undefined;
+  /** Comment control and display setting for readers of this post. */
+  readerComments?: PostReaderCommentsEnum | (string & {}) | undefined;
+  /** RFC 3339 date-time when this Post was last trashed. */
+  trashed?: string | undefined;
   /** The list of labels this Post was tagged with. */
   labels?: StringList | undefined;
-  /** The kind of this entity. Always blogger#post. */
-  kind?: string | undefined;
+  /** The URL where this Post is displayed. */
+  url?: string | undefined;
+  /** RFC 3339 date-time when this Post was last updated. */
+  updated?: string | undefined;
   /** The author of this Post. */
   author?: PostAuthor | undefined;
   /** RFC 3339 date-time when this Post was published. */
@@ -246,63 +232,77 @@ export interface Post {
   replies?: PostReplies | undefined;
   /** The title of the Post. */
   title?: string | undefined;
+  /** Etag of the resource. */
+  etag?: string | undefined;
   /** The title link URL, similar to atom's related link. */
   titleLink?: string | undefined;
-  /** Comment control and display setting for readers of this post. */
-  readerComments?: PostReaderCommentsEnum | (string & {}) | undefined;
-  /** RFC 3339 date-time when this Post was last updated. */
-  updated?: string | undefined;
-  /** The content of the Post. May contain HTML markup. */
-  content?: string | undefined;
-  /** The location for geotagged posts. */
-  location?: PostLocation | undefined;
+  /** The JSON meta-data for the Post. */
+  customMetaData?: string | undefined;
   /** Status of the post. Only set for admin-level requests. */
   status?: PostStatusEnum | (string & {}) | undefined;
-  /** RFC 3339 date-time when this Post was last trashed. */
-  trashed?: string | undefined;
+  /** The identifier of this Post. */
+  id?: string | undefined;
+  /** The location for geotagged posts. */
+  location?: PostLocation | undefined;
   /** Display image for the Post. */
   images?: PostImagesItemList | undefined;
   /** Data about the blog containing this Post. */
   blog?: PostBlog | undefined;
-  /** The JSON meta-data for the Post. */
-  customMetaData?: string | undefined;
+  /** The kind of this entity. Always blogger#post. */
+  kind?: string | undefined;
+  /** The API REST URL to fetch this resource from. */
+  selfLink?: string | undefined;
 }
 export type PostList_ = Array<Post>;
 export interface BlogPosts {
-  /** The URL of the container for posts in this blog. */
-  selfLink?: string | undefined;
   /** The count of posts in this blog. */
   totalItems?: number | undefined;
+  /** The URL of the container for posts in this blog. */
+  selfLink?: string | undefined;
   /** The List of Posts for this Blog. */
   items?: PostList_ | undefined;
 }
-export interface Blog {
-  /** The container of pages in this blog. */
-  pages?: BlogPages | undefined;
-  /** The locale this Blog is set to. */
-  locale?: BlogLocale | undefined;
-  /** The API REST URL to fetch this resource from. */
+export interface BlogPages {
+  /** The URL of the container for pages in this blog. */
   selfLink?: string | undefined;
-  /** The status of the blog. */
-  status?: BlogStatusEnum | undefined;
-  /** The JSON custom meta-data for the Blog. */
-  customMetaData?: string | undefined;
+  /** The count of pages in this blog. */
+  totalItems?: number | undefined;
+}
+export interface BlogLocale {
+  /** The language variant this blog is authored in. */
+  variant?: string | undefined;
+  /** The language this blog is authored in. */
+  language?: string | undefined;
+  /** The country this blog's locale is set to. */
+  country?: string | undefined;
+}
+export interface Blog {
+  /** The description of this blog. This is displayed underneath the title. */
+  description?: string | undefined;
+  /** The kind of this entry. Always blogger#blog. */
+  kind?: string | undefined;
   /** The name of this blog. This is displayed as the title. */
   name?: string | undefined;
+  /** The status of the blog. */
+  status?: BlogStatusEnum | undefined;
+  /** The URL where this blog is published. */
+  url?: string | undefined;
+  /** The JSON custom meta-data for the Blog. */
+  customMetaData?: string | undefined;
   /** The identifier for this resource. */
   id?: string | undefined;
   /** RFC 3339 date-time when this blog was published. */
   published?: string | undefined;
-  /** The container of posts in this blog. */
-  posts?: BlogPosts | undefined;
-  /** The kind of this entry. Always blogger#blog. */
-  kind?: string | undefined;
-  /** The description of this blog. This is displayed underneath the title. */
-  description?: string | undefined;
-  /** The URL where this blog is published. */
-  url?: string | undefined;
   /** RFC 3339 date-time when this blog was last updated. */
   updated?: string | undefined;
+  /** The container of posts in this blog. */
+  posts?: BlogPosts | undefined;
+  /** The container of pages in this blog. */
+  pages?: BlogPages | undefined;
+  /** The API REST URL to fetch this resource from. */
+  selfLink?: string | undefined;
+  /** The locale this Blog is set to. */
+  locale?: BlogLocale | undefined;
 }
 export interface GetBlogUserInfosRequest {
   userId: string;
@@ -311,31 +311,31 @@ export interface GetBlogUserInfosRequest {
 }
 export type BlogPerUserInfoRoleEnum = "VIEW_TYPE_UNSPECIFIED" | "READER" | "AUTHOR" | "ADMIN";
 export interface BlogPerUserInfo {
-  /** ID of the Blog resource. */
-  blogId?: string | undefined;
-  /** ID of the User. */
-  userId?: string | undefined;
-  /** True if the user has Admin level access to the blog. */
-  hasAdminAccess?: boolean | undefined;
-  /** The kind of this entity. Always blogger#blogPerUserInfo. */
-  kind?: string | undefined;
   /** The Photo Album Key for the user when adding photos to the blog. */
   photosAlbumKey?: string | undefined;
+  /** True if the user has Admin level access to the blog. */
+  hasAdminAccess?: boolean | undefined;
+  /** ID of the User. */
+  userId?: string | undefined;
+  /** The kind of this entity. Always blogger#blogPerUserInfo. */
+  kind?: string | undefined;
+  /** ID of the Blog resource. */
+  blogId?: string | undefined;
   /** Access permissions that the user has for the blog (ADMIN, AUTHOR, or READER). */
   role?: BlogPerUserInfoRoleEnum | undefined;
 }
 export interface BlogUserInfo {
-  /** The Blog resource. */
-  blog?: Blog | undefined;
   /** The kind of this entity. Always blogger#blogUserInfo. */
   kind?: string | undefined;
   /** Information about a User for the Blog. */
   blog_user_info?: BlogPerUserInfo | undefined;
+  /** The Blog resource. */
+  blog?: Blog | undefined;
 }
 export type GetByPathPostsViewEnum = "VIEW_TYPE_UNSPECIFIED" | "READER" | "AUTHOR" | "ADMIN";
 export interface GetByPathPostsRequest {
-  view?: GetByPathPostsViewEnum | (string & {}) | undefined;
   path: string;
+  view?: GetByPathPostsViewEnum | (string & {}) | undefined;
   maxComments?: number | undefined;
   blogId: string;
 }
@@ -347,9 +347,9 @@ export interface GetByUrlBlogsRequest {
 }
 export type GetCommentsViewEnum = "VIEW_TYPE_UNSPECIFIED" | "READER" | "AUTHOR" | "ADMIN";
 export interface GetCommentsRequest {
-  blogId: string;
-  view?: GetCommentsViewEnum | (string & {}) | undefined;
   commentId: string;
+  view?: GetCommentsViewEnum | (string & {}) | undefined;
+  blogId: string;
   postId: string;
 }
 export type GetPagesViewEnum = "VIEW_TYPE_UNSPECIFIED" | "READER" | "AUTHOR" | "ADMIN";
@@ -358,55 +358,55 @@ export interface GetPagesRequest {
   view?: GetPagesViewEnum | (string & {}) | undefined;
   blogId: string;
 }
+export type PageStatusEnum = "LIVE" | "DRAFT" | "SOFT_TRASHED";
 export type PageAuthorImage = CommentAuthorImage;
 export interface PageAuthor {
-  /** The URL of the creator's Profile page. */
-  url?: string | undefined;
   /** The identifier of the creator. */
   id?: string | undefined;
-  /** The creator's avatar. */
-  image?: CommentAuthorImage | undefined;
+  /** The URL of the creator's Profile page. */
+  url?: string | undefined;
   /** The display name. */
   displayName?: string | undefined;
+  /** The creator's avatar. */
+  image?: CommentAuthorImage | undefined;
 }
 export interface PageBlog {
   /** The identifier of the blog containing this page. */
   id?: string | undefined;
 }
-export type PageStatusEnum = "LIVE" | "DRAFT" | "SOFT_TRASHED";
 export interface Page {
+  /** RFC 3339 date-time when this Page was last updated. */
+  updated?: string | undefined;
+  /** The status of the page for admin resources (either LIVE or DRAFT). */
+  status?: PageStatusEnum | (string & {}) | undefined;
+  /** The body content of this Page, in HTML. */
+  content?: string | undefined;
+  /** The URL that this Page is displayed at. */
+  url?: string | undefined;
+  /** RFC 3339 date-time when this Page was trashed. */
+  trashed?: string | undefined;
+  /** The title of this entity. This is the name displayed in the Admin user interface. */
+  title?: string | undefined;
   /** The author of this Page. */
   author?: PageAuthor | undefined;
   /** RFC 3339 date-time when this Page was published. */
   published?: string | undefined;
-  /** The API REST URL to fetch this resource from. */
-  selfLink?: string | undefined;
-  /** Data about the blog containing this Page. */
-  blog?: PageBlog | undefined;
-  /** Etag of the resource. */
-  etag?: string | undefined;
-  /** RFC 3339 date-time when this Page was last updated. */
-  updated?: string | undefined;
-  /** The body content of this Page, in HTML. */
-  content?: string | undefined;
-  /** The title of this entity. This is the name displayed in the Admin user interface. */
-  title?: string | undefined;
-  /** The kind of this entity. Always blogger#page. */
-  kind?: string | undefined;
-  /** The status of the page for admin resources (either LIVE or DRAFT). */
-  status?: PageStatusEnum | (string & {}) | undefined;
-  /** The URL that this Page is displayed at. */
-  url?: string | undefined;
   /** The identifier for this resource. */
   id?: string | undefined;
-  /** RFC 3339 date-time when this Page was trashed. */
-  trashed?: string | undefined;
+  /** Etag of the resource. */
+  etag?: string | undefined;
+  /** Data about the blog containing this Page. */
+  blog?: PageBlog | undefined;
+  /** The kind of this entity. Always blogger#page. */
+  kind?: string | undefined;
+  /** The API REST URL to fetch this resource from. */
+  selfLink?: string | undefined;
 }
 export type GetPageViewsRangeEnum = "all" | "30DAYS" | "7DAYS";
 export type GetPageViewsRangeEnumList = Array<GetPageViewsRangeEnum | (string & {})>;
 export interface GetPageViewsRequest {
-  range?: GetPageViewsRangeEnumList | undefined;
   blogId: string;
+  range?: GetPageViewsRangeEnumList | undefined;
 }
 export type PageviewsCountsItemTimeRangeEnum = "ALL_TIME" | "THIRTY_DAYS" | "SEVEN_DAYS";
 export interface PageviewsCountsItem {
@@ -417,82 +417,75 @@ export interface PageviewsCountsItem {
 }
 export type PageviewsCountsItemList = Array<PageviewsCountsItem>;
 export interface Pageviews {
-  /** The kind of this entry. Always blogger#page_views. */
-  kind?: string | undefined;
-  /** Blog Id. */
-  blogId?: string | undefined;
   /** The container of posts in this blog. */
   counts?: PageviewsCountsItemList | undefined;
+  /** Blog Id. */
+  blogId?: string | undefined;
+  /** The kind of this entry. Always blogger#page_views. */
+  kind?: string | undefined;
 }
 export type GetPostsViewEnum = "VIEW_TYPE_UNSPECIFIED" | "READER" | "AUTHOR" | "ADMIN";
 export interface GetPostsRequest {
-  postId: string;
-  view?: GetPostsViewEnum | (string & {}) | undefined;
-  maxComments?: number | undefined;
-  blogId: string;
   fetchBody?: boolean | undefined;
   fetchImages?: boolean | undefined;
+  blogId: string;
+  postId: string;
+  maxComments?: number | undefined;
+  view?: GetPostsViewEnum | (string & {}) | undefined;
 }
 export interface GetPostUserInfosRequest {
+  userId: string;
   maxComments?: number | undefined;
   blogId: string;
   postId: string;
-  userId: string;
 }
 export interface PostPerUserInfo {
-  /** ID of the Blog that the post resource belongs to. */
-  blogId?: string | undefined;
   /** ID of the User. */
   userId?: string | undefined;
-  /** True if the user has Author level access to the post. */
-  hasEditAccess?: boolean | undefined;
   /** The kind of this entity. Always blogger#postPerUserInfo. */
   kind?: string | undefined;
+  /** ID of the Blog that the post resource belongs to. */
+  blogId?: string | undefined;
   /** ID of the Post resource. */
   postId?: string | undefined;
+  /** True if the user has Author level access to the post. */
+  hasEditAccess?: boolean | undefined;
 }
 export interface PostUserInfo {
-  /** The Post resource. */
-  post?: Post | undefined;
-  /** Information about a User for the Post. */
-  post_user_info?: PostPerUserInfo | undefined;
   /** The kind of this entity. Always blogger#postUserInfo. */
   kind?: string | undefined;
+  /** Information about a User for the Post. */
+  post_user_info?: PostPerUserInfo | undefined;
+  /** The Post resource. */
+  post?: Post | undefined;
 }
 export interface GetUsersRequest {
   userId: string;
 }
+export type UserLocale = BlogLocale;
 export interface UserBlogs {
   /** The URL of the Blogs for this user. */
   selfLink?: string | undefined;
 }
-export interface UserLocale {
-  /** The country this blog's locale is set to. */
-  country?: string | undefined;
-  /** The language variant this blog is authored in. */
-  variant?: string | undefined;
-  /** The language this blog is authored in. */
-  language?: string | undefined;
-}
 export interface User {
-  /** Profile summary information. */
-  about?: string | undefined;
+  /** This user's locale */
+  locale?: BlogLocale | undefined;
   /** The user's profile page. */
   url?: string | undefined;
-  /** The API REST URL to fetch this resource from. */
-  selfLink?: string | undefined;
-  /** The timestamp of when this profile was created, in seconds since epoch. */
-  created?: string | undefined;
-  /** The container of blogs for this user. */
-  blogs?: UserBlogs | undefined;
   /** The identifier for this User. */
   id?: string | undefined;
+  /** The timestamp of when this profile was created, in seconds since epoch. */
+  created?: string | undefined;
+  /** Profile summary information. */
+  about?: string | undefined;
+  /** The API REST URL to fetch this resource from. */
+  selfLink?: string | undefined;
   /** The kind of this entity. Always blogger#user. */
   kind?: string | undefined;
   /** The display name. */
   displayName?: string | undefined;
-  /** This user's locale */
-  locale?: UserLocale | undefined;
+  /** The container of blogs for this user. */
+  blogs?: UserBlogs | undefined;
 }
 export interface InsertPagesRequest extends Page {
   blogId: string;
@@ -500,213 +493,213 @@ export interface InsertPagesRequest extends Page {
 }
 export interface InsertPostsRequest extends Post {
   fetchImages?: boolean | undefined;
-  fetchBody?: boolean | undefined;
-  blogId: string;
   isDraft?: boolean | undefined;
+  blogId: string;
+  fetchBody?: boolean | undefined;
 }
 export type ListByBlogCommentsStatusEnum = "LIVE" | "EMPTIED" | "PENDING" | "SPAM";
 export type ListByBlogCommentsStatusEnumList = Array<ListByBlogCommentsStatusEnum | (string & {})>;
 export interface ListByBlogCommentsRequest {
-  pageToken?: string | undefined;
-  blogId: string;
-  fetchBodies?: boolean | undefined;
-  endDate?: string | undefined;
-  status?: ListByBlogCommentsStatusEnumList | undefined;
-  startDate?: string | undefined;
   maxResults?: number | undefined;
+  endDate?: string | undefined;
+  pageToken?: string | undefined;
+  status?: ListByBlogCommentsStatusEnumList | undefined;
+  fetchBodies?: boolean | undefined;
+  blogId: string;
+  startDate?: string | undefined;
 }
 export interface CommentList {
+  /** Pagination token to fetch the next page, if one exists. */
+  nextPageToken?: string | undefined;
   /** Pagination token to fetch the previous page, if one exists. */
   prevPageToken?: string | undefined;
-  /** The List of Comments for a Post. */
-  items: CommentList_;
   /** The kind of this entry. Always blogger#commentList. */
   kind?: string | undefined;
   /** Etag of the response. */
   etag?: string | undefined;
-  /** Pagination token to fetch the next page, if one exists. */
-  nextPageToken?: string | undefined;
+  /** The List of Comments for a Post. */
+  items: CommentList_;
 }
 export type ListByUserBlogsViewEnum = "VIEW_TYPE_UNSPECIFIED" | "READER" | "AUTHOR" | "ADMIN";
-export type ListByUserBlogsRoleEnum = "VIEW_TYPE_UNSPECIFIED" | "READER" | "AUTHOR" | "ADMIN";
-export type ListByUserBlogsRoleEnumList = Array<ListByUserBlogsRoleEnum | (string & {})>;
 export type ListByUserBlogsStatusEnum = "LIVE" | "DELETED";
 export type ListByUserBlogsStatusEnumList = Array<ListByUserBlogsStatusEnum | (string & {})>;
+export type ListByUserBlogsRoleEnum = "VIEW_TYPE_UNSPECIFIED" | "READER" | "AUTHOR" | "ADMIN";
+export type ListByUserBlogsRoleEnumList = Array<ListByUserBlogsRoleEnum | (string & {})>;
 export interface ListByUserBlogsRequest {
   userId: string;
   fetchUserInfo?: boolean | undefined;
   /** Unspecified is interpreted as the user's role on the blog. */
   view?: ListByUserBlogsViewEnum | (string & {}) | undefined;
-  role?: ListByUserBlogsRoleEnumList | undefined;
   /** Default value of status is LIVE. */
   status?: ListByUserBlogsStatusEnumList | undefined;
+  role?: ListByUserBlogsRoleEnumList | undefined;
 }
-export type BlogUserInfoList = Array<BlogUserInfo>;
 export type BlogList_ = Array<Blog>;
+export type BlogUserInfoList = Array<BlogUserInfo>;
 export interface BlogList {
-  /** Admin level list of blog per-user information. */
-  blogUserInfos?: BlogUserInfoList | undefined;
-  /** The list of Blogs this user has Authorship or Admin rights over. */
-  items?: BlogList_ | undefined;
   /** The kind of this entity. Always blogger#blogList. */
   kind?: string | undefined;
+  /** The list of Blogs this user has Authorship or Admin rights over. */
+  items?: BlogList_ | undefined;
+  /** Admin level list of blog per-user information. */
+  blogUserInfos?: BlogUserInfoList | undefined;
 }
 export type ListCommentsViewEnum = "VIEW_TYPE_UNSPECIFIED" | "READER" | "AUTHOR" | "ADMIN";
 export type ListCommentsStatusEnum = "LIVE" | "EMPTIED" | "PENDING" | "SPAM";
 export interface ListCommentsRequest {
   maxResults?: number | undefined;
-  view?: ListCommentsViewEnum | (string & {}) | undefined;
-  status?: ListCommentsStatusEnum | (string & {}) | undefined;
-  postId: string;
-  fetchBodies?: boolean | undefined;
-  endDate?: string | undefined;
   startDate?: string | undefined;
+  view?: ListCommentsViewEnum | (string & {}) | undefined;
   pageToken?: string | undefined;
+  fetchBodies?: boolean | undefined;
   blogId: string;
+  postId: string;
+  status?: ListCommentsStatusEnum | (string & {}) | undefined;
+  endDate?: string | undefined;
 }
+export type ListPagesViewEnum = "VIEW_TYPE_UNSPECIFIED" | "READER" | "AUTHOR" | "ADMIN";
 export type ListPagesStatusEnum = "LIVE" | "DRAFT" | "SOFT_TRASHED";
 export type ListPagesStatusEnumList = Array<ListPagesStatusEnum | (string & {})>;
-export type ListPagesViewEnum = "VIEW_TYPE_UNSPECIFIED" | "READER" | "AUTHOR" | "ADMIN";
 export interface ListPagesRequest {
-  blogId: string;
   pageToken?: string | undefined;
-  status?: ListPagesStatusEnumList | undefined;
   view?: ListPagesViewEnum | (string & {}) | undefined;
-  maxResults?: number | undefined;
   fetchBodies?: boolean | undefined;
+  maxResults?: number | undefined;
+  blogId: string;
+  status?: ListPagesStatusEnumList | undefined;
 }
 export type PageList_ = Array<Page>;
 export interface PageList {
   /** The list of Pages for a Blog. */
   items: PageList_;
-  /** Etag of the response. */
-  etag?: string | undefined;
   /** Pagination token to fetch the next page, if one exists. */
   nextPageToken?: string | undefined;
   /** The kind of this entity. Always blogger#pageList. */
   kind?: string | undefined;
+  /** Etag of the response. */
+  etag?: string | undefined;
 }
 export type ListPostsSortOptionEnum = "SORT_OPTION_UNSPECIFIED" | "DESCENDING" | "ASCENDING";
-export type ListPostsViewEnum = "VIEW_TYPE_UNSPECIFIED" | "READER" | "AUTHOR" | "ADMIN";
 export type ListPostsOrderByEnum = "ORDER_BY_UNSPECIFIED" | "PUBLISHED" | "UPDATED";
+export type ListPostsViewEnum = "VIEW_TYPE_UNSPECIFIED" | "READER" | "AUTHOR" | "ADMIN";
 export type ListPostsStatusEnum = "LIVE" | "DRAFT" | "SCHEDULED" | "SOFT_TRASHED";
 export type ListPostsStatusEnumList = Array<ListPostsStatusEnum | (string & {})>;
 export interface ListPostsRequest {
-  pageToken?: string | undefined;
-  blogId: string;
-  labels?: string | undefined;
-  startDate?: string | undefined;
-  maxResults?: number | undefined;
-  fetchBodies?: boolean | undefined;
-  fetchImages?: boolean | undefined;
   /** Sort direction applied to post list. */
   sortOption?: ListPostsSortOptionEnum | (string & {}) | undefined;
-  view?: ListPostsViewEnum | (string & {}) | undefined;
   orderBy?: ListPostsOrderByEnum | (string & {}) | undefined;
-  status?: ListPostsStatusEnumList | undefined;
+  view?: ListPostsViewEnum | (string & {}) | undefined;
+  labels?: string | undefined;
+  startDate?: string | undefined;
   endDate?: string | undefined;
+  status?: ListPostsStatusEnumList | undefined;
+  maxResults?: number | undefined;
+  pageToken?: string | undefined;
+  blogId: string;
+  fetchBodies?: boolean | undefined;
+  fetchImages?: boolean | undefined;
 }
 export interface PostList {
   /** The kind of this entity. Always blogger#postList. */
   kind?: string | undefined;
   /** Etag of the response. */
   etag?: string | undefined;
+  /** The list of Posts for this Blog. */
+  items: PostList_;
   /** Pagination token to fetch the next page, if one exists. */
   nextPageToken?: string | undefined;
   /** Pagination token to fetch the previous page, if one exists. */
   prevPageToken?: string | undefined;
-  /** The list of Posts for this Blog. */
-  items: PostList_;
 }
-export type ListPostUserInfosViewEnum = "VIEW_TYPE_UNSPECIFIED" | "READER" | "AUTHOR" | "ADMIN";
 export type ListPostUserInfosStatusEnum = "LIVE" | "DRAFT" | "SCHEDULED" | "SOFT_TRASHED";
 export type ListPostUserInfosStatusEnumList = Array<ListPostUserInfosStatusEnum | (string & {})>;
+export type ListPostUserInfosViewEnum = "VIEW_TYPE_UNSPECIFIED" | "READER" | "AUTHOR" | "ADMIN";
 export type ListPostUserInfosOrderByEnum = "ORDER_BY_UNSPECIFIED" | "PUBLISHED" | "UPDATED";
 export interface ListPostUserInfosRequest {
-  startDate?: string | undefined;
   blogId: string;
-  labels?: string | undefined;
-  view?: ListPostUserInfosViewEnum | (string & {}) | undefined;
-  pageToken?: string | undefined;
-  endDate?: string | undefined;
-  status?: ListPostUserInfosStatusEnumList | undefined;
   fetchBodies?: boolean | undefined;
+  status?: ListPostUserInfosStatusEnumList | undefined;
+  endDate?: string | undefined;
+  pageToken?: string | undefined;
+  startDate?: string | undefined;
+  view?: ListPostUserInfosViewEnum | (string & {}) | undefined;
+  labels?: string | undefined;
   maxResults?: number | undefined;
   userId: string;
   orderBy?: ListPostUserInfosOrderByEnum | (string & {}) | undefined;
 }
 export type PostUserInfoList = Array<PostUserInfo>;
 export interface PostUserInfosList {
-  /** Pagination token to fetch the next page, if one exists. */
-  nextPageToken?: string | undefined;
-  /** The kind of this entity. Always blogger#postList. */
-  kind?: string | undefined;
   /** The list of Posts with User information for the post, for this Blog. */
   items: PostUserInfoList;
+  /** The kind of this entity. Always blogger#postList. */
+  kind?: string | undefined;
+  /** Pagination token to fetch the next page, if one exists. */
+  nextPageToken?: string | undefined;
 }
 export interface MarkAsSpamCommentsRequest {
-  postId: string;
   commentId: string;
   blogId: string;
+  postId: string;
 }
 export interface PatchPagesRequest extends Page {
   pageId: string;
-  publish?: boolean | undefined;
   revert?: boolean | undefined;
   blogId: string;
+  publish?: boolean | undefined;
 }
 export interface PatchPostsRequest extends Post {
-  maxComments?: number | undefined;
+  blogId: string;
   postId: string;
+  fetchBody?: boolean | undefined;
   fetchImages?: boolean | undefined;
   publish?: boolean | undefined;
-  blogId: string;
   revert?: boolean | undefined;
-  fetchBody?: boolean | undefined;
+  maxComments?: number | undefined;
 }
 export interface PublishPagesRequest {
   blogId: string;
   pageId: string;
 }
 export interface PublishPostsRequest {
-  publishDate?: string | undefined;
   blogId: string;
   postId: string;
+  publishDate?: string | undefined;
 }
 export interface RemoveContentCommentsRequest {
-  postId: string;
   commentId: string;
   blogId: string;
+  postId: string;
 }
 export interface RevertPagesRequest {
   blogId: string;
   pageId: string;
 }
 export interface RevertPostsRequest {
-  postId: string;
   blogId: string;
+  postId: string;
 }
 export type SearchPostsOrderByEnum = "ORDER_BY_UNSPECIFIED" | "PUBLISHED" | "UPDATED";
 export interface SearchPostsRequest {
   blogId: string;
   orderBy?: SearchPostsOrderByEnum | (string & {}) | undefined;
-  q: string;
   fetchBodies?: boolean | undefined;
+  q: string;
 }
 export interface UpdatePagesRequest extends Page {
   pageId: string;
+  revert?: boolean | undefined;
   publish?: boolean | undefined;
   blogId: string;
-  revert?: boolean | undefined;
 }
 export interface UpdatePostsRequest extends Post {
-  postId: string;
+  fetchBody?: boolean | undefined;
   fetchImages?: boolean | undefined;
+  blogId: string;
+  postId: string;
+  maxComments?: number | undefined;
   revert?: boolean | undefined;
   publish?: boolean | undefined;
-  blogId: string;
-  maxComments?: number | undefined;
-  fetchBody?: boolean | undefined;
 }
 export type ApproveCommentsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Marks a comment as not spam by blog id, post id and comment id. */
@@ -785,7 +778,7 @@ export type GetBlogsError = NotFound | Forbidden | GcpOpError;
 export const getBlogs: API.OperationMethod<GetBlogsRequest, Blog, GetBlogsError, GcpOpContext> =
   /*@__PURE__*/ API.make(() => ({
     input: __S(312, __c39, 0) as any as S.Schema<GetBlogsRequest>,
-    output: __S(339, __c42, 3) as any as S.Schema<Blog>,
+    output: __S(346, __c43, 2) as any as S.Schema<Blog>,
     errors: [NotFound, Forbidden],
     serviceErrors: GcpServiceErrors,
     protocol: GcpProtocol,
@@ -802,8 +795,8 @@ export const getBlogUserInfos: API.OperationMethod<
   GetBlogUserInfosError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c44, 0) as any as S.Schema<GetBlogUserInfosRequest>,
-  output: __S(361, __c45, 1) as any as S.Schema<BlogUserInfo>,
+  input: __S(360, __c45, 0) as any as S.Schema<GetBlogUserInfosRequest>,
+  output: __S(369, __c46, 1) as any as S.Schema<BlogUserInfo>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -839,7 +832,7 @@ export const getByUrlBlogs: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c1, 0) as any as S.Schema<GetByUrlBlogsRequest>,
-  output: __S(339, __c42, 3) as any as S.Schema<Blog>,
+  output: __S(346, __c43, 2) as any as S.Schema<Blog>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -935,7 +928,7 @@ export type GetUsersError = NotFound | Forbidden | GcpOpError;
 export const getUsers: API.OperationMethod<GetUsersRequest, User, GetUsersError, GcpOpContext> =
   /*@__PURE__*/ API.make(() => ({
     input: __S(80, __c10, 0) as any as S.Schema<GetUsersRequest>,
-    output: __S(83, __c10, 3) as any as S.Schema<User>,
+    output: __S(82, __c10, 2) as any as S.Schema<User>,
     errors: [NotFound, Forbidden],
     serviceErrors: GcpServiceErrors,
     protocol: GcpProtocol,
@@ -1302,8 +1295,8 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          view: S.optional(S.String.pipe(T.Query())),
           path: S.String.pipe(T.Query()),
+          view: S.optional(S.String.pipe(T.Query())),
           maxComments: S.optional(S.Number.pipe(T.Query())),
           blogId: S.String.pipe(T.Label()),
         }).pipe(
@@ -1338,9 +1331,9 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          blogId: S.String.pipe(T.Label()),
-          view: S.optional(S.String.pipe(T.Query())),
           commentId: S.String.pipe(T.Label()),
+          view: S.optional(S.String.pipe(T.Query())),
+          blogId: S.String.pipe(T.Label()),
           postId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -1375,28 +1368,28 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          url: S.optional(S.String),
           id: S.optional(S.String),
-          image: S.optional(__S(265, __c33, 1)),
+          url: S.optional(S.String),
           displayName: S.optional(S.String),
+          image: S.optional(__S(265, __c33, 1)),
         }),
       ).annotate({ identifier: "PageAuthor" });
     case 1:
       return S.suspend(() =>
         S.Struct({
+          updated: S.optional(S.String),
+          status: S.optional(S.String),
+          content: S.optional(S.String),
+          url: S.optional(S.String),
+          trashed: S.optional(S.String),
+          title: S.optional(S.String),
           author: S.optional(__S(32, __c4, 0)),
           published: S.optional(S.String),
-          selfLink: S.optional(S.String),
-          blog: S.optional(__S(264, __c33, 0)),
-          etag: S.optional(S.String),
-          updated: S.optional(S.String),
-          content: S.optional(S.String),
-          title: S.optional(S.String),
-          kind: S.optional(S.String),
-          status: S.optional(S.String),
-          url: S.optional(S.String),
           id: S.optional(S.String),
-          trashed: S.optional(S.String),
+          etag: S.optional(S.String),
+          blog: S.optional(__S(264, __c33, 0)),
+          kind: S.optional(S.String),
+          selfLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "Page" });
   }
@@ -1406,8 +1399,8 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          range: S.optional(__S(48, __c6, 0).pipe(T.Query())),
           blogId: S.String.pipe(T.Label()),
+          range: S.optional(__S(48, __c6, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1428,9 +1421,9 @@ function __c5(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          kind: S.optional(S.String),
-          blogId: S.optional(S.String),
           counts: S.optional(__S(42, __c5, 2)),
+          blogId: S.optional(S.String),
+          kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "Pageviews" });
   }
@@ -1446,12 +1439,12 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          postId: S.String.pipe(T.Label()),
-          view: S.optional(S.String.pipe(T.Query())),
-          maxComments: S.optional(S.Number.pipe(T.Query())),
-          blogId: S.String.pipe(T.Label()),
           fetchBody: S.optional(S.Boolean.pipe(T.Query())),
           fetchImages: S.optional(S.Boolean.pipe(T.Query())),
+          blogId: S.String.pipe(T.Label()),
+          postId: S.String.pipe(T.Label()),
+          maxComments: S.optional(S.Number.pipe(T.Query())),
+          view: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1467,10 +1460,10 @@ function __c8(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          userId: S.String.pipe(T.Label()),
           maxComments: S.optional(S.Number.pipe(T.Query())),
           blogId: S.String.pipe(T.Label()),
           postId: S.String.pipe(T.Label()),
-          userId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1486,19 +1479,19 @@ function __c9(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          blogId: S.optional(S.String),
           userId: S.optional(S.String),
-          hasEditAccess: S.optional(S.Boolean),
           kind: S.optional(S.String),
+          blogId: S.optional(S.String),
           postId: S.optional(S.String),
+          hasEditAccess: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "PostPerUserInfo" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          post: S.optional(__S(333, __c41, 5)),
-          post_user_info: S.optional(__S(72, __c9, 0)),
           kind: S.optional(S.String),
+          post_user_info: S.optional(__S(72, __c9, 0)),
+          post: S.optional(__S(333, __c41, 5)),
         }),
       ).annotate({ identifier: "PostUserInfo" });
   }
@@ -1526,23 +1519,15 @@ function __c10(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          country: S.optional(S.String),
-          variant: S.optional(S.String),
-          language: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "UserLocale" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          about: S.optional(S.String),
+          locale: S.optional(__S(336, __c42, 0)),
           url: S.optional(S.String),
-          selfLink: S.optional(S.String),
-          created: S.optional(S.String),
-          blogs: S.optional(__S(81, __c10, 1)),
           id: S.optional(S.String),
+          created: S.optional(S.String),
+          about: S.optional(S.String),
+          selfLink: S.optional(S.String),
           kind: S.optional(S.String),
           displayName: S.optional(S.String),
-          locale: S.optional(__S(82, __c10, 2)),
+          blogs: S.optional(__S(81, __c10, 1)),
         }),
       ).annotate({ identifier: "User" });
   }
@@ -1575,9 +1560,9 @@ function __c12(j: number): any {
           __S(333, __c41, 5),
           S.Struct({
             fetchImages: S.optional(S.Boolean.pipe(T.Query())),
-            fetchBody: S.optional(S.Boolean.pipe(T.Query())),
-            blogId: S.String.pipe(T.Label()),
             isDraft: S.optional(S.Boolean.pipe(T.Query())),
+            blogId: S.String.pipe(T.Label()),
+            fetchBody: S.optional(S.Boolean.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -1594,13 +1579,13 @@ function __c13(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          blogId: S.String.pipe(T.Label()),
-          fetchBodies: S.optional(S.Boolean.pipe(T.Query())),
-          endDate: S.optional(S.String.pipe(T.Query())),
-          status: S.optional(__S(48, __c6, 0).pipe(T.Query())),
-          startDate: S.optional(S.String.pipe(T.Query())),
           maxResults: S.optional(S.Number.pipe(T.Query())),
+          endDate: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          status: S.optional(__S(48, __c6, 0).pipe(T.Query())),
+          fetchBodies: S.optional(S.Boolean.pipe(T.Query())),
+          blogId: S.String.pipe(T.Label()),
+          startDate: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1616,11 +1601,11 @@ function __c14(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          nextPageToken: S.optional(S.String),
           prevPageToken: S.optional(S.String),
-          items: __S(320, __c40, 0),
           kind: S.optional(S.String),
           etag: S.optional(S.String),
-          nextPageToken: S.optional(S.String),
+          items: __S(320, __c40, 0),
         }),
       ).annotate({ identifier: "CommentList" });
   }
@@ -1633,8 +1618,8 @@ function __c15(j: number): any {
           userId: S.String.pipe(T.Label()),
           fetchUserInfo: S.optional(S.Boolean.pipe(T.Query())),
           view: S.optional(S.String.pipe(T.Query())),
-          role: S.optional(__S(48, __c6, 0).pipe(T.Query())),
           status: S.optional(__S(48, __c6, 0).pipe(T.Query())),
+          role: S.optional(__S(48, __c6, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1644,15 +1629,15 @@ function __c15(j: number): any {
         ),
       ).annotate({ identifier: "ListByUserBlogsRequest" });
     case 1:
-      return S.Array(__S(361, __c45, 1));
+      return S.Array(__S(346, __c43, 2));
     case 2:
-      return S.Array(__S(339, __c42, 3));
+      return S.Array(__S(369, __c46, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          blogUserInfos: S.optional(__S(121, __c15, 1)),
-          items: S.optional(__S(122, __c15, 2)),
           kind: S.optional(S.String),
+          items: S.optional(__S(121, __c15, 1)),
+          blogUserInfos: S.optional(__S(122, __c15, 2)),
         }),
       ).annotate({ identifier: "BlogList" });
   }
@@ -1663,14 +1648,14 @@ function __c16(j: number): any {
       return S.suspend(() =>
         S.Struct({
           maxResults: S.optional(S.Number.pipe(T.Query())),
-          view: S.optional(S.String.pipe(T.Query())),
-          status: S.optional(S.String.pipe(T.Query())),
-          postId: S.String.pipe(T.Label()),
-          fetchBodies: S.optional(S.Boolean.pipe(T.Query())),
-          endDate: S.optional(S.String.pipe(T.Query())),
           startDate: S.optional(S.String.pipe(T.Query())),
+          view: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          fetchBodies: S.optional(S.Boolean.pipe(T.Query())),
           blogId: S.String.pipe(T.Label()),
+          postId: S.String.pipe(T.Label()),
+          status: S.optional(S.String.pipe(T.Query())),
+          endDate: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1686,12 +1671,12 @@ function __c17(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          blogId: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          status: S.optional(__S(48, __c6, 0).pipe(T.Query())),
           view: S.optional(S.String.pipe(T.Query())),
-          maxResults: S.optional(S.Number.pipe(T.Query())),
           fetchBodies: S.optional(S.Boolean.pipe(T.Query())),
+          maxResults: S.optional(S.Number.pipe(T.Query())),
+          blogId: S.String.pipe(T.Label()),
+          status: S.optional(__S(48, __c6, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1706,9 +1691,9 @@ function __c17(j: number): any {
       return S.suspend(() =>
         S.Struct({
           items: __S(137, __c17, 1),
-          etag: S.optional(S.String),
           nextPageToken: S.optional(S.String),
           kind: S.optional(S.String),
+          etag: S.optional(S.String),
         }),
       ).annotate({ identifier: "PageList" });
   }
@@ -1718,18 +1703,18 @@ function __c18(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          blogId: S.String.pipe(T.Label()),
+          sortOption: S.optional(S.String.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
+          view: S.optional(S.String.pipe(T.Query())),
           labels: S.optional(S.String.pipe(T.Query())),
           startDate: S.optional(S.String.pipe(T.Query())),
+          endDate: S.optional(S.String.pipe(T.Query())),
+          status: S.optional(__S(48, __c6, 0).pipe(T.Query())),
           maxResults: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          blogId: S.String.pipe(T.Label()),
           fetchBodies: S.optional(S.Boolean.pipe(T.Query())),
           fetchImages: S.optional(S.Boolean.pipe(T.Query())),
-          sortOption: S.optional(S.String.pipe(T.Query())),
-          view: S.optional(S.String.pipe(T.Query())),
-          orderBy: S.optional(S.String.pipe(T.Query())),
-          status: S.optional(__S(48, __c6, 0).pipe(T.Query())),
-          endDate: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1747,9 +1732,9 @@ function __c19(j: number): any {
         S.Struct({
           kind: S.optional(S.String),
           etag: S.optional(S.String),
+          items: __S(352, __c44, 0),
           nextPageToken: S.optional(S.String),
           prevPageToken: S.optional(S.String),
-          items: __S(344, __c43, 0),
         }),
       ).annotate({ identifier: "PostList" });
   }
@@ -1759,14 +1744,14 @@ function __c20(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          startDate: S.optional(S.String.pipe(T.Query())),
           blogId: S.String.pipe(T.Label()),
-          labels: S.optional(S.String.pipe(T.Query())),
-          view: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          endDate: S.optional(S.String.pipe(T.Query())),
-          status: S.optional(__S(48, __c6, 0).pipe(T.Query())),
           fetchBodies: S.optional(S.Boolean.pipe(T.Query())),
+          status: S.optional(__S(48, __c6, 0).pipe(T.Query())),
+          endDate: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          startDate: S.optional(S.String.pipe(T.Query())),
+          view: S.optional(S.String.pipe(T.Query())),
+          labels: S.optional(S.String.pipe(T.Query())),
           maxResults: S.optional(S.Number.pipe(T.Query())),
           userId: S.String.pipe(T.Label()),
           orderBy: S.optional(S.String.pipe(T.Query())),
@@ -1783,9 +1768,9 @@ function __c20(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
-          kind: S.optional(S.String),
           items: __S(161, __c20, 1),
+          kind: S.optional(S.String),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "PostUserInfosList" });
   }
@@ -1795,9 +1780,9 @@ function __c21(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          postId: S.String.pipe(T.Label()),
           commentId: S.String.pipe(T.Label()),
           blogId: S.String.pipe(T.Label()),
+          postId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1816,9 +1801,9 @@ function __c22(j: number): any {
           __S(33, __c4, 1),
           S.Struct({
             pageId: S.String.pipe(T.Label()),
-            publish: S.optional(S.Boolean.pipe(T.Query())),
             revert: S.optional(S.Boolean.pipe(T.Query())),
             blogId: S.String.pipe(T.Label()),
+            publish: S.optional(S.Boolean.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -1837,13 +1822,13 @@ function __c23(j: number): any {
         S.Extend(
           __S(333, __c41, 5),
           S.Struct({
-            maxComments: S.optional(S.Number.pipe(T.Query())),
+            blogId: S.String.pipe(T.Label()),
             postId: S.String.pipe(T.Label()),
+            fetchBody: S.optional(S.Boolean.pipe(T.Query())),
             fetchImages: S.optional(S.Boolean.pipe(T.Query())),
             publish: S.optional(S.Boolean.pipe(T.Query())),
-            blogId: S.String.pipe(T.Label()),
             revert: S.optional(S.Boolean.pipe(T.Query())),
-            fetchBody: S.optional(S.Boolean.pipe(T.Query())),
+            maxComments: S.optional(S.Number.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -1877,9 +1862,9 @@ function __c25(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          publishDate: S.optional(S.String.pipe(T.Query())),
           blogId: S.String.pipe(T.Label()),
           postId: S.String.pipe(T.Label()),
+          publishDate: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1895,9 +1880,9 @@ function __c26(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          postId: S.String.pipe(T.Label()),
           commentId: S.String.pipe(T.Label()),
           blogId: S.String.pipe(T.Label()),
+          postId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1930,8 +1915,8 @@ function __c28(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          postId: S.String.pipe(T.Label()),
           blogId: S.String.pipe(T.Label()),
+          postId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1949,8 +1934,8 @@ function __c29(j: number): any {
         S.Struct({
           blogId: S.String.pipe(T.Label()),
           orderBy: S.optional(S.String.pipe(T.Query())),
-          q: S.String.pipe(T.Query()),
           fetchBodies: S.optional(S.Boolean.pipe(T.Query())),
+          q: S.String.pipe(T.Query()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1969,9 +1954,9 @@ function __c30(j: number): any {
           __S(33, __c4, 1),
           S.Struct({
             pageId: S.String.pipe(T.Label()),
+            revert: S.optional(S.Boolean.pipe(T.Query())),
             publish: S.optional(S.Boolean.pipe(T.Query())),
             blogId: S.String.pipe(T.Label()),
-            revert: S.optional(S.Boolean.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -1990,13 +1975,13 @@ function __c31(j: number): any {
         S.Extend(
           __S(333, __c41, 5),
           S.Struct({
-            postId: S.String.pipe(T.Label()),
+            fetchBody: S.optional(S.Boolean.pipe(T.Query())),
             fetchImages: S.optional(S.Boolean.pipe(T.Query())),
+            blogId: S.String.pipe(T.Label()),
+            postId: S.String.pipe(T.Label()),
+            maxComments: S.optional(S.Number.pipe(T.Query())),
             revert: S.optional(S.Boolean.pipe(T.Query())),
             publish: S.optional(S.Boolean.pipe(T.Query())),
-            blogId: S.String.pipe(T.Label()),
-            maxComments: S.optional(S.Number.pipe(T.Query())),
-            fetchBody: S.optional(S.Boolean.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -2013,9 +1998,9 @@ function __c32(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          postId: S.String.pipe(T.Label()),
-          blogId: S.String.pipe(T.Label()),
           commentId: S.String.pipe(T.Label()),
+          blogId: S.String.pipe(T.Label()),
+          postId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2048,25 +2033,25 @@ function __c34(j: number): any {
       return S.suspend(() =>
         S.Struct({
           image: S.optional(__S(265, __c33, 1)),
-          url: S.optional(S.String),
-          id: S.optional(S.String),
           displayName: S.optional(S.String),
+          id: S.optional(S.String),
+          url: S.optional(S.String),
         }),
       ).annotate({ identifier: "CommentAuthor" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           post: S.optional(__S(264, __c33, 0)),
-          blog: S.optional(__S(264, __c33, 0)),
-          author: S.optional(__S(272, __c34, 0)),
-          inReplyTo: S.optional(__S(264, __c33, 0)),
-          kind: S.optional(S.String),
-          id: S.optional(S.String),
-          selfLink: S.optional(S.String),
-          published: S.optional(S.String),
-          updated: S.optional(S.String),
-          content: S.optional(S.String),
           status: S.optional(S.String),
+          published: S.optional(S.String),
+          content: S.optional(S.String),
+          selfLink: S.optional(S.String),
+          blog: S.optional(__S(264, __c33, 0)),
+          updated: S.optional(S.String),
+          id: S.optional(S.String),
+          kind: S.optional(S.String),
+          inReplyTo: S.optional(__S(264, __c33, 0)),
+          author: S.optional(__S(272, __c34, 0)),
         }),
       ).annotate({ identifier: "Comment" });
   }
@@ -2077,8 +2062,8 @@ function __c35(j: number): any {
       return S.suspend(() =>
         S.Struct({
           commentId: S.String.pipe(T.Label()),
-          postId: S.String.pipe(T.Label()),
           blogId: S.String.pipe(T.Label()),
+          postId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -2100,9 +2085,9 @@ function __c37(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageId: S.String.pipe(T.Label()),
           blogId: S.String.pipe(T.Label()),
           useTrash: S.optional(S.Boolean.pipe(T.Query())),
+          pageId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -2136,9 +2121,9 @@ function __c39(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          view: S.optional(S.String.pipe(T.Query())),
           blogId: S.String.pipe(T.Label()),
           maxPosts: S.optional(S.Number.pipe(T.Query())),
-          view: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2162,27 +2147,27 @@ function __c41(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          displayName: S.optional(S.String),
-          id: S.optional(S.String),
           image: S.optional(__S(265, __c33, 1)),
+          id: S.optional(S.String),
+          displayName: S.optional(S.String),
           url: S.optional(S.String),
         }),
       ).annotate({ identifier: "PostAuthor" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          totalItems: S.optional(S.String),
           items: S.optional(__S(320, __c40, 0)),
           selfLink: S.optional(S.String),
+          totalItems: S.optional(S.String),
         }),
       ).annotate({ identifier: "PostReplies" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          lat: S.optional(S.Number),
-          span: S.optional(S.String),
           lng: S.optional(S.Number),
+          name: S.optional(S.String),
+          span: S.optional(S.String),
+          lat: S.optional(S.Number),
         }),
       ).annotate({ identifier: "PostLocation" });
     case 4:
@@ -2190,26 +2175,26 @@ function __c41(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          selfLink: S.optional(S.String),
-          etag: S.optional(S.String),
-          url: S.optional(S.String),
-          id: S.optional(S.String),
+          content: S.optional(S.String),
+          readerComments: S.optional(S.String),
+          trashed: S.optional(S.String),
           labels: S.optional(__S(328, __c41, 0)),
-          kind: S.optional(S.String),
+          url: S.optional(S.String),
+          updated: S.optional(S.String),
           author: S.optional(__S(329, __c41, 1)),
           published: S.optional(S.String),
           replies: S.optional(__S(330, __c41, 2)),
           title: S.optional(S.String),
+          etag: S.optional(S.String),
           titleLink: S.optional(S.String),
-          readerComments: S.optional(S.String),
-          updated: S.optional(S.String),
-          content: S.optional(S.String),
-          location: S.optional(__S(331, __c41, 3)),
+          customMetaData: S.optional(S.String),
           status: S.optional(S.String),
-          trashed: S.optional(S.String),
+          id: S.optional(S.String),
+          location: S.optional(__S(331, __c41, 3)),
           images: S.optional(__S(332, __c41, 4)),
           blog: S.optional(__S(264, __c33, 0)),
-          customMetaData: S.optional(S.String),
+          kind: S.optional(S.String),
+          selfLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "Post" });
   }
@@ -2219,53 +2204,57 @@ function __c42(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          totalItems: S.optional(S.Number),
-          selfLink: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "BlogPages" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
+          variant: S.optional(S.String),
           language: S.optional(S.String),
           country: S.optional(S.String),
-          variant: S.optional(S.String),
         }),
       ).annotate({ identifier: "BlogLocale" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          selfLink: S.optional(S.String),
-          totalItems: S.optional(S.Number),
-          items: S.optional(__S(344, __c43, 0)),
-        }),
-      ).annotate({ identifier: "BlogPosts" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          pages: S.optional(__S(336, __c42, 0)),
-          locale: S.optional(__S(337, __c42, 1)),
-          selfLink: S.optional(S.String),
-          status: S.optional(S.String),
-          customMetaData: S.optional(S.String),
-          name: S.optional(S.String),
-          id: S.optional(S.String),
-          published: S.optional(S.String),
-          posts: S.optional(__S(338, __c42, 2)),
-          kind: S.optional(S.String),
-          description: S.optional(S.String),
-          url: S.optional(S.String),
-          updated: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Blog" });
   }
 }
 function __c43(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(333, __c41, 5));
+      return S.suspend(() =>
+        S.Struct({
+          totalItems: S.optional(S.Number),
+          selfLink: S.optional(S.String),
+          items: S.optional(__S(352, __c44, 0)),
+        }),
+      ).annotate({ identifier: "BlogPosts" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          selfLink: S.optional(S.String),
+          totalItems: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "BlogPages" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          description: S.optional(S.String),
+          kind: S.optional(S.String),
+          name: S.optional(S.String),
+          status: S.optional(S.String),
+          url: S.optional(S.String),
+          customMetaData: S.optional(S.String),
+          id: S.optional(S.String),
+          published: S.optional(S.String),
+          updated: S.optional(S.String),
+          posts: S.optional(__S(344, __c43, 0)),
+          pages: S.optional(__S(345, __c43, 1)),
+          selfLink: S.optional(S.String),
+          locale: S.optional(__S(336, __c42, 0)),
+        }),
+      ).annotate({ identifier: "Blog" });
   }
 }
 function __c44(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(333, __c41, 5));
+  }
+}
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2283,25 +2272,25 @@ function __c44(j: number): any {
       ).annotate({ identifier: "GetBlogUserInfosRequest" });
   }
 }
-function __c45(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          blogId: S.optional(S.String),
-          userId: S.optional(S.String),
-          hasAdminAccess: S.optional(S.Boolean),
-          kind: S.optional(S.String),
           photosAlbumKey: S.optional(S.String),
+          hasAdminAccess: S.optional(S.Boolean),
+          userId: S.optional(S.String),
+          kind: S.optional(S.String),
+          blogId: S.optional(S.String),
           role: S.optional(S.String),
         }),
       ).annotate({ identifier: "BlogPerUserInfo" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          blog: S.optional(__S(339, __c42, 3)),
           kind: S.optional(S.String),
-          blog_user_info: S.optional(__S(360, __c45, 0)),
+          blog_user_info: S.optional(__S(368, __c46, 0)),
+          blog: S.optional(__S(346, __c43, 2)),
         }),
       ).annotate({ identifier: "BlogUserInfo" });
   }

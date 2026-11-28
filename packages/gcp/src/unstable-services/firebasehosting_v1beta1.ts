@@ -91,12 +91,12 @@ export interface PathFilter {
   regexes?: StringList | undefined;
 }
 export interface CloneVersionRequest {
-  /** If true, the call to `CloneVersion` immediately finalizes the version after cloning is complete. If false, the cloned version will have a status of `CREATED`. Use [`UpdateVersion`](patch) to set the status of the version to `FINALIZED`. */
-  finalize?: boolean | undefined;
   /** If provided, only paths that match one or more RegEx values in this list will be included in the new version. */
   include?: PathFilter | undefined;
   /** If provided, only paths that do not match any of the RegEx values in this list will be included in the new version. */
   exclude?: PathFilter | undefined;
+  /** If true, the call to `CloneVersion` immediately finalizes the version after cloning is complete. If false, the cloned version will have a status of `CREATED`. Use [`UpdateVersion`](patch) to set the status of the version to `FINALIZED`. */
+  finalize?: boolean | undefined;
   /** Required. The unique identifier for the version to be cloned, in the format: sites/SITE_ID/versions/VERSION_ID */
   sourceVersion?: string | undefined;
 }
@@ -108,53 +108,54 @@ export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
-  /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number | undefined;
-  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList | undefined;
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
   message?: string | undefined;
+  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
+  details?: DocumentMapList | undefined;
+  /** The status code, which should be an enum value of google.rpc.Code. */
+  code?: number | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
-  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean | undefined;
-  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap | undefined;
-  /** The error result of the operation in case of failure or cancellation. */
-  error?: Status | undefined;
-  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap | undefined;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
   name?: string | undefined;
+  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
+  response?: DocumentMap | undefined;
+  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
+  metadata?: DocumentMap | undefined;
+  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
+  done?: boolean | undefined;
+  /** The error result of the operation in case of failure or cancellation. */
+  error?: Status | undefined;
 }
 export interface CloneSitesVersionsRequest extends CloneVersionRequest {
   /** Required. The target site for the cloned version, in the format: sites/ SITE_ID */
   parent: string;
 }
-export type SiteTypeEnum = "TYPE_UNSPECIFIED" | "DEFAULT_SITE" | "USER_SITE";
 export type StringMap = { [key: string]: string | undefined };
+export type SiteTypeEnum = "TYPE_UNSPECIFIED" | "DEFAULT_SITE" | "USER_SITE";
 /** A `Site` represents a Firebase Hosting site. */
 export interface Site {
+  /** Optional. User-specified labels for the Hosting site. */
+  labels?: StringMap | undefined;
+  /** Output only. The default URL for the Hosting site. */
+  defaultUrl?: string | undefined;
   /** Output only. The type of Hosting site. Every Firebase project has a `DEFAULT_SITE`, which is created when Hosting is provisioned for the project. All additional sites are `USER_SITE`. */
   type?: SiteTypeEnum | (string & {}) | undefined;
   /** Output only. The fully-qualified resource name of the Hosting site, in the format: projects/PROJECT_IDENTIFIER/sites/SITE_ID PROJECT_IDENTIFIER: the Firebase project's [`ProjectNumber`](https://firebase.google.com/docs/reference/firebase-management/rest/v1beta1/projects#FirebaseProject.FIELDS.project_number) ***(recommended)*** or its [`ProjectId`](https://firebase.google.com/docs/reference/firebase-management/rest/v1beta1/projects#FirebaseProject.FIELDS.project_id). Learn more about using project identifiers in Google's [AIP 2510 standard](https://google.aip.dev/cloud/2510). */
   name?: string | undefined;
-  /** Output only. The default URL for the Hosting site. */
-  defaultUrl?: string | undefined;
-  /** Optional. User-specified labels for the Hosting site. */
-  labels?: StringMap | undefined;
   /** Optional. The [ID of a Web App](https://firebase.google.com/docs/reference/firebase-management/rest/v1beta1/projects.webApps#WebApp.FIELDS.app_id) associated with the Hosting site. */
   appId?: string | undefined;
 }
 export interface CreateProjectsSitesRequest extends Site {
-  /** Optional. If set, validates that the site_id is available and that the request would succeed, returning the expected resulting site or error. */
-  validateOnly?: boolean | undefined;
   /** Required. Immutable. A globally unique identifier for the Hosting site. This identifier is used to construct the Firebase-provisioned subdomains for the site, so it must also be a valid domain name label. */
   siteId?: string | undefined;
   /** Required. The Firebase project in which to create a Hosting site, in the format: projects/PROJECT_IDENTIFIER Refer to the `Site` [`name`](../projects#Site.FIELDS.name) field for details about PROJECT_IDENTIFIER values. */
   parent: string;
+  /** Optional. If set, validates that the site_id is available and that the request would succeed, returning the expected resulting site or error. */
+  validateOnly?: boolean | undefined;
 }
+export type ReleaseTypeEnum = "TYPE_UNSPECIFIED" | "DEPLOY" | "ROLLBACK" | "SITE_DISABLE";
 /** Contains metadata about the user who performed an action, such as creating a release or finalizing a version. */
 export interface ActingUser {
   /** The email address of the user when the user performed the action. */
@@ -162,27 +163,19 @@ export interface ActingUser {
   /** A profile image URL for the user. May not be present if the user has changed their email address or deleted their account. */
   imageUrl?: string | undefined;
 }
-export type VersionStatusEnum =
-  | "VERSION_STATUS_UNSPECIFIED"
-  | "CREATED"
-  | "FINALIZED"
-  | "DELETED"
-  | "ABANDONED"
-  | "EXPIRED"
-  | "CLONING";
-export type ServingConfigAppAssociationEnum = "AUTO" | "NONE";
 /** A [`Redirect`](https://firebase.google.com/docs/hosting/full-config#redirects) specifies a URL pattern that, if matched to the request URL path, triggers Hosting to respond with a redirect to the specified destination path. */
 export interface Redirect {
+  /** Required. The status HTTP code to return in the response. It must be a valid 3xx status code. */
+  statusCode?: number | undefined;
   /** Required. The value to put in the HTTP location header of the response. The location can contain capture group values from the pattern using a `:` prefix to identify the segment and an optional `*` to capture the rest of the URL. For example: "glob": "/:capture*", "statusCode": 301, "location": "https://example.com/foo/:capture" */
   location?: string | undefined;
   /** The user-supplied RE2 regular expression to match against the request URL path. */
   regex?: string | undefined;
-  /** Required. The status HTTP code to return in the response. It must be a valid 3xx status code. */
-  statusCode?: number | undefined;
   /** The user-supplied [glob](https://firebase.google.com/docs/hosting/full-config#glob_pattern_matching) to match against the request URL path. */
   glob?: string | undefined;
 }
 export type RedirectList = Array<Redirect>;
+export type ServingConfigAppAssociationEnum = "AUTO" | "NONE";
 /** A [`Header`](https://firebase.google.com/docs/hosting/full-config#headers) specifies a URL pattern that, if matched to the request URL path, triggers Hosting to apply the specified custom response headers. */
 export interface Header {
   /** The user-supplied [glob](https://firebase.google.com/docs/hosting/full-config#glob_pattern_matching) to match against the request URL path. */
@@ -204,82 +197,85 @@ export type ServingConfigTrailingSlashBehaviorEnum =
   | "REMOVE";
 /** A configured rewrite that directs requests to a Cloud Run service. If the Cloud Run service does not exist when setting or updating your Firebase Hosting configuration, then the request fails. Any errors from the Cloud Run service are passed to the end user (for example, if you delete a service, any requests directed to that service receive a `404` error). */
 export interface CloudRunRewrite {
-  /** Required. User-defined ID of the Cloud Run service. */
-  serviceId?: string | undefined;
-  /** Optional. User-provided region where the Cloud Run service is hosted. Defaults to `us-central1` if not supplied. */
-  region?: string | undefined;
   /** Optional. User-provided TrafficConfig tag to send traffic to. When omitted, traffic is sent to the service-wide URI */
   tag?: string | undefined;
+  /** Optional. User-provided region where the Cloud Run service is hosted. Defaults to `us-central1` if not supplied. */
+  region?: string | undefined;
+  /** Required. User-defined ID of the Cloud Run service. */
+  serviceId?: string | undefined;
 }
 /** A [`Rewrite`](https://firebase.google.com/docs/hosting/full-config#rewrites) specifies a URL pattern that, if matched to the request URL path, triggers Hosting to respond as if the service were given the specified destination URL. */
 export interface Rewrite {
-  /** Optional. Specify a Cloud region for rewritten Functions invocations. If not provided, defaults to us-central1. */
-  functionRegion?: string | undefined;
-  /** The user-supplied [glob](https://firebase.google.com/docs/hosting/full-config#glob_pattern_matching) to match against the request URL path. */
-  glob?: string | undefined;
-  /** The function to proxy requests to. Must match the exported function name exactly. */
-  function?: string | undefined;
   /** The request will be forwarded to Cloud Run. */
   run?: CloudRunRewrite | undefined;
-  /** The request will be forwarded to Firebase Dynamic Links. */
-  dynamicLinks?: boolean | undefined;
+  /** The function to proxy requests to. Must match the exported function name exactly. */
+  function?: string | undefined;
+  /** The user-supplied [glob](https://firebase.google.com/docs/hosting/full-config#glob_pattern_matching) to match against the request URL path. */
+  glob?: string | undefined;
   /** The user-supplied RE2 regular expression to match against the request URL path. */
   regex?: string | undefined;
   /** The URL path to rewrite the request to. */
   path?: string | undefined;
+  /** The request will be forwarded to Firebase Dynamic Links. */
+  dynamicLinks?: boolean | undefined;
+  /** Optional. Specify a Cloud region for rewritten Functions invocations. If not provided, defaults to us-central1. */
+  functionRegion?: string | undefined;
 }
 export type RewriteList = Array<Rewrite>;
 /** The configuration for how incoming requests to a site should be routed and processed before serving content. The URL request paths are matched against the specified URL patterns in the configuration, then Hosting applies the applicable configuration according to a specific [priority order](https://firebase.google.com/docs/hosting/full-config#hosting_priority_order). */
 export interface ServingConfig {
-  /** How to handle well known App Association files. */
-  appAssociation?: ServingConfigAppAssociationEnum | (string & {}) | undefined;
   /** An array of objects (called redirect rules), where each rule specifies a URL pattern that, if matched to the request URL path, triggers Hosting to respond with a redirect to the specified destination path. */
   redirects?: RedirectList | undefined;
+  /** How to handle well known App Association files. */
+  appAssociation?: ServingConfigAppAssociationEnum | (string & {}) | undefined;
   /** An array of objects, where each object specifies a URL pattern that, if matched to the request URL path, triggers Hosting to apply the specified custom response headers. */
   headers?: HeaderList | undefined;
   /** Optional. Defines i18n rewrite behavior. */
   i18n?: I18nConfig | undefined;
   /** Defines how to handle a trailing slash in the URL path. */
   trailingSlashBehavior?: ServingConfigTrailingSlashBehaviorEnum | (string & {}) | undefined;
-  /** An array of objects (called rewrite rules), where each rule specifies a URL pattern that, if matched to the request URL path, triggers Hosting to respond as if the service were given the specified destination URL. */
-  rewrites?: RewriteList | undefined;
   /** Defines whether to drop the file extension from uploaded files. */
   cleanUrls?: boolean | undefined;
+  /** An array of objects (called rewrite rules), where each rule specifies a URL pattern that, if matched to the request URL path, triggers Hosting to respond as if the service were given the specified destination URL. */
+  rewrites?: RewriteList | undefined;
 }
+export type VersionStatusEnum =
+  | "VERSION_STATUS_UNSPECIFIED"
+  | "CREATED"
+  | "FINALIZED"
+  | "DELETED"
+  | "ABANDONED"
+  | "EXPIRED"
+  | "CLONING";
 /** A `Version` is a configuration and a collection of static files which determine how a site is displayed. */
 export interface Version {
   /** The labels used for extra metadata and/or filtering. */
   labels?: StringMap | undefined;
-  /** Output only. Identifies the user who created the version. */
-  createUser?: ActingUser | undefined;
-  /** Output only. The total number of files associated with the version. This value is calculated after a version is `FINALIZED`. */
-  fileCount?: string | undefined;
-  /** The fully-qualified resource name for the version, in the format: sites/ SITE_ID/versions/VERSION_ID This name is provided in the response body when you call [`CreateVersion`](sites.versions/create). */
-  name?: string | undefined;
+  /** Output only. The time at which the version was created. */
+  createTime?: string | undefined;
+  /** Output only. Identifies the user who `FINALIZED` the version. */
+  finalizeUser?: ActingUser | undefined;
+  /** The configuration for the behavior of the site. This configuration exists in the [`firebase.json`](https://firebase.google.com/docs/cli/#the_firebasejson_file) file. */
+  config?: ServingConfig | undefined;
   /** The deploy status of the version. For a successful deploy, call [`CreateVersion`](sites.versions/create) to make a new version (`CREATED` status), [upload all desired files](sites.versions/populateFiles) to the version, then [update](sites.versions/patch) the version to the `FINALIZED` status. Note that if you leave the version in the `CREATED` state for more than 12 hours, the system will automatically mark the version as `ABANDONED`. You can also change the status of a version to `DELETED` by calling [`DeleteVersion`](sites.versions/delete). */
   status?: VersionStatusEnum | (string & {}) | undefined;
   /** Output only. Identifies the user who `DELETED` the version. */
   deleteUser?: ActingUser | undefined;
-  /** The configuration for the behavior of the site. This configuration exists in the [`firebase.json`](https://firebase.google.com/docs/cli/#the_firebasejson_file) file. */
-  config?: ServingConfig | undefined;
-  /** Output only. Identifies the user who `FINALIZED` the version. */
-  finalizeUser?: ActingUser | undefined;
-  /** Output only. The time at which the version was `DELETED`. */
-  deleteTime?: string | undefined;
+  /** Output only. The total number of files associated with the version. This value is calculated after a version is `FINALIZED`. */
+  fileCount?: string | undefined;
   /** Output only. The total stored bytesize of the version. This value is calculated after a version is `FINALIZED`. */
   versionBytes?: string | undefined;
+  /** Output only. The time at which the version was `DELETED`. */
+  deleteTime?: string | undefined;
   /** Output only. The time at which the version was `FINALIZED`. */
   finalizeTime?: string | undefined;
-  /** Output only. The time at which the version was created. */
-  createTime?: string | undefined;
+  /** Output only. Identifies the user who created the version. */
+  createUser?: ActingUser | undefined;
+  /** The fully-qualified resource name for the version, in the format: sites/ SITE_ID/versions/VERSION_ID This name is provided in the response body when you call [`CreateVersion`](sites.versions/create). */
+  name?: string | undefined;
 }
-export type ReleaseTypeEnum = "TYPE_UNSPECIFIED" | "DEPLOY" | "ROLLBACK" | "SITE_DISABLE";
 /** A `Release` is a particular [collection of configurations and files](sites.versions) that is set to be public at a particular time. */
 export interface Release {
-  /** Output only. The configuration and content that was released. */
-  version?: Version | undefined;
-  /** Output only. Identifies the user who created the release. */
-  releaseUser?: ActingUser | undefined;
   /** Explains the reason for the release. Specify a value for this field only when creating a `SITE_DISABLE` type release. */
   type?: ReleaseTypeEnum | (string & {}) | undefined;
   /** The deploy description when the release was created. The value can be up to 512 characters. */
@@ -288,27 +284,31 @@ export interface Release {
   name?: string | undefined;
   /** Output only. The time at which the version is set to be public. */
   releaseTime?: string | undefined;
+  /** Output only. Identifies the user who created the release. */
+  releaseUser?: ActingUser | undefined;
+  /** Output only. The configuration and content that was released. */
+  version?: Version | undefined;
 }
 /** A `Channel` represents a stream of releases for a site. All sites have a default `live` channel that serves content to the Firebase-provided subdomains and any connected custom domains. */
 export interface Channel {
+  /** Output only. The time at which the channel was last updated. */
+  updateTime?: string | undefined;
+  /** Output only. The time at which the channel was created. */
+  createTime?: string | undefined;
   /** The fully-qualified resource name for the channel, in the format: sites/ SITE_ID/channels/CHANNEL_ID */
   name?: string | undefined;
+  /** Output only. The URL at which the content of this channel's current release can be viewed. This URL is a Firebase-provided subdomain of `web.app`. The content of this channel's current release can also be viewed at the Firebase-provided subdomain of `firebaseapp.com`. If this channel is the `live` channel for the Hosting site, then the content of this channel's current release can also be viewed at any connected custom domains. */
+  url?: string | undefined;
+  /** Output only. The current release for the channel, if any. */
+  release?: Release | undefined;
   /** The time at which the channel will be automatically deleted. If null, the channel will not be automatically deleted. This field is present in the output whether it's set directly or via the `ttl` field. */
   expireTime?: string | undefined;
+  /** Input only. A time-to-live for this channel. Sets `expire_time` to the provided duration past the time of the request. */
+  ttl?: string | undefined;
   /** Text labels used for extra metadata and/or filtering. */
   labels?: StringMap | undefined;
   /** The number of previous releases to retain on the channel for rollback or other purposes. Must be a number between 1-100. Defaults to 10 for new channels. */
   retainedReleaseCount?: number | undefined;
-  /** Output only. The time at which the channel was last updated. */
-  updateTime?: string | undefined;
-  /** Output only. The current release for the channel, if any. */
-  release?: Release | undefined;
-  /** Input only. A time-to-live for this channel. Sets `expire_time` to the provided duration past the time of the request. */
-  ttl?: string | undefined;
-  /** Output only. The time at which the channel was created. */
-  createTime?: string | undefined;
-  /** Output only. The URL at which the content of this channel's current release can be viewed. This URL is a Firebase-provided subdomain of `web.app`. The content of this channel's current release can also be viewed at the Firebase-provided subdomain of `firebaseapp.com`. If this channel is the `live` channel for the Hosting site, then the content of this channel's current release can also be viewed at any connected custom domains. */
-  url?: string | undefined;
 }
 export interface CreateProjectsSitesChannelsRequest extends Channel {
   /** Required. The site in which to create this channel, in the format: sites/ SITE_ID */
@@ -317,107 +317,11 @@ export interface CreateProjectsSitesChannelsRequest extends Channel {
   channelId?: string | undefined;
 }
 export interface CreateProjectsSitesChannelsReleasesRequest extends Release {
-  /** Required. The site or channel to which the release belongs, in either of the following formats: - sites/SITE_ID - sites/SITE_ID/channels/CHANNEL_ID */
-  parent: string;
   /** The unique identifier for a version, in the format: sites/SITE_ID/versions/ VERSION_ID The SITE_ID in this version identifier must match the SITE_ID in the `parent` parameter. This query parameter must be empty if the `type` field in the request body is `SITE_DISABLE`. */
   versionName?: string | undefined;
+  /** Required. The site or channel to which the release belongs, in either of the following formats: - sites/SITE_ID - sites/SITE_ID/channels/CHANNEL_ID */
+  parent: string;
 }
-export type CustomDomainCertPreferenceEnum =
-  | "TYPE_UNSPECIFIED"
-  | "TEMPORARY"
-  | "GROUPED"
-  | "PROJECT_GROUPED"
-  | "DEDICATED";
-export type StatusList = Array<Status>;
-export type DnsRecordTypeEnum = "TYPE_UNSPECIFIED" | "A" | "CNAME" | "TXT" | "AAAA" | "CAA";
-export type DnsRecordRequiredActionEnum = "NONE" | "ADD" | "REMOVE";
-/** DNS records are resource records that define how systems and services should behave when handling requests for a domain name. For example, when you add `A` records to your domain name's DNS records, you're informing other systems (such as your users' web browsers) to contact those IPv4 addresses to retrieve resources relevant to your domain name (such as your Hosting site files). */
-export interface DnsRecord {
-  /** Output only. The data of the record. The meaning of the value depends on record type: - A and AAAA: IP addresses for the domain name. - CNAME: Another domain to check for records. - TXT: Arbitrary text strings associated with the domain name. Hosting uses TXT records to determine which Firebase projects have permission to act on the domain name's behalf. - CAA: The record's flags, tag, and value, e.g. `0 issue "pki.goog"`. */
-  rdata?: string | undefined;
-  /** Output only. The record's type, which determines what data the record contains. */
-  type?: DnsRecordTypeEnum | (string & {}) | undefined;
-  /** Output only. An enum that indicates the a required action for this record. */
-  requiredAction?: DnsRecordRequiredActionEnum | (string & {}) | undefined;
-  /** Output only. The domain name the record pertains to, e.g. `foo.bar.com.`. */
-  domainName?: string | undefined;
-}
-export type DnsRecordList = Array<DnsRecord>;
-/** A set of DNS records relevant to the setup and maintenance of a custom domain in Firebase Hosting. */
-export interface DnsRecordSet {
-  /** Output only. Records on the domain. */
-  records?: DnsRecordList | undefined;
-  /** Output only. An error Hosting services encountered when querying your domain name's DNS records. Note: Hosting ignores `NXDOMAIN` errors, as those generally just mean that a domain name hasn't been set up yet. */
-  checkError?: Status | undefined;
-  /** Output only. The domain name the record set pertains to. */
-  domainName?: string | undefined;
-}
-export type DnsRecordSetList = Array<DnsRecordSet>;
-/** A set of DNS record updates that you should make to allow Hosting to serve secure content in response to requests against your domain name. These updates present the current state of your domain name's DNS records when Hosting last queried them, and the desired set of records that Hosting needs to see before your custom domain can be fully active. */
-export interface DnsUpdates {
-  /** The last time Hosting checked your custom domain's DNS records. */
-  checkTime?: string | undefined;
-  /** The set of DNS records Hosting discovered when inspecting a domain. */
-  discovered?: DnsRecordSetList | undefined;
-  /** The set of DNS records Hosting needs to serve secure content on the domain. */
-  desired?: DnsRecordSetList | undefined;
-}
-/** A file you can add to your existing, non-Hosting hosting service that confirms your intent to allow Hosting's Certificate Authorities to create an SSL certificate for your domain. */
-export interface HttpUpdate {
-  /** Output only. The last time Hosting systems checked for the file contents. */
-  lastCheckTime?: string | undefined;
-  /** Output only. A text string to serve at the path. */
-  desired?: string | undefined;
-  /** Output only. The path to the file. */
-  path?: string | undefined;
-  /** Output only. An error encountered during the last contents check. If null, the check completed successfully. */
-  checkError?: Status | undefined;
-  /** Output only. Whether Hosting was able to find the required file contents on the specified path during its last check. */
-  discovered?: string | undefined;
-}
-/** A set of ACME challenges you can use to allow Hosting to create an SSL certificate for your domain name before directing traffic to Hosting servers. Use either the DNS or HTTP challenge; it's not necessary to provide both. */
-export interface CertVerification {
-  /** Output only. A `TXT` record to add to your DNS records that confirms your intent to let Hosting create an SSL cert for your domain name. */
-  dns?: DnsUpdates | undefined;
-  /** Output only. A file to add to your existing, non-Hosting hosting service that confirms your intent to let Hosting create an SSL cert for your domain name. */
-  http?: HttpUpdate | undefined;
-}
-export type CertificateTypeEnum =
-  | "TYPE_UNSPECIFIED"
-  | "TEMPORARY"
-  | "GROUPED"
-  | "PROJECT_GROUPED"
-  | "DEDICATED";
-export type CertificateStateEnum =
-  | "CERT_STATE_UNSPECIFIED"
-  | "CERT_PREPARING"
-  | "CERT_VALIDATING"
-  | "CERT_PROPAGATING"
-  | "CERT_ACTIVE"
-  | "CERT_EXPIRING_SOON"
-  | "CERT_EXPIRED";
-/** An SSL certificate used to provide end-to-end encryption for requests against your domain name. A `Certificate` can be an actual SSL certificate or, for newly-created custom domains, Hosting's intent to create one. */
-export interface Certificate {
-  /** Output only. A set of ACME challenges you can add to your DNS records or existing, non-Hosting hosting provider to allow Hosting to create an SSL certificate for your domain name before you point traffic toward hosting. You can use thse challenges as part of a zero downtime transition from your old provider to Hosting. */
-  verification?: CertVerification | undefined;
-  /** Output only. The certificate's type. */
-  type?: CertificateTypeEnum | (string & {}) | undefined;
-  /** Output only. A set of errors Hosting encountered when attempting to create a cert for your domain name. Resolve these issues to ensure Hosting is able to provide secure communication with your site's visitors. */
-  issues?: StatusList | undefined;
-  /** Output only. The state of the certificate. Only the `CERT_ACTIVE` and `CERT_EXPIRING_SOON` states provide SSL coverage for a domain name. If the state is `PROPAGATING` and Hosting had an active cert for the domain name before, that formerly-active cert provides SSL coverage for the domain name until the current cert propagates. */
-  state?: CertificateStateEnum | (string & {}) | undefined;
-  /** Output only. The certificate's creation time. For `TEMPORARY` certs this is the time Hosting first generated challenges for your domain name. For all other cert types, it's the time the actual cert was created. */
-  createTime?: string | undefined;
-  /** Output only. The certificate's expiration time. After this time, the cert can no longer be used to provide secure communication between Hosting and your site's visitors. */
-  expireTime?: string | undefined;
-}
-export type CustomDomainHostStateEnum =
-  | "HOST_STATE_UNSPECIFIED"
-  | "HOST_UNHOSTED"
-  | "HOST_UNREACHABLE"
-  | "HOST_MISMATCH"
-  | "HOST_CONFLICT"
-  | "HOST_ACTIVE";
 export type CustomDomainOwnershipStateEnum =
   | "OWNERSHIP_STATE_UNSPECIFIED"
   | "OWNERSHIP_MISSING"
@@ -426,48 +330,198 @@ export type CustomDomainOwnershipStateEnum =
   | "OWNERSHIP_CONFLICT"
   | "OWNERSHIP_PENDING"
   | "OWNERSHIP_ACTIVE";
+export type DnsRecordRequiredActionEnum = "NONE" | "ADD" | "REMOVE";
+export type DnsRecordTypeEnum = "TYPE_UNSPECIFIED" | "A" | "CNAME" | "TXT" | "AAAA" | "CAA";
+/** DNS records are resource records that define how systems and services should behave when handling requests for a domain name. For example, when you add `A` records to your domain name's DNS records, you're informing other systems (such as your users' web browsers) to contact those IPv4 addresses to retrieve resources relevant to your domain name (such as your Hosting site files). */
+export interface DnsRecord {
+  /** Output only. The domain name the record pertains to, e.g. `foo.bar.com.`. */
+  domainName?: string | undefined;
+  /** Output only. An enum that indicates the a required action for this record. */
+  requiredAction?: DnsRecordRequiredActionEnum | (string & {}) | undefined;
+  /** Output only. The data of the record. The meaning of the value depends on record type: - A and AAAA: IP addresses for the domain name. - CNAME: Another domain to check for records. - TXT: Arbitrary text strings associated with the domain name. Hosting uses TXT records to determine which Firebase projects have permission to act on the domain name's behalf. - CAA: The record's flags, tag, and value, e.g. `0 issue "pki.goog"`. */
+  rdata?: string | undefined;
+  /** Output only. The record's type, which determines what data the record contains. */
+  type?: DnsRecordTypeEnum | (string & {}) | undefined;
+}
+export type DnsRecordList = Array<DnsRecord>;
+/** A set of DNS records relevant to the setup and maintenance of a custom domain in Firebase Hosting. */
+export interface DnsRecordSet {
+  /** Output only. An error Hosting services encountered when querying your domain name's DNS records. Note: Hosting ignores `NXDOMAIN` errors, as those generally just mean that a domain name hasn't been set up yet. */
+  checkError?: Status | undefined;
+  /** Output only. Records on the domain. */
+  records?: DnsRecordList | undefined;
+  /** Output only. The domain name the record set pertains to. */
+  domainName?: string | undefined;
+}
+export type DnsRecordSetList = Array<DnsRecordSet>;
+/** A set of DNS record updates that you should make to allow Hosting to serve secure content in response to requests against your domain name. These updates present the current state of your domain name's DNS records when Hosting last queried them, and the desired set of records that Hosting needs to see before your custom domain can be fully active. */
+export interface DnsUpdates {
+  /** The set of DNS records Hosting needs to serve secure content on the domain. */
+  desired?: DnsRecordSetList | undefined;
+  /** The last time Hosting checked your custom domain's DNS records. */
+  checkTime?: string | undefined;
+  /** The set of DNS records Hosting discovered when inspecting a domain. */
+  discovered?: DnsRecordSetList | undefined;
+}
+export type StatusList = Array<Status>;
+/** A file you can add to your existing, non-Hosting hosting service that confirms your intent to allow Hosting's Certificate Authorities to create an SSL certificate for your domain. */
+export interface HttpUpdate {
+  /** Output only. Whether Hosting was able to find the required file contents on the specified path during its last check. */
+  discovered?: string | undefined;
+  /** Output only. The path to the file. */
+  path?: string | undefined;
+  /** Output only. An error encountered during the last contents check. If null, the check completed successfully. */
+  checkError?: Status | undefined;
+  /** Output only. The last time Hosting systems checked for the file contents. */
+  lastCheckTime?: string | undefined;
+  /** Output only. A text string to serve at the path. */
+  desired?: string | undefined;
+}
+/** A set of ACME challenges you can use to allow Hosting to create an SSL certificate for your domain name before directing traffic to Hosting servers. Use either the DNS or HTTP challenge; it's not necessary to provide both. */
+export interface CertVerification {
+  /** Output only. A `TXT` record to add to your DNS records that confirms your intent to let Hosting create an SSL cert for your domain name. */
+  dns?: DnsUpdates | undefined;
+  /** Output only. A file to add to your existing, non-Hosting hosting service that confirms your intent to let Hosting create an SSL cert for your domain name. */
+  http?: HttpUpdate | undefined;
+}
+export type CertificateStateEnum =
+  | "CERT_STATE_UNSPECIFIED"
+  | "CERT_PREPARING"
+  | "CERT_VALIDATING"
+  | "CERT_PROPAGATING"
+  | "CERT_ACTIVE"
+  | "CERT_EXPIRING_SOON"
+  | "CERT_EXPIRED";
+export type CertificateTypeEnum =
+  | "TYPE_UNSPECIFIED"
+  | "TEMPORARY"
+  | "GROUPED"
+  | "PROJECT_GROUPED"
+  | "DEDICATED";
+/** An SSL certificate used to provide end-to-end encryption for requests against your domain name. A `Certificate` can be an actual SSL certificate or, for newly-created custom domains, Hosting's intent to create one. */
+export interface Certificate {
+  /** Output only. A set of errors Hosting encountered when attempting to create a cert for your domain name. Resolve these issues to ensure Hosting is able to provide secure communication with your site's visitors. */
+  issues?: StatusList | undefined;
+  /** Output only. A set of ACME challenges you can add to your DNS records or existing, non-Hosting hosting provider to allow Hosting to create an SSL certificate for your domain name before you point traffic toward hosting. You can use thse challenges as part of a zero downtime transition from your old provider to Hosting. */
+  verification?: CertVerification | undefined;
+  /** Output only. The certificate's creation time. For `TEMPORARY` certs this is the time Hosting first generated challenges for your domain name. For all other cert types, it's the time the actual cert was created. */
+  createTime?: string | undefined;
+  /** Output only. The certificate's expiration time. After this time, the cert can no longer be used to provide secure communication between Hosting and your site's visitors. */
+  expireTime?: string | undefined;
+  /** Output only. The state of the certificate. Only the `CERT_ACTIVE` and `CERT_EXPIRING_SOON` states provide SSL coverage for a domain name. If the state is `PROPAGATING` and Hosting had an active cert for the domain name before, that formerly-active cert provides SSL coverage for the domain name until the current cert propagates. */
+  state?: CertificateStateEnum | (string & {}) | undefined;
+  /** Output only. The certificate's type. */
+  type?: CertificateTypeEnum | (string & {}) | undefined;
+}
+export type CustomDomainCertPreferenceEnum =
+  | "TYPE_UNSPECIFIED"
+  | "TEMPORARY"
+  | "GROUPED"
+  | "PROJECT_GROUPED"
+  | "DEDICATED";
+export type CustomDomainHostStateEnum =
+  | "HOST_STATE_UNSPECIFIED"
+  | "HOST_UNHOSTED"
+  | "HOST_UNREACHABLE"
+  | "HOST_MISMATCH"
+  | "HOST_CONFLICT"
+  | "HOST_ACTIVE";
 /** A `CustomDomain` is an entity that links a domain name to a Firebase Hosting site. Add a `CustomDomain` to your site to allow Hosting to serve the site's content in response to requests against your domain name. */
 export interface CustomDomain {
+  /** Output only. The time the `CustomDomain` was deleted; null for custom domains that haven't been deleted. Deleted custom domains persist for approximately 30 days, after which time Hosting removes them completely. To restore a deleted custom domain, make an `UndeleteCustomDomain` request. */
+  deleteTime?: string | undefined;
+  /** Annotations you can add to leave both human- and machine-readable metadata about your `CustomDomain`. */
+  annotations?: StringMap | undefined;
+  /** Output only. The last time the `CustomDomain` was updated. */
+  updateTime?: string | undefined;
+  /** Identifier. The fully-qualified name of the `CustomDomain`. */
+  name?: string | undefined;
+  /** Output only. The `OwnershipState` of the domain name this `CustomDomain` refers to. */
+  ownershipState?: CustomDomainOwnershipStateEnum | (string & {}) | undefined;
+  /** Output only. A set of updates you should make to the domain name's DNS records to let Hosting serve secure content on its behalf. */
+  requiredDnsUpdates?: DnsUpdates | undefined;
+  /** Output only. A field that, if true, indicates that Hosting's systems are attmepting to make the custom domain's state match your preferred state. This is most frequently `true` when initially provisioning a `CustomDomain` after a `CreateCustomDomain` request or when creating a new SSL certificate to match an updated `cert_preference` after an `UpdateCustomDomain` request. */
+  reconciling?: boolean | undefined;
+  /** A domain name that this `CustomDomain` should direct traffic towards. If specified, Hosting will respond to requests against this custom domain with an HTTP 301 code, and route traffic to the specified `redirect_target` instead. */
+  redirectTarget?: string | undefined;
+  /** Output only. A string that represents the current state of the `CustomDomain` and allows you to confirm its initial state in requests that would modify it. Use the tag to ensure consistency when making `UpdateCustomDomain`, `DeleteCustomDomain`, and `UndeleteCustomDomain` requests. */
+  etag?: string | undefined;
   /** Labels used for extra metadata and/or filtering. */
   labels?: StringMap | undefined;
+  /** Output only. The SSL certificate Hosting has for this custom domain's domain name. For new custom domains, this often represents Hosting's intent to create a certificate, rather than an actual cert. Check the `state` field for more. */
+  cert?: Certificate | undefined;
   /** A field that lets you specify which SSL certificate type Hosting creates for your domain name. Spark plan custom domains only have access to the `GROUPED` cert type, while Blaze plan domains can select any option. */
   certPreference?: CustomDomainCertPreferenceEnum | (string & {}) | undefined;
   /** Output only. A set of errors Hosting systems encountered when trying to establish Hosting's ability to serve secure content for your domain name. Resolve these issues to ensure your `CustomDomain` behaves properly. */
   issues?: StatusList | undefined;
-  /** Output only. The time the `CustomDomain` was deleted; null for custom domains that haven't been deleted. Deleted custom domains persist for approximately 30 days, after which time Hosting removes them completely. To restore a deleted custom domain, make an `UndeleteCustomDomain` request. */
-  deleteTime?: string | undefined;
-  /** A domain name that this `CustomDomain` should direct traffic towards. If specified, Hosting will respond to requests against this custom domain with an HTTP 301 code, and route traffic to the specified `redirect_target` instead. */
-  redirectTarget?: string | undefined;
-  /** Output only. The SSL certificate Hosting has for this custom domain's domain name. For new custom domains, this often represents Hosting's intent to create a certificate, rather than an actual cert. Check the `state` field for more. */
-  cert?: Certificate | undefined;
-  /** Output only. A string that represents the current state of the `CustomDomain` and allows you to confirm its initial state in requests that would modify it. Use the tag to ensure consistency when making `UpdateCustomDomain`, `DeleteCustomDomain`, and `UndeleteCustomDomain` requests. */
-  etag?: string | undefined;
-  /** Output only. The last time the `CustomDomain` was updated. */
-  updateTime?: string | undefined;
   /** Output only. The `HostState` of the domain name this `CustomDomain` refers to. */
   hostState?: CustomDomainHostStateEnum | (string & {}) | undefined;
-  /** Output only. A set of updates you should make to the domain name's DNS records to let Hosting serve secure content on its behalf. */
-  requiredDnsUpdates?: DnsUpdates | undefined;
-  /** Identifier. The fully-qualified name of the `CustomDomain`. */
-  name?: string | undefined;
-  /** Annotations you can add to leave both human- and machine-readable metadata about your `CustomDomain`. */
-  annotations?: StringMap | undefined;
-  /** Output only. The minimum time before a soft-deleted `CustomDomain` is completely removed from Hosting; null for custom domains that haven't been deleted. */
-  expireTime?: string | undefined;
-  /** Output only. The `OwnershipState` of the domain name this `CustomDomain` refers to. */
-  ownershipState?: CustomDomainOwnershipStateEnum | (string & {}) | undefined;
   /** Output only. The custom domain's create time. */
   createTime?: string | undefined;
-  /** Output only. A field that, if true, indicates that Hosting's systems are attmepting to make the custom domain's state match your preferred state. This is most frequently `true` when initially provisioning a `CustomDomain` after a `CreateCustomDomain` request or when creating a new SSL certificate to match an updated `cert_preference` after an `UpdateCustomDomain` request. */
-  reconciling?: boolean | undefined;
+  /** Output only. The minimum time before a soft-deleted `CustomDomain` is completely removed from Hosting; null for custom domains that haven't been deleted. */
+  expireTime?: string | undefined;
 }
 export interface CreateProjectsSitesCustomDomainsRequest extends CustomDomain {
-  /** Required. The custom domain's parent, specifically a Firebase Hosting `Site`. */
-  parent: string;
   /** If true, Hosting validates that it's possible to complete your request but doesn't actually create a new `CustomDomain`. */
   validateOnly?: boolean | undefined;
+  /** Required. The custom domain's parent, specifically a Firebase Hosting `Site`. */
+  parent: string;
   /** Required. The ID of the `CustomDomain`, which is the domain name you'd like to use with Firebase Hosting. */
   customDomainId?: string | undefined;
+}
+export type DomainStatusEnum =
+  | "DOMAIN_STATUS_UNSPECIFIED"
+  | "DOMAIN_CHANGE_PENDING"
+  | "DOMAIN_ACTIVE"
+  | "DOMAIN_VERIFICATION_REQUIRED"
+  | "DOMAIN_VERIFICATION_LOST";
+/** Represents a DNS certificate challenge. */
+export interface CertDnsChallenge {
+  /** The value that must be present as a TXT record on the domain name to satisfy the challenge. */
+  token?: string | Redacted.Redacted<string> | undefined;
+  /** The domain name upon which the DNS challenge must be satisfied. */
+  domainName?: string | undefined;
+}
+/** Represents an HTTP certificate challenge. */
+export interface CertHttpChallenge {
+  /** The URL path on which to serve the specified token to satisfy the certificate challenge. */
+  path?: string | undefined;
+  /** The token to serve at the specified URL path to satisfy the certificate challenge. */
+  token?: string | Redacted.Redacted<string> | undefined;
+}
+export type DomainProvisioningCertStatusEnum =
+  | "CERT_STATUS_UNSPECIFIED"
+  | "CERT_PENDING"
+  | "CERT_MISSING"
+  | "CERT_PROCESSING"
+  | "CERT_PROPAGATING"
+  | "CERT_ACTIVE"
+  | "CERT_ERROR";
+export type DomainProvisioningDnsStatusEnum =
+  | "DNS_STATUS_UNSPECIFIED"
+  | "DNS_PENDING"
+  | "DNS_MISSING"
+  | "DNS_PARTIAL_MATCH"
+  | "DNS_MATCH"
+  | "DNS_EXTRANEOUS_MATCH";
+/** The current certificate provisioning status information for a domain. */
+export interface DomainProvisioning {
+  /** The DNS challenge for generating a certificate. */
+  certChallengeDns?: CertDnsChallenge | undefined;
+  /** The HTTP challenge for generating a certificate. */
+  certChallengeHttp?: CertHttpChallenge | undefined;
+  /** The list of IPs to which the domain is expected to resolve. */
+  expectedIps?: StringList | undefined;
+  /** The certificate provisioning status; updated when Firebase Hosting provisions an SSL certificate for the domain. */
+  certStatus?: DomainProvisioningCertStatusEnum | (string & {}) | undefined;
+  /** The TXT records (for the certificate challenge) that were found at the last DNS fetch. */
+  certChallengeDiscoveredTxt?: StringList | undefined;
+  /** The time at which the last DNS fetch occurred. */
+  dnsFetchTime?: string | undefined;
+  /** The IPs found at the last DNS fetch. */
+  discoveredIps?: StringList | undefined;
+  /** The DNS record match status as of the last DNS fetch. */
+  dnsStatus?: DomainProvisioningDnsStatusEnum | (string & {}) | undefined;
 }
 export type DomainRedirectTypeEnum = "REDIRECT_TYPE_UNSPECIFIED" | "MOVED_PERMANENTLY";
 /** Defines the behavior of a domain-level redirect. Domain redirects preserve the path of the redirect but replace the requested domain with the one specified in the redirect configuration. */
@@ -477,74 +531,20 @@ export interface DomainRedirect {
   /** Required. The redirect status code. */
   type?: DomainRedirectTypeEnum | (string & {}) | undefined;
 }
-export type DomainStatusEnum =
-  | "DOMAIN_STATUS_UNSPECIFIED"
-  | "DOMAIN_CHANGE_PENDING"
-  | "DOMAIN_ACTIVE"
-  | "DOMAIN_VERIFICATION_REQUIRED"
-  | "DOMAIN_VERIFICATION_LOST";
-export type DomainProvisioningCertStatusEnum =
-  | "CERT_STATUS_UNSPECIFIED"
-  | "CERT_PENDING"
-  | "CERT_MISSING"
-  | "CERT_PROCESSING"
-  | "CERT_PROPAGATING"
-  | "CERT_ACTIVE"
-  | "CERT_ERROR";
-/** Represents an HTTP certificate challenge. */
-export interface CertHttpChallenge {
-  /** The token to serve at the specified URL path to satisfy the certificate challenge. */
-  token?: string | Redacted.Redacted<string> | undefined;
-  /** The URL path on which to serve the specified token to satisfy the certificate challenge. */
-  path?: string | undefined;
-}
-export type DomainProvisioningDnsStatusEnum =
-  | "DNS_STATUS_UNSPECIFIED"
-  | "DNS_PENDING"
-  | "DNS_MISSING"
-  | "DNS_PARTIAL_MATCH"
-  | "DNS_MATCH"
-  | "DNS_EXTRANEOUS_MATCH";
-/** Represents a DNS certificate challenge. */
-export interface CertDnsChallenge {
-  /** The domain name upon which the DNS challenge must be satisfied. */
-  domainName?: string | undefined;
-  /** The value that must be present as a TXT record on the domain name to satisfy the challenge. */
-  token?: string | Redacted.Redacted<string> | undefined;
-}
-/** The current certificate provisioning status information for a domain. */
-export interface DomainProvisioning {
-  /** The certificate provisioning status; updated when Firebase Hosting provisions an SSL certificate for the domain. */
-  certStatus?: DomainProvisioningCertStatusEnum | (string & {}) | undefined;
-  /** The TXT records (for the certificate challenge) that were found at the last DNS fetch. */
-  certChallengeDiscoveredTxt?: StringList | undefined;
-  /** The HTTP challenge for generating a certificate. */
-  certChallengeHttp?: CertHttpChallenge | undefined;
-  /** The DNS record match status as of the last DNS fetch. */
-  dnsStatus?: DomainProvisioningDnsStatusEnum | (string & {}) | undefined;
-  /** The IPs found at the last DNS fetch. */
-  discoveredIps?: StringList | undefined;
-  /** The DNS challenge for generating a certificate. */
-  certChallengeDns?: CertDnsChallenge | undefined;
-  /** The time at which the last DNS fetch occurred. */
-  dnsFetchTime?: string | undefined;
-  /** The list of IPs to which the domain is expected to resolve. */
-  expectedIps?: StringList | undefined;
-}
 /** The intended behavior and status information of a domain. */
 export interface Domain {
-  /** If set, the domain should redirect with the provided parameters. */
-  domainRedirect?: DomainRedirect | undefined;
   /** Output only. Additional status of the domain association. */
   status?: DomainStatusEnum | (string & {}) | undefined;
-  /** Output only. Information about the provisioning of certificates and the health of the DNS resolution for the domain. */
-  provisioning?: DomainProvisioning | undefined;
-  /** Required. The domain name of the association. */
-  domainName?: string | undefined;
   /** Required. The site name of the association. */
   site?: string | undefined;
+  /** Required. The domain name of the association. */
+  domainName?: string | undefined;
   /** Output only. The time at which the domain was last updated. */
   updateTime?: string | undefined;
+  /** Output only. Information about the provisioning of certificates and the health of the DNS resolution for the domain. */
+  provisioning?: DomainProvisioning | undefined;
+  /** If set, the domain should redirect with the provided parameters. */
+  domainRedirect?: DomainRedirect | undefined;
 }
 export interface CreateProjectsSitesDomainsRequest extends Domain {
   /** Required. The parent to create the domain association for, in the format: sites/site-name */
@@ -557,18 +557,18 @@ export interface CreateProjectsSitesReleasesRequest extends Release {
   versionName?: string | undefined;
 }
 export interface CreateProjectsSitesVersionsRequest extends Version {
-  /** A unique id for the new version. This is was only specified for legacy version creations, and should be blank. */
-  versionId?: string | undefined;
   /** The self-reported size of the version. This value is used for a pre-emptive quota check for legacy version uploads. */
   sizeBytes?: string | undefined;
+  /** A unique id for the new version. This is was only specified for legacy version creations, and should be blank. */
+  versionId?: string | undefined;
   /** Required. The site in which to create the version, in the format: sites/ SITE_ID */
   parent: string;
 }
 export interface CreateSitesChannelsRequest extends Channel {
-  /** Required. The site in which to create this channel, in the format: sites/ SITE_ID */
-  parent: string;
   /** Required. Immutable. A unique ID within the site that identifies the channel. */
   channelId?: string | undefined;
+  /** Required. The site in which to create this channel, in the format: sites/ SITE_ID */
+  parent: string;
 }
 export interface CreateSitesChannelsReleasesRequest extends Release {
   /** The unique identifier for a version, in the format: sites/SITE_ID/versions/ VERSION_ID The SITE_ID in this version identifier must match the SITE_ID in the `parent` parameter. This query parameter must be empty if the `type` field in the request body is `SITE_DISABLE`. */
@@ -581,18 +581,18 @@ export interface CreateSitesDomainsRequest extends Domain {
   parent: string;
 }
 export interface CreateSitesReleasesRequest extends Release {
-  /** Required. The site or channel to which the release belongs, in either of the following formats: - sites/SITE_ID - sites/SITE_ID/channels/CHANNEL_ID */
-  parent: string;
   /** The unique identifier for a version, in the format: sites/SITE_ID/versions/ VERSION_ID The SITE_ID in this version identifier must match the SITE_ID in the `parent` parameter. This query parameter must be empty if the `type` field in the request body is `SITE_DISABLE`. */
   versionName?: string | undefined;
+  /** Required. The site or channel to which the release belongs, in either of the following formats: - sites/SITE_ID - sites/SITE_ID/channels/CHANNEL_ID */
+  parent: string;
 }
 export interface CreateSitesVersionsRequest extends Version {
   /** Required. The site in which to create the version, in the format: sites/ SITE_ID */
   parent: string;
-  /** The self-reported size of the version. This value is used for a pre-emptive quota check for legacy version uploads. */
-  sizeBytes?: string | undefined;
   /** A unique id for the new version. This is was only specified for legacy version creations, and should be blank. */
   versionId?: string | undefined;
+  /** The self-reported size of the version. This value is used for a pre-emptive quota check for legacy version uploads. */
+  sizeBytes?: string | undefined;
 }
 export interface DeleteProjectsSitesRequest {
   /** Required. The fully-qualified resource name for the Hosting site, in the format: projects/PROJECT_IDENTIFIER/sites/SITE_ID Refer to the `Site` [`name`](../projects#Site.FIELDS.name) field for details about PROJECT_IDENTIFIER values. */
@@ -607,12 +607,12 @@ export interface DeleteProjectsSitesChannelsRequest {
 export interface DeleteProjectsSitesCustomDomainsRequest {
   /** If true, Hosting validates that it's possible to complete your request but doesn't actually delete the `CustomDomain`. */
   validateOnly?: boolean | undefined;
-  /** A tag that represents the state of the `CustomDomain` as you know it. If present, the supplied tag must match the current value on your `CustomDomain`, or the request fails. */
-  etag?: string | undefined;
-  /** If true, the request succeeds even if the `CustomDomain` doesn't exist. */
-  allowMissing?: boolean | undefined;
   /** Required. The name of the `CustomDomain` to delete. */
   name: string;
+  /** If true, the request succeeds even if the `CustomDomain` doesn't exist. */
+  allowMissing?: boolean | undefined;
+  /** A tag that represents the state of the `CustomDomain` as you know it. If present, the supplied tag must match the current value on your `CustomDomain`, or the request fails. */
+  etag?: string | undefined;
 }
 export interface DeleteProjectsSitesDomainsRequest {
   /** Required. The name of the domain association to delete. */
@@ -706,10 +706,10 @@ export interface GetSitesVersionsRequest {
   name: string;
 }
 export interface ListProjectsSitesRequest {
-  /** Optional. A token from a previous call to `ListSites` that tells the server where to resume listing. */
-  pageToken?: string | undefined;
   /** Optional. The maximum number of sites to return. The service may return a lower number if fewer sites exist than this maximum number. If unspecified, defaults to 40. */
   pageSize?: number | undefined;
+  /** Optional. A token from a previous call to `ListSites` that tells the server where to resume listing. */
+  pageToken?: string | undefined;
   /** Required. The Firebase project for which to list sites, in the format: projects/PROJECT_IDENTIFIER Refer to the `Site` [`name`](../projects#Site.FIELDS.name) field for details about PROJECT_IDENTIFIER values. */
   parent: string;
 }
@@ -721,12 +721,12 @@ export interface ListSitesResponse {
   nextPageToken?: string | undefined;
 }
 export interface ListProjectsSitesChannelsRequest {
+  /** A token from a previous call to `ListChannels` that tells the server where to resume listing. */
+  pageToken?: string | undefined;
   /** The maximum number of channels to return. The service may return a lower number if fewer channels exist than this maximum number. If unspecified, defaults to 10. The maximum value is 100; values above 100 will be coerced to 100. */
   pageSize?: number | undefined;
   /** Required. The site for which to list channels, in the format: sites/SITE_ID */
   parent: string;
-  /** A token from a previous call to `ListChannels` that tells the server where to resume listing. */
-  pageToken?: string | undefined;
 }
 export type ChannelList = Array<Channel>;
 export interface ListChannelsResponse {
@@ -753,50 +753,50 @@ export interface ListReleasesResponse {
 export interface ListProjectsSitesCustomDomainsRequest {
   /** A token from a previous call to `ListCustomDomains` that tells the server where to resume listing. */
   pageToken?: string | undefined;
-  /** If true, the request returns soft-deleted `CustomDomain`s that haven't been fully-deleted yet. To restore deleted `CustomDomain`s, make an `UndeleteCustomDomain` request. */
-  showDeleted?: boolean | undefined;
-  /** Required. The Firebase Hosting `Site` with `CustomDomain` entities you'd like to list. */
-  parent: string;
   /** The max number of `CustomDomain` entities to return in a request. Defaults to 10. */
   pageSize?: number | undefined;
+  /** Required. The Firebase Hosting `Site` with `CustomDomain` entities you'd like to list. */
+  parent: string;
+  /** If true, the request returns soft-deleted `CustomDomain`s that haven't been fully-deleted yet. To restore deleted `CustomDomain`s, make an `UndeleteCustomDomain` request. */
+  showDeleted?: boolean | undefined;
 }
 export type CustomDomainList = Array<CustomDomain>;
 /** The response from `ListCustomDomains`. */
 export interface ListCustomDomainsResponse {
-  /** The pagination token, if more results exist beyond the ones in this response. Include this token in your next call to `ListCustomDomains`. Page tokens are short-lived and should not be stored. */
-  nextPageToken?: string | undefined;
   /** A list of `CustomDomain` entities associated with the specified Firebase `Site`. */
   customDomains?: CustomDomainList | undefined;
+  /** The pagination token, if more results exist beyond the ones in this response. Include this token in your next call to `ListCustomDomains`. Page tokens are short-lived and should not be stored. */
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsSitesCustomDomainsOperationsRequest {
-  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean | undefined;
-  /** The standard list page size. */
-  pageSize?: number | undefined;
-  /** The standard list page token. */
-  pageToken?: string | undefined;
-  /** The name of the operation's parent resource. */
-  name: string;
   /** The standard list filter. */
   filter?: string | undefined;
+  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
+  returnPartialSuccess?: boolean | undefined;
+  /** The name of the operation's parent resource. */
+  name: string;
+  /** The standard list page token. */
+  pageToken?: string | undefined;
+  /** The standard list page size. */
+  pageSize?: number | undefined;
 }
 export type OperationList = Array<Operation>;
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
-  /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
-  unreachable?: StringList | undefined;
-  /** A list of operations that matches the specified filter in the request. */
-  operations?: OperationList | undefined;
   /** The standard List next-page token. */
   nextPageToken?: string | undefined;
+  /** A list of operations that matches the specified filter in the request. */
+  operations?: OperationList | undefined;
+  /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
+  unreachable?: StringList | undefined;
 }
 export interface ListProjectsSitesDomainsRequest {
-  /** The page size to return. Defaults to 50. */
-  pageSize?: number | undefined;
   /** The next_page_token from a previous request, if provided. */
   pageToken?: string | undefined;
   /** Required. The parent for which to list domains, in the format: sites/ site-name */
   parent: string;
+  /** The page size to return. Defaults to 50. */
+  pageSize?: number | undefined;
 }
 export type DomainList = Array<Domain>;
 /** The response to listing Domains. */
@@ -807,22 +807,22 @@ export interface ListDomainsResponse {
   domains?: DomainList | undefined;
 }
 export interface ListProjectsSitesReleasesRequest {
-  /** Required. The site or channel for which to list releases, in either of the following formats: - sites/SITE_ID - sites/SITE_ID/channels/CHANNEL_ID */
-  parent: string;
-  /** The maximum number of releases to return. The service may return a lower number if fewer releases exist than this maximum number. If unspecified, defaults to 100. */
-  pageSize?: number | undefined;
   /** A token from a previous call to `releases.list` or `channels.releases.list` that tells the server where to resume listing. */
   pageToken?: string | undefined;
+  /** The maximum number of releases to return. The service may return a lower number if fewer releases exist than this maximum number. If unspecified, defaults to 100. */
+  pageSize?: number | undefined;
+  /** Required. The site or channel for which to list releases, in either of the following formats: - sites/SITE_ID - sites/SITE_ID/channels/CHANNEL_ID */
+  parent: string;
 }
 export interface ListProjectsSitesVersionsRequest {
-  /** The maximum number of versions to return. The service may return a lower number if fewer versions exist than this maximum number. If unspecified, defaults to 25. The maximum value is 100; values above 100 will be coerced to 100. */
-  pageSize?: number | undefined;
-  /** A token from a previous call to `ListVersions` that tells the server where to resume listing. */
-  pageToken?: string | undefined;
-  /** A filter string used to return a subset of versions in the response. The currently supported fields for filtering are: `name`, `status`, and `create_time`. Learn more about filtering in Google's [AIP 160 standard](https://google.aip.dev/160). */
-  filter?: string | undefined;
   /** Required. The site or channel for which to list versions, in either of the following formats: - sites/SITE_ID - sites/SITE_ID/channels/CHANNEL_ID */
   parent: string;
+  /** A token from a previous call to `ListVersions` that tells the server where to resume listing. */
+  pageToken?: string | undefined;
+  /** The maximum number of versions to return. The service may return a lower number if fewer versions exist than this maximum number. If unspecified, defaults to 25. The maximum value is 100; values above 100 will be coerced to 100. */
+  pageSize?: number | undefined;
+  /** A filter string used to return a subset of versions in the response. The currently supported fields for filtering are: `name`, `status`, and `create_time`. Learn more about filtering in Google's [AIP 160 standard](https://google.aip.dev/160). */
+  filter?: string | undefined;
 }
 export type VersionList = Array<Version>;
 export interface ListVersionsResponse {
@@ -835,20 +835,20 @@ export type ListProjectsSitesVersionsFilesStatusEnum = "STATUS_UNSPECIFIED" | "E
 export interface ListProjectsSitesVersionsFilesRequest {
   /** The type of files that should be listed for the specified version. */
   status?: ListProjectsSitesVersionsFilesStatusEnum | (string & {}) | undefined;
-  /** The maximum number of version files to return. The service may return a lower number if fewer version files exist than this maximum number. If unspecified, defaults to 1000. */
-  pageSize?: number | undefined;
   /** A token from a previous call to `ListVersionFiles` that tells the server where to resume listing. */
   pageToken?: string | undefined;
+  /** The maximum number of version files to return. The service may return a lower number if fewer version files exist than this maximum number. If unspecified, defaults to 1000. */
+  pageSize?: number | undefined;
   /** Required. The version for which to list files, in the format: sites/SITE_ID /versions/VERSION_ID */
   parent: string;
 }
 export type VersionFileStatusEnum = "STATUS_UNSPECIFIED" | "EXPECTED" | "ACTIVE";
 /** A static content file that is part of a version. */
 export interface VersionFile {
-  /** The SHA256 content hash of the file. */
-  hash?: string | undefined;
   /** The URI at which the file's content should display. */
   path?: string | undefined;
+  /** The SHA256 content hash of the file. */
+  hash?: string | undefined;
   /** Output only. The current status of a particular file in the specified version. The value will be either `pending upload` or `uploaded`. */
   status?: VersionFileStatusEnum | undefined;
 }
@@ -860,46 +860,46 @@ export interface ListVersionFilesResponse {
   nextPageToken?: string | undefined;
 }
 export interface ListSitesChannelsRequest {
-  /** A token from a previous call to `ListChannels` that tells the server where to resume listing. */
-  pageToken?: string | undefined;
-  /** Required. The site for which to list channels, in the format: sites/SITE_ID */
-  parent: string;
   /** The maximum number of channels to return. The service may return a lower number if fewer channels exist than this maximum number. If unspecified, defaults to 10. The maximum value is 100; values above 100 will be coerced to 100. */
   pageSize?: number | undefined;
+  /** Required. The site for which to list channels, in the format: sites/SITE_ID */
+  parent: string;
+  /** A token from a previous call to `ListChannels` that tells the server where to resume listing. */
+  pageToken?: string | undefined;
 }
 export interface ListSitesChannelsReleasesRequest {
-  /** The maximum number of releases to return. The service may return a lower number if fewer releases exist than this maximum number. If unspecified, defaults to 100. */
-  pageSize?: number | undefined;
   /** A token from a previous call to `releases.list` or `channels.releases.list` that tells the server where to resume listing. */
   pageToken?: string | undefined;
   /** Required. The site or channel for which to list releases, in either of the following formats: - sites/SITE_ID - sites/SITE_ID/channels/CHANNEL_ID */
   parent: string;
+  /** The maximum number of releases to return. The service may return a lower number if fewer releases exist than this maximum number. If unspecified, defaults to 100. */
+  pageSize?: number | undefined;
 }
 export interface ListSitesDomainsRequest {
-  /** The next_page_token from a previous request, if provided. */
-  pageToken?: string | undefined;
-  /** The page size to return. Defaults to 50. */
-  pageSize?: number | undefined;
   /** Required. The parent for which to list domains, in the format: sites/ site-name */
   parent: string;
+  /** The page size to return. Defaults to 50. */
+  pageSize?: number | undefined;
+  /** The next_page_token from a previous request, if provided. */
+  pageToken?: string | undefined;
 }
 export interface ListSitesReleasesRequest {
-  /** A token from a previous call to `releases.list` or `channels.releases.list` that tells the server where to resume listing. */
-  pageToken?: string | undefined;
-  /** The maximum number of releases to return. The service may return a lower number if fewer releases exist than this maximum number. If unspecified, defaults to 100. */
-  pageSize?: number | undefined;
   /** Required. The site or channel for which to list releases, in either of the following formats: - sites/SITE_ID - sites/SITE_ID/channels/CHANNEL_ID */
   parent: string;
+  /** The maximum number of releases to return. The service may return a lower number if fewer releases exist than this maximum number. If unspecified, defaults to 100. */
+  pageSize?: number | undefined;
+  /** A token from a previous call to `releases.list` or `channels.releases.list` that tells the server where to resume listing. */
+  pageToken?: string | undefined;
 }
 export interface ListSitesVersionsRequest {
-  /** Required. The site or channel for which to list versions, in either of the following formats: - sites/SITE_ID - sites/SITE_ID/channels/CHANNEL_ID */
-  parent: string;
-  /** A token from a previous call to `ListVersions` that tells the server where to resume listing. */
-  pageToken?: string | undefined;
-  /** A filter string used to return a subset of versions in the response. The currently supported fields for filtering are: `name`, `status`, and `create_time`. Learn more about filtering in Google's [AIP 160 standard](https://google.aip.dev/160). */
-  filter?: string | undefined;
   /** The maximum number of versions to return. The service may return a lower number if fewer versions exist than this maximum number. If unspecified, defaults to 25. The maximum value is 100; values above 100 will be coerced to 100. */
   pageSize?: number | undefined;
+  /** A token from a previous call to `ListVersions` that tells the server where to resume listing. */
+  pageToken?: string | undefined;
+  /** Required. The site or channel for which to list versions, in either of the following formats: - sites/SITE_ID - sites/SITE_ID/channels/CHANNEL_ID */
+  parent: string;
+  /** A filter string used to return a subset of versions in the response. The currently supported fields for filtering are: `name`, `status`, and `create_time`. Learn more about filtering in Google's [AIP 160 standard](https://google.aip.dev/160). */
+  filter?: string | undefined;
 }
 export type ListSitesVersionsFilesStatusEnum = "STATUS_UNSPECIFIED" | "EXPECTED" | "ACTIVE";
 export interface ListSitesVersionsFilesRequest {
@@ -919,26 +919,26 @@ export interface PatchProjectsSitesRequest extends Omit<Site, "name"> {
   name: string;
 }
 export interface PatchProjectsSitesChannelsRequest extends Omit<Channel, "name"> {
-  /** A comma-separated list of fields to be updated in this request. */
-  updateMask?: string | undefined;
   /** The fully-qualified resource name for the channel, in the format: sites/ SITE_ID/channels/CHANNEL_ID */
   name: string;
+  /** A comma-separated list of fields to be updated in this request. */
+  updateMask?: string | undefined;
 }
 export interface PatchProjectsSitesCustomDomainsRequest extends Omit<CustomDomain, "name"> {
   /** Identifier. The fully-qualified name of the `CustomDomain`. */
   name: string;
-  /** If true, Hosting validates that it's possible to complete your request but doesn't actually create or update the `CustomDomain`. */
-  validateOnly?: boolean | undefined;
-  /** If true, Hosting creates the `CustomDomain` if it doesn't already exist. */
-  allowMissing?: boolean | undefined;
   /** The set of field names from your `CustomDomain` that you want to update. A field will be overwritten if, and only if, it's in the mask. If you don't provide a mask, Hosting updates the entire `CustomDomain`. */
   updateMask?: string | undefined;
+  /** If true, Hosting creates the `CustomDomain` if it doesn't already exist. */
+  allowMissing?: boolean | undefined;
+  /** If true, Hosting validates that it's possible to complete your request but doesn't actually create or update the `CustomDomain`. */
+  validateOnly?: boolean | undefined;
 }
 export interface PatchProjectsSitesVersionsRequest extends Omit<Version, "name"> {
-  /** A set of field names from your [version](../sites.versions) that you want to update. A field will be overwritten if, and only if, it's in the mask. If a mask is not provided then a default mask of only [`status`](../sites.versions#Version.FIELDS.status) will be used. */
-  updateMask?: string | undefined;
   /** The fully-qualified resource name for the version, in the format: sites/ SITE_ID/versions/VERSION_ID This name is provided in the response body when you call [`CreateVersion`](sites.versions/create). */
   name: string;
+  /** A set of field names from your [version](../sites.versions) that you want to update. A field will be overwritten if, and only if, it's in the mask. If a mask is not provided then a default mask of only [`status`](../sites.versions#Version.FIELDS.status) will be used. */
+  updateMask?: string | undefined;
 }
 export interface PatchSitesChannelsRequest extends Omit<Channel, "name"> {
   /** A comma-separated list of fields to be updated in this request. */
@@ -982,10 +982,10 @@ export interface UndeleteProjectsSitesCustomDomainsRequest extends UndeleteCusto
   name: string;
 }
 export interface UpdateConfigProjectsSitesRequest extends SiteConfig {
-  /** Required. The site for which to update the SiteConfig, in the format: sites/ site-name/config */
-  name: string;
   /** A set of field names from your [site configuration](../sites.SiteConfig) that you want to update. A field will be overwritten if, and only if, it's in the mask. If a mask is not provided then a default mask of only [`max_versions`](../sites.SiteConfig.max_versions) will be used. */
   updateMask?: string | undefined;
+  /** Required. The site for which to update the SiteConfig, in the format: sites/ site-name/config */
+  name: string;
 }
 export interface UpdateConfigSitesRequest extends SiteConfig {
   /** A set of field names from your [site configuration](../sites.SiteConfig) that you want to update. A field will be overwritten if, and only if, it's in the mask. If a mask is not provided then a default mask of only [`max_versions`](../sites.SiteConfig.max_versions) will be used. */
@@ -2344,46 +2344,46 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           domainName: S.optional(S.String),
-          type: S.optional(S.String),
         }),
-      ).annotate({ identifier: "DomainRedirect" });
+      ).annotate({ identifier: "CertDnsChallenge" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           path: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "CertHttpChallenge" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          domainName: S.optional(S.String),
-          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          certChallengeDns: S.optional(__S(16, __c1, 0)),
+          certChallengeHttp: S.optional(__S(17, __c1, 1)),
+          expectedIps: S.optional(__S(560, __c35, 0)),
+          certStatus: S.optional(S.String),
+          certChallengeDiscoveredTxt: S.optional(__S(560, __c35, 0)),
+          dnsFetchTime: S.optional(S.String),
+          discoveredIps: S.optional(__S(560, __c35, 0)),
+          dnsStatus: S.optional(S.String),
         }),
-      ).annotate({ identifier: "CertDnsChallenge" });
+      ).annotate({ identifier: "DomainProvisioning" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          certStatus: S.optional(S.String),
-          certChallengeDiscoveredTxt: S.optional(__S(560, __c35, 0)),
-          certChallengeHttp: S.optional(__S(17, __c1, 1)),
-          dnsStatus: S.optional(S.String),
-          discoveredIps: S.optional(__S(560, __c35, 0)),
-          certChallengeDns: S.optional(__S(18, __c1, 2)),
-          dnsFetchTime: S.optional(S.String),
-          expectedIps: S.optional(__S(560, __c35, 0)),
+          domainName: S.optional(S.String),
+          type: S.optional(S.String),
         }),
-      ).annotate({ identifier: "DomainProvisioning" });
+      ).annotate({ identifier: "DomainRedirect" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          domainRedirect: S.optional(__S(16, __c1, 0)),
           status: S.optional(S.String),
-          provisioning: S.optional(__S(19, __c1, 3)),
-          domainName: S.optional(S.String),
           site: S.optional(S.String),
+          domainName: S.optional(S.String),
           updateTime: S.optional(S.String),
+          provisioning: S.optional(__S(18, __c1, 2)),
+          domainRedirect: S.optional(__S(19, __c1, 3)),
         }),
       ).annotate({ identifier: "Domain" });
   }
@@ -2415,8 +2415,8 @@ function __c3(j: number): any {
         S.Extend(
           __S(1290, __c80, 10),
           S.Struct({
-            versionId: S.optional(S.String.pipe(T.Query())),
             sizeBytes: S.optional(S.String.pipe(T.Query())),
+            versionId: S.optional(S.String.pipe(T.Query())),
             parent: S.String.pipe(T.Label()),
           }),
         ).pipe(
@@ -2436,8 +2436,8 @@ function __c4(j: number): any {
         S.Extend(
           __S(1264, __c79, 0),
           S.Struct({
-            parent: S.String.pipe(T.Label()),
             channelId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -2495,8 +2495,8 @@ function __c7(j: number): any {
         S.Extend(
           __S(1296, __c81, 0),
           S.Struct({
-            parent: S.String.pipe(T.Label()),
             versionName: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -2516,8 +2516,8 @@ function __c8(j: number): any {
           __S(1290, __c80, 10),
           S.Struct({
             parent: S.String.pipe(T.Label()),
-            sizeBytes: S.optional(S.String.pipe(T.Query())),
             versionId: S.optional(S.String.pipe(T.Query())),
+            sizeBytes: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -2573,9 +2573,9 @@ function __c12(j: number): any {
       return S.suspend(() =>
         S.Struct({
           validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          etag: S.optional(S.String.pipe(T.Query())),
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+          etag: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -2931,9 +2931,9 @@ function __c34(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          finalize: S.optional(S.Boolean),
           include: S.optional(__S(544, __c34, 0)),
           exclude: S.optional(__S(544, __c34, 0)),
+          finalize: S.optional(S.Boolean),
           sourceVersion: S.optional(S.String),
         }),
       ).annotate({ identifier: "CloneVersionRequest" });
@@ -2954,9 +2954,9 @@ function __c36(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          code: S.optional(S.Number),
-          details: S.optional(__S(577, __c36, 1)),
           message: S.optional(S.String),
+          details: S.optional(__S(577, __c36, 1)),
+          code: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Status" });
   }
@@ -2966,11 +2966,11 @@ function __c37(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          done: S.optional(S.Boolean),
-          metadata: S.optional(__S(576, __c36, 0)),
-          error: S.optional(__S(578, __c36, 2)),
-          response: S.optional(__S(576, __c36, 0)),
           name: S.optional(S.String),
+          response: S.optional(__S(576, __c36, 0)),
+          metadata: S.optional(__S(576, __c36, 0)),
+          done: S.optional(S.Boolean),
+          error: S.optional(__S(578, __c36, 2)),
         }),
       ).annotate({ identifier: "Operation" });
   }
@@ -3012,8 +3012,8 @@ function __c40(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -3039,9 +3039,9 @@ function __c41(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3102,9 +3102,9 @@ function __c45(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pageToken: S.optional(S.String.pipe(T.Query())),
-          showDeleted: S.optional(S.Boolean.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          showDeleted: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3118,8 +3118,8 @@ function __c45(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           customDomains: S.optional(__S(721, __c45, 1)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListCustomDomainsResponse" });
   }
@@ -3129,11 +3129,11 @@ function __c46(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
           filter: S.optional(S.String.pipe(T.Query())),
+          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3147,9 +3147,9 @@ function __c46(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(560, __c35, 0)),
-          operations: S.optional(__S(737, __c46, 1)),
           nextPageToken: S.optional(S.String),
+          operations: S.optional(__S(737, __c46, 1)),
+          unreachable: S.optional(__S(560, __c35, 0)),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
@@ -3159,9 +3159,9 @@ function __c47(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3190,9 +3190,9 @@ function __c49(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3208,10 +3208,10 @@ function __c50(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3260,8 +3260,8 @@ function __c53(j: number): any {
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -3278,8 +3278,8 @@ function __c54(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          hash: S.optional(S.String),
           path: S.optional(S.String),
+          hash: S.optional(S.String),
           status: S.optional(S.String),
         }),
       ).annotate({ identifier: "VersionFile" });
@@ -3299,9 +3299,9 @@ function __c55(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3317,9 +3317,9 @@ function __c56(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3335,9 +3335,9 @@ function __c57(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3353,9 +3353,9 @@ function __c58(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3371,10 +3371,10 @@ function __c59(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3431,8 +3431,8 @@ function __c62(j: number): any {
         S.Extend(
           __S(1264, __c79, 0),
           S.Struct({
-            updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -3452,9 +3452,9 @@ function __c63(j: number): any {
           __S(1353, __c84, 9),
           S.Struct({
             name: S.String.pipe(T.Label()),
-            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -3473,9 +3473,9 @@ function __c64(j: number): any {
         S.Extend(
           __S(1040, __c65, 0),
           S.Struct({
-            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
             siteId: S.optional(S.String.pipe(T.Query())),
             parent: S.String.pipe(T.Label()),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -3492,10 +3492,10 @@ function __c65(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          labels: S.optional(__S(1056, __c66, 0)),
+          defaultUrl: S.optional(S.String),
           type: S.optional(S.String),
           name: S.optional(S.String),
-          defaultUrl: S.optional(S.String),
-          labels: S.optional(__S(1056, __c66, 0)),
           appId: S.optional(S.String),
         }),
       ).annotate({ identifier: "Site" });
@@ -3514,8 +3514,8 @@ function __c67(j: number): any {
         S.Extend(
           __S(1290, __c80, 10),
           S.Struct({
-            updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -3655,8 +3655,8 @@ function __c74(j: number): any {
         S.Extend(
           __S(304, __c19, 0),
           S.Struct({
-            name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -3751,15 +3751,15 @@ function __c79(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          updateTime: S.optional(S.String),
+          createTime: S.optional(S.String),
           name: S.optional(S.String),
+          url: S.optional(S.String),
+          release: S.optional(__S(1296, __c81, 0)),
           expireTime: S.optional(S.String),
+          ttl: S.optional(S.String),
           labels: S.optional(__S(1056, __c66, 0)),
           retainedReleaseCount: S.optional(S.Number),
-          updateTime: S.optional(S.String),
-          release: S.optional(__S(1296, __c81, 0)),
-          ttl: S.optional(S.String),
-          createTime: S.optional(S.String),
-          url: S.optional(S.String),
         }),
       ).annotate({ identifier: "Channel" });
   }
@@ -3776,9 +3776,9 @@ function __c80(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          statusCode: S.optional(S.Number),
           location: S.optional(S.String),
           regex: S.optional(S.String),
-          statusCode: S.optional(S.Number),
           glob: S.optional(S.String),
         }),
       ).annotate({ identifier: "Redirect" });
@@ -3803,21 +3803,21 @@ function __c80(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          serviceId: S.optional(S.String),
-          region: S.optional(S.String),
           tag: S.optional(S.String),
+          region: S.optional(S.String),
+          serviceId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CloudRunRewrite" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          functionRegion: S.optional(S.String),
-          glob: S.optional(S.String),
-          function: S.optional(S.String),
           run: S.optional(__S(1286, __c80, 6)),
-          dynamicLinks: S.optional(S.Boolean),
+          function: S.optional(S.String),
+          glob: S.optional(S.String),
           regex: S.optional(S.String),
           path: S.optional(S.String),
+          dynamicLinks: S.optional(S.Boolean),
+          functionRegion: S.optional(S.String),
         }),
       ).annotate({ identifier: "Rewrite" });
     case 8:
@@ -3825,30 +3825,30 @@ function __c80(j: number): any {
     case 9:
       return S.suspend(() =>
         S.Struct({
-          appAssociation: S.optional(S.String),
           redirects: S.optional(__S(1282, __c80, 2)),
+          appAssociation: S.optional(S.String),
           headers: S.optional(__S(1284, __c80, 4)),
           i18n: S.optional(__S(1285, __c80, 5)),
           trailingSlashBehavior: S.optional(S.String),
-          rewrites: S.optional(__S(1288, __c80, 8)),
           cleanUrls: S.optional(S.Boolean),
+          rewrites: S.optional(__S(1288, __c80, 8)),
         }),
       ).annotate({ identifier: "ServingConfig" });
     case 10:
       return S.suspend(() =>
         S.Struct({
           labels: S.optional(__S(1056, __c66, 0)),
-          createUser: S.optional(__S(1280, __c80, 0)),
-          fileCount: S.optional(S.String),
-          name: S.optional(S.String),
+          createTime: S.optional(S.String),
+          finalizeUser: S.optional(__S(1280, __c80, 0)),
+          config: S.optional(__S(1289, __c80, 9)),
           status: S.optional(S.String),
           deleteUser: S.optional(__S(1280, __c80, 0)),
-          config: S.optional(__S(1289, __c80, 9)),
-          finalizeUser: S.optional(__S(1280, __c80, 0)),
-          deleteTime: S.optional(S.String),
+          fileCount: S.optional(S.String),
           versionBytes: S.optional(S.String),
+          deleteTime: S.optional(S.String),
           finalizeTime: S.optional(S.String),
-          createTime: S.optional(S.String),
+          createUser: S.optional(__S(1280, __c80, 0)),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Version" });
   }
@@ -3858,12 +3858,12 @@ function __c81(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          version: S.optional(__S(1290, __c80, 10)),
-          releaseUser: S.optional(__S(1280, __c80, 0)),
           type: S.optional(S.String),
           message: S.optional(S.String),
           name: S.optional(S.String),
           releaseTime: S.optional(S.String),
+          releaseUser: S.optional(__S(1280, __c80, 0)),
+          version: S.optional(__S(1290, __c80, 10)),
         }),
       ).annotate({ identifier: "Release" });
   }
@@ -3875,8 +3875,8 @@ function __c82(j: number): any {
         S.Extend(
           __S(1296, __c81, 0),
           S.Struct({
-            parent: S.String.pipe(T.Label()),
             versionName: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -3895,8 +3895,8 @@ function __c83(j: number): any {
         S.Extend(
           __S(1353, __c84, 9),
           S.Struct({
-            parent: S.String.pipe(T.Label()),
             validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
             customDomainId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
@@ -3912,83 +3912,83 @@ function __c83(j: number): any {
 function __c84(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(578, __c36, 2));
-    case 1:
       return S.suspend(() =>
         S.Struct({
+          domainName: S.optional(S.String),
+          requiredAction: S.optional(S.String),
           rdata: S.optional(S.String),
           type: S.optional(S.String),
-          requiredAction: S.optional(S.String),
-          domainName: S.optional(S.String),
         }),
       ).annotate({ identifier: "DnsRecord" });
+    case 1:
+      return S.Array(__S(1344, __c84, 0));
     case 2:
-      return S.Array(__S(1345, __c84, 1));
-    case 3:
       return S.suspend(() =>
         S.Struct({
-          records: S.optional(__S(1346, __c84, 2)),
           checkError: S.optional(__S(578, __c36, 2)),
+          records: S.optional(__S(1345, __c84, 1)),
           domainName: S.optional(S.String),
         }),
       ).annotate({ identifier: "DnsRecordSet" });
+    case 3:
+      return S.Array(__S(1346, __c84, 2));
     case 4:
-      return S.Array(__S(1347, __c84, 3));
-    case 5:
       return S.suspend(() =>
         S.Struct({
+          desired: S.optional(__S(1347, __c84, 3)),
           checkTime: S.optional(S.String),
-          discovered: S.optional(__S(1348, __c84, 4)),
-          desired: S.optional(__S(1348, __c84, 4)),
+          discovered: S.optional(__S(1347, __c84, 3)),
         }),
       ).annotate({ identifier: "DnsUpdates" });
+    case 5:
+      return S.Array(__S(578, __c36, 2));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          lastCheckTime: S.optional(S.String),
-          desired: S.optional(S.String),
+          discovered: S.optional(S.String),
           path: S.optional(S.String),
           checkError: S.optional(__S(578, __c36, 2)),
-          discovered: S.optional(S.String),
+          lastCheckTime: S.optional(S.String),
+          desired: S.optional(S.String),
         }),
       ).annotate({ identifier: "HttpUpdate" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          dns: S.optional(__S(1349, __c84, 5)),
+          dns: S.optional(__S(1348, __c84, 4)),
           http: S.optional(__S(1350, __c84, 6)),
         }),
       ).annotate({ identifier: "CertVerification" });
     case 8:
       return S.suspend(() =>
         S.Struct({
+          issues: S.optional(__S(1349, __c84, 5)),
           verification: S.optional(__S(1351, __c84, 7)),
-          type: S.optional(S.String),
-          issues: S.optional(__S(1344, __c84, 0)),
-          state: S.optional(S.String),
           createTime: S.optional(S.String),
           expireTime: S.optional(S.String),
+          state: S.optional(S.String),
+          type: S.optional(S.String),
         }),
       ).annotate({ identifier: "Certificate" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          labels: S.optional(__S(1056, __c66, 0)),
-          certPreference: S.optional(S.String),
-          issues: S.optional(__S(1344, __c84, 0)),
           deleteTime: S.optional(S.String),
-          redirectTarget: S.optional(S.String),
-          cert: S.optional(__S(1352, __c84, 8)),
-          etag: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          hostState: S.optional(S.String),
-          requiredDnsUpdates: S.optional(__S(1349, __c84, 5)),
-          name: S.optional(S.String),
           annotations: S.optional(__S(1056, __c66, 0)),
-          expireTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          name: S.optional(S.String),
           ownershipState: S.optional(S.String),
-          createTime: S.optional(S.String),
+          requiredDnsUpdates: S.optional(__S(1348, __c84, 4)),
           reconciling: S.optional(S.Boolean),
+          redirectTarget: S.optional(S.String),
+          etag: S.optional(S.String),
+          labels: S.optional(__S(1056, __c66, 0)),
+          cert: S.optional(__S(1352, __c84, 8)),
+          certPreference: S.optional(S.String),
+          issues: S.optional(__S(1349, __c84, 5)),
+          hostState: S.optional(S.String),
+          createTime: S.optional(S.String),
+          expireTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "CustomDomain" });
   }

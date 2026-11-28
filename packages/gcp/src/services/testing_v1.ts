@@ -116,17 +116,6 @@ export interface CancelTestMatrixResponse {
   /** The current rolled-up state of the test matrix. If this state is already final, then the cancelation request will have no effect. */
   testState?: CancelTestMatrixResponseTestStateEnum | undefined;
 }
-/** A single Android device. */
-export interface AndroidDevice {
-  /** Required. The id of the Android device to be used. Use the TestEnvironmentDiscoveryService to get supported options. */
-  androidModelId?: string | undefined;
-  /** Required. The locale the test device used for testing. Use the TestEnvironmentDiscoveryService to get supported options. */
-  locale?: string | undefined;
-  /** Required. How the device is oriented during the test. Use the TestEnvironmentDiscoveryService to get supported options. */
-  orientation?: string | undefined;
-  /** Required. The id of the Android OS version to be used. Use the TestEnvironmentDiscoveryService to get supported options. */
-  androidVersionId?: string | undefined;
-}
 export type DeviceSessionStateEnum =
   | "SESSION_STATE_UNSPECIFIED"
   | "REQUESTED"
@@ -136,6 +125,17 @@ export type DeviceSessionStateEnum =
   | "FINISHED"
   | "UNAVAILABLE"
   | "ERROR";
+/** A single Android device. */
+export interface AndroidDevice {
+  /** Required. How the device is oriented during the test. Use the TestEnvironmentDiscoveryService to get supported options. */
+  orientation?: string | undefined;
+  /** Required. The id of the Android device to be used. Use the TestEnvironmentDiscoveryService to get supported options. */
+  androidModelId?: string | undefined;
+  /** Required. The id of the Android OS version to be used. Use the TestEnvironmentDiscoveryService to get supported options. */
+  androidVersionId?: string | undefined;
+  /** Required. The locale the test device used for testing. Use the TestEnvironmentDiscoveryService to get supported options. */
+  locale?: string | undefined;
+}
 export type SessionStateEventSessionStateEnum =
   | "SESSION_STATE_UNSPECIFIED"
   | "REQUESTED"
@@ -147,59 +147,41 @@ export type SessionStateEventSessionStateEnum =
   | "ERROR";
 /** A message encapsulating a series of Session states and the time that the DeviceSession first entered those states. */
 export interface SessionStateEvent {
-  /** Output only. The session_state tracked by this event */
-  sessionState?: SessionStateEventSessionStateEnum | (string & {}) | undefined;
-  /** Output only. The time that the session_state first encountered that state. */
-  eventTime?: string | undefined;
   /** Output only. A human-readable message to explain the state. */
   stateMessage?: string | undefined;
+  /** Output only. The time that the session_state first encountered that state. */
+  eventTime?: string | undefined;
+  /** Output only. The session_state tracked by this event */
+  sessionState?: SessionStateEventSessionStateEnum | (string & {}) | undefined;
 }
 export type SessionStateEventList = Array<SessionStateEvent>;
 /** Protobuf message describing the device message, used from several RPCs. */
 export interface DeviceSession {
+  /** Output only. Current state of the DeviceSession. */
+  state?: DeviceSessionStateEnum | (string & {}) | undefined;
   /** Output only. The timestamp that the session first became ACTIVE. */
   activeStartTime?: string | undefined;
   /** Output only. The interval of time that this device must be interacted with before it transitions from ACTIVE to TIMEOUT_INACTIVITY. */
   inactivityTimeout?: string | undefined;
-  /** Optional. If the device is still in use at this time, any connections will be ended and the SessionState will transition from ACTIVE to FINISHED. */
-  expireTime?: string | undefined;
   /** Output only. The time that the Session was created. */
   createTime?: string | undefined;
   /** Required. The requested device. */
   androidDevice?: AndroidDevice | undefined;
-  /** Optional. The amount of time that a device will be initially allocated for. This can eventually be extended with the UpdateDeviceSession RPC. Default: 15 minutes. */
-  ttl?: string | undefined;
-  /** Output only. Current state of the DeviceSession. */
-  state?: DeviceSessionStateEnum | (string & {}) | undefined;
+  /** Optional. If the device is still in use at this time, any connections will be ended and the SessionState will transition from ACTIVE to FINISHED. */
+  expireTime?: string | undefined;
   /** Output only. The historical state transitions of the session_state message including the current session state. */
   stateHistories?: SessionStateEventList | undefined;
-  /** Optional. Name of the DeviceSession, e.g. "projects/{project_id}/deviceSessions/{session_id}" */
-  name?: string | undefined;
   /** Output only. The title of the DeviceSession to be presented in the UI. */
   displayName?: string | undefined;
+  /** Optional. Name of the DeviceSession, e.g. "projects/{project_id}/deviceSessions/{session_id}" */
+  name?: string | undefined;
+  /** Optional. The amount of time that a device will be initially allocated for. This can eventually be extended with the UpdateDeviceSession RPC. Default: 15 minutes. */
+  ttl?: string | undefined;
 }
 export interface CreateProjectsDeviceSessionsRequest extends DeviceSession {
   /** Required. The Compute Engine project under which this device will be allocated. "projects/{project_id}" */
   parent: string;
 }
-export type TestMatrixStateEnum =
-  | "TEST_STATE_UNSPECIFIED"
-  | "VALIDATING"
-  | "PENDING"
-  | "RUNNING"
-  | "FINISHED"
-  | "ERROR"
-  | "UNSUPPORTED_ENVIRONMENT"
-  | "INCOMPATIBLE_ENVIRONMENT"
-  | "INCOMPATIBLE_ARCHITECTURE"
-  | "CANCELLED"
-  | "INVALID";
-export type TestMatrixOutcomeSummaryEnum =
-  | "OUTCOME_SUMMARY_UNSPECIFIED"
-  | "SUCCESS"
-  | "FAILURE"
-  | "INCONCLUSIVE"
-  | "SKIPPED";
 export type TestMatrixInvalidMatrixDetailsEnum =
   | "INVALID_MATRIX_DETAILS_UNSPECIFIED"
   | "DETAILS_UNAVAILABLE"
@@ -240,49 +222,215 @@ export type TestMatrixInvalidMatrixDetailsEnum =
   | "TEST_QUOTA_EXCEEDED"
   | "SERVICE_NOT_ACTIVATED"
   | "UNKNOWN_PERMISSION_ERROR";
+export type StringList = Array<string>;
+/** Test targets for a shard. */
+export interface TestTargetsForShard {
+  /** Group of packages, classes, and/or test methods to be run for each shard. The targets need to be specified in AndroidJUnitRunner argument format. For example, "package com.my.packages" "class com.my.package.MyClass". The number of test_targets must be greater than 0. */
+  testTargets?: StringList | undefined;
+}
+/** Output only. Details about the shard. */
+export interface Shard {
+  /** Output only. The total number of shards. */
+  numShards?: number | undefined;
+  /** Output only. Test targets for each shard. Only set for manual sharding. */
+  testTargetsForShard?: TestTargetsForShard | undefined;
+  /** Output only. The index of the shard among all the shards. */
+  shardIndex?: number | undefined;
+  /** Output only. The estimated shard duration based on previous test case timing records, if available. */
+  estimatedShardDuration?: string | undefined;
+}
 /** A reference to a file, used for user inputs. */
 export interface FileReference {
   /** A path to a file in Google Cloud Storage. Example: gs://build-app-1414623860166/app%40debug-unaligned.apk These paths are expected to be url encoded (percent encoding) */
   gcsPath?: string | undefined;
 }
-export type IntegerList = Array<number>;
-/** A test of an iOS application that implements one or more game loop scenarios. This test type accepts an archived application (.ipa file) and a list of integer scenarios that will be executed on the app sequentially. */
-export interface IosTestLoop {
-  /** Required. The .ipa of the application to test. */
-  appIpa?: FileReference | undefined;
-  /** Output only. The bundle id for the application under test. */
-  appBundleId?: string | undefined;
-  /** The list of scenarios that should be run during the test. Defaults to the single scenario 0 if unspecified. */
-  scenarios?: IntegerList | undefined;
+export type FileReferenceList = Array<FileReference>;
+/** A single dynamic feature apk. */
+export interface ApkSplits {
+  /** A list of .apk files generated by bundletool to install to the device under test as a single android app with adb install-multiple. If specified, requires one or more bundle_splits. The first split specified represents the base APK, while subsequent splits represent feature apks. */
+  bundleSplits?: FileReferenceList | undefined;
+}
+/** An Android App Bundle file format, containing a BundleConfig.pb file, a base module directory, zero or more dynamic feature module directories. See https://developer.android.com/guide/app-bundle/build for guidance on building App Bundles. */
+export interface AppBundle {
+  /** .apk files generated by bundletool to install as a single android app. */
+  apks?: ApkSplits | undefined;
+  /** .aab file representing the app bundle under test. */
+  bundleLocation?: FileReference | undefined;
+}
+/** Shards test based on previous test case timing records. */
+export interface SmartSharding {
+  /** The amount of time tests within a shard should take. Default: 300 seconds (5 minutes). The minimum allowed: 120 seconds (2 minutes). The shard count is dynamically set based on time, up to the maximum shard limit (described below). To guarantee at least one test case for each shard, the number of shards will not exceed the number of test cases. Shard duration will be exceeded if: - The maximum shard limit is reached and there is more calculated test time remaining to allocate into shards. - Any individual test is estimated to be longer than the targeted shard duration. Shard duration is not guaranteed because smart sharding uses test case history and default durations which may not be accurate. The rules for finding the test case timing records are: - If the service has processed a test case in the last 30 days, the record of the latest successful test case will be used. - For new test cases, the average duration of other known test cases will be used. - If there are no previous test case timing records available, the default test case duration is 15 seconds. Because the actual shard duration can exceed the targeted shard duration, we recommend that you set the targeted value at least 5 minutes less than the maximum allowed test timeout (45 minutes for physical devices and 60 minutes for virtual), or that you use the custom test timeout value that you set. This approach avoids cancelling the shard before all tests can finish. Note that there is a limit for maximum number of shards. When you select one or more physical devices, the number of shards must be <= 50. When you select one or more ARM virtual devices, it must be <= 200. When you select only x86 virtual devices, it must be <= 500. To guarantee at least one test case for per shard, the number of shards will not exceed the number of test cases. Each shard created counts toward daily test quota. */
+  targetedShardDuration?: string | undefined;
+}
+/** Uniformly shards test cases given a total number of shards. For instrumentation tests, it will be translated to "-e numShard" and "-e shardIndex" AndroidJUnitRunner arguments. With uniform sharding enabled, specifying either of these sharding arguments via `environment_variables` is invalid. Based on the sharding mechanism AndroidJUnitRunner uses, there is no guarantee that test cases will be distributed uniformly across all shards. */
+export interface UniformSharding {
+  /** Required. The total number of shards to create. This must always be a positive number that is no greater than the total number of test cases. When you select one or more physical devices, the number of shards must be <= 50. When you select one or more ARM virtual devices, it must be <= 200. When you select only x86 virtual devices, it must be <= 500. */
+  numShards?: number | undefined;
+}
+export type TestTargetsForShardList = Array<TestTargetsForShard>;
+/** Shards test cases into the specified groups of packages, classes, and/or methods. With manual sharding enabled, specifying test targets via environment_variables or in InstrumentationTest is invalid. */
+export interface ManualSharding {
+  /** Required. Group of packages, classes, and/or test methods to be run for each manually-created shard. You must specify at least one shard if this field is present. When you select one or more physical devices, the number of repeated test_targets_for_shard must be <= 50. When you select one or more ARM virtual devices, it must be <= 200. When you select only x86 virtual devices, it must be <= 500. */
+  testTargetsForShard?: TestTargetsForShardList | undefined;
+}
+/** Options for enabling sharding. */
+export interface ShardingOption {
+  /** Shards test based on previous test case timing records. */
+  smartSharding?: SmartSharding | undefined;
+  /** Uniformly shards test cases given a total number of shards. */
+  uniformSharding?: UniformSharding | undefined;
+  /** Shards test cases into the specified groups of packages, classes, and/or methods. */
+  manualSharding?: ManualSharding | undefined;
+}
+export type AndroidInstrumentationTestOrchestratorOptionEnum =
+  | "ORCHESTRATOR_OPTION_UNSPECIFIED"
+  | "USE_ORCHESTRATOR"
+  | "DO_NOT_USE_ORCHESTRATOR";
+/** A test of an Android application that can control an Android component independently of its normal lifecycle. Android instrumentation tests run an application APK and test APK inside the same process on a virtual or physical AndroidDevice. They also specify a test runner class, such as com.google.GoogleTestRunner, which can vary on the specific instrumentation framework chosen. See for more information on types of Android tests. */
+export interface AndroidInstrumentationTest {
+  /** Each target must be fully qualified with the package name or class name, in one of these formats: - "package package_name" - "class package_name.class_name" - "class package_name.class_name#method_name" If empty, all targets in the module will be run. */
+  testTargets?: StringList | undefined;
+  /** The APK for the application under test. */
+  appApk?: FileReference | undefined;
+  /** A multi-apk app bundle for the application under test. */
+  appBundle?: AppBundle | undefined;
+  /** The java package for the test to be executed. The default value is determined by examining the application's manifest. */
+  testPackageId?: string | undefined;
+  /** The option to run tests in multiple shards in parallel. */
+  shardingOption?: ShardingOption | undefined;
+  /** The java package for the application under test. The default value is determined by examining the application's manifest. */
+  appPackageId?: string | undefined;
+  /** Optional. Whether to use Private Compute Core (PCC) sandbox testing. For self-instrumenting test APKs, the test process runs directly inside the PCC sandbox. For separate test and application APKs, the PCC sandbox is configured to allow the application's PCC components to run and accept connections from the test process. Effective only on Android 17 (API level 37) and higher, ignored otherwise. Cannot be combined with `OrchestratorOption.USE_ORCHESTRATOR`. */
+  instrumentInPrivateComputeCore?: boolean | undefined;
+  /** The option of whether running each test within its own invocation of instrumentation with Android Test Orchestrator or not. ** Orchestrator is only compatible with AndroidJUnitRunner version 1.1 or higher! ** Orchestrator offers the following benefits: - No shared state - Crashes are isolated - Logs are scoped per test See for more information about Android Test Orchestrator. If not set, the test will be run without the orchestrator. */
+  orchestratorOption?: AndroidInstrumentationTestOrchestratorOptionEnum | (string & {}) | undefined;
+  /** Required. The APK containing the test code to be executed. */
+  testApk?: FileReference | undefined;
+  /** The InstrumentationTestRunner class. The default value is determined by examining the application's manifest. */
+  testRunnerClass?: string | undefined;
 }
 /** A test of an iOS application that uses the XCTest framework. Xcode supports the option to "build for testing", which generates an .xctestrun file that contains a test specification (arguments, test methods, etc). This test type accepts a zip file containing the .xctestrun file and the corresponding contents of the Build/Products directory that contains all the binaries needed to run the tests. */
 export interface IosXcTest {
-  /** The option to test special app entitlements. Setting this would re-sign the app having special entitlements with an explicit application-identifier. Currently supports testing aps-environment entitlement. */
-  testSpecialEntitlements?: boolean | undefined;
-  /** Required. The .zip containing the .xctestrun file and the contents of the DerivedData/Build/Products directory. The .xctestrun file in this zip is ignored if the xctestrun field is specified. */
-  testsZip?: FileReference | undefined;
-  /** An .xctestrun file that will override the .xctestrun file in the tests zip. Because the .xctestrun file contains environment variables along with test methods to run and/or ignore, this can be useful for sharding tests. Default is taken from the tests zip. */
-  xctestrun?: FileReference | undefined;
-  /** Output only. The bundle id for the application under test. */
-  appBundleId?: string | undefined;
   /** The Xcode version that should be used for the test. Use the TestEnvironmentDiscoveryService to get supported options. Defaults to the latest Xcode version Firebase Test Lab supports. */
   xcodeVersion?: string | undefined;
+  /** Output only. The bundle id for the application under test. */
+  appBundleId?: string | undefined;
+  /** The option to test special app entitlements. Setting this would re-sign the app having special entitlements with an explicit application-identifier. Currently supports testing aps-environment entitlement. */
+  testSpecialEntitlements?: boolean | undefined;
+  /** An .xctestrun file that will override the .xctestrun file in the tests zip. Because the .xctestrun file contains environment variables along with test methods to run and/or ignore, this can be useful for sharding tests. Default is taken from the tests zip. */
+  xctestrun?: FileReference | undefined;
+  /** Required. The .zip containing the .xctestrun file and the contents of the DerivedData/Build/Products directory. The .xctestrun file in this zip is ignored if the xctestrun field is specified. */
+  testsZip?: FileReference | undefined;
 }
 /** A test that explores an iOS application on an iOS device. */
 export interface IosRoboTest {
-  /** The bundle ID for the app-under-test. This is determined by examining the application's "Info.plist" file. */
-  appBundleId?: string | undefined;
-  /** An optional Roboscript to customize the crawl. See https://firebase.google.com/docs/test-lab/android/robo-scripts-reference for more information about Roboscripts. The maximum allowed file size of the roboscript is 10MiB. */
-  roboScript?: FileReference | undefined;
   /** Required. The ipa stored at this file should be used to run the test. */
   appIpa?: FileReference | undefined;
+  /** An optional Roboscript to customize the crawl. See https://firebase.google.com/docs/test-lab/android/robo-scripts-reference for more information about Roboscripts. The maximum allowed file size of the roboscript is 10MiB. */
+  roboScript?: FileReference | undefined;
+  /** The bundle ID for the app-under-test. This is determined by examining the application's "Info.plist" file. */
+  appBundleId?: string | undefined;
 }
+/** Specifies an intent that starts the main launcher activity. */
+export type LauncherActivityIntent = CancelDeviceSessionRequest;
+/** Skips the starting activity */
+export type NoActivityIntent = CancelDeviceSessionRequest;
+/** A starting intent specified by an action, uri, and categories. */
+export interface StartActivityIntent {
+  /** Action name. Required for START_ACTIVITY. */
+  action?: string | undefined;
+  /** Intent categories to set on the intent. */
+  categories?: StringList | undefined;
+  /** URI for the action. */
+  uri?: string | undefined;
+}
+/** Message for specifying the start activities to crawl. */
+export interface RoboStartingIntent {
+  /** Timeout in seconds for each intent. */
+  timeout?: string | undefined;
+  /** An intent that starts the main launcher activity. */
+  launcherActivity?: CancelDeviceSessionRequest | undefined;
+  /** Skips the starting activity */
+  noActivity?: CancelDeviceSessionRequest | undefined;
+  /** An intent that starts an activity with specific details. */
+  startActivity?: StartActivityIntent | undefined;
+}
+export type RoboStartingIntentList = Array<RoboStartingIntent>;
+export type RoboDirectiveActionTypeEnum =
+  | "ACTION_TYPE_UNSPECIFIED"
+  | "SINGLE_CLICK"
+  | "ENTER_TEXT"
+  | "IGNORE";
+/** Directs Robo to interact with a specific UI element if it is encountered during the crawl. Currently, Robo can perform text entry or element click. */
+export interface RoboDirective {
+  /** The text that Robo is directed to set. If left empty, the directive will be treated as a CLICK on the element matching the resource_name. */
+  inputText?: string | undefined;
+  /** Required. The type of action that Robo should perform on the specified element. */
+  actionType?: RoboDirectiveActionTypeEnum | (string & {}) | undefined;
+  /** Required. The android resource name of the target UI element. For example, in Java: R.string.foo in xml: @string/foo Only the "foo" part is needed. Reference doc: https://developer.android.com/guide/topics/resources/accessing-resources.html */
+  resourceName?: string | undefined;
+}
+export type RoboDirectiveList = Array<RoboDirective>;
+export type AndroidRoboTestRoboModeEnum =
+  | "ROBO_MODE_UNSPECIFIED"
+  | "ROBO_VERSION_1"
+  | "ROBO_VERSION_2";
+/** A test of an android application that explores the application on a virtual or physical Android Device, finding culprits and crashes as it goes. */
+export interface AndroidRoboTest {
+  /** The APK for the application under test. */
+  appApk?: FileReference | undefined;
+  /** The intents used to launch the app for the crawl. If none are provided, then the main launcher activity is launched. If some are provided, then only those provided are launched (the main launcher activity must be provided explicitly). */
+  startingIntents?: RoboStartingIntentList | undefined;
+  /** The max number of steps Robo can execute. Default is no limit. */
+  maxSteps?: number | undefined;
+  /** The java package for the application under test. The default value is determined by examining the application's manifest. */
+  appPackageId?: string | undefined;
+  /** A multi-apk app bundle for the application under test. */
+  appBundle?: AppBundle | undefined;
+  /** A set of directives Robo should apply during the crawl. This allows users to customize the crawl. For example, the username and password for a test account can be provided. */
+  roboDirectives?: RoboDirectiveList | undefined;
+  /** The max depth of the traversal stack Robo can explore. Needs to be at least 2 to make Robo explore the app beyond the first activity. Default is 50. */
+  maxDepth?: number | undefined;
+  /** The mode in which Robo should run. Most clients should allow the server to populate this field automatically. */
+  roboMode?: AndroidRoboTestRoboModeEnum | (string & {}) | undefined;
+  /** The initial activity that should be used to start the app. */
+  appInitialActivity?: string | undefined;
+  /** A JSON file with a sequence of actions Robo should perform as a prologue for the crawl. */
+  roboScript?: FileReference | undefined;
+}
+export interface SystraceSetup {
+  /** Systrace duration in seconds. Should be between 1 and 30 seconds. 0 disables systrace. */
+  durationSeconds?: number | undefined;
+}
+/** Enables automatic Google account login. If set, the service automatically generates a Google test account and adds it to the device, before executing the test. Note that test accounts might be reused. Many applications show their full set of functionalities when an account is present on the device. Logging into the device with these generated accounts allows testing more functionalities. */
+export type GoogleAuto = CancelDeviceSessionRequest;
+/** Identifies an account and how to log into it. */
+export interface Account {
+  /** An automatic google login account. */
+  googleAuto?: CancelDeviceSessionRequest | undefined;
+}
+/** A key-value pair passed as an environment variable to the test. */
+export interface EnvironmentVariable {
+  /** Key for the environment variable. */
+  key?: string | undefined;
+  /** Value for the environment variable. */
+  value?: string | undefined;
+}
+export type EnvironmentVariableList = Array<EnvironmentVariable>;
+/** An Android package file to install. */
+export interface Apk {
+  /** The path to an APK to be installed on the device before the test begins. */
+  location?: FileReference | undefined;
+  /** The java package for the APK to be installed. Value is determined by examining the application's manifest. */
+  packageName?: string | undefined;
+}
+export type ApkList = Array<Apk>;
 /** An opaque binary blob file to install on the device before the test starts. */
 export interface ObbFile {
-  /** Required. Opaque Binary Blob (OBB) file(s) to install on the device. */
-  obb?: FileReference | undefined;
   /** Required. OBB file name which must conform to the format as specified by Android e.g. [main|patch].0300110.com.example.android.obb which will be installed into \/Android/obb/\/ on the device. */
   obbFileName?: string | undefined;
+  /** Required. Opaque Binary Blob (OBB) file(s) to install on the device. */
+  obb?: FileReference | undefined;
 }
 /** A file or directory to install on the device before the test starts. */
 export interface RegularFile {
@@ -299,334 +447,124 @@ export interface DeviceFile {
   regularFile?: RegularFile | undefined;
 }
 export type DeviceFileList = Array<DeviceFile>;
-/** A key-value pair passed as an environment variable to the test. */
-export interface EnvironmentVariable {
-  /** Key for the environment variable. */
-  key?: string | undefined;
-  /** Value for the environment variable. */
-  value?: string | undefined;
-}
-export type EnvironmentVariableList = Array<EnvironmentVariable>;
-export type StringList = Array<string>;
-/** Enables automatic Google account login. If set, the service automatically generates a Google test account and adds it to the device, before executing the test. Note that test accounts might be reused. Many applications show their full set of functionalities when an account is present on the device. Logging into the device with these generated accounts allows testing more functionalities. */
-export type GoogleAuto = CancelDeviceSessionRequest;
-/** Identifies an account and how to log into it. */
-export interface Account {
-  /** An automatic google login account. */
-  googleAuto?: CancelDeviceSessionRequest | undefined;
-}
-/** An Android package file to install. */
-export interface Apk {
-  /** The java package for the APK to be installed. Value is determined by examining the application's manifest. */
-  packageName?: string | undefined;
-  /** The path to an APK to be installed on the device before the test begins. */
-  location?: FileReference | undefined;
-}
-export type ApkList = Array<Apk>;
-export interface SystraceSetup {
-  /** Systrace duration in seconds. Should be between 1 and 30 seconds. 0 disables systrace. */
-  durationSeconds?: number | undefined;
-}
 /** A description of how to set up the Android device prior to running the test. */
 export interface TestSetup {
-  /** List of files to push to the device before starting the test. */
-  filesToPush?: DeviceFileList | undefined;
-  /** Environment variables to set for the test (only applicable for instrumentation tests). */
-  environmentVariables?: EnvironmentVariableList | undefined;
-  /** The network traffic profile used for running the test. Available network profiles can be queried by using the NETWORK_CONFIGURATION environment type when calling TestEnvironmentDiscoveryService.GetTestEnvironmentCatalog. */
-  networkProfile?: string | undefined;
-  /** List of directories on the device to upload to GCS at the end of the test; they must be absolute paths under /sdcard, /storage or /data/local/tmp. Path names are restricted to characters a-z A-Z 0-9 _ - . + and / Note: The paths /sdcard and /data will be made available and treated as implicit path substitutions. E.g. if /sdcard on a particular device does not map to external storage, the system will replace it with the external storage path prefix for that device. */
-  directoriesToPull?: StringList | undefined;
-  /** The device will be logged in on this account for the duration of the test. */
-  account?: Account | undefined;
-  /** Optional. Initial setup APKs to install before the app under test is installed. Limited to a combined total of 100 initial setup and additional files. */
-  initialSetupApks?: ApkList | undefined;
-  /** Whether to prevent all runtime permissions to be granted at app install */
-  dontAutograntPermissions?: boolean | undefined;
   /** Systrace configuration for the run. Deprecated: Systrace used Python 2 which was sunsetted on 2020-01-01. Systrace is no longer supported in the Cloud Testing API, and no Systrace file will be provided in the results. */
   systrace?: SystraceSetup | undefined;
+  /** The device will be logged in on this account for the duration of the test. */
+  account?: Account | undefined;
+  /** Environment variables to set for the test (only applicable for instrumentation tests). */
+  environmentVariables?: EnvironmentVariableList | undefined;
   /** APKs to install in addition to those being directly tested. These will be installed after the app under test. Limited to a combined total of 100 initial setup and additional files. */
   additionalApks?: ApkList | undefined;
+  /** Whether to prevent all runtime permissions to be granted at app install */
+  dontAutograntPermissions?: boolean | undefined;
+  /** The network traffic profile used for running the test. Available network profiles can be queried by using the NETWORK_CONFIGURATION environment type when calling TestEnvironmentDiscoveryService.GetTestEnvironmentCatalog. */
+  networkProfile?: string | undefined;
+  /** Optional. Initial setup APKs to install before the app under test is installed. Limited to a combined total of 100 initial setup and additional files. */
+  initialSetupApks?: ApkList | undefined;
+  /** List of directories on the device to upload to GCS at the end of the test; they must be absolute paths under /sdcard, /storage or /data/local/tmp. Path names are restricted to characters a-z A-Z 0-9 _ - . + and / Note: The paths /sdcard and /data will be made available and treated as implicit path substitutions. E.g. if /sdcard on a particular device does not map to external storage, the system will replace it with the external storage path prefix for that device. */
+  directoriesToPull?: StringList | undefined;
+  /** List of files to push to the device before starting the test. */
+  filesToPush?: DeviceFileList | undefined;
 }
-export type FileReferenceList = Array<FileReference>;
 /** A file or directory to install on the device before the test starts. */
 export interface IosDeviceFile {
-  /** The bundle id of the app where this file lives. iOS apps sandbox their own filesystem, so app files must specify which app installed on the device. */
-  bundleId?: string | undefined;
   /** The source file */
   content?: FileReference | undefined;
   /** Location of the file on the device, inside the app's sandboxed filesystem */
   devicePath?: string | undefined;
+  /** The bundle id of the app where this file lives. iOS apps sandbox their own filesystem, so app files must specify which app installed on the device. */
+  bundleId?: string | undefined;
 }
 export type IosDeviceFileList = Array<IosDeviceFile>;
 /** A description of how to set up an iOS device prior to running the test. */
 export interface IosTestSetup {
-  /** iOS apps to install in addition to those being directly tested. */
-  additionalIpas?: FileReferenceList | undefined;
-  /** List of files to push to the device before starting the test. */
-  pushFiles?: IosDeviceFileList | undefined;
-  /** List of directories on the device to upload to Cloud Storage at the end of the test. Directories should either be in a shared directory (such as /private/var/mobile/Media) or within an accessible directory inside the app's filesystem (such as /Documents) by specifying the bundle ID. */
-  pullDirectories?: IosDeviceFileList | undefined;
   /** The network traffic profile used for running the test. Available network profiles can be queried by using the NETWORK_CONFIGURATION environment type when calling TestEnvironmentDiscoveryService.GetTestEnvironmentCatalog. */
   networkProfile?: string | undefined;
+  /** iOS apps to install in addition to those being directly tested. */
+  additionalIpas?: FileReferenceList | undefined;
+  /** List of directories on the device to upload to Cloud Storage at the end of the test. Directories should either be in a shared directory (such as /private/var/mobile/Media) or within an accessible directory inside the app's filesystem (such as /Documents) by specifying the bundle ID. */
+  pullDirectories?: IosDeviceFileList | undefined;
+  /** List of files to push to the device before starting the test. */
+  pushFiles?: IosDeviceFileList | undefined;
 }
-/** Skips the starting activity */
-export type NoActivityIntent = CancelDeviceSessionRequest;
-/** Specifies an intent that starts the main launcher activity. */
-export type LauncherActivityIntent = CancelDeviceSessionRequest;
-/** A starting intent specified by an action, uri, and categories. */
-export interface StartActivityIntent {
-  /** URI for the action. */
-  uri?: string | undefined;
-  /** Intent categories to set on the intent. */
-  categories?: StringList | undefined;
-  /** Action name. Required for START_ACTIVITY. */
-  action?: string | undefined;
-}
-/** Message for specifying the start activities to crawl. */
-export interface RoboStartingIntent {
-  /** Skips the starting activity */
-  noActivity?: CancelDeviceSessionRequest | undefined;
-  /** An intent that starts the main launcher activity. */
-  launcherActivity?: CancelDeviceSessionRequest | undefined;
-  /** An intent that starts an activity with specific details. */
-  startActivity?: StartActivityIntent | undefined;
-  /** Timeout in seconds for each intent. */
-  timeout?: string | undefined;
-}
-export type RoboStartingIntentList = Array<RoboStartingIntent>;
-/** A single dynamic feature apk. */
-export interface ApkSplits {
-  /** A list of .apk files generated by bundletool to install to the device under test as a single android app with adb install-multiple. If specified, requires one or more bundle_splits. The first split specified represents the base APK, while subsequent splits represent feature apks. */
-  bundleSplits?: FileReferenceList | undefined;
-}
-/** An Android App Bundle file format, containing a BundleConfig.pb file, a base module directory, zero or more dynamic feature module directories. See https://developer.android.com/guide/app-bundle/build for guidance on building App Bundles. */
-export interface AppBundle {
-  /** .apk files generated by bundletool to install as a single android app. */
-  apks?: ApkSplits | undefined;
-  /** .aab file representing the app bundle under test. */
-  bundleLocation?: FileReference | undefined;
-}
-export type RoboDirectiveActionTypeEnum =
-  | "ACTION_TYPE_UNSPECIFIED"
-  | "SINGLE_CLICK"
-  | "ENTER_TEXT"
-  | "IGNORE";
-/** Directs Robo to interact with a specific UI element if it is encountered during the crawl. Currently, Robo can perform text entry or element click. */
-export interface RoboDirective {
-  /** Required. The type of action that Robo should perform on the specified element. */
-  actionType?: RoboDirectiveActionTypeEnum | (string & {}) | undefined;
-  /** The text that Robo is directed to set. If left empty, the directive will be treated as a CLICK on the element matching the resource_name. */
-  inputText?: string | undefined;
-  /** Required. The android resource name of the target UI element. For example, in Java: R.string.foo in xml: @string/foo Only the "foo" part is needed. Reference doc: https://developer.android.com/guide/topics/resources/accessing-resources.html */
-  resourceName?: string | undefined;
-}
-export type RoboDirectiveList = Array<RoboDirective>;
-export type AndroidRoboTestRoboModeEnum =
-  | "ROBO_MODE_UNSPECIFIED"
-  | "ROBO_VERSION_1"
-  | "ROBO_VERSION_2";
-/** A test of an android application that explores the application on a virtual or physical Android Device, finding culprits and crashes as it goes. */
-export interface AndroidRoboTest {
-  /** A JSON file with a sequence of actions Robo should perform as a prologue for the crawl. */
-  roboScript?: FileReference | undefined;
-  /** The intents used to launch the app for the crawl. If none are provided, then the main launcher activity is launched. If some are provided, then only those provided are launched (the main launcher activity must be provided explicitly). */
-  startingIntents?: RoboStartingIntentList | undefined;
-  /** A multi-apk app bundle for the application under test. */
-  appBundle?: AppBundle | undefined;
-  /** The max depth of the traversal stack Robo can explore. Needs to be at least 2 to make Robo explore the app beyond the first activity. Default is 50. */
-  maxDepth?: number | undefined;
-  /** The initial activity that should be used to start the app. */
-  appInitialActivity?: string | undefined;
-  /** The APK for the application under test. */
-  appApk?: FileReference | undefined;
-  /** A set of directives Robo should apply during the crawl. This allows users to customize the crawl. For example, the username and password for a test account can be provided. */
-  roboDirectives?: RoboDirectiveList | undefined;
-  /** The java package for the application under test. The default value is determined by examining the application's manifest. */
-  appPackageId?: string | undefined;
-  /** The max number of steps Robo can execute. Default is no limit. */
-  maxSteps?: number | undefined;
-  /** The mode in which Robo should run. Most clients should allow the server to populate this field automatically. */
-  roboMode?: AndroidRoboTestRoboModeEnum | (string & {}) | undefined;
-}
-export type AndroidInstrumentationTestOrchestratorOptionEnum =
-  | "ORCHESTRATOR_OPTION_UNSPECIFIED"
-  | "USE_ORCHESTRATOR"
-  | "DO_NOT_USE_ORCHESTRATOR";
-/** Test targets for a shard. */
-export interface TestTargetsForShard {
-  /** Group of packages, classes, and/or test methods to be run for each shard. The targets need to be specified in AndroidJUnitRunner argument format. For example, "package com.my.packages" "class com.my.package.MyClass". The number of test_targets must be greater than 0. */
-  testTargets?: StringList | undefined;
-}
-export type TestTargetsForShardList = Array<TestTargetsForShard>;
-/** Shards test cases into the specified groups of packages, classes, and/or methods. With manual sharding enabled, specifying test targets via environment_variables or in InstrumentationTest is invalid. */
-export interface ManualSharding {
-  /** Required. Group of packages, classes, and/or test methods to be run for each manually-created shard. You must specify at least one shard if this field is present. When you select one or more physical devices, the number of repeated test_targets_for_shard must be <= 50. When you select one or more ARM virtual devices, it must be <= 200. When you select only x86 virtual devices, it must be <= 500. */
-  testTargetsForShard?: TestTargetsForShardList | undefined;
-}
-/** Uniformly shards test cases given a total number of shards. For instrumentation tests, it will be translated to "-e numShard" and "-e shardIndex" AndroidJUnitRunner arguments. With uniform sharding enabled, specifying either of these sharding arguments via `environment_variables` is invalid. Based on the sharding mechanism AndroidJUnitRunner uses, there is no guarantee that test cases will be distributed uniformly across all shards. */
-export interface UniformSharding {
-  /** Required. The total number of shards to create. This must always be a positive number that is no greater than the total number of test cases. When you select one or more physical devices, the number of shards must be <= 50. When you select one or more ARM virtual devices, it must be <= 200. When you select only x86 virtual devices, it must be <= 500. */
-  numShards?: number | undefined;
-}
-/** Shards test based on previous test case timing records. */
-export interface SmartSharding {
-  /** The amount of time tests within a shard should take. Default: 300 seconds (5 minutes). The minimum allowed: 120 seconds (2 minutes). The shard count is dynamically set based on time, up to the maximum shard limit (described below). To guarantee at least one test case for each shard, the number of shards will not exceed the number of test cases. Shard duration will be exceeded if: - The maximum shard limit is reached and there is more calculated test time remaining to allocate into shards. - Any individual test is estimated to be longer than the targeted shard duration. Shard duration is not guaranteed because smart sharding uses test case history and default durations which may not be accurate. The rules for finding the test case timing records are: - If the service has processed a test case in the last 30 days, the record of the latest successful test case will be used. - For new test cases, the average duration of other known test cases will be used. - If there are no previous test case timing records available, the default test case duration is 15 seconds. Because the actual shard duration can exceed the targeted shard duration, we recommend that you set the targeted value at least 5 minutes less than the maximum allowed test timeout (45 minutes for physical devices and 60 minutes for virtual), or that you use the custom test timeout value that you set. This approach avoids cancelling the shard before all tests can finish. Note that there is a limit for maximum number of shards. When you select one or more physical devices, the number of shards must be <= 50. When you select one or more ARM virtual devices, it must be <= 200. When you select only x86 virtual devices, it must be <= 500. To guarantee at least one test case for per shard, the number of shards will not exceed the number of test cases. Each shard created counts toward daily test quota. */
-  targetedShardDuration?: string | undefined;
-}
-/** Options for enabling sharding. */
-export interface ShardingOption {
-  /** Shards test cases into the specified groups of packages, classes, and/or methods. */
-  manualSharding?: ManualSharding | undefined;
-  /** Uniformly shards test cases given a total number of shards. */
-  uniformSharding?: UniformSharding | undefined;
-  /** Shards test based on previous test case timing records. */
-  smartSharding?: SmartSharding | undefined;
-}
-/** A test of an Android application that can control an Android component independently of its normal lifecycle. Android instrumentation tests run an application APK and test APK inside the same process on a virtual or physical AndroidDevice. They also specify a test runner class, such as com.google.GoogleTestRunner, which can vary on the specific instrumentation framework chosen. See for more information on types of Android tests. */
-export interface AndroidInstrumentationTest {
-  /** The APK for the application under test. */
-  appApk?: FileReference | undefined;
-  /** A multi-apk app bundle for the application under test. */
-  appBundle?: AppBundle | undefined;
-  /** Each target must be fully qualified with the package name or class name, in one of these formats: - "package package_name" - "class package_name.class_name" - "class package_name.class_name#method_name" If empty, all targets in the module will be run. */
-  testTargets?: StringList | undefined;
-  /** Required. The APK containing the test code to be executed. */
-  testApk?: FileReference | undefined;
-  /** Optional. Whether to use Private Compute Core (PCC) sandbox testing. For self-instrumenting test APKs, the test process runs directly inside the PCC sandbox. For separate test and application APKs, the PCC sandbox is configured to allow the application's PCC components to run and accept connections from the test process. Effective only on Android 17 (API level 37) and higher, ignored otherwise. Cannot be combined with `OrchestratorOption.USE_ORCHESTRATOR`. */
-  instrumentInPrivateComputeCore?: boolean | undefined;
-  /** The java package for the application under test. The default value is determined by examining the application's manifest. */
-  appPackageId?: string | undefined;
-  /** The InstrumentationTestRunner class. The default value is determined by examining the application's manifest. */
-  testRunnerClass?: string | undefined;
-  /** The option of whether running each test within its own invocation of instrumentation with Android Test Orchestrator or not. ** Orchestrator is only compatible with AndroidJUnitRunner version 1.1 or higher! ** Orchestrator offers the following benefits: - No shared state - Crashes are isolated - Logs are scoped per test See for more information about Android Test Orchestrator. If not set, the test will be run without the orchestrator. */
-  orchestratorOption?: AndroidInstrumentationTestOrchestratorOptionEnum | (string & {}) | undefined;
-  /** The option to run tests in multiple shards in parallel. */
-  shardingOption?: ShardingOption | undefined;
-  /** The java package for the test to be executed. The default value is determined by examining the application's manifest. */
-  testPackageId?: string | undefined;
+export type IntegerList = Array<number>;
+/** A test of an iOS application that implements one or more game loop scenarios. This test type accepts an archived application (.ipa file) and a list of integer scenarios that will be executed on the app sequentially. */
+export interface IosTestLoop {
+  /** Output only. The bundle id for the application under test. */
+  appBundleId?: string | undefined;
+  /** Required. The .ipa of the application to test. */
+  appIpa?: FileReference | undefined;
+  /** The list of scenarios that should be run during the test. Defaults to the single scenario 0 if unspecified. */
+  scenarios?: IntegerList | undefined;
 }
 /** A test of an Android Application with a Test Loop. The intent \ will be implicitly added, since Games is the only user of this api, for the time being. */
 export interface AndroidTestLoop {
-  /** The java package for the application under test. The default is determined by examining the application's manifest. */
-  appPackageId?: string | undefined;
+  /** The APK for the application under test. */
+  appApk?: FileReference | undefined;
   /** The list of scenarios that should be run during the test. The default is all test loops, derived from the application's manifest. */
   scenarios?: IntegerList | undefined;
   /** A multi-apk app bundle for the application under test. */
   appBundle?: AppBundle | undefined;
   /** The list of scenario labels that should be run during the test. The scenario labels should map to labels defined in the application's manifest. For example, player_experience and com.google.test.loops.player_experience add all of the loops labeled in the manifest with the com.google.test.loops.player_experience name to the execution. Scenarios can also be specified in the scenarios field. */
   scenarioLabels?: StringList | undefined;
-  /** The APK for the application under test. */
-  appApk?: FileReference | undefined;
+  /** The java package for the application under test. The default is determined by examining the application's manifest. */
+  appPackageId?: string | undefined;
 }
 /** A description of how to run the test. */
 export interface TestSpecification {
-  /** An iOS application with a test loop. */
-  iosTestLoop?: IosTestLoop | undefined;
+  /** An Android instrumentation test. */
+  androidInstrumentationTest?: AndroidInstrumentationTest | undefined;
   /** An iOS XCTest, via an .xctestrun file. */
   iosXcTest?: IosXcTest | undefined;
-  /** An iOS Robo test. */
-  iosRoboTest?: IosRoboTest | undefined;
-  /** Test setup requirements for Android e.g. files to install, bootstrap scripts. */
-  testSetup?: TestSetup | undefined;
   /** Disables video recording. May reduce test latency. */
   disableVideoRecording?: boolean | undefined;
-  /** Test setup requirements for iOS. */
-  iosTestSetup?: IosTestSetup | undefined;
+  /** An iOS Robo test. */
+  iosRoboTest?: IosRoboTest | undefined;
+  /** An Android robo test. */
+  androidRoboTest?: AndroidRoboTest | undefined;
   /** Max time a test execution is allowed to run before it is automatically cancelled. The default value is 5 min. */
   testTimeout?: string | undefined;
   /** Disables performance metrics recording. May reduce test latency. */
   disablePerformanceMetrics?: boolean | undefined;
-  /** An Android robo test. */
-  androidRoboTest?: AndroidRoboTest | undefined;
-  /** An Android instrumentation test. */
-  androidInstrumentationTest?: AndroidInstrumentationTest | undefined;
+  /** Test setup requirements for Android e.g. files to install, bootstrap scripts. */
+  testSetup?: TestSetup | undefined;
+  /** Test setup requirements for iOS. */
+  iosTestSetup?: IosTestSetup | undefined;
+  /** An iOS application with a test loop. */
+  iosTestLoop?: IosTestLoop | undefined;
   /** An Android Application with a Test Loop. */
   androidTestLoop?: AndroidTestLoop | undefined;
 }
-/** A storage location within Google cloud storage (GCS). */
-export interface GoogleCloudStorage {
-  /** Required. The path to a directory in GCS that will eventually contain the results for this test. The requesting user must have write access on the bucket in the supplied path. */
-  gcsPath?: string | undefined;
+/** Additional details about the progress of the running test. */
+export interface TestDetails {
+  /** Output only. If the TestState is ERROR, then this string will contain human-readable details about the error. */
+  errorMessage?: string | undefined;
+  /** Output only. Human-readable, detailed descriptions of the test's progress. For example: "Provisioning a device", "Starting Test". During the course of execution new data may be appended to the end of progress_messages. */
+  progressMessages?: StringList | undefined;
 }
-/** Represents a tool results history resource. */
-export interface ToolResultsHistory {
-  /** Required. A tool results history ID. */
-  historyId?: string | undefined;
-  /** Required. The cloud project that owns the tool results history. */
-  projectId?: string | undefined;
-}
-/** Represents a tool results execution resource. This has the results of a TestMatrix. */
-export interface ToolResultsExecution {
+/** Represents a tool results step resource. This has the results of a TestExecution. */
+export interface ToolResultsStep {
   /** Output only. A tool results history ID. */
   historyId?: string | undefined;
-  /** Output only. The cloud project that owns the tool results execution. */
+  /** Output only. A tool results step ID. */
+  stepId?: string | undefined;
+  /** Output only. The cloud project that owns the tool results step. */
   projectId?: string | undefined;
   /** Output only. A tool results execution ID. */
   executionId?: string | undefined;
 }
-/** Locations where the results of running the test are stored. */
-export interface ResultStorage {
-  /** Output only. URL to the results in the Firebase Web Console. */
-  resultsUrl?: string | undefined;
-  /** Required. */
-  googleCloudStorage?: GoogleCloudStorage | undefined;
-  /** The tool results history that contains the tool results execution that results are written to. If not provided, the service will choose an appropriate value. */
-  toolResultsHistory?: ToolResultsHistory | undefined;
-  /** Output only. The tool results execution that results are written to. */
-  toolResultsExecution?: ToolResultsExecution | undefined;
-}
-/** Describes a single error or issue with a matrix. */
-export interface MatrixErrorDetail {
-  /** Output only. A human-readable message about how the error in the TestMatrix. Expands on the `reason` field with additional details and possible options to fix the issue. */
-  message?: string | undefined;
-  /** Output only. The reason for the error. This is a constant value in UPPER_SNAKE_CASE that identifies the cause of the error. */
-  reason?: string | undefined;
-}
-export type MatrixErrorDetailList = Array<MatrixErrorDetail>;
-/** Key-value pair of detailed information about the client which invoked the test. Examples: {'Version', '1.0'}, {'Release Track', 'BETA'}. */
-export interface ClientInfoDetail {
-  /** Required. The key of detailed client information. */
-  key?: string | undefined;
-  /** Required. The value of detailed client information. */
-  value?: string | undefined;
-}
-export type ClientInfoDetailList = Array<ClientInfoDetail>;
-/** Information about the client which invoked the test. */
-export interface ClientInfo {
-  /** Required. Client name, such as gcloud. */
-  name?: string | undefined;
-  /** The list of detailed information about client. */
-  clientInfoDetails?: ClientInfoDetailList | undefined;
-}
-/** Additional details about the progress of the running test. */
-export interface TestDetails {
-  /** Output only. Human-readable, detailed descriptions of the test's progress. For example: "Provisioning a device", "Starting Test". During the course of execution new data may be appended to the end of progress_messages. */
-  progressMessages?: StringList | undefined;
-  /** Output only. If the TestState is ERROR, then this string will contain human-readable details about the error. */
-  errorMessage?: string | undefined;
-}
-/** Output only. Details about the shard. */
-export interface Shard {
-  /** Output only. The estimated shard duration based on previous test case timing records, if available. */
-  estimatedShardDuration?: string | undefined;
-  /** Output only. The total number of shards. */
-  numShards?: number | undefined;
-  /** Output only. The index of the shard among all the shards. */
-  shardIndex?: number | undefined;
-  /** Output only. Test targets for each shard. Only set for manual sharding. */
-  testTargetsForShard?: TestTargetsForShard | undefined;
-}
 /** A single iOS device. */
 export interface IosDevice {
-  /** Required. The id of the iOS device to be used. Use the TestEnvironmentDiscoveryService to get supported options. */
-  iosModelId?: string | undefined;
   /** Required. The id of the iOS major software version to be used. Use the TestEnvironmentDiscoveryService to get supported options. */
   iosVersionId?: string | undefined;
-  /** Required. How the device is oriented during the test. Use the TestEnvironmentDiscoveryService to get supported options. */
-  orientation?: string | undefined;
+  /** Required. The id of the iOS device to be used. Use the TestEnvironmentDiscoveryService to get supported options. */
+  iosModelId?: string | undefined;
   /** Required. The locale the test device used for testing. Use the TestEnvironmentDiscoveryService to get supported options. */
   locale?: string | undefined;
+  /** Required. How the device is oriented during the test. Use the TestEnvironmentDiscoveryService to get supported options. */
+  orientation?: string | undefined;
 }
 /** The environment in which the test is run. */
 export interface Environment {
@@ -634,17 +572,6 @@ export interface Environment {
   iosDevice?: IosDevice | undefined;
   /** An Android device which must be used with an Android test. */
   androidDevice?: AndroidDevice | undefined;
-}
-/** Represents a tool results step resource. This has the results of a TestExecution. */
-export interface ToolResultsStep {
-  /** Output only. The cloud project that owns the tool results step. */
-  projectId?: string | undefined;
-  /** Output only. A tool results step ID. */
-  stepId?: string | undefined;
-  /** Output only. A tool results history ID. */
-  historyId?: string | undefined;
-  /** Output only. A tool results execution ID. */
-  executionId?: string | undefined;
 }
 export type TestExecutionStateEnum =
   | "TEST_STATE_UNSPECIFIED"
@@ -660,28 +587,91 @@ export type TestExecutionStateEnum =
   | "INVALID";
 /** A single test executed in a single environment. */
 export interface TestExecution {
-  /** Output only. The cloud project that owns the test execution. */
-  projectId?: string | undefined;
-  /** Output only. Additional details about the running test. */
-  testDetails?: TestDetails | undefined;
-  /** Output only. Details about the shard. */
-  shard?: Shard | undefined;
   /** Output only. Unique id set by the service. */
   id?: string | undefined;
-  /** Output only. How the host machine(s) are configured. */
-  environment?: Environment | undefined;
-  /** Output only. The time this test execution was initially created. */
-  timestamp?: string | undefined;
-  /** Output only. Where the results for this execution are written. */
-  toolResultsStep?: ToolResultsStep | undefined;
-  /** Output only. Indicates the current progress of the test execution (e.g., FINISHED). */
-  state?: TestExecutionStateEnum | (string & {}) | undefined;
+  /** Output only. The cloud project that owns the test execution. */
+  projectId?: string | undefined;
+  /** Output only. Details about the shard. */
+  shard?: Shard | undefined;
   /** Output only. How to run the test. */
   testSpecification?: TestSpecification | undefined;
   /** Output only. Id of the containing TestMatrix. */
   matrixId?: string | undefined;
+  /** Output only. Additional details about the running test. */
+  testDetails?: TestDetails | undefined;
+  /** Output only. Where the results for this execution are written. */
+  toolResultsStep?: ToolResultsStep | undefined;
+  /** Output only. How the host machine(s) are configured. */
+  environment?: Environment | undefined;
+  /** Output only. Indicates the current progress of the test execution (e.g., FINISHED). */
+  state?: TestExecutionStateEnum | (string & {}) | undefined;
+  /** Output only. The time this test execution was initially created. */
+  timestamp?: string | undefined;
 }
 export type TestExecutionList = Array<TestExecution>;
+/** Describes a single error or issue with a matrix. */
+export interface MatrixErrorDetail {
+  /** Output only. The reason for the error. This is a constant value in UPPER_SNAKE_CASE that identifies the cause of the error. */
+  reason?: string | undefined;
+  /** Output only. A human-readable message about how the error in the TestMatrix. Expands on the `reason` field with additional details and possible options to fix the issue. */
+  message?: string | undefined;
+}
+export type MatrixErrorDetailList = Array<MatrixErrorDetail>;
+/** A storage location within Google cloud storage (GCS). */
+export interface GoogleCloudStorage {
+  /** Required. The path to a directory in GCS that will eventually contain the results for this test. The requesting user must have write access on the bucket in the supplied path. */
+  gcsPath?: string | undefined;
+}
+/** Represents a tool results history resource. */
+export interface ToolResultsHistory {
+  /** Required. A tool results history ID. */
+  historyId?: string | undefined;
+  /** Required. The cloud project that owns the tool results history. */
+  projectId?: string | undefined;
+}
+/** Represents a tool results execution resource. This has the results of a TestMatrix. */
+export interface ToolResultsExecution {
+  /** Output only. A tool results execution ID. */
+  executionId?: string | undefined;
+  /** Output only. A tool results history ID. */
+  historyId?: string | undefined;
+  /** Output only. The cloud project that owns the tool results execution. */
+  projectId?: string | undefined;
+}
+/** Locations where the results of running the test are stored. */
+export interface ResultStorage {
+  /** Required. */
+  googleCloudStorage?: GoogleCloudStorage | undefined;
+  /** The tool results history that contains the tool results execution that results are written to. If not provided, the service will choose an appropriate value. */
+  toolResultsHistory?: ToolResultsHistory | undefined;
+  /** Output only. URL to the results in the Firebase Web Console. */
+  resultsUrl?: string | undefined;
+  /** Output only. The tool results execution that results are written to. */
+  toolResultsExecution?: ToolResultsExecution | undefined;
+}
+export type TestMatrixStateEnum =
+  | "TEST_STATE_UNSPECIFIED"
+  | "VALIDATING"
+  | "PENDING"
+  | "RUNNING"
+  | "FINISHED"
+  | "ERROR"
+  | "UNSUPPORTED_ENVIRONMENT"
+  | "INCOMPATIBLE_ENVIRONMENT"
+  | "INCOMPATIBLE_ARCHITECTURE"
+  | "CANCELLED"
+  | "INVALID";
+/** A set of Android device configuration permutations is defined by the the cross-product of the given axes. Internally, the given AndroidMatrix will be expanded into a set of AndroidDevices. Only supported permutations will be instantiated. Invalid permutations (e.g., incompatible models/versions) are ignored. */
+export interface AndroidMatrix {
+  /** Required. The ids of the set of Android device to be used. Use the TestEnvironmentDiscoveryService to get supported options. */
+  androidModelIds?: StringList | undefined;
+  /** Required. The set of orientations to test with. Use the TestEnvironmentDiscoveryService to get supported options. */
+  orientations?: StringList | undefined;
+  /** Required. The ids of the set of Android OS version to be used. Use the TestEnvironmentDiscoveryService to get supported options. */
+  androidVersionIds?: StringList | undefined;
+  /** Required. The set of locales the test device will enable for testing. Use the TestEnvironmentDiscoveryService to get supported options. */
+  locales?: StringList | undefined;
+}
 export type IosDeviceList_ = Array<IosDevice>;
 /** A list of iOS device configurations in which the test is to be executed. */
 export interface IosDeviceList {
@@ -694,56 +684,66 @@ export interface AndroidDeviceList {
   /** Required. A list of Android devices. */
   androidDevices?: AndroidDeviceList_ | undefined;
 }
-/** A set of Android device configuration permutations is defined by the the cross-product of the given axes. Internally, the given AndroidMatrix will be expanded into a set of AndroidDevices. Only supported permutations will be instantiated. Invalid permutations (e.g., incompatible models/versions) are ignored. */
-export interface AndroidMatrix {
-  /** Required. The ids of the set of Android OS version to be used. Use the TestEnvironmentDiscoveryService to get supported options. */
-  androidVersionIds?: StringList | undefined;
-  /** Required. The set of orientations to test with. Use the TestEnvironmentDiscoveryService to get supported options. */
-  orientations?: StringList | undefined;
-  /** Required. The ids of the set of Android device to be used. Use the TestEnvironmentDiscoveryService to get supported options. */
-  androidModelIds?: StringList | undefined;
-  /** Required. The set of locales the test device will enable for testing. Use the TestEnvironmentDiscoveryService to get supported options. */
-  locales?: StringList | undefined;
-}
 /** The matrix of environments in which the test is to be executed. */
 export interface EnvironmentMatrix {
+  /** A matrix of Android devices. */
+  androidMatrix?: AndroidMatrix | undefined;
   /** A list of iOS devices. */
   iosDeviceList?: IosDeviceList | undefined;
   /** A list of Android devices; the test will be run only on the specified devices. */
   androidDeviceList?: AndroidDeviceList | undefined;
-  /** A matrix of Android devices. */
-  androidMatrix?: AndroidMatrix | undefined;
+}
+export type TestMatrixOutcomeSummaryEnum =
+  | "OUTCOME_SUMMARY_UNSPECIFIED"
+  | "SUCCESS"
+  | "FAILURE"
+  | "INCONCLUSIVE"
+  | "SKIPPED";
+/** Key-value pair of detailed information about the client which invoked the test. Examples: {'Version', '1.0'}, {'Release Track', 'BETA'}. */
+export interface ClientInfoDetail {
+  /** Required. The key of detailed client information. */
+  key?: string | undefined;
+  /** Required. The value of detailed client information. */
+  value?: string | undefined;
+}
+export type ClientInfoDetailList = Array<ClientInfoDetail>;
+/** Information about the client which invoked the test. */
+export interface ClientInfo {
+  /** Required. Client name, such as gcloud. */
+  name?: string | undefined;
+  /** The list of detailed information about client. */
+  clientInfoDetails?: ClientInfoDetailList | undefined;
 }
 /** TestMatrix captures all details about a test. It contains the environment configuration, test specification, test executions and overall state and outcome. */
 export interface TestMatrix {
-  /** The cloud project that owns the test matrix. */
-  projectId?: string | undefined;
+  /** Output only. Describes why the matrix is considered invalid. Only useful for matrices in the INVALID state. */
+  invalidMatrixDetails?: TestMatrixInvalidMatrixDetailsEnum | (string & {}) | undefined;
+  /** Output only. The list of test executions that the service creates for this matrix. */
+  testExecutions?: TestExecutionList | undefined;
+  /** Output only. Details about why a matrix was deemed invalid. If multiple checks can be safely performed, they will be reported but no assumptions should be made about the length of this list. */
+  extendedInvalidMatrixDetails?: MatrixErrorDetailList | undefined;
+  /** Required. Where the results for the matrix are written. */
+  resultStorage?: ResultStorage | undefined;
   /** Output only. Indicates the current progress of the test matrix. */
   state?: TestMatrixStateEnum | (string & {}) | undefined;
+  /** Required. The devices the tests are being executed on. */
+  environmentMatrix?: EnvironmentMatrix | undefined;
   /** Output only. The time this test matrix was initially created. */
   timestamp?: string | undefined;
   /** Output Only. The overall outcome of the test. Only set when the test matrix state is FINISHED. */
   outcomeSummary?: TestMatrixOutcomeSummaryEnum | (string & {}) | undefined;
-  /** Output only. Unique id set by the service. */
-  testMatrixId?: string | undefined;
-  /** Output only. Describes why the matrix is considered invalid. Only useful for matrices in the INVALID state. */
-  invalidMatrixDetails?: TestMatrixInvalidMatrixDetailsEnum | (string & {}) | undefined;
   /** Required. How to run the test. */
   testSpecification?: TestSpecification | undefined;
-  /** Required. Where the results for the matrix are written. */
-  resultStorage?: ResultStorage | undefined;
-  /** If true, only a single attempt at most will be made to run each execution/shard in the matrix. Flaky test attempts are not affected. Normally, 2 or more attempts are made if a potential infrastructure issue is detected. This feature is for latency sensitive workloads. The incidence of execution failures may be significantly greater for fail-fast matrices and support is more limited because of that expectation. */
-  failFast?: boolean | undefined;
-  /** Output only. Details about why a matrix was deemed invalid. If multiple checks can be safely performed, they will be reported but no assumptions should be made about the length of this list. */
-  extendedInvalidMatrixDetails?: MatrixErrorDetailList | undefined;
+  /** The cloud project that owns the test matrix. */
+  projectId?: string | undefined;
   /** Information about the client which invoked the test. */
   clientInfo?: ClientInfo | undefined;
-  /** Output only. The list of test executions that the service creates for this matrix. */
-  testExecutions?: TestExecutionList | undefined;
-  /** Required. The devices the tests are being executed on. */
-  environmentMatrix?: EnvironmentMatrix | undefined;
+  /** If true, only a single attempt at most will be made to run each execution/shard in the matrix. Flaky test attempts are not affected. Normally, 2 or more attempts are made if a potential infrastructure issue is detected. This feature is for latency sensitive workloads. The incidence of execution failures may be significantly greater for fail-fast matrices and support is more limited because of that expectation. */
+  failFast?: boolean | undefined;
   /** The number of times a TestExecution should be re-attempted if one or more of its test cases fail for any reason. The maximum number of reruns allowed is 10. Default is 0, which implies no reruns. */
   flakyTestAttempts?: number | undefined;
+  /** Output only. Unique id set by the service. */
+  testMatrixId?: string | undefined;
 }
 export interface CreateProjectsTestMatricesRequest extends Omit<TestMatrix, "projectId"> {
   /** The GCE project under which this job will run. */
@@ -755,14 +755,22 @@ export interface GetApkDetailsApplicationDetailServiceRequest extends FileRefere
   /** A path to a file in Google Cloud Storage. Example: gs://build-app-1414623860166/app%40debug-unaligned.apk These paths are expected to be url encoded (percent encoding) */
   "bundleLocation.gcsPath"?: string | undefined;
 }
+/** A tag within a manifest. https://developer.android.com/guide/topics/manifest/uses-feature-element.html */
+export interface UsesFeature {
+  /** The android:name value */
+  name?: string | undefined;
+  /** The android:required value */
+  isRequired?: boolean | undefined;
+}
+export type UsesFeatureList = Array<UsesFeature>;
 /** The section of an tag. https://developer.android.com/guide/topics/manifest/intent-filter-element.html */
 export interface IntentFilter {
-  /** The android:mimeType value of the tag. */
-  mimeType?: string | undefined;
-  /** The android:name value of the tag. */
-  categoryNames?: StringList | undefined;
   /** The android:name value of the tag. */
   actionNames?: StringList | undefined;
+  /** The android:name value of the tag. */
+  categoryNames?: StringList | undefined;
+  /** The android:mimeType value of the tag. */
+  mimeType?: string | undefined;
 }
 export type IntentFilterList = Array<IntentFilter>;
 /** A tag within a manifest. https://developer.android.com/guide/topics/manifest/meta-data-element.html */
@@ -781,48 +789,40 @@ export interface Service {
   intentFilter?: IntentFilterList | undefined;
 }
 export type ServiceList = Array<Service>;
-/** A tag within a manifest. https://developer.android.com/guide/topics/manifest/uses-feature-element.html */
-export interface UsesFeature {
-  /** The android:name value */
-  name?: string | undefined;
-  /** The android:required value */
-  isRequired?: boolean | undefined;
-}
-export type UsesFeatureList = Array<UsesFeature>;
 /** The tag within a manifest. https://developer.android.com/guide/topics/manifest/uses-permission-element.html */
 export interface UsesPermissionTag {
   /** The android:name value */
-  name?: string | undefined;
-  /** The android:name value */
   maxSdkVersion?: number | undefined;
+  /** The android:name value */
+  name?: string | undefined;
 }
 export type UsesPermissionTagList = Array<UsesPermissionTag>;
 /** An Android app manifest. See http://developer.android.com/guide/topics/manifest/manifest-intro.html */
 export interface ApkManifest {
+  /** Feature usage tags defined in the manifest. */
+  usesFeature?: UsesFeatureList | undefined;
   /** Minimum API level required for the application to run. */
   minSdkVersion?: number | undefined;
-  /** Maximum API level on which the application is designed to run. */
-  maxSdkVersion?: number | undefined;
-  /** Full Java-style package name for this application, e.g. "com.example.foo". */
-  packageName?: string | undefined;
+  intentFilters?: IntentFilterList | undefined;
   /** Version number shown to users. */
   versionName?: string | undefined;
-  intentFilters?: IntentFilterList | undefined;
+  /** User-readable name for the application. */
+  applicationLabel?: string | undefined;
+  /** Full Java-style package name for this application, e.g. "com.example.foo". */
+  packageName?: string | undefined;
+  /** Version number used internally by the app. */
+  versionCode?: string | undefined;
+  usesPermission?: StringList | undefined;
   /** Meta-data tags defined in the manifest. */
   metadata?: MetadataList | undefined;
   /** Services contained in the tag. */
   services?: ServiceList | undefined;
-  /** Version number used internally by the app. */
-  versionCode?: string | undefined;
-  /** User-readable name for the application. */
-  applicationLabel?: string | undefined;
-  /** Feature usage tags defined in the manifest. */
-  usesFeature?: UsesFeatureList | undefined;
   /** Specifies the API Level on which the application is designed to run. */
   targetSdkVersion?: number | undefined;
-  usesPermission?: StringList | undefined;
   /** Permissions declared to be used by the application */
   usesPermissionTags?: UsesPermissionTagList | undefined;
+  /** Maximum API level on which the application is designed to run. */
+  maxSdkVersion?: number | undefined;
 }
 /** Android application details based on application manifest and archive contents. */
 export interface ApkDetail {
@@ -838,10 +838,10 @@ export interface GetProjectsDeviceSessionsRequest {
   name: string;
 }
 export interface GetProjectsTestMatricesRequest {
-  /** Cloud project that owns the test matrix. */
-  projectId: string;
   /** Unique test matrix id which was assigned by the service. */
   testMatrixId: string;
+  /** Cloud project that owns the test matrix. */
+  projectId: string;
 }
 export type GetTestEnvironmentCatalogEnvironmentTypeEnum =
   | "ENVIRONMENT_TYPE_UNSPECIFIED"
@@ -851,90 +851,85 @@ export type GetTestEnvironmentCatalogEnvironmentTypeEnum =
   | "PROVIDED_SOFTWARE"
   | "DEVICE_IP_BLOCKS";
 export interface GetTestEnvironmentCatalogRequest {
-  /** For authorization, the cloud project requesting the TestEnvironmentCatalog. */
-  projectId?: string | undefined;
   /** Required. The type of environment that should be listed. */
   environmentType: GetTestEnvironmentCatalogEnvironmentTypeEnum | (string & {});
   /** Optional. Whether to include viewable only models in the response. This is only applicable for Android models. */
   includeViewableModels?: boolean | undefined;
+  /** For authorization, the cloud project requesting the TestEnvironmentCatalog. */
+  projectId?: string | undefined;
 }
-/** An Xcode version that an iOS version is compatible with. */
-export interface XcodeVersion {
-  /** Tags for this Xcode version. Example: "default". */
-  tags?: StringList | undefined;
-  /** The id for this version. Example: "9.2". */
-  version?: string | undefined;
+export type DeviceIpBlockFormEnum = "DEVICE_FORM_UNSPECIFIED" | "VIRTUAL" | "PHYSICAL" | "EMULATOR";
+/** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
+export interface Testing_Date {
+  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
+  month?: number | undefined;
+  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
+  day?: number | undefined;
+  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
+  year?: number | undefined;
 }
-export type XcodeVersionList = Array<XcodeVersion>;
-export type PerIosVersionInfoDeviceCapacityEnum =
-  | "DEVICE_CAPACITY_UNSPECIFIED"
-  | "DEVICE_CAPACITY_HIGH"
-  | "DEVICE_CAPACITY_MEDIUM"
-  | "DEVICE_CAPACITY_LOW"
-  | "DEVICE_CAPACITY_NONE";
-/** A version-specific information of an iOS model. */
-export interface PerIosVersionInfo {
-  /** An iOS version. */
-  versionId?: string | undefined;
-  /** The number of online devices for an iOS version. */
-  deviceCapacity?: PerIosVersionInfoDeviceCapacityEnum | undefined;
+/** A single device IP block */
+export interface DeviceIpBlock {
+  /** Whether this block is used by physical or virtual devices */
+  form?: DeviceIpBlockFormEnum | undefined;
+  /** An IP address block in CIDR notation eg: 34.68.194.64/29 */
+  block?: string | undefined;
+  /** The date this block was added to Firebase Test Lab */
+  addedDate?: Testing_Date | undefined;
 }
-export type PerIosVersionInfoList = Array<PerIosVersionInfo>;
-export type IosModelFormFactorEnum =
-  | "DEVICE_FORM_FACTOR_UNSPECIFIED"
-  | "PHONE"
-  | "TABLET"
-  | "WEARABLE"
-  | "TV"
-  | "AUTOMOTIVE"
-  | "DESKTOP"
-  | "XR";
-/** A description of an iOS device tests may be run on. */
-export interface IosModel {
-  /** Screen size in the vertical (Y) dimension measured in pixels. */
-  screenY?: number | undefined;
-  /** Screen size in the horizontal (X) dimension measured in pixels. */
-  screenX?: number | undefined;
-  /** The unique opaque id for this model. Use this for invoking the TestExecutionService. */
+export type DeviceIpBlockList = Array<DeviceIpBlock>;
+/** List of IP blocks used by the Firebase Test Lab */
+export interface DeviceIpBlockCatalog {
+  /** The device IP blocks used by Firebase Test Lab */
+  ipBlocks?: DeviceIpBlockList | undefined;
+}
+/** Network emulation parameters. */
+export interface TrafficRule {
+  /** Bandwidth in kbits/second. */
+  bandwidth?: number | undefined;
+  /** Packet loss ratio (0.0 - 1.0). */
+  packetLossRatio?: number | undefined;
+  /** Burst size in kbits. */
+  burst?: number | undefined;
+  /** Packet delay, must be >= 0. */
+  delay?: string | undefined;
+  /** Packet duplication ratio (0.0 - 1.0). */
+  packetDuplicationRatio?: number | undefined;
+}
+export interface NetworkConfiguration {
+  /** The unique opaque id for this network traffic configuration. */
   id?: string | undefined;
-  /** Device capabilities. Copied from https://developer.apple.com/library/archive/documentation/DeviceInformation/Reference/iOSDeviceCompatibility/DeviceCompatibilityMatrix/DeviceCompatibilityMatrix.html */
-  deviceCapabilities?: StringList | undefined;
-  /** Version-specific information of an iOS model. */
-  perVersionInfo?: PerIosVersionInfoList | undefined;
-  /** The set of iOS major software versions this device supports. */
-  supportedVersionIds?: StringList | undefined;
-  /** The human-readable name for this device model. Examples: "iPhone 4s", "iPad Mini 2". */
-  name?: string | undefined;
-  /** Whether this device is a phone, tablet, wearable, etc. */
-  formFactor?: IosModelFormFactorEnum | undefined;
-  /** Screen density in DPI. */
-  screenDensity?: number | undefined;
-  /** Tags for this dimension. Examples: "default", "preview", "deprecated". */
-  tags?: StringList | undefined;
+  /** The emulation rule applying to the upload traffic. */
+  upRule?: TrafficRule | undefined;
+  /** The emulation rule applying to the download traffic. */
+  downRule?: TrafficRule | undefined;
 }
-export type IosModelList = Array<IosModel>;
+export type NetworkConfigurationList = Array<NetworkConfiguration>;
+export interface NetworkConfigurationCatalog {
+  configurations?: NetworkConfigurationList | undefined;
+}
 /** An iOS version. */
 export interface IosVersion {
-  /** The available Xcode versions for this version. */
-  supportedXcodeVersionIds?: StringList | undefined;
-  /** An integer representing the minor iOS version. Examples: "1", "2". */
-  minorVersion?: number | undefined;
-  /** An integer representing the major iOS version. Examples: "8", "9". */
-  majorVersion?: number | undefined;
   /** Tags for this dimension. Examples: "default", "preview", "deprecated". */
   tags?: StringList | undefined;
+  /** An integer representing the major iOS version. Examples: "8", "9". */
+  majorVersion?: number | undefined;
+  /** The available Xcode versions for this version. */
+  supportedXcodeVersionIds?: StringList | undefined;
   /** An opaque id for this iOS version. Use this id to invoke the TestExecutionService. */
   id?: string | undefined;
+  /** An integer representing the minor iOS version. Examples: "1", "2". */
+  minorVersion?: number | undefined;
 }
 export type IosVersionList = Array<IosVersion>;
 /** A location/region designation for language. */
 export interface Locale {
-  /** A human-friendly string representing the region for this locale. Example: "United States". Not present for every locale. */
-  region?: string | undefined;
   /** A human-friendly name for this language/locale. Example: "English". */
   name?: string | undefined;
   /** The id for this locale. Example: "en_US". */
   id?: string | undefined;
+  /** A human-friendly string representing the region for this locale. Example: "United States". Not present for every locale. */
+  region?: string | undefined;
   /** Tags for this dimension. Example: "default". */
   tags?: StringList | undefined;
 }
@@ -956,25 +951,78 @@ export interface IosRuntimeConfiguration {
   /** The set of available orientations. */
   orientations?: OrientationList | undefined;
 }
+/** An Xcode version that an iOS version is compatible with. */
+export interface XcodeVersion {
+  /** The id for this version. Example: "9.2". */
+  version?: string | undefined;
+  /** Tags for this Xcode version. Example: "default". */
+  tags?: StringList | undefined;
+}
+export type XcodeVersionList = Array<XcodeVersion>;
+export type IosModelFormFactorEnum =
+  | "DEVICE_FORM_FACTOR_UNSPECIFIED"
+  | "PHONE"
+  | "TABLET"
+  | "WEARABLE"
+  | "TV"
+  | "AUTOMOTIVE"
+  | "DESKTOP"
+  | "XR";
+export type PerIosVersionInfoDeviceCapacityEnum =
+  | "DEVICE_CAPACITY_UNSPECIFIED"
+  | "DEVICE_CAPACITY_HIGH"
+  | "DEVICE_CAPACITY_MEDIUM"
+  | "DEVICE_CAPACITY_LOW"
+  | "DEVICE_CAPACITY_NONE";
+/** A version-specific information of an iOS model. */
+export interface PerIosVersionInfo {
+  /** An iOS version. */
+  versionId?: string | undefined;
+  /** The number of online devices for an iOS version. */
+  deviceCapacity?: PerIosVersionInfoDeviceCapacityEnum | undefined;
+}
+export type PerIosVersionInfoList = Array<PerIosVersionInfo>;
+/** A description of an iOS device tests may be run on. */
+export interface IosModel {
+  /** Screen density in DPI. */
+  screenDensity?: number | undefined;
+  /** Tags for this dimension. Examples: "default", "preview", "deprecated". */
+  tags?: StringList | undefined;
+  /** Device capabilities. Copied from https://developer.apple.com/library/archive/documentation/DeviceInformation/Reference/iOSDeviceCompatibility/DeviceCompatibilityMatrix/DeviceCompatibilityMatrix.html */
+  deviceCapabilities?: StringList | undefined;
+  /** Whether this device is a phone, tablet, wearable, etc. */
+  formFactor?: IosModelFormFactorEnum | undefined;
+  /** Screen size in the vertical (Y) dimension measured in pixels. */
+  screenY?: number | undefined;
+  /** The set of iOS major software versions this device supports. */
+  supportedVersionIds?: StringList | undefined;
+  /** The human-readable name for this device model. Examples: "iPhone 4s", "iPad Mini 2". */
+  name?: string | undefined;
+  /** The unique opaque id for this model. Use this for invoking the TestExecutionService. */
+  id?: string | undefined;
+  /** Screen size in the horizontal (X) dimension measured in pixels. */
+  screenX?: number | undefined;
+  /** Version-specific information of an iOS model. */
+  perVersionInfo?: PerIosVersionInfoList | undefined;
+}
+export type IosModelList = Array<IosModel>;
 /** The currently supported iOS devices. */
 export interface IosDeviceCatalog {
-  /** The set of supported Xcode versions. */
-  xcodeVersions?: XcodeVersionList | undefined;
-  /** The set of supported iOS device models. */
-  models?: IosModelList | undefined;
   /** The set of supported iOS software versions. */
   versions?: IosVersionList | undefined;
   /** The set of supported runtime configurations. */
   runtimeConfiguration?: IosRuntimeConfiguration | undefined;
+  /** The set of supported Xcode versions. */
+  xcodeVersions?: XcodeVersionList | undefined;
+  /** The set of supported iOS device models. */
+  models?: IosModelList | undefined;
 }
-/** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
-export interface Testing_Date {
-  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  year?: number | undefined;
-  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  day?: number | undefined;
-  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  month?: number | undefined;
+/** The currently provided software environment on the devices under test. */
+export interface ProvidedSoftwareCatalog {
+  /** A string representing the current version of AndroidX Test Orchestrator that is used in the environment. The package is available at https://maven.google.com/web/index.html#androidx.test:orchestrator. */
+  androidxOrchestratorVersion?: string | undefined;
+  /** Deprecated: Use AndroidX Test Orchestrator going forward. A string representing the current version of Android Test Orchestrator that is used in the environment. The package is available at https://maven.google.com/web/index.html#com.android.support.test:orchestrator. */
+  orchestratorVersion?: string | undefined;
 }
 /** Data about the relative number of devices running a given configuration of the Android platform. */
 export interface Distribution {
@@ -985,28 +1033,22 @@ export interface Distribution {
 }
 /** A version of the Android OS. */
 export interface AndroidVersion {
-  /** The API level for this Android version. Examples: 18, 19. */
-  apiLevel?: number | undefined;
-  /** The code name for this Android version. Examples: "JellyBean", "KitKat". */
-  codeName?: string | undefined;
-  /** The date this Android version became available in the market. */
-  releaseDate?: Testing_Date | undefined;
   /** Market share for this version. */
   distribution?: Distribution | undefined;
+  /** An opaque id for this Android version. Use this id to invoke the TestExecutionService. */
+  id?: string | undefined;
   /** A string representing this version of the Android OS. Examples: "4.3", "4.4". */
   versionString?: string | undefined;
   /** Tags for this dimension. Examples: "default", "preview", "deprecated". */
   tags?: StringList | undefined;
-  /** An opaque id for this Android version. Use this id to invoke the TestExecutionService. */
-  id?: string | undefined;
+  /** The code name for this Android version. Examples: "JellyBean", "KitKat". */
+  codeName?: string | undefined;
+  /** The date this Android version became available in the market. */
+  releaseDate?: Testing_Date | undefined;
+  /** The API level for this Android version. Examples: 18, 19. */
+  apiLevel?: number | undefined;
 }
 export type AndroidVersionList = Array<AndroidVersion>;
-export type AndroidModelFormEnum = "DEVICE_FORM_UNSPECIFIED" | "VIRTUAL" | "PHYSICAL" | "EMULATOR";
-export type AndroidModelAccessDeniedReasonsItemEnum =
-  | "ACCESS_DENIED_REASON_UNSPECIFIED"
-  | "EULA_NOT_ACCEPTED";
-export type AndroidModelAccessDeniedReasonsItemEnumList =
-  Array<AndroidModelAccessDeniedReasonsItemEnum>;
 /** Lab specific information for a device. */
 export interface LabInfo {
   /** Lab name where the device is hosted. If empty, the device is hosted in a Google owned lab. */
@@ -1023,78 +1065,79 @@ export type AndroidModelFormFactorEnum =
   | "AUTOMOTIVE"
   | "DESKTOP"
   | "XR";
-/** Denotes whether Direct Access is supported, and by which client versions. DirectAccessService is currently available as a preview to select developers. You can register today on behalf of you and your team at https://developer.android.com/studio/preview/android-device-streaming */
-export interface DirectAccessVersionInfo {
-  /** Whether direct access is supported at all. Clients are expected to filter down the device list to only android models and versions which support Direct Access when that is the user intent. */
-  directAccessSupported?: boolean | undefined;
-  /** Output only. Indicates client-device compatibility, where a device is known to work only with certain workarounds implemented in the Android Studio client. Expected format "major.minor.micro.patch", e.g. "5921.22.2211.8881706". */
-  minimumAndroidStudioVersion?: string | undefined;
-}
+export type AndroidModelFormEnum = "DEVICE_FORM_UNSPECIFIED" | "VIRTUAL" | "PHYSICAL" | "EMULATOR";
+export type AndroidModelAccessDeniedReasonsItemEnum =
+  | "ACCESS_DENIED_REASON_UNSPECIFIED"
+  | "EULA_NOT_ACCEPTED";
+export type AndroidModelAccessDeniedReasonsItemEnumList =
+  Array<AndroidModelAccessDeniedReasonsItemEnum>;
 export type PerAndroidVersionInfoDeviceCapacityEnum =
   | "DEVICE_CAPACITY_UNSPECIFIED"
   | "DEVICE_CAPACITY_HIGH"
   | "DEVICE_CAPACITY_MEDIUM"
   | "DEVICE_CAPACITY_LOW"
   | "DEVICE_CAPACITY_NONE";
+/** Denotes whether Direct Access is supported, and by which client versions. DirectAccessService is currently available as a preview to select developers. You can register today on behalf of you and your team at https://developer.android.com/studio/preview/android-device-streaming */
+export interface DirectAccessVersionInfo {
+  /** Output only. Indicates client-device compatibility, where a device is known to work only with certain workarounds implemented in the Android Studio client. Expected format "major.minor.micro.patch", e.g. "5921.22.2211.8881706". */
+  minimumAndroidStudioVersion?: string | undefined;
+  /** Whether direct access is supported at all. Clients are expected to filter down the device list to only android models and versions which support Direct Access when that is the user intent. */
+  directAccessSupported?: boolean | undefined;
+}
 /** A version-specific information of an Android model. */
 export interface PerAndroidVersionInfo {
-  /** Output only. Identifies supported clients for DirectAccess for this Android version. */
-  directAccessVersionInfo?: DirectAccessVersionInfo | undefined;
   /** An Android version. */
   versionId?: string | undefined;
   /** Output only. The estimated wait time for a single interactive device session using Direct Access. */
   interactiveDeviceAvailabilityEstimate?: string | undefined;
   /** The number of online devices for an Android version. */
   deviceCapacity?: PerAndroidVersionInfoDeviceCapacityEnum | undefined;
+  /** Output only. Identifies supported clients for DirectAccess for this Android version. */
+  directAccessVersionInfo?: DirectAccessVersionInfo | undefined;
 }
 export type PerAndroidVersionInfoList = Array<PerAndroidVersionInfo>;
 /** A description of an Android device tests may be run on. */
 export interface AndroidModel {
-  /** The company that this device is branded with. Example: "Google", "Samsung". */
-  brand?: string | undefined;
-  /** Whether this device is virtual or physical. */
-  form?: AndroidModelFormEnum | undefined;
-  /** Reasons for access denial. This model is accessible if this list is empty, otherwise the model is viewable only. */
-  accessDeniedReasons?: AndroidModelAccessDeniedReasonsItemEnumList | undefined;
-  /** The human-readable marketing name for this device model. Examples: "Nexus 5", "Galaxy S5". */
-  name?: string | undefined;
-  /** Screen size in the vertical (Y) dimension measured in pixels. */
-  screenY?: number | undefined;
-  /** Screen density in DPI. This corresponds to ro.sf.lcd_density */
-  screenDensity?: number | undefined;
-  /** The set of Android versions this device supports. */
-  supportedVersionIds?: StringList | undefined;
-  /** The name of the industrial design. This corresponds to android.os.Build.DEVICE. */
-  codename?: string | undefined;
-  /** Output only. Lab info of this device. */
-  labInfo?: LabInfo | undefined;
-  /** The manufacturer of this device. */
-  manufacturer?: string | undefined;
-  /** URL of a thumbnail image (photo) of the device. */
-  thumbnailUrl?: string | undefined;
-  /** Screen size in the horizontal (X) dimension measured in pixels. */
-  screenX?: number | undefined;
   /** True if and only if tests with this model are recorded by stitching together screenshots. See use_low_spec_video_recording in device config. */
   lowFpsVideoRecording?: boolean | undefined;
+  /** Output only. Lab info of this device. */
+  labInfo?: LabInfo | undefined;
+  /** The human-readable marketing name for this device model. Examples: "Nexus 5", "Galaxy S5". */
+  name?: string | undefined;
   /** Whether this device is a phone, tablet, wearable, etc. */
   formFactor?: AndroidModelFormFactorEnum | undefined;
-  /** Version-specific information of an Android model. */
-  perVersionInfo?: PerAndroidVersionInfoList | undefined;
+  /** The name of the industrial design. This corresponds to android.os.Build.DEVICE. */
+  codename?: string | undefined;
+  /** Whether this device is virtual or physical. */
+  form?: AndroidModelFormEnum | undefined;
+  /** The set of Android versions this device supports. */
+  supportedVersionIds?: StringList | undefined;
+  /** URL of a thumbnail image (photo) of the device. */
+  thumbnailUrl?: string | undefined;
+  /** Screen density in DPI. This corresponds to ro.sf.lcd_density */
+  screenDensity?: number | undefined;
   /** The list of supported ABIs for this device. This corresponds to either android.os.Build.SUPPORTED_ABIS (for API level 21 and above) or android.os.Build.CPU_ABI/CPU_ABI2. The most preferred ABI is the first element in the list. Elements are optionally prefixed by "version_id:" (where version_id is the id of an AndroidVersion), denoting an ABI that is supported only on a particular version. */
   supportedAbis?: StringList | undefined;
+  /** Screen size in the horizontal (X) dimension measured in pixels. */
+  screenX?: number | undefined;
+  /** Reasons for access denial. This model is accessible if this list is empty, otherwise the model is viewable only. */
+  accessDeniedReasons?: AndroidModelAccessDeniedReasonsItemEnumList | undefined;
   /** Tags for this dimension. Examples: "default", "preview", "deprecated". */
   tags?: StringList | undefined;
+  /** Version-specific information of an Android model. */
+  perVersionInfo?: PerAndroidVersionInfoList | undefined;
+  /** Screen size in the vertical (Y) dimension measured in pixels. */
+  screenY?: number | undefined;
+  /** The company that this device is branded with. Example: "Google", "Samsung". */
+  brand?: string | undefined;
+  /** The manufacturer of this device. */
+  manufacturer?: string | undefined;
   /** The unique opaque id for this model. Use this for invoking the TestExecutionService. */
   id?: string | undefined;
 }
 export type AndroidModelList = Array<AndroidModel>;
 /** Android configuration that can be selected at the time a test is run. */
-export interface AndroidRuntimeConfiguration {
-  /** The set of available orientations. */
-  orientations?: OrientationList | undefined;
-  /** The set of available locales. */
-  locales?: LocaleList | undefined;
-}
+export type AndroidRuntimeConfiguration = IosRuntimeConfiguration;
 /** The currently supported Android devices. */
 export interface AndroidDeviceCatalog {
   /** The set of supported Android OS versions. */
@@ -1102,78 +1145,30 @@ export interface AndroidDeviceCatalog {
   /** The set of supported Android device models. */
   models?: AndroidModelList | undefined;
   /** The set of supported runtime configurations. */
-  runtimeConfiguration?: AndroidRuntimeConfiguration | undefined;
-}
-/** The currently provided software environment on the devices under test. */
-export interface ProvidedSoftwareCatalog {
-  /** Deprecated: Use AndroidX Test Orchestrator going forward. A string representing the current version of Android Test Orchestrator that is used in the environment. The package is available at https://maven.google.com/web/index.html#com.android.support.test:orchestrator. */
-  orchestratorVersion?: string | undefined;
-  /** A string representing the current version of AndroidX Test Orchestrator that is used in the environment. The package is available at https://maven.google.com/web/index.html#androidx.test:orchestrator. */
-  androidxOrchestratorVersion?: string | undefined;
-}
-export type DeviceIpBlockFormEnum = "DEVICE_FORM_UNSPECIFIED" | "VIRTUAL" | "PHYSICAL" | "EMULATOR";
-/** A single device IP block */
-export interface DeviceIpBlock {
-  /** The date this block was added to Firebase Test Lab */
-  addedDate?: Testing_Date | undefined;
-  /** An IP address block in CIDR notation eg: 34.68.194.64/29 */
-  block?: string | undefined;
-  /** Whether this block is used by physical or virtual devices */
-  form?: DeviceIpBlockFormEnum | undefined;
-}
-export type DeviceIpBlockList = Array<DeviceIpBlock>;
-/** List of IP blocks used by the Firebase Test Lab */
-export interface DeviceIpBlockCatalog {
-  /** The device IP blocks used by Firebase Test Lab */
-  ipBlocks?: DeviceIpBlockList | undefined;
-}
-/** Network emulation parameters. */
-export interface TrafficRule {
-  /** Packet duplication ratio (0.0 - 1.0). */
-  packetDuplicationRatio?: number | undefined;
-  /** Burst size in kbits. */
-  burst?: number | undefined;
-  /** Packet loss ratio (0.0 - 1.0). */
-  packetLossRatio?: number | undefined;
-  /** Bandwidth in kbits/second. */
-  bandwidth?: number | undefined;
-  /** Packet delay, must be >= 0. */
-  delay?: string | undefined;
-}
-export interface NetworkConfiguration {
-  /** The unique opaque id for this network traffic configuration. */
-  id?: string | undefined;
-  /** The emulation rule applying to the download traffic. */
-  downRule?: TrafficRule | undefined;
-  /** The emulation rule applying to the upload traffic. */
-  upRule?: TrafficRule | undefined;
-}
-export type NetworkConfigurationList = Array<NetworkConfiguration>;
-export interface NetworkConfigurationCatalog {
-  configurations?: NetworkConfigurationList | undefined;
+  runtimeConfiguration?: IosRuntimeConfiguration | undefined;
 }
 /** A description of a test environment. */
 export interface TestEnvironmentCatalog {
-  /** Supported iOS devices. */
-  iosDeviceCatalog?: IosDeviceCatalog | undefined;
-  /** Supported Android devices. */
-  androidDeviceCatalog?: AndroidDeviceCatalog | undefined;
-  /** The software test environment provided by TestExecutionService. */
-  softwareCatalog?: ProvidedSoftwareCatalog | undefined;
   /** The IP blocks used by devices in the test environment. */
   deviceIpBlockCatalog?: DeviceIpBlockCatalog | undefined;
   /** Supported network configurations. */
   networkConfigurationCatalog?: NetworkConfigurationCatalog | undefined;
+  /** Supported iOS devices. */
+  iosDeviceCatalog?: IosDeviceCatalog | undefined;
+  /** The software test environment provided by TestExecutionService. */
+  softwareCatalog?: ProvidedSoftwareCatalog | undefined;
+  /** Supported Android devices. */
+  androidDeviceCatalog?: AndroidDeviceCatalog | undefined;
 }
 export interface ListProjectsDeviceSessionsRequest {
   /** Optional. The maximum number of DeviceSessions to return. */
   pageSize?: number | undefined;
+  /** Optional. A continuation token for paging. */
+  pageToken?: string | undefined;
   /** Required. The name of the parent to request, e.g. "projects/{project_id}" */
   parent: string;
   /** Optional. If specified, responses will be filtered by the given filter. Allowed fields are: session_state. */
   filter?: string | undefined;
-  /** Optional. A continuation token for paging. */
-  pageToken?: string | undefined;
 }
 export type DeviceSessionList = Array<DeviceSession>;
 /** A list of device sessions. */
@@ -1184,10 +1179,10 @@ export interface ListDeviceSessionsResponse {
   deviceSessions?: DeviceSessionList | undefined;
 }
 export interface PatchProjectsDeviceSessionsRequest extends Omit<DeviceSession, "name"> {
-  /** Optional. Name of the DeviceSession, e.g. "projects/{project_id}/deviceSessions/{session_id}" */
-  name: string;
   /** Required. The list of fields to update. */
   updateMask?: string | undefined;
+  /** Optional. Name of the DeviceSession, e.g. "projects/{project_id}/deviceSessions/{session_id}" */
+  name: string;
 }
 export type CancelProjectsDeviceSessionsError =
   | NotFound
@@ -1349,7 +1344,7 @@ export const getTestEnvironmentCatalog: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c1, 0) as any as S.Schema<GetTestEnvironmentCatalogRequest>,
-  output: __S(68, __c2, 4) as any as S.Schema<TestEnvironmentCatalog>,
+  output: __S(67, __c2, 3) as any as S.Schema<TestEnvironmentCatalog>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -1407,8 +1402,8 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          projectId: S.String.pipe(T.Label()),
           testMatrixId: S.String.pipe(T.Label()),
+          projectId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1424,9 +1419,9 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          projectId: S.optional(S.String.pipe(T.Query())),
           environmentType: S.String.pipe(T.Label()),
           includeViewableModels: S.optional(S.Boolean.pipe(T.Query())),
+          projectId: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1438,62 +1433,77 @@ function __c1(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          tags: S.optional(__S(480, __c15, 0)),
-          version: S.optional(S.String),
+          month: S.optional(S.Number),
+          day: S.optional(S.Number),
+          year: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "XcodeVersion" });
+      ).annotate({ identifier: "Testing_Date" });
     case 2:
-      return S.Array(__S(33, __c1, 1));
-    case 3:
       return S.suspend(() =>
         S.Struct({
-          versionId: S.optional(S.String),
-          deviceCapacity: S.optional(S.String),
+          form: S.optional(S.String),
+          block: S.optional(S.String),
+          addedDate: S.optional(__S(33, __c1, 1)),
         }),
-      ).annotate({ identifier: "PerIosVersionInfo" });
+      ).annotate({ identifier: "DeviceIpBlock" });
+    case 3:
+      return S.Array(__S(34, __c1, 2));
     case 4:
-      return S.Array(__S(35, __c1, 3));
+      return S.suspend(() =>
+        S.Struct({
+          ipBlocks: S.optional(__S(35, __c1, 3)),
+        }),
+      ).annotate({ identifier: "DeviceIpBlockCatalog" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          screenY: S.optional(S.Number),
-          screenX: S.optional(S.Number),
-          id: S.optional(S.String),
-          deviceCapabilities: S.optional(__S(480, __c15, 0)),
-          perVersionInfo: S.optional(__S(36, __c1, 4)),
-          supportedVersionIds: S.optional(__S(480, __c15, 0)),
-          name: S.optional(S.String),
-          formFactor: S.optional(S.String),
-          screenDensity: S.optional(S.Number),
-          tags: S.optional(__S(480, __c15, 0)),
+          bandwidth: S.optional(S.Number),
+          packetLossRatio: S.optional(S.Number),
+          burst: S.optional(S.Number),
+          delay: S.optional(S.String),
+          packetDuplicationRatio: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "IosModel" });
+      ).annotate({ identifier: "TrafficRule" });
     case 6:
-      return S.Array(__S(37, __c1, 5));
-    case 7:
       return S.suspend(() =>
         S.Struct({
-          supportedXcodeVersionIds: S.optional(__S(480, __c15, 0)),
-          minorVersion: S.optional(S.Number),
-          majorVersion: S.optional(S.Number),
-          tags: S.optional(__S(480, __c15, 0)),
           id: S.optional(S.String),
+          upRule: S.optional(__S(37, __c1, 5)),
+          downRule: S.optional(__S(37, __c1, 5)),
         }),
-      ).annotate({ identifier: "IosVersion" });
+      ).annotate({ identifier: "NetworkConfiguration" });
+    case 7:
+      return S.Array(__S(38, __c1, 6));
     case 8:
-      return S.Array(__S(39, __c1, 7));
+      return S.suspend(() =>
+        S.Struct({
+          configurations: S.optional(__S(39, __c1, 7)),
+        }),
+      ).annotate({ identifier: "NetworkConfigurationCatalog" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          region: S.optional(S.String),
-          name: S.optional(S.String),
-          id: S.optional(S.String),
           tags: S.optional(__S(480, __c15, 0)),
+          majorVersion: S.optional(S.Number),
+          supportedXcodeVersionIds: S.optional(__S(480, __c15, 0)),
+          id: S.optional(S.String),
+          minorVersion: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "Locale" });
+      ).annotate({ identifier: "IosVersion" });
     case 10:
       return S.Array(__S(41, __c1, 9));
     case 11:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          id: S.optional(S.String),
+          region: S.optional(S.String),
+          tags: S.optional(__S(480, __c15, 0)),
+        }),
+      ).annotate({ identifier: "Locale" });
+    case 12:
+      return S.Array(__S(43, __c1, 11));
+    case 13:
       return S.suspend(() =>
         S.Struct({
           tags: S.optional(__S(480, __c15, 0)),
@@ -1501,143 +1511,114 @@ function __c1(j: number): any {
           id: S.optional(S.String),
         }),
       ).annotate({ identifier: "Orientation" });
-    case 12:
-      return S.Array(__S(43, __c1, 11));
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          locales: S.optional(__S(42, __c1, 10)),
-          orientations: S.optional(__S(44, __c1, 12)),
-        }),
-      ).annotate({ identifier: "IosRuntimeConfiguration" });
     case 14:
-      return S.suspend(() =>
-        S.Struct({
-          xcodeVersions: S.optional(__S(34, __c1, 2)),
-          models: S.optional(__S(38, __c1, 6)),
-          versions: S.optional(__S(40, __c1, 8)),
-          runtimeConfiguration: S.optional(__S(45, __c1, 13)),
-        }),
-      ).annotate({ identifier: "IosDeviceCatalog" });
+      return S.Array(__S(45, __c1, 13));
     case 15:
       return S.suspend(() =>
         S.Struct({
-          year: S.optional(S.Number),
-          day: S.optional(S.Number),
-          month: S.optional(S.Number),
+          locales: S.optional(__S(44, __c1, 12)),
+          orientations: S.optional(__S(46, __c1, 14)),
         }),
-      ).annotate({ identifier: "Testing_Date" });
+      ).annotate({ identifier: "IosRuntimeConfiguration" });
     case 16:
+      return S.suspend(() =>
+        S.Struct({
+          version: S.optional(S.String),
+          tags: S.optional(__S(480, __c15, 0)),
+        }),
+      ).annotate({ identifier: "XcodeVersion" });
+    case 17:
+      return S.Array(__S(48, __c1, 16));
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          versionId: S.optional(S.String),
+          deviceCapacity: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PerIosVersionInfo" });
+    case 19:
+      return S.Array(__S(50, __c1, 18));
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          screenDensity: S.optional(S.Number),
+          tags: S.optional(__S(480, __c15, 0)),
+          deviceCapabilities: S.optional(__S(480, __c15, 0)),
+          formFactor: S.optional(S.String),
+          screenY: S.optional(S.Number),
+          supportedVersionIds: S.optional(__S(480, __c15, 0)),
+          name: S.optional(S.String),
+          id: S.optional(S.String),
+          screenX: S.optional(S.Number),
+          perVersionInfo: S.optional(__S(51, __c1, 19)),
+        }),
+      ).annotate({ identifier: "IosModel" });
+    case 21:
+      return S.Array(__S(52, __c1, 20));
+    case 22:
+      return S.suspend(() =>
+        S.Struct({
+          versions: S.optional(__S(42, __c1, 10)),
+          runtimeConfiguration: S.optional(__S(47, __c1, 15)),
+          xcodeVersions: S.optional(__S(49, __c1, 17)),
+          models: S.optional(__S(53, __c1, 21)),
+        }),
+      ).annotate({ identifier: "IosDeviceCatalog" });
+    case 23:
+      return S.suspend(() =>
+        S.Struct({
+          androidxOrchestratorVersion: S.optional(S.String),
+          orchestratorVersion: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ProvidedSoftwareCatalog" });
+    case 24:
       return S.suspend(() =>
         S.Struct({
           marketShare: S.optional(S.Number),
           measurementTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "Distribution" });
-    case 17:
+    case 25:
       return S.suspend(() =>
         S.Struct({
-          apiLevel: S.optional(S.Number),
-          codeName: S.optional(S.String),
-          releaseDate: S.optional(__S(47, __c1, 15)),
-          distribution: S.optional(__S(48, __c1, 16)),
+          distribution: S.optional(__S(56, __c1, 24)),
+          id: S.optional(S.String),
           versionString: S.optional(S.String),
           tags: S.optional(__S(480, __c15, 0)),
-          id: S.optional(S.String),
+          codeName: S.optional(S.String),
+          releaseDate: S.optional(__S(33, __c1, 1)),
+          apiLevel: S.optional(S.Number),
         }),
       ).annotate({ identifier: "AndroidVersion" });
-    case 18:
-      return S.Array(__S(49, __c1, 17));
-    case 19:
-      return S.Array(S.String);
-    case 20:
+    case 26:
+      return S.Array(__S(57, __c1, 25));
+    case 27:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
           regionCode: S.optional(S.String),
         }),
       ).annotate({ identifier: "LabInfo" });
-    case 21:
-      return S.suspend(() =>
-        S.Struct({
-          directAccessSupported: S.optional(S.Boolean),
-          minimumAndroidStudioVersion: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DirectAccessVersionInfo" });
-    case 22:
-      return S.suspend(() =>
-        S.Struct({
-          directAccessVersionInfo: S.optional(__S(53, __c1, 21)),
-          versionId: S.optional(S.String),
-          interactiveDeviceAvailabilityEstimate: S.optional(S.String),
-          deviceCapacity: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PerAndroidVersionInfo" });
-    case 23:
-      return S.Array(__S(54, __c1, 22));
-    case 24:
-      return S.suspend(() =>
-        S.Struct({
-          brand: S.optional(S.String),
-          form: S.optional(S.String),
-          accessDeniedReasons: S.optional(__S(51, __c1, 19)),
-          name: S.optional(S.String),
-          screenY: S.optional(S.Number),
-          screenDensity: S.optional(S.Number),
-          supportedVersionIds: S.optional(__S(480, __c15, 0)),
-          codename: S.optional(S.String),
-          labInfo: S.optional(__S(52, __c1, 20)),
-          manufacturer: S.optional(S.String),
-          thumbnailUrl: S.optional(S.String),
-          screenX: S.optional(S.Number),
-          lowFpsVideoRecording: S.optional(S.Boolean),
-          formFactor: S.optional(S.String),
-          perVersionInfo: S.optional(__S(55, __c1, 23)),
-          supportedAbis: S.optional(__S(480, __c15, 0)),
-          tags: S.optional(__S(480, __c15, 0)),
-          id: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AndroidModel" });
-    case 25:
-      return S.Array(__S(56, __c1, 24));
-    case 26:
-      return S.suspend(() =>
-        S.Struct({
-          orientations: S.optional(__S(44, __c1, 12)),
-          locales: S.optional(__S(42, __c1, 10)),
-        }),
-      ).annotate({ identifier: "AndroidRuntimeConfiguration" });
-    case 27:
-      return S.suspend(() =>
-        S.Struct({
-          versions: S.optional(__S(50, __c1, 18)),
-          models: S.optional(__S(57, __c1, 25)),
-          runtimeConfiguration: S.optional(__S(58, __c1, 26)),
-        }),
-      ).annotate({ identifier: "AndroidDeviceCatalog" });
     case 28:
-      return S.suspend(() =>
-        S.Struct({
-          orchestratorVersion: S.optional(S.String),
-          androidxOrchestratorVersion: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ProvidedSoftwareCatalog" });
+      return S.Array(S.String);
     case 29:
       return S.suspend(() =>
         S.Struct({
-          addedDate: S.optional(__S(47, __c1, 15)),
-          block: S.optional(S.String),
-          form: S.optional(S.String),
+          minimumAndroidStudioVersion: S.optional(S.String),
+          directAccessSupported: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "DeviceIpBlock" });
+      ).annotate({ identifier: "DirectAccessVersionInfo" });
     case 30:
-      return S.Array(__S(61, __c1, 29));
-    case 31:
       return S.suspend(() =>
         S.Struct({
-          ipBlocks: S.optional(__S(62, __c1, 30)),
+          versionId: S.optional(S.String),
+          interactiveDeviceAvailabilityEstimate: S.optional(S.String),
+          deviceCapacity: S.optional(S.String),
+          directAccessVersionInfo: S.optional(__S(61, __c1, 29)),
         }),
-      ).annotate({ identifier: "DeviceIpBlockCatalog" });
+      ).annotate({ identifier: "PerAndroidVersionInfo" });
+    case 31:
+      return S.Array(__S(62, __c1, 30));
   }
 }
 function __c2(j: number): any {
@@ -1645,37 +1626,44 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          packetDuplicationRatio: S.optional(S.Number),
-          burst: S.optional(S.Number),
-          packetLossRatio: S.optional(S.Number),
-          bandwidth: S.optional(S.Number),
-          delay: S.optional(S.String),
+          lowFpsVideoRecording: S.optional(S.Boolean),
+          labInfo: S.optional(__S(59, __c1, 27)),
+          name: S.optional(S.String),
+          formFactor: S.optional(S.String),
+          codename: S.optional(S.String),
+          form: S.optional(S.String),
+          supportedVersionIds: S.optional(__S(480, __c15, 0)),
+          thumbnailUrl: S.optional(S.String),
+          screenDensity: S.optional(S.Number),
+          supportedAbis: S.optional(__S(480, __c15, 0)),
+          screenX: S.optional(S.Number),
+          accessDeniedReasons: S.optional(__S(60, __c1, 28)),
+          tags: S.optional(__S(480, __c15, 0)),
+          perVersionInfo: S.optional(__S(63, __c1, 31)),
+          screenY: S.optional(S.Number),
+          brand: S.optional(S.String),
+          manufacturer: S.optional(S.String),
+          id: S.optional(S.String),
         }),
-      ).annotate({ identifier: "TrafficRule" });
+      ).annotate({ identifier: "AndroidModel" });
     case 1:
+      return S.Array(__S(64, __c2, 0));
+    case 2:
       return S.suspend(() =>
         S.Struct({
-          id: S.optional(S.String),
-          downRule: S.optional(__S(64, __c2, 0)),
-          upRule: S.optional(__S(64, __c2, 0)),
+          versions: S.optional(__S(58, __c1, 26)),
+          models: S.optional(__S(65, __c2, 1)),
+          runtimeConfiguration: S.optional(__S(47, __c1, 15)),
         }),
-      ).annotate({ identifier: "NetworkConfiguration" });
-    case 2:
-      return S.Array(__S(65, __c2, 1));
+      ).annotate({ identifier: "AndroidDeviceCatalog" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          configurations: S.optional(__S(66, __c2, 2)),
-        }),
-      ).annotate({ identifier: "NetworkConfigurationCatalog" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          iosDeviceCatalog: S.optional(__S(46, __c1, 14)),
-          androidDeviceCatalog: S.optional(__S(59, __c1, 27)),
-          softwareCatalog: S.optional(__S(60, __c1, 28)),
-          deviceIpBlockCatalog: S.optional(__S(63, __c1, 31)),
-          networkConfigurationCatalog: S.optional(__S(67, __c2, 3)),
+          deviceIpBlockCatalog: S.optional(__S(36, __c1, 4)),
+          networkConfigurationCatalog: S.optional(__S(40, __c1, 8)),
+          iosDeviceCatalog: S.optional(__S(54, __c1, 22)),
+          softwareCatalog: S.optional(__S(55, __c1, 23)),
+          androidDeviceCatalog: S.optional(__S(66, __c2, 2)),
         }),
       ).annotate({ identifier: "TestEnvironmentCatalog" });
   }
@@ -1686,9 +1674,9 @@ function __c3(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           filter: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1715,8 +1703,8 @@ function __c4(j: number): any {
         S.Extend(
           __S(322, __c10, 2),
           S.Struct({
-            name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -1798,10 +1786,10 @@ function __c9(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          androidModelId: S.optional(S.String),
-          locale: S.optional(S.String),
           orientation: S.optional(S.String),
+          androidModelId: S.optional(S.String),
           androidVersionId: S.optional(S.String),
+          locale: S.optional(S.String),
         }),
       ).annotate({ identifier: "AndroidDevice" });
   }
@@ -1811,9 +1799,9 @@ function __c10(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          sessionState: S.optional(S.String),
-          eventTime: S.optional(S.String),
           stateMessage: S.optional(S.String),
+          eventTime: S.optional(S.String),
+          sessionState: S.optional(S.String),
         }),
       ).annotate({ identifier: "SessionStateEvent" });
     case 1:
@@ -1821,16 +1809,16 @@ function __c10(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          state: S.optional(S.String),
           activeStartTime: S.optional(S.String),
           inactivityTimeout: S.optional(S.String),
-          expireTime: S.optional(S.String),
           createTime: S.optional(S.String),
           androidDevice: S.optional(__S(288, __c9, 0)),
-          ttl: S.optional(S.String),
-          state: S.optional(S.String),
+          expireTime: S.optional(S.String),
           stateHistories: S.optional(__S(321, __c10, 1)),
-          name: S.optional(S.String),
           displayName: S.optional(S.String),
+          name: S.optional(S.String),
+          ttl: S.optional(S.String),
         }),
       ).annotate({ identifier: "DeviceSession" });
   }
@@ -1858,204 +1846,217 @@ function __c11(j: number): any {
 function __c12(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.Number);
+      return S.suspend(() =>
+        S.Struct({
+          testTargets: S.optional(__S(480, __c15, 0)),
+        }),
+      ).annotate({ identifier: "TestTargetsForShard" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          appIpa: S.optional(__S(448, __c14, 0)),
-          appBundleId: S.optional(S.String),
-          scenarios: S.optional(__S(384, __c12, 0)),
+          numShards: S.optional(S.Number),
+          testTargetsForShard: S.optional(__S(384, __c12, 0)),
+          shardIndex: S.optional(S.Number),
+          estimatedShardDuration: S.optional(S.String),
         }),
-      ).annotate({ identifier: "IosTestLoop" });
+      ).annotate({ identifier: "Shard" });
     case 2:
-      return S.suspend(() =>
-        S.Struct({
-          testSpecialEntitlements: S.optional(S.Boolean),
-          testsZip: S.optional(__S(448, __c14, 0)),
-          xctestrun: S.optional(__S(448, __c14, 0)),
-          appBundleId: S.optional(S.String),
-          xcodeVersion: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "IosXcTest" });
+      return S.Array(__S(448, __c14, 0));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          appBundleId: S.optional(S.String),
-          roboScript: S.optional(__S(448, __c14, 0)),
-          appIpa: S.optional(__S(448, __c14, 0)),
+          bundleSplits: S.optional(__S(386, __c12, 2)),
         }),
-      ).annotate({ identifier: "IosRoboTest" });
+      ).annotate({ identifier: "ApkSplits" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          obb: S.optional(__S(448, __c14, 0)),
-          obbFileName: S.optional(S.String),
+          apks: S.optional(__S(387, __c12, 3)),
+          bundleLocation: S.optional(__S(448, __c14, 0)),
         }),
-      ).annotate({ identifier: "ObbFile" });
+      ).annotate({ identifier: "AppBundle" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          devicePath: S.optional(S.String),
-          content: S.optional(__S(448, __c14, 0)),
+          targetedShardDuration: S.optional(S.String),
         }),
-      ).annotate({ identifier: "RegularFile" });
+      ).annotate({ identifier: "SmartSharding" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          obbFile: S.optional(__S(388, __c12, 4)),
-          regularFile: S.optional(__S(389, __c12, 5)),
+          numShards: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "DeviceFile" });
+      ).annotate({ identifier: "UniformSharding" });
     case 7:
-      return S.Array(__S(390, __c12, 6));
+      return S.Array(__S(384, __c12, 0));
     case 8:
+      return S.suspend(() =>
+        S.Struct({
+          testTargetsForShard: S.optional(__S(391, __c12, 7)),
+        }),
+      ).annotate({ identifier: "ManualSharding" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          smartSharding: S.optional(__S(389, __c12, 5)),
+          uniformSharding: S.optional(__S(390, __c12, 6)),
+          manualSharding: S.optional(__S(392, __c12, 8)),
+        }),
+      ).annotate({ identifier: "ShardingOption" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          testTargets: S.optional(__S(480, __c15, 0)),
+          appApk: S.optional(__S(448, __c14, 0)),
+          appBundle: S.optional(__S(388, __c12, 4)),
+          testPackageId: S.optional(S.String),
+          shardingOption: S.optional(__S(393, __c12, 9)),
+          appPackageId: S.optional(S.String),
+          instrumentInPrivateComputeCore: S.optional(S.Boolean),
+          orchestratorOption: S.optional(S.String),
+          testApk: S.optional(__S(448, __c14, 0)),
+          testRunnerClass: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AndroidInstrumentationTest" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          xcodeVersion: S.optional(S.String),
+          appBundleId: S.optional(S.String),
+          testSpecialEntitlements: S.optional(S.Boolean),
+          xctestrun: S.optional(__S(448, __c14, 0)),
+          testsZip: S.optional(__S(448, __c14, 0)),
+        }),
+      ).annotate({ identifier: "IosXcTest" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          appIpa: S.optional(__S(448, __c14, 0)),
+          roboScript: S.optional(__S(448, __c14, 0)),
+          appBundleId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "IosRoboTest" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          action: S.optional(S.String),
+          categories: S.optional(__S(480, __c15, 0)),
+          uri: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "StartActivityIntent" });
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          timeout: S.optional(S.String),
+          launcherActivity: S.optional(__S(192, __c6, 0)),
+          noActivity: S.optional(__S(192, __c6, 0)),
+          startActivity: S.optional(__S(397, __c12, 13)),
+        }),
+      ).annotate({ identifier: "RoboStartingIntent" });
+    case 15:
+      return S.Array(__S(398, __c12, 14));
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          inputText: S.optional(S.String),
+          actionType: S.optional(S.String),
+          resourceName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RoboDirective" });
+    case 17:
+      return S.Array(__S(400, __c12, 16));
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          appApk: S.optional(__S(448, __c14, 0)),
+          startingIntents: S.optional(__S(399, __c12, 15)),
+          maxSteps: S.optional(S.Number),
+          appPackageId: S.optional(S.String),
+          appBundle: S.optional(__S(388, __c12, 4)),
+          roboDirectives: S.optional(__S(401, __c12, 17)),
+          maxDepth: S.optional(S.Number),
+          roboMode: S.optional(S.String),
+          appInitialActivity: S.optional(S.String),
+          roboScript: S.optional(__S(448, __c14, 0)),
+        }),
+      ).annotate({ identifier: "AndroidRoboTest" });
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          durationSeconds: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "SystraceSetup" });
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          googleAuto: S.optional(__S(192, __c6, 0)),
+        }),
+      ).annotate({ identifier: "Account" });
+    case 21:
       return S.suspend(() =>
         S.Struct({
           key: S.optional(S.String),
           value: S.optional(S.String),
         }),
       ).annotate({ identifier: "EnvironmentVariable" });
-    case 9:
-      return S.Array(__S(392, __c12, 8));
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          googleAuto: S.optional(__S(192, __c6, 0)),
-        }),
-      ).annotate({ identifier: "Account" });
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          packageName: S.optional(S.String),
-          location: S.optional(__S(448, __c14, 0)),
-        }),
-      ).annotate({ identifier: "Apk" });
-    case 12:
-      return S.Array(__S(395, __c12, 11));
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          durationSeconds: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "SystraceSetup" });
-    case 14:
-      return S.suspend(() =>
-        S.Struct({
-          filesToPush: S.optional(__S(391, __c12, 7)),
-          environmentVariables: S.optional(__S(393, __c12, 9)),
-          networkProfile: S.optional(S.String),
-          directoriesToPull: S.optional(__S(480, __c15, 0)),
-          account: S.optional(__S(394, __c12, 10)),
-          initialSetupApks: S.optional(__S(396, __c12, 12)),
-          dontAutograntPermissions: S.optional(S.Boolean),
-          systrace: S.optional(__S(397, __c12, 13)),
-          additionalApks: S.optional(__S(396, __c12, 12)),
-        }),
-      ).annotate({ identifier: "TestSetup" });
-    case 15:
-      return S.Array(__S(448, __c14, 0));
-    case 16:
-      return S.suspend(() =>
-        S.Struct({
-          bundleId: S.optional(S.String),
-          content: S.optional(__S(448, __c14, 0)),
-          devicePath: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "IosDeviceFile" });
-    case 17:
-      return S.Array(__S(400, __c12, 16));
-    case 18:
-      return S.suspend(() =>
-        S.Struct({
-          additionalIpas: S.optional(__S(399, __c12, 15)),
-          pushFiles: S.optional(__S(401, __c12, 17)),
-          pullDirectories: S.optional(__S(401, __c12, 17)),
-          networkProfile: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "IosTestSetup" });
-    case 19:
-      return S.suspend(() =>
-        S.Struct({
-          uri: S.optional(S.String),
-          categories: S.optional(__S(480, __c15, 0)),
-          action: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "StartActivityIntent" });
-    case 20:
-      return S.suspend(() =>
-        S.Struct({
-          noActivity: S.optional(__S(192, __c6, 0)),
-          launcherActivity: S.optional(__S(192, __c6, 0)),
-          startActivity: S.optional(__S(403, __c12, 19)),
-          timeout: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "RoboStartingIntent" });
-    case 21:
-      return S.Array(__S(404, __c12, 20));
     case 22:
-      return S.suspend(() =>
-        S.Struct({
-          bundleSplits: S.optional(__S(399, __c12, 15)),
-        }),
-      ).annotate({ identifier: "ApkSplits" });
+      return S.Array(__S(405, __c12, 21));
     case 23:
       return S.suspend(() =>
         S.Struct({
-          apks: S.optional(__S(406, __c12, 22)),
-          bundleLocation: S.optional(__S(448, __c14, 0)),
+          location: S.optional(__S(448, __c14, 0)),
+          packageName: S.optional(S.String),
         }),
-      ).annotate({ identifier: "AppBundle" });
+      ).annotate({ identifier: "Apk" });
     case 24:
+      return S.Array(__S(407, __c12, 23));
+    case 25:
       return S.suspend(() =>
         S.Struct({
-          actionType: S.optional(S.String),
-          inputText: S.optional(S.String),
-          resourceName: S.optional(S.String),
+          obbFileName: S.optional(S.String),
+          obb: S.optional(__S(448, __c14, 0)),
         }),
-      ).annotate({ identifier: "RoboDirective" });
-    case 25:
-      return S.Array(__S(408, __c12, 24));
+      ).annotate({ identifier: "ObbFile" });
     case 26:
       return S.suspend(() =>
         S.Struct({
-          roboScript: S.optional(__S(448, __c14, 0)),
-          startingIntents: S.optional(__S(405, __c12, 21)),
-          appBundle: S.optional(__S(407, __c12, 23)),
-          maxDepth: S.optional(S.Number),
-          appInitialActivity: S.optional(S.String),
-          appApk: S.optional(__S(448, __c14, 0)),
-          roboDirectives: S.optional(__S(409, __c12, 25)),
-          appPackageId: S.optional(S.String),
-          maxSteps: S.optional(S.Number),
-          roboMode: S.optional(S.String),
+          devicePath: S.optional(S.String),
+          content: S.optional(__S(448, __c14, 0)),
         }),
-      ).annotate({ identifier: "AndroidRoboTest" });
+      ).annotate({ identifier: "RegularFile" });
     case 27:
       return S.suspend(() =>
         S.Struct({
-          testTargets: S.optional(__S(480, __c15, 0)),
+          obbFile: S.optional(__S(409, __c12, 25)),
+          regularFile: S.optional(__S(410, __c12, 26)),
         }),
-      ).annotate({ identifier: "TestTargetsForShard" });
+      ).annotate({ identifier: "DeviceFile" });
     case 28:
       return S.Array(__S(411, __c12, 27));
     case 29:
       return S.suspend(() =>
         S.Struct({
-          testTargetsForShard: S.optional(__S(412, __c12, 28)),
+          systrace: S.optional(__S(403, __c12, 19)),
+          account: S.optional(__S(404, __c12, 20)),
+          environmentVariables: S.optional(__S(406, __c12, 22)),
+          additionalApks: S.optional(__S(408, __c12, 24)),
+          dontAutograntPermissions: S.optional(S.Boolean),
+          networkProfile: S.optional(S.String),
+          initialSetupApks: S.optional(__S(408, __c12, 24)),
+          directoriesToPull: S.optional(__S(480, __c15, 0)),
+          filesToPush: S.optional(__S(412, __c12, 28)),
         }),
-      ).annotate({ identifier: "ManualSharding" });
+      ).annotate({ identifier: "TestSetup" });
     case 30:
       return S.suspend(() =>
         S.Struct({
-          numShards: S.optional(S.Number),
+          content: S.optional(__S(448, __c14, 0)),
+          devicePath: S.optional(S.String),
+          bundleId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "UniformSharding" });
+      ).annotate({ identifier: "IosDeviceFile" });
     case 31:
-      return S.suspend(() =>
-        S.Struct({
-          targetedShardDuration: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SmartSharding" });
+      return S.Array(__S(414, __c12, 30));
   }
 }
 function __c13(j: number): any {
@@ -2063,152 +2064,141 @@ function __c13(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          manualSharding: S.optional(__S(413, __c12, 29)),
-          uniformSharding: S.optional(__S(414, __c12, 30)),
-          smartSharding: S.optional(__S(415, __c12, 31)),
+          networkProfile: S.optional(S.String),
+          additionalIpas: S.optional(__S(386, __c12, 2)),
+          pullDirectories: S.optional(__S(415, __c12, 31)),
+          pushFiles: S.optional(__S(415, __c12, 31)),
         }),
-      ).annotate({ identifier: "ShardingOption" });
+      ).annotate({ identifier: "IosTestSetup" });
     case 1:
-      return S.suspend(() =>
-        S.Struct({
-          appApk: S.optional(__S(448, __c14, 0)),
-          appBundle: S.optional(__S(407, __c12, 23)),
-          testTargets: S.optional(__S(480, __c15, 0)),
-          testApk: S.optional(__S(448, __c14, 0)),
-          instrumentInPrivateComputeCore: S.optional(S.Boolean),
-          appPackageId: S.optional(S.String),
-          testRunnerClass: S.optional(S.String),
-          orchestratorOption: S.optional(S.String),
-          shardingOption: S.optional(__S(416, __c13, 0)),
-          testPackageId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AndroidInstrumentationTest" });
+      return S.Array(S.Number);
     case 2:
       return S.suspend(() =>
         S.Struct({
-          appPackageId: S.optional(S.String),
-          scenarios: S.optional(__S(384, __c12, 0)),
-          appBundle: S.optional(__S(407, __c12, 23)),
-          scenarioLabels: S.optional(__S(480, __c15, 0)),
-          appApk: S.optional(__S(448, __c14, 0)),
+          appBundleId: S.optional(S.String),
+          appIpa: S.optional(__S(448, __c14, 0)),
+          scenarios: S.optional(__S(417, __c13, 1)),
         }),
-      ).annotate({ identifier: "AndroidTestLoop" });
+      ).annotate({ identifier: "IosTestLoop" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          iosTestLoop: S.optional(__S(385, __c12, 1)),
-          iosXcTest: S.optional(__S(386, __c12, 2)),
-          iosRoboTest: S.optional(__S(387, __c12, 3)),
-          testSetup: S.optional(__S(398, __c12, 14)),
+          appApk: S.optional(__S(448, __c14, 0)),
+          scenarios: S.optional(__S(417, __c13, 1)),
+          appBundle: S.optional(__S(388, __c12, 4)),
+          scenarioLabels: S.optional(__S(480, __c15, 0)),
+          appPackageId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AndroidTestLoop" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          androidInstrumentationTest: S.optional(__S(394, __c12, 10)),
+          iosXcTest: S.optional(__S(395, __c12, 11)),
           disableVideoRecording: S.optional(S.Boolean),
-          iosTestSetup: S.optional(__S(402, __c12, 18)),
+          iosRoboTest: S.optional(__S(396, __c12, 12)),
+          androidRoboTest: S.optional(__S(402, __c12, 18)),
           testTimeout: S.optional(S.String),
           disablePerformanceMetrics: S.optional(S.Boolean),
-          androidRoboTest: S.optional(__S(410, __c12, 26)),
-          androidInstrumentationTest: S.optional(__S(417, __c13, 1)),
-          androidTestLoop: S.optional(__S(418, __c13, 2)),
+          testSetup: S.optional(__S(413, __c12, 29)),
+          iosTestSetup: S.optional(__S(416, __c13, 0)),
+          iosTestLoop: S.optional(__S(418, __c13, 2)),
+          androidTestLoop: S.optional(__S(419, __c13, 3)),
         }),
       ).annotate({ identifier: "TestSpecification" });
-    case 4:
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          errorMessage: S.optional(S.String),
+          progressMessages: S.optional(__S(480, __c15, 0)),
+        }),
+      ).annotate({ identifier: "TestDetails" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          historyId: S.optional(S.String),
+          stepId: S.optional(S.String),
+          projectId: S.optional(S.String),
+          executionId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ToolResultsStep" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          iosVersionId: S.optional(S.String),
+          iosModelId: S.optional(S.String),
+          locale: S.optional(S.String),
+          orientation: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "IosDevice" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          iosDevice: S.optional(__S(423, __c13, 7)),
+          androidDevice: S.optional(__S(288, __c9, 0)),
+        }),
+      ).annotate({ identifier: "Environment" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          projectId: S.optional(S.String),
+          shard: S.optional(__S(385, __c12, 1)),
+          testSpecification: S.optional(__S(420, __c13, 4)),
+          matrixId: S.optional(S.String),
+          testDetails: S.optional(__S(421, __c13, 5)),
+          toolResultsStep: S.optional(__S(422, __c13, 6)),
+          environment: S.optional(__S(424, __c13, 8)),
+          state: S.optional(S.String),
+          timestamp: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TestExecution" });
+    case 10:
+      return S.Array(__S(425, __c13, 9));
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          reason: S.optional(S.String),
+          message: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MatrixErrorDetail" });
+    case 12:
+      return S.Array(__S(427, __c13, 11));
+    case 13:
       return S.suspend(() =>
         S.Struct({
           historyId: S.optional(S.String),
           projectId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ToolResultsHistory" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          historyId: S.optional(S.String),
-          projectId: S.optional(S.String),
-          executionId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ToolResultsExecution" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          resultsUrl: S.optional(S.String),
-          googleCloudStorage: S.optional(__S(448, __c14, 0)),
-          toolResultsHistory: S.optional(__S(420, __c13, 4)),
-          toolResultsExecution: S.optional(__S(421, __c13, 5)),
-        }),
-      ).annotate({ identifier: "ResultStorage" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          message: S.optional(S.String),
-          reason: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "MatrixErrorDetail" });
-    case 8:
-      return S.Array(__S(423, __c13, 7));
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          clientInfoDetails: S.optional(__S(393, __c12, 9)),
-        }),
-      ).annotate({ identifier: "ClientInfo" });
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          progressMessages: S.optional(__S(480, __c15, 0)),
-          errorMessage: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TestDetails" });
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          estimatedShardDuration: S.optional(S.String),
-          numShards: S.optional(S.Number),
-          shardIndex: S.optional(S.Number),
-          testTargetsForShard: S.optional(__S(411, __c12, 27)),
-        }),
-      ).annotate({ identifier: "Shard" });
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          iosModelId: S.optional(S.String),
-          iosVersionId: S.optional(S.String),
-          orientation: S.optional(S.String),
-          locale: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "IosDevice" });
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          iosDevice: S.optional(__S(428, __c13, 12)),
-          androidDevice: S.optional(__S(288, __c9, 0)),
-        }),
-      ).annotate({ identifier: "Environment" });
     case 14:
       return S.suspend(() =>
         S.Struct({
-          projectId: S.optional(S.String),
-          stepId: S.optional(S.String),
-          historyId: S.optional(S.String),
           executionId: S.optional(S.String),
+          historyId: S.optional(S.String),
+          projectId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ToolResultsStep" });
+      ).annotate({ identifier: "ToolResultsExecution" });
     case 15:
       return S.suspend(() =>
         S.Struct({
-          projectId: S.optional(S.String),
-          testDetails: S.optional(__S(426, __c13, 10)),
-          shard: S.optional(__S(427, __c13, 11)),
-          id: S.optional(S.String),
-          environment: S.optional(__S(429, __c13, 13)),
-          timestamp: S.optional(S.String),
-          toolResultsStep: S.optional(__S(430, __c13, 14)),
-          state: S.optional(S.String),
-          testSpecification: S.optional(__S(419, __c13, 3)),
-          matrixId: S.optional(S.String),
+          googleCloudStorage: S.optional(__S(448, __c14, 0)),
+          toolResultsHistory: S.optional(__S(429, __c13, 13)),
+          resultsUrl: S.optional(S.String),
+          toolResultsExecution: S.optional(__S(430, __c13, 14)),
         }),
-      ).annotate({ identifier: "TestExecution" });
+      ).annotate({ identifier: "ResultStorage" });
     case 16:
-      return S.Array(__S(431, __c13, 15));
+      return S.suspend(() =>
+        S.Struct({
+          androidModelIds: S.optional(__S(480, __c15, 0)),
+          orientations: S.optional(__S(480, __c15, 0)),
+          androidVersionIds: S.optional(__S(480, __c15, 0)),
+          locales: S.optional(__S(480, __c15, 0)),
+        }),
+      ).annotate({ identifier: "AndroidMatrix" });
     case 17:
-      return S.Array(__S(428, __c13, 12));
+      return S.Array(__S(423, __c13, 7));
     case 18:
       return S.suspend(() =>
         S.Struct({
@@ -2226,37 +2216,35 @@ function __c13(j: number): any {
     case 21:
       return S.suspend(() =>
         S.Struct({
-          androidVersionIds: S.optional(__S(480, __c15, 0)),
-          orientations: S.optional(__S(480, __c15, 0)),
-          androidModelIds: S.optional(__S(480, __c15, 0)),
-          locales: S.optional(__S(480, __c15, 0)),
+          androidMatrix: S.optional(__S(432, __c13, 16)),
+          iosDeviceList: S.optional(__S(434, __c13, 18)),
+          androidDeviceList: S.optional(__S(436, __c13, 20)),
         }),
-      ).annotate({ identifier: "AndroidMatrix" });
+      ).annotate({ identifier: "EnvironmentMatrix" });
     case 22:
       return S.suspend(() =>
         S.Struct({
-          iosDeviceList: S.optional(__S(434, __c13, 18)),
-          androidDeviceList: S.optional(__S(436, __c13, 20)),
-          androidMatrix: S.optional(__S(437, __c13, 21)),
+          name: S.optional(S.String),
+          clientInfoDetails: S.optional(__S(406, __c12, 22)),
         }),
-      ).annotate({ identifier: "EnvironmentMatrix" });
+      ).annotate({ identifier: "ClientInfo" });
     case 23:
       return S.suspend(() =>
         S.Struct({
-          projectId: S.optional(S.String),
+          invalidMatrixDetails: S.optional(S.String),
+          testExecutions: S.optional(__S(426, __c13, 10)),
+          extendedInvalidMatrixDetails: S.optional(__S(428, __c13, 12)),
+          resultStorage: S.optional(__S(431, __c13, 15)),
           state: S.optional(S.String),
+          environmentMatrix: S.optional(__S(437, __c13, 21)),
           timestamp: S.optional(S.String),
           outcomeSummary: S.optional(S.String),
-          testMatrixId: S.optional(S.String),
-          invalidMatrixDetails: S.optional(S.String),
-          testSpecification: S.optional(__S(419, __c13, 3)),
-          resultStorage: S.optional(__S(422, __c13, 6)),
+          testSpecification: S.optional(__S(420, __c13, 4)),
+          projectId: S.optional(S.String),
+          clientInfo: S.optional(__S(438, __c13, 22)),
           failFast: S.optional(S.Boolean),
-          extendedInvalidMatrixDetails: S.optional(__S(424, __c13, 8)),
-          clientInfo: S.optional(__S(425, __c13, 9)),
-          testExecutions: S.optional(__S(432, __c13, 16)),
-          environmentMatrix: S.optional(__S(438, __c13, 22)),
           flakyTestAttempts: S.optional(S.Number),
+          testMatrixId: S.optional(S.String),
         }),
       ).annotate({ identifier: "TestMatrix" });
   }
@@ -2297,45 +2285,45 @@ function __c16(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          mimeType: S.optional(S.String),
-          categoryNames: S.optional(__S(480, __c15, 0)),
-          actionNames: S.optional(__S(480, __c15, 0)),
+          name: S.optional(S.String),
+          isRequired: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "IntentFilter" });
+      ).annotate({ identifier: "UsesFeature" });
     case 2:
       return S.Array(__S(513, __c16, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          value: S.optional(S.String),
+          actionNames: S.optional(__S(480, __c15, 0)),
+          categoryNames: S.optional(__S(480, __c15, 0)),
+          mimeType: S.optional(S.String),
         }),
-      ).annotate({ identifier: "Metadata" });
+      ).annotate({ identifier: "IntentFilter" });
     case 4:
       return S.Array(__S(515, __c16, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          intentFilter: S.optional(__S(514, __c16, 2)),
+          value: S.optional(S.String),
         }),
-      ).annotate({ identifier: "Service" });
+      ).annotate({ identifier: "Metadata" });
     case 6:
       return S.Array(__S(517, __c16, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          isRequired: S.optional(S.Boolean),
+          intentFilter: S.optional(__S(516, __c16, 4)),
         }),
-      ).annotate({ identifier: "UsesFeature" });
+      ).annotate({ identifier: "Service" });
     case 8:
       return S.Array(__S(519, __c16, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
           maxSdkVersion: S.optional(S.Number),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "UsesPermissionTag" });
     case 10:
@@ -2343,19 +2331,19 @@ function __c16(j: number): any {
     case 11:
       return S.suspend(() =>
         S.Struct({
+          usesFeature: S.optional(__S(514, __c16, 2)),
           minSdkVersion: S.optional(S.Number),
-          maxSdkVersion: S.optional(S.Number),
-          packageName: S.optional(S.String),
+          intentFilters: S.optional(__S(516, __c16, 4)),
           versionName: S.optional(S.String),
-          intentFilters: S.optional(__S(514, __c16, 2)),
-          metadata: S.optional(__S(516, __c16, 4)),
-          services: S.optional(__S(518, __c16, 6)),
-          versionCode: S.optional(S.String),
           applicationLabel: S.optional(S.String),
-          usesFeature: S.optional(__S(520, __c16, 8)),
-          targetSdkVersion: S.optional(S.Number),
+          packageName: S.optional(S.String),
+          versionCode: S.optional(S.String),
           usesPermission: S.optional(__S(480, __c15, 0)),
+          metadata: S.optional(__S(518, __c16, 6)),
+          services: S.optional(__S(520, __c16, 8)),
+          targetSdkVersion: S.optional(S.Number),
           usesPermissionTags: S.optional(__S(522, __c16, 10)),
+          maxSdkVersion: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ApkManifest" });
     case 12:

@@ -93,6 +93,7 @@ export interface CancelProjectsLocationsOperationsRequest {
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
+export type StringMap = { [key: string]: string | undefined };
 /** Defines the bucket by its name or a regex pattern to match buckets. */
 export interface CloudStorageBucket {
   /** Cloud Storage bucket name. */
@@ -106,6 +107,24 @@ export interface CloudStorageBuckets {
   /** Optional. The list of Cloud Storage buckets. */
   cloudStorageBuckets?: CloudStorageBucketList | undefined;
 }
+/** Defines the details about the linked dataset. */
+export interface Link {
+  /** Output only. Dataset name for linked dataset. */
+  dataset?: string | undefined;
+  /** Output only. State of the linked dataset. */
+  linked?: boolean | undefined;
+}
+export type DocumentMap = { [key: string]: unknown | undefined };
+export type DocumentMapList = Array<DocumentMap>;
+/** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
+export interface Status {
+  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
+  details?: DocumentMapList | undefined;
+  /** The status code, which should be an enum value of google.rpc.Code. */
+  code?: number | undefined;
+  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
+  message?: string | undefined;
+}
 export type StringList = Array<string>;
 /** Collection of Cloud Storage locations. */
 export interface CloudStorageLocations {
@@ -116,17 +135,6 @@ export interface CloudStorageLocations {
 export interface SourceProjects {
   /** Optional. The list of project numbers to include in the dataset. */
   projectNumbers?: StringList | undefined;
-}
-export type DocumentMap = { [key: string]: unknown | undefined };
-export type DocumentMapList = Array<DocumentMap>;
-/** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
-export interface Status {
-  /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number | undefined;
-  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList | undefined;
-  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string | undefined;
 }
 export type IdentityTypeEnum =
   | "IDENTITY_TYPE_UNSPECIFIED"
@@ -139,108 +147,116 @@ export interface Identity {
   /** Output only. Name of the identity. */
   name?: string | undefined;
 }
+/** Specifies a set of folders to include in the dataset */
+export interface SourceFolders {
+  /** Optional. The list of folder numbers to include in the dataset. */
+  folderNumbers?: StringList | undefined;
+}
 export type DatasetConfigDatasetConfigStateEnum =
   | "CONFIG_STATE_UNSPECIFIED"
   | "CONFIG_STATE_ACTIVE"
   | "CONFIG_STATE_VERIFICATION_IN_PROGRESS"
   | "CONFIG_STATE_CREATED"
   | "CONFIG_STATE_PROCESSING";
-/** Specifies a set of folders to include in the dataset */
-export interface SourceFolders {
-  /** Optional. The list of folder numbers to include in the dataset. */
-  folderNumbers?: StringList | undefined;
-}
-/** Defines the details about the linked dataset. */
-export interface Link {
-  /** Output only. Dataset name for linked dataset. */
-  dataset?: string | undefined;
-  /** Output only. State of the linked dataset. */
-  linked?: boolean | undefined;
-}
-export type StringMap = { [key: string]: string | undefined };
 /** Message describing the dataset configuration properties. For more information, see [Dataset configuration properties](https://cloud.google.com/storage/docs/insights/datasets#dataset-config). */
 export interface DatasetConfig {
-  /** Cloud Storage buckets to include in the dataset. */
-  includeCloudStorageBuckets?: CloudStorageBuckets | undefined;
-  /** Optional. Organization resource ID that the source projects should belong to. Projects that do not belong to the provided organization are not considered when creating the dataset. */
-  organizationNumber?: string | undefined;
-  /** Cloud Storage buckets to exclude from the dataset. */
-  excludeCloudStorageBuckets?: CloudStorageBuckets | undefined;
-  /** Identifier. name of resource */
-  name?: string | undefined;
-  /** Cloud Storage locations to exclude from the dataset. */
-  excludeCloudStorageLocations?: CloudStorageLocations | undefined;
-  /** Defines the options for providing source projects for the dataset. */
-  sourceProjects?: SourceProjects | undefined;
-  /** Output only. The UTC time at which the dataset configuration was created. This is auto-populated. */
-  createTime?: string | undefined;
-  /** Output only. Status of the `datasetConfig`. */
-  status?: Status | undefined;
-  /** Optional. Number of days of history that must be retained. */
-  retentionPeriodDays?: number | undefined;
-  /** Optional. Identity used by this `datasetConfig`. */
-  identity?: Identity | undefined;
-  /** Optional. If set to `true`, the request includes all the newly created buckets in the dataset that meet the inclusion and exclusion rules. */
-  includeNewlyCreatedBuckets?: boolean | undefined;
-  /** Output only. State of the `datasetConfig`. */
-  datasetConfigState?: DatasetConfigDatasetConfigStateEnum | (string & {}) | undefined;
-  /** Optional. A user-provided description for the dataset configuration. Maximum length: 256 characters. */
-  description?: string | undefined;
-  /** Output only. System generated unique identifier for the resource. */
-  uid?: string | undefined;
-  /** Defines the options for providing a source organization for the dataset. */
-  organizationScope?: boolean | undefined;
-  /** Optional. When set, overrides the retention period for activity data. Otherwise, the `retention_period_days` value is used for activity data as well. */
-  activityDataRetentionPeriodDays?: number | undefined;
-  /** Output only. The UTC time at which the dataset configuration was last updated. This is auto-populated. */
-  updateTime?: string | undefined;
-  /** Defines the options for providing source folders for the dataset. */
-  sourceFolders?: SourceFolders | undefined;
-  /** Optional. If set to `false`, then all the permission checks must be successful before the system can start ingesting data. This field can only be updated before the system ingests data for the first time. Any attempt to modify the field after data ingestion starts results in an error. */
-  skipVerificationAndIngest?: boolean | undefined;
-  /** Output only. Details of the linked dataset. */
-  link?: Link | undefined;
-  /** Optional. Labels as key value pairs */
-  labels?: StringMap | undefined;
   /** Input only. Cloud Storage object path containing a list of project or folder numbers to include in the dataset; it cannot contain a mix of project and folders. The object must be a text file where each line has one of the following entries: - Project number, formatted as `projects/{project_number}`, for example, `projects/1234567890`. - Folder identifier, formatted as `folders/{folder_number}`, for example, `folders/9876543210`. Path must be in the format `gs://{bucket_name}/{object_name}`. */
   cloudStorageObjectPath?: string | undefined;
+  /** Defines the options for providing a source organization for the dataset. */
+  organizationScope?: boolean | undefined;
+  /** Optional. Labels as key value pairs */
+  labels?: StringMap | undefined;
+  /** Cloud Storage buckets to exclude from the dataset. */
+  excludeCloudStorageBuckets?: CloudStorageBuckets | undefined;
+  /** Optional. Organization resource ID that the source projects should belong to. Projects that do not belong to the provided organization are not considered when creating the dataset. */
+  organizationNumber?: string | undefined;
+  /** Optional. If set to `true`, the request includes all the newly created buckets in the dataset that meet the inclusion and exclusion rules. */
+  includeNewlyCreatedBuckets?: boolean | undefined;
+  /** Output only. System generated unique identifier for the resource. */
+  uid?: string | undefined;
+  /** Optional. If set to `false`, then all the permission checks must be successful before the system can start ingesting data. This field can only be updated before the system ingests data for the first time. Any attempt to modify the field after data ingestion starts results in an error. */
+  skipVerificationAndIngest?: boolean | undefined;
+  /** Output only. The UTC time at which the dataset configuration was created. This is auto-populated. */
+  createTime?: string | undefined;
+  /** Output only. Details of the linked dataset. */
+  link?: Link | undefined;
+  /** Output only. Status of the `datasetConfig`. */
+  status?: Status | undefined;
+  /** Cloud Storage locations to exclude from the dataset. */
+  excludeCloudStorageLocations?: CloudStorageLocations | undefined;
+  /** Optional. When set, overrides the retention period for activity data. Otherwise, the `retention_period_days` value is used for activity data as well. */
+  activityDataRetentionPeriodDays?: number | undefined;
+  /** Defines the options for providing source projects for the dataset. */
+  sourceProjects?: SourceProjects | undefined;
+  /** Output only. The UTC time at which the dataset configuration was last updated. This is auto-populated. */
+  updateTime?: string | undefined;
+  /** Cloud Storage buckets to include in the dataset. */
+  includeCloudStorageBuckets?: CloudStorageBuckets | undefined;
+  /** Optional. Identity used by this `datasetConfig`. */
+  identity?: Identity | undefined;
+  /** Optional. Number of days of history that must be retained. */
+  retentionPeriodDays?: number | undefined;
+  /** Optional. A user-provided description for the dataset configuration. Maximum length: 256 characters. */
+  description?: string | undefined;
+  /** Defines the options for providing source folders for the dataset. */
+  sourceFolders?: SourceFolders | undefined;
+  /** Identifier. name of resource */
+  name?: string | undefined;
+  /** Output only. State of the `datasetConfig`. */
+  datasetConfigState?: DatasetConfigDatasetConfigStateEnum | (string & {}) | undefined;
   /** Cloud Storage locations to include in the dataset. */
   includeCloudStorageLocations?: CloudStorageLocations | undefined;
 }
 export interface CreateProjectsLocationsDatasetConfigsRequest extends DatasetConfig {
-  /** Required. ID of the requesting object. If auto-generating ID is enabled on the server-side, remove this field and `dataset_config_id` from the method_signature of Create RPC Note: The value should not contain any hyphens. */
-  datasetConfigId?: string | undefined;
-  /** Optional. A unique identifier for your request. Specify the request ID if you need to retry the request. If you retry the request with the same ID within 60 minutes, the server ignores the request if it has already completed the original request. For example, if your initial request times out and you retry the request using the same request ID, the server recognizes the original request and does not process the new request. The request ID must be a valid UUID and cannot be a zero UUID (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
   /** Required. Value for parent. */
   parent: string;
+  /** Optional. A unique identifier for your request. Specify the request ID if you need to retry the request. If you retry the request with the same ID within 60 minutes, the server ignores the request if it has already completed the original request. For example, if your initial request times out and you retry the request using the same request ID, the server recognizes the original request and does not process the new request. The request ID must be a valid UUID and cannot be a zero UUID (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Required. ID of the requesting object. If auto-generating ID is enabled on the server-side, remove this field and `dataset_config_id` from the method_signature of Create RPC Note: The value should not contain any hyphens. */
+  datasetConfigId?: string | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
   done?: boolean | undefined;
-  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap | undefined;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
   response?: DocumentMap | undefined;
   /** The error result of the operation in case of failure or cancellation. */
   error?: Status | undefined;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
   name?: string | undefined;
+  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
+  metadata?: DocumentMap | undefined;
 }
+/** Options to configure inventory reports in Parquet format. */
+export type ParquetOptions = CancelOperationRequest;
 /** Options to configure inventory reports in CSV format. */
 export interface CSVOptions {
-  /** Optional. Delimiter characters in CSV. */
-  delimiter?: string | undefined;
-  /** Optional. Record separator characters in CSV. */
-  recordSeparator?: string | undefined;
   /** Optional. If set, includes a header row in the CSV report. */
   headerRequired?: boolean | undefined;
+  /** Optional. Record separator characters in CSV. */
+  recordSeparator?: string | undefined;
+  /** Optional. Delimiter characters in CSV. */
+  delimiter?: string | undefined;
 }
-/** Filters buckets to generate inventory reports for Cloud Storage. */
-export interface CloudStorageFilters {
-  /** Optional. Bucket for which the inventory report is generated. */
-  bucket?: string | undefined;
+/** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
+export interface Storageinsights_Date {
+  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
+  month?: number | undefined;
+  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
+  day?: number | undefined;
+  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
+  year?: number | undefined;
+}
+export type FrequencyOptionsFrequencyEnum = "FREQUENCY_UNSPECIFIED" | "DAILY" | "WEEKLY";
+/** `FrequencyOptions` resource Frequency configuration for inventory report generation. */
+export interface FrequencyOptions {
+  /** Optional. The UTC date to stop generating inventory reports. For example,`{"day": 15, "month": 8, "year": 2022}`. */
+  endDate?: Storageinsights_Date | undefined;
+  /** Optional. Frequency of inventory report generation. */
+  frequency?: FrequencyOptionsFrequencyEnum | (string & {}) | undefined;
+  /** Optional. The UTC date to start generating inventory reports. For example,`{"day": 15, "month": 8, "year": 2022}`. */
+  startDate?: Storageinsights_Date | undefined;
 }
 /** Options to store inventory reports in Cloud Storage. */
 export interface CloudStorageDestinationOptions {
@@ -249,56 +265,40 @@ export interface CloudStorageDestinationOptions {
   /** Optional. The destination bucket for the inventory reports. */
   bucket?: string | undefined;
 }
+/** Filters buckets to generate inventory reports for Cloud Storage. */
+export interface CloudStorageFilters {
+  /** Optional. Bucket for which the inventory report is generated. */
+  bucket?: string | undefined;
+}
 /** Options for including metadata in an inventory report. */
 export interface ObjectMetadataReportOptions {
-  /** Optional. The metadata fields included in an inventory report. */
-  metadataFields?: StringList | undefined;
-  /** Filters buckets to generate inventory reports for Cloud Storage. */
-  storageFilters?: CloudStorageFilters | undefined;
   /** Options to store reports in Cloud Storage. */
   storageDestinationOptions?: CloudStorageDestinationOptions | undefined;
-}
-/** Options to configure inventory reports in Parquet format. */
-export type ParquetOptions = CancelOperationRequest;
-/** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
-export interface Storageinsights_Date {
-  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  year?: number | undefined;
-  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  month?: number | undefined;
-  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  day?: number | undefined;
-}
-export type FrequencyOptionsFrequencyEnum = "FREQUENCY_UNSPECIFIED" | "DAILY" | "WEEKLY";
-/** `FrequencyOptions` resource Frequency configuration for inventory report generation. */
-export interface FrequencyOptions {
-  /** Optional. The UTC date to start generating inventory reports. For example,`{"day": 15, "month": 8, "year": 2022}`. */
-  startDate?: Storageinsights_Date | undefined;
-  /** Optional. The UTC date to stop generating inventory reports. For example,`{"day": 15, "month": 8, "year": 2022}`. */
-  endDate?: Storageinsights_Date | undefined;
-  /** Optional. Frequency of inventory report generation. */
-  frequency?: FrequencyOptionsFrequencyEnum | (string & {}) | undefined;
+  /** Filters buckets to generate inventory reports for Cloud Storage. */
+  storageFilters?: CloudStorageFilters | undefined;
+  /** Optional. The metadata fields included in an inventory report. */
+  metadataFields?: StringList | undefined;
 }
 /** Message describing the `ReportConfig` object. `ReportConfig` is the configuration used to generate inventory reports. For information about how to set various fields, see [Create an inventory report configuration](https://cloud.google.com/storage/docs/insights/using-inventory-reports#create-report-config). */
 export interface ReportConfig {
+  /** Options for Parquet formatted reports. */
+  parquetOptions?: CancelOperationRequest | undefined;
+  /** Output only. The UTC time at which the inventory report configuration was created. This is auto-populated. */
+  createTime?: string | undefined;
+  /** Optional. Labels as key value pairs */
+  labels?: StringMap | undefined;
   /** Optional. User provided display name that can be empty and limited to 256 characters that is editable.. */
   displayName?: string | undefined;
   /** Options for CSV formatted reports. */
   csvOptions?: CSVOptions | undefined;
-  /** Options for including object metadata in an inventory report. */
-  objectMetadataReportOptions?: ObjectMetadataReportOptions | undefined;
-  /** Options for Parquet formatted reports. */
-  parquetOptions?: CancelOperationRequest | undefined;
-  /** Identifier. Name of resource. Format: `projects/{project_id}/locations/{location}/reportConfigs/{report-config-id}`. */
-  name?: string | undefined;
   /** Output only. The UTC time at which the inventory report configuration was updated. This is auto-populated. */
   updateTime?: string | undefined;
-  /** Optional. Labels as key value pairs */
-  labels?: StringMap | undefined;
   /** Optional. The frequency of the inventory report generation. */
   frequencyOptions?: FrequencyOptions | undefined;
-  /** Output only. The UTC time at which the inventory report configuration was created. This is auto-populated. */
-  createTime?: string | undefined;
+  /** Identifier. Name of resource. Format: `projects/{project_id}/locations/{location}/reportConfigs/{report-config-id}`. */
+  name?: string | undefined;
+  /** Options for including object metadata in an inventory report. */
+  objectMetadataReportOptions?: ObjectMetadataReportOptions | undefined;
 }
 export interface CreateProjectsLocationsReportConfigsRequest extends ReportConfig {
   /** Optional. A unique identifier for your request. Specify the request ID if you need to retry the request. If you retry the request with the same ID within 60 minutes, the server ignores the request if it has already completed the original request. For example, if your initial request times out and you retry the request using the same request ID, the server recognizes the original request and does not process the new request. The request ID must be a valid UUID and cannot be a zero UUID (00000000-0000-0000-0000-000000000000). */
@@ -317,12 +317,12 @@ export interface DeleteProjectsLocationsOperationsRequest {
   name: string;
 }
 export interface DeleteProjectsLocationsReportConfigsRequest {
-  /** Optional. A unique identifier for your request. Specify the request ID if you need to retry the request. If you retry the request with the same ID within 60 minutes, the server ignores the request if it has already completed the original request. For example, if your initial request times out and you retry the request using the same request ID, the server recognizes the original request and does not process the new request. The request ID must be a valid UUID and cannot be a zero UUID (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
   /** Required. Name of the resource */
   name: string;
   /** Optional. If set, all the inventory report details associated with this report configuration are deleted. */
   force?: boolean | undefined;
+  /** Optional. A unique identifier for your request. Specify the request ID if you need to retry the request. If you retry the request with the same ID within 60 minutes, the server ignores the request if it has already completed the original request. For example, if your initial request times out and you retry the request using the same request ID, the server recognizes the original request and does not process the new request. The request ID must be a valid UUID and cannot be a zero UUID (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
 }
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
@@ -330,16 +330,16 @@ export interface GetProjectsLocationsRequest {
 }
 /** A resource that represents a Google Cloud location. */
 export interface Location {
-  /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
-  displayName?: string | undefined;
-  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
-  name?: string | undefined;
-  /** The canonical id for this location. For example: `"us-east1"`. */
-  locationId?: string | undefined;
-  /** Service-specific metadata. For example the available capacity at the given location. */
-  metadata?: DocumentMap | undefined;
   /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
   labels?: StringMap | undefined;
+  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
+  name?: string | undefined;
+  /** Service-specific metadata. For example the available capacity at the given location. */
+  metadata?: DocumentMap | undefined;
+  /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
+  displayName?: string | undefined;
+  /** The canonical id for this location. For example: `"us-east1"`. */
+  locationId?: string | undefined;
 }
 export interface GetProjectsLocationsDatasetConfigsRequest {
   /** Required. Name of the resource */
@@ -366,24 +366,24 @@ export interface TimeZone {
 }
 /** Represents civil time (or occasionally physical time). This type can represent a civil time in one of a few possible ways: * When utc_offset is set and time_zone is unset: a civil time on a calendar day with a particular offset from UTC. * When time_zone is set and utc_offset is unset: a civil time on a calendar day in a particular time zone. * When neither time_zone nor utc_offset is set: a civil time on a calendar day in local time. The date is relative to the Proleptic Gregorian Calendar. If year, month, or day are 0, the DateTime is considered not to have a specific year, month, or day respectively. This type may also be used to represent a physical time if all the date and time fields are set and either case of the `time_offset` oneof is set. Consider using `Timestamp` message for physical time instead. If your use case also would like to store the user's timezone, that can be done in another field. This type is more flexible than some applications may want. Make sure to document and validate your application's limitations. */
 export interface DateTime {
-  /** Optional. Minutes of hour of day. Must be from 0 to 59, defaults to 0. */
-  minutes?: number | undefined;
-  /** Optional. Seconds of minutes of the time. Must normally be from 0 to 59, defaults to 0. An API may allow the value 60 if it allows leap-seconds. */
-  seconds?: number | undefined;
-  /** Optional. Hours of day in 24 hour format. Should be from 0 to 23, defaults to 0 (midnight). An API may choose to allow the value "24:00:00" for scenarios like business closing time. */
-  hours?: number | undefined;
-  /** UTC offset. Must be whole seconds, between -18 hours and +18 hours. For example, a UTC offset of -4:00 would be represented as { seconds: -14400 }. */
-  utcOffset?: string | undefined;
   /** Optional. Month of year. Must be from 1 to 12, or 0 if specifying a datetime without a month. */
   month?: number | undefined;
-  /** Optional. Year of date. Must be from 1 to 9999, or 0 if specifying a datetime without a year. */
-  year?: number | undefined;
+  /** UTC offset. Must be whole seconds, between -18 hours and +18 hours. For example, a UTC offset of -4:00 would be represented as { seconds: -14400 }. */
+  utcOffset?: string | undefined;
   /** Optional. Day of month. Must be from 1 to 31 and valid for the year and month, or 0 if specifying a datetime without a day. */
   day?: number | undefined;
-  /** Time zone. */
-  timeZone?: TimeZone | undefined;
+  /** Optional. Seconds of minutes of the time. Must normally be from 0 to 59, defaults to 0. An API may allow the value 60 if it allows leap-seconds. */
+  seconds?: number | undefined;
+  /** Optional. Year of date. Must be from 1 to 9999, or 0 if specifying a datetime without a year. */
+  year?: number | undefined;
+  /** Optional. Minutes of hour of day. Must be from 0 to 59, defaults to 0. */
+  minutes?: number | undefined;
+  /** Optional. Hours of day in 24 hour format. Should be from 0 to 23, defaults to 0 (midnight). An API may choose to allow the value "24:00:00" for scenarios like business closing time. */
+  hours?: number | undefined;
   /** Optional. Fractions of seconds in nanoseconds. Must be from 0 to 999,999,999, defaults to 0. */
   nanos?: number | undefined;
+  /** Time zone. */
+  timeZone?: TimeZone | undefined;
 }
 /** Metrics associated with the generated report. */
 export interface Metrics {
@@ -392,22 +392,22 @@ export interface Metrics {
 }
 /** Message describing the `ReportDetail` object. `ReportDetail` represents the metadata of the generated inventory report for a report configuration. */
 export interface ReportDetail {
+  /** Status of the inventory report. */
+  status?: Status | undefined;
+  /** Name of resource. Format: `projects/{project_number}/locations/{location}/reportConfigs/{report-config-id}/reportDetails/{report-detail-id}`. */
+  name?: string | undefined;
   /** The date and time of the inventory report generation. This field is auto-populated. The time part of `target_datetime` is always `0`. */
   targetDatetime?: DateTime | undefined;
   /** Total shards generated for the inventory report. */
   shardsCount?: string | undefined;
-  /** Name of resource. Format: `projects/{project_number}/locations/{location}/reportConfigs/{report-config-id}/reportDetails/{report-detail-id}`. */
-  name?: string | undefined;
-  /** Labels as key value pairs */
-  labels?: StringMap | undefined;
-  /** Status of the inventory report. */
-  status?: Status | undefined;
-  /** Metrics of the inventory report. */
-  reportMetrics?: Metrics | undefined;
-  /** The snapshot time. All the inventory report data is referenced at this point of time. */
-  snapshotTime?: string | undefined;
   /** Prefix of the object name of each report's shard. This has the full prefix except the `extension` and `shard_id`. For example, if the `destination_path` is `{report-config-id}/dt={datetime}`, then the shard object name is `gs://my-insights/1A34-F2E456-12B456-1C3D/dt=2022-05-20T06:35/1A34-F2E456-12B456-1C3D_2022-05-20T06:35_5.csv` and the value of `reportPathPrefix` field is `gs://my-insights/1A34-F2E456-12B456-1C3D/dt=2022-05-20T06:35/1A34-F2E456-12B456-1C3D_2022-05-20T06:35_`. */
   reportPathPrefix?: string | undefined;
+  /** Metrics of the inventory report. */
+  reportMetrics?: Metrics | undefined;
+  /** Labels as key value pairs */
+  labels?: StringMap | undefined;
+  /** The snapshot time. All the inventory report data is referenced at this point of time. */
+  snapshotTime?: string | undefined;
 }
 /** Request message for `LinkDataset` */
 export type LinkDatasetRequest = CancelOperationRequest;
@@ -422,54 +422,54 @@ export interface ListProjectsLocationsRequest {
   filter?: string | undefined;
   /** The resource that owns the locations collection, if applicable. */
   name: string;
-  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string | undefined;
-  /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number | undefined;
   /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
   extraLocationTypes?: StringList | undefined;
+  /** The maximum number of results to return. If not set, the service selects a default. */
+  pageSize?: number | undefined;
+  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
+  pageToken?: string | undefined;
 }
 export type LocationList = Array<Location>;
 /** The response message for Locations.ListLocations. */
 export interface ListLocationsResponse {
-  /** The standard List next-page token. */
-  nextPageToken?: string | undefined;
   /** A list of locations that matches the specified filter in the request. */
   locations?: LocationList | undefined;
+  /** The standard List next-page token. */
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsDatasetConfigsRequest {
-  /** Optional. A token identifying a page of results the server should return. */
-  pageToken?: string | undefined;
-  /** Optional. Filtering results */
-  filter?: string | undefined;
-  /** Optional. Requested page size. Server might return fewer items than requested. If unspecified, server picks an appropriate default. */
-  pageSize?: number | undefined;
-  /** Optional. Hint for how to order the results */
-  orderBy?: string | undefined;
   /** Required. Parent value for ListDatasetConfigsRequest */
   parent: string;
+  /** Optional. Filtering results */
+  filter?: string | undefined;
+  /** Optional. Hint for how to order the results */
+  orderBy?: string | undefined;
+  /** Optional. A token identifying a page of results the server should return. */
+  pageToken?: string | undefined;
+  /** Optional. Requested page size. Server might return fewer items than requested. If unspecified, server picks an appropriate default. */
+  pageSize?: number | undefined;
 }
 export type DatasetConfigList = Array<DatasetConfig>;
 /** Response message for `ListDatasetConfigs` */
 export interface ListDatasetConfigsResponse {
+  /** Locations that could not be reached. */
+  unreachable?: StringList | undefined;
   /** The list of `DatasetConfigs` */
   datasetConfigs?: DatasetConfigList | undefined;
   /** A token identifying a page of results the server should return. */
   nextPageToken?: string | undefined;
-  /** Locations that could not be reached. */
-  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsOperationsRequest {
-  /** The standard list page size. */
-  pageSize?: number | undefined;
-  /** The standard list filter. */
-  filter?: string | undefined;
-  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean | undefined;
-  /** The standard list page token. */
-  pageToken?: string | undefined;
   /** The name of the operation's parent resource. */
   name: string;
+  /** The standard list filter. */
+  filter?: string | undefined;
+  /** The standard list page size. */
+  pageSize?: number | undefined;
+  /** The standard list page token. */
+  pageToken?: string | undefined;
+  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
+  returnPartialSuccess?: boolean | undefined;
 }
 export type OperationList = Array<Operation>;
 /** The response message for Operations.ListOperations. */
@@ -484,36 +484,36 @@ export interface ListOperationsResponse {
 export interface ListProjectsLocationsReportConfigsRequest {
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, the server picks the default value. */
   pageSize?: number | undefined;
-  /** Optional. Hint for how to order the results */
-  orderBy?: string | undefined;
-  /** Required. Parent value for `ListReportConfigsRequest` */
-  parent: string;
-  /** Optional. A token identifying a page of results the server should return. */
-  pageToken?: string | undefined;
   /** Optional. Filtering results */
   filter?: string | undefined;
+  /** Optional. Hint for how to order the results */
+  orderBy?: string | undefined;
+  /** Optional. A token identifying a page of results the server should return. */
+  pageToken?: string | undefined;
+  /** Required. Parent value for `ListReportConfigsRequest` */
+  parent: string;
 }
 export type ReportConfigList = Array<ReportConfig>;
 /** Response message for `ListReportConfigs` */
 export interface ListReportConfigsResponse {
-  /** Locations that could not be reached. */
-  unreachable?: StringList | undefined;
   /** A token identifying a page of results the server should return. */
   nextPageToken?: string | undefined;
+  /** Locations that could not be reached. */
+  unreachable?: StringList | undefined;
   /** The list of `ReportConfig` */
   reportConfigs?: ReportConfigList | undefined;
 }
 export interface ListProjectsLocationsReportConfigsReportDetailsRequest {
-  /** Optional. A token identifying a page of results the server should return. */
-  pageToken?: string | undefined;
-  /** Optional. Filtering results */
-  filter?: string | undefined;
-  /** Optional. Requested page size. The server might return fewer items than requested. If unspecified, the server picks the default value. */
-  pageSize?: number | undefined;
-  /** Required. Parent value for `ListReportDetailsRequest` */
-  parent: string;
   /** Optional. Hint for how to order the results */
   orderBy?: string | undefined;
+  /** Optional. Filtering results */
+  filter?: string | undefined;
+  /** Required. Parent value for `ListReportDetailsRequest` */
+  parent: string;
+  /** Optional. Requested page size. The server might return fewer items than requested. If unspecified, the server picks the default value. */
+  pageSize?: number | undefined;
+  /** Optional. A token identifying a page of results the server should return. */
+  pageToken?: string | undefined;
 }
 export type ReportDetailList = Array<ReportDetail>;
 /** Response message for `ListReportDetails`. */
@@ -534,10 +534,10 @@ export interface PatchProjectsLocationsDatasetConfigsRequest extends Omit<Datase
   name: string;
 }
 export interface PatchProjectsLocationsReportConfigsRequest extends Omit<ReportConfig, "name"> {
-  /** Identifier. Name of resource. Format: `projects/{project_id}/locations/{location}/reportConfigs/{report-config-id}`. */
-  name: string;
   /** Optional. A unique identifier for your request. Specify the request ID if you need to retry the request. If you retry the request with the same ID within 60 minutes, the server ignores the request if it has already completed the original request. For example, if your initial request times out and you retry the request using the same request ID, the server recognizes the original request and does not process the new request. The request ID must be a valid UUID and cannot be a zero UUID (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
+  /** Identifier. Name of resource. Format: `projects/{project_id}/locations/{location}/reportConfigs/{report-config-id}`. */
+  name: string;
   /** Required. A mask specifying a list of fields to be updated in the `ReportConfig` resource. The fields specified in the `update_mask` are relative to the resource, not the full request. A field is overwritten if it is in the mask. The `update_mask` is required. */
   updateMask?: string | undefined;
 }
@@ -1001,11 +1001,11 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          displayName: S.optional(S.String),
-          name: S.optional(S.String),
-          locationId: S.optional(S.String),
-          metadata: S.optional(__S(352, __c22, 0)),
           labels: S.optional(__S(320, __c20, 0)),
+          name: S.optional(S.String),
+          metadata: S.optional(__S(352, __c22, 0)),
+          displayName: S.optional(S.String),
+          locationId: S.optional(S.String),
         }),
       ).annotate({ identifier: "Location" });
   }
@@ -1086,15 +1086,15 @@ function __c6(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          minutes: S.optional(S.Number),
-          seconds: S.optional(S.Number),
-          hours: S.optional(S.Number),
-          utcOffset: S.optional(S.String),
           month: S.optional(S.Number),
-          year: S.optional(S.Number),
+          utcOffset: S.optional(S.String),
           day: S.optional(S.Number),
-          timeZone: S.optional(__S(96, __c6, 0)),
+          seconds: S.optional(S.Number),
+          year: S.optional(S.Number),
+          minutes: S.optional(S.Number),
+          hours: S.optional(S.Number),
           nanos: S.optional(S.Number),
+          timeZone: S.optional(__S(96, __c6, 0)),
         }),
       ).annotate({ identifier: "DateTime" });
     case 2:
@@ -1106,14 +1106,14 @@ function __c6(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
+          status: S.optional(__S(369, __c23, 1)),
+          name: S.optional(S.String),
           targetDatetime: S.optional(__S(97, __c6, 1)),
           shardsCount: S.optional(S.String),
-          name: S.optional(S.String),
-          labels: S.optional(__S(320, __c20, 0)),
-          status: S.optional(__S(369, __c23, 1)),
-          reportMetrics: S.optional(__S(98, __c6, 2)),
-          snapshotTime: S.optional(S.String),
           reportPathPrefix: S.optional(S.String),
+          reportMetrics: S.optional(__S(98, __c6, 2)),
+          labels: S.optional(__S(320, __c20, 0)),
+          snapshotTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "ReportDetail" });
   }
@@ -1142,9 +1142,9 @@ function __c8(j: number): any {
         S.Struct({
           filter: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           extraLocationTypes: S.optional(__S(336, __c21, 0).pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1158,8 +1158,8 @@ function __c8(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           locations: S.optional(__S(129, __c8, 1)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListLocationsResponse" });
   }
@@ -1169,11 +1169,11 @@ function __c9(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          orderBy: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          filter: S.optional(S.String.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1187,9 +1187,9 @@ function __c9(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          unreachable: S.optional(__S(336, __c21, 0)),
           datasetConfigs: S.optional(__S(145, __c9, 1)),
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(336, __c21, 0)),
         }),
       ).annotate({ identifier: "ListDatasetConfigsResponse" });
   }
@@ -1199,11 +1199,11 @@ function __c10(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
-          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          filter: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1230,10 +1230,10 @@ function __c11(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          orderBy: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1247,8 +1247,8 @@ function __c11(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(336, __c21, 0)),
           nextPageToken: S.optional(S.String),
+          unreachable: S.optional(__S(336, __c21, 0)),
           reportConfigs: S.optional(__S(177, __c11, 1)),
         }),
       ).annotate({ identifier: "ListReportConfigsResponse" });
@@ -1259,11 +1259,11 @@ function __c12(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           orderBy: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1312,8 +1312,8 @@ function __c14(j: number): any {
         S.Extend(
           __S(422, __c26, 6),
           S.Struct({
-            name: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
@@ -1373,9 +1373,9 @@ function __c18(j: number): any {
         S.Extend(
           __S(312, __c19, 8),
           S.Struct({
-            datasetConfigId: S.optional(S.String.pipe(T.Query())),
-            requestId: S.optional(S.String.pipe(T.Query())),
             parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            datasetConfigId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -1407,61 +1407,61 @@ function __c19(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
+          dataset: S.optional(S.String),
+          linked: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "Link" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
           locations: S.optional(__S(336, __c21, 0)),
         }),
       ).annotate({ identifier: "CloudStorageLocations" });
-    case 4:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           projectNumbers: S.optional(__S(336, __c21, 0)),
         }),
       ).annotate({ identifier: "SourceProjects" });
-    case 5:
+    case 6:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Identity" });
-    case 6:
+    case 7:
       return S.suspend(() =>
         S.Struct({
           folderNumbers: S.optional(__S(336, __c21, 0)),
         }),
       ).annotate({ identifier: "SourceFolders" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          dataset: S.optional(S.String),
-          linked: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "Link" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          includeCloudStorageBuckets: S.optional(__S(306, __c19, 2)),
-          organizationNumber: S.optional(S.String),
-          excludeCloudStorageBuckets: S.optional(__S(306, __c19, 2)),
-          name: S.optional(S.String),
-          excludeCloudStorageLocations: S.optional(__S(307, __c19, 3)),
-          sourceProjects: S.optional(__S(308, __c19, 4)),
-          createTime: S.optional(S.String),
-          status: S.optional(__S(369, __c23, 1)),
-          retentionPeriodDays: S.optional(S.Number),
-          identity: S.optional(__S(309, __c19, 5)),
-          includeNewlyCreatedBuckets: S.optional(S.Boolean),
-          datasetConfigState: S.optional(S.String),
-          description: S.optional(S.String),
-          uid: S.optional(S.String),
-          organizationScope: S.optional(S.Boolean),
-          activityDataRetentionPeriodDays: S.optional(S.Number),
-          updateTime: S.optional(S.String),
-          sourceFolders: S.optional(__S(310, __c19, 6)),
-          skipVerificationAndIngest: S.optional(S.Boolean),
-          link: S.optional(__S(311, __c19, 7)),
-          labels: S.optional(__S(320, __c20, 0)),
           cloudStorageObjectPath: S.optional(S.String),
-          includeCloudStorageLocations: S.optional(__S(307, __c19, 3)),
+          organizationScope: S.optional(S.Boolean),
+          labels: S.optional(__S(320, __c20, 0)),
+          excludeCloudStorageBuckets: S.optional(__S(306, __c19, 2)),
+          organizationNumber: S.optional(S.String),
+          includeNewlyCreatedBuckets: S.optional(S.Boolean),
+          uid: S.optional(S.String),
+          skipVerificationAndIngest: S.optional(S.Boolean),
+          createTime: S.optional(S.String),
+          link: S.optional(__S(307, __c19, 3)),
+          status: S.optional(__S(369, __c23, 1)),
+          excludeCloudStorageLocations: S.optional(__S(308, __c19, 4)),
+          activityDataRetentionPeriodDays: S.optional(S.Number),
+          sourceProjects: S.optional(__S(309, __c19, 5)),
+          updateTime: S.optional(S.String),
+          includeCloudStorageBuckets: S.optional(__S(306, __c19, 2)),
+          identity: S.optional(__S(310, __c19, 6)),
+          retentionPeriodDays: S.optional(S.Number),
+          description: S.optional(S.String),
+          sourceFolders: S.optional(__S(311, __c19, 7)),
+          name: S.optional(S.String),
+          datasetConfigState: S.optional(S.String),
+          includeCloudStorageLocations: S.optional(__S(308, __c19, 4)),
         }),
       ).annotate({ identifier: "DatasetConfig" });
   }
@@ -1491,8 +1491,8 @@ function __c23(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          code: S.optional(S.Number),
           details: S.optional(__S(368, __c23, 0)),
+          code: S.optional(S.Number),
           message: S.optional(S.String),
         }),
       ).annotate({ identifier: "Status" });
@@ -1504,10 +1504,10 @@ function __c24(j: number): any {
       return S.suspend(() =>
         S.Struct({
           done: S.optional(S.Boolean),
-          metadata: S.optional(__S(352, __c22, 0)),
           response: S.optional(__S(352, __c22, 0)),
           error: S.optional(__S(369, __c23, 1)),
           name: S.optional(S.String),
+          metadata: S.optional(__S(352, __c22, 0)),
         }),
       ).annotate({ identifier: "Operation" });
   }
@@ -1537,60 +1537,60 @@ function __c26(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          delimiter: S.optional(S.String),
-          recordSeparator: S.optional(S.String),
           headerRequired: S.optional(S.Boolean),
+          recordSeparator: S.optional(S.String),
+          delimiter: S.optional(S.String),
         }),
       ).annotate({ identifier: "CSVOptions" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          bucket: S.optional(S.String),
+          month: S.optional(S.Number),
+          day: S.optional(S.Number),
+          year: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "CloudStorageFilters" });
+      ).annotate({ identifier: "Storageinsights_Date" });
     case 2:
+      return S.suspend(() =>
+        S.Struct({
+          endDate: S.optional(__S(417, __c26, 1)),
+          frequency: S.optional(S.String),
+          startDate: S.optional(__S(417, __c26, 1)),
+        }),
+      ).annotate({ identifier: "FrequencyOptions" });
+    case 3:
       return S.suspend(() =>
         S.Struct({
           destinationPath: S.optional(S.String),
           bucket: S.optional(S.String),
         }),
       ).annotate({ identifier: "CloudStorageDestinationOptions" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          metadataFields: S.optional(__S(336, __c21, 0)),
-          storageFilters: S.optional(__S(417, __c26, 1)),
-          storageDestinationOptions: S.optional(__S(418, __c26, 2)),
-        }),
-      ).annotate({ identifier: "ObjectMetadataReportOptions" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          year: S.optional(S.Number),
-          month: S.optional(S.Number),
-          day: S.optional(S.Number),
+          bucket: S.optional(S.String),
         }),
-      ).annotate({ identifier: "Storageinsights_Date" });
+      ).annotate({ identifier: "CloudStorageFilters" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          startDate: S.optional(__S(420, __c26, 4)),
-          endDate: S.optional(__S(420, __c26, 4)),
-          frequency: S.optional(S.String),
+          storageDestinationOptions: S.optional(__S(419, __c26, 3)),
+          storageFilters: S.optional(__S(420, __c26, 4)),
+          metadataFields: S.optional(__S(336, __c21, 0)),
         }),
-      ).annotate({ identifier: "FrequencyOptions" });
+      ).annotate({ identifier: "ObjectMetadataReportOptions" });
     case 6:
       return S.suspend(() =>
         S.Struct({
+          parquetOptions: S.optional(__S(272, __c17, 0)),
+          createTime: S.optional(S.String),
+          labels: S.optional(__S(320, __c20, 0)),
           displayName: S.optional(S.String),
           csvOptions: S.optional(__S(416, __c26, 0)),
-          objectMetadataReportOptions: S.optional(__S(419, __c26, 3)),
-          parquetOptions: S.optional(__S(272, __c17, 0)),
-          name: S.optional(S.String),
           updateTime: S.optional(S.String),
-          labels: S.optional(__S(320, __c20, 0)),
-          frequencyOptions: S.optional(__S(421, __c26, 5)),
-          createTime: S.optional(S.String),
+          frequencyOptions: S.optional(__S(418, __c26, 2)),
+          name: S.optional(S.String),
+          objectMetadataReportOptions: S.optional(__S(421, __c26, 5)),
         }),
       ).annotate({ identifier: "ReportConfig" });
   }
@@ -1633,9 +1633,9 @@ function __c29(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           force: S.optional(S.Boolean.pipe(T.Query())),
+          requestId: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "DELETE",

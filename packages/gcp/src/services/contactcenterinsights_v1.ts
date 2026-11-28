@@ -128,39 +128,39 @@ export type GoogleCloudContactcenterinsightsV1ConversationQualityMetadataAgentIn
   | "ANY_AGENT";
 /** Information about an agent involved in the conversation. */
 export interface GoogleCloudContactcenterinsightsV1ConversationQualityMetadataAgentInfo {
-  /** The entry subagent's ID. */
-  entrySubagentId?: string | undefined;
-  /** The agent's version ID. Only applicable to automated agents. */
-  versionId?: string | undefined;
-  /** The study arm ID associated with the conversation. Only applicable to automated agents. */
-  studyArmId?: string | undefined;
-  /** The agent's deployment display name. Only applicable to automated agents. */
-  deploymentDisplayName?: string | undefined;
-  /** The agent's deployment ID. Only applicable to automated agents. */
-  deploymentId?: string | undefined;
-  /** A user-specified string representing the agent's team. Deprecated in favor of the `teams` field. */
-  team?: string | undefined;
-  /** User-specified strings representing the agent's teams. */
-  teams?: StringList | undefined;
-  /** The agent's name. */
-  displayName?: string | undefined;
-  /** A user-specified string representing the agent. */
-  agentId?: string | undefined;
-  /** The study ID associated with the conversation. Only applicable to automated agents. */
-  studyId?: string | undefined;
   /** The agent's version display name. Only applicable to automated agents. */
   versionDisplayName?: string | undefined;
+  /** The agent's version ID. Only applicable to automated agents. */
+  versionId?: string | undefined;
+  /** User-specified strings representing the agent's teams. */
+  teams?: StringList | undefined;
+  /** The entry subagent's display name. */
+  entrySubagentDisplayName?: string | undefined;
+  /** The study arm ID associated with the conversation. Only applicable to automated agents. */
+  studyArmId?: string | undefined;
+  /** A user-provided string indicating the outcome of the agent's segment of the call. */
+  dispositionCode?: string | undefined;
+  /** The agent's name. */
+  displayName?: string | undefined;
+  /** The agent's location. */
+  location?: string | undefined;
+  /** The entry subagent's ID. */
+  entrySubagentId?: string | undefined;
+  /** The study ID associated with the conversation. Only applicable to automated agents. */
+  studyId?: string | undefined;
+  /** The agent's deployment display name. Only applicable to automated agents. */
+  deploymentDisplayName?: string | undefined;
+  /** A user-specified string representing the agent. */
+  agentId?: string | undefined;
   /** The agent type, e.g. HUMAN_AGENT. */
   agentType?:
     | GoogleCloudContactcenterinsightsV1ConversationQualityMetadataAgentInfoAgentTypeEnum
     | (string & {})
     | undefined;
-  /** A user-provided string indicating the outcome of the agent's segment of the call. */
-  dispositionCode?: string | undefined;
-  /** The entry subagent's display name. */
-  entrySubagentDisplayName?: string | undefined;
-  /** The agent's location. */
-  location?: string | undefined;
+  /** The agent's deployment ID. Only applicable to automated agents. */
+  deploymentId?: string | undefined;
+  /** A user-specified string representing the agent's team. Deprecated in favor of the `teams` field. */
+  team?: string | undefined;
 }
 export type GoogleCloudContactcenterinsightsV1AssessmentStateEnum =
   | "STATE_UNSPECIFIED"
@@ -170,14 +170,14 @@ export type GoogleCloudContactcenterinsightsV1AssessmentStateEnum =
   | "FINALIZED";
 /** The assessment resource. */
 export interface GoogleCloudContactcenterinsightsV1Assessment {
-  /** Information about the agent the assessment is for. */
-  agentInfo?: GoogleCloudContactcenterinsightsV1ConversationQualityMetadataAgentInfo | undefined;
   /** Output only. The time at which the assessment was last updated. */
   updateTime?: string | undefined;
-  /** Identifier. The resource name of the assessment. Format: projects/{project}/locations/{location}/conversations/{conversation}/assessments/{assessment} */
-  name?: string | undefined;
+  /** Information about the agent the assessment is for. */
+  agentInfo?: GoogleCloudContactcenterinsightsV1ConversationQualityMetadataAgentInfo | undefined;
   /** Output only. The state of the assessment. */
   state?: GoogleCloudContactcenterinsightsV1AssessmentStateEnum | (string & {}) | undefined;
+  /** Identifier. The resource name of the assessment. Format: projects/{project}/locations/{location}/conversations/{conversation}/assessments/{assessment} */
+  name?: string | undefined;
   /** Output only. The time at which the assessment was created. */
   createTime?: string | undefined;
 }
@@ -193,15 +193,15 @@ export type GoogleCloudContactcenterinsightsV1AnnotatorSelectorSummarizationConf
   | "BASELINE_MODEL_V2_0";
 /** Configuration for summarization. */
 export interface GoogleCloudContactcenterinsightsV1AnnotatorSelectorSummarizationConfig {
+  /** The resource name of the existing created generator. Format: projects//locations//generators/ */
+  generator?: string | undefined;
+  /** Resource name of the Dialogflow conversation profile. Format: projects/{project}/locations/{location}/conversationProfiles/{conversation_profile} */
+  conversationProfile?: string | undefined;
   /** Default summarization model to be used. */
   summarizationModel?:
     | GoogleCloudContactcenterinsightsV1AnnotatorSelectorSummarizationConfigSummarizationModelEnum
     | (string & {})
     | undefined;
-  /** The resource name of the existing created generator. Format: projects//locations//generators/ */
-  generator?: string | undefined;
-  /** Resource name of the Dialogflow conversation profile. Format: projects/{project}/locations/{location}/conversationProfiles/{conversation_profile} */
-  conversationProfile?: string | undefined;
 }
 /** Container for a list of scorecards. */
 export interface GoogleCloudContactcenterinsightsV1AnnotatorSelectorQaConfigScorecardList {
@@ -217,36 +217,36 @@ export interface GoogleCloudContactcenterinsightsV1AnnotatorSelectorQaConfig {
 }
 /** Selector of all available annotators and phrase matchers to run. */
 export interface GoogleCloudContactcenterinsightsV1AnnotatorSelector {
+  /** The list of phrase matchers to run. If not provided, all active phrase matchers will be used. If inactive phrase matchers are provided, they will not be used. Phrase matchers will be run only if run_phrase_matcher_annotator is set to true. Format: projects/{project}/locations/{location}/phraseMatchers/{phrase_matcher} */
+  phraseMatchers?: StringList | undefined;
+  /** Whether to run the QA annotator. */
+  runQaAnnotator?: boolean | undefined;
+  /** The issue model to run. If not provided, the most recently deployed topic model will be used. The provided issue model will only be used for inference if the issue model is deployed and if run_issue_model_annotator is set to true. If more than one issue model is provided, only the first provided issue model will be used for inference. */
+  issueModels?: StringList | undefined;
+  /** Optional. Whether to run the auto-labeling annotator. If true, the auto-labeling annotator will be run. This is a non-billable operation designed for fixing or backfilling custom labels. */
+  runAutoLabelingAnnotator?: boolean | undefined;
+  /** Whether to run the issue model annotator. A model should have already been deployed for this to take effect. */
+  runIssueModelAnnotator?: boolean | undefined;
+  /** Whether to run the sentiment annotator. */
+  runSentimentAnnotator?: boolean | undefined;
+  /** Configuration for the summarization annotator. */
+  summarizationConfig?:
+    | GoogleCloudContactcenterinsightsV1AnnotatorSelectorSummarizationConfig
+    | undefined;
+  /** Whether to run the intent annotator. */
+  runIntentAnnotator?: boolean | undefined;
+  /** Configuration for the QA annotator. */
+  qaConfig?: GoogleCloudContactcenterinsightsV1AnnotatorSelectorQaConfig | undefined;
+  /** Whether to run the silence annotator. */
+  runSilenceAnnotator?: boolean | undefined;
   /** Whether to run the active phrase matcher annotator(s). */
   runPhraseMatcherAnnotator?: boolean | undefined;
   /** Whether to run the summarization annotator. */
   runSummarizationAnnotator?: boolean | undefined;
   /** Whether to run the interruption annotator. */
   runInterruptionAnnotator?: boolean | undefined;
-  /** Configuration for the summarization annotator. */
-  summarizationConfig?:
-    | GoogleCloudContactcenterinsightsV1AnnotatorSelectorSummarizationConfig
-    | undefined;
-  /** The list of phrase matchers to run. If not provided, all active phrase matchers will be used. If inactive phrase matchers are provided, they will not be used. Phrase matchers will be run only if run_phrase_matcher_annotator is set to true. Format: projects/{project}/locations/{location}/phraseMatchers/{phrase_matcher} */
-  phraseMatchers?: StringList | undefined;
   /** Whether to run the entity annotator. */
   runEntityAnnotator?: boolean | undefined;
-  /** Whether to run the QA annotator. */
-  runQaAnnotator?: boolean | undefined;
-  /** Whether to run the sentiment annotator. */
-  runSentimentAnnotator?: boolean | undefined;
-  /** Whether to run the silence annotator. */
-  runSilenceAnnotator?: boolean | undefined;
-  /** The issue model to run. If not provided, the most recently deployed topic model will be used. The provided issue model will only be used for inference if the issue model is deployed and if run_issue_model_annotator is set to true. If more than one issue model is provided, only the first provided issue model will be used for inference. */
-  issueModels?: StringList | undefined;
-  /** Configuration for the QA annotator. */
-  qaConfig?: GoogleCloudContactcenterinsightsV1AnnotatorSelectorQaConfig | undefined;
-  /** Whether to run the issue model annotator. A model should have already been deployed for this to take effect. */
-  runIssueModelAnnotator?: boolean | undefined;
-  /** Optional. Whether to run the auto-labeling annotator. If true, the auto-labeling annotator will be run. This is a non-billable operation designed for fixing or backfilling custom labels. */
-  runAutoLabelingAnnotator?: boolean | undefined;
-  /** Whether to run the intent annotator. */
-  runIntentAnnotator?: boolean | undefined;
 }
 /** The request to analyze conversations in bulk. */
 export interface GoogleCloudContactcenterinsightsV1BulkAnalyzeConversationsRequest {
@@ -254,10 +254,10 @@ export interface GoogleCloudContactcenterinsightsV1BulkAnalyzeConversationsReque
   relabel?: boolean | undefined;
   /** Required. Filter used to select the subset of conversations to analyze. */
   filter?: string | undefined;
-  /** Required. The parent resource to create analyses in. */
-  parent?: string | undefined;
   /** Required. Percentage of selected conversation to analyze, between [0, 100]. */
   analysisPercentage?: number | undefined;
+  /** Required. The parent resource to create analyses in. */
+  parent?: string | undefined;
   /** To select the annotators to run and the phrase matchers to use (if any). If not specified, all annotators will be run. */
   annotatorSelector?: GoogleCloudContactcenterinsightsV1AnnotatorSelector | undefined;
 }
@@ -272,25 +272,25 @@ export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface GoogleRpcStatus {
+  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
+  details?: DocumentMapList | undefined;
   /** The status code, which should be an enum value of google.rpc.Code. */
   code?: number | undefined;
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
   message?: string | undefined;
-  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface GoogleLongrunningOperation {
-  /** The error result of the operation in case of failure or cancellation. */
-  error?: GoogleRpcStatus | undefined;
-  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string | undefined;
-  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap | undefined;
-  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean | undefined;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
   metadata?: DocumentMap | undefined;
+  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
+  name?: string | undefined;
+  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
+  done?: boolean | undefined;
+  /** The error result of the operation in case of failure or cancellation. */
+  error?: GoogleRpcStatus | undefined;
+  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
+  response?: DocumentMap | undefined;
 }
 export interface BulkAnalyzeProjectsLocationsConversationsSegmentsRequest extends Omit<
   GoogleCloudContactcenterinsightsV1BulkAnalyzeConversationsRequest,
@@ -322,14 +322,14 @@ export interface BulkDeleteFeedbackLabelsProjectsLocationsDatasetsRequest extend
 }
 /** The request to delete conversations in bulk. */
 export interface GoogleCloudContactcenterinsightsV1BulkDeleteConversationsRequest {
-  /** Filter used to select the subset of conversations to delete. */
-  filter?: string | undefined;
-  /** Maximum number of conversations to delete. */
-  maxDeleteCount?: number | undefined;
-  /** If set to true, all of this conversation's analyses will also be deleted. Otherwise, the request will only succeed if the conversation has no analyses. */
-  force?: boolean | undefined;
   /** Required. The parent resource to delete conversations from. Format: projects/{project}/locations/{location} */
   parent?: string | undefined;
+  /** Filter used to select the subset of conversations to delete. */
+  filter?: string | undefined;
+  /** If set to true, all of this conversation's analyses will also be deleted. Otherwise, the request will only succeed if the conversation has no analyses. */
+  force?: boolean | undefined;
+  /** Maximum number of conversations to delete. */
+  maxDeleteCount?: number | undefined;
 }
 export interface BulkDeleteProjectsLocationsConversationsRequest extends Omit<
   GoogleCloudContactcenterinsightsV1BulkDeleteConversationsRequest,
@@ -347,10 +347,10 @@ export interface BulkDeleteProjectsLocationsDatasetsConversationsRequest extends
 }
 /** Google Sheets document details to write the feedback labels to. */
 export interface GoogleCloudContactcenterinsightsV1BulkDownloadFeedbackLabelsRequestSheetsDestination {
-  /** Required. The Google Sheets document to write the feedback labels to. Retrieved from Google Sheets URI. E.g. `https://docs.google.com/spreadsheets/d/1234567890` The spreadsheet must be shared with the Insights P4SA. The spreadsheet ID written to will be returned as `file_names` in the BulkDownloadFeedbackLabelsMetadata. */
-  spreadsheetUri?: string | undefined;
   /** Optional. The title of the new sheet to write the feedback labels to. */
   sheetTitle?: string | undefined;
+  /** Required. The Google Sheets document to write the feedback labels to. Retrieved from Google Sheets URI. E.g. `https://docs.google.com/spreadsheets/d/1234567890` The spreadsheet must be shared with the Insights P4SA. The spreadsheet ID written to will be returned as `file_names` in the BulkDownloadFeedbackLabelsMetadata. */
+  spreadsheetUri?: string | undefined;
 }
 export type GoogleCloudContactcenterinsightsV1BulkDownloadFeedbackLabelsRequestGcsDestinationFormatEnum =
   | "FORMAT_UNSPECIFIED"
@@ -358,19 +358,19 @@ export type GoogleCloudContactcenterinsightsV1BulkDownloadFeedbackLabelsRequestG
   | "JSON";
 /** Google Cloud Storage Object details to write the feedback labels to. */
 export interface GoogleCloudContactcenterinsightsV1BulkDownloadFeedbackLabelsRequestGcsDestination {
+  /** Optional. Always print fields with no presence. This is useful for printing fields that are not set, like implicit 0 value or empty lists/maps. Only applicable for JSON format. */
+  alwaysPrintEmptyFields?: boolean | undefined;
+  /** Optional. Add whitespace to the JSON file. Makes easier to read, but increases file size. Only applicable for JSON format. */
+  addWhitespace?: boolean | undefined;
+  /** Optional. The number of records per file. Applicable for either format. */
+  recordsPerFileCount?: string | undefined;
+  /** Required. The Google Cloud Storage URI to write the feedback labels to. The file name will be used as a prefix for the files written to the bucket if the output needs to be split across multiple files, otherwise it will be used as is. The file extension will be appended to the file name based on the format selected. E.g. `gs://bucket_name/object_uri_prefix` */
+  objectUri?: string | undefined;
   /** Required. File format in which the labels will be exported. */
   format?:
     | GoogleCloudContactcenterinsightsV1BulkDownloadFeedbackLabelsRequestGcsDestinationFormatEnum
     | (string & {})
     | undefined;
-  /** Optional. Always print fields with no presence. This is useful for printing fields that are not set, like implicit 0 value or empty lists/maps. Only applicable for JSON format. */
-  alwaysPrintEmptyFields?: boolean | undefined;
-  /** Required. The Google Cloud Storage URI to write the feedback labels to. The file name will be used as a prefix for the files written to the bucket if the output needs to be split across multiple files, otherwise it will be used as is. The file extension will be appended to the file name based on the format selected. E.g. `gs://bucket_name/object_uri_prefix` */
-  objectUri?: string | undefined;
-  /** Optional. Add whitespace to the JSON file. Makes easier to read, but increases file size. Only applicable for JSON format. */
-  addWhitespace?: boolean | undefined;
-  /** Optional. The number of records per file. Applicable for either format. */
-  recordsPerFileCount?: string | undefined;
 }
 export type GoogleCloudContactcenterinsightsV1BulkDownloadFeedbackLabelsRequestFeedbackLabelTypeEnum =
   | "FEEDBACK_LABEL_TYPE_UNSPECIFIED"
@@ -379,29 +379,29 @@ export type GoogleCloudContactcenterinsightsV1BulkDownloadFeedbackLabelsRequestF
   | "AGENT_ASSIST_SUMMARY";
 /** Request for the BulkDownloadFeedbackLabel endpoint. */
 export interface GoogleCloudContactcenterinsightsV1BulkDownloadFeedbackLabelsRequest {
+  /** Optional. Limits the maximum number of feedback labels that will be downloaded. The first `N` feedback labels will be downloaded. */
+  maxDownloadCount?: number | undefined;
   /** A sheets document destination. */
   sheetsDestination?:
     | GoogleCloudContactcenterinsightsV1BulkDownloadFeedbackLabelsRequestSheetsDestination
     | undefined;
-  /** Optional. A filter to reduce results to a specific subset. Supports disjunctions (OR) and conjunctions (AND). Supported fields: * `issue_model_id` * `qa_question_id` * `qa_scorecard_id` * `min_create_time` * `max_create_time` * `min_update_time` * `max_update_time` * `feedback_label_type`: QUALITY_AI, TOPIC_MODELING */
-  filter?: string | undefined;
+  /** Optional. Filter parent conversations to download feedback labels for. When specified, the feedback labels will be downloaded for the conversations that match the filter. If `template_qa_scorecard_id` is set, all the conversations that match the filter will be paired with the questions under the scorecard for labeling. */
+  conversationFilter?: string | undefined;
   /** A cloud storage bucket destination. */
   gcsDestination?:
     | GoogleCloudContactcenterinsightsV1BulkDownloadFeedbackLabelsRequestGcsDestination
     | undefined;
+  /** Required. The parent resource for new feedback labels. */
+  parent?: string | undefined;
+  /** Optional. A filter to reduce results to a specific subset. Supports disjunctions (OR) and conjunctions (AND). Supported fields: * `issue_model_id` * `qa_question_id` * `qa_scorecard_id` * `min_create_time` * `max_create_time` * `min_update_time` * `max_update_time` * `feedback_label_type`: QUALITY_AI, TOPIC_MODELING */
+  filter?: string | undefined;
   /** Optional. If set, a template for labeling conversations and scorecard questions will be created from the conversation_filter and the questions under the scorecard(s). The feedback label `filter` will be ignored. */
   templateQaScorecardId?: StringList | undefined;
-  /** Optional. Limits the maximum number of feedback labels that will be downloaded. The first `N` feedback labels will be downloaded. */
-  maxDownloadCount?: number | undefined;
   /** Optional. The type of feedback labels that will be downloaded. */
   feedbackLabelType?:
     | GoogleCloudContactcenterinsightsV1BulkDownloadFeedbackLabelsRequestFeedbackLabelTypeEnum
     | (string & {})
     | undefined;
-  /** Required. The parent resource for new feedback labels. */
-  parent?: string | undefined;
-  /** Optional. Filter parent conversations to download feedback labels for. When specified, the feedback labels will be downloaded for the conversations that match the filter. If `template_qa_scorecard_id` is set, all the conversations that match the filter will be paired with the questions under the scorecard for labeling. */
-  conversationFilter?: string | undefined;
 }
 export interface BulkDownloadFeedbackLabelsProjectsLocationsRequest extends Omit<
   GoogleCloudContactcenterinsightsV1BulkDownloadFeedbackLabelsRequest,
@@ -417,37 +417,37 @@ export interface BulkDownloadFeedbackLabelsProjectsLocationsDatasetsRequest exte
   /** Required. The parent resource for new feedback labels. */
   parent: string;
 }
+/** Google Sheets document details to get the feedback label file from. */
+export interface GoogleCloudContactcenterinsightsV1BulkUploadFeedbackLabelsRequestSheetsSource {
+  /** Required. The Google Sheets document to write the feedback labels to. Retrieved from Google Sheets URI. E.g. `https://docs.google.com/spreadsheets/d/1234567890` The spreadsheet must be shared with the Insights P4SA. */
+  spreadsheetUri?: string | undefined;
+}
 export type GoogleCloudContactcenterinsightsV1BulkUploadFeedbackLabelsRequestGcsSourceFormatEnum =
   | "FORMAT_UNSPECIFIED"
   | "CSV"
   | "JSON";
 /** Google Cloud Storage Object details to get the feedback label file from. */
 export interface GoogleCloudContactcenterinsightsV1BulkUploadFeedbackLabelsRequestGcsSource {
+  /** Required. The Google Cloud Storage URI of the file to import. Format: `gs://bucket_name/object_name` */
+  objectUri?: string | undefined;
   /** Required. File format which will be ingested. */
   format?:
     | GoogleCloudContactcenterinsightsV1BulkUploadFeedbackLabelsRequestGcsSourceFormatEnum
     | (string & {})
     | undefined;
-  /** Required. The Google Cloud Storage URI of the file to import. Format: `gs://bucket_name/object_name` */
-  objectUri?: string | undefined;
-}
-/** Google Sheets document details to get the feedback label file from. */
-export interface GoogleCloudContactcenterinsightsV1BulkUploadFeedbackLabelsRequestSheetsSource {
-  /** Required. The Google Sheets document to write the feedback labels to. Retrieved from Google Sheets URI. E.g. `https://docs.google.com/spreadsheets/d/1234567890` The spreadsheet must be shared with the Insights P4SA. */
-  spreadsheetUri?: string | undefined;
 }
 /** The request for bulk uploading feedback labels. */
 export interface GoogleCloudContactcenterinsightsV1BulkUploadFeedbackLabelsRequest {
-  /** A cloud storage bucket source. */
-  gcsSource?:
-    | GoogleCloudContactcenterinsightsV1BulkUploadFeedbackLabelsRequestGcsSource
-    | undefined;
   /** A sheets document source. */
   sheetsSource?:
     | GoogleCloudContactcenterinsightsV1BulkUploadFeedbackLabelsRequestSheetsSource
     | undefined;
   /** Optional. If set, upload will not happen and the labels will be validated. If not set, then default behavior will be to upload the labels after validation is complete. */
   validateOnly?: boolean | undefined;
+  /** A cloud storage bucket source. */
+  gcsSource?:
+    | GoogleCloudContactcenterinsightsV1BulkUploadFeedbackLabelsRequestGcsSource
+    | undefined;
 }
 export interface BulkUploadFeedbackLabelsProjectsLocationsRequest extends GoogleCloudContactcenterinsightsV1BulkUploadFeedbackLabelsRequest {
   /** Required. The parent resource for new feedback labels. */
@@ -475,10 +475,10 @@ export type GoogleCloudContactcenterinsightsV1IssueModelLabelStatsIssueStatsMap 
 };
 /** Aggregated statistics about an issue model. */
 export interface GoogleCloudContactcenterinsightsV1IssueModelLabelStats {
-  /** Number of analyzed conversations for which no issue was applicable at this point in time. */
-  unclassifiedConversationsCount?: string | undefined;
   /** Number of conversations the issue model has analyzed at this point in time. */
   analyzedConversationsCount?: string | undefined;
+  /** Number of analyzed conversations for which no issue was applicable at this point in time. */
+  unclassifiedConversationsCount?: string | undefined;
   /** Statistics on each issue. Key is the issue's resource name. */
   issueStats?: GoogleCloudContactcenterinsightsV1IssueModelLabelStatsIssueStatsMap | undefined;
 }
@@ -488,11 +488,12 @@ export interface GoogleCloudContactcenterinsightsV1CalculateIssueModelStatsRespo
   currentStats?: GoogleCloudContactcenterinsightsV1IssueModelLabelStats | undefined;
 }
 export interface CalculateStatsProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsRequest {
-  /** Required. The location of the conversations. */
-  location: string;
   /** A filter to reduce results to a specific subset. This field is useful for getting statistics about conversations with specific properties. */
   filter?: string | undefined;
+  /** Required. The location of the conversations. */
+  location: string;
 }
+export type IntegerMap = { [key: string]: number | undefined };
 /** A single interval in a time series. */
 export interface GoogleCloudContactcenterinsightsV1CalculateStatsResponseTimeSeriesInterval {
   /** The start time of this interval. */
@@ -511,35 +512,34 @@ export interface GoogleCloudContactcenterinsightsV1CalculateStatsResponseTimeSer
     | GoogleCloudContactcenterinsightsV1CalculateStatsResponseTimeSeriesIntervalList
     | undefined;
 }
-export type IntegerMap = { [key: string]: number | undefined };
 /** The response for calculating conversation statistics. */
 export interface GoogleCloudContactcenterinsightsV1CalculateStatsResponse {
-  /** The average duration of all conversations. The average is calculated using only conversations that have a time duration. */
-  averageDuration?: string | undefined;
-  /** The average number of turns per conversation. */
-  averageTurnCount?: number | undefined;
   /** A map associating each issue resource name with its respective number of matches in the set of conversations. Key has the format: `projects//locations//issueModels//issues/` */
   issueMatchesStats?:
     | GoogleCloudContactcenterinsightsV1IssueModelLabelStatsIssueStatsMap
     | undefined;
+  /** A map associating each custom highlighter resource name with its respective number of matches in the set of conversations. */
+  customHighlighterMatches?: IntegerMap | undefined;
+  /** The average duration of all conversations. The average is calculated using only conversations that have a time duration. */
+  averageDuration?: string | undefined;
   /** A time series representing the count of conversations created over time that match that requested filter criteria. */
   conversationCountTimeSeries?:
     | GoogleCloudContactcenterinsightsV1CalculateStatsResponseTimeSeries
     | undefined;
-  /** A map associating each issue resource name with its respective number of matches in the set of conversations. Key has the format: `projects//locations//issueModels//issues/` Deprecated, use `issue_matches_stats` field instead. */
-  issueMatches?: IntegerMap | undefined;
-  /** A map associating each smart highlighter display name with its respective number of matches in the set of conversations. */
-  smartHighlighterMatches?: IntegerMap | undefined;
   /** The total number of conversations. */
   conversationCount?: number | undefined;
-  /** A map associating each custom highlighter resource name with its respective number of matches in the set of conversations. */
-  customHighlighterMatches?: IntegerMap | undefined;
+  /** A map associating each smart highlighter display name with its respective number of matches in the set of conversations. */
+  smartHighlighterMatches?: IntegerMap | undefined;
+  /** A map associating each issue resource name with its respective number of matches in the set of conversations. Key has the format: `projects//locations//issueModels//issues/` Deprecated, use `issue_matches_stats` field instead. */
+  issueMatches?: IntegerMap | undefined;
+  /** The average number of turns per conversation. */
+  averageTurnCount?: number | undefined;
 }
 export interface CalculateStatsProjectsLocationsConversationsRequest {
-  /** A filter to reduce results to a specific subset. This field is useful for getting statistics about conversations with specific properties. */
-  filter?: string | undefined;
   /** Required. The location of the conversations. */
   location: string;
+  /** A filter to reduce results to a specific subset. This field is useful for getting statistics about conversations with specific properties. */
+  filter?: string | undefined;
 }
 /** The request for calculating conversation statistics. */
 export interface GoogleCloudContactcenterinsightsV1CalculateStatsRequest {
@@ -562,24 +562,24 @@ export interface CancelProjectsLocationsOperationsRequest {
 }
 /** The CCAI Insights project wide analysis rule. This rule will be applied to all conversations that match the filter defined in the rule. For a conversation matches the filter, the annotators specified in the rule will be run. If a conversation matches multiple rules, a union of all the annotators will be run. One project can have multiple analysis rules. */
 export interface GoogleCloudContactcenterinsightsV1AnalysisRule {
-  /** Percentage of conversations that we should apply this analysis setting automatically, between [0, 1]. For example, 0.1 means 10%. Conversations are sampled in a determenestic way. The original runtime_percentage & upload percentage will be replaced by defining filters on the conversation. */
-  analysisPercentage?: number | undefined;
-  /** Identifier. The resource name of the analysis rule. Format: projects/{project}/locations/{location}/analysisRules/{analysis_rule} */
-  name?: string | undefined;
+  /** Filter for the conversations that should apply this analysis rule. An empty filter means this analysis rule applies to all conversations. Refer to https://cloud.google.com/contact-center/insights/docs/filtering for details. */
+  conversationFilter?: string | undefined;
   /** Output only. Whether this resource is zone isolated. */
   satisfiesPzi?: boolean | undefined;
+  /** Identifier. The resource name of the analysis rule. Format: projects/{project}/locations/{location}/analysisRules/{analysis_rule} */
+  name?: string | undefined;
+  /** Output only. The time at which this analysis rule was created. */
+  createTime?: string | undefined;
+  /** Output only. The most recent time at which this analysis rule was updated. */
+  updateTime?: string | undefined;
+  /** Percentage of conversations that we should apply this analysis setting automatically, between [0, 1]. For example, 0.1 means 10%. Conversations are sampled in a determenestic way. The original runtime_percentage & upload percentage will be replaced by defining filters on the conversation. */
+  analysisPercentage?: number | undefined;
+  /** Display Name of the analysis rule. */
+  displayName?: string | undefined;
   /** Selector of annotators to run and the phrase matchers to use for conversations that matches the conversation_filter. If not specified, NO annotators will be run. */
   annotatorSelector?: GoogleCloudContactcenterinsightsV1AnnotatorSelector | undefined;
   /** Output only. Whether this resource is zone separated. */
   satisfiesPzs?: boolean | undefined;
-  /** Output only. The most recent time at which this analysis rule was updated. */
-  updateTime?: string | undefined;
-  /** Filter for the conversations that should apply this analysis rule. An empty filter means this analysis rule applies to all conversations. Refer to https://cloud.google.com/contact-center/insights/docs/filtering for details. */
-  conversationFilter?: string | undefined;
-  /** Display Name of the analysis rule. */
-  displayName?: string | undefined;
-  /** Output only. The time at which this analysis rule was created. */
-  createTime?: string | undefined;
   /** If true, apply this rule to conversations. Otherwise, this rule is inactive and saved as a draft. */
   active?: boolean | undefined;
 }
@@ -589,90 +589,90 @@ export interface CreateProjectsLocationsAnalysisRulesRequest extends GoogleCloud
 }
 /** Message for sampling conversations. */
 export interface GoogleCloudContactcenterinsightsV1SampleRule {
-  /** Optional. Group by dimension to sample the conversation. If no dimension is provided, the sampling will be applied to the project level. Current supported dimensions is 'quality_metadata.agent_info.agent_id'. */
-  dimension?: string | undefined;
-  /** To specify the filter for the conversions that should apply this sample rule. An empty filter means this sample rule applies to all conversations. */
-  conversationFilter?: string | undefined;
   /** Number of the conversations that we should sample based on the dimension. */
   sampleRow?: string | undefined;
+  /** To specify the filter for the conversions that should apply this sample rule. An empty filter means this sample rule applies to all conversations. */
+  conversationFilter?: string | undefined;
+  /** Optional. Group by dimension to sample the conversation. If no dimension is provided, the sampling will be applied to the project level. Current supported dimensions is 'quality_metadata.agent_info.agent_id'. */
+  dimension?: string | undefined;
   /** Percentage of conversations that we should sample based on the dimension between [0, 100]. */
   samplePercentage?: number | undefined;
 }
 /** Message for schedule info. */
 export interface GoogleCloudContactcenterinsightsV1ScheduleInfo {
-  /** End time of the schedule. If not specified, will keep scheduling new pipelines for execution util the schedule is no longer active or deleted. */
-  endTime?: string | undefined;
-  /** The timezone to use for the groc expression. If not specified, defaults to UTC. */
-  timeZone?: string | undefined;
-  /** Start time of the schedule. If not specified, will start as soon as the schedule is created. */
-  startTime?: string | undefined;
   /** The groc expression. Format: `every number [synchronized]` Time units can be: minutes, hours Synchronized is optional and indicates that the schedule should be synchronized to the start of the interval: every 5 minutes synchronized means 00:00, 00:05 ... Otherwise the start time is random within the interval. Example: `every 5 minutes` could be 00:02, 00:07, 00:12, ... */
   schedule?: string | undefined;
+  /** Start time of the schedule. If not specified, will start as soon as the schedule is created. */
+  startTime?: string | undefined;
+  /** The timezone to use for the groc expression. If not specified, defaults to UTC. */
+  timeZone?: string | undefined;
+  /** End time of the schedule. If not specified, will keep scheduling new pipelines for execution util the schedule is no longer active or deleted. */
+  endTime?: string | undefined;
 }
 /** The CCAI Insights project wide assessment rule. This assessment rule will be applied to all conversations from the previous sampling cycle that match the sample rule defined in the assessment rule. One project can have multiple assessment rules. */
 export interface GoogleCloudContactcenterinsightsV1AssessmentRule {
-  /** Output only. The most recent time at which this assessment rule was updated. */
-  updateTime?: string | undefined;
-  /** If true, apply this rule to conversations. Otherwise, this rule is inactive. */
-  active?: boolean | undefined;
   /** Output only. The time at which this assessment rule was created. */
   createTime?: string | undefined;
-  /** Display Name of the assessment rule. */
-  displayName?: string | undefined;
   /** The sample rule for the assessment rule. */
   sampleRule?: GoogleCloudContactcenterinsightsV1SampleRule | undefined;
   /** Identifier. The resource name of the assessment rule. Format: projects/{project}/locations/{location}/assessmentRules/{assessment_rule} */
   name?: string | undefined;
-  /** Output only. Whether this resource is zone isolated. */
-  satisfiesPzi?: boolean | undefined;
-  /** Schedule info for the assessment rule. */
-  scheduleInfo?: GoogleCloudContactcenterinsightsV1ScheduleInfo | undefined;
   /** Output only. Whether this resource is zone separated. */
   satisfiesPzs?: boolean | undefined;
-}
-export interface CreateProjectsLocationsAssessmentRulesRequest extends GoogleCloudContactcenterinsightsV1AssessmentRule {
-  /** Optional. A unique ID for the new AssessmentRule. This ID will become the final component of the AssessmentRule's resource name. If no ID is specified, a server-generated ID will be used. This value should be 4-64 characters and must match the regular expression `^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$`. */
-  assessmentRuleId?: string | undefined;
-  /** Required. The parent resource of the assessment rule. Required. The location to create a assessment rule for. Format: `projects//locations/` or `projects//locations/` */
-  parent: string;
-}
-/** An AuthorizedViewSet contains a set of AuthorizedView resources. */
-export interface GoogleCloudContactcenterinsightsV1AuthorizedViewSet {
-  /** Output only. Update time. */
+  /** Schedule info for the assessment rule. */
+  scheduleInfo?: GoogleCloudContactcenterinsightsV1ScheduleInfo | undefined;
+  /** Output only. The most recent time at which this assessment rule was updated. */
   updateTime?: string | undefined;
   /** Output only. Whether this resource is zone isolated. */
   satisfiesPzi?: boolean | undefined;
-  /** Display Name. Limit 64 characters. */
+  /** Display Name of the assessment rule. */
   displayName?: string | undefined;
-  /** Output only. Whether this resource is zone separated. */
-  satisfiesPzs?: boolean | undefined;
+  /** If true, apply this rule to conversations. Otherwise, this rule is inactive. */
+  active?: boolean | undefined;
+}
+export interface CreateProjectsLocationsAssessmentRulesRequest extends GoogleCloudContactcenterinsightsV1AssessmentRule {
+  /** Required. The parent resource of the assessment rule. Required. The location to create a assessment rule for. Format: `projects//locations/` or `projects//locations/` */
+  parent: string;
+  /** Optional. A unique ID for the new AssessmentRule. This ID will become the final component of the AssessmentRule's resource name. If no ID is specified, a server-generated ID will be used. This value should be 4-64 characters and must match the regular expression `^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$`. */
+  assessmentRuleId?: string | undefined;
+}
+/** An AuthorizedViewSet contains a set of AuthorizedView resources. */
+export interface GoogleCloudContactcenterinsightsV1AuthorizedViewSet {
   /** Output only. Create time. */
   createTime?: string | undefined;
+  /** Display Name. Limit 64 characters. */
+  displayName?: string | undefined;
   /** Identifier. The resource name of the AuthorizedViewSet. Format: projects/{project}/locations/{location}/authorizedViewSets/{authorized_view_set} */
   name?: string | undefined;
+  /** Output only. Whether this resource is zone isolated. */
+  satisfiesPzi?: boolean | undefined;
+  /** Output only. Whether this resource is zone separated. */
+  satisfiesPzs?: boolean | undefined;
+  /** Output only. Update time. */
+  updateTime?: string | undefined;
 }
 export interface CreateProjectsLocationsAuthorizedViewSetsRequest extends GoogleCloudContactcenterinsightsV1AuthorizedViewSet {
-  /** Optional. A unique ID for the new AuthorizedViewSet. This ID will become the final component of the AuthorizedViewSet's resource name. If no ID is specified, a server-generated ID will be used. This value should be 4-64 characters and must match the regular expression `^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$`. See https://google.aip.dev/122#resource-id-segments */
-  authorizedViewSetId?: string | undefined;
   /** Required. The parent resource of the AuthorizedViewSet. */
   parent: string;
+  /** Optional. A unique ID for the new AuthorizedViewSet. This ID will become the final component of the AuthorizedViewSet's resource name. If no ID is specified, a server-generated ID will be used. This value should be 4-64 characters and must match the regular expression `^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$`. See https://google.aip.dev/122#resource-id-segments */
+  authorizedViewSetId?: string | undefined;
 }
 /** An AuthorizedView represents a view of accessible Insights resources (for example, Conversation and Scorecard). Who have read access to the AuthorizedView resource will have access to these Insight resources as well. */
 export interface GoogleCloudContactcenterinsightsV1AuthorizedView {
-  /** Output only. The time at which the authorized view was created. */
-  createTime?: string | undefined;
   /** Output only. Whether this resource is zone isolated. */
   satisfiesPzi?: boolean | undefined;
   /** A filter to reduce conversation results to a specific subset. The AuthorizedView's assigned permission (read/write) could be applied to the subset of conversations. If conversation_filter is empty, there is no restriction on the conversations that the AuthorizedView can access. Having *authorizedViews.get* access to the AuthorizedView means having the same read/write access to the Conversations (as well as metadata/annotations linked to the conversation) that this AuthorizedView has. */
   conversationFilter?: string | undefined;
   /** Display Name. Limit 64 characters. */
   displayName?: string | undefined;
+  /** Output only. The most recent time at which the authorized view was updated. */
+  updateTime?: string | undefined;
+  /** Output only. The time at which the authorized view was created. */
+  createTime?: string | undefined;
   /** Output only. Whether this resource is zone separated. */
   satisfiesPzs?: boolean | undefined;
   /** Identifier. The resource name of the AuthorizedView. Format: projects/{project}/locations/{location}/authorizedViewSets/{authorized_view_set}/authorizedViews/{authorized_view} */
   name?: string | undefined;
-  /** Output only. The most recent time at which the authorized view was updated. */
-  updateTime?: string | undefined;
 }
 export interface CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest extends GoogleCloudContactcenterinsightsV1AuthorizedView {
   /** Optional. A unique ID for the new AuthorizedView. This ID will become the final component of the AuthorizedView's resource name. If no ID is specified, a server-generated ID will be used. This value should be 4-64 characters and must match the regular expression `^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$`. See https://google.aip.dev/122#resource-id-segments */
@@ -684,14 +684,6 @@ export interface CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsConvers
   /** Required. The parent resource of the assessment. */
   parent: string;
 }
-/** A note about the entire parent assessment. */
-export type GoogleCloudContactcenterinsightsV1NoteAssessmentNote =
-  GoogleCloudContactcenterinsightsV1AppealAssessmentRequest;
-/** Information about a user. */
-export interface GoogleCloudContactcenterinsightsV1UserInfo {
-  /** The user's username. */
-  username?: string | undefined;
-}
 /** A note about a QA question. */
 export interface GoogleCloudContactcenterinsightsV1NoteQaQuestionNote {
   /** The question resource that the note is associated with. */
@@ -702,24 +694,32 @@ export interface GoogleCloudContactcenterinsightsV1NoteConversationTurnNote {
   /** The conversation turn index that the note is associated with. */
   turnIndex?: number | undefined;
 }
+/** Information about a user. */
+export interface GoogleCloudContactcenterinsightsV1UserInfo {
+  /** The user's username. */
+  username?: string | undefined;
+}
+/** A note about the entire parent assessment. */
+export type GoogleCloudContactcenterinsightsV1NoteAssessmentNote =
+  GoogleCloudContactcenterinsightsV1AppealAssessmentRequest;
 /** The conversation assessment note resource. */
 export interface GoogleCloudContactcenterinsightsV1Note {
-  /** Identifier. The resource name of the note. Format: projects/{project}/locations/{location}/conversations/{conversation}/assessments/{assessment}/notes/{note} */
-  name?: string | undefined;
-  /** The note is associated to the entire parent assessment. */
-  assessmentNote?: GoogleCloudContactcenterinsightsV1AppealAssessmentRequest | undefined;
-  /** Output only. The time at which the note was last updated. */
-  updateTime?: string | undefined;
-  /** Output only. The user that created the note. */
-  noteCreator?: GoogleCloudContactcenterinsightsV1UserInfo | undefined;
-  /** Output only. The time at which the note was created. */
-  createTime?: string | undefined;
-  /** The note is associated with a QA question in one of the conversation's scorecard results. */
-  qaQuestionNote?: GoogleCloudContactcenterinsightsV1NoteQaQuestionNote | undefined;
-  /** The note is associated with a conversation turn. */
-  conversationTurnNote?: GoogleCloudContactcenterinsightsV1NoteConversationTurnNote | undefined;
   /** The note content. */
   content?: string | undefined;
+  /** Identifier. The resource name of the note. Format: projects/{project}/locations/{location}/conversations/{conversation}/assessments/{assessment}/notes/{note} */
+  name?: string | undefined;
+  /** The note is associated with a QA question in one of the conversation's scorecard results. */
+  qaQuestionNote?: GoogleCloudContactcenterinsightsV1NoteQaQuestionNote | undefined;
+  /** Output only. The time at which the note was last updated. */
+  updateTime?: string | undefined;
+  /** Output only. The time at which the note was created. */
+  createTime?: string | undefined;
+  /** The note is associated with a conversation turn. */
+  conversationTurnNote?: GoogleCloudContactcenterinsightsV1NoteConversationTurnNote | undefined;
+  /** Output only. The user that created the note. */
+  noteCreator?: GoogleCloudContactcenterinsightsV1UserInfo | undefined;
+  /** The note is associated to the entire parent assessment. */
+  assessmentNote?: GoogleCloudContactcenterinsightsV1AppealAssessmentRequest | undefined;
 }
 export interface CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsNotesRequest extends GoogleCloudContactcenterinsightsV1Note {
   /** Required. The parent resource of the note. */
@@ -727,49 +727,49 @@ export interface CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsConvers
 }
 /** Message for holding the value of a QaAnswer. QaQuestion.AnswerChoice defines the possible answer values for a question. */
 export interface GoogleCloudContactcenterinsightsV1QaAnswerAnswerValue {
-  /** Output only. A value of "Skip". If provided, this field may only be set to `true`. If a question receives this answer, it will be excluded from any score calculations. This would mean that the question was not evaluated. */
-  skipValue?: boolean | undefined;
-  /** Output only. Normalized score of the questions. Calculated as score / potential_score. */
-  normalizedScore?: number | undefined;
-  /** A short string used as an identifier. Matches the value used in QaQuestion.AnswerChoice.key. */
-  key?: string | undefined;
-  /** Numerical value. */
-  numValue?: number | undefined;
-  /** A value of "Not Applicable (N/A)". Should only ever be `true`. */
-  naValue?: boolean | undefined;
-  /** Boolean value. */
-  boolValue?: boolean | undefined;
   /** String value. */
   strValue?: string | undefined;
+  /** Boolean value. */
+  boolValue?: boolean | undefined;
+  /** A short string used as an identifier. Matches the value used in QaQuestion.AnswerChoice.key. */
+  key?: string | undefined;
+  /** Output only. Normalized score of the questions. Calculated as score / potential_score. */
+  normalizedScore?: number | undefined;
+  /** A value of "Not Applicable (N/A)". Should only ever be `true`. */
+  naValue?: boolean | undefined;
   /** Output only. Numerical score of the answer. */
   score?: number | undefined;
   /** Output only. The maximum potential score of the question. */
   potentialScore?: number | undefined;
+  /** Numerical value. */
+  numValue?: number | undefined;
+  /** Output only. A value of "Skip". If provided, this field may only be set to `true`. If a question receives this answer, it will be excluded from any score calculations. This would mean that the question was not evaluated. */
+  skipValue?: boolean | undefined;
 }
 /** Represents a conversation, resource, and label provided by the user. Can take the form of a string label or a QaAnswer label. QaAnswer labels are used for Quality AI example conversations. String labels are used for Topic Modeling. AgentAssistSummary labels are used for Agent Assist Summarization. */
 export interface GoogleCloudContactcenterinsightsV1FeedbackLabel {
-  /** String label used for Topic Modeling. */
-  label?: string | undefined;
-  /** Output only. Whether this resource is zone isolated. */
-  satisfiesPzi?: boolean | undefined;
   /** QaAnswer label used for Quality AI example conversations. */
   qaAnswerLabel?: GoogleCloudContactcenterinsightsV1QaAnswerAnswerValue | undefined;
-  /** Output only. Create time of the label. */
-  createTime?: string | undefined;
-  /** Immutable. Resource name of the FeedbackLabel. Format: projects/{project}/locations/{location}/conversations/{conversation}/feedbackLabels/{feedback_label} */
-  name?: string | undefined;
   /** Name of the resource to be labeled. Supported resources are: * `projects/{project}/locations/{location}/qaScorecards/{scorecard}/revisions/{revision}/qaQuestions/{question}` * `projects/{project}/locations/{location}/issueModels/{issue_model}` * `projects/{project}/locations/{location}/generators/{generator_id}` */
   labeledResource?: string | undefined;
   /** Output only. Update time of the label. */
   updateTime?: string | undefined;
+  /** String label used for Topic Modeling. */
+  label?: string | undefined;
   /** Output only. Whether this resource is zone separated. */
   satisfiesPzs?: boolean | undefined;
+  /** Output only. Whether this resource is zone isolated. */
+  satisfiesPzi?: boolean | undefined;
+  /** Immutable. Resource name of the FeedbackLabel. Format: projects/{project}/locations/{location}/conversations/{conversation}/feedbackLabels/{feedback_label} */
+  name?: string | undefined;
+  /** Output only. Create time of the label. */
+  createTime?: string | undefined;
 }
 export interface CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabelsRequest extends GoogleCloudContactcenterinsightsV1FeedbackLabel {
-  /** Required. The parent resource of the feedback label. */
-  parent: string;
   /** Optional. The ID of the feedback label to create. If one is not specified it will be generated by the server. */
   feedbackLabelId?: string | undefined;
+  /** Required. The parent resource of the feedback label. */
+  parent: string;
 }
 export type GoogleCloudContactcenterinsightsV1AutoLabelingRuleLabelKeyTypeEnum =
   | "LABEL_KEY_TYPE_UNSPECIFIED"
@@ -785,93 +785,252 @@ export type GoogleCloudContactcenterinsightsV1AutoLabelingRuleLabelingConditionL
   Array<GoogleCloudContactcenterinsightsV1AutoLabelingRuleLabelingCondition>;
 /** Rule for auto-labeling conversations. */
 export interface GoogleCloudContactcenterinsightsV1AutoLabelingRule {
-  /** The label key. This is also the {auto_labeling_rule} in the resource name. Only settable if label_key_type is LABEL_KEY_TYPE_CUSTOM. */
-  labelKey?: string | undefined;
   /** The type of the label key. */
   labelKeyType?:
     | GoogleCloudContactcenterinsightsV1AutoLabelingRuleLabelKeyTypeEnum
     | (string & {})
     | undefined;
-  /** Output only. The time at which this rule was created. */
-  createTime?: string | undefined;
-  /** The description of the rule. */
-  description?: string | undefined;
-  /** Output only. The most recent time at which the rule was updated. */
-  updateTime?: string | undefined;
-  /** The user-provided display name of the rule. */
-  displayName?: string | undefined;
-  /** Conditions to apply for auto-labeling the label_key. Representing sequential block of if .. else if .. else statements. The value of the first matching condition will be used. */
-  conditions?: GoogleCloudContactcenterinsightsV1AutoLabelingRuleLabelingConditionList | undefined;
   /** Identifier. The resource name of the auto-labeling rule. Format: projects/{project}/locations/{location}/autoLabelingRules/{auto_labeling_rule} */
   name?: string | undefined;
+  /** Conditions to apply for auto-labeling the label_key. Representing sequential block of if .. else if .. else statements. The value of the first matching condition will be used. */
+  conditions?: GoogleCloudContactcenterinsightsV1AutoLabelingRuleLabelingConditionList | undefined;
   /** Whether the rule is active. */
   active?: boolean | undefined;
+  /** Output only. The most recent time at which the rule was updated. */
+  updateTime?: string | undefined;
+  /** Output only. The time at which this rule was created. */
+  createTime?: string | undefined;
+  /** The user-provided display name of the rule. */
+  displayName?: string | undefined;
+  /** The label key. This is also the {auto_labeling_rule} in the resource name. Only settable if label_key_type is LABEL_KEY_TYPE_CUSTOM. */
+  labelKey?: string | undefined;
+  /** The description of the rule. */
+  description?: string | undefined;
 }
 export interface CreateProjectsLocationsAutoLabelingRulesRequest extends GoogleCloudContactcenterinsightsV1AutoLabelingRule {
-  /** Required. The project and location to create the auto labeling rule in. Format: projects/{project}/locations/{location} */
-  parent: string;
   /** Required. The ID to use for the auto labeling rule, which will become the final component of the auto labeling rule's resource name. */
   autoLabelingRuleId?: string | undefined;
+  /** Required. The project and location to create the auto labeling rule in. Format: projects/{project}/locations/{location} */
+  parent: string;
+}
+/** Call-specific metadata. */
+export interface GoogleCloudContactcenterinsightsV1ConversationCallMetadata {
+  /** The audio channel that contains the agent. */
+  agentChannel?: number | undefined;
+  /** The audio channel that contains the customer. */
+  customerChannel?: number | undefined;
 }
 export type StringMap = { [key: string]: string | undefined };
+/** The data for a Dialogflow intent. Represents a detected intent in the conversation, e.g. MAKES_PROMISE. */
+export interface GoogleCloudContactcenterinsightsV1DialogflowIntent {
+  /** The human-readable name of the intent. */
+  displayName?: string | undefined;
+}
+export type GoogleCloudContactcenterinsightsV1DialogflowIntentMap = {
+  [key: string]: GoogleCloudContactcenterinsightsV1DialogflowIntent | undefined;
+};
+export type GoogleCloudContactcenterinsightsV1ConversationQualityMetadataAgentInfoList =
+  Array<GoogleCloudContactcenterinsightsV1ConversationQualityMetadataAgentInfo>;
+export type GoogleCloudContactcenterinsightsV1FeedbackLabelList =
+  Array<GoogleCloudContactcenterinsightsV1FeedbackLabel>;
+/** Conversation metadata related to quality management. */
+export interface GoogleCloudContactcenterinsightsV1ConversationQualityMetadata {
+  /** The amount of time the customer waited to connect with an agent. */
+  waitDuration?: string | undefined;
+  /** Information about agents involved in the call. */
+  agentInfo?:
+    | GoogleCloudContactcenterinsightsV1ConversationQualityMetadataAgentInfoList
+    | undefined;
+  /** Input only. The feedback labels associated with the conversation. */
+  feedbackLabels?: GoogleCloudContactcenterinsightsV1FeedbackLabelList | undefined;
+  /** An arbitrary string value specifying the menu path the customer took. */
+  menuPath?: string | undefined;
+  /** An arbitrary integer value indicating the customer's satisfaction rating. */
+  customerSatisfactionRating?: number | undefined;
+}
 /** Conversation summarization suggestion data. */
 export interface GoogleCloudContactcenterinsightsV1ConversationSummarizationSuggestionData {
-  /** The summarization content that is concatenated into one string. */
-  text?: string | undefined;
+  /** The summarization content that is divided into sections. The key is the section's name and the value is the section's content. There is no specific format for the key or value. */
+  textSections?: StringMap | undefined;
+  /** A map that contains metadata about the summarization and the document from which it originates. */
+  metadata?: StringMap | undefined;
   /** The name of the answer record. Format: projects/{project}/locations/{location}/answerRecords/{answer_record} */
   answerRecord?: string | undefined;
+  /** The summarization content that is concatenated into one string. */
+  text?: string | undefined;
+  /** The confidence score of the summarization. */
+  confidence?: number | undefined;
   /** The name of the model that generates this summary. Format: projects/{project}/locations/{location}/conversationModels/{conversation_model} */
   conversationModel?: string | undefined;
   /** Agent Assist generator ID. */
   generatorId?: string | undefined;
-  /** A map that contains metadata about the summarization and the document from which it originates. */
-  metadata?: StringMap | undefined;
-  /** The confidence score of the summarization. */
+}
+export type GoogleCloudContactcenterinsightsV1ConversationCorrelationInfoCorrelationTypesItemEnum =
+  | "CORRELATION_TYPE_UNSPECIFIED"
+  | "SEGMENT"
+  | "PARTIAL"
+  | "FULL"
+  | "SYNTHETIC";
+export type GoogleCloudContactcenterinsightsV1ConversationCorrelationInfoCorrelationTypesItemEnumList =
+  Array<
+    | GoogleCloudContactcenterinsightsV1ConversationCorrelationInfoCorrelationTypesItemEnum
+    | (string & {})
+  >;
+/** Info for correlating across conversations. */
+export interface GoogleCloudContactcenterinsightsV1ConversationCorrelationInfo {
+  /** Output only. The correlation types of this conversation. A single conversation can have multiple correlation types. For example a conversation that only has a single segment is both a SEGMENT and a FULL_CONVERSATION. */
+  correlationTypes?:
+    | GoogleCloudContactcenterinsightsV1ConversationCorrelationInfoCorrelationTypesItemEnumList
+    | undefined;
+  /** Output only. The full conversation correlation id this conversation is a segment of. */
+  fullConversationCorrelationId?: string | undefined;
+  /** Output only. The full conversation correlation id this conversation is a merged conversation of. */
+  mergedFullConversationCorrelationId?: string | undefined;
+}
+/** A wrapper for holding the audio for any given turn. */
+export interface GoogleCloudContactcenterinsightsV1ConversationDataSourceTurnLevelAudio {
+  /** The duration of the audio. */
+  audioDuration?: string | undefined;
+  /** The Cloud Storage URI of the audio for any given turn. */
+  audioGcsUri?: string | undefined;
+}
+/** Word-level info for words in a transcript. */
+export interface GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentWordInfo {
+  /** Time offset of the start of this word relative to the beginning of the total conversation. */
+  startOffset?: string | undefined;
+  /** The word itself. Includes punctuation marks that surround the word. */
+  word?: string | undefined;
+  /** Time offset of the end of this word relative to the beginning of the total conversation. */
+  endOffset?: string | undefined;
+  /** A confidence estimate between 0.0 and 1.0 of the fidelity of this word. A default value of 0.0 indicates that the value is unset. */
   confidence?: number | undefined;
-  /** The summarization content that is divided into sections. The key is the section's name and the value is the section's content. There is no specific format for the key or value. */
-  textSections?: StringMap | undefined;
+}
+export type GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentWordInfoList =
+  Array<GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentWordInfo>;
+export type GoogleCloudContactcenterinsightsV1ConversationParticipantRoleEnum =
+  | "ROLE_UNSPECIFIED"
+  | "HUMAN_AGENT"
+  | "AUTOMATED_AGENT"
+  | "END_USER"
+  | "ANY_AGENT";
+/** The call participant speaking for a given utterance. */
+export interface GoogleCloudContactcenterinsightsV1ConversationParticipant {
+  /** Obfuscated user ID from Dialogflow. */
+  obfuscatedExternalUserId?: string | undefined;
+  /** A user-specified ID representing the participant. */
+  userId?: string | undefined;
+  /** Deprecated. Use `dialogflow_participant_name` instead. The name of the Dialogflow participant. Format: projects/{project}/locations/{location}/conversations/{conversation}/participants/{participant} */
+  dialogflowParticipant?: string | undefined;
+  /** The role of the participant. */
+  role?:
+    | GoogleCloudContactcenterinsightsV1ConversationParticipantRoleEnum
+    | (string & {})
+    | undefined;
+  /** The name of the participant provided by Dialogflow. Format: projects/{project}/locations/{location}/conversations/{conversation}/participants/{participant} */
+  dialogflowParticipantName?: string | undefined;
+}
+/** The data for a sentiment annotation. */
+export interface GoogleCloudContactcenterinsightsV1SentimentData {
+  /** A non-negative number from 0 to infinity which represents the absolute magnitude of sentiment regardless of score. */
+  magnitude?: number | undefined;
+  /** The sentiment score between -1.0 (negative) and 1.0 (positive). */
+  score?: number | undefined;
+}
+/** Metadata from Dialogflow relating to the current transcript segment. */
+export interface GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentDialogflowSegmentMetadata {
+  /** Whether the transcript segment was covered under the configured smart reply allowlist in Agent Assist. */
+  smartReplyAllowlistCovered?: boolean | undefined;
+}
+/** A thought part. */
+export interface GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartThoughtPart {
+  /** Optional. The thought or reasoning text. */
+  text?: string | undefined;
 }
 /** A custom payload part. */
 export interface GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartCustomPayloadPart {
-  /** Optional. Type identifier for the payload. */
-  payloadType?: string | undefined;
   /** Optional. Arbitrary structured payload. */
   payload?: DocumentMap | undefined;
+  /** Optional. Type identifier for the payload. */
+  payloadType?: string | undefined;
+}
+/** A link part. */
+export interface GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartLinkPart {
+  /** Optional. Target URI. */
+  uri?: string | undefined;
+  /** Optional. Anchor or display text. */
+  text?: string | undefined;
+}
+/** A row in a table. */
+export interface GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartTableRow {
+  /** Optional. The cell values in the row. */
+  cells?: StringList | undefined;
+}
+export type GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartTableRowList =
+  Array<GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartTableRow>;
+/** A table part. */
+export interface GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartTablePart {
+  /** Optional. Table column headers. */
+  headers?: StringList | undefined;
+  /** Optional. Table rows. */
+  rows?:
+    | GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartTableRowList
+    | undefined;
+  /** Optional. Optional title for the table. */
+  title?: string | undefined;
+}
+/** A text part. */
+export interface GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartTextPart {
+  /** Optional. The text content. */
+  text?: string | undefined;
+}
+/** A citation part. */
+export interface GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartCitationPart {
+  /** Optional. Snippet of the cited text. */
+  snippet?: string | undefined;
+  /** Optional. The cited source title. */
+  sourceTitle?: string | undefined;
+  /** Optional. The cited source URI. */
+  sourceUri?: string | undefined;
+}
+/** Represents an amount of money with its currency type. */
+export interface GoogleTypeMoney {
+  /** The three-letter currency code defined in ISO 4217. */
+  currencyCode?: string | undefined;
+  /** The whole units of the amount. For example if `currencyCode` is `"USD"`, then 1 unit is one US dollar. */
+  units?: string | undefined;
+  /** Number of nano (10^-9) units of the amount. The value must be between -999,999,999 and +999,999,999 inclusive. If `units` is positive, `nanos` must be positive or zero. If `units` is zero, `nanos` can be positive, zero, or negative. If `units` is negative, `nanos` must be negative or zero. For example $-1.75 is represented as `units`=-1 and `nanos`=-750,000,000. */
+  nanos?: number | undefined;
+}
+/** A product in a product collection. */
+export interface GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartProduct {
+  /** Optional. Product price. */
+  price?: GoogleTypeMoney | undefined;
+  /** Optional. Product description. */
+  description?: string | undefined;
+  /** Optional. Product URL or deep link. */
+  uri?: string | undefined;
+  /** Optional. Product ID. */
+  id?: string | undefined;
+  /** Optional. Product display name. */
+  displayName?: string | undefined;
+  /** Optional. Product image URLs. */
+  imageUris?: StringList | undefined;
+}
+export type GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartProductList =
+  Array<GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartProduct>;
+/** A product collection part. */
+export interface GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartProductCollectionPart {
+  /** Optional. List of products. */
+  products?:
+    | GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartProductList
+    | undefined;
 }
 /** A media part. */
 export interface GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartMediaPart {
-  /** Optional. Alternative text description. */
-  alternativeText?: string | undefined;
   /** Optional. URI or URL to the media. */
   uri?: string | undefined;
-}
-export type GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartListPartListTypeEnum =
-  | "LIST_TYPE_UNSPECIFIED"
-  | "UNORDERED"
-  | "ORDERED_NUMBER"
-  | "ORDERED_ALPHA";
-/** An item in a list. */
-export interface GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartListItem {
-  /** Optional. The text of the list item. */
-  text?: string | undefined;
-  /** Optional. Nested sub-items. */
-  subItems?:
-    | GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartListItemList
-    | undefined;
-}
-export type GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartListItemList =
-  Array<GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartListItem>;
-/** A list part. */
-export interface GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartListPart {
-  /** Optional. The type of list. */
-  listType?:
-    | GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartListPartListTypeEnum
-    | (string & {})
-    | undefined;
-  /** Optional. List items. */
-  items?:
-    | GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartListItemList
-    | undefined;
+  /** Optional. Alternative text description. */
+  alternativeText?: string | undefined;
 }
 /** A suggestion chip. */
 export interface GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartChip {
@@ -889,104 +1048,51 @@ export interface GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscr
     | GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartChipList
     | undefined;
 }
-/** A text part. */
-export interface GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartTextPart {
-  /** Optional. The text content. */
-  text?: string | undefined;
-}
-/** A citation part. */
-export interface GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartCitationPart {
-  /** Optional. The cited source URI. */
-  sourceUri?: string | undefined;
-  /** Optional. Snippet of the cited text. */
-  snippet?: string | undefined;
-  /** Optional. The cited source title. */
-  sourceTitle?: string | undefined;
-}
-/** A thought part. */
-export interface GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartThoughtPart {
-  /** Optional. The thought or reasoning text. */
-  text?: string | undefined;
-}
-/** Represents an amount of money with its currency type. */
-export interface GoogleTypeMoney {
-  /** Number of nano (10^-9) units of the amount. The value must be between -999,999,999 and +999,999,999 inclusive. If `units` is positive, `nanos` must be positive or zero. If `units` is zero, `nanos` can be positive, zero, or negative. If `units` is negative, `nanos` must be negative or zero. For example $-1.75 is represented as `units`=-1 and `nanos`=-750,000,000. */
-  nanos?: number | undefined;
-  /** The three-letter currency code defined in ISO 4217. */
-  currencyCode?: string | undefined;
-  /** The whole units of the amount. For example if `currencyCode` is `"USD"`, then 1 unit is one US dollar. */
-  units?: string | undefined;
-}
-/** A product in a product collection. */
-export interface GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartProduct {
-  /** Optional. Product image URLs. */
-  imageUris?: StringList | undefined;
-  /** Optional. Product URL or deep link. */
-  uri?: string | undefined;
-  /** Optional. Product ID. */
-  id?: string | undefined;
-  /** Optional. Product price. */
-  price?: GoogleTypeMoney | undefined;
-  /** Optional. Product description. */
-  description?: string | undefined;
-  /** Optional. Product display name. */
-  displayName?: string | undefined;
-}
-export type GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartProductList =
-  Array<GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartProduct>;
-/** A product collection part. */
-export interface GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartProductCollectionPart {
-  /** Optional. List of products. */
-  products?:
-    | GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartProductList
+export type GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartListPartListTypeEnum =
+  | "LIST_TYPE_UNSPECIFIED"
+  | "UNORDERED"
+  | "ORDERED_NUMBER"
+  | "ORDERED_ALPHA";
+/** An item in a list. */
+export interface GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartListItem {
+  /** Optional. Nested sub-items. */
+  subItems?:
+    | GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartListItemList
     | undefined;
-}
-/** A row in a table. */
-export interface GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartTableRow {
-  /** Optional. The cell values in the row. */
-  cells?: StringList | undefined;
-}
-export type GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartTableRowList =
-  Array<GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartTableRow>;
-/** A table part. */
-export interface GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartTablePart {
-  /** Optional. Table column headers. */
-  headers?: StringList | undefined;
-  /** Optional. Optional title for the table. */
-  title?: string | undefined;
-  /** Optional. Table rows. */
-  rows?:
-    | GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartTableRowList
-    | undefined;
-}
-/** A link part. */
-export interface GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartLinkPart {
-  /** Optional. Anchor or display text. */
+  /** Optional. The text of the list item. */
   text?: string | undefined;
-  /** Optional. Target URI. */
-  uri?: string | undefined;
+}
+export type GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartListItemList =
+  Array<GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartListItem>;
+/** A list part. */
+export interface GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartListPart {
+  /** Optional. The type of list. */
+  listType?:
+    | GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartListPartListTypeEnum
+    | (string & {})
+    | undefined;
+  /** Optional. List items. */
+  items?:
+    | GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartListItemList
+    | undefined;
 }
 /** A structured component/part of a transcript segment. */
 export interface GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPart {
+  /** Optional. Model thought or internal reasoning. */
+  thought?:
+    | GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartThoughtPart
+    | undefined;
   /** Optional. Generic custom structured payload. */
   customPayload?:
     | GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartCustomPayloadPart
     | undefined;
-  /** Optional. Image media. */
-  image?:
-    | GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartMediaPart
+  /** Optional. Web link or URL. */
+  link?:
+    | GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartLinkPart
     | undefined;
-  /** Optional. Ordered or unordered list. */
-  list?:
-    | GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartListPart
-    | undefined;
-  /** Optional. Video media. */
-  video?:
-    | GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartMediaPart
-    | undefined;
-  /** Optional. Suggestion chips or interactive buttons. */
-  suggestionChips?:
-    | GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartSuggestionChipsPart
+  /** Optional. Tabular data. */
+  table?:
+    | GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartTablePart
     | undefined;
   /** Optional. Plain text content. */
   text?:
@@ -996,110 +1102,60 @@ export interface GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscr
   citation?:
     | GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartCitationPart
     | undefined;
-  /** Optional. Model thought or internal reasoning. */
-  thought?:
-    | GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartThoughtPart
-    | undefined;
   /** Optional. Product collection or carousel. */
   productCollection?:
     | GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartProductCollectionPart
     | undefined;
-  /** Optional. Tabular data. */
-  table?:
-    | GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartTablePart
+  /** Optional. Image media. */
+  image?:
+    | GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartMediaPart
     | undefined;
-  /** Optional. Web link or URL. */
-  link?:
-    | GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartLinkPart
+  /** Optional. Suggestion chips or interactive buttons. */
+  suggestionChips?:
+    | GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartSuggestionChipsPart
+    | undefined;
+  /** Optional. Ordered or unordered list. */
+  list?:
+    | GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartListPart
+    | undefined;
+  /** Optional. Video media. */
+  video?:
+    | GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartMediaPart
     | undefined;
 }
 export type GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartList =
   Array<GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPart>;
-export type GoogleCloudContactcenterinsightsV1ConversationParticipantRoleEnum =
-  | "ROLE_UNSPECIFIED"
-  | "HUMAN_AGENT"
-  | "AUTOMATED_AGENT"
-  | "END_USER"
-  | "ANY_AGENT";
-/** The call participant speaking for a given utterance. */
-export interface GoogleCloudContactcenterinsightsV1ConversationParticipant {
-  /** Deprecated. Use `dialogflow_participant_name` instead. The name of the Dialogflow participant. Format: projects/{project}/locations/{location}/conversations/{conversation}/participants/{participant} */
-  dialogflowParticipant?: string | undefined;
-  /** A user-specified ID representing the participant. */
-  userId?: string | undefined;
-  /** The name of the participant provided by Dialogflow. Format: projects/{project}/locations/{location}/conversations/{conversation}/participants/{participant} */
-  dialogflowParticipantName?: string | undefined;
-  /** The role of the participant. */
-  role?:
-    | GoogleCloudContactcenterinsightsV1ConversationParticipantRoleEnum
-    | (string & {})
-    | undefined;
-  /** Obfuscated user ID from Dialogflow. */
-  obfuscatedExternalUserId?: string | undefined;
-}
-/** The data for a sentiment annotation. */
-export interface GoogleCloudContactcenterinsightsV1SentimentData {
-  /** The sentiment score between -1.0 (negative) and 1.0 (positive). */
-  score?: number | undefined;
-  /** A non-negative number from 0 to infinity which represents the absolute magnitude of sentiment regardless of score. */
-  magnitude?: number | undefined;
-}
-/** Metadata from Dialogflow relating to the current transcript segment. */
-export interface GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentDialogflowSegmentMetadata {
-  /** Whether the transcript segment was covered under the configured smart reply allowlist in Agent Assist. */
-  smartReplyAllowlistCovered?: boolean | undefined;
-}
-/** Word-level info for words in a transcript. */
-export interface GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentWordInfo {
-  /** A confidence estimate between 0.0 and 1.0 of the fidelity of this word. A default value of 0.0 indicates that the value is unset. */
-  confidence?: number | undefined;
-  /** Time offset of the end of this word relative to the beginning of the total conversation. */
-  endOffset?: string | undefined;
-  /** The word itself. Includes punctuation marks that surround the word. */
-  word?: string | undefined;
-  /** Time offset of the start of this word relative to the beginning of the total conversation. */
-  startOffset?: string | undefined;
-}
-export type GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentWordInfoList =
-  Array<GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentWordInfo>;
-/** A wrapper for holding the audio for any given turn. */
-export interface GoogleCloudContactcenterinsightsV1ConversationDataSourceTurnLevelAudio {
-  /** The Cloud Storage URI of the audio for any given turn. */
-  audioGcsUri?: string | undefined;
-  /** The duration of the audio. */
-  audioDuration?: string | undefined;
-}
 /** A segment of a full transcript. */
 export interface GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegment {
-  /** Optional. The structured parts that make up this transcript segment. */
-  parts?:
-    | GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartList
+  /** Turn level audio for this transcript segment. */
+  turnLevelAudio?:
+    | GoogleCloudContactcenterinsightsV1ConversationDataSourceTurnLevelAudio
     | undefined;
-  /** The participant of this segment. */
-  segmentParticipant?: GoogleCloudContactcenterinsightsV1ConversationParticipant | undefined;
-  /** The sentiment for this transcript segment. */
-  sentiment?: GoogleCloudContactcenterinsightsV1SentimentData | undefined;
-  /** The text of this segment. */
-  text?: string | undefined;
   /** The language code of this segment as a [BCP-47](https://www.rfc-editor.org/rfc/bcp/bcp47.txt) language tag. Example: "en-US". */
   languageCode?: string | undefined;
-  /** CCAI metadata relating to the current transcript segment. */
-  dialogflowSegmentMetadata?:
-    | GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentDialogflowSegmentMetadata
-    | undefined;
-  /** For conversations derived from multi-channel audio, this is the channel number corresponding to the audio from that channel. For audioChannelCount = N, its output values can range from '1' to 'N'. A channel tag of 0 indicates that the audio is mono. */
-  channelTag?: number | undefined;
   /** A list of the word-specific information for each word in the segment. */
   words?:
     | GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentWordInfoList
     | undefined;
-  /** A confidence estimate between 0.0 and 1.0 of the fidelity of this segment. A default value of 0.0 indicates that the value is unset. */
-  confidence?: number | undefined;
   /** The time that the message occurred, if provided. */
   messageTime?: string | undefined;
-  /** Turn level audio for this transcript segment. */
-  turnLevelAudio?:
-    | GoogleCloudContactcenterinsightsV1ConversationDataSourceTurnLevelAudio
+  /** For conversations derived from multi-channel audio, this is the channel number corresponding to the audio from that channel. For audioChannelCount = N, its output values can range from '1' to 'N'. A channel tag of 0 indicates that the audio is mono. */
+  channelTag?: number | undefined;
+  /** The text of this segment. */
+  text?: string | undefined;
+  /** The participant of this segment. */
+  segmentParticipant?: GoogleCloudContactcenterinsightsV1ConversationParticipant | undefined;
+  /** The sentiment for this transcript segment. */
+  sentiment?: GoogleCloudContactcenterinsightsV1SentimentData | undefined;
+  /** A confidence estimate between 0.0 and 1.0 of the fidelity of this segment. A default value of 0.0 indicates that the value is unset. */
+  confidence?: number | undefined;
+  /** CCAI metadata relating to the current transcript segment. */
+  dialogflowSegmentMetadata?:
+    | GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentDialogflowSegmentMetadata
+    | undefined;
+  /** Optional. The structured parts that make up this transcript segment. */
+  parts?:
+    | GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartList
     | undefined;
 }
 export type GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentList =
@@ -1111,388 +1167,29 @@ export interface GoogleCloudContactcenterinsightsV1ConversationTranscript {
     | GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentList
     | undefined;
 }
-/** Call-specific metadata. */
-export interface GoogleCloudContactcenterinsightsV1ConversationCallMetadata {
-  /** The audio channel that contains the agent. */
-  agentChannel?: number | undefined;
-  /** The audio channel that contains the customer. */
-  customerChannel?: number | undefined;
-}
-/** A Cloud Storage source of conversation data. */
-export interface GoogleCloudContactcenterinsightsV1GcsSource {
-  /** Immutable. Deprecated: Use `audio_uris` instead. Cloud Storage URI that points to a file that contains the conversation audio. */
-  audioUri?: string | undefined;
-  /** Immutable. Cloud Storage URIs that point to files that contain the conversation audio. Supports both single audio files and multi-leg session recordings (e.g., call transfers, rolling recording buffers). */
-  audioUris?: StringList | undefined;
-  /** Immutable. Cloud Storage URI that points to a file that contains the conversation transcript. */
-  transcriptUri?: string | undefined;
-}
-export type GoogleCloudContactcenterinsightsV1ConversationDataSourceTurnLevelAudioList =
-  Array<GoogleCloudContactcenterinsightsV1ConversationDataSourceTurnLevelAudio>;
-/** A Dialogflow source of conversation data. */
-export interface GoogleCloudContactcenterinsightsV1DialogflowSource {
-  /** Cloud Storage URI that points to a file that contains the conversation audio. */
-  audioUri?: string | undefined;
-  /** Output only. The name of the Dialogflow conversation that this conversation resource is derived from. Format: projects/{project}/locations/{location}/conversations/{conversation} */
-  dialogflowConversation?: string | undefined;
-}
-/** The conversation source, which is a combination of transcript and audio. */
-export interface GoogleCloudContactcenterinsightsV1ConversationDataSource {
-  /** A Cloud Storage location specification for the audio and transcript. */
-  gcsSource?: GoogleCloudContactcenterinsightsV1GcsSource | undefined;
-  /** Cloud Storage URIs that points to files that contain the conversation audio for each turn. Assume the order of the URIs is the same as the order of the transcript turns. */
-  turnLevelAudios?:
-    | GoogleCloudContactcenterinsightsV1ConversationDataSourceTurnLevelAudioList
-    | undefined;
-  /** Cloud Storage URI that points to a file that contains the conversation metadata. */
-  metadataUri?: string | undefined;
-  /** The source when the conversation comes from Dialogflow. */
-  dialogflowSource?: GoogleCloudContactcenterinsightsV1DialogflowSource | undefined;
-}
-export type GoogleCloudContactcenterinsightsV1ConversationQualityMetadataAgentInfoList =
-  Array<GoogleCloudContactcenterinsightsV1ConversationQualityMetadataAgentInfo>;
-export type GoogleCloudContactcenterinsightsV1FeedbackLabelList =
-  Array<GoogleCloudContactcenterinsightsV1FeedbackLabel>;
-/** Conversation metadata related to quality management. */
-export interface GoogleCloudContactcenterinsightsV1ConversationQualityMetadata {
-  /** Information about agents involved in the call. */
-  agentInfo?:
-    | GoogleCloudContactcenterinsightsV1ConversationQualityMetadataAgentInfoList
-    | undefined;
-  /** Input only. The feedback labels associated with the conversation. */
-  feedbackLabels?: GoogleCloudContactcenterinsightsV1FeedbackLabelList | undefined;
-  /** An arbitrary integer value indicating the customer's satisfaction rating. */
-  customerSatisfactionRating?: number | undefined;
-  /** An arbitrary string value specifying the menu path the customer took. */
-  menuPath?: string | undefined;
-  /** The amount of time the customer waited to connect with an agent. */
-  waitDuration?: string | undefined;
-}
-export type GoogleCloudContactcenterinsightsV1ConversationCorrelationInfoCorrelationTypesItemEnum =
-  | "CORRELATION_TYPE_UNSPECIFIED"
-  | "SEGMENT"
-  | "PARTIAL"
-  | "FULL"
-  | "SYNTHETIC";
-export type GoogleCloudContactcenterinsightsV1ConversationCorrelationInfoCorrelationTypesItemEnumList =
-  Array<
-    | GoogleCloudContactcenterinsightsV1ConversationCorrelationInfoCorrelationTypesItemEnum
-    | (string & {})
-  >;
-/** Info for correlating across conversations. */
-export interface GoogleCloudContactcenterinsightsV1ConversationCorrelationInfo {
-  /** Output only. The full conversation correlation id this conversation is a segment of. */
-  fullConversationCorrelationId?: string | undefined;
-  /** Output only. The full conversation correlation id this conversation is a merged conversation of. */
-  mergedFullConversationCorrelationId?: string | undefined;
-  /** Output only. The correlation types of this conversation. A single conversation can have multiple correlation types. For example a conversation that only has a single segment is both a SEGMENT and a FULL_CONVERSATION. */
-  correlationTypes?:
-    | GoogleCloudContactcenterinsightsV1ConversationCorrelationInfoCorrelationTypesItemEnumList
-    | undefined;
-}
-/** The data for a Dialogflow intent. Represents a detected intent in the conversation, e.g. MAKES_PROMISE. */
-export interface GoogleCloudContactcenterinsightsV1DialogflowIntent {
-  /** The human-readable name of the intent. */
-  displayName?: string | undefined;
-}
-export type GoogleCloudContactcenterinsightsV1DialogflowIntentMap = {
-  [key: string]: GoogleCloudContactcenterinsightsV1DialogflowIntent | undefined;
-};
-/** A point in a conversation that marks the start or the end of an annotation. */
-export interface GoogleCloudContactcenterinsightsV1AnnotationBoundary {
-  /** The index in the sequence of transcribed pieces of the conversation where the boundary is located. This index starts at zero. */
-  transcriptIndex?: number | undefined;
-  /** The word index of this boundary with respect to the first word in the transcript piece. This index starts at zero. */
-  wordIndex?: number | undefined;
-}
-/** Agent Assist Smart Reply data. */
-export interface GoogleCloudContactcenterinsightsV1SmartReplyData {
-  /** The system's confidence score that this reply is a good match for this conversation, ranging from 0.0 (completely uncertain) to 1.0 (completely certain). */
-  confidenceScore?: number | undefined;
-  /** The content of the reply. */
-  reply?: string | undefined;
-  /** Map that contains metadata about the Smart Reply and the document from which it originates. */
-  metadata?: StringMap | undefined;
-  /** The name of the answer record. Format: projects/{project}/locations/{location}/answerRecords/{answer_record} */
-  queryRecord?: string | undefined;
-}
-/** Represents a blob input or output in the conversation. */
-export interface GoogleCloudCesV1mainBlob {
-  /** Required. The IANA standard MIME type of the source data. */
-  mimeType?: string | undefined;
-  /** Required. Raw bytes of the blob. */
-  data?: string | undefined;
-}
-/** A tool that is created from a toolset. */
-export interface GoogleCloudCesV1mainToolsetTool {
-  /** Required. The resource name of the Toolset from which this tool is derived. Format: `projects/{project}/locations/{location}/apps/{app}/toolsets/{toolset}` */
-  toolset?: string | undefined;
-  /** Optional. The tool ID to filter the tools to retrieve the schema for. */
-  toolId?: string | undefined;
-}
-/** The execution result of a specific tool from the client or the agent. */
-export interface GoogleCloudCesV1mainToolResponse {
-  /** Output only. The id of the tool call that caused this one, when it was issued by a sub-agent working on behalf of a parent call. Empty for top-level calls. Lets a client group a sub-agent's work under the call that started it instead of rendering every step as a sibling. */
-  parentToolCallId?: string | undefined;
-  /** Output only. The app the executed tool targeted; mirrors ToolCall.target_app. */
-  targetApp?: string | undefined;
-  /** Optional. The toolset tool that got executed. */
-  toolsetTool?: GoogleCloudCesV1mainToolsetTool | undefined;
-  /** Output only. Human-readable name of the agent that issued this call, e.g. "Contract Architect". Empty when the root agent issued it. */
-  agentName?: string | undefined;
-  /** Optional. The name of the tool to execute. Format: `projects/{project}/locations/{location}/apps/{app}/tools/{tool}` */
-  tool?: string | undefined;
-  /** Output only. Display name of the tool. */
-  displayName?: string | undefined;
-  /** Optional. The matching ID of the tool call the response is for. */
-  id?: string | undefined;
-  /** Required. The tool execution result in JSON object format. Use "output" key to specify tool response and "error" key to specify error details (if any). If "output" and "error" keys are not specified, then whole "response" is treated as tool execution result. */
-  response?: DocumentMap | undefined;
-}
-/** Request for the client or the agent to execute the specified tool. */
-export interface GoogleCloudCesV1mainToolCall {
-  /** Output only. The id of the tool call that caused this one, when it was issued by a sub-agent working on behalf of a parent call. Empty for top-level calls. Lets a client group a sub-agent's work under the call that started it instead of rendering every step as a sibling. */
-  parentToolCallId?: string | undefined;
-  /** Optional. The name of the tool to execute. Format: `projects/{project}/locations/{location}/apps/{app}/tools/{tool}` */
-  tool?: string | undefined;
-  /** Optional. The unique identifier of the tool call. If populated, the client should return the execution result with the matching ID in ToolResponse. */
-  id?: string | undefined;
-  /** Optional. The input parameters and values for the tool in JSON object format. */
-  args?: DocumentMap | undefined;
-  /** Optional. The toolset tool to execute. */
-  toolsetTool?: GoogleCloudCesV1mainToolsetTool | undefined;
-  /** Output only. The app this call targets, derived by the assistant from the call's resource arguments: an app resource name, `PROJECT` for location-scoped tools, or empty for session-local tools. Set only in project-scoped assistant sessions. */
-  targetApp?: string | undefined;
-  /** Output only. Display name of the tool. */
-  displayName?: string | undefined;
-  /** Output only. Human-readable name of the agent that issued this call, e.g. "Contract Architect". Empty when the root agent issued it. */
-  agentName?: string | undefined;
-}
-/** Represents an event indicating the transfer of a conversation to a different agent. */
-export interface GoogleCloudCesV1mainAgentTransfer {
-  /** Output only. Display name of the agent. */
-  displayName?: string | undefined;
-  /** Required. The agent to which the conversation is being transferred. The agent will handle the conversation from this point forward. Format: `projects/{project}/locations/{location}/apps/{app}/agents/{agent}` */
-  targetAgent?: string | undefined;
-}
-/** Represents an image input or output in the conversation. */
-export interface GoogleCloudCesV1mainImage {
-  /** Required. Raw bytes of the image. */
-  data?: string | undefined;
-  /** Required. The IANA standard MIME type of the source data. Supported image types includes: * image/png * image/jpeg * image/webp */
-  mimeType?: string | undefined;
-  /** Optional. The alternative text for the image. */
-  altText?: string | undefined;
-}
-/** A chunk of content within a message. */
-export interface GoogleCloudCesV1mainChunk {
-  /** Optional. Blob data. */
-  blob?: GoogleCloudCesV1mainBlob | undefined;
-  /** Optional. Tool execution response. */
-  toolResponse?: GoogleCloudCesV1mainToolResponse | undefined;
-  /** Optional. Transcript associated with the audio. */
-  transcript?: string | undefined;
-  /** Optional. Custom payload data. */
-  payload?: DocumentMap | undefined;
-  /** Optional. Tool execution request. */
-  toolCall?: GoogleCloudCesV1mainToolCall | undefined;
-  /** Optional. Agent transfer event. */
-  agentTransfer?: GoogleCloudCesV1mainAgentTransfer | undefined;
-  /** A struct represents default variables at the start of the conversation, keyed by variable names. */
-  defaultVariables?: DocumentMap | undefined;
-  /** Optional. Image data. */
-  image?: GoogleCloudCesV1mainImage | undefined;
-  /** A struct represents variables that were updated in the conversation, keyed by variable names. */
-  updatedVariables?: DocumentMap | undefined;
-  /** Optional. Text data. */
-  text?: string | undefined;
-}
-export type GoogleCloudCesV1mainChunkList = Array<GoogleCloudCesV1mainChunk>;
-/** A message within a conversation. */
-export interface GoogleCloudCesV1mainMessage {
-  /** Optional. Content of the message as a series of chunks. */
-  chunks?: GoogleCloudCesV1mainChunkList | undefined;
-  /** Optional. The role within the conversation, e.g., user, agent. */
-  role?: string | undefined;
-  /** Optional. Timestamp when the message was sent or received. Should not be used if the message is part of an example. */
-  eventTime?: string | undefined;
-}
-export type GoogleCloudCesV1mainMessageList = Array<GoogleCloudCesV1mainMessage>;
-export type GoogleCloudCesV1mainSpanList = Array<GoogleCloudCesV1mainSpan>;
-/** A span is a unit of work or a single operation during the request processing. */
-export interface GoogleCloudCesV1mainSpan {
-  /** Output only. The start time of the span. */
-  startTime?: string | undefined;
-  /** Output only. The child spans that are nested under this span. */
-  childSpans?: GoogleCloudCesV1mainSpanList | undefined;
-  /** Output only. Key-value attributes associated with the span. */
-  attributes?: DocumentMap | undefined;
-  /** Output only. The name of the span. */
-  name?: string | undefined;
-  /** Output only. The end time of the span. */
-  endTime?: string | undefined;
-  /** Output only. The duration of the span. */
-  duration?: string | undefined;
-}
-/** The CES diagnostic information. */
-export interface GoogleCloudContactcenterinsightsV1CesTurnAnnotation {
-  /** The messages in the turn. */
-  messages?: GoogleCloudCesV1mainMessageList | undefined;
-  /** The root span of the action processing. */
-  rootSpan?: GoogleCloudCesV1mainSpan | undefined;
-}
-/** Agent Assist Smart Compose suggestion data. */
-export interface GoogleCloudContactcenterinsightsV1SmartComposeSuggestionData {
-  /** The name of the answer record. Format: projects/{project}/locations/{location}/answerRecords/{answer_record} */
-  queryRecord?: string | undefined;
-  /** The content of the suggestion. */
-  suggestion?: string | undefined;
-  /** Map that contains metadata about the Smart Compose suggestion and the document from which it originates. */
-  metadata?: StringMap | undefined;
-  /** The system's confidence score that this suggestion is a good match for this conversation, ranging from 0.0 (completely uncertain) to 1.0 (completely certain). */
-  confidenceScore?: number | undefined;
-}
-/** Dialogflow interaction data. */
-export interface GoogleCloudContactcenterinsightsV1DialogflowInteractionData {
-  /** The Dialogflow intent resource path. Format: projects/{project}/agent/{agent}/intents/{intent} */
-  dialogflowIntentId?: string | undefined;
-  /** The confidence of the match ranging from 0.0 (completely uncertain) to 1.0 (completely certain). */
-  confidence?: number | undefined;
-}
-export type GoogleCloudContactcenterinsightsV1AnswerFeedbackCorrectnessLevelEnum =
-  | "CORRECTNESS_LEVEL_UNSPECIFIED"
-  | "NOT_CORRECT"
-  | "PARTIALLY_CORRECT"
-  | "FULLY_CORRECT";
-/** The feedback that the customer has about a certain answer in the conversation. */
-export interface GoogleCloudContactcenterinsightsV1AnswerFeedback {
-  /** The correctness level of an answer. */
-  correctnessLevel?:
-    | GoogleCloudContactcenterinsightsV1AnswerFeedbackCorrectnessLevelEnum
-    | (string & {})
-    | undefined;
-  /** Indicates whether an answer or item was clicked by the human agent. */
-  clicked?: boolean | undefined;
-  /** Indicates whether an answer or item was displayed to the human agent in the agent desktop UI. */
-  displayed?: boolean | undefined;
-}
-/** Agent Assist Article Suggestion data. */
-export interface GoogleCloudContactcenterinsightsV1ArticleSuggestionData {
-  /** The system's confidence score that this article is a good match for this conversation, ranging from 0.0 (completely uncertain) to 1.0 (completely certain). */
-  confidenceScore?: number | undefined;
-  /** Article title. */
-  title?: string | undefined;
-  /** Article URI. */
-  uri?: string | undefined;
-  /** The name of the answer record. Format: projects/{project}/locations/{location}/answerRecords/{answer_record} */
-  queryRecord?: string | undefined;
-  /** The knowledge document that this answer was extracted from. Format: projects/{project}/knowledgeBases/{knowledge_base}/documents/{document} */
-  source?: string | undefined;
-  /** Map that contains metadata about the Article Suggestion and the document that it originates from. */
-  metadata?: StringMap | undefined;
-}
-/** Agent Assist frequently-asked-question answer data. */
-export interface GoogleCloudContactcenterinsightsV1FaqAnswerData {
-  /** Map that contains metadata about the FAQ answer and the document that it originates from. */
-  metadata?: StringMap | undefined;
-  /** The knowledge document that this answer was extracted from. Format: projects/{project}/knowledgeBases/{knowledge_base}/documents/{document}. */
-  source?: string | undefined;
-  /** The corresponding FAQ question. */
-  question?: string | undefined;
-  /** The piece of text from the `source` knowledge base document. */
-  answer?: string | undefined;
-  /** The name of the answer record. Format: projects/{project}/locations/{location}/answerRecords/{answer_record} */
-  queryRecord?: string | undefined;
-  /** The system's confidence score that this answer is a good match for this conversation, ranging from 0.0 (completely uncertain) to 1.0 (completely certain). */
-  confidenceScore?: number | undefined;
-}
-/** Indicates the session has terminated, due to either successful completion (e.g. user says "Good bye!" ) or an agent escalation. The agent will not process any further inputs after session is terminated and the client should half-close and disconnect after receiving all remaining responses from the agent. */
-export interface GoogleCloudCesV1mainEndSession {
-  /** Optional. Provides additional information about the end session signal, such as the reason for ending the session. */
-  metadata?: DocumentMap | undefined;
-}
-/** The CES end session annotation. */
-export interface GoogleCloudContactcenterinsightsV1CesEndSessionAnnotation {
-  /** End session signal from CES. */
-  endSession?: GoogleCloudCesV1mainEndSession | undefined;
-}
-export type GoogleCloudContactcenterinsightsV1RuntimeAnnotationUserInputQuerySourceEnum =
-  | "QUERY_SOURCE_UNSPECIFIED"
-  | "AGENT_QUERY"
-  | "SUGGESTED_QUERY";
-/** Explicit input used for generating the answer */
-export interface GoogleCloudContactcenterinsightsV1RuntimeAnnotationUserInput {
-  /** The resource name of associated generator. Format: `projects//locations//generators/` */
-  generatorName?: string | undefined;
-  /** Query text. Article Search uses this to store the input query used to generate the search results. */
-  query?: string | undefined;
-  /** Query source for the answer. */
-  querySource?:
-    | GoogleCloudContactcenterinsightsV1RuntimeAnnotationUserInputQuerySourceEnum
-    | (string & {})
-    | undefined;
-}
-/** An annotation that was generated during the customer and agent interaction. */
-export interface GoogleCloudContactcenterinsightsV1RuntimeAnnotation {
-  /** The boundary in the conversation where the annotation ends, inclusive. */
-  endBoundary?: GoogleCloudContactcenterinsightsV1AnnotationBoundary | undefined;
-  /** Agent Assist Smart Reply data. */
-  smartReply?: GoogleCloudContactcenterinsightsV1SmartReplyData | undefined;
-  /** The time at which this annotation was created. */
-  createTime?: string | undefined;
-  /** The CES turn annotation. */
-  cesTurnAnnotation?: GoogleCloudContactcenterinsightsV1CesTurnAnnotation | undefined;
-  /** The unique identifier of the annotation. Format: projects/{project}/locations/{location}/conversationDatasets/{dataset}/conversationDataItems/{data_item}/conversationAnnotations/{annotation} */
-  annotationId?: string | undefined;
-  /** Agent Assist Smart Compose suggestion data. */
-  smartComposeSuggestion?: GoogleCloudContactcenterinsightsV1SmartComposeSuggestionData | undefined;
-  /** The boundary in the conversation where the annotation starts, inclusive. */
-  startBoundary?: GoogleCloudContactcenterinsightsV1AnnotationBoundary | undefined;
-  /** Conversation summarization suggestion data. */
-  conversationSummarizationSuggestion?:
-    | GoogleCloudContactcenterinsightsV1ConversationSummarizationSuggestionData
-    | undefined;
-  /** Dialogflow interaction data. */
-  dialogflowInteraction?: GoogleCloudContactcenterinsightsV1DialogflowInteractionData | undefined;
-  /** The feedback that the customer has about the answer in `data`. */
-  answerFeedback?: GoogleCloudContactcenterinsightsV1AnswerFeedback | undefined;
-  /** Agent Assist Article Suggestion data. */
-  articleSuggestion?: GoogleCloudContactcenterinsightsV1ArticleSuggestionData | undefined;
-  /** Agent Assist FAQ answer data. */
-  faqAnswer?: GoogleCloudContactcenterinsightsV1FaqAnswerData | undefined;
-  /** The CES end session annotation. */
-  cesEndSessionAnnotation?: GoogleCloudContactcenterinsightsV1CesEndSessionAnnotation | undefined;
-  /** Explicit input used for generating the answer */
-  userInput?: GoogleCloudContactcenterinsightsV1RuntimeAnnotationUserInput | undefined;
-}
-export type GoogleCloudContactcenterinsightsV1RuntimeAnnotationList =
-  Array<GoogleCloudContactcenterinsightsV1RuntimeAnnotation>;
-/** Conversation-level silence data. */
-export interface GoogleCloudContactcenterinsightsV1ConversationLevelSilence {
-  /** Amount of time calculated to be in silence. */
-  silenceDuration?: string | undefined;
-  /** Percentage of the total conversation spent in silence. */
-  silencePercentage?: number | undefined;
-}
-export type GoogleCloudContactcenterinsightsV1QaScorecardResultScoreSourceSourceTypeEnum =
-  | "SOURCE_TYPE_UNSPECIFIED"
-  | "SYSTEM_GENERATED_ONLY"
-  | "INCLUDES_MANUAL_EDITS";
 /** Tags and their corresponding results. */
 export interface GoogleCloudContactcenterinsightsV1QaScorecardResultQaTagResult {
   /** The score the tag applies to. */
   score?: number | undefined;
   /** The potential score the tag applies to. */
   potentialScore?: number | undefined;
-  /** The normalized score the tag applies to. */
-  normalizedScore?: number | undefined;
   /** The tag the score applies to. */
   tag?: string | undefined;
+  /** The normalized score the tag applies to. */
+  normalizedScore?: number | undefined;
 }
 export type GoogleCloudContactcenterinsightsV1QaScorecardResultQaTagResultList =
   Array<GoogleCloudContactcenterinsightsV1QaScorecardResultQaTagResult>;
+export type GoogleCloudContactcenterinsightsV1QaScorecardResultScoreSourceSourceTypeEnum =
+  | "SOURCE_TYPE_UNSPECIFIED"
+  | "SYSTEM_GENERATED_ONLY"
+  | "INCLUDES_MANUAL_EDITS";
 /** A scorecard result may have multiple sets of scores from varying sources, one of which becomes the "main" answer above. A ScoreSource represents each individual set of scores. */
 export interface GoogleCloudContactcenterinsightsV1QaScorecardResultScoreSource {
+  /** The maximum potential overall score of the scorecard. Any questions answered using `na_value` are excluded from this calculation. */
+  potentialScore?: number | undefined;
+  /** Collection of tags and their scores. */
+  qaTagResults?: GoogleCloudContactcenterinsightsV1QaScorecardResultQaTagResultList | undefined;
   /** The overall numerical score of the result. */
   score?: number | undefined;
   /** What created the score. */
@@ -1500,10 +1197,6 @@ export interface GoogleCloudContactcenterinsightsV1QaScorecardResultScoreSource 
     | GoogleCloudContactcenterinsightsV1QaScorecardResultScoreSourceSourceTypeEnum
     | (string & {})
     | undefined;
-  /** Collection of tags and their scores. */
-  qaTagResults?: GoogleCloudContactcenterinsightsV1QaScorecardResultQaTagResultList | undefined;
-  /** The maximum potential overall score of the scorecard. Any questions answered using `na_value` are excluded from this calculation. */
-  potentialScore?: number | undefined;
   /** The normalized score, which is the score divided by the potential score. */
   normalizedScore?: number | undefined;
 }
@@ -1515,18 +1208,22 @@ export type GoogleCloudContactcenterinsightsV1QaAnswerAnswerSourceSourceTypeEnum
   | "MANUAL_EDIT";
 /** A question may have multiple answers from varying sources, one of which becomes the "main" answer above. AnswerSource represents each individual answer. */
 export interface GoogleCloudContactcenterinsightsV1QaAnswerAnswerSource {
-  /** The answer value from this source. This field is populated by default, unless the question has a selection strategy configured to return multiple answer values, in which case `answer_values` will be populated instead. */
-  answerValue?: GoogleCloudContactcenterinsightsV1QaAnswerAnswerValue | undefined;
   /** What created the answer. */
   sourceType?:
     | GoogleCloudContactcenterinsightsV1QaAnswerAnswerSourceSourceTypeEnum
     | (string & {})
     | undefined;
+  /** The answer value from this source. This field is populated by default, unless the question has a selection strategy configured to return multiple answer values, in which case `answer_values` will be populated instead. */
+  answerValue?: GoogleCloudContactcenterinsightsV1QaAnswerAnswerValue | undefined;
 }
 export type GoogleCloudContactcenterinsightsV1QaAnswerAnswerSourceList =
   Array<GoogleCloudContactcenterinsightsV1QaAnswerAnswerSource>;
 /** An answer to a QaQuestion. */
 export interface GoogleCloudContactcenterinsightsV1QaAnswer {
+  /** The answer value from this source. This field is populated by default, unless the question has a selection strategy configured to return multiple answer values, in which case `answer_values` will be populated instead. */
+  answerValue?: GoogleCloudContactcenterinsightsV1QaAnswerAnswerValue | undefined;
+  /** The conversation the answer applies to. */
+  conversation?: string | undefined;
   /** The QaQuestion answered by this answer. */
   qaQuestion?: string | undefined;
   /** Lists all answer sources containing one or more answer values of a specific source type, e.g., all system-generated answer sources, or all manual edit answer sources. */
@@ -1535,143 +1232,45 @@ export interface GoogleCloudContactcenterinsightsV1QaAnswer {
   questionBody?: string | undefined;
   /** User-defined list of arbitrary tags. Matches the value from QaScorecard.ScorecardQuestion.tags. Used for grouping/organization and for weighting the score of each answer. */
   tags?: StringList | undefined;
-  /** The answer value from this source. This field is populated by default, unless the question has a selection strategy configured to return multiple answer values, in which case `answer_values` will be populated instead. */
-  answerValue?: GoogleCloudContactcenterinsightsV1QaAnswerAnswerValue | undefined;
-  /** The conversation the answer applies to. */
-  conversation?: string | undefined;
 }
 export type GoogleCloudContactcenterinsightsV1QaAnswerList =
   Array<GoogleCloudContactcenterinsightsV1QaAnswer>;
 /** The results of scoring a single conversation against a QaScorecard. Contains a collection of QaAnswers and aggregate score. */
 export interface GoogleCloudContactcenterinsightsV1QaScorecardResult {
-  /** The QaScorecardRevision scored by this result. */
-  qaScorecardRevision?: string | undefined;
-  /** The overall numerical score of the result, incorporating any manual edits if they exist. */
-  score?: number | undefined;
-  /** List of all individual score sets. */
-  scoreSources?: GoogleCloudContactcenterinsightsV1QaScorecardResultScoreSourceList | undefined;
-  /** The normalized score, which is the score divided by the potential score. Any manual edits are included if they exist. */
-  normalizedScore?: number | undefined;
-  /** Set of QaAnswers represented in the result. */
-  qaAnswers?: GoogleCloudContactcenterinsightsV1QaAnswerList | undefined;
-  /** The conversation scored by this result. */
-  conversation?: string | undefined;
-  /** ID of the agent that handled the conversation. */
-  agentId?: string | undefined;
-  /** Identifier. The name of the scorecard result. Format: projects/{project}/locations/{location}/qaScorecardResults/{qa_scorecard_result} */
-  name?: string | undefined;
-  /** The maximum potential overall score of the scorecard. Any questions answered using `na_value` are excluded from this calculation. */
-  potentialScore?: number | undefined;
   /** Collection of tags and their scores. */
   qaTagResults?: GoogleCloudContactcenterinsightsV1QaScorecardResultQaTagResultList | undefined;
+  /** The conversation scored by this result. */
+  conversation?: string | undefined;
+  /** The overall numerical score of the result, incorporating any manual edits if they exist. */
+  score?: number | undefined;
+  /** Identifier. The name of the scorecard result. Format: projects/{project}/locations/{location}/qaScorecardResults/{qa_scorecard_result} */
+  name?: string | undefined;
+  /** List of all individual score sets. */
+  scoreSources?: GoogleCloudContactcenterinsightsV1QaScorecardResultScoreSourceList | undefined;
+  /** ID of the agent that handled the conversation. */
+  agentId?: string | undefined;
+  /** The QaScorecardRevision scored by this result. */
+  qaScorecardRevision?: string | undefined;
+  /** Set of QaAnswers represented in the result. */
+  qaAnswers?: GoogleCloudContactcenterinsightsV1QaAnswerList | undefined;
   /** Output only. The timestamp that the revision was created. */
   createTime?: string | undefined;
+  /** The normalized score, which is the score divided by the potential score. Any manual edits are included if they exist. */
+  normalizedScore?: number | undefined;
+  /** The maximum potential overall score of the scorecard. Any questions answered using `na_value` are excluded from this calculation. */
+  potentialScore?: number | undefined;
 }
 export type GoogleCloudContactcenterinsightsV1QaScorecardResultList =
   Array<GoogleCloudContactcenterinsightsV1QaScorecardResult>;
-/** The data for an intent. Represents a detected intent in the conversation, for example MAKES_PROMISE. */
-export interface GoogleCloudContactcenterinsightsV1Intent {
-  /** The unique identifier of the intent. */
-  id?: string | undefined;
-  /** The human-readable name of the intent. */
-  displayName?: string | undefined;
-}
-export type GoogleCloudContactcenterinsightsV1IntentMap = {
-  [key: string]: GoogleCloudContactcenterinsightsV1Intent | undefined;
-};
-/** Information about the issue. */
-export interface GoogleCloudContactcenterinsightsV1IssueAssignment {
-  /** Resource name of the assigned issue. */
-  issue?: string | undefined;
-  /** Immutable. Display name of the assigned issue. This field is set at time of analysis and immutable since then. */
-  displayName?: string | undefined;
-  /** Score indicating the likelihood of the issue assignment. currently bounded on [0,1]. */
-  score?: number | undefined;
-}
-export type GoogleCloudContactcenterinsightsV1IssueAssignmentList =
-  Array<GoogleCloudContactcenterinsightsV1IssueAssignment>;
-/** Issue Modeling result on a conversation. */
-export interface GoogleCloudContactcenterinsightsV1IssueModelResult {
-  /** Issue model that generates the result. Format: projects/{project}/locations/{location}/issueModels/{issue_model} */
-  issueModel?: string | undefined;
-  /** All the matched issues. */
-  issues?: GoogleCloudContactcenterinsightsV1IssueAssignmentList | undefined;
-}
 /** One channel of conversation-level sentiment data. */
 export interface GoogleCloudContactcenterinsightsV1ConversationLevelSentiment {
-  /** Data specifying sentiment. */
-  sentimentData?: GoogleCloudContactcenterinsightsV1SentimentData | undefined;
   /** The channel of the audio that the data applies to. */
   channelTag?: number | undefined;
+  /** Data specifying sentiment. */
+  sentimentData?: GoogleCloudContactcenterinsightsV1SentimentData | undefined;
 }
 export type GoogleCloudContactcenterinsightsV1ConversationLevelSentimentList =
   Array<GoogleCloudContactcenterinsightsV1ConversationLevelSentiment>;
-/** The data for a hold annotation. */
-export type GoogleCloudContactcenterinsightsV1HoldData =
-  GoogleCloudContactcenterinsightsV1AppealAssessmentRequest;
-/** The data for an issue match annotation. */
-export interface GoogleCloudContactcenterinsightsV1IssueMatchData {
-  /** Information about the issue's assignment. */
-  issueAssignment?: GoogleCloudContactcenterinsightsV1IssueAssignment | undefined;
-}
-/** The data for a matched phrase matcher. Represents information identifying a phrase matcher for a given match. */
-export interface GoogleCloudContactcenterinsightsV1PhraseMatchData {
-  /** The unique identifier (the resource name) of the phrase matcher. */
-  phraseMatcher?: string | undefined;
-  /** The human-readable name of the phrase matcher. */
-  displayName?: string | undefined;
-}
-/** The data for an interruption annotation. */
-export type GoogleCloudContactcenterinsightsV1InterruptionData =
-  GoogleCloudContactcenterinsightsV1AppealAssessmentRequest;
-/** The data for an intent match. Represents an intent match for a text segment in the conversation. A text segment can be part of a sentence, a complete sentence, or an utterance with multiple sentences. */
-export interface GoogleCloudContactcenterinsightsV1IntentMatchData {
-  /** The id of the matched intent. Can be used to retrieve the corresponding intent information. */
-  intentUniqueId?: string | undefined;
-}
-/** The data for a silence annotation. */
-export type GoogleCloudContactcenterinsightsV1SilenceData =
-  GoogleCloudContactcenterinsightsV1AppealAssessmentRequest;
-export type GoogleCloudContactcenterinsightsV1EntityMentionDataTypeEnum =
-  | "MENTION_TYPE_UNSPECIFIED"
-  | "PROPER"
-  | "COMMON";
-/** The data for an entity mention annotation. This represents a mention of an `Entity` in the conversation. */
-export interface GoogleCloudContactcenterinsightsV1EntityMentionData {
-  /** The key of this entity in conversation entities. Can be used to retrieve the exact `Entity` this mention is attached to. */
-  entityUniqueId?: string | undefined;
-  /** Sentiment expressed for this mention of the entity. */
-  sentiment?: GoogleCloudContactcenterinsightsV1SentimentData | undefined;
-  /** The type of the entity mention. */
-  type?: GoogleCloudContactcenterinsightsV1EntityMentionDataTypeEnum | (string & {}) | undefined;
-}
-/** A piece of metadata that applies to a window of a call. */
-export interface GoogleCloudContactcenterinsightsV1CallAnnotation {
-  /** Data specifying a hold. */
-  holdData?: GoogleCloudContactcenterinsightsV1AppealAssessmentRequest | undefined;
-  /** The boundary in the conversation where the annotation ends, inclusive. */
-  annotationEndBoundary?: GoogleCloudContactcenterinsightsV1AnnotationBoundary | undefined;
-  /** The boundary in the conversation where the annotation starts, inclusive. */
-  annotationStartBoundary?: GoogleCloudContactcenterinsightsV1AnnotationBoundary | undefined;
-  /** Data specifying sentiment. */
-  sentimentData?: GoogleCloudContactcenterinsightsV1SentimentData | undefined;
-  /** Data specifying an issue match. */
-  issueMatchData?: GoogleCloudContactcenterinsightsV1IssueMatchData | undefined;
-  /** Data specifying a phrase match. */
-  phraseMatchData?: GoogleCloudContactcenterinsightsV1PhraseMatchData | undefined;
-  /** The channel of the audio where the annotation occurs. For single-channel audio, this field is not populated. */
-  channelTag?: number | undefined;
-  /** Data specifying an interruption. */
-  interruptionData?: GoogleCloudContactcenterinsightsV1AppealAssessmentRequest | undefined;
-  /** Data specifying an intent match. */
-  intentMatchData?: GoogleCloudContactcenterinsightsV1IntentMatchData | undefined;
-  /** Data specifying silence. */
-  silenceData?: GoogleCloudContactcenterinsightsV1AppealAssessmentRequest | undefined;
-  /** Data specifying an entity mention. */
-  entityMentionData?: GoogleCloudContactcenterinsightsV1EntityMentionData | undefined;
-}
-export type GoogleCloudContactcenterinsightsV1CallAnnotationList =
-  Array<GoogleCloudContactcenterinsightsV1CallAnnotation>;
 export type GoogleCloudContactcenterinsightsV1EntityTypeEnum =
   | "TYPE_UNSPECIFIED"
   | "PERSON"
@@ -1688,39 +1287,147 @@ export type GoogleCloudContactcenterinsightsV1EntityTypeEnum =
   | "PRICE";
 /** The data for an entity annotation. Represents a phrase in the conversation that is a known entity, such as a person, an organization, or location. */
 export interface GoogleCloudContactcenterinsightsV1Entity {
-  /** The salience score associated with the entity in the [0, 1.0] range. The salience score for an entity provides information about the importance or centrality of that entity to the entire document text. Scores closer to 0 are less salient, while scores closer to 1.0 are highly salient. */
-  salience?: number | undefined;
-  /** The representative name for the entity. */
-  displayName?: string | undefined;
-  /** Metadata associated with the entity. For most entity types, the metadata is a Wikipedia URL (`wikipedia_url`) and Knowledge Graph MID (`mid`), if they are available. For the metadata associated with other entity types, see the Type table below. */
-  metadata?: StringMap | undefined;
   /** The aggregate sentiment expressed for this entity in the conversation. */
   sentiment?: GoogleCloudContactcenterinsightsV1SentimentData | undefined;
   /** The entity type. */
   type?: GoogleCloudContactcenterinsightsV1EntityTypeEnum | (string & {}) | undefined;
+  /** The representative name for the entity. */
+  displayName?: string | undefined;
+  /** Metadata associated with the entity. For most entity types, the metadata is a Wikipedia URL (`wikipedia_url`) and Knowledge Graph MID (`mid`), if they are available. For the metadata associated with other entity types, see the Type table below. */
+  metadata?: StringMap | undefined;
+  /** The salience score associated with the entity in the [0, 1.0] range. The salience score for an entity provides information about the importance or centrality of that entity to the entire document text. Scores closer to 0 are less salient, while scores closer to 1.0 are highly salient. */
+  salience?: number | undefined;
 }
 export type GoogleCloudContactcenterinsightsV1EntityMap = {
   [key: string]: GoogleCloudContactcenterinsightsV1Entity | undefined;
 };
+/** The data for an intent. Represents a detected intent in the conversation, for example MAKES_PROMISE. */
+export interface GoogleCloudContactcenterinsightsV1Intent {
+  /** The unique identifier of the intent. */
+  id?: string | undefined;
+  /** The human-readable name of the intent. */
+  displayName?: string | undefined;
+}
+export type GoogleCloudContactcenterinsightsV1IntentMap = {
+  [key: string]: GoogleCloudContactcenterinsightsV1Intent | undefined;
+};
+/** Information about the issue. */
+export interface GoogleCloudContactcenterinsightsV1IssueAssignment {
+  /** Score indicating the likelihood of the issue assignment. currently bounded on [0,1]. */
+  score?: number | undefined;
+  /** Resource name of the assigned issue. */
+  issue?: string | undefined;
+  /** Immutable. Display name of the assigned issue. This field is set at time of analysis and immutable since then. */
+  displayName?: string | undefined;
+}
+export type GoogleCloudContactcenterinsightsV1IssueAssignmentList =
+  Array<GoogleCloudContactcenterinsightsV1IssueAssignment>;
+/** Issue Modeling result on a conversation. */
+export interface GoogleCloudContactcenterinsightsV1IssueModelResult {
+  /** Issue model that generates the result. Format: projects/{project}/locations/{location}/issueModels/{issue_model} */
+  issueModel?: string | undefined;
+  /** All the matched issues. */
+  issues?: GoogleCloudContactcenterinsightsV1IssueAssignmentList | undefined;
+}
+/** A point in a conversation that marks the start or the end of an annotation. */
+export interface GoogleCloudContactcenterinsightsV1AnnotationBoundary {
+  /** The word index of this boundary with respect to the first word in the transcript piece. This index starts at zero. */
+  wordIndex?: number | undefined;
+  /** The index in the sequence of transcribed pieces of the conversation where the boundary is located. This index starts at zero. */
+  transcriptIndex?: number | undefined;
+}
+/** The data for an interruption annotation. */
+export type GoogleCloudContactcenterinsightsV1InterruptionData =
+  GoogleCloudContactcenterinsightsV1AppealAssessmentRequest;
+/** The data for an issue match annotation. */
+export interface GoogleCloudContactcenterinsightsV1IssueMatchData {
+  /** Information about the issue's assignment. */
+  issueAssignment?: GoogleCloudContactcenterinsightsV1IssueAssignment | undefined;
+}
+export type GoogleCloudContactcenterinsightsV1EntityMentionDataTypeEnum =
+  | "MENTION_TYPE_UNSPECIFIED"
+  | "PROPER"
+  | "COMMON";
+/** The data for an entity mention annotation. This represents a mention of an `Entity` in the conversation. */
+export interface GoogleCloudContactcenterinsightsV1EntityMentionData {
+  /** The key of this entity in conversation entities. Can be used to retrieve the exact `Entity` this mention is attached to. */
+  entityUniqueId?: string | undefined;
+  /** Sentiment expressed for this mention of the entity. */
+  sentiment?: GoogleCloudContactcenterinsightsV1SentimentData | undefined;
+  /** The type of the entity mention. */
+  type?: GoogleCloudContactcenterinsightsV1EntityMentionDataTypeEnum | (string & {}) | undefined;
+}
+/** The data for a hold annotation. */
+export type GoogleCloudContactcenterinsightsV1HoldData =
+  GoogleCloudContactcenterinsightsV1AppealAssessmentRequest;
+/** The data for a matched phrase matcher. Represents information identifying a phrase matcher for a given match. */
+export interface GoogleCloudContactcenterinsightsV1PhraseMatchData {
+  /** The unique identifier (the resource name) of the phrase matcher. */
+  phraseMatcher?: string | undefined;
+  /** The human-readable name of the phrase matcher. */
+  displayName?: string | undefined;
+}
+/** The data for a silence annotation. */
+export type GoogleCloudContactcenterinsightsV1SilenceData =
+  GoogleCloudContactcenterinsightsV1AppealAssessmentRequest;
+/** The data for an intent match. Represents an intent match for a text segment in the conversation. A text segment can be part of a sentence, a complete sentence, or an utterance with multiple sentences. */
+export interface GoogleCloudContactcenterinsightsV1IntentMatchData {
+  /** The id of the matched intent. Can be used to retrieve the corresponding intent information. */
+  intentUniqueId?: string | undefined;
+}
+/** A piece of metadata that applies to a window of a call. */
+export interface GoogleCloudContactcenterinsightsV1CallAnnotation {
+  /** The boundary in the conversation where the annotation ends, inclusive. */
+  annotationEndBoundary?: GoogleCloudContactcenterinsightsV1AnnotationBoundary | undefined;
+  /** The boundary in the conversation where the annotation starts, inclusive. */
+  annotationStartBoundary?: GoogleCloudContactcenterinsightsV1AnnotationBoundary | undefined;
+  /** Data specifying an interruption. */
+  interruptionData?: GoogleCloudContactcenterinsightsV1AppealAssessmentRequest | undefined;
+  /** Data specifying an issue match. */
+  issueMatchData?: GoogleCloudContactcenterinsightsV1IssueMatchData | undefined;
+  /** Data specifying sentiment. */
+  sentimentData?: GoogleCloudContactcenterinsightsV1SentimentData | undefined;
+  /** Data specifying an entity mention. */
+  entityMentionData?: GoogleCloudContactcenterinsightsV1EntityMentionData | undefined;
+  /** Data specifying a hold. */
+  holdData?: GoogleCloudContactcenterinsightsV1AppealAssessmentRequest | undefined;
+  /** Data specifying a phrase match. */
+  phraseMatchData?: GoogleCloudContactcenterinsightsV1PhraseMatchData | undefined;
+  /** Data specifying silence. */
+  silenceData?: GoogleCloudContactcenterinsightsV1AppealAssessmentRequest | undefined;
+  /** The channel of the audio where the annotation occurs. For single-channel audio, this field is not populated. */
+  channelTag?: number | undefined;
+  /** Data specifying an intent match. */
+  intentMatchData?: GoogleCloudContactcenterinsightsV1IntentMatchData | undefined;
+}
+export type GoogleCloudContactcenterinsightsV1CallAnnotationList =
+  Array<GoogleCloudContactcenterinsightsV1CallAnnotation>;
+/** Conversation-level silence data. */
+export interface GoogleCloudContactcenterinsightsV1ConversationLevelSilence {
+  /** Percentage of the total conversation spent in silence. */
+  silencePercentage?: number | undefined;
+  /** Amount of time calculated to be in silence. */
+  silenceDuration?: string | undefined;
+}
 export type GoogleCloudContactcenterinsightsV1PhraseMatchDataMap = {
   [key: string]: GoogleCloudContactcenterinsightsV1PhraseMatchData | undefined;
 };
 /** Call-specific metadata created during analysis. */
 export interface GoogleCloudContactcenterinsightsV1AnalysisResultCallAnalysisMetadata {
-  /** Overall conversation-level silence during the call. */
-  silence?: GoogleCloudContactcenterinsightsV1ConversationLevelSilence | undefined;
   /** Results of scoring QaScorecards. */
   qaScorecardResults?: GoogleCloudContactcenterinsightsV1QaScorecardResultList | undefined;
+  /** Overall conversation-level sentiment for each channel of the call. */
+  sentiments?: GoogleCloudContactcenterinsightsV1ConversationLevelSentimentList | undefined;
+  /** All the entities in the call. */
+  entities?: GoogleCloudContactcenterinsightsV1EntityMap | undefined;
   /** All the matched intents in the call. */
   intents?: GoogleCloudContactcenterinsightsV1IntentMap | undefined;
   /** Overall conversation-level issue modeling result. */
   issueModelResult?: GoogleCloudContactcenterinsightsV1IssueModelResult | undefined;
-  /** Overall conversation-level sentiment for each channel of the call. */
-  sentiments?: GoogleCloudContactcenterinsightsV1ConversationLevelSentimentList | undefined;
   /** A list of call annotations that apply to this call. */
   annotations?: GoogleCloudContactcenterinsightsV1CallAnnotationList | undefined;
-  /** All the entities in the call. */
-  entities?: GoogleCloudContactcenterinsightsV1EntityMap | undefined;
+  /** Overall conversation-level silence during the call. */
+  silence?: GoogleCloudContactcenterinsightsV1ConversationLevelSilence | undefined;
   /** All the matched phrase matchers in the call. */
   phraseMatchers?: GoogleCloudContactcenterinsightsV1PhraseMatchDataMap | undefined;
 }
@@ -1735,20 +1442,313 @@ export interface GoogleCloudContactcenterinsightsV1AnalysisResult {
 }
 /** The analysis resource. */
 export interface GoogleCloudContactcenterinsightsV1Analysis {
-  /** Output only. The time at which the analysis was created, which occurs when the long-running operation completes. */
-  createTime?: string | undefined;
-  /** Output only. Whether this resource is zone separated. */
-  satisfiesPzs?: boolean | undefined;
-  /** Output only. The result of the analysis, which is populated when the analysis finishes. */
-  analysisResult?: GoogleCloudContactcenterinsightsV1AnalysisResult | undefined;
   /** To select the annotators to run and the phrase matchers to use (if any). If not specified, all annotators will be run. */
   annotatorSelector?: GoogleCloudContactcenterinsightsV1AnnotatorSelector | undefined;
-  /** Output only. The time at which the analysis was requested. */
-  requestTime?: string | undefined;
-  /** Immutable. The resource name of the analysis. Format: projects/{project}/locations/{location}/conversations/{conversation}/analyses/{analysis} */
-  name?: string | undefined;
+  /** Output only. The result of the analysis, which is populated when the analysis finishes. */
+  analysisResult?: GoogleCloudContactcenterinsightsV1AnalysisResult | undefined;
   /** Output only. Whether this resource is zone isolated. */
   satisfiesPzi?: boolean | undefined;
+  /** Output only. The time at which the analysis was requested. */
+  requestTime?: string | undefined;
+  /** Output only. Whether this resource is zone separated. */
+  satisfiesPzs?: boolean | undefined;
+  /** Output only. The time at which the analysis was created, which occurs when the long-running operation completes. */
+  createTime?: string | undefined;
+  /** Immutable. The resource name of the analysis. Format: projects/{project}/locations/{location}/conversations/{conversation}/analyses/{analysis} */
+  name?: string | undefined;
+}
+/** Agent Assist Smart Reply data. */
+export interface GoogleCloudContactcenterinsightsV1SmartReplyData {
+  /** The content of the reply. */
+  reply?: string | undefined;
+  /** The name of the answer record. Format: projects/{project}/locations/{location}/answerRecords/{answer_record} */
+  queryRecord?: string | undefined;
+  /** The system's confidence score that this reply is a good match for this conversation, ranging from 0.0 (completely uncertain) to 1.0 (completely certain). */
+  confidenceScore?: number | undefined;
+  /** Map that contains metadata about the Smart Reply and the document from which it originates. */
+  metadata?: StringMap | undefined;
+}
+export type GoogleCloudContactcenterinsightsV1RuntimeAnnotationUserInputQuerySourceEnum =
+  | "QUERY_SOURCE_UNSPECIFIED"
+  | "AGENT_QUERY"
+  | "SUGGESTED_QUERY";
+/** Explicit input used for generating the answer */
+export interface GoogleCloudContactcenterinsightsV1RuntimeAnnotationUserInput {
+  /** The resource name of associated generator. Format: `projects//locations//generators/` */
+  generatorName?: string | undefined;
+  /** Query source for the answer. */
+  querySource?:
+    | GoogleCloudContactcenterinsightsV1RuntimeAnnotationUserInputQuerySourceEnum
+    | (string & {})
+    | undefined;
+  /** Query text. Article Search uses this to store the input query used to generate the search results. */
+  query?: string | undefined;
+}
+/** A tool that is created from a toolset. */
+export interface GoogleCloudCesV1mainToolsetTool {
+  /** Optional. The tool ID to filter the tools to retrieve the schema for. */
+  toolId?: string | undefined;
+  /** Required. The resource name of the Toolset from which this tool is derived. Format: `projects/{project}/locations/{location}/apps/{app}/toolsets/{toolset}` */
+  toolset?: string | undefined;
+}
+/** Request for the client or the agent to execute the specified tool. */
+export interface GoogleCloudCesV1mainToolCall {
+  /** Optional. The toolset tool to execute. */
+  toolsetTool?: GoogleCloudCesV1mainToolsetTool | undefined;
+  /** Optional. The name of the tool to execute. Format: `projects/{project}/locations/{location}/apps/{app}/tools/{tool}` */
+  tool?: string | undefined;
+  /** Optional. The unique identifier of the tool call. If populated, the client should return the execution result with the matching ID in ToolResponse. */
+  id?: string | undefined;
+  /** Output only. The id of the tool call that caused this one, when it was issued by a sub-agent working on behalf of a parent call. Empty for top-level calls. Lets a client group a sub-agent's work under the call that started it instead of rendering every step as a sibling. */
+  parentToolCallId?: string | undefined;
+  /** Optional. The input parameters and values for the tool in JSON object format. */
+  args?: DocumentMap | undefined;
+  /** Output only. Human-readable name of the agent that issued this call, e.g. "Contract Architect". Empty when the root agent issued it. */
+  agentName?: string | undefined;
+  /** Output only. Display name of the tool. */
+  displayName?: string | undefined;
+  /** Output only. The app this call targets, derived by the assistant from the call's resource arguments: an app resource name, `PROJECT` for location-scoped tools, or empty for session-local tools. Set only in project-scoped assistant sessions. */
+  targetApp?: string | undefined;
+}
+/** Represents a blob input or output in the conversation. */
+export interface GoogleCloudCesV1mainBlob {
+  /** Required. The IANA standard MIME type of the source data. */
+  mimeType?: string | undefined;
+  /** Required. Raw bytes of the blob. */
+  data?: string | undefined;
+}
+/** Represents an event indicating the transfer of a conversation to a different agent. */
+export interface GoogleCloudCesV1mainAgentTransfer {
+  /** Required. The agent to which the conversation is being transferred. The agent will handle the conversation from this point forward. Format: `projects/{project}/locations/{location}/apps/{app}/agents/{agent}` */
+  targetAgent?: string | undefined;
+  /** Output only. Display name of the agent. */
+  displayName?: string | undefined;
+}
+/** Represents an image input or output in the conversation. */
+export interface GoogleCloudCesV1mainImage {
+  /** Required. Raw bytes of the image. */
+  data?: string | undefined;
+  /** Optional. The alternative text for the image. */
+  altText?: string | undefined;
+  /** Required. The IANA standard MIME type of the source data. Supported image types includes: * image/png * image/jpeg * image/webp */
+  mimeType?: string | undefined;
+}
+/** The execution result of a specific tool from the client or the agent. */
+export interface GoogleCloudCesV1mainToolResponse {
+  /** Optional. The name of the tool to execute. Format: `projects/{project}/locations/{location}/apps/{app}/tools/{tool}` */
+  tool?: string | undefined;
+  /** Required. The tool execution result in JSON object format. Use "output" key to specify tool response and "error" key to specify error details (if any). If "output" and "error" keys are not specified, then whole "response" is treated as tool execution result. */
+  response?: DocumentMap | undefined;
+  /** Optional. The matching ID of the tool call the response is for. */
+  id?: string | undefined;
+  /** Optional. The toolset tool that got executed. */
+  toolsetTool?: GoogleCloudCesV1mainToolsetTool | undefined;
+  /** Output only. The id of the tool call that caused this one, when it was issued by a sub-agent working on behalf of a parent call. Empty for top-level calls. Lets a client group a sub-agent's work under the call that started it instead of rendering every step as a sibling. */
+  parentToolCallId?: string | undefined;
+  /** Output only. Display name of the tool. */
+  displayName?: string | undefined;
+  /** Output only. The app the executed tool targeted; mirrors ToolCall.target_app. */
+  targetApp?: string | undefined;
+  /** Output only. Human-readable name of the agent that issued this call, e.g. "Contract Architect". Empty when the root agent issued it. */
+  agentName?: string | undefined;
+}
+/** A chunk of content within a message. */
+export interface GoogleCloudCesV1mainChunk {
+  /** Optional. Tool execution request. */
+  toolCall?: GoogleCloudCesV1mainToolCall | undefined;
+  /** Optional. Blob data. */
+  blob?: GoogleCloudCesV1mainBlob | undefined;
+  /** Optional. Agent transfer event. */
+  agentTransfer?: GoogleCloudCesV1mainAgentTransfer | undefined;
+  /** Optional. Image data. */
+  image?: GoogleCloudCesV1mainImage | undefined;
+  /** Optional. Transcript associated with the audio. */
+  transcript?: string | undefined;
+  /** Optional. Custom payload data. */
+  payload?: DocumentMap | undefined;
+  /** A struct represents variables that were updated in the conversation, keyed by variable names. */
+  updatedVariables?: DocumentMap | undefined;
+  /** A struct represents default variables at the start of the conversation, keyed by variable names. */
+  defaultVariables?: DocumentMap | undefined;
+  /** Optional. Text data. */
+  text?: string | undefined;
+  /** Optional. Tool execution response. */
+  toolResponse?: GoogleCloudCesV1mainToolResponse | undefined;
+}
+export type GoogleCloudCesV1mainChunkList = Array<GoogleCloudCesV1mainChunk>;
+/** A message within a conversation. */
+export interface GoogleCloudCesV1mainMessage {
+  /** Optional. Timestamp when the message was sent or received. Should not be used if the message is part of an example. */
+  eventTime?: string | undefined;
+  /** Optional. The role within the conversation, e.g., user, agent. */
+  role?: string | undefined;
+  /** Optional. Content of the message as a series of chunks. */
+  chunks?: GoogleCloudCesV1mainChunkList | undefined;
+}
+export type GoogleCloudCesV1mainMessageList = Array<GoogleCloudCesV1mainMessage>;
+export type GoogleCloudCesV1mainSpanList = Array<GoogleCloudCesV1mainSpan>;
+/** A span is a unit of work or a single operation during the request processing. */
+export interface GoogleCloudCesV1mainSpan {
+  /** Output only. The end time of the span. */
+  endTime?: string | undefined;
+  /** Output only. The duration of the span. */
+  duration?: string | undefined;
+  /** Output only. The name of the span. */
+  name?: string | undefined;
+  /** Output only. Key-value attributes associated with the span. */
+  attributes?: DocumentMap | undefined;
+  /** Output only. The start time of the span. */
+  startTime?: string | undefined;
+  /** Output only. The child spans that are nested under this span. */
+  childSpans?: GoogleCloudCesV1mainSpanList | undefined;
+}
+/** The CES diagnostic information. */
+export interface GoogleCloudContactcenterinsightsV1CesTurnAnnotation {
+  /** The messages in the turn. */
+  messages?: GoogleCloudCesV1mainMessageList | undefined;
+  /** The root span of the action processing. */
+  rootSpan?: GoogleCloudCesV1mainSpan | undefined;
+}
+/** Agent Assist Smart Compose suggestion data. */
+export interface GoogleCloudContactcenterinsightsV1SmartComposeSuggestionData {
+  /** The system's confidence score that this suggestion is a good match for this conversation, ranging from 0.0 (completely uncertain) to 1.0 (completely certain). */
+  confidenceScore?: number | undefined;
+  /** The name of the answer record. Format: projects/{project}/locations/{location}/answerRecords/{answer_record} */
+  queryRecord?: string | undefined;
+  /** The content of the suggestion. */
+  suggestion?: string | undefined;
+  /** Map that contains metadata about the Smart Compose suggestion and the document from which it originates. */
+  metadata?: StringMap | undefined;
+}
+/** Agent Assist frequently-asked-question answer data. */
+export interface GoogleCloudContactcenterinsightsV1FaqAnswerData {
+  /** The corresponding FAQ question. */
+  question?: string | undefined;
+  /** The piece of text from the `source` knowledge base document. */
+  answer?: string | undefined;
+  /** Map that contains metadata about the FAQ answer and the document that it originates from. */
+  metadata?: StringMap | undefined;
+  /** The name of the answer record. Format: projects/{project}/locations/{location}/answerRecords/{answer_record} */
+  queryRecord?: string | undefined;
+  /** The system's confidence score that this answer is a good match for this conversation, ranging from 0.0 (completely uncertain) to 1.0 (completely certain). */
+  confidenceScore?: number | undefined;
+  /** The knowledge document that this answer was extracted from. Format: projects/{project}/knowledgeBases/{knowledge_base}/documents/{document}. */
+  source?: string | undefined;
+}
+/** Agent Assist Article Suggestion data. */
+export interface GoogleCloudContactcenterinsightsV1ArticleSuggestionData {
+  /** The knowledge document that this answer was extracted from. Format: projects/{project}/knowledgeBases/{knowledge_base}/documents/{document} */
+  source?: string | undefined;
+  /** Article title. */
+  title?: string | undefined;
+  /** Article URI. */
+  uri?: string | undefined;
+  /** Map that contains metadata about the Article Suggestion and the document that it originates from. */
+  metadata?: StringMap | undefined;
+  /** The system's confidence score that this article is a good match for this conversation, ranging from 0.0 (completely uncertain) to 1.0 (completely certain). */
+  confidenceScore?: number | undefined;
+  /** The name of the answer record. Format: projects/{project}/locations/{location}/answerRecords/{answer_record} */
+  queryRecord?: string | undefined;
+}
+/** Indicates the session has terminated, due to either successful completion (e.g. user says "Good bye!" ) or an agent escalation. The agent will not process any further inputs after session is terminated and the client should half-close and disconnect after receiving all remaining responses from the agent. */
+export interface GoogleCloudCesV1mainEndSession {
+  /** Optional. Provides additional information about the end session signal, such as the reason for ending the session. */
+  metadata?: DocumentMap | undefined;
+}
+/** The CES end session annotation. */
+export interface GoogleCloudContactcenterinsightsV1CesEndSessionAnnotation {
+  /** End session signal from CES. */
+  endSession?: GoogleCloudCesV1mainEndSession | undefined;
+}
+/** Dialogflow interaction data. */
+export interface GoogleCloudContactcenterinsightsV1DialogflowInteractionData {
+  /** The confidence of the match ranging from 0.0 (completely uncertain) to 1.0 (completely certain). */
+  confidence?: number | undefined;
+  /** The Dialogflow intent resource path. Format: projects/{project}/agent/{agent}/intents/{intent} */
+  dialogflowIntentId?: string | undefined;
+}
+export type GoogleCloudContactcenterinsightsV1AnswerFeedbackCorrectnessLevelEnum =
+  | "CORRECTNESS_LEVEL_UNSPECIFIED"
+  | "NOT_CORRECT"
+  | "PARTIALLY_CORRECT"
+  | "FULLY_CORRECT";
+/** The feedback that the customer has about a certain answer in the conversation. */
+export interface GoogleCloudContactcenterinsightsV1AnswerFeedback {
+  /** Indicates whether an answer or item was clicked by the human agent. */
+  clicked?: boolean | undefined;
+  /** Indicates whether an answer or item was displayed to the human agent in the agent desktop UI. */
+  displayed?: boolean | undefined;
+  /** The correctness level of an answer. */
+  correctnessLevel?:
+    | GoogleCloudContactcenterinsightsV1AnswerFeedbackCorrectnessLevelEnum
+    | (string & {})
+    | undefined;
+}
+/** An annotation that was generated during the customer and agent interaction. */
+export interface GoogleCloudContactcenterinsightsV1RuntimeAnnotation {
+  /** Agent Assist Smart Reply data. */
+  smartReply?: GoogleCloudContactcenterinsightsV1SmartReplyData | undefined;
+  /** The time at which this annotation was created. */
+  createTime?: string | undefined;
+  /** The boundary in the conversation where the annotation starts, inclusive. */
+  startBoundary?: GoogleCloudContactcenterinsightsV1AnnotationBoundary | undefined;
+  /** Explicit input used for generating the answer */
+  userInput?: GoogleCloudContactcenterinsightsV1RuntimeAnnotationUserInput | undefined;
+  /** The CES turn annotation. */
+  cesTurnAnnotation?: GoogleCloudContactcenterinsightsV1CesTurnAnnotation | undefined;
+  /** Agent Assist Smart Compose suggestion data. */
+  smartComposeSuggestion?: GoogleCloudContactcenterinsightsV1SmartComposeSuggestionData | undefined;
+  /** Conversation summarization suggestion data. */
+  conversationSummarizationSuggestion?:
+    | GoogleCloudContactcenterinsightsV1ConversationSummarizationSuggestionData
+    | undefined;
+  /** Agent Assist FAQ answer data. */
+  faqAnswer?: GoogleCloudContactcenterinsightsV1FaqAnswerData | undefined;
+  /** Agent Assist Article Suggestion data. */
+  articleSuggestion?: GoogleCloudContactcenterinsightsV1ArticleSuggestionData | undefined;
+  /** The unique identifier of the annotation. Format: projects/{project}/locations/{location}/conversationDatasets/{dataset}/conversationDataItems/{data_item}/conversationAnnotations/{annotation} */
+  annotationId?: string | undefined;
+  /** The CES end session annotation. */
+  cesEndSessionAnnotation?: GoogleCloudContactcenterinsightsV1CesEndSessionAnnotation | undefined;
+  /** Dialogflow interaction data. */
+  dialogflowInteraction?: GoogleCloudContactcenterinsightsV1DialogflowInteractionData | undefined;
+  /** The feedback that the customer has about the answer in `data`. */
+  answerFeedback?: GoogleCloudContactcenterinsightsV1AnswerFeedback | undefined;
+  /** The boundary in the conversation where the annotation ends, inclusive. */
+  endBoundary?: GoogleCloudContactcenterinsightsV1AnnotationBoundary | undefined;
+}
+export type GoogleCloudContactcenterinsightsV1RuntimeAnnotationList =
+  Array<GoogleCloudContactcenterinsightsV1RuntimeAnnotation>;
+/** A Cloud Storage source of conversation data. */
+export interface GoogleCloudContactcenterinsightsV1GcsSource {
+  /** Immutable. Cloud Storage URI that points to a file that contains the conversation transcript. */
+  transcriptUri?: string | undefined;
+  /** Immutable. Cloud Storage URIs that point to files that contain the conversation audio. Supports both single audio files and multi-leg session recordings (e.g., call transfers, rolling recording buffers). */
+  audioUris?: StringList | undefined;
+  /** Immutable. Deprecated: Use `audio_uris` instead. Cloud Storage URI that points to a file that contains the conversation audio. */
+  audioUri?: string | undefined;
+}
+/** A Dialogflow source of conversation data. */
+export interface GoogleCloudContactcenterinsightsV1DialogflowSource {
+  /** Output only. The name of the Dialogflow conversation that this conversation resource is derived from. Format: projects/{project}/locations/{location}/conversations/{conversation} */
+  dialogflowConversation?: string | undefined;
+  /** Cloud Storage URI that points to a file that contains the conversation audio. */
+  audioUri?: string | undefined;
+}
+export type GoogleCloudContactcenterinsightsV1ConversationDataSourceTurnLevelAudioList =
+  Array<GoogleCloudContactcenterinsightsV1ConversationDataSourceTurnLevelAudio>;
+/** The conversation source, which is a combination of transcript and audio. */
+export interface GoogleCloudContactcenterinsightsV1ConversationDataSource {
+  /** Cloud Storage URI that points to a file that contains the conversation metadata. */
+  metadataUri?: string | undefined;
+  /** A Cloud Storage location specification for the audio and transcript. */
+  gcsSource?: GoogleCloudContactcenterinsightsV1GcsSource | undefined;
+  /** The source when the conversation comes from Dialogflow. */
+  dialogflowSource?: GoogleCloudContactcenterinsightsV1DialogflowSource | undefined;
+  /** Cloud Storage URIs that points to files that contain the conversation audio for each turn. Assume the order of the URIs is the same as the order of the transcript turns. */
+  turnLevelAudios?:
+    | GoogleCloudContactcenterinsightsV1ConversationDataSourceTurnLevelAudioList
+    | undefined;
 }
 export type GoogleCloudContactcenterinsightsV1ConversationMediumEnum =
   | "MEDIUM_UNSPECIFIED"
@@ -1756,6 +1756,28 @@ export type GoogleCloudContactcenterinsightsV1ConversationMediumEnum =
   | "CHAT";
 /** The conversation resource. */
 export interface GoogleCloudContactcenterinsightsV1Conversation {
+  /** The time at which the conversation started. */
+  startTime?: string | undefined;
+  /** A user-specified language code for the conversation. */
+  languageCode?: string | undefined;
+  /** Output only. Whether this resource is zone separated. */
+  satisfiesPzs?: boolean | undefined;
+  /** Input only. The TTL for this resource. If specified, then this TTL will be used to calculate the expire time. */
+  ttl?: string | undefined;
+  /** Output only. The duration of the conversation. */
+  duration?: string | undefined;
+  /** Call-specific metadata. */
+  callMetadata?: GoogleCloudContactcenterinsightsV1ConversationCallMetadata | undefined;
+  /** A map for the user to specify any custom fields. A maximum of 100 labels per conversation is allowed, with a maximum of 256 characters per entry. */
+  labels?: StringMap | undefined;
+  /** Immutable. The resource name of the conversation. Format: projects/{project}/locations/{location}/conversations/{conversation} */
+  name?: string | undefined;
+  /** Output only. The number of turns in the conversation. */
+  turnCount?: number | undefined;
+  /** Output only. All the matched Dialogflow intents in the call. The key corresponds to a Dialogflow intent, format: projects/{project}/agent/{agent}/intents/{intent} */
+  dialogflowIntents?: GoogleCloudContactcenterinsightsV1DialogflowIntentMap | undefined;
+  /** Conversation metadata related to quality management. */
+  qualityMetadata?: GoogleCloudContactcenterinsightsV1ConversationQualityMetadata | undefined;
   /** Output only. The time at which the conversation was created. */
   createTime?: string | undefined;
   /** Output only. Latest summary of the conversation. */
@@ -1764,56 +1786,34 @@ export interface GoogleCloudContactcenterinsightsV1Conversation {
     | undefined;
   /** The time at which this conversation should expire. After this time, the conversation data and any associated analyses will be deleted. */
   expireTime?: string | undefined;
-  /** A map for the user to specify any custom fields. A maximum of 100 labels per conversation is allowed, with a maximum of 256 characters per entry. */
-  labels?: StringMap | undefined;
+  /** Output only. Info for correlating across conversations. */
+  correlationInfo?: GoogleCloudContactcenterinsightsV1ConversationCorrelationInfo | undefined;
   /** Output only. The conversation transcript. */
   transcript?: GoogleCloudContactcenterinsightsV1ConversationTranscript | undefined;
+  /** Output only. The conversation's latest analysis, if one exists. */
+  latestAnalysis?: GoogleCloudContactcenterinsightsV1Analysis | undefined;
+  /** Output only. The annotations that were generated during the customer and agent interaction. */
+  runtimeAnnotations?: GoogleCloudContactcenterinsightsV1RuntimeAnnotationList | undefined;
   /** An opaque, user-specified string representing the human agent who handled the conversation. */
   agentId?: string | undefined;
-  /** Call-specific metadata. */
-  callMetadata?: GoogleCloudContactcenterinsightsV1ConversationCallMetadata | undefined;
   /** The source of the audio and transcription for the conversation. */
   dataSource?: GoogleCloudContactcenterinsightsV1ConversationDataSource | undefined;
   /** Output only. The most recent time at which the conversation was updated. */
   updateTime?: string | undefined;
-  /** Immutable. The resource name of the conversation. Format: projects/{project}/locations/{location}/conversations/{conversation} */
-  name?: string | undefined;
-  /** Conversation metadata related to quality management. */
-  qualityMetadata?: GoogleCloudContactcenterinsightsV1ConversationQualityMetadata | undefined;
-  /** Output only. Whether this resource is zone separated. */
-  satisfiesPzs?: boolean | undefined;
-  /** A user-specified language code for the conversation. */
-  languageCode?: string | undefined;
-  /** Optional. JSON metadata encoded as a string. This field is primarily used by Insights integrations with various telephony systems and must be in one of Insight's supported formats. */
-  metadataJson?: string | undefined;
-  /** Output only. Info for correlating across conversations. */
-  correlationInfo?: GoogleCloudContactcenterinsightsV1ConversationCorrelationInfo | undefined;
-  /** Output only. Whether this resource is zone isolated. */
-  satisfiesPzi?: boolean | undefined;
-  /** Output only. All the matched Dialogflow intents in the call. The key corresponds to a Dialogflow intent, format: projects/{project}/agent/{agent}/intents/{intent} */
-  dialogflowIntents?: GoogleCloudContactcenterinsightsV1DialogflowIntentMap | undefined;
-  /** Output only. The annotations that were generated during the customer and agent interaction. */
-  runtimeAnnotations?: GoogleCloudContactcenterinsightsV1RuntimeAnnotationList | undefined;
-  /** Output only. The number of turns in the conversation. */
-  turnCount?: number | undefined;
-  /** Input only. The TTL for this resource. If specified, then this TTL will be used to calculate the expire time. */
-  ttl?: string | undefined;
-  /** The time at which the conversation started. */
-  startTime?: string | undefined;
-  /** Output only. The duration of the conversation. */
-  duration?: string | undefined;
-  /** Output only. The conversation's latest analysis, if one exists. */
-  latestAnalysis?: GoogleCloudContactcenterinsightsV1Analysis | undefined;
   /** Obfuscated user ID which the customer sent to us. */
   obfuscatedUserId?: string | undefined;
+  /** Output only. Whether this resource is zone isolated. */
+  satisfiesPzi?: boolean | undefined;
+  /** Optional. JSON metadata encoded as a string. This field is primarily used by Insights integrations with various telephony systems and must be in one of Insight's supported formats. */
+  metadataJson?: string | undefined;
   /** Immutable. The conversation medium. */
   medium?: GoogleCloudContactcenterinsightsV1ConversationMediumEnum | (string & {}) | undefined;
 }
 export interface CreateProjectsLocationsConversationsRequest extends GoogleCloudContactcenterinsightsV1Conversation {
-  /** Required. The parent resource of the conversation. */
-  parent: string;
   /** A unique ID for the new conversation. This ID will become the final component of the conversation's resource name. If no ID is specified, a server-generated ID will be used. This value should be 4-64 characters and must match the regular expression `^[a-z0-9-]{4,64}$`. Valid characters are `a-z-` */
   conversationId?: string | undefined;
+  /** Required. The parent resource of the conversation. */
+  parent: string;
 }
 export interface CreateProjectsLocationsConversationsAnalysesRequest extends GoogleCloudContactcenterinsightsV1Analysis {
   /** Required. The parent resource of the analysis. */
@@ -1828,144 +1828,10 @@ export interface CreateProjectsLocationsConversationsAssessmentsNotesRequest ext
   parent: string;
 }
 export interface CreateProjectsLocationsConversationsFeedbackLabelsRequest extends GoogleCloudContactcenterinsightsV1FeedbackLabel {
-  /** Optional. The ID of the feedback label to create. If one is not specified it will be generated by the server. */
-  feedbackLabelId?: string | undefined;
   /** Required. The parent resource of the feedback label. */
   parent: string;
-}
-/** Request data that use the existing QueryMetrics. */
-export interface GoogleCloudContactcenterinsightsV1QueryMetrics {
-  request?: DocumentMap | undefined;
-}
-/** The current chart checkpoint state. */
-export interface GoogleCloudContactcenterinsightsV1GenerativeInsightsChartCheckpoint {
-  /** The revision id of the chart. */
-  revisionId?: string | undefined;
-  /** The session id of the chart. */
-  sessionId?: string | undefined;
-}
-export type GoogleCloudContactcenterinsightsV1GenerativeInsightsChartConversationMessageSystemMessageTextOutputTypeEnum =
-  | "TYPE_UNSPECIFIED"
-  | "THOUGHT"
-  | "FINAL_RESPONSE"
-  | "PROGRESS";
-/** A text output message from the system. */
-export interface GoogleCloudContactcenterinsightsV1GenerativeInsightsChartConversationMessageSystemMessageTextOutput {
-  /** The parts of the message. */
-  texts?: StringList | undefined;
-  /** The type of the text message. */
-  type?:
-    | GoogleCloudContactcenterinsightsV1GenerativeInsightsChartConversationMessageSystemMessageTextOutputTypeEnum
-    | (string & {})
-    | undefined;
-}
-/** A message from the system in response to the user. This message can also be a message from the user as historical context for multiturn conversations with the system. */
-export interface GoogleCloudContactcenterinsightsV1GenerativeInsightsChartConversationMessageSystemMessage {
-  /** A direct natural language response to the user message. */
-  textOutput?:
-    | GoogleCloudContactcenterinsightsV1GenerativeInsightsChartConversationMessageSystemMessageTextOutput
-    | undefined;
-  /** Raw SQL from LLM, before templatization */
-  generatedSqlQuery?: string | undefined;
-  /** Chart spec from LLM */
-  chartSpec?: DocumentMap | undefined;
-}
-/** The user message. */
-export interface GoogleCloudContactcenterinsightsV1GenerativeInsightsChartConversationMessageUserMessage {
-  /** A message from the user that is interacting with the system. */
-  text?: string | undefined;
-}
-/** The message in the conversation. */
-export interface GoogleCloudContactcenterinsightsV1GenerativeInsightsChartConversationMessage {
-  /** A message from the system in response to the user. */
-  systemMessage?:
-    | GoogleCloudContactcenterinsightsV1GenerativeInsightsChartConversationMessageSystemMessage
-    | undefined;
-  /** For user messages, this is the time at which the system received the message. For system messages, this is the time at which the system generated the message. */
-  createTime?: string | undefined;
-  /** A message from the user that is interacting with the system. */
-  userMessage?:
-    | GoogleCloudContactcenterinsightsV1GenerativeInsightsChartConversationMessageUserMessage
-    | undefined;
-  /** The message id of the message. */
-  messageId?: string | undefined;
-}
-export type GoogleCloudContactcenterinsightsV1GenerativeInsightsChartConversationMessageList =
-  Array<GoogleCloudContactcenterinsightsV1GenerativeInsightsChartConversationMessage>;
-/** The conversation used to generate the chart. */
-export interface GoogleCloudContactcenterinsightsV1GenerativeInsightsChartConversation {
-  /** Ordered list of messages, including user inputs and system responses. */
-  messages?:
-    | GoogleCloudContactcenterinsightsV1GenerativeInsightsChartConversationMessageList
-    | undefined;
-  /** The create time of the conversation. */
-  createTime?: string | undefined;
-  /** The update time of the conversation. */
-  updateTime?: string | undefined;
-  /** The conversation id of the chart. */
-  conversationId?: string | undefined;
-}
-export type GoogleCloudContactcenterinsightsV1GenerativeInsightsChartConversationList =
-  Array<GoogleCloudContactcenterinsightsV1GenerativeInsightsChartConversation>;
-/** Request that use natural language query to generate the chart. */
-export interface GoogleCloudContactcenterinsightsV1GenerativeInsights {
-  /** Optional. For charts with comparison, this key will determine the metric that will be compared between the current and another dataset. */
-  sqlComparisonKey?: string | undefined;
-  /** The chart checkpoint used to generate the chart. */
-  chartCheckpoint?: GoogleCloudContactcenterinsightsV1GenerativeInsightsChartCheckpoint | undefined;
-  /** SQL query used to generate the chart. */
-  sqlQuery?: string | undefined;
-  /** Chart spec for the chart. */
-  chartSpec?: DocumentMap | undefined;
-  request?: DocumentMap | undefined;
-  /** Output only. The chart conversations used to generate the chart. */
-  chartConversations?:
-    | GoogleCloudContactcenterinsightsV1GenerativeInsightsChartConversationList
-    | undefined;
-}
-/** The request data for visualizing the dataset in the chart. */
-export interface GoogleCloudContactcenterinsightsV1ChartDataSource {
-  /** Use the existing QueryMetrics to generate the chart. */
-  queryMetrics?: GoogleCloudContactcenterinsightsV1QueryMetrics | undefined;
-  /** Use natural language query to generate the chart. */
-  generativeInsights?: GoogleCloudContactcenterinsightsV1GenerativeInsights | undefined;
-}
-export type GoogleCloudContactcenterinsightsV1ChartChartVisualizationTypeEnum =
-  | "CHART_VISUALIZATION_TYPE_UNSPECIFIED"
-  | "BAR"
-  | "LINE"
-  | "AREA"
-  | "PIE"
-  | "SCATTER"
-  | "TABLE"
-  | "SCORE_CARD"
-  | "SUNBURST"
-  | "GAUGE"
-  | "SANKEY";
-/** The redirect action to be taken when the chart is clicked. */
-export interface GoogleCloudContactcenterinsightsV1RedirectAction {
-  /** The relative path to redirect to. */
-  relativePath?: string | undefined;
-  /** The query params to be added to the redirect path. */
-  queryParams?: StringMap | undefined;
-}
-/** The action to be taken when the chart is clicked. */
-export interface GoogleCloudContactcenterinsightsV1ChartAction {
-  /** Redirect action. */
-  redirectAction?: GoogleCloudContactcenterinsightsV1RedirectAction | undefined;
-  /** The conversation filter string. */
-  conversationFilter?: string | undefined;
-}
-export type GoogleCloudContactcenterinsightsV1ChartChartTypeEnum =
-  | "CHART_TYPE_UNSPECIFIED"
-  | "SYSTEM_DEFINED"
-  | "USER_DEFINED";
-/** A time window for querying conversations. */
-export interface GoogleCloudContactcenterinsightsV1QueryInterval {
-  /** Required. The end time of the time window. */
-  endTime?: string | undefined;
-  /** Required. The start time of the time window. */
-  startTime?: string | undefined;
+  /** Optional. The ID of the feedback label to create. If one is not specified it will be generated by the server. */
+  feedbackLabelId?: string | undefined;
 }
 export type GoogleCloudContactcenterinsightsV1DateRangeConfigRelativeDateRangeUnitEnum =
   | "TIME_UNIT_UNSPECIFIED"
@@ -1984,54 +1850,188 @@ export interface GoogleCloudContactcenterinsightsV1DateRangeConfigRelativeDateRa
     | (string & {})
     | undefined;
 }
+/** A time window for querying conversations. */
+export interface GoogleCloudContactcenterinsightsV1QueryInterval {
+  /** Required. The start time of the time window. */
+  startTime?: string | undefined;
+  /** Required. The end time of the time window. */
+  endTime?: string | undefined;
+}
 /** Date range configuration for dashboard charts. */
 export interface GoogleCloudContactcenterinsightsV1DateRangeConfig {
-  /** An absolute date range. */
-  absoluteDateRange?: GoogleCloudContactcenterinsightsV1QueryInterval | undefined;
   /** A relative date range. */
   relativeDateRange?:
     | GoogleCloudContactcenterinsightsV1DateRangeConfigRelativeDateRange
     | undefined;
+  /** An absolute date range. */
+  absoluteDateRange?: GoogleCloudContactcenterinsightsV1QueryInterval | undefined;
 }
+/** The redirect action to be taken when the chart is clicked. */
+export interface GoogleCloudContactcenterinsightsV1RedirectAction {
+  /** The relative path to redirect to. */
+  relativePath?: string | undefined;
+  /** The query params to be added to the redirect path. */
+  queryParams?: StringMap | undefined;
+}
+/** The action to be taken when the chart is clicked. */
+export interface GoogleCloudContactcenterinsightsV1ChartAction {
+  /** The conversation filter string. */
+  conversationFilter?: string | undefined;
+  /** Redirect action. */
+  redirectAction?: GoogleCloudContactcenterinsightsV1RedirectAction | undefined;
+}
+/** Request data that use the existing QueryMetrics. */
+export interface GoogleCloudContactcenterinsightsV1QueryMetrics {
+  request?: DocumentMap | undefined;
+}
+export type GoogleCloudContactcenterinsightsV1GenerativeInsightsChartConversationMessageSystemMessageTextOutputTypeEnum =
+  | "TYPE_UNSPECIFIED"
+  | "THOUGHT"
+  | "FINAL_RESPONSE"
+  | "PROGRESS";
+/** A text output message from the system. */
+export interface GoogleCloudContactcenterinsightsV1GenerativeInsightsChartConversationMessageSystemMessageTextOutput {
+  /** The parts of the message. */
+  texts?: StringList | undefined;
+  /** The type of the text message. */
+  type?:
+    | GoogleCloudContactcenterinsightsV1GenerativeInsightsChartConversationMessageSystemMessageTextOutputTypeEnum
+    | (string & {})
+    | undefined;
+}
+/** A message from the system in response to the user. This message can also be a message from the user as historical context for multiturn conversations with the system. */
+export interface GoogleCloudContactcenterinsightsV1GenerativeInsightsChartConversationMessageSystemMessage {
+  /** Chart spec from LLM */
+  chartSpec?: DocumentMap | undefined;
+  /** Raw SQL from LLM, before templatization */
+  generatedSqlQuery?: string | undefined;
+  /** A direct natural language response to the user message. */
+  textOutput?:
+    | GoogleCloudContactcenterinsightsV1GenerativeInsightsChartConversationMessageSystemMessageTextOutput
+    | undefined;
+}
+/** The user message. */
+export interface GoogleCloudContactcenterinsightsV1GenerativeInsightsChartConversationMessageUserMessage {
+  /** A message from the user that is interacting with the system. */
+  text?: string | undefined;
+}
+/** The message in the conversation. */
+export interface GoogleCloudContactcenterinsightsV1GenerativeInsightsChartConversationMessage {
+  /** A message from the system in response to the user. */
+  systemMessage?:
+    | GoogleCloudContactcenterinsightsV1GenerativeInsightsChartConversationMessageSystemMessage
+    | undefined;
+  /** For user messages, this is the time at which the system received the message. For system messages, this is the time at which the system generated the message. */
+  createTime?: string | undefined;
+  /** The message id of the message. */
+  messageId?: string | undefined;
+  /** A message from the user that is interacting with the system. */
+  userMessage?:
+    | GoogleCloudContactcenterinsightsV1GenerativeInsightsChartConversationMessageUserMessage
+    | undefined;
+}
+export type GoogleCloudContactcenterinsightsV1GenerativeInsightsChartConversationMessageList =
+  Array<GoogleCloudContactcenterinsightsV1GenerativeInsightsChartConversationMessage>;
+/** The conversation used to generate the chart. */
+export interface GoogleCloudContactcenterinsightsV1GenerativeInsightsChartConversation {
+  /** The conversation id of the chart. */
+  conversationId?: string | undefined;
+  /** Ordered list of messages, including user inputs and system responses. */
+  messages?:
+    | GoogleCloudContactcenterinsightsV1GenerativeInsightsChartConversationMessageList
+    | undefined;
+  /** The create time of the conversation. */
+  createTime?: string | undefined;
+  /** The update time of the conversation. */
+  updateTime?: string | undefined;
+}
+export type GoogleCloudContactcenterinsightsV1GenerativeInsightsChartConversationList =
+  Array<GoogleCloudContactcenterinsightsV1GenerativeInsightsChartConversation>;
+/** The current chart checkpoint state. */
+export interface GoogleCloudContactcenterinsightsV1GenerativeInsightsChartCheckpoint {
+  /** The session id of the chart. */
+  sessionId?: string | undefined;
+  /** The revision id of the chart. */
+  revisionId?: string | undefined;
+}
+/** Request that use natural language query to generate the chart. */
+export interface GoogleCloudContactcenterinsightsV1GenerativeInsights {
+  request?: DocumentMap | undefined;
+  /** Output only. The chart conversations used to generate the chart. */
+  chartConversations?:
+    | GoogleCloudContactcenterinsightsV1GenerativeInsightsChartConversationList
+    | undefined;
+  /** Chart spec for the chart. */
+  chartSpec?: DocumentMap | undefined;
+  /** SQL query used to generate the chart. */
+  sqlQuery?: string | undefined;
+  /** Optional. For charts with comparison, this key will determine the metric that will be compared between the current and another dataset. */
+  sqlComparisonKey?: string | undefined;
+  /** The chart checkpoint used to generate the chart. */
+  chartCheckpoint?: GoogleCloudContactcenterinsightsV1GenerativeInsightsChartCheckpoint | undefined;
+}
+/** The request data for visualizing the dataset in the chart. */
+export interface GoogleCloudContactcenterinsightsV1ChartDataSource {
+  /** Use the existing QueryMetrics to generate the chart. */
+  queryMetrics?: GoogleCloudContactcenterinsightsV1QueryMetrics | undefined;
+  /** Use natural language query to generate the chart. */
+  generativeInsights?: GoogleCloudContactcenterinsightsV1GenerativeInsights | undefined;
+}
+export type GoogleCloudContactcenterinsightsV1ChartChartTypeEnum =
+  | "CHART_TYPE_UNSPECIFIED"
+  | "SYSTEM_DEFINED"
+  | "USER_DEFINED";
+export type GoogleCloudContactcenterinsightsV1ChartChartVisualizationTypeEnum =
+  | "CHART_VISUALIZATION_TYPE_UNSPECIFIED"
+  | "BAR"
+  | "LINE"
+  | "AREA"
+  | "PIE"
+  | "SCATTER"
+  | "TABLE"
+  | "SCORE_CARD"
+  | "SUNBURST"
+  | "GAUGE"
+  | "SANKEY";
 /** Configurable dashboard's widget that displays data as a chart. */
 export interface GoogleCloudContactcenterinsightsV1Chart {
-  /** Chart description */
-  description?: string | undefined;
-  dataSource?: GoogleCloudContactcenterinsightsV1ChartDataSource | undefined;
   /** Output only. Chart last update time. */
   updateTime?: string | undefined;
+  /** Optional action to be taken when the chart is clicked. */
+  action?: GoogleCloudContactcenterinsightsV1ChartAction | undefined;
+  dataSource?: GoogleCloudContactcenterinsightsV1ChartDataSource | undefined;
+  /** Date range config applied to the chart. */
+  dateRangeConfig?: GoogleCloudContactcenterinsightsV1DateRangeConfig | undefined;
+  /** Output only. Chart type. */
+  chartType?: GoogleCloudContactcenterinsightsV1ChartChartTypeEnum | (string & {}) | undefined;
+  /** Chart description */
+  description?: string | undefined;
   /** Filter applied to all charts in the container. Should support scope later. */
   filter?: string | undefined;
+  /** Output only. Chart create time. */
+  createTime?: string | undefined;
   /** Chart visualization type. */
   chartVisualizationType?:
     | GoogleCloudContactcenterinsightsV1ChartChartVisualizationTypeEnum
     | (string & {})
     | undefined;
-  /** Optional action to be taken when the chart is clicked. */
-  action?: GoogleCloudContactcenterinsightsV1ChartAction | undefined;
-  /** Output only. Chart create time. */
-  createTime?: string | undefined;
+  /** Identifier. Chart resource name. Format: projects/{project}/locations/{location}/dashboards/{dashboard}/charts/{chart} */
+  name?: string | undefined;
   /** The height of the chart in grid units. */
   height?: number | undefined;
   /** User provided display name of the chart. */
   displayName?: string | undefined;
-  /** Output only. Chart type. */
-  chartType?: GoogleCloudContactcenterinsightsV1ChartChartTypeEnum | (string & {}) | undefined;
-  /** Date range config applied to the chart. */
-  dateRangeConfig?: GoogleCloudContactcenterinsightsV1DateRangeConfig | undefined;
-  /** Identifier. Chart resource name. Format: projects/{project}/locations/{location}/dashboards/{dashboard}/charts/{chart} */
-  name?: string | undefined;
   /** The width of the chart in grid units. */
   width?: number | undefined;
 }
 /** Represents a dashboard element, could be a nested Container or Chart. */
 export interface GoogleCloudContactcenterinsightsV1Widget {
+  /** A container widget. */
+  container?: GoogleCloudContactcenterinsightsV1Container | undefined;
   /** Filter applied to all charts in the container. Should support scope later. */
   filter?: string | undefined;
   /** A chart widget. */
   chart?: GoogleCloudContactcenterinsightsV1Chart | undefined;
-  /** A container widget. */
-  container?: GoogleCloudContactcenterinsightsV1Container | undefined;
   /** A reference to a chart widget. Format: projects/{project}/locations/{location}/dashboards/{dashboard}/charts/{chart} */
   chartReference?: string | undefined;
 }
@@ -2039,49 +2039,49 @@ export type GoogleCloudContactcenterinsightsV1WidgetList =
   Array<GoogleCloudContactcenterinsightsV1Widget>;
 /** Configurable dashboard's container. Container can contain multiple widgets. */
 export interface GoogleCloudContactcenterinsightsV1Container {
-  /** Filter applied to all charts in the container. Should support scope later. */
-  filter?: string | undefined;
-  /** User provided display name of the Container. */
-  displayName?: string | undefined;
-  /** Container description */
-  description?: string | undefined;
   /** The width of the container in grid units. */
   width?: number | undefined;
-  /** The height of the container in grid units. */
-  height?: number | undefined;
-  /** Widgets in the Container. */
-  widgets?: GoogleCloudContactcenterinsightsV1WidgetList | undefined;
-  /** Date range config applied to all charts in the container. */
-  dateRangeConfig?: GoogleCloudContactcenterinsightsV1DateRangeConfig | undefined;
   /** Output only. Unique ID for the container. */
   containerId?: string | undefined;
+  /** Widgets in the Container. */
+  widgets?: GoogleCloudContactcenterinsightsV1WidgetList | undefined;
+  /** Filter applied to all charts in the container. Should support scope later. */
+  filter?: string | undefined;
+  /** Date range config applied to all charts in the container. */
+  dateRangeConfig?: GoogleCloudContactcenterinsightsV1DateRangeConfig | undefined;
+  /** Container description */
+  description?: string | undefined;
+  /** The height of the container in grid units. */
+  height?: number | undefined;
+  /** User provided display name of the Container. */
+  displayName?: string | undefined;
 }
 /** Configurable dashboard */
 export interface GoogleCloudContactcenterinsightsV1Dashboard {
+  /** Output only. Dashboard creation time. */
+  createTime?: string | undefined;
+  /** Date range config applied to all charts in the dashboard. */
+  dateRangeConfig?: GoogleCloudContactcenterinsightsV1DateRangeConfig | undefined;
+  /** Identifier. Dashboard resource name. Format: projects/{project}/locations/{location}/dashboards/{dashboard} */
+  name?: string | undefined;
+  /** Dashboard description */
+  description?: string | undefined;
+  /** Output only. Whether the dashboard is read-only. All predefined dashboards are read-only and cannot be modified by the user. */
+  readOnly?: boolean | undefined;
+  /** Output only. Dashboard last update time. */
+  updateTime?: string | undefined;
+  /** Filter applied to all charts in the dashboard. Should support scope later. */
+  filter?: string | undefined;
   /** User provided display name of the dashboard. */
   displayName?: string | undefined;
   /** The dashboard's root widget container. We want to display the dashboard layout in a tree-like structure, where the root container contains other widgets (containers or charts) as children. */
   rootContainer?: GoogleCloudContactcenterinsightsV1Container | undefined;
-  /** Dashboard description */
-  description?: string | undefined;
-  /** Filter applied to all charts in the dashboard. Should support scope later. */
-  filter?: string | undefined;
-  /** Output only. Dashboard creation time. */
-  createTime?: string | undefined;
-  /** Output only. Dashboard last update time. */
-  updateTime?: string | undefined;
-  /** Identifier. Dashboard resource name. Format: projects/{project}/locations/{location}/dashboards/{dashboard} */
-  name?: string | undefined;
-  /** Date range config applied to all charts in the dashboard. */
-  dateRangeConfig?: GoogleCloudContactcenterinsightsV1DateRangeConfig | undefined;
-  /** Output only. Whether the dashboard is read-only. All predefined dashboards are read-only and cannot be modified by the user. */
-  readOnly?: boolean | undefined;
 }
 export interface CreateProjectsLocationsDashboardsRequest extends GoogleCloudContactcenterinsightsV1Dashboard {
-  /** Optional. A unique ID for the new Dashboard. This ID will become the final component of the Dashboard's resource name. If no ID is specified, a server-generated ID will be used. This value should be 4-64 characters and must match the regular expression `^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$`. */
-  dashboardId?: string | undefined;
   /** Required. The parent resource of the dashboard. */
   parent: string;
+  /** Optional. A unique ID for the new Dashboard. This ID will become the final component of the Dashboard's resource name. If no ID is specified, a server-generated ID will be used. This value should be 4-64 characters and must match the regular expression `^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$`. */
+  dashboardId?: string | undefined;
 }
 export type GoogleCloudContactcenterinsightsV1DatasetTypeEnum =
   | "TYPE_UNSPECIFIED"
@@ -2089,24 +2089,24 @@ export type GoogleCloudContactcenterinsightsV1DatasetTypeEnum =
   | "LIVE";
 /** Dataset resource represents a collection of conversations that may be bounded (Static Dataset, e.g. golden dataset for training), or unbounded (Dynamic Dataset, e.g. live traffic, or agent training traffic) */
 export interface GoogleCloudContactcenterinsightsV1Dataset {
-  /** Output only. Dataset create time. */
-  createTime?: string | undefined;
-  /** Optional. Option TTL for the dataset. */
-  ttl?: string | undefined;
   /** Output only. Whether this resource is zone isolated. */
   satisfiesPzi?: boolean | undefined;
-  /** Output only. Dataset update time. */
-  updateTime?: string | undefined;
+  /** Optional. Option TTL for the dataset. */
+  ttl?: string | undefined;
   /** Immutable. Identifier. Resource name of the dataset. Format: projects/{project}/locations/{location}/datasets/{dataset} */
   name?: string | undefined;
-  /** Output only. Whether this resource is zone separated. */
-  satisfiesPzs?: boolean | undefined;
+  /** Output only. Dataset create time. */
+  createTime?: string | undefined;
   /** Dataset description. */
   description?: string | undefined;
   /** Display name for the dataaset */
   displayName?: string | undefined;
   /** Dataset usage type. */
   type?: GoogleCloudContactcenterinsightsV1DatasetTypeEnum | (string & {}) | undefined;
+  /** Output only. Dataset update time. */
+  updateTime?: string | undefined;
+  /** Output only. Whether this resource is zone separated. */
+  satisfiesPzs?: boolean | undefined;
 }
 export interface CreateProjectsLocationsDatasetsRequest extends GoogleCloudContactcenterinsightsV1Dataset {
   /** Required. The parent resource of the dataset. */
@@ -2124,13 +2124,6 @@ export type GoogleCloudContactcenterinsightsV1IssueModelModelTypeEnum =
   | "MODEL_TYPE_UNSPECIFIED"
   | "TYPE_V1"
   | "TYPE_V2";
-export type GoogleCloudContactcenterinsightsV1IssueModelStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "UNDEPLOYED"
-  | "DEPLOYING"
-  | "DEPLOYED"
-  | "UNDEPLOYING"
-  | "DELETING";
 export type GoogleCloudContactcenterinsightsV1IssueModelInputDataConfigMediumEnum =
   | "MEDIUM_UNSPECIFIED"
   | "PHONE_CALL"
@@ -2147,28 +2140,35 @@ export interface GoogleCloudContactcenterinsightsV1IssueModelInputDataConfig {
     | (string & {})
     | undefined;
 }
+export type GoogleCloudContactcenterinsightsV1IssueModelStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "UNDEPLOYED"
+  | "DEPLOYING"
+  | "DEPLOYED"
+  | "UNDEPLOYING"
+  | "DELETING";
 /** The issue model resource. */
 export interface GoogleCloudContactcenterinsightsV1IssueModel {
-  /** Output only. Number of issues in this issue model. */
-  issueCount?: string | undefined;
-  /** Type of the model. */
-  modelType?: GoogleCloudContactcenterinsightsV1IssueModelModelTypeEnum | (string & {}) | undefined;
-  /** Output only. State of the model. */
-  state?: GoogleCloudContactcenterinsightsV1IssueModelStateEnum | (string & {}) | undefined;
-  /** Immutable. The resource name of the issue model. Format: projects/{project}/locations/{location}/issueModels/{issue_model} */
-  name?: string | undefined;
-  /** Output only. The time at which this issue model was created. */
-  createTime?: string | undefined;
   /** Output only. Immutable. The issue model's label statistics on its training data. */
   trainingStats?: GoogleCloudContactcenterinsightsV1IssueModelLabelStats | undefined;
+  /** Immutable. The resource name of the issue model. Format: projects/{project}/locations/{location}/issueModels/{issue_model} */
+  name?: string | undefined;
   /** Output only. The most recent time at which the issue model was updated. */
   updateTime?: string | undefined;
-  /** Language of the model. */
-  languageCode?: string | undefined;
+  /** Output only. The time at which this issue model was created. */
+  createTime?: string | undefined;
+  /** Type of the model. */
+  modelType?: GoogleCloudContactcenterinsightsV1IssueModelModelTypeEnum | (string & {}) | undefined;
   /** The representative name for the issue model. */
   displayName?: string | undefined;
+  /** Language of the model. */
+  languageCode?: string | undefined;
   /** Configs for the input data that used to create the issue model. */
   inputDataConfig?: GoogleCloudContactcenterinsightsV1IssueModelInputDataConfig | undefined;
+  /** Output only. Number of issues in this issue model. */
+  issueCount?: string | undefined;
+  /** Output only. State of the model. */
+  state?: GoogleCloudContactcenterinsightsV1IssueModelStateEnum | (string & {}) | undefined;
 }
 export interface CreateProjectsLocationsIssueModelsRequest extends GoogleCloudContactcenterinsightsV1IssueModel {
   /** Required. The parent resource of the issue model. */
@@ -2178,14 +2178,14 @@ export interface CreateProjectsLocationsIssueModelsRequest extends GoogleCloudCo
 export interface GoogleCloudContactcenterinsightsV1Issue {
   /** Output only. Resource names of the sample representative utterances that match to this issue. */
   sampleUtterances?: StringList | undefined;
-  /** Representative description of the issue. */
-  displayDescription?: string | undefined;
   /** Output only. The time at which this issue was created. */
   createTime?: string | undefined;
-  /** Immutable. The resource name of the issue. Format: projects/{project}/locations/{location}/issueModels/{issue_model}/issues/{issue} */
-  name?: string | undefined;
+  /** Representative description of the issue. */
+  displayDescription?: string | undefined;
   /** The representative name for the issue. */
   displayName?: string | undefined;
+  /** Immutable. The resource name of the issue. Format: projects/{project}/locations/{location}/issueModels/{issue_model}/issues/{issue} */
+  name?: string | undefined;
   /** Output only. The most recent time that this issue was updated. */
   updateTime?: string | undefined;
 }
@@ -2193,16 +2193,6 @@ export interface CreateProjectsLocationsIssueModelsIssuesRequest extends GoogleC
   /** Required. The parent resource of the issue. */
   parent: string;
 }
-export type GoogleCloudContactcenterinsightsV1PhraseMatcherRoleMatchEnum =
-  | "ROLE_UNSPECIFIED"
-  | "HUMAN_AGENT"
-  | "AUTOMATED_AGENT"
-  | "END_USER"
-  | "ANY_AGENT";
-export type GoogleCloudContactcenterinsightsV1PhraseMatchRuleGroupTypeEnum =
-  | "PHRASE_MATCH_RULE_GROUP_TYPE_UNSPECIFIED"
-  | "ALL_OF"
-  | "ANY_OF";
 /** Exact match configuration. */
 export interface GoogleCloudContactcenterinsightsV1ExactMatchConfig {
   /** Whether to consider case sensitivity when performing an exact match. */
@@ -2220,55 +2210,65 @@ export interface GoogleCloudContactcenterinsightsV1PhraseMatchRuleConfig {
 }
 /** The data for a phrase match rule. */
 export interface GoogleCloudContactcenterinsightsV1PhraseMatchRule {
-  /** Required. The phrase to be matched. */
-  query?: string | undefined;
   /** Specifies whether the phrase must be missing from the transcript segment or present in the transcript segment. */
   negated?: boolean | undefined;
   /** Provides additional information about the rule that specifies how to apply the rule. */
   config?: GoogleCloudContactcenterinsightsV1PhraseMatchRuleConfig | undefined;
+  /** Required. The phrase to be matched. */
+  query?: string | undefined;
 }
 export type GoogleCloudContactcenterinsightsV1PhraseMatchRuleList =
   Array<GoogleCloudContactcenterinsightsV1PhraseMatchRule>;
+export type GoogleCloudContactcenterinsightsV1PhraseMatchRuleGroupTypeEnum =
+  | "PHRASE_MATCH_RULE_GROUP_TYPE_UNSPECIFIED"
+  | "ALL_OF"
+  | "ANY_OF";
 /** A message representing a rule in the phrase matcher. */
 export interface GoogleCloudContactcenterinsightsV1PhraseMatchRuleGroup {
-  /** Required. The type of this phrase match rule group. */
-  type?: GoogleCloudContactcenterinsightsV1PhraseMatchRuleGroupTypeEnum | (string & {}) | undefined;
   /** A list of phrase match rules that are included in this group. */
   phraseMatchRules?: GoogleCloudContactcenterinsightsV1PhraseMatchRuleList | undefined;
+  /** Required. The type of this phrase match rule group. */
+  type?: GoogleCloudContactcenterinsightsV1PhraseMatchRuleGroupTypeEnum | (string & {}) | undefined;
 }
 export type GoogleCloudContactcenterinsightsV1PhraseMatchRuleGroupList =
   Array<GoogleCloudContactcenterinsightsV1PhraseMatchRuleGroup>;
+export type GoogleCloudContactcenterinsightsV1PhraseMatcherRoleMatchEnum =
+  | "ROLE_UNSPECIFIED"
+  | "HUMAN_AGENT"
+  | "AUTOMATED_AGENT"
+  | "END_USER"
+  | "ANY_AGENT";
 export type GoogleCloudContactcenterinsightsV1PhraseMatcherTypeEnum =
   | "PHRASE_MATCHER_TYPE_UNSPECIFIED"
   | "ALL_OF"
   | "ANY_OF";
 /** The phrase matcher resource. */
 export interface GoogleCloudContactcenterinsightsV1PhraseMatcher {
-  /** Applies the phrase matcher only when it is active. */
-  active?: boolean | undefined;
-  /** Output only. Immutable. The revision ID of the phrase matcher. A new revision is committed whenever the matcher is changed, except when it is activated or deactivated. A server generated random ID will be used. Example: locations/global/phraseMatchers/my-first-matcher@1234567 */
-  revisionId?: string | undefined;
   /** Output only. The timestamp of when the revision was created. It is also the create time when a new matcher is added. */
   revisionCreateTime?: string | undefined;
   /** Output only. The most recent time at which the activation status was updated. */
   activationUpdateTime?: string | undefined;
+  /** Output only. Immutable. The revision ID of the phrase matcher. A new revision is committed whenever the matcher is changed, except when it is activated or deactivated. A server generated random ID will be used. Example: locations/global/phraseMatchers/my-first-matcher@1234567 */
+  revisionId?: string | undefined;
+  /** A list of phase match rule groups that are included in this matcher. */
+  phraseMatchRuleGroups?: GoogleCloudContactcenterinsightsV1PhraseMatchRuleGroupList | undefined;
   /** Output only. The most recent time at which the phrase matcher was updated. */
   updateTime?: string | undefined;
+  /** Applies the phrase matcher only when it is active. */
+  active?: boolean | undefined;
+  /** The human-readable name of the phrase matcher. */
+  displayName?: string | undefined;
+  /** The resource name of the phrase matcher. Format: projects/{project}/locations/{location}/phraseMatchers/{phrase_matcher} */
+  name?: string | undefined;
   /** The role whose utterances the phrase matcher should be matched against. If the role is ROLE_UNSPECIFIED it will be matched against any utterances in the transcript. */
   roleMatch?:
     | GoogleCloudContactcenterinsightsV1PhraseMatcherRoleMatchEnum
     | (string & {})
     | undefined;
-  /** A list of phase match rule groups that are included in this matcher. */
-  phraseMatchRuleGroups?: GoogleCloudContactcenterinsightsV1PhraseMatchRuleGroupList | undefined;
   /** Required. The type of this phrase matcher. */
   type?: GoogleCloudContactcenterinsightsV1PhraseMatcherTypeEnum | (string & {}) | undefined;
-  /** The human-readable name of the phrase matcher. */
-  displayName?: string | undefined;
   /** The customized version tag to use for the phrase matcher. If not specified, it will default to `revision_id`. */
   versionTag?: string | undefined;
-  /** The resource name of the phrase matcher. Format: projects/{project}/locations/{location}/phraseMatchers/{phrase_matcher} */
-  name?: string | undefined;
 }
 export interface CreateProjectsLocationsPhraseMatchersRequest extends GoogleCloudContactcenterinsightsV1PhraseMatcher {
   /** Required. The parent resource of the phrase matcher. Required. The location to create a phrase matcher for. Format: `projects//locations/` or `projects//locations/` */
@@ -2276,20 +2276,20 @@ export interface CreateProjectsLocationsPhraseMatchersRequest extends GoogleClou
 }
 /** A tag is a resource which aims to categorize a set of questions across multiple scorecards, e.g., "Customer Satisfaction","Billing", etc. */
 export interface GoogleCloudContactcenterinsightsV1QaQuestionTag {
+  /** Optional. The list of Scorecard Question IDs that the tag applies to. Each QaQuestionId is represented as a full resource name containing the Question ID. Lastly, Since a tag may not necessarily be referenced by any Scorecard Questions, we treat this field as optional. */
+  qaQuestionIds?: StringList | undefined;
+  /** Output only. Whether this resource is zone isolated. */
+  satisfiesPzi?: boolean | undefined;
+  /** Output only. The most recent time at which the question tag was updated. */
+  updateTime?: string | undefined;
+  /** Required. A user-specified display name for the tag. */
+  displayName?: string | undefined;
   /** Output only. The time at which the question tag was created. */
   createTime?: string | undefined;
   /** Identifier. Resource name for the QaQuestionTag Format projects/{project}/locations/{location}/qaQuestionTags/{qa_question_tag} In the above format, the last segment, i.e., qa_question_tag, is a server-generated ID corresponding to the tag resource. */
   name?: string | undefined;
   /** Output only. Whether this resource is zone separated. */
   satisfiesPzs?: boolean | undefined;
-  /** Required. A user-specified display name for the tag. */
-  displayName?: string | undefined;
-  /** Output only. Whether this resource is zone isolated. */
-  satisfiesPzi?: boolean | undefined;
-  /** Output only. The most recent time at which the question tag was updated. */
-  updateTime?: string | undefined;
-  /** Optional. The list of Scorecard Question IDs that the tag applies to. Each QaQuestionId is represented as a full resource name containing the Question ID. Lastly, Since a tag may not necessarily be referenced by any Scorecard Questions, we treat this field as optional. */
-  qaQuestionIds?: StringList | undefined;
 }
 export interface CreateProjectsLocationsQaQuestionTagsRequest extends GoogleCloudContactcenterinsightsV1QaQuestionTag {
   /** Required. The parent resource of the QaQuestionTag. */
@@ -2306,18 +2306,18 @@ export type GoogleCloudContactcenterinsightsV1QaScorecardSourceEnum =
 export interface GoogleCloudContactcenterinsightsV1QaScorecard {
   /** Output only. Whether this resource is zone isolated. */
   satisfiesPzi?: boolean | undefined;
-  /** A text description explaining the intent of the scorecard. */
-  description?: string | undefined;
   /** Whether the scorecard is the default one for the project. A default scorecard cannot be deleted and will always appear first in scorecard selector. */
   isDefault?: boolean | undefined;
-  /** Output only. The time at which this scorecard was created. */
-  createTime?: string | undefined;
-  /** Identifier. The scorecard name. Format: projects/{project}/locations/{location}/qaScorecards/{qa_scorecard} */
-  name?: string | undefined;
-  /** The user-specified display name of the scorecard. */
-  displayName?: string | undefined;
   /** Output only. The source of the scorecard. */
   source?: GoogleCloudContactcenterinsightsV1QaScorecardSourceEnum | (string & {}) | undefined;
+  /** A text description explaining the intent of the scorecard. */
+  description?: string | undefined;
+  /** The user-specified display name of the scorecard. */
+  displayName?: string | undefined;
+  /** Identifier. The scorecard name. Format: projects/{project}/locations/{location}/qaScorecards/{qa_scorecard} */
+  name?: string | undefined;
+  /** Output only. The time at which this scorecard was created. */
+  createTime?: string | undefined;
   /** Output only. The most recent time at which the scorecard was updated. */
   updateTime?: string | undefined;
   /** Output only. Whether this resource is zone separated. */
@@ -2339,23 +2339,23 @@ export type GoogleCloudContactcenterinsightsV1QaScorecardRevisionStateEnum =
   | "TRAINING_CANCELLED";
 /** A revision of a QaScorecard. Modifying published scorecard fields would invalidate existing scorecard results -- the questions may have changed, or the score weighting will make existing scores impossible to understand. So changes must create a new revision, rather than modifying the existing resource. */
 export interface GoogleCloudContactcenterinsightsV1QaScorecardRevision {
-  /** Output only. Whether this resource is zone isolated. */
-  satisfiesPzi?: boolean | undefined;
   /** Output only. State of the scorecard revision, indicating whether it's ready to be used in analysis. */
   state?:
     | GoogleCloudContactcenterinsightsV1QaScorecardRevisionStateEnum
     | (string & {})
     | undefined;
-  /** Output only. Alternative IDs for this revision of the scorecard, e.g., `latest`. */
-  alternateIds?: StringList | undefined;
-  /** Output only. The timestamp that the revision was created. */
-  createTime?: string | undefined;
-  /** Identifier. The name of the scorecard revision. Format: projects/{project}/locations/{location}/qaScorecards/{qa_scorecard}/revisions/{revision} */
-  name?: string | undefined;
   /** Output only. Whether this resource is zone separated. */
   satisfiesPzs?: boolean | undefined;
   /** The snapshot of the scorecard at the time of this revision's creation. */
   snapshot?: GoogleCloudContactcenterinsightsV1QaScorecard | undefined;
+  /** Output only. Whether this resource is zone isolated. */
+  satisfiesPzi?: boolean | undefined;
+  /** Output only. The timestamp that the revision was created. */
+  createTime?: string | undefined;
+  /** Identifier. The name of the scorecard revision. Format: projects/{project}/locations/{location}/qaScorecards/{qa_scorecard}/revisions/{revision} */
+  name?: string | undefined;
+  /** Output only. Alternative IDs for this revision of the scorecard, e.g., `latest`. */
+  alternateIds?: StringList | undefined;
 }
 export interface CreateProjectsLocationsQaScorecardsRevisionsRequest extends GoogleCloudContactcenterinsightsV1QaScorecardRevision {
   /** Required. The parent resource of the QaScorecardRevision. */
@@ -2363,6 +2363,27 @@ export interface CreateProjectsLocationsQaScorecardsRevisionsRequest extends Goo
   /** Optional. A unique ID for the new QaScorecardRevision. This ID will become the final component of the QaScorecardRevision's resource name. If no ID is specified, a server-generated ID will be used. This value should be 4-64 characters and must match the regular expression `^[a-z0-9-]{4,64}$`. Valid characters are `a-z-`. */
   qaScorecardRevisionId?: string | undefined;
 }
+/** Message representing a possible answer to the question. */
+export interface GoogleCloudContactcenterinsightsV1QaQuestionAnswerChoice {
+  /** Boolean value. */
+  boolValue?: boolean | undefined;
+  /** String value. */
+  strValue?: string | undefined;
+  /** A short string used as an identifier. */
+  key?: string | undefined;
+  /** Numerical score of the answer, used for generating the overall score of a QaScorecardResult. If the answer uses na_value, this field is unused. */
+  score?: number | undefined;
+  /** Numerical value. */
+  numValue?: number | undefined;
+  /** A value of "Not Applicable (N/A)". If provided, this field may only be set to `true`. If a question receives this answer, it will be excluded from any score calculations. */
+  naValue?: boolean | undefined;
+}
+export type GoogleCloudContactcenterinsightsV1QaQuestionAnswerChoiceList =
+  Array<GoogleCloudContactcenterinsightsV1QaQuestionAnswerChoice>;
+export type GoogleCloudContactcenterinsightsV1QaQuestionQuestionTypeEnum =
+  | "QA_QUESTION_TYPE_UNSPECIFIED"
+  | "CUSTOMIZABLE"
+  | "PREDEFINED";
 export type GoogleCloudContactcenterinsightsV1QaQuestionTuningMetadataDatasetValidationWarningsItemEnum =
   | "DATASET_VALIDATION_WARNING_UNSPECIFIED"
   | "TOO_MANY_INVALID_FEEDBACK_LABELS"
@@ -2378,35 +2399,13 @@ export type GoogleCloudContactcenterinsightsV1QaQuestionTuningMetadataDatasetVal
 export interface GoogleCloudContactcenterinsightsV1QaQuestionTuningMetadata {
   /** Error status of the tuning operation for the question. Will only be set if the tuning operation failed. */
   tuningError?: string | undefined;
+  /** Total number of valid labels provided for the question at the time of tuining. */
+  totalValidLabelCount?: string | undefined;
   /** A list of any applicable data validation warnings about the question's feedback labels. */
   datasetValidationWarnings?:
     | GoogleCloudContactcenterinsightsV1QaQuestionTuningMetadataDatasetValidationWarningsItemEnumList
     | undefined;
-  /** Total number of valid labels provided for the question at the time of tuining. */
-  totalValidLabelCount?: string | undefined;
 }
-/** A wrapper representing metrics calculated against a test-set on a LLM that was fine tuned for this question. */
-export interface GoogleCloudContactcenterinsightsV1QaQuestionMetrics {
-  /** Output only. Accuracy of the model. Measures the percentage of correct answers the model gave on the test set. */
-  accuracy?: number | undefined;
-}
-/** Message representing a possible answer to the question. */
-export interface GoogleCloudContactcenterinsightsV1QaQuestionAnswerChoice {
-  /** Numerical value. */
-  numValue?: number | undefined;
-  /** String value. */
-  strValue?: string | undefined;
-  /** A short string used as an identifier. */
-  key?: string | undefined;
-  /** A value of "Not Applicable (N/A)". If provided, this field may only be set to `true`. If a question receives this answer, it will be excluded from any score calculations. */
-  naValue?: boolean | undefined;
-  /** Numerical score of the answer, used for generating the overall score of a QaScorecardResult. If the answer uses na_value, this field is unused. */
-  score?: number | undefined;
-  /** Boolean value. */
-  boolValue?: boolean | undefined;
-}
-export type GoogleCloudContactcenterinsightsV1QaQuestionAnswerChoiceList =
-  Array<GoogleCloudContactcenterinsightsV1QaQuestionAnswerChoice>;
 export type GoogleCloudContactcenterinsightsV1QaQuestionPredefinedQuestionConfigTypeEnum =
   | "PREDEFINED_QUESTION_TYPE_UNSPECIFIED"
   | "CONVERSATION_OUTCOME"
@@ -2421,10 +2420,6 @@ export interface GoogleCloudContactcenterinsightsV1QaQuestionPredefinedQuestionC
     | (string & {})
     | undefined;
 }
-export type GoogleCloudContactcenterinsightsV1QaQuestionQuestionTypeEnum =
-  | "QA_QUESTION_TYPE_UNSPECIFIED"
-  | "CUSTOMIZABLE"
-  | "PREDEFINED";
 /** Options for configuring what metadata is included in the conversation data used in QAI and Discovery Engine. */
 export interface GoogleCloudContactcenterinsightsV1ConversationDataOptions {
   /** Whether to include the per turn Dialogflow interaction data in conversation transcript. */
@@ -2435,47 +2430,52 @@ export interface GoogleCloudContactcenterinsightsV1QaQuestionQaQuestionDataOptio
   /** Options for configuring the conversation data used to generate the QA question. */
   conversationDataOptions?: GoogleCloudContactcenterinsightsV1ConversationDataOptions | undefined;
 }
+/** A wrapper representing metrics calculated against a test-set on a LLM that was fine tuned for this question. */
+export interface GoogleCloudContactcenterinsightsV1QaQuestionMetrics {
+  /** Output only. Accuracy of the model. Measures the percentage of correct answers the model gave on the test set. */
+  accuracy?: number | undefined;
+}
 /** A single question to be scored by the Insights QA feature. */
 export interface GoogleCloudContactcenterinsightsV1QaQuestion {
-  /** Metadata about the tuning operation for the question.This field will only be populated if and only if the question is part of a scorecard revision that has been tuned. */
-  tuningMetadata?: GoogleCloudContactcenterinsightsV1QaQuestionTuningMetadata | undefined;
-  /** Output only. The time at which this question was created. */
-  createTime?: string | undefined;
-  /** Output only. Whether this resource is zone separated. */
-  satisfiesPzs?: boolean | undefined;
-  /** Instructions describing how to determine the answer. */
-  answerInstructions?: string | undefined;
-  /** Metrics of the underlying tuned LLM over a holdout/test set while fine tuning the underlying LLM for the given question. This field will only be populated if and only if the question is part of a scorecard revision that has been tuned. */
-  metrics?: GoogleCloudContactcenterinsightsV1QaQuestionMetrics | undefined;
-  /** Question text. E.g., "Did the agent greet the customer?" */
-  questionBody?: string | undefined;
-  /** Short, descriptive string, used in the UI where it's not practical to display the full question body. E.g., "Greeting". */
-  abbreviation?: string | undefined;
   /** A list of valid answers to the question, which the LLM must choose from. */
   answerChoices?: GoogleCloudContactcenterinsightsV1QaQuestionAnswerChoiceList | undefined;
-  /** Identifier. The resource name of the question. Format: projects/{project}/locations/{location}/qaScorecards/{qa_scorecard}/revisions/{revision}/qaQuestions/{qa_question} */
-  name?: string | undefined;
-  /** The configuration of the predefined question. This field will only be set if the Question Type is predefined. */
-  predefinedQuestionConfig?:
-    | GoogleCloudContactcenterinsightsV1QaQuestionPredefinedQuestionConfig
-    | undefined;
   /** The type of question. */
   questionType?:
     | GoogleCloudContactcenterinsightsV1QaQuestionQuestionTypeEnum
     | (string & {})
     | undefined;
+  /** Metadata about the tuning operation for the question.This field will only be populated if and only if the question is part of a scorecard revision that has been tuned. */
+  tuningMetadata?: GoogleCloudContactcenterinsightsV1QaQuestionTuningMetadata | undefined;
+  /** Output only. Whether this resource is zone isolated. */
+  satisfiesPzi?: boolean | undefined;
+  /** Output only. The time at which this question was created. */
+  createTime?: string | undefined;
+  /** Instructions describing how to determine the answer. */
+  answerInstructions?: string | undefined;
+  /** Output only. Whether this resource is zone separated. */
+  satisfiesPzs?: boolean | undefined;
+  /** The configuration of the predefined question. This field will only be set if the Question Type is predefined. */
+  predefinedQuestionConfig?:
+    | GoogleCloudContactcenterinsightsV1QaQuestionPredefinedQuestionConfig
+    | undefined;
+  /** Question text. E.g., "Did the agent greet the customer?" */
+  questionBody?: string | undefined;
+  /** Questions are tagged for categorization and scoring. Tags can either be: - Default Tags: These are predefined categories. They are identified by their string value (e.g., "BUSINESS", "COMPLIANCE", and "CUSTOMER"). - Custom Tags: These are user-defined categories. They are identified by their full resource name (e.g., projects/{project}/locations/{location}/qaQuestionTags/{qa_question_tag}). Both default and custom tags are used to group questions and to influence the scoring of each question. */
+  tags?: StringList | undefined;
+  /** Output only. The most recent time at which the question was updated. */
+  updateTime?: string | undefined;
   /** Options for configuring the data used to generate the QA question. */
   qaQuestionDataOptions?:
     | GoogleCloudContactcenterinsightsV1QaQuestionQaQuestionDataOptions
     | undefined;
-  /** Output only. The most recent time at which the question was updated. */
-  updateTime?: string | undefined;
-  /** Questions are tagged for categorization and scoring. Tags can either be: - Default Tags: These are predefined categories. They are identified by their string value (e.g., "BUSINESS", "COMPLIANCE", and "CUSTOMER"). - Custom Tags: These are user-defined categories. They are identified by their full resource name (e.g., projects/{project}/locations/{location}/qaQuestionTags/{qa_question_tag}). Both default and custom tags are used to group questions and to influence the scoring of each question. */
-  tags?: StringList | undefined;
-  /** Output only. Whether this resource is zone isolated. */
-  satisfiesPzi?: boolean | undefined;
+  /** Short, descriptive string, used in the UI where it's not practical to display the full question body. E.g., "Greeting". */
+  abbreviation?: string | undefined;
   /** Defines the order of the question within its parent scorecard revision. */
   order?: number | undefined;
+  /** Metrics of the underlying tuned LLM over a holdout/test set while fine tuning the underlying LLM for the given question. This field will only be populated if and only if the question is part of a scorecard revision that has been tuned. */
+  metrics?: GoogleCloudContactcenterinsightsV1QaQuestionMetrics | undefined;
+  /** Identifier. The resource name of the question. Format: projects/{project}/locations/{location}/qaScorecards/{qa_scorecard}/revisions/{revision}/qaQuestions/{qa_question} */
+  name?: string | undefined;
 }
 export interface CreateProjectsLocationsQaScorecardsRevisionsQaQuestionsRequest extends GoogleCloudContactcenterinsightsV1QaQuestion {
   /** Required. The parent resource of the QaQuestion. */
@@ -2485,16 +2485,16 @@ export interface CreateProjectsLocationsQaScorecardsRevisionsQaQuestionsRequest 
 }
 /** The View resource. */
 export interface GoogleCloudContactcenterinsightsV1View {
+  /** Output only. The most recent time at which the view was updated. */
+  updateTime?: string | undefined;
+  /** A filter to reduce conversation results to a specific subset. Refer to https://cloud.google.com/contact-center/insights/docs/filtering for details. */
+  value?: string | undefined;
   /** Immutable. The resource name of the view. Format: projects/{project}/locations/{location}/views/{view} */
   name?: string | undefined;
   /** The human-readable display name of the view. */
   displayName?: string | undefined;
   /** Output only. The time at which this view was created. */
   createTime?: string | undefined;
-  /** A filter to reduce conversation results to a specific subset. Refer to https://cloud.google.com/contact-center/insights/docs/filtering for details. */
-  value?: string | undefined;
-  /** Output only. The most recent time at which the view was updated. */
-  updateTime?: string | undefined;
 }
 export interface CreateProjectsLocationsViewsRequest extends GoogleCloudContactcenterinsightsV1View {
   /** Required. The parent resource of the view. Required. The location to create a view for. Format: `projects//locations/` or `projects//locations/` */
@@ -2553,10 +2553,10 @@ export interface DeleteProjectsLocationsConversationsAnalysesRequest {
   name: string;
 }
 export interface DeleteProjectsLocationsConversationsAssessmentsRequest {
-  /** Required. The name of the assessment to delete. */
-  name: string;
   /** Optional. If set to true, all of this assessment's notes will also be deleted. Otherwise, the request will only succeed if it has no notes. */
   force?: boolean | undefined;
+  /** Required. The name of the assessment to delete. */
+  name: string;
 }
 export interface DeleteProjectsLocationsConversationsAssessmentsNotesRequest {
   /** Required. The name of the note to delete. */
@@ -2645,15 +2645,11 @@ export interface DeployProjectsLocationsQaScorecardsRevisionsRequest {
 export interface GoogleCloudContactcenterinsightsV1ExportInsightsDataRequestBigQueryDestination {
   /** Required. The name of the BigQuery dataset that the snapshot result should be exported to. If this dataset does not exist, the export call returns an INVALID_ARGUMENT error. */
   dataset?: string | undefined;
-  /** A project ID or number. If specified, then export will attempt to write data to this project instead of the resource project. Otherwise, the resource project will be used. */
-  projectId?: string | undefined;
   /** The BigQuery table name to which the insights data should be written. If this table does not exist, the export call returns an INVALID_ARGUMENT error. */
   table?: string | undefined;
+  /** A project ID or number. If specified, then export will attempt to write data to this project instead of the resource project. Otherwise, the resource project will be used. */
+  projectId?: string | undefined;
 }
-export type GoogleCloudContactcenterinsightsV1ExportInsightsDataRequestWriteDispositionEnum =
-  | "WRITE_DISPOSITION_UNSPECIFIED"
-  | "WRITE_TRUNCATE"
-  | "WRITE_APPEND";
 export type GoogleCloudContactcenterinsightsV1ExportInsightsDataRequestExportSchemaVersionEnum =
   | "EXPORT_SCHEMA_VERSION_UNSPECIFIED"
   | "EXPORT_V1"
@@ -2676,28 +2672,32 @@ export type GoogleCloudContactcenterinsightsV1ExportInsightsDataRequestExportSch
   | "EXPORT_V18"
   | "EXPORT_V19"
   | "EXPORT_VERSION_LATEST_AVAILABLE";
+export type GoogleCloudContactcenterinsightsV1ExportInsightsDataRequestWriteDispositionEnum =
+  | "WRITE_DISPOSITION_UNSPECIFIED"
+  | "WRITE_TRUNCATE"
+  | "WRITE_APPEND";
 /** The request to export insights. */
 export interface GoogleCloudContactcenterinsightsV1ExportInsightsDataRequest {
   /** Specified if sink is a BigQuery table. */
   bigQueryDestination?:
     | GoogleCloudContactcenterinsightsV1ExportInsightsDataRequestBigQueryDestination
     | undefined;
-  /** Options for what to do if the destination table already exists. */
-  writeDisposition?:
-    | GoogleCloudContactcenterinsightsV1ExportInsightsDataRequestWriteDispositionEnum
-    | (string & {})
-    | undefined;
-  /** Required. The parent resource to export data from. */
-  parent?: string | undefined;
   /** Optional. Version of the export schema. */
   exportSchemaVersion?:
     | GoogleCloudContactcenterinsightsV1ExportInsightsDataRequestExportSchemaVersionEnum
     | (string & {})
     | undefined;
+  /** Required. The parent resource to export data from. */
+  parent?: string | undefined;
   /** A filter to reduce results to a specific subset. Useful for exporting conversations with specific properties. */
   filter?: string | undefined;
   /** A fully qualified KMS key name for BigQuery tables protected by CMEK. Format: projects/{project}/locations/{location}/keyRings/{keyring}/cryptoKeys/{key}/cryptoKeyVersions/{version} */
   kmsKey?: string | undefined;
+  /** Options for what to do if the destination table already exists. */
+  writeDisposition?:
+    | GoogleCloudContactcenterinsightsV1ExportInsightsDataRequestWriteDispositionEnum
+    | (string & {})
+    | undefined;
 }
 export interface ExportProjectsLocationsDatasetsInsightsdataRequest extends Omit<
   GoogleCloudContactcenterinsightsV1ExportInsightsDataRequest,
@@ -2755,16 +2755,16 @@ export interface GenerateSignedAudioProjectsLocationsAuthorizedViewSetsAuthorize
 }
 /** Signed audio URIs for a conversation. */
 export interface GoogleCloudContactcenterinsightsV1SignedAudioUris {
-  /** The signed URI for the audio from the Cloud Storage conversation source. */
-  signedGcsAudioUri?: string | undefined;
   /** The signed URI for the audio corresponding to each turn in the conversation. */
   signedTurnLevelAudios?:
     | GoogleCloudContactcenterinsightsV1ConversationDataSourceTurnLevelAudioList
     | undefined;
-  /** Output only. The signed URIs for the audio from the Cloud Storage conversation source when multiple audio files exist (e.g. multi-leg conversations). */
-  signedGcsAudioUris?: StringList | undefined;
   /** The signed URI for the audio from the Dialogflow conversation source. */
   signedDialogflowAudioUri?: string | undefined;
+  /** Output only. The signed URIs for the audio from the Cloud Storage conversation source when multiple audio files exist (e.g. multi-leg conversations). */
+  signedGcsAudioUris?: StringList | undefined;
+  /** The signed URI for the audio from the Cloud Storage conversation source. */
+  signedGcsAudioUri?: string | undefined;
 }
 /** The response from a GenerateConversationSignedAudio request. */
 export interface GoogleCloudContactcenterinsightsV1GenerateConversationSignedAudioResponse {
@@ -2781,26 +2781,26 @@ export interface GenerateSignedAudioProjectsLocationsDatasetsConversationsReques
 }
 /** The request for generative insights. */
 export interface GoogleCloudContactcenterinsightsV1GenerativeInsightsRequest {
+  /** Filter for the data that can be specified in addition to the natural language query. Users are encouraged to use this field to populate time-windows. */
+  filter?: string | undefined;
+  /** Optional. The session id of the conversation. If the session id is not specified, backend will generate a random session id. If the session id is specified, will associate user-provided user_query with the provided session id. */
+  sessionId?: string | undefined;
   /** Optional. The revision id that maps to the state of the chart state revision. When specified, the backend will reload the chart with the sql and visual spec from that revision. */
   revisionId?: string | undefined;
   /** Optional. The time zone name from the [IANA Time Zone Database](https://www.iana.org/time-zones) (for example, `"America/Los_Angeles"`) used to group daily time-series results. If empty, or if the name is well-formed but not known to the server, `UTC` is used. Malformed values are rejected with `INVALID_ARGUMENT`. */
   timeZone?: string | undefined;
-  /** Filter for the data that can be specified in addition to the natural language query. Users are encouraged to use this field to populate time-windows. */
-  filter?: string | undefined;
+  /** Optional. For charts with comparison, this key will determine the metric that will be compared between the current and another dataset. */
+  sqlComparisonKey?: string | undefined;
+  /** Optional. The user provided chart spec for the chart. This will be used to override the visual spec generated by the LLM. */
+  userProvidedChartSpec?: DocumentMap | undefined;
+  /** The natural language query specified by the user. If this field is specified, `sql_query` will be ignored. */
+  naturalLanguageQuery?: string | undefined;
   /** The full name of the chart resource this request corresponds to. Format: projects/{project}/locations/{location}/dashboards/{dashboard}/charts/{chart} */
   chart?: string | undefined;
   /** Optional. Filter for the data that can be specified in addition to the natural language query. This `filter` is specifically used for charts where comparisons are possible. For example, "compare to last month" or "compare to previous quarter". */
   comparisonFilter?: string | undefined;
   /** Optional. The SQL query specified by the user. This query must be in BigQuery SQL dialect. The `filter` field will also be ignored, as it is assumed that any filtering is already included in the SQL query. */
   sqlQuery?: string | undefined;
-  /** The natural language query specified by the user. If this field is specified, `sql_query` will be ignored. */
-  naturalLanguageQuery?: string | undefined;
-  /** Optional. The session id of the conversation. If the session id is not specified, backend will generate a random session id. If the session id is specified, will associate user-provided user_query with the provided session id. */
-  sessionId?: string | undefined;
-  /** Optional. The user provided chart spec for the chart. This will be used to override the visual spec generated by the LLM. */
-  userProvidedChartSpec?: DocumentMap | undefined;
-  /** Optional. For charts with comparison, this key will determine the metric that will be compared between the current and another dataset. */
-  sqlComparisonKey?: string | undefined;
 }
 export interface GenerativeInsightsProjectsLocationsRequest extends GoogleCloudContactcenterinsightsV1GenerativeInsightsRequest {
   /** Required. The location of the data. "projects/{project}/locations/{location}" */
@@ -2816,14 +2816,14 @@ export interface GetCorrelationConfigProjectsLocationsRequest {
 }
 /** A correlation rule that defines how to join conversations for a given correlation type. */
 export interface GoogleCloudContactcenterinsightsV1CorrelationRule {
-  /** Optional. A cel expression (go/cel) to be evaluated as a string value. This string value will be used as the join key for the correlation. */
-  joinKeyExpression?: string | undefined;
   /** Optional. A cel expression (go/cel) to be evaluated as a boolean value. Two variables conversation_a and conversation_b will be available for evaluation. This expression should evaluate to true if conversation_a and conversation_b should be joined. This is used as an extra constraint on top of the join_key_expression to further refine the group of conversations that are joined together and will be evaluated in both directions. for two conversations c1 and c2 and the result will be OR'd. We will evaluate: f(c1, c2) OR f(c2, c1) */
   constraintExpression?: string | undefined;
   /** Required. The unique identifier of the rule. */
   ruleId?: string | undefined;
   /** Optional. Whether the config is active to be evaluated. */
   active?: boolean | undefined;
+  /** Optional. A cel expression (go/cel) to be evaluated as a string value. This string value will be used as the join key for the correlation. */
+  joinKeyExpression?: string | undefined;
 }
 export type GoogleCloudContactcenterinsightsV1CorrelationRuleList =
   Array<GoogleCloudContactcenterinsightsV1CorrelationRule>;
@@ -2834,14 +2834,14 @@ export interface GoogleCloudContactcenterinsightsV1CorrelationTypeConfig {
 }
 /** A configuration that defines how to correlate conversations for a given a given project. */
 export interface GoogleCloudContactcenterinsightsV1CorrelationConfig {
-  /** Immutable. Identifier. The resource name of the correlation config. Format: projects/{project}/locations/{location}/correlationConfig */
-  name?: string | undefined;
   /** Output only. The time at which the correlation config was created. */
   createTime?: string | undefined;
-  /** The correlation type config for full conversations. */
-  fullConversationConfig?: GoogleCloudContactcenterinsightsV1CorrelationTypeConfig | undefined;
   /** Output only. The time at which the correlation config was last updated. */
   updateTime?: string | undefined;
+  /** Immutable. Identifier. The resource name of the correlation config. Format: projects/{project}/locations/{location}/correlationConfig */
+  name?: string | undefined;
+  /** The correlation type config for full conversations. */
+  fullConversationConfig?: GoogleCloudContactcenterinsightsV1CorrelationTypeConfig | undefined;
 }
 export interface GetEncryptionSpecProjectsLocationsRequest {
   /** Required. The name of the encryption spec resource to get. */
@@ -2849,12 +2849,12 @@ export interface GetEncryptionSpecProjectsLocationsRequest {
 }
 /** A customer-managed encryption key specification that can be applied to all created resources (e.g. `Conversation`). */
 export interface GoogleCloudContactcenterinsightsV1EncryptionSpec {
-  /** Immutable. The resource name of the encryption key specification resource. Format: projects/{project}/locations/{location}/encryptionSpec */
-  name?: string | undefined;
   /** Output only. Whether this resource is zone separated. */
   satisfiesPzs?: boolean | undefined;
   /** Required. The name of customer-managed encryption key that is used to secure a resource and its sub-resources. If empty, the resource is secured by our default encryption key. Only the key in the same location as this resource is allowed to be used for encryption. Format: `projects/{project}/locations/{location}/keyRings/{keyRing}/cryptoKeys/{key}` */
   kmsKey?: string | undefined;
+  /** Immutable. The resource name of the encryption key specification resource. Format: projects/{project}/locations/{location}/encryptionSpec */
+  name?: string | undefined;
   /** Output only. Whether this resource is zone isolated. */
   satisfiesPzi?: boolean | undefined;
 }
@@ -2864,16 +2864,37 @@ export interface GetIamPolicyProjectsLocationsAuthorizedViewSetsAuthorizedViewsR
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   "options.requestedPolicyVersion"?: number | undefined;
 }
+export type GoogleIamV1AuditLogConfigLogTypeEnum =
+  | "LOG_TYPE_UNSPECIFIED"
+  | "ADMIN_READ"
+  | "DATA_WRITE"
+  | "DATA_READ";
+/** Provides the configuration for logging a type of permissions. Example: { "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" } ] } This enables 'DATA_READ' and 'DATA_WRITE' logging, while exempting jose@example.com from DATA_READ logging. */
+export interface GoogleIamV1AuditLogConfig {
+  /** The log type that this config enables. */
+  logType?: GoogleIamV1AuditLogConfigLogTypeEnum | (string & {}) | undefined;
+  /** Specifies the identities that do not cause logging for this type of permission. Follows the same format of Binding.members. */
+  exemptedMembers?: StringList | undefined;
+}
+export type GoogleIamV1AuditLogConfigList = Array<GoogleIamV1AuditLogConfig>;
+/** Specifies the audit configuration for a service. The configuration determines which permission types are logged, and what identities, if any, are exempted from logging. An AuditConfig must have one or more AuditLogConfigs. If there are AuditConfigs for both `allServices` and a specific service, the union of the two AuditConfigs is used for that service: the log_types specified in each AuditConfig are enabled, and the exempted_members in each AuditLogConfig are exempted. Example Policy with multiple AuditConfigs: { "audit_configs": [ { "service": "allServices", "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" }, { "log_type": "ADMIN_READ" } ] }, { "service": "sampleservice.googleapis.com", "audit_log_configs": [ { "log_type": "DATA_READ" }, { "log_type": "DATA_WRITE", "exempted_members": [ "user:aliya@example.com" ] } ] } ] } For sampleservice, this policy enables DATA_READ, DATA_WRITE and ADMIN_READ logging. It also exempts `jose@example.com` from DATA_READ logging, and `aliya@example.com` from DATA_WRITE logging. */
+export interface GoogleIamV1AuditConfig {
+  /** Specifies a service that will be enabled for audit logging. For example, `storage.googleapis.com`, `cloudsql.googleapis.com`. `allServices` is a special value that covers all services. */
+  service?: string | undefined;
+  /** The configuration for logging of each type of permission. */
+  auditLogConfigs?: GoogleIamV1AuditLogConfigList | undefined;
+}
+export type GoogleIamV1AuditConfigList = Array<GoogleIamV1AuditConfig>;
 /** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
 export interface GoogleTypeExpr {
-  /** Textual representation of an expression in Common Expression Language syntax. */
-  expression?: string | undefined;
-  /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
-  location?: string | undefined;
   /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
   description?: string | undefined;
+  /** Textual representation of an expression in Common Expression Language syntax. */
+  expression?: string | undefined;
   /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
   title?: string | undefined;
+  /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
+  location?: string | undefined;
 }
 /** Associates `members`, or principals, with a `role`. */
 export interface GoogleIamV1Binding {
@@ -2885,37 +2906,16 @@ export interface GoogleIamV1Binding {
   role?: string | undefined;
 }
 export type GoogleIamV1BindingList = Array<GoogleIamV1Binding>;
-export type GoogleIamV1AuditLogConfigLogTypeEnum =
-  | "LOG_TYPE_UNSPECIFIED"
-  | "ADMIN_READ"
-  | "DATA_WRITE"
-  | "DATA_READ";
-/** Provides the configuration for logging a type of permissions. Example: { "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" } ] } This enables 'DATA_READ' and 'DATA_WRITE' logging, while exempting jose@example.com from DATA_READ logging. */
-export interface GoogleIamV1AuditLogConfig {
-  /** Specifies the identities that do not cause logging for this type of permission. Follows the same format of Binding.members. */
-  exemptedMembers?: StringList | undefined;
-  /** The log type that this config enables. */
-  logType?: GoogleIamV1AuditLogConfigLogTypeEnum | (string & {}) | undefined;
-}
-export type GoogleIamV1AuditLogConfigList = Array<GoogleIamV1AuditLogConfig>;
-/** Specifies the audit configuration for a service. The configuration determines which permission types are logged, and what identities, if any, are exempted from logging. An AuditConfig must have one or more AuditLogConfigs. If there are AuditConfigs for both `allServices` and a specific service, the union of the two AuditConfigs is used for that service: the log_types specified in each AuditConfig are enabled, and the exempted_members in each AuditLogConfig are exempted. Example Policy with multiple AuditConfigs: { "audit_configs": [ { "service": "allServices", "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" }, { "log_type": "ADMIN_READ" } ] }, { "service": "sampleservice.googleapis.com", "audit_log_configs": [ { "log_type": "DATA_READ" }, { "log_type": "DATA_WRITE", "exempted_members": [ "user:aliya@example.com" ] } ] } ] } For sampleservice, this policy enables DATA_READ, DATA_WRITE and ADMIN_READ logging. It also exempts `jose@example.com` from DATA_READ logging, and `aliya@example.com` from DATA_WRITE logging. */
-export interface GoogleIamV1AuditConfig {
-  /** Specifies a service that will be enabled for audit logging. For example, `storage.googleapis.com`, `cloudsql.googleapis.com`. `allServices` is a special value that covers all services. */
-  service?: string | undefined;
-  /** The configuration for logging of each type of permission. */
-  auditLogConfigs?: GoogleIamV1AuditLogConfigList | undefined;
-}
-export type GoogleIamV1AuditConfigList = Array<GoogleIamV1AuditConfig>;
 /** An Identity and Access Management (IAM) policy, which specifies access controls for Google Cloud resources. A `Policy` is a collection of `bindings`. A `binding` binds one or more `members`, or principals, to a single `role`. Principals can be user accounts, service accounts, Google groups, and domains (such as G Suite). A `role` is a named list of permissions; each `role` can be an IAM predefined role or a user-created custom role. For some types of Google Cloud resources, a `binding` can also specify a `condition`, which is a logical expression that allows access to a resource only if the expression evaluates to `true`. A condition can add constraints based on attributes of the request, the resource, or both. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). **JSON example:** ``` { "bindings": [ { "role": "roles/resourcemanager.organizationAdmin", "members": [ "user:mike@example.com", "group:admins@example.com", "domain:google.com", "serviceAccount:my-project-id@appspot.gserviceaccount.com" ] }, { "role": "roles/resourcemanager.organizationViewer", "members": [ "user:eve@example.com" ], "condition": { "title": "expirable access", "description": "Does not grant access after Sep 2020", "expression": "request.time < timestamp('2020-10-01T00:00:00.000Z')", } } ], "etag": "BwWWja0YfJA=", "version": 3 } ``` **YAML example:** ``` bindings: - members: - user:mike@example.com - group:admins@example.com - domain:google.com - serviceAccount:my-project-id@appspot.gserviceaccount.com role: roles/resourcemanager.organizationAdmin - members: - user:eve@example.com role: roles/resourcemanager.organizationViewer condition: title: expirable access description: Does not grant access after Sep 2020 expression: request.time < timestamp('2020-10-01T00:00:00.000Z') etag: BwWWja0YfJA= version: 3 ``` For a description of IAM and its features, see the [IAM documentation](https://cloud.google.com/iam/docs/). */
 export interface GoogleIamV1Policy {
-  /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
-  bindings?: GoogleIamV1BindingList | undefined;
   /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   version?: number | undefined;
-  /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
-  etag?: string | undefined;
   /** Specifies cloud audit logging configuration for this policy. */
   auditConfigs?: GoogleIamV1AuditConfigList | undefined;
+  /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
+  bindings?: GoogleIamV1BindingList | undefined;
+  /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
+  etag?: string | undefined;
 }
 export interface GetProjectsLocationsAnalysisRulesRequest {
   /** Required. The name of the AnalysisRule to get. */
@@ -3049,35 +3049,6 @@ export interface GetSettingsProjectsLocationsRequest {
   /** Required. The name of the settings resource to get. */
   name: string;
 }
-/** Speech-to-Text configuration. Speech-to-Text settings are applied to conversations ingested from the `UploadConversation` and `IngestConversations` endpoints, including conversation coming from CCAI Platform. They are not applied to conversations ingested from the `CreateConversation` endpoint. */
-export interface GoogleCloudContactcenterinsightsV1SpeechConfig {
-  /** The fully-qualified Speech Recognizer resource name. Format: `projects/{project_id}/locations/{location}/recognizer/{recognizer}` */
-  speechRecognizer?: string | undefined;
-  /** Whether to disable word time offsets. If true, the `enable_word_time_offsets` field in the recognition config will be set to false. */
-  disableWordTimeOffsets?: boolean | undefined;
-}
-/** DLP resources used for redaction while ingesting conversations. DLP settings are applied to conversations ingested from the `UploadConversation` and `IngestConversations` endpoints, including conversation coming from CCAI Platform. They are not applied to conversations ingested from the `CreateConversation` endpoint or the Dialogflow / Agent Assist runtime integrations. When using Dialogflow / Agent Assist runtime integrations, redaction should be performed in Dialogflow / Agent Assist. */
-export interface GoogleCloudContactcenterinsightsV1RedactionConfig {
-  /** The fully-qualified DLP inspect template resource name. Format: `projects/{project}/locations/{location}/inspectTemplates/{template}` */
-  inspectTemplate?: string | undefined;
-  /** The fully-qualified DLP deidentify template resource name. Format: `projects/{project}/deidentifyTemplates/{template}` */
-  deidentifyTemplate?: string | undefined;
-}
-/** A definition for a metric to be calculated during analysis. */
-export interface GoogleCloudContactcenterinsightsV1MetricDefinition {
-  /** Output only. The resource name of the underlying Insights primitive (e.g., Tag or QaQuestion) used to calculate this metric. */
-  sourceId?: string | undefined;
-  /** Output only. The user-visible name of the metric (e.g., "Containment Rate"). */
-  displayName?: string | undefined;
-}
-export type GoogleCloudContactcenterinsightsV1MetricDefinitionMap = {
-  [key: string]: GoogleCloudContactcenterinsightsV1MetricDefinition | undefined;
-};
-/** Configuration for diagnostic metrics. */
-export interface GoogleCloudContactcenterinsightsV1SettingsDiagnosticMetricConfig {
-  /** Optional. A map of diagnostic metrics. The key is a unique identifier for the metric (e.g., "containment"). */
-  metrics?: GoogleCloudContactcenterinsightsV1MetricDefinitionMap | undefined;
-}
 /** Default configuration when creating Analyses in Insights. */
 export interface GoogleCloudContactcenterinsightsV1SettingsAnalysisConfig {
   /** Percentage of conversations created using the UploadConversation endpoint to analyze automatically, between [0, 100]. */
@@ -3087,48 +3058,77 @@ export interface GoogleCloudContactcenterinsightsV1SettingsAnalysisConfig {
   /** Percentage of conversations created using Dialogflow runtime integration to analyze automatically, between [0, 100]. */
   runtimeIntegrationAnalysisPercentage?: number | undefined;
 }
+/** A definition for a metric to be calculated during analysis. */
+export interface GoogleCloudContactcenterinsightsV1MetricDefinition {
+  /** Output only. The user-visible name of the metric (e.g., "Containment Rate"). */
+  displayName?: string | undefined;
+  /** Output only. The resource name of the underlying Insights primitive (e.g., Tag or QaQuestion) used to calculate this metric. */
+  sourceId?: string | undefined;
+}
+export type GoogleCloudContactcenterinsightsV1MetricDefinitionMap = {
+  [key: string]: GoogleCloudContactcenterinsightsV1MetricDefinition | undefined;
+};
+/** Configuration for diagnostic metrics. */
+export interface GoogleCloudContactcenterinsightsV1SettingsDiagnosticMetricConfig {
+  /** Optional. A map of diagnostic metrics. The key is a unique identifier for the metric (e.g., "containment"). */
+  metrics?: GoogleCloudContactcenterinsightsV1MetricDefinitionMap | undefined;
+}
+/** Speech-to-Text configuration. Speech-to-Text settings are applied to conversations ingested from the `UploadConversation` and `IngestConversations` endpoints, including conversation coming from CCAI Platform. They are not applied to conversations ingested from the `CreateConversation` endpoint. */
+export interface GoogleCloudContactcenterinsightsV1SpeechConfig {
+  /** The fully-qualified Speech Recognizer resource name. Format: `projects/{project_id}/locations/{location}/recognizer/{recognizer}` */
+  speechRecognizer?: string | undefined;
+  /** Whether to disable word time offsets. If true, the `enable_word_time_offsets` field in the recognition config will be set to false. */
+  disableWordTimeOffsets?: boolean | undefined;
+}
+/** DLP resources used for redaction while ingesting conversations. DLP settings are applied to conversations ingested from the `UploadConversation` and `IngestConversations` endpoints, including conversation coming from CCAI Platform. They are not applied to conversations ingested from the `CreateConversation` endpoint or the Dialogflow / Agent Assist runtime integrations. When using Dialogflow / Agent Assist runtime integrations, redaction should be performed in Dialogflow / Agent Assist. */
+export interface GoogleCloudContactcenterinsightsV1RedactionConfig {
+  /** The fully-qualified DLP deidentify template resource name. Format: `projects/{project}/deidentifyTemplates/{template}` */
+  deidentifyTemplate?: string | undefined;
+  /** The fully-qualified DLP inspect template resource name. Format: `projects/{project}/locations/{location}/inspectTemplates/{template}` */
+  inspectTemplate?: string | undefined;
+}
 /** The CCAI Insights project wide settings. Use these settings to configure the behavior of Insights. View these settings with [`getsettings`](https://cloud.google.com/contact-center/insights/docs/reference/rest/v1/projects.locations/getSettings) and change the settings with [`updateSettings`](https://cloud.google.com/contact-center/insights/docs/reference/rest/v1/projects.locations/updateSettings). */
 export interface GoogleCloudContactcenterinsightsV1Settings {
   /** Output only. The time at which the settings was created. */
   createTime?: string | undefined;
-  /** Output only. Whether this resource is zone separated. */
-  satisfiesPzs?: boolean | undefined;
   /** Optional. The time zone applied to the project. This is a string representation of the time zone, for example, "America/New_York". This field follows the IANA TZ database format. See https://www.iana.org/time-zones for a list of valid values. If no value is set the user time zone will be used. */
   timeZone?: string | undefined;
-  /** Optional. Default Speech-to-Text resources to use while ingesting audio files. Optional, CCAI Insights will create a default if not provided. This applies to conversations ingested from the `UploadConversation` and `IngestConversations` endpoints, including conversations coming from CCAI Platform. */
-  speechConfig?: GoogleCloudContactcenterinsightsV1SpeechConfig | undefined;
-  /** A language code to be applied to each transcript segment unless the segment already specifies a language code. Language code defaults to "en-US" if it is neither specified on the segment nor here. */
-  languageCode?: string | undefined;
-  /** Default DLP redaction resources to be applied while ingesting conversations. This applies to conversations ingested from the `UploadConversation` and `IngestConversations` endpoints, including conversations coming from CCAI Platform. */
-  redactionConfig?: GoogleCloudContactcenterinsightsV1RedactionConfig | undefined;
+  /** Immutable. The resource name of the settings resource. Format: projects/{project}/locations/{location}/settings */
+  name?: string | undefined;
+  /** Default analysis settings. */
+  analysisConfig?: GoogleCloudContactcenterinsightsV1SettingsAnalysisConfig | undefined;
   /** Optional. Configuration for diagnostic metrics. */
   diagnosticMetricConfig?:
     | GoogleCloudContactcenterinsightsV1SettingsDiagnosticMetricConfig
     | undefined;
-  /** Default analysis settings. */
-  analysisConfig?: GoogleCloudContactcenterinsightsV1SettingsAnalysisConfig | undefined;
-  /** Optional. The path to a Cloud Storage bucket containing conversation screen recordings. If provided, Insights will search in the bucket for a screen recording file matching the conversation data source object name prefix. If matches are found, these file URIs will be stored in the conversation screen recordings field. */
-  screenRecordingBucketUri?: string | undefined;
-  /** Output only. The time at which the settings were last updated. */
-  updateTime?: string | undefined;
   /** Output only. Whether this resource is zone isolated. */
   satisfiesPzi?: boolean | undefined;
-  /** A map that maps a notification trigger to a Pub/Sub topic. Each time a specified trigger occurs, Insights will notify the corresponding Pub/Sub topic. Keys are notification triggers. Supported keys are: * "all-triggers": Notify each time any of the supported triggers occurs. * "create-analysis": Notify each time an analysis is created. * "create-conversation": Notify each time a conversation is created. * "export-insights-data": Notify each time an export is complete. * "ingest-conversations": Notify each time an IngestConversations LRO is complete. * "update-conversation": Notify each time a conversation is updated via UpdateConversation. * "upload-conversation": Notify when an UploadConversation LRO is complete. * "update-or-analyze-conversation": Notify when an analysis for a conversation is completed or when the conversation is updated. The message will contain the conversation with transcript, analysis and other metadata. Values are Pub/Sub topics. The format of each Pub/Sub topic is: projects/{project}/topics/{topic} */
-  pubsubNotificationSettings?: StringMap | undefined;
-  /** Immutable. The resource name of the settings resource. Format: projects/{project}/locations/{location}/settings */
-  name?: string | undefined;
   /** The default TTL for newly-created conversations. If a conversation has a specified expiration, that value will be used instead. Changing this value will not change the expiration of existing conversations. Conversations with no expire time persist until they are deleted. */
   conversationTtl?: string | undefined;
+  /** Optional. Default Speech-to-Text resources to use while ingesting audio files. Optional, CCAI Insights will create a default if not provided. This applies to conversations ingested from the `UploadConversation` and `IngestConversations` endpoints, including conversations coming from CCAI Platform. */
+  speechConfig?: GoogleCloudContactcenterinsightsV1SpeechConfig | undefined;
+  /** Output only. Whether this resource is zone separated. */
+  satisfiesPzs?: boolean | undefined;
+  /** A language code to be applied to each transcript segment unless the segment already specifies a language code. Language code defaults to "en-US" if it is neither specified on the segment nor here. */
+  languageCode?: string | undefined;
+  /** Output only. The time at which the settings were last updated. */
+  updateTime?: string | undefined;
+  /** Default DLP redaction resources to be applied while ingesting conversations. This applies to conversations ingested from the `UploadConversation` and `IngestConversations` endpoints, including conversations coming from CCAI Platform. */
+  redactionConfig?: GoogleCloudContactcenterinsightsV1RedactionConfig | undefined;
+  /** A map that maps a notification trigger to a Pub/Sub topic. Each time a specified trigger occurs, Insights will notify the corresponding Pub/Sub topic. Keys are notification triggers. Supported keys are: * "all-triggers": Notify each time any of the supported triggers occurs. * "create-analysis": Notify each time an analysis is created. * "create-conversation": Notify each time a conversation is created. * "export-insights-data": Notify each time an export is complete. * "ingest-conversations": Notify each time an IngestConversations LRO is complete. * "update-conversation": Notify each time a conversation is updated via UpdateConversation. * "upload-conversation": Notify when an UploadConversation LRO is complete. * "update-or-analyze-conversation": Notify when an analysis for a conversation is completed or when the conversation is updated. The message will contain the conversation with transcript, analysis and other metadata. Values are Pub/Sub topics. The format of each Pub/Sub topic is: projects/{project}/topics/{topic} */
+  pubsubNotificationSettings?: StringMap | undefined;
+  /** Optional. The path to a Cloud Storage bucket containing conversation screen recordings. If provided, Insights will search in the bucket for a screen recording file matching the conversation data source object name prefix. If matches are found, these file URIs will be stored in the conversation screen recordings field. */
+  screenRecordingBucketUri?: string | undefined;
 }
 /** Google Cloud Storage Object URI to get the issue model file from. */
 export type GoogleCloudContactcenterinsightsV1ImportIssueModelRequestGcsSource =
   GoogleCloudContactcenterinsightsV1ExportIssueModelRequestGcsDestination;
 /** Request to import an issue model. */
 export interface GoogleCloudContactcenterinsightsV1ImportIssueModelRequest {
-  /** Google Cloud Storage source message. */
-  gcsSource?: GoogleCloudContactcenterinsightsV1ExportIssueModelRequestGcsDestination | undefined;
   /** Optional. If set to true, will create an issue model from the imported file with randomly generated IDs for the issue model and corresponding issues. Otherwise, replaces an existing model with the same ID as the file. */
   createNewModel?: boolean | undefined;
+  /** Google Cloud Storage source message. */
+  gcsSource?: GoogleCloudContactcenterinsightsV1ExportIssueModelRequestGcsDestination | undefined;
   /** Required. The parent resource of the issue model. */
   parent?: string | undefined;
 }
@@ -3138,37 +3138,6 @@ export interface ImportProjectsLocationsIssueModelsRequest extends Omit<
 > {
   /** Required. The parent resource of the issue model. */
   parent: string;
-}
-export type GoogleCloudContactcenterinsightsV1IngestConversationsRequestGcsSourceBucketObjectTypeEnum =
-  | "BUCKET_OBJECT_TYPE_UNSPECIFIED"
-  | "TRANSCRIPT"
-  | "AUDIO";
-/** Configuration for Cloud Storage bucket sources. */
-export interface GoogleCloudContactcenterinsightsV1IngestConversationsRequestGcsSource {
-  /** Optional. Specifies the type of the objects in `bucket_uri`. Avoid passing this. This is inferred from the `transcript_bucket_uri`, `audio_bucket_uri`. */
-  bucketObjectType?:
-    | GoogleCloudContactcenterinsightsV1IngestConversationsRequestGcsSourceBucketObjectTypeEnum
-    | (string & {})
-    | undefined;
-  /** Optional. The Cloud Storage path to the conversation metadata. Note that: [1] Metadata files are expected to be in JSON format. [2] Metadata and source files (transcripts or audio) must be in separate buckets / folders. [3] A source file and its corresponding metadata file must share the same name to be properly ingested, E.g. `gs://bucket/audio/conversation1.mp3` and `gs://bucket/metadata/conversation1.json`. */
-  metadataBucketUri?: string | undefined;
-  /** Optional. The Cloud Storage bucket containing source objects. Avoid passing this. Pass this through one of `transcript_bucket_uri` or `audio_bucket_uri`. */
-  bucketUri?: string | undefined;
-  /** Optional. The Cloud Storage path to the conversation audio file. Note that: [1] Audio files will be transcribed if not already. [2] Audio files and transcript files must be in separate buckets / folders. [3] A source file and its corresponding audio file must share the same name to be properly ingested, E.g. `gs://bucket/transcript/conversation1.json` and `gs://bucket/audio/conversation1.mp3`. */
-  audioBucketUri?: string | undefined;
-  /** Optional. The Cloud Storage path to the conversation transcripts. Note that: [1] Transcript files are expected to be in JSON format. [2] Transcript, audio, metadata files must be in separate buckets / folders. [3] A source file and its corresponding metadata file must share the same name to be properly ingested, E.g. `gs://bucket/audio/conversation1.mp3` and `gs://bucket/metadata/conversation1.json`. */
-  transcriptBucketUri?: string | undefined;
-  /** Optional. Custom keys to extract as conversation labels from metadata files in `metadata_bucket_uri`. Keys not included in this field will be ignored. Note that there is a limit of 100 labels per conversation. */
-  customMetadataKeys?: StringList | undefined;
-}
-/** Configuration that applies to all conversations. */
-export interface GoogleCloudContactcenterinsightsV1IngestConversationsRequestConversationConfig {
-  /** Optional. An opaque, user-specified string representing a human agent who handled all conversations in the import. Note that this will be overridden if per-conversation metadata is provided through the `metadata_bucket_uri`. */
-  agentId?: string | undefined;
-  /** Optional. Indicates which of the channels, 1 or 2, contains the agent. Note that this must be set for conversations to be properly displayed and analyzed. */
-  customerChannel?: number | undefined;
-  /** Optional. Indicates which of the channels, 1 or 2, contains the agent. Note that this must be set for conversations to be properly displayed and analyzed. */
-  agentChannel?: number | undefined;
 }
 export type GoogleCloudContactcenterinsightsV1IngestConversationsRequestTranscriptObjectConfigMediumEnum =
   | "MEDIUM_UNSPECIFIED"
@@ -3182,26 +3151,57 @@ export interface GoogleCloudContactcenterinsightsV1IngestConversationsRequestTra
     | (string & {})
     | undefined;
 }
+export type GoogleCloudContactcenterinsightsV1IngestConversationsRequestGcsSourceBucketObjectTypeEnum =
+  | "BUCKET_OBJECT_TYPE_UNSPECIFIED"
+  | "TRANSCRIPT"
+  | "AUDIO";
+/** Configuration for Cloud Storage bucket sources. */
+export interface GoogleCloudContactcenterinsightsV1IngestConversationsRequestGcsSource {
+  /** Optional. Specifies the type of the objects in `bucket_uri`. Avoid passing this. This is inferred from the `transcript_bucket_uri`, `audio_bucket_uri`. */
+  bucketObjectType?:
+    | GoogleCloudContactcenterinsightsV1IngestConversationsRequestGcsSourceBucketObjectTypeEnum
+    | (string & {})
+    | undefined;
+  /** Optional. The Cloud Storage path to the conversation audio file. Note that: [1] Audio files will be transcribed if not already. [2] Audio files and transcript files must be in separate buckets / folders. [3] A source file and its corresponding audio file must share the same name to be properly ingested, E.g. `gs://bucket/transcript/conversation1.json` and `gs://bucket/audio/conversation1.mp3`. */
+  audioBucketUri?: string | undefined;
+  /** Optional. The Cloud Storage bucket containing source objects. Avoid passing this. Pass this through one of `transcript_bucket_uri` or `audio_bucket_uri`. */
+  bucketUri?: string | undefined;
+  /** Optional. The Cloud Storage path to the conversation metadata. Note that: [1] Metadata files are expected to be in JSON format. [2] Metadata and source files (transcripts or audio) must be in separate buckets / folders. [3] A source file and its corresponding metadata file must share the same name to be properly ingested, E.g. `gs://bucket/audio/conversation1.mp3` and `gs://bucket/metadata/conversation1.json`. */
+  metadataBucketUri?: string | undefined;
+  /** Optional. The Cloud Storage path to the conversation transcripts. Note that: [1] Transcript files are expected to be in JSON format. [2] Transcript, audio, metadata files must be in separate buckets / folders. [3] A source file and its corresponding metadata file must share the same name to be properly ingested, E.g. `gs://bucket/audio/conversation1.mp3` and `gs://bucket/metadata/conversation1.json`. */
+  transcriptBucketUri?: string | undefined;
+  /** Optional. Custom keys to extract as conversation labels from metadata files in `metadata_bucket_uri`. Keys not included in this field will be ignored. Note that there is a limit of 100 labels per conversation. */
+  customMetadataKeys?: StringList | undefined;
+}
+/** Configuration that applies to all conversations. */
+export interface GoogleCloudContactcenterinsightsV1IngestConversationsRequestConversationConfig {
+  /** Optional. Indicates which of the channels, 1 or 2, contains the agent. Note that this must be set for conversations to be properly displayed and analyzed. */
+  agentChannel?: number | undefined;
+  /** Optional. Indicates which of the channels, 1 or 2, contains the agent. Note that this must be set for conversations to be properly displayed and analyzed. */
+  customerChannel?: number | undefined;
+  /** Optional. An opaque, user-specified string representing a human agent who handled all conversations in the import. Note that this will be overridden if per-conversation metadata is provided through the `metadata_bucket_uri`. */
+  agentId?: string | undefined;
+}
 /** The request to ingest conversations. */
 export interface GoogleCloudContactcenterinsightsV1IngestConversationsRequest {
-  /** A cloud storage bucket source. Note that any previously ingested objects from the source will be skipped to avoid duplication. */
-  gcsSource?: GoogleCloudContactcenterinsightsV1IngestConversationsRequestGcsSource | undefined;
+  /** Optional. Default Speech-to-Text configuration. Optional, will default to the config specified in Settings. */
+  speechConfig?: GoogleCloudContactcenterinsightsV1SpeechConfig | undefined;
   /** Optional. DLP settings for transcript redaction. Optional, will default to the config specified in Settings. */
   redactionConfig?: GoogleCloudContactcenterinsightsV1RedactionConfig | undefined;
   /** Optional. If set, this fields indicates the number of objects to ingest from the Cloud Storage bucket. If empty, the entire bucket will be ingested. Unless they are first deleted, conversations produced through sampling won't be ingested by subsequent ingest requests. */
   sampleSize?: number | undefined;
-  /** Configuration that applies to all conversations. */
-  conversationConfig?:
-    | GoogleCloudContactcenterinsightsV1IngestConversationsRequestConversationConfig
-    | undefined;
   /** Required. The parent resource for new conversations. */
   parent?: string | undefined;
   /** Configuration for when `source` contains conversation transcripts. */
   transcriptObjectConfig?:
     | GoogleCloudContactcenterinsightsV1IngestConversationsRequestTranscriptObjectConfig
     | undefined;
-  /** Optional. Default Speech-to-Text configuration. Optional, will default to the config specified in Settings. */
-  speechConfig?: GoogleCloudContactcenterinsightsV1SpeechConfig | undefined;
+  /** A cloud storage bucket source. Note that any previously ingested objects from the source will be skipped to avoid duplication. */
+  gcsSource?: GoogleCloudContactcenterinsightsV1IngestConversationsRequestGcsSource | undefined;
+  /** Configuration that applies to all conversations. */
+  conversationConfig?:
+    | GoogleCloudContactcenterinsightsV1IngestConversationsRequestConversationConfig
+    | undefined;
 }
 export interface IngestProjectsLocationsConversationsRequest extends Omit<
   GoogleCloudContactcenterinsightsV1IngestConversationsRequest,
@@ -3227,14 +3227,14 @@ export interface InitializeProjectsLocationsEncryptionSpecRequest extends Google
   name: string;
 }
 export interface ListAllFeedbackLabelsProjectsLocationsRequest {
-  /** Optional. A filter to reduce results to a specific subset in the entire project. Supports disjunctions (OR) and conjunctions (AND). Supported fields: * `issue_model_id` * `qa_question_id` * `min_create_time` * `max_create_time` * `min_update_time` * `max_update_time` * `feedback_label_type`: QUALITY_AI, TOPIC_MODELING */
-  filter?: string | undefined;
-  /** Optional. The value returned by the last `ListAllFeedbackLabelsResponse`. This value indicates that this is a continuation of a prior `ListAllFeedbackLabels` call and that the system should return the next page of data. */
-  pageToken?: string | undefined;
   /** Required. The parent resource of all feedback labels per project. */
   parent: string;
+  /** Optional. The value returned by the last `ListAllFeedbackLabelsResponse`. This value indicates that this is a continuation of a prior `ListAllFeedbackLabels` call and that the system should return the next page of data. */
+  pageToken?: string | undefined;
   /** Optional. The maximum number of feedback labels to return in the response. A valid page size ranges from 0 to 100,000 inclusive. If the page size is zero or unspecified, a default page size of 100 will be chosen. Note that a call might return fewer results than the requested page size. */
   pageSize?: number | undefined;
+  /** Optional. A filter to reduce results to a specific subset in the entire project. Supports disjunctions (OR) and conjunctions (AND). Supported fields: * `issue_model_id` * `qa_question_id` * `min_create_time` * `max_create_time` * `min_update_time` * `max_update_time` * `feedback_label_type`: QUALITY_AI, TOPIC_MODELING */
+  filter?: string | undefined;
 }
 /** The response for listing all feedback labels. */
 export interface GoogleCloudContactcenterinsightsV1ListAllFeedbackLabelsResponse {
@@ -3244,20 +3244,20 @@ export interface GoogleCloudContactcenterinsightsV1ListAllFeedbackLabelsResponse
   nextPageToken?: string | undefined;
 }
 export interface ListAllFeedbackLabelsProjectsLocationsDatasetsRequest {
-  /** Optional. The value returned by the last `ListAllFeedbackLabelsResponse`. This value indicates that this is a continuation of a prior `ListAllFeedbackLabels` call and that the system should return the next page of data. */
-  pageToken?: string | undefined;
-  /** Optional. The maximum number of feedback labels to return in the response. A valid page size ranges from 0 to 100,000 inclusive. If the page size is zero or unspecified, a default page size of 100 will be chosen. Note that a call might return fewer results than the requested page size. */
-  pageSize?: number | undefined;
-  /** Required. The parent resource of all feedback labels per project. */
-  parent: string;
   /** Optional. A filter to reduce results to a specific subset in the entire project. Supports disjunctions (OR) and conjunctions (AND). Supported fields: * `issue_model_id` * `qa_question_id` * `min_create_time` * `max_create_time` * `min_update_time` * `max_update_time` * `feedback_label_type`: QUALITY_AI, TOPIC_MODELING */
   filter?: string | undefined;
+  /** Optional. The value returned by the last `ListAllFeedbackLabelsResponse`. This value indicates that this is a continuation of a prior `ListAllFeedbackLabels` call and that the system should return the next page of data. */
+  pageToken?: string | undefined;
+  /** Required. The parent resource of all feedback labels per project. */
+  parent: string;
+  /** Optional. The maximum number of feedback labels to return in the response. A valid page size ranges from 0 to 100,000 inclusive. If the page size is zero or unspecified, a default page size of 100 will be chosen. Note that a call might return fewer results than the requested page size. */
+  pageSize?: number | undefined;
 }
 export interface ListProjectsLocationsAnalysisRulesRequest {
-  /** Optional. The value returned by the last `ListAnalysisRulesResponse`; indicates that this is a continuation of a prior `ListAnalysisRules` call and the system should return the next page of data. */
-  pageToken?: string | undefined;
   /** Optional. The maximum number of analysis rule to return in the response. If this value is zero, the service will select a default size. A call may return fewer objects than requested. A non-empty `next_page_token` in the response indicates that more data is available. */
   pageSize?: number | undefined;
+  /** Optional. The value returned by the last `ListAnalysisRulesResponse`; indicates that this is a continuation of a prior `ListAnalysisRules` call and the system should return the next page of data. */
+  pageToken?: string | undefined;
   /** Required. The parent resource of the analysis rules. */
   parent: string;
 }
@@ -3271,33 +3271,33 @@ export interface GoogleCloudContactcenterinsightsV1ListAnalysisRulesResponse {
   nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsAssessmentRulesRequest {
-  /** Required. The parent resource of the assessment rules. */
-  parent: string;
   /** Optional. The maximum number of assessment rule to return in the response. If this value is zero, the service will select a default size. A call may return fewer objects than requested. A non-empty `next_page_token` in the response indicates that more data is available. */
   pageSize?: number | undefined;
   /** Optional. The value returned by the last `ListAssessmentRulesResponse`; indicates that this is a continuation of a prior `ListAssessmentRules` call and the system should return the next page of data. */
   pageToken?: string | undefined;
+  /** Required. The parent resource of the assessment rules. */
+  parent: string;
 }
 export type GoogleCloudContactcenterinsightsV1AssessmentRuleList =
   Array<GoogleCloudContactcenterinsightsV1AssessmentRule>;
 /** The response of listing assessment rules. */
 export interface GoogleCloudContactcenterinsightsV1ListAssessmentRulesResponse {
-  /** The assessment rules that match the request. */
-  assessmentRules?: GoogleCloudContactcenterinsightsV1AssessmentRuleList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string | undefined;
+  /** The assessment rules that match the request. */
+  assessmentRules?: GoogleCloudContactcenterinsightsV1AssessmentRuleList | undefined;
 }
 export interface ListProjectsLocationsAuthorizedViewSetsRequest {
-  /** Optional. The filter expression to filter authorized view sets listed in the response. */
-  filter?: string | undefined;
-  /** Optional. The order by expression to order authorized view sets listed in the response. */
-  orderBy?: string | undefined;
   /** Required. The parent resource of the AuthorizedViewSets. */
   parent: string;
-  /** Optional. The maximum number of view sets to return in the response. If the value is zero, the service will select a default size. A call might return fewer objects than requested. A non-empty `next_page_token` in the response indicates that more data is available. */
-  pageSize?: number | undefined;
   /** Optional. The value returned by the last `ListAuthorizedViewSetsResponse`. This value indicates that this is a continuation of a prior `ListAuthorizedViewSets` call and that the system should return the next page of data. */
   pageToken?: string | undefined;
+  /** Optional. The maximum number of view sets to return in the response. If the value is zero, the service will select a default size. A call might return fewer objects than requested. A non-empty `next_page_token` in the response indicates that more data is available. */
+  pageSize?: number | undefined;
+  /** Optional. The order by expression to order authorized view sets listed in the response. */
+  orderBy?: string | undefined;
+  /** Optional. The filter expression to filter authorized view sets listed in the response. */
+  filter?: string | undefined;
 }
 export type GoogleCloudContactcenterinsightsV1AuthorizedViewSetList =
   Array<GoogleCloudContactcenterinsightsV1AuthorizedViewSet>;
@@ -3311,14 +3311,14 @@ export interface GoogleCloudContactcenterinsightsV1ListAuthorizedViewSetsRespons
 export interface ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest {
   /** Optional. The maximum number of view to return in the response. If the value is zero, the service will select a default size. A call might return fewer objects than requested. A non-empty `next_page_token` in the response indicates that more data is available. */
   pageSize?: number | undefined;
-  /** Required. The parent resource of the AuthorizedViews. If the parent is set to `-`, all AuthorizedViews under the location will be returned. */
-  parent: string;
-  /** Optional. The order by expression to order authorized views listed in the response. */
-  orderBy?: string | undefined;
   /** Optional. The filter expression to filter authorized views listed in the response. */
   filter?: string | undefined;
+  /** Required. The parent resource of the AuthorizedViews. If the parent is set to `-`, all AuthorizedViews under the location will be returned. */
+  parent: string;
   /** Optional. The value returned by the last `ListAuthorizedViewsResponse`. This value indicates that this is a continuation of a prior `ListAuthorizedViews` call and that the system should return the next page of data. */
   pageToken?: string | undefined;
+  /** Optional. The order by expression to order authorized views listed in the response. */
+  orderBy?: string | undefined;
 }
 export type GoogleCloudContactcenterinsightsV1AuthorizedViewList =
   Array<GoogleCloudContactcenterinsightsV1AuthorizedView>;
@@ -3335,10 +3335,12 @@ export type ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsV
   | "BASIC"
   | "FULL_WITH_STRUCTURED_TRANSCRIPT";
 export interface ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsRequest {
-  /** The value returned by the last `ListConversationsResponse`. This value indicates that this is a continuation of a prior `ListConversations` call and that the system should return the next page of data. */
-  pageToken?: string | undefined;
+  /** Optional. The attribute by which to order conversations in the response. If empty, conversations will be ordered by descending creation time. Supported values are one of the following: * create_time * customer_satisfaction_rating * duration * latest_analysis * start_time * turn_count The default sort order is ascending. To specify order, append `asc` or `desc` (`create_time desc`). For more details, see [Google AIPs Ordering](https://google.aip.dev/132#ordering). */
+  orderBy?: string | undefined;
   /** Required. The parent resource of the conversation. */
   parent: string;
+  /** The value returned by the last `ListConversationsResponse`. This value indicates that this is a continuation of a prior `ListConversations` call and that the system should return the next page of data. */
+  pageToken?: string | undefined;
   /** A filter to reduce results to a specific subset. Useful for querying conversations with specific properties. */
   filter?: string | undefined;
   /** The level of details of the conversation. Default is `BASIC`. */
@@ -3348,8 +3350,6 @@ export interface ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversat
     | undefined;
   /** The maximum number of conversations to return in the response. A valid page size ranges from 0 to 100,000 inclusive. If the page size is zero or unspecified, a default page size of 100 will be chosen. Note that a call might return fewer results than the requested page size. */
   pageSize?: number | undefined;
-  /** Optional. The attribute by which to order conversations in the response. If empty, conversations will be ordered by descending creation time. Supported values are one of the following: * create_time * customer_satisfaction_rating * duration * latest_analysis * start_time * turn_count The default sort order is ascending. To specify order, append `asc` or `desc` (`create_time desc`). For more details, see [Google AIPs Ordering](https://google.aip.dev/132#ordering). */
-  orderBy?: string | undefined;
 }
 export type GoogleCloudContactcenterinsightsV1ConversationList =
   Array<GoogleCloudContactcenterinsightsV1Conversation>;
@@ -3361,50 +3361,50 @@ export interface GoogleCloudContactcenterinsightsV1ListConversationsResponse {
   conversations?: GoogleCloudContactcenterinsightsV1ConversationList | undefined;
 }
 export interface ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsRequest {
-  /** Required. The parent resource of the assessments. To list all assessments in a location, substitute the conversation ID with a '-' character. */
-  parent: string;
-  /** The maximum number of assessments to list. If zero, the service will select a default size. A call may return fewer objects than requested. A non-empty `next_page_token` in the response indicates that more data is available. */
-  pageSize?: number | undefined;
-  /** Optional. The value returned by the last `ListAssessmentRulesResponse`; indicates that this is a continuation of a prior `ListAssessmentRules` call and the system should return the next page of data. */
-  pageToken?: string | undefined;
   /** Optional. A filter to reduce results to a specific subset. Supported filters include: * `state` - The state of the assessment * `agent_info.agent_id` - The ID of the agent the assessment is for */
   filter?: string | undefined;
+  /** Optional. The value returned by the last `ListAssessmentRulesResponse`; indicates that this is a continuation of a prior `ListAssessmentRules` call and the system should return the next page of data. */
+  pageToken?: string | undefined;
+  /** The maximum number of assessments to list. If zero, the service will select a default size. A call may return fewer objects than requested. A non-empty `next_page_token` in the response indicates that more data is available. */
+  pageSize?: number | undefined;
+  /** Required. The parent resource of the assessments. To list all assessments in a location, substitute the conversation ID with a '-' character. */
+  parent: string;
 }
 export type GoogleCloudContactcenterinsightsV1AssessmentList =
   Array<GoogleCloudContactcenterinsightsV1Assessment>;
 /** The response of listing assessments. */
 export interface GoogleCloudContactcenterinsightsV1ListAssessmentsResponse {
-  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string | undefined;
   /** The assessments that match the request. */
   assessments?: GoogleCloudContactcenterinsightsV1AssessmentList | undefined;
+  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsNotesRequest {
+  /** Optional. The value returned by the last `ListNotesResponse`. This value indicates that this is a continuation of a prior `ListNotes` call and that the system should return the next page of data. */
+  pageToken?: string | undefined;
   /** Required. The parent resource of the notes. */
   parent: string;
   /** Optional. The maximum number of notes to return in the response. If zero the service will select a default size. A call might return fewer objects than requested. A non-empty `next_page_token` in the response indicates that more data is available. */
   pageSize?: number | undefined;
-  /** Optional. The value returned by the last `ListNotesResponse`. This value indicates that this is a continuation of a prior `ListNotes` call and that the system should return the next page of data. */
-  pageToken?: string | undefined;
 }
 export type GoogleCloudContactcenterinsightsV1NoteList =
   Array<GoogleCloudContactcenterinsightsV1Note>;
 /** The response of listing notes. */
 export interface GoogleCloudContactcenterinsightsV1ListNotesResponse {
-  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string | undefined;
   /** The notes that match the request. */
   notes?: GoogleCloudContactcenterinsightsV1NoteList | undefined;
+  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabelsRequest {
   /** Required. The parent resource of the feedback labels. */
   parent: string;
-  /** Optional. The value returned by the last `ListFeedbackLabelsResponse`. This value indicates that this is a continuation of a prior `ListFeedbackLabels` call and that the system should return the next page of data. */
-  pageToken?: string | undefined;
   /** Optional. The maximum number of feedback labels to return in the response. A valid page size ranges from 0 to 100,000 inclusive. If the page size is zero or unspecified, a default page size of 100 will be chosen. Note that a call might return fewer results than the requested page size. */
   pageSize?: number | undefined;
   /** Optional. A filter to reduce results to a specific subset. Supports disjunctions (OR) and conjunctions (AND). Automatically sorts by conversation ID. To sort by all feedback labels in a project see ListAllFeedbackLabels. Supported fields: * `issue_model_id` * `qa_question_id` * `qa_scorecard_id` * `min_create_time` * `max_create_time` * `min_update_time` * `max_update_time` * `feedback_label_type`: QUALITY_AI, TOPIC_MODELING */
   filter?: string | undefined;
+  /** Optional. The value returned by the last `ListFeedbackLabelsResponse`. This value indicates that this is a continuation of a prior `ListFeedbackLabels` call and that the system should return the next page of data. */
+  pageToken?: string | undefined;
 }
 /** The response for listing feedback labels. */
 export interface GoogleCloudContactcenterinsightsV1ListFeedbackLabelsResponse {
@@ -3416,32 +3416,32 @@ export interface GoogleCloudContactcenterinsightsV1ListFeedbackLabelsResponse {
 export interface ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsOperationsRequest {
   /** The standard list page token. */
   pageToken?: string | undefined;
-  /** The standard list filter. */
-  filter?: string | undefined;
-  /** The name of the operation's parent resource. */
-  name: string;
   /** The standard list page size. */
   pageSize?: number | undefined;
+  /** The name of the operation's parent resource. */
+  name: string;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
   returnPartialSuccess?: boolean | undefined;
+  /** The standard list filter. */
+  filter?: string | undefined;
 }
 export type GoogleLongrunningOperationList = Array<GoogleLongrunningOperation>;
 /** The response message for Operations.ListOperations. */
 export interface GoogleLongrunningListOperationsResponse {
-  /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
-  unreachable?: StringList | undefined;
   /** The standard List next-page token. */
   nextPageToken?: string | undefined;
   /** A list of operations that matches the specified filter in the request. */
   operations?: GoogleLongrunningOperationList | undefined;
+  /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
+  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsAutoLabelingRulesRequest {
   /** Optional. The maximum number of auto labeling rules to return in a single response. If unspecified, at most 100 rules will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
   pageSize?: number | undefined;
-  /** Optional. The next_page_token value returned from a previous List request, if any. */
-  pageToken?: string | undefined;
   /** Required. The project and location to list auto labeling rules from. Format: projects/{project}/locations/{location} */
   parent: string;
+  /** Optional. The next_page_token value returned from a previous List request, if any. */
+  pageToken?: string | undefined;
 }
 export type GoogleCloudContactcenterinsightsV1AutoLabelingRuleList =
   Array<GoogleCloudContactcenterinsightsV1AutoLabelingRule>;
@@ -3458,77 +3458,77 @@ export type ListProjectsLocationsConversationsViewEnum =
   | "BASIC"
   | "FULL_WITH_STRUCTURED_TRANSCRIPT";
 export interface ListProjectsLocationsConversationsRequest {
-  /** The value returned by the last `ListConversationsResponse`. This value indicates that this is a continuation of a prior `ListConversations` call and that the system should return the next page of data. */
-  pageToken?: string | undefined;
-  /** Required. The parent resource of the conversation. */
-  parent: string;
   /** Optional. The attribute by which to order conversations in the response. If empty, conversations will be ordered by descending creation time. Supported values are one of the following: * create_time * customer_satisfaction_rating * duration * latest_analysis * start_time * turn_count The default sort order is ascending. To specify order, append `asc` or `desc` (`create_time desc`). For more details, see [Google AIPs Ordering](https://google.aip.dev/132#ordering). */
   orderBy?: string | undefined;
+  /** Required. The parent resource of the conversation. */
+  parent: string;
+  /** The value returned by the last `ListConversationsResponse`. This value indicates that this is a continuation of a prior `ListConversations` call and that the system should return the next page of data. */
+  pageToken?: string | undefined;
+  /** The level of details of the conversation. Default is `BASIC`. */
+  view?: ListProjectsLocationsConversationsViewEnum | (string & {}) | undefined;
   /** A filter to reduce results to a specific subset. Useful for querying conversations with specific properties. */
   filter?: string | undefined;
   /** The maximum number of conversations to return in the response. A valid page size ranges from 0 to 100,000 inclusive. If the page size is zero or unspecified, a default page size of 100 will be chosen. Note that a call might return fewer results than the requested page size. */
   pageSize?: number | undefined;
-  /** The level of details of the conversation. Default is `BASIC`. */
-  view?: ListProjectsLocationsConversationsViewEnum | (string & {}) | undefined;
 }
 export interface ListProjectsLocationsConversationsAnalysesRequest {
-  /** Required. The parent resource of the analyses. */
-  parent: string;
-  /** The maximum number of analyses to return in the response. If this value is zero, the service will select a default size. A call might return fewer objects than requested. A non-empty `next_page_token` in the response indicates that more data is available. */
-  pageSize?: number | undefined;
-  /** The value returned by the last `ListAnalysesResponse`; indicates that this is a continuation of a prior `ListAnalyses` call and the system should return the next page of data. */
-  pageToken?: string | undefined;
   /** A filter to reduce results to a specific subset. Useful for querying conversations with specific properties. */
   filter?: string | undefined;
+  /** The maximum number of analyses to return in the response. If this value is zero, the service will select a default size. A call might return fewer objects than requested. A non-empty `next_page_token` in the response indicates that more data is available. */
+  pageSize?: number | undefined;
+  /** Required. The parent resource of the analyses. */
+  parent: string;
+  /** The value returned by the last `ListAnalysesResponse`; indicates that this is a continuation of a prior `ListAnalyses` call and the system should return the next page of data. */
+  pageToken?: string | undefined;
 }
 export type GoogleCloudContactcenterinsightsV1AnalysisList =
   Array<GoogleCloudContactcenterinsightsV1Analysis>;
 /** The response to list analyses. */
 export interface GoogleCloudContactcenterinsightsV1ListAnalysesResponse {
-  /** The analyses that match the request. */
-  analyses?: GoogleCloudContactcenterinsightsV1AnalysisList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string | undefined;
+  /** The analyses that match the request. */
+  analyses?: GoogleCloudContactcenterinsightsV1AnalysisList | undefined;
 }
 export interface ListProjectsLocationsConversationsAssessmentsRequest {
-  /** The maximum number of assessments to list. If zero, the service will select a default size. A call may return fewer objects than requested. A non-empty `next_page_token` in the response indicates that more data is available. */
-  pageSize?: number | undefined;
   /** Optional. The value returned by the last `ListAssessmentRulesResponse`; indicates that this is a continuation of a prior `ListAssessmentRules` call and the system should return the next page of data. */
   pageToken?: string | undefined;
-  /** Required. The parent resource of the assessments. To list all assessments in a location, substitute the conversation ID with a '-' character. */
-  parent: string;
   /** Optional. A filter to reduce results to a specific subset. Supported filters include: * `state` - The state of the assessment * `agent_info.agent_id` - The ID of the agent the assessment is for */
   filter?: string | undefined;
+  /** The maximum number of assessments to list. If zero, the service will select a default size. A call may return fewer objects than requested. A non-empty `next_page_token` in the response indicates that more data is available. */
+  pageSize?: number | undefined;
+  /** Required. The parent resource of the assessments. To list all assessments in a location, substitute the conversation ID with a '-' character. */
+  parent: string;
 }
 export interface ListProjectsLocationsConversationsAssessmentsNotesRequest {
-  /** Optional. The maximum number of notes to return in the response. If zero the service will select a default size. A call might return fewer objects than requested. A non-empty `next_page_token` in the response indicates that more data is available. */
-  pageSize?: number | undefined;
   /** Optional. The value returned by the last `ListNotesResponse`. This value indicates that this is a continuation of a prior `ListNotes` call and that the system should return the next page of data. */
   pageToken?: string | undefined;
   /** Required. The parent resource of the notes. */
   parent: string;
+  /** Optional. The maximum number of notes to return in the response. If zero the service will select a default size. A call might return fewer objects than requested. A non-empty `next_page_token` in the response indicates that more data is available. */
+  pageSize?: number | undefined;
 }
 export interface ListProjectsLocationsConversationsFeedbackLabelsRequest {
-  /** Required. The parent resource of the feedback labels. */
-  parent: string;
-  /** Optional. The value returned by the last `ListFeedbackLabelsResponse`. This value indicates that this is a continuation of a prior `ListFeedbackLabels` call and that the system should return the next page of data. */
-  pageToken?: string | undefined;
   /** Optional. A filter to reduce results to a specific subset. Supports disjunctions (OR) and conjunctions (AND). Automatically sorts by conversation ID. To sort by all feedback labels in a project see ListAllFeedbackLabels. Supported fields: * `issue_model_id` * `qa_question_id` * `qa_scorecard_id` * `min_create_time` * `max_create_time` * `min_update_time` * `max_update_time` * `feedback_label_type`: QUALITY_AI, TOPIC_MODELING */
   filter?: string | undefined;
   /** Optional. The maximum number of feedback labels to return in the response. A valid page size ranges from 0 to 100,000 inclusive. If the page size is zero or unspecified, a default page size of 100 will be chosen. Note that a call might return fewer results than the requested page size. */
   pageSize?: number | undefined;
+  /** Optional. The value returned by the last `ListFeedbackLabelsResponse`. This value indicates that this is a continuation of a prior `ListFeedbackLabels` call and that the system should return the next page of data. */
+  pageToken?: string | undefined;
+  /** Required. The parent resource of the feedback labels. */
+  parent: string;
 }
 export interface ListProjectsLocationsDashboardsRequest {
-  /** Optional. The value returned by the last `ListDashboardsResponse`. This value indicates that this is a continuation of a prior `ListDashboards` call and that the system should return the next page of data. */
-  pageToken?: string | undefined;
+  /** Optional. The filter expression to filter dashboards listed in the response. */
+  filter?: string | undefined;
   /** Optional. The order by expression to order dashboards listed in the response. */
   orderBy?: string | undefined;
   /** Required. The parent resource of the dashboards. */
   parent: string;
-  /** Optional. The filter expression to filter dashboards listed in the response. */
-  filter?: string | undefined;
   /** Optional. The maximum number of dashboards to return. The service may return fewer than this value. The default and maximum value is 100. */
   pageSize?: number | undefined;
+  /** Optional. The value returned by the last `ListDashboardsResponse`. This value indicates that this is a continuation of a prior `ListDashboards` call and that the system should return the next page of data. */
+  pageToken?: string | undefined;
 }
 export type GoogleCloudContactcenterinsightsV1DashboardList =
   Array<GoogleCloudContactcenterinsightsV1Dashboard>;
@@ -3540,14 +3540,14 @@ export interface GoogleCloudContactcenterinsightsV1ListDashboardsResponse {
   dashboards?: GoogleCloudContactcenterinsightsV1DashboardList | undefined;
 }
 export interface ListProjectsLocationsDatasetsRequest {
-  /** Optional. A filter to reduce results to a specific subset. Useful for querying datasets with specific properties. Supported fields include, for Q2 though we only support list by project: - `type` - `description` - `project_number` */
-  filter?: string | undefined;
   /** Optional. The maximum number of datasets to return in the response. If this value is zero, the service will select a default size. A call might return fewer objects than requested. A non-empty `next_page_token` in the response indicates that more data is available. */
   pageSize?: number | undefined;
-  /** Required. The parent resource of the dataset. */
-  parent: string;
+  /** Optional. A filter to reduce results to a specific subset. Useful for querying datasets with specific properties. Supported fields include, for Q2 though we only support list by project: - `type` - `description` - `project_number` */
+  filter?: string | undefined;
   /** Optional. The value returned by the last `ListDatasetsResponse`; indicates that this is a continuation of a prior `ListDatasets` call and the system should return the next page of data. */
   pageToken?: string | undefined;
+  /** Required. The parent resource of the dataset. */
+  parent: string;
 }
 export type GoogleCloudContactcenterinsightsV1DatasetList =
   Array<GoogleCloudContactcenterinsightsV1Dataset>;
@@ -3564,28 +3564,28 @@ export type ListProjectsLocationsDatasetsConversationsViewEnum =
   | "BASIC"
   | "FULL_WITH_STRUCTURED_TRANSCRIPT";
 export interface ListProjectsLocationsDatasetsConversationsRequest {
-  /** A filter to reduce results to a specific subset. Useful for querying conversations with specific properties. */
-  filter?: string | undefined;
-  /** The maximum number of conversations to return in the response. A valid page size ranges from 0 to 100,000 inclusive. If the page size is zero or unspecified, a default page size of 100 will be chosen. Note that a call might return fewer results than the requested page size. */
-  pageSize?: number | undefined;
-  /** Optional. The attribute by which to order conversations in the response. If empty, conversations will be ordered by descending creation time. Supported values are one of the following: * create_time * customer_satisfaction_rating * duration * latest_analysis * start_time * turn_count The default sort order is ascending. To specify order, append `asc` or `desc` (`create_time desc`). For more details, see [Google AIPs Ordering](https://google.aip.dev/132#ordering). */
-  orderBy?: string | undefined;
-  /** The level of details of the conversation. Default is `BASIC`. */
-  view?: ListProjectsLocationsDatasetsConversationsViewEnum | (string & {}) | undefined;
-  /** The value returned by the last `ListConversationsResponse`. This value indicates that this is a continuation of a prior `ListConversations` call and that the system should return the next page of data. */
-  pageToken?: string | undefined;
   /** Required. The parent resource of the conversation. */
   parent: string;
+  /** The value returned by the last `ListConversationsResponse`. This value indicates that this is a continuation of a prior `ListConversations` call and that the system should return the next page of data. */
+  pageToken?: string | undefined;
+  /** Optional. The attribute by which to order conversations in the response. If empty, conversations will be ordered by descending creation time. Supported values are one of the following: * create_time * customer_satisfaction_rating * duration * latest_analysis * start_time * turn_count The default sort order is ascending. To specify order, append `asc` or `desc` (`create_time desc`). For more details, see [Google AIPs Ordering](https://google.aip.dev/132#ordering). */
+  orderBy?: string | undefined;
+  /** A filter to reduce results to a specific subset. Useful for querying conversations with specific properties. */
+  filter?: string | undefined;
+  /** The level of details of the conversation. Default is `BASIC`. */
+  view?: ListProjectsLocationsDatasetsConversationsViewEnum | (string & {}) | undefined;
+  /** The maximum number of conversations to return in the response. A valid page size ranges from 0 to 100,000 inclusive. If the page size is zero or unspecified, a default page size of 100 will be chosen. Note that a call might return fewer results than the requested page size. */
+  pageSize?: number | undefined;
 }
 export interface ListProjectsLocationsDatasetsConversationsFeedbackLabelsRequest {
   /** Optional. The value returned by the last `ListFeedbackLabelsResponse`. This value indicates that this is a continuation of a prior `ListFeedbackLabels` call and that the system should return the next page of data. */
   pageToken?: string | undefined;
   /** Optional. A filter to reduce results to a specific subset. Supports disjunctions (OR) and conjunctions (AND). Automatically sorts by conversation ID. To sort by all feedback labels in a project see ListAllFeedbackLabels. Supported fields: * `issue_model_id` * `qa_question_id` * `qa_scorecard_id` * `min_create_time` * `max_create_time` * `min_update_time` * `max_update_time` * `feedback_label_type`: QUALITY_AI, TOPIC_MODELING */
   filter?: string | undefined;
-  /** Optional. The maximum number of feedback labels to return in the response. A valid page size ranges from 0 to 100,000 inclusive. If the page size is zero or unspecified, a default page size of 100 will be chosen. Note that a call might return fewer results than the requested page size. */
-  pageSize?: number | undefined;
   /** Required. The parent resource of the feedback labels. */
   parent: string;
+  /** Optional. The maximum number of feedback labels to return in the response. A valid page size ranges from 0 to 100,000 inclusive. If the page size is zero or unspecified, a default page size of 100 will be chosen. Note that a call might return fewer results than the requested page size. */
+  pageSize?: number | undefined;
 }
 export interface ListProjectsLocationsIssueModelsRequest {
   /** Required. The parent resource of the issue model. */
@@ -3610,26 +3610,26 @@ export interface GoogleCloudContactcenterinsightsV1ListIssuesResponse {
   issues?: GoogleCloudContactcenterinsightsV1IssueList | undefined;
 }
 export interface ListProjectsLocationsOperationsRequest {
-  /** The standard list filter. */
-  filter?: string | undefined;
   /** The name of the operation's parent resource. */
   name: string;
   /** The standard list page token. */
   pageToken?: string | undefined;
-  /** The standard list page size. */
-  pageSize?: number | undefined;
+  /** The standard list filter. */
+  filter?: string | undefined;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
   returnPartialSuccess?: boolean | undefined;
+  /** The standard list page size. */
+  pageSize?: number | undefined;
 }
 export interface ListProjectsLocationsPhraseMatchersRequest {
-  /** Required. The parent resource of the phrase matcher. */
-  parent: string;
-  /** The value returned by the last `ListPhraseMatchersResponse`. This value indicates that this is a continuation of a prior `ListPhraseMatchers` call and that the system should return the next page of data. */
-  pageToken?: string | undefined;
   /** A filter to reduce results to a specific subset. Useful for querying phrase matchers with specific properties. */
   filter?: string | undefined;
+  /** The value returned by the last `ListPhraseMatchersResponse`. This value indicates that this is a continuation of a prior `ListPhraseMatchers` call and that the system should return the next page of data. */
+  pageToken?: string | undefined;
   /** The maximum number of phrase matchers to return in the response. If this value is zero, the service will select a default size. A call might return fewer objects than requested. A non-empty `next_page_token` in the response indicates that more data is available. */
   pageSize?: number | undefined;
+  /** Required. The parent resource of the phrase matcher. */
+  parent: string;
 }
 export type GoogleCloudContactcenterinsightsV1PhraseMatcherList =
   Array<GoogleCloudContactcenterinsightsV1PhraseMatcher>;
@@ -3650,10 +3650,10 @@ export type GoogleCloudContactcenterinsightsV1QaQuestionTagList =
   Array<GoogleCloudContactcenterinsightsV1QaQuestionTag>;
 /** The response from a ListQaQuestionTags request. */
 export interface GoogleCloudContactcenterinsightsV1ListQaQuestionTagsResponse {
-  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string | undefined;
   /** The parent resource of the questions. */
   qaQuestionTags?: GoogleCloudContactcenterinsightsV1QaQuestionTagList | undefined;
+  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string | undefined;
 }
 export type ListProjectsLocationsQaScorecardsQaScorecardSourcesEnum =
   | "QA_SCORECARD_SOURCE_UNSPECIFIED"
@@ -3664,10 +3664,10 @@ export type ListProjectsLocationsQaScorecardsQaScorecardSourcesEnumList = Array<
   ListProjectsLocationsQaScorecardsQaScorecardSourcesEnum | (string & {})
 >;
 export interface ListProjectsLocationsQaScorecardsRequest {
-  /** Optional. The source of scorecards are based on how those Scorecards were created, e.g., a customer-defined scorecard, a predefined scorecard, etc. This field is used to retrieve Scorecards of one or more sources. */
-  qaScorecardSources?: ListProjectsLocationsQaScorecardsQaScorecardSourcesEnumList | undefined;
   /** Optional. The maximum number of scorecards to return in the response. If the value is zero, the service will select a default size. A call might return fewer objects than requested. A non-empty `next_page_token` in the response indicates that more data is available. */
   pageSize?: number | undefined;
+  /** Optional. The source of scorecards are based on how those Scorecards were created, e.g., a customer-defined scorecard, a predefined scorecard, etc. This field is used to retrieve Scorecards of one or more sources. */
+  qaScorecardSources?: ListProjectsLocationsQaScorecardsQaScorecardSourcesEnumList | undefined;
   /** Required. The parent resource of the scorecards. */
   parent: string;
   /** Optional. The value returned by the last `ListQaScorecardsResponse`. This value indicates that this is a continuation of a prior `ListQaScorecards` call and that the system should return the next page of data. */
@@ -3693,14 +3693,14 @@ export type ListProjectsLocationsQaScorecardsRevisionsQaScorecardSourcesEnumList
 export interface ListProjectsLocationsQaScorecardsRevisionsRequest {
   /** Optional. A filter to reduce results to a specific subset. Useful for querying scorecard revisions with specific properties. */
   filter?: string | undefined;
-  /** Required. The parent resource of the scorecard revisions. To list all revisions of all scorecards, substitute the QaScorecard ID with a '-' character. */
-  parent: string;
   /** Optional. The source of scorecards are based on how those Scorecards were created, e.g., a customer-defined scorecard, a predefined scorecard, etc. This field is used to retrieve Scorecards Revisions from Scorecards of one or more sources. */
   qaScorecardSources?:
     | ListProjectsLocationsQaScorecardsRevisionsQaScorecardSourcesEnumList
     | undefined;
   /** Optional. The maximum number of scorecard revisions to return in the response. If the value is zero, the service will select a default size. A call might return fewer objects than requested. A non-empty `next_page_token` in the response indicates that more data is available. */
   pageSize?: number | undefined;
+  /** Required. The parent resource of the scorecard revisions. To list all revisions of all scorecards, substitute the QaScorecard ID with a '-' character. */
+  parent: string;
   /** Optional. The value returned by the last `ListQaScorecardRevisionsResponse`. This value indicates that this is a continuation of a prior `ListQaScorecardRevisions` call and that the system should return the next page of data. */
   pageToken?: string | undefined;
 }
@@ -3714,21 +3714,21 @@ export interface GoogleCloudContactcenterinsightsV1ListQaScorecardRevisionsRespo
   nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsQaScorecardsRevisionsQaQuestionsRequest {
+  /** Optional. The maximum number of questions to return in the response. If the value is zero, the service will select a default size. A call might return fewer objects than requested. A non-empty `next_page_token` in the response indicates that more data is available. */
+  pageSize?: number | undefined;
   /** Optional. The value returned by the last `ListQaQuestionsResponse`. This value indicates that this is a continuation of a prior `ListQaQuestions` call and that the system should return the next page of data. */
   pageToken?: string | undefined;
   /** Required. The parent resource of the questions. */
   parent: string;
-  /** Optional. The maximum number of questions to return in the response. If the value is zero, the service will select a default size. A call might return fewer objects than requested. A non-empty `next_page_token` in the response indicates that more data is available. */
-  pageSize?: number | undefined;
 }
 export type GoogleCloudContactcenterinsightsV1QaQuestionList =
   Array<GoogleCloudContactcenterinsightsV1QaQuestion>;
 /** The response from a ListQaQuestions request. */
 export interface GoogleCloudContactcenterinsightsV1ListQaQuestionsResponse {
-  /** The QaQuestions under the parent. */
-  qaQuestions?: GoogleCloudContactcenterinsightsV1QaQuestionList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string | undefined;
+  /** The QaQuestions under the parent. */
+  qaQuestions?: GoogleCloudContactcenterinsightsV1QaQuestionList | undefined;
 }
 export interface ListProjectsLocationsViewsRequest {
   /** The value returned by the last `ListViewsResponse`; indicates that this is a continuation of a prior `ListViews` call and the system should return the next page of data. */
@@ -3742,10 +3742,10 @@ export type GoogleCloudContactcenterinsightsV1ViewList =
   Array<GoogleCloudContactcenterinsightsV1View>;
 /** The response of listing views. */
 export interface GoogleCloudContactcenterinsightsV1ListViewsResponse {
-  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string | undefined;
   /** The views that match the request. */
   views?: GoogleCloudContactcenterinsightsV1ViewList | undefined;
+  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string | undefined;
 }
 export interface PatchProjectsLocationsAnalysisRulesRequest extends Omit<
   GoogleCloudContactcenterinsightsV1AnalysisRule,
@@ -3760,10 +3760,10 @@ export interface PatchProjectsLocationsAssessmentRulesRequest extends Omit<
   GoogleCloudContactcenterinsightsV1AssessmentRule,
   "name"
 > {
-  /** Optional. The list of fields to be updated. If the update_mask is not provided, the update will be applied to all fields. */
-  updateMask?: string | undefined;
   /** Identifier. The resource name of the assessment rule. Format: projects/{project}/locations/{location}/assessmentRules/{assessment_rule} */
   name: string;
+  /** Optional. The list of fields to be updated. If the update_mask is not provided, the update will be applied to all fields. */
+  updateMask?: string | undefined;
 }
 export interface PatchProjectsLocationsAuthorizedViewSetsRequest extends Omit<
   GoogleCloudContactcenterinsightsV1AuthorizedViewSet,
@@ -3778,10 +3778,10 @@ export interface PatchProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest 
   GoogleCloudContactcenterinsightsV1AuthorizedView,
   "name"
 > {
-  /** Identifier. The resource name of the AuthorizedView. Format: projects/{project}/locations/{location}/authorizedViewSets/{authorized_view_set}/authorizedViews/{authorized_view} */
-  name: string;
   /** Optional. The list of fields to be updated. All possible fields can be updated by passing `*`, or a subset of the following updateable fields can be provided: * `conversation_filter` * `display_name` */
   updateMask?: string | undefined;
+  /** Identifier. The resource name of the AuthorizedView. Format: projects/{project}/locations/{location}/authorizedViewSets/{authorized_view_set}/authorizedViews/{authorized_view} */
+  name: string;
 }
 export interface PatchProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsNotesRequest extends Omit<
   GoogleCloudContactcenterinsightsV1Note,
@@ -3805,10 +3805,10 @@ export interface PatchProjectsLocationsAutoLabelingRulesRequest extends Omit<
   GoogleCloudContactcenterinsightsV1AutoLabelingRule,
   "name"
 > {
-  /** Identifier. The resource name of the auto-labeling rule. Format: projects/{project}/locations/{location}/autoLabelingRules/{auto_labeling_rule} */
-  name: string;
   /** Optional. The list of fields to be updated. */
   updateMask?: string | undefined;
+  /** Identifier. The resource name of the auto-labeling rule. Format: projects/{project}/locations/{location}/autoLabelingRules/{auto_labeling_rule} */
+  name: string;
 }
 export interface PatchProjectsLocationsConversationsRequest extends Omit<
   GoogleCloudContactcenterinsightsV1Conversation,
@@ -3816,12 +3816,12 @@ export interface PatchProjectsLocationsConversationsRequest extends Omit<
 > {
   /** Optional. If set to true, the conversation will be updated with auto labeling results. */
   "conversationAutoLabelingUpdateConfig.allowAutoLabelingUpdate"?: boolean | undefined;
-  /** Optional. Defaults to false. If set to true, and the conversation is not found, a new conversation will be created. In this situation, `update_mask` is ignored. */
-  allowMissing?: boolean | undefined;
-  /** The list of fields to be updated. All possible fields can be updated by passing `*`, or a subset of the following updateable fields can be provided: * `agent_id` * `language_code` * `labels` * `metadata` * `quality_metadata` * `call_metadata` * `start_time` * `expire_time` or `ttl` * `data_source.gcs_source.audio_uri` or * `data_source.dialogflow_source.audio_uri` * `data_source.screen_recordings` */
-  updateMask?: string | undefined;
   /** Immutable. The resource name of the conversation. Format: projects/{project}/locations/{location}/conversations/{conversation} */
   name: string;
+  /** The list of fields to be updated. All possible fields can be updated by passing `*`, or a subset of the following updateable fields can be provided: * `agent_id` * `language_code` * `labels` * `metadata` * `quality_metadata` * `call_metadata` * `start_time` * `expire_time` or `ttl` * `data_source.gcs_source.audio_uri` or * `data_source.dialogflow_source.audio_uri` * `data_source.screen_recordings` */
+  updateMask?: string | undefined;
+  /** Optional. Defaults to false. If set to true, and the conversation is not found, a new conversation will be created. In this situation, `update_mask` is ignored. */
+  allowMissing?: boolean | undefined;
 }
 export interface PatchProjectsLocationsConversationsAssessmentsNotesRequest extends Omit<
   GoogleCloudContactcenterinsightsV1Note,
@@ -3854,10 +3854,10 @@ export interface PatchProjectsLocationsDatasetsRequest extends Omit<
   GoogleCloudContactcenterinsightsV1Dataset,
   "name"
 > {
-  /** Immutable. Identifier. Resource name of the dataset. Format: projects/{project}/locations/{location}/datasets/{dataset} */
-  name: string;
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
+  /** Immutable. Identifier. Resource name of the dataset. Format: projects/{project}/locations/{location}/datasets/{dataset} */
+  name: string;
 }
 export interface PatchProjectsLocationsDatasetsConversationsFeedbackLabelsRequest extends Omit<
   GoogleCloudContactcenterinsightsV1FeedbackLabel,
@@ -3872,19 +3872,19 @@ export interface PatchProjectsLocationsIssueModelsRequest extends Omit<
   GoogleCloudContactcenterinsightsV1IssueModel,
   "name"
 > {
-  /** Immutable. The resource name of the issue model. Format: projects/{project}/locations/{location}/issueModels/{issue_model} */
-  name: string;
   /** The list of fields to be updated. */
   updateMask?: string | undefined;
+  /** Immutable. The resource name of the issue model. Format: projects/{project}/locations/{location}/issueModels/{issue_model} */
+  name: string;
 }
 export interface PatchProjectsLocationsIssueModelsIssuesRequest extends Omit<
   GoogleCloudContactcenterinsightsV1Issue,
   "name"
 > {
-  /** The list of fields to be updated. */
-  updateMask?: string | undefined;
   /** Immutable. The resource name of the issue. Format: projects/{project}/locations/{location}/issueModels/{issue_model}/issues/{issue} */
   name: string;
+  /** The list of fields to be updated. */
+  updateMask?: string | undefined;
 }
 export interface PatchProjectsLocationsPhraseMatchersRequest extends Omit<
   GoogleCloudContactcenterinsightsV1PhraseMatcher,
@@ -3908,10 +3908,10 @@ export interface PatchProjectsLocationsQaScorecardsRequest extends Omit<
   GoogleCloudContactcenterinsightsV1QaScorecard,
   "name"
 > {
-  /** Identifier. The scorecard name. Format: projects/{project}/locations/{location}/qaScorecards/{qa_scorecard} */
-  name: string;
   /** Required. The list of fields to be updated. All possible fields can be updated by passing `*`, or a subset of the following updateable fields can be provided: * `description` * `display_name` */
   updateMask?: string | undefined;
+  /** Identifier. The scorecard name. Format: projects/{project}/locations/{location}/qaScorecards/{qa_scorecard} */
+  name: string;
 }
 export interface PatchProjectsLocationsQaScorecardsRevisionsQaQuestionsRequest extends Omit<
   GoogleCloudContactcenterinsightsV1QaQuestion,
@@ -3926,10 +3926,10 @@ export interface PatchProjectsLocationsViewsRequest extends Omit<
   GoogleCloudContactcenterinsightsV1View,
   "name"
 > {
-  /** Immutable. The resource name of the view. Format: projects/{project}/locations/{location}/views/{view} */
-  name: string;
   /** The list of fields to be updated. */
   updateMask?: string | undefined;
+  /** Immutable. The resource name of the view. Format: projects/{project}/locations/{location}/views/{view} */
+  name: string;
 }
 /** The message to publish an assessment. Draft and appealed assessments can be published. Publishing simply changes the state of the assessment to published, allowing the console and authorized views to filter on the state. */
 export type GoogleCloudContactcenterinsightsV1PublishAssessmentRequest =
@@ -3954,22 +3954,10 @@ export type GoogleCloudContactcenterinsightsV1QueryMetricsRequestTimeGranularity
   | "PER_MINUTE"
   | "PER_5_MINUTES"
   | "MONTHLY";
-/** Metadata about the agent dimension. */
-export interface GoogleCloudContactcenterinsightsV1DimensionAgentDimensionMetadata {
-  /** Optional. The agent's name This will be populated for AGENT, AGENT_TEAM, AGENT_VERSION_ID, and AGENT_DEPLOYMENT_ID dimensions. */
-  agentDisplayName?: string | undefined;
-  /** Optional. A user-specified string representing the agent. This will be populated for AGENT, AGENT_TEAM, AGENT_VERSION_ID, and AGENT_DEPLOYMENT_ID dimensions. */
-  agentId?: string | undefined;
-  /** Optional. The agent's version display name. Only applicable to automated agents. This will be populated for AGENT_VERSION_ID, and AGENT_DEPLOYMENT_ID dimensions. */
-  agentVersionDisplayName?: string | undefined;
-  /** Optional. The agent's deployment display name. Only applicable to automated agents. This will be populated for AGENT_DEPLOYMENT_ID dimensions. */
-  agentDeploymentDisplayName?: string | undefined;
-  /** Optional. The agent's version ID. Only applicable to automated agents. This will be populated for AGENT_VERSION_ID, and AGENT_DEPLOYMENT_ID dimensions. */
-  agentVersionId?: string | undefined;
-  /** Optional. The agent's deployment ID. Only applicable to automated agents. This will be populated for AGENT and AGENT_DEPLOYMENT_ID dimensions. */
-  agentDeploymentId?: string | undefined;
-  /** Optional. A user-specified string representing the agent's team. */
-  agentTeam?: string | undefined;
+/** Metadata about the conversation profile dimension. */
+export interface GoogleCloudContactcenterinsightsV1DimensionConversationProfileDimensionMetadata {
+  /** Optional. The conversation profile ID. */
+  conversationProfileId?: string | undefined;
 }
 export type GoogleCloudContactcenterinsightsV1DimensionDimensionKeyEnum =
   | "DIMENSION_KEY_UNSPECIFIED"
@@ -3994,23 +3982,61 @@ export type GoogleCloudContactcenterinsightsV1DimensionDimensionKeyEnum =
   | "LABEL_VALUE"
   | "LABEL_KEY_AND_VALUE"
   | "LAST_TRANSFER_SUB_AGENT_NAME";
-/** Metadata about the issue dimension. */
-export interface GoogleCloudContactcenterinsightsV1DimensionIssueDimensionMetadata {
-  /** The parent issue model ID. */
-  issueModelId?: string | undefined;
-  /** The issue display name. */
-  issueDisplayName?: string | undefined;
-  /** The issue ID. */
-  issueId?: string | undefined;
-}
-/** Metadata about the QA question dimension. */
-export interface GoogleCloudContactcenterinsightsV1DimensionQaQuestionDimensionMetadata {
+/** Metadata about the QA question-answer dimension. This is useful for showing the answer distribution for questions for a given scorecard. */
+export interface GoogleCloudContactcenterinsightsV1DimensionQaQuestionAnswerDimensionMetadata {
   /** Optional. The QA question ID. */
   qaQuestionId?: string | undefined;
   /** Optional. The QA scorecard ID. */
   qaScorecardId?: string | undefined;
   /** Optional. The full body of the question. */
   questionBody?: string | undefined;
+  /** Optional. The full body of the question. */
+  answerValue?: string | undefined;
+}
+/** Metadata about the Conversational Agents playbook dimension. */
+export interface GoogleCloudContactcenterinsightsV1DimensionConversationalAgentsPlaybookDimensionMetadata {
+  /** Optional. The dialogflow playbook ID. */
+  playbookId?: string | undefined;
+  /** Optional. The dialogflow playbook display name. */
+  playbookDisplayName?: string | undefined;
+}
+/** Metadata about the Conversational Agents tool dimension. */
+export interface GoogleCloudContactcenterinsightsV1DimensionConversationalAgentsToolDimensionMetadata {
+  /** Optional. The dialogflow tool display name. */
+  toolDisplayName?: string | undefined;
+  /** Optional. The dialogflow tool ID. */
+  toolId?: string | undefined;
+}
+/** Metadata about the agent dimension. */
+export interface GoogleCloudContactcenterinsightsV1DimensionAgentDimensionMetadata {
+  /** Optional. The agent's name This will be populated for AGENT, AGENT_TEAM, AGENT_VERSION_ID, and AGENT_DEPLOYMENT_ID dimensions. */
+  agentDisplayName?: string | undefined;
+  /** Optional. The agent's deployment ID. Only applicable to automated agents. This will be populated for AGENT and AGENT_DEPLOYMENT_ID dimensions. */
+  agentDeploymentId?: string | undefined;
+  /** Optional. The agent's version ID. Only applicable to automated agents. This will be populated for AGENT_VERSION_ID, and AGENT_DEPLOYMENT_ID dimensions. */
+  agentVersionId?: string | undefined;
+  /** Optional. A user-specified string representing the agent. This will be populated for AGENT, AGENT_TEAM, AGENT_VERSION_ID, and AGENT_DEPLOYMENT_ID dimensions. */
+  agentId?: string | undefined;
+  /** Optional. A user-specified string representing the agent's team. */
+  agentTeam?: string | undefined;
+  /** Optional. The agent's version display name. Only applicable to automated agents. This will be populated for AGENT_VERSION_ID, and AGENT_DEPLOYMENT_ID dimensions. */
+  agentVersionDisplayName?: string | undefined;
+  /** Optional. The agent's deployment display name. Only applicable to automated agents. This will be populated for AGENT_DEPLOYMENT_ID dimensions. */
+  agentDeploymentDisplayName?: string | undefined;
+}
+/** Metadata about the issue dimension. */
+export interface GoogleCloudContactcenterinsightsV1DimensionIssueDimensionMetadata {
+  /** The parent issue model ID. */
+  issueModelId?: string | undefined;
+  /** The issue ID. */
+  issueId?: string | undefined;
+  /** The issue display name. */
+  issueDisplayName?: string | undefined;
+}
+/** Metadata about the conversation medium dimension. */
+export interface GoogleCloudContactcenterinsightsV1DimensionMediumDimensionMetadata {
+  /** Optional. The conversation medium. Currently supports : PHONE_CALL, CHAT. */
+  medium?: string | undefined;
 }
 /** Metadata about the client sentiment category dimension. */
 export interface GoogleCloudContactcenterinsightsV1DimensionClientSentimentCategoryDimensionMetadata {
@@ -4019,69 +4045,59 @@ export interface GoogleCloudContactcenterinsightsV1DimensionClientSentimentCateg
 }
 /** Metadata about conversation labels. */
 export interface GoogleCloudContactcenterinsightsV1DimensionLabelDimensionMetadata {
-  /** Optional. The label value. */
-  labelValue?: string | undefined;
   /** Optional. The label key. */
   labelKey?: string | undefined;
+  /** Optional. The label value. */
+  labelValue?: string | undefined;
 }
 /** Metadata about the QA scorecard dimension. */
 export interface GoogleCloudContactcenterinsightsV1DimensionQaScorecardDimensionMetadata {
   /** Optional. The QA scorecard ID. */
   qaScorecardId?: string | undefined;
 }
-/** Metadata about the conversation medium dimension. */
-export interface GoogleCloudContactcenterinsightsV1DimensionMediumDimensionMetadata {
-  /** Optional. The conversation medium. Currently supports : PHONE_CALL, CHAT. */
-  medium?: string | undefined;
-}
-/** Metadata about the Conversational Agents playbook dimension. */
-export interface GoogleCloudContactcenterinsightsV1DimensionConversationalAgentsPlaybookDimensionMetadata {
-  /** Optional. The dialogflow playbook display name. */
-  playbookDisplayName?: string | undefined;
-  /** Optional. The dialogflow playbook ID. */
-  playbookId?: string | undefined;
-}
-/** Metadata about the conversation profile dimension. */
-export interface GoogleCloudContactcenterinsightsV1DimensionConversationProfileDimensionMetadata {
-  /** Optional. The conversation profile ID. */
-  conversationProfileId?: string | undefined;
-}
-/** Metadata about the QA question-answer dimension. This is useful for showing the answer distribution for questions for a given scorecard. */
-export interface GoogleCloudContactcenterinsightsV1DimensionQaQuestionAnswerDimensionMetadata {
-  /** Optional. The full body of the question. */
-  answerValue?: string | undefined;
-  /** Optional. The QA question ID. */
-  qaQuestionId?: string | undefined;
-  /** Optional. The QA scorecard ID. */
-  qaScorecardId?: string | undefined;
+/** Metadata about the QA question dimension. */
+export interface GoogleCloudContactcenterinsightsV1DimensionQaQuestionDimensionMetadata {
   /** Optional. The full body of the question. */
   questionBody?: string | undefined;
-}
-/** Metadata about the Conversational Agents tool dimension. */
-export interface GoogleCloudContactcenterinsightsV1DimensionConversationalAgentsToolDimensionMetadata {
-  /** Optional. The dialogflow tool ID. */
-  toolId?: string | undefined;
-  /** Optional. The dialogflow tool display name. */
-  toolDisplayName?: string | undefined;
+  /** Optional. The QA scorecard ID. */
+  qaScorecardId?: string | undefined;
+  /** Optional. The QA question ID. */
+  qaQuestionId?: string | undefined;
 }
 /** A dimension determines the grouping key for the query. In SQL terms, these would be part of both the "SELECT" and "GROUP BY" clauses. */
 export interface GoogleCloudContactcenterinsightsV1Dimension {
-  /** Output only. Metadata about the agent dimension. */
-  agentDimensionMetadata?:
-    | GoogleCloudContactcenterinsightsV1DimensionAgentDimensionMetadata
+  /** Output only. Metadata about the conversation profile dimension. */
+  conversationProfileDimensionMetadata?:
+    | GoogleCloudContactcenterinsightsV1DimensionConversationProfileDimensionMetadata
     | undefined;
   /** The key of the dimension. */
   dimensionKey?:
     | GoogleCloudContactcenterinsightsV1DimensionDimensionKeyEnum
     | (string & {})
     | undefined;
+  /** Output only. Metadata about the QA question-answer dimension. */
+  qaQuestionAnswerDimensionMetadata?:
+    | GoogleCloudContactcenterinsightsV1DimensionQaQuestionAnswerDimensionMetadata
+    | undefined;
+  /** Output only. Metadata about the Conversational Agents playbook dimension. */
+  conversationalAgentsPlaybookDimensionMetadata?:
+    | GoogleCloudContactcenterinsightsV1DimensionConversationalAgentsPlaybookDimensionMetadata
+    | undefined;
+  /** Output only. Metadata about the Conversational Agents tool dimension. */
+  conversationalAgentsToolDimensionMetadata?:
+    | GoogleCloudContactcenterinsightsV1DimensionConversationalAgentsToolDimensionMetadata
+    | undefined;
+  /** Output only. Metadata about the agent dimension. */
+  agentDimensionMetadata?:
+    | GoogleCloudContactcenterinsightsV1DimensionAgentDimensionMetadata
+    | undefined;
   /** Output only. Metadata about the issue dimension. */
   issueDimensionMetadata?:
     | GoogleCloudContactcenterinsightsV1DimensionIssueDimensionMetadata
     | undefined;
-  /** Output only. Metadata about the QA question dimension. */
-  qaQuestionDimensionMetadata?:
-    | GoogleCloudContactcenterinsightsV1DimensionQaQuestionDimensionMetadata
+  /** Output only. Metadata about the conversation medium dimension. */
+  mediumDimensionMetadata?:
+    | GoogleCloudContactcenterinsightsV1DimensionMediumDimensionMetadata
     | undefined;
   /** Output only. Metadata about the client sentiment category dimension. */
   clientSentimentCategoryDimensionMetadata?:
@@ -4095,33 +4111,15 @@ export interface GoogleCloudContactcenterinsightsV1Dimension {
   qaScorecardDimensionMetadata?:
     | GoogleCloudContactcenterinsightsV1DimensionQaScorecardDimensionMetadata
     | undefined;
-  /** Output only. Metadata about the conversation medium dimension. */
-  mediumDimensionMetadata?:
-    | GoogleCloudContactcenterinsightsV1DimensionMediumDimensionMetadata
-    | undefined;
-  /** Output only. Metadata about the Conversational Agents playbook dimension. */
-  conversationalAgentsPlaybookDimensionMetadata?:
-    | GoogleCloudContactcenterinsightsV1DimensionConversationalAgentsPlaybookDimensionMetadata
-    | undefined;
-  /** Output only. Metadata about the conversation profile dimension. */
-  conversationProfileDimensionMetadata?:
-    | GoogleCloudContactcenterinsightsV1DimensionConversationProfileDimensionMetadata
-    | undefined;
-  /** Output only. Metadata about the QA question-answer dimension. */
-  qaQuestionAnswerDimensionMetadata?:
-    | GoogleCloudContactcenterinsightsV1DimensionQaQuestionAnswerDimensionMetadata
-    | undefined;
-  /** Output only. Metadata about the Conversational Agents tool dimension. */
-  conversationalAgentsToolDimensionMetadata?:
-    | GoogleCloudContactcenterinsightsV1DimensionConversationalAgentsToolDimensionMetadata
+  /** Output only. Metadata about the QA question dimension. */
+  qaQuestionDimensionMetadata?:
+    | GoogleCloudContactcenterinsightsV1DimensionQaQuestionDimensionMetadata
     | undefined;
 }
 export type GoogleCloudContactcenterinsightsV1DimensionList =
   Array<GoogleCloudContactcenterinsightsV1Dimension>;
 /** The request for querying metrics. */
 export interface GoogleCloudContactcenterinsightsV1QueryMetricsRequest {
-  /** Required. Filter to select a subset of conversations to compute the metrics. Must specify a window of the conversation create time to compute the metrics. The returned metrics will be from the range [DATE(starting create time), DATE(ending create time)). */
-  filter?: string | undefined;
   /** The time granularity of each data point in the time series. Defaults to NONE if this field is unspecified. */
   timeGranularity?:
     | GoogleCloudContactcenterinsightsV1QueryMetricsRequestTimeGranularityEnum
@@ -4129,6 +4127,8 @@ export interface GoogleCloudContactcenterinsightsV1QueryMetricsRequest {
     | undefined;
   /** The dimensions that determine the grouping key for the query. Defaults to no dimension if this field is unspecified. If a dimension is specified, its key must also be specified. Each dimension's key must be unique. If a time granularity is also specified, metric values in the dimension will be bucketed by this granularity. Up to one dimension is supported for now. */
   dimensions?: GoogleCloudContactcenterinsightsV1DimensionList | undefined;
+  /** Required. Filter to select a subset of conversations to compute the metrics. Must specify a window of the conversation create time to compute the metrics. The returned metrics will be from the range [DATE(starting create time), DATE(ending create time)). */
+  filter?: string | undefined;
   /** Measures to return. Defaults to all measures if this field is unspecified. A valid mask should traverse from the `measure` field from the response. For example, a path from a measure mask to get the conversation count is "conversation_measure.count". */
   measureMask?: string | undefined;
 }
@@ -4147,16 +4147,16 @@ export interface GoogleCloudContactcenterinsightsV1QueryPerformanceOverviewReque
 }
 /** The request for summarizing performance according to different metrics for conversations over a specified time window. */
 export interface GoogleCloudContactcenterinsightsV1QueryPerformanceOverviewRequest {
-  /** Conversations are from a single agent. */
-  agentPerformanceSource?:
-    | GoogleCloudContactcenterinsightsV1QueryPerformanceOverviewRequestAgentSource
-    | undefined;
   /** Required. The time window of the conversations to derive performance stats from. */
   queryInterval?: GoogleCloudContactcenterinsightsV1QueryInterval | undefined;
   /** The time window of the conversations to compare the performance to. */
   comparisonQueryInterval?: GoogleCloudContactcenterinsightsV1QueryInterval | undefined;
   /** Optional. Filter to select a subset of conversations to compute the performance overview. Supports the same filters as the filter field in QueryMetricsRequest. The source and query interval/comparison query interval should not be included here. */
   filter?: string | undefined;
+  /** Conversations are from a single agent. */
+  agentPerformanceSource?:
+    | GoogleCloudContactcenterinsightsV1QueryPerformanceOverviewRequestAgentSource
+    | undefined;
 }
 export interface QueryPerformanceOverviewProjectsLocationsRequest extends GoogleCloudContactcenterinsightsV1QueryPerformanceOverviewRequest {
   /** Required. The parent resource of the conversations to derive performance stats from. "projects/{project}/locations/{location}" */
@@ -4168,12 +4168,12 @@ export interface QueryPerformanceOverviewProjectsLocationsAuthorizedViewSetsAuth
 }
 /** The request to sample conversations to a dataset. */
 export interface GoogleCloudContactcenterinsightsV1SampleConversationsRequest {
+  /** Optional. The sample rule used for sampling conversations. */
+  sampleRule?: GoogleCloudContactcenterinsightsV1SampleRule | undefined;
   /** Required. The parent resource of the dataset. */
   parent?: string | undefined;
   /** The dataset resource to copy the sampled conversations to. */
   destinationDataset?: GoogleCloudContactcenterinsightsV1Dataset | undefined;
-  /** Optional. The sample rule used for sampling conversations. */
-  sampleRule?: GoogleCloudContactcenterinsightsV1SampleRule | undefined;
 }
 export interface SampleProjectsLocationsConversationsRequest extends Omit<
   GoogleCloudContactcenterinsightsV1SampleConversationsRequest,
@@ -4190,30 +4190,30 @@ export interface SampleProjectsLocationsDatasetsConversationsRequest extends Omi
   parent: string;
 }
 export interface SearchProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest {
-  /** Optional. The order by expression to order authorized views listed in the response. */
-  orderBy?: string | undefined;
-  /** Optional. The query expression to search authorized views. */
-  query?: string | undefined;
-  /** Required. The parent resource of the AuthorizedViews. If the parent is set to `-`, all AuthorizedViews under the location will be returned. */
-  parent: string;
   /** Optional. The maximum number of view to return in the response. If the value is zero, the service will select a default size. A call might return fewer objects than requested. A non-empty `next_page_token` in the response indicates that more data is available. */
   pageSize?: number | undefined;
+  /** Optional. The query expression to search authorized views. */
+  query?: string | undefined;
+  /** Optional. The order by expression to order authorized views listed in the response. */
+  orderBy?: string | undefined;
   /** Optional. The value returned by the last `ListAuthorizedViewsResponse`. This value indicates that this is a continuation of a prior `ListAuthorizedViews` call and that the system should return the next page of data. */
   pageToken?: string | undefined;
+  /** Required. The parent resource of the AuthorizedViews. If the parent is set to `-`, all AuthorizedViews under the location will be returned. */
+  parent: string;
 }
 /** The response from a ListAuthorizedViews request. */
 export interface GoogleCloudContactcenterinsightsV1SearchAuthorizedViewsResponse {
-  /** The AuthorizedViews under the parent. */
-  authorizedViews?: GoogleCloudContactcenterinsightsV1AuthorizedViewList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string | undefined;
+  /** The AuthorizedViews under the parent. */
+  authorizedViews?: GoogleCloudContactcenterinsightsV1AuthorizedViewList | undefined;
 }
 /** Request message for `SetIamPolicy` method. */
 export interface GoogleIamV1SetIamPolicyRequest {
-  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
-  updateMask?: string | undefined;
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: GoogleIamV1Policy | undefined;
+  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
+  updateMask?: string | undefined;
 }
 export interface SetIamPolicyProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest extends GoogleIamV1SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
@@ -4226,14 +4226,14 @@ export interface GoogleCloudContactcenterinsightsV1TestCorrelationConfigRequestC
 }
 /** The request to test correlation config. */
 export interface GoogleCloudContactcenterinsightsV1TestCorrelationConfigRequest {
+  /** Required. The correlation config to test. */
+  correlationConfig?: GoogleCloudContactcenterinsightsV1CorrelationConfig | undefined;
+  /** Optional. The maximum number of conversations to sample when using the `filter`. If not set, defaults to 1000. Values greater than 1000 are coerced to 1000. This field is ignored if `conversations` is provided. */
+  maxSampleCount?: number | undefined;
   /** Optional. A list of conversations to test against. */
   conversations?:
     | GoogleCloudContactcenterinsightsV1TestCorrelationConfigRequestConversations
     | undefined;
-  /** Optional. The maximum number of conversations to sample when using the `filter`. If not set, defaults to 1000. Values greater than 1000 are coerced to 1000. This field is ignored if `conversations` is provided. */
-  maxSampleCount?: number | undefined;
-  /** Required. The correlation config to test. */
-  correlationConfig?: GoogleCloudContactcenterinsightsV1CorrelationConfig | undefined;
   /** Optional. Filter to select conversations to test correlation against. Conversations matching this filter will be sampled based on start time. The most recent `max_sample_count` conversations will be selected. If no conversations match the filter, the request will fail with an `INVALID_ARGUMENT` error. */
   filter?: string | undefined;
 }
@@ -4307,30 +4307,30 @@ export interface UpdateCorrelationConfigProjectsLocationsRequest extends Omit<
   GoogleCloudContactcenterinsightsV1CorrelationConfig,
   "name"
 > {
-  /** Immutable. Identifier. The resource name of the correlation config. Format: projects/{project}/locations/{location}/correlationConfig */
-  name: string;
   /** Optional. The list of fields to be updated. */
   updateMask?: string | undefined;
+  /** Immutable. Identifier. The resource name of the correlation config. Format: projects/{project}/locations/{location}/correlationConfig */
+  name: string;
 }
 export interface UpdateSettingsProjectsLocationsRequest extends Omit<
   GoogleCloudContactcenterinsightsV1Settings,
   "name"
 > {
-  /** Immutable. The resource name of the settings resource. Format: projects/{project}/locations/{location}/settings */
-  name: string;
   /** Required. The list of fields to be updated. */
   updateMask?: string | undefined;
+  /** Immutable. The resource name of the settings resource. Format: projects/{project}/locations/{location}/settings */
+  name: string;
 }
 /** Request to upload a conversation. */
 export interface GoogleCloudContactcenterinsightsV1UploadConversationRequest {
-  /** Optional. A unique ID for the new conversation. This ID will become the final component of the conversation's resource name. If no ID is specified, a server-generated ID will be used. This value should be 4-64 characters and must match the regular expression `^[a-z0-9-]{4,64}$`. Valid characters are `a-z-` */
-  conversationId?: string | undefined;
-  /** Optional. Speech-to-Text configuration. Will default to the config specified in Settings. */
-  speechConfig?: GoogleCloudContactcenterinsightsV1SpeechConfig | undefined;
-  /** Required. The parent resource of the conversation. */
-  parent?: string | undefined;
   /** Optional. DLP settings for transcript redaction. Will default to the config specified in Settings. */
   redactionConfig?: GoogleCloudContactcenterinsightsV1RedactionConfig | undefined;
+  /** Optional. Speech-to-Text configuration. Will default to the config specified in Settings. */
+  speechConfig?: GoogleCloudContactcenterinsightsV1SpeechConfig | undefined;
+  /** Optional. A unique ID for the new conversation. This ID will become the final component of the conversation's resource name. If no ID is specified, a server-generated ID will be used. This value should be 4-64 characters and must match the regular expression `^[a-z0-9-]{4,64}$`. Valid characters are `a-z-` */
+  conversationId?: string | undefined;
+  /** Required. The parent resource of the conversation. */
+  parent?: string | undefined;
   /** Required. The conversation resource to create. */
   conversation?: GoogleCloudContactcenterinsightsV1Conversation | undefined;
 }
@@ -7242,8 +7242,8 @@ export const listProjectsLocationsAuthorizedViewSetsAuthorizedViews: API.Paginat
     0,
   ) as any as S.Schema<ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest>,
   output: __S(
-    1121,
-    __c35,
+    1089,
+    __c34,
     1,
   ) as any as S.Schema<GoogleCloudContactcenterinsightsV1ListAuthorizedViewsResponse>,
   errors: [NotFound, Forbidden],
@@ -8602,8 +8602,8 @@ export const searchProjectsLocationsAuthorizedViewSetsAuthorizedViews: API.Pagin
     0,
   ) as any as S.Schema<SearchProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest>,
   output: __S(
-    1121,
-    __c35,
+    3297,
+    __c103,
     1,
   ) as any as S.Schema<GoogleCloudContactcenterinsightsV1SearchAuthorizedViewsResponse>,
   errors: [NotFound, Forbidden],
@@ -9194,8 +9194,8 @@ function __c19(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          inspectTemplate: S.optional(S.String),
           deidentifyTemplate: S.optional(S.String),
+          inspectTemplate: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1RedactionConfig" });
   }
@@ -9205,45 +9205,45 @@ function __c20(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          sourceId: S.optional(S.String),
-          displayName: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1MetricDefinition" });
-    case 1:
-      return S.Record(S.String, __S(640, __c20, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          metrics: S.optional(__S(641, __c20, 1)),
-        }),
-      ).annotate({
-        identifier: "GoogleCloudContactcenterinsightsV1SettingsDiagnosticMetricConfig",
-      });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
           uploadConversationAnalysisPercentage: S.optional(S.Number),
           annotatorSelector: S.optional(__S(7043, __c220, 3)),
           runtimeIntegrationAnalysisPercentage: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1SettingsAnalysisConfig" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          displayName: S.optional(S.String),
+          sourceId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1MetricDefinition" });
+    case 2:
+      return S.Record(S.String, __S(641, __c20, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          metrics: S.optional(__S(642, __c20, 2)),
+        }),
+      ).annotate({
+        identifier: "GoogleCloudContactcenterinsightsV1SettingsDiagnosticMetricConfig",
+      });
     case 4:
       return S.suspend(() =>
         S.Struct({
           createTime: S.optional(S.String),
-          satisfiesPzs: S.optional(S.Boolean),
           timeZone: S.optional(S.String),
-          speechConfig: S.optional(__S(608, __c19, 0)),
-          languageCode: S.optional(S.String),
-          redactionConfig: S.optional(__S(609, __c19, 1)),
-          diagnosticMetricConfig: S.optional(__S(642, __c20, 2)),
-          analysisConfig: S.optional(__S(643, __c20, 3)),
-          screenRecordingBucketUri: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          satisfiesPzi: S.optional(S.Boolean),
-          pubsubNotificationSettings: S.optional(__S(4512, __c141, 0)),
           name: S.optional(S.String),
+          analysisConfig: S.optional(__S(640, __c20, 0)),
+          diagnosticMetricConfig: S.optional(__S(643, __c20, 3)),
+          satisfiesPzi: S.optional(S.Boolean),
           conversationTtl: S.optional(S.String),
+          speechConfig: S.optional(__S(608, __c19, 0)),
+          satisfiesPzs: S.optional(S.Boolean),
+          languageCode: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          redactionConfig: S.optional(__S(609, __c19, 1)),
+          pubsubNotificationSettings: S.optional(__S(4512, __c141, 0)),
+          screenRecordingBucketUri: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1Settings" });
   }
@@ -9253,8 +9253,8 @@ function __c21(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          gcsSource: S.optional(__S(6848, __c214, 0)),
           createNewModel: S.optional(S.Boolean),
+          gcsSource: S.optional(__S(6848, __c214, 0)),
           parent: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1ImportIssueModelRequest" });
@@ -9299,46 +9299,46 @@ function __c23(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          bucketObjectType: S.optional(S.String),
-          metadataBucketUri: S.optional(S.String),
-          bucketUri: S.optional(S.String),
-          audioBucketUri: S.optional(S.String),
-          transcriptBucketUri: S.optional(S.String),
-          customMetadataKeys: S.optional(__S(6112, __c191, 0)),
-        }),
-      ).annotate({
-        identifier: "GoogleCloudContactcenterinsightsV1IngestConversationsRequestGcsSource",
-      });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          agentId: S.optional(S.String),
-          customerChannel: S.optional(S.Number),
-          agentChannel: S.optional(S.Number),
-        }),
-      ).annotate({
-        identifier:
-          "GoogleCloudContactcenterinsightsV1IngestConversationsRequestConversationConfig",
-      });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
           medium: S.optional(S.String),
         }),
       ).annotate({
         identifier:
           "GoogleCloudContactcenterinsightsV1IngestConversationsRequestTranscriptObjectConfig",
       });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          bucketObjectType: S.optional(S.String),
+          audioBucketUri: S.optional(S.String),
+          bucketUri: S.optional(S.String),
+          metadataBucketUri: S.optional(S.String),
+          transcriptBucketUri: S.optional(S.String),
+          customMetadataKeys: S.optional(__S(6112, __c191, 0)),
+        }),
+      ).annotate({
+        identifier: "GoogleCloudContactcenterinsightsV1IngestConversationsRequestGcsSource",
+      });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          agentChannel: S.optional(S.Number),
+          customerChannel: S.optional(S.Number),
+          agentId: S.optional(S.String),
+        }),
+      ).annotate({
+        identifier:
+          "GoogleCloudContactcenterinsightsV1IngestConversationsRequestConversationConfig",
+      });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          gcsSource: S.optional(__S(736, __c23, 0)),
+          speechConfig: S.optional(__S(608, __c19, 0)),
           redactionConfig: S.optional(__S(609, __c19, 1)),
           sampleSize: S.optional(S.Number),
-          conversationConfig: S.optional(__S(737, __c23, 1)),
           parent: S.optional(S.String),
-          transcriptObjectConfig: S.optional(__S(738, __c23, 2)),
-          speechConfig: S.optional(__S(608, __c19, 0)),
+          transcriptObjectConfig: S.optional(__S(736, __c23, 0)),
+          gcsSource: S.optional(__S(737, __c23, 1)),
+          conversationConfig: S.optional(__S(738, __c23, 2)),
         }),
       ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1IngestConversationsRequest" });
   }
@@ -9413,10 +9413,10 @@ function __c27(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(S.String),
-          maxDeleteCount: S.optional(S.Number),
-          force: S.optional(S.Boolean),
           parent: S.optional(S.String),
+          filter: S.optional(S.String),
+          force: S.optional(S.Boolean),
+          maxDeleteCount: S.optional(S.Number),
         }),
       ).annotate({
         identifier: "GoogleCloudContactcenterinsightsV1BulkDeleteConversationsRequest",
@@ -9428,10 +9428,10 @@ function __c28(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -9458,10 +9458,10 @@ function __c30(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           filter: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -9477,8 +9477,8 @@ function __c31(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -9504,9 +9504,9 @@ function __c32(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -9520,8 +9520,8 @@ function __c32(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          assessmentRules: S.optional(__S(1025, __c32, 1)),
           nextPageToken: S.optional(S.String),
+          assessmentRules: S.optional(__S(1025, __c32, 1)),
         }),
       ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1ListAssessmentRulesResponse" });
   }
@@ -9531,11 +9531,11 @@ function __c33(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(S.String.pipe(T.Query())),
-          orderBy: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -9563,10 +9563,10 @@ function __c34(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          orderBy: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -9575,12 +9575,6 @@ function __c34(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest" });
-  }
-}
-function __c35(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(4192, __c131, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -9590,17 +9584,23 @@ function __c35(j: number): any {
       ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1ListAuthorizedViewsResponse" });
   }
 }
+function __c35(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(4192, __c131, 0));
+  }
+}
 function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
           view: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          orderBy: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -9635,10 +9635,10 @@ function __c39(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -9659,8 +9659,8 @@ function __c40(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           assessments: S.optional(__S(1280, __c40, 0)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1ListAssessmentsResponse" });
   }
@@ -9670,9 +9670,9 @@ function __c41(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -9693,8 +9693,8 @@ function __c42(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           notes: S.optional(__S(1344, __c42, 0)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1ListNotesResponse" });
   }
@@ -9705,9 +9705,9 @@ function __c43(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -9746,10 +9746,10 @@ function __c45(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pageToken: S.optional(S.String.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
           returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -9769,9 +9769,9 @@ function __c46(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(6112, __c191, 0)),
           nextPageToken: S.optional(S.String),
           operations: S.optional(__S(1472, __c46, 0)),
+          unreachable: S.optional(__S(6112, __c191, 0)),
         }),
       ).annotate({ identifier: "GoogleLongrunningListOperationsResponse" });
   }
@@ -9782,8 +9782,8 @@ function __c47(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -9808,12 +9808,12 @@ function __c48(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           orderBy: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          view: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          view: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -9829,10 +9829,10 @@ function __c49(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -9846,8 +9846,8 @@ function __c49(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          analyses: S.optional(__S(1569, __c49, 1)),
           nextPageToken: S.optional(S.String),
+          analyses: S.optional(__S(1569, __c49, 1)),
         }),
       ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1ListAnalysesResponse" });
   }
@@ -9857,10 +9857,10 @@ function __c50(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           filter: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -9876,9 +9876,9 @@ function __c51(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -9894,10 +9894,10 @@ function __c52(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -9913,11 +9913,11 @@ function __c53(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          filter: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -9942,10 +9942,10 @@ function __c54(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
+          filter: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -9970,12 +9970,12 @@ function __c55(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          orderBy: S.optional(S.String.pipe(T.Query())),
-          view: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
+          view: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -10010,8 +10010,8 @@ function __c57(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          spreadsheetUri: S.optional(S.String),
           sheetTitle: S.optional(S.String),
+          spreadsheetUri: S.optional(S.String),
         }),
       ).annotate({
         identifier:
@@ -10020,11 +10020,11 @@ function __c57(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          format: S.optional(S.String),
           alwaysPrintEmptyFields: S.optional(S.Boolean),
-          objectUri: S.optional(S.String),
           addWhitespace: S.optional(S.Boolean),
           recordsPerFileCount: S.optional(S.String),
+          objectUri: S.optional(S.String),
+          format: S.optional(S.String),
         }),
       ).annotate({
         identifier:
@@ -10033,14 +10033,14 @@ function __c57(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          sheetsDestination: S.optional(__S(1824, __c57, 0)),
-          filter: S.optional(S.String),
-          gcsDestination: S.optional(__S(1825, __c57, 1)),
-          templateQaScorecardId: S.optional(__S(6112, __c191, 0)),
           maxDownloadCount: S.optional(S.Number),
-          feedbackLabelType: S.optional(S.String),
-          parent: S.optional(S.String),
+          sheetsDestination: S.optional(__S(1824, __c57, 0)),
           conversationFilter: S.optional(S.String),
+          gcsDestination: S.optional(__S(1825, __c57, 1)),
+          parent: S.optional(S.String),
+          filter: S.optional(S.String),
+          templateQaScorecardId: S.optional(__S(6112, __c191, 0)),
+          feedbackLabelType: S.optional(S.String),
         }),
       ).annotate({
         identifier: "GoogleCloudContactcenterinsightsV1BulkDownloadFeedbackLabelsRequest",
@@ -10054,8 +10054,8 @@ function __c58(j: number): any {
         S.Struct({
           pageToken: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -10119,11 +10119,11 @@ function __c61(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
           returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -10139,10 +10139,10 @@ function __c62(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -10182,8 +10182,8 @@ function __c63(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           qaQuestionTags: S.optional(__S(2017, __c63, 1)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1ListQaQuestionTagsResponse" });
   }
@@ -10193,8 +10193,8 @@ function __c64(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          qaScorecardSources: S.optional(__S(4608, __c144, 0).pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          qaScorecardSources: S.optional(__S(4608, __c144, 0).pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
@@ -10222,9 +10222,9 @@ function __c65(j: number): any {
       return S.suspend(() =>
         S.Struct({
           filter: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           qaScorecardSources: S.optional(__S(4608, __c144, 0).pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -10252,9 +10252,9 @@ function __c66(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -10268,8 +10268,8 @@ function __c66(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          qaQuestions: S.optional(__S(2113, __c66, 1)),
           nextPageToken: S.optional(S.String),
+          qaQuestions: S.optional(__S(2113, __c66, 1)),
         }),
       ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1ListQaQuestionsResponse" });
   }
@@ -10295,8 +10295,8 @@ function __c67(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           views: S.optional(__S(2145, __c67, 1)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1ListViewsResponse" });
   }
@@ -10347,8 +10347,8 @@ function __c70(j: number): any {
         S.Extend(
           __S(4033, __c126, 1),
           S.Struct({
-            updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -10387,8 +10387,8 @@ function __c72(j: number): any {
         S.Extend(
           __S(4192, __c131, 0),
           S.Struct({
-            name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -10453,8 +10453,8 @@ function __c75(j: number): any {
         S.Extend(
           __S(4450, __c139, 2),
           S.Struct({
-            name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -10476,9 +10476,9 @@ function __c76(j: number): any {
             "conversationAutoLabelingUpdateConfig.allowAutoLabelingUpdate": S.optional(
               S.Boolean.pipe(T.Query()),
             ),
-            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-            updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -10554,26 +10554,26 @@ function __c80(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          format: S.optional(S.String),
-          objectUri: S.optional(S.String),
-        }),
-      ).annotate({
-        identifier: "GoogleCloudContactcenterinsightsV1BulkUploadFeedbackLabelsRequestGcsSource",
-      });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           spreadsheetUri: S.optional(S.String),
         }),
       ).annotate({
         identifier: "GoogleCloudContactcenterinsightsV1BulkUploadFeedbackLabelsRequestSheetsSource",
       });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          objectUri: S.optional(S.String),
+          format: S.optional(S.String),
+        }),
+      ).annotate({
+        identifier: "GoogleCloudContactcenterinsightsV1BulkUploadFeedbackLabelsRequestGcsSource",
+      });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          gcsSource: S.optional(__S(2560, __c80, 0)),
-          sheetsSource: S.optional(__S(2561, __c80, 1)),
+          sheetsSource: S.optional(__S(2560, __c80, 0)),
           validateOnly: S.optional(S.Boolean),
+          gcsSource: S.optional(__S(2561, __c80, 1)),
         }),
       ).annotate({
         identifier: "GoogleCloudContactcenterinsightsV1BulkUploadFeedbackLabelsRequest",
@@ -10607,8 +10607,8 @@ function __c82(j: number): any {
         S.Extend(
           __S(5024, __c157, 0),
           S.Struct({
-            name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -10649,8 +10649,8 @@ function __c84(j: number): any {
         S.Extend(
           __S(5121, __c160, 1),
           S.Struct({
-            name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -10669,8 +10669,8 @@ function __c85(j: number): any {
         S.Extend(
           __S(5184, __c162, 0),
           S.Struct({
-            updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -10729,8 +10729,8 @@ function __c88(j: number): any {
         S.Extend(
           __S(5376, __c168, 0),
           S.Struct({
-            name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -10769,8 +10769,8 @@ function __c90(j: number): any {
         S.Extend(
           __S(5568, __c174, 0),
           S.Struct({
-            name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -10862,62 +10862,66 @@ function __c95(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          agentDisplayName: S.optional(S.String),
-          agentId: S.optional(S.String),
-          agentVersionDisplayName: S.optional(S.String),
-          agentDeploymentDisplayName: S.optional(S.String),
-          agentVersionId: S.optional(S.String),
-          agentDeploymentId: S.optional(S.String),
-          agentTeam: S.optional(S.String),
+          conversationProfileId: S.optional(S.String),
         }),
       ).annotate({
-        identifier: "GoogleCloudContactcenterinsightsV1DimensionAgentDimensionMetadata",
+        identifier:
+          "GoogleCloudContactcenterinsightsV1DimensionConversationProfileDimensionMetadata",
       });
     case 1:
-      return S.suspend(() =>
-        S.Struct({
-          issueModelId: S.optional(S.String),
-          issueDisplayName: S.optional(S.String),
-          issueId: S.optional(S.String),
-        }),
-      ).annotate({
-        identifier: "GoogleCloudContactcenterinsightsV1DimensionIssueDimensionMetadata",
-      });
-    case 2:
       return S.suspend(() =>
         S.Struct({
           qaQuestionId: S.optional(S.String),
           qaScorecardId: S.optional(S.String),
           questionBody: S.optional(S.String),
+          answerValue: S.optional(S.String),
         }),
       ).annotate({
-        identifier: "GoogleCloudContactcenterinsightsV1DimensionQaQuestionDimensionMetadata",
+        identifier: "GoogleCloudContactcenterinsightsV1DimensionQaQuestionAnswerDimensionMetadata",
+      });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          playbookId: S.optional(S.String),
+          playbookDisplayName: S.optional(S.String),
+        }),
+      ).annotate({
+        identifier:
+          "GoogleCloudContactcenterinsightsV1DimensionConversationalAgentsPlaybookDimensionMetadata",
       });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          sentimentCategory: S.optional(S.String),
+          toolDisplayName: S.optional(S.String),
+          toolId: S.optional(S.String),
         }),
       ).annotate({
         identifier:
-          "GoogleCloudContactcenterinsightsV1DimensionClientSentimentCategoryDimensionMetadata",
+          "GoogleCloudContactcenterinsightsV1DimensionConversationalAgentsToolDimensionMetadata",
       });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          labelValue: S.optional(S.String),
-          labelKey: S.optional(S.String),
+          agentDisplayName: S.optional(S.String),
+          agentDeploymentId: S.optional(S.String),
+          agentVersionId: S.optional(S.String),
+          agentId: S.optional(S.String),
+          agentTeam: S.optional(S.String),
+          agentVersionDisplayName: S.optional(S.String),
+          agentDeploymentDisplayName: S.optional(S.String),
         }),
       ).annotate({
-        identifier: "GoogleCloudContactcenterinsightsV1DimensionLabelDimensionMetadata",
+        identifier: "GoogleCloudContactcenterinsightsV1DimensionAgentDimensionMetadata",
       });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          qaScorecardId: S.optional(S.String),
+          issueModelId: S.optional(S.String),
+          issueId: S.optional(S.String),
+          issueDisplayName: S.optional(S.String),
         }),
       ).annotate({
-        identifier: "GoogleCloudContactcenterinsightsV1DimensionQaScorecardDimensionMetadata",
+        identifier: "GoogleCloudContactcenterinsightsV1DimensionIssueDimensionMetadata",
       });
     case 6:
       return S.suspend(() =>
@@ -10930,58 +10934,54 @@ function __c95(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          playbookDisplayName: S.optional(S.String),
-          playbookId: S.optional(S.String),
+          sentimentCategory: S.optional(S.String),
         }),
       ).annotate({
         identifier:
-          "GoogleCloudContactcenterinsightsV1DimensionConversationalAgentsPlaybookDimensionMetadata",
+          "GoogleCloudContactcenterinsightsV1DimensionClientSentimentCategoryDimensionMetadata",
       });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          conversationProfileId: S.optional(S.String),
+          labelKey: S.optional(S.String),
+          labelValue: S.optional(S.String),
         }),
       ).annotate({
-        identifier:
-          "GoogleCloudContactcenterinsightsV1DimensionConversationProfileDimensionMetadata",
+        identifier: "GoogleCloudContactcenterinsightsV1DimensionLabelDimensionMetadata",
       });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          answerValue: S.optional(S.String),
-          qaQuestionId: S.optional(S.String),
           qaScorecardId: S.optional(S.String),
-          questionBody: S.optional(S.String),
         }),
       ).annotate({
-        identifier: "GoogleCloudContactcenterinsightsV1DimensionQaQuestionAnswerDimensionMetadata",
+        identifier: "GoogleCloudContactcenterinsightsV1DimensionQaScorecardDimensionMetadata",
       });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          toolId: S.optional(S.String),
-          toolDisplayName: S.optional(S.String),
+          questionBody: S.optional(S.String),
+          qaScorecardId: S.optional(S.String),
+          qaQuestionId: S.optional(S.String),
         }),
       ).annotate({
-        identifier:
-          "GoogleCloudContactcenterinsightsV1DimensionConversationalAgentsToolDimensionMetadata",
+        identifier: "GoogleCloudContactcenterinsightsV1DimensionQaQuestionDimensionMetadata",
       });
     case 11:
       return S.suspend(() =>
         S.Struct({
-          agentDimensionMetadata: S.optional(__S(3040, __c95, 0)),
+          conversationProfileDimensionMetadata: S.optional(__S(3040, __c95, 0)),
           dimensionKey: S.optional(S.String),
-          issueDimensionMetadata: S.optional(__S(3041, __c95, 1)),
-          qaQuestionDimensionMetadata: S.optional(__S(3042, __c95, 2)),
-          clientSentimentCategoryDimensionMetadata: S.optional(__S(3043, __c95, 3)),
-          labelDimensionMetadata: S.optional(__S(3044, __c95, 4)),
-          qaScorecardDimensionMetadata: S.optional(__S(3045, __c95, 5)),
+          qaQuestionAnswerDimensionMetadata: S.optional(__S(3041, __c95, 1)),
+          conversationalAgentsPlaybookDimensionMetadata: S.optional(__S(3042, __c95, 2)),
+          conversationalAgentsToolDimensionMetadata: S.optional(__S(3043, __c95, 3)),
+          agentDimensionMetadata: S.optional(__S(3044, __c95, 4)),
+          issueDimensionMetadata: S.optional(__S(3045, __c95, 5)),
           mediumDimensionMetadata: S.optional(__S(3046, __c95, 6)),
-          conversationalAgentsPlaybookDimensionMetadata: S.optional(__S(3047, __c95, 7)),
-          conversationProfileDimensionMetadata: S.optional(__S(3048, __c95, 8)),
-          qaQuestionAnswerDimensionMetadata: S.optional(__S(3049, __c95, 9)),
-          conversationalAgentsToolDimensionMetadata: S.optional(__S(3050, __c95, 10)),
+          clientSentimentCategoryDimensionMetadata: S.optional(__S(3047, __c95, 7)),
+          labelDimensionMetadata: S.optional(__S(3048, __c95, 8)),
+          qaScorecardDimensionMetadata: S.optional(__S(3049, __c95, 9)),
+          qaQuestionDimensionMetadata: S.optional(__S(3050, __c95, 10)),
         }),
       ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1Dimension" });
     case 12:
@@ -10989,9 +10989,9 @@ function __c95(j: number): any {
     case 13:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(S.String),
           timeGranularity: S.optional(S.String),
           dimensions: S.optional(__S(3052, __c95, 12)),
+          filter: S.optional(S.String),
           measureMask: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1QueryMetricsRequest" });
@@ -11050,10 +11050,10 @@ function __c98(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          agentPerformanceSource: S.optional(__S(3136, __c98, 0)),
           queryInterval: S.optional(__S(4960, __c155, 0)),
           comparisonQueryInterval: S.optional(__S(4960, __c155, 0)),
           filter: S.optional(S.String),
+          agentPerformanceSource: S.optional(__S(3136, __c98, 0)),
         }),
       ).annotate({
         identifier: "GoogleCloudContactcenterinsightsV1QueryPerformanceOverviewRequest",
@@ -11106,9 +11106,9 @@ function __c101(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          sampleRule: S.optional(__S(4064, __c127, 0)),
           parent: S.optional(S.String),
           destinationDataset: S.optional(__S(5024, __c157, 0)),
-          sampleRule: S.optional(__S(4064, __c127, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1SampleConversationsRequest" });
   }
@@ -11137,11 +11137,11 @@ function __c103(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          orderBy: S.optional(S.String.pipe(T.Query())),
-          query: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          query: S.optional(S.String.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -11150,6 +11150,13 @@ function __c103(j: number): any {
           }),
         ),
       ).annotate({ identifier: "SearchProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          nextPageToken: S.optional(S.String),
+          authorizedViews: S.optional(__S(1120, __c35, 0)),
+        }),
+      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1SearchAuthorizedViewsResponse" });
   }
 }
 function __c104(j: number): any {
@@ -11157,8 +11164,8 @@ function __c104(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          updateMask: S.optional(S.String),
           policy: S.optional(__S(7495, __c234, 7)),
+          updateMask: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleIamV1SetIamPolicyRequest" });
     case 1:
@@ -11225,8 +11232,8 @@ function __c107(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          unclassifiedConversationsCount: S.optional(S.String),
           analyzedConversationsCount: S.optional(S.String),
+          unclassifiedConversationsCount: S.optional(S.String),
           issueStats: S.optional(__S(3393, __c106, 1)),
         }),
       ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1IssueModelLabelStats" });
@@ -11245,9 +11252,9 @@ function __c108(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          conversations: S.optional(__S(3456, __c108, 0)),
-          maxSampleCount: S.optional(S.Number),
           correlationConfig: S.optional(__S(7363, __c230, 3)),
+          maxSampleCount: S.optional(S.Number),
+          conversations: S.optional(__S(3456, __c108, 0)),
           filter: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1TestCorrelationConfigRequest" });
@@ -11400,8 +11407,8 @@ function __c114(j: number): any {
         S.Extend(
           __S(7363, __c230, 3),
           S.Struct({
-            name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -11420,8 +11427,8 @@ function __c115(j: number): any {
         S.Extend(
           __S(644, __c20, 4),
           S.Struct({
-            name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -11438,10 +11445,10 @@ function __c116(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          conversationId: S.optional(S.String),
-          speechConfig: S.optional(__S(608, __c19, 0)),
-          parent: S.optional(S.String),
           redactionConfig: S.optional(__S(609, __c19, 1)),
+          speechConfig: S.optional(__S(608, __c19, 0)),
+          conversationId: S.optional(S.String),
+          parent: S.optional(S.String),
           conversation: S.optional(__S(4764, __c148, 28)),
         }),
       ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1UploadConversationRequest" });
@@ -11467,8 +11474,8 @@ function __c117(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          location: S.String.pipe(T.Label()),
           filter: S.optional(S.String.pipe(T.Query())),
+          location: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -11485,6 +11492,8 @@ function __c117(j: number): any {
 function __c118(j: number): any {
   switch (j) {
     case 0:
+      return S.Record(S.String, S.Number);
+    case 1:
       return S.suspend(() =>
         S.Struct({
           startTime: S.optional(S.String),
@@ -11493,30 +11502,28 @@ function __c118(j: number): any {
       ).annotate({
         identifier: "GoogleCloudContactcenterinsightsV1CalculateStatsResponseTimeSeriesInterval",
       });
-    case 1:
-      return S.Array(__S(3776, __c118, 0));
     case 2:
+      return S.Array(__S(3777, __c118, 1));
+    case 3:
       return S.suspend(() =>
         S.Struct({
           intervalDuration: S.optional(S.String),
-          points: S.optional(__S(3777, __c118, 1)),
+          points: S.optional(__S(3778, __c118, 2)),
         }),
       ).annotate({
         identifier: "GoogleCloudContactcenterinsightsV1CalculateStatsResponseTimeSeries",
       });
-    case 3:
-      return S.Record(S.String, S.Number);
     case 4:
       return S.suspend(() =>
         S.Struct({
-          averageDuration: S.optional(S.String),
-          averageTurnCount: S.optional(S.Number),
           issueMatchesStats: S.optional(__S(3393, __c106, 1)),
-          conversationCountTimeSeries: S.optional(__S(3778, __c118, 2)),
-          issueMatches: S.optional(__S(3779, __c118, 3)),
-          smartHighlighterMatches: S.optional(__S(3779, __c118, 3)),
+          customHighlighterMatches: S.optional(__S(3776, __c118, 0)),
+          averageDuration: S.optional(S.String),
+          conversationCountTimeSeries: S.optional(__S(3779, __c118, 3)),
           conversationCount: S.optional(S.Number),
-          customHighlighterMatches: S.optional(__S(3779, __c118, 3)),
+          smartHighlighterMatches: S.optional(__S(3776, __c118, 0)),
+          issueMatches: S.optional(__S(3776, __c118, 0)),
+          averageTurnCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1CalculateStatsResponse" });
   }
@@ -11526,8 +11533,8 @@ function __c119(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(S.String.pipe(T.Query())),
           location: S.String.pipe(T.Label()),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -11621,15 +11628,15 @@ function __c124(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          analysisPercentage: S.optional(S.Number),
-          name: S.optional(S.String),
+          conversationFilter: S.optional(S.String),
           satisfiesPzi: S.optional(S.Boolean),
+          name: S.optional(S.String),
+          createTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          analysisPercentage: S.optional(S.Number),
+          displayName: S.optional(S.String),
           annotatorSelector: S.optional(__S(7043, __c220, 3)),
           satisfiesPzs: S.optional(S.Boolean),
-          updateTime: S.optional(S.String),
-          conversationFilter: S.optional(S.String),
-          displayName: S.optional(S.String),
-          createTime: S.optional(S.String),
           active: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1AnalysisRule" });
@@ -11642,8 +11649,8 @@ function __c125(j: number): any {
         S.Extend(
           __S(4033, __c126, 1),
           S.Struct({
-            assessmentRuleId: S.optional(S.String.pipe(T.Query())),
             parent: S.String.pipe(T.Label()),
+            assessmentRuleId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -11660,24 +11667,24 @@ function __c126(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          endTime: S.optional(S.String),
-          timeZone: S.optional(S.String),
-          startTime: S.optional(S.String),
           schedule: S.optional(S.String),
+          startTime: S.optional(S.String),
+          timeZone: S.optional(S.String),
+          endTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1ScheduleInfo" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          updateTime: S.optional(S.String),
-          active: S.optional(S.Boolean),
           createTime: S.optional(S.String),
-          displayName: S.optional(S.String),
           sampleRule: S.optional(__S(4064, __c127, 0)),
           name: S.optional(S.String),
-          satisfiesPzi: S.optional(S.Boolean),
-          scheduleInfo: S.optional(__S(4032, __c126, 0)),
           satisfiesPzs: S.optional(S.Boolean),
+          scheduleInfo: S.optional(__S(4032, __c126, 0)),
+          updateTime: S.optional(S.String),
+          satisfiesPzi: S.optional(S.Boolean),
+          displayName: S.optional(S.String),
+          active: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1AssessmentRule" });
   }
@@ -11687,9 +11694,9 @@ function __c127(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          dimension: S.optional(S.String),
-          conversationFilter: S.optional(S.String),
           sampleRow: S.optional(S.String),
+          conversationFilter: S.optional(S.String),
+          dimension: S.optional(S.String),
           samplePercentage: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1SampleRule" });
@@ -11702,8 +11709,8 @@ function __c128(j: number): any {
         S.Extend(
           __S(4128, __c129, 0),
           S.Struct({
-            authorizedViewSetId: S.optional(S.String.pipe(T.Query())),
             parent: S.String.pipe(T.Label()),
+            authorizedViewSetId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -11720,12 +11727,12 @@ function __c129(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          updateTime: S.optional(S.String),
-          satisfiesPzi: S.optional(S.Boolean),
-          displayName: S.optional(S.String),
-          satisfiesPzs: S.optional(S.Boolean),
           createTime: S.optional(S.String),
+          displayName: S.optional(S.String),
           name: S.optional(S.String),
+          satisfiesPzi: S.optional(S.Boolean),
+          satisfiesPzs: S.optional(S.Boolean),
+          updateTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1AuthorizedViewSet" });
   }
@@ -11755,13 +11762,13 @@ function __c131(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          createTime: S.optional(S.String),
           satisfiesPzi: S.optional(S.Boolean),
           conversationFilter: S.optional(S.String),
           displayName: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          createTime: S.optional(S.String),
           satisfiesPzs: S.optional(S.Boolean),
           name: S.optional(S.String),
-          updateTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1AuthorizedView" });
   }
@@ -11815,32 +11822,32 @@ function __c134(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          username: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1UserInfo" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           qaQuestion: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1NoteQaQuestionNote" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           turnIndex: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1NoteConversationTurnNote" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          username: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1UserInfo" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          assessmentNote: S.optional(__S(6016, __c188, 0)),
-          updateTime: S.optional(S.String),
-          noteCreator: S.optional(__S(4288, __c134, 0)),
-          createTime: S.optional(S.String),
-          qaQuestionNote: S.optional(__S(4289, __c134, 1)),
-          conversationTurnNote: S.optional(__S(4290, __c134, 2)),
           content: S.optional(S.String),
+          name: S.optional(S.String),
+          qaQuestionNote: S.optional(__S(4288, __c134, 0)),
+          updateTime: S.optional(S.String),
+          createTime: S.optional(S.String),
+          conversationTurnNote: S.optional(__S(4289, __c134, 1)),
+          noteCreator: S.optional(__S(4290, __c134, 2)),
+          assessmentNote: S.optional(__S(6016, __c188, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1Note" });
   }
@@ -11852,8 +11859,8 @@ function __c135(j: number): any {
         S.Extend(
           __S(4384, __c137, 0),
           S.Struct({
-            parent: S.String.pipe(T.Label()),
             feedbackLabelId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -11873,15 +11880,15 @@ function __c136(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          skipValue: S.optional(S.Boolean),
-          normalizedScore: S.optional(S.Number),
-          key: S.optional(S.String),
-          numValue: S.optional(S.Number),
-          naValue: S.optional(S.Boolean),
-          boolValue: S.optional(S.Boolean),
           strValue: S.optional(S.String),
+          boolValue: S.optional(S.Boolean),
+          key: S.optional(S.String),
+          normalizedScore: S.optional(S.Number),
+          naValue: S.optional(S.Boolean),
           score: S.optional(S.Number),
           potentialScore: S.optional(S.Number),
+          numValue: S.optional(S.Number),
+          skipValue: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1QaAnswerAnswerValue" });
   }
@@ -11891,14 +11898,14 @@ function __c137(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          label: S.optional(S.String),
-          satisfiesPzi: S.optional(S.Boolean),
           qaAnswerLabel: S.optional(__S(4352, __c136, 0)),
-          createTime: S.optional(S.String),
-          name: S.optional(S.String),
           labeledResource: S.optional(S.String),
           updateTime: S.optional(S.String),
+          label: S.optional(S.String),
           satisfiesPzs: S.optional(S.Boolean),
+          satisfiesPzi: S.optional(S.Boolean),
+          name: S.optional(S.String),
+          createTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1FeedbackLabel" });
   }
@@ -11910,8 +11917,8 @@ function __c138(j: number): any {
         S.Extend(
           __S(4450, __c139, 2),
           S.Struct({
-            parent: S.String.pipe(T.Label()),
             autoLabelingRuleId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -11939,15 +11946,15 @@ function __c139(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          labelKey: S.optional(S.String),
           labelKeyType: S.optional(S.String),
-          createTime: S.optional(S.String),
-          description: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          displayName: S.optional(S.String),
-          conditions: S.optional(__S(4449, __c139, 1)),
           name: S.optional(S.String),
+          conditions: S.optional(__S(4449, __c139, 1)),
           active: S.optional(S.Boolean),
+          updateTime: S.optional(S.String),
+          createTime: S.optional(S.String),
+          displayName: S.optional(S.String),
+          labelKey: S.optional(S.String),
+          description: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1AutoLabelingRule" });
   }
@@ -11959,8 +11966,8 @@ function __c140(j: number): any {
         S.Extend(
           __S(4764, __c148, 28),
           S.Struct({
-            parent: S.String.pipe(T.Label()),
             conversationId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -11983,142 +11990,134 @@ function __c142(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          score: S.optional(S.Number),
           magnitude: S.optional(S.Number),
+          score: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1SentimentData" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          transcriptIndex: S.optional(S.Number),
-          wordIndex: S.optional(S.Number),
+          score: S.optional(S.Number),
+          potentialScore: S.optional(S.Number),
+          tag: S.optional(S.String),
+          normalizedScore: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1AnnotationBoundary" });
+      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1QaScorecardResultQaTagResult" });
     case 2:
-      return S.suspend(() =>
-        S.Struct({
-          silenceDuration: S.optional(S.String),
-          silencePercentage: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1ConversationLevelSilence" });
+      return S.Array(__S(4545, __c142, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          score: S.optional(S.Number),
           potentialScore: S.optional(S.Number),
+          qaTagResults: S.optional(__S(4546, __c142, 2)),
+          score: S.optional(S.Number),
+          sourceType: S.optional(S.String),
           normalizedScore: S.optional(S.Number),
-          tag: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1QaScorecardResultQaTagResult" });
+      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1QaScorecardResultScoreSource" });
     case 4:
       return S.Array(__S(4547, __c142, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          score: S.optional(S.Number),
           sourceType: S.optional(S.String),
-          qaTagResults: S.optional(__S(4548, __c142, 4)),
-          potentialScore: S.optional(S.Number),
-          normalizedScore: S.optional(S.Number),
+          answerValue: S.optional(__S(4352, __c136, 0)),
         }),
-      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1QaScorecardResultScoreSource" });
+      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1QaAnswerAnswerSource" });
     case 6:
       return S.Array(__S(4549, __c142, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           answerValue: S.optional(__S(4352, __c136, 0)),
-          sourceType: S.optional(S.String),
+          conversation: S.optional(S.String),
+          qaQuestion: S.optional(S.String),
+          answerSources: S.optional(__S(4550, __c142, 6)),
+          questionBody: S.optional(S.String),
+          tags: S.optional(__S(6112, __c191, 0)),
         }),
-      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1QaAnswerAnswerSource" });
+      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1QaAnswer" });
     case 8:
       return S.Array(__S(4551, __c142, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          qaQuestion: S.optional(S.String),
-          answerSources: S.optional(__S(4552, __c142, 8)),
-          questionBody: S.optional(S.String),
-          tags: S.optional(__S(6112, __c191, 0)),
-          answerValue: S.optional(__S(4352, __c136, 0)),
+          qaTagResults: S.optional(__S(4546, __c142, 2)),
           conversation: S.optional(S.String),
+          score: S.optional(S.Number),
+          name: S.optional(S.String),
+          scoreSources: S.optional(__S(4548, __c142, 4)),
+          agentId: S.optional(S.String),
+          qaScorecardRevision: S.optional(S.String),
+          qaAnswers: S.optional(__S(4552, __c142, 8)),
+          createTime: S.optional(S.String),
+          normalizedScore: S.optional(S.Number),
+          potentialScore: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1QaAnswer" });
+      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1QaScorecardResult" });
     case 10:
       return S.Array(__S(4553, __c142, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
-          qaScorecardRevision: S.optional(S.String),
-          score: S.optional(S.Number),
-          scoreSources: S.optional(__S(4550, __c142, 6)),
-          normalizedScore: S.optional(S.Number),
-          qaAnswers: S.optional(__S(4554, __c142, 10)),
-          conversation: S.optional(S.String),
-          agentId: S.optional(S.String),
-          name: S.optional(S.String),
-          potentialScore: S.optional(S.Number),
-          qaTagResults: S.optional(__S(4548, __c142, 4)),
-          createTime: S.optional(S.String),
+          channelTag: S.optional(S.Number),
+          sentimentData: S.optional(__S(4544, __c142, 0)),
         }),
-      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1QaScorecardResult" });
+      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1ConversationLevelSentiment" });
     case 12:
       return S.Array(__S(4555, __c142, 11));
     case 13:
+      return S.suspend(() =>
+        S.Struct({
+          sentiment: S.optional(__S(4544, __c142, 0)),
+          type: S.optional(S.String),
+          displayName: S.optional(S.String),
+          metadata: S.optional(__S(4512, __c141, 0)),
+          salience: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1Entity" });
+    case 14:
+      return S.Record(S.String, __S(4557, __c142, 13));
+    case 15:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           displayName: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1Intent" });
-    case 14:
-      return S.Record(S.String, __S(4557, __c142, 13));
-    case 15:
-      return S.suspend(() =>
-        S.Struct({
-          issue: S.optional(S.String),
-          displayName: S.optional(S.String),
-          score: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1IssueAssignment" });
     case 16:
-      return S.Array(__S(4559, __c142, 15));
+      return S.Record(S.String, __S(4559, __c142, 15));
     case 17:
       return S.suspend(() =>
         S.Struct({
-          issueModel: S.optional(S.String),
-          issues: S.optional(__S(4560, __c142, 16)),
+          score: S.optional(S.Number),
+          issue: S.optional(S.String),
+          displayName: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1IssueModelResult" });
+      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1IssueAssignment" });
     case 18:
+      return S.Array(__S(4561, __c142, 17));
+    case 19:
       return S.suspend(() =>
         S.Struct({
-          sentimentData: S.optional(__S(4544, __c142, 0)),
-          channelTag: S.optional(S.Number),
+          issueModel: S.optional(S.String),
+          issues: S.optional(__S(4562, __c142, 18)),
         }),
-      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1ConversationLevelSentiment" });
-    case 19:
-      return S.Array(__S(4562, __c142, 18));
+      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1IssueModelResult" });
     case 20:
       return S.suspend(() =>
         S.Struct({
-          issueAssignment: S.optional(__S(4559, __c142, 15)),
+          wordIndex: S.optional(S.Number),
+          transcriptIndex: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1IssueMatchData" });
+      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1AnnotationBoundary" });
     case 21:
       return S.suspend(() =>
         S.Struct({
-          phraseMatcher: S.optional(S.String),
-          displayName: S.optional(S.String),
+          issueAssignment: S.optional(__S(4561, __c142, 17)),
         }),
-      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1PhraseMatchData" });
+      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1IssueMatchData" });
     case 22:
-      return S.suspend(() =>
-        S.Struct({
-          intentUniqueId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1IntentMatchData" });
-    case 23:
       return S.suspend(() =>
         S.Struct({
           entityUniqueId: S.optional(S.String),
@@ -12126,48 +12125,56 @@ function __c142(j: number): any {
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1EntityMentionData" });
+    case 23:
+      return S.suspend(() =>
+        S.Struct({
+          phraseMatcher: S.optional(S.String),
+          displayName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1PhraseMatchData" });
     case 24:
       return S.suspend(() =>
         S.Struct({
-          holdData: S.optional(__S(6016, __c188, 0)),
-          annotationEndBoundary: S.optional(__S(4545, __c142, 1)),
-          annotationStartBoundary: S.optional(__S(4545, __c142, 1)),
-          sentimentData: S.optional(__S(4544, __c142, 0)),
-          issueMatchData: S.optional(__S(4564, __c142, 20)),
-          phraseMatchData: S.optional(__S(4565, __c142, 21)),
-          channelTag: S.optional(S.Number),
-          interruptionData: S.optional(__S(6016, __c188, 0)),
-          intentMatchData: S.optional(__S(4566, __c142, 22)),
-          silenceData: S.optional(__S(6016, __c188, 0)),
-          entityMentionData: S.optional(__S(4567, __c142, 23)),
+          intentUniqueId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1CallAnnotation" });
+      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1IntentMatchData" });
     case 25:
-      return S.Array(__S(4568, __c142, 24));
-    case 26:
       return S.suspend(() =>
         S.Struct({
-          salience: S.optional(S.Number),
-          displayName: S.optional(S.String),
-          metadata: S.optional(__S(4512, __c141, 0)),
-          sentiment: S.optional(__S(4544, __c142, 0)),
-          type: S.optional(S.String),
+          annotationEndBoundary: S.optional(__S(4564, __c142, 20)),
+          annotationStartBoundary: S.optional(__S(4564, __c142, 20)),
+          interruptionData: S.optional(__S(6016, __c188, 0)),
+          issueMatchData: S.optional(__S(4565, __c142, 21)),
+          sentimentData: S.optional(__S(4544, __c142, 0)),
+          entityMentionData: S.optional(__S(4566, __c142, 22)),
+          holdData: S.optional(__S(6016, __c188, 0)),
+          phraseMatchData: S.optional(__S(4567, __c142, 23)),
+          silenceData: S.optional(__S(6016, __c188, 0)),
+          channelTag: S.optional(S.Number),
+          intentMatchData: S.optional(__S(4568, __c142, 24)),
         }),
-      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1Entity" });
+      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1CallAnnotation" });
+    case 26:
+      return S.Array(__S(4569, __c142, 25));
     case 27:
-      return S.Record(S.String, __S(4570, __c142, 26));
+      return S.suspend(() =>
+        S.Struct({
+          silencePercentage: S.optional(S.Number),
+          silenceDuration: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1ConversationLevelSilence" });
     case 28:
-      return S.Record(S.String, __S(4565, __c142, 21));
+      return S.Record(S.String, __S(4567, __c142, 23));
     case 29:
       return S.suspend(() =>
         S.Struct({
-          silence: S.optional(__S(4546, __c142, 2)),
-          qaScorecardResults: S.optional(__S(4556, __c142, 12)),
-          intents: S.optional(__S(4558, __c142, 14)),
-          issueModelResult: S.optional(__S(4561, __c142, 17)),
-          sentiments: S.optional(__S(4563, __c142, 19)),
-          annotations: S.optional(__S(4569, __c142, 25)),
-          entities: S.optional(__S(4571, __c142, 27)),
+          qaScorecardResults: S.optional(__S(4554, __c142, 10)),
+          sentiments: S.optional(__S(4556, __c142, 12)),
+          entities: S.optional(__S(4558, __c142, 14)),
+          intents: S.optional(__S(4560, __c142, 16)),
+          issueModelResult: S.optional(__S(4563, __c142, 19)),
+          annotations: S.optional(__S(4570, __c142, 26)),
+          silence: S.optional(__S(4571, __c142, 27)),
           phraseMatchers: S.optional(__S(4572, __c142, 28)),
         }),
       ).annotate({
@@ -12183,13 +12190,13 @@ function __c142(j: number): any {
     case 31:
       return S.suspend(() =>
         S.Struct({
-          createTime: S.optional(S.String),
-          satisfiesPzs: S.optional(S.Boolean),
-          analysisResult: S.optional(__S(4574, __c142, 30)),
           annotatorSelector: S.optional(__S(7043, __c220, 3)),
-          requestTime: S.optional(S.String),
-          name: S.optional(S.String),
+          analysisResult: S.optional(__S(4574, __c142, 30)),
           satisfiesPzi: S.optional(S.Boolean),
+          requestTime: S.optional(S.String),
+          satisfiesPzs: S.optional(S.Boolean),
+          createTime: S.optional(S.String),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1Analysis" });
   }
@@ -12203,7 +12210,7 @@ function __c143(j: number): any {
         }),
       ).annotate({
         identifier:
-          "GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartTextPart",
+          "GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartThoughtPart",
       });
   }
 }
@@ -12218,8 +12225,8 @@ function __c145(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          audioGcsUri: S.optional(S.String),
           audioDuration: S.optional(S.String),
+          audioGcsUri: S.optional(S.String),
         }),
       ).annotate({
         identifier: "GoogleCloudContactcenterinsightsV1ConversationDataSourceTurnLevelAudio",
@@ -12239,60 +12246,182 @@ function __c147(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          text: S.optional(S.String),
+          agentChannel: S.optional(S.Number),
+          customerChannel: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1ConversationCallMetadata" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          displayName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1DialogflowIntent" });
+    case 2:
+      return S.Record(S.String, __S(4705, __c147, 1));
+    case 3:
+      return S.Array(__S(6048, __c189, 0));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          waitDuration: S.optional(S.String),
+          agentInfo: S.optional(__S(4707, __c147, 3)),
+          feedbackLabels: S.optional(__S(4672, __c146, 0)),
+          menuPath: S.optional(S.String),
+          customerSatisfactionRating: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1ConversationQualityMetadata" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          textSections: S.optional(__S(4512, __c141, 0)),
+          metadata: S.optional(__S(4512, __c141, 0)),
           answerRecord: S.optional(S.String),
+          text: S.optional(S.String),
+          confidence: S.optional(S.Number),
           conversationModel: S.optional(S.String),
           generatorId: S.optional(S.String),
-          metadata: S.optional(__S(4512, __c141, 0)),
-          confidence: S.optional(S.Number),
-          textSections: S.optional(__S(4512, __c141, 0)),
         }),
       ).annotate({
         identifier: "GoogleCloudContactcenterinsightsV1ConversationSummarizationSuggestionData",
       });
-    case 1:
+    case 6:
       return S.suspend(() =>
         S.Struct({
-          payloadType: S.optional(S.String),
+          correlationTypes: S.optional(__S(4608, __c144, 0)),
+          fullConversationCorrelationId: S.optional(S.String),
+          mergedFullConversationCorrelationId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1ConversationCorrelationInfo" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          startOffset: S.optional(S.String),
+          word: S.optional(S.String),
+          endOffset: S.optional(S.String),
+          confidence: S.optional(S.Number),
+        }),
+      ).annotate({
+        identifier:
+          "GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentWordInfo",
+      });
+    case 8:
+      return S.Array(__S(4711, __c147, 7));
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          obfuscatedExternalUserId: S.optional(S.String),
+          userId: S.optional(S.String),
+          dialogflowParticipant: S.optional(S.String),
+          role: S.optional(S.String),
+          dialogflowParticipantName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1ConversationParticipant" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          smartReplyAllowlistCovered: S.optional(S.Boolean),
+        }),
+      ).annotate({
+        identifier:
+          "GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentDialogflowSegmentMetadata",
+      });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
           payload: S.optional(__S(6976, __c218, 0)),
+          payloadType: S.optional(S.String),
         }),
       ).annotate({
         identifier:
           "GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartCustomPayloadPart",
       });
-    case 2:
+    case 12:
       return S.suspend(() =>
         S.Struct({
-          alternativeText: S.optional(S.String),
           uri: S.optional(S.String),
+          text: S.optional(S.String),
+        }),
+      ).annotate({
+        identifier:
+          "GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartLinkPart",
+      });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          cells: S.optional(__S(6112, __c191, 0)),
+        }),
+      ).annotate({
+        identifier:
+          "GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartTableRow",
+      });
+    case 14:
+      return S.Array(__S(4717, __c147, 13));
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          headers: S.optional(__S(6112, __c191, 0)),
+          rows: S.optional(__S(4718, __c147, 14)),
+          title: S.optional(S.String),
+        }),
+      ).annotate({
+        identifier:
+          "GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartTablePart",
+      });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          snippet: S.optional(S.String),
+          sourceTitle: S.optional(S.String),
+          sourceUri: S.optional(S.String),
+        }),
+      ).annotate({
+        identifier:
+          "GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartCitationPart",
+      });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          currencyCode: S.optional(S.String),
+          units: S.optional(S.String),
+          nanos: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "GoogleTypeMoney" });
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          price: S.optional(__S(4721, __c147, 17)),
+          description: S.optional(S.String),
+          uri: S.optional(S.String),
+          id: S.optional(S.String),
+          displayName: S.optional(S.String),
+          imageUris: S.optional(__S(6112, __c191, 0)),
+        }),
+      ).annotate({
+        identifier:
+          "GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartProduct",
+      });
+    case 19:
+      return S.Array(__S(4722, __c147, 18));
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          products: S.optional(__S(4723, __c147, 19)),
+        }),
+      ).annotate({
+        identifier:
+          "GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartProductCollectionPart",
+      });
+    case 21:
+      return S.suspend(() =>
+        S.Struct({
+          uri: S.optional(S.String),
+          alternativeText: S.optional(S.String),
         }),
       ).annotate({
         identifier:
           "GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartMediaPart",
       });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          text: S.optional(S.String),
-          subItems: S.optional(S.suspend(() => __S(4708, __c147, 4))),
-        }),
-      ).annotate({
-        identifier:
-          "GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartListItem",
-      });
-    case 4:
-      return S.Array(__S(4707, __c147, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          listType: S.optional(S.String),
-          items: S.optional(__S(4708, __c147, 4)),
-        }),
-      ).annotate({
-        identifier:
-          "GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartListPart",
-      });
-    case 6:
+    case 22:
       return S.suspend(() =>
         S.Struct({
           actionUri: S.optional(S.String),
@@ -12302,206 +12431,80 @@ function __c147(j: number): any {
         identifier:
           "GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartChip",
       });
-    case 7:
-      return S.Array(__S(4710, __c147, 6));
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          chips: S.optional(__S(4711, __c147, 7)),
-        }),
-      ).annotate({
-        identifier:
-          "GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartSuggestionChipsPart",
-      });
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          sourceUri: S.optional(S.String),
-          snippet: S.optional(S.String),
-          sourceTitle: S.optional(S.String),
-        }),
-      ).annotate({
-        identifier:
-          "GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartCitationPart",
-      });
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          nanos: S.optional(S.Number),
-          currencyCode: S.optional(S.String),
-          units: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleTypeMoney" });
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          imageUris: S.optional(__S(6112, __c191, 0)),
-          uri: S.optional(S.String),
-          id: S.optional(S.String),
-          price: S.optional(__S(4714, __c147, 10)),
-          description: S.optional(S.String),
-          displayName: S.optional(S.String),
-        }),
-      ).annotate({
-        identifier:
-          "GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartProduct",
-      });
-    case 12:
-      return S.Array(__S(4715, __c147, 11));
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          products: S.optional(__S(4716, __c147, 12)),
-        }),
-      ).annotate({
-        identifier:
-          "GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartProductCollectionPart",
-      });
-    case 14:
-      return S.suspend(() =>
-        S.Struct({
-          cells: S.optional(__S(6112, __c191, 0)),
-        }),
-      ).annotate({
-        identifier:
-          "GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartTableRow",
-      });
-    case 15:
-      return S.Array(__S(4718, __c147, 14));
-    case 16:
-      return S.suspend(() =>
-        S.Struct({
-          headers: S.optional(__S(6112, __c191, 0)),
-          title: S.optional(S.String),
-          rows: S.optional(__S(4719, __c147, 15)),
-        }),
-      ).annotate({
-        identifier:
-          "GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartTablePart",
-      });
-    case 17:
-      return S.suspend(() =>
-        S.Struct({
-          text: S.optional(S.String),
-          uri: S.optional(S.String),
-        }),
-      ).annotate({
-        identifier:
-          "GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartLinkPart",
-      });
-    case 18:
-      return S.suspend(() =>
-        S.Struct({
-          customPayload: S.optional(__S(4705, __c147, 1)),
-          image: S.optional(__S(4706, __c147, 2)),
-          list: S.optional(__S(4709, __c147, 5)),
-          video: S.optional(__S(4706, __c147, 2)),
-          suggestionChips: S.optional(__S(4712, __c147, 8)),
-          text: S.optional(__S(4576, __c143, 0)),
-          citation: S.optional(__S(4713, __c147, 9)),
-          thought: S.optional(__S(4576, __c143, 0)),
-          productCollection: S.optional(__S(4717, __c147, 13)),
-          table: S.optional(__S(4720, __c147, 16)),
-          link: S.optional(__S(4721, __c147, 17)),
-        }),
-      ).annotate({
-        identifier:
-          "GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPart",
-      });
-    case 19:
-      return S.Array(__S(4722, __c147, 18));
-    case 20:
-      return S.suspend(() =>
-        S.Struct({
-          dialogflowParticipant: S.optional(S.String),
-          userId: S.optional(S.String),
-          dialogflowParticipantName: S.optional(S.String),
-          role: S.optional(S.String),
-          obfuscatedExternalUserId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1ConversationParticipant" });
-    case 21:
-      return S.suspend(() =>
-        S.Struct({
-          smartReplyAllowlistCovered: S.optional(S.Boolean),
-        }),
-      ).annotate({
-        identifier:
-          "GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentDialogflowSegmentMetadata",
-      });
-    case 22:
-      return S.suspend(() =>
-        S.Struct({
-          confidence: S.optional(S.Number),
-          endOffset: S.optional(S.String),
-          word: S.optional(S.String),
-          startOffset: S.optional(S.String),
-        }),
-      ).annotate({
-        identifier:
-          "GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentWordInfo",
-      });
     case 23:
       return S.Array(__S(4726, __c147, 22));
     case 24:
       return S.suspend(() =>
         S.Struct({
-          parts: S.optional(__S(4723, __c147, 19)),
-          segmentParticipant: S.optional(__S(4724, __c147, 20)),
-          sentiment: S.optional(__S(4544, __c142, 0)),
+          chips: S.optional(__S(4727, __c147, 23)),
+        }),
+      ).annotate({
+        identifier:
+          "GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartSuggestionChipsPart",
+      });
+    case 25:
+      return S.suspend(() =>
+        S.Struct({
+          subItems: S.optional(S.suspend(() => __S(4730, __c147, 26))),
           text: S.optional(S.String),
-          languageCode: S.optional(S.String),
-          dialogflowSegmentMetadata: S.optional(__S(4725, __c147, 21)),
-          channelTag: S.optional(S.Number),
-          words: S.optional(__S(4727, __c147, 23)),
-          confidence: S.optional(S.Number),
-          messageTime: S.optional(S.String),
+        }),
+      ).annotate({
+        identifier:
+          "GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartListItem",
+      });
+    case 26:
+      return S.Array(__S(4729, __c147, 25));
+    case 27:
+      return S.suspend(() =>
+        S.Struct({
+          listType: S.optional(S.String),
+          items: S.optional(__S(4730, __c147, 26)),
+        }),
+      ).annotate({
+        identifier:
+          "GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPartListPart",
+      });
+    case 28:
+      return S.suspend(() =>
+        S.Struct({
+          thought: S.optional(__S(4576, __c143, 0)),
+          customPayload: S.optional(__S(4715, __c147, 11)),
+          link: S.optional(__S(4716, __c147, 12)),
+          table: S.optional(__S(4719, __c147, 15)),
+          text: S.optional(__S(4576, __c143, 0)),
+          citation: S.optional(__S(4720, __c147, 16)),
+          productCollection: S.optional(__S(4724, __c147, 20)),
+          image: S.optional(__S(4725, __c147, 21)),
+          suggestionChips: S.optional(__S(4728, __c147, 24)),
+          list: S.optional(__S(4731, __c147, 27)),
+          video: S.optional(__S(4725, __c147, 21)),
+        }),
+      ).annotate({
+        identifier:
+          "GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentTranscriptPart",
+      });
+    case 29:
+      return S.Array(__S(4732, __c147, 28));
+    case 30:
+      return S.suspend(() =>
+        S.Struct({
           turnLevelAudio: S.optional(__S(4640, __c145, 0)),
+          languageCode: S.optional(S.String),
+          words: S.optional(__S(4712, __c147, 8)),
+          messageTime: S.optional(S.String),
+          channelTag: S.optional(S.Number),
+          text: S.optional(S.String),
+          segmentParticipant: S.optional(__S(4713, __c147, 9)),
+          sentiment: S.optional(__S(4544, __c142, 0)),
+          confidence: S.optional(S.Number),
+          dialogflowSegmentMetadata: S.optional(__S(4714, __c147, 10)),
+          parts: S.optional(__S(4733, __c147, 29)),
         }),
       ).annotate({
         identifier: "GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegment",
       });
-    case 25:
-      return S.Array(__S(4728, __c147, 24));
-    case 26:
-      return S.suspend(() =>
-        S.Struct({
-          transcriptSegments: S.optional(__S(4729, __c147, 25)),
-        }),
-      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1ConversationTranscript" });
-    case 27:
-      return S.suspend(() =>
-        S.Struct({
-          agentChannel: S.optional(S.Number),
-          customerChannel: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1ConversationCallMetadata" });
-    case 28:
-      return S.suspend(() =>
-        S.Struct({
-          audioUri: S.optional(S.String),
-          audioUris: S.optional(__S(6112, __c191, 0)),
-          transcriptUri: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1GcsSource" });
-    case 29:
-      return S.suspend(() =>
-        S.Struct({
-          audioUri: S.optional(S.String),
-          dialogflowConversation: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1DialogflowSource" });
-    case 30:
-      return S.suspend(() =>
-        S.Struct({
-          gcsSource: S.optional(__S(4732, __c147, 28)),
-          turnLevelAudios: S.optional(__S(4641, __c145, 1)),
-          metadataUri: S.optional(S.String),
-          dialogflowSource: S.optional(__S(4733, __c147, 29)),
-        }),
-      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1ConversationDataSource" });
     case 31:
-      return S.Array(__S(6048, __c189, 0));
+      return S.Array(__S(4734, __c147, 30));
   }
 }
 function __c148(j: number): any {
@@ -12509,38 +12512,46 @@ function __c148(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          agentInfo: S.optional(__S(4735, __c147, 31)),
-          feedbackLabels: S.optional(__S(4672, __c146, 0)),
-          customerSatisfactionRating: S.optional(S.Number),
-          menuPath: S.optional(S.String),
-          waitDuration: S.optional(S.String),
+          transcriptSegments: S.optional(__S(4735, __c147, 31)),
         }),
-      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1ConversationQualityMetadata" });
+      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1ConversationTranscript" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          fullConversationCorrelationId: S.optional(S.String),
-          mergedFullConversationCorrelationId: S.optional(S.String),
-          correlationTypes: S.optional(__S(4608, __c144, 0)),
+          reply: S.optional(S.String),
+          queryRecord: S.optional(S.String),
+          confidenceScore: S.optional(S.Number),
+          metadata: S.optional(__S(4512, __c141, 0)),
         }),
-      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1ConversationCorrelationInfo" });
+      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1SmartReplyData" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          displayName: S.optional(S.String),
+          generatorName: S.optional(S.String),
+          querySource: S.optional(S.String),
+          query: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1DialogflowIntent" });
+      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1RuntimeAnnotationUserInput" });
     case 3:
-      return S.Record(S.String, __S(4738, __c148, 2));
+      return S.suspend(() =>
+        S.Struct({
+          toolId: S.optional(S.String),
+          toolset: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudCesV1mainToolsetTool" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          confidenceScore: S.optional(S.Number),
-          reply: S.optional(S.String),
-          metadata: S.optional(__S(4512, __c141, 0)),
-          queryRecord: S.optional(S.String),
+          toolsetTool: S.optional(__S(4739, __c148, 3)),
+          tool: S.optional(S.String),
+          id: S.optional(S.String),
+          parentToolCallId: S.optional(S.String),
+          args: S.optional(__S(6976, __c218, 0)),
+          agentName: S.optional(S.String),
+          displayName: S.optional(S.String),
+          targetApp: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1SmartReplyData" });
+      ).annotate({ identifier: "GoogleCloudCesV1mainToolCall" });
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -12551,212 +12562,208 @@ function __c148(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          toolset: S.optional(S.String),
-          toolId: S.optional(S.String),
+          targetAgent: S.optional(S.String),
+          displayName: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GoogleCloudCesV1mainToolsetTool" });
+      ).annotate({ identifier: "GoogleCloudCesV1mainAgentTransfer" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          parentToolCallId: S.optional(S.String),
-          targetApp: S.optional(S.String),
-          toolsetTool: S.optional(__S(4742, __c148, 6)),
-          agentName: S.optional(S.String),
-          tool: S.optional(S.String),
-          displayName: S.optional(S.String),
-          id: S.optional(S.String),
-          response: S.optional(__S(6976, __c218, 0)),
+          data: S.optional(S.String),
+          altText: S.optional(S.String),
+          mimeType: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GoogleCloudCesV1mainToolResponse" });
+      ).annotate({ identifier: "GoogleCloudCesV1mainImage" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          parentToolCallId: S.optional(S.String),
           tool: S.optional(S.String),
+          response: S.optional(__S(6976, __c218, 0)),
           id: S.optional(S.String),
-          args: S.optional(__S(6976, __c218, 0)),
-          toolsetTool: S.optional(__S(4742, __c148, 6)),
-          targetApp: S.optional(S.String),
+          toolsetTool: S.optional(__S(4739, __c148, 3)),
+          parentToolCallId: S.optional(S.String),
           displayName: S.optional(S.String),
+          targetApp: S.optional(S.String),
           agentName: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GoogleCloudCesV1mainToolCall" });
+      ).annotate({ identifier: "GoogleCloudCesV1mainToolResponse" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          displayName: S.optional(S.String),
-          targetAgent: S.optional(S.String),
+          toolCall: S.optional(__S(4740, __c148, 4)),
+          blob: S.optional(__S(4741, __c148, 5)),
+          agentTransfer: S.optional(__S(4742, __c148, 6)),
+          image: S.optional(__S(4743, __c148, 7)),
+          transcript: S.optional(S.String),
+          payload: S.optional(__S(6976, __c218, 0)),
+          updatedVariables: S.optional(__S(6976, __c218, 0)),
+          defaultVariables: S.optional(__S(6976, __c218, 0)),
+          text: S.optional(S.String),
+          toolResponse: S.optional(__S(4744, __c148, 8)),
         }),
-      ).annotate({ identifier: "GoogleCloudCesV1mainAgentTransfer" });
+      ).annotate({ identifier: "GoogleCloudCesV1mainChunk" });
     case 10:
-      return S.suspend(() =>
-        S.Struct({
-          data: S.optional(S.String),
-          mimeType: S.optional(S.String),
-          altText: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudCesV1mainImage" });
+      return S.Array(__S(4745, __c148, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
-          blob: S.optional(__S(4741, __c148, 5)),
-          toolResponse: S.optional(__S(4743, __c148, 7)),
-          transcript: S.optional(S.String),
-          payload: S.optional(__S(6976, __c218, 0)),
-          toolCall: S.optional(__S(4744, __c148, 8)),
-          agentTransfer: S.optional(__S(4745, __c148, 9)),
-          defaultVariables: S.optional(__S(6976, __c218, 0)),
-          image: S.optional(__S(4746, __c148, 10)),
-          updatedVariables: S.optional(__S(6976, __c218, 0)),
-          text: S.optional(S.String),
+          eventTime: S.optional(S.String),
+          role: S.optional(S.String),
+          chunks: S.optional(__S(4746, __c148, 10)),
         }),
-      ).annotate({ identifier: "GoogleCloudCesV1mainChunk" });
+      ).annotate({ identifier: "GoogleCloudCesV1mainMessage" });
     case 12:
       return S.Array(__S(4747, __c148, 11));
     case 13:
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(4750, __c148, 14)));
+    case 14:
       return S.suspend(() =>
         S.Struct({
-          chunks: S.optional(__S(4748, __c148, 12)),
-          role: S.optional(S.String),
-          eventTime: S.optional(S.String),
+          endTime: S.optional(S.String),
+          duration: S.optional(S.String),
+          name: S.optional(S.String),
+          attributes: S.optional(__S(6976, __c218, 0)),
+          startTime: S.optional(S.String),
+          childSpans: S.optional(__S(4749, __c148, 13)),
         }),
-      ).annotate({ identifier: "GoogleCloudCesV1mainMessage" });
-    case 14:
-      return S.Array(__S(4749, __c148, 13));
+      ).annotate({ identifier: "GoogleCloudCesV1mainSpan" });
     case 15:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(4752, __c148, 16)));
+      return S.suspend(() =>
+        S.Struct({
+          messages: S.optional(__S(4748, __c148, 12)),
+          rootSpan: S.optional(__S(4750, __c148, 14)),
+        }),
+      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1CesTurnAnnotation" });
     case 16:
       return S.suspend(() =>
         S.Struct({
-          startTime: S.optional(S.String),
-          childSpans: S.optional(__S(4751, __c148, 15)),
-          attributes: S.optional(__S(6976, __c218, 0)),
-          name: S.optional(S.String),
-          endTime: S.optional(S.String),
-          duration: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudCesV1mainSpan" });
-    case 17:
-      return S.suspend(() =>
-        S.Struct({
-          messages: S.optional(__S(4750, __c148, 14)),
-          rootSpan: S.optional(__S(4752, __c148, 16)),
-        }),
-      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1CesTurnAnnotation" });
-    case 18:
-      return S.suspend(() =>
-        S.Struct({
+          confidenceScore: S.optional(S.Number),
           queryRecord: S.optional(S.String),
           suggestion: S.optional(S.String),
           metadata: S.optional(__S(4512, __c141, 0)),
-          confidenceScore: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1SmartComposeSuggestionData" });
-    case 19:
+    case 17:
       return S.suspend(() =>
         S.Struct({
-          dialogflowIntentId: S.optional(S.String),
-          confidence: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1DialogflowInteractionData" });
-    case 20:
-      return S.suspend(() =>
-        S.Struct({
-          correctnessLevel: S.optional(S.String),
-          clicked: S.optional(S.Boolean),
-          displayed: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1AnswerFeedback" });
-    case 21:
-      return S.suspend(() =>
-        S.Struct({
-          confidenceScore: S.optional(S.Number),
-          title: S.optional(S.String),
-          uri: S.optional(S.String),
-          queryRecord: S.optional(S.String),
-          source: S.optional(S.String),
-          metadata: S.optional(__S(4512, __c141, 0)),
-        }),
-      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1ArticleSuggestionData" });
-    case 22:
-      return S.suspend(() =>
-        S.Struct({
-          metadata: S.optional(__S(4512, __c141, 0)),
-          source: S.optional(S.String),
           question: S.optional(S.String),
           answer: S.optional(S.String),
+          metadata: S.optional(__S(4512, __c141, 0)),
           queryRecord: S.optional(S.String),
           confidenceScore: S.optional(S.Number),
+          source: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1FaqAnswerData" });
-    case 23:
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          source: S.optional(S.String),
+          title: S.optional(S.String),
+          uri: S.optional(S.String),
+          metadata: S.optional(__S(4512, __c141, 0)),
+          confidenceScore: S.optional(S.Number),
+          queryRecord: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1ArticleSuggestionData" });
+    case 19:
       return S.suspend(() =>
         S.Struct({
           metadata: S.optional(__S(6976, __c218, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudCesV1mainEndSession" });
-    case 24:
+    case 20:
       return S.suspend(() =>
         S.Struct({
-          endSession: S.optional(__S(4759, __c148, 23)),
+          endSession: S.optional(__S(4755, __c148, 19)),
         }),
       ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1CesEndSessionAnnotation" });
+    case 21:
+      return S.suspend(() =>
+        S.Struct({
+          confidence: S.optional(S.Number),
+          dialogflowIntentId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1DialogflowInteractionData" });
+    case 22:
+      return S.suspend(() =>
+        S.Struct({
+          clicked: S.optional(S.Boolean),
+          displayed: S.optional(S.Boolean),
+          correctnessLevel: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1AnswerFeedback" });
+    case 23:
+      return S.suspend(() =>
+        S.Struct({
+          smartReply: S.optional(__S(4737, __c148, 1)),
+          createTime: S.optional(S.String),
+          startBoundary: S.optional(__S(4564, __c142, 20)),
+          userInput: S.optional(__S(4738, __c148, 2)),
+          cesTurnAnnotation: S.optional(__S(4751, __c148, 15)),
+          smartComposeSuggestion: S.optional(__S(4752, __c148, 16)),
+          conversationSummarizationSuggestion: S.optional(__S(4709, __c147, 5)),
+          faqAnswer: S.optional(__S(4753, __c148, 17)),
+          articleSuggestion: S.optional(__S(4754, __c148, 18)),
+          annotationId: S.optional(S.String),
+          cesEndSessionAnnotation: S.optional(__S(4756, __c148, 20)),
+          dialogflowInteraction: S.optional(__S(4757, __c148, 21)),
+          answerFeedback: S.optional(__S(4758, __c148, 22)),
+          endBoundary: S.optional(__S(4564, __c142, 20)),
+        }),
+      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1RuntimeAnnotation" });
+    case 24:
+      return S.Array(__S(4759, __c148, 23));
     case 25:
       return S.suspend(() =>
         S.Struct({
-          generatorName: S.optional(S.String),
-          query: S.optional(S.String),
-          querySource: S.optional(S.String),
+          transcriptUri: S.optional(S.String),
+          audioUris: S.optional(__S(6112, __c191, 0)),
+          audioUri: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1RuntimeAnnotationUserInput" });
+      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1GcsSource" });
     case 26:
       return S.suspend(() =>
         S.Struct({
-          endBoundary: S.optional(__S(4545, __c142, 1)),
-          smartReply: S.optional(__S(4740, __c148, 4)),
-          createTime: S.optional(S.String),
-          cesTurnAnnotation: S.optional(__S(4753, __c148, 17)),
-          annotationId: S.optional(S.String),
-          smartComposeSuggestion: S.optional(__S(4754, __c148, 18)),
-          startBoundary: S.optional(__S(4545, __c142, 1)),
-          conversationSummarizationSuggestion: S.optional(__S(4704, __c147, 0)),
-          dialogflowInteraction: S.optional(__S(4755, __c148, 19)),
-          answerFeedback: S.optional(__S(4756, __c148, 20)),
-          articleSuggestion: S.optional(__S(4757, __c148, 21)),
-          faqAnswer: S.optional(__S(4758, __c148, 22)),
-          cesEndSessionAnnotation: S.optional(__S(4760, __c148, 24)),
-          userInput: S.optional(__S(4761, __c148, 25)),
+          dialogflowConversation: S.optional(S.String),
+          audioUri: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1RuntimeAnnotation" });
+      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1DialogflowSource" });
     case 27:
-      return S.Array(__S(4762, __c148, 26));
+      return S.suspend(() =>
+        S.Struct({
+          metadataUri: S.optional(S.String),
+          gcsSource: S.optional(__S(4761, __c148, 25)),
+          dialogflowSource: S.optional(__S(4762, __c148, 26)),
+          turnLevelAudios: S.optional(__S(4641, __c145, 1)),
+        }),
+      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1ConversationDataSource" });
     case 28:
       return S.suspend(() =>
         S.Struct({
-          createTime: S.optional(S.String),
-          latestSummary: S.optional(__S(4704, __c147, 0)),
-          expireTime: S.optional(S.String),
-          labels: S.optional(__S(4512, __c141, 0)),
-          transcript: S.optional(__S(4730, __c147, 26)),
-          agentId: S.optional(S.String),
-          callMetadata: S.optional(__S(4731, __c147, 27)),
-          dataSource: S.optional(__S(4734, __c147, 30)),
-          updateTime: S.optional(S.String),
-          name: S.optional(S.String),
-          qualityMetadata: S.optional(__S(4736, __c148, 0)),
-          satisfiesPzs: S.optional(S.Boolean),
-          languageCode: S.optional(S.String),
-          metadataJson: S.optional(S.String),
-          correlationInfo: S.optional(__S(4737, __c148, 1)),
-          satisfiesPzi: S.optional(S.Boolean),
-          dialogflowIntents: S.optional(__S(4739, __c148, 3)),
-          runtimeAnnotations: S.optional(__S(4763, __c148, 27)),
-          turnCount: S.optional(S.Number),
-          ttl: S.optional(S.String),
           startTime: S.optional(S.String),
+          languageCode: S.optional(S.String),
+          satisfiesPzs: S.optional(S.Boolean),
+          ttl: S.optional(S.String),
           duration: S.optional(S.String),
+          callMetadata: S.optional(__S(4704, __c147, 0)),
+          labels: S.optional(__S(4512, __c141, 0)),
+          name: S.optional(S.String),
+          turnCount: S.optional(S.Number),
+          dialogflowIntents: S.optional(__S(4706, __c147, 2)),
+          qualityMetadata: S.optional(__S(4708, __c147, 4)),
+          createTime: S.optional(S.String),
+          latestSummary: S.optional(__S(4709, __c147, 5)),
+          expireTime: S.optional(S.String),
+          correlationInfo: S.optional(__S(4710, __c147, 6)),
+          transcript: S.optional(__S(4736, __c148, 0)),
           latestAnalysis: S.optional(__S(4575, __c142, 31)),
+          runtimeAnnotations: S.optional(__S(4760, __c148, 24)),
+          agentId: S.optional(S.String),
+          dataSource: S.optional(__S(4763, __c148, 27)),
+          updateTime: S.optional(S.String),
           obfuscatedUserId: S.optional(S.String),
+          satisfiesPzi: S.optional(S.Boolean),
+          metadataJson: S.optional(S.String),
           medium: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1Conversation" });
@@ -12826,8 +12833,8 @@ function __c152(j: number): any {
         S.Extend(
           __S(4384, __c137, 0),
           S.Struct({
-            feedbackLabelId: S.optional(S.String.pipe(T.Query())),
             parent: S.String.pipe(T.Label()),
+            feedbackLabelId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -12846,8 +12853,8 @@ function __c153(j: number): any {
         S.Extend(
           __S(4946, __c154, 18),
           S.Struct({
-            dashboardId: S.optional(S.String.pipe(T.Query())),
             parent: S.String.pipe(T.Label()),
+            dashboardId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -12864,19 +12871,40 @@ function __c154(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          request: S.optional(__S(6976, __c218, 0)),
+          quantity: S.optional(S.String),
+          unit: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1QueryMetrics" });
+      ).annotate({
+        identifier: "GoogleCloudContactcenterinsightsV1DateRangeConfigRelativeDateRange",
+      });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          revisionId: S.optional(S.String),
-          sessionId: S.optional(S.String),
+          relativeDateRange: S.optional(__S(4928, __c154, 0)),
+          absoluteDateRange: S.optional(__S(4960, __c155, 0)),
         }),
-      ).annotate({
-        identifier: "GoogleCloudContactcenterinsightsV1GenerativeInsightsChartCheckpoint",
-      });
+      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1DateRangeConfig" });
     case 2:
+      return S.suspend(() =>
+        S.Struct({
+          relativePath: S.optional(S.String),
+          queryParams: S.optional(__S(4512, __c141, 0)),
+        }),
+      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1RedirectAction" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          conversationFilter: S.optional(S.String),
+          redirectAction: S.optional(__S(4930, __c154, 2)),
+        }),
+      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1ChartAction" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          request: S.optional(__S(6976, __c218, 0)),
+        }),
+      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1QueryMetrics" });
+    case 5:
       return S.suspend(() =>
         S.Struct({
           texts: S.optional(__S(6112, __c191, 0)),
@@ -12886,115 +12914,94 @@ function __c154(j: number): any {
         identifier:
           "GoogleCloudContactcenterinsightsV1GenerativeInsightsChartConversationMessageSystemMessageTextOutput",
       });
-    case 3:
+    case 6:
       return S.suspend(() =>
         S.Struct({
-          textOutput: S.optional(__S(4930, __c154, 2)),
-          generatedSqlQuery: S.optional(S.String),
           chartSpec: S.optional(__S(6976, __c218, 0)),
+          generatedSqlQuery: S.optional(S.String),
+          textOutput: S.optional(__S(4933, __c154, 5)),
         }),
       ).annotate({
         identifier:
           "GoogleCloudContactcenterinsightsV1GenerativeInsightsChartConversationMessageSystemMessage",
       });
-    case 4:
+    case 7:
       return S.suspend(() =>
         S.Struct({
-          systemMessage: S.optional(__S(4931, __c154, 3)),
+          systemMessage: S.optional(__S(4934, __c154, 6)),
           createTime: S.optional(S.String),
-          userMessage: S.optional(__S(4576, __c143, 0)),
           messageId: S.optional(S.String),
+          userMessage: S.optional(__S(4576, __c143, 0)),
         }),
       ).annotate({
         identifier: "GoogleCloudContactcenterinsightsV1GenerativeInsightsChartConversationMessage",
       });
-    case 5:
-      return S.Array(__S(4932, __c154, 4));
-    case 6:
+    case 8:
+      return S.Array(__S(4935, __c154, 7));
+    case 9:
       return S.suspend(() =>
         S.Struct({
-          messages: S.optional(__S(4933, __c154, 5)),
+          conversationId: S.optional(S.String),
+          messages: S.optional(__S(4936, __c154, 8)),
           createTime: S.optional(S.String),
           updateTime: S.optional(S.String),
-          conversationId: S.optional(S.String),
         }),
       ).annotate({
         identifier: "GoogleCloudContactcenterinsightsV1GenerativeInsightsChartConversation",
       });
-    case 7:
-      return S.Array(__S(4934, __c154, 6));
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          sqlComparisonKey: S.optional(S.String),
-          chartCheckpoint: S.optional(__S(4929, __c154, 1)),
-          sqlQuery: S.optional(S.String),
-          chartSpec: S.optional(__S(6976, __c218, 0)),
-          request: S.optional(__S(6976, __c218, 0)),
-          chartConversations: S.optional(__S(4935, __c154, 7)),
-        }),
-      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1GenerativeInsights" });
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          queryMetrics: S.optional(__S(4928, __c154, 0)),
-          generativeInsights: S.optional(__S(4936, __c154, 8)),
-        }),
-      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1ChartDataSource" });
     case 10:
-      return S.suspend(() =>
-        S.Struct({
-          relativePath: S.optional(S.String),
-          queryParams: S.optional(__S(4512, __c141, 0)),
-        }),
-      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1RedirectAction" });
+      return S.Array(__S(4937, __c154, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
-          redirectAction: S.optional(__S(4938, __c154, 10)),
-          conversationFilter: S.optional(S.String),
+          sessionId: S.optional(S.String),
+          revisionId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1ChartAction" });
+      ).annotate({
+        identifier: "GoogleCloudContactcenterinsightsV1GenerativeInsightsChartCheckpoint",
+      });
     case 12:
       return S.suspend(() =>
         S.Struct({
-          quantity: S.optional(S.String),
-          unit: S.optional(S.String),
+          request: S.optional(__S(6976, __c218, 0)),
+          chartConversations: S.optional(__S(4938, __c154, 10)),
+          chartSpec: S.optional(__S(6976, __c218, 0)),
+          sqlQuery: S.optional(S.String),
+          sqlComparisonKey: S.optional(S.String),
+          chartCheckpoint: S.optional(__S(4939, __c154, 11)),
         }),
-      ).annotate({
-        identifier: "GoogleCloudContactcenterinsightsV1DateRangeConfigRelativeDateRange",
-      });
+      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1GenerativeInsights" });
     case 13:
       return S.suspend(() =>
         S.Struct({
-          absoluteDateRange: S.optional(__S(4960, __c155, 0)),
-          relativeDateRange: S.optional(__S(4940, __c154, 12)),
+          queryMetrics: S.optional(__S(4932, __c154, 4)),
+          generativeInsights: S.optional(__S(4940, __c154, 12)),
         }),
-      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1DateRangeConfig" });
+      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1ChartDataSource" });
     case 14:
       return S.suspend(() =>
         S.Struct({
-          description: S.optional(S.String),
-          dataSource: S.optional(__S(4937, __c154, 9)),
           updateTime: S.optional(S.String),
+          action: S.optional(__S(4931, __c154, 3)),
+          dataSource: S.optional(__S(4941, __c154, 13)),
+          dateRangeConfig: S.optional(__S(4929, __c154, 1)),
+          chartType: S.optional(S.String),
+          description: S.optional(S.String),
           filter: S.optional(S.String),
-          chartVisualizationType: S.optional(S.String),
-          action: S.optional(__S(4939, __c154, 11)),
           createTime: S.optional(S.String),
+          chartVisualizationType: S.optional(S.String),
+          name: S.optional(S.String),
           height: S.optional(S.Number),
           displayName: S.optional(S.String),
-          chartType: S.optional(S.String),
-          dateRangeConfig: S.optional(__S(4941, __c154, 13)),
-          name: S.optional(S.String),
           width: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1Chart" });
     case 15:
       return S.suspend(() =>
         S.Struct({
+          container: S.optional(S.suspend(() => __S(4945, __c154, 17))),
           filter: S.optional(S.String),
           chart: S.optional(__S(4942, __c154, 14)),
-          container: S.optional(S.suspend(() => __S(4945, __c154, 17))),
           chartReference: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1Widget" });
@@ -13003,28 +13010,28 @@ function __c154(j: number): any {
     case 17:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(S.String),
-          displayName: S.optional(S.String),
-          description: S.optional(S.String),
           width: S.optional(S.Number),
-          height: S.optional(S.Number),
-          widgets: S.optional(__S(4944, __c154, 16)),
-          dateRangeConfig: S.optional(__S(4941, __c154, 13)),
           containerId: S.optional(S.String),
+          widgets: S.optional(__S(4944, __c154, 16)),
+          filter: S.optional(S.String),
+          dateRangeConfig: S.optional(__S(4929, __c154, 1)),
+          description: S.optional(S.String),
+          height: S.optional(S.Number),
+          displayName: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1Container" });
     case 18:
       return S.suspend(() =>
         S.Struct({
+          createTime: S.optional(S.String),
+          dateRangeConfig: S.optional(__S(4929, __c154, 1)),
+          name: S.optional(S.String),
+          description: S.optional(S.String),
+          readOnly: S.optional(S.Boolean),
+          updateTime: S.optional(S.String),
+          filter: S.optional(S.String),
           displayName: S.optional(S.String),
           rootContainer: S.optional(__S(4945, __c154, 17)),
-          description: S.optional(S.String),
-          filter: S.optional(S.String),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          name: S.optional(S.String),
-          dateRangeConfig: S.optional(__S(4941, __c154, 13)),
-          readOnly: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1Dashboard" });
   }
@@ -13034,8 +13041,8 @@ function __c155(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          endTime: S.optional(S.String),
           startTime: S.optional(S.String),
+          endTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1QueryInterval" });
   }
@@ -13065,15 +13072,15 @@ function __c157(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          createTime: S.optional(S.String),
-          ttl: S.optional(S.String),
           satisfiesPzi: S.optional(S.Boolean),
-          updateTime: S.optional(S.String),
+          ttl: S.optional(S.String),
           name: S.optional(S.String),
-          satisfiesPzs: S.optional(S.Boolean),
+          createTime: S.optional(S.String),
           description: S.optional(S.String),
           displayName: S.optional(S.String),
           type: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          satisfiesPzs: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1Dataset" });
   }
@@ -13132,16 +13139,16 @@ function __c160(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          issueCount: S.optional(S.String),
-          modelType: S.optional(S.String),
-          state: S.optional(S.String),
-          name: S.optional(S.String),
-          createTime: S.optional(S.String),
           trainingStats: S.optional(__S(3424, __c107, 0)),
+          name: S.optional(S.String),
           updateTime: S.optional(S.String),
-          languageCode: S.optional(S.String),
+          createTime: S.optional(S.String),
+          modelType: S.optional(S.String),
           displayName: S.optional(S.String),
+          languageCode: S.optional(S.String),
           inputDataConfig: S.optional(__S(5120, __c160, 0)),
+          issueCount: S.optional(S.String),
+          state: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1IssueModel" });
   }
@@ -13171,10 +13178,10 @@ function __c162(j: number): any {
       return S.suspend(() =>
         S.Struct({
           sampleUtterances: S.optional(__S(6112, __c191, 0)),
-          displayDescription: S.optional(S.String),
           createTime: S.optional(S.String),
-          name: S.optional(S.String),
+          displayDescription: S.optional(S.String),
           displayName: S.optional(S.String),
+          name: S.optional(S.String),
           updateTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1Issue" });
@@ -13217,9 +13224,9 @@ function __c164(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          query: S.optional(S.String),
           negated: S.optional(S.Boolean),
           config: S.optional(__S(5249, __c164, 1)),
+          query: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1PhraseMatchRule" });
     case 3:
@@ -13227,8 +13234,8 @@ function __c164(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          type: S.optional(S.String),
           phraseMatchRules: S.optional(__S(5251, __c164, 3)),
+          type: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1PhraseMatchRuleGroup" });
     case 5:
@@ -13236,17 +13243,17 @@ function __c164(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          active: S.optional(S.Boolean),
-          revisionId: S.optional(S.String),
           revisionCreateTime: S.optional(S.String),
           activationUpdateTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          roleMatch: S.optional(S.String),
+          revisionId: S.optional(S.String),
           phraseMatchRuleGroups: S.optional(__S(5253, __c164, 5)),
-          type: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          active: S.optional(S.Boolean),
           displayName: S.optional(S.String),
-          versionTag: S.optional(S.String),
           name: S.optional(S.String),
+          roleMatch: S.optional(S.String),
+          type: S.optional(S.String),
+          versionTag: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1PhraseMatcher" });
   }
@@ -13276,13 +13283,13 @@ function __c166(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          qaQuestionIds: S.optional(__S(6112, __c191, 0)),
+          satisfiesPzi: S.optional(S.Boolean),
+          updateTime: S.optional(S.String),
+          displayName: S.optional(S.String),
           createTime: S.optional(S.String),
           name: S.optional(S.String),
           satisfiesPzs: S.optional(S.Boolean),
-          displayName: S.optional(S.String),
-          satisfiesPzi: S.optional(S.Boolean),
-          updateTime: S.optional(S.String),
-          qaQuestionIds: S.optional(__S(6112, __c191, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1QaQuestionTag" });
   }
@@ -13313,12 +13320,12 @@ function __c168(j: number): any {
       return S.suspend(() =>
         S.Struct({
           satisfiesPzi: S.optional(S.Boolean),
-          description: S.optional(S.String),
           isDefault: S.optional(S.Boolean),
-          createTime: S.optional(S.String),
-          name: S.optional(S.String),
-          displayName: S.optional(S.String),
           source: S.optional(S.String),
+          description: S.optional(S.String),
+          displayName: S.optional(S.String),
+          name: S.optional(S.String),
+          createTime: S.optional(S.String),
           updateTime: S.optional(S.String),
           satisfiesPzs: S.optional(S.Boolean),
         }),
@@ -13350,13 +13357,13 @@ function __c170(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          satisfiesPzi: S.optional(S.Boolean),
           state: S.optional(S.String),
-          alternateIds: S.optional(__S(6112, __c191, 0)),
-          createTime: S.optional(S.String),
-          name: S.optional(S.String),
           satisfiesPzs: S.optional(S.Boolean),
           snapshot: S.optional(__S(5376, __c168, 0)),
+          satisfiesPzi: S.optional(S.Boolean),
+          createTime: S.optional(S.String),
+          name: S.optional(S.String),
+          alternateIds: S.optional(__S(6112, __c191, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1QaScorecardRevision" });
   }
@@ -13386,31 +13393,25 @@ function __c172(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          tuningError: S.optional(S.String),
-          datasetValidationWarnings: S.optional(__S(4608, __c144, 0)),
-          totalValidLabelCount: S.optional(S.String),
+          boolValue: S.optional(S.Boolean),
+          strValue: S.optional(S.String),
+          key: S.optional(S.String),
+          score: S.optional(S.Number),
+          numValue: S.optional(S.Number),
+          naValue: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1QaQuestionTuningMetadata" });
+      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1QaQuestionAnswerChoice" });
     case 1:
-      return S.suspend(() =>
-        S.Struct({
-          accuracy: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1QaQuestionMetrics" });
+      return S.Array(__S(5504, __c172, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          numValue: S.optional(S.Number),
-          strValue: S.optional(S.String),
-          key: S.optional(S.String),
-          naValue: S.optional(S.Boolean),
-          score: S.optional(S.Number),
-          boolValue: S.optional(S.Boolean),
+          tuningError: S.optional(S.String),
+          totalValidLabelCount: S.optional(S.String),
+          datasetValidationWarnings: S.optional(__S(4608, __c144, 0)),
         }),
-      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1QaQuestionAnswerChoice" });
+      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1QaQuestionTuningMetadata" });
     case 3:
-      return S.Array(__S(5506, __c172, 2));
-    case 4:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
@@ -13418,39 +13419,45 @@ function __c172(j: number): any {
       ).annotate({
         identifier: "GoogleCloudContactcenterinsightsV1QaQuestionPredefinedQuestionConfig",
       });
-    case 5:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           includeDialogflowInteractionData: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1ConversationDataOptions" });
-    case 6:
+    case 5:
       return S.suspend(() =>
         S.Struct({
-          conversationDataOptions: S.optional(__S(5509, __c172, 5)),
+          conversationDataOptions: S.optional(__S(5508, __c172, 4)),
         }),
       ).annotate({
         identifier: "GoogleCloudContactcenterinsightsV1QaQuestionQaQuestionDataOptions",
       });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          accuracy: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1QaQuestionMetrics" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          tuningMetadata: S.optional(__S(5504, __c172, 0)),
-          createTime: S.optional(S.String),
-          satisfiesPzs: S.optional(S.Boolean),
-          answerInstructions: S.optional(S.String),
-          metrics: S.optional(__S(5505, __c172, 1)),
-          questionBody: S.optional(S.String),
-          abbreviation: S.optional(S.String),
-          answerChoices: S.optional(__S(5507, __c172, 3)),
-          name: S.optional(S.String),
-          predefinedQuestionConfig: S.optional(__S(5508, __c172, 4)),
+          answerChoices: S.optional(__S(5505, __c172, 1)),
           questionType: S.optional(S.String),
-          qaQuestionDataOptions: S.optional(__S(5510, __c172, 6)),
-          updateTime: S.optional(S.String),
-          tags: S.optional(__S(6112, __c191, 0)),
+          tuningMetadata: S.optional(__S(5506, __c172, 2)),
           satisfiesPzi: S.optional(S.Boolean),
+          createTime: S.optional(S.String),
+          answerInstructions: S.optional(S.String),
+          satisfiesPzs: S.optional(S.Boolean),
+          predefinedQuestionConfig: S.optional(__S(5507, __c172, 3)),
+          questionBody: S.optional(S.String),
+          tags: S.optional(__S(6112, __c191, 0)),
+          updateTime: S.optional(S.String),
+          qaQuestionDataOptions: S.optional(__S(5509, __c172, 5)),
+          abbreviation: S.optional(S.String),
           order: S.optional(S.Number),
+          metrics: S.optional(__S(5510, __c172, 6)),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1QaQuestion" });
   }
@@ -13479,11 +13486,11 @@ function __c174(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          updateTime: S.optional(S.String),
+          value: S.optional(S.String),
           name: S.optional(S.String),
           displayName: S.optional(S.String),
           createTime: S.optional(S.String),
-          value: S.optional(S.String),
-          updateTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1View" });
   }
@@ -13684,8 +13691,8 @@ function __c186(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           force: S.optional(S.Boolean.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -13729,21 +13736,21 @@ function __c189(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          entrySubagentId: S.optional(S.String),
+          versionDisplayName: S.optional(S.String),
           versionId: S.optional(S.String),
+          teams: S.optional(__S(6112, __c191, 0)),
+          entrySubagentDisplayName: S.optional(S.String),
           studyArmId: S.optional(S.String),
+          dispositionCode: S.optional(S.String),
+          displayName: S.optional(S.String),
+          location: S.optional(S.String),
+          entrySubagentId: S.optional(S.String),
+          studyId: S.optional(S.String),
           deploymentDisplayName: S.optional(S.String),
+          agentId: S.optional(S.String),
+          agentType: S.optional(S.String),
           deploymentId: S.optional(S.String),
           team: S.optional(S.String),
-          teams: S.optional(__S(6112, __c191, 0)),
-          displayName: S.optional(S.String),
-          agentId: S.optional(S.String),
-          studyId: S.optional(S.String),
-          versionDisplayName: S.optional(S.String),
-          agentType: S.optional(S.String),
-          dispositionCode: S.optional(S.String),
-          entrySubagentDisplayName: S.optional(S.String),
-          location: S.optional(S.String),
         }),
       ).annotate({
         identifier: "GoogleCloudContactcenterinsightsV1ConversationQualityMetadataAgentInfo",
@@ -13755,10 +13762,10 @@ function __c190(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          agentInfo: S.optional(__S(6048, __c189, 0)),
           updateTime: S.optional(S.String),
-          name: S.optional(S.String),
+          agentInfo: S.optional(__S(6048, __c189, 0)),
           state: S.optional(S.String),
+          name: S.optional(S.String),
           createTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1Assessment" });
@@ -14087,8 +14094,8 @@ function __c211(j: number): any {
       return S.suspend(() =>
         S.Struct({
           dataset: S.optional(S.String),
-          projectId: S.optional(S.String),
           table: S.optional(S.String),
+          projectId: S.optional(S.String),
         }),
       ).annotate({
         identifier:
@@ -14098,11 +14105,11 @@ function __c211(j: number): any {
       return S.suspend(() =>
         S.Struct({
           bigQueryDestination: S.optional(__S(6752, __c211, 0)),
-          writeDisposition: S.optional(S.String),
-          parent: S.optional(S.String),
           exportSchemaVersion: S.optional(S.String),
+          parent: S.optional(S.String),
           filter: S.optional(S.String),
           kmsKey: S.optional(S.String),
+          writeDisposition: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1ExportInsightsDataRequest" });
   }
@@ -14210,8 +14217,8 @@ function __c217(j: number): any {
         S.Struct({
           relabel: S.optional(S.Boolean),
           filter: S.optional(S.String),
-          parent: S.optional(S.String),
           analysisPercentage: S.optional(S.Number),
+          parent: S.optional(S.String),
           annotatorSelector: S.optional(__S(7043, __c220, 3)),
         }),
       ).annotate({
@@ -14232,19 +14239,19 @@ function __c219(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          details: S.optional(__S(7008, __c219, 0)),
           code: S.optional(S.Number),
           message: S.optional(S.String),
-          details: S.optional(__S(7008, __c219, 0)),
         }),
       ).annotate({ identifier: "GoogleRpcStatus" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          error: S.optional(__S(7009, __c219, 1)),
-          name: S.optional(S.String),
-          response: S.optional(__S(6976, __c218, 0)),
-          done: S.optional(S.Boolean),
           metadata: S.optional(__S(6976, __c218, 0)),
+          name: S.optional(S.String),
+          done: S.optional(S.Boolean),
+          error: S.optional(__S(7009, __c219, 1)),
+          response: S.optional(__S(6976, __c218, 0)),
         }),
       ).annotate({ identifier: "GoogleLongrunningOperation" });
   }
@@ -14254,9 +14261,9 @@ function __c220(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          summarizationModel: S.optional(S.String),
           generator: S.optional(S.String),
           conversationProfile: S.optional(S.String),
+          summarizationModel: S.optional(S.String),
         }),
       ).annotate({
         identifier: "GoogleCloudContactcenterinsightsV1AnnotatorSelectorSummarizationConfig",
@@ -14278,20 +14285,20 @@ function __c220(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
+          phraseMatchers: S.optional(__S(6112, __c191, 0)),
+          runQaAnnotator: S.optional(S.Boolean),
+          issueModels: S.optional(__S(6112, __c191, 0)),
+          runAutoLabelingAnnotator: S.optional(S.Boolean),
+          runIssueModelAnnotator: S.optional(S.Boolean),
+          runSentimentAnnotator: S.optional(S.Boolean),
+          summarizationConfig: S.optional(__S(7040, __c220, 0)),
+          runIntentAnnotator: S.optional(S.Boolean),
+          qaConfig: S.optional(__S(7042, __c220, 2)),
+          runSilenceAnnotator: S.optional(S.Boolean),
           runPhraseMatcherAnnotator: S.optional(S.Boolean),
           runSummarizationAnnotator: S.optional(S.Boolean),
           runInterruptionAnnotator: S.optional(S.Boolean),
-          summarizationConfig: S.optional(__S(7040, __c220, 0)),
-          phraseMatchers: S.optional(__S(6112, __c191, 0)),
           runEntityAnnotator: S.optional(S.Boolean),
-          runQaAnnotator: S.optional(S.Boolean),
-          runSentimentAnnotator: S.optional(S.Boolean),
-          runSilenceAnnotator: S.optional(S.Boolean),
-          issueModels: S.optional(__S(6112, __c191, 0)),
-          qaConfig: S.optional(__S(7042, __c220, 2)),
-          runIssueModelAnnotator: S.optional(S.Boolean),
-          runAutoLabelingAnnotator: S.optional(S.Boolean),
-          runIntentAnnotator: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1AnnotatorSelector" });
   }
@@ -14337,10 +14344,10 @@ function __c223(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          signedGcsAudioUri: S.optional(S.String),
           signedTurnLevelAudios: S.optional(__S(4641, __c145, 1)),
-          signedGcsAudioUris: S.optional(__S(6112, __c191, 0)),
           signedDialogflowAudioUri: S.optional(S.String),
+          signedGcsAudioUris: S.optional(__S(6112, __c191, 0)),
+          signedGcsAudioUri: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1SignedAudioUris" });
     case 1:
@@ -14411,16 +14418,16 @@ function __c227(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          filter: S.optional(S.String),
+          sessionId: S.optional(S.String),
           revisionId: S.optional(S.String),
           timeZone: S.optional(S.String),
-          filter: S.optional(S.String),
+          sqlComparisonKey: S.optional(S.String),
+          userProvidedChartSpec: S.optional(__S(6976, __c218, 0)),
+          naturalLanguageQuery: S.optional(S.String),
           chart: S.optional(S.String),
           comparisonFilter: S.optional(S.String),
           sqlQuery: S.optional(S.String),
-          naturalLanguageQuery: S.optional(S.String),
-          sessionId: S.optional(S.String),
-          userProvidedChartSpec: S.optional(__S(6976, __c218, 0)),
-          sqlComparisonKey: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1GenerativeInsightsRequest" });
   }
@@ -14467,10 +14474,10 @@ function __c230(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          joinKeyExpression: S.optional(S.String),
           constraintExpression: S.optional(S.String),
           ruleId: S.optional(S.String),
           active: S.optional(S.Boolean),
+          joinKeyExpression: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1CorrelationRule" });
     case 1:
@@ -14484,10 +14491,10 @@ function __c230(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
           createTime: S.optional(S.String),
-          fullConversationConfig: S.optional(__S(7362, __c230, 2)),
           updateTime: S.optional(S.String),
+          name: S.optional(S.String),
+          fullConversationConfig: S.optional(__S(7362, __c230, 2)),
         }),
       ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1CorrelationConfig" });
   }
@@ -14513,9 +14520,9 @@ function __c232(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
           satisfiesPzs: S.optional(S.Boolean),
           kmsKey: S.optional(S.String),
+          name: S.optional(S.String),
           satisfiesPzi: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "GoogleCloudContactcenterinsightsV1EncryptionSpec" });
@@ -14545,47 +14552,47 @@ function __c234(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          expression: S.optional(S.String),
-          location: S.optional(S.String),
-          description: S.optional(S.String),
-          title: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleTypeExpr" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          members: S.optional(__S(6112, __c191, 0)),
-          condition: S.optional(__S(7488, __c234, 0)),
-          role: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleIamV1Binding" });
-    case 2:
-      return S.Array(__S(7489, __c234, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          exemptedMembers: S.optional(__S(6112, __c191, 0)),
           logType: S.optional(S.String),
+          exemptedMembers: S.optional(__S(6112, __c191, 0)),
         }),
       ).annotate({ identifier: "GoogleIamV1AuditLogConfig" });
-    case 4:
-      return S.Array(__S(7491, __c234, 3));
-    case 5:
+    case 1:
+      return S.Array(__S(7488, __c234, 0));
+    case 2:
       return S.suspend(() =>
         S.Struct({
           service: S.optional(S.String),
-          auditLogConfigs: S.optional(__S(7492, __c234, 4)),
+          auditLogConfigs: S.optional(__S(7489, __c234, 1)),
         }),
       ).annotate({ identifier: "GoogleIamV1AuditConfig" });
+    case 3:
+      return S.Array(__S(7490, __c234, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          description: S.optional(S.String),
+          expression: S.optional(S.String),
+          title: S.optional(S.String),
+          location: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleTypeExpr" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          members: S.optional(__S(6112, __c191, 0)),
+          condition: S.optional(__S(7492, __c234, 4)),
+          role: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleIamV1Binding" });
     case 6:
       return S.Array(__S(7493, __c234, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          bindings: S.optional(__S(7490, __c234, 2)),
           version: S.optional(S.Number),
+          auditConfigs: S.optional(__S(7491, __c234, 3)),
+          bindings: S.optional(__S(7494, __c234, 6)),
           etag: S.optional(S.String),
-          auditConfigs: S.optional(__S(7494, __c234, 6)),
         }),
       ).annotate({ identifier: "GoogleIamV1Policy" });
   }

@@ -106,73 +106,64 @@ export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
+  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
+  details?: DocumentMapList | undefined;
   /** The status code, which should be an enum value of google.rpc.Code. */
   code?: number | undefined;
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
   message?: string | undefined;
-  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
-  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap | undefined;
-  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean | undefined;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
   metadata?: DocumentMap | undefined;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
   name?: string | undefined;
+  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
+  response?: DocumentMap | undefined;
   /** The error result of the operation in case of failure or cancellation. */
   error?: Status | undefined;
+  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
+  done?: boolean | undefined;
 }
 /** Sum of field values. */
 export interface AggregationSum {}
+/** Frequency distribution of all field values. */
+export type AggregationFrequency = AggregationSum;
 export type DoubleList = Array<number>;
 /** Histogram of bucketed assets counts by field value. */
 export interface AggregationHistogram {
   /** Lower bounds of buckets. The response will contain `n+1` buckets for `n` bounds. The first bucket will count all assets for which the field value is smaller than the first bound. Subsequent buckets will count assets for which the field value is greater or equal to a lower bound and smaller than the next one. The last bucket will count assets for which the field value is greater or equal to the final lower bound. You can define up to 20 lower bounds. */
   lowerBounds?: DoubleList | undefined;
 }
-/** Frequency distribution of all field values. */
-export type AggregationFrequency = AggregationSum;
 /** Object count. */
 export type AggregationCount = AggregationSum;
 /** Message describing an aggregation. The message includes the aggregation type, parameters, and the field on which to perform the aggregation. */
 export interface Aggregation {
-  /** Sum over a numeric field. */
-  sum?: AggregationSum | undefined;
-  /** Creates a bucketed histogram of field values. */
-  histogram?: AggregationHistogram | undefined;
-  /** Creates a frequency distribution of all field values. */
-  frequency?: AggregationSum | undefined;
-  /** Count the number of matching objects. */
-  count?: AggregationSum | undefined;
   /** The name of the field on which to aggregate. */
   field?: string | undefined;
+  /** Sum over a numeric field. */
+  sum?: AggregationSum | undefined;
+  /** Creates a frequency distribution of all field values. */
+  frequency?: AggregationSum | undefined;
+  /** Creates a bucketed histogram of field values. */
+  histogram?: AggregationHistogram | undefined;
+  /** Count the number of matching objects. */
+  count?: AggregationSum | undefined;
 }
 export type AggregationList = Array<Aggregation>;
 /** A request to aggregate one or more values. */
 export interface AggregateAssetsValuesRequest {
   /** Optional. When this value is set to 'true' the response will include all assets, including those that are hidden. */
   showHidden?: boolean | undefined;
-  /** Array of aggregations to perform. Up to 25 aggregations can be defined. */
-  aggregations?: AggregationList | undefined;
   /** Optional. The aggregation will be performed on assets that match the provided filter. */
   filter?: string | undefined;
+  /** Array of aggregations to perform. Up to 25 aggregations can be defined. */
+  aggregations?: AggregationList | undefined;
 }
 export interface AggregateValuesProjectsLocationsAssetsRequest extends AggregateAssetsValuesRequest {
   /** Required. Parent value for `AggregateAssetsValuesRequest`. */
   parent: string;
-}
-/** The result of a sum aggregation. */
-export interface AggregationResultSum {
-  value?: number | undefined;
-}
-export type StringMap = { [key: string]: string | undefined };
-/** The result of a frequency distribution aggregation. */
-export interface AggregationResultFrequency {
-  values?: StringMap | undefined;
 }
 /** The result of a count aggregation. */
 export interface AggregationResultCount {
@@ -180,12 +171,12 @@ export interface AggregationResultCount {
 }
 /** A histogram bucket with a lower and upper bound, and a count of items with a field value between those bounds. The lower bound is inclusive and the upper bound is exclusive. Lower bound may be -infinity and upper bound may be infinity. */
 export interface AggregationResultHistogramBucket {
-  /** Count of items in the bucket. */
-  count?: string | undefined;
-  /** Lower bound - inclusive. */
-  lowerBound?: number | undefined;
   /** Upper bound - exclusive. */
   upperBound?: number | undefined;
+  /** Lower bound - inclusive. */
+  lowerBound?: number | undefined;
+  /** Count of items in the bucket. */
+  count?: string | undefined;
 }
 export type AggregationResultHistogramBucketList = Array<AggregationResultHistogramBucket>;
 /** The result of a bucketed histogram aggregation. */
@@ -193,13 +184,22 @@ export interface AggregationResultHistogram {
   /** Buckets in the histogram. There will be `n+1` buckets matching `n` lower bounds in the request. The first bucket will be from -infinity to the first bound. Subsequent buckets will be between one bound and the next. The final bucket will be from the final bound to infinity. */
   buckets?: AggregationResultHistogramBucketList | undefined;
 }
+export type StringMap = { [key: string]: string | undefined };
+/** The result of a frequency distribution aggregation. */
+export interface AggregationResultFrequency {
+  values?: StringMap | undefined;
+}
+/** The result of a sum aggregation. */
+export interface AggregationResultSum {
+  value?: number | undefined;
+}
 /** Message describing a result of an aggregation. */
 export interface AggregationResult {
-  sum?: AggregationResultSum | undefined;
-  frequency?: AggregationResultFrequency | undefined;
   count?: AggregationResultCount | undefined;
   histogram?: AggregationResultHistogram | undefined;
+  frequency?: AggregationResultFrequency | undefined;
   field?: string | undefined;
+  sum?: AggregationResultSum | undefined;
 }
 export type AggregationResultList = Array<AggregationResult>;
 /** A response to a request to aggregated assets values. */
@@ -217,12 +217,12 @@ export interface CascadingRule {
 export type CascadingRuleList = Array<CascadingRule>;
 /** A request to delete a list of asset. */
 export interface BatchDeleteAssetsRequest {
+  /** Required. The IDs of the assets to delete. A maximum of 1000 assets can be deleted in a batch. Format: projects/{project}/locations/{location}/assets/{name}. */
+  names?: StringList | undefined;
   /** Optional. Optional cascading rules for deleting related assets. */
   cascadingRules?: CascadingRuleList | undefined;
   /** Optional. When this value is set to `true` the request is a no-op for non-existing assets. See https://google.aip.dev/135#delete-if-existing for additional details. Default value is `false`. */
   allowMissing?: boolean | undefined;
-  /** Required. The IDs of the assets to delete. A maximum of 1000 assets can be deleted in a batch. Format: projects/{project}/locations/{location}/assets/{name}. */
-  names?: StringList | undefined;
 }
 export interface BatchDeleteProjectsLocationsAssetsRequest extends BatchDeleteAssetsRequest {
   /** Required. Parent value for batch asset delete. */
@@ -230,37 +230,19 @@ export interface BatchDeleteProjectsLocationsAssetsRequest extends BatchDeleteAs
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
-/** Asset information specific for AWS SNS Topics. */
-export type AwsSnsTopicDetails = AggregationSum;
-/** Location of a resource. */
-export interface ResourceLocation {
-  /** Optional. The name of the region. */
-  region?: string | undefined;
+/** Details of an AWS ElastiCache Cluster. */
+export type AwsElastiCacheClusterDetails = AggregationSum;
+/** Asset information specific for AWS Elastic IP Addresses. */
+export type AwsElasticIpAddressDetails = AggregationSum;
+export type SqlServerTraceFlagScopeEnum = "SCOPE_UNSPECIFIED" | "OFF" | "GLOBAL" | "SESSION";
+/** SQL Server trace flag details. */
+export interface SqlServerTraceFlag {
+  /** Required. The trace flag scope. */
+  scope?: SqlServerTraceFlagScopeEnum | (string & {}) | undefined;
+  /** Required. The trace flag name. */
+  traceFlagName?: string | undefined;
 }
-/** Details for AWS platform. */
-export interface HostingProviderDetailsAws {
-  /** Optional. The AWS account ID owning the resource represented by this asset. */
-  owningAccountId?: string | undefined;
-}
-/** Details about the hosting platform of the asset. */
-export interface HostingProviderDetails {
-  /** Optional. The timestamp when resource was created in the hosting provider. */
-  createTime?: string | undefined;
-  /** Optional. Location of the asset. */
-  location?: ResourceLocation | undefined;
-  /** Optional. The AWS platform details. */
-  aws?: HostingProviderDetailsAws | undefined;
-  /** Optional. Display name of the asset. */
-  displayName?: string | undefined;
-  /** Optional. Unique identifier for the asset in the hosting provider. */
-  originalId?: string | undefined;
-}
-/** Asset information specific for AWS Autoscaling Group. */
-export type AwsAutoscalingGroupDetails = AggregationSum;
-/** Details of an AWS DynamoDB table. */
-export type AwsDynamoDBTableDetails = AggregationSum;
-/** Details of an AWS NAT Gateway. */
-export type AwsNatGatewayDetails = AggregationSum;
+export type SqlServerTraceFlagList = Array<SqlServerTraceFlag>;
 /** SQL Server feature details. */
 export interface SqlServerFeature {
   /** Required. Field enabled is set when a feature is used on the source deployment. */
@@ -269,36 +251,27 @@ export interface SqlServerFeature {
   featureName?: string | undefined;
 }
 export type SqlServerFeatureList = Array<SqlServerFeature>;
-export type SqlServerTraceFlagScopeEnum = "SCOPE_UNSPECIFIED" | "OFF" | "GLOBAL" | "SESSION";
-/** SQL Server trace flag details. */
-export interface SqlServerTraceFlag {
-  /** Required. The trace flag name. */
-  traceFlagName?: string | undefined;
-  /** Required. The trace flag scope. */
-  scope?: SqlServerTraceFlagScopeEnum | (string & {}) | undefined;
-}
-export type SqlServerTraceFlagList = Array<SqlServerTraceFlag>;
 /** SQL Server server flag details. */
 export interface SqlServerServerFlag {
   /** Required. The server flag name. */
   serverFlagName?: string | undefined;
-  /** Required. The server flag actual value. If `value_in_use` is different from `value` it means that either the configuration change was not applied or it is an expected behavior. See SQL Server documentation for more details. */
-  valueInUse?: string | undefined;
   /** Required. The server flag value set by the user. */
   value?: string | undefined;
+  /** Required. The server flag actual value. If `value_in_use` is different from `value` it means that either the configuration change was not applied or it is an expected behavior. See SQL Server documentation for more details. */
+  valueInUse?: string | undefined;
 }
 export type SqlServerServerFlagList = Array<SqlServerServerFlag>;
 /** Specific details for a Microsoft SQL Server database deployment. */
 export interface SqlServerDatabaseDeployment {
-  /** Optional. List of SQL Server features. */
-  features?: SqlServerFeatureList | undefined;
   /** Optional. List of SQL Server trace flags. */
   traceFlags?: SqlServerTraceFlagList | undefined;
+  /** Optional. List of SQL Server features. */
+  features?: SqlServerFeatureList | undefined;
   /** Optional. List of SQL Server server flags. */
   serverFlags?: SqlServerServerFlagList | undefined;
 }
-/** MySql property. */
-export interface MySqlProperty {
+/** PostgreSql property. */
+export interface PostgreSqlProperty {
   /** Required. The property numeric value. */
   numericValue?: string | undefined;
   /** Required. The property name. */
@@ -306,7 +279,73 @@ export interface MySqlProperty {
   /** Required. The property is enabled. */
   enabled?: boolean | undefined;
 }
-export type MySqlPropertyList = Array<MySqlProperty>;
+export type PostgreSqlPropertyList = Array<PostgreSqlProperty>;
+/** PostgreSql setting. */
+export interface PostgreSqlSetting {
+  /** Required. The setting int value. */
+  intValue?: string | undefined;
+  /** Required. The setting name. */
+  setting?: string | undefined;
+  /** Required. The setting real value. */
+  realValue?: number | undefined;
+  /** Optional. The setting unit. */
+  unit?: string | undefined;
+  /** Required. The setting string value. Notice that enum values are stored as strings. */
+  stringValue?: string | undefined;
+  /** Required. The setting boolean value. */
+  boolValue?: boolean | undefined;
+  /** Required. The setting source. */
+  source?: string | undefined;
+}
+export type PostgreSqlSettingList = Array<PostgreSqlSetting>;
+/** Specific details for a PostgreSQL database deployment. */
+export interface PostgreSqlDatabaseDeployment {
+  /** Optional. List of PostgreSql properties. */
+  properties?: PostgreSqlPropertyList | undefined;
+  /** Optional. List of PostgreSql settings. */
+  settings?: PostgreSqlSettingList | undefined;
+}
+/** Network details of a database instance. */
+export interface DatabaseInstanceNetwork {
+  /** Optional. The instance's primary MAC address. */
+  primaryMacAddress?: string | undefined;
+  /** Optional. The instance's IP addresses. */
+  ipAddresses?: StringList | undefined;
+  /** Optional. The instance's host names. */
+  hostNames?: StringList | undefined;
+}
+export type DatabaseInstanceRoleEnum = "ROLE_UNSPECIFIED" | "PRIMARY" | "SECONDARY" | "ARBITER";
+/** Details of a database instance. */
+export interface DatabaseInstance {
+  /** The instance's name. */
+  instanceName?: string | undefined;
+  /** Optional. Networking details. */
+  network?: DatabaseInstanceNetwork | undefined;
+  /** The instance role in the database engine. */
+  role?: DatabaseInstanceRoleEnum | (string & {}) | undefined;
+}
+export type DatabaseInstanceList = Array<DatabaseInstance>;
+/** Details of database deployment's topology. */
+export interface DatabaseDeploymentTopology {
+  /** Optional. Disk used in bytes. */
+  diskUsedBytes?: string | undefined;
+  /** Optional. List of database instances. */
+  instances?: DatabaseInstanceList | undefined;
+  /** Optional. Total memory in bytes limited by db deployment. */
+  memoryLimitBytes?: string | undefined;
+  /** Optional. Number of total physical cores limited by db deployment. */
+  physicalCoreLimit?: number | undefined;
+  /** Optional. Number of total physical cores. */
+  physicalCoreCount?: number | undefined;
+  /** Optional. Total memory in bytes. */
+  memoryBytes?: string | undefined;
+  /** Optional. Number of total logical cores limited by db deployment. */
+  coreLimit?: number | undefined;
+  /** Optional. Disk allocated in bytes. */
+  diskAllocatedBytes?: string | undefined;
+  /** Optional. Number of total logical cores. */
+  coreCount?: number | undefined;
+}
 /** MySql variable. */
 export interface MySqlVariable {
   /** Required. The variable category. */
@@ -319,103 +358,37 @@ export interface MySqlVariable {
 export type MySqlVariableList = Array<MySqlVariable>;
 /** MySql plugin. */
 export interface MySqlPlugin {
-  /** Required. The plugin name. */
-  plugin?: string | undefined;
-  /** Required. The plugin is active. */
-  enabled?: boolean | undefined;
   /** Required. The plugin version. */
   version?: string | undefined;
+  /** Required. The plugin is active. */
+  enabled?: boolean | undefined;
+  /** Required. The plugin name. */
+  plugin?: string | undefined;
 }
 export type MySqlPluginList = Array<MySqlPlugin>;
+/** MySql property. */
+export interface MySqlProperty {
+  /** Required. The property name. */
+  property?: string | undefined;
+  /** Required. The property numeric value. */
+  numericValue?: string | undefined;
+  /** Required. The property is enabled. */
+  enabled?: boolean | undefined;
+}
+export type MySqlPropertyList = Array<MySqlProperty>;
 /** Specific details for a Mysql database deployment. */
 export interface MysqlDatabaseDeployment {
-  /** Optional. List of MySql properties. */
-  properties?: MySqlPropertyList | undefined;
-  /** Optional. Number of resource groups. */
-  resourceGroupsCount?: number | undefined;
   /** Optional. List of MySql variables. */
   variables?: MySqlVariableList | undefined;
   /** Optional. List of MySql plugins. */
   plugins?: MySqlPluginList | undefined;
+  /** Optional. List of MySql properties. */
+  properties?: MySqlPropertyList | undefined;
+  /** Optional. Number of resource groups. */
+  resourceGroupsCount?: number | undefined;
 }
 /** Specific details for an AWS RDS database deployment. */
 export type AwsRds = AggregationSum;
-export type DatabaseInstanceRoleEnum = "ROLE_UNSPECIFIED" | "PRIMARY" | "SECONDARY" | "ARBITER";
-/** Network details of a database instance. */
-export interface DatabaseInstanceNetwork {
-  /** Optional. The instance's host names. */
-  hostNames?: StringList | undefined;
-  /** Optional. The instance's primary MAC address. */
-  primaryMacAddress?: string | undefined;
-  /** Optional. The instance's IP addresses. */
-  ipAddresses?: StringList | undefined;
-}
-/** Details of a database instance. */
-export interface DatabaseInstance {
-  /** The instance's name. */
-  instanceName?: string | undefined;
-  /** The instance role in the database engine. */
-  role?: DatabaseInstanceRoleEnum | (string & {}) | undefined;
-  /** Optional. Networking details. */
-  network?: DatabaseInstanceNetwork | undefined;
-}
-export type DatabaseInstanceList = Array<DatabaseInstance>;
-/** Details of database deployment's topology. */
-export interface DatabaseDeploymentTopology {
-  /** Optional. Number of total physical cores limited by db deployment. */
-  physicalCoreLimit?: number | undefined;
-  /** Optional. List of database instances. */
-  instances?: DatabaseInstanceList | undefined;
-  /** Optional. Number of total physical cores. */
-  physicalCoreCount?: number | undefined;
-  /** Optional. Number of total logical cores. */
-  coreCount?: number | undefined;
-  /** Optional. Number of total logical cores limited by db deployment. */
-  coreLimit?: number | undefined;
-  /** Optional. Total memory in bytes. */
-  memoryBytes?: string | undefined;
-  /** Optional. Disk used in bytes. */
-  diskUsedBytes?: string | undefined;
-  /** Optional. Total memory in bytes limited by db deployment. */
-  memoryLimitBytes?: string | undefined;
-  /** Optional. Disk allocated in bytes. */
-  diskAllocatedBytes?: string | undefined;
-}
-/** PostgreSql setting. */
-export interface PostgreSqlSetting {
-  /** Required. The setting boolean value. */
-  boolValue?: boolean | undefined;
-  /** Required. The setting string value. Notice that enum values are stored as strings. */
-  stringValue?: string | undefined;
-  /** Required. The setting real value. */
-  realValue?: number | undefined;
-  /** Required. The setting name. */
-  setting?: string | undefined;
-  /** Optional. The setting unit. */
-  unit?: string | undefined;
-  /** Required. The setting int value. */
-  intValue?: string | undefined;
-  /** Required. The setting source. */
-  source?: string | undefined;
-}
-export type PostgreSqlSettingList = Array<PostgreSqlSetting>;
-/** PostgreSql property. */
-export interface PostgreSqlProperty {
-  /** Required. The property is enabled. */
-  enabled?: boolean | undefined;
-  /** Required. The property numeric value. */
-  numericValue?: string | undefined;
-  /** Required. The property name. */
-  property?: string | undefined;
-}
-export type PostgreSqlPropertyList = Array<PostgreSqlProperty>;
-/** Specific details for a PostgreSQL database deployment. */
-export interface PostgreSqlDatabaseDeployment {
-  /** Optional. List of PostgreSql settings. */
-  settings?: PostgreSqlSettingList | undefined;
-  /** Optional. List of PostgreSql properties. */
-  properties?: PostgreSqlPropertyList | undefined;
-}
 /** Aggregated stats for the database deployment. */
 export interface DatabaseDeploymentDetailsAggregatedStats {
   /** Output only. The number of databases in the deployment. */
@@ -425,315 +398,229 @@ export interface DatabaseDeploymentDetailsAggregatedStats {
 export interface DatabaseDeploymentDetails {
   /** Details of a Microsoft SQL Server database deployment. */
   sqlServer?: SqlServerDatabaseDeployment | undefined;
-  /** Details of a MYSQL database deployment. */
-  mysql?: MysqlDatabaseDeployment | undefined;
-  /** The database deployment edition. */
-  edition?: string | undefined;
-  /** Optional. Details of an AWS RDS instance. */
-  awsRds?: AggregationSum | undefined;
-  /** The database deployment version. */
-  version?: string | undefined;
-  /** Details of the database deployment topology. */
-  topology?: DatabaseDeploymentTopology | undefined;
-  /** Details of a PostgreSQL database deployment. */
-  postgresql?: PostgreSqlDatabaseDeployment | undefined;
-  /** Output only. Aggregated stats for the database deployment. */
-  aggregatedStats?: DatabaseDeploymentDetailsAggregatedStats | undefined;
-  /** A manual unique ID set by the user. */
-  manualUniqueId?: string | undefined;
   /** The database deployment generated ID. */
   generatedId?: string | undefined;
+  /** The database deployment version. */
+  version?: string | undefined;
+  /** The database deployment edition. */
+  edition?: string | undefined;
+  /** Details of a PostgreSQL database deployment. */
+  postgresql?: PostgreSqlDatabaseDeployment | undefined;
+  /** Details of the database deployment topology. */
+  topology?: DatabaseDeploymentTopology | undefined;
+  /** Details of a MYSQL database deployment. */
+  mysql?: MysqlDatabaseDeployment | undefined;
+  /** Optional. Details of an AWS RDS instance. */
+  awsRds?: AggregationSum | undefined;
+  /** A manual unique ID set by the user. */
+  manualUniqueId?: string | undefined;
+  /** Output only. Aggregated stats for the database deployment. */
+  aggregatedStats?: DatabaseDeploymentDetailsAggregatedStats | undefined;
 }
-/** Contains details for an AWS Glue Job asset. */
-export type AwsGlueJobDetails = AggregationSum;
+/** Asset information specific for AWS Load Balancers. */
+export type AwsElbLoadBalancerDetails = AggregationSum;
+/** Details of an AWS ECS cluster. */
+export type AwsEcsClusterDetails = AggregationSum;
 /** Details of an AWS Route 53 Hosted Zone. */
 export type AwsRoute53HostedZoneDetails = AggregationSum;
-/** Contains details for an AWS Firehose asset. */
-export type AwsFirehoseDetails = AggregationSum;
-/** Contains details for an AWS Athena Work Group asset. */
-export type AwsAthenaWorkGroupDetails = AggregationSum;
-/** Asset information specific for AWS Internet Gateways. */
-export type AwsInternetGatewayDetails = AggregationSum;
-/** Details of an AWS ElastiCache Cluster. */
-export type AwsElastiCacheClusterDetails = AggregationSum;
-/** Asset information specific for AWS Lambda functions. */
-export type AwsLambdaFunctionDetails = AggregationSum;
-export type GuestOsDetailsFamilyEnum =
-  | "OS_FAMILY_UNKNOWN"
-  | "OS_FAMILY_WINDOWS"
-  | "OS_FAMILY_LINUX"
-  | "OS_FAMILY_UNIX";
-export type GuestConfigDetailsSelinuxModeEnum =
-  | "SE_LINUX_MODE_UNSPECIFIED"
-  | "SE_LINUX_MODE_DISABLED"
-  | "SE_LINUX_MODE_PERMISSIVE"
-  | "SE_LINUX_MODE_ENFORCING";
-/** SELinux details. */
-export interface Selinux {
-  /** Is SELinux enabled. */
-  enabled?: boolean | undefined;
-  /** SELinux mode disabled / enforcing / permissive. */
-  mode?: string | undefined;
-}
-/** Single /etc/hosts entry. */
-export interface HostsEntry {
-  /** IP (raw, IPv4/6 agnostic). */
-  ip?: string | undefined;
-  /** List of host names / aliases. */
-  hostNames?: StringList | undefined;
-}
-export type HostsEntryList_ = Array<HostsEntry>;
-/** Hosts content. */
-export interface HostsEntryList {
-  /** Output only. Hosts entries. */
-  entries?: HostsEntryList_ | undefined;
-}
-/** Single fstab entry. */
-export interface FstabEntry {
-  /** Used by the fsck(8) program to determine the order in which filesystem checks are done at reboot time. */
-  passno?: number | undefined;
-  /** The type of the filesystem. */
-  vfstype?: string | undefined;
-  /** Mount options associated with the filesystem. */
-  mntops?: string | undefined;
-  /** The mount point for the filesystem. */
-  file?: string | undefined;
-  /** The block special device or remote filesystem to be mounted. */
-  spec?: string | undefined;
-  /** Used by dump to determine which filesystems need to be dumped. */
-  freq?: number | undefined;
-}
-export type FstabEntryList_ = Array<FstabEntry>;
-/** Fstab content. */
-export interface FstabEntryList {
-  /** Fstab entries. */
-  entries?: FstabEntryList_ | undefined;
-}
-/** NFS export. */
-export interface NfsExport {
-  /** The hosts or networks to which the export is being shared. */
-  hosts?: StringList | undefined;
-  /** The directory being exported. */
-  exportDirectory?: string | undefined;
-}
-export type NfsExportList_ = Array<NfsExport>;
-/** NFS exports. */
-export interface NfsExportList {
-  /** NFS export entries. */
-  entries?: NfsExportList_ | undefined;
-}
-/** Guest OS config information. */
-export interface GuestConfigDetails {
-  /** Security-Enhanced Linux (SELinux) mode. */
-  selinuxMode?: GuestConfigDetailsSelinuxModeEnum | (string & {}) | undefined;
-  /** SELinux details. */
-  selinux?: Selinux | undefined;
-  /** OS issue (typically /etc/issue in Linux). */
-  issue?: string | undefined;
-  /** Output only. Hosts file (/etc/hosts). */
-  hosts?: HostsEntryList | undefined;
-  /** Mount list (Linux fstab). */
-  fstab?: FstabEntryList | undefined;
-  /** NFS exports. */
-  nfsExports?: NfsExportList | undefined;
-}
-/** Guest installed application information. */
-export interface GuestInstalledApplication {
-  /** Date application was installed. */
-  time?: string | undefined;
-  /** The time when the application was installed. */
-  installTime?: string | undefined;
-  /** License strings associated with the installed application. */
-  licenses?: StringList | undefined;
-  /** Installed application name. */
-  applicationName?: string | undefined;
-  /** Source path. */
-  path?: string | undefined;
-  /** Installed application vendor. */
-  vendor?: string | undefined;
-  /** Installed application name. */
-  name?: string | undefined;
-  /** Installed application version. */
-  version?: string | undefined;
-}
-export type GuestInstalledApplicationList_ = Array<GuestInstalledApplication>;
-/** Guest installed application list. */
-export interface GuestInstalledApplicationList {
-  /** Application entries. */
-  entries?: GuestInstalledApplicationList_ | undefined;
-}
-/** Represents a time zone from the [IANA Time Zone Database](https://www.iana.org/time-zones). */
-export interface TimeZone {
-  /** IANA Time Zone Database time zone. For example "America/New_York". */
-  id?: string | undefined;
-  /** Optional. IANA Time Zone Database version number. For example "2019a". */
-  version?: string | undefined;
-}
-/** Represents civil time (or occasionally physical time). This type can represent a civil time in one of a few possible ways: * When utc_offset is set and time_zone is unset: a civil time on a calendar day with a particular offset from UTC. * When time_zone is set and utc_offset is unset: a civil time on a calendar day in a particular time zone. * When neither time_zone nor utc_offset is set: a civil time on a calendar day in local time. The date is relative to the Proleptic Gregorian Calendar. If year, month, or day are 0, the DateTime is considered not to have a specific year, month, or day respectively. This type may also be used to represent a physical time if all the date and time fields are set and either case of the `time_offset` oneof is set. Consider using `Timestamp` message for physical time instead. If your use case also would like to store the user's timezone, that can be done in another field. This type is more flexible than some applications may want. Make sure to document and validate your application's limitations. */
-export interface DateTime {
-  /** Optional. Hours of day in 24 hour format. Should be from 0 to 23, defaults to 0 (midnight). An API may choose to allow the value "24:00:00" for scenarios like business closing time. */
-  hours?: number | undefined;
-  /** Optional. Fractions of seconds in nanoseconds. Must be from 0 to 999,999,999, defaults to 0. */
-  nanos?: number | undefined;
-  /** Optional. Year of date. Must be from 1 to 9999, or 0 if specifying a datetime without a year. */
-  year?: number | undefined;
-  /** Time zone. */
-  timeZone?: TimeZone | undefined;
-  /** Optional. Minutes of hour of day. Must be from 0 to 59, defaults to 0. */
-  minutes?: number | undefined;
-  /** Optional. Month of year. Must be from 1 to 12, or 0 if specifying a datetime without a month. */
-  month?: number | undefined;
-  /** Optional. Seconds of minutes of the time. Must normally be from 0 to 59, defaults to 0. An API may allow the value 60 if it allows leap-seconds. */
-  seconds?: number | undefined;
-  /** UTC offset. Must be whole seconds, between -18 hours and +18 hours. For example, a UTC offset of -4:00 would be represented as { seconds: -14400 }. */
-  utcOffset?: string | undefined;
-  /** Optional. Day of month. Must be from 1 to 31 and valid for the year and month, or 0 if specifying a datetime without a day. */
-  day?: number | undefined;
-}
-export interface NetworkConnection {
-  /** Connection protocol (e.g. TCP/UDP). */
-  protocol?: string | undefined;
-  /** Remote port. */
-  remotePort?: number | undefined;
-  /** Connection state (e.g. CONNECTED). */
-  state?: string | undefined;
-  /** Local IP address. */
-  localIpAddress?: string | undefined;
-  /** Local port. */
-  localPort?: number | undefined;
-  /** Remote IP address. */
-  remoteIpAddress?: string | undefined;
-  /** Process or service name. */
-  processName?: string | undefined;
-  /** Process ID. */
-  pid?: string | undefined;
-}
-export type NetworkConnectionList_ = Array<NetworkConnection>;
-/** Network connection list. */
-export interface NetworkConnectionList {
-  /** Network connection entries. */
-  entries?: NetworkConnectionList_ | undefined;
-}
-/** Runtime networking information. */
-export interface RuntimeNetworkInfo {
-  /** Time of the last network scan. */
-  scanTime?: string | undefined;
-  /** Netstat time collected. */
-  netstatTime?: DateTime | undefined;
-  /** Raw network scan result. This field is intended for human inspection. The format of this field may be netstat output or any another raw output. The exact format may change without notice and should not be relied upon. */
-  rawScanResult?: string | undefined;
-  /** Netstat (raw, OS-agnostic). */
-  netstat?: string | undefined;
-  /** Network connections. */
-  connections?: NetworkConnectionList | undefined;
-}
-/** Open file Information. */
-export interface OpenFileDetails {
-  /** Opened file command. */
-  command?: string | undefined;
-  /** Opened file file type. */
-  fileType?: string | undefined;
-  /** Opened file user. */
-  user?: string | undefined;
-  /** Opened file file path. */
-  filePath?: string | undefined;
-}
-export type OpenFileDetailsList = Array<OpenFileDetails>;
-/** Open file list. */
-export interface OpenFileList {
-  /** Open file details entries. */
-  entries?: OpenFileDetailsList | undefined;
-}
-/** Guest OS running process details. */
-export interface RunningProcess {
-  /** User running the process. */
-  user?: string | undefined;
-  /** Process ID. */
-  pid?: string | undefined;
-  /** Process binary path. */
-  exePath?: string | undefined;
-  /** Process extended attributes. */
-  attributes?: StringMap | undefined;
-  /** Process full command line. */
-  cmdline?: string | undefined;
-}
-export type RunningProcessList_ = Array<RunningProcess>;
-/** List of running guest OS processes. */
-export interface RunningProcessList {
-  /** Running process entries. */
-  processes?: RunningProcessList_ | undefined;
-  /** Running process entries. */
-  entries?: RunningProcessList_ | undefined;
-}
 /** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
 export interface Migrationcenter_Date {
-  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  day?: number | undefined;
   /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
   month?: number | undefined;
+  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
+  day?: number | undefined;
   /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
   year?: number | undefined;
 }
-/** Guest OS running service details. */
-export interface RunningService {
-  /** Service status. */
-  status?: string | undefined;
-  /** Service start mode (raw, OS-agnostic). */
-  startMode?: string | undefined;
-  /** Service name. */
-  name?: string | undefined;
-  /** Service state (raw, OS-agnostic). */
-  state?: string | undefined;
-  /** Service command line. */
-  cmdline?: string | undefined;
-  /** Service pid. */
-  pid?: string | undefined;
-  /** Service binary path. */
-  exePath?: string | undefined;
-  /** Service name. */
-  serviceName?: string | undefined;
+/** Statistical aggregation of samples for a single resource usage. */
+export interface DailyResourceUsageAggregationStats {
+  /** Peak usage value. */
+  peak?: number | undefined;
+  /** Average usage value. */
+  average?: number | undefined;
+  /** Median usage value. */
+  median?: number | undefined;
+  /** 95th percentile usage value. */
+  ninteyFifthPercentile?: number | undefined;
 }
-export type RunningServiceList_ = Array<RunningService>;
-/** List of running guest OS services. */
-export interface RunningServiceList {
-  /** Running service entries. */
-  services?: RunningServiceList_ | undefined;
-  /** Running service entries. */
-  entries?: RunningServiceList_ | undefined;
+/** Statistical aggregation of disk usage. */
+export interface DailyResourceUsageAggregationDisk {
+  /** Disk read I/O operations per second. */
+  readIops?: DailyResourceUsageAggregationStats | undefined;
+  /** Disk I/O operations per second. */
+  iops?: DailyResourceUsageAggregationStats | undefined;
+  /** Disk write I/O operations per second. */
+  writeIops?: DailyResourceUsageAggregationStats | undefined;
 }
-/** Guest OS runtime information. */
-export interface GuestRuntimeDetails {
-  /** Last time the OS was booted. */
-  lastBootTime?: string | undefined;
-  /** Installed applications information. */
-  installedApps?: GuestInstalledApplicationList | undefined;
-  /** Runtime network information (connections, ports). */
-  networkInfo?: RuntimeNetworkInfo | undefined;
-  /** Machine name. */
-  machineName?: string | undefined;
-  /** Open files information. */
-  openFileList?: OpenFileList | undefined;
-  /** Domain, e.g. c.stratozone-development.internal. */
-  domain?: string | undefined;
-  /** Running processes. */
-  processes?: RunningProcessList | undefined;
-  /** Date since last booted (last uptime date). */
-  lastUptime?: Migrationcenter_Date | undefined;
-  /** Running background services. */
-  services?: RunningServiceList | undefined;
+/** Statistical aggregation of CPU usage. */
+export interface DailyResourceUsageAggregationCPU {
+  /** CPU utilization percentage. */
+  utilizationPercentage?: DailyResourceUsageAggregationStats | undefined;
 }
-/** Information from Guest-level collections. */
-export interface GuestOsDetails {
-  /** The version of the operating system. */
-  version?: string | undefined;
-  /** What family the OS belong to, if known. */
-  family?: GuestOsDetailsFamilyEnum | (string & {}) | undefined;
-  /** OS and app configuration. */
-  config?: GuestConfigDetails | undefined;
-  /** The name of the operating system. */
-  osName?: string | undefined;
-  /** Runtime information. */
-  runtime?: GuestRuntimeDetails | undefined;
+/** Statistical aggregation of network usage. */
+export interface DailyResourceUsageAggregationNetwork {
+  /** Network egress in B/s. */
+  egressBps?: DailyResourceUsageAggregationStats | undefined;
+  /** Network ingress in B/s. */
+  ingressBps?: DailyResourceUsageAggregationStats | undefined;
+}
+/** Statistical aggregation of memory usage. */
+export interface DailyResourceUsageAggregationMemory {
+  /** Memory utilization percentage. */
+  utilizationPercentage?: DailyResourceUsageAggregationStats | undefined;
+}
+/** Usage data aggregation for a single day. */
+export interface DailyResourceUsageAggregation {
+  /** Aggregation date. Day boundaries are at midnight UTC. */
+  date?: Migrationcenter_Date | undefined;
+  /** Disk usage. */
+  disk?: DailyResourceUsageAggregationDisk | undefined;
+  /** CPU usage. */
+  cpu?: DailyResourceUsageAggregationCPU | undefined;
+  /** Network usage. */
+  network?: DailyResourceUsageAggregationNetwork | undefined;
+  /** Memory usage. */
+  memory?: DailyResourceUsageAggregationMemory | undefined;
+}
+export type DailyResourceUsageAggregationList = Array<DailyResourceUsageAggregation>;
+/** Performance data for an asset. */
+export interface AssetPerformanceData {
+  /** Daily resource usage aggregations. Contains all of the data available for an asset, up to the last 420 days. Aggregations are sorted from oldest to most recent. */
+  dailyResourceUsageAggregations?: DailyResourceUsageAggregationList | undefined;
+}
+/** Asset information specific for AWS AppSync GraphQL APIs. */
+export type AwsAppSyncGraphqlApiDetails = AggregationSum;
+/** Asset information specific for AWS API Gateway REST APIs. */
+export type AwsApiGatewayRestApiDetails = AggregationSum;
+/** Asset information specific for AWS Elastic Network Interfaces. */
+export type AwsElasticNetworkInterfaceDetails = AggregationSum;
+/** Asset information specific for AWS Internet Gateways. */
+export type AwsInternetGatewayDetails = AggregationSum;
+/** Details of an AWS DynamoDB table. */
+export type AwsDynamoDBTableDetails = AggregationSum;
+/** Contains details for an AWS EMR Cluster asset. */
+export type AwsEmrClusterDetails = AggregationSum;
+/** Contains details for an AWS Athena Work Group asset. */
+export type AwsAthenaWorkGroupDetails = AggregationSum;
+/** Contains details for an AWS Firehose asset. */
+export type AwsFirehoseDetails = AggregationSum;
+/** Details of an AWS Redshift cluster. */
+export type AwsRedshiftDetails = AggregationSum;
+export type AzureVmPlatformDetailsHyperthreadingEnum =
+  | "HYPERTHREADING_STATUS_UNSPECIFIED"
+  | "HYPERTHREADING_STATUS_DISABLED"
+  | "HYPERTHREADING_STATUS_ENABLED";
+/** Azure VM specific details. */
+export interface AzureVmPlatformDetails {
+  /** Azure platform's provisioning state. */
+  provisioningState?: string | undefined;
+  /** Whether the machine is hyperthreaded. */
+  hyperthreading?: AzureVmPlatformDetailsHyperthreadingEnum | (string & {}) | undefined;
+  /** Azure platform's machine type label. */
+  machineTypeLabel?: string | undefined;
+  /** The location of the machine in the Azure format. */
+  location?: string | undefined;
+}
+export type AwsEc2PlatformDetailsHyperthreadingEnum =
+  | "HYPERTHREADING_STATUS_UNSPECIFIED"
+  | "HYPERTHREADING_STATUS_DISABLED"
+  | "HYPERTHREADING_STATUS_ENABLED";
+/** AWS EC2 specific details. */
+export interface AwsEc2PlatformDetails {
+  /** Optional. Whether the machine is hyperthreaded. */
+  hyperthreading?: AwsEc2PlatformDetailsHyperthreadingEnum | (string & {}) | undefined;
+  /** The location of the machine in the AWS format. */
+  location?: string | undefined;
+  /** AWS platform's machine type label. */
+  machineTypeLabel?: string | undefined;
+}
+export type PhysicalPlatformDetailsHyperthreadingEnum =
+  | "HYPERTHREADING_STATUS_UNSPECIFIED"
+  | "HYPERTHREADING_STATUS_DISABLED"
+  | "HYPERTHREADING_STATUS_ENABLED";
+/** Platform specific details for Physical Machines. */
+export interface PhysicalPlatformDetails {
+  /** Whether the machine is hyperthreaded. */
+  hyperthreading?: PhysicalPlatformDetailsHyperthreadingEnum | (string & {}) | undefined;
+  /** Free text representation of the machine location. The format of this field should not be relied on. Different machines in the same location may have different string values for this field. */
+  location?: string | undefined;
+}
+export type GenericPlatformDetailsHyperthreadingEnum =
+  | "HYPERTHREADING_STATUS_UNSPECIFIED"
+  | "HYPERTHREADING_STATUS_DISABLED"
+  | "HYPERTHREADING_STATUS_ENABLED";
+/** Generic platform details. */
+export interface GenericPlatformDetails {
+  /** Free text representation of the machine location. The format of this field should not be relied on. Different VMs in the same location may have different string values for this field. */
+  location?: string | undefined;
+  /** Whether the machine is hyperthreaded. */
+  hyperthreading?: GenericPlatformDetailsHyperthreadingEnum | (string & {}) | undefined;
+}
+export type VmwarePlatformDetailsEsxHyperthreadingEnum =
+  | "HYPERTHREADING_STATUS_UNSPECIFIED"
+  | "HYPERTHREADING_STATUS_DISABLED"
+  | "HYPERTHREADING_STATUS_ENABLED";
+/** VMware specific details. */
+export interface VmwarePlatformDetails {
+  /** Folder name in vCenter where asset resides. */
+  vcenterFolder?: string | undefined;
+  /** VMware os enum - https://vdc-repo.vmware.com/vmwb-repository/dcr-public/da47f910-60ac-438b-8b9b-6122f4d14524/16b7274a-bf8b-4b4c-a05e-746f2aa93c8c/doc/vim.vm.GuestOsDescriptor.GuestOsIdentifier.html. */
+  osid?: string | undefined;
+  /** vCenter URI used in collection. */
+  vcenterUri?: string | undefined;
+  /** Whether the ESX is hyperthreaded. */
+  esxHyperthreading?: VmwarePlatformDetailsEsxHyperthreadingEnum | (string & {}) | undefined;
+  /** ESX version. */
+  esxVersion?: string | undefined;
+  /** vCenter VM ID. */
+  vcenterVmId?: string | undefined;
+  /** vCenter version. */
+  vcenterVersion?: string | undefined;
+}
+/** Information about the platform. */
+export interface PlatformDetails {
+  /** Azure VM specific details. */
+  azureVmDetails?: AzureVmPlatformDetails | undefined;
+  /** AWS EC2 specific details. */
+  awsEc2Details?: AwsEc2PlatformDetails | undefined;
+  /** Physical machines platform details. */
+  physicalDetails?: PhysicalPlatformDetails | undefined;
+  /** Generic platform details. */
+  genericDetails?: GenericPlatformDetails | undefined;
+  /** VMware specific details. */
+  vmwareDetails?: VmwarePlatformDetails | undefined;
+}
+/** Disk Partition details. */
+export interface DiskPartition {
+  /** Partition capacity. */
+  capacityBytes?: string | undefined;
+  /** Partition free space. */
+  freeBytes?: string | undefined;
+  /** Partition type (e.g. BIOS boot). */
+  type?: string | undefined;
+  /** Mount point (Linux/Windows) or drive letter (Windows). */
+  mountPoint?: string | undefined;
+  /** Sub-partitions. */
+  subPartitions?: DiskPartitionList | undefined;
+  /** Partition file system. */
+  fileSystem?: string | undefined;
+  /** Partition UUID. */
+  uuid?: string | undefined;
+}
+export type DiskPartitionList_ = Array<DiskPartition>;
+/** Disk partition list. */
+export interface DiskPartitionList {
+  /** Partition entries. */
+  entries?: DiskPartitionList_ | undefined;
+}
+/** Disk partition details. */
+export interface DiskPartitionDetails {
+  /** Output only. Total free space of all partitions. */
+  freeSpaceBytes?: string | undefined;
+  /** Output only. Total capacity of all partitions. */
+  totalCapacityBytes?: string | undefined;
+  /** Optional. List of partitions. */
+  partitions?: DiskPartitionList | undefined;
 }
 export type NetworkAddressAssignmentEnum =
   | "ADDRESS_ASSIGNMENT_UNSPECIFIED"
@@ -741,16 +628,16 @@ export type NetworkAddressAssignmentEnum =
   | "ADDRESS_ASSIGNMENT_DHCP";
 /** Details of network address. */
 export interface NetworkAddress {
-  /** Assigned or configured IP Address. */
-  ipAddress?: string | undefined;
-  /** Broadcast address. */
-  bcast?: string | undefined;
   /** Fully qualified domain name. */
   fqdn?: string | undefined;
   /** Subnet mask. */
   subnetMask?: string | undefined;
+  /** Assigned or configured IP Address. */
+  ipAddress?: string | undefined;
   /** Whether DHCP is used to assign addresses. */
   assignment?: NetworkAddressAssignmentEnum | (string & {}) | undefined;
+  /** Broadcast address. */
+  bcast?: string | undefined;
 }
 export type NetworkAddressList_ = Array<NetworkAddress>;
 /** List of allocated/assigned network addresses. */
@@ -772,55 +659,23 @@ export interface NetworkAdapterDetails {
 export type NetworkAdapterDetailsList = Array<NetworkAdapterDetails>;
 /** List of network adapters. */
 export interface NetworkAdapterList {
-  /** Network adapter descriptions. */
-  networkAdapters?: NetworkAdapterDetailsList | undefined;
   /** Network adapter entries. */
   entries?: NetworkAdapterDetailsList | undefined;
+  /** Network adapter descriptions. */
+  networkAdapters?: NetworkAdapterDetailsList | undefined;
 }
 /** Details of network adapters and settings. */
 export interface MachineNetworkDetails {
-  /** Default gateway address. */
-  defaultGateway?: string | undefined;
-  /** List of network adapters. */
-  networkAdapters?: NetworkAdapterList | undefined;
-  /** MAC address of the machine. This property is used to uniqly identify the machine. */
-  primaryMacAddress?: string | undefined;
   /** The primary IP address of the machine. */
   primaryIpAddress?: string | undefined;
+  /** MAC address of the machine. This property is used to uniqly identify the machine. */
+  primaryMacAddress?: string | undefined;
+  /** Default gateway address. */
+  defaultGateway?: string | undefined;
   /** The public IP address of the machine. */
   publicIpAddress?: string | undefined;
-}
-/** Disk Partition details. */
-export interface DiskPartition {
-  /** Partition capacity. */
-  capacityBytes?: string | undefined;
-  /** Partition UUID. */
-  uuid?: string | undefined;
-  /** Partition free space. */
-  freeBytes?: string | undefined;
-  /** Partition file system. */
-  fileSystem?: string | undefined;
-  /** Sub-partitions. */
-  subPartitions?: DiskPartitionList | undefined;
-  /** Partition type (e.g. BIOS boot). */
-  type?: string | undefined;
-  /** Mount point (Linux/Windows) or drive letter (Windows). */
-  mountPoint?: string | undefined;
-}
-export type DiskPartitionList_ = Array<DiskPartition>;
-/** Disk partition list. */
-export interface DiskPartitionList {
-  /** Partition entries. */
-  entries?: DiskPartitionList_ | undefined;
-}
-/** Disk partition details. */
-export interface DiskPartitionDetails {
-  /** Output only. Total free space of all partitions. */
-  freeSpaceBytes?: string | undefined;
-  /** Output only. Total capacity of all partitions. */
-  totalCapacityBytes?: string | undefined;
-  /** Optional. List of partitions. */
-  partitions?: DiskPartitionList | undefined;
+  /** List of network adapters. */
+  networkAdapters?: NetworkAdapterList | undefined;
 }
 export type MachineArchitectureDetailsFirmwareTypeEnum =
   | "FIRMWARE_TYPE_UNSPECIFIED"
@@ -832,66 +687,334 @@ export type MachineArchitectureDetailsHyperthreadingEnum =
   | "ENABLED";
 /** Details about the BIOS. */
 export interface BiosDetails {
+  /** BIOS version. */
+  version?: string | undefined;
   /** SMBIOS UUID. */
   smbiosUuid?: string | undefined;
   /** BIOS version. */
   biosVersion?: string | undefined;
-  /** BIOS release date. */
-  releaseTime?: string | undefined;
-  /** BIOS manufacturer. */
-  manufacturer?: string | undefined;
+  /** BIOS name. */
+  biosName?: string | undefined;
   /** BIOS release date. */
   biosReleaseDate?: string | undefined;
   /** BIOS manufacturer. */
   biosManufacturer?: string | undefined;
-  /** BIOS version. */
-  version?: string | undefined;
-  /** BIOS name. */
-  biosName?: string | undefined;
+  /** BIOS release date. */
+  releaseTime?: string | undefined;
+  /** BIOS manufacturer. */
+  manufacturer?: string | undefined;
   /** BIOS ID. */
   id?: string | undefined;
 }
 /** Details of the machine architecture. */
 export interface MachineArchitectureDetails {
-  /** CPU architecture, e.g., "x64-based PC", "x86_64", "i686" etc. */
-  cpuArchitecture?: string | undefined;
   /** Firmware type. */
   firmwareType?: MachineArchitectureDetailsFirmwareTypeEnum | (string & {}) | undefined;
-  /** Hardware vendor. */
-  vendor?: string | undefined;
-  /** CPU hyper-threading support. */
-  hyperthreading?: MachineArchitectureDetailsHyperthreadingEnum | (string & {}) | undefined;
-  /** BIOS Details. */
-  bios?: BiosDetails | undefined;
-  /** Optional. CPU manufacturer, e.g., "Intel", "AMD". */
-  cpuManufacturer?: string | undefined;
-  /** CPU name, e.g., "Intel Xeon E5-2690", "AMD EPYC 7571" etc. */
-  cpuName?: string | undefined;
   /** Number of processor sockets allocated to the machine. */
   cpuSocketCount?: number | undefined;
+  /** CPU architecture, e.g., "x64-based PC", "x86_64", "i686" etc. */
+  cpuArchitecture?: string | undefined;
+  /** Optional. CPU manufacturer, e.g., "Intel", "AMD". */
+  cpuManufacturer?: string | undefined;
+  /** CPU hyper-threading support. */
+  hyperthreading?: MachineArchitectureDetailsHyperthreadingEnum | (string & {}) | undefined;
+  /** Hardware vendor. */
+  vendor?: string | undefined;
+  /** CPU name, e.g., "Intel Xeon E5-2690", "AMD EPYC 7571" etc. */
+  cpuName?: string | undefined;
+  /** BIOS Details. */
+  bios?: BiosDetails | undefined;
+}
+export interface NetworkConnection {
+  /** Remote port. */
+  remotePort?: number | undefined;
+  /** Process ID. */
+  pid?: string | undefined;
+  /** Remote IP address. */
+  remoteIpAddress?: string | undefined;
+  /** Connection state (e.g. CONNECTED). */
+  state?: string | undefined;
+  /** Local port. */
+  localPort?: number | undefined;
+  /** Local IP address. */
+  localIpAddress?: string | undefined;
+  /** Process or service name. */
+  processName?: string | undefined;
+  /** Connection protocol (e.g. TCP/UDP). */
+  protocol?: string | undefined;
+}
+export type NetworkConnectionList_ = Array<NetworkConnection>;
+/** Network connection list. */
+export interface NetworkConnectionList {
+  /** Network connection entries. */
+  entries?: NetworkConnectionList_ | undefined;
+}
+/** Represents a time zone from the [IANA Time Zone Database](https://www.iana.org/time-zones). */
+export interface TimeZone {
+  /** Optional. IANA Time Zone Database version number. For example "2019a". */
+  version?: string | undefined;
+  /** IANA Time Zone Database time zone. For example "America/New_York". */
+  id?: string | undefined;
+}
+/** Represents civil time (or occasionally physical time). This type can represent a civil time in one of a few possible ways: * When utc_offset is set and time_zone is unset: a civil time on a calendar day with a particular offset from UTC. * When time_zone is set and utc_offset is unset: a civil time on a calendar day in a particular time zone. * When neither time_zone nor utc_offset is set: a civil time on a calendar day in local time. The date is relative to the Proleptic Gregorian Calendar. If year, month, or day are 0, the DateTime is considered not to have a specific year, month, or day respectively. This type may also be used to represent a physical time if all the date and time fields are set and either case of the `time_offset` oneof is set. Consider using `Timestamp` message for physical time instead. If your use case also would like to store the user's timezone, that can be done in another field. This type is more flexible than some applications may want. Make sure to document and validate your application's limitations. */
+export interface DateTime {
+  /** UTC offset. Must be whole seconds, between -18 hours and +18 hours. For example, a UTC offset of -4:00 would be represented as { seconds: -14400 }. */
+  utcOffset?: string | undefined;
+  /** Optional. Minutes of hour of day. Must be from 0 to 59, defaults to 0. */
+  minutes?: number | undefined;
+  /** Optional. Fractions of seconds in nanoseconds. Must be from 0 to 999,999,999, defaults to 0. */
+  nanos?: number | undefined;
+  /** Optional. Seconds of minutes of the time. Must normally be from 0 to 59, defaults to 0. An API may allow the value 60 if it allows leap-seconds. */
+  seconds?: number | undefined;
+  /** Optional. Month of year. Must be from 1 to 12, or 0 if specifying a datetime without a month. */
+  month?: number | undefined;
+  /** Time zone. */
+  timeZone?: TimeZone | undefined;
+  /** Optional. Day of month. Must be from 1 to 31 and valid for the year and month, or 0 if specifying a datetime without a day. */
+  day?: number | undefined;
+  /** Optional. Hours of day in 24 hour format. Should be from 0 to 23, defaults to 0 (midnight). An API may choose to allow the value "24:00:00" for scenarios like business closing time. */
+  hours?: number | undefined;
+  /** Optional. Year of date. Must be from 1 to 9999, or 0 if specifying a datetime without a year. */
+  year?: number | undefined;
+}
+/** Runtime networking information. */
+export interface RuntimeNetworkInfo {
+  /** Time of the last network scan. */
+  scanTime?: string | undefined;
+  /** Network connections. */
+  connections?: NetworkConnectionList | undefined;
+  /** Netstat time collected. */
+  netstatTime?: DateTime | undefined;
+  /** Raw network scan result. This field is intended for human inspection. The format of this field may be netstat output or any another raw output. The exact format may change without notice and should not be relied upon. */
+  rawScanResult?: string | undefined;
+  /** Netstat (raw, OS-agnostic). */
+  netstat?: string | undefined;
+}
+/** Guest OS running process details. */
+export interface RunningProcess {
+  /** Process ID. */
+  pid?: string | undefined;
+  /** Process full command line. */
+  cmdline?: string | undefined;
+  /** Process extended attributes. */
+  attributes?: StringMap | undefined;
+  /** Process binary path. */
+  exePath?: string | undefined;
+  /** User running the process. */
+  user?: string | undefined;
+}
+export type RunningProcessList_ = Array<RunningProcess>;
+/** List of running guest OS processes. */
+export interface RunningProcessList {
+  /** Running process entries. */
+  processes?: RunningProcessList_ | undefined;
+  /** Running process entries. */
+  entries?: RunningProcessList_ | undefined;
+}
+/** Guest installed application information. */
+export interface GuestInstalledApplication {
+  /** Installed application version. */
+  version?: string | undefined;
+  /** Installed application name. */
+  name?: string | undefined;
+  /** Source path. */
+  path?: string | undefined;
+  /** License strings associated with the installed application. */
+  licenses?: StringList | undefined;
+  /** The time when the application was installed. */
+  installTime?: string | undefined;
+  /** Installed application vendor. */
+  vendor?: string | undefined;
+  /** Installed application name. */
+  applicationName?: string | undefined;
+  /** Date application was installed. */
+  time?: string | undefined;
+}
+export type GuestInstalledApplicationList_ = Array<GuestInstalledApplication>;
+/** Guest installed application list. */
+export interface GuestInstalledApplicationList {
+  /** Application entries. */
+  entries?: GuestInstalledApplicationList_ | undefined;
+}
+/** Open file Information. */
+export interface OpenFileDetails {
+  /** Opened file command. */
+  command?: string | undefined;
+  /** Opened file file path. */
+  filePath?: string | undefined;
+  /** Opened file user. */
+  user?: string | undefined;
+  /** Opened file file type. */
+  fileType?: string | undefined;
+}
+export type OpenFileDetailsList = Array<OpenFileDetails>;
+/** Open file list. */
+export interface OpenFileList {
+  /** Open file details entries. */
+  entries?: OpenFileDetailsList | undefined;
+}
+/** Guest OS running service details. */
+export interface RunningService {
+  /** Service start mode (raw, OS-agnostic). */
+  startMode?: string | undefined;
+  /** Service state (raw, OS-agnostic). */
+  state?: string | undefined;
+  /** Service binary path. */
+  exePath?: string | undefined;
+  /** Service pid. */
+  pid?: string | undefined;
+  /** Service status. */
+  status?: string | undefined;
+  /** Service name. */
+  name?: string | undefined;
+  /** Service name. */
+  serviceName?: string | undefined;
+  /** Service command line. */
+  cmdline?: string | undefined;
+}
+export type RunningServiceList_ = Array<RunningService>;
+/** List of running guest OS services. */
+export interface RunningServiceList {
+  /** Running service entries. */
+  entries?: RunningServiceList_ | undefined;
+  /** Running service entries. */
+  services?: RunningServiceList_ | undefined;
+}
+/** Guest OS runtime information. */
+export interface GuestRuntimeDetails {
+  /** Last time the OS was booted. */
+  lastBootTime?: string | undefined;
+  /** Runtime network information (connections, ports). */
+  networkInfo?: RuntimeNetworkInfo | undefined;
+  /** Running processes. */
+  processes?: RunningProcessList | undefined;
+  /** Installed applications information. */
+  installedApps?: GuestInstalledApplicationList | undefined;
+  /** Machine name. */
+  machineName?: string | undefined;
+  /** Domain, e.g. c.stratozone-development.internal. */
+  domain?: string | undefined;
+  /** Open files information. */
+  openFileList?: OpenFileList | undefined;
+  /** Running background services. */
+  services?: RunningServiceList | undefined;
+  /** Date since last booted (last uptime date). */
+  lastUptime?: Migrationcenter_Date | undefined;
+}
+export type GuestOsDetailsFamilyEnum =
+  | "OS_FAMILY_UNKNOWN"
+  | "OS_FAMILY_WINDOWS"
+  | "OS_FAMILY_LINUX"
+  | "OS_FAMILY_UNIX";
+/** NFS export. */
+export interface NfsExport {
+  /** The directory being exported. */
+  exportDirectory?: string | undefined;
+  /** The hosts or networks to which the export is being shared. */
+  hosts?: StringList | undefined;
+}
+export type NfsExportList_ = Array<NfsExport>;
+/** NFS exports. */
+export interface NfsExportList {
+  /** NFS export entries. */
+  entries?: NfsExportList_ | undefined;
+}
+/** SELinux details. */
+export interface Selinux {
+  /** Is SELinux enabled. */
+  enabled?: boolean | undefined;
+  /** SELinux mode disabled / enforcing / permissive. */
+  mode?: string | undefined;
+}
+/** Single fstab entry. */
+export interface FstabEntry {
+  /** Used by the fsck(8) program to determine the order in which filesystem checks are done at reboot time. */
+  passno?: number | undefined;
+  /** Mount options associated with the filesystem. */
+  mntops?: string | undefined;
+  /** The type of the filesystem. */
+  vfstype?: string | undefined;
+  /** The block special device or remote filesystem to be mounted. */
+  spec?: string | undefined;
+  /** The mount point for the filesystem. */
+  file?: string | undefined;
+  /** Used by dump to determine which filesystems need to be dumped. */
+  freq?: number | undefined;
+}
+export type FstabEntryList_ = Array<FstabEntry>;
+/** Fstab content. */
+export interface FstabEntryList {
+  /** Fstab entries. */
+  entries?: FstabEntryList_ | undefined;
+}
+/** Single /etc/hosts entry. */
+export interface HostsEntry {
+  /** IP (raw, IPv4/6 agnostic). */
+  ip?: string | undefined;
+  /** List of host names / aliases. */
+  hostNames?: StringList | undefined;
+}
+export type HostsEntryList_ = Array<HostsEntry>;
+/** Hosts content. */
+export interface HostsEntryList {
+  /** Output only. Hosts entries. */
+  entries?: HostsEntryList_ | undefined;
+}
+export type GuestConfigDetailsSelinuxModeEnum =
+  | "SE_LINUX_MODE_UNSPECIFIED"
+  | "SE_LINUX_MODE_DISABLED"
+  | "SE_LINUX_MODE_PERMISSIVE"
+  | "SE_LINUX_MODE_ENFORCING";
+/** Guest OS config information. */
+export interface GuestConfigDetails {
+  /** OS issue (typically /etc/issue in Linux). */
+  issue?: string | undefined;
+  /** NFS exports. */
+  nfsExports?: NfsExportList | undefined;
+  /** SELinux details. */
+  selinux?: Selinux | undefined;
+  /** Mount list (Linux fstab). */
+  fstab?: FstabEntryList | undefined;
+  /** Output only. Hosts file (/etc/hosts). */
+  hosts?: HostsEntryList | undefined;
+  /** Security-Enhanced Linux (SELinux) mode. */
+  selinuxMode?: GuestConfigDetailsSelinuxModeEnum | (string & {}) | undefined;
+}
+/** Information from Guest-level collections. */
+export interface GuestOsDetails {
+  /** The name of the operating system. */
+  osName?: string | undefined;
+  /** The version of the operating system. */
+  version?: string | undefined;
+  /** Runtime information. */
+  runtime?: GuestRuntimeDetails | undefined;
+  /** What family the OS belong to, if known. */
+  family?: GuestOsDetailsFamilyEnum | (string & {}) | undefined;
+  /** OS and app configuration. */
+  config?: GuestConfigDetails | undefined;
 }
 /** Single disk entry. */
 export interface DiskEntry {
   /** Disk capacity. */
   capacityBytes?: string | undefined;
-  /** Disk free space. */
-  totalFreeBytes?: string | undefined;
   /** Disk capacity. */
   totalCapacityBytes?: string | undefined;
-  /** Disk label type (e.g. BIOS/GPT) */
-  diskLabelType?: string | undefined;
-  /** Disk status (e.g. online). */
-  status?: string | undefined;
-  /** Partition layout. */
-  partitions?: DiskPartitionList | undefined;
   /** Disk hardware address (e.g. 0:1 for SCSI). */
   hwAddress?: string | undefined;
   /** Disk free space. */
-  freeSpaceBytes?: string | undefined;
-  /** Disks interface type (e.g. SATA/SCSI) */
-  interfaceType?: string | undefined;
+  totalFreeBytes?: string | undefined;
   /** Disk label. */
   diskLabel?: string | undefined;
+  /** Disk label type (e.g. BIOS/GPT) */
+  diskLabelType?: string | undefined;
+  /** Partition layout. */
+  partitions?: DiskPartitionList | undefined;
+  /** Disk status (e.g. online). */
+  status?: string | undefined;
+  /** Disks interface type (e.g. SATA/SCSI) */
+  interfaceType?: string | undefined;
+  /** Disk free space. */
+  freeSpaceBytes?: string | undefined;
 }
 export type DiskEntryList_ = Array<DiskEntry>;
 /** VM disks. */
@@ -903,96 +1026,12 @@ export interface DiskEntryList {
 export interface MachineDiskDetails {
   /** List of disks. */
   disks?: DiskEntryList | undefined;
-  /** Total disk free space. */
-  totalFreeBytes?: string | undefined;
-  /** Disk total Capacity. */
-  totalCapacityBytes?: string | undefined;
   /** Raw disk scan result. This field is intended for human inspection. The format of this field may be lsblk output or any another raw output. The exact format may change without notice and should not be relied upon. */
   rawScanResult?: string | undefined;
-}
-export type AwsEc2PlatformDetailsHyperthreadingEnum =
-  | "HYPERTHREADING_STATUS_UNSPECIFIED"
-  | "HYPERTHREADING_STATUS_DISABLED"
-  | "HYPERTHREADING_STATUS_ENABLED";
-/** AWS EC2 specific details. */
-export interface AwsEc2PlatformDetails {
-  /** Optional. Whether the machine is hyperthreaded. */
-  hyperthreading?: AwsEc2PlatformDetailsHyperthreadingEnum | (string & {}) | undefined;
-  /** The location of the machine in the AWS format. */
-  location?: string | undefined;
-  /** AWS platform's machine type label. */
-  machineTypeLabel?: string | undefined;
-}
-export type VmwarePlatformDetailsEsxHyperthreadingEnum =
-  | "HYPERTHREADING_STATUS_UNSPECIFIED"
-  | "HYPERTHREADING_STATUS_DISABLED"
-  | "HYPERTHREADING_STATUS_ENABLED";
-/** VMware specific details. */
-export interface VmwarePlatformDetails {
-  /** Whether the ESX is hyperthreaded. */
-  esxHyperthreading?: VmwarePlatformDetailsEsxHyperthreadingEnum | (string & {}) | undefined;
-  /** ESX version. */
-  esxVersion?: string | undefined;
-  /** vCenter URI used in collection. */
-  vcenterUri?: string | undefined;
-  /** VMware os enum - https://vdc-repo.vmware.com/vmwb-repository/dcr-public/da47f910-60ac-438b-8b9b-6122f4d14524/16b7274a-bf8b-4b4c-a05e-746f2aa93c8c/doc/vim.vm.GuestOsDescriptor.GuestOsIdentifier.html. */
-  osid?: string | undefined;
-  /** vCenter VM ID. */
-  vcenterVmId?: string | undefined;
-  /** vCenter version. */
-  vcenterVersion?: string | undefined;
-  /** Folder name in vCenter where asset resides. */
-  vcenterFolder?: string | undefined;
-}
-export type AzureVmPlatformDetailsHyperthreadingEnum =
-  | "HYPERTHREADING_STATUS_UNSPECIFIED"
-  | "HYPERTHREADING_STATUS_DISABLED"
-  | "HYPERTHREADING_STATUS_ENABLED";
-/** Azure VM specific details. */
-export interface AzureVmPlatformDetails {
-  /** The location of the machine in the Azure format. */
-  location?: string | undefined;
-  /** Azure platform's machine type label. */
-  machineTypeLabel?: string | undefined;
-  /** Azure platform's provisioning state. */
-  provisioningState?: string | undefined;
-  /** Whether the machine is hyperthreaded. */
-  hyperthreading?: AzureVmPlatformDetailsHyperthreadingEnum | (string & {}) | undefined;
-}
-export type GenericPlatformDetailsHyperthreadingEnum =
-  | "HYPERTHREADING_STATUS_UNSPECIFIED"
-  | "HYPERTHREADING_STATUS_DISABLED"
-  | "HYPERTHREADING_STATUS_ENABLED";
-/** Generic platform details. */
-export interface GenericPlatformDetails {
-  /** Free text representation of the machine location. The format of this field should not be relied on. Different VMs in the same location may have different string values for this field. */
-  location?: string | undefined;
-  /** Whether the machine is hyperthreaded. */
-  hyperthreading?: GenericPlatformDetailsHyperthreadingEnum | (string & {}) | undefined;
-}
-export type PhysicalPlatformDetailsHyperthreadingEnum =
-  | "HYPERTHREADING_STATUS_UNSPECIFIED"
-  | "HYPERTHREADING_STATUS_DISABLED"
-  | "HYPERTHREADING_STATUS_ENABLED";
-/** Platform specific details for Physical Machines. */
-export interface PhysicalPlatformDetails {
-  /** Whether the machine is hyperthreaded. */
-  hyperthreading?: PhysicalPlatformDetailsHyperthreadingEnum | (string & {}) | undefined;
-  /** Free text representation of the machine location. The format of this field should not be relied on. Different machines in the same location may have different string values for this field. */
-  location?: string | undefined;
-}
-/** Information about the platform. */
-export interface PlatformDetails {
-  /** AWS EC2 specific details. */
-  awsEc2Details?: AwsEc2PlatformDetails | undefined;
-  /** VMware specific details. */
-  vmwareDetails?: VmwarePlatformDetails | undefined;
-  /** Azure VM specific details. */
-  azureVmDetails?: AzureVmPlatformDetails | undefined;
-  /** Generic platform details. */
-  genericDetails?: GenericPlatformDetails | undefined;
-  /** Physical machines platform details. */
-  physicalDetails?: PhysicalPlatformDetails | undefined;
+  /** Disk total Capacity. */
+  totalCapacityBytes?: string | undefined;
+  /** Total disk free space. */
+  totalFreeBytes?: string | undefined;
 }
 export type MachineDetailsPowerStateEnum =
   | "POWER_STATE_UNSPECIFIED"
@@ -1004,37 +1043,55 @@ export type MachineDetailsPowerStateEnum =
   | "DELETED";
 /** Details of a machine. */
 export interface MachineDetails {
-  /** Guest OS information. */
-  guestOs?: GuestOsDetails | undefined;
-  /** Network details. */
-  network?: MachineNetworkDetails | undefined;
-  /** Machine creation time. */
-  createTime?: string | undefined;
   /** Number of logical CPU cores in the machine. Must be non-negative. */
   coreCount?: number | undefined;
-  /** Optional. Disk partitions details. Note: Partitions are not necessarily mounted on local disks and therefore might not have a one-to-one correspondence with local disks. */
-  diskPartitions?: DiskPartitionDetails | undefined;
-  /** Architecture details (vendor, CPU architecture). */
-  architecture?: MachineArchitectureDetails | undefined;
-  /** Disk details. */
-  disks?: MachineDiskDetails | undefined;
-  /** Machine unique identifier. */
-  uuid?: string | undefined;
-  /** Machine name. */
-  machineName?: string | undefined;
   /** Platform specific information. */
   platform?: PlatformDetails | undefined;
+  /** Optional. Disk partitions details. Note: Partitions are not necessarily mounted on local disks and therefore might not have a one-to-one correspondence with local disks. */
+  diskPartitions?: DiskPartitionDetails | undefined;
+  /** Network details. */
+  network?: MachineNetworkDetails | undefined;
   /** The amount of memory in the machine. Must be non-negative. */
   memoryMb?: number | undefined;
+  /** Machine name. */
+  machineName?: string | undefined;
+  /** Architecture details (vendor, CPU architecture). */
+  architecture?: MachineArchitectureDetails | undefined;
+  /** Guest OS information. */
+  guestOs?: GuestOsDetails | undefined;
+  /** Disk details. */
+  disks?: MachineDiskDetails | undefined;
+  /** Machine creation time. */
+  createTime?: string | undefined;
+  /** Machine unique identifier. */
+  uuid?: string | undefined;
   /** Power state of the machine. */
   powerState?: MachineDetailsPowerStateEnum | (string & {}) | undefined;
 }
-/** The identifiers of the parent database deployment. */
-export interface DatabaseDetailsParentDatabaseDeployment {
-  /** The parent database deployment optional manual unique ID set by the user. */
-  manualUniqueId?: string | undefined;
-  /** The parent database deployment generated ID. */
-  generatedId?: string | undefined;
+/** Asset information specific for AWS Lambda functions. */
+export type AwsLambdaFunctionDetails = AggregationSum;
+/** Asset information specific for AWS Application Load Balancers. */
+export type AwsApplicationLoadBalancerDetails = AggregationSum;
+/** Asset information specific for AWS SNS Topics. */
+export type AwsSnsTopicDetails = AggregationSum;
+/** Contains details for an AWS Kinesis Stream asset. */
+export type AwsKinesisStreamDetails = AggregationSum;
+/** Asset information specific for AWS EBS Volumes. */
+export type AwsEbsVolumeDetails = AggregationSum;
+/** PostgreSql extension. */
+export interface PostgreSqlExtension {
+  /** Required. The extension name. */
+  extension?: string | undefined;
+  /** Required. The extension version. */
+  version?: string | undefined;
+}
+export type PostgreSqlExtensionList = Array<PostgreSqlExtension>;
+/** Specific details for a PostgreSql schema. */
+export interface PostgreSqlSchemaDetails {
+  /** Optional. PostgreSql foreign tables. */
+  foreignTablesCount?: number | undefined;
+  /** Optional. PostgreSql extensions. */
+  postgresqlExtensions?: PostgreSqlExtensionList | undefined;
 }
 export type MySqlStorageEngineDetailsEngineEnum =
   | "ENGINE_UNSPECIFIED"
@@ -1051,12 +1108,12 @@ export type MySqlStorageEngineDetailsEngineEnum =
   | "OTHER";
 /** Mysql storage engine tables. */
 export interface MySqlStorageEngineDetails {
-  /** Optional. The number of encrypted tables. */
-  encryptedTableCount?: number | undefined;
   /** Optional. The number of tables. */
   tableCount?: number | undefined;
   /** Required. The storage engine. */
   engine?: MySqlStorageEngineDetailsEngineEnum | (string & {}) | undefined;
+  /** Optional. The number of encrypted tables. */
+  encryptedTableCount?: number | undefined;
 }
 export type MySqlStorageEngineDetailsList = Array<MySqlStorageEngineDetails>;
 /** Specific details for a Mysql database. */
@@ -1085,58 +1142,162 @@ export interface SqlServerSchemaDetails {
   /** Optional. SqlServer number of CLR objects. */
   clrObjectCount?: number | undefined;
 }
-/** PostgreSql extension. */
-export interface PostgreSqlExtension {
-  /** Required. The extension name. */
-  extension?: string | undefined;
-  /** Required. The extension version. */
-  version?: string | undefined;
-}
-export type PostgreSqlExtensionList = Array<PostgreSqlExtension>;
-/** Specific details for a PostgreSql schema. */
-export interface PostgreSqlSchemaDetails {
-  /** Optional. PostgreSql extensions. */
-  postgresqlExtensions?: PostgreSqlExtensionList | undefined;
-  /** Optional. PostgreSql foreign tables. */
-  foreignTablesCount?: number | undefined;
-}
 /** Details of a database schema. */
 export interface DatabaseSchema {
+  /** Details of a PostgreSql schema. */
+  postgresql?: PostgreSqlSchemaDetails | undefined;
   /** Details of a Mysql schema. */
   mysql?: MySqlSchemaDetails | undefined;
   /** List of details of objects by category. */
   objects?: DatabaseObjectsList | undefined;
-  /** Details of a SqlServer schema. */
-  sqlServer?: SqlServerSchemaDetails | undefined;
-  /** Details of a PostgreSql schema. */
-  postgresql?: PostgreSqlSchemaDetails | undefined;
   /** The name of the schema. */
   schemaName?: string | undefined;
   /** The total size of tables in bytes. */
   tablesSizeBytes?: string | undefined;
+  /** Details of a SqlServer schema. */
+  sqlServer?: SqlServerSchemaDetails | undefined;
 }
 export type DatabaseSchemaList = Array<DatabaseSchema>;
+/** The identifiers of the parent database deployment. */
+export interface DatabaseDetailsParentDatabaseDeployment {
+  /** The parent database deployment optional manual unique ID set by the user. */
+  manualUniqueId?: string | undefined;
+  /** The parent database deployment generated ID. */
+  generatedId?: string | undefined;
+}
 /** Details of a logical database. */
 export interface DatabaseDetails {
+  /** The database schemas. */
+  schemas?: DatabaseSchemaList | undefined;
   /** The parent database deployment that contains the logical database. */
   parentDatabaseDeployment?: DatabaseDetailsParentDatabaseDeployment | undefined;
   /** The allocated storage for the database in bytes. */
   allocatedStorageBytes?: string | undefined;
-  /** The database schemas. */
-  schemas?: DatabaseSchemaList | undefined;
   /** The name of the database. */
   databaseName?: string | undefined;
 }
-/** Asset information specific for AWS Load Balancers. */
-export type AwsElbLoadBalancerDetails = AggregationSum;
-/** Asset information specific for AWS AppSync GraphQL APIs. */
-export type AwsAppSyncGraphqlApiDetails = AggregationSum;
-/** Asset information specific for AWS EBS Volumes. */
-export type AwsEbsVolumeDetails = AggregationSum;
-/** Asset information specific for AWS EKS clusters. */
-export type AwsEksClusterDetails = AggregationSum;
-/** Contains details for an AWS Kinesis Stream asset. */
-export type AwsKinesisStreamDetails = AggregationSum;
+/** Asset information specific for AWS ECR Repository. */
+export type AwsEcrRepositoryDetails = AggregationSum;
+/** Details of an AWS EFS file system. */
+export type AwsEfsFileSystemDetails = AggregationSum;
+/** Location of a resource. */
+export interface ResourceLocation {
+  /** Optional. The name of the region. */
+  region?: string | undefined;
+}
+/** Details for AWS platform. */
+export interface HostingProviderDetailsAws {
+  /** Optional. The AWS account ID owning the resource represented by this asset. */
+  owningAccountId?: string | undefined;
+}
+/** Details about the hosting platform of the asset. */
+export interface HostingProviderDetails {
+  /** Optional. Location of the asset. */
+  location?: ResourceLocation | undefined;
+  /** Optional. The timestamp when resource was created in the hosting provider. */
+  createTime?: string | undefined;
+  /** Optional. Display name of the asset. */
+  displayName?: string | undefined;
+  /** Optional. Unique identifier for the asset in the hosting provider. */
+  originalId?: string | undefined;
+  /** Optional. The AWS platform details. */
+  aws?: HostingProviderDetailsAws | undefined;
+}
+/** Details of network adapters and settings. */
+export interface VirtualMachineNetworkDetails {
+  /** List of network adapters. */
+  networkAdapters?: NetworkAdapterList | undefined;
+  /** IP address of the machine. */
+  primaryIpAddress?: string | undefined;
+  /** Public IP address of the machine. */
+  publicIpAddress?: string | undefined;
+  /** Default gateway address. */
+  defaultGw?: string | undefined;
+  /** MAC address of the machine. This property is used to uniqly identify the machine. */
+  primaryMacAddress?: string | undefined;
+}
+export type VirtualMachineArchitectureDetailsHyperthreadingEnum =
+  | "HYPER_THREADING_UNSPECIFIED"
+  | "HYPER_THREADING_DISABLED"
+  | "HYPER_THREADING_ENABLED";
+/** Details of the VM architecture. */
+export interface VirtualMachineArchitectureDetails {
+  /** BIOS Details. */
+  bios?: BiosDetails | undefined;
+  /** Firmware (BIOS/efi). */
+  firmware?: string | undefined;
+  /** CPU hyperthreading support. */
+  hyperthreading?: VirtualMachineArchitectureDetailsHyperthreadingEnum | (string & {}) | undefined;
+  /** CPU manufacturer, e.g., "Intel", "AMD". */
+  cpuManufacturer?: string | undefined;
+  /** CPU architecture, e.g., "x64-based PC", "x86_64", "i686" etc. */
+  cpuArchitecture?: string | undefined;
+  /** Deprecated: use VirtualMachineDetails.core_count instead. Number of CPU threads allocated to the machine. */
+  cpuThreadCount?: number | undefined;
+  /** Hardware vendor. */
+  vendor?: string | undefined;
+  /** CPU name, e.g., "Intel Xeon E5-2690", "AMD EPYC 7571" etc. */
+  cpuName?: string | undefined;
+  /** Number of processor sockets allocated to the machine. */
+  cpuSocketCount?: number | undefined;
+}
+/** Details of VM disks. */
+export interface VirtualMachineDiskDetails {
+  /** Disk total Capacity. */
+  hddTotalCapacityBytes?: string | undefined;
+  /** List of disks. */
+  disks?: DiskEntryList | undefined;
+  /** Raw lsblk output in json. */
+  lsblkJson?: string | undefined;
+  /** Total Disk Free Space. */
+  hddTotalFreeBytes?: string | undefined;
+}
+export type VirtualMachineDetailsOsFamilyEnum =
+  | "OS_FAMILY_UNKNOWN"
+  | "OS_FAMILY_WINDOWS"
+  | "OS_FAMILY_LINUX"
+  | "OS_FAMILY_UNIX";
+/** Details of a VirtualMachine. */
+export interface VirtualMachineDetails {
+  /** VM network details. */
+  vmNetwork?: VirtualMachineNetworkDetails | undefined;
+  /** vCenter URL used in collection. */
+  vcenterUrl?: string | undefined;
+  /** Optional. Disk partitions details. Note: Partitions are not necessarily mounted on local disks and therefore might not have a one-to-one correspondence with local disks. */
+  diskPartitions?: DiskPartitionDetails | undefined;
+  /** Virtual Machine unique identifier. */
+  vmUuid?: string | undefined;
+  /** Virtual Machine display name. */
+  vmName?: string | undefined;
+  /** The amount of memory in the VirtualMachine. Must be non-negative. */
+  memoryMb?: number | undefined;
+  /** VM architecture details (vendor, cpu arch). */
+  vmArchitecture?: VirtualMachineArchitectureDetails | undefined;
+  /** VM creation timestamp. */
+  createTime?: string | undefined;
+  /** The name of the operating system running on the VirtualMachine. */
+  osName?: string | undefined;
+  /** Platform information. */
+  platform?: PlatformDetails | undefined;
+  /** Number of logical CPU cores in the VirtualMachine. Must be non-negative. */
+  coreCount?: number | undefined;
+  /** VM disk details. */
+  vmDisks?: VirtualMachineDiskDetails | undefined;
+  /** The version of the operating system running on the virtual machine. */
+  osVersion?: string | undefined;
+  /** Guest OS information. */
+  guestOs?: GuestOsDetails | undefined;
+  /** Power state of VM (poweredOn or poweredOff). */
+  powerState?: string | undefined;
+  /** Folder name in vCenter where asset resides. */
+  vcenterFolder?: string | undefined;
+  /** What family the OS belong to, if known. */
+  osFamily?: VirtualMachineDetailsOsFamilyEnum | (string & {}) | undefined;
+  /** vCenter VM ID. */
+  vcenterVmId?: string | undefined;
+}
+/** Details of an AWS CloudFront distribution. */
+export type AwsCloudFrontDistributionDetails = AggregationSum;
 export type AwsS3BucketDetailsStorageClassTypeEnum =
   | "STORAGE_CLASS_TYPE_UNSPECIFIED"
   | "STANDARD"
@@ -1150,10 +1311,10 @@ export type AwsS3BucketDetailsStorageClassTypeEnum =
   | "EXPRESS_ONEZONE";
 /** Details about storage class. */
 export interface AwsS3BucketDetailsStorageClass {
-  /** Optional. The total size of the storage class in bytes. */
-  totalBytes?: string | undefined;
   /** Required. Type of the storage class. */
   type?: AwsS3BucketDetailsStorageClassTypeEnum | (string & {}) | undefined;
+  /** Optional. The total size of the storage class in bytes. */
+  totalBytes?: string | undefined;
 }
 export type AwsS3BucketDetailsStorageClassList = Array<AwsS3BucketDetailsStorageClass>;
 /** Versioning configuration of the bucket. */
@@ -1180,142 +1341,26 @@ export interface AwsS3BucketDetails {
   /** Optional. The metadata of the objects in the bucket. */
   objectsMetadata?: AwsS3BucketDetailsObjectsMetadata | undefined;
 }
-/** Details of an AWS ECS cluster. */
-export type AwsEcsClusterDetails = AggregationSum;
-/** Details of an AWS CloudFront distribution. */
-export type AwsCloudFrontDistributionDetails = AggregationSum;
-/** Contains details for an AWS EMR Cluster asset. */
-export type AwsEmrClusterDetails = AggregationSum;
-/** Asset information specific for AWS Application Load Balancers. */
-export type AwsApplicationLoadBalancerDetails = AggregationSum;
-/** Asset information specific for AWS API Gateway REST APIs. */
-export type AwsApiGatewayRestApiDetails = AggregationSum;
 /** Asset information specific for AWS Batch Compute Environments. */
 export type AwsBatchComputeEnvironmentDetails = AggregationSum;
-/** Statistical aggregation of samples for a single resource usage. */
-export interface DailyResourceUsageAggregationStats {
-  /** 95th percentile usage value. */
-  ninteyFifthPercentile?: number | undefined;
-  /** Average usage value. */
-  average?: number | undefined;
-  /** Peak usage value. */
-  peak?: number | undefined;
-  /** Median usage value. */
-  median?: number | undefined;
-}
-/** Statistical aggregation of CPU usage. */
-export interface DailyResourceUsageAggregationCPU {
-  /** CPU utilization percentage. */
-  utilizationPercentage?: DailyResourceUsageAggregationStats | undefined;
-}
-/** Statistical aggregation of disk usage. */
-export interface DailyResourceUsageAggregationDisk {
-  /** Disk I/O operations per second. */
-  iops?: DailyResourceUsageAggregationStats | undefined;
-  /** Disk read I/O operations per second. */
-  readIops?: DailyResourceUsageAggregationStats | undefined;
-  /** Disk write I/O operations per second. */
-  writeIops?: DailyResourceUsageAggregationStats | undefined;
-}
-/** Statistical aggregation of memory usage. */
-export interface DailyResourceUsageAggregationMemory {
-  /** Memory utilization percentage. */
-  utilizationPercentage?: DailyResourceUsageAggregationStats | undefined;
-}
-/** Statistical aggregation of network usage. */
-export interface DailyResourceUsageAggregationNetwork {
-  /** Network ingress in B/s. */
-  ingressBps?: DailyResourceUsageAggregationStats | undefined;
-  /** Network egress in B/s. */
-  egressBps?: DailyResourceUsageAggregationStats | undefined;
-}
-/** Usage data aggregation for a single day. */
-export interface DailyResourceUsageAggregation {
-  /** CPU usage. */
-  cpu?: DailyResourceUsageAggregationCPU | undefined;
-  /** Aggregation date. Day boundaries are at midnight UTC. */
-  date?: Migrationcenter_Date | undefined;
-  /** Disk usage. */
-  disk?: DailyResourceUsageAggregationDisk | undefined;
-  /** Memory usage. */
-  memory?: DailyResourceUsageAggregationMemory | undefined;
-  /** Network usage. */
-  network?: DailyResourceUsageAggregationNetwork | undefined;
-}
-export type DailyResourceUsageAggregationList = Array<DailyResourceUsageAggregation>;
-/** Performance data for an asset. */
-export interface AssetPerformanceData {
-  /** Daily resource usage aggregations. Contains all of the data available for an asset, up to the last 420 days. Aggregations are sorted from oldest to most recent. */
-  dailyResourceUsageAggregations?: DailyResourceUsageAggregationList | undefined;
-}
-/** Asset information specific for AWS Elastic Network Interfaces. */
-export type AwsElasticNetworkInterfaceDetails = AggregationSum;
-/** Details of an AWS Redshift cluster. */
-export type AwsRedshiftDetails = AggregationSum;
+/** Asset information specific for AWS EKS clusters. */
+export type AwsEksClusterDetails = AggregationSum;
 /** Asset information specific for AWS VPCs. */
 export type AwsVpcDetails = AggregationSum;
-/** Details of an AWS EFS file system. */
-export type AwsEfsFileSystemDetails = AggregationSum;
+/** Details of an AWS NAT Gateway. */
+export type AwsNatGatewayDetails = AggregationSum;
 /** Information about software detected on an asset. */
 export interface DetectedSoftware {
-  /** Output only. Software family of the detected software, e.g. Database, SAP family. */
-  softwareFamily?: string | undefined;
   /** Output only. Software's name. */
   softwareName?: string | undefined;
+  /** Output only. Software family of the detected software, e.g. Database, SAP family. */
+  softwareFamily?: string | undefined;
 }
 /** An insight regarding software detected on an asset. */
 export interface SoftwareInsight {
   /** Output only. Information about the detected software. */
   detectedSoftware?: DetectedSoftware | undefined;
 }
-/** A generic insight about an asset. */
-export interface GenericInsight {
-  /** Output only. In case message_code is not yet known by the client default_message will be the message to be used instead. Text can contain md file style links. */
-  defaultMessage?: string | undefined;
-  /** Output only. Represents a globally unique message id for this insight, can be used for localization purposes, in case message_code is not yet known by the client use default_message instead. */
-  messageId?: string | undefined;
-  /** Output only. Additional information about the insight, each entry can be a logical entry and must make sense if it is displayed with line breaks between each entry. Text can contain md style links. */
-  additionalInformation?: StringList | undefined;
-}
-/** VMWare engine migration target. */
-export type VmwareEngineMigrationTarget = AggregationSum;
-export type ComputeStorageDescriptorTypeEnum =
-  | "PERSISTENT_DISK_TYPE_UNSPECIFIED"
-  | "PERSISTENT_DISK_TYPE_STANDARD"
-  | "PERSISTENT_DISK_TYPE_BALANCED"
-  | "PERSISTENT_DISK_TYPE_SSD";
-/** Compute Engine storage option descriptor. */
-export interface ComputeStorageDescriptor {
-  /** Disk size in GiB. */
-  sizeGb?: number | undefined;
-  /** Output only. Disk type backing the storage. */
-  type?: ComputeStorageDescriptorTypeEnum | (string & {}) | undefined;
-}
-export type ComputeStorageDescriptorList = Array<ComputeStorageDescriptor>;
-/** Compute Engine target shape descriptor. */
-export interface ComputeEngineShapeDescriptor {
-  /** Output only. Compute Engine machine type. */
-  machineType?: string | undefined;
-  /** Output only. Number of logical cores. */
-  logicalCoreCount?: number | undefined;
-  /** Output only. Number of physical cores. */
-  physicalCoreCount?: number | undefined;
-  /** Output only. Whether simultaneous multithreading is enabled. See https://cloud.google.com/compute/docs/instances/set-threads-per-core. */
-  smtEnabled?: boolean | undefined;
-  /** Output only. Compute Engine storage. Never empty. */
-  storage?: ComputeStorageDescriptorList | undefined;
-  /** Output only. Compute Engine machine series. */
-  series?: string | undefined;
-  /** Output only. Memory in mebibytes. */
-  memoryMb?: number | undefined;
-}
-/** Compute engine migration target. */
-export interface ComputeEngineMigrationTarget {
-  /** Description of the suggested shape for the migration target. */
-  shape?: ComputeEngineShapeDescriptor | undefined;
-}
-/** GKE migration target. */
-export type GoogleKubernetesEngineMigrationTarget = AggregationSum;
 export type FitDescriptorFitLevelEnum =
   | "FIT_LEVEL_UNSPECIFIED"
   | "FIT"
@@ -1326,28 +1371,65 @@ export interface FitDescriptor {
   /** Output only. Fit level. */
   fitLevel?: FitDescriptorFitLevelEnum | (string & {}) | undefined;
 }
-export type IssueCompatibilityIssueCategoryEnum =
-  | "CATEGORY_UNSPECIFIED"
-  | "DATABASE_FLAG"
-  | "DATABASE_FEATURE";
+/** VMWare engine migration target. */
+export type VmwareEngineMigrationTarget = AggregationSum;
+export type ComputeStorageDescriptorTypeEnum =
+  | "PERSISTENT_DISK_TYPE_UNSPECIFIED"
+  | "PERSISTENT_DISK_TYPE_STANDARD"
+  | "PERSISTENT_DISK_TYPE_BALANCED"
+  | "PERSISTENT_DISK_TYPE_SSD";
+/** Compute Engine storage option descriptor. */
+export interface ComputeStorageDescriptor {
+  /** Output only. Disk type backing the storage. */
+  type?: ComputeStorageDescriptorTypeEnum | (string & {}) | undefined;
+  /** Disk size in GiB. */
+  sizeGb?: number | undefined;
+}
+export type ComputeStorageDescriptorList = Array<ComputeStorageDescriptor>;
+/** Compute Engine target shape descriptor. */
+export interface ComputeEngineShapeDescriptor {
+  /** Output only. Number of physical cores. */
+  physicalCoreCount?: number | undefined;
+  /** Output only. Compute Engine machine series. */
+  series?: string | undefined;
+  /** Output only. Memory in mebibytes. */
+  memoryMb?: number | undefined;
+  /** Output only. Number of logical cores. */
+  logicalCoreCount?: number | undefined;
+  /** Output only. Whether simultaneous multithreading is enabled. See https://cloud.google.com/compute/docs/instances/set-threads-per-core. */
+  smtEnabled?: boolean | undefined;
+  /** Output only. Compute Engine machine type. */
+  machineType?: string | undefined;
+  /** Output only. Compute Engine storage. Never empty. */
+  storage?: ComputeStorageDescriptorList | undefined;
+}
+/** Compute engine migration target. */
+export interface ComputeEngineMigrationTarget {
+  /** Description of the suggested shape for the migration target. */
+  shape?: ComputeEngineShapeDescriptor | undefined;
+}
 export type IssueCompatibilityIssueAssociatedObjectTypeEnum =
   | "OBJECT_TYPE_UNSPECIFIED"
   | "DATABASE_DEPLOYMENT"
   | "DATABASE"
   | "SCHEMA";
+export type IssueCompatibilityIssueCategoryEnum =
+  | "CATEGORY_UNSPECIFIED"
+  | "DATABASE_FLAG"
+  | "DATABASE_FEATURE";
 /** Details about a compatibility issue. */
 export interface IssueCompatibilityIssue {
-  /** Output only. Name of the object associated with this compatibility issue relative to the relevant asset. Does not represent a fully qualified resource name and is not intended for programmatic use. */
-  associatedObject?: string | undefined;
-  /** Output only. Category of this compatibility issue. */
-  category?: IssueCompatibilityIssueCategoryEnum | (string & {}) | undefined;
   /** Output only. Type of object associated with this migration compatibility issue. */
   associatedObjectType?:
     | IssueCompatibilityIssueAssociatedObjectTypeEnum
     | (string & {})
     | undefined;
+  /** Output only. Name of the object associated with this compatibility issue relative to the relevant asset. Does not represent a fully qualified resource name and is not intended for programmatic use. */
+  associatedObject?: string | undefined;
   /** Output only. A string representation of actual value associated with this issue. Some values may contain aggregated information, such as a flag name and the actual value assigned to it. */
   associatedValue?: string | undefined;
+  /** Output only. Category of this compatibility issue. */
+  category?: IssueCompatibilityIssueCategoryEnum | (string & {}) | undefined;
 }
 /** An issue associated with a migration. */
 export interface Issue {
@@ -1359,6 +1441,12 @@ export interface Issue {
   description?: string | undefined;
 }
 export type IssueList = Array<Issue>;
+/** Compute engine sole tenant migration target. */
+export type ComputeEngineSoleTenantMigrationTarget = AggregationSum;
+export type CloudSqlForPostgreSqlShapeZoneAvailabilityEnum =
+  | "CLOUD_SQL_ZONE_AVAILABILITY_UNSPECIFIED"
+  | "CLOUD_SQL_ZONE_AVAILABILITY_ZONAL"
+  | "CLOUD_SQL_ZONE_AVAILABILITY_REGIONAL";
 export type CloudSqlForPostgreSqlShapeVersionEnum =
   | "POSTGRESQL_VERSION_UNSPECIFIED"
   | "POSTGRESQL_VERSION_9_6"
@@ -1368,30 +1456,26 @@ export type CloudSqlForPostgreSqlShapeVersionEnum =
   | "POSTGRESQL_VERSION_13"
   | "POSTGRESQL_VERSION_14"
   | "POSTGRESQL_VERSION_15";
-export type CloudSqlForPostgreSqlShapeZoneAvailabilityEnum =
-  | "CLOUD_SQL_ZONE_AVAILABILITY_UNSPECIFIED"
-  | "CLOUD_SQL_ZONE_AVAILABILITY_ZONAL"
-  | "CLOUD_SQL_ZONE_AVAILABILITY_REGIONAL";
 export type CloudSqlForPostgreSqlShapeEditionEnum =
   | "CLOUD_SQL_EDITION_UNSPECIFIED"
   | "CLOUD_SQL_EDITION_ENTERPRISE"
   | "CLOUD_SQL_EDITION_ENTERPRISE_PLUS";
 /** Cloud SQL for PostgreSQL database shape. */
 export interface CloudSqlForPostgreSqlShape {
-  /** Output only. PostgreSql version to be used on the Cloud SQL for PostgreSql instance. */
-  version?: CloudSqlForPostgreSqlShapeVersionEnum | (string & {}) | undefined;
-  /** Output only. Predicted Network Out traffic GiB per month. */
-  egressGbPerMonth?: string | undefined;
-  /** Output only. Cloud SQL zone availability. */
-  zoneAvailability?: CloudSqlForPostgreSqlShapeZoneAvailabilityEnum | (string & {}) | undefined;
   /** Output only. Predicted amount of memory in MiB. */
   memoryMb?: number | undefined;
-  /** Output only. Predicted storage shape. */
-  storage?: ComputeStorageDescriptor | undefined;
-  /** Output only. Number of logical cores. */
-  logicalCoreCount?: number | undefined;
   /** Output only. Predicted backup storage size in GiB. */
   backupStorageGb?: number | undefined;
+  /** Output only. Predicted Network Out traffic GiB per month. */
+  egressGbPerMonth?: string | undefined;
+  /** Output only. Predicted storage shape. */
+  storage?: ComputeStorageDescriptor | undefined;
+  /** Output only. Cloud SQL zone availability. */
+  zoneAvailability?: CloudSqlForPostgreSqlShapeZoneAvailabilityEnum | (string & {}) | undefined;
+  /** Output only. PostgreSql version to be used on the Cloud SQL for PostgreSql instance. */
+  version?: CloudSqlForPostgreSqlShapeVersionEnum | (string & {}) | undefined;
+  /** Output only. Number of logical cores. */
+  logicalCoreCount?: number | undefined;
   /** Output only. Cloud SQL edition. */
   edition?: CloudSqlForPostgreSqlShapeEditionEnum | (string & {}) | undefined;
 }
@@ -1419,24 +1503,24 @@ export type CloudSqlForSqlServerShapeZoneAvailabilityEnum =
   | "CLOUD_SQL_ZONE_AVAILABILITY_REGIONAL";
 /** Cloud SQL for SQL Server database shape. */
 export interface CloudSqlForSqlServerShape {
+  /** Output only. Predicted storage shape. */
+  storage?: ComputeStorageDescriptor | undefined;
   /** Output only. Cloud SQL edition. */
   edition?: CloudSqlForSqlServerShapeEditionEnum | (string & {}) | undefined;
-  /** Output only. Predicted Network Out traffic GiB per month. */
-  egressGbPerMonth?: string | undefined;
-  /** Output only. Whether simultaneous multithreading is enabled (see https://cloud.google.com/sql/docs/sqlserver/create-instance#smt-create-instance). */
-  smtEnabled?: boolean | undefined;
   /** Output only. Microsoft SQL Server version to be used on the Cloud SQL for SQL server instance. */
   version?: CloudSqlForSqlServerShapeVersionEnum | (string & {}) | undefined;
+  /** Output only. Whether simultaneous multithreading is enabled (see https://cloud.google.com/sql/docs/sqlserver/create-instance#smt-create-instance). */
+  smtEnabled?: boolean | undefined;
+  /** Output only. Cloud SQL zone availability. */
+  zoneAvailability?: CloudSqlForSqlServerShapeZoneAvailabilityEnum | (string & {}) | undefined;
   /** Output only. Predicted amount of memory in MiB. */
   memoryMb?: number | undefined;
   /** Output only. Number of logical cores. */
   logicalCoreCount?: number | undefined;
-  /** Output only. Predicted storage shape. */
-  storage?: ComputeStorageDescriptor | undefined;
   /** Output only. Predicted backup storage size in GiB. */
   backupStorageGb?: number | undefined;
-  /** Output only. Cloud SQL zone availability. */
-  zoneAvailability?: CloudSqlForSqlServerShapeZoneAvailabilityEnum | (string & {}) | undefined;
+  /** Output only. Predicted Network Out traffic GiB per month. */
+  egressGbPerMonth?: string | undefined;
 }
 export type CloudSqlForMySqlShapeVersionEnum =
   | "MY_SQL_VERSION_UNSPECIFIED"
@@ -1455,20 +1539,20 @@ export type CloudSqlForMySqlShapeZoneAvailabilityEnum =
 export interface CloudSqlForMySqlShape {
   /** Output only. Predicted amount of memory in MiB. */
   memoryMb?: number | undefined;
-  /** Output only. Number of logical cores. */
-  logicalCoreCount?: number | undefined;
   /** Output only. Predicted backup storage size in GiB. */
   backupStorageGb?: number | undefined;
+  /** Output only. Predicted Network Out traffic GiB per month. */
+  egressGbPerMonth?: string | undefined;
+  /** Output only. Predicted storage shape. */
+  storage?: ComputeStorageDescriptor | undefined;
+  /** Output only. Number of logical cores. */
+  logicalCoreCount?: number | undefined;
   /** Output only. MySQL version to be used on the Cloud SQL for MySQL instance. */
   version?: CloudSqlForMySqlShapeVersionEnum | (string & {}) | undefined;
   /** Output only. Cloud SQL edition. */
   edition?: CloudSqlForMySqlShapeEditionEnum | (string & {}) | undefined;
   /** Output only. Cloud SQL zone availability. */
   zoneAvailability?: CloudSqlForMySqlShapeZoneAvailabilityEnum | (string & {}) | undefined;
-  /** Output only. Predicted storage shape. */
-  storage?: ComputeStorageDescriptor | undefined;
-  /** Output only. Predicted Network Out traffic GiB per month. */
-  egressGbPerMonth?: string | undefined;
 }
 /** Cloud database migration target. */
 export interface CloudDatabaseMigrationTarget {
@@ -1479,246 +1563,162 @@ export interface CloudDatabaseMigrationTarget {
   /** Cloud SQL for MySQL database shape. */
   cloudSqlForMysqlShape?: CloudSqlForMySqlShape | undefined;
 }
-/** Compute engine sole tenant migration target. */
-export type ComputeEngineSoleTenantMigrationTarget = AggregationSum;
+/** GKE migration target. */
+export type GoogleKubernetesEngineMigrationTarget = AggregationSum;
 /** An insight about potential migrations for an asset. */
 export interface MigrationInsight {
+  /** Output only. Description of how well the asset this insight is associated with fits the proposed migration. */
+  fit?: FitDescriptor | undefined;
   /** Output only. A VMWare Engine target. */
   vmwareEngineTarget?: AggregationSum | undefined;
   /** Output only. A Google Compute Engine target. */
   computeEngineTarget?: ComputeEngineMigrationTarget | undefined;
-  /** Output only. A Google Kubernetes Engine target. */
-  gkeTarget?: AggregationSum | undefined;
-  /** Output only. Description of how well the asset this insight is associated with fits the proposed migration. */
-  fit?: FitDescriptor | undefined;
   /** Output only. Issues associated with this migration. */
   issues?: IssueList | undefined;
-  /** Output only. A Cloud database migration target. */
-  cloudDatabaseTarget?: CloudDatabaseMigrationTarget | undefined;
   /** Output only. A Google Compute Engine Sole Tenant target. */
   computeEngineSoleTenantTarget?: AggregationSum | undefined;
+  /** Output only. A Cloud database migration target. */
+  cloudDatabaseTarget?: CloudDatabaseMigrationTarget | undefined;
+  /** Output only. A Google Kubernetes Engine target. */
+  gkeTarget?: AggregationSum | undefined;
+}
+/** A generic insight about an asset. */
+export interface GenericInsight {
+  /** Output only. Additional information about the insight, each entry can be a logical entry and must make sense if it is displayed with line breaks between each entry. Text can contain md style links. */
+  additionalInformation?: StringList | undefined;
+  /** Output only. In case message_code is not yet known by the client default_message will be the message to be used instead. Text can contain md file style links. */
+  defaultMessage?: string | undefined;
+  /** Output only. Represents a globally unique message id for this insight, can be used for localization purposes, in case message_code is not yet known by the client use default_message instead. */
+  messageId?: string | undefined;
 }
 /** An insight about an asset. */
 export interface Insight {
   /** Output only. An insight regarding software detected on an asset. */
   softwareInsight?: SoftwareInsight | undefined;
-  /** Output only. A generic insight about an asset. */
-  genericInsight?: GenericInsight | undefined;
   /** Output only. An insight about potential migrations for an asset. */
   migrationInsight?: MigrationInsight | undefined;
+  /** Output only. A generic insight about an asset. */
+  genericInsight?: GenericInsight | undefined;
 }
 export type InsightList_ = Array<Insight>;
 /** Message containing insights list. */
 export interface InsightList {
-  /** Output only. Update timestamp. */
-  updateTime?: string | undefined;
   /** Output only. Insights of the list. */
   insights?: InsightList_ | undefined;
+  /** Output only. Update timestamp. */
+  updateTime?: string | undefined;
 }
-/** Asset information specific for AWS ECR Repository. */
-export type AwsEcrRepositoryDetails = AggregationSum;
-/** Asset information specific for AWS Elastic IP Addresses. */
-export type AwsElasticIpAddressDetails = AggregationSum;
-/** Details of VM disks. */
-export interface VirtualMachineDiskDetails {
-  /** List of disks. */
-  disks?: DiskEntryList | undefined;
-  /** Raw lsblk output in json. */
-  lsblkJson?: string | undefined;
-  /** Disk total Capacity. */
-  hddTotalCapacityBytes?: string | undefined;
-  /** Total Disk Free Space. */
-  hddTotalFreeBytes?: string | undefined;
-}
-export type VirtualMachineArchitectureDetailsHyperthreadingEnum =
-  | "HYPER_THREADING_UNSPECIFIED"
-  | "HYPER_THREADING_DISABLED"
-  | "HYPER_THREADING_ENABLED";
-/** Details of the VM architecture. */
-export interface VirtualMachineArchitectureDetails {
-  /** CPU name, e.g., "Intel Xeon E5-2690", "AMD EPYC 7571" etc. */
-  cpuName?: string | undefined;
-  /** BIOS Details. */
-  bios?: BiosDetails | undefined;
-  /** Deprecated: use VirtualMachineDetails.core_count instead. Number of CPU threads allocated to the machine. */
-  cpuThreadCount?: number | undefined;
-  /** Firmware (BIOS/efi). */
-  firmware?: string | undefined;
-  /** Hardware vendor. */
-  vendor?: string | undefined;
-  /** CPU architecture, e.g., "x64-based PC", "x86_64", "i686" etc. */
-  cpuArchitecture?: string | undefined;
-  /** CPU manufacturer, e.g., "Intel", "AMD". */
-  cpuManufacturer?: string | undefined;
-  /** Number of processor sockets allocated to the machine. */
-  cpuSocketCount?: number | undefined;
-  /** CPU hyperthreading support. */
-  hyperthreading?: VirtualMachineArchitectureDetailsHyperthreadingEnum | (string & {}) | undefined;
-}
-export type VirtualMachineDetailsOsFamilyEnum =
-  | "OS_FAMILY_UNKNOWN"
-  | "OS_FAMILY_WINDOWS"
-  | "OS_FAMILY_LINUX"
-  | "OS_FAMILY_UNIX";
-/** Details of network adapters and settings. */
-export interface VirtualMachineNetworkDetails {
-  /** Default gateway address. */
-  defaultGw?: string | undefined;
-  /** MAC address of the machine. This property is used to uniqly identify the machine. */
-  primaryMacAddress?: string | undefined;
-  /** List of network adapters. */
-  networkAdapters?: NetworkAdapterList | undefined;
-  /** IP address of the machine. */
-  primaryIpAddress?: string | undefined;
-  /** Public IP address of the machine. */
-  publicIpAddress?: string | undefined;
-}
-/** Details of a VirtualMachine. */
-export interface VirtualMachineDetails {
-  /** vCenter URL used in collection. */
-  vcenterUrl?: string | undefined;
-  /** VM disk details. */
-  vmDisks?: VirtualMachineDiskDetails | undefined;
-  /** Number of logical CPU cores in the VirtualMachine. Must be non-negative. */
-  coreCount?: number | undefined;
-  /** Guest OS information. */
-  guestOs?: GuestOsDetails | undefined;
-  /** vCenter VM ID. */
-  vcenterVmId?: string | undefined;
-  /** Platform information. */
-  platform?: PlatformDetails | undefined;
-  /** The amount of memory in the VirtualMachine. Must be non-negative. */
-  memoryMb?: number | undefined;
-  /** VM architecture details (vendor, cpu arch). */
-  vmArchitecture?: VirtualMachineArchitectureDetails | undefined;
-  /** What family the OS belong to, if known. */
-  osFamily?: VirtualMachineDetailsOsFamilyEnum | (string & {}) | undefined;
-  /** The version of the operating system running on the virtual machine. */
-  osVersion?: string | undefined;
-  /** Optional. Disk partitions details. Note: Partitions are not necessarily mounted on local disks and therefore might not have a one-to-one correspondence with local disks. */
-  diskPartitions?: DiskPartitionDetails | undefined;
-  /** VM network details. */
-  vmNetwork?: VirtualMachineNetworkDetails | undefined;
-  /** The name of the operating system running on the VirtualMachine. */
-  osName?: string | undefined;
-  /** Power state of VM (poweredOn or poweredOff). */
-  powerState?: string | undefined;
-  /** Folder name in vCenter where asset resides. */
-  vcenterFolder?: string | undefined;
-  /** Virtual Machine display name. */
-  vmName?: string | undefined;
-  /** VM creation timestamp. */
-  createTime?: string | undefined;
-  /** Virtual Machine unique identifier. */
-  vmUuid?: string | undefined;
-}
+/** Contains details for an AWS Glue Job asset. */
+export type AwsGlueJobDetails = AggregationSum;
+/** Asset information specific for AWS Autoscaling Group. */
+export type AwsAutoscalingGroupDetails = AggregationSum;
 /** An asset represents a resource in your environment. Asset types include virtual machines and databases. */
 export interface Asset {
-  /** Output only. Asset information specific for AWS SNS Topics. */
-  awsSnsTopicDetails?: AggregationSum | undefined;
-  /** Output only. Details about the hosting provider of the asset. */
-  hostingProviderDetails?: HostingProviderDetails | undefined;
-  /** Output only. Asset information specific for AwsAutoscalingGroupDetails */
-  awsAutoscalingGroupDetails?: AggregationSum | undefined;
   /** Output only. Server generated human readable name of the asset. */
   title?: string | undefined;
-  /** Output only. The full name of the asset. */
-  name?: string | undefined;
-  /** Output only. Asset information specific for AWS DynamoDB tables. */
-  awsDynamodbTableDetails?: AggregationSum | undefined;
-  /** Output only. Asset information specific for AwsNatGatewayDetails */
-  awsNatGatewayDetails?: AggregationSum | undefined;
-  /** Output only. Asset information specific for database deployments. */
-  databaseDeploymentDetails?: DatabaseDeploymentDetails | undefined;
-  /** Output only. Asset information specific for AwsGlueJobDetails */
-  awsGlueJobDetails?: AggregationSum | undefined;
-  /** Output only. Asset information specific for AwsRoute53HostedZoneDetails */
-  awsRoute53HostedZoneDetails?: AggregationSum | undefined;
-  /** Output only. Asset information specific for AwsFirehoseDetails */
-  awsFirehoseDetails?: AggregationSum | undefined;
-  /** Output only. Asset information specific for AwsAthenaWorkGroupDetails */
-  awsAthenaWorkGroupDetails?: AggregationSum | undefined;
-  /** Output only. Asset information specific for AWS Internet Gateways. */
-  awsInternetGatewayDetails?: AggregationSum | undefined;
-  /** Optional. Indicates if the asset is hidden. */
-  hidden?: boolean | undefined;
   /** Output only. Asset information specific for AWS ElastiCache Clusters. */
   awsElasticacheClusterDetails?: AggregationSum | undefined;
-  /** Optional. Generic structured asset attributes. */
-  structuredAttributes?: DocumentMap | undefined;
-  /** Optional. An optional reason for marking this asset as hidden. */
-  hideReason?: string | undefined;
-  /** Output only. The timestamp when the asset was created. */
-  createTime?: string | undefined;
-  /** Output only. Asset information specific for AWS Lambda functions. */
-  awsLambdaFunctionDetails?: AggregationSum | undefined;
-  /** Output only. Asset information specific for virtual machines. */
-  machineDetails?: MachineDetails | undefined;
-  /** Output only. Asset information specific for logical databases. */
-  databaseDetails?: DatabaseDetails | undefined;
-  /** Labels as key value pairs. */
-  labels?: StringMap | undefined;
-  /** Output only. The list of groups that the asset is assigned to. */
-  assignedGroups?: StringList | undefined;
-  /** Output only. Asset information specific for AWS Load Balancers. */
-  awsElbLoadBalancerDetails?: AggregationSum | undefined;
-  /** Output only. Asset information specific for AWS AppSync GraphQL APIs. */
-  awsAppSyncGraphqlApiDetails?: AggregationSum | undefined;
-  /** Output only. Asset information specific for AWS EBS Volumes. */
-  awsEbsVolumeDetails?: AggregationSum | undefined;
-  /** Output only. Asset information specific for AWS EKS clusters. */
-  awsEksClusterDetails?: AggregationSum | undefined;
-  /** Generic asset attributes. */
-  attributes?: StringMap | undefined;
-  /** Output only. Asset information specific for AwsKinesisStreamDetails */
-  awsKinesisStreamDetails?: AggregationSum | undefined;
-  /** Output only. The timestamp when the asset was marked as hidden. */
-  hideTime?: string | undefined;
-  /** Output only. Asset information specific for AWS S3 buckets. */
-  awsS3BucketDetails?: AwsS3BucketDetails | undefined;
-  /** Output only. Asset information specific for AWS ECS clusters. */
-  awsEcsClusterDetails?: AggregationSum | undefined;
-  /** Output only. Asset information specific for AWS CloudFront distributions. */
-  awsCloudFrontDistributionDetails?: AggregationSum | undefined;
-  /** Output only. Asset information specific for AwsEmrClusterDetails */
-  awsEmrClusterDetails?: AggregationSum | undefined;
-  /** Output only. Asset information specific for AWS Application Load Balancers. */
-  awsApplicationLoadBalancerDetails?: AggregationSum | undefined;
-  /** Output only. Asset information specific for AWS API Gateway REST APIs. */
-  awsApiGatewayRestApiDetails?: AggregationSum | undefined;
   /** Output only. The list of sources contributing to the asset. */
   sources?: StringList | undefined;
-  /** Output only. Asset information specific for AWS Batch Compute Environments. */
-  awsBatchComputeEnvironmentDetails?: AggregationSum | undefined;
-  /** Performance data for the asset. */
-  performanceData?: AssetPerformanceData | undefined;
-  /** Output only. Asset information specific for AWS Elastic Network Interfaces. */
-  awsElasticNetworkInterfaceDetails?: AggregationSum | undefined;
-  /** Output only. Asset information specific for AWS Redshift */
-  awsRedshiftDetails?: AggregationSum | undefined;
-  /** Output only. Asset information specific for AWS VPCs. */
-  awsVpcDetails?: AggregationSum | undefined;
-  /** Output only. Asset information specific for AWS EFS file systems. */
-  awsEfsFileSystemDetails?: AggregationSum | undefined;
-  /** Output only. The timestamp when the asset was last updated. */
-  updateTime?: string | undefined;
-  /** Output only. The list of insights associated with the asset. */
-  insightList?: InsightList | undefined;
-  /** Output only. Asset information specific for AwsEcrRepositoryDetails */
-  awsEcrRepositoryDetails?: AggregationSum | undefined;
   /** Output only. Asset information specific for AWS Elastic IP Addresses. */
   awsElasticIpAddressDetails?: AggregationSum | undefined;
+  /** Output only. Asset information specific for database deployments. */
+  databaseDeploymentDetails?: DatabaseDeploymentDetails | undefined;
+  /** Output only. The timestamp when the asset was last updated. */
+  updateTime?: string | undefined;
+  /** Output only. Asset information specific for AWS Load Balancers. */
+  awsElbLoadBalancerDetails?: AggregationSum | undefined;
+  /** Output only. Asset information specific for AWS ECS clusters. */
+  awsEcsClusterDetails?: AggregationSum | undefined;
+  /** Output only. The full name of the asset. */
+  name?: string | undefined;
+  /** Output only. Asset information specific for AwsRoute53HostedZoneDetails */
+  awsRoute53HostedZoneDetails?: AggregationSum | undefined;
+  /** Optional. Indicates if the asset is hidden. */
+  hidden?: boolean | undefined;
+  /** Generic asset attributes. */
+  attributes?: StringMap | undefined;
+  /** Performance data for the asset. */
+  performanceData?: AssetPerformanceData | undefined;
+  /** Output only. Asset information specific for AWS AppSync GraphQL APIs. */
+  awsAppSyncGraphqlApiDetails?: AggregationSum | undefined;
+  /** Output only. Asset information specific for AWS API Gateway REST APIs. */
+  awsApiGatewayRestApiDetails?: AggregationSum | undefined;
+  /** Output only. Asset information specific for AWS Elastic Network Interfaces. */
+  awsElasticNetworkInterfaceDetails?: AggregationSum | undefined;
+  /** Output only. Asset information specific for AWS Internet Gateways. */
+  awsInternetGatewayDetails?: AggregationSum | undefined;
+  /** Output only. Asset information specific for AWS DynamoDB tables. */
+  awsDynamodbTableDetails?: AggregationSum | undefined;
+  /** Optional. Generic structured asset attributes. */
+  structuredAttributes?: DocumentMap | undefined;
+  /** Output only. Asset information specific for AwsEmrClusterDetails */
+  awsEmrClusterDetails?: AggregationSum | undefined;
+  /** Output only. Asset information specific for AwsAthenaWorkGroupDetails */
+  awsAthenaWorkGroupDetails?: AggregationSum | undefined;
+  /** Labels as key value pairs. */
+  labels?: StringMap | undefined;
+  /** Output only. Asset information specific for AwsFirehoseDetails */
+  awsFirehoseDetails?: AggregationSum | undefined;
+  /** Output only. Asset information specific for AWS Redshift */
+  awsRedshiftDetails?: AggregationSum | undefined;
+  /** Output only. Asset information specific for virtual machines. */
+  machineDetails?: MachineDetails | undefined;
+  /** Output only. Asset information specific for AWS Lambda functions. */
+  awsLambdaFunctionDetails?: AggregationSum | undefined;
+  /** Optional. An optional reason for marking this asset as hidden. */
+  hideReason?: string | undefined;
+  /** Output only. Asset information specific for AWS Application Load Balancers. */
+  awsApplicationLoadBalancerDetails?: AggregationSum | undefined;
+  /** Output only. Asset information specific for AWS SNS Topics. */
+  awsSnsTopicDetails?: AggregationSum | undefined;
+  /** Output only. Asset information specific for AwsKinesisStreamDetails */
+  awsKinesisStreamDetails?: AggregationSum | undefined;
+  /** Output only. Asset information specific for AWS EBS Volumes. */
+  awsEbsVolumeDetails?: AggregationSum | undefined;
+  /** Output only. Asset information specific for logical databases. */
+  databaseDetails?: DatabaseDetails | undefined;
+  /** Output only. Asset information specific for AwsEcrRepositoryDetails */
+  awsEcrRepositoryDetails?: AggregationSum | undefined;
+  /** Output only. The timestamp when the asset was marked as hidden. */
+  hideTime?: string | undefined;
+  /** Output only. Asset information specific for AWS EFS file systems. */
+  awsEfsFileSystemDetails?: AggregationSum | undefined;
+  /** Output only. Details about the hosting provider of the asset. */
+  hostingProviderDetails?: HostingProviderDetails | undefined;
+  /** Output only. The timestamp when the asset was created. */
+  createTime?: string | undefined;
   /** Output only. Asset information specific for virtual machines. */
   virtualMachineDetails?: VirtualMachineDetails | undefined;
+  /** Output only. Asset information specific for AWS CloudFront distributions. */
+  awsCloudFrontDistributionDetails?: AggregationSum | undefined;
+  /** Output only. Asset information specific for AWS S3 buckets. */
+  awsS3BucketDetails?: AwsS3BucketDetails | undefined;
+  /** Output only. Asset information specific for AWS Batch Compute Environments. */
+  awsBatchComputeEnvironmentDetails?: AggregationSum | undefined;
+  /** Output only. Asset information specific for AWS EKS clusters. */
+  awsEksClusterDetails?: AggregationSum | undefined;
+  /** Output only. Asset information specific for AWS VPCs. */
+  awsVpcDetails?: AggregationSum | undefined;
+  /** Output only. Asset information specific for AwsNatGatewayDetails */
+  awsNatGatewayDetails?: AggregationSum | undefined;
+  /** Output only. The list of insights associated with the asset. */
+  insightList?: InsightList | undefined;
+  /** Output only. Asset information specific for AwsGlueJobDetails */
+  awsGlueJobDetails?: AggregationSum | undefined;
+  /** Output only. Asset information specific for AwsAutoscalingGroupDetails */
+  awsAutoscalingGroupDetails?: AggregationSum | undefined;
+  /** Output only. The list of groups that the asset is assigned to. */
+  assignedGroups?: StringList | undefined;
 }
 /** A request to update an asset. */
 export interface UpdateAssetRequest {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. The resource being updated. */
-  asset?: Asset | undefined;
   /** Required. Field mask is used to specify the fields to be overwritten in the `Asset` resource by the update. The values specified in the `update_mask` field are relative to the resource, not the full request. A field will be overwritten if it is in the mask. A single * value in the mask lets you to overwrite all fields. */
   updateMask?: string | undefined;
+  /** Required. The resource being updated. */
+  asset?: Asset | undefined;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
 }
 export type UpdateAssetRequestList = Array<UpdateAssetRequest>;
 /** A request to update a list of assets. */
@@ -1744,8 +1744,18 @@ export interface CancelProjectsLocationsOperationsRequest {
   /** Request body */
   body?: AggregationSum | undefined;
 }
-/** Configuration for asset inventory details exports. */
-export type AssetsExportJobInventory = AggregationSum;
+/** Configuration for network dependencies exports. */
+export type AssetsExportJobNetworkDependencies = AggregationSum;
+/** Configuration for performance data exports. */
+export interface AssetsExportJobPerformanceData {
+  /** Optional. When this value is set to a positive integer, performance data will be returned for the most recent days for which data is available. When this value is unset (or set to zero), all available data is returned. The maximum value is 420; values above 420 will be coerced to 420. If unset (0 value) a default value of 40 will be used. */
+  maxDays?: number | undefined;
+}
+/** Conditions for selecting assets to export. */
+export interface AssetsExportJobExportCondition {
+  /** Optional. Assets filter, supports the same syntax as asset listing. */
+  filter?: string | undefined;
+}
 /** Contains a signed URI. */
 export interface SignedUri {
   /** Output only. Download URI for the file. */
@@ -1753,10 +1763,11 @@ export interface SignedUri {
   /** Output only. Name of the file the Signed URI references. */
   file?: string | undefined;
 }
-/** Contains a single output file of type XLSX. */
-export interface XlsxOutputFile {
-  /** Output only. Signed URI destination. */
-  signedUri?: SignedUri | undefined;
+export type SignedUriList = Array<SignedUri>;
+/** Contains a list of Signed URIs. */
+export interface SignedUris {
+  /** Output only. List of signed URIs. */
+  signedUris?: SignedUriList | undefined;
 }
 /** Contains a single output file of type CSV. */
 export interface CsvOutputFile {
@@ -1767,12 +1778,17 @@ export interface CsvOutputFile {
   /** Output only. Signed URI destination. */
   signedUri?: SignedUri | undefined;
 }
+/** Contains a single output file of type XLSX. */
+export interface XlsxOutputFile {
+  /** Output only. Signed URI destination. */
+  signedUri?: SignedUri | undefined;
+}
 /** Contains a single output file. */
 export interface OutputFile {
-  /** Output only. XLSX output file. */
-  xlsxOutputFile?: XlsxOutputFile | undefined;
   /** Output only. CSV output file. */
   csvOutputFile?: CsvOutputFile | undefined;
+  /** Output only. XLSX output file. */
+  xlsxOutputFile?: XlsxOutputFile | undefined;
   /** Output only. File size in bytes. */
   fileSizeBytes?: string | undefined;
 }
@@ -1782,79 +1798,63 @@ export interface OutputFileList {
   /** List of output files. */
   entries?: OutputFileList_ | undefined;
 }
-export type SignedUriList = Array<SignedUri>;
-/** Contains a list of Signed URIs. */
-export interface SignedUris {
-  /** Output only. List of signed URIs. */
-  signedUris?: SignedUriList | undefined;
-}
 /** Contains the result of the assets export. */
 export interface AssetsExportJobExecutionResult {
-  /** Output only. Error encountered during export. */
-  error?: Status | undefined;
-  /** Output only. List of output files. */
-  outputFiles?: OutputFileList | undefined;
   /** Output only. Signed URLs for downloading export artifacts. */
   signedUris?: SignedUris | undefined;
+  /** Output only. List of output files. */
+  outputFiles?: OutputFileList | undefined;
+  /** Output only. Error encountered during export. */
+  error?: Status | undefined;
 }
 /** Execution status of assets export job. */
 export interface AssetsExportJobExecution {
-  /** Output only. Result of the export execution. */
-  result?: AssetsExportJobExecutionResult | undefined;
-  /** Output only. Globally unique identifier of the execution. */
-  executionId?: string | undefined;
-  /** Output only. Completion time of the export. */
-  endTime?: string | undefined;
   /** Output only. Expiration time for the export and artifacts. */
   expireTime?: string | undefined;
+  /** Output only. Globally unique identifier of the execution. */
+  executionId?: string | undefined;
+  /** Output only. Result of the export execution. */
+  result?: AssetsExportJobExecutionResult | undefined;
   /** Output only. Execution timestamp. */
   startTime?: string | undefined;
+  /** Output only. Completion time of the export. */
+  endTime?: string | undefined;
   /** Output only. Number of assets requested for export after resolving the requested filters. */
   requestedAssetCount?: number | undefined;
 }
 export type AssetsExportJobExecutionList = Array<AssetsExportJobExecution>;
-/** Conditions for selecting assets to export. */
-export interface AssetsExportJobExportCondition {
-  /** Optional. Assets filter, supports the same syntax as asset listing. */
-  filter?: string | undefined;
-}
-/** Configuration for network dependencies exports. */
-export type AssetsExportJobNetworkDependencies = AggregationSum;
+/** Configuration for asset inventory details exports. */
+export type AssetsExportJobInventory = AggregationSum;
 export type SignedUriDestinationFileFormatEnum = "FILE_FORMAT_UNSPECIFIED" | "CSV" | "XLSX";
 /** Signed URI destination configuration. */
 export interface SignedUriDestination {
   /** Required. The file format to export. */
   fileFormat?: SignedUriDestinationFileFormatEnum | (string & {}) | undefined;
 }
-/** Configuration for performance data exports. */
-export interface AssetsExportJobPerformanceData {
-  /** Optional. When this value is set to a positive integer, performance data will be returned for the most recent days for which data is available. When this value is unset (or set to zero), all available data is returned. The maximum value is 420; values above 420 will be coerced to 420. If unset (0 value) a default value of 40 will be used. */
-  maxDays?: number | undefined;
-}
 /** Assets export job message. */
 export interface AssetsExportJob {
-  /** Export asset inventory details. */
-  inventory?: AggregationSum | undefined;
-  /** Optional. Labels as key value pairs. Labels must meet the following constraints: * Keys and values can contain only lowercase letters, numeric characters, underscores, and dashes. * All characters must use UTF-8 encoding, and international characters are allowed. * Keys must start with a lowercase letter or international character. * Each resource is limited to a maximum of 64 labels. Both keys and values are additionally constrained to be <= 128 bytes. */
-  labels?: StringMap | undefined;
-  /** Output only. Resource creation time. */
-  createTime?: string | undefined;
-  /** Output only. Recent non expired executions of the job. */
-  recentExecutions?: AssetsExportJobExecutionList | undefined;
-  /** Output only. Resource update time. */
-  updateTime?: string | undefined;
-  /** Optional. Conditions for selecting assets to export. */
-  condition?: AssetsExportJobExportCondition | undefined;
-  /** Export data regarding asset network dependencies. */
-  networkDependencies?: AggregationSum | undefined;
   /** Output only. Identifier. Resource name. */
   name?: string | undefined;
-  /** Export to Cloud Storage files downloadable using signed URIs. */
-  signedUriDestination?: SignedUriDestination | undefined;
+  /** Export data regarding asset network dependencies. */
+  networkDependencies?: AggregationSum | undefined;
+  /** Optional. Labels as key value pairs. Labels must meet the following constraints: * Keys and values can contain only lowercase letters, numeric characters, underscores, and dashes. * All characters must use UTF-8 encoding, and international characters are allowed. * Keys must start with a lowercase letter or international character. * Each resource is limited to a maximum of 64 labels. Both keys and values are additionally constrained to be <= 128 bytes. */
+  labels?: StringMap | undefined;
   /** Export asset with performance data. */
   performanceData?: AssetsExportJobPerformanceData | undefined;
+  /** Optional. Conditions for selecting assets to export. */
+  condition?: AssetsExportJobExportCondition | undefined;
+  /** Output only. Recent non expired executions of the job. */
+  recentExecutions?: AssetsExportJobExecutionList | undefined;
+  /** Output only. Resource creation time. */
+  createTime?: string | undefined;
   /** Optional. When this value is set to 'true' the response will include all assets, including those that are hidden. */
   showHidden?: boolean | undefined;
+  /** Export asset inventory details. */
+  inventory?: AggregationSum | undefined;
+  /** Export to Cloud Storage files downloadable using signed URIs. */
+  signedUriDestination?: SignedUriDestination | undefined;
+  /** Output only. Resource update time. */
+  updateTime?: string | undefined;
 }
 export interface CreateProjectsLocationsAssetsExportJobsRequest extends AssetsExportJob {
   /** Required. The parent resource where the assts export job will be created. */
@@ -1882,38 +1882,38 @@ export type DiscoveryClientStateEnum =
   | "EXPIRED";
 /** Represents an installed Migration Center Discovery Client instance. */
 export interface DiscoveryClient {
-  /** Output only. Identifier. Full name of this discovery client. */
-  name?: string | undefined;
-  /** Output only. The recommended versions of the discovery client. */
-  recommendedVersions?: DiscoveryClientDiscoveryClientRecommendedVersionList | undefined;
-  /** Output only. Time when the discovery client was first created. */
-  createTime?: string | undefined;
-  /** Output only. Last heartbeat time. Healthy clients are expected to send heartbeats regularly (normally every few minutes). */
-  heartbeatTime?: string | undefined;
-  /** Optional. Client expiration time in UTC. If specified, the backend will not accept new frames after this time. */
-  expireTime?: string | undefined;
-  /** Output only. Time when the discovery client was last updated. This value is not updated by heartbeats, to view the last heartbeat time please refer to the `heartbeat_time` field. */
-  updateTime?: string | undefined;
-  /** Optional. Free text description. Maximum length is 1000 characters. */
-  description?: string | undefined;
-  /** Required. Service account used by the discovery client for various operation. */
-  serviceAccount?: string | undefined;
-  /** Output only. This field is intended for internal use. */
-  signalsEndpoint?: string | undefined;
-  /** Required. Full name of the source object associated with this discovery client. */
-  source?: string | undefined;
   /** Optional. Labels as key value pairs. */
   labels?: StringMap | undefined;
-  /** Output only. Errors affecting client functionality. */
-  errors?: StatusList | undefined;
   /** Output only. Client version, as reported in recent heartbeat. */
   version?: string | undefined;
-  /** Optional. Free text display name. Maximum length is 63 characters. */
-  displayName?: string | undefined;
-  /** Optional. Input only. Client time-to-live. If specified, the backend will not accept new frames after this time. This field is input only. The derived expiration time is provided as output through the `expire_time` field. */
-  ttl?: string | undefined;
+  /** Output only. The recommended versions of the discovery client. */
+  recommendedVersions?: DiscoveryClientDiscoveryClientRecommendedVersionList | undefined;
+  /** Optional. Free text description. Maximum length is 1000 characters. */
+  description?: string | undefined;
+  /** Output only. Identifier. Full name of this discovery client. */
+  name?: string | undefined;
+  /** Required. Service account used by the discovery client for various operation. */
+  serviceAccount?: string | undefined;
+  /** Output only. Errors affecting client functionality. */
+  errors?: StatusList | undefined;
+  /** Output only. This field is intended for internal use. */
+  signalsEndpoint?: string | undefined;
+  /** Output only. Time when the discovery client was last updated. This value is not updated by heartbeats, to view the last heartbeat time please refer to the `heartbeat_time` field. */
+  updateTime?: string | undefined;
+  /** Optional. Client expiration time in UTC. If specified, the backend will not accept new frames after this time. */
+  expireTime?: string | undefined;
+  /** Output only. Time when the discovery client was first created. */
+  createTime?: string | undefined;
   /** Output only. Current state of the discovery client. */
   state?: DiscoveryClientStateEnum | (string & {}) | undefined;
+  /** Optional. Input only. Client time-to-live. If specified, the backend will not accept new frames after this time. This field is input only. The derived expiration time is provided as output through the `expire_time` field. */
+  ttl?: string | undefined;
+  /** Optional. Free text display name. Maximum length is 63 characters. */
+  displayName?: string | undefined;
+  /** Required. Full name of the source object associated with this discovery client. */
+  source?: string | undefined;
+  /** Output only. Last heartbeat time. Healthy clients are expected to send heartbeats regularly (normally every few minutes). */
+  heartbeatTime?: string | undefined;
 }
 export interface CreateProjectsLocationsDiscoveryClientsRequest extends DiscoveryClient {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -1925,34 +1925,34 @@ export interface CreateProjectsLocationsDiscoveryClientsRequest extends Discover
 }
 /** A resource that represents an asset group. The purpose of an asset group is to bundle a set of assets that have something in common, while allowing users to add annotations to the group. An asset can belong to multiple groups. */
 export interface Group {
-  /** Output only. The timestamp when the group was last updated. */
-  updateTime?: string | undefined;
+  /** Output only. The timestamp when the group was created. */
+  createTime?: string | undefined;
   /** Labels as key value pairs. */
   labels?: StringMap | undefined;
   /** Optional. User-friendly display name. */
   displayName?: string | undefined;
   /** Output only. The name of the group. */
   name?: string | undefined;
-  /** Output only. The timestamp when the group was created. */
-  createTime?: string | undefined;
+  /** Output only. The timestamp when the group was last updated. */
+  updateTime?: string | undefined;
   /** Optional. The description of the group. */
   description?: string | undefined;
 }
 export interface CreateProjectsLocationsGroupsRequest extends Group {
+  /** Required. Value for parent. */
+  parent: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. User specified ID for the group. It will become the last component of the group name. The ID must be unique within the project, must conform with RFC-1034, is restricted to lower-cased letters, and has a maximum length of 63 characters. The ID must match the regular expression: `[a-z]([a-z0-9-]{0,61}[a-z0-9])?`. */
   groupId?: string | undefined;
-  /** Required. Value for parent. */
-  parent: string;
 }
 export type ImportErrorSeverityEnum = "SEVERITY_UNSPECIFIED" | "ERROR" | "WARNING" | "INFO";
 /** A resource that reports the errors encountered while processing an import job. */
 export interface ImportError {
-  /** The severity of the error. */
-  severity?: ImportErrorSeverityEnum | (string & {}) | undefined;
   /** The error information. */
   errorDetails?: string | undefined;
+  /** The severity of the error. */
+  severity?: ImportErrorSeverityEnum | (string & {}) | undefined;
 }
 export type ImportErrorList = Array<ImportError>;
 /** Error details for a CSV file. */
@@ -1969,41 +1969,41 @@ export interface ImportRowErrorArchiveErrorDetails {
 }
 /** Error details for an XLSX file. */
 export interface ImportRowErrorXlsxErrorDetails {
-  /** The row number where the error was detected. */
-  rowNumber?: number | undefined;
   /** The name of the sheet where the error was detected. */
   sheet?: string | undefined;
+  /** The row number where the error was detected. */
+  rowNumber?: number | undefined;
 }
 /** A resource that reports the import job errors at row level. */
 export interface ImportRowError {
-  /** Error details for an archive file. */
-  archiveError?: ImportRowErrorArchiveErrorDetails | undefined;
-  /** The asset title. */
-  assetTitle?: string | undefined;
-  /** Error details for an XLSX file. */
-  xlsxError?: ImportRowErrorXlsxErrorDetails | undefined;
-  /** The name of the VM in the row. */
-  vmName?: string | undefined;
-  /** The row number where the error was detected. */
-  rowNumber?: number | undefined;
-  /** Error details for a CSV file. */
-  csvError?: ImportRowErrorCsvErrorDetails | undefined;
   /** The list of errors detected in the row. */
   errors?: ImportErrorList | undefined;
+  /** The asset title. */
+  assetTitle?: string | undefined;
+  /** Error details for a CSV file. */
+  csvError?: ImportRowErrorCsvErrorDetails | undefined;
   /** The VM UUID. */
   vmUuid?: string | undefined;
+  /** The name of the VM in the row. */
+  vmName?: string | undefined;
+  /** Error details for an archive file. */
+  archiveError?: ImportRowErrorArchiveErrorDetails | undefined;
+  /** The row number where the error was detected. */
+  rowNumber?: number | undefined;
+  /** Error details for an XLSX file. */
+  xlsxError?: ImportRowErrorXlsxErrorDetails | undefined;
 }
 export type ImportRowErrorList = Array<ImportRowError>;
 /** A resource that aggregates the validation errors found in an import job file. */
 export interface FileValidationReport {
+  /** Partial list of rows that encountered validation error. */
+  rowErrors?: ImportRowErrorList | undefined;
+  /** The name of the file. */
+  fileName?: string | undefined;
   /** List of file level errors. */
   fileErrors?: ImportErrorList | undefined;
   /** Flag indicating that processing was aborted due to maximum number of errors. */
   partialReport?: boolean | undefined;
-  /** The name of the file. */
-  fileName?: string | undefined;
-  /** Partial list of rows that encountered validation error. */
-  rowErrors?: ImportRowErrorList | undefined;
 }
 export type FileValidationReportList = Array<FileValidationReport>;
 /** A resource that aggregates errors across import job files. */
@@ -2013,6 +2013,26 @@ export interface ValidationReport {
   /** List of errors found in files. */
   fileValidations?: FileValidationReportList | undefined;
 }
+/** A resource that reports result of the import job execution. */
+export interface ExecutionReport {
+  /** Total number of asset frames reported for the import job. */
+  framesReported?: number | undefined;
+  /** Validation errors encountered during the execution of the import job. */
+  executionErrors?: ValidationReport | undefined;
+  /** List of job-level errors. Deprecated, use the job errors under execution_errors instead. */
+  jobErrors?: ImportErrorList | undefined;
+  /** Total number of rows in the import job. */
+  totalRowsCount?: number | undefined;
+}
+export type ImportJobStateEnum =
+  | "IMPORT_JOB_STATE_UNSPECIFIED"
+  | "IMPORT_JOB_STATE_PENDING"
+  | "IMPORT_JOB_STATE_RUNNING"
+  | "IMPORT_JOB_STATE_COMPLETED"
+  | "IMPORT_JOB_STATE_FAILED"
+  | "IMPORT_JOB_STATE_VALIDATING"
+  | "IMPORT_JOB_STATE_FAILED_VALIDATION"
+  | "IMPORT_JOB_STATE_READY";
 export type GCSPayloadInfoFormatEnum =
   | "IMPORT_JOB_FORMAT_UNSPECIFIED"
   | "IMPORT_JOB_FORMAT_CMDB"
@@ -2024,19 +2044,11 @@ export type GCSPayloadInfoFormatEnum =
   | "IMPORT_JOB_FORMAT_DATABASE_ZIP";
 /** A resource that represents a payload hosted on Google Cloud Storage. */
 export interface GCSPayloadInfo {
-  /** The payload path in Google Cloud Storage. */
-  path?: string | undefined;
   /** The import job format. */
   format?: GCSPayloadInfoFormatEnum | (string & {}) | undefined;
+  /** The payload path in Google Cloud Storage. */
+  path?: string | undefined;
 }
-/** Payload file for inline import job payload. */
-export interface PayloadFile {
-  /** The file name. */
-  name?: string | undefined;
-  /** The file data. */
-  data?: string | undefined;
-}
-export type PayloadFileList = Array<PayloadFile>;
 export type InlinePayloadInfoFormatEnum =
   | "IMPORT_JOB_FORMAT_UNSPECIFIED"
   | "IMPORT_JOB_FORMAT_CMDB"
@@ -2046,67 +2058,55 @@ export type InlinePayloadInfoFormatEnum =
   | "IMPORT_JOB_FORMAT_EXPORTED_AZURE_CSV"
   | "IMPORT_JOB_FORMAT_MANUAL_CSV"
   | "IMPORT_JOB_FORMAT_DATABASE_ZIP";
+/** Payload file for inline import job payload. */
+export interface PayloadFile {
+  /** The file name. */
+  name?: string | undefined;
+  /** The file data. */
+  data?: string | undefined;
+}
+export type PayloadFileList = Array<PayloadFile>;
 /** A resource that represents the inline import job payload. */
 export interface InlinePayloadInfo {
-  /** List of payload files. */
-  payload?: PayloadFileList | undefined;
   /** The import job format. */
   format?: InlinePayloadInfoFormatEnum | (string & {}) | undefined;
+  /** List of payload files. */
+  payload?: PayloadFileList | undefined;
 }
-/** A resource that reports result of the import job execution. */
-export interface ExecutionReport {
-  /** Validation errors encountered during the execution of the import job. */
-  executionErrors?: ValidationReport | undefined;
-  /** Total number of asset frames reported for the import job. */
-  framesReported?: number | undefined;
-  /** Total number of rows in the import job. */
-  totalRowsCount?: number | undefined;
-  /** List of job-level errors. Deprecated, use the job errors under execution_errors instead. */
-  jobErrors?: ImportErrorList | undefined;
-}
-export type ImportJobStateEnum =
-  | "IMPORT_JOB_STATE_UNSPECIFIED"
-  | "IMPORT_JOB_STATE_PENDING"
-  | "IMPORT_JOB_STATE_RUNNING"
-  | "IMPORT_JOB_STATE_COMPLETED"
-  | "IMPORT_JOB_STATE_FAILED"
-  | "IMPORT_JOB_STATE_VALIDATING"
-  | "IMPORT_JOB_STATE_FAILED_VALIDATION"
-  | "IMPORT_JOB_STATE_READY";
 /** A resource that represents the background job that imports asset frames. */
 export interface ImportJob {
-  /** Output only. The report with the validation results of the import job. */
-  validationReport?: ValidationReport | undefined;
+  /** Output only. The full name of the import job. */
+  name?: string | undefined;
   /** Output only. The timestamp when the import job was last updated. */
   updateTime?: string | undefined;
-  /** The payload is in Google Cloud Storage. */
-  gcsPayload?: GCSPayloadInfo | undefined;
-  /** User-friendly display name. Maximum length is 63 characters. */
-  displayName?: string | undefined;
-  /** Required. Reference to a source. */
-  assetSource?: string | undefined;
-  /** Labels as key value pairs. */
-  labels?: StringMap | undefined;
-  /** The payload is included in the request, mainly used for small import jobs. */
-  inlinePayload?: InlinePayloadInfo | undefined;
   /** Output only. The report with the results of running the import job. */
   executionReport?: ExecutionReport | undefined;
   /** Output only. The timestamp when the import job was created. */
   createTime?: string | undefined;
+  /** Labels as key value pairs. */
+  labels?: StringMap | undefined;
   /** Output only. The state of the import job. */
   state?: ImportJobStateEnum | (string & {}) | undefined;
-  /** Output only. The full name of the import job. */
-  name?: string | undefined;
+  /** Output only. The report with the validation results of the import job. */
+  validationReport?: ValidationReport | undefined;
+  /** User-friendly display name. Maximum length is 63 characters. */
+  displayName?: string | undefined;
+  /** Required. Reference to a source. */
+  assetSource?: string | undefined;
+  /** The payload is in Google Cloud Storage. */
+  gcsPayload?: GCSPayloadInfo | undefined;
   /** Output only. The timestamp when the import job was completed. */
   completeTime?: string | undefined;
+  /** The payload is included in the request, mainly used for small import jobs. */
+  inlinePayload?: InlinePayloadInfo | undefined;
 }
 export interface CreateProjectsLocationsImportJobsRequest extends ImportJob {
-  /** Required. ID of the import job. */
-  importJobId?: string | undefined;
-  /** Required. Value for parent. */
-  parent: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
+  /** Required. Value for parent. */
+  parent: string;
+  /** Required. ID of the import job. */
+  importJobId?: string | undefined;
 }
 export type ImportDataFileStateEnum = "STATE_UNSPECIFIED" | "CREATING" | "ACTIVE";
 /** A resource that contains a URI to which a data file can be uploaded. */
@@ -2131,49 +2131,29 @@ export type ImportDataFileFormatEnum =
 export interface ImportDataFile {
   /** Output only. The state of the import data file. */
   state?: ImportDataFileStateEnum | (string & {}) | undefined;
-  /** Optional. User-friendly display name. Maximum length is 256 characters. */
-  displayName?: string | undefined;
   /** Information about a file that is uploaded to a storage service. */
   uploadFileInfo?: UploadFileInfo | undefined;
-  /** Output only. The name of the file. */
-  name?: string | undefined;
-  /** Output only. The timestamp when the file was created. */
-  createTime?: string | undefined;
   /** Required. The payload format. */
   format?: ImportDataFileFormatEnum | (string & {}) | undefined;
+  /** Output only. The timestamp when the file was created. */
+  createTime?: string | undefined;
+  /** Output only. The name of the file. */
+  name?: string | undefined;
+  /** Optional. User-friendly display name. Maximum length is 256 characters. */
+  displayName?: string | undefined;
 }
 export interface CreateProjectsLocationsImportJobsImportDataFilesRequest extends ImportDataFile {
-  /** Required. Name of the parent of the ImportDataFile. */
-  parent: string;
-  /** Required. The ID of the new data file. */
-  importDataFileId?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
+  /** Required. The ID of the new data file. */
+  importDataFileId?: string | undefined;
+  /** Required. Name of the parent of the ImportDataFile. */
+  parent: string;
 }
 /** The user preferences relating to target regions. */
 export interface RegionPreferences {
   /** A list of preferred regions, ordered by the most preferred region first. Set only valid Google Cloud region names. See https://cloud.google.com/compute/docs/regions-zones for available regions. */
   preferredRegions?: StringList | undefined;
-}
-export type VirtualMachinePreferencesSizingOptimizationCustomParametersAggregationMethodEnum =
-  | "AGGREGATION_METHOD_UNSPECIFIED"
-  | "AGGREGATION_METHOD_AVERAGE"
-  | "AGGREGATION_METHOD_MEDIAN"
-  | "AGGREGATION_METHOD_NINETY_FIFTH_PERCENTILE"
-  | "AGGREGATION_METHOD_PEAK";
-/** Custom data to use for sizing optimizations. */
-export interface VirtualMachinePreferencesSizingOptimizationCustomParameters {
-  /** Optional. Desired percentage of memory usage. Must be in the interval [1, 100] (or 0 for default value). */
-  memoryUsagePercentage?: number | undefined;
-  /** Optional. Desired increase factor of storage, relative to currently used storage. Must be in the interval [1.0, 2.0] (or 0 for default value). */
-  storageMultiplier?: number | undefined;
-  /** Optional. Type of statistical aggregation of a resource utilization data, on which to base the sizing metrics. */
-  aggregationMethod?:
-    | VirtualMachinePreferencesSizingOptimizationCustomParametersAggregationMethodEnum
-    | (string & {})
-    | undefined;
-  /** Optional. Desired percentage of CPU usage. Must be in the interval [1, 100] (or 0 for default value). */
-  cpuUsagePercentage?: number | undefined;
 }
 export type OperatingSystemPricingPreferencesOperatingSystemPricingLicenseTypeEnum =
   | "LICENSE_TYPE_UNSPECIFIED"
@@ -2199,24 +2179,96 @@ export interface OperatingSystemPricingPreferencesOperatingSystemPricing {
 }
 /** Pricing options for OS images. */
 export interface OperatingSystemPricingPreferences {
-  /** Optional. Pricing options for RHEL images. */
-  rhel?: OperatingSystemPricingPreferencesOperatingSystemPricing | undefined;
-  /** Optional. Pricing options for Windows images. No commitment plans are available, set it to unspecified. */
-  windows?: OperatingSystemPricingPreferencesOperatingSystemPricing | undefined;
-  /** Optional. Pricing options for SLES for SAP images. */
-  slesForSap?: OperatingSystemPricingPreferencesOperatingSystemPricing | undefined;
   /** Optional. Pricing options for SLES images. */
   sles?: OperatingSystemPricingPreferencesOperatingSystemPricing | undefined;
+  /** Optional. Pricing options for SLES for SAP images. */
+  slesForSap?: OperatingSystemPricingPreferencesOperatingSystemPricing | undefined;
+  /** Optional. Pricing options for Windows images. No commitment plans are available, set it to unspecified. */
+  windows?: OperatingSystemPricingPreferencesOperatingSystemPricing | undefined;
+  /** Optional. Pricing options for RHEL images. */
+  rhel?: OperatingSystemPricingPreferencesOperatingSystemPricing | undefined;
 }
-export type ComputeEnginePreferencesLicenseTypeEnum =
-  | "LICENSE_TYPE_UNSPECIFIED"
-  | "LICENSE_TYPE_DEFAULT"
-  | "LICENSE_TYPE_BRING_YOUR_OWN_LICENSE";
+/** A Sole Tenant node type. */
+export interface SoleTenantNodeType {
+  /** Name of the Sole Tenant node. Consult https://cloud.google.com/compute/docs/nodes/sole-tenant-nodes */
+  nodeName?: string | undefined;
+}
+export type SoleTenantNodeTypeList = Array<SoleTenantNodeType>;
+export type SoleTenancyPreferencesCommitmentPlanEnum =
+  | "COMMITMENT_PLAN_UNSPECIFIED"
+  | "ON_DEMAND"
+  | "COMMITMENT_1_YEAR"
+  | "COMMITMENT_3_YEAR"
+  | "COMMITMENT_FLEXIBLE_1_YEAR"
+  | "COMMITMENT_FLEXIBLE_3_YEAR";
+export type SoleTenancyPreferencesHostMaintenancePolicyEnum =
+  | "HOST_MAINTENANCE_POLICY_UNSPECIFIED"
+  | "HOST_MAINTENANCE_POLICY_DEFAULT"
+  | "HOST_MAINTENANCE_POLICY_RESTART_IN_PLACE"
+  | "HOST_MAINTENANCE_POLICY_MIGRATE_WITHIN_NODE_GROUP";
+/** Preferences concerning Sole Tenancy nodes and VMs. */
+export interface SoleTenancyPreferences {
+  /** Optional. Pricing options for OS images. */
+  osPricingPreferences?: OperatingSystemPricingPreferences | undefined;
+  /** A list of sole tenant node types. An empty list means that all possible node types will be considered. */
+  nodeTypes?: SoleTenantNodeTypeList | undefined;
+  /** CPU overcommit ratio. Acceptable values are between 1.0 and 2.0 inclusive. */
+  cpuOvercommitRatio?: number | undefined;
+  /** Commitment plan to consider when calculating costs for virtual machine insights and recommendations. If you are unsure which value to set, a 3 year commitment plan is often a good value to start with. */
+  commitmentPlan?: SoleTenancyPreferencesCommitmentPlanEnum | (string & {}) | undefined;
+  /** Sole Tenancy nodes maintenance policy. */
+  hostMaintenancePolicy?:
+    | SoleTenancyPreferencesHostMaintenancePolicyEnum
+    | (string & {})
+    | undefined;
+}
+export type VirtualMachinePreferencesCommitmentPlanEnum =
+  | "COMMITMENT_PLAN_UNSPECIFIED"
+  | "COMMITMENT_PLAN_NONE"
+  | "COMMITMENT_PLAN_ONE_YEAR"
+  | "COMMITMENT_PLAN_THREE_YEARS"
+  | "COMMITMENT_PLAN_FLEXIBLE_ONE_YEAR"
+  | "COMMITMENT_PLAN_FLEXIBLE_THREE_YEARS";
+export type VirtualMachinePreferencesSizingOptimizationStrategyEnum =
+  | "SIZING_OPTIMIZATION_STRATEGY_UNSPECIFIED"
+  | "SIZING_OPTIMIZATION_STRATEGY_SAME_AS_SOURCE"
+  | "SIZING_OPTIMIZATION_STRATEGY_MODERATE"
+  | "SIZING_OPTIMIZATION_STRATEGY_AGGRESSIVE"
+  | "SIZING_OPTIMIZATION_STRATEGY_CUSTOM";
+export type VirtualMachinePreferencesSizingOptimizationCustomParametersAggregationMethodEnum =
+  | "AGGREGATION_METHOD_UNSPECIFIED"
+  | "AGGREGATION_METHOD_AVERAGE"
+  | "AGGREGATION_METHOD_MEDIAN"
+  | "AGGREGATION_METHOD_NINETY_FIFTH_PERCENTILE"
+  | "AGGREGATION_METHOD_PEAK";
+/** Custom data to use for sizing optimizations. */
+export interface VirtualMachinePreferencesSizingOptimizationCustomParameters {
+  /** Optional. Desired percentage of CPU usage. Must be in the interval [1, 100] (or 0 for default value). */
+  cpuUsagePercentage?: number | undefined;
+  /** Optional. Type of statistical aggregation of a resource utilization data, on which to base the sizing metrics. */
+  aggregationMethod?:
+    | VirtualMachinePreferencesSizingOptimizationCustomParametersAggregationMethodEnum
+    | (string & {})
+    | undefined;
+  /** Optional. Desired increase factor of storage, relative to currently used storage. Must be in the interval [1.0, 2.0] (or 0 for default value). */
+  storageMultiplier?: number | undefined;
+  /** Optional. Desired percentage of memory usage. Must be in the interval [1, 100] (or 0 for default value). */
+  memoryUsagePercentage?: number | undefined;
+}
+export type VirtualMachinePreferencesTargetProductEnum =
+  | "COMPUTE_MIGRATION_TARGET_PRODUCT_UNSPECIFIED"
+  | "COMPUTE_MIGRATION_TARGET_PRODUCT_COMPUTE_ENGINE"
+  | "COMPUTE_MIGRATION_TARGET_PRODUCT_VMWARE_ENGINE"
+  | "COMPUTE_MIGRATION_TARGET_PRODUCT_SOLE_TENANCY";
 export type ComputeEnginePreferencesMultithreadingEnum =
   | "MULTITHREADING_UNSPECIFIED"
   | "MULTITHREADING_DISABLED"
   | "MULTITHREADING_ENABLED"
   | "MULTITHREADING_DISABLED_WITH_COMPENSATION";
+export type ComputeEnginePreferencesLicenseTypeEnum =
+  | "LICENSE_TYPE_UNSPECIFIED"
+  | "LICENSE_TYPE_DEFAULT"
+  | "LICENSE_TYPE_BRING_YOUR_OWN_LICENSE";
 export type ComputeEnginePreferencesPersistentDiskTypeEnum =
   | "PERSISTENT_DISK_TYPE_UNSPECIFIED"
   | "PERSISTENT_DISK_TYPE_STANDARD"
@@ -2235,84 +2287,21 @@ export interface MachinePreferences {
 }
 /** The user preferences relating to Compute Engine target platform. */
 export interface ComputeEnginePreferences {
-  /** Optional. Pricing options for OS images. */
-  osPricingPreferences?: OperatingSystemPricingPreferences | undefined;
-  /** License type to consider when calculating costs for operating systems. If unspecified, costs are calculated based on the default licensing plan. If os_pricing_preferences is specified, it overrides this field. */
-  licenseType?: ComputeEnginePreferencesLicenseTypeEnum | (string & {}) | undefined;
   /** Optional. Preferences for multithreading support on Windows Server. */
   multithreading?: ComputeEnginePreferencesMultithreadingEnum | (string & {}) | undefined;
+  /** License type to consider when calculating costs for operating systems. If unspecified, costs are calculated based on the default licensing plan. If os_pricing_preferences is specified, it overrides this field. */
+  licenseType?: ComputeEnginePreferencesLicenseTypeEnum | (string & {}) | undefined;
+  /** Optional. Pricing options for OS images. */
+  osPricingPreferences?: OperatingSystemPricingPreferences | undefined;
   /** Persistent disk type to use. If unspecified (default), all types are considered, based on available usage data. */
   persistentDiskType?: ComputeEnginePreferencesPersistentDiskTypeEnum | (string & {}) | undefined;
   /** Preferences concerning the machine types to consider on Compute Engine. */
   machinePreferences?: MachinePreferences | undefined;
 }
-export type SoleTenancyPreferencesCommitmentPlanEnum =
-  | "COMMITMENT_PLAN_UNSPECIFIED"
-  | "ON_DEMAND"
-  | "COMMITMENT_1_YEAR"
-  | "COMMITMENT_3_YEAR"
-  | "COMMITMENT_FLEXIBLE_1_YEAR"
-  | "COMMITMENT_FLEXIBLE_3_YEAR";
-/** A Sole Tenant node type. */
-export interface SoleTenantNodeType {
-  /** Name of the Sole Tenant node. Consult https://cloud.google.com/compute/docs/nodes/sole-tenant-nodes */
-  nodeName?: string | undefined;
-}
-export type SoleTenantNodeTypeList = Array<SoleTenantNodeType>;
-export type SoleTenancyPreferencesHostMaintenancePolicyEnum =
-  | "HOST_MAINTENANCE_POLICY_UNSPECIFIED"
-  | "HOST_MAINTENANCE_POLICY_DEFAULT"
-  | "HOST_MAINTENANCE_POLICY_RESTART_IN_PLACE"
-  | "HOST_MAINTENANCE_POLICY_MIGRATE_WITHIN_NODE_GROUP";
-/** Preferences concerning Sole Tenancy nodes and VMs. */
-export interface SoleTenancyPreferences {
-  /** Optional. Pricing options for OS images. */
-  osPricingPreferences?: OperatingSystemPricingPreferences | undefined;
-  /** CPU overcommit ratio. Acceptable values are between 1.0 and 2.0 inclusive. */
-  cpuOvercommitRatio?: number | undefined;
-  /** Commitment plan to consider when calculating costs for virtual machine insights and recommendations. If you are unsure which value to set, a 3 year commitment plan is often a good value to start with. */
-  commitmentPlan?: SoleTenancyPreferencesCommitmentPlanEnum | (string & {}) | undefined;
-  /** A list of sole tenant node types. An empty list means that all possible node types will be considered. */
-  nodeTypes?: SoleTenantNodeTypeList | undefined;
-  /** Sole Tenancy nodes maintenance policy. */
-  hostMaintenancePolicy?:
-    | SoleTenancyPreferencesHostMaintenancePolicyEnum
-    | (string & {})
-    | undefined;
-}
-/** Parameters that affect network cost estimations. */
-export interface VirtualMachinePreferencesNetworkCostParameters {
-  /** Optional. An estimated percentage of priced outbound traffic (egress traffic) from the measured outbound traffic. Must be in the interval [0, 100]. */
-  estimatedEgressTrafficPercentage?: number | undefined;
-}
-export type VirtualMachinePreferencesSizingOptimizationStrategyEnum =
-  | "SIZING_OPTIMIZATION_STRATEGY_UNSPECIFIED"
-  | "SIZING_OPTIMIZATION_STRATEGY_SAME_AS_SOURCE"
-  | "SIZING_OPTIMIZATION_STRATEGY_MODERATE"
-  | "SIZING_OPTIMIZATION_STRATEGY_AGGRESSIVE"
-  | "SIZING_OPTIMIZATION_STRATEGY_CUSTOM";
-export type VirtualMachinePreferencesTargetProductEnum =
-  | "COMPUTE_MIGRATION_TARGET_PRODUCT_UNSPECIFIED"
-  | "COMPUTE_MIGRATION_TARGET_PRODUCT_COMPUTE_ENGINE"
-  | "COMPUTE_MIGRATION_TARGET_PRODUCT_VMWARE_ENGINE"
-  | "COMPUTE_MIGRATION_TARGET_PRODUCT_SOLE_TENANCY";
-export type VMwareEngineMachinePreferencesStorageOnlyNodesEnum =
-  | "STORAGE_ONLY_NODES_UNSPECIFIED"
-  | "STORAGE_ONLY_NODES_ENABLED"
-  | "STORAGE_ONLY_NODES_DISABLED";
-export type VMwareEngineMachinePreferencesProtectedNodesEnum =
-  | "PROTECTED_NODES_UNSPECIFIED"
-  | "PROTECTED_NODES_ENABLED"
-  | "PROTECTED_NODES_DISABLED";
-/** The type of machines to consider when calculating virtual machine migration insights and recommendations for VMware Engine. Not all machine types are available in all zones and regions. */
-export interface VMwareEngineMachinePreferences {
-  /** Optional. VMware Engine on Google Cloud machine series to consider for insights and recommendations. If empty, no restriction is applied on the machine series. */
-  allowedMachineSeries?: MachineSeriesList | undefined;
-  /** Optional. Whether to use storage-only nodes, if those are available. */
-  storageOnlyNodes?: VMwareEngineMachinePreferencesStorageOnlyNodesEnum | (string & {}) | undefined;
-  /** Optional. Whether to use VMware Engine Protected offering. */
-  protectedNodes?: VMwareEngineMachinePreferencesProtectedNodesEnum | (string & {}) | undefined;
-}
+export type VmwareEnginePreferencesServiceTypeEnum =
+  | "SERVICE_TYPE_UNSPECIFIED"
+  | "SERVICE_TYPE_FULLY_LICENSED"
+  | "SERVICE_TYPE_PORTABLE_LICENSE";
 export type VmwareEnginePreferencesCommitmentPlanEnum =
   | "COMMITMENT_PLAN_UNSPECIFIED"
   | "ON_DEMAND"
@@ -2322,87 +2311,89 @@ export type VmwareEnginePreferencesCommitmentPlanEnum =
   | "COMMITMENT_3_YEAR_UPFRONT_PAYMENT"
   | "COMMITMENT_FLEXIBLE_3_YEAR_MONTHLY_PAYMENTS"
   | "COMMITMENT_FLEXIBLE_3_YEAR_UPFRONT_PAYMENT";
-export type VmwareEnginePreferencesServiceTypeEnum =
-  | "SERVICE_TYPE_UNSPECIFIED"
-  | "SERVICE_TYPE_FULLY_LICENSED"
-  | "SERVICE_TYPE_PORTABLE_LICENSE";
+export type VMwareEngineMachinePreferencesProtectedNodesEnum =
+  | "PROTECTED_NODES_UNSPECIFIED"
+  | "PROTECTED_NODES_ENABLED"
+  | "PROTECTED_NODES_DISABLED";
+export type VMwareEngineMachinePreferencesStorageOnlyNodesEnum =
+  | "STORAGE_ONLY_NODES_UNSPECIFIED"
+  | "STORAGE_ONLY_NODES_ENABLED"
+  | "STORAGE_ONLY_NODES_DISABLED";
+/** The type of machines to consider when calculating virtual machine migration insights and recommendations for VMware Engine. Not all machine types are available in all zones and regions. */
+export interface VMwareEngineMachinePreferences {
+  /** Optional. VMware Engine on Google Cloud machine series to consider for insights and recommendations. If empty, no restriction is applied on the machine series. */
+  allowedMachineSeries?: MachineSeriesList | undefined;
+  /** Optional. Whether to use VMware Engine Protected offering. */
+  protectedNodes?: VMwareEngineMachinePreferencesProtectedNodesEnum | (string & {}) | undefined;
+  /** Optional. Whether to use storage-only nodes, if those are available. */
+  storageOnlyNodes?: VMwareEngineMachinePreferencesStorageOnlyNodesEnum | (string & {}) | undefined;
+}
 /** The user preferences relating to Google Cloud VMware Engine target platform. */
 export interface VmwareEnginePreferences {
-  /** CPU overcommit ratio. Acceptable values are between 1.0 and 8.0, with 0.1 increment. */
-  cpuOvercommitRatio?: number | undefined;
-  /** Optional. Preferences concerning the machine types to consider on Google Cloud VMware Engine. */
-  machinePreferences?: VMwareEngineMachinePreferences | undefined;
-  /** Commitment plan to consider when calculating costs for virtual machine insights and recommendations. If you are unsure which value to set, a 3 year commitment plan is often a good value to start with. */
-  commitmentPlan?: VmwareEnginePreferencesCommitmentPlanEnum | (string & {}) | undefined;
-  /** Optional. Discount percentage for the license offered to you by Broadcom. Must be between 0 and 100. Only valid when service_type is set to SERVICE_TYPE_PORTABLE_LICENSE. */
-  licenseDiscountPercentage?: number | undefined;
+  /** The Deduplication and Compression ratio is based on the logical (Used Before) space required to store data before applying deduplication and compression, in relation to the physical (Used After) space required after applying deduplication and compression. Specifically, the ratio is the Used Before space divided by the Used After space. For example, if the Used Before space is 3 GB, but the physical Used After space is 1 GB, the deduplication and compression ratio is 3x. Acceptable values are between 1.0 and 4.0. */
+  storageDeduplicationCompressionRatio?: number | undefined;
   /** Optional. GCVE service type (fully licensed or portable license). */
   serviceType?: VmwareEnginePreferencesServiceTypeEnum | (string & {}) | undefined;
   /** Memory overcommit ratio. Acceptable values are 1.0, 1.25, 1.5, 1.75 and 2.0. */
   memoryOvercommitRatio?: number | undefined;
-  /** The Deduplication and Compression ratio is based on the logical (Used Before) space required to store data before applying deduplication and compression, in relation to the physical (Used After) space required after applying deduplication and compression. Specifically, the ratio is the Used Before space divided by the Used After space. For example, if the Used Before space is 3 GB, but the physical Used After space is 1 GB, the deduplication and compression ratio is 3x. Acceptable values are between 1.0 and 4.0. */
-  storageDeduplicationCompressionRatio?: number | undefined;
+  /** Optional. Discount percentage for the license offered to you by Broadcom. Must be between 0 and 100. Only valid when service_type is set to SERVICE_TYPE_PORTABLE_LICENSE. */
+  licenseDiscountPercentage?: number | undefined;
+  /** CPU overcommit ratio. Acceptable values are between 1.0 and 8.0, with 0.1 increment. */
+  cpuOvercommitRatio?: number | undefined;
+  /** Commitment plan to consider when calculating costs for virtual machine insights and recommendations. If you are unsure which value to set, a 3 year commitment plan is often a good value to start with. */
+  commitmentPlan?: VmwareEnginePreferencesCommitmentPlanEnum | (string & {}) | undefined;
+  /** Optional. Preferences concerning the machine types to consider on Google Cloud VMware Engine. */
+  machinePreferences?: VMwareEngineMachinePreferences | undefined;
 }
 /** Estimated usage data. */
 export interface EstimatedUsage {
-  /** Optional. Estimated memory utilization percentage. Must be in the range [1, 100]. */
-  estimatedMemoryPercentage?: number | undefined;
   /** Optional. Estimated disk utilization percentage. Must be in the range [1, 100]. */
   estimatedDiskPercentage?: number | undefined;
   /** Optional. Estimated CPU utilization percentage. Must be in the range [1, 100]. */
   estimatedCpuPercentage?: number | undefined;
+  /** Optional. Estimated memory utilization percentage. Must be in the range [1, 100]. */
+  estimatedMemoryPercentage?: number | undefined;
 }
-export type VirtualMachinePreferencesCommitmentPlanEnum =
-  | "COMMITMENT_PLAN_UNSPECIFIED"
-  | "COMMITMENT_PLAN_NONE"
-  | "COMMITMENT_PLAN_ONE_YEAR"
-  | "COMMITMENT_PLAN_THREE_YEARS"
-  | "COMMITMENT_PLAN_FLEXIBLE_ONE_YEAR"
-  | "COMMITMENT_PLAN_FLEXIBLE_THREE_YEARS";
+/** Parameters that affect network cost estimations. */
+export interface VirtualMachinePreferencesNetworkCostParameters {
+  /** Optional. An estimated percentage of priced outbound traffic (egress traffic) from the measured outbound traffic. Must be in the interval [0, 100]. */
+  estimatedEgressTrafficPercentage?: number | undefined;
+}
 /** VirtualMachinePreferences enables you to create sets of preferences, for example, a geographical location and pricing track, for your migrated virtual machines. The set of preferences influence recommendations for migrating virtual machine assets. */
 export interface VirtualMachinePreferences {
-  /** Region preferences for assets using this preference set. If you are unsure which value to set, the migration service API region is often a good value to start with. If PreferenceSet.RegionPreferences is specified, it overrides this field. */
-  regionPreferences?: RegionPreferences | undefined;
-  /** Optional. Custom data to use for sizing optimizations. Relevant when SizingOptimizationStrategy is set to "custom". */
-  sizingOptimizationCustomParameters?:
-    | VirtualMachinePreferencesSizingOptimizationCustomParameters
-    | undefined;
-  /** Optional. Compute Engine preferences concern insights and recommendations for Compute Engine target. */
-  computeEnginePreferences?: ComputeEnginePreferences | undefined;
   /** Preferences concerning Sole Tenant nodes and virtual machines. */
   soleTenancyPreferences?: SoleTenancyPreferences | undefined;
-  /** Optional. Parameters that affect network cost estimations. If not set, default values will be used for the parameters. */
-  networkCostParameters?: VirtualMachinePreferencesNetworkCostParameters | undefined;
+  /** Commitment plan to consider when calculating costs for virtual machine insights and recommendations. If you are unsure which value to set, a 3 year commitment plan is often a good value to start with. */
+  commitmentPlan?: VirtualMachinePreferencesCommitmentPlanEnum | (string & {}) | undefined;
   /** Sizing optimization strategy specifies the preferred strategy used when extrapolating usage data to calculate insights and recommendations for a virtual machine. If you are unsure which value to set, a moderate sizing optimization strategy is often a good value to start with. */
   sizingOptimizationStrategy?:
     | VirtualMachinePreferencesSizingOptimizationStrategyEnum
     | (string & {})
     | undefined;
+  /** Optional. Custom data to use for sizing optimizations. Relevant when SizingOptimizationStrategy is set to "custom". */
+  sizingOptimizationCustomParameters?:
+    | VirtualMachinePreferencesSizingOptimizationCustomParameters
+    | undefined;
   /** Target product for assets using this preference set. Specify either target product or business goal, but not both. */
   targetProduct?: VirtualMachinePreferencesTargetProductEnum | (string & {}) | undefined;
+  /** Optional. Compute Engine preferences concern insights and recommendations for Compute Engine target. */
+  computeEnginePreferences?: ComputeEnginePreferences | undefined;
   /** Preferences concerning insights and recommendations for Google Cloud VMware Engine. */
   vmwareEnginePreferences?: VmwareEnginePreferences | undefined;
   /** Optional. Estimated usage data for missing usage data. If performance data is available, it overrides this field. If not set, default values will be used for the usage data. */
   estimatedUsage?: EstimatedUsage | undefined;
-  /** Commitment plan to consider when calculating costs for virtual machine insights and recommendations. If you are unsure which value to set, a 3 year commitment plan is often a good value to start with. */
-  commitmentPlan?: VirtualMachinePreferencesCommitmentPlanEnum | (string & {}) | undefined;
+  /** Region preferences for assets using this preference set. If you are unsure which value to set, the migration service API region is often a good value to start with. If PreferenceSet.RegionPreferences is specified, it overrides this field. */
+  regionPreferences?: RegionPreferences | undefined;
+  /** Optional. Parameters that affect network cost estimations. If not set, default values will be used for the parameters. */
+  networkCostParameters?: VirtualMachinePreferencesNetworkCostParameters | undefined;
 }
-export type DatabasePreferencesCloudSqlCommonEditionEnum =
-  | "CLOUD_SQL_EDITION_UNSPECIFIED"
-  | "CLOUD_SQL_EDITION_ENTERPRISE"
-  | "CLOUD_SQL_EDITION_ENTERPRISE_PLUS";
-export type DatabasePreferencesCloudSqlCommonCommitmentPlanEnum =
-  | "COMMITMENT_PLAN_UNSPECIFIED"
-  | "COMMITMENT_PLAN_NONE"
-  | "COMMITMENT_PLAN_ONE_YEAR"
-  | "COMMITMENT_PLAN_THREE_YEARS"
-  | "COMMITMENT_PLAN_FLEXIBLE_ONE_YEAR"
-  | "COMMITMENT_PLAN_FLEXIBLE_THREE_YEARS";
-export type DatabasePreferencesCloudSqlCommonPersistentDiskTypeEnum =
-  | "PERSISTENT_DISK_TYPE_UNSPECIFIED"
-  | "PERSISTENT_DISK_TYPE_STANDARD"
-  | "PERSISTENT_DISK_TYPE_BALANCED"
-  | "PERSISTENT_DISK_TYPE_SSD";
+export type DatabasePreferencesCloudSqlSqlServerVersionTypeEnum =
+  | "VERSION_TYPE_UNSPECIFIED"
+  | "VERSION_TYPE_AUTO"
+  | "VERSION_TYPE_EXPRESS"
+  | "VERSION_TYPE_WEB"
+  | "VERSION_TYPE_STANDARD"
+  | "VERSION_TYPE_ENTERPRISE";
 export type DatabasePreferencesCloudSqlCommonBackupBackupModeEnum =
   | "BACKUP_MODE_UNSPECIFIED"
   | "BACKUP_MODE_DISABLED"
@@ -2416,23 +2407,30 @@ export type DatabasePreferencesCloudSqlCommonZoneAvailabilityEnum =
   | "CLOUD_SQL_ZONE_AVAILABILITY_UNSPECIFIED"
   | "CLOUD_SQL_ZONE_AVAILABILITY_ZONAL"
   | "CLOUD_SQL_ZONE_AVAILABILITY_REGIONAL";
+export type DatabasePreferencesCloudSqlCommonEditionEnum =
+  | "CLOUD_SQL_EDITION_UNSPECIFIED"
+  | "CLOUD_SQL_EDITION_ENTERPRISE"
+  | "CLOUD_SQL_EDITION_ENTERPRISE_PLUS";
 export type DatabasePreferencesCloudSqlCommonSizingOptimizationStrategyEnum =
   | "SIZING_OPTIMIZATION_STRATEGY_UNSPECIFIED"
   | "SIZING_OPTIMIZATION_STRATEGY_SAME_AS_SOURCE"
   | "SIZING_OPTIMIZATION_STRATEGY_MODERATE"
   | "SIZING_OPTIMIZATION_STRATEGY_AGGRESSIVE"
   | "SIZING_OPTIMIZATION_STRATEGY_CUSTOM";
+export type DatabasePreferencesCloudSqlCommonCommitmentPlanEnum =
+  | "COMMITMENT_PLAN_UNSPECIFIED"
+  | "COMMITMENT_PLAN_NONE"
+  | "COMMITMENT_PLAN_ONE_YEAR"
+  | "COMMITMENT_PLAN_THREE_YEARS"
+  | "COMMITMENT_PLAN_FLEXIBLE_ONE_YEAR"
+  | "COMMITMENT_PLAN_FLEXIBLE_THREE_YEARS";
+export type DatabasePreferencesCloudSqlCommonPersistentDiskTypeEnum =
+  | "PERSISTENT_DISK_TYPE_UNSPECIFIED"
+  | "PERSISTENT_DISK_TYPE_STANDARD"
+  | "PERSISTENT_DISK_TYPE_BALANCED"
+  | "PERSISTENT_DISK_TYPE_SSD";
 /** Preferences common to Cloud SQL databases. */
 export interface DatabasePreferencesCloudSqlCommon {
-  /** Optional. Preferred Cloud SQL edition. */
-  edition?: DatabasePreferencesCloudSqlCommonEditionEnum | (string & {}) | undefined;
-  /** Optional. Commitment plan to consider when calculating costs. Only regular CUDs (not flexible) are currently available. */
-  commitmentPlan?: DatabasePreferencesCloudSqlCommonCommitmentPlanEnum | (string & {}) | undefined;
-  /** Optional. Persistent disk type to use. If unspecified, a disk type is recommended based on available usage data. For SQL Server, only SSD is available. For MySQL and PostgreSQL, only STANDARD (HDD) and SSD types are available. */
-  persistentDiskType?:
-    | DatabasePreferencesCloudSqlCommonPersistentDiskTypeEnum
-    | (string & {})
-    | undefined;
   /** Optional. Preferences for database backups. */
   backup?: DatabasePreferencesCloudSqlCommonBackup | undefined;
   /** Optional. Preferred zone availability. */
@@ -2440,26 +2438,21 @@ export interface DatabasePreferencesCloudSqlCommon {
     | DatabasePreferencesCloudSqlCommonZoneAvailabilityEnum
     | (string & {})
     | undefined;
+  /** Optional. Preferred Cloud SQL edition. */
+  edition?: DatabasePreferencesCloudSqlCommonEditionEnum | (string & {}) | undefined;
   /** Optional. Sizing optimization strategy of the database. Currently supported for Cloud SQL are just two values: SIZING_OPTIMIZATION_STRATEGY_MODERATE and SIZING_OPTIMIZATION_STRATEGY_SAME_AS_SOURCE. SIZING_OPTIMIZATION_STRATEGY_UNSPECIFIED will behave like SIZING_OPTIMIZATION_STRATEGY_MODERATE. */
   sizingOptimizationStrategy?:
     | DatabasePreferencesCloudSqlCommonSizingOptimizationStrategyEnum
     | (string & {})
     | undefined;
+  /** Optional. Commitment plan to consider when calculating costs. Only regular CUDs (not flexible) are currently available. */
+  commitmentPlan?: DatabasePreferencesCloudSqlCommonCommitmentPlanEnum | (string & {}) | undefined;
+  /** Optional. Persistent disk type to use. If unspecified, a disk type is recommended based on available usage data. For SQL Server, only SSD is available. For MySQL and PostgreSQL, only STANDARD (HDD) and SSD types are available. */
+  persistentDiskType?:
+    | DatabasePreferencesCloudSqlCommonPersistentDiskTypeEnum
+    | (string & {})
+    | undefined;
 }
-/** Preferences for MySQL on Cloud SQL. */
-export interface DatabasePreferencesCloudSqlMySql {
-  /** Optional. Preferences to Cloud SQL databases. */
-  common?: DatabasePreferencesCloudSqlCommon | undefined;
-}
-/** Preferences for PostgreSQL on Cloud SQL. */
-export type DatabasePreferencesCloudSqlPostgreSql = DatabasePreferencesCloudSqlMySql;
-export type DatabasePreferencesCloudSqlSqlServerVersionTypeEnum =
-  | "VERSION_TYPE_UNSPECIFIED"
-  | "VERSION_TYPE_AUTO"
-  | "VERSION_TYPE_EXPRESS"
-  | "VERSION_TYPE_WEB"
-  | "VERSION_TYPE_STANDARD"
-  | "VERSION_TYPE_ENTERPRISE";
 export type DatabasePreferencesCloudSqlSqlServerMultithreadingEnum =
   | "MULTITHREADING_UNSPECIFIED"
   | "MULTITHREADING_DISABLED"
@@ -2477,39 +2470,46 @@ export interface DatabasePreferencesCloudSqlSqlServer {
     | (string & {})
     | undefined;
 }
+/** Preferences for PostgreSQL on Cloud SQL. */
+export interface DatabasePreferencesCloudSqlPostgreSql {
+  /** Optional. Preferences to Cloud SQL databases. */
+  common?: DatabasePreferencesCloudSqlCommon | undefined;
+}
+/** Preferences for MySQL on Cloud SQL. */
+export type DatabasePreferencesCloudSqlMySql = DatabasePreferencesCloudSqlPostgreSql;
 /** DatabasePreferences enables you to create sets of preferences for your migrated databases. */
 export interface DatabasePreferences {
-  /** Optional. Preferences for target MySQL on Cloud SQL when migrating from source MySQL. */
-  mysqlToCloudSqlForMysqlPreferences?: DatabasePreferencesCloudSqlMySql | undefined;
-  /** Optional. Preferences for target PostgreSQL on Cloud SQL when migrating from source PostgreSQL. */
-  postgresqlToCloudSqlForPostgresqlPreferences?: DatabasePreferencesCloudSqlMySql | undefined;
   /** Optional. Preferences for target SQL Server on Cloud SQL when migrating from source Microsoft SQL server. */
   mssqlToCloudSqlForSqlServerPreferences?: DatabasePreferencesCloudSqlSqlServer | undefined;
+  /** Optional. Preferences for target PostgreSQL on Cloud SQL when migrating from source PostgreSQL. */
+  postgresqlToCloudSqlForPostgresqlPreferences?: DatabasePreferencesCloudSqlPostgreSql | undefined;
+  /** Optional. Preferences for target MySQL on Cloud SQL when migrating from source MySQL. */
+  mysqlToCloudSqlForMysqlPreferences?: DatabasePreferencesCloudSqlPostgreSql | undefined;
 }
 /** The preferences that apply to all assets in a given context. */
 export interface PreferenceSet {
   /** User-friendly display name. Maximum length is 63 characters. */
   displayName?: string | undefined;
-  /** Output only. The timestamp when the preference set was last updated. */
-  updateTime?: string | undefined;
+  /** Output only. The timestamp when the preference set was created. */
+  createTime?: string | undefined;
+  /** Optional. Region preferences for assets using this preference set. If you are unsure which value to set, the migration service API region is often a good value to start with. If unspecified, VirtualMachinePreferences.RegionPreferences is used. */
+  regionPreferences?: RegionPreferences | undefined;
+  /** A description of the preference set. */
+  description?: string | undefined;
   /** A set of preferences that applies to all virtual machines in the context. */
   virtualMachinePreferences?: VirtualMachinePreferences | undefined;
   /** Output only. Name of the PreferenceSet. */
   name?: string | undefined;
-  /** A description of the preference set. */
-  description?: string | undefined;
-  /** Optional. Region preferences for assets using this preference set. If you are unsure which value to set, the migration service API region is often a good value to start with. If unspecified, VirtualMachinePreferences.RegionPreferences is used. */
-  regionPreferences?: RegionPreferences | undefined;
   /** Optional. A set of preferences that applies to all databases in the context. */
   databasePreferences?: DatabasePreferences | undefined;
-  /** Output only. The timestamp when the preference set was created. */
-  createTime?: string | undefined;
+  /** Output only. The timestamp when the preference set was last updated. */
+  updateTime?: string | undefined;
 }
 export interface CreateProjectsLocationsPreferenceSetsRequest extends PreferenceSet {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
   /** Required. Value for parent. */
   parent: string;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
   preferenceSetId?: string | undefined;
 }
 /** Represents a combination of a group with a preference set. */
@@ -2523,35 +2523,43 @@ export type ReportConfigGroupPreferenceSetAssignmentList =
   Array<ReportConfigGroupPreferenceSetAssignment>;
 /** The groups and associated preference sets on which we can generate reports. */
 export interface ReportConfig {
-  /** Required. Collection of combinations of groups and preference sets. */
-  groupPreferencesetAssignments?: ReportConfigGroupPreferenceSetAssignmentList | undefined;
-  /** User-friendly display name. Maximum length is 63 characters. */
-  displayName?: string | undefined;
-  /** Free-text description. */
-  description?: string | undefined;
   /** Output only. The timestamp when the resource was last updated. */
   updateTime?: string | undefined;
-  /** Output only. The timestamp when the resource was created. */
-  createTime?: string | undefined;
+  /** Free-text description. */
+  description?: string | undefined;
   /** Output only. Name of resource. */
   name?: string | undefined;
+  /** User-friendly display name. Maximum length is 63 characters. */
+  displayName?: string | undefined;
+  /** Required. Collection of combinations of groups and preference sets. */
+  groupPreferencesetAssignments?: ReportConfigGroupPreferenceSetAssignmentList | undefined;
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string | undefined;
 }
 export interface CreateProjectsLocationsReportConfigsRequest extends ReportConfig {
   /** Required. User specified ID for the report config. It will become the last component of the report config name. The ID must be unique within the project, must conform with RFC-1034, is restricted to lower-cased letters, and has a maximum length of 63 characters. The ID must match the regular expression: `[a-z]([a-z0-9-]{0,61}[a-z0-9])?`. */
   reportConfigId?: string | undefined;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
   /** Required. Value for parent. */
   parent: string;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+}
+export type ReportTypeEnum = "TYPE_UNSPECIFIED" | "TOTAL_COST_OF_OWNERSHIP";
+/** Estimated usage stats for the assets in this collection. */
+export interface ReportSummaryAssetAggregateStatsEstimatedUsageStats {
+  /** Output only. The number of assets that are using at least one estimated usage metric for rightsizing. */
+  totalAssetsUsingEstimatedUsage?: string | undefined;
+  /** Output only. The number of virtual machines in this finding that are using at least one estimated usage metric for rightsizing. */
+  totalVirtualMachinesUsingEstimatedUsage?: string | undefined;
 }
 /** A histogram bucket with a lower and upper bound, and a count of items with a field value between those bounds. The lower bound is inclusive and the upper bound is exclusive. Lower bound may be -infinity and upper bound may be infinity. */
 export interface ReportSummaryHistogramChartDataBucket {
   /** Count of items in the bucket. */
   count?: string | undefined;
-  /** Lower bound - inclusive. */
-  lowerBound?: string | undefined;
   /** Upper bound - exclusive. */
   upperBound?: string | undefined;
+  /** Lower bound - inclusive. */
+  lowerBound?: string | undefined;
 }
 export type ReportSummaryHistogramChartDataBucketList =
   Array<ReportSummaryHistogramChartDataBucket>;
@@ -2580,88 +2588,83 @@ export interface ReportSummaryUtilizationChartData {
   /** Aggregate value which falls into the "Free" bucket. */
   free?: string | undefined;
 }
-/** Estimated usage stats for the assets in this collection. */
-export interface ReportSummaryAssetAggregateStatsEstimatedUsageStats {
-  /** Output only. The number of assets that are using at least one estimated usage metric for rightsizing. */
-  totalAssetsUsingEstimatedUsage?: string | undefined;
-  /** Output only. The number of virtual machines in this finding that are using at least one estimated usage metric for rightsizing. */
-  totalVirtualMachinesUsingEstimatedUsage?: string | undefined;
-}
 /** Aggregate statistics for a collection of assets. */
 export interface ReportSummaryAssetAggregateStats {
-  /** Sum of persistent storage in bytes of all the assets in this collection. */
-  totalStorageBytes?: string | undefined;
-  /** Count of the number of unique assets in this collection. */
-  totalAssets?: string | undefined;
-  /** Histogram showing a distribution of storage sizes. */
-  storageBytesHistogram?: ReportSummaryHistogramChartData | undefined;
-  /** Total storage split into Used/Free buckets. */
-  storageUtilization?: ReportSummaryChartData | undefined;
-  /** Histogram showing a distribution of memory sizes. */
-  memoryBytesHistogram?: ReportSummaryHistogramChartData | undefined;
-  /** Sum of the memory in bytes of all the assets in this collection. */
-  totalMemoryBytes?: string | undefined;
-  /** Output only. Count of assets grouped by database type. Keys here are taken from DatabaseType enum. Only present for databases. */
-  databaseTypes?: ReportSummaryChartData | undefined;
-  /** Total memory split into Used/Free buckets. */
-  memoryUtilization?: ReportSummaryChartData | undefined;
-  /** Total memory split into Used/Free buckets. */
-  storageUtilizationChart?: ReportSummaryUtilizationChartData | undefined;
-  /** Histogram showing a distribution of logical CPU core counts. */
-  coreCountHistogram?: ReportSummaryHistogramChartData | undefined;
-  /** Count of assets grouped by Operating System families. Only present for virtual machines. */
-  operatingSystem?: ReportSummaryChartData | undefined;
-  /** Count of assets grouped by age. */
-  assetAge?: ReportSummaryChartData | undefined;
-  /** Sum of the CPU core count of all the assets in this collection. */
-  totalCores?: string | undefined;
   /** Output only. Estimated usage stats for the assets in this collection. */
   estimatedUsageStats?: ReportSummaryAssetAggregateStatsEstimatedUsageStats | undefined;
+  /** Histogram showing a distribution of logical CPU core counts. */
+  coreCountHistogram?: ReportSummaryHistogramChartData | undefined;
   /** Total memory split into Used/Free buckets. */
-  memoryUtilizationChart?: ReportSummaryUtilizationChartData | undefined;
+  memoryUtilization?: ReportSummaryChartData | undefined;
+  /** Sum of the CPU core count of all the assets in this collection. */
+  totalCores?: string | undefined;
+  /** Output only. Count of assets grouped by database type. Keys here are taken from DatabaseType enum. Only present for databases. */
+  databaseTypes?: ReportSummaryChartData | undefined;
+  /** Sum of the memory in bytes of all the assets in this collection. */
+  totalMemoryBytes?: string | undefined;
+  /** Sum of persistent storage in bytes of all the assets in this collection. */
+  totalStorageBytes?: string | undefined;
   /** Output only. Count of assets grouped by software name. Only present for virtual machines. */
   softwareInstances?: ReportSummaryChartData | undefined;
+  /** Total memory split into Used/Free buckets. */
+  memoryUtilizationChart?: ReportSummaryUtilizationChartData | undefined;
+  /** Histogram showing a distribution of memory sizes. */
+  memoryBytesHistogram?: ReportSummaryHistogramChartData | undefined;
+  /** Histogram showing a distribution of storage sizes. */
+  storageBytesHistogram?: ReportSummaryHistogramChartData | undefined;
+  /** Count of assets grouped by Operating System families. Only present for virtual machines. */
+  operatingSystem?: ReportSummaryChartData | undefined;
+  /** Total memory split into Used/Free buckets. */
+  storageUtilizationChart?: ReportSummaryUtilizationChartData | undefined;
+  /** Count of the number of unique assets in this collection. */
+  totalAssets?: string | undefined;
+  /** Total storage split into Used/Free buckets. */
+  storageUtilization?: ReportSummaryChartData | undefined;
+  /** Count of assets grouped by age. */
+  assetAge?: ReportSummaryChartData | undefined;
 }
-export type ReportSummaryGroupFindingDatabaseTypeEnum =
-  | "DATABASE_TYPE_UNSPECIFIED"
-  | "SQL_SERVER"
-  | "MYSQL"
-  | "POSTGRES";
 /** Represents an amount of money with its currency type. */
 export interface Money {
-  /** The whole units of the amount. For example if `currencyCode` is `"USD"`, then 1 unit is one US dollar. */
-  units?: string | undefined;
-  /** Number of nano (10^-9) units of the amount. The value must be between -999,999,999 and +999,999,999 inclusive. If `units` is positive, `nanos` must be positive or zero. If `units` is zero, `nanos` can be positive, zero, or negative. If `units` is negative, `nanos` must be negative or zero. For example $-1.75 is represented as `units`=-1 and `nanos`=-750,000,000. */
-  nanos?: number | undefined;
   /** The three-letter currency code defined in ISO 4217. */
   currencyCode?: string | undefined;
+  /** Number of nano (10^-9) units of the amount. The value must be between -999,999,999 and +999,999,999 inclusive. If `units` is positive, `nanos` must be positive or zero. If `units` is zero, `nanos` can be positive, zero, or negative. If `units` is negative, `nanos` must be negative or zero. For example $-1.75 is represented as `units`=-1 and `nanos`=-750,000,000. */
+  nanos?: number | undefined;
+  /** The whole units of the amount. For example if `currencyCode` is `"USD"`, then 1 unit is one US dollar. */
+  units?: string | undefined;
 }
 /** DatabaseFinding contains an aggregate costs and shapes for a single database type. */
 export interface ReportSummaryDatabaseFinding {
-  /** Output only. Number of database assets in this finding. */
-  totalAssets?: string | undefined;
   /** Output only. Number of database assets which were successfully assigned in this finding. */
   allocatedAssetCount?: string | undefined;
+  /** Output only. Number of database assets in this finding. */
+  totalAssets?: string | undefined;
 }
-/** Represents the assets allocated to a specific Sole-Tenant node type. */
-export interface ReportSummarySoleTenantNodeAllocation {
-  /** Sole Tenant node type, e.g. "m3-node-128-3904" */
-  node?: SoleTenantNodeType | undefined;
-  /** Count of this node type to be provisioned */
-  nodeCount?: string | undefined;
-  /** Count of assets allocated to these nodes */
+/** Represents a data point tracking the count of assets allocated for a specific Machine Series. */
+export interface ReportSummaryMachineSeriesAllocation {
+  /** The Machine Series (e.g. "E2", "N2") */
+  machineSeries?: MachineSeries | undefined;
+  /** Count of assets allocated to this machine series. */
   allocatedAssetCount?: string | undefined;
 }
-export type ReportSummarySoleTenantNodeAllocationList =
-  Array<ReportSummarySoleTenantNodeAllocation>;
-/** A set of findings that applies to assets destined for Sole-Tenant nodes. */
-export interface ReportSummarySoleTenantFinding {
-  /** Count of assets which are allocated */
-  allocatedAssetCount?: string | undefined;
-  /** Set of regions in which the assets are allocated */
+export type ReportSummaryMachineSeriesAllocationList = Array<ReportSummaryMachineSeriesAllocation>;
+export type ReportSummaryMachineFindingAllocatedDiskTypesItemEnum =
+  | "PERSISTENT_DISK_TYPE_UNSPECIFIED"
+  | "PERSISTENT_DISK_TYPE_STANDARD"
+  | "PERSISTENT_DISK_TYPE_BALANCED"
+  | "PERSISTENT_DISK_TYPE_SSD";
+export type ReportSummaryMachineFindingAllocatedDiskTypesItemEnumList = Array<
+  ReportSummaryMachineFindingAllocatedDiskTypesItemEnum | (string & {})
+>;
+/** A set of findings that applies to assets of type Virtual/Physical Machine. */
+export interface ReportSummaryMachineFinding {
+  /** Distribution of assets based on the Machine Series. */
+  machineSeriesAllocations?: ReportSummaryMachineSeriesAllocationList | undefined;
+  /** @deprecated. Use storage_allocations instead. Set of disk types allocated to assets. */
+  allocatedDiskTypes?: ReportSummaryMachineFindingAllocatedDiskTypesItemEnumList | undefined;
+  /** Set of regions in which the assets were allocated. */
   allocatedRegions?: StringList | undefined;
-  /** Set of per-nodetype allocation records */
-  nodeAllocations?: ReportSummarySoleTenantNodeAllocationList | undefined;
+  /** Count of assets which were allocated. */
+  allocatedAssetCount?: string | undefined;
 }
 /** A VMWare Engine Node */
 export interface ReportSummaryVMWareNode {
@@ -2670,10 +2673,10 @@ export interface ReportSummaryVMWareNode {
 }
 /** Represents assets allocated to a specific VMWare Node type. */
 export interface ReportSummaryVMWareNodeAllocation {
-  /** VMWare node type, e.g. "ve1-standard-72" */
-  vmwareNode?: ReportSummaryVMWareNode | undefined;
   /** Count of this node type to be provisioned */
   nodeCount?: string | undefined;
+  /** VMWare node type, e.g. "ve1-standard-72" */
+  vmwareNode?: ReportSummaryVMWareNode | undefined;
   /** Count of assets allocated to these nodes */
   allocatedAssetCount?: string | undefined;
 }
@@ -2687,77 +2690,70 @@ export interface ReportSummaryVMWareEngineFinding {
   /** Set of regions in which the assets were allocated */
   allocatedRegions?: StringList | undefined;
 }
-export type ReportSummaryMachineFindingAllocatedDiskTypesItemEnum =
-  | "PERSISTENT_DISK_TYPE_UNSPECIFIED"
-  | "PERSISTENT_DISK_TYPE_STANDARD"
-  | "PERSISTENT_DISK_TYPE_BALANCED"
-  | "PERSISTENT_DISK_TYPE_SSD";
-export type ReportSummaryMachineFindingAllocatedDiskTypesItemEnumList = Array<
-  ReportSummaryMachineFindingAllocatedDiskTypesItemEnum | (string & {})
->;
-/** Represents a data point tracking the count of assets allocated for a specific Machine Series. */
-export interface ReportSummaryMachineSeriesAllocation {
-  /** The Machine Series (e.g. "E2", "N2") */
-  machineSeries?: MachineSeries | undefined;
-  /** Count of assets allocated to this machine series. */
+/** Represents the assets allocated to a specific Sole-Tenant node type. */
+export interface ReportSummarySoleTenantNodeAllocation {
+  /** Count of this node type to be provisioned */
+  nodeCount?: string | undefined;
+  /** Sole Tenant node type, e.g. "m3-node-128-3904" */
+  node?: SoleTenantNodeType | undefined;
+  /** Count of assets allocated to these nodes */
   allocatedAssetCount?: string | undefined;
 }
-export type ReportSummaryMachineSeriesAllocationList = Array<ReportSummaryMachineSeriesAllocation>;
-/** A set of findings that applies to assets of type Virtual/Physical Machine. */
-export interface ReportSummaryMachineFinding {
-  /** @deprecated. Use storage_allocations instead. Set of disk types allocated to assets. */
-  allocatedDiskTypes?: ReportSummaryMachineFindingAllocatedDiskTypesItemEnumList | undefined;
-  /** Set of regions in which the assets were allocated. */
-  allocatedRegions?: StringList | undefined;
-  /** Distribution of assets based on the Machine Series. */
-  machineSeriesAllocations?: ReportSummaryMachineSeriesAllocationList | undefined;
-  /** Count of assets which were allocated. */
+export type ReportSummarySoleTenantNodeAllocationList =
+  Array<ReportSummarySoleTenantNodeAllocation>;
+/** A set of findings that applies to assets destined for Sole-Tenant nodes. */
+export interface ReportSummarySoleTenantFinding {
+  /** Count of assets which are allocated */
   allocatedAssetCount?: string | undefined;
+  /** Set of per-nodetype allocation records */
+  nodeAllocations?: ReportSummarySoleTenantNodeAllocationList | undefined;
+  /** Set of regions in which the assets are allocated */
+  allocatedRegions?: StringList | undefined;
 }
 /** Summary Findings for a specific Group/PreferenceSet combination. */
 export interface ReportSummaryGroupPreferenceSetFinding {
-  /** Output only. Network Egress monthly cost for this preference set. Only present for virtual machines. */
-  monthlyCostNetworkEgress?: Money | undefined;
+  /** Output only. GCVE Protected nodes cost for this preference set. */
+  monthlyCostGcveProtected?: Money | undefined;
   /** Output only. Details about databases in this finding. Only present for databases. */
   databaseFinding?: ReportSummaryDatabaseFinding | undefined;
-  /** A set of preferences that applies to all machines in the context. */
-  machinePreferences?: VirtualMachinePreferences | undefined;
-  /** Output only. Database licensing monthly cost for this preference set. Only present for databases. */
-  monthlyCostDatabaseLicensing?: Money | undefined;
+  /** Target region for this Preference Set */
+  preferredRegion?: string | undefined;
   /** Output only. All operating systems licensing monthly cost for this preference set. Only present for virtual machines. */
   monthlyCostOsLicense?: Money | undefined;
+  /** A set of preferences that applies to all machines in the context. */
+  machinePreferences?: VirtualMachinePreferences | undefined;
+  /** Output only. Compute monthly cost for this preference set. */
+  monthlyCostCompute?: Money | undefined;
+  /** Output only. Miscellaneous monthly cost for this preference set. */
+  monthlyCostOther?: Money | undefined;
+  /** Output only. Storage monthly cost for this preference set. */
+  monthlyCostStorage?: Money | undefined;
+  /** Output only. A set of findings that applies to all virtual machines in the input. Only present for virtual machines. */
+  machineFinding?: ReportSummaryMachineFinding | undefined;
   /** Text describing the pricing track specified for this Preference Set */
   pricingTrack?: string | undefined;
   /** Description for the Preference Set. */
   description?: string | undefined;
-  /** Output only. GCVE Protected nodes cost for this preference set. */
-  monthlyCostGcveProtected?: Money | undefined;
-  /** Output only. VMware portable license monthly cost for this preference set. Only present for VMware target with portable license service type. This cost is not paid to google, but is an estimate of license costs paid to VMware. */
-  monthlyCostPortableVmwareLicense?: Money | undefined;
-  /** Output only. Storage monthly cost for this preference set. */
-  monthlyCostStorage?: Money | undefined;
-  /** Output only. A copy of the preference set used for this finding. */
-  preferenceSet?: PreferenceSet | undefined;
-  /** Output only. Total monthly cost for this preference set. */
-  monthlyCostTotal?: Money | undefined;
-  /** Output only. Backup monthly cost for this preference set. Only present for databases. */
-  monthlyCostDatabaseBackup?: Money | undefined;
-  /** A set of findings that applies to Stole-Tenant machines in the input. Only present for virtual machines. */
-  soleTenantFinding?: ReportSummarySoleTenantFinding | undefined;
   /** A set of findings that applies to VMWare machines in the input. Only present for virtual machines. */
   vmwareEngineFinding?: ReportSummaryVMWareEngineFinding | undefined;
-  /** Text describing the business priority specified for this Preference Set */
-  topPriority?: string | undefined;
-  /** Target region for this Preference Set */
-  preferredRegion?: string | undefined;
+  /** Output only. Network Egress monthly cost for this preference set. Only present for virtual machines. */
+  monthlyCostNetworkEgress?: Money | undefined;
+  /** Output only. Database licensing monthly cost for this preference set. Only present for databases. */
+  monthlyCostDatabaseLicensing?: Money | undefined;
+  /** A set of findings that applies to Stole-Tenant machines in the input. Only present for virtual machines. */
+  soleTenantFinding?: ReportSummarySoleTenantFinding | undefined;
   /** Display Name of the Preference Set */
   displayName?: string | undefined;
-  /** Output only. Miscellaneous monthly cost for this preference set. */
-  monthlyCostOther?: Money | undefined;
-  /** Output only. A set of findings that applies to all virtual machines in the input. Only present for virtual machines. */
-  machineFinding?: ReportSummaryMachineFinding | undefined;
-  /** Output only. Compute monthly cost for this preference set. */
-  monthlyCostCompute?: Money | undefined;
+  /** Text describing the business priority specified for this Preference Set */
+  topPriority?: string | undefined;
+  /** Output only. Backup monthly cost for this preference set. Only present for databases. */
+  monthlyCostDatabaseBackup?: Money | undefined;
+  /** Output only. A copy of the preference set used for this finding. */
+  preferenceSet?: PreferenceSet | undefined;
+  /** Output only. VMware portable license monthly cost for this preference set. Only present for VMware target with portable license service type. This cost is not paid to google, but is an estimate of license costs paid to VMware. */
+  monthlyCostPortableVmwareLicense?: Money | undefined;
+  /** Output only. Total monthly cost for this preference set. */
+  monthlyCostTotal?: Money | undefined;
 }
 export type ReportSummaryGroupPreferenceSetFindingList =
   Array<ReportSummaryGroupPreferenceSetFinding>;
@@ -2765,22 +2761,27 @@ export type ReportSummaryGroupFindingAssetTypeEnum =
   | "ASSET_TYPE_UNSPECIFIED"
   | "VIRTUAL_MACHINE"
   | "DATABASE";
+export type ReportSummaryGroupFindingDatabaseTypeEnum =
+  | "DATABASE_TYPE_UNSPECIFIED"
+  | "SQL_SERVER"
+  | "MYSQL"
+  | "POSTGRES";
 /** Summary Findings for a specific Group. */
 export interface ReportSummaryGroupFinding {
-  /** Output only. Source asset database type for the group finding. Only present for databases. */
-  databaseType?: ReportSummaryGroupFindingDatabaseTypeEnum | (string & {}) | undefined;
-  /** Display Name for this group finding. */
-  displayName?: string | undefined;
   /** This field is deprecated, do not rely on it having a value. */
   overlappingAssetCount?: string | undefined;
-  /** Summary statistics for all the assets in this group. */
-  assetAggregateStats?: ReportSummaryAssetAggregateStats | undefined;
-  /** Description for this group finding. */
-  description?: string | undefined;
   /** Findings for each of the PreferenceSets for this group. */
   preferenceSetFindings?: ReportSummaryGroupPreferenceSetFindingList | undefined;
+  /** Description for this group finding. */
+  description?: string | undefined;
   /** Output only. Asset type for the group finding. */
   assetType?: ReportSummaryGroupFindingAssetTypeEnum | (string & {}) | undefined;
+  /** Display Name for this group finding. */
+  displayName?: string | undefined;
+  /** Summary statistics for all the assets in this group. */
+  assetAggregateStats?: ReportSummaryAssetAggregateStats | undefined;
+  /** Output only. Source asset database type for the group finding. Only present for databases. */
+  databaseType?: ReportSummaryGroupFindingDatabaseTypeEnum | (string & {}) | undefined;
   /** Output only. Full name of the group. */
   group?: string | undefined;
 }
@@ -2789,85 +2790,83 @@ export type ReportSummaryGroupFindingList = Array<ReportSummaryGroupFinding>;
 export interface ReportSummary {
   /** Output only. Aggregate statistics for unique virtual machine assets across all the groups. */
   virtualMachineStats?: ReportSummaryAssetAggregateStats | undefined;
-  /** Aggregate statistics for unique assets across all the groups. */
-  allAssetsStats?: ReportSummaryAssetAggregateStats | undefined;
   /** Output only. Aggregate statistics for unique database assets across all the groups. */
   databaseStats?: ReportSummaryAssetAggregateStats | undefined;
   /** Findings for each Group included in this report. */
   groupFindings?: ReportSummaryGroupFindingList | undefined;
+  /** Aggregate statistics for unique assets across all the groups. */
+  allAssetsStats?: ReportSummaryAssetAggregateStats | undefined;
 }
-export type ReportTypeEnum = "TYPE_UNSPECIFIED" | "TOTAL_COST_OF_OWNERSHIP";
 export type ReportStateEnum = "STATE_UNSPECIFIED" | "PENDING" | "SUCCEEDED" | "FAILED";
 /** Report represents a point-in-time rendering of the ReportConfig results. */
 export interface Report {
+  /** Free-text description. */
+  description?: string | undefined;
+  /** User-friendly display name. Maximum length is 63 characters. */
+  displayName?: string | undefined;
+  /** Report type. */
+  type?: ReportTypeEnum | (string & {}) | undefined;
   /** Output only. Summary view of the Report. */
   summary?: ReportSummary | undefined;
   /** Output only. Last update timestamp. */
   updateTime?: string | undefined;
-  /** Output only. Name of resource. */
-  name?: string | undefined;
-  /** Report type. */
-  type?: ReportTypeEnum | (string & {}) | undefined;
   /** Output only. Creation timestamp. */
   createTime?: string | undefined;
-  /** User-friendly display name. Maximum length is 63 characters. */
-  displayName?: string | undefined;
-  /** Free-text description. */
-  description?: string | undefined;
   /** Report creation state. */
   state?: ReportStateEnum | (string & {}) | undefined;
+  /** Output only. Name of resource. */
+  name?: string | undefined;
 }
 export interface CreateProjectsLocationsReportConfigsReportsRequest extends Report {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. Value for parent. */
-  parent: string;
   /** Required. User specified id for the report. It will become the last component of the report name. The id must be unique within the project, must conform with RFC-1034, is restricted to lower-cased letters, and has a maximum length of 63 characters. The id must match the regular expression: `[a-z]([a-z0-9-]{0,61}[a-z0-9])?`. */
   reportId?: string | undefined;
+  /** Required. Value for parent. */
+  parent: string;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
 }
 /** Contains the result of the report export. */
 export interface ReportExportExecutionResult {
-  /** Output only. List of output files. */
-  outputFiles?: OutputFileList | undefined;
-  /** Output only. Error encountered during export. */
-  error?: Status | undefined;
   /** Output only. Signed URLs for downloading export artifacts. */
   signedUris?: SignedUris | undefined;
+  /** Output only. Error encountered during export. */
+  error?: Status | undefined;
+  /** Output only. List of output files. */
+  outputFiles?: OutputFileList | undefined;
 }
 /** Execution status of report export operation. */
 export interface ReportExportExecution {
-  /** Output only. Completion time of the export. */
-  endTime?: string | undefined;
-  /** Output only. Globally unique identifier of the execution. */
-  executionId?: string | undefined;
-  /** Output only. Result of the export execution. */
-  result?: ReportExportExecutionResult | undefined;
-  /** Output only. Expiration time for the export and artifacts. */
-  expireTime?: string | undefined;
-  /** Output only. Execution start timestamp. */
-  startTime?: string | undefined;
   /** Output only. Represents the progress of the execution. It reaches 100 when the execution is successfully completed. When the execution finishes with a failure, the progress is set to 0. */
   progressPercentage?: number | undefined;
+  /** Output only. Globally unique identifier of the execution. */
+  executionId?: string | undefined;
+  /** Output only. Expiration time for the export and artifacts. */
+  expireTime?: string | undefined;
+  /** Output only. Completion time of the export. */
+  endTime?: string | undefined;
+  /** Output only. Execution start timestamp. */
+  startTime?: string | undefined;
+  /** Output only. Result of the export execution. */
+  result?: ReportExportExecutionResult | undefined;
 }
 export type ReportExportExecutionList = Array<ReportExportExecution>;
 /** Report export job message. */
 export interface ReportExportJob {
-  /** Output only. Identifier. Resource name. */
-  name?: string | undefined;
   /** Output only. Recent not expired executions of the export report job. */
   recentExecutions?: ReportExportExecutionList | undefined;
   /** Export with a SignedUri. */
   signedUriDestination?: SignedUriDestination | undefined;
+  /** Output only. Identifier. Resource name. */
+  name?: string | undefined;
 }
 export interface CreateProjectsLocationsReportConfigsReportsReportExportJobsRequest extends ReportExportJob {
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
   /** Required. The parent resource where this export job will be created. */
   parent: string;
   /** Required. The ID to use for the report export job. */
   reportExportJobId?: string | undefined;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
 }
-export type SourceStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "DELETING" | "INVALID";
 export type SourceTypeEnum =
   | "SOURCE_TYPE_UNKNOWN"
   | "SOURCE_TYPE_UPLOAD"
@@ -2875,68 +2874,69 @@ export type SourceTypeEnum =
   | "SOURCE_TYPE_INVENTORY_SCAN"
   | "SOURCE_TYPE_CUSTOM"
   | "SOURCE_TYPE_DISCOVERY_CLIENT";
+export type SourceStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "DELETING" | "INVALID";
 /** Source represents an object from which asset information is streamed to Migration Center. */
 export interface Source {
+  /** Output only. The timestamp when the source was created. */
+  createTime?: string | undefined;
+  /** Data source type. */
+  type?: SourceTypeEnum | (string & {}) | undefined;
+  /** Output only. Number of frames that are still being processed. */
+  pendingFrameCount?: number | undefined;
   /** User-friendly display name. */
   displayName?: string | undefined;
-  /** Free-text description. */
-  description?: string | undefined;
+  /** The information confidence of the source. The higher the value, the higher the confidence. */
+  priority?: number | undefined;
   /** Output only. The timestamp when the source was last updated. */
   updateTime?: string | undefined;
+  /** Output only. The number of frames that were reported by the source and contained errors. */
+  errorFrameCount?: number | undefined;
   /** If `true`, the source is managed by other service(s). */
   isManaged?: boolean | undefined;
   /** Output only. The state of the source. */
   state?: SourceStateEnum | (string & {}) | undefined;
-  /** Output only. Number of frames that are still being processed. */
-  pendingFrameCount?: number | undefined;
-  /** Output only. The number of frames that were reported by the source and contained errors. */
-  errorFrameCount?: number | undefined;
   /** Output only. The full name of the source. */
   name?: string | undefined;
-  /** Data source type. */
-  type?: SourceTypeEnum | (string & {}) | undefined;
-  /** The information confidence of the source. The higher the value, the higher the confidence. */
-  priority?: number | undefined;
-  /** Output only. The timestamp when the source was created. */
-  createTime?: string | undefined;
+  /** Free-text description. */
+  description?: string | undefined;
 }
 export interface CreateProjectsLocationsSourcesRequest extends Source {
+  /** Required. User specified ID for the source. It will become the last component of the source name. The ID must be unique within the project, must conform with RFC-1034, is restricted to lower-cased letters, and has a maximum length of 63 characters. The ID must match the regular expression: `[a-z]([a-z0-9-]{0,61}[a-z0-9])?`. */
+  sourceId?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. Value for parent. */
   parent: string;
-  /** Required. User specified ID for the source. It will become the last component of the source name. The ID must be unique within the project, must conform with RFC-1034, is restricted to lower-cased letters, and has a maximum length of 63 characters. The ID must match the regular expression: `[a-z]([a-z0-9-]{0,61}[a-z0-9])?`. */
-  sourceId?: string | undefined;
 }
 export interface DeleteProjectsLocationsAssetsRequest {
-  /** Required. Name of the resource. */
-  name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
+  /** Required. Name of the resource. */
+  name: string;
 }
 export interface DeleteProjectsLocationsAssetsExportJobsRequest {
   /** Required. The name of the assets export job to delete. */
   name: string;
 }
 export interface DeleteProjectsLocationsDiscoveryClientsRequest {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
   /** Required. The discovery client name. */
   name: string;
-}
-export interface DeleteProjectsLocationsGroupsRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
+}
+export interface DeleteProjectsLocationsGroupsRequest {
   /** Required. Name of the group resource. */
   name: string;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
 }
 export interface DeleteProjectsLocationsImportJobsRequest {
   /** Required. Name of the resource. */
   name: string;
-  /** Optional. If set to `true`, any `ImportDataFiles` of this job will also be deleted If set to `false`, the request only works if the job has no data files. */
-  force?: boolean | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
+  /** Optional. If set to `true`, any `ImportDataFiles` of this job will also be deleted If set to `false`, the request only works if the job has no data files. */
+  force?: boolean | undefined;
 }
 export interface DeleteProjectsLocationsImportJobsImportDataFilesRequest {
   /** Required. Name of the ImportDataFile to delete. */
@@ -2949,18 +2949,18 @@ export interface DeleteProjectsLocationsOperationsRequest {
   name: string;
 }
 export interface DeleteProjectsLocationsPreferenceSetsRequest {
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
   /** Required. Name of the group resource. */
   name: string;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
 }
 export interface DeleteProjectsLocationsReportConfigsRequest {
-  /** Required. Name of the resource. */
-  name: string;
-  /** Optional. If set to `true`, any child `Reports` of this entity will also be deleted. If set to `false`, the request only works if the resource has no children. */
-  force?: boolean | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
+  /** Optional. If set to `true`, any child `Reports` of this entity will also be deleted. If set to `false`, the request only works if the resource has no children. */
+  force?: boolean | undefined;
+  /** Required. Name of the resource. */
+  name: string;
 }
 export interface DeleteProjectsLocationsReportConfigsReportsRequest {
   /** Required. Name of the resource. */
@@ -2975,10 +2975,10 @@ export interface DeleteProjectsLocationsReportConfigsReportsReportExportJobsRequ
   name: string;
 }
 export interface DeleteProjectsLocationsSourcesRequest {
-  /** Required. Name of the resource. */
-  name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
+  /** Required. Name of the resource. */
+  name: string;
 }
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
@@ -2986,16 +2986,16 @@ export interface GetProjectsLocationsRequest {
 }
 /** A resource that represents a Google Cloud location. */
 export interface Location {
-  /** The canonical id for this location. For example: `"us-east1"`. */
-  locationId?: string | undefined;
-  /** Service-specific metadata. For example the available capacity at the given location. */
-  metadata?: DocumentMap | undefined;
   /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
   displayName?: string | undefined;
-  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
-  name?: string | undefined;
+  /** The canonical id for this location. For example: `"us-east1"`. */
+  locationId?: string | undefined;
   /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
   labels?: StringMap | undefined;
+  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
+  name?: string | undefined;
+  /** Service-specific metadata. For example the available capacity at the given location. */
+  metadata?: DocumentMap | undefined;
 }
 export type GetProjectsLocationsAssetsViewEnum =
   | "ASSET_VIEW_UNSPECIFIED"
@@ -3003,10 +3003,10 @@ export type GetProjectsLocationsAssetsViewEnum =
   | "ASSET_VIEW_FULL"
   | "ASSET_VIEW_STANDARD";
 export interface GetProjectsLocationsAssetsRequest {
-  /** View of the assets. Defaults to BASIC. */
-  view?: GetProjectsLocationsAssetsViewEnum | (string & {}) | undefined;
   /** Required. Name of the resource. */
   name: string;
+  /** View of the assets. Defaults to BASIC. */
+  view?: GetProjectsLocationsAssetsViewEnum | (string & {}) | undefined;
 }
 export interface GetProjectsLocationsAssetsExportJobsRequest {
   /** Required. Name of the resource. */
@@ -3054,14 +3054,14 @@ export type RelationTypeEnum =
 export interface Relation {
   /** Optional. The type of the relation. */
   type?: RelationTypeEnum | undefined;
-  /** Output only. Identifier. The identifier of the relation. */
-  name?: string | undefined;
   /** Output only. The source asset name in the relation. */
   srcAsset?: string | undefined;
-  /** Output only. The destination asset name in the relation. */
-  dstAsset?: string | undefined;
   /** Output only. The timestamp when the relation was created. */
   createTime?: string | undefined;
+  /** Output only. The destination asset name in the relation. */
+  dstAsset?: string | undefined;
+  /** Output only. Identifier. The identifier of the relation. */
+  name?: string | undefined;
 }
 export interface GetProjectsLocationsReportConfigsRequest {
   /** Required. Name of the resource. */
@@ -3096,6 +3096,54 @@ export interface GetProjectsLocationsSourcesErrorFramesRequest {
   /** Optional. An optional view mode to control the level of details for the frame. The default is a basic frame view. */
   view?: GetProjectsLocationsSourcesErrorFramesViewEnum | (string & {}) | undefined;
 }
+/** A resource that contains a single violation of a reported `AssetFrame` resource. */
+export interface FrameViolationEntry {
+  /** The field of the original frame where the violation occurred. */
+  field?: string | undefined;
+  /** A message describing the violation. */
+  violation?: string | undefined;
+}
+export type FrameViolationEntryList = Array<FrameViolationEntry>;
+/** CPU usage sample. */
+export interface CpuUsageSample {
+  /** Percentage of total CPU capacity utilized. Must be in the interval [0, 100]. On most systems can be calculated using 100 - idle percentage. */
+  utilizedPercentage?: number | undefined;
+}
+/** Memory usage sample. */
+export interface MemoryUsageSample {
+  /** Percentage of system memory utilized. Must be in the interval [0, 100]. */
+  utilizedPercentage?: number | undefined;
+}
+/** Disk usage sample. Values are across all disks. */
+export interface DiskUsageSample {
+  /** Average write IOPS sampled over a short window. Must be non-negative. If both read and write are zero they are ignored. */
+  averageWriteIops?: number | undefined;
+  /** Average IOPS sampled over a short window. Must be non-negative. If read or write are set, the sum of read and write will override the value of the average_iops. */
+  averageIops?: number | undefined;
+  /** Average read IOPS sampled over a short window. Must be non-negative. If both read and write are zero they are ignored. */
+  averageReadIops?: number | undefined;
+}
+/** Network usage sample. Values are across all network interfaces. */
+export interface NetworkUsageSample {
+  /** Average network egress in B/s sampled over a short window. Must be non-negative. */
+  averageEgressBps?: number | undefined;
+  /** Average network ingress in B/s sampled over a short window. Must be non-negative. */
+  averageIngressBps?: number | undefined;
+}
+/** Performance data sample. */
+export interface PerformanceSample {
+  /** CPU usage sample. */
+  cpu?: CpuUsageSample | undefined;
+  /** Memory usage sample. */
+  memory?: MemoryUsageSample | undefined;
+  /** Time the sample was collected. If omitted, the frame report time will be used. */
+  sampleTime?: string | undefined;
+  /** Disk usage sample. */
+  disk?: DiskUsageSample | undefined;
+  /** Network usage sample. */
+  network?: NetworkUsageSample | undefined;
+}
+export type PerformanceSampleList = Array<PerformanceSample>;
 export type AssetFrameCollectionTypeEnum =
   | "SOURCE_TYPE_UNKNOWN"
   | "SOURCE_TYPE_UPLOAD"
@@ -3103,149 +3151,101 @@ export type AssetFrameCollectionTypeEnum =
   | "SOURCE_TYPE_INVENTORY_SCAN"
   | "SOURCE_TYPE_CUSTOM"
   | "SOURCE_TYPE_DISCOVERY_CLIENT";
-/** Disk usage sample. Values are across all disks. */
-export interface DiskUsageSample {
-  /** Average write IOPS sampled over a short window. Must be non-negative. If both read and write are zero they are ignored. */
-  averageWriteIops?: number | undefined;
-  /** Average read IOPS sampled over a short window. Must be non-negative. If both read and write are zero they are ignored. */
-  averageReadIops?: number | undefined;
-  /** Average IOPS sampled over a short window. Must be non-negative. If read or write are set, the sum of read and write will override the value of the average_iops. */
-  averageIops?: number | undefined;
-}
-/** Network usage sample. Values are across all network interfaces. */
-export interface NetworkUsageSample {
-  /** Average network ingress in B/s sampled over a short window. Must be non-negative. */
-  averageIngressBps?: number | undefined;
-  /** Average network egress in B/s sampled over a short window. Must be non-negative. */
-  averageEgressBps?: number | undefined;
-}
-/** Memory usage sample. */
-export interface MemoryUsageSample {
-  /** Percentage of system memory utilized. Must be in the interval [0, 100]. */
-  utilizedPercentage?: number | undefined;
-}
-/** CPU usage sample. */
-export interface CpuUsageSample {
-  /** Percentage of total CPU capacity utilized. Must be in the interval [0, 100]. On most systems can be calculated using 100 - idle percentage. */
-  utilizedPercentage?: number | undefined;
-}
-/** Performance data sample. */
-export interface PerformanceSample {
-  /** Time the sample was collected. If omitted, the frame report time will be used. */
-  sampleTime?: string | undefined;
-  /** Disk usage sample. */
-  disk?: DiskUsageSample | undefined;
-  /** Network usage sample. */
-  network?: NetworkUsageSample | undefined;
-  /** Memory usage sample. */
-  memory?: MemoryUsageSample | undefined;
-  /** CPU usage sample. */
-  cpu?: CpuUsageSample | undefined;
-}
-export type PerformanceSampleList = Array<PerformanceSample>;
 /** Contains data reported from an inventory source on an asset. */
 export interface AssetFrame {
-  /** Asset information specific for AWS DynamoDB tables. */
-  awsDynamodbTableDetails?: AggregationSum | undefined;
-  /** Asset information specific for AWS Load Balancers. */
-  awsElbLoadBalancerDetails?: AggregationSum | undefined;
-  /** Optional. Generic structured asset attributes. */
-  structuredAttributes?: DocumentMap | undefined;
-  /** Optional. Asset information specific for AWS ElastiCache Clusters. */
-  awsElasticacheClusterDetails?: AggregationSum | undefined;
-  /** Optional. Asset information specific for AwsAutoscalingGroupDetails */
-  awsAutoscalingGroupDetails?: AggregationSum | undefined;
-  /** Generic asset attributes. */
-  attributes?: StringMap | undefined;
-  /** Asset information specific for AWS EKS clusters. */
-  awsEksClusterDetails?: AggregationSum | undefined;
   /** Optional. Asset information specific for AWS EBS Volumes. */
   awsEbsVolumeDetails?: AggregationSum | undefined;
-  /** Asset information specific for AWS Redshift clusters. */
-  awsRedshiftDetails?: AggregationSum | undefined;
-  /** Optional. Asset information specific for AwsAthenaWorkGroupDetails */
-  awsAthenaWorkGroupDetails?: AggregationSum | undefined;
-  /** Optional. Asset information specific for AWS Internet Gateways. */
-  awsInternetGatewayDetails?: AggregationSum | undefined;
   /** Asset information specific for AWS ECS clusters. */
   awsEcsClusterDetails?: AggregationSum | undefined;
-  /** Optional. Details about the hosting provider of the asset. */
-  hostingProviderDetails?: HostingProviderDetails | undefined;
-  /** Optional. Trace token is optionally provided to assist with debugging and traceability. */
-  traceToken?: string | undefined;
-  /** Asset information specific for virtual machines. */
-  virtualMachineDetails?: VirtualMachineDetails | undefined;
-  /** Optional. Asset information specific for AwsGlueJobDetails */
-  awsGlueJobDetails?: AggregationSum | undefined;
-  /** Optional. Asset information specific for AwsKinesisStreamDetails */
-  awsKinesisStreamDetails?: AggregationSum | undefined;
-  /** Asset information specific for database deployments. */
-  databaseDeploymentDetails?: DatabaseDeploymentDetails | undefined;
-  /** Optional. Asset information specific for AWS API Gateway REST APIs. */
-  awsApiGatewayRestApiDetails?: AggregationSum | undefined;
-  /** Asset information specific for AwsNatGatewayDetails */
-  awsNatGatewayDetails?: AggregationSum | undefined;
-  /** Asset information specific for AWS CloudFront distributions. */
-  awsCloudFrontDistributionDetails?: AggregationSum | undefined;
-  /** Asset information specific for AWS Lambda functions. */
-  awsLambdaFunctionDetails?: AggregationSum | undefined;
-  /** The time the data was reported. */
-  reportTime?: string | undefined;
-  /** Optional. Asset information specific for AWS SNS Topics. */
-  awsSnsTopicDetails?: AggregationSum | undefined;
-  /** Optional. Asset information specific for AWS AppSync GraphQL APIs. */
-  awsAppSyncGraphqlApiDetails?: AggregationSum | undefined;
-  /** Optional. Asset information specific for AWS Application Load Balancers. */
-  awsApplicationLoadBalancerDetails?: AggregationSum | undefined;
-  /** Optional. Asset information specific for AWS Batch Compute Environments. */
-  awsBatchComputeEnvironmentDetails?: AggregationSum | undefined;
-  /** Asset information specific for logical databases. */
-  databaseDetails?: DatabaseDetails | undefined;
-  /** Asset information specific for AwsRoute53HostedZoneDetails */
-  awsRoute53HostedZoneDetails?: AggregationSum | undefined;
-  /** Optional. Asset information specific for AWS Elastic Network Interfaces. */
-  awsElasticNetworkInterfaceDetails?: AggregationSum | undefined;
-  /** Asset information specific for virtual and physical machines. */
-  machineDetails?: MachineDetails | undefined;
   /** Asset information specific for AWS VPCs. */
   awsVpcDetails?: AggregationSum | undefined;
-  /** Optional. Asset information specific for AwsEmrClusterDetails */
-  awsEmrClusterDetails?: AggregationSum | undefined;
-  /** Asset information specific for AwsEcrRepositoryDetails */
-  awsEcrRepositoryDetails?: AggregationSum | undefined;
-  /** Optional. Frame collection type, if not specified the collection type will be based on the source type of the source the frame was reported on. */
-  collectionType?: AssetFrameCollectionTypeEnum | (string & {}) | undefined;
+  /** Optional. Asset information specific for AwsKinesisStreamDetails */
+  awsKinesisStreamDetails?: AggregationSum | undefined;
   /** Optional. Asset information specific for AWS Elastic IP Addresses. */
   awsElasticIpAddressDetails?: AggregationSum | undefined;
-  /** Labels as key value pairs. */
-  labels?: StringMap | undefined;
-  /** Optional. Asset information specific for AwsFirehoseDetails */
-  awsFirehoseDetails?: AggregationSum | undefined;
+  /** Optional. Asset information specific for AWS SNS Topics. */
+  awsSnsTopicDetails?: AggregationSum | undefined;
+  /** Asset information specific for AWS EFS file systems. */
+  awsEfsFileSystemDetails?: AggregationSum | undefined;
+  /** Asset information specific for AWS CloudFront distributions. */
+  awsCloudFrontDistributionDetails?: AggregationSum | undefined;
+  /** Asset information specific for AwsEcrRepositoryDetails */
+  awsEcrRepositoryDetails?: AggregationSum | undefined;
+  /** Optional. Asset information specific for AWS Elastic Network Interfaces. */
+  awsElasticNetworkInterfaceDetails?: AggregationSum | undefined;
+  /** Optional. Asset information specific for AwsEmrClusterDetails */
+  awsEmrClusterDetails?: AggregationSum | undefined;
   /** Asset information specific for AWS S3 buckets. */
   awsS3BucketDetails?: AwsS3BucketDetails | undefined;
   /** Asset performance data samples. Samples that are from more than 40 days ago or after tomorrow are ignored. */
   performanceSamples?: PerformanceSampleList | undefined;
-  /** Asset information specific for AWS EFS file systems. */
-  awsEfsFileSystemDetails?: AggregationSum | undefined;
+  /** Labels as key value pairs. */
+  labels?: StringMap | undefined;
+  /** Asset information specific for logical databases. */
+  databaseDetails?: DatabaseDetails | undefined;
+  /** Optional. Generic structured asset attributes. */
+  structuredAttributes?: DocumentMap | undefined;
+  /** Generic asset attributes. */
+  attributes?: StringMap | undefined;
+  /** Optional. Asset information specific for AWS Internet Gateways. */
+  awsInternetGatewayDetails?: AggregationSum | undefined;
+  /** Optional. Details about the hosting provider of the asset. */
+  hostingProviderDetails?: HostingProviderDetails | undefined;
+  /** Optional. Frame collection type, if not specified the collection type will be based on the source type of the source the frame was reported on. */
+  collectionType?: AssetFrameCollectionTypeEnum | (string & {}) | undefined;
+  /** Optional. Asset information specific for AWS Batch Compute Environments. */
+  awsBatchComputeEnvironmentDetails?: AggregationSum | undefined;
+  /** Optional. Asset information specific for AwsAthenaWorkGroupDetails */
+  awsAthenaWorkGroupDetails?: AggregationSum | undefined;
+  /** Asset information specific for AwsRoute53HostedZoneDetails */
+  awsRoute53HostedZoneDetails?: AggregationSum | undefined;
+  /** Optional. Asset information specific for AwsGlueJobDetails */
+  awsGlueJobDetails?: AggregationSum | undefined;
+  /** Optional. Asset information specific for AWS AppSync GraphQL APIs. */
+  awsAppSyncGraphqlApiDetails?: AggregationSum | undefined;
+  /** Asset information specific for AwsNatGatewayDetails */
+  awsNatGatewayDetails?: AggregationSum | undefined;
+  /** Optional. Asset information specific for AWS API Gateway REST APIs. */
+  awsApiGatewayRestApiDetails?: AggregationSum | undefined;
+  /** The time the data was reported. */
+  reportTime?: string | undefined;
+  /** Asset information specific for AWS EKS clusters. */
+  awsEksClusterDetails?: AggregationSum | undefined;
+  /** Asset information specific for database deployments. */
+  databaseDeploymentDetails?: DatabaseDeploymentDetails | undefined;
+  /** Asset information specific for AWS DynamoDB tables. */
+  awsDynamodbTableDetails?: AggregationSum | undefined;
+  /** Optional. Trace token is optionally provided to assist with debugging and traceability. */
+  traceToken?: string | undefined;
+  /** Asset information specific for virtual and physical machines. */
+  machineDetails?: MachineDetails | undefined;
+  /** Asset information specific for AWS Lambda functions. */
+  awsLambdaFunctionDetails?: AggregationSum | undefined;
+  /** Asset information specific for AWS Load Balancers. */
+  awsElbLoadBalancerDetails?: AggregationSum | undefined;
+  /** Asset information specific for virtual machines. */
+  virtualMachineDetails?: VirtualMachineDetails | undefined;
+  /** Optional. Asset information specific for AWS Application Load Balancers. */
+  awsApplicationLoadBalancerDetails?: AggregationSum | undefined;
+  /** Optional. Asset information specific for AwsFirehoseDetails */
+  awsFirehoseDetails?: AggregationSum | undefined;
+  /** Optional. Asset information specific for AwsAutoscalingGroupDetails */
+  awsAutoscalingGroupDetails?: AggregationSum | undefined;
+  /** Optional. Asset information specific for AWS ElastiCache Clusters. */
+  awsElasticacheClusterDetails?: AggregationSum | undefined;
+  /** Asset information specific for AWS Redshift clusters. */
+  awsRedshiftDetails?: AggregationSum | undefined;
 }
-/** A resource that contains a single violation of a reported `AssetFrame` resource. */
-export interface FrameViolationEntry {
-  /** A message describing the violation. */
-  violation?: string | undefined;
-  /** The field of the original frame where the violation occurred. */
-  field?: string | undefined;
-}
-export type FrameViolationEntryList = Array<FrameViolationEntry>;
 /** Message representing a frame which failed to be processed due to an error. */
 export interface ErrorFrame {
   /** Output only. Frame ingestion time. */
   ingestionTime?: string | undefined;
   /** Output only. The identifier of the ErrorFrame. */
   name?: string | undefined;
-  /** Output only. The frame that was originally reported. */
-  originalFrame?: AssetFrame | undefined;
   /** Output only. All the violations that were detected for the frame. */
   violations?: FrameViolationEntryList | undefined;
+  /** Output only. The frame that was originally reported. */
+  originalFrame?: AssetFrame | undefined;
 }
 export interface GetSettingsProjectsLocationsRequest {
   /** Required. Name of the resource. */
@@ -3253,22 +3253,22 @@ export interface GetSettingsProjectsLocationsRequest {
 }
 /** Describes the Migration Center settings related to the project. */
 export interface Settings {
-  /** Disable Cloud Logging for the Migration Center API. Users are billed for the logs. */
-  disableCloudLogging?: boolean | undefined;
   /** Output only. The name of the resource. */
   name?: string | undefined;
   /** The preference set used by default for a project. */
   preferenceSet?: string | undefined;
   /** Customer consent for Google sales to access their Cloud Migration Center project. */
   customerConsentForGoogleSalesToAccessMigrationCenter?: boolean | undefined;
+  /** Disable Cloud Logging for the Migration Center API. Users are billed for the logs. */
+  disableCloudLogging?: boolean | undefined;
 }
 export interface ListProjectsLocationsRequest {
-  /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
-  extraLocationTypes?: StringList | undefined;
-  /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number | undefined;
   /** The resource that owns the locations collection, if applicable. */
   name: string;
+  /** The maximum number of results to return. If not set, the service selects a default. */
+  pageSize?: number | undefined;
+  /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
+  extraLocationTypes?: StringList | undefined;
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
   pageToken?: string | undefined;
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
@@ -3277,10 +3277,10 @@ export interface ListProjectsLocationsRequest {
 export type LocationList = Array<Location>;
 /** The response message for Locations.ListLocations. */
 export interface ListLocationsResponse {
-  /** A list of locations that matches the specified filter in the request. */
-  locations?: LocationList | undefined;
   /** The standard List next-page token. */
   nextPageToken?: string | undefined;
+  /** A list of locations that matches the specified filter in the request. */
+  locations?: LocationList | undefined;
 }
 export type ListProjectsLocationsAssetsViewEnum =
   | "ASSET_VIEW_UNSPECIFIED"
@@ -3288,107 +3288,107 @@ export type ListProjectsLocationsAssetsViewEnum =
   | "ASSET_VIEW_FULL"
   | "ASSET_VIEW_STANDARD";
 export interface ListProjectsLocationsAssetsRequest {
-  /** Filtering results. */
-  filter?: string | undefined;
+  /** Field to sort by. See https://google.aip.dev/132#ordering for more details. */
+  orderBy?: string | undefined;
+  /** Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
+  pageSize?: number | undefined;
   /** A token identifying a page of results the server should return. */
   pageToken?: string | undefined;
   /** Required. Parent value for `ListAssetsRequest`. */
   parent: string;
-  /** Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number | undefined;
   /** View of the assets. Defaults to BASIC. */
   view?: ListProjectsLocationsAssetsViewEnum | (string & {}) | undefined;
   /** Optional. When this value is set to 'true' the response will include all assets, including those that are hidden. */
   showHidden?: boolean | undefined;
-  /** Field to sort by. See https://google.aip.dev/132#ordering for more details. */
-  orderBy?: string | undefined;
+  /** Filtering results. */
+  filter?: string | undefined;
 }
 /** Response message for listing assets. */
 export interface ListAssetsResponse {
   /** Locations that could not be reached. */
   unreachable?: StringList | undefined;
-  /** A token identifying a page of results the server should return. */
-  nextPageToken?: string | undefined;
   /** A list of assets. */
   assets?: AssetList_ | undefined;
+  /** A token identifying a page of results the server should return. */
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsAssetsExportJobsRequest {
-  /** Required. Parent resource. */
-  parent: string;
   /** Optional. Requested page size. The server may return fewer items than requested. If unspecified, the server will pick an appropriate default value. */
   pageSize?: number | undefined;
+  /** Required. Parent resource. */
+  parent: string;
   /** Optional. A token identifying a page of results that the server should return. */
   pageToken?: string | undefined;
 }
 export type AssetsExportJobList = Array<AssetsExportJob>;
 /** Response message for listing assets export jobs. */
 export interface ListAssetsExportJobsResponse {
-  /** Output only. The list of assets export jobs. */
-  assetsExportJobs?: AssetsExportJobList | undefined;
   /** Output only. A token identifying a page of results the server should return. */
   nextPageToken?: string | undefined;
+  /** Output only. The list of assets export jobs. */
+  assetsExportJobs?: AssetsExportJobList | undefined;
 }
 export interface ListProjectsLocationsDiscoveryClientsRequest {
-  /** Optional. A page token, received from a previous `ListDiscoveryClients` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListDiscoveryClients` must match the call that provided the page token. */
-  pageToken?: string | undefined;
-  /** Required. Parent resource. */
-  parent: string;
-  /** Optional. Filter expression to filter results by. */
-  filter?: string | undefined;
   /** Optional. Field to sort by. */
   orderBy?: string | undefined;
   /** Optional. The maximum number of items to return. The server may return fewer items than requested. If unspecified, the server will pick an appropriate default value. */
   pageSize?: number | undefined;
+  /** Required. Parent resource. */
+  parent: string;
+  /** Optional. A page token, received from a previous `ListDiscoveryClients` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListDiscoveryClients` must match the call that provided the page token. */
+  pageToken?: string | undefined;
+  /** Optional. Filter expression to filter results by. */
+  filter?: string | undefined;
 }
 export type DiscoveryClientList = Array<DiscoveryClient>;
 /** Response message for listing discovery clients. */
 export interface ListDiscoveryClientsResponse {
   /** Locations that could not be reached. */
   unreachable?: StringList | undefined;
-  /** List of discovery clients. */
-  discoveryClients?: DiscoveryClientList | undefined;
   /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string | undefined;
+  /** List of discovery clients. */
+  discoveryClients?: DiscoveryClientList | undefined;
 }
 export interface ListProjectsLocationsGroupsRequest {
   /** Field to sort by. See https://google.aip.dev/132#ordering for more details. */
   orderBy?: string | undefined;
-  /** Required. Parent value for `ListGroupsRequest`. */
-  parent: string;
   /** Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
   pageSize?: number | undefined;
-  /** Filtering results. */
-  filter?: string | undefined;
+  /** Required. Parent value for `ListGroupsRequest`. */
+  parent: string;
   /** A token identifying a page of results the server should return. */
   pageToken?: string | undefined;
+  /** Filtering results. */
+  filter?: string | undefined;
 }
 export type GroupList = Array<Group>;
 /** A response for listing groups. */
 export interface ListGroupsResponse {
+  /** The list of Group */
+  groups?: GroupList | undefined;
   /** Locations that could not be reached. */
   unreachable?: StringList | undefined;
   /** A token identifying a page of results the server should return. */
   nextPageToken?: string | undefined;
-  /** The list of Group */
-  groups?: GroupList | undefined;
 }
 export type ListProjectsLocationsImportJobsViewEnum =
   | "IMPORT_JOB_VIEW_UNSPECIFIED"
   | "IMPORT_JOB_VIEW_BASIC"
   | "IMPORT_JOB_VIEW_FULL";
 export interface ListProjectsLocationsImportJobsRequest {
-  /** Required. Parent value for `ListImportJobsRequest`. */
-  parent: string;
-  /** Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number | undefined;
-  /** Filtering results. */
-  filter?: string | undefined;
-  /** A token identifying a page of results the server should return. */
-  pageToken?: string | undefined;
   /** Optional. The level of details of each import job. Default value is BASIC. */
   view?: ListProjectsLocationsImportJobsViewEnum | (string & {}) | undefined;
+  /** A token identifying a page of results the server should return. */
+  pageToken?: string | undefined;
+  /** Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
+  pageSize?: number | undefined;
   /** Field to sort by. See https://google.aip.dev/132#ordering for more details. */
   orderBy?: string | undefined;
+  /** Filtering results. */
+  filter?: string | undefined;
+  /** Required. Parent value for `ListImportJobsRequest`. */
+  parent: string;
 }
 export type ImportJobList = Array<ImportJob>;
 /** A response for listing import jobs. */
@@ -3401,16 +3401,16 @@ export interface ListImportJobsResponse {
   importJobs?: ImportJobList | undefined;
 }
 export interface ListProjectsLocationsImportJobsImportDataFilesRequest {
-  /** Required. Name of the parent of the `ImportDataFiles` resource. */
-  parent: string;
-  /** Field to sort by. See https://google.aip.dev/132#ordering for more details. */
-  orderBy?: string | undefined;
   /** Filtering results. */
   filter?: string | undefined;
-  /** A page token, received from a previous `ListImportDataFiles` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListImportDataFiles` must match the call that provided the page token. */
-  pageToken?: string | undefined;
+  /** Field to sort by. See https://google.aip.dev/132#ordering for more details. */
+  orderBy?: string | undefined;
   /** The maximum number of data files to return. The service may return fewer than this value. If unspecified, at most 500 data files will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
   pageSize?: number | undefined;
+  /** A page token, received from a previous `ListImportDataFiles` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListImportDataFiles` must match the call that provided the page token. */
+  pageToken?: string | undefined;
+  /** Required. Name of the parent of the `ImportDataFiles` resource. */
+  parent: string;
 }
 export type ImportDataFileList = Array<ImportDataFile>;
 /** Response for listing payload files of an import job. */
@@ -3423,32 +3423,32 @@ export interface ListImportDataFilesResponse {
   importDataFiles?: ImportDataFileList | undefined;
 }
 export interface ListProjectsLocationsOperationsRequest {
-  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean | undefined;
   /** The standard list page size. */
   pageSize?: number | undefined;
+  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
+  returnPartialSuccess?: boolean | undefined;
   /** The standard list filter. */
   filter?: string | undefined;
-  /** The name of the operation's parent resource. */
-  name: string;
   /** The standard list page token. */
   pageToken?: string | undefined;
+  /** The name of the operation's parent resource. */
+  name: string;
 }
 export type OperationList = Array<Operation>;
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
-  /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
-  unreachable?: StringList | undefined;
-  /** A list of operations that matches the specified filter in the request. */
-  operations?: OperationList | undefined;
   /** The standard List next-page token. */
   nextPageToken?: string | undefined;
+  /** A list of operations that matches the specified filter in the request. */
+  operations?: OperationList | undefined;
+  /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
+  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsPreferenceSetsRequest {
-  /** Field to sort by. See https://google.aip.dev/132#ordering for more details. */
-  orderBy?: string | undefined;
   /** A token identifying a page of results the server should return. */
   pageToken?: string | undefined;
+  /** Field to sort by. See https://google.aip.dev/132#ordering for more details. */
+  orderBy?: string | undefined;
   /** Required. Parent value for `ListPreferenceSetsRequest`. */
   parent: string;
   /** Requested page size. Server may return fewer items than requested. If unspecified, at most 500 preference sets will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
@@ -3467,14 +3467,14 @@ export interface ListPreferenceSetsResponse {
 export interface ListProjectsLocationsRelationsRequest {
   /** Field to sort by. See https://google.aip.dev/132#ordering for more details. */
   orderBy?: string | undefined;
-  /** Required. Parent value for `ListRelationsRequest`. */
-  parent: string;
-  /** Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number | undefined;
-  /** Filtering results. */
-  filter?: string | undefined;
   /** A token identifying a page of results the server should return. */
   pageToken?: string | undefined;
+  /** Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
+  pageSize?: number | undefined;
+  /** Required. Parent value for `ListRelationsRequest`. */
+  parent: string;
+  /** Filtering results. */
+  filter?: string | undefined;
 }
 export type RelationList = Array<Relation>;
 /** Response message for listing relations. */
@@ -3485,24 +3485,24 @@ export interface ListRelationsResponse {
   relations?: RelationList | undefined;
 }
 export interface ListProjectsLocationsReportConfigsRequest {
-  /** A token identifying a page of results the server should return. */
-  pageToken?: string | undefined;
-  /** Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number | undefined;
-  /** Field to sort by. See https://google.aip.dev/132#ordering for more details. */
-  orderBy?: string | undefined;
   /** Filtering results. */
   filter?: string | undefined;
+  /** Field to sort by. See https://google.aip.dev/132#ordering for more details. */
+  orderBy?: string | undefined;
+  /** A token identifying a page of results the server should return. */
+  pageToken?: string | undefined;
   /** Required. Parent value for `ListReportConfigsRequest`. */
   parent: string;
+  /** Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
+  pageSize?: number | undefined;
 }
 export type ReportConfigList = Array<ReportConfig>;
 /** Response message for listing report configs. */
 export interface ListReportConfigsResponse {
-  /** A token identifying a page of results the server should return. */
-  nextPageToken?: string | undefined;
   /** A list of report configs. */
   reportConfigs?: ReportConfigList | undefined;
+  /** A token identifying a page of results the server should return. */
+  nextPageToken?: string | undefined;
   /** Locations that could not be reached. */
   unreachable?: StringList | undefined;
 }
@@ -3512,28 +3512,28 @@ export type ListProjectsLocationsReportConfigsReportsViewEnum =
   | "REPORT_VIEW_FULL"
   | "REPORT_VIEW_STANDARD";
 export interface ListProjectsLocationsReportConfigsReportsRequest {
-  /** Filtering results. */
-  filter?: string | undefined;
-  /** Field to sort by. See https://google.aip.dev/132#ordering for more details. */
-  orderBy?: string | undefined;
-  /** Required. Parent value for `ListReportsRequest`. */
-  parent: string;
-  /** Determines what information to retrieve for each Report. */
-  view?: ListProjectsLocationsReportConfigsReportsViewEnum | (string & {}) | undefined;
   /** A token identifying a page of results that the server should return. */
   pageToken?: string | undefined;
+  /** Required. Parent value for `ListReportsRequest`. */
+  parent: string;
+  /** Field to sort by. See https://google.aip.dev/132#ordering for more details. */
+  orderBy?: string | undefined;
   /** Requested page size. The server may return fewer items than requested. If unspecified, the server will pick an appropriate default value. */
   pageSize?: number | undefined;
+  /** Determines what information to retrieve for each Report. */
+  view?: ListProjectsLocationsReportConfigsReportsViewEnum | (string & {}) | undefined;
+  /** Filtering results. */
+  filter?: string | undefined;
 }
 export type ReportList = Array<Report>;
 /** Response message for listing Reports. */
 export interface ListReportsResponse {
   /** A token identifying a page of results the server should return. */
   nextPageToken?: string | undefined;
-  /** Locations that could not be reached. */
-  unreachable?: StringList | undefined;
   /** The list of Reports. */
   reports?: ReportList | undefined;
+  /** Locations that could not be reached. */
+  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsReportConfigsReportsReportExportJobsRequest {
   /** Optional. A token identifying a page of results that the server should return. */
@@ -3552,56 +3552,56 @@ export interface ListReportExportJobsResponse {
   nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsSourcesRequest {
-  /** Requested page size. The server may return fewer items than requested. If unspecified, the server will pick an appropriate default value. */
-  pageSize?: number | undefined;
-  /** Filtering results. */
-  filter?: string | undefined;
   /** Required. Parent value for `ListSourcesRequest`. */
   parent: string;
   /** A token identifying a page of results that the server should return. */
   pageToken?: string | undefined;
   /** Field to sort by. See https://google.aip.dev/132#ordering for more details. */
   orderBy?: string | undefined;
+  /** Filtering results. */
+  filter?: string | undefined;
+  /** Requested page size. The server may return fewer items than requested. If unspecified, the server will pick an appropriate default value. */
+  pageSize?: number | undefined;
 }
 export type SourceList = Array<Source>;
 /** Response message for listing sources. */
 export interface ListSourcesResponse {
+  /** A token identifying a page of results the server should return. */
+  nextPageToken?: string | undefined;
   /** The list of sources. */
   sources?: SourceList | undefined;
   /** Locations that could not be reached. */
   unreachable?: StringList | undefined;
-  /** A token identifying a page of results the server should return. */
-  nextPageToken?: string | undefined;
 }
 export type ListProjectsLocationsSourcesErrorFramesViewEnum =
   | "ERROR_FRAME_VIEW_UNSPECIFIED"
   | "ERROR_FRAME_VIEW_BASIC"
   | "ERROR_FRAME_VIEW_FULL";
 export interface ListProjectsLocationsSourcesErrorFramesRequest {
-  /** Optional. An optional view mode to control the level of details of each error frame. The default is a BASIC frame view. */
-  view?: ListProjectsLocationsSourcesErrorFramesViewEnum | (string & {}) | undefined;
-  /** A token identifying a page of results the server should return. */
-  pageToken?: string | undefined;
   /** Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
   pageSize?: number | undefined;
   /** Required. Parent value (the source) for `ListErrorFramesRequest`. */
   parent: string;
+  /** A token identifying a page of results the server should return. */
+  pageToken?: string | undefined;
+  /** Optional. An optional view mode to control the level of details of each error frame. The default is a BASIC frame view. */
+  view?: ListProjectsLocationsSourcesErrorFramesViewEnum | (string & {}) | undefined;
 }
 export type ErrorFrameList = Array<ErrorFrame>;
 /** A response for listing error frames. */
 export interface ListErrorFramesResponse {
-  /** Locations that could not be reached. */
-  unreachable?: StringList | undefined;
   /** The list of error frames. */
   errorFrames?: ErrorFrameList | undefined;
+  /** Locations that could not be reached. */
+  unreachable?: StringList | undefined;
   /** A token identifying a page of results the server should return. */
   nextPageToken?: string | undefined;
 }
 export interface PatchProjectsLocationsAssetsRequest extends Omit<Asset, "name"> {
-  /** Output only. The full name of the asset. */
-  name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
+  /** Output only. The full name of the asset. */
+  name: string;
   /** Required. Field mask is used to specify the fields to be overwritten in the `Asset` resource by the update. The values specified in the `update_mask` field are relative to the resource, not the full request. A field will be overwritten if it is in the mask. A single * value in the mask lets you to overwrite all fields. */
   updateMask?: string | undefined;
 }
@@ -3611,51 +3611,51 @@ export interface PatchProjectsLocationsDiscoveryClientsRequest extends Omit<
 > {
   /** Required. Update mask is used to specify the fields to be overwritten in the `DiscoveryClient` resource by the update. The values specified in the `update_mask` field are relative to the resource, not the full request. A field will be overwritten if it is in the mask. A single * value in the mask lets you to overwrite all fields. */
   updateMask?: string | undefined;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
   /** Output only. Identifier. Full name of this discovery client. */
   name: string;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
 }
 export interface PatchProjectsLocationsGroupsRequest extends Omit<Group, "name"> {
+  /** Output only. The name of the group. */
+  name: string;
   /** Required. Field mask is used to specify the fields to be overwritten in the `Group` resource by the update. The values specified in the `update_mask` are relative to the resource, not the full request. A field will be overwritten if it is in the mask. A single * value in the mask lets you to overwrite all fields. */
   updateMask?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Output only. The name of the group. */
-  name: string;
 }
 export interface PatchProjectsLocationsImportJobsRequest extends Omit<ImportJob, "name"> {
-  /** Output only. The full name of the import job. */
-  name: string;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
   /** Required. Field mask is used to specify the fields to be overwritten in the `Asset` resource by the update. The values specified in the `update_mask` field are relative to the resource, not the full request. A field will be overwritten if it is in the mask. A single * value in the mask lets you to overwrite all fields. */
   updateMask?: string | undefined;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Output only. The full name of the import job. */
+  name: string;
 }
 export interface PatchProjectsLocationsPreferenceSetsRequest extends Omit<PreferenceSet, "name"> {
-  /** Required. Field mask is used to specify the fields to be overwritten in the `PreferenceSet` resource by the update. The values specified in the `update_mask` field are relative to the resource, not the full request. A field will be overwritten if it is in the mask. A single * value in the mask lets you to overwrite all fields. */
-  updateMask?: string | undefined;
   /** Output only. Name of the PreferenceSet. */
   name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
+  /** Required. Field mask is used to specify the fields to be overwritten in the `PreferenceSet` resource by the update. The values specified in the `update_mask` field are relative to the resource, not the full request. A field will be overwritten if it is in the mask. A single * value in the mask lets you to overwrite all fields. */
+  updateMask?: string | undefined;
 }
 export interface PatchProjectsLocationsSourcesRequest extends Omit<Source, "name"> {
-  /** Output only. The full name of the source. */
-  name: string;
   /** Required. Field mask is used to specify the fields to be overwritten in the `Source` resource by the update. The values specified in the `update_mask` field are relative to the resource, not the full request. A field will be overwritten if it is in the mask. A single * value in the mask lets you to overwrite all fields. */
   updateMask?: string | undefined;
+  /** Output only. The full name of the source. */
+  name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
 }
 /** A request to remove assets from a group. */
 export interface RemoveAssetsFromGroupRequest {
+  /** Optional. When this value is set to `false` and one of the given assets is not an existing member of the group, the operation fails with a `Not Found` error. When set to `true` this situation is silently ignored by the server. Default value is `false`. */
+  allowMissing?: boolean | undefined;
   /** Required. List of assets to be removed. The maximum number of assets that can be removed in a single request is 1000. */
   assets?: AssetList | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Optional. When this value is set to `false` and one of the given assets is not an existing member of the group, the operation fails with a `Not Found` error. When set to `true` this situation is silently ignored by the server. Default value is `false`. */
-  allowMissing?: boolean | undefined;
 }
 export interface RemoveAssetsProjectsLocationsGroupsRequest extends RemoveAssetsFromGroupRequest {
   /** Required. Group reference. */
@@ -3668,10 +3668,10 @@ export interface Frames {
   framesData?: AssetFrameList | undefined;
 }
 export interface ReportAssetFramesProjectsLocationsAssetsRequest extends Frames {
-  /** Required. Parent of the resource. */
-  parent: string;
   /** Required. Reference to a source. */
   source?: string | undefined;
+  /** Required. Parent of the resource. */
+  parent: string;
 }
 /** A response to a call to `ReportAssetFrame`. */
 export interface ReportAssetFramesResponse {}
@@ -3708,12 +3708,12 @@ export interface SendHeartbeatProjectsLocationsDiscoveryClientsRequest extends S
   name: string;
 }
 export interface UpdateSettingsProjectsLocationsRequest extends Omit<Settings, "name"> {
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
   /** Required. Field mask is used to specify the fields to be overwritten in the `Settings` resource by the update. The values specified in the `update_mask` field are relative to the resource, not the full request. A field will be overwritten if it is in the mask. A single * value in the mask lets you to overwrite all fields. */
   updateMask?: string | undefined;
   /** Output only. The name of the resource. */
   name: string;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
 }
 /** A request to validate an import job. */
 export type ValidateImportJobRequest = RunAssetsExportJobRequest;
@@ -5334,22 +5334,22 @@ function __c1(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          recommendedVersions: S.optional(__S(33, __c1, 1)),
-          createTime: S.optional(S.String),
-          heartbeatTime: S.optional(S.String),
-          expireTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          description: S.optional(S.String),
-          serviceAccount: S.optional(S.String),
-          signalsEndpoint: S.optional(S.String),
-          source: S.optional(S.String),
           labels: S.optional(__S(2048, __c64, 0)),
-          errors: S.optional(__S(64, __c2, 0)),
           version: S.optional(S.String),
-          displayName: S.optional(S.String),
-          ttl: S.optional(S.String),
+          recommendedVersions: S.optional(__S(33, __c1, 1)),
+          description: S.optional(S.String),
+          name: S.optional(S.String),
+          serviceAccount: S.optional(S.String),
+          errors: S.optional(__S(64, __c2, 0)),
+          signalsEndpoint: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          expireTime: S.optional(S.String),
+          createTime: S.optional(S.String),
           state: S.optional(S.String),
+          ttl: S.optional(S.String),
+          displayName: S.optional(S.String),
+          source: S.optional(S.String),
+          heartbeatTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "DiscoveryClient" });
   }
@@ -5367,9 +5367,9 @@ function __c3(j: number): any {
         S.Extend(
           __S(128, __c4, 0),
           S.Struct({
+            parent: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
             groupId: S.optional(S.String.pipe(T.Query())),
-            parent: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -5386,11 +5386,11 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          updateTime: S.optional(S.String),
+          createTime: S.optional(S.String),
           labels: S.optional(__S(2048, __c64, 0)),
           displayName: S.optional(S.String),
           name: S.optional(S.String),
-          createTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
           description: S.optional(S.String),
         }),
       ).annotate({ identifier: "Group" });
@@ -5403,9 +5403,9 @@ function __c5(j: number): any {
         S.Extend(
           __S(207, __c6, 15),
           S.Struct({
-            importJobId: S.optional(S.String.pipe(T.Query())),
-            parent: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            importJobId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -5422,8 +5422,8 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          severity: S.optional(S.String),
           errorDetails: S.optional(S.String),
+          severity: S.optional(S.String),
         }),
       ).annotate({ identifier: "ImportError" });
     case 1:
@@ -5444,21 +5444,21 @@ function __c6(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          rowNumber: S.optional(S.Number),
           sheet: S.optional(S.String),
+          rowNumber: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ImportRowErrorXlsxErrorDetails" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          archiveError: S.optional(__S(195, __c6, 3)),
-          assetTitle: S.optional(S.String),
-          xlsxError: S.optional(__S(196, __c6, 4)),
-          vmName: S.optional(S.String),
-          rowNumber: S.optional(S.Number),
-          csvError: S.optional(__S(194, __c6, 2)),
           errors: S.optional(__S(193, __c6, 1)),
+          assetTitle: S.optional(S.String),
+          csvError: S.optional(__S(194, __c6, 2)),
           vmUuid: S.optional(S.String),
+          vmName: S.optional(S.String),
+          archiveError: S.optional(__S(195, __c6, 3)),
+          rowNumber: S.optional(S.Number),
+          xlsxError: S.optional(__S(196, __c6, 4)),
         }),
       ).annotate({ identifier: "ImportRowError" });
     case 6:
@@ -5466,10 +5466,10 @@ function __c6(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
+          rowErrors: S.optional(__S(198, __c6, 6)),
+          fileName: S.optional(S.String),
           fileErrors: S.optional(__S(193, __c6, 1)),
           partialReport: S.optional(S.Boolean),
-          fileName: S.optional(S.String),
-          rowErrors: S.optional(__S(198, __c6, 6)),
         }),
       ).annotate({ identifier: "FileValidationReport" });
     case 8:
@@ -5484,50 +5484,50 @@ function __c6(j: number): any {
     case 10:
       return S.suspend(() =>
         S.Struct({
-          path: S.optional(S.String),
+          framesReported: S.optional(S.Number),
+          executionErrors: S.optional(__S(201, __c6, 9)),
+          jobErrors: S.optional(__S(193, __c6, 1)),
+          totalRowsCount: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "ExecutionReport" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
           format: S.optional(S.String),
+          path: S.optional(S.String),
         }),
       ).annotate({ identifier: "GCSPayloadInfo" });
-    case 11:
+    case 12:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
           data: S.optional(S.String),
         }),
       ).annotate({ identifier: "PayloadFile" });
-    case 12:
-      return S.Array(__S(203, __c6, 11));
     case 13:
-      return S.suspend(() =>
-        S.Struct({
-          payload: S.optional(__S(204, __c6, 12)),
-          format: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "InlinePayloadInfo" });
+      return S.Array(__S(204, __c6, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
-          executionErrors: S.optional(__S(201, __c6, 9)),
-          framesReported: S.optional(S.Number),
-          totalRowsCount: S.optional(S.Number),
-          jobErrors: S.optional(__S(193, __c6, 1)),
+          format: S.optional(S.String),
+          payload: S.optional(__S(205, __c6, 13)),
         }),
-      ).annotate({ identifier: "ExecutionReport" });
+      ).annotate({ identifier: "InlinePayloadInfo" });
     case 15:
       return S.suspend(() =>
         S.Struct({
-          validationReport: S.optional(__S(201, __c6, 9)),
+          name: S.optional(S.String),
           updateTime: S.optional(S.String),
-          gcsPayload: S.optional(__S(202, __c6, 10)),
+          executionReport: S.optional(__S(202, __c6, 10)),
+          createTime: S.optional(S.String),
+          labels: S.optional(__S(2048, __c64, 0)),
+          state: S.optional(S.String),
+          validationReport: S.optional(__S(201, __c6, 9)),
           displayName: S.optional(S.String),
           assetSource: S.optional(S.String),
-          labels: S.optional(__S(2048, __c64, 0)),
-          inlinePayload: S.optional(__S(205, __c6, 13)),
-          executionReport: S.optional(__S(206, __c6, 14)),
-          createTime: S.optional(S.String),
-          state: S.optional(S.String),
-          name: S.optional(S.String),
+          gcsPayload: S.optional(__S(203, __c6, 11)),
           completeTime: S.optional(S.String),
+          inlinePayload: S.optional(__S(206, __c6, 14)),
         }),
       ).annotate({ identifier: "ImportJob" });
   }
@@ -5539,9 +5539,9 @@ function __c7(j: number): any {
         S.Extend(
           __S(257, __c8, 1),
           S.Struct({
-            parent: S.String.pipe(T.Label()),
-            importDataFileId: S.optional(S.String.pipe(T.Query())),
             requestId: S.optional(S.String.pipe(T.Query())),
+            importDataFileId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -5567,11 +5567,11 @@ function __c8(j: number): any {
       return S.suspend(() =>
         S.Struct({
           state: S.optional(S.String),
-          displayName: S.optional(S.String),
           uploadFileInfo: S.optional(__S(256, __c8, 0)),
-          name: S.optional(S.String),
-          createTime: S.optional(S.String),
           format: S.optional(S.String),
+          createTime: S.optional(S.String),
+          name: S.optional(S.String),
+          displayName: S.optional(S.String),
         }),
       ).annotate({ identifier: "ImportDataFile" });
   }
@@ -5583,8 +5583,8 @@ function __c9(j: number): any {
         S.Extend(
           __S(341, __c10, 21),
           S.Struct({
-            requestId: S.optional(S.String.pipe(T.Query())),
             parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
             preferenceSetId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
@@ -5608,117 +5608,117 @@ function __c10(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          memoryUsagePercentage: S.optional(S.Number),
-          storageMultiplier: S.optional(S.Number),
-          aggregationMethod: S.optional(S.String),
-          cpuUsagePercentage: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "VirtualMachinePreferencesSizingOptimizationCustomParameters" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
           licenseType: S.optional(S.String),
           commitmentPlan: S.optional(S.String),
         }),
       ).annotate({ identifier: "OperatingSystemPricingPreferencesOperatingSystemPricing" });
-    case 3:
+    case 2:
       return S.suspend(() =>
         S.Struct({
-          rhel: S.optional(__S(322, __c10, 2)),
-          windows: S.optional(__S(322, __c10, 2)),
-          slesForSap: S.optional(__S(322, __c10, 2)),
-          sles: S.optional(__S(322, __c10, 2)),
+          sles: S.optional(__S(321, __c10, 1)),
+          slesForSap: S.optional(__S(321, __c10, 1)),
+          windows: S.optional(__S(321, __c10, 1)),
+          rhel: S.optional(__S(321, __c10, 1)),
         }),
       ).annotate({ identifier: "OperatingSystemPricingPreferences" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          code: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "MachineSeries" });
-    case 5:
-      return S.Array(__S(324, __c10, 4));
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          allowedMachineSeries: S.optional(__S(325, __c10, 5)),
-        }),
-      ).annotate({ identifier: "MachinePreferences" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          osPricingPreferences: S.optional(__S(323, __c10, 3)),
-          licenseType: S.optional(S.String),
-          multithreading: S.optional(S.String),
-          persistentDiskType: S.optional(S.String),
-          machinePreferences: S.optional(__S(326, __c10, 6)),
-        }),
-      ).annotate({ identifier: "ComputeEnginePreferences" });
-    case 8:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           nodeName: S.optional(S.String),
         }),
       ).annotate({ identifier: "SoleTenantNodeType" });
-    case 9:
-      return S.Array(__S(328, __c10, 8));
-    case 10:
+    case 4:
+      return S.Array(__S(323, __c10, 3));
+    case 5:
       return S.suspend(() =>
         S.Struct({
-          osPricingPreferences: S.optional(__S(323, __c10, 3)),
+          osPricingPreferences: S.optional(__S(322, __c10, 2)),
+          nodeTypes: S.optional(__S(324, __c10, 4)),
           cpuOvercommitRatio: S.optional(S.Number),
           commitmentPlan: S.optional(S.String),
-          nodeTypes: S.optional(__S(329, __c10, 9)),
           hostMaintenancePolicy: S.optional(S.String),
         }),
       ).annotate({ identifier: "SoleTenancyPreferences" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          cpuUsagePercentage: S.optional(S.Number),
+          aggregationMethod: S.optional(S.String),
+          storageMultiplier: S.optional(S.Number),
+          memoryUsagePercentage: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "VirtualMachinePreferencesSizingOptimizationCustomParameters" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MachineSeries" });
+    case 8:
+      return S.Array(__S(327, __c10, 7));
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          allowedMachineSeries: S.optional(__S(328, __c10, 8)),
+        }),
+      ).annotate({ identifier: "MachinePreferences" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          multithreading: S.optional(S.String),
+          licenseType: S.optional(S.String),
+          osPricingPreferences: S.optional(__S(322, __c10, 2)),
+          persistentDiskType: S.optional(S.String),
+          machinePreferences: S.optional(__S(329, __c10, 9)),
+        }),
+      ).annotate({ identifier: "ComputeEnginePreferences" });
     case 11:
+      return S.suspend(() =>
+        S.Struct({
+          allowedMachineSeries: S.optional(__S(328, __c10, 8)),
+          protectedNodes: S.optional(S.String),
+          storageOnlyNodes: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "VMwareEngineMachinePreferences" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          storageDeduplicationCompressionRatio: S.optional(S.Number),
+          serviceType: S.optional(S.String),
+          memoryOvercommitRatio: S.optional(S.Number),
+          licenseDiscountPercentage: S.optional(S.Number),
+          cpuOvercommitRatio: S.optional(S.Number),
+          commitmentPlan: S.optional(S.String),
+          machinePreferences: S.optional(__S(331, __c10, 11)),
+        }),
+      ).annotate({ identifier: "VmwareEnginePreferences" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          estimatedDiskPercentage: S.optional(S.Number),
+          estimatedCpuPercentage: S.optional(S.Number),
+          estimatedMemoryPercentage: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "EstimatedUsage" });
+    case 14:
       return S.suspend(() =>
         S.Struct({
           estimatedEgressTrafficPercentage: S.optional(S.Number),
         }),
       ).annotate({ identifier: "VirtualMachinePreferencesNetworkCostParameters" });
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          allowedMachineSeries: S.optional(__S(325, __c10, 5)),
-          storageOnlyNodes: S.optional(S.String),
-          protectedNodes: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "VMwareEngineMachinePreferences" });
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          cpuOvercommitRatio: S.optional(S.Number),
-          machinePreferences: S.optional(__S(332, __c10, 12)),
-          commitmentPlan: S.optional(S.String),
-          licenseDiscountPercentage: S.optional(S.Number),
-          serviceType: S.optional(S.String),
-          memoryOvercommitRatio: S.optional(S.Number),
-          storageDeduplicationCompressionRatio: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "VmwareEnginePreferences" });
-    case 14:
-      return S.suspend(() =>
-        S.Struct({
-          estimatedMemoryPercentage: S.optional(S.Number),
-          estimatedDiskPercentage: S.optional(S.Number),
-          estimatedCpuPercentage: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "EstimatedUsage" });
     case 15:
       return S.suspend(() =>
         S.Struct({
-          regionPreferences: S.optional(__S(320, __c10, 0)),
-          sizingOptimizationCustomParameters: S.optional(__S(321, __c10, 1)),
-          computeEnginePreferences: S.optional(__S(327, __c10, 7)),
-          soleTenancyPreferences: S.optional(__S(330, __c10, 10)),
-          networkCostParameters: S.optional(__S(331, __c10, 11)),
-          sizingOptimizationStrategy: S.optional(S.String),
-          targetProduct: S.optional(S.String),
-          vmwareEnginePreferences: S.optional(__S(333, __c10, 13)),
-          estimatedUsage: S.optional(__S(334, __c10, 14)),
+          soleTenancyPreferences: S.optional(__S(325, __c10, 5)),
           commitmentPlan: S.optional(S.String),
+          sizingOptimizationStrategy: S.optional(S.String),
+          sizingOptimizationCustomParameters: S.optional(__S(326, __c10, 6)),
+          targetProduct: S.optional(S.String),
+          computeEnginePreferences: S.optional(__S(330, __c10, 10)),
+          vmwareEnginePreferences: S.optional(__S(332, __c10, 12)),
+          estimatedUsage: S.optional(__S(333, __c10, 13)),
+          regionPreferences: S.optional(__S(320, __c10, 0)),
+          networkCostParameters: S.optional(__S(334, __c10, 14)),
         }),
       ).annotate({ identifier: "VirtualMachinePreferences" });
     case 16:
@@ -5730,21 +5730,15 @@ function __c10(j: number): any {
     case 17:
       return S.suspend(() =>
         S.Struct({
-          edition: S.optional(S.String),
-          commitmentPlan: S.optional(S.String),
-          persistentDiskType: S.optional(S.String),
           backup: S.optional(__S(336, __c10, 16)),
           zoneAvailability: S.optional(S.String),
+          edition: S.optional(S.String),
           sizingOptimizationStrategy: S.optional(S.String),
+          commitmentPlan: S.optional(S.String),
+          persistentDiskType: S.optional(S.String),
         }),
       ).annotate({ identifier: "DatabasePreferencesCloudSqlCommon" });
     case 18:
-      return S.suspend(() =>
-        S.Struct({
-          common: S.optional(__S(337, __c10, 17)),
-        }),
-      ).annotate({ identifier: "DatabasePreferencesCloudSqlMySql" });
-    case 19:
       return S.suspend(() =>
         S.Struct({
           versionType: S.optional(S.String),
@@ -5752,25 +5746,31 @@ function __c10(j: number): any {
           multithreading: S.optional(S.String),
         }),
       ).annotate({ identifier: "DatabasePreferencesCloudSqlSqlServer" });
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          common: S.optional(__S(337, __c10, 17)),
+        }),
+      ).annotate({ identifier: "DatabasePreferencesCloudSqlPostgreSql" });
     case 20:
       return S.suspend(() =>
         S.Struct({
-          mysqlToCloudSqlForMysqlPreferences: S.optional(__S(338, __c10, 18)),
-          postgresqlToCloudSqlForPostgresqlPreferences: S.optional(__S(338, __c10, 18)),
-          mssqlToCloudSqlForSqlServerPreferences: S.optional(__S(339, __c10, 19)),
+          mssqlToCloudSqlForSqlServerPreferences: S.optional(__S(338, __c10, 18)),
+          postgresqlToCloudSqlForPostgresqlPreferences: S.optional(__S(339, __c10, 19)),
+          mysqlToCloudSqlForMysqlPreferences: S.optional(__S(339, __c10, 19)),
         }),
       ).annotate({ identifier: "DatabasePreferences" });
     case 21:
       return S.suspend(() =>
         S.Struct({
           displayName: S.optional(S.String),
-          updateTime: S.optional(S.String),
+          createTime: S.optional(S.String),
+          regionPreferences: S.optional(__S(320, __c10, 0)),
+          description: S.optional(S.String),
           virtualMachinePreferences: S.optional(__S(335, __c10, 15)),
           name: S.optional(S.String),
-          description: S.optional(S.String),
-          regionPreferences: S.optional(__S(320, __c10, 0)),
           databasePreferences: S.optional(__S(340, __c10, 20)),
-          createTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "PreferenceSet" });
   }
@@ -5783,8 +5783,8 @@ function __c11(j: number): any {
           __S(386, __c12, 2),
           S.Struct({
             reportConfigId: S.optional(S.String.pipe(T.Query())),
-            requestId: S.optional(S.String.pipe(T.Query())),
             parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -5810,12 +5810,12 @@ function __c12(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          groupPreferencesetAssignments: S.optional(__S(385, __c12, 1)),
-          displayName: S.optional(S.String),
-          description: S.optional(S.String),
           updateTime: S.optional(S.String),
-          createTime: S.optional(S.String),
+          description: S.optional(S.String),
           name: S.optional(S.String),
+          displayName: S.optional(S.String),
+          groupPreferencesetAssignments: S.optional(__S(385, __c12, 1)),
+          createTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "ReportConfig" });
   }
@@ -5827,9 +5827,9 @@ function __c13(j: number): any {
         S.Extend(
           __S(474, __c14, 26),
           S.Struct({
-            requestId: S.optional(S.String.pipe(T.Query())),
-            parent: S.String.pipe(T.Label()),
             reportId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -5846,164 +5846,164 @@ function __c14(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          count: S.optional(S.String),
-          lowerBound: S.optional(S.String),
-          upperBound: S.optional(S.String),
+          totalAssetsUsingEstimatedUsage: S.optional(S.String),
+          totalVirtualMachinesUsingEstimatedUsage: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ReportSummaryHistogramChartDataBucket" });
+      ).annotate({ identifier: "ReportSummaryAssetAggregateStatsEstimatedUsageStats" });
     case 1:
-      return S.Array(__S(448, __c14, 0));
-    case 2:
       return S.suspend(() =>
         S.Struct({
-          buckets: S.optional(__S(449, __c14, 1)),
+          count: S.optional(S.String),
+          upperBound: S.optional(S.String),
+          lowerBound: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ReportSummaryHistogramChartDataBucket" });
+    case 2:
+      return S.Array(__S(449, __c14, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          buckets: S.optional(__S(450, __c14, 2)),
         }),
       ).annotate({ identifier: "ReportSummaryHistogramChartData" });
-    case 3:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           label: S.optional(S.String),
           value: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ReportSummaryChartDataDataPoint" });
-    case 4:
-      return S.Array(__S(451, __c14, 3));
     case 5:
+      return S.Array(__S(452, __c14, 4));
+    case 6:
       return S.suspend(() =>
         S.Struct({
-          dataPoints: S.optional(__S(452, __c14, 4)),
+          dataPoints: S.optional(__S(453, __c14, 5)),
         }),
       ).annotate({ identifier: "ReportSummaryChartData" });
-    case 6:
+    case 7:
       return S.suspend(() =>
         S.Struct({
           used: S.optional(S.String),
           free: S.optional(S.String),
         }),
       ).annotate({ identifier: "ReportSummaryUtilizationChartData" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          totalAssetsUsingEstimatedUsage: S.optional(S.String),
-          totalVirtualMachinesUsingEstimatedUsage: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ReportSummaryAssetAggregateStatsEstimatedUsageStats" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          totalStorageBytes: S.optional(S.String),
-          totalAssets: S.optional(S.String),
-          storageBytesHistogram: S.optional(__S(450, __c14, 2)),
-          storageUtilization: S.optional(__S(453, __c14, 5)),
-          memoryBytesHistogram: S.optional(__S(450, __c14, 2)),
-          totalMemoryBytes: S.optional(S.String),
-          databaseTypes: S.optional(__S(453, __c14, 5)),
-          memoryUtilization: S.optional(__S(453, __c14, 5)),
-          storageUtilizationChart: S.optional(__S(454, __c14, 6)),
-          coreCountHistogram: S.optional(__S(450, __c14, 2)),
-          operatingSystem: S.optional(__S(453, __c14, 5)),
-          assetAge: S.optional(__S(453, __c14, 5)),
+          estimatedUsageStats: S.optional(__S(448, __c14, 0)),
+          coreCountHistogram: S.optional(__S(451, __c14, 3)),
+          memoryUtilization: S.optional(__S(454, __c14, 6)),
           totalCores: S.optional(S.String),
-          estimatedUsageStats: S.optional(__S(455, __c14, 7)),
-          memoryUtilizationChart: S.optional(__S(454, __c14, 6)),
-          softwareInstances: S.optional(__S(453, __c14, 5)),
+          databaseTypes: S.optional(__S(454, __c14, 6)),
+          totalMemoryBytes: S.optional(S.String),
+          totalStorageBytes: S.optional(S.String),
+          softwareInstances: S.optional(__S(454, __c14, 6)),
+          memoryUtilizationChart: S.optional(__S(455, __c14, 7)),
+          memoryBytesHistogram: S.optional(__S(451, __c14, 3)),
+          storageBytesHistogram: S.optional(__S(451, __c14, 3)),
+          operatingSystem: S.optional(__S(454, __c14, 6)),
+          storageUtilizationChart: S.optional(__S(455, __c14, 7)),
+          totalAssets: S.optional(S.String),
+          storageUtilization: S.optional(__S(454, __c14, 6)),
+          assetAge: S.optional(__S(454, __c14, 6)),
         }),
       ).annotate({ identifier: "ReportSummaryAssetAggregateStats" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          units: S.optional(S.String),
-          nanos: S.optional(S.Number),
           currencyCode: S.optional(S.String),
+          nanos: S.optional(S.Number),
+          units: S.optional(S.String),
         }),
       ).annotate({ identifier: "Money" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          totalAssets: S.optional(S.String),
           allocatedAssetCount: S.optional(S.String),
+          totalAssets: S.optional(S.String),
         }),
       ).annotate({ identifier: "ReportSummaryDatabaseFinding" });
     case 11:
       return S.suspend(() =>
         S.Struct({
-          node: S.optional(__S(328, __c10, 8)),
-          nodeCount: S.optional(S.String),
+          machineSeries: S.optional(__S(327, __c10, 7)),
           allocatedAssetCount: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ReportSummarySoleTenantNodeAllocation" });
+      ).annotate({ identifier: "ReportSummaryMachineSeriesAllocation" });
     case 12:
       return S.Array(__S(459, __c14, 11));
     case 13:
-      return S.suspend(() =>
-        S.Struct({
-          allocatedAssetCount: S.optional(S.String),
-          allocatedRegions: S.optional(__S(1344, __c42, 0)),
-          nodeAllocations: S.optional(__S(460, __c14, 12)),
-        }),
-      ).annotate({ identifier: "ReportSummarySoleTenantFinding" });
+      return S.Array(S.String);
     case 14:
       return S.suspend(() =>
         S.Struct({
-          vmwareNode: S.optional(__S(324, __c10, 4)),
+          machineSeriesAllocations: S.optional(__S(460, __c14, 12)),
+          allocatedDiskTypes: S.optional(__S(461, __c14, 13)),
+          allocatedRegions: S.optional(__S(1344, __c42, 0)),
+          allocatedAssetCount: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ReportSummaryMachineFinding" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
           nodeCount: S.optional(S.String),
+          vmwareNode: S.optional(__S(327, __c10, 7)),
           allocatedAssetCount: S.optional(S.String),
         }),
       ).annotate({ identifier: "ReportSummaryVMWareNodeAllocation" });
-    case 15:
-      return S.Array(__S(462, __c14, 14));
     case 16:
+      return S.Array(__S(463, __c14, 15));
+    case 17:
       return S.suspend(() =>
         S.Struct({
-          nodeAllocations: S.optional(__S(463, __c14, 15)),
+          nodeAllocations: S.optional(__S(464, __c14, 16)),
           allocatedAssetCount: S.optional(S.String),
           allocatedRegions: S.optional(__S(1344, __c42, 0)),
         }),
       ).annotate({ identifier: "ReportSummaryVMWareEngineFinding" });
-    case 17:
-      return S.Array(S.String);
     case 18:
       return S.suspend(() =>
         S.Struct({
-          machineSeries: S.optional(__S(324, __c10, 4)),
+          nodeCount: S.optional(S.String),
+          node: S.optional(__S(323, __c10, 3)),
           allocatedAssetCount: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ReportSummaryMachineSeriesAllocation" });
+      ).annotate({ identifier: "ReportSummarySoleTenantNodeAllocation" });
     case 19:
       return S.Array(__S(466, __c14, 18));
     case 20:
       return S.suspend(() =>
         S.Struct({
-          allocatedDiskTypes: S.optional(__S(465, __c14, 17)),
-          allocatedRegions: S.optional(__S(1344, __c42, 0)),
-          machineSeriesAllocations: S.optional(__S(467, __c14, 19)),
           allocatedAssetCount: S.optional(S.String),
+          nodeAllocations: S.optional(__S(467, __c14, 19)),
+          allocatedRegions: S.optional(__S(1344, __c42, 0)),
         }),
-      ).annotate({ identifier: "ReportSummaryMachineFinding" });
+      ).annotate({ identifier: "ReportSummarySoleTenantFinding" });
     case 21:
       return S.suspend(() =>
         S.Struct({
-          monthlyCostNetworkEgress: S.optional(__S(457, __c14, 9)),
+          monthlyCostGcveProtected: S.optional(__S(457, __c14, 9)),
           databaseFinding: S.optional(__S(458, __c14, 10)),
-          machinePreferences: S.optional(__S(335, __c10, 15)),
-          monthlyCostDatabaseLicensing: S.optional(__S(457, __c14, 9)),
+          preferredRegion: S.optional(S.String),
           monthlyCostOsLicense: S.optional(__S(457, __c14, 9)),
+          machinePreferences: S.optional(__S(335, __c10, 15)),
+          monthlyCostCompute: S.optional(__S(457, __c14, 9)),
+          monthlyCostOther: S.optional(__S(457, __c14, 9)),
+          monthlyCostStorage: S.optional(__S(457, __c14, 9)),
+          machineFinding: S.optional(__S(462, __c14, 14)),
           pricingTrack: S.optional(S.String),
           description: S.optional(S.String),
-          monthlyCostGcveProtected: S.optional(__S(457, __c14, 9)),
-          monthlyCostPortableVmwareLicense: S.optional(__S(457, __c14, 9)),
-          monthlyCostStorage: S.optional(__S(457, __c14, 9)),
-          preferenceSet: S.optional(__S(341, __c10, 21)),
-          monthlyCostTotal: S.optional(__S(457, __c14, 9)),
-          monthlyCostDatabaseBackup: S.optional(__S(457, __c14, 9)),
-          soleTenantFinding: S.optional(__S(461, __c14, 13)),
-          vmwareEngineFinding: S.optional(__S(464, __c14, 16)),
-          topPriority: S.optional(S.String),
-          preferredRegion: S.optional(S.String),
+          vmwareEngineFinding: S.optional(__S(465, __c14, 17)),
+          monthlyCostNetworkEgress: S.optional(__S(457, __c14, 9)),
+          monthlyCostDatabaseLicensing: S.optional(__S(457, __c14, 9)),
+          soleTenantFinding: S.optional(__S(468, __c14, 20)),
           displayName: S.optional(S.String),
-          monthlyCostOther: S.optional(__S(457, __c14, 9)),
-          machineFinding: S.optional(__S(468, __c14, 20)),
-          monthlyCostCompute: S.optional(__S(457, __c14, 9)),
+          topPriority: S.optional(S.String),
+          monthlyCostDatabaseBackup: S.optional(__S(457, __c14, 9)),
+          preferenceSet: S.optional(__S(341, __c10, 21)),
+          monthlyCostPortableVmwareLicense: S.optional(__S(457, __c14, 9)),
+          monthlyCostTotal: S.optional(__S(457, __c14, 9)),
         }),
       ).annotate({ identifier: "ReportSummaryGroupPreferenceSetFinding" });
     case 22:
@@ -6011,13 +6011,13 @@ function __c14(j: number): any {
     case 23:
       return S.suspend(() =>
         S.Struct({
-          databaseType: S.optional(S.String),
-          displayName: S.optional(S.String),
           overlappingAssetCount: S.optional(S.String),
-          assetAggregateStats: S.optional(__S(456, __c14, 8)),
-          description: S.optional(S.String),
           preferenceSetFindings: S.optional(__S(470, __c14, 22)),
+          description: S.optional(S.String),
           assetType: S.optional(S.String),
+          displayName: S.optional(S.String),
+          assetAggregateStats: S.optional(__S(456, __c14, 8)),
+          databaseType: S.optional(S.String),
           group: S.optional(S.String),
         }),
       ).annotate({ identifier: "ReportSummaryGroupFinding" });
@@ -6027,22 +6027,22 @@ function __c14(j: number): any {
       return S.suspend(() =>
         S.Struct({
           virtualMachineStats: S.optional(__S(456, __c14, 8)),
-          allAssetsStats: S.optional(__S(456, __c14, 8)),
           databaseStats: S.optional(__S(456, __c14, 8)),
           groupFindings: S.optional(__S(472, __c14, 24)),
+          allAssetsStats: S.optional(__S(456, __c14, 8)),
         }),
       ).annotate({ identifier: "ReportSummary" });
     case 26:
       return S.suspend(() =>
         S.Struct({
+          description: S.optional(S.String),
+          displayName: S.optional(S.String),
+          type: S.optional(S.String),
           summary: S.optional(__S(473, __c14, 25)),
           updateTime: S.optional(S.String),
-          name: S.optional(S.String),
-          type: S.optional(S.String),
           createTime: S.optional(S.String),
-          displayName: S.optional(S.String),
-          description: S.optional(S.String),
           state: S.optional(S.String),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Report" });
   }
@@ -6054,9 +6054,9 @@ function __c15(j: number): any {
         S.Extend(
           __S(515, __c16, 3),
           S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
             parent: S.String.pipe(T.Label()),
             reportExportJobId: S.optional(S.String.pipe(T.Query())),
-            requestId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -6075,20 +6075,20 @@ function __c16(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          outputFiles: S.optional(__S(3269, __c102, 5)),
+          signedUris: S.optional(__S(3266, __c102, 2)),
           error: S.optional(__S(1441, __c45, 1)),
-          signedUris: S.optional(__S(3271, __c102, 7)),
+          outputFiles: S.optional(__S(3271, __c102, 7)),
         }),
       ).annotate({ identifier: "ReportExportExecutionResult" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          endTime: S.optional(S.String),
-          executionId: S.optional(S.String),
-          result: S.optional(__S(512, __c16, 0)),
-          expireTime: S.optional(S.String),
-          startTime: S.optional(S.String),
           progressPercentage: S.optional(S.Number),
+          executionId: S.optional(S.String),
+          expireTime: S.optional(S.String),
+          endTime: S.optional(S.String),
+          startTime: S.optional(S.String),
+          result: S.optional(__S(512, __c16, 0)),
         }),
       ).annotate({ identifier: "ReportExportExecution" });
     case 2:
@@ -6096,9 +6096,9 @@ function __c16(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
           recentExecutions: S.optional(__S(514, __c16, 2)),
           signedUriDestination: S.optional(__S(3272, __c102, 8)),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "ReportExportJob" });
   }
@@ -6110,9 +6110,9 @@ function __c17(j: number): any {
         S.Extend(
           __S(576, __c18, 0),
           S.Struct({
+            sourceId: S.optional(S.String.pipe(T.Query())),
             requestId: S.optional(S.String.pipe(T.Query())),
             parent: S.String.pipe(T.Label()),
-            sourceId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -6129,17 +6129,17 @@ function __c18(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          createTime: S.optional(S.String),
+          type: S.optional(S.String),
+          pendingFrameCount: S.optional(S.Number),
           displayName: S.optional(S.String),
-          description: S.optional(S.String),
+          priority: S.optional(S.Number),
           updateTime: S.optional(S.String),
+          errorFrameCount: S.optional(S.Number),
           isManaged: S.optional(S.Boolean),
           state: S.optional(S.String),
-          pendingFrameCount: S.optional(S.Number),
-          errorFrameCount: S.optional(S.Number),
           name: S.optional(S.String),
-          type: S.optional(S.String),
-          priority: S.optional(S.Number),
-          createTime: S.optional(S.String),
+          description: S.optional(S.String),
         }),
       ).annotate({ identifier: "Source" });
   }
@@ -6149,8 +6149,8 @@ function __c19(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           requestId: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -6182,8 +6182,8 @@ function __c21(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          requestId: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -6199,8 +6199,8 @@ function __c22(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          requestId: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -6217,8 +6217,8 @@ function __c23(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          force: S.optional(S.Boolean.pipe(T.Query())),
           requestId: S.optional(S.String.pipe(T.Query())),
+          force: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -6267,8 +6267,8 @@ function __c26(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           requestId: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -6284,9 +6284,9 @@ function __c27(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
-          force: S.optional(S.Boolean.pipe(T.Query())),
           requestId: S.optional(S.String.pipe(T.Query())),
+          force: S.optional(S.Boolean.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -6338,8 +6338,8 @@ function __c30(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           requestId: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -6371,11 +6371,11 @@ function __c32(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          locationId: S.optional(S.String),
-          metadata: S.optional(__S(1408, __c44, 0)),
           displayName: S.optional(S.String),
-          name: S.optional(S.String),
+          locationId: S.optional(S.String),
           labels: S.optional(__S(2048, __c64, 0)),
+          name: S.optional(S.String),
+          metadata: S.optional(__S(1408, __c44, 0)),
         }),
       ).annotate({ identifier: "Location" });
   }
@@ -6385,8 +6385,8 @@ function __c33(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          view: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          view: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -6566,9 +6566,9 @@ function __c45(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          details: S.optional(__S(1440, __c45, 0)),
           code: S.optional(S.Number),
           message: S.optional(S.String),
-          details: S.optional(__S(1440, __c45, 0)),
         }),
       ).annotate({ identifier: "Status" });
   }
@@ -6578,11 +6578,11 @@ function __c46(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          response: S.optional(__S(1408, __c44, 0)),
-          done: S.optional(S.Boolean),
           metadata: S.optional(__S(1408, __c44, 0)),
           name: S.optional(S.String),
+          response: S.optional(__S(1408, __c44, 0)),
           error: S.optional(__S(1441, __c45, 1)),
+          done: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "Operation" });
   }
@@ -6609,10 +6609,10 @@ function __c48(j: number): any {
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          name: S.optional(S.String),
           srcAsset: S.optional(S.String),
-          dstAsset: S.optional(S.String),
           createTime: S.optional(S.String),
+          dstAsset: S.optional(S.String),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Relation" });
   }
@@ -6704,8 +6704,8 @@ function __c54(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          violation: S.optional(S.String),
           field: S.optional(S.String),
+          violation: S.optional(S.String),
         }),
       ).annotate({ identifier: "FrameViolationEntry" });
     case 1:
@@ -6715,8 +6715,8 @@ function __c54(j: number): any {
         S.Struct({
           ingestionTime: S.optional(S.String),
           name: S.optional(S.String),
-          originalFrame: S.optional(__S(1765, __c55, 5)),
           violations: S.optional(__S(1729, __c54, 1)),
+          originalFrame: S.optional(__S(1765, __c55, 5)),
         }),
       ).annotate({ identifier: "ErrorFrame" });
   }
@@ -6726,32 +6726,32 @@ function __c55(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          averageWriteIops: S.optional(S.Number),
-          averageReadIops: S.optional(S.Number),
-          averageIops: S.optional(S.Number),
+          utilizedPercentage: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "DiskUsageSample" });
+      ).annotate({ identifier: "CpuUsageSample" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          averageIngressBps: S.optional(S.Number),
-          averageEgressBps: S.optional(S.Number),
+          averageWriteIops: S.optional(S.Number),
+          averageIops: S.optional(S.Number),
+          averageReadIops: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "NetworkUsageSample" });
+      ).annotate({ identifier: "DiskUsageSample" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          utilizedPercentage: S.optional(S.Number),
+          averageEgressBps: S.optional(S.Number),
+          averageIngressBps: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "MemoryUsageSample" });
+      ).annotate({ identifier: "NetworkUsageSample" });
     case 3:
       return S.suspend(() =>
         S.Struct({
+          cpu: S.optional(__S(1760, __c55, 0)),
+          memory: S.optional(__S(1760, __c55, 0)),
           sampleTime: S.optional(S.String),
-          disk: S.optional(__S(1760, __c55, 0)),
-          network: S.optional(__S(1761, __c55, 1)),
-          memory: S.optional(__S(1762, __c55, 2)),
-          cpu: S.optional(__S(1762, __c55, 2)),
+          disk: S.optional(__S(1761, __c55, 1)),
+          network: S.optional(__S(1762, __c55, 2)),
         }),
       ).annotate({ identifier: "PerformanceSample" });
     case 4:
@@ -6759,47 +6759,47 @@ function __c55(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          awsDynamodbTableDetails: S.optional(__S(1984, __c62, 0)),
-          awsElbLoadBalancerDetails: S.optional(__S(1984, __c62, 0)),
-          structuredAttributes: S.optional(__S(1408, __c44, 0)),
-          awsElasticacheClusterDetails: S.optional(__S(1984, __c62, 0)),
-          awsAutoscalingGroupDetails: S.optional(__S(1984, __c62, 0)),
-          attributes: S.optional(__S(2048, __c64, 0)),
-          awsEksClusterDetails: S.optional(__S(1984, __c62, 0)),
           awsEbsVolumeDetails: S.optional(__S(1984, __c62, 0)),
-          awsRedshiftDetails: S.optional(__S(1984, __c62, 0)),
-          awsAthenaWorkGroupDetails: S.optional(__S(1984, __c62, 0)),
-          awsInternetGatewayDetails: S.optional(__S(1984, __c62, 0)),
           awsEcsClusterDetails: S.optional(__S(1984, __c62, 0)),
-          hostingProviderDetails: S.optional(__S(2786, __c87, 2)),
-          traceToken: S.optional(S.String),
-          virtualMachineDetails: S.optional(__S(2889, __c90, 9)),
-          awsGlueJobDetails: S.optional(__S(1984, __c62, 0)),
-          awsKinesisStreamDetails: S.optional(__S(1984, __c62, 0)),
-          databaseDeploymentDetails: S.optional(__S(2811, __c87, 27)),
-          awsApiGatewayRestApiDetails: S.optional(__S(1984, __c62, 0)),
-          awsNatGatewayDetails: S.optional(__S(1984, __c62, 0)),
-          awsCloudFrontDistributionDetails: S.optional(__S(1984, __c62, 0)),
-          awsLambdaFunctionDetails: S.optional(__S(1984, __c62, 0)),
-          reportTime: S.optional(S.String),
-          awsSnsTopicDetails: S.optional(__S(1984, __c62, 0)),
-          awsAppSyncGraphqlApiDetails: S.optional(__S(1984, __c62, 0)),
-          awsApplicationLoadBalancerDetails: S.optional(__S(1984, __c62, 0)),
-          awsBatchComputeEnvironmentDetails: S.optional(__S(1984, __c62, 0)),
-          databaseDetails: S.optional(__S(2880, __c90, 0)),
-          awsRoute53HostedZoneDetails: S.optional(__S(1984, __c62, 0)),
-          awsElasticNetworkInterfaceDetails: S.optional(__S(1984, __c62, 0)),
-          machineDetails: S.optional(__S(2867, __c89, 19)),
           awsVpcDetails: S.optional(__S(1984, __c62, 0)),
-          awsEmrClusterDetails: S.optional(__S(1984, __c62, 0)),
-          awsEcrRepositoryDetails: S.optional(__S(1984, __c62, 0)),
-          collectionType: S.optional(S.String),
+          awsKinesisStreamDetails: S.optional(__S(1984, __c62, 0)),
           awsElasticIpAddressDetails: S.optional(__S(1984, __c62, 0)),
-          labels: S.optional(__S(2048, __c64, 0)),
-          awsFirehoseDetails: S.optional(__S(1984, __c62, 0)),
-          awsS3BucketDetails: S.optional(__S(2885, __c90, 5)),
-          performanceSamples: S.optional(__S(1764, __c55, 4)),
+          awsSnsTopicDetails: S.optional(__S(1984, __c62, 0)),
           awsEfsFileSystemDetails: S.optional(__S(1984, __c62, 0)),
+          awsCloudFrontDistributionDetails: S.optional(__S(1984, __c62, 0)),
+          awsEcrRepositoryDetails: S.optional(__S(1984, __c62, 0)),
+          awsElasticNetworkInterfaceDetails: S.optional(__S(1984, __c62, 0)),
+          awsEmrClusterDetails: S.optional(__S(1984, __c62, 0)),
+          awsS3BucketDetails: S.optional(__S(2889, __c90, 9)),
+          performanceSamples: S.optional(__S(1764, __c55, 4)),
+          labels: S.optional(__S(2048, __c64, 0)),
+          databaseDetails: S.optional(__S(2877, __c89, 29)),
+          structuredAttributes: S.optional(__S(1408, __c44, 0)),
+          attributes: S.optional(__S(2048, __c64, 0)),
+          awsInternetGatewayDetails: S.optional(__S(1984, __c62, 0)),
+          hostingProviderDetails: S.optional(__S(2880, __c90, 0)),
+          collectionType: S.optional(S.String),
+          awsBatchComputeEnvironmentDetails: S.optional(__S(1984, __c62, 0)),
+          awsAthenaWorkGroupDetails: S.optional(__S(1984, __c62, 0)),
+          awsRoute53HostedZoneDetails: S.optional(__S(1984, __c62, 0)),
+          awsGlueJobDetails: S.optional(__S(1984, __c62, 0)),
+          awsAppSyncGraphqlApiDetails: S.optional(__S(1984, __c62, 0)),
+          awsNatGatewayDetails: S.optional(__S(1984, __c62, 0)),
+          awsApiGatewayRestApiDetails: S.optional(__S(1984, __c62, 0)),
+          reportTime: S.optional(S.String),
+          awsEksClusterDetails: S.optional(__S(1984, __c62, 0)),
+          databaseDeploymentDetails: S.optional(__S(2808, __c87, 24)),
+          awsDynamodbTableDetails: S.optional(__S(1984, __c62, 0)),
+          traceToken: S.optional(S.String),
+          machineDetails: S.optional(__S(2864, __c89, 16)),
+          awsLambdaFunctionDetails: S.optional(__S(1984, __c62, 0)),
+          awsElbLoadBalancerDetails: S.optional(__S(1984, __c62, 0)),
+          virtualMachineDetails: S.optional(__S(2884, __c90, 4)),
+          awsApplicationLoadBalancerDetails: S.optional(__S(1984, __c62, 0)),
+          awsFirehoseDetails: S.optional(__S(1984, __c62, 0)),
+          awsAutoscalingGroupDetails: S.optional(__S(1984, __c62, 0)),
+          awsElasticacheClusterDetails: S.optional(__S(1984, __c62, 0)),
+          awsRedshiftDetails: S.optional(__S(1984, __c62, 0)),
         }),
       ).annotate({ identifier: "AssetFrame" });
   }
@@ -6825,10 +6825,10 @@ function __c57(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          disableCloudLogging: S.optional(S.Boolean),
           name: S.optional(S.String),
           preferenceSet: S.optional(S.String),
           customerConsentForGoogleSalesToAccessMigrationCenter: S.optional(S.Boolean),
+          disableCloudLogging: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "Settings" });
   }
@@ -6838,9 +6838,9 @@ function __c58(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          extraLocationTypes: S.optional(__S(1344, __c42, 0).pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          extraLocationTypes: S.optional(__S(1344, __c42, 0).pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
@@ -6856,8 +6856,8 @@ function __c58(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          locations: S.optional(__S(1857, __c58, 1)),
           nextPageToken: S.optional(S.String),
+          locations: S.optional(__S(1857, __c58, 1)),
         }),
       ).annotate({ identifier: "ListLocationsResponse" });
   }
@@ -6867,13 +6867,13 @@ function __c59(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(S.String.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           view: S.optional(S.String.pipe(T.Query())),
           showHidden: S.optional(S.Boolean.pipe(T.Query())),
-          orderBy: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -6886,8 +6886,8 @@ function __c59(j: number): any {
       return S.suspend(() =>
         S.Struct({
           unreachable: S.optional(__S(1344, __c42, 0)),
-          nextPageToken: S.optional(S.String),
           assets: S.optional(__S(2944, __c92, 0)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListAssetsResponse" });
   }
@@ -6897,8 +6897,8 @@ function __c60(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -6913,8 +6913,8 @@ function __c60(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          assetsExportJobs: S.optional(__S(1921, __c60, 1)),
           nextPageToken: S.optional(S.String),
+          assetsExportJobs: S.optional(__S(1921, __c60, 1)),
         }),
       ).annotate({ identifier: "ListAssetsExportJobsResponse" });
   }
@@ -6932,11 +6932,11 @@ function __c61(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          sum: S.optional(__S(1984, __c62, 0)),
-          histogram: S.optional(__S(1953, __c61, 1)),
-          frequency: S.optional(__S(1984, __c62, 0)),
-          count: S.optional(__S(1984, __c62, 0)),
           field: S.optional(S.String),
+          sum: S.optional(__S(1984, __c62, 0)),
+          frequency: S.optional(__S(1984, __c62, 0)),
+          histogram: S.optional(__S(1953, __c61, 1)),
+          count: S.optional(__S(1984, __c62, 0)),
         }),
       ).annotate({ identifier: "Aggregation" });
     case 3:
@@ -6945,8 +6945,8 @@ function __c61(j: number): any {
       return S.suspend(() =>
         S.Struct({
           showHidden: S.optional(S.Boolean),
-          aggregations: S.optional(__S(1955, __c61, 3)),
           filter: S.optional(S.String),
+          aggregations: S.optional(__S(1955, __c61, 3)),
         }),
       ).annotate({ identifier: "AggregateAssetsValuesRequest" });
     case 5:
@@ -6967,39 +6967,39 @@ function __c61(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          values: S.optional(__S(2048, __c64, 0)),
-        }),
-      ).annotate({ identifier: "AggregationResultFrequency" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
           value: S.optional(S.String),
         }),
       ).annotate({ identifier: "AggregationResultCount" });
-    case 8:
+    case 7:
       return S.suspend(() =>
         S.Struct({
-          count: S.optional(S.String),
-          lowerBound: S.optional(S.Number),
           upperBound: S.optional(S.Number),
+          lowerBound: S.optional(S.Number),
+          count: S.optional(S.String),
         }),
       ).annotate({ identifier: "AggregationResultHistogramBucket" });
+    case 8:
+      return S.Array(__S(1959, __c61, 7));
     case 9:
-      return S.Array(__S(1960, __c61, 8));
+      return S.suspend(() =>
+        S.Struct({
+          buckets: S.optional(__S(1960, __c61, 8)),
+        }),
+      ).annotate({ identifier: "AggregationResultHistogram" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          buckets: S.optional(__S(1961, __c61, 9)),
+          values: S.optional(__S(2048, __c64, 0)),
         }),
-      ).annotate({ identifier: "AggregationResultHistogram" });
+      ).annotate({ identifier: "AggregationResultFrequency" });
     case 11:
       return S.suspend(() =>
         S.Struct({
-          sum: S.optional(__S(2016, __c63, 0)),
-          frequency: S.optional(__S(1958, __c61, 6)),
-          count: S.optional(__S(1959, __c61, 7)),
-          histogram: S.optional(__S(1962, __c61, 10)),
+          count: S.optional(__S(1958, __c61, 6)),
+          histogram: S.optional(__S(1961, __c61, 9)),
+          frequency: S.optional(__S(1962, __c61, 10)),
           field: S.optional(S.String),
+          sum: S.optional(__S(2016, __c63, 0)),
         }),
       ).annotate({ identifier: "AggregationResult" });
     case 12:
@@ -7039,11 +7039,11 @@ function __c65(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          filter: S.optional(S.String.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -7058,8 +7058,8 @@ function __c65(j: number): any {
       return S.suspend(() =>
         S.Struct({
           unreachable: S.optional(__S(1344, __c42, 0)),
-          discoveryClients: S.optional(__S(2081, __c65, 1)),
           nextPageToken: S.optional(S.String),
+          discoveryClients: S.optional(__S(2081, __c65, 1)),
         }),
       ).annotate({ identifier: "ListDiscoveryClientsResponse" });
   }
@@ -7070,10 +7070,10 @@ function __c66(j: number): any {
       return S.suspend(() =>
         S.Struct({
           orderBy: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -7087,9 +7087,9 @@ function __c66(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          groups: S.optional(__S(2113, __c66, 1)),
           unreachable: S.optional(__S(1344, __c42, 0)),
           nextPageToken: S.optional(S.String),
-          groups: S.optional(__S(2113, __c66, 1)),
         }),
       ).annotate({ identifier: "ListGroupsResponse" });
   }
@@ -7099,12 +7099,12 @@ function __c67(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           view: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -7130,11 +7130,11 @@ function __c68(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
-          orderBy: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -7160,11 +7160,11 @@ function __c69(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -7178,9 +7178,9 @@ function __c69(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(1344, __c42, 0)),
-          operations: S.optional(__S(2209, __c69, 1)),
           nextPageToken: S.optional(S.String),
+          operations: S.optional(__S(2209, __c69, 1)),
+          unreachable: S.optional(__S(1344, __c42, 0)),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
@@ -7190,8 +7190,8 @@ function __c70(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          orderBy: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
@@ -7220,10 +7220,10 @@ function __c71(j: number): any {
       return S.suspend(() =>
         S.Struct({
           orderBy: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -7248,11 +7248,11 @@ function __c72(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          orderBy: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -7266,8 +7266,8 @@ function __c72(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           reportConfigs: S.optional(__S(2305, __c72, 1)),
+          nextPageToken: S.optional(S.String),
           unreachable: S.optional(__S(1344, __c42, 0)),
         }),
       ).annotate({ identifier: "ListReportConfigsResponse" });
@@ -7278,12 +7278,12 @@ function __c73(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(S.String.pipe(T.Query())),
-          orderBy: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          view: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          orderBy: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          view: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -7298,8 +7298,8 @@ function __c73(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(1344, __c42, 0)),
           reports: S.optional(__S(2337, __c73, 1)),
+          unreachable: S.optional(__S(1344, __c42, 0)),
         }),
       ).annotate({ identifier: "ListReportsResponse" });
   }
@@ -7346,9 +7346,9 @@ function __c75(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          names: S.optional(__S(1344, __c42, 0)),
           cascadingRules: S.optional(__S(2401, __c75, 1)),
           allowMissing: S.optional(S.Boolean),
-          names: S.optional(__S(1344, __c42, 0)),
         }),
       ).annotate({ identifier: "BatchDeleteAssetsRequest" });
     case 3:
@@ -7373,11 +7373,11 @@ function __c76(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -7391,9 +7391,9 @@ function __c76(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          nextPageToken: S.optional(S.String),
           sources: S.optional(__S(2433, __c76, 1)),
           unreachable: S.optional(__S(1344, __c42, 0)),
-          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListSourcesResponse" });
   }
@@ -7403,10 +7403,10 @@ function __c77(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          view: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          view: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -7420,8 +7420,8 @@ function __c77(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(1344, __c42, 0)),
           errorFrames: S.optional(__S(2465, __c77, 1)),
+          unreachable: S.optional(__S(1344, __c42, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListErrorFramesResponse" });
@@ -7434,8 +7434,8 @@ function __c78(j: number): any {
         S.Extend(
           __S(2938, __c91, 26),
           S.Struct({
-            name: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
@@ -7456,8 +7456,8 @@ function __c79(j: number): any {
           __S(34, __c1, 2),
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
-            requestId: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -7476,9 +7476,9 @@ function __c80(j: number): any {
         S.Extend(
           __S(128, __c4, 0),
           S.Struct({
+            name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
             requestId: S.optional(S.String.pipe(T.Query())),
-            name: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -7497,9 +7497,9 @@ function __c81(j: number): any {
         S.Extend(
           __S(207, __c6, 15),
           S.Struct({
-            name: S.String.pipe(T.Label()),
-            requestId: S.optional(S.String.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -7518,9 +7518,9 @@ function __c82(j: number): any {
         S.Extend(
           __S(341, __c10, 21),
           S.Struct({
-            updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -7539,8 +7539,8 @@ function __c83(j: number): any {
         S.Extend(
           __S(576, __c18, 0),
           S.Struct({
-            name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
@@ -7558,9 +7558,9 @@ function __c84(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          allowMissing: S.optional(S.Boolean),
           assets: S.optional(__S(1376, __c43, 0)),
           requestId: S.optional(S.String),
-          allowMissing: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "RemoveAssetsFromGroupRequest" });
     case 1:
@@ -7595,8 +7595,8 @@ function __c85(j: number): any {
         S.Extend(
           __S(2721, __c85, 1),
           S.Struct({
-            parent: S.String.pipe(T.Label()),
             source: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -7613,9 +7613,9 @@ function __c86(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          requestId: S.optional(S.String),
-          asset: S.optional(__S(2938, __c91, 26)),
           updateMask: S.optional(S.String),
+          asset: S.optional(__S(2938, __c91, 26)),
+          requestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "UpdateAssetRequest" });
     case 1:
@@ -7654,72 +7654,103 @@ function __c87(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          region: S.optional(S.String),
+          scope: S.optional(S.String),
+          traceFlagName: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ResourceLocation" });
+      ).annotate({ identifier: "SqlServerTraceFlag" });
     case 1:
-      return S.suspend(() =>
-        S.Struct({
-          owningAccountId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "HostingProviderDetailsAws" });
+      return S.Array(__S(2784, __c87, 0));
     case 2:
-      return S.suspend(() =>
-        S.Struct({
-          createTime: S.optional(S.String),
-          location: S.optional(__S(2784, __c87, 0)),
-          aws: S.optional(__S(2785, __c87, 1)),
-          displayName: S.optional(S.String),
-          originalId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "HostingProviderDetails" });
-    case 3:
       return S.suspend(() =>
         S.Struct({
           enabled: S.optional(S.Boolean),
           featureName: S.optional(S.String),
         }),
       ).annotate({ identifier: "SqlServerFeature" });
+    case 3:
+      return S.Array(__S(2786, __c87, 2));
     case 4:
-      return S.Array(__S(2787, __c87, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          traceFlagName: S.optional(S.String),
-          scope: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SqlServerTraceFlag" });
-    case 6:
-      return S.Array(__S(2789, __c87, 5));
-    case 7:
       return S.suspend(() =>
         S.Struct({
           serverFlagName: S.optional(S.String),
-          valueInUse: S.optional(S.String),
           value: S.optional(S.String),
+          valueInUse: S.optional(S.String),
         }),
       ).annotate({ identifier: "SqlServerServerFlag" });
-    case 8:
-      return S.Array(__S(2791, __c87, 7));
-    case 9:
+    case 5:
+      return S.Array(__S(2788, __c87, 4));
+    case 6:
       return S.suspend(() =>
         S.Struct({
-          features: S.optional(__S(2788, __c87, 4)),
-          traceFlags: S.optional(__S(2790, __c87, 6)),
-          serverFlags: S.optional(__S(2792, __c87, 8)),
+          traceFlags: S.optional(__S(2785, __c87, 1)),
+          features: S.optional(__S(2787, __c87, 3)),
+          serverFlags: S.optional(__S(2789, __c87, 5)),
         }),
       ).annotate({ identifier: "SqlServerDatabaseDeployment" });
-    case 10:
+    case 7:
       return S.suspend(() =>
         S.Struct({
           numericValue: S.optional(S.String),
           property: S.optional(S.String),
           enabled: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "MySqlProperty" });
+      ).annotate({ identifier: "PostgreSqlProperty" });
+    case 8:
+      return S.Array(__S(2791, __c87, 7));
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          intValue: S.optional(S.String),
+          setting: S.optional(S.String),
+          realValue: S.optional(S.Number),
+          unit: S.optional(S.String),
+          stringValue: S.optional(S.String),
+          boolValue: S.optional(S.Boolean),
+          source: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PostgreSqlSetting" });
+    case 10:
+      return S.Array(__S(2793, __c87, 9));
     case 11:
-      return S.Array(__S(2794, __c87, 10));
+      return S.suspend(() =>
+        S.Struct({
+          properties: S.optional(__S(2792, __c87, 8)),
+          settings: S.optional(__S(2794, __c87, 10)),
+        }),
+      ).annotate({ identifier: "PostgreSqlDatabaseDeployment" });
     case 12:
+      return S.suspend(() =>
+        S.Struct({
+          primaryMacAddress: S.optional(S.String),
+          ipAddresses: S.optional(__S(1344, __c42, 0)),
+          hostNames: S.optional(__S(1344, __c42, 0)),
+        }),
+      ).annotate({ identifier: "DatabaseInstanceNetwork" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          instanceName: S.optional(S.String),
+          network: S.optional(__S(2796, __c87, 12)),
+          role: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DatabaseInstance" });
+    case 14:
+      return S.Array(__S(2797, __c87, 13));
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          diskUsedBytes: S.optional(S.String),
+          instances: S.optional(__S(2798, __c87, 14)),
+          memoryLimitBytes: S.optional(S.String),
+          physicalCoreLimit: S.optional(S.Number),
+          physicalCoreCount: S.optional(S.Number),
+          memoryBytes: S.optional(S.String),
+          coreLimit: S.optional(S.Number),
+          diskAllocatedBytes: S.optional(S.String),
+          coreCount: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "DatabaseDeploymentTopology" });
+    case 16:
       return S.suspend(() =>
         S.Struct({
           category: S.optional(S.String),
@@ -7727,133 +7758,119 @@ function __c87(j: number): any {
           value: S.optional(S.String),
         }),
       ).annotate({ identifier: "MySqlVariable" });
-    case 13:
-      return S.Array(__S(2796, __c87, 12));
-    case 14:
-      return S.suspend(() =>
-        S.Struct({
-          plugin: S.optional(S.String),
-          enabled: S.optional(S.Boolean),
-          version: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "MySqlPlugin" });
-    case 15:
-      return S.Array(__S(2798, __c87, 14));
-    case 16:
-      return S.suspend(() =>
-        S.Struct({
-          properties: S.optional(__S(2795, __c87, 11)),
-          resourceGroupsCount: S.optional(S.Number),
-          variables: S.optional(__S(2797, __c87, 13)),
-          plugins: S.optional(__S(2799, __c87, 15)),
-        }),
-      ).annotate({ identifier: "MysqlDatabaseDeployment" });
     case 17:
-      return S.suspend(() =>
-        S.Struct({
-          hostNames: S.optional(__S(1344, __c42, 0)),
-          primaryMacAddress: S.optional(S.String),
-          ipAddresses: S.optional(__S(1344, __c42, 0)),
-        }),
-      ).annotate({ identifier: "DatabaseInstanceNetwork" });
+      return S.Array(__S(2800, __c87, 16));
     case 18:
       return S.suspend(() =>
         S.Struct({
-          instanceName: S.optional(S.String),
-          role: S.optional(S.String),
-          network: S.optional(__S(2801, __c87, 17)),
+          version: S.optional(S.String),
+          enabled: S.optional(S.Boolean),
+          plugin: S.optional(S.String),
         }),
-      ).annotate({ identifier: "DatabaseInstance" });
+      ).annotate({ identifier: "MySqlPlugin" });
     case 19:
       return S.Array(__S(2802, __c87, 18));
     case 20:
       return S.suspend(() =>
         S.Struct({
-          physicalCoreLimit: S.optional(S.Number),
-          instances: S.optional(__S(2803, __c87, 19)),
-          physicalCoreCount: S.optional(S.Number),
-          coreCount: S.optional(S.Number),
-          coreLimit: S.optional(S.Number),
-          memoryBytes: S.optional(S.String),
-          diskUsedBytes: S.optional(S.String),
-          memoryLimitBytes: S.optional(S.String),
-          diskAllocatedBytes: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DatabaseDeploymentTopology" });
-    case 21:
-      return S.suspend(() =>
-        S.Struct({
-          boolValue: S.optional(S.Boolean),
-          stringValue: S.optional(S.String),
-          realValue: S.optional(S.Number),
-          setting: S.optional(S.String),
-          unit: S.optional(S.String),
-          intValue: S.optional(S.String),
-          source: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PostgreSqlSetting" });
-    case 22:
-      return S.Array(__S(2805, __c87, 21));
-    case 23:
-      return S.suspend(() =>
-        S.Struct({
-          enabled: S.optional(S.Boolean),
-          numericValue: S.optional(S.String),
           property: S.optional(S.String),
+          numericValue: S.optional(S.String),
+          enabled: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "PostgreSqlProperty" });
-    case 24:
-      return S.Array(__S(2807, __c87, 23));
-    case 25:
+      ).annotate({ identifier: "MySqlProperty" });
+    case 21:
+      return S.Array(__S(2804, __c87, 20));
+    case 22:
       return S.suspend(() =>
         S.Struct({
-          settings: S.optional(__S(2806, __c87, 22)),
-          properties: S.optional(__S(2808, __c87, 24)),
+          variables: S.optional(__S(2801, __c87, 17)),
+          plugins: S.optional(__S(2803, __c87, 19)),
+          properties: S.optional(__S(2805, __c87, 21)),
+          resourceGroupsCount: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "PostgreSqlDatabaseDeployment" });
-    case 26:
+      ).annotate({ identifier: "MysqlDatabaseDeployment" });
+    case 23:
       return S.suspend(() =>
         S.Struct({
           databaseCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "DatabaseDeploymentDetailsAggregatedStats" });
+    case 24:
+      return S.suspend(() =>
+        S.Struct({
+          sqlServer: S.optional(__S(2790, __c87, 6)),
+          generatedId: S.optional(S.String),
+          version: S.optional(S.String),
+          edition: S.optional(S.String),
+          postgresql: S.optional(__S(2795, __c87, 11)),
+          topology: S.optional(__S(2799, __c87, 15)),
+          mysql: S.optional(__S(2806, __c87, 22)),
+          awsRds: S.optional(__S(1984, __c62, 0)),
+          manualUniqueId: S.optional(S.String),
+          aggregatedStats: S.optional(__S(2807, __c87, 23)),
+        }),
+      ).annotate({ identifier: "DatabaseDeploymentDetails" });
+    case 25:
+      return S.suspend(() =>
+        S.Struct({
+          month: S.optional(S.Number),
+          day: S.optional(S.Number),
+          year: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "Migrationcenter_Date" });
+    case 26:
+      return S.suspend(() =>
+        S.Struct({
+          provisioningState: S.optional(S.String),
+          hyperthreading: S.optional(S.String),
+          machineTypeLabel: S.optional(S.String),
+          location: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AzureVmPlatformDetails" });
     case 27:
       return S.suspend(() =>
         S.Struct({
-          sqlServer: S.optional(__S(2793, __c87, 9)),
-          mysql: S.optional(__S(2800, __c87, 16)),
-          edition: S.optional(S.String),
-          awsRds: S.optional(__S(1984, __c62, 0)),
-          version: S.optional(S.String),
-          topology: S.optional(__S(2804, __c87, 20)),
-          postgresql: S.optional(__S(2809, __c87, 25)),
-          aggregatedStats: S.optional(__S(2810, __c87, 26)),
-          manualUniqueId: S.optional(S.String),
-          generatedId: S.optional(S.String),
+          hyperthreading: S.optional(S.String),
+          location: S.optional(S.String),
+          machineTypeLabel: S.optional(S.String),
         }),
-      ).annotate({ identifier: "DatabaseDeploymentDetails" });
+      ).annotate({ identifier: "AwsEc2PlatformDetails" });
     case 28:
       return S.suspend(() =>
         S.Struct({
-          enabled: S.optional(S.Boolean),
-          mode: S.optional(S.String),
+          hyperthreading: S.optional(S.String),
+          location: S.optional(S.String),
         }),
-      ).annotate({ identifier: "Selinux" });
+      ).annotate({ identifier: "PhysicalPlatformDetails" });
     case 29:
       return S.suspend(() =>
         S.Struct({
-          ip: S.optional(S.String),
-          hostNames: S.optional(__S(1344, __c42, 0)),
+          location: S.optional(S.String),
+          hyperthreading: S.optional(S.String),
         }),
-      ).annotate({ identifier: "HostsEntry" });
+      ).annotate({ identifier: "GenericPlatformDetails" });
     case 30:
-      return S.Array(__S(2813, __c87, 29));
+      return S.suspend(() =>
+        S.Struct({
+          vcenterFolder: S.optional(S.String),
+          osid: S.optional(S.String),
+          vcenterUri: S.optional(S.String),
+          esxHyperthreading: S.optional(S.String),
+          esxVersion: S.optional(S.String),
+          vcenterVmId: S.optional(S.String),
+          vcenterVersion: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "VmwarePlatformDetails" });
     case 31:
       return S.suspend(() =>
         S.Struct({
-          entries: S.optional(__S(2814, __c87, 30)),
+          azureVmDetails: S.optional(__S(2810, __c87, 26)),
+          awsEc2Details: S.optional(__S(2811, __c87, 27)),
+          physicalDetails: S.optional(__S(2812, __c87, 28)),
+          genericDetails: S.optional(__S(2813, __c87, 29)),
+          vmwareDetails: S.optional(__S(2814, __c87, 30)),
         }),
-      ).annotate({ identifier: "HostsEntryList" });
+      ).annotate({ identifier: "PlatformDetails" });
   }
 }
 function __c88(j: number): any {
@@ -7861,14 +7878,15 @@ function __c88(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          passno: S.optional(S.Number),
-          vfstype: S.optional(S.String),
-          mntops: S.optional(S.String),
-          file: S.optional(S.String),
-          spec: S.optional(S.String),
-          freq: S.optional(S.Number),
+          capacityBytes: S.optional(S.String),
+          freeBytes: S.optional(S.String),
+          type: S.optional(S.String),
+          mountPoint: S.optional(S.String),
+          subPartitions: S.optional(S.suspend(() => __S(2818, __c88, 2))),
+          fileSystem: S.optional(S.String),
+          uuid: S.optional(S.String),
         }),
-      ).annotate({ identifier: "FstabEntry" });
+      ).annotate({ identifier: "DiskPartition" });
     case 1:
       return S.Array(__S(2816, __c88, 0));
     case 2:
@@ -7876,131 +7894,148 @@ function __c88(j: number): any {
         S.Struct({
           entries: S.optional(__S(2817, __c88, 1)),
         }),
-      ).annotate({ identifier: "FstabEntryList" });
+      ).annotate({ identifier: "DiskPartitionList" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          hosts: S.optional(__S(1344, __c42, 0)),
-          exportDirectory: S.optional(S.String),
+          freeSpaceBytes: S.optional(S.String),
+          totalCapacityBytes: S.optional(S.String),
+          partitions: S.optional(__S(2818, __c88, 2)),
         }),
-      ).annotate({ identifier: "NfsExport" });
+      ).annotate({ identifier: "DiskPartitionDetails" });
     case 4:
-      return S.Array(__S(2819, __c88, 3));
-    case 5:
       return S.suspend(() =>
         S.Struct({
-          entries: S.optional(__S(2820, __c88, 4)),
+          fqdn: S.optional(S.String),
+          subnetMask: S.optional(S.String),
+          ipAddress: S.optional(S.String),
+          assignment: S.optional(S.String),
+          bcast: S.optional(S.String),
         }),
-      ).annotate({ identifier: "NfsExportList" });
+      ).annotate({ identifier: "NetworkAddress" });
+    case 5:
+      return S.Array(__S(2820, __c88, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          selinuxMode: S.optional(S.String),
-          selinux: S.optional(__S(2812, __c87, 28)),
-          issue: S.optional(S.String),
-          hosts: S.optional(__S(2815, __c87, 31)),
-          fstab: S.optional(__S(2818, __c88, 2)),
-          nfsExports: S.optional(__S(2821, __c88, 5)),
+          entries: S.optional(__S(2821, __c88, 5)),
+          addresses: S.optional(__S(2821, __c88, 5)),
         }),
-      ).annotate({ identifier: "GuestConfigDetails" });
+      ).annotate({ identifier: "NetworkAddressList" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          time: S.optional(S.String),
-          installTime: S.optional(S.String),
-          licenses: S.optional(__S(1344, __c42, 0)),
-          applicationName: S.optional(S.String),
-          path: S.optional(S.String),
-          vendor: S.optional(S.String),
-          name: S.optional(S.String),
-          version: S.optional(S.String),
+          adapterType: S.optional(S.String),
+          macAddress: S.optional(S.String),
+          addresses: S.optional(__S(2822, __c88, 6)),
         }),
-      ).annotate({ identifier: "GuestInstalledApplication" });
+      ).annotate({ identifier: "NetworkAdapterDetails" });
     case 8:
       return S.Array(__S(2823, __c88, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
           entries: S.optional(__S(2824, __c88, 8)),
+          networkAdapters: S.optional(__S(2824, __c88, 8)),
         }),
-      ).annotate({ identifier: "GuestInstalledApplicationList" });
+      ).annotate({ identifier: "NetworkAdapterList" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          id: S.optional(S.String),
-          version: S.optional(S.String),
+          primaryIpAddress: S.optional(S.String),
+          primaryMacAddress: S.optional(S.String),
+          defaultGateway: S.optional(S.String),
+          publicIpAddress: S.optional(S.String),
+          networkAdapters: S.optional(__S(2825, __c88, 9)),
         }),
-      ).annotate({ identifier: "TimeZone" });
+      ).annotate({ identifier: "MachineNetworkDetails" });
     case 11:
       return S.suspend(() =>
         S.Struct({
-          hours: S.optional(S.Number),
-          nanos: S.optional(S.Number),
-          year: S.optional(S.Number),
-          timeZone: S.optional(__S(2826, __c88, 10)),
-          minutes: S.optional(S.Number),
-          month: S.optional(S.Number),
-          seconds: S.optional(S.Number),
-          utcOffset: S.optional(S.String),
-          day: S.optional(S.Number),
+          version: S.optional(S.String),
+          smbiosUuid: S.optional(S.String),
+          biosVersion: S.optional(S.String),
+          biosName: S.optional(S.String),
+          biosReleaseDate: S.optional(S.String),
+          biosManufacturer: S.optional(S.String),
+          releaseTime: S.optional(S.String),
+          manufacturer: S.optional(S.String),
+          id: S.optional(S.String),
         }),
-      ).annotate({ identifier: "DateTime" });
+      ).annotate({ identifier: "BiosDetails" });
     case 12:
       return S.suspend(() =>
         S.Struct({
-          protocol: S.optional(S.String),
-          remotePort: S.optional(S.Number),
-          state: S.optional(S.String),
-          localIpAddress: S.optional(S.String),
-          localPort: S.optional(S.Number),
-          remoteIpAddress: S.optional(S.String),
-          processName: S.optional(S.String),
-          pid: S.optional(S.String),
+          firmwareType: S.optional(S.String),
+          cpuSocketCount: S.optional(S.Number),
+          cpuArchitecture: S.optional(S.String),
+          cpuManufacturer: S.optional(S.String),
+          hyperthreading: S.optional(S.String),
+          vendor: S.optional(S.String),
+          cpuName: S.optional(S.String),
+          bios: S.optional(__S(2827, __c88, 11)),
         }),
-      ).annotate({ identifier: "NetworkConnection" });
+      ).annotate({ identifier: "MachineArchitectureDetails" });
     case 13:
-      return S.Array(__S(2828, __c88, 12));
-    case 14:
       return S.suspend(() =>
         S.Struct({
-          entries: S.optional(__S(2829, __c88, 13)),
+          remotePort: S.optional(S.Number),
+          pid: S.optional(S.String),
+          remoteIpAddress: S.optional(S.String),
+          state: S.optional(S.String),
+          localPort: S.optional(S.Number),
+          localIpAddress: S.optional(S.String),
+          processName: S.optional(S.String),
+          protocol: S.optional(S.String),
         }),
-      ).annotate({ identifier: "NetworkConnectionList" });
+      ).annotate({ identifier: "NetworkConnection" });
+    case 14:
+      return S.Array(__S(2829, __c88, 13));
     case 15:
       return S.suspend(() =>
         S.Struct({
-          scanTime: S.optional(S.String),
-          netstatTime: S.optional(__S(2827, __c88, 11)),
-          rawScanResult: S.optional(S.String),
-          netstat: S.optional(S.String),
-          connections: S.optional(__S(2830, __c88, 14)),
+          entries: S.optional(__S(2830, __c88, 14)),
         }),
-      ).annotate({ identifier: "RuntimeNetworkInfo" });
+      ).annotate({ identifier: "NetworkConnectionList" });
     case 16:
       return S.suspend(() =>
         S.Struct({
-          command: S.optional(S.String),
-          fileType: S.optional(S.String),
-          user: S.optional(S.String),
-          filePath: S.optional(S.String),
+          version: S.optional(S.String),
+          id: S.optional(S.String),
         }),
-      ).annotate({ identifier: "OpenFileDetails" });
+      ).annotate({ identifier: "TimeZone" });
     case 17:
-      return S.Array(__S(2832, __c88, 16));
+      return S.suspend(() =>
+        S.Struct({
+          utcOffset: S.optional(S.String),
+          minutes: S.optional(S.Number),
+          nanos: S.optional(S.Number),
+          seconds: S.optional(S.Number),
+          month: S.optional(S.Number),
+          timeZone: S.optional(__S(2832, __c88, 16)),
+          day: S.optional(S.Number),
+          hours: S.optional(S.Number),
+          year: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "DateTime" });
     case 18:
       return S.suspend(() =>
         S.Struct({
-          entries: S.optional(__S(2833, __c88, 17)),
+          scanTime: S.optional(S.String),
+          connections: S.optional(__S(2831, __c88, 15)),
+          netstatTime: S.optional(__S(2833, __c88, 17)),
+          rawScanResult: S.optional(S.String),
+          netstat: S.optional(S.String),
         }),
-      ).annotate({ identifier: "OpenFileList" });
+      ).annotate({ identifier: "RuntimeNetworkInfo" });
     case 19:
       return S.suspend(() =>
         S.Struct({
-          user: S.optional(S.String),
           pid: S.optional(S.String),
-          exePath: S.optional(S.String),
-          attributes: S.optional(__S(2048, __c64, 0)),
           cmdline: S.optional(S.String),
+          attributes: S.optional(__S(2048, __c64, 0)),
+          exePath: S.optional(S.String),
+          user: S.optional(S.String),
         }),
       ).annotate({ identifier: "RunningProcess" });
     case 20:
@@ -8015,331 +8050,295 @@ function __c88(j: number): any {
     case 22:
       return S.suspend(() =>
         S.Struct({
-          day: S.optional(S.Number),
-          month: S.optional(S.Number),
-          year: S.optional(S.Number),
+          version: S.optional(S.String),
+          name: S.optional(S.String),
+          path: S.optional(S.String),
+          licenses: S.optional(__S(1344, __c42, 0)),
+          installTime: S.optional(S.String),
+          vendor: S.optional(S.String),
+          applicationName: S.optional(S.String),
+          time: S.optional(S.String),
         }),
-      ).annotate({ identifier: "Migrationcenter_Date" });
+      ).annotate({ identifier: "GuestInstalledApplication" });
     case 23:
+      return S.Array(__S(2838, __c88, 22));
+    case 24:
       return S.suspend(() =>
         S.Struct({
-          status: S.optional(S.String),
-          startMode: S.optional(S.String),
-          name: S.optional(S.String),
-          state: S.optional(S.String),
-          cmdline: S.optional(S.String),
-          pid: S.optional(S.String),
-          exePath: S.optional(S.String),
-          serviceName: S.optional(S.String),
+          entries: S.optional(__S(2839, __c88, 23)),
         }),
-      ).annotate({ identifier: "RunningService" });
-    case 24:
-      return S.Array(__S(2839, __c88, 23));
+      ).annotate({ identifier: "GuestInstalledApplicationList" });
     case 25:
       return S.suspend(() =>
         S.Struct({
-          services: S.optional(__S(2840, __c88, 24)),
-          entries: S.optional(__S(2840, __c88, 24)),
+          command: S.optional(S.String),
+          filePath: S.optional(S.String),
+          user: S.optional(S.String),
+          fileType: S.optional(S.String),
         }),
-      ).annotate({ identifier: "RunningServiceList" });
+      ).annotate({ identifier: "OpenFileDetails" });
     case 26:
-      return S.suspend(() =>
-        S.Struct({
-          lastBootTime: S.optional(S.String),
-          installedApps: S.optional(__S(2825, __c88, 9)),
-          networkInfo: S.optional(__S(2831, __c88, 15)),
-          machineName: S.optional(S.String),
-          openFileList: S.optional(__S(2834, __c88, 18)),
-          domain: S.optional(S.String),
-          processes: S.optional(__S(2837, __c88, 21)),
-          lastUptime: S.optional(__S(2838, __c88, 22)),
-          services: S.optional(__S(2841, __c88, 25)),
-        }),
-      ).annotate({ identifier: "GuestRuntimeDetails" });
+      return S.Array(__S(2841, __c88, 25));
     case 27:
       return S.suspend(() =>
         S.Struct({
-          version: S.optional(S.String),
-          family: S.optional(S.String),
-          config: S.optional(__S(2822, __c88, 6)),
-          osName: S.optional(S.String),
-          runtime: S.optional(__S(2842, __c88, 26)),
+          entries: S.optional(__S(2842, __c88, 26)),
         }),
-      ).annotate({ identifier: "GuestOsDetails" });
+      ).annotate({ identifier: "OpenFileList" });
     case 28:
       return S.suspend(() =>
         S.Struct({
-          ipAddress: S.optional(S.String),
-          bcast: S.optional(S.String),
-          fqdn: S.optional(S.String),
-          subnetMask: S.optional(S.String),
-          assignment: S.optional(S.String),
+          startMode: S.optional(S.String),
+          state: S.optional(S.String),
+          exePath: S.optional(S.String),
+          pid: S.optional(S.String),
+          status: S.optional(S.String),
+          name: S.optional(S.String),
+          serviceName: S.optional(S.String),
+          cmdline: S.optional(S.String),
         }),
-      ).annotate({ identifier: "NetworkAddress" });
+      ).annotate({ identifier: "RunningService" });
     case 29:
       return S.Array(__S(2844, __c88, 28));
     case 30:
       return S.suspend(() =>
         S.Struct({
           entries: S.optional(__S(2845, __c88, 29)),
-          addresses: S.optional(__S(2845, __c88, 29)),
+          services: S.optional(__S(2845, __c88, 29)),
         }),
-      ).annotate({ identifier: "NetworkAddressList" });
+      ).annotate({ identifier: "RunningServiceList" });
     case 31:
       return S.suspend(() =>
         S.Struct({
-          adapterType: S.optional(S.String),
-          macAddress: S.optional(S.String),
-          addresses: S.optional(__S(2846, __c88, 30)),
+          lastBootTime: S.optional(S.String),
+          networkInfo: S.optional(__S(2834, __c88, 18)),
+          processes: S.optional(__S(2837, __c88, 21)),
+          installedApps: S.optional(__S(2840, __c88, 24)),
+          machineName: S.optional(S.String),
+          domain: S.optional(S.String),
+          openFileList: S.optional(__S(2843, __c88, 27)),
+          services: S.optional(__S(2846, __c88, 30)),
+          lastUptime: S.optional(__S(2809, __c87, 25)),
         }),
-      ).annotate({ identifier: "NetworkAdapterDetails" });
+      ).annotate({ identifier: "GuestRuntimeDetails" });
   }
 }
 function __c89(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2847, __c88, 31));
-    case 1:
       return S.suspend(() =>
         S.Struct({
-          networkAdapters: S.optional(__S(2848, __c89, 0)),
-          entries: S.optional(__S(2848, __c89, 0)),
+          exportDirectory: S.optional(S.String),
+          hosts: S.optional(__S(1344, __c42, 0)),
         }),
-      ).annotate({ identifier: "NetworkAdapterList" });
+      ).annotate({ identifier: "NfsExport" });
+    case 1:
+      return S.Array(__S(2848, __c89, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          defaultGateway: S.optional(S.String),
-          networkAdapters: S.optional(__S(2849, __c89, 1)),
-          primaryMacAddress: S.optional(S.String),
-          primaryIpAddress: S.optional(S.String),
-          publicIpAddress: S.optional(S.String),
+          entries: S.optional(__S(2849, __c89, 1)),
         }),
-      ).annotate({ identifier: "MachineNetworkDetails" });
+      ).annotate({ identifier: "NfsExportList" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          capacityBytes: S.optional(S.String),
-          uuid: S.optional(S.String),
-          freeBytes: S.optional(S.String),
-          fileSystem: S.optional(S.String),
-          subPartitions: S.optional(S.suspend(() => __S(2853, __c89, 5))),
-          type: S.optional(S.String),
-          mountPoint: S.optional(S.String),
+          enabled: S.optional(S.Boolean),
+          mode: S.optional(S.String),
         }),
-      ).annotate({ identifier: "DiskPartition" });
+      ).annotate({ identifier: "Selinux" });
     case 4:
-      return S.Array(__S(2851, __c89, 3));
-    case 5:
       return S.suspend(() =>
         S.Struct({
-          entries: S.optional(__S(2852, __c89, 4)),
+          passno: S.optional(S.Number),
+          mntops: S.optional(S.String),
+          vfstype: S.optional(S.String),
+          spec: S.optional(S.String),
+          file: S.optional(S.String),
+          freq: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "DiskPartitionList" });
+      ).annotate({ identifier: "FstabEntry" });
+    case 5:
+      return S.Array(__S(2852, __c89, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          freeSpaceBytes: S.optional(S.String),
-          totalCapacityBytes: S.optional(S.String),
-          partitions: S.optional(__S(2853, __c89, 5)),
+          entries: S.optional(__S(2853, __c89, 5)),
         }),
-      ).annotate({ identifier: "DiskPartitionDetails" });
+      ).annotate({ identifier: "FstabEntryList" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          smbiosUuid: S.optional(S.String),
-          biosVersion: S.optional(S.String),
-          releaseTime: S.optional(S.String),
-          manufacturer: S.optional(S.String),
-          biosReleaseDate: S.optional(S.String),
-          biosManufacturer: S.optional(S.String),
-          version: S.optional(S.String),
-          biosName: S.optional(S.String),
-          id: S.optional(S.String),
+          ip: S.optional(S.String),
+          hostNames: S.optional(__S(1344, __c42, 0)),
         }),
-      ).annotate({ identifier: "BiosDetails" });
+      ).annotate({ identifier: "HostsEntry" });
     case 8:
-      return S.suspend(() =>
-        S.Struct({
-          cpuArchitecture: S.optional(S.String),
-          firmwareType: S.optional(S.String),
-          vendor: S.optional(S.String),
-          hyperthreading: S.optional(S.String),
-          bios: S.optional(__S(2855, __c89, 7)),
-          cpuManufacturer: S.optional(S.String),
-          cpuName: S.optional(S.String),
-          cpuSocketCount: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "MachineArchitectureDetails" });
+      return S.Array(__S(2855, __c89, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          capacityBytes: S.optional(S.String),
-          totalFreeBytes: S.optional(S.String),
-          totalCapacityBytes: S.optional(S.String),
-          diskLabelType: S.optional(S.String),
-          status: S.optional(S.String),
-          partitions: S.optional(__S(2853, __c89, 5)),
-          hwAddress: S.optional(S.String),
-          freeSpaceBytes: S.optional(S.String),
-          interfaceType: S.optional(S.String),
-          diskLabel: S.optional(S.String),
+          entries: S.optional(__S(2856, __c89, 8)),
         }),
-      ).annotate({ identifier: "DiskEntry" });
+      ).annotate({ identifier: "HostsEntryList" });
     case 10:
-      return S.Array(__S(2857, __c89, 9));
+      return S.suspend(() =>
+        S.Struct({
+          issue: S.optional(S.String),
+          nfsExports: S.optional(__S(2850, __c89, 2)),
+          selinux: S.optional(__S(2851, __c89, 3)),
+          fstab: S.optional(__S(2854, __c89, 6)),
+          hosts: S.optional(__S(2857, __c89, 9)),
+          selinuxMode: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GuestConfigDetails" });
     case 11:
       return S.suspend(() =>
         S.Struct({
-          entries: S.optional(__S(2858, __c89, 10)),
+          osName: S.optional(S.String),
+          version: S.optional(S.String),
+          runtime: S.optional(__S(2847, __c88, 31)),
+          family: S.optional(S.String),
+          config: S.optional(__S(2858, __c89, 10)),
         }),
-      ).annotate({ identifier: "DiskEntryList" });
+      ).annotate({ identifier: "GuestOsDetails" });
     case 12:
       return S.suspend(() =>
         S.Struct({
-          disks: S.optional(__S(2859, __c89, 11)),
-          totalFreeBytes: S.optional(S.String),
+          capacityBytes: S.optional(S.String),
           totalCapacityBytes: S.optional(S.String),
-          rawScanResult: S.optional(S.String),
+          hwAddress: S.optional(S.String),
+          totalFreeBytes: S.optional(S.String),
+          diskLabel: S.optional(S.String),
+          diskLabelType: S.optional(S.String),
+          partitions: S.optional(__S(2818, __c88, 2)),
+          status: S.optional(S.String),
+          interfaceType: S.optional(S.String),
+          freeSpaceBytes: S.optional(S.String),
         }),
-      ).annotate({ identifier: "MachineDiskDetails" });
+      ).annotate({ identifier: "DiskEntry" });
     case 13:
-      return S.suspend(() =>
-        S.Struct({
-          hyperthreading: S.optional(S.String),
-          location: S.optional(S.String),
-          machineTypeLabel: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AwsEc2PlatformDetails" });
+      return S.Array(__S(2860, __c89, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
-          esxHyperthreading: S.optional(S.String),
-          esxVersion: S.optional(S.String),
-          vcenterUri: S.optional(S.String),
-          osid: S.optional(S.String),
-          vcenterVmId: S.optional(S.String),
-          vcenterVersion: S.optional(S.String),
-          vcenterFolder: S.optional(S.String),
+          entries: S.optional(__S(2861, __c89, 13)),
         }),
-      ).annotate({ identifier: "VmwarePlatformDetails" });
+      ).annotate({ identifier: "DiskEntryList" });
     case 15:
       return S.suspend(() =>
         S.Struct({
-          location: S.optional(S.String),
-          machineTypeLabel: S.optional(S.String),
-          provisioningState: S.optional(S.String),
-          hyperthreading: S.optional(S.String),
+          disks: S.optional(__S(2862, __c89, 14)),
+          rawScanResult: S.optional(S.String),
+          totalCapacityBytes: S.optional(S.String),
+          totalFreeBytes: S.optional(S.String),
         }),
-      ).annotate({ identifier: "AzureVmPlatformDetails" });
+      ).annotate({ identifier: "MachineDiskDetails" });
     case 16:
       return S.suspend(() =>
         S.Struct({
-          location: S.optional(S.String),
-          hyperthreading: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GenericPlatformDetails" });
-    case 17:
-      return S.suspend(() =>
-        S.Struct({
-          hyperthreading: S.optional(S.String),
-          location: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PhysicalPlatformDetails" });
-    case 18:
-      return S.suspend(() =>
-        S.Struct({
-          awsEc2Details: S.optional(__S(2861, __c89, 13)),
-          vmwareDetails: S.optional(__S(2862, __c89, 14)),
-          azureVmDetails: S.optional(__S(2863, __c89, 15)),
-          genericDetails: S.optional(__S(2864, __c89, 16)),
-          physicalDetails: S.optional(__S(2865, __c89, 17)),
-        }),
-      ).annotate({ identifier: "PlatformDetails" });
-    case 19:
-      return S.suspend(() =>
-        S.Struct({
-          guestOs: S.optional(__S(2843, __c88, 27)),
-          network: S.optional(__S(2850, __c89, 2)),
-          createTime: S.optional(S.String),
           coreCount: S.optional(S.Number),
-          diskPartitions: S.optional(__S(2854, __c89, 6)),
-          architecture: S.optional(__S(2856, __c89, 8)),
-          disks: S.optional(__S(2860, __c89, 12)),
-          uuid: S.optional(S.String),
-          machineName: S.optional(S.String),
-          platform: S.optional(__S(2866, __c89, 18)),
+          platform: S.optional(__S(2815, __c87, 31)),
+          diskPartitions: S.optional(__S(2819, __c88, 3)),
+          network: S.optional(__S(2826, __c88, 10)),
           memoryMb: S.optional(S.Number),
+          machineName: S.optional(S.String),
+          architecture: S.optional(__S(2828, __c88, 12)),
+          guestOs: S.optional(__S(2859, __c89, 11)),
+          disks: S.optional(__S(2863, __c89, 15)),
+          createTime: S.optional(S.String),
+          uuid: S.optional(S.String),
           powerState: S.optional(S.String),
         }),
       ).annotate({ identifier: "MachineDetails" });
-    case 20:
-      return S.suspend(() =>
-        S.Struct({
-          manualUniqueId: S.optional(S.String),
-          generatedId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DatabaseDetailsParentDatabaseDeployment" });
-    case 21:
-      return S.suspend(() =>
-        S.Struct({
-          encryptedTableCount: S.optional(S.Number),
-          tableCount: S.optional(S.Number),
-          engine: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "MySqlStorageEngineDetails" });
-    case 22:
-      return S.Array(__S(2869, __c89, 21));
-    case 23:
-      return S.suspend(() =>
-        S.Struct({
-          storageEngines: S.optional(__S(2870, __c89, 22)),
-        }),
-      ).annotate({ identifier: "MySqlSchemaDetails" });
-    case 24:
-      return S.suspend(() =>
-        S.Struct({
-          count: S.optional(S.String),
-          category: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DatabaseObjects" });
-    case 25:
-      return S.Array(__S(2872, __c89, 24));
-    case 26:
-      return S.suspend(() =>
-        S.Struct({
-          clrObjectCount: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "SqlServerSchemaDetails" });
-    case 27:
+    case 17:
       return S.suspend(() =>
         S.Struct({
           extension: S.optional(S.String),
           version: S.optional(S.String),
         }),
       ).annotate({ identifier: "PostgreSqlExtension" });
+    case 18:
+      return S.Array(__S(2865, __c89, 17));
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          foreignTablesCount: S.optional(S.Number),
+          postgresqlExtensions: S.optional(__S(2866, __c89, 18)),
+        }),
+      ).annotate({ identifier: "PostgreSqlSchemaDetails" });
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          tableCount: S.optional(S.Number),
+          engine: S.optional(S.String),
+          encryptedTableCount: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "MySqlStorageEngineDetails" });
+    case 21:
+      return S.Array(__S(2868, __c89, 20));
+    case 22:
+      return S.suspend(() =>
+        S.Struct({
+          storageEngines: S.optional(__S(2869, __c89, 21)),
+        }),
+      ).annotate({ identifier: "MySqlSchemaDetails" });
+    case 23:
+      return S.suspend(() =>
+        S.Struct({
+          count: S.optional(S.String),
+          category: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DatabaseObjects" });
+    case 24:
+      return S.Array(__S(2871, __c89, 23));
+    case 25:
+      return S.suspend(() =>
+        S.Struct({
+          clrObjectCount: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "SqlServerSchemaDetails" });
+    case 26:
+      return S.suspend(() =>
+        S.Struct({
+          postgresql: S.optional(__S(2867, __c89, 19)),
+          mysql: S.optional(__S(2870, __c89, 22)),
+          objects: S.optional(__S(2872, __c89, 24)),
+          schemaName: S.optional(S.String),
+          tablesSizeBytes: S.optional(S.String),
+          sqlServer: S.optional(__S(2873, __c89, 25)),
+        }),
+      ).annotate({ identifier: "DatabaseSchema" });
+    case 27:
+      return S.Array(__S(2874, __c89, 26));
     case 28:
-      return S.Array(__S(2875, __c89, 27));
+      return S.suspend(() =>
+        S.Struct({
+          manualUniqueId: S.optional(S.String),
+          generatedId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DatabaseDetailsParentDatabaseDeployment" });
     case 29:
       return S.suspend(() =>
         S.Struct({
-          postgresqlExtensions: S.optional(__S(2876, __c89, 28)),
-          foreignTablesCount: S.optional(S.Number),
+          schemas: S.optional(__S(2875, __c89, 27)),
+          parentDatabaseDeployment: S.optional(__S(2876, __c89, 28)),
+          allocatedStorageBytes: S.optional(S.String),
+          databaseName: S.optional(S.String),
         }),
-      ).annotate({ identifier: "PostgreSqlSchemaDetails" });
+      ).annotate({ identifier: "DatabaseDetails" });
     case 30:
       return S.suspend(() =>
         S.Struct({
-          mysql: S.optional(__S(2871, __c89, 23)),
-          objects: S.optional(__S(2873, __c89, 25)),
-          sqlServer: S.optional(__S(2874, __c89, 26)),
-          postgresql: S.optional(__S(2877, __c89, 29)),
-          schemaName: S.optional(S.String),
-          tablesSizeBytes: S.optional(S.String),
+          region: S.optional(S.String),
         }),
-      ).annotate({ identifier: "DatabaseSchema" });
+      ).annotate({ identifier: "ResourceLocation" });
     case 31:
-      return S.Array(__S(2878, __c89, 30));
+      return S.suspend(() =>
+        S.Struct({
+          owningAccountId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "HostingProviderDetailsAws" });
   }
 }
 function __c90(j: number): any {
@@ -8347,97 +8346,98 @@ function __c90(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parentDatabaseDeployment: S.optional(__S(2868, __c89, 20)),
-          allocatedStorageBytes: S.optional(S.String),
-          schemas: S.optional(__S(2879, __c89, 31)),
-          databaseName: S.optional(S.String),
+          location: S.optional(__S(2878, __c89, 30)),
+          createTime: S.optional(S.String),
+          displayName: S.optional(S.String),
+          originalId: S.optional(S.String),
+          aws: S.optional(__S(2879, __c89, 31)),
         }),
-      ).annotate({ identifier: "DatabaseDetails" });
+      ).annotate({ identifier: "HostingProviderDetails" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          totalBytes: S.optional(S.String),
+          networkAdapters: S.optional(__S(2825, __c88, 9)),
+          primaryIpAddress: S.optional(S.String),
+          publicIpAddress: S.optional(S.String),
+          defaultGw: S.optional(S.String),
+          primaryMacAddress: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "VirtualMachineNetworkDetails" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          bios: S.optional(__S(2827, __c88, 11)),
+          firmware: S.optional(S.String),
+          hyperthreading: S.optional(S.String),
+          cpuManufacturer: S.optional(S.String),
+          cpuArchitecture: S.optional(S.String),
+          cpuThreadCount: S.optional(S.Number),
+          vendor: S.optional(S.String),
+          cpuName: S.optional(S.String),
+          cpuSocketCount: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "VirtualMachineArchitectureDetails" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          hddTotalCapacityBytes: S.optional(S.String),
+          disks: S.optional(__S(2862, __c89, 14)),
+          lsblkJson: S.optional(S.String),
+          hddTotalFreeBytes: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "VirtualMachineDiskDetails" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          vmNetwork: S.optional(__S(2881, __c90, 1)),
+          vcenterUrl: S.optional(S.String),
+          diskPartitions: S.optional(__S(2819, __c88, 3)),
+          vmUuid: S.optional(S.String),
+          vmName: S.optional(S.String),
+          memoryMb: S.optional(S.Number),
+          vmArchitecture: S.optional(__S(2882, __c90, 2)),
+          createTime: S.optional(S.String),
+          osName: S.optional(S.String),
+          platform: S.optional(__S(2815, __c87, 31)),
+          coreCount: S.optional(S.Number),
+          vmDisks: S.optional(__S(2883, __c90, 3)),
+          osVersion: S.optional(S.String),
+          guestOs: S.optional(__S(2859, __c89, 11)),
+          powerState: S.optional(S.String),
+          vcenterFolder: S.optional(S.String),
+          osFamily: S.optional(S.String),
+          vcenterVmId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "VirtualMachineDetails" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
           type: S.optional(S.String),
+          totalBytes: S.optional(S.String),
         }),
       ).annotate({ identifier: "AwsS3BucketDetailsStorageClass" });
-    case 2:
-      return S.Array(__S(2881, __c90, 1));
-    case 3:
+    case 6:
+      return S.Array(__S(2885, __c90, 5));
+    case 7:
       return S.suspend(() =>
         S.Struct({
           enabled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "AwsS3BucketDetailsVersioning" });
-    case 4:
+    case 8:
       return S.suspend(() =>
         S.Struct({
           totalObjects: S.optional(__S(2016, __c63, 0)),
         }),
       ).annotate({ identifier: "AwsS3BucketDetailsObjectsMetadata" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          storageClasses: S.optional(__S(2882, __c90, 2)),
-          versioning: S.optional(__S(2883, __c90, 3)),
-          objectsMetadata: S.optional(__S(2884, __c90, 4)),
-        }),
-      ).annotate({ identifier: "AwsS3BucketDetails" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          disks: S.optional(__S(2859, __c89, 11)),
-          lsblkJson: S.optional(S.String),
-          hddTotalCapacityBytes: S.optional(S.String),
-          hddTotalFreeBytes: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "VirtualMachineDiskDetails" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          cpuName: S.optional(S.String),
-          bios: S.optional(__S(2855, __c89, 7)),
-          cpuThreadCount: S.optional(S.Number),
-          firmware: S.optional(S.String),
-          vendor: S.optional(S.String),
-          cpuArchitecture: S.optional(S.String),
-          cpuManufacturer: S.optional(S.String),
-          cpuSocketCount: S.optional(S.Number),
-          hyperthreading: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "VirtualMachineArchitectureDetails" });
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          defaultGw: S.optional(S.String),
-          primaryMacAddress: S.optional(S.String),
-          networkAdapters: S.optional(__S(2849, __c89, 1)),
-          primaryIpAddress: S.optional(S.String),
-          publicIpAddress: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "VirtualMachineNetworkDetails" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          vcenterUrl: S.optional(S.String),
-          vmDisks: S.optional(__S(2886, __c90, 6)),
-          coreCount: S.optional(S.Number),
-          guestOs: S.optional(__S(2843, __c88, 27)),
-          vcenterVmId: S.optional(S.String),
-          platform: S.optional(__S(2866, __c89, 18)),
-          memoryMb: S.optional(S.Number),
-          vmArchitecture: S.optional(__S(2887, __c90, 7)),
-          osFamily: S.optional(S.String),
-          osVersion: S.optional(S.String),
-          diskPartitions: S.optional(__S(2854, __c89, 6)),
-          vmNetwork: S.optional(__S(2888, __c90, 8)),
-          osName: S.optional(S.String),
-          powerState: S.optional(S.String),
-          vcenterFolder: S.optional(S.String),
-          vmName: S.optional(S.String),
-          createTime: S.optional(S.String),
-          vmUuid: S.optional(S.String),
+          storageClasses: S.optional(__S(2886, __c90, 6)),
+          versioning: S.optional(__S(2887, __c90, 7)),
+          objectsMetadata: S.optional(__S(2888, __c90, 8)),
         }),
-      ).annotate({ identifier: "VirtualMachineDetails" });
+      ).annotate({ identifier: "AwsS3BucketDetails" });
   }
 }
 function __c91(j: number): any {
@@ -8445,41 +8445,41 @@ function __c91(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          ninteyFifthPercentile: S.optional(S.Number),
-          average: S.optional(S.Number),
           peak: S.optional(S.Number),
+          average: S.optional(S.Number),
           median: S.optional(S.Number),
+          ninteyFifthPercentile: S.optional(S.Number),
         }),
       ).annotate({ identifier: "DailyResourceUsageAggregationStats" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          utilizationPercentage: S.optional(__S(2912, __c91, 0)),
-        }),
-      ).annotate({ identifier: "DailyResourceUsageAggregationCPU" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          iops: S.optional(__S(2912, __c91, 0)),
           readIops: S.optional(__S(2912, __c91, 0)),
+          iops: S.optional(__S(2912, __c91, 0)),
           writeIops: S.optional(__S(2912, __c91, 0)),
         }),
       ).annotate({ identifier: "DailyResourceUsageAggregationDisk" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          utilizationPercentage: S.optional(__S(2912, __c91, 0)),
+        }),
+      ).annotate({ identifier: "DailyResourceUsageAggregationCPU" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          ingressBps: S.optional(__S(2912, __c91, 0)),
           egressBps: S.optional(__S(2912, __c91, 0)),
+          ingressBps: S.optional(__S(2912, __c91, 0)),
         }),
       ).annotate({ identifier: "DailyResourceUsageAggregationNetwork" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          cpu: S.optional(__S(2913, __c91, 1)),
-          date: S.optional(__S(2838, __c88, 22)),
-          disk: S.optional(__S(2914, __c91, 2)),
-          memory: S.optional(__S(2913, __c91, 1)),
+          date: S.optional(__S(2809, __c87, 25)),
+          disk: S.optional(__S(2913, __c91, 1)),
+          cpu: S.optional(__S(2914, __c91, 2)),
           network: S.optional(__S(2915, __c91, 3)),
+          memory: S.optional(__S(2914, __c91, 2)),
         }),
       ).annotate({ identifier: "DailyResourceUsageAggregation" });
     case 5:
@@ -8493,8 +8493,8 @@ function __c91(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          softwareFamily: S.optional(S.String),
           softwareName: S.optional(S.String),
+          softwareFamily: S.optional(S.String),
         }),
       ).annotate({ identifier: "DetectedSoftware" });
     case 8:
@@ -8506,16 +8506,14 @@ function __c91(j: number): any {
     case 9:
       return S.suspend(() =>
         S.Struct({
-          defaultMessage: S.optional(S.String),
-          messageId: S.optional(S.String),
-          additionalInformation: S.optional(__S(1344, __c42, 0)),
+          fitLevel: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GenericInsight" });
+      ).annotate({ identifier: "FitDescriptor" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          sizeGb: S.optional(S.Number),
           type: S.optional(S.String),
+          sizeGb: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ComputeStorageDescriptor" });
     case 11:
@@ -8523,13 +8521,13 @@ function __c91(j: number): any {
     case 12:
       return S.suspend(() =>
         S.Struct({
-          machineType: S.optional(S.String),
-          logicalCoreCount: S.optional(S.Number),
           physicalCoreCount: S.optional(S.Number),
-          smtEnabled: S.optional(S.Boolean),
-          storage: S.optional(__S(2923, __c91, 11)),
           series: S.optional(S.String),
           memoryMb: S.optional(S.Number),
+          logicalCoreCount: S.optional(S.Number),
+          smtEnabled: S.optional(S.Boolean),
+          machineType: S.optional(S.String),
+          storage: S.optional(__S(2923, __c91, 11)),
         }),
       ).annotate({ identifier: "ComputeEngineShapeDescriptor" });
     case 13:
@@ -8541,94 +8539,96 @@ function __c91(j: number): any {
     case 14:
       return S.suspend(() =>
         S.Struct({
-          fitLevel: S.optional(S.String),
+          associatedObjectType: S.optional(S.String),
+          associatedObject: S.optional(S.String),
+          associatedValue: S.optional(S.String),
+          category: S.optional(S.String),
         }),
-      ).annotate({ identifier: "FitDescriptor" });
+      ).annotate({ identifier: "IssueCompatibilityIssue" });
     case 15:
       return S.suspend(() =>
         S.Struct({
-          associatedObject: S.optional(S.String),
-          category: S.optional(S.String),
-          associatedObjectType: S.optional(S.String),
-          associatedValue: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "IssueCompatibilityIssue" });
-    case 16:
-      return S.suspend(() =>
-        S.Struct({
           issueCode: S.optional(S.String),
-          compatibilityIssue: S.optional(__S(2927, __c91, 15)),
+          compatibilityIssue: S.optional(__S(2926, __c91, 14)),
           description: S.optional(S.String),
         }),
       ).annotate({ identifier: "Issue" });
+    case 16:
+      return S.Array(__S(2927, __c91, 15));
     case 17:
-      return S.Array(__S(2928, __c91, 16));
-    case 18:
       return S.suspend(() =>
         S.Struct({
-          version: S.optional(S.String),
-          egressGbPerMonth: S.optional(S.String),
-          zoneAvailability: S.optional(S.String),
           memoryMb: S.optional(S.Number),
-          storage: S.optional(__S(2922, __c91, 10)),
-          logicalCoreCount: S.optional(S.Number),
           backupStorageGb: S.optional(S.Number),
+          egressGbPerMonth: S.optional(S.String),
+          storage: S.optional(__S(2922, __c91, 10)),
+          zoneAvailability: S.optional(S.String),
+          version: S.optional(S.String),
+          logicalCoreCount: S.optional(S.Number),
           edition: S.optional(S.String),
         }),
       ).annotate({ identifier: "CloudSqlForPostgreSqlShape" });
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          storage: S.optional(__S(2922, __c91, 10)),
+          edition: S.optional(S.String),
+          version: S.optional(S.String),
+          smtEnabled: S.optional(S.Boolean),
+          zoneAvailability: S.optional(S.String),
+          memoryMb: S.optional(S.Number),
+          logicalCoreCount: S.optional(S.Number),
+          backupStorageGb: S.optional(S.Number),
+          egressGbPerMonth: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CloudSqlForSqlServerShape" });
     case 19:
       return S.suspend(() =>
         S.Struct({
-          edition: S.optional(S.String),
-          egressGbPerMonth: S.optional(S.String),
-          smtEnabled: S.optional(S.Boolean),
-          version: S.optional(S.String),
           memoryMb: S.optional(S.Number),
-          logicalCoreCount: S.optional(S.Number),
-          storage: S.optional(__S(2922, __c91, 10)),
           backupStorageGb: S.optional(S.Number),
+          egressGbPerMonth: S.optional(S.String),
+          storage: S.optional(__S(2922, __c91, 10)),
+          logicalCoreCount: S.optional(S.Number),
+          version: S.optional(S.String),
+          edition: S.optional(S.String),
           zoneAvailability: S.optional(S.String),
         }),
-      ).annotate({ identifier: "CloudSqlForSqlServerShape" });
+      ).annotate({ identifier: "CloudSqlForMySqlShape" });
     case 20:
       return S.suspend(() =>
         S.Struct({
-          memoryMb: S.optional(S.Number),
-          logicalCoreCount: S.optional(S.Number),
-          backupStorageGb: S.optional(S.Number),
-          version: S.optional(S.String),
-          edition: S.optional(S.String),
-          zoneAvailability: S.optional(S.String),
-          storage: S.optional(__S(2922, __c91, 10)),
-          egressGbPerMonth: S.optional(S.String),
+          cloudSqlForPostgresqlShape: S.optional(__S(2929, __c91, 17)),
+          cloudSqlShape: S.optional(__S(2930, __c91, 18)),
+          cloudSqlForMysqlShape: S.optional(__S(2931, __c91, 19)),
         }),
-      ).annotate({ identifier: "CloudSqlForMySqlShape" });
+      ).annotate({ identifier: "CloudDatabaseMigrationTarget" });
     case 21:
       return S.suspend(() =>
         S.Struct({
-          cloudSqlForPostgresqlShape: S.optional(__S(2930, __c91, 18)),
-          cloudSqlShape: S.optional(__S(2931, __c91, 19)),
-          cloudSqlForMysqlShape: S.optional(__S(2932, __c91, 20)),
+          fit: S.optional(__S(2921, __c91, 9)),
+          vmwareEngineTarget: S.optional(__S(1984, __c62, 0)),
+          computeEngineTarget: S.optional(__S(2925, __c91, 13)),
+          issues: S.optional(__S(2928, __c91, 16)),
+          computeEngineSoleTenantTarget: S.optional(__S(1984, __c62, 0)),
+          cloudDatabaseTarget: S.optional(__S(2932, __c91, 20)),
+          gkeTarget: S.optional(__S(1984, __c62, 0)),
         }),
-      ).annotate({ identifier: "CloudDatabaseMigrationTarget" });
+      ).annotate({ identifier: "MigrationInsight" });
     case 22:
       return S.suspend(() =>
         S.Struct({
-          vmwareEngineTarget: S.optional(__S(1984, __c62, 0)),
-          computeEngineTarget: S.optional(__S(2925, __c91, 13)),
-          gkeTarget: S.optional(__S(1984, __c62, 0)),
-          fit: S.optional(__S(2926, __c91, 14)),
-          issues: S.optional(__S(2929, __c91, 17)),
-          cloudDatabaseTarget: S.optional(__S(2933, __c91, 21)),
-          computeEngineSoleTenantTarget: S.optional(__S(1984, __c62, 0)),
+          additionalInformation: S.optional(__S(1344, __c42, 0)),
+          defaultMessage: S.optional(S.String),
+          messageId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "MigrationInsight" });
+      ).annotate({ identifier: "GenericInsight" });
     case 23:
       return S.suspend(() =>
         S.Struct({
           softwareInsight: S.optional(__S(2920, __c91, 8)),
-          genericInsight: S.optional(__S(2921, __c91, 9)),
-          migrationInsight: S.optional(__S(2934, __c91, 22)),
+          migrationInsight: S.optional(__S(2933, __c91, 21)),
+          genericInsight: S.optional(__S(2934, __c91, 22)),
         }),
       ).annotate({ identifier: "Insight" });
     case 24:
@@ -8636,61 +8636,61 @@ function __c91(j: number): any {
     case 25:
       return S.suspend(() =>
         S.Struct({
-          updateTime: S.optional(S.String),
           insights: S.optional(__S(2936, __c91, 24)),
+          updateTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "InsightList" });
     case 26:
       return S.suspend(() =>
         S.Struct({
-          awsSnsTopicDetails: S.optional(__S(1984, __c62, 0)),
-          hostingProviderDetails: S.optional(__S(2786, __c87, 2)),
-          awsAutoscalingGroupDetails: S.optional(__S(1984, __c62, 0)),
           title: S.optional(S.String),
-          name: S.optional(S.String),
-          awsDynamodbTableDetails: S.optional(__S(1984, __c62, 0)),
-          awsNatGatewayDetails: S.optional(__S(1984, __c62, 0)),
-          databaseDeploymentDetails: S.optional(__S(2811, __c87, 27)),
-          awsGlueJobDetails: S.optional(__S(1984, __c62, 0)),
-          awsRoute53HostedZoneDetails: S.optional(__S(1984, __c62, 0)),
-          awsFirehoseDetails: S.optional(__S(1984, __c62, 0)),
-          awsAthenaWorkGroupDetails: S.optional(__S(1984, __c62, 0)),
-          awsInternetGatewayDetails: S.optional(__S(1984, __c62, 0)),
-          hidden: S.optional(S.Boolean),
           awsElasticacheClusterDetails: S.optional(__S(1984, __c62, 0)),
-          structuredAttributes: S.optional(__S(1408, __c44, 0)),
-          hideReason: S.optional(S.String),
-          createTime: S.optional(S.String),
-          awsLambdaFunctionDetails: S.optional(__S(1984, __c62, 0)),
-          machineDetails: S.optional(__S(2867, __c89, 19)),
-          databaseDetails: S.optional(__S(2880, __c90, 0)),
-          labels: S.optional(__S(2048, __c64, 0)),
-          assignedGroups: S.optional(__S(1344, __c42, 0)),
-          awsElbLoadBalancerDetails: S.optional(__S(1984, __c62, 0)),
-          awsAppSyncGraphqlApiDetails: S.optional(__S(1984, __c62, 0)),
-          awsEbsVolumeDetails: S.optional(__S(1984, __c62, 0)),
-          awsEksClusterDetails: S.optional(__S(1984, __c62, 0)),
-          attributes: S.optional(__S(2048, __c64, 0)),
-          awsKinesisStreamDetails: S.optional(__S(1984, __c62, 0)),
-          hideTime: S.optional(S.String),
-          awsS3BucketDetails: S.optional(__S(2885, __c90, 5)),
-          awsEcsClusterDetails: S.optional(__S(1984, __c62, 0)),
-          awsCloudFrontDistributionDetails: S.optional(__S(1984, __c62, 0)),
-          awsEmrClusterDetails: S.optional(__S(1984, __c62, 0)),
-          awsApplicationLoadBalancerDetails: S.optional(__S(1984, __c62, 0)),
-          awsApiGatewayRestApiDetails: S.optional(__S(1984, __c62, 0)),
           sources: S.optional(__S(1344, __c42, 0)),
-          awsBatchComputeEnvironmentDetails: S.optional(__S(1984, __c62, 0)),
-          performanceData: S.optional(__S(2918, __c91, 6)),
-          awsElasticNetworkInterfaceDetails: S.optional(__S(1984, __c62, 0)),
-          awsRedshiftDetails: S.optional(__S(1984, __c62, 0)),
-          awsVpcDetails: S.optional(__S(1984, __c62, 0)),
-          awsEfsFileSystemDetails: S.optional(__S(1984, __c62, 0)),
-          updateTime: S.optional(S.String),
-          insightList: S.optional(__S(2937, __c91, 25)),
-          awsEcrRepositoryDetails: S.optional(__S(1984, __c62, 0)),
           awsElasticIpAddressDetails: S.optional(__S(1984, __c62, 0)),
-          virtualMachineDetails: S.optional(__S(2889, __c90, 9)),
+          databaseDeploymentDetails: S.optional(__S(2808, __c87, 24)),
+          updateTime: S.optional(S.String),
+          awsElbLoadBalancerDetails: S.optional(__S(1984, __c62, 0)),
+          awsEcsClusterDetails: S.optional(__S(1984, __c62, 0)),
+          name: S.optional(S.String),
+          awsRoute53HostedZoneDetails: S.optional(__S(1984, __c62, 0)),
+          hidden: S.optional(S.Boolean),
+          attributes: S.optional(__S(2048, __c64, 0)),
+          performanceData: S.optional(__S(2918, __c91, 6)),
+          awsAppSyncGraphqlApiDetails: S.optional(__S(1984, __c62, 0)),
+          awsApiGatewayRestApiDetails: S.optional(__S(1984, __c62, 0)),
+          awsElasticNetworkInterfaceDetails: S.optional(__S(1984, __c62, 0)),
+          awsInternetGatewayDetails: S.optional(__S(1984, __c62, 0)),
+          awsDynamodbTableDetails: S.optional(__S(1984, __c62, 0)),
+          structuredAttributes: S.optional(__S(1408, __c44, 0)),
+          awsEmrClusterDetails: S.optional(__S(1984, __c62, 0)),
+          awsAthenaWorkGroupDetails: S.optional(__S(1984, __c62, 0)),
+          labels: S.optional(__S(2048, __c64, 0)),
+          awsFirehoseDetails: S.optional(__S(1984, __c62, 0)),
+          awsRedshiftDetails: S.optional(__S(1984, __c62, 0)),
+          machineDetails: S.optional(__S(2864, __c89, 16)),
+          awsLambdaFunctionDetails: S.optional(__S(1984, __c62, 0)),
+          hideReason: S.optional(S.String),
+          awsApplicationLoadBalancerDetails: S.optional(__S(1984, __c62, 0)),
+          awsSnsTopicDetails: S.optional(__S(1984, __c62, 0)),
+          awsKinesisStreamDetails: S.optional(__S(1984, __c62, 0)),
+          awsEbsVolumeDetails: S.optional(__S(1984, __c62, 0)),
+          databaseDetails: S.optional(__S(2877, __c89, 29)),
+          awsEcrRepositoryDetails: S.optional(__S(1984, __c62, 0)),
+          hideTime: S.optional(S.String),
+          awsEfsFileSystemDetails: S.optional(__S(1984, __c62, 0)),
+          hostingProviderDetails: S.optional(__S(2880, __c90, 0)),
+          createTime: S.optional(S.String),
+          virtualMachineDetails: S.optional(__S(2884, __c90, 4)),
+          awsCloudFrontDistributionDetails: S.optional(__S(1984, __c62, 0)),
+          awsS3BucketDetails: S.optional(__S(2889, __c90, 9)),
+          awsBatchComputeEnvironmentDetails: S.optional(__S(1984, __c62, 0)),
+          awsEksClusterDetails: S.optional(__S(1984, __c62, 0)),
+          awsVpcDetails: S.optional(__S(1984, __c62, 0)),
+          awsNatGatewayDetails: S.optional(__S(1984, __c62, 0)),
+          insightList: S.optional(__S(2937, __c91, 25)),
+          awsGlueJobDetails: S.optional(__S(1984, __c62, 0)),
+          awsAutoscalingGroupDetails: S.optional(__S(1984, __c62, 0)),
+          assignedGroups: S.optional(__S(1344, __c42, 0)),
         }),
       ).annotate({ identifier: "Asset" });
   }
@@ -8801,9 +8801,9 @@ function __c98(j: number): any {
         S.Extend(
           __S(1824, __c57, 0),
           S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            requestId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -8882,12 +8882,14 @@ function __c102(j: number): any {
         }),
       ).annotate({ identifier: "SignedUri" });
     case 1:
+      return S.Array(__S(3264, __c102, 0));
+    case 2:
       return S.suspend(() =>
         S.Struct({
-          signedUri: S.optional(__S(3264, __c102, 0)),
+          signedUris: S.optional(__S(3265, __c102, 1)),
         }),
-      ).annotate({ identifier: "XlsxOutputFile" });
-    case 2:
+      ).annotate({ identifier: "SignedUris" });
+    case 3:
       return S.suspend(() =>
         S.Struct({
           columnsCount: S.optional(S.Number),
@@ -8895,30 +8897,28 @@ function __c102(j: number): any {
           signedUri: S.optional(__S(3264, __c102, 0)),
         }),
       ).annotate({ identifier: "CsvOutputFile" });
-    case 3:
+    case 4:
       return S.suspend(() =>
         S.Struct({
-          xlsxOutputFile: S.optional(__S(3265, __c102, 1)),
-          csvOutputFile: S.optional(__S(3266, __c102, 2)),
-          fileSizeBytes: S.optional(S.String),
+          signedUri: S.optional(__S(3264, __c102, 0)),
         }),
-      ).annotate({ identifier: "OutputFile" });
-    case 4:
-      return S.Array(__S(3267, __c102, 3));
+      ).annotate({ identifier: "XlsxOutputFile" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          entries: S.optional(__S(3268, __c102, 4)),
+          csvOutputFile: S.optional(__S(3267, __c102, 3)),
+          xlsxOutputFile: S.optional(__S(3268, __c102, 4)),
+          fileSizeBytes: S.optional(S.String),
         }),
-      ).annotate({ identifier: "OutputFileList" });
+      ).annotate({ identifier: "OutputFile" });
     case 6:
-      return S.Array(__S(3264, __c102, 0));
+      return S.Array(__S(3269, __c102, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          signedUris: S.optional(__S(3270, __c102, 6)),
+          entries: S.optional(__S(3270, __c102, 6)),
         }),
-      ).annotate({ identifier: "SignedUris" });
+      ).annotate({ identifier: "OutputFileList" });
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -8932,50 +8932,50 @@ function __c103(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          error: S.optional(__S(1441, __c45, 1)),
-          outputFiles: S.optional(__S(3269, __c102, 5)),
-          signedUris: S.optional(__S(3271, __c102, 7)),
+          maxDays: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "AssetsExportJobExecutionResult" });
+      ).annotate({ identifier: "AssetsExportJobPerformanceData" });
     case 1:
-      return S.suspend(() =>
-        S.Struct({
-          result: S.optional(__S(3296, __c103, 0)),
-          executionId: S.optional(S.String),
-          endTime: S.optional(S.String),
-          expireTime: S.optional(S.String),
-          startTime: S.optional(S.String),
-          requestedAssetCount: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "AssetsExportJobExecution" });
-    case 2:
-      return S.Array(__S(3297, __c103, 1));
-    case 3:
       return S.suspend(() =>
         S.Struct({
           filter: S.optional(S.String),
         }),
       ).annotate({ identifier: "AssetsExportJobExportCondition" });
-    case 4:
+    case 2:
       return S.suspend(() =>
         S.Struct({
-          maxDays: S.optional(S.Number),
+          signedUris: S.optional(__S(3266, __c102, 2)),
+          outputFiles: S.optional(__S(3271, __c102, 7)),
+          error: S.optional(__S(1441, __c45, 1)),
         }),
-      ).annotate({ identifier: "AssetsExportJobPerformanceData" });
+      ).annotate({ identifier: "AssetsExportJobExecutionResult" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          expireTime: S.optional(S.String),
+          executionId: S.optional(S.String),
+          result: S.optional(__S(3298, __c103, 2)),
+          startTime: S.optional(S.String),
+          endTime: S.optional(S.String),
+          requestedAssetCount: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "AssetsExportJobExecution" });
+    case 4:
+      return S.Array(__S(3299, __c103, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          inventory: S.optional(__S(1984, __c62, 0)),
-          labels: S.optional(__S(2048, __c64, 0)),
-          createTime: S.optional(S.String),
-          recentExecutions: S.optional(__S(3298, __c103, 2)),
-          updateTime: S.optional(S.String),
-          condition: S.optional(__S(3299, __c103, 3)),
-          networkDependencies: S.optional(__S(1984, __c62, 0)),
           name: S.optional(S.String),
-          signedUriDestination: S.optional(__S(3272, __c102, 8)),
-          performanceData: S.optional(__S(3300, __c103, 4)),
+          networkDependencies: S.optional(__S(1984, __c62, 0)),
+          labels: S.optional(__S(2048, __c64, 0)),
+          performanceData: S.optional(__S(3296, __c103, 0)),
+          condition: S.optional(__S(3297, __c103, 1)),
+          recentExecutions: S.optional(__S(3300, __c103, 4)),
+          createTime: S.optional(S.String),
           showHidden: S.optional(S.Boolean),
+          inventory: S.optional(__S(1984, __c62, 0)),
+          signedUriDestination: S.optional(__S(3272, __c102, 8)),
+          updateTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "AssetsExportJob" });
   }

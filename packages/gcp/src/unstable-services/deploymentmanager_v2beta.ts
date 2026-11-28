@@ -94,73 +94,80 @@ export interface CancelPreviewDeploymentsRequest extends DeploymentsCancelPrevie
   /** The project ID for this request. */
   project: string;
 }
+export type SetCommonInstanceMetadataOperationMetadataPerLocationOperationInfoStateEnum =
+  | "UNSPECIFIED"
+  | "PROPAGATING"
+  | "PROPAGATED"
+  | "ABANDONED"
+  | "FAILED"
+  | "DONE";
 export type DocumentMap = { [key: string]: unknown | undefined };
-export interface OperationDetails {
-  /** Human or AI readable details on execution of the operation. */
+export type DocumentMapList = Array<DocumentMap>;
+/** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
+export interface Status {
+  /** The status code, which should be an enum value of google.rpc.Code. */
+  code?: number | undefined;
+  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
   message?: string | undefined;
-  /** Machine readable data from the message. */
-  data?: DocumentMap | undefined;
+  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
+  details?: DocumentMapList | undefined;
 }
-export type OperationStatusEnum = "PENDING" | "RUNNING" | "DONE";
-/** [Output Only] Operation metadata for agentConversations.sendMessage. It holds no message content, because anyone with compute.regionOperations.get on the project can read the operation; the reply stays in the owner-only conversation. */
-export interface AgentConversationsSendMessageOperationMetadata {
-  /** Output only. [Output Only] URL of the conversation. Pass it as agentConversation to later sendMessage calls to continue the conversation. */
-  conversation?: string | undefined;
-  /** Output only. [Output Only] Link that opens the conversation in the Google Cloud console. */
-  consoleUri?: string | undefined;
+export interface SetCommonInstanceMetadataOperationMetadataPerLocationOperationInfo {
+  /** [Output Only] Status of the action, which can be one of the following: `PROPAGATING`, `PROPAGATED`, `ABANDONED`, `FAILED`, or `DONE`. */
+  state?:
+    | SetCommonInstanceMetadataOperationMetadataPerLocationOperationInfoStateEnum
+    | (string & {})
+    | undefined;
+  /** [Output Only] If state is `ABANDONED` or `FAILED`, this field is populated. */
+  error?: Status | undefined;
+}
+export type SetCommonInstanceMetadataOperationMetadataPerLocationOperationInfoMap = {
+  [key: string]: SetCommonInstanceMetadataOperationMetadataPerLocationOperationInfo | undefined;
+};
+export interface SetCommonInstanceMetadataOperationMetadata {
+  /** [Output Only] Status information per location (location name is key). Example key: zones/us-central1-a */
+  perLocationOperations?:
+    | SetCommonInstanceMetadataOperationMetadataPerLocationOperationInfoMap
+    | undefined;
+  /** [Output Only] The client operation id. */
+  clientOperationId?: string | undefined;
 }
 /** [Output Only] Operation metadata for microVms.export. */
 export interface MicroVmsExportOperationMetadata {
-  /** Output only. [Output Only] SHA-256 hex digest of the exported archive. */
-  archiveSha256?: string | undefined;
-  /** Output only. [Output Only] Total bytes transferred to Cloud Storage. */
-  bytesTransferred?: string | undefined;
   /** Output only. [Output Only] Target Cloud Storage bucket name. */
   bucketName?: string | undefined;
-  /** Output only. [Output Only] Total files archived. */
-  filesTransferred?: string | undefined;
+  /** Output only. [Output Only] SHA-256 hex digest of the exported archive. */
+  archiveSha256?: string | undefined;
   /** Output only. [Output Only] Target Cloud Storage object name or prefix. */
   objectName?: string | undefined;
+  /** Output only. [Output Only] Total bytes transferred to Cloud Storage. */
+  bytesTransferred?: string | undefined;
+  /** Output only. [Output Only] Total files archived. */
+  filesTransferred?: string | undefined;
 }
 export type StringMap = { [key: string]: string | undefined };
-/** Describes the cause of the error with structured details. Example of an error when contacting the "pubsub.googleapis.com" API when it is not enabled: { "reason": "API_DISABLED" "domain": "googleapis.com" "metadata": { "resource": "projects/123", "service": "pubsub.googleapis.com" } } This response indicates that the pubsub.googleapis.com API is not enabled. Example of an error that is returned when attempting to create a Spanner instance in a region that is out of stock: { "reason": "STOCKOUT" "domain": "spanner.googleapis.com", "metadata": { "availableRegions": "us-central1,us-east2" } } */
-export interface ErrorInfo {
-  /** Additional structured details about this error. Keys must match a regular expression of `a-z+` but should ideally be lowerCamelCase. Also, they must be limited to 64 characters in length. When identifying the current value of an exceeded limit, the units should be contained in the key, not the value. For example, rather than `{"instanceLimit": "100/request"}`, should be returned as, `{"instanceLimitPerRequest": "100"}`, if the client exceeds the number of instances that can be created in a single (batch) request. */
-  metadatas?: StringMap | undefined;
-  /** The reason of the error. This is a constant value that identifies the proximate cause of the error. Error reasons are unique within a particular domain of errors. This should be at most 63 characters and match a regular expression of `A-Z+[A-Z0-9]`, which represents UPPER_SNAKE_CASE. */
-  reason?: string | undefined;
-  /** The logical grouping to which the "reason" belongs. The error domain is typically the registered service name of the tool or product that generates the error. Example: "pubsub.googleapis.com". If the error is generated by some common infrastructure, the error domain must be a globally unique value that identifies the infrastructure. For Google API infrastructure, the error domain is "googleapis.com". */
-  domain?: string | undefined;
-}
 export type QuotaExceededInfoRolloutStatusEnum = "ROLLOUT_STATUS_UNSPECIFIED" | "IN_PROGRESS";
 /** Additional details for quota exceeded error for resource quota. */
 export interface QuotaExceededInfo {
   /** The Compute Engine quota metric name. */
   metricName?: string | undefined;
-  /** The map holding related quota dimensions. */
-  dimensions?: StringMap | undefined;
-  /** Current effective quota limit. The limit's unit depends on the quota type or metric. */
-  limit?: number | undefined;
-  /** Rollout status of the future quota limit. */
-  rolloutStatus?: QuotaExceededInfoRolloutStatusEnum | (string & {}) | undefined;
-  /** Future quota limit being rolled out. The limit's unit depends on the quota type or metric. */
-  futureLimit?: number | undefined;
   /** The name of the quota limit. */
   limitName?: string | undefined;
-}
-/** Provides a localized error message that is safe to return to the user which can be attached to an RPC error. */
-export interface LocalizedMessage {
-  /** The locale used following the specification defined at https://www.rfc-editor.org/rfc/bcp/bcp47.txt. Examples are: "en-US", "fr-CH", "es-MX" */
-  locale?: string | undefined;
-  /** The localized error message in the above locale. */
-  message?: string | undefined;
+  /** Future quota limit being rolled out. The limit's unit depends on the quota type or metric. */
+  futureLimit?: number | undefined;
+  /** The map holding related quota dimensions. */
+  dimensions?: StringMap | undefined;
+  /** Rollout status of the future quota limit. */
+  rolloutStatus?: QuotaExceededInfoRolloutStatusEnum | (string & {}) | undefined;
+  /** Current effective quota limit. The limit's unit depends on the quota type or metric. */
+  limit?: number | undefined;
 }
 /** Describes a URL link. */
 export interface HelpLink {
-  /** The URL of the link. */
-  url?: string | undefined;
   /** Describes what the link offers. */
   description?: string | undefined;
+  /** The URL of the link. */
+  url?: string | undefined;
 }
 export type HelpLinkList = Array<HelpLink>;
 /** Provides links to documentation or for performing an out of band action. For example, if a quota check failed with an error indicating the calling project hasn't enabled the accessed service, this can contain a URL pointing directly to the right place in the developer console to flip the bit. */
@@ -168,15 +175,31 @@ export interface Help {
   /** URL(s) pointing to additional information on handling the current error. */
   links?: HelpLinkList | undefined;
 }
+/** Provides a localized error message that is safe to return to the user which can be attached to an RPC error. */
+export interface LocalizedMessage {
+  /** The localized error message in the above locale. */
+  message?: string | undefined;
+  /** The locale used following the specification defined at https://www.rfc-editor.org/rfc/bcp/bcp47.txt. Examples are: "en-US", "fr-CH", "es-MX" */
+  locale?: string | undefined;
+}
+/** Describes the cause of the error with structured details. Example of an error when contacting the "pubsub.googleapis.com" API when it is not enabled: { "reason": "API_DISABLED" "domain": "googleapis.com" "metadata": { "resource": "projects/123", "service": "pubsub.googleapis.com" } } This response indicates that the pubsub.googleapis.com API is not enabled. Example of an error that is returned when attempting to create a Spanner instance in a region that is out of stock: { "reason": "STOCKOUT" "domain": "spanner.googleapis.com", "metadata": { "availableRegions": "us-central1,us-east2" } } */
+export interface ErrorInfo {
+  /** The logical grouping to which the "reason" belongs. The error domain is typically the registered service name of the tool or product that generates the error. Example: "pubsub.googleapis.com". If the error is generated by some common infrastructure, the error domain must be a globally unique value that identifies the infrastructure. For Google API infrastructure, the error domain is "googleapis.com". */
+  domain?: string | undefined;
+  /** Additional structured details about this error. Keys must match a regular expression of `a-z+` but should ideally be lowerCamelCase. Also, they must be limited to 64 characters in length. When identifying the current value of an exceeded limit, the units should be contained in the key, not the value. For example, rather than `{"instanceLimit": "100/request"}`, should be returned as, `{"instanceLimitPerRequest": "100"}`, if the client exceeds the number of instances that can be created in a single (batch) request. */
+  metadatas?: StringMap | undefined;
+  /** The reason of the error. This is a constant value that identifies the proximate cause of the error. Error reasons are unique within a particular domain of errors. This should be at most 63 characters and match a regular expression of `A-Z+[A-Z0-9]`, which represents UPPER_SNAKE_CASE. */
+  reason?: string | undefined;
+}
 export interface OperationErrorErrorsItemErrorDetailsItem {
-  /** Error information containing structured domain, reason, and metadata. */
-  errorInfo?: ErrorInfo | undefined;
   /** Details about quota limits and metrics when a quota is exceeded. */
   quotaInfo?: QuotaExceededInfo | undefined;
-  /** A localized human-readable error message intended for end users. */
-  localizedMessage?: LocalizedMessage | undefined;
   /** Links and information to help the user resolve the error. */
   help?: Help | undefined;
+  /** A localized human-readable error message intended for end users. */
+  localizedMessage?: LocalizedMessage | undefined;
+  /** Error information containing structured domain, reason, and metadata. */
+  errorInfo?: ErrorInfo | undefined;
 }
 export type OperationErrorErrorsItemErrorDetailsItemList =
   Array<OperationErrorErrorsItemErrorDetailsItem>;
@@ -189,44 +212,23 @@ export interface DebugInfo {
   detail?: string | undefined;
 }
 export interface OperationErrorErrorsItem {
+  /** [Output Only] The error type identifier for this error. */
+  code?: string | undefined;
   /** [Output Only] An optional, human-readable error message. */
   message?: string | undefined;
+  /** [Output Only] Indicates the field in the request that caused the error. This property is optional. */
+  location?: string | undefined;
   /** [Output Only] An optional list of messages that contain the error details. There is a set of defined message types to use for providing details.The syntax depends on the error code. For example, QuotaExceededInfo will have details when the error code is QUOTA_EXCEEDED. */
   errorDetails?: OperationErrorErrorsItemErrorDetailsItemList | undefined;
   /** Output only. [Output Only] Optional error details WARNING: DO NOT MAKE VISIBLE This is for internal use-only (like componentization) (thus the visibility "none") and in case of public exposure it is strongly recommended to follow pattern of: https://aip.dev/193 and expose as details field. */
   arguments?: StringList | undefined;
   /** Output only. [Output Only] Advanced debugging information with stack traces and other diagnostic details for the error. */
   debugInfo?: DebugInfo | undefined;
-  /** [Output Only] Indicates the field in the request that caused the error. This property is optional. */
-  location?: string | undefined;
-  /** [Output Only] The error type identifier for this error. */
-  code?: string | undefined;
 }
 export type OperationErrorErrorsItemList = Array<OperationErrorErrorsItem>;
 export interface OperationError {
   /** [Output Only] The array of errors encountered while processing this operation. */
   errors?: OperationErrorErrorsItemList | undefined;
-}
-export interface GetVersionOperationMetadataSbomInfo {
-  /** A mapping of components to their currently-applied versions or other appropriate identifiers. */
-  currentComponentVersions?: StringMap | undefined;
-  /** A mapping of components to their target versions or other appropriate identifiers. */
-  targetComponentVersions?: StringMap | undefined;
-}
-export interface GetVersionOperationMetadataHbomInfoComponentValues {
-  /** List of obfuscated hardware component identifiers. */
-  values?: StringList | undefined;
-}
-export type GetVersionOperationMetadataHbomInfoComponentValuesMap = {
-  [key: string]: GetVersionOperationMetadataHbomInfoComponentValues | undefined;
-};
-export interface GetVersionOperationMetadataHbomInfo {
-  /** A mapping of hardware sub-component categories to their component values. */
-  hardwareComponentInfo?: GetVersionOperationMetadataHbomInfoComponentValuesMap | undefined;
-}
-export interface GetVersionOperationMetadata {
-  inlineSbomInfo?: GetVersionOperationMetadataSbomInfo | undefined;
-  inlineHbomInfo?: GetVersionOperationMetadataHbomInfo | undefined;
 }
 export interface OperationWarningsItemDataItem {
   /** [Output Only] A key that provides more detail on the warning being returned. For example, for warnings where there are no results in a list request for a particular zone, this key might be scope and the key value might be the zone name. Other examples might be a key indicating a deprecated resource and a suggested replacement, or a warning about invalid network settings (for example, if an instance attempts to perform IP forwarding but is not enabled for IP forwarding). */
@@ -286,48 +288,24 @@ export interface OperationWarningsItem {
   message?: string | undefined;
 }
 export type OperationWarningsItemList = Array<OperationWarningsItem>;
-export type DocumentMapList = Array<DocumentMap>;
-/** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
-export interface Status {
-  /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number | undefined;
-  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList | undefined;
-  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string | undefined;
-}
-export type SetCommonInstanceMetadataOperationMetadataPerLocationOperationInfoStateEnum =
-  | "UNSPECIFIED"
-  | "PROPAGATING"
-  | "PROPAGATED"
-  | "ABANDONED"
-  | "FAILED"
-  | "DONE";
-export interface SetCommonInstanceMetadataOperationMetadataPerLocationOperationInfo {
-  /** [Output Only] If state is `ABANDONED` or `FAILED`, this field is populated. */
-  error?: Status | undefined;
-  /** [Output Only] Status of the action, which can be one of the following: `PROPAGATING`, `PROPAGATED`, `ABANDONED`, `FAILED`, or `DONE`. */
-  state?:
-    | SetCommonInstanceMetadataOperationMetadataPerLocationOperationInfoStateEnum
-    | (string & {})
-    | undefined;
-}
-export type SetCommonInstanceMetadataOperationMetadataPerLocationOperationInfoMap = {
-  [key: string]: SetCommonInstanceMetadataOperationMetadataPerLocationOperationInfo | undefined;
-};
-export interface SetCommonInstanceMetadataOperationMetadata {
-  /** [Output Only] The client operation id. */
-  clientOperationId?: string | undefined;
-  /** [Output Only] Status information per location (location name is key). Example key: zones/us-central1-a */
-  perLocationOperations?:
-    | SetCommonInstanceMetadataOperationMetadataPerLocationOperationInfoMap
-    | undefined;
-}
 /** Metadata for FirewallPolicyRule operations. */
 export interface FirewallPolicyRuleOperationMetadata {
   /** Output only. [Output Only] The priority allocated for the firewall policy rule if query parameters specified minPriority/maxPriority. */
   allocatedPriority?: number | undefined;
 }
+export interface OperationDetails {
+  /** Machine readable data from the message. */
+  data?: DocumentMap | undefined;
+  /** Human or AI readable details on execution of the operation. */
+  message?: string | undefined;
+}
+export interface SetAutoscalerLinkOperationMetadata {
+  /** Map of zone to an ID of the zonal IGM belonging to the RMIG. */
+  zoneToIgmIds?: StringMap | undefined;
+  /** List of zonal IGM IDs part of the RMIG. */
+  zonalIgmIds?: StringList | undefined;
+}
+export type OperationStatusEnum = "PENDING" | "RUNNING" | "DONE";
 export type BulkInsertOperationStatusStatusEnum =
   | "STATUS_UNSPECIFIED"
   | "CREATING"
@@ -335,18 +313,18 @@ export type BulkInsertOperationStatusStatusEnum =
   | "DONE"
   | "PENDING";
 export interface BulkInsertOperationStatus {
-  /** [Output Only] Count of VMs that got deleted during rollback. */
-  deletedVmCount?: number | undefined;
   /** [Output Only] Count of VMs originally planned to be created. */
   targetVmCount?: number | undefined;
-  /** Output only. [Output Only] The time when the scheduler expects capacity for this location. The field is set only while the status is PENDING. The value 9999-12-31T23:59:59.999999999Z means that the scheduler expects no capacity. The field is absent when the scheduler gives no estimate, and it is cleared when the status changes. */
-  estimatedAvailabilityTime?: string | undefined;
-  /** [Output Only] Count of VMs successfully created so far. */
-  createdVmCount?: number | undefined;
   /** [Output Only] Count of VMs that started creating but encountered an error. */
   failedToCreateVmCount?: number | undefined;
+  /** [Output Only] Count of VMs successfully created so far. */
+  createdVmCount?: number | undefined;
   /** [Output Only] Creation status of BulkInsert operation - information if the flow is rolling forward or rolling back. */
   status?: BulkInsertOperationStatusStatusEnum | (string & {}) | undefined;
+  /** [Output Only] Count of VMs that got deleted during rollback. */
+  deletedVmCount?: number | undefined;
+  /** Output only. [Output Only] The time when the scheduler expects capacity for this location. The field is set only while the status is PENDING. The value 9999-12-31T23:59:59.999999999Z means that the scheduler expects no capacity. The field is absent when the scheduler gives no estimate, and it is cleared when the status changes. */
+  estimatedAvailabilityTime?: string | undefined;
 }
 export type BulkInsertOperationStatusMap = { [key: string]: BulkInsertOperationStatus | undefined };
 export interface InstancesBulkInsertOperationMetadata {
@@ -354,6 +332,58 @@ export interface InstancesBulkInsertOperationMetadata {
   machineType?: string | undefined;
   /** Status information per location (location name is key). Example key: zones/us-central1-a */
   perLocationStatus?: BulkInsertOperationStatusMap | undefined;
+}
+export type GetHealthOperationMetadataHealthInfoHealthStatusEnum =
+  | "HEALTH_STATUS_UNSPECIFIED"
+  | "HEALTH_STATUS_HEALTHY"
+  | "HEALTH_STATUS_UNHEALTHY";
+export type GetHealthOperationMetadataHealthInfoAvailabilitySloStatusEnum =
+  | "AVAILABILITY_SLO_STATUS_UNSPECIFIED"
+  | "AVAILABILITY_SLO_STATUS_IN_SLO"
+  | "AVAILABILITY_SLO_STATUS_OUT_OF_SLO"
+  | "AVAILABILITY_SLO_STATUS_SLO_UNKNOWN";
+export type GetHealthOperationMetadataHealthInfoUnhealthyReasonEnum =
+  | "UNHEALTHY_REASON_UNSPECIFIED"
+  | "UNHEALTHY_REASON_REPAIRING"
+  | "UNHEALTHY_REASON_PENDING_USER_APPROVAL"
+  | "UNHEALTHY_REASON_UNSCHEDULABLE";
+export type GetHealthOperationMetadataHealthInfoRepairCategoryEnum =
+  | "REPAIR_CATEGORY_UNSPECIFIED"
+  | "REPAIR_CATEGORY_PLANNED_MAINTENANCE"
+  | "REPAIR_CATEGORY_EMERGENT_MAINTENANCE"
+  | "REPAIR_CATEGORY_USER_REPORTED_FAULT"
+  | "REPAIR_CATEGORY_CRITICAL_FAILURE";
+/** Health information. */
+export interface GetHealthOperationMetadataHealthInfo {
+  /** Output only. The health status. */
+  healthStatus?: GetHealthOperationMetadataHealthInfoHealthStatusEnum | (string & {}) | undefined;
+  /** Output only. The availability SLO status. */
+  availabilitySloStatus?:
+    | GetHealthOperationMetadataHealthInfoAvailabilitySloStatusEnum
+    | (string & {})
+    | undefined;
+  /** Output only. The time when health info was updated. */
+  updateTime?: string | undefined;
+  /** Output only. The reason for unhealthy status. */
+  unhealthyReason?:
+    | GetHealthOperationMetadataHealthInfoUnhealthyReasonEnum
+    | (string & {})
+    | undefined;
+  /** Output only. The repair category. */
+  repairCategory?:
+    | GetHealthOperationMetadataHealthInfoRepairCategoryEnum
+    | (string & {})
+    | undefined;
+}
+/** Metadata for GetHealth operations. */
+export interface GetHealthOperationMetadata {
+  /** Output only. The health information. */
+  healthInfo?: GetHealthOperationMetadataHealthInfo | undefined;
+}
+/** [Output Only] Operation metadata for instances.troubleshoot. */
+export interface InstancesTroubleshootOperationMetadata {
+  /** Output only. [Output Only] Serialized output of the troubleshooting diagnostic run. */
+  troubleshootOutput?: string | undefined;
 }
 export type MicroVmsImportOperationMetadataPhaseEnum =
   | "PHASE_UNSPECIFIED"
@@ -363,200 +393,146 @@ export type MicroVmsImportOperationMetadataPhaseEnum =
   | "BOOTING";
 /** [Output Only] Operation metadata for microVms.import. */
 export interface MicroVmsImportOperationMetadata {
-  /** Output only. [Output Only] Total bytes transferred from Cloud Storage. */
-  bytesTransferred?: string | undefined;
-  /** Output only. [Output Only] The current phase of the import operation. */
-  phase?: MicroVmsImportOperationMetadataPhaseEnum | (string & {}) | undefined;
-  /** Output only. [Output Only] Total files imported. */
-  filesTransferred?: string | undefined;
-  /** Output only. [Output Only] SHA-256 hex digest of the imported archive. */
-  archiveSha256?: string | undefined;
   /** Output only. [Output Only] Size of the source object in bytes. Unset for DIRECTORY_SYNC. */
   totalBytes?: string | undefined;
-  /** Output only. [Output Only] Source Cloud Storage object name or prefix. */
-  objectName?: string | undefined;
+  /** Output only. [Output Only] Total files imported. */
+  filesTransferred?: string | undefined;
+  /** Output only. [Output Only] The current phase of the import operation. */
+  phase?: MicroVmsImportOperationMetadataPhaseEnum | (string & {}) | undefined;
+  /** Output only. [Output Only] Total bytes transferred from Cloud Storage. */
+  bytesTransferred?: string | undefined;
+  /** Output only. [Output Only] SHA-256 hex digest of the imported archive. */
+  archiveSha256?: string | undefined;
   /** Output only. [Output Only] Source Cloud Storage bucket name. */
   bucketName?: string | undefined;
+  /** Output only. [Output Only] Source Cloud Storage object name or prefix. */
+  objectName?: string | undefined;
 }
-export type GetHealthOperationMetadataHealthInfoHealthStatusEnum =
-  | "HEALTH_STATUS_UNSPECIFIED"
-  | "HEALTH_STATUS_HEALTHY"
-  | "HEALTH_STATUS_UNHEALTHY";
-export type GetHealthOperationMetadataHealthInfoRepairCategoryEnum =
-  | "REPAIR_CATEGORY_UNSPECIFIED"
-  | "REPAIR_CATEGORY_PLANNED_MAINTENANCE"
-  | "REPAIR_CATEGORY_EMERGENT_MAINTENANCE"
-  | "REPAIR_CATEGORY_USER_REPORTED_FAULT"
-  | "REPAIR_CATEGORY_CRITICAL_FAILURE";
-export type GetHealthOperationMetadataHealthInfoUnhealthyReasonEnum =
-  | "UNHEALTHY_REASON_UNSPECIFIED"
-  | "UNHEALTHY_REASON_REPAIRING"
-  | "UNHEALTHY_REASON_PENDING_USER_APPROVAL"
-  | "UNHEALTHY_REASON_UNSCHEDULABLE";
-export type GetHealthOperationMetadataHealthInfoAvailabilitySloStatusEnum =
-  | "AVAILABILITY_SLO_STATUS_UNSPECIFIED"
-  | "AVAILABILITY_SLO_STATUS_IN_SLO"
-  | "AVAILABILITY_SLO_STATUS_OUT_OF_SLO"
-  | "AVAILABILITY_SLO_STATUS_SLO_UNKNOWN";
-/** Health information. */
-export interface GetHealthOperationMetadataHealthInfo {
-  /** Output only. The health status. */
-  healthStatus?: GetHealthOperationMetadataHealthInfoHealthStatusEnum | (string & {}) | undefined;
-  /** Output only. The repair category. */
-  repairCategory?:
-    | GetHealthOperationMetadataHealthInfoRepairCategoryEnum
-    | (string & {})
-    | undefined;
-  /** Output only. The reason for unhealthy status. */
-  unhealthyReason?:
-    | GetHealthOperationMetadataHealthInfoUnhealthyReasonEnum
-    | (string & {})
-    | undefined;
-  /** Output only. The availability SLO status. */
-  availabilitySloStatus?:
-    | GetHealthOperationMetadataHealthInfoAvailabilitySloStatusEnum
-    | (string & {})
-    | undefined;
-  /** Output only. The time when health info was updated. */
-  updateTime?: string | undefined;
+export interface GetVersionOperationMetadataSbomInfo {
+  /** A mapping of components to their target versions or other appropriate identifiers. */
+  targetComponentVersions?: StringMap | undefined;
+  /** A mapping of components to their currently-applied versions or other appropriate identifiers. */
+  currentComponentVersions?: StringMap | undefined;
 }
-/** Metadata for GetHealth operations. */
-export interface GetHealthOperationMetadata {
-  /** Output only. The health information. */
-  healthInfo?: GetHealthOperationMetadataHealthInfo | undefined;
+export interface GetVersionOperationMetadataHbomInfoComponentValues {
+  /** List of obfuscated hardware component identifiers. */
+  values?: StringList | undefined;
 }
-export interface SetAutoscalerLinkOperationMetadata {
-  /** Map of zone to an ID of the zonal IGM belonging to the RMIG. */
-  zoneToIgmIds?: StringMap | undefined;
-  /** List of zonal IGM IDs part of the RMIG. */
-  zonalIgmIds?: StringList | undefined;
+export type GetVersionOperationMetadataHbomInfoComponentValuesMap = {
+  [key: string]: GetVersionOperationMetadataHbomInfoComponentValues | undefined;
+};
+export interface GetVersionOperationMetadataHbomInfo {
+  /** A mapping of hardware sub-component categories to their component values. */
+  hardwareComponentInfo?: GetVersionOperationMetadataHbomInfoComponentValuesMap | undefined;
 }
-/** [Output Only] Operation metadata for instances.troubleshoot. */
-export interface InstancesTroubleshootOperationMetadata {
-  /** Output only. [Output Only] Serialized output of the troubleshooting diagnostic run. */
-  troubleshootOutput?: string | undefined;
+export interface GetVersionOperationMetadata {
+  inlineSbomInfo?: GetVersionOperationMetadataSbomInfo | undefined;
+  inlineHbomInfo?: GetVersionOperationMetadataHbomInfo | undefined;
 }
 /** Represents an Operation resource. Google Compute Engine has three Operation resources: * [Global](/compute/docs/reference/rest/{$api_version}/globalOperations) * [Regional](/compute/docs/reference/rest/{$api_version}/regionOperations) * [Zonal](/compute/docs/reference/rest/{$api_version}/zoneOperations) You can use an operation resource to manage asynchronous API requests. For more information, read Handling API responses. Operations can be global, regional or zonal. - For global operations, use the `globalOperations` resource. - For regional operations, use the `regionOperations` resource. - For zonal operations, use the `zoneOperations` resource. For more information, read Global, Regional, and Zonal Resources. Note that completed Operation resources have a limited retention period. */
 export interface Operation {
-  /** [Output Only] The URL of the zone where the operation resides. Only applicable when performing per-zone operations. */
-  zone?: string | undefined;
-  /** [Output Only] The unique target ID, which identifies a specific incarnation of the target resource. */
-  targetId?: string | undefined;
-  /** [Output Only] Extended details about the operation's execution. */
-  details?: OperationDetails | undefined;
-  /** Output only. [Output Only] Type of the resource. Always `compute#operation` for Operation resources. */
-  kind?: string | undefined;
-  /** [Output Only] The URL of the resource that the operation modifies. For operations related to creating a snapshot, this points to the disk that the snapshot was created from. */
-  targetLink?: string | undefined;
-  /** [Output Only] The status of the operation, which can be one of the following: `PENDING`, `RUNNING`, or `DONE`. */
-  status?: OperationStatusEnum | (string & {}) | undefined;
-  /** [Output Only] An optional progress indicator that ranges from 0 to 100. There is no requirement that this be linear or support any granularity of operations. This should not be used to guess when the operation will be complete. This number should monotonically increase as the operation progresses. */
-  progress?: number | undefined;
-  /** [Output Only] Name of the operation. */
-  name?: string | undefined;
-  /** [Output Only] An optional textual description of the current status of the operation. */
-  statusMessage?: string | undefined;
-  /** [Output Only] The type of operation, such as `insert`, `update`, or `delete`, and so on. */
-  operationType?: string | undefined;
-  /** Output only. [Output Only] Operation metadata for agentConversations.sendMessage. */
-  agentConversationsSendMessageOperationMetadata?:
-    | AgentConversationsSendMessageOperationMetadata
-    | undefined;
-  /** Output only. [Output Only] Operation metadata for microVms.export. */
-  microVmsExportOperationMetadata?: MicroVmsExportOperationMetadata | undefined;
-  /** [Output Only] If errors are generated during processing of the operation, this field will be populated. */
-  error?: OperationError | undefined;
-  /** [Output Only] If the operation fails, this field contains the HTTP error status code that was returned. For example, a `404` means the resource was not found. */
-  httpErrorStatusCode?: number | undefined;
-  /** [Output Only] If the operation fails, this field contains the HTTP error message that was returned, such as `NOT FOUND`. */
-  httpErrorMessage?: string | undefined;
-  /** [Output Only] The time that this operation was completed. This value is in RFC3339 text format. */
-  endTime?: string | undefined;
-  getVersionOperationMetadata?: GetVersionOperationMetadata | undefined;
-  /** [Output Only] If warning messages are generated during processing of the operation, this field will be populated. */
-  warnings?: OperationWarningsItemList | undefined;
-  /** [Output Only] The time that this operation was started by the server. This value is in RFC3339 text format. */
-  startTime?: string | undefined;
-  /** [Output Only] The unique identifier for the operation. This identifier is defined by the server. */
-  id?: string | undefined;
   /** Output only. [Output Only] If the operation is for projects.setCommonInstanceMetadata, this field will contain information on all underlying zonal actions and their state. */
   setCommonInstanceMetadataOperationMetadata?:
     | SetCommonInstanceMetadataOperationMetadata
     | undefined;
-  /** Output only. [Output Only] Server-defined URL for this resource with the resource id. */
-  selfLinkWithId?: string | undefined;
-  /** [Deprecated] This field is deprecated. */
-  creationTimestamp?: string | undefined;
-  /** Output only. [Output Only] Metadata containing the allocated priority from the networkFirewallPolicies.addRule and regionNetworkFirewallPolicies.addRule methods if not explicitly provided by the user. */
-  firewallPolicyRuleOperationMetadata?: FirewallPolicyRuleOperationMetadata | undefined;
-  /** [Output Only] User who requested the operation, for example: `user@example.com` or `alice_smith_identifier (global/workforcePools/example-com-us-employees)`. */
-  user?: string | undefined;
-  /** Output only. [Output Only] An ID that represents a group of operations, such as when a group of operations results from a `bulkInsert` API request. */
-  operationGroupId?: string | undefined;
-  instancesBulkInsertOperationMetadata?: InstancesBulkInsertOperationMetadata | undefined;
-  /** Output only. [Output Only] Operation metadata for microVms.import. */
-  microVmsImportOperationMetadata?: MicroVmsImportOperationMetadata | undefined;
-  /** [Output Only] The value of `requestId` if you provided it in the request. Not present otherwise. */
-  clientOperationId?: string | undefined;
-  /** Output only. Metadata for GetHealth operations. */
-  getHealthOperationMetadata?: GetHealthOperationMetadata | undefined;
+  /** [Output Only] The URL of the resource that the operation modifies. For operations related to creating a snapshot, this points to the disk that the snapshot was created from. */
+  targetLink?: string | undefined;
+  /** Output only. [Output Only] Operation metadata for microVms.export. */
+  microVmsExportOperationMetadata?: MicroVmsExportOperationMetadata | undefined;
+  /** [Output Only] The type of operation, such as `insert`, `update`, or `delete`, and so on. */
+  operationType?: string | undefined;
   /** [Output Only] A textual description of the operation, which is set when the operation is created. */
   description?: string | undefined;
-  /** [Output Only] Server-defined URL for the resource. */
-  selfLink?: string | undefined;
-  /** [Output Only] The time that this operation was requested. This value is in RFC3339 text format. */
-  insertTime?: string | undefined;
-  /** This field is used internally by the Autoscaler team and should not be promoted to "alpha/beta/v1". */
-  setAutoscalerLinkOperationMetadata?: SetAutoscalerLinkOperationMetadata | undefined;
+  /** [Output Only] The time that this operation was completed. This value is in RFC3339 text format. */
+  endTime?: string | undefined;
+  /** [Output Only] The URL of the zone where the operation resides. Only applicable when performing per-zone operations. */
+  zone?: string | undefined;
+  /** [Output Only] The time that this operation was started by the server. This value is in RFC3339 text format. */
+  startTime?: string | undefined;
   /** [Output Only] The URL of the region where the operation resides. Only applicable when performing regional operations. */
   region?: string | undefined;
+  /** [Output Only] The value of `requestId` if you provided it in the request. Not present otherwise. */
+  clientOperationId?: string | undefined;
+  /** Output only. [Output Only] Type of the resource. Always `compute#operation` for Operation resources. */
+  kind?: string | undefined;
+  /** [Output Only] If errors are generated during processing of the operation, this field will be populated. */
+  error?: OperationError | undefined;
+  /** [Output Only] The unique identifier for the operation. This identifier is defined by the server. */
+  id?: string | undefined;
+  /** Output only. [Output Only] An ID that represents a group of operations, such as when a group of operations results from a `bulkInsert` API request. */
+  operationGroupId?: string | undefined;
+  /** [Output Only] If warning messages are generated during processing of the operation, this field will be populated. */
+  warnings?: OperationWarningsItemList | undefined;
+  /** [Output Only] Server-defined URL for the resource. */
+  selfLink?: string | undefined;
+  /** Output only. [Output Only] Metadata containing the allocated priority from the networkFirewallPolicies.addRule and regionNetworkFirewallPolicies.addRule methods if not explicitly provided by the user. */
+  firewallPolicyRuleOperationMetadata?: FirewallPolicyRuleOperationMetadata | undefined;
+  /** [Deprecated] This field is deprecated. */
+  creationTimestamp?: string | undefined;
+  /** [Output Only] An optional progress indicator that ranges from 0 to 100. There is no requirement that this be linear or support any granularity of operations. This should not be used to guess when the operation will be complete. This number should monotonically increase as the operation progresses. */
+  progress?: number | undefined;
+  /** [Output Only] The time that this operation was requested. This value is in RFC3339 text format. */
+  insertTime?: string | undefined;
+  /** [Output Only] Extended details about the operation's execution. */
+  details?: OperationDetails | undefined;
+  /** [Output Only] An optional textual description of the current status of the operation. */
+  statusMessage?: string | undefined;
+  /** Output only. [Output Only] Server-defined URL for this resource with the resource id. */
+  selfLinkWithId?: string | undefined;
+  /** This field is used internally by the Autoscaler team and should not be promoted to "alpha/beta/v1". */
+  setAutoscalerLinkOperationMetadata?: SetAutoscalerLinkOperationMetadata | undefined;
+  /** [Output Only] The status of the operation, which can be one of the following: `PENDING`, `RUNNING`, or `DONE`. */
+  status?: OperationStatusEnum | (string & {}) | undefined;
+  /** [Output Only] If the operation fails, this field contains the HTTP error status code that was returned. For example, a `404` means the resource was not found. */
+  httpErrorStatusCode?: number | undefined;
+  instancesBulkInsertOperationMetadata?: InstancesBulkInsertOperationMetadata | undefined;
+  /** [Output Only] User who requested the operation, for example: `user@example.com` or `alice_smith_identifier (global/workforcePools/example-com-us-employees)`. */
+  user?: string | undefined;
+  /** Output only. Metadata for GetHealth operations. */
+  getHealthOperationMetadata?: GetHealthOperationMetadata | undefined;
   /** Output only. [Output Only] Operation metadata for instances.troubleshoot. */
   instancesTroubleshootOperationMetadata?: InstancesTroubleshootOperationMetadata | undefined;
+  /** [Output Only] If the operation fails, this field contains the HTTP error message that was returned, such as `NOT FOUND`. */
+  httpErrorMessage?: string | undefined;
+  /** [Output Only] Name of the operation. */
+  name?: string | undefined;
+  /** Output only. [Output Only] Operation metadata for microVms.import. */
+  microVmsImportOperationMetadata?: MicroVmsImportOperationMetadata | undefined;
+  /** [Output Only] The unique target ID, which identifies a specific incarnation of the target resource. */
+  targetId?: string | undefined;
+  getVersionOperationMetadata?: GetVersionOperationMetadata | undefined;
 }
 export interface DeleteCompositeTypesRequest {
-  /** The name of the type for this request. */
-  compositeType: string;
   /** The project ID for this request. */
   project: string;
+  /** The name of the type for this request. */
+  compositeType: string;
   "header.bypassBillingFilter"?: boolean | undefined;
 }
 export type DeleteDeploymentsDeletePolicyEnum = "DELETE" | "ABANDON";
 export interface DeleteDeploymentsRequest {
   /** The project ID for this request. */
   project: string;
+  /** The name of the deployment for this request. */
+  deployment: string;
   "header.bypassBillingFilter"?: boolean | undefined;
   /** Sets the policy to use for deleting resources. */
   deletePolicy?: DeleteDeploymentsDeletePolicyEnum | (string & {}) | undefined;
-  /** The name of the deployment for this request. */
-  deployment: string;
 }
 export interface DeleteTypeProvidersRequest {
-  /** The project ID for this request. */
-  project: string;
-  "header.bypassBillingFilter"?: boolean | undefined;
   /** The name of the type provider for this request. */
   typeProvider: string;
-}
-export interface GetCompositeTypesRequest {
-  "header.bypassBillingFilter"?: boolean | undefined;
   /** The project ID for this request. */
   project: string;
+  "header.bypassBillingFilter"?: boolean | undefined;
+}
+export interface GetCompositeTypesRequest {
   /** The name of the composite type for this request. */
   compositeType: string;
+  /** The project ID for this request. */
+  project: string;
+  "header.bypassBillingFilter"?: boolean | undefined;
 }
-/** Label object for CompositeTypes */
-export interface CompositeTypeLabelEntry {
-  /** Key of the label */
-  key?: string | undefined;
-  /** Value of the label */
-  value?: string | undefined;
-}
-export type CompositeTypeLabelEntryList = Array<CompositeTypeLabelEntry>;
-export type CompositeTypeStatusEnum =
-  | "UNKNOWN_STATUS"
-  | "DEPRECATED"
-  | "EXPERIMENTAL"
-  | "SUPPORTED";
 export interface ImportFile {
   /** The name of the file. */
   name?: string | undefined;
@@ -567,54 +543,75 @@ export type ImportFileList = Array<ImportFile>;
 export type TemplateContentsInterpreterEnum = "UNKNOWN_INTERPRETER" | "PYTHON" | "JINJA";
 /** Files that make up the template contents of a template type. */
 export interface TemplateContents {
-  /** The contents of the main template file. */
-  template?: string | undefined;
   /** Import files referenced by the main template. */
   imports?: ImportFileList | undefined;
-  /** The contents of the template schema. */
-  schema?: string | undefined;
   /** Which interpreter (python or jinja) should be used during expansion. */
   interpreter?: TemplateContentsInterpreterEnum | (string & {}) | undefined;
+  /** The contents of the main template file. */
+  template?: string | undefined;
   /** The filename of the mainTemplate */
   mainTemplate?: string | undefined;
+  /** The contents of the template schema. */
+  schema?: string | undefined;
 }
+/** Label object for CompositeTypes */
+export interface CompositeTypeLabelEntry {
+  /** Value of the label */
+  value?: string | undefined;
+  /** Key of the label */
+  key?: string | undefined;
+}
+export type CompositeTypeLabelEntryList = Array<CompositeTypeLabelEntry>;
+export type CompositeTypeStatusEnum =
+  | "UNKNOWN_STATUS"
+  | "DEPRECATED"
+  | "EXPERIMENTAL"
+  | "SUPPORTED";
 /** Holds the composite type. */
 export interface CompositeType {
-  id?: string | undefined;
-  /** Output only. The Operation that most recently ran, or is currently running, on this composite type. */
-  operation?: Operation | undefined;
-  /** Map of labels; provided by the client when the resource is created or updated. Specifically: Label keys must be between 1 and 63 characters long and must conform to the following regular expression: `[a-z]([-a-z0-9]*[a-z0-9])?` Label values must be between 0 and 63 characters long and must conform to the regular expression `([a-z]([-a-z0-9]*[a-z0-9])?)?`. */
-  labels?: CompositeTypeLabelEntryList | undefined;
-  /** An optional textual description of the resource; provided by the client when the resource is created. */
-  description?: string | undefined;
-  /** Name of the composite type, must follow the expression: `[a-z]([-a-z0-9_.]{0,61}[a-z0-9])?`. */
-  name?: string | undefined;
-  status?: CompositeTypeStatusEnum | (string & {}) | undefined;
   /** Files for the template type. */
   templateContents?: TemplateContents | undefined;
-  /** Output only. Server defined URL for the resource. */
-  selfLink?: string | undefined;
+  /** Name of the composite type, must follow the expression: `[a-z]([-a-z0-9_.]{0,61}[a-z0-9])?`. */
+  name?: string | undefined;
   /** Output only. Creation timestamp in RFC3339 text format. */
   insertTime?: string | undefined;
+  /** Output only. The Operation that most recently ran, or is currently running, on this composite type. */
+  operation?: Operation | undefined;
+  /** An optional textual description of the resource; provided by the client when the resource is created. */
+  description?: string | undefined;
+  /** Map of labels; provided by the client when the resource is created or updated. Specifically: Label keys must be between 1 and 63 characters long and must conform to the following regular expression: `[a-z]([-a-z0-9]*[a-z0-9])?` Label values must be between 0 and 63 characters long and must conform to the regular expression `([a-z]([-a-z0-9]*[a-z0-9])?)?`. */
+  labels?: CompositeTypeLabelEntryList | undefined;
+  id?: string | undefined;
+  status?: CompositeTypeStatusEnum | (string & {}) | undefined;
+  /** Output only. Server defined URL for the resource. */
+  selfLink?: string | undefined;
 }
 export interface GetDeploymentsRequest {
-  /** The name of the deployment for this request. */
-  deployment: string;
+  "header.bypassBillingFilter"?: boolean | undefined;
   /** The project ID for this request. */
   project: string;
-  "header.bypassBillingFilter"?: boolean | undefined;
+  /** The name of the deployment for this request. */
+  deployment: string;
 }
 /** Label object for DeploymentUpdate */
-export type DeploymentUpdateLabelEntry = CompositeTypeLabelEntry;
-export type DeploymentUpdateLabelEntryList = Array<CompositeTypeLabelEntry>;
+export interface DeploymentUpdateLabelEntry {
+  /** Key of the label */
+  key?: string | undefined;
+  /** Value of the label */
+  value?: string | undefined;
+}
+export type DeploymentUpdateLabelEntryList = Array<DeploymentUpdateLabelEntry>;
 export interface DeploymentUpdate {
   /** Map of One Platform labels; provided by the client when the resource is created or updated. Specifically: Label keys must be between 1 and 63 characters long and must conform to the following regular expression: `[a-z]([-a-z0-9]*[a-z0-9])?` Label values must be between 0 and 63 characters long and must conform to the regular expression `([a-z]([-a-z0-9]*[a-z0-9])?)?`. */
   labels?: DeploymentUpdateLabelEntryList | undefined;
-  /** Output only. URL of the manifest representing the update configuration of this deployment. */
-  manifest?: string | undefined;
   /** Output only. An optional user-provided description of the deployment after the current update has been applied. */
   description?: string | undefined;
+  /** Output only. URL of the manifest representing the update configuration of this deployment. */
+  manifest?: string | undefined;
 }
+/** Label object for Deployments */
+export type DeploymentLabelEntry = CompositeTypeLabelEntry;
+export type DeploymentLabelEntryList = Array<CompositeTypeLabelEntry>;
 export interface ConfigFile {
   /** The contents of the file. */
   content?: string | undefined;
@@ -625,64 +622,40 @@ export interface TargetConfiguration {
   /** The configuration to use for this deployment. */
   config?: ConfigFile | undefined;
 }
-/** Label object for Deployments */
-export type DeploymentLabelEntry = CompositeTypeLabelEntry;
-export type DeploymentLabelEntryList = Array<CompositeTypeLabelEntry>;
 export interface Deployment {
-  /** Output only. URL of the manifest representing the last manifest that was successfully deployed. If no manifest has been successfully deployed, this field will be absent. */
-  manifest?: string | undefined;
-  /** Output only. Update timestamp in RFC3339 text format. */
-  updateTime?: string | undefined;
-  /** Output only. The Operation that most recently ran, or is currently running, on this deployment. */
-  operation?: Operation | undefined;
   /** Output only. If Deployment Manager is currently updating or previewing an update to this deployment, the updated configuration appears here. */
   update?: DeploymentUpdate | undefined;
+  /** Map of One Platform labels; provided by the client when the resource is created or updated. Specifically: Label keys must be between 1 and 63 characters long and must conform to the following regular expression: `[a-z]([-a-z0-9]*[a-z0-9])?` Label values must be between 0 and 63 characters long and must conform to the regular expression `([a-z]([-a-z0-9]*[a-z0-9])?)?`. */
+  labels?: DeploymentLabelEntryList | undefined;
+  /** Output only. The Operation that most recently ran, or is currently running, on this deployment. */
+  operation?: Operation | undefined;
+  /** Output only. URL of the manifest representing the last manifest that was successfully deployed. If no manifest has been successfully deployed, this field will be absent. */
+  manifest?: string | undefined;
+  /** Name of the resource; provided by the client when the resource is created. The name must be 1-63 characters long, and comply with RFC1035. Specifically, the name must be 1-63 characters long and match the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means the first character must be a lowercase letter, and all following characters must be a dash, lowercase letter, or digit, except the last character, which cannot be a dash. */
+  name?: string | undefined;
   /** [Input Only] The parameters that define your deployment, including the deployment configuration and relevant templates. */
   target?: TargetConfiguration | undefined;
   /** Output only. Creation timestamp in RFC3339 text format. */
   insertTime?: string | undefined;
-  /** Provides a fingerprint to use in requests to modify a deployment, such as `update()`, `stop()`, and `cancelPreview()` requests. A fingerprint is a randomly generated value that must be provided with `update()`, `stop()`, and `cancelPreview()` requests to perform optimistic locking. This ensures optimistic concurrency so that only one request happens at a time. The fingerprint is initially generated by Deployment Manager and changes after every request to modify data. To get the latest fingerprint value, perform a `get()` request to a deployment. */
-  fingerprint?: string | undefined;
   id?: string | undefined;
-  /** Output only. Server defined URL for the resource. */
-  selfLink?: string | undefined;
-  /** Name of the resource; provided by the client when the resource is created. The name must be 1-63 characters long, and comply with RFC1035. Specifically, the name must be 1-63 characters long and match the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means the first character must be a lowercase letter, and all following characters must be a dash, lowercase letter, or digit, except the last character, which cannot be a dash. */
-  name?: string | undefined;
   /** An optional user-provided description of the deployment. */
   description?: string | undefined;
-  /** Map of One Platform labels; provided by the client when the resource is created or updated. Specifically: Label keys must be between 1 and 63 characters long and must conform to the following regular expression: `[a-z]([-a-z0-9]*[a-z0-9])?` Label values must be between 0 and 63 characters long and must conform to the regular expression `([a-z]([-a-z0-9]*[a-z0-9])?)?`. */
-  labels?: DeploymentLabelEntryList | undefined;
+  /** Provides a fingerprint to use in requests to modify a deployment, such as `update()`, `stop()`, and `cancelPreview()` requests. A fingerprint is a randomly generated value that must be provided with `update()`, `stop()`, and `cancelPreview()` requests to perform optimistic locking. This ensures optimistic concurrency so that only one request happens at a time. The fingerprint is initially generated by Deployment Manager and changes after every request to modify data. To get the latest fingerprint value, perform a `get()` request to a deployment. */
+  fingerprint?: string | undefined;
+  /** Output only. Update timestamp in RFC3339 text format. */
+  updateTime?: string | undefined;
+  /** Output only. Server defined URL for the resource. */
+  selfLink?: string | undefined;
 }
 export interface GetIamPolicyDeploymentsRequest {
+  /** Requested IAM Policy version. */
+  optionsRequestedPolicyVersion?: number | undefined;
   "header.bypassBillingFilter"?: boolean | undefined;
   /** Project ID for this request. */
   project: string;
   /** Name or id of the resource for this request. */
   resource: string;
-  /** Requested IAM Policy version. */
-  optionsRequestedPolicyVersion?: number | undefined;
 }
-/** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
-export interface Expr {
-  /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
-  title?: string | undefined;
-  /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
-  description?: string | undefined;
-  /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
-  location?: string | undefined;
-  /** Textual representation of an expression in Common Expression Language syntax. */
-  expression?: string | undefined;
-}
-/** Associates `members`, or principals, with a `role`. */
-export interface Binding {
-  /** Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
-  members?: StringList | undefined;
-  /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  condition?: Expr | undefined;
-  /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
-  role?: string | undefined;
-}
-export type BindingList = Array<Binding>;
 export type AuditLogConfigLogTypeEnum =
   | "LOG_TYPE_UNSPECIFIED"
   | "ADMIN_READ"
@@ -690,10 +663,10 @@ export type AuditLogConfigLogTypeEnum =
   | "DATA_READ";
 /** Provides the configuration for logging a type of permissions. Example: { "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" } ] } This enables 'DATA_READ' and 'DATA_WRITE' logging, while exempting jose@example.com from DATA_READ logging. */
 export interface AuditLogConfig {
-  /** The log type that this config enables. */
-  logType?: AuditLogConfigLogTypeEnum | (string & {}) | undefined;
   /** Specifies the identities that do not cause logging for this type of permission. Follows the same format of Binding.members. */
   exemptedMembers?: StringList | undefined;
+  /** The log type that this config enables. */
+  logType?: AuditLogConfigLogTypeEnum | (string & {}) | undefined;
 }
 export type AuditLogConfigList = Array<AuditLogConfig>;
 /** Specifies the audit configuration for a service. The configuration determines which permission types are logged, and what identities, if any, are exempted from logging. An AuditConfig must have one or more AuditLogConfigs. If there are AuditConfigs for both `allServices` and a specific service, the union of the two AuditConfigs is used for that service: the log_types specified in each AuditConfig are enabled, and the exempted_members in each AuditLogConfig are exempted. Example Policy with multiple AuditConfigs: { "audit_configs": [ { "service": "allServices", "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" }, { "log_type": "ADMIN_READ" } ] }, { "service": "sampleservice.googleapis.com", "audit_log_configs": [ { "log_type": "DATA_READ" }, { "log_type": "DATA_WRITE", "exempted_members": [ "user:aliya@example.com" ] } ] } ] } For sampleservice, this policy enables DATA_READ, DATA_WRITE and ADMIN_READ logging. It also exempts `jose@example.com` from DATA_READ logging, and `aliya@example.com` from DATA_WRITE logging. */
@@ -704,46 +677,67 @@ export interface AuditConfig {
   auditLogConfigs?: AuditLogConfigList | undefined;
 }
 export type AuditConfigList = Array<AuditConfig>;
+/** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
+export interface Expr {
+  /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
+  location?: string | undefined;
+  /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
+  title?: string | undefined;
+  /** Textual representation of an expression in Common Expression Language syntax. */
+  expression?: string | undefined;
+  /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
+  description?: string | undefined;
+}
+/** Associates `members`, or principals, with a `role`. */
+export interface Binding {
+  /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
+  role?: string | undefined;
+  /** Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
+  members?: StringList | undefined;
+  /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
+  condition?: Expr | undefined;
+}
+export type BindingList = Array<Binding>;
 /** An Identity and Access Management (IAM) policy, which specifies access controls for Google Cloud resources. A `Policy` is a collection of `bindings`. A `binding` binds one or more `members`, or principals, to a single `role`. Principals can be user accounts, service accounts, Google groups, and domains (such as G Suite). A `role` is a named list of permissions; each `role` can be an IAM predefined role or a user-created custom role. For some types of Google Cloud resources, a `binding` can also specify a `condition`, which is a logical expression that allows access to a resource only if the expression evaluates to `true`. A condition can add constraints based on attributes of the request, the resource, or both. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). **JSON example:** ``` { "bindings": [ { "role": "roles/resourcemanager.organizationAdmin", "members": [ "user:mike@example.com", "group:admins@example.com", "domain:google.com", "serviceAccount:my-project-id@appspot.gserviceaccount.com" ] }, { "role": "roles/resourcemanager.organizationViewer", "members": [ "user:eve@example.com" ], "condition": { "title": "expirable access", "description": "Does not grant access after Sep 2020", "expression": "request.time < timestamp('2020-10-01T00:00:00.000Z')", } } ], "etag": "BwWWja0YfJA=", "version": 3 } ``` **YAML example:** ``` bindings: - members: - user:mike@example.com - group:admins@example.com - domain:google.com - serviceAccount:my-project-id@appspot.gserviceaccount.com role: roles/resourcemanager.organizationAdmin - members: - user:eve@example.com role: roles/resourcemanager.organizationViewer condition: title: expirable access description: Does not grant access after Sep 2020 expression: request.time < timestamp('2020-10-01T00:00:00.000Z') etag: BwWWja0YfJA= version: 3 ``` For a description of IAM and its features, see the [IAM documentation](https://cloud.google.com/iam/docs/). */
 export interface Policy {
+  /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
+  version?: number | undefined;
+  /** Specifies cloud audit logging configuration for this policy. */
+  auditConfigs?: AuditConfigList | undefined;
   /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
   bindings?: BindingList | undefined;
   /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
   etag?: string | undefined;
-  /** Specifies cloud audit logging configuration for this policy. */
-  auditConfigs?: AuditConfigList | undefined;
-  /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  version?: number | undefined;
 }
 export interface GetManifestsRequest {
-  /** The name of the deployment for this request. */
-  deployment: string;
-  /** The name of the manifest for this request. */
-  manifest: string;
-  "header.bypassBillingFilter"?: boolean | undefined;
   /** The project ID for this request. */
   project: string;
+  /** The name of the manifest for this request. */
+  manifest: string;
+  /** The name of the deployment for this request. */
+  deployment: string;
+  "header.bypassBillingFilter"?: boolean | undefined;
 }
 export interface Manifest {
-  /** Output only. The computed size of the fully expanded manifest. */
-  manifestSizeBytes?: string | undefined;
-  /** Output only. The size limit for expanded manifests in the project. */
-  manifestSizeLimitBytes?: string | undefined;
-  /** Output only. The name of the manifest. */
-  name?: string | undefined;
-  /** Output only. The imported files for this manifest. */
-  imports?: ImportFileList | undefined;
   /** Output only. Creation timestamp in RFC3339 text format. */
   insertTime?: string | undefined;
-  /** Output only. The YAML configuration for this manifest. */
-  config?: ConfigFile | undefined;
-  /** Output only. The YAML layout for this manifest. */
-  layout?: string | undefined;
-  /** Output only. Self link for the manifest. */
-  selfLink?: string | undefined;
+  /** Output only. The computed size of the fully expanded manifest. */
+  manifestSizeBytes?: string | undefined;
   id?: string | undefined;
   /** Output only. The fully-expanded configuration file, including any templates and references. */
   expandedConfig?: string | undefined;
+  /** Output only. The name of the manifest. */
+  name?: string | undefined;
+  /** Output only. Self link for the manifest. */
+  selfLink?: string | undefined;
+  /** Output only. The YAML configuration for this manifest. */
+  config?: ConfigFile | undefined;
+  /** Output only. The size limit for expanded manifests in the project. */
+  manifestSizeLimitBytes?: string | undefined;
+  /** Output only. The YAML layout for this manifest. */
+  layout?: string | undefined;
+  /** Output only. The imported files for this manifest. */
+  imports?: ImportFileList | undefined;
 }
 export interface GetOperationsRequest {
   /** The name of the operation for this request. */
@@ -753,114 +747,20 @@ export interface GetOperationsRequest {
   project: string;
 }
 export interface GetResourcesRequest {
+  /** The name of the deployment for this request. */
+  deployment: string;
   "header.bypassBillingFilter"?: boolean | undefined;
   /** The name of the resource for this request. */
   resource: string;
-  /** The name of the deployment for this request. */
-  deployment: string;
   /** The project ID for this request. */
   project: string;
 }
-export interface ResourceWarningsItemDataItem {
-  /** [Output Only] A warning data value corresponding to the key. */
-  value?: string | undefined;
-  /** [Output Only] A key that provides more detail on the warning being returned. For example, for warnings where there are no results in a list request for a particular zone, this key might be scope and the key value might be the zone name. Other examples might be a key indicating a deprecated resource and a suggested replacement, or a warning about invalid network settings (for example, if an instance attempts to perform IP forwarding but is not enabled for IP forwarding). */
-  key?: string | undefined;
-}
-export type ResourceWarningsItemDataItemList = Array<ResourceWarningsItemDataItem>;
-export type ResourceWarningsItemCodeEnum =
-  | "DEPRECATED_RESOURCE_USED"
-  | "NO_RESULTS_ON_PAGE"
-  | "UNREACHABLE"
-  | "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
-  | "NEXT_HOP_INSTANCE_NOT_FOUND"
-  | "NEXT_HOP_INSTANCE_NOT_ON_NETWORK"
-  | "NEXT_HOP_CANNOT_IP_FORWARD"
-  | "NEXT_HOP_NOT_RUNNING"
-  | "INJECTED_KERNELS_DEPRECATED"
-  | "REQUIRED_TOS_AGREEMENT"
-  | "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
-  | "RESOURCE_NOT_DELETED"
-  | "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
-  | "NOT_CRITICAL_ERROR"
-  | "CLEANUP_FAILED"
-  | "FIELD_VALUE_OVERRIDEN"
-  | "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
-  | "NETWORK_ENDPOINT_NOT_DETACHED"
-  | "PAGE_MISSING_RESULTS"
-  | "SSL_POLICY_ENABLED_FEATURES_NOT_FETCHED"
-  | "RESOURCE_NOT_FOUND_WARNING"
-  | "MISSING_TYPE_DEPENDENCY"
-  | "EXTERNAL_API_WARNING"
-  | "SCHEMA_VALIDATION_IGNORED"
-  | "UNDECLARED_PROPERTIES"
-  | "EXPERIMENTAL_TYPE_USED"
-  | "DEPRECATED_TYPE_USED"
-  | "PARTIAL_SUCCESS"
-  | "LARGE_DEPLOYMENT_WARNING"
-  | "NEXT_HOP_INSTANCE_HAS_NO_IPV6_INTERFACE"
-  | "INVALID_HEALTH_CHECK_FOR_DYNAMIC_WIEGHTED_LB"
-  | "LIST_OVERHEAD_QUOTA_EXCEED"
-  | "QUOTA_INFO_UNAVAILABLE"
-  | "RESOURCE_USES_GLOBAL_DNS"
-  | "RATE_LIMIT_EXCEEDED"
-  | "ASYNC_REPLICATION_SECONDARY_UPDATE_PENDING"
-  | "UPCOMING_MAINTENANCES_UNAVAILABLE"
-  | "RESERVED_ENTRY_139"
-  | "RESERVED_ENTRY_141"
-  | "RESERVED_ENTRY_142"
-  | "RESERVED_ENTRY_143";
-export interface ResourceWarningsItem {
-  /** [Output Only] Metadata about this warning in key: value format. For example: "data": [ { "key": "scope", "value": "zones/us-east1-d" }] */
-  data?: ResourceWarningsItemDataItemList | undefined;
-  /** [Output Only] A warning code, if applicable. For example, Compute Engine returns NO_RESULTS_ON_PAGE if there are no results in the response. */
-  code?: ResourceWarningsItemCodeEnum | undefined;
-  /** [Output Only] A human-readable description of the warning code. */
-  message?: string | undefined;
-}
-export type ResourceWarningsItemList = Array<ResourceWarningsItem>;
 export type ResourceUpdateStateEnum =
   | "PENDING"
   | "IN_PROGRESS"
   | "IN_PREVIEW"
   | "FAILED"
   | "ABORTED";
-/** The access controls set on the resource. */
-export interface ResourceAccessControl {
-  /** The GCP IAM Policy to set on the resource. */
-  gcpIamPolicy?: string | undefined;
-}
-export interface ResourceUpdateErrorErrorsItemErrorDetailsItem {
-  /** Links and information to help the user resolve the error. */
-  help?: Help | undefined;
-  /** Error information containing structured domain, reason, and metadata. */
-  errorInfo?: ErrorInfo | undefined;
-  /** Details about quota limits and metrics when a quota is exceeded. */
-  quotaInfo?: QuotaExceededInfo | undefined;
-  /** A localized human-readable error message intended for end users. */
-  localizedMessage?: LocalizedMessage | undefined;
-}
-export type ResourceUpdateErrorErrorsItemErrorDetailsItemList =
-  Array<ResourceUpdateErrorErrorsItemErrorDetailsItem>;
-export interface ResourceUpdateErrorErrorsItem {
-  /** [Output Only] The error type identifier for this error. */
-  code?: string | undefined;
-  /** Output only. [Output Only] Advanced debugging information with stack traces and other diagnostic details for the error. */
-  debugInfo?: DebugInfo | undefined;
-  /** [Output Only] An optional, human-readable error message. */
-  message?: string | undefined;
-  /** [Output Only] An optional list of messages that contain the error details. There is a set of defined message types to use for providing details.The syntax depends on the error code. For example, QuotaExceededInfo will have details when the error code is QUOTA_EXCEEDED. */
-  errorDetails?: ResourceUpdateErrorErrorsItemErrorDetailsItemList | undefined;
-  /** Output only. [Output Only] Optional error details WARNING: DO NOT MAKE VISIBLE This is for internal use-only (like componentization) (thus the visibility "none") and in case of public exposure it is strongly recommended to follow pattern of: https://aip.dev/193 and expose as details field. */
-  arguments?: StringList | undefined;
-  /** [Output Only] Indicates the field in the request that caused the error. This property is optional. */
-  location?: string | undefined;
-}
-export type ResourceUpdateErrorErrorsItemList = Array<ResourceUpdateErrorErrorsItem>;
-export interface ResourceUpdateError {
-  /** [Output Only] The array of errors encountered while processing this operation. */
-  errors?: ResourceUpdateErrorErrorsItemList | undefined;
-}
 export type ResourceUpdateIntentEnum =
   | "CREATE_OR_ACQUIRE"
   | "DELETE"
@@ -868,6 +768,13 @@ export type ResourceUpdateIntentEnum =
   | "UPDATE"
   | "ABANDON"
   | "CREATE";
+/** The access controls set on the resource. */
+export interface ResourceAccessControl {
+  /** The GCP IAM Policy to set on the resource. */
+  gcpIamPolicy?: string | undefined;
+}
+export type ResourceUpdateWarningsItemDataItem = OperationWarningsItemDataItem;
+export type ResourceUpdateWarningsItemDataItemList = Array<OperationWarningsItemDataItem>;
 export type ResourceUpdateWarningsItemCodeEnum =
   | "DEPRECATED_RESOURCE_USED"
   | "NO_RESULTS_ON_PAGE"
@@ -910,67 +817,233 @@ export type ResourceUpdateWarningsItemCodeEnum =
   | "RESERVED_ENTRY_141"
   | "RESERVED_ENTRY_142"
   | "RESERVED_ENTRY_143";
-export type ResourceUpdateWarningsItemDataItem = ResourceWarningsItemDataItem;
-export type ResourceUpdateWarningsItemDataItemList = Array<ResourceWarningsItemDataItem>;
 export interface ResourceUpdateWarningsItem {
-  /** [Output Only] A warning code, if applicable. For example, Compute Engine returns NO_RESULTS_ON_PAGE if there are no results in the response. */
-  code?: ResourceUpdateWarningsItemCodeEnum | undefined;
   /** [Output Only] A human-readable description of the warning code. */
   message?: string | undefined;
   /** [Output Only] Metadata about this warning in key: value format. For example: "data": [ { "key": "scope", "value": "zones/us-east1-d" }] */
   data?: ResourceUpdateWarningsItemDataItemList | undefined;
+  /** [Output Only] A warning code, if applicable. For example, Compute Engine returns NO_RESULTS_ON_PAGE if there are no results in the response. */
+  code?: ResourceUpdateWarningsItemCodeEnum | undefined;
 }
 export type ResourceUpdateWarningsItemList = Array<ResourceUpdateWarningsItem>;
+export interface ResourceUpdateErrorErrorsItemErrorDetailsItem {
+  /** Links and information to help the user resolve the error. */
+  help?: Help | undefined;
+  /** Error information containing structured domain, reason, and metadata. */
+  errorInfo?: ErrorInfo | undefined;
+  /** Details about quota limits and metrics when a quota is exceeded. */
+  quotaInfo?: QuotaExceededInfo | undefined;
+  /** A localized human-readable error message intended for end users. */
+  localizedMessage?: LocalizedMessage | undefined;
+}
+export type ResourceUpdateErrorErrorsItemErrorDetailsItemList =
+  Array<ResourceUpdateErrorErrorsItemErrorDetailsItem>;
+export interface ResourceUpdateErrorErrorsItem {
+  /** [Output Only] An optional list of messages that contain the error details. There is a set of defined message types to use for providing details.The syntax depends on the error code. For example, QuotaExceededInfo will have details when the error code is QUOTA_EXCEEDED. */
+  errorDetails?: ResourceUpdateErrorErrorsItemErrorDetailsItemList | undefined;
+  /** Output only. [Output Only] Optional error details WARNING: DO NOT MAKE VISIBLE This is for internal use-only (like componentization) (thus the visibility "none") and in case of public exposure it is strongly recommended to follow pattern of: https://aip.dev/193 and expose as details field. */
+  arguments?: StringList | undefined;
+  /** Output only. [Output Only] Advanced debugging information with stack traces and other diagnostic details for the error. */
+  debugInfo?: DebugInfo | undefined;
+  /** [Output Only] An optional, human-readable error message. */
+  message?: string | undefined;
+  /** [Output Only] The error type identifier for this error. */
+  code?: string | undefined;
+  /** [Output Only] Indicates the field in the request that caused the error. This property is optional. */
+  location?: string | undefined;
+}
+export type ResourceUpdateErrorErrorsItemList = Array<ResourceUpdateErrorErrorsItem>;
+export interface ResourceUpdateError {
+  /** [Output Only] The array of errors encountered while processing this operation. */
+  errors?: ResourceUpdateErrorErrorsItemList | undefined;
+}
 export interface ResourceUpdate {
-  /** Output only. The set of updated properties for this resource, before references are expanded. Returned as serialized YAML. */
-  properties?: string | undefined;
-  /** Output only. The state of the resource. */
-  state?: ResourceUpdateStateEnum | undefined;
-  /** The Access Control Policy to set on this resource after updating the resource itself. */
-  accessControl?: ResourceAccessControl | undefined;
-  /** Output only. If errors are generated during update of the resource, this field will be populated. */
-  error?: ResourceUpdateError | undefined;
-  /** Output only. The intent of the resource: `PREVIEW`, `UPDATE`, or `CANCEL`. */
-  intent?: ResourceUpdateIntentEnum | undefined;
-  /** Output only. If warning messages are generated during processing of this resource, this field will be populated. */
-  warnings?: ResourceUpdateWarningsItemList | undefined;
-  /** Output only. URL of the manifest representing the update configuration of this resource. */
-  manifest?: string | undefined;
   /** Output only. The expanded properties of the resource with reference values expanded. Returned as serialized YAML. */
   finalProperties?: string | undefined;
-}
-export interface Resource {
-  /** Output only. The evaluated properties of the resource with references expanded. Returned as serialized YAML. */
-  finalProperties?: string | undefined;
-  /** Output only. The current properties of the resource before any references have been filled in. Returned as serialized YAML. */
+  /** Output only. The state of the resource. */
+  state?: ResourceUpdateStateEnum | undefined;
+  /** Output only. The intent of the resource: `PREVIEW`, `UPDATE`, or `CANCEL`. */
+  intent?: ResourceUpdateIntentEnum | undefined;
+  /** Output only. URL of the manifest representing the update configuration of this resource. */
+  manifest?: string | undefined;
+  /** The Access Control Policy to set on this resource after updating the resource itself. */
+  accessControl?: ResourceAccessControl | undefined;
+  /** Output only. If warning messages are generated during processing of this resource, this field will be populated. */
+  warnings?: ResourceUpdateWarningsItemList | undefined;
+  /** Output only. The set of updated properties for this resource, before references are expanded. Returned as serialized YAML. */
   properties?: string | undefined;
+  /** Output only. If errors are generated during update of the resource, this field will be populated. */
+  error?: ResourceUpdateError | undefined;
+}
+export type ResourceWarningsItemCodeEnum =
+  | "DEPRECATED_RESOURCE_USED"
+  | "NO_RESULTS_ON_PAGE"
+  | "UNREACHABLE"
+  | "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
+  | "NEXT_HOP_INSTANCE_NOT_FOUND"
+  | "NEXT_HOP_INSTANCE_NOT_ON_NETWORK"
+  | "NEXT_HOP_CANNOT_IP_FORWARD"
+  | "NEXT_HOP_NOT_RUNNING"
+  | "INJECTED_KERNELS_DEPRECATED"
+  | "REQUIRED_TOS_AGREEMENT"
+  | "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+  | "RESOURCE_NOT_DELETED"
+  | "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+  | "NOT_CRITICAL_ERROR"
+  | "CLEANUP_FAILED"
+  | "FIELD_VALUE_OVERRIDEN"
+  | "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
+  | "NETWORK_ENDPOINT_NOT_DETACHED"
+  | "PAGE_MISSING_RESULTS"
+  | "SSL_POLICY_ENABLED_FEATURES_NOT_FETCHED"
+  | "RESOURCE_NOT_FOUND_WARNING"
+  | "MISSING_TYPE_DEPENDENCY"
+  | "EXTERNAL_API_WARNING"
+  | "SCHEMA_VALIDATION_IGNORED"
+  | "UNDECLARED_PROPERTIES"
+  | "EXPERIMENTAL_TYPE_USED"
+  | "DEPRECATED_TYPE_USED"
+  | "PARTIAL_SUCCESS"
+  | "LARGE_DEPLOYMENT_WARNING"
+  | "NEXT_HOP_INSTANCE_HAS_NO_IPV6_INTERFACE"
+  | "INVALID_HEALTH_CHECK_FOR_DYNAMIC_WIEGHTED_LB"
+  | "LIST_OVERHEAD_QUOTA_EXCEED"
+  | "QUOTA_INFO_UNAVAILABLE"
+  | "RESOURCE_USES_GLOBAL_DNS"
+  | "RATE_LIMIT_EXCEEDED"
+  | "ASYNC_REPLICATION_SECONDARY_UPDATE_PENDING"
+  | "UPCOMING_MAINTENANCES_UNAVAILABLE"
+  | "RESERVED_ENTRY_139"
+  | "RESERVED_ENTRY_141"
+  | "RESERVED_ENTRY_142"
+  | "RESERVED_ENTRY_143";
+export interface ResourceWarningsItemDataItem {
+  /** [Output Only] A warning data value corresponding to the key. */
+  value?: string | undefined;
+  /** [Output Only] A key that provides more detail on the warning being returned. For example, for warnings where there are no results in a list request for a particular zone, this key might be scope and the key value might be the zone name. Other examples might be a key indicating a deprecated resource and a suggested replacement, or a warning about invalid network settings (for example, if an instance attempts to perform IP forwarding but is not enabled for IP forwarding). */
+  key?: string | undefined;
+}
+export type ResourceWarningsItemDataItemList = Array<ResourceWarningsItemDataItem>;
+export interface ResourceWarningsItem {
+  /** [Output Only] A warning code, if applicable. For example, Compute Engine returns NO_RESULTS_ON_PAGE if there are no results in the response. */
+  code?: ResourceWarningsItemCodeEnum | undefined;
+  /** [Output Only] Metadata about this warning in key: value format. For example: "data": [ { "key": "scope", "value": "zones/us-east1-d" }] */
+  data?: ResourceWarningsItemDataItemList | undefined;
+  /** [Output Only] A human-readable description of the warning code. */
+  message?: string | undefined;
+}
+export type ResourceWarningsItemList = Array<ResourceWarningsItem>;
+export interface Resource {
+  /** Output only. URL of the manifest representing the current configuration of this resource. */
+  manifest?: string | undefined;
   /** Output only. The name of the resource as it appears in the YAML config. */
   name?: string | undefined;
-  /** Output only. If warning messages are generated during processing of this resource, this field will be populated. */
-  warnings?: ResourceWarningsItemList | undefined;
   /** Output only. The URL of the actual resource. */
   url?: string | undefined;
-  id?: string | undefined;
   /** Output only. If Deployment Manager is currently updating or previewing an update to this resource, the updated configuration appears here. */
   update?: ResourceUpdate | undefined;
+  /** Output only. Update timestamp in RFC3339 text format. */
+  updateTime?: string | undefined;
+  /** Output only. The evaluated properties of the resource with references expanded. Returned as serialized YAML. */
+  finalProperties?: string | undefined;
+  /** Output only. Creation timestamp in RFC3339 text format. */
+  insertTime?: string | undefined;
+  /** Output only. If warning messages are generated during processing of this resource, this field will be populated. */
+  warnings?: ResourceWarningsItemList | undefined;
+  /** Output only. The current properties of the resource before any references have been filled in. Returned as serialized YAML. */
+  properties?: string | undefined;
+  id?: string | undefined;
   /** The Access Control Policy set on this resource. */
   accessControl?: ResourceAccessControl | undefined;
   /** Output only. The type of the resource, for example `compute.v1.instance`, or `cloudfunctions.v1beta1.function`. */
   type?: string | undefined;
-  /** Output only. Update timestamp in RFC3339 text format. */
-  updateTime?: string | undefined;
-  /** Output only. Creation timestamp in RFC3339 text format. */
-  insertTime?: string | undefined;
-  /** Output only. URL of the manifest representing the current configuration of this resource. */
-  manifest?: string | undefined;
 }
 export interface GetTypeProvidersRequest {
-  /** The project ID for this request. */
-  project: string;
+  "header.bypassBillingFilter"?: boolean | undefined;
   /** The name of the type provider for this request. */
   typeProvider: string;
-  "header.bypassBillingFilter"?: boolean | undefined;
+  /** The project ID for this request. */
+  project: string;
 }
+export type InputMappingLocationEnum = "UNKNOWN" | "PATH" | "QUERY" | "BODY" | "HEADER";
+/** InputMapping creates a 'virtual' property that will be injected into the properties before sending the request to the underlying API. */
+export interface InputMapping {
+  /** A jsonPath expression to select an element. */
+  value?: string | undefined;
+  /** Regex to evaluate on method to decide if input applies. */
+  methodMatch?: string | undefined;
+  /** The name of the field that is going to be injected. */
+  fieldName?: string | undefined;
+  /** The location where this mapping applies. */
+  location?: InputMappingLocationEnum | (string & {}) | undefined;
+}
+export type InputMappingList = Array<InputMapping>;
+export type DiagnosticLevelEnum = "UNKNOWN" | "INFORMATION" | "WARNING" | "ERROR";
+export interface Diagnostic {
+  /** JsonPath expression on the resource that if non empty, indicates that this field needs to be extracted as a diagnostic. */
+  field?: string | undefined;
+  /** Level to record this diagnostic. */
+  level?: DiagnosticLevelEnum | (string & {}) | undefined;
+}
+export type DiagnosticList = Array<Diagnostic>;
+export interface PollingOptions {
+  /** JsonPath expression that determines if the request is completed. */
+  finishCondition?: string | undefined;
+  /** JsonPath expression that determines if the request failed. */
+  failCondition?: string | undefined;
+  /** JsonPath expression that evaluates to string, it indicates where to poll. */
+  pollingLink?: string | undefined;
+  /** An array of diagnostics to be collected by Deployment Manager, these diagnostics will be displayed to the user. */
+  diagnostics?: DiagnosticList | undefined;
+  /** JsonPath expression, after polling is completed, indicates where to fetch the resource. */
+  targetLink?: string | undefined;
+}
+/** Async options that determine when a resource should finish. */
+export interface AsyncOptions {
+  /** Deployment manager will poll instances for this API resource setting a RUNNING state, and blocking until polling conditions tell whether the resource is completed or failed. */
+  pollingOptions?: PollingOptions | undefined;
+  /** Method regex where this policy will apply. */
+  methodMatch?: string | undefined;
+}
+export type AsyncOptionsList = Array<AsyncOptions>;
+export type ValidationOptionsSchemaValidationEnum =
+  | "UNKNOWN"
+  | "IGNORE"
+  | "IGNORE_WITH_WARNINGS"
+  | "FAIL";
+export type ValidationOptionsUndeclaredPropertiesEnum =
+  | "UNKNOWN"
+  | "INCLUDE"
+  | "IGNORE"
+  | "INCLUDE_WITH_WARNINGS"
+  | "IGNORE_WITH_WARNINGS"
+  | "FAIL";
+/** Options for how to validate and process properties on a resource. */
+export interface ValidationOptions {
+  /** Customize how deployment manager will validate the resource against schema errors. */
+  schemaValidation?: ValidationOptionsSchemaValidationEnum | (string & {}) | undefined;
+  /** Specify what to do with extra properties when executing a request. */
+  undeclaredProperties?: ValidationOptionsUndeclaredPropertiesEnum | (string & {}) | undefined;
+}
+/** Options allows customized resource handling by Deployment Manager. */
+export interface Options {
+  /** The mappings that apply for requests. */
+  inputMappings?: InputMappingList | undefined;
+  /** Options regarding how to thread async requests. */
+  asyncOptions?: AsyncOptionsList | undefined;
+  /** Options for how to validate and process properties on a resource. */
+  validationOptions?: ValidationOptions | undefined;
+  /** Additional properties block described as a jsonSchema, these properties will never be part of the json payload, but they can be consumed by InputMappings, this must be a valid json schema draft-04. The properties specified here will be decouple in a different section. This schema will be merged to the schema validation, and properties here will be extracted From the payload and consumed explicitly by InputMappings. ex: field1: type: string field2: type: number */
+  virtualProperties?: string | undefined;
+}
+/** CollectionOverride allows resource handling overrides for specific resources within a BaseType */
+export interface CollectionOverride {
+  /** The options to apply to this resource-level override */
+  options?: Options | undefined;
+  /** The collection that identifies this resource within its service. */
+  collection?: string | undefined;
+}
+export type CollectionOverrideList = Array<CollectionOverride>;
 /** Basic Auth used as a credential. */
 export interface BasicAuth {
   user?: string | undefined;
@@ -983,158 +1056,74 @@ export interface ServiceAccount {
 }
 /** The credential used by Deployment Manager and TypeProvider. Only one of the options is permitted. */
 export interface Credential {
-  /** Specify to use the project default credential, only supported by Deployment. */
-  useProjectDefault?: boolean | undefined;
   /** Basic Auth Credential, only used by TypeProvider. */
   basicAuth?: BasicAuth | undefined;
+  /** Specify to use the project default credential, only supported by Deployment. */
+  useProjectDefault?: boolean | undefined;
   /** Service Account Credential, only used by Deployment. */
   serviceAccount?: ServiceAccount | undefined;
 }
-export type ValidationOptionsUndeclaredPropertiesEnum =
-  | "UNKNOWN"
-  | "INCLUDE"
-  | "IGNORE"
-  | "INCLUDE_WITH_WARNINGS"
-  | "IGNORE_WITH_WARNINGS"
-  | "FAIL";
-export type ValidationOptionsSchemaValidationEnum =
-  | "UNKNOWN"
-  | "IGNORE"
-  | "IGNORE_WITH_WARNINGS"
-  | "FAIL";
-/** Options for how to validate and process properties on a resource. */
-export interface ValidationOptions {
-  /** Specify what to do with extra properties when executing a request. */
-  undeclaredProperties?: ValidationOptionsUndeclaredPropertiesEnum | (string & {}) | undefined;
-  /** Customize how deployment manager will validate the resource against schema errors. */
-  schemaValidation?: ValidationOptionsSchemaValidationEnum | (string & {}) | undefined;
-}
-export type InputMappingLocationEnum = "UNKNOWN" | "PATH" | "QUERY" | "BODY" | "HEADER";
-/** InputMapping creates a 'virtual' property that will be injected into the properties before sending the request to the underlying API. */
-export interface InputMapping {
-  /** A jsonPath expression to select an element. */
-  value?: string | undefined;
-  /** Regex to evaluate on method to decide if input applies. */
-  methodMatch?: string | undefined;
-  /** The location where this mapping applies. */
-  location?: InputMappingLocationEnum | (string & {}) | undefined;
-  /** The name of the field that is going to be injected. */
-  fieldName?: string | undefined;
-}
-export type InputMappingList = Array<InputMapping>;
-export type DiagnosticLevelEnum = "UNKNOWN" | "INFORMATION" | "WARNING" | "ERROR";
-export interface Diagnostic {
-  /** JsonPath expression on the resource that if non empty, indicates that this field needs to be extracted as a diagnostic. */
-  field?: string | undefined;
-  /** Level to record this diagnostic. */
-  level?: DiagnosticLevelEnum | (string & {}) | undefined;
-}
-export type DiagnosticList = Array<Diagnostic>;
-export interface PollingOptions {
-  /** JsonPath expression, after polling is completed, indicates where to fetch the resource. */
-  targetLink?: string | undefined;
-  /** JsonPath expression that determines if the request failed. */
-  failCondition?: string | undefined;
-  /** An array of diagnostics to be collected by Deployment Manager, these diagnostics will be displayed to the user. */
-  diagnostics?: DiagnosticList | undefined;
-  /** JsonPath expression that evaluates to string, it indicates where to poll. */
-  pollingLink?: string | undefined;
-  /** JsonPath expression that determines if the request is completed. */
-  finishCondition?: string | undefined;
-}
-/** Async options that determine when a resource should finish. */
-export interface AsyncOptions {
-  /** Deployment manager will poll instances for this API resource setting a RUNNING state, and blocking until polling conditions tell whether the resource is completed or failed. */
-  pollingOptions?: PollingOptions | undefined;
-  /** Method regex where this policy will apply. */
-  methodMatch?: string | undefined;
-}
-export type AsyncOptionsList = Array<AsyncOptions>;
-/** Options allows customized resource handling by Deployment Manager. */
-export interface Options {
-  /** Options for how to validate and process properties on a resource. */
-  validationOptions?: ValidationOptions | undefined;
-  /** The mappings that apply for requests. */
-  inputMappings?: InputMappingList | undefined;
-  /** Options regarding how to thread async requests. */
-  asyncOptions?: AsyncOptionsList | undefined;
-  /** Additional properties block described as a jsonSchema, these properties will never be part of the json payload, but they can be consumed by InputMappings, this must be a valid json schema draft-04. The properties specified here will be decouple in a different section. This schema will be merged to the schema validation, and properties here will be extracted From the payload and consumed explicitly by InputMappings. ex: field1: type: string field2: type: number */
-  virtualProperties?: string | undefined;
-}
 /** Label object for TypeProviders */
-export interface TypeProviderLabelEntry {
-  /** Value of the label */
-  value?: string | undefined;
-  /** Key of the label */
-  key?: string | undefined;
-}
-export type TypeProviderLabelEntryList = Array<TypeProviderLabelEntry>;
-/** CollectionOverride allows resource handling overrides for specific resources within a BaseType */
-export interface CollectionOverride {
-  /** The options to apply to this resource-level override */
-  options?: Options | undefined;
-  /** The collection that identifies this resource within its service. */
-  collection?: string | undefined;
-}
-export type CollectionOverrideList = Array<CollectionOverride>;
+export type TypeProviderLabelEntry = DeploymentUpdateLabelEntry;
+export type TypeProviderLabelEntryList = Array<DeploymentUpdateLabelEntry>;
 /** A type provider that describes a service-backed Type. */
 export interface TypeProvider {
+  /** Output only. The Operation that most recently ran, or is currently running, on this type provider. */
+  operation?: Operation | undefined;
+  /** Name of the resource; provided by the client when the resource is created. The name must be 1-63 characters long, and comply with RFC1035. Specifically, the name must be 1-63 characters long and match the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means the first character must be a lowercase letter, and all following characters must be a dash, lowercase letter, or digit, except the last character, which cannot be a dash. */
+  name?: string | undefined;
+  /** Allows resource handling overrides for specific collections */
+  collectionOverrides?: CollectionOverrideList | undefined;
+  /** Descriptor Url for the this type provider. */
+  descriptorUrl?: string | undefined;
+  /** An optional textual description of the resource; provided by the client when the resource is created. */
+  description?: string | undefined;
+  /** Output only. Creation timestamp in RFC3339 text format. */
+  insertTime?: string | undefined;
+  /** Output only. Self link for the type provider. */
+  selfLink?: string | undefined;
+  /** Options to apply when handling any resources in this service. */
+  options?: Options | undefined;
   /** Credential used when interacting with this type. */
   credential?: Credential | undefined;
   /** List of up to 2 custom certificate authority roots to use for TLS authentication when making calls on behalf of this type provider. If set, TLS authentication will exclusively use these roots instead of relying on publicly trusted certificate authorities when validating TLS certificate authenticity. The certificates must be in base64-encoded PEM format. The maximum size of each certificate must not exceed 10KB. */
   customCertificateAuthorityRoots?: StringList | undefined;
-  /** Output only. The Operation that most recently ran, or is currently running, on this type provider. */
-  operation?: Operation | undefined;
-  /** Output only. Creation timestamp in RFC3339 text format. */
-  insertTime?: string | undefined;
-  /** Descriptor Url for the this type provider. */
-  descriptorUrl?: string | undefined;
-  /** Options to apply when handling any resources in this service. */
-  options?: Options | undefined;
-  /** Map of One Platform labels; provided by the client when the resource is created or updated. Specifically: Label keys must be between 1 and 63 characters long and must conform to the following regular expression: `[a-z]([-a-z0-9]*[a-z0-9])?` Label values must be between 0 and 63 characters long and must conform to the regular expression `([a-z]([-a-z0-9]*[a-z0-9])?)?` */
-  labels?: TypeProviderLabelEntryList | undefined;
   /** Output only. Unique identifier for the resource defined by the server. */
   id?: string | undefined;
-  /** Name of the resource; provided by the client when the resource is created. The name must be 1-63 characters long, and comply with RFC1035. Specifically, the name must be 1-63 characters long and match the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means the first character must be a lowercase letter, and all following characters must be a dash, lowercase letter, or digit, except the last character, which cannot be a dash. */
-  name?: string | undefined;
-  /** Output only. Self link for the type provider. */
-  selfLink?: string | undefined;
-  /** Allows resource handling overrides for specific collections */
-  collectionOverrides?: CollectionOverrideList | undefined;
-  /** An optional textual description of the resource; provided by the client when the resource is created. */
-  description?: string | undefined;
+  /** Map of One Platform labels; provided by the client when the resource is created or updated. Specifically: Label keys must be between 1 and 63 characters long and must conform to the following regular expression: `[a-z]([-a-z0-9]*[a-z0-9])?` Label values must be between 0 and 63 characters long and must conform to the regular expression `([a-z]([-a-z0-9]*[a-z0-9])?)?` */
+  labels?: TypeProviderLabelEntryList | undefined;
 }
 export interface GetTypeTypeProvidersRequest {
+  "header.bypassBillingFilter"?: boolean | undefined;
+  /** The name of the type provider for this request. */
+  typeProvider: string;
   /** The name of the type provider type for this request. */
   type: string;
   /** The project ID for this request. */
   project: string;
-  "header.bypassBillingFilter"?: boolean | undefined;
-  /** The name of the type provider for this request. */
-  typeProvider: string;
 }
 export interface TypeInfoSchemaInfo {
-  /** The properties that this composite type or base type collection accept as input, represented as a json blob, format is: JSON Schema Draft V4 */
-  input?: string | undefined;
   /** The properties that this composite type or base type collection exposes as output, these properties can be used for references, represented as json blob, format is: JSON Schema Draft V4 */
   output?: string | undefined;
+  /** The properties that this composite type or base type collection accept as input, represented as a json blob, format is: JSON Schema Draft V4 */
+  input?: string | undefined;
 }
 /** Type Information. Contains detailed information about a composite type, base type, or base type with specific collection. */
 export interface TypeInfo {
-  /** The description of the type. */
-  description?: string | undefined;
-  /** Output only. Type of the output. Always `deploymentManager#TypeInfo` for TypeInfo. */
-  kind?: string | undefined;
-  /** The title on the API descriptor URL provided. */
-  title?: string | undefined;
-  /** The base type or composite type name. */
-  name?: string | undefined;
-  /** For swagger 2.0 externalDocs field will be used. For swagger 1.2 this field will be empty. */
-  documentationLink?: string | undefined;
-  /** For base types with a collection, we return a schema and documentation link For template types, we return only a schema */
-  schema?: TypeInfoSchemaInfo | undefined;
   /** Output only. Self link for the type provider. */
   selfLink?: string | undefined;
+  /** Output only. Type of the output. Always `deploymentManager#TypeInfo` for TypeInfo. */
+  kind?: string | undefined;
+  /** For swagger 2.0 externalDocs field will be used. For swagger 1.2 this field will be empty. */
+  documentationLink?: string | undefined;
+  /** The base type or composite type name. */
+  name?: string | undefined;
+  /** The title on the API descriptor URL provided. */
+  title?: string | undefined;
+  /** For base types with a collection, we return a schema and documentation link For template types, we return only a schema */
+  schema?: TypeInfoSchemaInfo | undefined;
+  /** The description of the type. */
+  description?: string | undefined;
 }
 export interface InsertCompositeTypesRequest extends CompositeType {
   "header.bypassBillingFilter"?: boolean | undefined;
@@ -1143,50 +1132,50 @@ export interface InsertCompositeTypesRequest extends CompositeType {
 }
 export type InsertDeploymentsCreatePolicyEnum = "CREATE_OR_ACQUIRE" | "ACQUIRE" | "CREATE";
 export interface InsertDeploymentsRequest extends Deployment {
+  /** The project ID for this request. */
+  project: string;
   /** Sets the policy to use for creating new resources. */
   createPolicy?: InsertDeploymentsCreatePolicyEnum | (string & {}) | undefined;
+  "header.bypassBillingFilter"?: boolean | undefined;
   /** If set to true, creates a deployment and creates "shell" resources but does not actually instantiate these resources. This allows you to preview what your deployment looks like. After previewing a deployment, you can deploy your resources by making a request with the `update()` method or you can use the `cancelPreview()` method to cancel the preview altogether. Note that the deployment will still exist after you cancel the preview and you must separately delete this deployment if you want to remove it. */
   preview?: boolean | undefined;
-  /** The project ID for this request. */
-  project: string;
-  "header.bypassBillingFilter"?: boolean | undefined;
 }
 export interface InsertTypeProvidersRequest extends TypeProvider {
+  "header.bypassBillingFilter"?: boolean | undefined;
   /** The project ID for this request. */
   project: string;
-  "header.bypassBillingFilter"?: boolean | undefined;
 }
 export interface ListCompositeTypesRequest {
+  /** Sorts list results by a certain order. By default, results are returned in alphanumerical order based on the resource name. You can also sort results in descending order based on the creation timestamp using `orderBy="creationTimestamp desc"`. This sorts results based on the `creationTimestamp` field in reverse chronological order (newest result first). Use this to sort resources like operations so that the newest operation is returned first. Currently, only sorting by `name` or `creationTimestamp desc` is supported. */
+  orderBy?: string | undefined;
   /** The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`) */
   maxResults?: number | undefined;
-  /** A filter expression that filters resources listed in the response. Most Compute resources support two types of filter expressions: expressions that support regular expressions and expressions that follow API improvement proposal AIP-160. These two types of filter expressions cannot be mixed in one request. If you want to use AIP-160, your expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ``` If you want to use a regular expression, use the `eq` (equal) or `ne` (not equal) operator against a single un-parenthesized expression with or without quotes or against multiple parenthesized expressions. Examples: `fieldname eq unquoted literal` `fieldname eq 'single quoted literal'` `fieldname eq "double quoted literal"` `(fieldname1 eq literal) (fieldname2 ne "literal")` The literal value is interpreted as a regular expression using Google RE2 library syntax. The literal value must match the entire field. For example, to filter for instances that do not end with name "instance", you would use `name ne .*instance`. You cannot combine constraints on multiple fields using regular expressions. Note: For non-aggregated `list` requests, `filter` and `orderBy` cannot be combined in the same request. */
+  /** A filter expression that filters resources listed in the response. Most Compute resources support two types of filter expressions: expressions that support regular expressions and expressions that follow API improvement proposal AIP-160. These two types of filter expressions cannot be mixed in one request. If you want to use AIP-160, your expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ``` If you want to use a regular expression, use the `eq` (equal) or `ne` (not equal) operator against a single un-parenthesized expression with or without quotes or against multiple parenthesized expressions. Examples: `fieldname eq unquoted literal` `fieldname eq 'single quoted literal'` `fieldname eq "double quoted literal"` `(fieldname1 eq literal) (fieldname2 ne "literal")` The literal value is interpreted as a regular expression using Google RE2 library syntax. The literal value must match the entire field. For example, to filter for instances that do not end with name "instance", you would use `name ne .*instance`. You cannot combine constraints on multiple fields using regular expressions. */
   filter?: string | undefined;
   /** The project ID for this request. */
   project: string;
   /** Specifies a page token to use. Set `pageToken` to the `nextPageToken` returned by a previous list request to get the next page of results. */
   pageToken?: string | undefined;
-  /** Sorts list results by a certain order. By default, results are returned in alphanumerical order based on the resource name. You can also sort results in descending order based on the creation timestamp using `orderBy="creationTimestamp desc"`. This sorts results based on the `creationTimestamp` field in reverse chronological order (newest result first). Use this to sort resources like operations so that the newest operation is returned first. Currently, only sorting by `name` (or `name asc`) and `creationTimestamp desc` is supported. Sorting by `name desc` or `creationTimestamp` (which defaults to ascending order) is not supported. For `aggregatedList` requests, `orderBy` sorts resources within each individual location (`zones/*`, `regions/*`, or `global`) rather than across all locations. For non-aggregated `list` requests, `orderBy` cannot be combined with `filter` in the same request. */
-  orderBy?: string | undefined;
 }
 export type CompositeTypeList = Array<CompositeType>;
 /** A response that returns all Composite Types supported by Deployment Manager */
 export interface CompositeTypesListResponse {
-  /** Output only. A list of resource composite types supported by Deployment Manager. */
-  compositeTypes?: CompositeTypeList | undefined;
   /** A token used to continue a truncated list request. */
   nextPageToken?: string | undefined;
+  /** Output only. A list of resource composite types supported by Deployment Manager. */
+  compositeTypes?: CompositeTypeList | undefined;
 }
 export interface ListDeploymentsRequest {
-  /** Sorts list results by a certain order. By default, results are returned in alphanumerical order based on the resource name. You can also sort results in descending order based on the creation timestamp using `orderBy="creationTimestamp desc"`. This sorts results based on the `creationTimestamp` field in reverse chronological order (newest result first). Use this to sort resources like operations so that the newest operation is returned first. Currently, only sorting by `name` (or `name asc`) and `creationTimestamp desc` is supported. Sorting by `name desc` or `creationTimestamp` (which defaults to ascending order) is not supported. For `aggregatedList` requests, `orderBy` sorts resources within each individual location (`zones/*`, `regions/*`, or `global`) rather than across all locations. For non-aggregated `list` requests, `orderBy` cannot be combined with `filter` in the same request. */
-  orderBy?: string | undefined;
-  /** The project ID for this request. */
-  project: string;
-  /** A filter expression that filters resources listed in the response. Most Compute resources support two types of filter expressions: expressions that support regular expressions and expressions that follow API improvement proposal AIP-160. These two types of filter expressions cannot be mixed in one request. If you want to use AIP-160, your expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ``` If you want to use a regular expression, use the `eq` (equal) or `ne` (not equal) operator against a single un-parenthesized expression with or without quotes or against multiple parenthesized expressions. Examples: `fieldname eq unquoted literal` `fieldname eq 'single quoted literal'` `fieldname eq "double quoted literal"` `(fieldname1 eq literal) (fieldname2 ne "literal")` The literal value is interpreted as a regular expression using Google RE2 library syntax. The literal value must match the entire field. For example, to filter for instances that do not end with name "instance", you would use `name ne .*instance`. You cannot combine constraints on multiple fields using regular expressions. Note: For non-aggregated `list` requests, `filter` and `orderBy` cannot be combined in the same request. */
-  filter?: string | undefined;
-  /** The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`) */
-  maxResults?: number | undefined;
   /** Specifies a page token to use. Set `pageToken` to the `nextPageToken` returned by a previous list request to get the next page of results. */
   pageToken?: string | undefined;
+  /** The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`) */
+  maxResults?: number | undefined;
+  /** The project ID for this request. */
+  project: string;
+  /** A filter expression that filters resources listed in the response. Most Compute resources support two types of filter expressions: expressions that support regular expressions and expressions that follow API improvement proposal AIP-160. These two types of filter expressions cannot be mixed in one request. If you want to use AIP-160, your expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ``` If you want to use a regular expression, use the `eq` (equal) or `ne` (not equal) operator against a single un-parenthesized expression with or without quotes or against multiple parenthesized expressions. Examples: `fieldname eq unquoted literal` `fieldname eq 'single quoted literal'` `fieldname eq "double quoted literal"` `(fieldname1 eq literal) (fieldname2 ne "literal")` The literal value is interpreted as a regular expression using Google RE2 library syntax. The literal value must match the entire field. For example, to filter for instances that do not end with name "instance", you would use `name ne .*instance`. You cannot combine constraints on multiple fields using regular expressions. */
+  filter?: string | undefined;
+  /** Sorts list results by a certain order. By default, results are returned in alphanumerical order based on the resource name. You can also sort results in descending order based on the creation timestamp using `orderBy="creationTimestamp desc"`. This sorts results based on the `creationTimestamp` field in reverse chronological order (newest result first). Use this to sort resources like operations so that the newest operation is returned first. Currently, only sorting by `name` or `creationTimestamp desc` is supported. */
+  orderBy?: string | undefined;
 }
 export type DeploymentList = Array<Deployment>;
 /** A response containing a partial list of deployments and a page token used to build the next request if the request has been truncated. */
@@ -1197,60 +1186,60 @@ export interface DeploymentsListResponse {
   deployments?: DeploymentList | undefined;
 }
 export interface ListManifestsRequest {
-  /** Specifies a page token to use. Set `pageToken` to the `nextPageToken` returned by a previous list request to get the next page of results. */
-  pageToken?: string | undefined;
-  /** The name of the deployment for this request. */
-  deployment: string;
-  /** A filter expression that filters resources listed in the response. Most Compute resources support two types of filter expressions: expressions that support regular expressions and expressions that follow API improvement proposal AIP-160. These two types of filter expressions cannot be mixed in one request. If you want to use AIP-160, your expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ``` If you want to use a regular expression, use the `eq` (equal) or `ne` (not equal) operator against a single un-parenthesized expression with or without quotes or against multiple parenthesized expressions. Examples: `fieldname eq unquoted literal` `fieldname eq 'single quoted literal'` `fieldname eq "double quoted literal"` `(fieldname1 eq literal) (fieldname2 ne "literal")` The literal value is interpreted as a regular expression using Google RE2 library syntax. The literal value must match the entire field. For example, to filter for instances that do not end with name "instance", you would use `name ne .*instance`. You cannot combine constraints on multiple fields using regular expressions. Note: For non-aggregated `list` requests, `filter` and `orderBy` cannot be combined in the same request. */
-  filter?: string | undefined;
-  /** Sorts list results by a certain order. By default, results are returned in alphanumerical order based on the resource name. You can also sort results in descending order based on the creation timestamp using `orderBy="creationTimestamp desc"`. This sorts results based on the `creationTimestamp` field in reverse chronological order (newest result first). Use this to sort resources like operations so that the newest operation is returned first. Currently, only sorting by `name` (or `name asc`) and `creationTimestamp desc` is supported. Sorting by `name desc` or `creationTimestamp` (which defaults to ascending order) is not supported. For `aggregatedList` requests, `orderBy` sorts resources within each individual location (`zones/*`, `regions/*`, or `global`) rather than across all locations. For non-aggregated `list` requests, `orderBy` cannot be combined with `filter` in the same request. */
-  orderBy?: string | undefined;
   /** The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`) */
   maxResults?: number | undefined;
   /** The project ID for this request. */
   project: string;
+  /** Sorts list results by a certain order. By default, results are returned in alphanumerical order based on the resource name. You can also sort results in descending order based on the creation timestamp using `orderBy="creationTimestamp desc"`. This sorts results based on the `creationTimestamp` field in reverse chronological order (newest result first). Use this to sort resources like operations so that the newest operation is returned first. Currently, only sorting by `name` or `creationTimestamp desc` is supported. */
+  orderBy?: string | undefined;
+  /** The name of the deployment for this request. */
+  deployment: string;
+  /** A filter expression that filters resources listed in the response. Most Compute resources support two types of filter expressions: expressions that support regular expressions and expressions that follow API improvement proposal AIP-160. These two types of filter expressions cannot be mixed in one request. If you want to use AIP-160, your expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ``` If you want to use a regular expression, use the `eq` (equal) or `ne` (not equal) operator against a single un-parenthesized expression with or without quotes or against multiple parenthesized expressions. Examples: `fieldname eq unquoted literal` `fieldname eq 'single quoted literal'` `fieldname eq "double quoted literal"` `(fieldname1 eq literal) (fieldname2 ne "literal")` The literal value is interpreted as a regular expression using Google RE2 library syntax. The literal value must match the entire field. For example, to filter for instances that do not end with name "instance", you would use `name ne .*instance`. You cannot combine constraints on multiple fields using regular expressions. */
+  filter?: string | undefined;
+  /** Specifies a page token to use. Set `pageToken` to the `nextPageToken` returned by a previous list request to get the next page of results. */
+  pageToken?: string | undefined;
 }
 export type ManifestList = Array<Manifest>;
 /** A response containing a partial list of manifests and a page token used to build the next request if the request has been truncated. */
 export interface ManifestsListResponse {
-  /** Output only. Manifests contained in this list response. */
-  manifests?: ManifestList | undefined;
   /** Output only. A token used to continue a truncated list request. */
   nextPageToken?: string | undefined;
+  /** Output only. Manifests contained in this list response. */
+  manifests?: ManifestList | undefined;
 }
 export interface ListOperationsRequest {
-  /** A filter expression that filters resources listed in the response. Most Compute resources support two types of filter expressions: expressions that support regular expressions and expressions that follow API improvement proposal AIP-160. These two types of filter expressions cannot be mixed in one request. If you want to use AIP-160, your expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ``` If you want to use a regular expression, use the `eq` (equal) or `ne` (not equal) operator against a single un-parenthesized expression with or without quotes or against multiple parenthesized expressions. Examples: `fieldname eq unquoted literal` `fieldname eq 'single quoted literal'` `fieldname eq "double quoted literal"` `(fieldname1 eq literal) (fieldname2 ne "literal")` The literal value is interpreted as a regular expression using Google RE2 library syntax. The literal value must match the entire field. For example, to filter for instances that do not end with name "instance", you would use `name ne .*instance`. You cannot combine constraints on multiple fields using regular expressions. Note: For non-aggregated `list` requests, `filter` and `orderBy` cannot be combined in the same request. */
-  filter?: string | undefined;
   /** Specifies a page token to use. Set `pageToken` to the `nextPageToken` returned by a previous list request to get the next page of results. */
   pageToken?: string | undefined;
+  /** Sorts list results by a certain order. By default, results are returned in alphanumerical order based on the resource name. You can also sort results in descending order based on the creation timestamp using `orderBy="creationTimestamp desc"`. This sorts results based on the `creationTimestamp` field in reverse chronological order (newest result first). Use this to sort resources like operations so that the newest operation is returned first. Currently, only sorting by `name` or `creationTimestamp desc` is supported. */
+  orderBy?: string | undefined;
+  /** A filter expression that filters resources listed in the response. Most Compute resources support two types of filter expressions: expressions that support regular expressions and expressions that follow API improvement proposal AIP-160. These two types of filter expressions cannot be mixed in one request. If you want to use AIP-160, your expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ``` If you want to use a regular expression, use the `eq` (equal) or `ne` (not equal) operator against a single un-parenthesized expression with or without quotes or against multiple parenthesized expressions. Examples: `fieldname eq unquoted literal` `fieldname eq 'single quoted literal'` `fieldname eq "double quoted literal"` `(fieldname1 eq literal) (fieldname2 ne "literal")` The literal value is interpreted as a regular expression using Google RE2 library syntax. The literal value must match the entire field. For example, to filter for instances that do not end with name "instance", you would use `name ne .*instance`. You cannot combine constraints on multiple fields using regular expressions. */
+  filter?: string | undefined;
   /** The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`) */
   maxResults?: number | undefined;
   /** The project ID for this request. */
   project: string;
-  /** Sorts list results by a certain order. By default, results are returned in alphanumerical order based on the resource name. You can also sort results in descending order based on the creation timestamp using `orderBy="creationTimestamp desc"`. This sorts results based on the `creationTimestamp` field in reverse chronological order (newest result first). Use this to sort resources like operations so that the newest operation is returned first. Currently, only sorting by `name` (or `name asc`) and `creationTimestamp desc` is supported. Sorting by `name desc` or `creationTimestamp` (which defaults to ascending order) is not supported. For `aggregatedList` requests, `orderBy` sorts resources within each individual location (`zones/*`, `regions/*`, or `global`) rather than across all locations. For non-aggregated `list` requests, `orderBy` cannot be combined with `filter` in the same request. */
-  orderBy?: string | undefined;
 }
 export type OperationList = Array<Operation>;
 /** A response containing a partial list of operations and a page token used to build the next request if the request has been truncated. */
 export interface OperationsListResponse {
-  /** Output only. A token used to continue a truncated list request. */
-  nextPageToken?: string | undefined;
   /** Output only. Operations contained in this list response. */
   operations?: OperationList | undefined;
+  /** Output only. A token used to continue a truncated list request. */
+  nextPageToken?: string | undefined;
 }
 export interface ListResourcesRequest {
-  /** The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`) */
-  maxResults?: number | undefined;
-  /** Sorts list results by a certain order. By default, results are returned in alphanumerical order based on the resource name. You can also sort results in descending order based on the creation timestamp using `orderBy="creationTimestamp desc"`. This sorts results based on the `creationTimestamp` field in reverse chronological order (newest result first). Use this to sort resources like operations so that the newest operation is returned first. Currently, only sorting by `name` (or `name asc`) and `creationTimestamp desc` is supported. Sorting by `name desc` or `creationTimestamp` (which defaults to ascending order) is not supported. For `aggregatedList` requests, `orderBy` sorts resources within each individual location (`zones/*`, `regions/*`, or `global`) rather than across all locations. For non-aggregated `list` requests, `orderBy` cannot be combined with `filter` in the same request. */
-  orderBy?: string | undefined;
-  /** The project ID for this request. */
-  project: string;
-  /** Specifies a page token to use. Set `pageToken` to the `nextPageToken` returned by a previous list request to get the next page of results. */
-  pageToken?: string | undefined;
-  /** A filter expression that filters resources listed in the response. Most Compute resources support two types of filter expressions: expressions that support regular expressions and expressions that follow API improvement proposal AIP-160. These two types of filter expressions cannot be mixed in one request. If you want to use AIP-160, your expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ``` If you want to use a regular expression, use the `eq` (equal) or `ne` (not equal) operator against a single un-parenthesized expression with or without quotes or against multiple parenthesized expressions. Examples: `fieldname eq unquoted literal` `fieldname eq 'single quoted literal'` `fieldname eq "double quoted literal"` `(fieldname1 eq literal) (fieldname2 ne "literal")` The literal value is interpreted as a regular expression using Google RE2 library syntax. The literal value must match the entire field. For example, to filter for instances that do not end with name "instance", you would use `name ne .*instance`. You cannot combine constraints on multiple fields using regular expressions. Note: For non-aggregated `list` requests, `filter` and `orderBy` cannot be combined in the same request. */
-  filter?: string | undefined;
   /** The name of the deployment for this request. */
   deployment: string;
+  /** The project ID for this request. */
+  project: string;
+  /** A filter expression that filters resources listed in the response. Most Compute resources support two types of filter expressions: expressions that support regular expressions and expressions that follow API improvement proposal AIP-160. These two types of filter expressions cannot be mixed in one request. If you want to use AIP-160, your expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ``` If you want to use a regular expression, use the `eq` (equal) or `ne` (not equal) operator against a single un-parenthesized expression with or without quotes or against multiple parenthesized expressions. Examples: `fieldname eq unquoted literal` `fieldname eq 'single quoted literal'` `fieldname eq "double quoted literal"` `(fieldname1 eq literal) (fieldname2 ne "literal")` The literal value is interpreted as a regular expression using Google RE2 library syntax. The literal value must match the entire field. For example, to filter for instances that do not end with name "instance", you would use `name ne .*instance`. You cannot combine constraints on multiple fields using regular expressions. */
+  filter?: string | undefined;
+  /** The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`) */
+  maxResults?: number | undefined;
+  /** Sorts list results by a certain order. By default, results are returned in alphanumerical order based on the resource name. You can also sort results in descending order based on the creation timestamp using `orderBy="creationTimestamp desc"`. This sorts results based on the `creationTimestamp` field in reverse chronological order (newest result first). Use this to sort resources like operations so that the newest operation is returned first. Currently, only sorting by `name` or `creationTimestamp desc` is supported. */
+  orderBy?: string | undefined;
+  /** Specifies a page token to use. Set `pageToken` to the `nextPageToken` returned by a previous list request to get the next page of results. */
+  pageToken?: string | undefined;
 }
 export type ResourceList = Array<Resource>;
 /** A response containing a partial list of resources and a page token used to build the next request if the request has been truncated. */
@@ -1261,16 +1250,16 @@ export interface ResourcesListResponse {
   resources?: ResourceList | undefined;
 }
 export interface ListTypeProvidersRequest {
+  /** A filter expression that filters resources listed in the response. Most Compute resources support two types of filter expressions: expressions that support regular expressions and expressions that follow API improvement proposal AIP-160. These two types of filter expressions cannot be mixed in one request. If you want to use AIP-160, your expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ``` If you want to use a regular expression, use the `eq` (equal) or `ne` (not equal) operator against a single un-parenthesized expression with or without quotes or against multiple parenthesized expressions. Examples: `fieldname eq unquoted literal` `fieldname eq 'single quoted literal'` `fieldname eq "double quoted literal"` `(fieldname1 eq literal) (fieldname2 ne "literal")` The literal value is interpreted as a regular expression using Google RE2 library syntax. The literal value must match the entire field. For example, to filter for instances that do not end with name "instance", you would use `name ne .*instance`. You cannot combine constraints on multiple fields using regular expressions. */
+  filter?: string | undefined;
+  /** Specifies a page token to use. Set `pageToken` to the `nextPageToken` returned by a previous list request to get the next page of results. */
+  pageToken?: string | undefined;
   /** The project ID for this request. */
   project: string;
-  /** A filter expression that filters resources listed in the response. Most Compute resources support two types of filter expressions: expressions that support regular expressions and expressions that follow API improvement proposal AIP-160. These two types of filter expressions cannot be mixed in one request. If you want to use AIP-160, your expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ``` If you want to use a regular expression, use the `eq` (equal) or `ne` (not equal) operator against a single un-parenthesized expression with or without quotes or against multiple parenthesized expressions. Examples: `fieldname eq unquoted literal` `fieldname eq 'single quoted literal'` `fieldname eq "double quoted literal"` `(fieldname1 eq literal) (fieldname2 ne "literal")` The literal value is interpreted as a regular expression using Google RE2 library syntax. The literal value must match the entire field. For example, to filter for instances that do not end with name "instance", you would use `name ne .*instance`. You cannot combine constraints on multiple fields using regular expressions. Note: For non-aggregated `list` requests, `filter` and `orderBy` cannot be combined in the same request. */
-  filter?: string | undefined;
-  /** Sorts list results by a certain order. By default, results are returned in alphanumerical order based on the resource name. You can also sort results in descending order based on the creation timestamp using `orderBy="creationTimestamp desc"`. This sorts results based on the `creationTimestamp` field in reverse chronological order (newest result first). Use this to sort resources like operations so that the newest operation is returned first. Currently, only sorting by `name` (or `name asc`) and `creationTimestamp desc` is supported. Sorting by `name desc` or `creationTimestamp` (which defaults to ascending order) is not supported. For `aggregatedList` requests, `orderBy` sorts resources within each individual location (`zones/*`, `regions/*`, or `global`) rather than across all locations. For non-aggregated `list` requests, `orderBy` cannot be combined with `filter` in the same request. */
+  /** Sorts list results by a certain order. By default, results are returned in alphanumerical order based on the resource name. You can also sort results in descending order based on the creation timestamp using `orderBy="creationTimestamp desc"`. This sorts results based on the `creationTimestamp` field in reverse chronological order (newest result first). Use this to sort resources like operations so that the newest operation is returned first. Currently, only sorting by `name` or `creationTimestamp desc` is supported. */
   orderBy?: string | undefined;
   /** The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`) */
   maxResults?: number | undefined;
-  /** Specifies a page token to use. Set `pageToken` to the `nextPageToken` returned by a previous list request to get the next page of results. */
-  pageToken?: string | undefined;
 }
 export type TypeProviderList = Array<TypeProvider>;
 /** A response that returns all Type Providers supported by Deployment Manager */
@@ -1281,48 +1270,48 @@ export interface TypeProvidersListResponse {
   nextPageToken?: string | undefined;
 }
 export interface ListTypesRequest {
-  /** The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`) */
-  maxResults?: number | undefined;
-  /** A filter expression that filters resources listed in the response. Most Compute resources support two types of filter expressions: expressions that support regular expressions and expressions that follow API improvement proposal AIP-160. These two types of filter expressions cannot be mixed in one request. If you want to use AIP-160, your expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ``` If you want to use a regular expression, use the `eq` (equal) or `ne` (not equal) operator against a single un-parenthesized expression with or without quotes or against multiple parenthesized expressions. Examples: `fieldname eq unquoted literal` `fieldname eq 'single quoted literal'` `fieldname eq "double quoted literal"` `(fieldname1 eq literal) (fieldname2 ne "literal")` The literal value is interpreted as a regular expression using Google RE2 library syntax. The literal value must match the entire field. For example, to filter for instances that do not end with name "instance", you would use `name ne .*instance`. You cannot combine constraints on multiple fields using regular expressions. Note: For non-aggregated `list` requests, `filter` and `orderBy` cannot be combined in the same request. */
-  filter?: string | undefined;
-  /** The project ID for this request. */
-  project: string;
   /** Specifies a page token to use. Set `pageToken` to the `nextPageToken` returned by a previous list request to get the next page of results. */
   pageToken?: string | undefined;
-  /** Sorts list results by a certain order. By default, results are returned in alphanumerical order based on the resource name. You can also sort results in descending order based on the creation timestamp using `orderBy="creationTimestamp desc"`. This sorts results based on the `creationTimestamp` field in reverse chronological order (newest result first). Use this to sort resources like operations so that the newest operation is returned first. Currently, only sorting by `name` (or `name asc`) and `creationTimestamp desc` is supported. Sorting by `name desc` or `creationTimestamp` (which defaults to ascending order) is not supported. For `aggregatedList` requests, `orderBy` sorts resources within each individual location (`zones/*`, `regions/*`, or `global`) rather than across all locations. For non-aggregated `list` requests, `orderBy` cannot be combined with `filter` in the same request. */
+  /** The project ID for this request. */
+  project: string;
+  /** The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`) */
+  maxResults?: number | undefined;
+  /** Sorts list results by a certain order. By default, results are returned in alphanumerical order based on the resource name. You can also sort results in descending order based on the creation timestamp using `orderBy="creationTimestamp desc"`. This sorts results based on the `creationTimestamp` field in reverse chronological order (newest result first). Use this to sort resources like operations so that the newest operation is returned first. Currently, only sorting by `name` or `creationTimestamp desc` is supported. */
   orderBy?: string | undefined;
+  /** A filter expression that filters resources listed in the response. Most Compute resources support two types of filter expressions: expressions that support regular expressions and expressions that follow API improvement proposal AIP-160. These two types of filter expressions cannot be mixed in one request. If you want to use AIP-160, your expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ``` If you want to use a regular expression, use the `eq` (equal) or `ne` (not equal) operator against a single un-parenthesized expression with or without quotes or against multiple parenthesized expressions. Examples: `fieldname eq unquoted literal` `fieldname eq 'single quoted literal'` `fieldname eq "double quoted literal"` `(fieldname1 eq literal) (fieldname2 ne "literal")` The literal value is interpreted as a regular expression using Google RE2 library syntax. The literal value must match the entire field. For example, to filter for instances that do not end with name "instance", you would use `name ne .*instance`. You cannot combine constraints on multiple fields using regular expressions. */
+  filter?: string | undefined;
 }
 /** Label object for Types */
 export type TypeLabelEntry = CompositeTypeLabelEntry;
 export type TypeLabelEntryList = Array<CompositeTypeLabelEntry>;
 /** BaseType that describes a service-backed Type. */
 export interface BaseType {
-  /** Allows resource handling overrides for specific collections */
-  collectionOverrides?: CollectionOverrideList | undefined;
-  /** Credential used when interacting with this type. */
-  credential?: Credential | undefined;
-  /** Descriptor Url for the this type. */
-  descriptorUrl?: string | undefined;
   /** Options to apply when handling any resources in this service. */
   options?: Options | undefined;
+  /** Allows resource handling overrides for specific collections */
+  collectionOverrides?: CollectionOverrideList | undefined;
+  /** Descriptor Url for the this type. */
+  descriptorUrl?: string | undefined;
+  /** Credential used when interacting with this type. */
+  credential?: Credential | undefined;
 }
 /** A resource type supported by Deployment Manager. */
 export interface Type {
-  /** Map of One Platform labels; provided by the client when the resource is created or updated. Specifically: Label keys must be between 1 and 63 characters long and must conform to the following regular expression: `[a-z]([-a-z0-9]*[a-z0-9])?` Label values must be between 0 and 63 characters long and must conform to the regular expression `([a-z]([-a-z0-9]*[a-z0-9])?)?`. */
-  labels?: TypeLabelEntryList | undefined;
-  /** Output only. The Operation that most recently ran, or is currently running, on this type. */
-  operation?: Operation | undefined;
+  id?: string | undefined;
   /** Name of the type. */
   name?: string | undefined;
   /** Output only. Creation timestamp in RFC3339 text format. */
   insertTime?: string | undefined;
-  id?: string | undefined;
+  /** Output only. Server defined URL for the resource. */
+  selfLink?: string | undefined;
+  /** Map of One Platform labels; provided by the client when the resource is created or updated. Specifically: Label keys must be between 1 and 63 characters long and must conform to the following regular expression: `[a-z]([-a-z0-9]*[a-z0-9])?` Label values must be between 0 and 63 characters long and must conform to the regular expression `([a-z]([-a-z0-9]*[a-z0-9])?)?`. */
+  labels?: TypeLabelEntryList | undefined;
   /** An optional textual description of the resource; provided by the client when the resource is created. */
   description?: string | undefined;
   /** Base Type (configurable service) that backs this Type. */
   base?: BaseType | undefined;
-  /** Output only. Server defined URL for the resource. */
-  selfLink?: string | undefined;
+  /** Output only. The Operation that most recently ran, or is currently running, on this type. */
+  operation?: Operation | undefined;
 }
 export type TypeList = Array<Type>;
 /** A response that returns all Types supported by Deployment Manager */
@@ -1333,18 +1322,18 @@ export interface TypesListResponse {
   nextPageToken?: string | undefined;
 }
 export interface ListTypesTypeProvidersRequest {
-  /** Sorts list results by a certain order. By default, results are returned in alphanumerical order based on the resource name. You can also sort results in descending order based on the creation timestamp using `orderBy="creationTimestamp desc"`. This sorts results based on the `creationTimestamp` field in reverse chronological order (newest result first). Use this to sort resources like operations so that the newest operation is returned first. Currently, only sorting by `name` (or `name asc`) and `creationTimestamp desc` is supported. Sorting by `name desc` or `creationTimestamp` (which defaults to ascending order) is not supported. For `aggregatedList` requests, `orderBy` sorts resources within each individual location (`zones/*`, `regions/*`, or `global`) rather than across all locations. For non-aggregated `list` requests, `orderBy` cannot be combined with `filter` in the same request. */
-  orderBy?: string | undefined;
-  /** A filter expression that filters resources listed in the response. Most Compute resources support two types of filter expressions: expressions that support regular expressions and expressions that follow API improvement proposal AIP-160. These two types of filter expressions cannot be mixed in one request. If you want to use AIP-160, your expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ``` If you want to use a regular expression, use the `eq` (equal) or `ne` (not equal) operator against a single un-parenthesized expression with or without quotes or against multiple parenthesized expressions. Examples: `fieldname eq unquoted literal` `fieldname eq 'single quoted literal'` `fieldname eq "double quoted literal"` `(fieldname1 eq literal) (fieldname2 ne "literal")` The literal value is interpreted as a regular expression using Google RE2 library syntax. The literal value must match the entire field. For example, to filter for instances that do not end with name "instance", you would use `name ne .*instance`. You cannot combine constraints on multiple fields using regular expressions. Note: For non-aggregated `list` requests, `filter` and `orderBy` cannot be combined in the same request. */
+  /** The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`) */
+  maxResults?: number | undefined;
+  /** A filter expression that filters resources listed in the response. Most Compute resources support two types of filter expressions: expressions that support regular expressions and expressions that follow API improvement proposal AIP-160. These two types of filter expressions cannot be mixed in one request. If you want to use AIP-160, your expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based on resource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ``` If you want to use a regular expression, use the `eq` (equal) or `ne` (not equal) operator against a single un-parenthesized expression with or without quotes or against multiple parenthesized expressions. Examples: `fieldname eq unquoted literal` `fieldname eq 'single quoted literal'` `fieldname eq "double quoted literal"` `(fieldname1 eq literal) (fieldname2 ne "literal")` The literal value is interpreted as a regular expression using Google RE2 library syntax. The literal value must match the entire field. For example, to filter for instances that do not end with name "instance", you would use `name ne .*instance`. You cannot combine constraints on multiple fields using regular expressions. */
   filter?: string | undefined;
+  /** Sorts list results by a certain order. By default, results are returned in alphanumerical order based on the resource name. You can also sort results in descending order based on the creation timestamp using `orderBy="creationTimestamp desc"`. This sorts results based on the `creationTimestamp` field in reverse chronological order (newest result first). Use this to sort resources like operations so that the newest operation is returned first. Currently, only sorting by `name` or `creationTimestamp desc` is supported. */
+  orderBy?: string | undefined;
   /** Specifies a page token to use. Set `pageToken` to the `nextPageToken` returned by a previous list request to get the next page of results. */
   pageToken?: string | undefined;
   /** The project ID for this request. */
   project: string;
   /** The name of the type provider for this request. */
   typeProvider: string;
-  /** The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`) */
-  maxResults?: number | undefined;
 }
 export type TypeInfoList = Array<TypeInfo>;
 export interface TypeProvidersListTypesResponse {
@@ -1354,26 +1343,26 @@ export interface TypeProvidersListTypesResponse {
   nextPageToken?: string | undefined;
 }
 export interface PatchCompositeTypesRequest extends CompositeType {
-  /** The name of the composite type for this request. */
-  compositeType: string;
   "header.bypassBillingFilter"?: boolean | undefined;
   /** The project ID for this request. */
   project: string;
+  /** The name of the composite type for this request. */
+  compositeType: string;
 }
 export type PatchDeploymentsCreatePolicyEnum = "CREATE_OR_ACQUIRE" | "ACQUIRE" | "CREATE";
 export type PatchDeploymentsDeletePolicyEnum = "DELETE" | "ABANDON";
 export interface PatchDeploymentsRequest extends Deployment {
-  "header.bypassBillingFilter"?: boolean | undefined;
   /** Sets the policy to use for creating new resources. */
   createPolicy?: PatchDeploymentsCreatePolicyEnum | (string & {}) | undefined;
-  /** The name of the deployment for this request. */
-  deployment: string;
-  /** If set to true, updates the deployment and creates and updates the "shell" resources but does not actually alter or instantiate these resources. This allows you to preview what your deployment will look like. You can use this intent to preview how an update would affect your deployment. You must provide a `target.config` with a configuration if this is set to true. After previewing a deployment, you can deploy your resources by making a request with the `update()` or you can `cancelPreview()` to remove the preview altogether. Note that the deployment will still exist after you cancel the preview and you must separately delete this deployment if you want to remove it. */
-  preview?: boolean | undefined;
   /** The project ID for this request. */
   project: string;
+  /** The name of the deployment for this request. */
+  deployment: string;
   /** Sets the policy to use for deleting resources. */
   deletePolicy?: PatchDeploymentsDeletePolicyEnum | (string & {}) | undefined;
+  /** If set to true, updates the deployment and creates and updates the "shell" resources but does not actually alter or instantiate these resources. This allows you to preview what your deployment will look like. You can use this intent to preview how an update would affect your deployment. You must provide a `target.config` with a configuration if this is set to true. After previewing a deployment, you can deploy your resources by making a request with the `update()` or you can `cancelPreview()` to remove the preview altogether. Note that the deployment will still exist after you cancel the preview and you must separately delete this deployment if you want to remove it. */
+  preview?: boolean | undefined;
+  "header.bypassBillingFilter"?: boolean | undefined;
 }
 export interface PatchTypeProvidersRequest extends TypeProvider {
   /** The name of the type provider for this request. */
@@ -1383,20 +1372,20 @@ export interface PatchTypeProvidersRequest extends TypeProvider {
   "header.bypassBillingFilter"?: boolean | undefined;
 }
 export interface GlobalSetPolicyRequest {
-  /** Update mask for the policy. */
-  updateMask?: string | undefined;
   /** Flatten Policy to create a backward compatible wire-format. Deprecated. Use 'policy' to specify the etag. */
   etag?: string | undefined;
   /** Flatten Policy to create a backward compatible wire-format. Deprecated. Use 'policy' to specify bindings. */
   bindings?: BindingList | undefined;
+  /** Update mask for the policy. */
+  updateMask?: string | undefined;
   /** REQUIRED: The complete policy to be applied to the 'resource'. The size of the policy is limited to a few 10s of KB. An empty policy is in general a valid policy but certain services (like Projects) might reject them. */
   policy?: Policy | undefined;
 }
 export interface SetIamPolicyDeploymentsRequest extends GlobalSetPolicyRequest {
-  /** Name or id of the resource for this request. */
-  resource: string;
   /** Project ID for this request. */
   project: string;
+  /** Name or id of the resource for this request. */
+  resource: string;
 }
 export interface DeploymentsStopRequest {
   /** Specifies a fingerprint for `stop()` requests. A fingerprint is a randomly generated value that must be provided in `stop()` requests to perform optimistic locking. This ensures optimistic concurrency so that the deployment does not have conflicting requests (e.g. if someone attempts to make a new update request while another user attempts to stop an ongoing update request, this would prevent a collision). The fingerprint is initially generated by Deployment Manager and changes after every request to modify a deployment. To get the latest fingerprint value, perform a `get()` request on the deployment. */
@@ -1413,35 +1402,35 @@ export interface TestPermissionsRequest {
   permissions?: StringList | undefined;
 }
 export interface TestIamPermissionsDeploymentsRequest extends TestPermissionsRequest {
-  "header.bypassBillingFilter"?: boolean | undefined;
-  /** Name or id of the resource for this request. */
-  resource: string;
   /** Project ID for this request. */
   project: string;
+  /** Name or id of the resource for this request. */
+  resource: string;
+  "header.bypassBillingFilter"?: boolean | undefined;
 }
 export interface TestPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: StringList | undefined;
 }
 export interface UpdateCompositeTypesRequest extends CompositeType {
+  "header.bypassBillingFilter"?: boolean | undefined;
   /** The project ID for this request. */
   project: string;
   /** The name of the composite type for this request. */
   compositeType: string;
-  "header.bypassBillingFilter"?: boolean | undefined;
 }
 export type UpdateDeploymentsDeletePolicyEnum = "DELETE" | "ABANDON";
 export type UpdateDeploymentsCreatePolicyEnum = "CREATE_OR_ACQUIRE" | "ACQUIRE" | "CREATE";
 export interface UpdateDeploymentsRequest extends Deployment {
-  "header.bypassBillingFilter"?: boolean | undefined;
-  /** Sets the policy to use for deleting resources. */
-  deletePolicy?: UpdateDeploymentsDeletePolicyEnum | (string & {}) | undefined;
-  /** If set to true, updates the deployment and creates and updates the "shell" resources but does not actually alter or instantiate these resources. This allows you to preview what your deployment will look like. You can use this intent to preview how an update would affect your deployment. You must provide a `target.config` with a configuration if this is set to true. After previewing a deployment, you can deploy your resources by making a request with the `update()` or you can `cancelPreview()` to remove the preview altogether. Note that the deployment will still exist after you cancel the preview and you must separately delete this deployment if you want to remove it. */
-  preview?: boolean | undefined;
-  /** The project ID for this request. */
-  project: string;
   /** The name of the deployment for this request. */
   deployment: string;
+  /** The project ID for this request. */
+  project: string;
+  "header.bypassBillingFilter"?: boolean | undefined;
+  /** If set to true, updates the deployment and creates and updates the "shell" resources but does not actually alter or instantiate these resources. This allows you to preview what your deployment will look like. You can use this intent to preview how an update would affect your deployment. You must provide a `target.config` with a configuration if this is set to true. After previewing a deployment, you can deploy your resources by making a request with the `update()` or you can `cancelPreview()` to remove the preview altogether. Note that the deployment will still exist after you cancel the preview and you must separately delete this deployment if you want to remove it. */
+  preview?: boolean | undefined;
+  /** Sets the policy to use for deleting resources. */
+  deletePolicy?: UpdateDeploymentsDeletePolicyEnum | (string & {}) | undefined;
   /** Sets the policy to use for creating new resources. */
   createPolicy?: UpdateDeploymentsCreatePolicyEnum | (string & {}) | undefined;
 }
@@ -1465,8 +1454,8 @@ export const cancelPreviewDeployments: API.OperationMethod<
   CancelPreviewDeploymentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c33, 0) as any as S.Schema<CancelPreviewDeploymentsRequest>,
-  output: __S(1216, __c38, 0) as any as S.Schema<Operation>,
+  input: __S(1024, __c32, 0) as any as S.Schema<CancelPreviewDeploymentsRequest>,
+  output: __S(1181, __c36, 29) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -1483,8 +1472,8 @@ export const deleteCompositeTypes: API.OperationMethod<
   DeleteCompositeTypesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c39, 0) as any as S.Schema<DeleteCompositeTypesRequest>,
-  output: __S(1216, __c38, 0) as any as S.Schema<Operation>,
+  input: __S(1184, __c37, 0) as any as S.Schema<DeleteCompositeTypesRequest>,
+  output: __S(1181, __c36, 29) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -1501,8 +1490,8 @@ export const deleteDeployments: API.OperationMethod<
   DeleteDeploymentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c40, 0) as any as S.Schema<DeleteDeploymentsRequest>,
-  output: __S(1216, __c38, 0) as any as S.Schema<Operation>,
+  input: __S(1216, __c38, 0) as any as S.Schema<DeleteDeploymentsRequest>,
+  output: __S(1181, __c36, 29) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -1519,8 +1508,8 @@ export const deleteTypeProviders: API.OperationMethod<
   DeleteTypeProvidersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c41, 0) as any as S.Schema<DeleteTypeProvidersRequest>,
-  output: __S(1216, __c38, 0) as any as S.Schema<Operation>,
+  input: __S(1248, __c39, 0) as any as S.Schema<DeleteTypeProvidersRequest>,
+  output: __S(1181, __c36, 29) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -1537,8 +1526,8 @@ export const getCompositeTypes: API.OperationMethod<
   GetCompositeTypesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c42, 0) as any as S.Schema<GetCompositeTypesRequest>,
-  output: __S(1377, __c43, 1) as any as S.Schema<CompositeType>,
+  input: __S(1280, __c40, 0) as any as S.Schema<GetCompositeTypesRequest>,
+  output: __S(1313, __c41, 1) as any as S.Schema<CompositeType>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -1555,8 +1544,8 @@ export const getDeployments: API.OperationMethod<
   GetDeploymentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c45, 0) as any as S.Schema<GetDeploymentsRequest>,
-  output: __S(1506, __c47, 2) as any as S.Schema<Deployment>,
+  input: __S(1408, __c44, 0) as any as S.Schema<GetDeploymentsRequest>,
+  output: __S(1474, __c46, 2) as any as S.Schema<Deployment>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -1610,7 +1599,7 @@ export const getOperations: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c4, 0) as any as S.Schema<GetOperationsRequest>,
-  output: __S(1216, __c38, 0) as any as S.Schema<Operation>,
+  output: __S(1181, __c36, 29) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -1628,7 +1617,7 @@ export const getResources: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c5, 0) as any as S.Schema<GetResourcesRequest>,
-  output: __S(235, __c7, 11) as any as S.Schema<Resource>,
+  output: __S(203, __c6, 11) as any as S.Schema<Resource>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -1645,8 +1634,8 @@ export const getTypeProviders: API.OperationMethod<
   GetTypeProvidersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c8, 0) as any as S.Schema<GetTypeProvidersRequest>,
-  output: __S(320, __c10, 0) as any as S.Schema<TypeProvider>,
+  input: __S(224, __c7, 0) as any as S.Schema<GetTypeProvidersRequest>,
+  output: __S(288, __c9, 0) as any as S.Schema<TypeProvider>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -1663,8 +1652,8 @@ export const getTypeTypeProviders: API.OperationMethod<
   GetTypeTypeProvidersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c11, 0) as any as S.Schema<GetTypeTypeProvidersRequest>,
-  output: __S(385, __c12, 1) as any as S.Schema<TypeInfo>,
+  input: __S(320, __c10, 0) as any as S.Schema<GetTypeTypeProvidersRequest>,
+  output: __S(353, __c11, 1) as any as S.Schema<TypeInfo>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -1681,8 +1670,8 @@ export const insertCompositeTypes: API.OperationMethod<
   InsertCompositeTypesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c13, 0) as any as S.Schema<InsertCompositeTypesRequest>,
-  output: __S(1216, __c38, 0) as any as S.Schema<Operation>,
+  input: __S(384, __c12, 0) as any as S.Schema<InsertCompositeTypesRequest>,
+  output: __S(1181, __c36, 29) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -1699,8 +1688,8 @@ export const insertDeployments: API.OperationMethod<
   InsertDeploymentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c14, 0) as any as S.Schema<InsertDeploymentsRequest>,
-  output: __S(1216, __c38, 0) as any as S.Schema<Operation>,
+  input: __S(416, __c13, 0) as any as S.Schema<InsertDeploymentsRequest>,
+  output: __S(1181, __c36, 29) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -1717,8 +1706,8 @@ export const insertTypeProviders: API.OperationMethod<
   InsertTypeProvidersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c15, 0) as any as S.Schema<InsertTypeProvidersRequest>,
-  output: __S(1216, __c38, 0) as any as S.Schema<Operation>,
+  input: __S(448, __c14, 0) as any as S.Schema<InsertTypeProvidersRequest>,
+  output: __S(1181, __c36, 29) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -1736,8 +1725,8 @@ export const listCompositeTypes: API.PaginatedOperationMethod<
   GcpOpContext,
   CompositeTypesListResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(512, __c16, 0) as any as S.Schema<ListCompositeTypesRequest>,
-  output: __S(514, __c16, 2) as any as S.Schema<CompositeTypesListResponse>,
+  input: __S(480, __c15, 0) as any as S.Schema<ListCompositeTypesRequest>,
+  output: __S(482, __c15, 2) as any as S.Schema<CompositeTypesListResponse>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -1756,8 +1745,8 @@ export const listDeployments: API.PaginatedOperationMethod<
   GcpOpContext,
   DeploymentsListResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(544, __c17, 0) as any as S.Schema<ListDeploymentsRequest>,
-  output: __S(546, __c17, 2) as any as S.Schema<DeploymentsListResponse>,
+  input: __S(512, __c16, 0) as any as S.Schema<ListDeploymentsRequest>,
+  output: __S(514, __c16, 2) as any as S.Schema<DeploymentsListResponse>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -1776,8 +1765,8 @@ export const listManifests: API.PaginatedOperationMethod<
   GcpOpContext,
   ManifestsListResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(576, __c18, 0) as any as S.Schema<ListManifestsRequest>,
-  output: __S(578, __c18, 2) as any as S.Schema<ManifestsListResponse>,
+  input: __S(544, __c17, 0) as any as S.Schema<ListManifestsRequest>,
+  output: __S(546, __c17, 2) as any as S.Schema<ManifestsListResponse>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -1796,8 +1785,8 @@ export const listOperations: API.PaginatedOperationMethod<
   GcpOpContext,
   OperationsListResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(608, __c19, 0) as any as S.Schema<ListOperationsRequest>,
-  output: __S(610, __c19, 2) as any as S.Schema<OperationsListResponse>,
+  input: __S(576, __c18, 0) as any as S.Schema<ListOperationsRequest>,
+  output: __S(578, __c18, 2) as any as S.Schema<OperationsListResponse>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -1816,8 +1805,8 @@ export const listResources: API.PaginatedOperationMethod<
   GcpOpContext,
   ResourcesListResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(640, __c20, 0) as any as S.Schema<ListResourcesRequest>,
-  output: __S(642, __c20, 2) as any as S.Schema<ResourcesListResponse>,
+  input: __S(608, __c19, 0) as any as S.Schema<ListResourcesRequest>,
+  output: __S(610, __c19, 2) as any as S.Schema<ResourcesListResponse>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -1836,8 +1825,8 @@ export const listTypeProviders: API.PaginatedOperationMethod<
   GcpOpContext,
   TypeProvidersListResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<ListTypeProvidersRequest>,
-  output: __S(674, __c21, 2) as any as S.Schema<TypeProvidersListResponse>,
+  input: __S(640, __c20, 0) as any as S.Schema<ListTypeProvidersRequest>,
+  output: __S(642, __c20, 2) as any as S.Schema<TypeProvidersListResponse>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -1856,8 +1845,8 @@ export const listTypes: API.PaginatedOperationMethod<
   GcpOpContext,
   TypesListResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(704, __c22, 0) as any as S.Schema<ListTypesRequest>,
-  output: __S(708, __c22, 4) as any as S.Schema<TypesListResponse>,
+  input: __S(672, __c21, 0) as any as S.Schema<ListTypesRequest>,
+  output: __S(676, __c21, 4) as any as S.Schema<TypesListResponse>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -1876,8 +1865,8 @@ export const listTypesTypeProviders: API.PaginatedOperationMethod<
   GcpOpContext,
   TypeProvidersListTypesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(736, __c23, 0) as any as S.Schema<ListTypesTypeProvidersRequest>,
-  output: __S(738, __c23, 2) as any as S.Schema<TypeProvidersListTypesResponse>,
+  input: __S(704, __c22, 0) as any as S.Schema<ListTypesTypeProvidersRequest>,
+  output: __S(706, __c22, 2) as any as S.Schema<TypeProvidersListTypesResponse>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -1895,8 +1884,8 @@ export const patchCompositeTypes: API.OperationMethod<
   PatchCompositeTypesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c24, 0) as any as S.Schema<PatchCompositeTypesRequest>,
-  output: __S(1216, __c38, 0) as any as S.Schema<Operation>,
+  input: __S(736, __c23, 0) as any as S.Schema<PatchCompositeTypesRequest>,
+  output: __S(1181, __c36, 29) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -1913,8 +1902,8 @@ export const patchDeployments: API.OperationMethod<
   PatchDeploymentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c25, 0) as any as S.Schema<PatchDeploymentsRequest>,
-  output: __S(1216, __c38, 0) as any as S.Schema<Operation>,
+  input: __S(768, __c24, 0) as any as S.Schema<PatchDeploymentsRequest>,
+  output: __S(1181, __c36, 29) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -1931,8 +1920,8 @@ export const patchTypeProviders: API.OperationMethod<
   PatchTypeProvidersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c26, 0) as any as S.Schema<PatchTypeProvidersRequest>,
-  output: __S(1216, __c38, 0) as any as S.Schema<Operation>,
+  input: __S(800, __c25, 0) as any as S.Schema<PatchTypeProvidersRequest>,
+  output: __S(1181, __c36, 29) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -1954,7 +1943,7 @@ export const setIamPolicyDeployments: API.OperationMethod<
   SetIamPolicyDeploymentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(865, __c27, 1) as any as S.Schema<SetIamPolicyDeploymentsRequest>,
+  input: __S(833, __c26, 1) as any as S.Schema<SetIamPolicyDeploymentsRequest>,
   output: __S(39, __c1, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
@@ -1972,8 +1961,8 @@ export const stopDeployments: API.OperationMethod<
   StopDeploymentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c28, 0) as any as S.Schema<StopDeploymentsRequest>,
-  output: __S(1216, __c38, 0) as any as S.Schema<Operation>,
+  input: __S(864, __c27, 0) as any as S.Schema<StopDeploymentsRequest>,
+  output: __S(1181, __c36, 29) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -1995,8 +1984,8 @@ export const testIamPermissionsDeployments: API.OperationMethod<
   TestIamPermissionsDeploymentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(929, __c29, 1) as any as S.Schema<TestIamPermissionsDeploymentsRequest>,
-  output: __S(928, __c29, 0) as any as S.Schema<TestPermissionsResponse>,
+  input: __S(897, __c28, 1) as any as S.Schema<TestIamPermissionsDeploymentsRequest>,
+  output: __S(896, __c28, 0) as any as S.Schema<TestPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -2013,8 +2002,8 @@ export const updateCompositeTypes: API.OperationMethod<
   UpdateCompositeTypesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c30, 0) as any as S.Schema<UpdateCompositeTypesRequest>,
-  output: __S(1216, __c38, 0) as any as S.Schema<Operation>,
+  input: __S(928, __c29, 0) as any as S.Schema<UpdateCompositeTypesRequest>,
+  output: __S(1181, __c36, 29) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -2031,8 +2020,8 @@ export const updateDeployments: API.OperationMethod<
   UpdateDeploymentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c31, 0) as any as S.Schema<UpdateDeploymentsRequest>,
-  output: __S(1216, __c38, 0) as any as S.Schema<Operation>,
+  input: __S(960, __c30, 0) as any as S.Schema<UpdateDeploymentsRequest>,
+  output: __S(1181, __c36, 29) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -2049,8 +2038,8 @@ export const updateTypeProviders: API.OperationMethod<
   UpdateTypeProvidersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c32, 0) as any as S.Schema<UpdateTypeProvidersRequest>,
-  output: __S(1216, __c38, 0) as any as S.Schema<Operation>,
+  input: __S(992, __c31, 0) as any as S.Schema<UpdateTypeProvidersRequest>,
+  output: __S(1181, __c36, 29) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -2065,10 +2054,10 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          optionsRequestedPolicyVersion: S.optional(S.Number.pipe(T.Query())),
           "header.bypassBillingFilter": S.optional(S.Boolean.pipe(T.Query())),
           project: S.String.pipe(T.Label()),
           resource: S.String.pipe(T.Label()),
-          optionsRequestedPolicyVersion: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2084,47 +2073,47 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          title: S.optional(S.String),
-          description: S.optional(S.String),
-          location: S.optional(S.String),
-          expression: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Expr" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          members: S.optional(__S(1120, __c35, 0)),
-          condition: S.optional(__S(32, __c1, 0)),
-          role: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Binding" });
-    case 2:
-      return S.Array(__S(33, __c1, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
+          exemptedMembers: S.optional(__S(1088, __c34, 0)),
           logType: S.optional(S.String),
-          exemptedMembers: S.optional(__S(1120, __c35, 0)),
         }),
       ).annotate({ identifier: "AuditLogConfig" });
-    case 4:
-      return S.Array(__S(35, __c1, 3));
-    case 5:
+    case 1:
+      return S.Array(__S(32, __c1, 0));
+    case 2:
       return S.suspend(() =>
         S.Struct({
           service: S.optional(S.String),
-          auditLogConfigs: S.optional(__S(36, __c1, 4)),
+          auditLogConfigs: S.optional(__S(33, __c1, 1)),
         }),
       ).annotate({ identifier: "AuditConfig" });
+    case 3:
+      return S.Array(__S(34, __c1, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          location: S.optional(S.String),
+          title: S.optional(S.String),
+          expression: S.optional(S.String),
+          description: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Expr" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          role: S.optional(S.String),
+          members: S.optional(__S(1088, __c34, 0)),
+          condition: S.optional(__S(36, __c1, 4)),
+        }),
+      ).annotate({ identifier: "Binding" });
     case 6:
       return S.Array(__S(37, __c1, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          bindings: S.optional(__S(34, __c1, 2)),
-          etag: S.optional(S.String),
-          auditConfigs: S.optional(__S(38, __c1, 6)),
           version: S.optional(S.Number),
+          auditConfigs: S.optional(__S(35, __c1, 3)),
+          bindings: S.optional(__S(38, __c1, 6)),
+          etag: S.optional(S.String),
         }),
       ).annotate({ identifier: "Policy" });
   }
@@ -2134,10 +2123,10 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          deployment: S.String.pipe(T.Label()),
-          manifest: S.String.pipe(T.Label()),
-          "header.bypassBillingFilter": S.optional(S.Boolean.pipe(T.Query())),
           project: S.String.pipe(T.Label()),
+          manifest: S.String.pipe(T.Label()),
+          deployment: S.String.pipe(T.Label()),
+          "header.bypassBillingFilter": S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2153,16 +2142,16 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          manifestSizeBytes: S.optional(S.String),
-          manifestSizeLimitBytes: S.optional(S.String),
-          name: S.optional(S.String),
-          imports: S.optional(__S(1409, __c44, 1)),
           insertTime: S.optional(S.String),
-          config: S.optional(__S(1472, __c46, 0)),
-          layout: S.optional(S.String),
-          selfLink: S.optional(S.String),
+          manifestSizeBytes: S.optional(S.String),
           id: S.optional(S.String),
           expandedConfig: S.optional(S.String),
+          name: S.optional(S.String),
+          selfLink: S.optional(S.String),
+          config: S.optional(__S(1440, __c45, 0)),
+          manifestSizeLimitBytes: S.optional(S.String),
+          layout: S.optional(S.String),
+          imports: S.optional(__S(1345, __c42, 1)),
         }),
       ).annotate({ identifier: "Manifest" });
   }
@@ -2190,9 +2179,9 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          deployment: S.String.pipe(T.Label()),
           "header.bypassBillingFilter": S.optional(S.Boolean.pipe(T.Query())),
           resource: S.String.pipe(T.Label()),
-          deployment: S.String.pipe(T.Label()),
           project: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -2209,12 +2198,89 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(S.String),
-          key: S.optional(S.String),
+          gcpIamPolicy: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ResourceWarningsItemDataItem" });
+      ).annotate({ identifier: "ResourceAccessControl" });
     case 1:
-      return S.Array(__S(192, __c6, 0));
+      return S.suspend(() =>
+        S.Struct({
+          message: S.optional(S.String),
+          data: S.optional(__S(1129, __c35, 9)),
+          code: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ResourceUpdateWarningsItem" });
+    case 2:
+      return S.Array(__S(193, __c6, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          help: S.optional(__S(1124, __c35, 4)),
+          errorInfo: S.optional(__S(1126, __c35, 6)),
+          quotaInfo: S.optional(__S(1121, __c35, 1)),
+          localizedMessage: S.optional(__S(1125, __c35, 5)),
+        }),
+      ).annotate({ identifier: "ResourceUpdateErrorErrorsItemErrorDetailsItem" });
+    case 4:
+      return S.Array(__S(195, __c6, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          errorDetails: S.optional(__S(196, __c6, 4)),
+          arguments: S.optional(__S(1088, __c34, 0)),
+          debugInfo: S.optional(__S(1127, __c35, 7)),
+          message: S.optional(S.String),
+          code: S.optional(S.String),
+          location: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ResourceUpdateErrorErrorsItem" });
+    case 6:
+      return S.Array(__S(197, __c6, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          errors: S.optional(__S(198, __c6, 6)),
+        }),
+      ).annotate({ identifier: "ResourceUpdateError" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          finalProperties: S.optional(S.String),
+          state: S.optional(S.String),
+          intent: S.optional(S.String),
+          manifest: S.optional(S.String),
+          accessControl: S.optional(__S(192, __c6, 0)),
+          warnings: S.optional(__S(194, __c6, 2)),
+          properties: S.optional(S.String),
+          error: S.optional(__S(199, __c6, 7)),
+        }),
+      ).annotate({ identifier: "ResourceUpdate" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.optional(S.String),
+          data: S.optional(__S(1377, __c43, 1)),
+          message: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ResourceWarningsItem" });
+    case 10:
+      return S.Array(__S(201, __c6, 9));
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          manifest: S.optional(S.String),
+          name: S.optional(S.String),
+          url: S.optional(S.String),
+          update: S.optional(__S(200, __c6, 8)),
+          updateTime: S.optional(S.String),
+          finalProperties: S.optional(S.String),
+          insertTime: S.optional(S.String),
+          warnings: S.optional(__S(202, __c6, 10)),
+          properties: S.optional(S.String),
+          id: S.optional(S.String),
+          accessControl: S.optional(__S(192, __c6, 0)),
+          type: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Resource" });
   }
 }
 function __c7(j: number): any {
@@ -2222,99 +2288,9 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(193, __c6, 1)),
-          code: S.optional(S.String),
-          message: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ResourceWarningsItem" });
-    case 1:
-      return S.Array(__S(224, __c7, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          gcpIamPolicy: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ResourceAccessControl" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          help: S.optional(__S(1158, __c36, 6)),
-          errorInfo: S.optional(__S(1153, __c36, 1)),
-          quotaInfo: S.optional(__S(1154, __c36, 2)),
-          localizedMessage: S.optional(__S(1155, __c36, 3)),
-        }),
-      ).annotate({ identifier: "ResourceUpdateErrorErrorsItemErrorDetailsItem" });
-    case 4:
-      return S.Array(__S(227, __c7, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          code: S.optional(S.String),
-          debugInfo: S.optional(__S(1159, __c36, 7)),
-          message: S.optional(S.String),
-          errorDetails: S.optional(__S(228, __c7, 4)),
-          arguments: S.optional(__S(1120, __c35, 0)),
-          location: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ResourceUpdateErrorErrorsItem" });
-    case 6:
-      return S.Array(__S(229, __c7, 5));
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          errors: S.optional(__S(230, __c7, 6)),
-        }),
-      ).annotate({ identifier: "ResourceUpdateError" });
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          code: S.optional(S.String),
-          message: S.optional(S.String),
-          data: S.optional(__S(193, __c6, 1)),
-        }),
-      ).annotate({ identifier: "ResourceUpdateWarningsItem" });
-    case 9:
-      return S.Array(__S(232, __c7, 8));
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          properties: S.optional(S.String),
-          state: S.optional(S.String),
-          accessControl: S.optional(__S(226, __c7, 2)),
-          error: S.optional(__S(231, __c7, 7)),
-          intent: S.optional(S.String),
-          warnings: S.optional(__S(233, __c7, 9)),
-          manifest: S.optional(S.String),
-          finalProperties: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ResourceUpdate" });
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          finalProperties: S.optional(S.String),
-          properties: S.optional(S.String),
-          name: S.optional(S.String),
-          warnings: S.optional(__S(225, __c7, 1)),
-          url: S.optional(S.String),
-          id: S.optional(S.String),
-          update: S.optional(__S(234, __c7, 10)),
-          accessControl: S.optional(__S(226, __c7, 2)),
-          type: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          insertTime: S.optional(S.String),
-          manifest: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Resource" });
-  }
-}
-function __c8(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          typeProvider: S.String.pipe(T.Label()),
           "header.bypassBillingFilter": S.optional(S.Boolean.pipe(T.Query())),
+          typeProvider: S.String.pipe(T.Label()),
+          project: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2325,93 +2301,114 @@ function __c8(j: number): any {
       ).annotate({ identifier: "GetTypeProvidersRequest" });
   }
 }
-function __c9(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          user: S.optional(S.String),
-          password: S.optional(S.String.pipe(T.SensitiveValue({}))),
-        }),
-      ).annotate({ identifier: "BasicAuth" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          email: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ServiceAccount" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          useProjectDefault: S.optional(S.Boolean),
-          basicAuth: S.optional(__S(288, __c9, 0)),
-          serviceAccount: S.optional(__S(289, __c9, 1)),
-        }),
-      ).annotate({ identifier: "Credential" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          undeclaredProperties: S.optional(S.String),
-          schemaValidation: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ValidationOptions" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
           value: S.optional(S.String),
           methodMatch: S.optional(S.String),
-          location: S.optional(S.String),
           fieldName: S.optional(S.String),
+          location: S.optional(S.String),
         }),
       ).annotate({ identifier: "InputMapping" });
-    case 5:
-      return S.Array(__S(292, __c9, 4));
-    case 6:
+    case 1:
+      return S.Array(__S(256, __c8, 0));
+    case 2:
       return S.suspend(() =>
         S.Struct({
           field: S.optional(S.String),
           level: S.optional(S.String),
         }),
       ).annotate({ identifier: "Diagnostic" });
-    case 7:
-      return S.Array(__S(294, __c9, 6));
-    case 8:
+    case 3:
+      return S.Array(__S(258, __c8, 2));
+    case 4:
       return S.suspend(() =>
         S.Struct({
-          targetLink: S.optional(S.String),
-          failCondition: S.optional(S.String),
-          diagnostics: S.optional(__S(295, __c9, 7)),
-          pollingLink: S.optional(S.String),
           finishCondition: S.optional(S.String),
+          failCondition: S.optional(S.String),
+          pollingLink: S.optional(S.String),
+          diagnostics: S.optional(__S(259, __c8, 3)),
+          targetLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "PollingOptions" });
-    case 9:
+    case 5:
       return S.suspend(() =>
         S.Struct({
-          pollingOptions: S.optional(__S(296, __c9, 8)),
+          pollingOptions: S.optional(__S(260, __c8, 4)),
           methodMatch: S.optional(S.String),
         }),
       ).annotate({ identifier: "AsyncOptions" });
-    case 10:
-      return S.Array(__S(297, __c9, 9));
-    case 11:
+    case 6:
+      return S.Array(__S(261, __c8, 5));
+    case 7:
       return S.suspend(() =>
         S.Struct({
-          validationOptions: S.optional(__S(291, __c9, 3)),
-          inputMappings: S.optional(__S(293, __c9, 5)),
-          asyncOptions: S.optional(__S(298, __c9, 10)),
+          schemaValidation: S.optional(S.String),
+          undeclaredProperties: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ValidationOptions" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          inputMappings: S.optional(__S(257, __c8, 1)),
+          asyncOptions: S.optional(__S(262, __c8, 6)),
+          validationOptions: S.optional(__S(263, __c8, 7)),
           virtualProperties: S.optional(S.String),
         }),
       ).annotate({ identifier: "Options" });
-    case 12:
+    case 9:
       return S.suspend(() =>
         S.Struct({
-          options: S.optional(__S(299, __c9, 11)),
+          options: S.optional(__S(264, __c8, 8)),
           collection: S.optional(S.String),
         }),
       ).annotate({ identifier: "CollectionOverride" });
+    case 10:
+      return S.Array(__S(265, __c8, 9));
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          user: S.optional(S.String),
+          password: S.optional(S.String.pipe(T.SensitiveValue({}))),
+        }),
+      ).annotate({ identifier: "BasicAuth" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          email: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ServiceAccount" });
     case 13:
-      return S.Array(__S(300, __c9, 12));
+      return S.suspend(() =>
+        S.Struct({
+          basicAuth: S.optional(__S(267, __c8, 11)),
+          useProjectDefault: S.optional(S.Boolean),
+          serviceAccount: S.optional(__S(268, __c8, 12)),
+        }),
+      ).annotate({ identifier: "Credential" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          operation: S.optional(__S(1181, __c36, 29)),
+          name: S.optional(S.String),
+          collectionOverrides: S.optional(__S(266, __c8, 10)),
+          descriptorUrl: S.optional(S.String),
+          description: S.optional(S.String),
+          insertTime: S.optional(S.String),
+          selfLink: S.optional(S.String),
+          options: S.optional(__S(264, __c8, 8)),
+          credential: S.optional(__S(269, __c8, 13)),
+          customCertificateAuthorityRoots: S.optional(__S(1088, __c34, 0)),
+          id: S.optional(S.String),
+          labels: S.optional(__S(1129, __c35, 9)),
+        }),
+      ).annotate({ identifier: "TypeProvider" });
   }
 }
 function __c10(j: number): any {
@@ -2419,31 +2416,10 @@ function __c10(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          credential: S.optional(__S(290, __c9, 2)),
-          customCertificateAuthorityRoots: S.optional(__S(1120, __c35, 0)),
-          operation: S.optional(__S(1216, __c38, 0)),
-          insertTime: S.optional(S.String),
-          descriptorUrl: S.optional(S.String),
-          options: S.optional(__S(299, __c9, 11)),
-          labels: S.optional(__S(193, __c6, 1)),
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-          selfLink: S.optional(S.String),
-          collectionOverrides: S.optional(__S(301, __c9, 13)),
-          description: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TypeProvider" });
-  }
-}
-function __c11(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
           "header.bypassBillingFilter": S.optional(S.Boolean.pipe(T.Query())),
           typeProvider: S.String.pipe(T.Label()),
+          type: S.String.pipe(T.Label()),
+          project: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2454,35 +2430,35 @@ function __c11(j: number): any {
       ).annotate({ identifier: "GetTypeTypeProvidersRequest" });
   }
 }
-function __c12(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          input: S.optional(S.String),
           output: S.optional(S.String),
+          input: S.optional(S.String),
         }),
       ).annotate({ identifier: "TypeInfoSchemaInfo" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          description: S.optional(S.String),
-          kind: S.optional(S.String),
-          title: S.optional(S.String),
-          name: S.optional(S.String),
-          documentationLink: S.optional(S.String),
-          schema: S.optional(__S(384, __c12, 0)),
           selfLink: S.optional(S.String),
+          kind: S.optional(S.String),
+          documentationLink: S.optional(S.String),
+          name: S.optional(S.String),
+          title: S.optional(S.String),
+          schema: S.optional(__S(352, __c11, 0)),
+          description: S.optional(S.String),
         }),
       ).annotate({ identifier: "TypeInfo" });
   }
 }
-function __c13(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(1377, __c43, 1),
+          __S(1313, __c41, 1),
           S.Struct({
             "header.bypassBillingFilter": S.optional(S.Boolean.pipe(T.Query())),
             project: S.String.pipe(T.Label()),
@@ -2497,17 +2473,17 @@ function __c13(j: number): any {
       ).annotate({ identifier: "InsertCompositeTypesRequest" });
   }
 }
-function __c14(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(1506, __c47, 2),
+          __S(1474, __c46, 2),
           S.Struct({
-            createPolicy: S.optional(S.String.pipe(T.Query())),
-            preview: S.optional(S.Boolean.pipe(T.Query())),
             project: S.String.pipe(T.Label()),
+            createPolicy: S.optional(S.String.pipe(T.Query())),
             "header.bypassBillingFilter": S.optional(S.Boolean.pipe(T.Query())),
+            preview: S.optional(S.Boolean.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -2519,15 +2495,15 @@ function __c14(j: number): any {
       ).annotate({ identifier: "InsertDeploymentsRequest" });
   }
 }
-function __c15(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(320, __c10, 0),
+          __S(288, __c9, 0),
           S.Struct({
-            project: S.String.pipe(T.Label()),
             "header.bypassBillingFilter": S.optional(S.Boolean.pipe(T.Query())),
+            project: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -2539,16 +2515,16 @@ function __c15(j: number): any {
       ).annotate({ identifier: "InsertTypeProvidersRequest" });
   }
 }
-function __c16(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          orderBy: S.optional(S.String.pipe(T.Query())),
           maxResults: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
           project: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          orderBy: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2558,26 +2534,26 @@ function __c16(j: number): any {
         ),
       ).annotate({ identifier: "ListCompositeTypesRequest" });
     case 1:
-      return S.Array(__S(1377, __c43, 1));
+      return S.Array(__S(1313, __c41, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          compositeTypes: S.optional(__S(513, __c16, 1)),
           nextPageToken: S.optional(S.String),
+          compositeTypes: S.optional(__S(481, __c15, 1)),
         }),
       ).annotate({ identifier: "CompositeTypesListResponse" });
   }
 }
-function __c17(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          orderBy: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          maxResults: S.optional(S.Number.pipe(T.Query())),
           project: S.String.pipe(T.Label()),
           filter: S.optional(S.String.pipe(T.Query())),
-          maxResults: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2587,27 +2563,27 @@ function __c17(j: number): any {
         ),
       ).annotate({ identifier: "ListDeploymentsRequest" });
     case 1:
-      return S.Array(__S(1506, __c47, 2));
+      return S.Array(__S(1474, __c46, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          deployments: S.optional(__S(545, __c17, 1)),
+          deployments: S.optional(__S(513, __c16, 1)),
         }),
       ).annotate({ identifier: "DeploymentsListResponse" });
   }
 }
-function __c18(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          deployment: S.String.pipe(T.Label()),
-          filter: S.optional(S.String.pipe(T.Query())),
-          orderBy: S.optional(S.String.pipe(T.Query())),
           maxResults: S.optional(S.Number.pipe(T.Query())),
           project: S.String.pipe(T.Label()),
+          orderBy: S.optional(S.String.pipe(T.Query())),
+          deployment: S.String.pipe(T.Label()),
+          filter: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2621,22 +2597,22 @@ function __c18(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          manifests: S.optional(__S(577, __c18, 1)),
           nextPageToken: S.optional(S.String),
+          manifests: S.optional(__S(545, __c17, 1)),
         }),
       ).annotate({ identifier: "ManifestsListResponse" });
   }
 }
-function __c19(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
           maxResults: S.optional(S.Number.pipe(T.Query())),
           project: S.String.pipe(T.Label()),
-          orderBy: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2646,27 +2622,27 @@ function __c19(j: number): any {
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
     case 1:
-      return S.Array(__S(1216, __c38, 0));
+      return S.Array(__S(1181, __c36, 29));
     case 2:
       return S.suspend(() =>
         S.Struct({
+          operations: S.optional(__S(577, __c18, 1)),
           nextPageToken: S.optional(S.String),
-          operations: S.optional(__S(609, __c19, 1)),
         }),
       ).annotate({ identifier: "OperationsListResponse" });
   }
 }
-function __c20(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          deployment: S.String.pipe(T.Label()),
+          project: S.String.pipe(T.Label()),
+          filter: S.optional(S.String.pipe(T.Query())),
           maxResults: S.optional(S.Number.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
-          deployment: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2676,26 +2652,26 @@ function __c20(j: number): any {
         ),
       ).annotate({ identifier: "ListResourcesRequest" });
     case 1:
-      return S.Array(__S(235, __c7, 11));
+      return S.Array(__S(203, __c6, 11));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          resources: S.optional(__S(641, __c20, 1)),
+          resources: S.optional(__S(609, __c19, 1)),
         }),
       ).annotate({ identifier: "ResourcesListResponse" });
   }
 }
-function __c21(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          project: S.String.pipe(T.Label()),
           filter: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          project: S.String.pipe(T.Label()),
           orderBy: S.optional(S.String.pipe(T.Query())),
           maxResults: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2705,26 +2681,26 @@ function __c21(j: number): any {
         ),
       ).annotate({ identifier: "ListTypeProvidersRequest" });
     case 1:
-      return S.Array(__S(320, __c10, 0));
+      return S.Array(__S(288, __c9, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          typeProviders: S.optional(__S(673, __c21, 1)),
+          typeProviders: S.optional(__S(641, __c20, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "TypeProvidersListResponse" });
   }
 }
-function __c22(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          maxResults: S.optional(S.Number.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          project: S.String.pipe(T.Label()),
+          maxResults: S.optional(S.Number.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2736,47 +2712,47 @@ function __c22(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          collectionOverrides: S.optional(__S(301, __c9, 13)),
-          credential: S.optional(__S(290, __c9, 2)),
+          options: S.optional(__S(264, __c8, 8)),
+          collectionOverrides: S.optional(__S(266, __c8, 10)),
           descriptorUrl: S.optional(S.String),
-          options: S.optional(__S(299, __c9, 11)),
+          credential: S.optional(__S(269, __c8, 13)),
         }),
       ).annotate({ identifier: "BaseType" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          labels: S.optional(__S(1199, __c37, 15)),
-          operation: S.optional(__S(1216, __c38, 0)),
+          id: S.optional(S.String),
           name: S.optional(S.String),
           insertTime: S.optional(S.String),
-          id: S.optional(S.String),
-          description: S.optional(S.String),
-          base: S.optional(__S(705, __c22, 1)),
           selfLink: S.optional(S.String),
+          labels: S.optional(__S(1377, __c43, 1)),
+          description: S.optional(S.String),
+          base: S.optional(__S(673, __c21, 1)),
+          operation: S.optional(__S(1181, __c36, 29)),
         }),
       ).annotate({ identifier: "Type" });
     case 3:
-      return S.Array(__S(706, __c22, 2));
+      return S.Array(__S(674, __c21, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          types: S.optional(__S(707, __c22, 3)),
+          types: S.optional(__S(675, __c21, 3)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "TypesListResponse" });
   }
 }
-function __c23(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          orderBy: S.optional(S.String.pipe(T.Query())),
+          maxResults: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           project: S.String.pipe(T.Label()),
           typeProvider: S.String.pipe(T.Label()),
-          maxResults: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2786,26 +2762,26 @@ function __c23(j: number): any {
         ),
       ).annotate({ identifier: "ListTypesTypeProvidersRequest" });
     case 1:
-      return S.Array(__S(385, __c12, 1));
+      return S.Array(__S(353, __c11, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          types: S.optional(__S(737, __c23, 1)),
+          types: S.optional(__S(705, __c22, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "TypeProvidersListTypesResponse" });
   }
 }
-function __c24(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(1377, __c43, 1),
+          __S(1313, __c41, 1),
           S.Struct({
-            compositeType: S.String.pipe(T.Label()),
             "header.bypassBillingFilter": S.optional(S.Boolean.pipe(T.Query())),
             project: S.String.pipe(T.Label()),
+            compositeType: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -2817,19 +2793,19 @@ function __c24(j: number): any {
       ).annotate({ identifier: "PatchCompositeTypesRequest" });
   }
 }
-function __c25(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(1506, __c47, 2),
+          __S(1474, __c46, 2),
           S.Struct({
-            "header.bypassBillingFilter": S.optional(S.Boolean.pipe(T.Query())),
             createPolicy: S.optional(S.String.pipe(T.Query())),
-            deployment: S.String.pipe(T.Label()),
-            preview: S.optional(S.Boolean.pipe(T.Query())),
             project: S.String.pipe(T.Label()),
+            deployment: S.String.pipe(T.Label()),
             deletePolicy: S.optional(S.String.pipe(T.Query())),
+            preview: S.optional(S.Boolean.pipe(T.Query())),
+            "header.bypassBillingFilter": S.optional(S.Boolean.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -2841,12 +2817,12 @@ function __c25(j: number): any {
       ).annotate({ identifier: "PatchDeploymentsRequest" });
   }
 }
-function __c26(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(320, __c10, 0),
+          __S(288, __c9, 0),
           S.Struct({
             typeProvider: S.String.pipe(T.Label()),
             project: S.String.pipe(T.Label()),
@@ -2862,24 +2838,24 @@ function __c26(j: number): any {
       ).annotate({ identifier: "PatchTypeProvidersRequest" });
   }
 }
-function __c27(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          updateMask: S.optional(S.String),
           etag: S.optional(S.String),
-          bindings: S.optional(__S(34, __c1, 2)),
+          bindings: S.optional(__S(38, __c1, 6)),
+          updateMask: S.optional(S.String),
           policy: S.optional(__S(39, __c1, 7)),
         }),
       ).annotate({ identifier: "GlobalSetPolicyRequest" });
     case 1:
       return S.suspend(() =>
         S.Extend(
-          __S(864, __c27, 0),
+          __S(832, __c26, 0),
           S.Struct({
-            resource: S.String.pipe(T.Label()),
             project: S.String.pipe(T.Label()),
+            resource: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -2891,12 +2867,12 @@ function __c27(j: number): any {
       ).annotate({ identifier: "SetIamPolicyDeploymentsRequest" });
   }
 }
-function __c28(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(1088, __c34, 0),
+          __S(1056, __c33, 0),
           S.Struct({
             project: S.String.pipe(T.Label()),
             deployment: S.String.pipe(T.Label()),
@@ -2911,22 +2887,22 @@ function __c28(j: number): any {
       ).annotate({ identifier: "StopDeploymentsRequest" });
   }
 }
-function __c29(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          permissions: S.optional(__S(1120, __c35, 0)),
+          permissions: S.optional(__S(1088, __c34, 0)),
         }),
       ).annotate({ identifier: "TestPermissionsRequest" });
     case 1:
       return S.suspend(() =>
         S.Extend(
-          __S(928, __c29, 0),
+          __S(896, __c28, 0),
           S.Struct({
-            "header.bypassBillingFilter": S.optional(S.Boolean.pipe(T.Query())),
-            resource: S.String.pipe(T.Label()),
             project: S.String.pipe(T.Label()),
+            resource: S.String.pipe(T.Label()),
+            "header.bypassBillingFilter": S.optional(S.Boolean.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -2938,16 +2914,16 @@ function __c29(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsDeploymentsRequest" });
   }
 }
-function __c30(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(1377, __c43, 1),
+          __S(1313, __c41, 1),
           S.Struct({
+            "header.bypassBillingFilter": S.optional(S.Boolean.pipe(T.Query())),
             project: S.String.pipe(T.Label()),
             compositeType: S.String.pipe(T.Label()),
-            "header.bypassBillingFilter": S.optional(S.Boolean.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -2959,18 +2935,18 @@ function __c30(j: number): any {
       ).annotate({ identifier: "UpdateCompositeTypesRequest" });
   }
 }
-function __c31(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(1506, __c47, 2),
+          __S(1474, __c46, 2),
           S.Struct({
-            "header.bypassBillingFilter": S.optional(S.Boolean.pipe(T.Query())),
-            deletePolicy: S.optional(S.String.pipe(T.Query())),
-            preview: S.optional(S.Boolean.pipe(T.Query())),
-            project: S.String.pipe(T.Label()),
             deployment: S.String.pipe(T.Label()),
+            project: S.String.pipe(T.Label()),
+            "header.bypassBillingFilter": S.optional(S.Boolean.pipe(T.Query())),
+            preview: S.optional(S.Boolean.pipe(T.Query())),
+            deletePolicy: S.optional(S.String.pipe(T.Query())),
             createPolicy: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
@@ -2983,12 +2959,12 @@ function __c31(j: number): any {
       ).annotate({ identifier: "UpdateDeploymentsRequest" });
   }
 }
-function __c32(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(320, __c10, 0),
+          __S(288, __c9, 0),
           S.Struct({
             "header.bypassBillingFilter": S.optional(S.Boolean.pipe(T.Query())),
             project: S.String.pipe(T.Label()),
@@ -3004,12 +2980,12 @@ function __c32(j: number): any {
       ).annotate({ identifier: "UpdateTypeProvidersRequest" });
   }
 }
-function __c33(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(1088, __c34, 0),
+          __S(1056, __c33, 0),
           S.Struct({
             deployment: S.String.pipe(T.Label()),
             project: S.String.pipe(T.Label()),
@@ -3024,7 +3000,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "CancelPreviewDeploymentsRequest" });
   }
 }
-function __c34(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3034,320 +3010,308 @@ function __c34(j: number): any {
       ).annotate({ identifier: "DeploymentsCancelPreviewRequest" });
   }
 }
-function __c35(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c36(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
     case 1:
       return S.suspend(() =>
         S.Struct({
-          metadatas: S.optional(__S(1152, __c36, 0)),
-          reason: S.optional(S.String),
-          domain: S.optional(S.String),
+          metricName: S.optional(S.String),
+          limitName: S.optional(S.String),
+          futureLimit: S.optional(S.Number),
+          dimensions: S.optional(__S(1120, __c35, 0)),
+          rolloutStatus: S.optional(S.String),
+          limit: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "ErrorInfo" });
+      ).annotate({ identifier: "QuotaExceededInfo" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          metricName: S.optional(S.String),
-          dimensions: S.optional(__S(1152, __c36, 0)),
-          limit: S.optional(S.Number),
-          rolloutStatus: S.optional(S.String),
-          futureLimit: S.optional(S.Number),
-          limitName: S.optional(S.String),
+          description: S.optional(S.String),
+          url: S.optional(S.String),
         }),
-      ).annotate({ identifier: "QuotaExceededInfo" });
+      ).annotate({ identifier: "HelpLink" });
     case 3:
-      return S.suspend(() =>
-        S.Struct({
-          locale: S.optional(S.String),
-          message: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "LocalizedMessage" });
+      return S.Array(__S(1122, __c35, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          url: S.optional(S.String),
-          description: S.optional(S.String),
+          links: S.optional(__S(1123, __c35, 3)),
         }),
-      ).annotate({ identifier: "HelpLink" });
+      ).annotate({ identifier: "Help" });
     case 5:
-      return S.Array(__S(1156, __c36, 4));
+      return S.suspend(() =>
+        S.Struct({
+          message: S.optional(S.String),
+          locale: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "LocalizedMessage" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          links: S.optional(__S(1157, __c36, 5)),
+          domain: S.optional(S.String),
+          metadatas: S.optional(__S(1120, __c35, 0)),
+          reason: S.optional(S.String),
         }),
-      ).annotate({ identifier: "Help" });
+      ).annotate({ identifier: "ErrorInfo" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          stackEntries: S.optional(__S(1120, __c35, 0)),
+          stackEntries: S.optional(__S(1088, __c34, 0)),
           detail: S.optional(S.String),
         }),
       ).annotate({ identifier: "DebugInfo" });
-  }
-}
-function __c37(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.Unknown);
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          message: S.optional(S.String),
-          data: S.optional(__S(1184, __c37, 0)),
-        }),
-      ).annotate({ identifier: "OperationDetails" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          conversation: S.optional(S.String),
-          consoleUri: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AgentConversationsSendMessageOperationMetadata" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          archiveSha256: S.optional(S.String),
-          bytesTransferred: S.optional(S.String),
-          bucketName: S.optional(S.String),
-          filesTransferred: S.optional(S.String),
-          objectName: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "MicroVmsExportOperationMetadata" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          errorInfo: S.optional(__S(1153, __c36, 1)),
-          quotaInfo: S.optional(__S(1154, __c36, 2)),
-          localizedMessage: S.optional(__S(1155, __c36, 3)),
-          help: S.optional(__S(1158, __c36, 6)),
-        }),
-      ).annotate({ identifier: "OperationErrorErrorsItemErrorDetailsItem" });
-    case 5:
-      return S.Array(__S(1188, __c37, 4));
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          message: S.optional(S.String),
-          errorDetails: S.optional(__S(1189, __c37, 5)),
-          arguments: S.optional(__S(1120, __c35, 0)),
-          debugInfo: S.optional(__S(1159, __c36, 7)),
-          location: S.optional(S.String),
-          code: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "OperationErrorErrorsItem" });
-    case 7:
-      return S.Array(__S(1190, __c37, 6));
     case 8:
-      return S.suspend(() =>
-        S.Struct({
-          errors: S.optional(__S(1191, __c37, 7)),
-        }),
-      ).annotate({ identifier: "OperationError" });
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          currentComponentVersions: S.optional(__S(1152, __c36, 0)),
-          targetComponentVersions: S.optional(__S(1152, __c36, 0)),
-        }),
-      ).annotate({ identifier: "GetVersionOperationMetadataSbomInfo" });
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          values: S.optional(__S(1120, __c35, 0)),
-        }),
-      ).annotate({ identifier: "GetVersionOperationMetadataHbomInfoComponentValues" });
-    case 11:
-      return S.Record(S.String, __S(1194, __c37, 10));
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          hardwareComponentInfo: S.optional(__S(1195, __c37, 11)),
-        }),
-      ).annotate({ identifier: "GetVersionOperationMetadataHbomInfo" });
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          inlineSbomInfo: S.optional(__S(1193, __c37, 9)),
-          inlineHbomInfo: S.optional(__S(1196, __c37, 12)),
-        }),
-      ).annotate({ identifier: "GetVersionOperationMetadata" });
-    case 14:
       return S.suspend(() =>
         S.Struct({
           key: S.optional(S.String),
           value: S.optional(S.String),
         }),
       ).annotate({ identifier: "OperationWarningsItemDataItem" });
-    case 15:
-      return S.Array(__S(1198, __c37, 14));
-    case 16:
-      return S.suspend(() =>
-        S.Struct({
-          data: S.optional(__S(1199, __c37, 15)),
-          code: S.optional(S.String),
-          message: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "OperationWarningsItem" });
-    case 17:
-      return S.Array(__S(1200, __c37, 16));
-    case 18:
-      return S.Array(__S(1184, __c37, 0));
-    case 19:
+    case 9:
+      return S.Array(__S(1128, __c35, 8));
+  }
+}
+function __c36(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.Unknown);
+    case 1:
+      return S.Array(__S(1152, __c36, 0));
+    case 2:
       return S.suspend(() =>
         S.Struct({
           code: S.optional(S.Number),
-          details: S.optional(__S(1202, __c37, 18)),
           message: S.optional(S.String),
+          details: S.optional(__S(1153, __c36, 1)),
         }),
       ).annotate({ identifier: "Status" });
-    case 20:
+    case 3:
       return S.suspend(() =>
         S.Struct({
-          error: S.optional(__S(1203, __c37, 19)),
           state: S.optional(S.String),
+          error: S.optional(__S(1154, __c36, 2)),
         }),
       ).annotate({
         identifier: "SetCommonInstanceMetadataOperationMetadataPerLocationOperationInfo",
       });
-    case 21:
-      return S.Record(S.String, __S(1204, __c37, 20));
-    case 22:
+    case 4:
+      return S.Record(S.String, __S(1155, __c36, 3));
+    case 5:
       return S.suspend(() =>
         S.Struct({
+          perLocationOperations: S.optional(__S(1156, __c36, 4)),
           clientOperationId: S.optional(S.String),
-          perLocationOperations: S.optional(__S(1205, __c37, 21)),
         }),
       ).annotate({ identifier: "SetCommonInstanceMetadataOperationMetadata" });
-    case 23:
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          bucketName: S.optional(S.String),
+          archiveSha256: S.optional(S.String),
+          objectName: S.optional(S.String),
+          bytesTransferred: S.optional(S.String),
+          filesTransferred: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MicroVmsExportOperationMetadata" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          quotaInfo: S.optional(__S(1121, __c35, 1)),
+          help: S.optional(__S(1124, __c35, 4)),
+          localizedMessage: S.optional(__S(1125, __c35, 5)),
+          errorInfo: S.optional(__S(1126, __c35, 6)),
+        }),
+      ).annotate({ identifier: "OperationErrorErrorsItemErrorDetailsItem" });
+    case 8:
+      return S.Array(__S(1159, __c36, 7));
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.optional(S.String),
+          message: S.optional(S.String),
+          location: S.optional(S.String),
+          errorDetails: S.optional(__S(1160, __c36, 8)),
+          arguments: S.optional(__S(1088, __c34, 0)),
+          debugInfo: S.optional(__S(1127, __c35, 7)),
+        }),
+      ).annotate({ identifier: "OperationErrorErrorsItem" });
+    case 10:
+      return S.Array(__S(1161, __c36, 9));
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          errors: S.optional(__S(1162, __c36, 10)),
+        }),
+      ).annotate({ identifier: "OperationError" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          data: S.optional(__S(1129, __c35, 9)),
+          code: S.optional(S.String),
+          message: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "OperationWarningsItem" });
+    case 13:
+      return S.Array(__S(1164, __c36, 12));
+    case 14:
       return S.suspend(() =>
         S.Struct({
           allocatedPriority: S.optional(S.Number),
         }),
       ).annotate({ identifier: "FirewallPolicyRuleOperationMetadata" });
-    case 24:
+    case 15:
       return S.suspend(() =>
         S.Struct({
-          deletedVmCount: S.optional(S.Number),
+          data: S.optional(__S(1152, __c36, 0)),
+          message: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "OperationDetails" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          zoneToIgmIds: S.optional(__S(1120, __c35, 0)),
+          zonalIgmIds: S.optional(__S(1088, __c34, 0)),
+        }),
+      ).annotate({ identifier: "SetAutoscalerLinkOperationMetadata" });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
           targetVmCount: S.optional(S.Number),
-          estimatedAvailabilityTime: S.optional(S.String),
-          createdVmCount: S.optional(S.Number),
           failedToCreateVmCount: S.optional(S.Number),
+          createdVmCount: S.optional(S.Number),
           status: S.optional(S.String),
+          deletedVmCount: S.optional(S.Number),
+          estimatedAvailabilityTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "BulkInsertOperationStatus" });
-    case 25:
-      return S.Record(S.String, __S(1208, __c37, 24));
-    case 26:
+    case 18:
+      return S.Record(S.String, __S(1169, __c36, 17));
+    case 19:
       return S.suspend(() =>
         S.Struct({
           machineType: S.optional(S.String),
-          perLocationStatus: S.optional(__S(1209, __c37, 25)),
+          perLocationStatus: S.optional(__S(1170, __c36, 18)),
         }),
       ).annotate({ identifier: "InstancesBulkInsertOperationMetadata" });
-    case 27:
-      return S.suspend(() =>
-        S.Struct({
-          bytesTransferred: S.optional(S.String),
-          phase: S.optional(S.String),
-          filesTransferred: S.optional(S.String),
-          archiveSha256: S.optional(S.String),
-          totalBytes: S.optional(S.String),
-          objectName: S.optional(S.String),
-          bucketName: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "MicroVmsImportOperationMetadata" });
-    case 28:
+    case 20:
       return S.suspend(() =>
         S.Struct({
           healthStatus: S.optional(S.String),
-          repairCategory: S.optional(S.String),
-          unhealthyReason: S.optional(S.String),
           availabilitySloStatus: S.optional(S.String),
           updateTime: S.optional(S.String),
+          unhealthyReason: S.optional(S.String),
+          repairCategory: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetHealthOperationMetadataHealthInfo" });
-    case 29:
+    case 21:
       return S.suspend(() =>
         S.Struct({
-          healthInfo: S.optional(__S(1212, __c37, 28)),
+          healthInfo: S.optional(__S(1172, __c36, 20)),
         }),
       ).annotate({ identifier: "GetHealthOperationMetadata" });
-    case 30:
-      return S.suspend(() =>
-        S.Struct({
-          zoneToIgmIds: S.optional(__S(1152, __c36, 0)),
-          zonalIgmIds: S.optional(__S(1120, __c35, 0)),
-        }),
-      ).annotate({ identifier: "SetAutoscalerLinkOperationMetadata" });
-    case 31:
+    case 22:
       return S.suspend(() =>
         S.Struct({
           troubleshootOutput: S.optional(S.String),
         }),
       ).annotate({ identifier: "InstancesTroubleshootOperationMetadata" });
-  }
-}
-function __c38(j: number): any {
-  switch (j) {
-    case 0:
+    case 23:
       return S.suspend(() =>
         S.Struct({
-          zone: S.optional(S.String),
-          targetId: S.optional(S.String),
-          details: S.optional(__S(1185, __c37, 1)),
-          kind: S.optional(S.String),
+          totalBytes: S.optional(S.String),
+          filesTransferred: S.optional(S.String),
+          phase: S.optional(S.String),
+          bytesTransferred: S.optional(S.String),
+          archiveSha256: S.optional(S.String),
+          bucketName: S.optional(S.String),
+          objectName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MicroVmsImportOperationMetadata" });
+    case 24:
+      return S.suspend(() =>
+        S.Struct({
+          targetComponentVersions: S.optional(__S(1120, __c35, 0)),
+          currentComponentVersions: S.optional(__S(1120, __c35, 0)),
+        }),
+      ).annotate({ identifier: "GetVersionOperationMetadataSbomInfo" });
+    case 25:
+      return S.suspend(() =>
+        S.Struct({
+          values: S.optional(__S(1088, __c34, 0)),
+        }),
+      ).annotate({ identifier: "GetVersionOperationMetadataHbomInfoComponentValues" });
+    case 26:
+      return S.Record(S.String, __S(1177, __c36, 25));
+    case 27:
+      return S.suspend(() =>
+        S.Struct({
+          hardwareComponentInfo: S.optional(__S(1178, __c36, 26)),
+        }),
+      ).annotate({ identifier: "GetVersionOperationMetadataHbomInfo" });
+    case 28:
+      return S.suspend(() =>
+        S.Struct({
+          inlineSbomInfo: S.optional(__S(1176, __c36, 24)),
+          inlineHbomInfo: S.optional(__S(1179, __c36, 27)),
+        }),
+      ).annotate({ identifier: "GetVersionOperationMetadata" });
+    case 29:
+      return S.suspend(() =>
+        S.Struct({
+          setCommonInstanceMetadataOperationMetadata: S.optional(__S(1157, __c36, 5)),
           targetLink: S.optional(S.String),
-          status: S.optional(S.String),
-          progress: S.optional(S.Number),
-          name: S.optional(S.String),
-          statusMessage: S.optional(S.String),
+          microVmsExportOperationMetadata: S.optional(__S(1158, __c36, 6)),
           operationType: S.optional(S.String),
-          agentConversationsSendMessageOperationMetadata: S.optional(__S(1186, __c37, 2)),
-          microVmsExportOperationMetadata: S.optional(__S(1187, __c37, 3)),
-          error: S.optional(__S(1192, __c37, 8)),
-          httpErrorStatusCode: S.optional(S.Number),
-          httpErrorMessage: S.optional(S.String),
-          endTime: S.optional(S.String),
-          getVersionOperationMetadata: S.optional(__S(1197, __c37, 13)),
-          warnings: S.optional(__S(1201, __c37, 17)),
-          startTime: S.optional(S.String),
-          id: S.optional(S.String),
-          setCommonInstanceMetadataOperationMetadata: S.optional(__S(1206, __c37, 22)),
-          selfLinkWithId: S.optional(S.String),
-          creationTimestamp: S.optional(S.String),
-          firewallPolicyRuleOperationMetadata: S.optional(__S(1207, __c37, 23)),
-          user: S.optional(S.String),
-          operationGroupId: S.optional(S.String),
-          instancesBulkInsertOperationMetadata: S.optional(__S(1210, __c37, 26)),
-          microVmsImportOperationMetadata: S.optional(__S(1211, __c37, 27)),
-          clientOperationId: S.optional(S.String),
-          getHealthOperationMetadata: S.optional(__S(1213, __c37, 29)),
           description: S.optional(S.String),
-          selfLink: S.optional(S.String),
-          insertTime: S.optional(S.String),
-          setAutoscalerLinkOperationMetadata: S.optional(__S(1214, __c37, 30)),
+          endTime: S.optional(S.String),
+          zone: S.optional(S.String),
+          startTime: S.optional(S.String),
           region: S.optional(S.String),
-          instancesTroubleshootOperationMetadata: S.optional(__S(1215, __c37, 31)),
+          clientOperationId: S.optional(S.String),
+          kind: S.optional(S.String),
+          error: S.optional(__S(1163, __c36, 11)),
+          id: S.optional(S.String),
+          operationGroupId: S.optional(S.String),
+          warnings: S.optional(__S(1165, __c36, 13)),
+          selfLink: S.optional(S.String),
+          firewallPolicyRuleOperationMetadata: S.optional(__S(1166, __c36, 14)),
+          creationTimestamp: S.optional(S.String),
+          progress: S.optional(S.Number),
+          insertTime: S.optional(S.String),
+          details: S.optional(__S(1167, __c36, 15)),
+          statusMessage: S.optional(S.String),
+          selfLinkWithId: S.optional(S.String),
+          setAutoscalerLinkOperationMetadata: S.optional(__S(1168, __c36, 16)),
+          status: S.optional(S.String),
+          httpErrorStatusCode: S.optional(S.Number),
+          instancesBulkInsertOperationMetadata: S.optional(__S(1171, __c36, 19)),
+          user: S.optional(S.String),
+          getHealthOperationMetadata: S.optional(__S(1173, __c36, 21)),
+          instancesTroubleshootOperationMetadata: S.optional(__S(1174, __c36, 22)),
+          httpErrorMessage: S.optional(S.String),
+          name: S.optional(S.String),
+          microVmsImportOperationMetadata: S.optional(__S(1175, __c36, 23)),
+          targetId: S.optional(S.String),
+          getVersionOperationMetadata: S.optional(__S(1180, __c36, 28)),
         }),
       ).annotate({ identifier: "Operation" });
   }
 }
-function __c39(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          compositeType: S.String.pipe(T.Label()),
           project: S.String.pipe(T.Label()),
+          compositeType: S.String.pipe(T.Label()),
           "header.bypassBillingFilter": S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -3359,15 +3323,15 @@ function __c39(j: number): any {
       ).annotate({ identifier: "DeleteCompositeTypesRequest" });
   }
 }
-function __c40(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project: S.String.pipe(T.Label()),
+          deployment: S.String.pipe(T.Label()),
           "header.bypassBillingFilter": S.optional(S.Boolean.pipe(T.Query())),
           deletePolicy: S.optional(S.String.pipe(T.Query())),
-          deployment: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -3378,14 +3342,14 @@ function __c40(j: number): any {
       ).annotate({ identifier: "DeleteDeploymentsRequest" });
   }
 }
-function __c41(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          typeProvider: S.String.pipe(T.Label()),
           project: S.String.pipe(T.Label()),
           "header.bypassBillingFilter": S.optional(S.Boolean.pipe(T.Query())),
-          typeProvider: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -3396,14 +3360,14 @@ function __c41(j: number): any {
       ).annotate({ identifier: "DeleteTypeProvidersRequest" });
   }
 }
-function __c42(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          "header.bypassBillingFilter": S.optional(S.Boolean.pipe(T.Query())),
-          project: S.String.pipe(T.Label()),
           compositeType: S.String.pipe(T.Label()),
+          project: S.String.pipe(T.Label()),
+          "header.bypassBillingFilter": S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3414,35 +3378,35 @@ function __c42(j: number): any {
       ).annotate({ identifier: "GetCompositeTypesRequest" });
   }
 }
-function __c43(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          template: S.optional(S.String),
-          imports: S.optional(__S(1409, __c44, 1)),
-          schema: S.optional(S.String),
+          imports: S.optional(__S(1345, __c42, 1)),
           interpreter: S.optional(S.String),
+          template: S.optional(S.String),
           mainTemplate: S.optional(S.String),
+          schema: S.optional(S.String),
         }),
       ).annotate({ identifier: "TemplateContents" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          id: S.optional(S.String),
-          operation: S.optional(__S(1216, __c38, 0)),
-          labels: S.optional(__S(1199, __c37, 15)),
-          description: S.optional(S.String),
+          templateContents: S.optional(__S(1312, __c41, 0)),
           name: S.optional(S.String),
-          status: S.optional(S.String),
-          templateContents: S.optional(__S(1376, __c43, 0)),
-          selfLink: S.optional(S.String),
           insertTime: S.optional(S.String),
+          operation: S.optional(__S(1181, __c36, 29)),
+          description: S.optional(S.String),
+          labels: S.optional(__S(1377, __c43, 1)),
+          id: S.optional(S.String),
+          status: S.optional(S.String),
+          selfLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "CompositeType" });
   }
 }
-function __c44(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3452,17 +3416,30 @@ function __c44(j: number): any {
         }),
       ).annotate({ identifier: "ImportFile" });
     case 1:
-      return S.Array(__S(1408, __c44, 0));
+      return S.Array(__S(1344, __c42, 0));
   }
 }
-function __c45(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          deployment: S.String.pipe(T.Label()),
-          project: S.String.pipe(T.Label()),
+          value: S.optional(S.String),
+          key: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CompositeTypeLabelEntry" });
+    case 1:
+      return S.Array(__S(1376, __c43, 0));
+  }
+}
+function __c44(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           "header.bypassBillingFilter": S.optional(S.Boolean.pipe(T.Query())),
+          project: S.String.pipe(T.Label()),
+          deployment: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3473,7 +3450,7 @@ function __c45(j: number): any {
       ).annotate({ identifier: "GetDeploymentsRequest" });
   }
 }
-function __c46(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3483,38 +3460,38 @@ function __c46(j: number): any {
       ).annotate({ identifier: "ConfigFile" });
   }
 }
-function __c47(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          labels: S.optional(__S(1199, __c37, 15)),
-          manifest: S.optional(S.String),
+          labels: S.optional(__S(1129, __c35, 9)),
           description: S.optional(S.String),
+          manifest: S.optional(S.String),
         }),
       ).annotate({ identifier: "DeploymentUpdate" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          imports: S.optional(__S(1409, __c44, 1)),
-          config: S.optional(__S(1472, __c46, 0)),
+          imports: S.optional(__S(1345, __c42, 1)),
+          config: S.optional(__S(1440, __c45, 0)),
         }),
       ).annotate({ identifier: "TargetConfiguration" });
     case 2:
       return S.suspend(() =>
         S.Struct({
+          update: S.optional(__S(1472, __c46, 0)),
+          labels: S.optional(__S(1377, __c43, 1)),
+          operation: S.optional(__S(1181, __c36, 29)),
           manifest: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          operation: S.optional(__S(1216, __c38, 0)),
-          update: S.optional(__S(1504, __c47, 0)),
-          target: S.optional(__S(1505, __c47, 1)),
-          insertTime: S.optional(S.String),
-          fingerprint: S.optional(S.String),
-          id: S.optional(S.String),
-          selfLink: S.optional(S.String),
           name: S.optional(S.String),
+          target: S.optional(__S(1473, __c46, 1)),
+          insertTime: S.optional(S.String),
+          id: S.optional(S.String),
           description: S.optional(S.String),
-          labels: S.optional(__S(1199, __c37, 15)),
+          fingerprint: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          selfLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "Deployment" });
   }

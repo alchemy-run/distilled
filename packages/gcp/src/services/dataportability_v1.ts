@@ -86,12 +86,12 @@ export class NotFound
 export type StringList = Array<string>;
 /** Request to kick off an Archive job. */
 export interface ArchiveInitiatePortabilityRequest {
-  /** Optional. The timestamp that represents the end point for the data you are exporting. If the end_time is not specified in the InitiatePortabilityArchiveRequest, this field is set to the latest available data. */
-  endTime?: string | undefined;
   /** The resources from which you're exporting data. These values have a 1:1 correspondence with the OAuth scopes. */
   resources?: StringList | undefined;
   /** Optional. The timestamp that represents the starting point for the data you are exporting. If the start_time is not specified in the InitiatePortabilityArchiveRequest, the field is set to the earliest available data. */
   startTime?: string | undefined;
+  /** Optional. The timestamp that represents the end point for the data you are exporting. If the end_time is not specified in the InitiatePortabilityArchiveRequest, this field is set to the latest available data. */
+  endTime?: string | undefined;
 }
 export interface ArchiveInitiatePortabilityRequest_ extends ArchiveInitiatePortabilityRequest {}
 export type ArchiveInitiatePortabilityResponseAccessTypeEnum =
@@ -100,10 +100,10 @@ export type ArchiveInitiatePortabilityResponseAccessTypeEnum =
   | "ACCESS_TYPE_TIME_BASED";
 /** Response from initiating an Archive job. */
 export interface ArchiveInitiatePortabilityResponse {
-  /** The access type of the Archive job initiated by the API. */
-  accessType?: ArchiveInitiatePortabilityResponseAccessTypeEnum | undefined;
   /** The archive job ID that is initiated in the API. This can be used to get the state of the job. */
   archiveJobId?: string | undefined;
+  /** The access type of the Archive job initiated by the API. */
+  accessType?: ArchiveInitiatePortabilityResponseAccessTypeEnum | undefined;
 }
 /** Request to cancel a Portability Archive job. */
 export interface CancelPortabilityArchiveRequest {}
@@ -140,14 +140,14 @@ export type PortabilityArchiveStateStateEnum =
   | "CANCELLED";
 /** Resource that contains the state of an Archive job. */
 export interface PortabilityArchiveState {
-  /** The resource name of ArchiveJob's PortabilityArchiveState singleton. The format is: archiveJobs/{archive_job}/portabilityArchiveState. archive_job is the job ID provided in the request. */
-  name?: string | undefined;
-  /** The timestamp that represents the starting point for the data you are exporting. This field is set only if the start_time field is specified in the InitiatePortabilityArchiveRequest. */
-  startTime?: string | undefined;
   /** If the state is complete, this method returns the signed URLs of the objects in the Cloud Storage bucket. */
   urls?: StringList | undefined;
+  /** The resource name of ArchiveJob's PortabilityArchiveState singleton. The format is: archiveJobs/{archive_job}/portabilityArchiveState. archive_job is the job ID provided in the request. */
+  name?: string | undefined;
   /** Resource that represents the state of the Archive job. */
   state?: PortabilityArchiveStateStateEnum | undefined;
+  /** The timestamp that represents the starting point for the data you are exporting. This field is set only if the start_time field is specified in the InitiatePortabilityArchiveRequest. */
+  startTime?: string | undefined;
   /** The timestamp that represents the end point for the data you are exporting. If the end_time value is set in the InitiatePortabilityArchiveRequest, this field is set to that value. If end_time is not set, this value is set to the time the export was requested. */
   exportTime?: string | undefined;
 }
@@ -291,9 +291,9 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          endTime: S.optional(S.String),
           resources: S.optional(__S(4, __c1, 0)),
           startTime: S.optional(S.String),
+          endTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "ArchiveInitiatePortabilityRequest" });
     case 1:
@@ -309,8 +309,8 @@ function __c0(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          accessType: S.optional(S.String),
           archiveJobId: S.optional(S.String),
+          accessType: S.optional(S.String),
         }),
       ).annotate({ identifier: "ArchiveInitiatePortabilityResponse" });
   }
@@ -386,10 +386,10 @@ function __c5(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          startTime: S.optional(S.String),
           urls: S.optional(__S(4, __c1, 0)),
+          name: S.optional(S.String),
           state: S.optional(S.String),
+          startTime: S.optional(S.String),
           exportTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "PortabilityArchiveState" });

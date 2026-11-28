@@ -86,10 +86,10 @@ export class NotFound
 
 export type StringList = Array<string>;
 export interface GenerateAccessTokenRequest {
-  /** The sequence of service accounts in a delegation chain. This field is required for [delegated requests](https://cloud.google.com/iam/help/credentials/delegated-request). For [direct requests](https://cloud.google.com/iam/help/credentials/direct-request), which are more common, do not specify this field. Each service account must be granted the `roles/iam.serviceAccountTokenCreator` role on its next service account in the chain. The last service account in the chain must be granted the `roles/iam.serviceAccountTokenCreator` role on the service account that is specified in the `name` field of the request. The delegates must have the following format: `projects/-/serviceAccounts/{ACCOUNT_EMAIL_OR_UNIQUEID}`. The `-` wildcard character is required; replacing it with a project ID is invalid. */
-  delegates?: StringList | undefined;
   /** Required. Code to identify the scopes to be included in the OAuth 2.0 access token. See https://developers.google.com/identity/protocols/googlescopes for more information. At least one value required. */
   scope?: StringList | undefined;
+  /** The sequence of service accounts in a delegation chain. This field is required for [delegated requests](https://cloud.google.com/iam/help/credentials/delegated-request). For [direct requests](https://cloud.google.com/iam/help/credentials/direct-request), which are more common, do not specify this field. Each service account must be granted the `roles/iam.serviceAccountTokenCreator` role on its next service account in the chain. The last service account in the chain must be granted the `roles/iam.serviceAccountTokenCreator` role on the service account that is specified in the `name` field of the request. The delegates must have the following format: `projects/-/serviceAccounts/{ACCOUNT_EMAIL_OR_UNIQUEID}`. The `-` wildcard character is required; replacing it with a project ID is invalid. */
+  delegates?: StringList | undefined;
   /** The desired lifetime duration of the access token in seconds. By default, the maximum allowed value is 1 hour. To set a lifetime of up to 12 hours, you can add the service account as an allowed value in an Organization Policy that enforces the `constraints/iam.allowServiceAccountCredentialLifetimeExtension` constraint. See detailed instructions at https://cloud.google.com/iam/help/credentials/lifetime If a value is not specified, the token's lifetime will be set to a default value of 1 hour. */
   lifetime?: string | undefined;
 }
@@ -98,20 +98,20 @@ export interface GenerateAccessTokenProjectsServiceAccountsRequest extends Gener
   name: string;
 }
 export interface GenerateAccessTokenResponse {
-  /** The OAuth 2.0 access token. */
-  accessToken?: string | Redacted.Redacted<string> | undefined;
   /** Token expiration time. The expiration time is always set. */
   expireTime?: string | undefined;
+  /** The OAuth 2.0 access token. */
+  accessToken?: string | Redacted.Redacted<string> | undefined;
 }
 export interface GenerateIdTokenRequest {
+  /** Include the service account email in the token. If set to `true`, the token will contain `email` and `email_verified` claims. */
+  includeEmail?: boolean | undefined;
+  /** Required. The audience for the token, such as the API or account that this token grants access to. */
+  audience?: string | undefined;
   /** The sequence of service accounts in a delegation chain. Each service account must be granted the `roles/iam.serviceAccountTokenCreator` role on its next service account in the chain. The last service account in the chain must be granted the `roles/iam.serviceAccountTokenCreator` role on the service account that is specified in the `name` field of the request. The delegates must have the following format: `projects/-/serviceAccounts/{ACCOUNT_EMAIL_OR_UNIQUEID}`. The `-` wildcard character is required; replacing it with a project ID is invalid. */
   delegates?: StringList | undefined;
   /** Include the organization number of the service account in the token. If set to `true`, the token will contain a `google.organization_number` claim. The value of the claim will be `null` if the service account isn't associated with an organization. */
   organizationNumberIncluded?: boolean | undefined;
-  /** Required. The audience for the token, such as the API or account that this token grants access to. */
-  audience?: string | undefined;
-  /** Include the service account email in the token. If set to `true`, the token will contain `email` and `email_verified` claims. */
-  includeEmail?: boolean | undefined;
 }
 export interface GenerateIdTokenProjectsServiceAccountsRequest extends GenerateIdTokenRequest {
   /** Required. The resource name of the service account for which the credentials are requested, in the following format: `projects/-/serviceAccounts/{ACCOUNT_EMAIL_OR_UNIQUEID}`. The `-` wildcard character is required; replacing it with a project ID is invalid. */
@@ -127,10 +127,10 @@ export interface GetAllowedLocationsLocationsWorkforcePoolsRequest {
 }
 /** Represents a list of allowed locations for given workforce pool. */
 export interface WorkforcePoolAllowedLocations {
-  /** Output only. The human readable trust boundary locations. For example, ["us-central1", "europe-west1"] */
-  locations?: StringList | undefined;
   /** Output only. The hex encoded bitmap of the trust boundary locations */
   encodedLocations?: string | undefined;
+  /** Output only. The human readable trust boundary locations. For example, ["us-central1", "europe-west1"] */
+  locations?: StringList | undefined;
 }
 export interface GetAllowedLocationsProjectsLocationsWorkloadIdentityPoolsRequest {
   /** Required. Resource name of workload identity pool. */
@@ -138,10 +138,10 @@ export interface GetAllowedLocationsProjectsLocationsWorkloadIdentityPoolsReques
 }
 /** Represents a list of allowed locations for given workload identity pool. */
 export interface WorkloadIdentityPoolAllowedLocations {
-  /** Output only. The human readable trust boundary locations. For example, ["us-central1", "europe-west1"] */
-  locations?: StringList | undefined;
   /** Output only. The hex encoded bitmap of the trust boundary locations */
   encodedLocations?: string | undefined;
+  /** Output only. The human readable trust boundary locations. For example, ["us-central1", "europe-west1"] */
+  locations?: StringList | undefined;
 }
 export interface GetAllowedLocationsProjectsServiceAccountsRequest {
   /** Required. Resource name of service account. Format: `projects/-/serviceAccounts/{service_account_email}` */
@@ -149,42 +149,42 @@ export interface GetAllowedLocationsProjectsServiceAccountsRequest {
 }
 /** Represents a list of allowed locations for given service account. */
 export interface ServiceAccountAllowedLocations {
-  /** Output only. The hex encoded bitmap of the trust boundary locations */
-  encodedLocations?: string | undefined;
   /** Output only. The human readable trust boundary locations. For example, ["us-central1", "europe-west1"] */
   locations?: StringList | undefined;
+  /** Output only. The hex encoded bitmap of the trust boundary locations */
+  encodedLocations?: string | undefined;
 }
 export interface SignBlobRequest {
-  /** Required. The bytes to sign. */
-  payload?: string | undefined;
   /** The sequence of service accounts in a delegation chain. Each service account must be granted the `roles/iam.serviceAccountTokenCreator` role on its next service account in the chain. The last service account in the chain must be granted the `roles/iam.serviceAccountTokenCreator` role on the service account that is specified in the `name` field of the request. The delegates must have the following format: `projects/-/serviceAccounts/{ACCOUNT_EMAIL_OR_UNIQUEID}`. The `-` wildcard character is required; replacing it with a project ID is invalid. */
   delegates?: StringList | undefined;
+  /** Required. The bytes to sign. */
+  payload?: string | undefined;
 }
 export interface SignBlobProjectsServiceAccountsRequest extends SignBlobRequest {
   /** Required. The resource name of the service account for which the credentials are requested, in the following format: `projects/-/serviceAccounts/{ACCOUNT_EMAIL_OR_UNIQUEID}`. The `-` wildcard character is required; replacing it with a project ID is invalid. */
   name: string;
 }
 export interface SignBlobResponse {
-  /** The ID of the key used to sign the blob. The key used for signing will remain valid for at least 12 hours after the blob is signed. To verify the signature, you can retrieve the public key in several formats from the following endpoints: - RSA public key wrapped in an X.509 v3 certificate: `https://www.googleapis.com/service_accounts/v1/metadata/x509/{ACCOUNT_EMAIL}` - Raw key in JSON format: `https://www.googleapis.com/service_accounts/v1/metadata/raw/{ACCOUNT_EMAIL}` - JSON Web Key (JWK): `https://www.googleapis.com/service_accounts/v1/metadata/jwk/{ACCOUNT_EMAIL}` */
-  keyId?: string | undefined;
   /** The signature for the blob. Does not include the original blob. After the key pair referenced by the `key_id` response field expires, Google no longer exposes the public key that can be used to verify the blob. As a result, the receiver can no longer verify the signature. */
   signedBlob?: string | undefined;
+  /** The ID of the key used to sign the blob. The key used for signing will remain valid for at least 12 hours after the blob is signed. To verify the signature, you can retrieve the public key in several formats from the following endpoints: - RSA public key wrapped in an X.509 v3 certificate: `https://www.googleapis.com/service_accounts/v1/metadata/x509/{ACCOUNT_EMAIL}` - Raw key in JSON format: `https://www.googleapis.com/service_accounts/v1/metadata/raw/{ACCOUNT_EMAIL}` - JSON Web Key (JWK): `https://www.googleapis.com/service_accounts/v1/metadata/jwk/{ACCOUNT_EMAIL}` */
+  keyId?: string | undefined;
 }
 export interface SignJwtRequest {
-  /** Required. The JWT payload to sign. Must be a serialized JSON object that contains a JWT Claims Set. For example: `{"sub": "user@example.com", "iat": 313435}` If the JWT Claims Set contains an expiration time (`exp`) claim, it must be an integer timestamp that is not in the past and no more than 12 hours in the future. */
-  payload?: string | undefined;
   /** The sequence of service accounts in a delegation chain. Each service account must be granted the `roles/iam.serviceAccountTokenCreator` role on its next service account in the chain. The last service account in the chain must be granted the `roles/iam.serviceAccountTokenCreator` role on the service account that is specified in the `name` field of the request. The delegates must have the following format: `projects/-/serviceAccounts/{ACCOUNT_EMAIL_OR_UNIQUEID}`. The `-` wildcard character is required; replacing it with a project ID is invalid. */
   delegates?: StringList | undefined;
+  /** Required. The JWT payload to sign. Must be a serialized JSON object that contains a JWT Claims Set. For example: `{"sub": "user@example.com", "iat": 313435}` If the JWT Claims Set contains an expiration time (`exp`) claim, it must be an integer timestamp that is not in the past and no more than 12 hours in the future. */
+  payload?: string | undefined;
 }
 export interface SignJwtProjectsServiceAccountsRequest extends SignJwtRequest {
   /** Required. The resource name of the service account for which the credentials are requested, in the following format: `projects/-/serviceAccounts/{ACCOUNT_EMAIL_OR_UNIQUEID}`. The `-` wildcard character is required; replacing it with a project ID is invalid. */
   name: string;
 }
 export interface SignJwtResponse {
-  /** The ID of the key used to sign the JWT. The key used for signing will remain valid for at least 12 hours after the JWT is signed. To verify the signature, you can retrieve the public key in several formats from the following endpoints: - RSA public key wrapped in an X.509 v3 certificate: `https://www.googleapis.com/service_accounts/v1/metadata/x509/{ACCOUNT_EMAIL}` - Raw key in JSON format: `https://www.googleapis.com/service_accounts/v1/metadata/raw/{ACCOUNT_EMAIL}` - JSON Web Key (JWK): `https://www.googleapis.com/service_accounts/v1/metadata/jwk/{ACCOUNT_EMAIL}` */
-  keyId?: string | undefined;
   /** The signed JWT. Contains the automatically generated header; the client-supplied payload; and the signature, which is generated using the key referenced by the `kid` field in the header. After the key pair referenced by the `key_id` response field expires, Google no longer exposes the public key that can be used to verify the JWT. As a result, the receiver can no longer verify the signature. */
   signedJwt?: string | undefined;
+  /** The ID of the key used to sign the JWT. The key used for signing will remain valid for at least 12 hours after the JWT is signed. To verify the signature, you can retrieve the public key in several formats from the following endpoints: - RSA public key wrapped in an X.509 v3 certificate: `https://www.googleapis.com/service_accounts/v1/metadata/x509/{ACCOUNT_EMAIL}` - Raw key in JSON format: `https://www.googleapis.com/service_accounts/v1/metadata/raw/{ACCOUNT_EMAIL}` - JSON Web Key (JWK): `https://www.googleapis.com/service_accounts/v1/metadata/jwk/{ACCOUNT_EMAIL}` */
+  keyId?: string | undefined;
 }
 export type GenerateAccessTokenProjectsServiceAccountsError =
   | NotFound
@@ -360,8 +360,8 @@ function __c0(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          keyId: S.optional(S.String),
           signedJwt: S.optional(S.String),
+          keyId: S.optional(S.String),
         }),
       ).annotate({ identifier: "SignJwtResponse" });
   }
@@ -371,8 +371,8 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          delegates: S.optional(__S(8, __c2, 0)),
           scope: S.optional(__S(8, __c2, 0)),
+          delegates: S.optional(__S(8, __c2, 0)),
           lifetime: S.optional(S.String),
         }),
       ).annotate({ identifier: "GenerateAccessTokenRequest" });
@@ -394,8 +394,8 @@ function __c1(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          accessToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           expireTime: S.optional(S.String),
+          accessToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "GenerateAccessTokenResponse" });
   }
@@ -411,10 +411,10 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          includeEmail: S.optional(S.Boolean),
+          audience: S.optional(S.String),
           delegates: S.optional(__S(8, __c2, 0)),
           organizationNumberIncluded: S.optional(S.Boolean),
-          audience: S.optional(S.String),
-          includeEmail: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "GenerateIdTokenRequest" });
     case 1:
@@ -461,8 +461,8 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          locations: S.optional(__S(8, __c2, 0)),
           encodedLocations: S.optional(S.String),
+          locations: S.optional(__S(8, __c2, 0)),
         }),
       ).annotate({ identifier: "WorkforcePoolAllowedLocations" });
   }
@@ -502,8 +502,8 @@ function __c7(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          encodedLocations: S.optional(S.String),
           locations: S.optional(__S(8, __c2, 0)),
+          encodedLocations: S.optional(S.String),
         }),
       ).annotate({ identifier: "ServiceAccountAllowedLocations" });
   }
@@ -528,8 +528,8 @@ function __c8(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          keyId: S.optional(S.String),
           signedBlob: S.optional(S.String),
+          keyId: S.optional(S.String),
         }),
       ).annotate({ identifier: "SignBlobResponse" });
   }
@@ -539,8 +539,8 @@ function __c9(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          payload: S.optional(S.String),
           delegates: S.optional(__S(8, __c2, 0)),
+          payload: S.optional(S.String),
         }),
       ).annotate({ identifier: "SignBlobRequest" });
   }

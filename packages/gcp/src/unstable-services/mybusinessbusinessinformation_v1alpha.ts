@@ -86,41 +86,41 @@ export class NotFound
 export type StringList = Array<string>;
 export type BatchGetCategoriesViewEnum = "CATEGORY_VIEW_UNSPECIFIED" | "BASIC" | "FULL";
 export interface BatchGetCategoriesRequest {
-  /** Required. The BCP 47 code of language that the category names should be returned in. */
-  languageCode?: string | undefined;
-  /** Optional. The ISO 3166-1 alpha-2 country code used to infer non-standard language. */
-  regionCode?: string | undefined;
   /** Required. At least one name must be set. The GConcept ids the localized category names should be returned for. To return details for more than one category, repeat this parameter in the request. */
   names?: StringList | undefined;
+  /** Optional. The ISO 3166-1 alpha-2 country code used to infer non-standard language. */
+  regionCode?: string | undefined;
   /** Required. Specifies which parts to the Category resource should be returned in the response. */
   view?: BatchGetCategoriesViewEnum | (string & {}) | undefined;
+  /** Required. The BCP 47 code of language that the category names should be returned in. */
+  languageCode?: string | undefined;
 }
 /** More hours types that a business can offers, in addition to its regular hours. */
 export interface MoreHoursType {
-  /** Output only. A stable ID provided by Google for this hours type. */
-  hoursTypeId?: string | undefined;
   /** Output only. The human-readable English display name for the hours type. */
   displayName?: string | undefined;
+  /** Output only. A stable ID provided by Google for this hours type. */
+  hoursTypeId?: string | undefined;
   /** Output only. The human-readable localized display name for the hours type. */
   localizedDisplayName?: string | undefined;
 }
 export type MoreHoursTypeList = Array<MoreHoursType>;
 /** A message describing a service type that the business offers. */
 export interface ServiceType {
-  /** Output only. A stable ID (provided by Google) for this service type. */
-  serviceTypeId?: string | undefined;
   /** Output only. The human-readable display name for the service type. */
   displayName?: string | undefined;
+  /** Output only. A stable ID (provided by Google) for this service type. */
+  serviceTypeId?: string | undefined;
 }
 export type ServiceTypeList = Array<ServiceType>;
 /** A category describing what this business is (not what it does). For a list of valid category IDs, and the mappings to their human-readable names, see `categories.list`. */
 export interface Category {
   /** Output only. The human-readable name of the category. This is set when reading the location. When modifying the location, `category_id` must be set. */
   displayName?: string | undefined;
-  /** Output only. More hours types that are available for this business category. */
-  moreHoursTypes?: MoreHoursTypeList | undefined;
   /** Required. A stable ID (provided by Google) for this category. The value must be specified when modifying the category (when creating or updating a location). */
   name?: string | undefined;
+  /** Output only. More hours types that are available for this business category. */
+  moreHoursTypes?: MoreHoursTypeList | undefined;
   /** Output only. A list of all the service types that are available for this business category. */
   serviceTypes?: ServiceTypeList | undefined;
 }
@@ -130,171 +130,80 @@ export interface BatchGetCategoriesResponse {
   /** Categories that match the GConcept ids provided in the request. They will not come in the same order as category ids in the request. */
   categories?: CategoryList | undefined;
 }
-export type TimePeriodOpenDayEnum =
-  | "DAY_OF_WEEK_UNSPECIFIED"
-  | "MONDAY"
-  | "TUESDAY"
-  | "WEDNESDAY"
-  | "THURSDAY"
-  | "FRIDAY"
-  | "SATURDAY"
-  | "SUNDAY";
-/** Represents a time of day. The date and time zone are either not significant or are specified elsewhere. An API may choose to allow leap seconds. Related types are google.type.Date and `google.protobuf.Timestamp`. */
-export interface TimeOfDay {
-  /** Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds. */
-  seconds?: number | undefined;
-  /** Minutes of an hour. Must be greater than or equal to 0 and less than or equal to 59. */
-  minutes?: number | undefined;
-  /** Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time. */
-  hours?: number | undefined;
-  /** Fractions of seconds, in nanoseconds. Must be greater than or equal to 0 and less than or equal to 999,999,999. */
-  nanos?: number | undefined;
+/** Additional non-user-editable information about the location. */
+export interface Metadata {
+  /** Output only. A link to the page on Google Search where a customer can leave a review for the location. */
+  newReviewUri?: string | undefined;
+  /** Output only. The location resource that this location duplicates. */
+  duplicateLocation?: string | undefined;
+  /** Output only. Indicates if the listing can modify the service list. */
+  canModifyServiceList?: boolean | undefined;
+  /** Output only. Indicates whether the location can operate on Health data. */
+  canOperateHealthData?: boolean | undefined;
+  /** Output only. Indicates if the listing has Voice of Merchant. If this boolean is false, you should call the locations.getVoiceOfMerchantState API to get details as to why they do not have Voice of Merchant. */
+  hasVoiceOfMerchant?: boolean | undefined;
+  /** Output only. Indicates whether any of this Location's properties are in the edit pending state. */
+  hasPendingEdits?: boolean | undefined;
+  /** Output only. Indicates whether the location can operate on Lodging data. */
+  canOperateLodgingData?: boolean | undefined;
+  /** Output only. Indicates whether the place ID associated with this location has updates that need to be updated or rejected by the client. If this boolean is set, you should call the `getGoogleUpdated` method to look up information that's needs to be verified. */
+  hasGoogleUpdated?: boolean | undefined;
+  /** Output only. A link to the location on Maps. */
+  mapsUri?: string | undefined;
+  /** Output only. Indicates whether the location can be deleted using the API. */
+  canDelete?: boolean | undefined;
+  /** Output only. Deprecated: Relates to the Call Tracking feature which is no longer supported. Indicates whether the location is eligible for business calls. */
+  canHaveBusinessCalls?: boolean | undefined;
+  /** Output only. Indicates whether the location is classified as a particularly personal place. This means there are restrictions on Location History features. If you believe this was a mistake, see the [help center article](https://support.google.com/business/answer/3480441). */
+  isParticularlyPersonalPlace?: boolean | undefined;
+  /** Output only. Deprecated: This field is no longer populated and will be removed in a future version. */
+  canOperateLocalPost?: boolean | undefined;
+  /** Output only. Indicates if the listing is eligible for food menu. */
+  canHaveFoodMenus?: boolean | undefined;
+  /** Output only. If this location appears on Google Maps, this field is populated with the place ID for the location. This ID can be used in various Places APIs. This field can be set during Create calls, but not for Update. */
+  placeId?: string | undefined;
 }
-export type TimePeriodCloseDayEnum =
-  | "DAY_OF_WEEK_UNSPECIFIED"
-  | "MONDAY"
-  | "TUESDAY"
-  | "WEDNESDAY"
-  | "THURSDAY"
-  | "FRIDAY"
-  | "SATURDAY"
-  | "SUNDAY";
-/** Represents a span of time that the business is open, starting on the specified open day/time and closing on the specified close day/time. The closing time must occur after the opening time, for example later in the same day, or on a subsequent day. */
-export interface TimePeriod {
-  /** Required. Indicates the day of the week this period starts on. */
-  openDay?: TimePeriodOpenDayEnum | (string & {}) | undefined;
-  /** Required. Valid values are 00:00-24:00, where 24:00 represents midnight at the end of the specified day field. Note: In Proto3 JSON mapping, default zero values (00:00) are omitted, producing `{}` for close_time. */
-  closeTime?: TimeOfDay | undefined;
-  /** Required. Indicates the day of the week this period ends on. */
-  closeDay?: TimePeriodCloseDayEnum | (string & {}) | undefined;
-  /** Required. Valid values are 00:00-24:00, where 24:00 represents midnight at the end of the specified day field. Note: In Proto3 JSON mapping, default zero values (00:00) are omitted, producing `{}` for open_time. */
-  openTime?: TimeOfDay | undefined;
-}
-export type TimePeriodList = Array<TimePeriod>;
-/** The time periods during which a location is open for certain types of business. */
-export interface MoreHours {
-  /** Required. A collection of times that this location is open. Each period represents a range of hours when the location is open during the week. */
-  periods?: TimePeriodList | undefined;
-  /** Required. Type of hours. Clients should call {#link businessCategories:BatchGet} to get supported hours types for categories of their locations. */
-  hoursTypeId?: string | undefined;
-}
-export type MoreHoursList = Array<MoreHours>;
 /** An object that represents a latitude/longitude pair. This is expressed as a pair of doubles to represent degrees latitude and degrees longitude. Unless specified otherwise, this object must conform to the WGS84 standard. Values must be within normalized ranges. */
 export interface LatLng {
-  /** The longitude in degrees. It must be in the range [-180.0, +180.0]. */
-  longitude?: number | undefined;
   /** The latitude in degrees. It must be in the range [-90.0, +90.0]. */
   latitude?: number | undefined;
+  /** The longitude in degrees. It must be in the range [-180.0, +180.0]. */
+  longitude?: number | undefined;
 }
-export type RelevantLocationRelationTypeEnum =
-  | "RELATION_TYPE_UNSPECIFIED"
-  | "DEPARTMENT_OF"
-  | "INDEPENDENT_ESTABLISHMENT_IN";
-/** Information about another location that is related to current one. The relation can be any one of DEPARTMENT_OF or INDEPENDENT_ESTABLISHMENT_OF, and the location specified here can be on either side (parent/child) of the location. */
-export interface RelevantLocation {
-  /** Required. Specify the location that is on the other side of the relation by its placeID. */
+export type ServiceAreaBusinessBusinessTypeEnum =
+  | "BUSINESS_TYPE_UNSPECIFIED"
+  | "CUSTOMER_LOCATION_ONLY"
+  | "CUSTOMER_AND_BUSINESS_LOCATION";
+/** Defines an area that's represented by a place ID. */
+export interface PlaceInfo {
+  /** Required. The localized name of the place. For example, `Scottsdale, AZ`. */
+  placeName?: string | undefined;
+  /** Required. The ID of the place. Must correspond to a region. (https://developers.google.com/places/web-service/supported_types#table3) */
   placeId?: string | undefined;
-  /** Required. The type of the relationship. */
-  relationType?: RelevantLocationRelationTypeEnum | (string & {}) | undefined;
 }
-export type RelevantLocationList = Array<RelevantLocation>;
-/** Information of all parent and children locations related to this one. */
-export interface RelationshipData {
-  /** Optional. The list of children locations that this location has relations with. */
-  childrenLocations?: RelevantLocationList | undefined;
-  /** Optional. The parent location that this location has relations with. */
-  parentLocation?: RelevantLocation | undefined;
-  /** Optional. The resource name of the Chain that this location is member of. How to find Chain ID */
-  parentChain?: string | undefined;
+export type PlaceInfoList = Array<PlaceInfo>;
+/** Defines the union of areas represented by a set of places. */
+export interface Places {
+  /** Optional. The areas represented by place IDs. Limited to a maximum of 20 places. */
+  placeInfos?: PlaceInfoList | undefined;
 }
-/** A collection of categories that describes the business. During updates, both fields must be set. Clients are prohibited from individually updating the primary or additional categories using the update mask. */
-export interface Categories {
-  /** Required. Category that best describes the core business this location engages in. */
-  primaryCategory?: Category | undefined;
-  /** Optional. Additional categories to describe your business. Categories help your customers find accurate, specific results for services they're interested in. To keep your business information accurate and live, make sure that you use as few categories as possible to describe your overall core business. Choose categories that are as specific as possible, but representative of your main business. */
-  additionalCategories?: CategoryList | undefined;
-}
-/** Represents an amount of money with its currency type. */
-export interface Money {
-  /** Number of nano (10^-9) units of the amount. The value must be between -999,999,999 and +999,999,999 inclusive. If `units` is positive, `nanos` must be positive or zero. If `units` is zero, `nanos` can be positive, zero, or negative. If `units` is negative, `nanos` must be negative or zero. For example $-1.75 is represented as `units`=-1 and `nanos`=-750,000,000. */
-  nanos?: number | undefined;
-  /** The whole units of the amount. For example if `currencyCode` is `"USD"`, then 1 unit is one US dollar. */
-  units?: string | undefined;
-  /** The three-letter currency code defined in ISO 4217. */
-  currencyCode?: string | undefined;
-}
-/** Represents a structured service offered by the merchant. For eg: toilet_installation. */
-export interface StructuredServiceItem {
-  /** Optional. Description of structured service item. The character limit is 300. */
-  description?: string | undefined;
-  /** Required. The `service_type_id` field is a Google provided unique ID that can be found in `ServiceType`. This information is provided by `BatchGetCategories` rpc service. */
-  serviceTypeId?: string | undefined;
-}
-/** Label to be used when displaying the price list, section, or item. */
-export interface Label {
-  /** Optional. The BCP-47 language code that these strings apply for. Only one set of labels may be set per language. */
-  languageCode?: string | undefined;
-  /** Required. Display name for the price list, section, or item. */
-  displayName?: string | undefined;
-  /** Optional. Description of the price list, section, or item. */
-  description?: string | undefined;
-}
-/** Represents a free-form service offered by the merchant. These are services that are not exposed as part of our structure service data. The merchant manually enters the names for such services using a geomerchant surface. */
-export interface FreeFormServiceItem {
-  /** Required. This field represents the category name (i.e. the category's stable ID). The `category` and `service_type_id` should match the possible combinations provided in the `Category` message. */
-  category?: string | undefined;
-  /** Required. Language-tagged labels for the item. We recommend that item names be 140 characters or less, and descriptions 250 characters or less. This field should only be set if the input is a custom service item. Standardized service types should be updated using service_type_id. */
-  label?: Label | undefined;
-}
-/** A message that describes a single service item. It is used to describe the type of service that the merchant provides. For example, haircut can be a service. */
-export interface ServiceItem {
-  /** Optional. Represents the monetary price of the service item. We recommend that currency_code and units should be set when including a price. This will be treated as a fixed price for the service item. */
-  price?: Money | undefined;
-  /** Optional. This field will be set case of structured services data. */
-  structuredServiceItem?: StructuredServiceItem | undefined;
-  /** Optional. This field will be set case of free-form services data. */
-  freeFormServiceItem?: FreeFormServiceItem | undefined;
-}
-export type ServiceItemList = Array<ServiceItem>;
-/** A collection of phone numbers for the business. During updates, both fields must be set. Clients may not update just the primary or additional phone numbers using the update mask. International phone format is preferred, such as "+1 415 555 0132", see more in (https://developers.google.com/style/phone-numbers#international-phone-numbers). */
-export interface PhoneNumbers {
-  /** Required. A phone number that connects to your individual business location as directly as possible. Use a local phone number instead of a central, call center helpline number whenever possible. */
-  primaryPhone?: string | undefined;
-  /** Optional. Up to two phone numbers (mobile or landline, no fax) at which your business can be called, in addition to your primary phone number. */
-  additionalPhones?: StringList | undefined;
-}
-/** Represents the time periods that this location is open for business. Holds a collection of TimePeriod instances. */
-export interface BusinessHours {
-  /** Required. A collection of times that this location is open for business. Each period represents a range of hours when the location is open during the week. */
-  periods?: TimePeriodList | undefined;
+/** Service area businesses provide their service at the customer's location (for example, a locksmith or plumber). */
+export interface ServiceAreaBusiness {
+  /** Required. Indicates the type of the service area business. */
+  businessType?: ServiceAreaBusinessBusinessTypeEnum | (string & {}) | undefined;
+  /** Immutable. CLDR region code of the country/region that this service area business is based in. See http://cldr.unicode.org/ and http://www.unicode.org/cldr/charts/30/supplemental/territory_information.html for details. Example: "CH" for Switzerland. This field is required for CUSTOMER_LOCATION_ONLY businesses, and is ignored otherwise. The region specified here can be different from regions for the areas that this business serves (e.g. service area businesses that provide services in regions other than the one that they are based in). If this location requires verification after creation, the address provided for verification purposes *must* be located within this region, and the business owner or their authorized representative *must* be able to receive postal mail at the provided verification address. */
+  regionCode?: string | undefined;
+  /** Optional. The area that this business serves defined through a set of places. */
+  places?: Places | undefined;
 }
 /** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
 export interface Mybusinessbusinessinformation_Date {
-  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  year?: number | undefined;
   /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
   day?: number | undefined;
   /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
   month?: number | undefined;
-}
-/** Represents a single time period when a location's operational hours differ from its normal business hours. A special hour period must represent a range of less than 24 hours. The `open_time` and `start_date` must predate the `close_time` and `end_date`. The `close_time` and `end_date` can extend to 11:59 a.m. on the day after the specified `start_date`. For example, the following inputs are valid: start_date=2015-11-23, open_time=08:00, close_time=18:00 start_date=2015-11-23, end_date=2015-11-23, open_time=08:00, close_time=18:00 start_date=2015-11-23, end_date=2015-11-24, open_time=13:00, close_time=11:59 The following inputs are not valid: start_date=2015-11-23, open_time=13:00, close_time=11:59 start_date=2015-11-23, end_date=2015-11-24, open_time=13:00, close_time=12:00 start_date=2015-11-23, end_date=2015-11-25, open_time=08:00, close_time=18:00 */
-export interface SpecialHourPeriod {
-  /** Required. The calendar date this special hour period starts on. */
-  startDate?: Mybusinessbusinessinformation_Date | undefined;
-  /** Optional. Valid values are 00:00-24:00 where 24:00 represents midnight at the end of the specified day field. Must be specified if `closed` is false. */
-  openTime?: TimeOfDay | undefined;
-  /** Optional. If true, `end_date`, `open_time`, and `close_time` are ignored, and the date specified in `start_date` is treated as the location being closed for the entire day. */
-  closed?: boolean | undefined;
-  /** Optional. The calendar date this special hour period ends on. If `end_date` field is not set, default to the date specified in `start_date`. If set, this field must be equal to or at most 1 day after `start_date`. */
-  endDate?: Mybusinessbusinessinformation_Date | undefined;
-  /** Optional. Valid values are 00:00-24:00, where 24:00 represents midnight at the end of the specified day field. Must be specified if `closed` is false. */
-  closeTime?: TimeOfDay | undefined;
-}
-export type SpecialHourPeriodList = Array<SpecialHourPeriod>;
-/** Represents a set of time periods when a location's operational hours differ from its normal business hours. */
-export interface SpecialHours {
-  /** Required. A list of exceptions to the business's regular hours. */
-  specialHourPeriods?: SpecialHourPeriodList | undefined;
+  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
+  year?: number | undefined;
 }
 export type OpenInfoStatusEnum =
   | "OPEN_FOR_BUSINESS_UNSPECIFIED"
@@ -310,148 +219,239 @@ export interface OpenInfo {
   /** Required. Indicates whether or not the Location is currently open for business. All locations are open by default, unless updated to be closed. */
   status?: OpenInfoStatusEnum | (string & {}) | undefined;
 }
-/** Additional information that is surfaced in AdWords. */
-export interface AdWordsLocationExtensions {
-  /** Required. An alternate phone number to display on AdWords location extensions instead of the location's primary phone number. */
-  adPhone?: string | undefined;
+/** Represents a structured service offered by the merchant. For eg: toilet_installation. */
+export interface StructuredServiceItem {
+  /** Required. The `service_type_id` field is a Google provided unique ID that can be found in `ServiceType`. This information is provided by `BatchGetCategories` rpc service. */
+  serviceTypeId?: string | undefined;
+  /** Optional. Description of structured service item. The character limit is 300. */
+  description?: string | undefined;
 }
-/** Defines an area that's represented by a place ID. */
-export interface PlaceInfo {
-  /** Required. The localized name of the place. For example, `Scottsdale, AZ`. */
-  placeName?: string | undefined;
-  /** Required. The ID of the place. Must correspond to a region. (https://developers.google.com/places/web-service/supported_types#table3) */
-  placeId?: string | undefined;
+/** Label to be used when displaying the price list, section, or item. */
+export interface Label {
+  /** Required. Display name for the price list, section, or item. */
+  displayName?: string | undefined;
+  /** Optional. The BCP-47 language code that these strings apply for. Only one set of labels may be set per language. */
+  languageCode?: string | undefined;
+  /** Optional. Description of the price list, section, or item. */
+  description?: string | undefined;
 }
-export type PlaceInfoList = Array<PlaceInfo>;
-/** Defines the union of areas represented by a set of places. */
-export interface Places {
-  /** Optional. The areas represented by place IDs. Limited to a maximum of 20 places. */
-  placeInfos?: PlaceInfoList | undefined;
+/** Represents a free-form service offered by the merchant. These are services that are not exposed as part of our structure service data. The merchant manually enters the names for such services using a geomerchant surface. */
+export interface FreeFormServiceItem {
+  /** Required. This field represents the category name (i.e. the category's stable ID). The `category` and `service_type_id` should match the possible combinations provided in the `Category` message. */
+  category?: string | undefined;
+  /** Required. Language-tagged labels for the item. We recommend that item names be 140 characters or less, and descriptions 250 characters or less. This field should only be set if the input is a custom service item. Standardized service types should be updated using service_type_id. */
+  label?: Label | undefined;
 }
-export type ServiceAreaBusinessBusinessTypeEnum =
-  | "BUSINESS_TYPE_UNSPECIFIED"
-  | "CUSTOMER_LOCATION_ONLY"
-  | "CUSTOMER_AND_BUSINESS_LOCATION";
-/** Service area businesses provide their service at the customer's location (for example, a locksmith or plumber). */
-export interface ServiceAreaBusiness {
-  /** Optional. The area that this business serves defined through a set of places. */
-  places?: Places | undefined;
-  /** Required. Indicates the type of the service area business. */
-  businessType?: ServiceAreaBusinessBusinessTypeEnum | (string & {}) | undefined;
-  /** Immutable. CLDR region code of the country/region that this service area business is based in. See http://cldr.unicode.org/ and http://www.unicode.org/cldr/charts/30/supplemental/territory_information.html for details. Example: "CH" for Switzerland. This field is required for CUSTOMER_LOCATION_ONLY businesses, and is ignored otherwise. The region specified here can be different from regions for the areas that this business serves (e.g. service area businesses that provide services in regions other than the one that they are based in). If this location requires verification after creation, the address provided for verification purposes *must* be located within this region, and the business owner or their authorized representative *must* be able to receive postal mail at the provided verification address. */
-  regionCode?: string | undefined;
+/** Represents an amount of money with its currency type. */
+export interface Money {
+  /** Number of nano (10^-9) units of the amount. The value must be between -999,999,999 and +999,999,999 inclusive. If `units` is positive, `nanos` must be positive or zero. If `units` is zero, `nanos` can be positive, zero, or negative. If `units` is negative, `nanos` must be negative or zero. For example $-1.75 is represented as `units`=-1 and `nanos`=-750,000,000. */
+  nanos?: number | undefined;
+  /** The three-letter currency code defined in ISO 4217. */
+  currencyCode?: string | undefined;
+  /** The whole units of the amount. For example if `currencyCode` is `"USD"`, then 1 unit is one US dollar. */
+  units?: string | undefined;
 }
+/** A message that describes a single service item. It is used to describe the type of service that the merchant provides. For example, haircut can be a service. */
+export interface ServiceItem {
+  /** Optional. This field will be set case of structured services data. */
+  structuredServiceItem?: StructuredServiceItem | undefined;
+  /** Optional. This field will be set case of free-form services data. */
+  freeFormServiceItem?: FreeFormServiceItem | undefined;
+  /** Optional. Represents the monetary price of the service item. We recommend that currency_code and units should be set when including a price. This will be treated as a fixed price for the service item. */
+  price?: Money | undefined;
+}
+export type ServiceItemList = Array<ServiceItem>;
 /** Represents a postal address, such as for postal delivery or payments addresses. With a postal address, a postal service can deliver items to a premise, P.O. box, or similar. A postal address is not intended to model geographical locations like roads, towns, or mountains. In typical usage, an address would be created by user input or from importing existing data, depending on the type of process. Advice on address input or editing: - Use an internationalization-ready address widget such as https://github.com/google/libaddressinput. - Users should not be presented with UI elements for input or editing of fields outside countries where that field is used. For more guidance on how to use this schema, see: https://support.google.com/business/answer/6397478. */
 export interface PostalAddress {
-  /** The schema revision of the `PostalAddress`. This must be set to 0, which is the latest revision. All new revisions **must** be backward compatible with old revisions. */
-  revision?: number | undefined;
   /** Optional. Highest administrative subdivision which is used for postal addresses of a country or region. For example, this can be a state, a province, an oblast, or a prefecture. For Spain, this is the province and not the autonomous community (for example, "Barcelona" and not "Catalonia"). Many countries don't use an administrative area in postal addresses. For example, in Switzerland, this should be left unpopulated. */
   administrativeArea?: string | undefined;
   /** Unstructured address lines describing the lower levels of an address. Because values in `address_lines` do not have type information and may sometimes contain multiple values in a single field (for example, "Austin, TX"), it is important that the line order is clear. The order of address lines should be "envelope order" for the country or region of the address. In places where this can vary (for example, Japan), `address_language` is used to make it explicit (for example, "ja" for large-to-small ordering and "ja-Latn" or "en" for small-to-large). In this way, the most specific line of an address can be selected based on the language. The minimum permitted structural representation of an address consists of a `region_code` with all remaining information placed in the `address_lines`. It would be possible to format such an address very approximately without geocoding, but no semantic reasoning could be made about any of the address components until it was at least partially resolved. Creating an address only containing a `region_code` and `address_lines` and then geocoding is the recommended way to handle completely unstructured addresses (as opposed to guessing which parts of the address should be localities or administrative areas). */
   addressLines?: StringList | undefined;
-  /** Optional. Sublocality of the address. For example, this can be a neighborhood, borough, or district. */
-  sublocality?: string | undefined;
   /** Optional. The name of the organization at the address. */
   organization?: string | undefined;
+  /** The schema revision of the `PostalAddress`. This must be set to 0, which is the latest revision. All new revisions **must** be backward compatible with old revisions. */
+  revision?: number | undefined;
+  /** Optional. Additional, country-specific, sorting code. This is not used in most regions. Where it is used, the value is either a string like "CEDEX", optionally followed by a number (for example, "CEDEX 7"), or just a number alone, representing the "sector code" (Jamaica), "delivery area indicator" (Malawi) or "post office indicator" (Côte d'Ivoire). */
+  sortingCode?: string | undefined;
   /** Required. CLDR region code of the country/region of the address. This is never inferred and it is up to the user to ensure the value is correct. See https://cldr.unicode.org/ and https://www.unicode.org/cldr/charts/30/supplemental/territory_information.html for details. Example: "CH" for Switzerland. */
   regionCode?: string | undefined;
+  /** Optional. Sublocality of the address. For example, this can be a neighborhood, borough, or district. */
+  sublocality?: string | undefined;
+  /** Optional. Generally refers to the city or town portion of the address. Examples: US city, IT comune, UK post town. In regions of the world where localities are not well defined or do not fit into this structure well, leave `locality` empty and use `address_lines`. */
+  locality?: string | undefined;
   /** Optional. BCP-47 language code of the contents of this address (if known). This is often the UI language of the input form or is expected to match one of the languages used in the address' country/region, or their transliterated equivalents. This can affect formatting in certain countries, but is not critical to the correctness of the data and will never affect any validation or other non-formatting related operations. If this value is not known, it should be omitted (rather than specifying a possibly incorrect default). Examples: "zh-Hant", "ja", "ja-Latn", "en". */
   languageCode?: string | undefined;
   /** Optional. Postal code of the address. Not all countries use or require postal codes to be present, but where they are used, they may trigger additional validation with other parts of the address (for example, state or zip code validation in the United States). */
   postalCode?: string | undefined;
   /** Optional. The recipient at the address. This field may, under certain circumstances, contain multiline information. For example, it might contain "care of" information. */
   recipients?: StringList | undefined;
-  /** Optional. Generally refers to the city or town portion of the address. Examples: US city, IT comune, UK post town. In regions of the world where localities are not well defined or do not fit into this structure well, leave `locality` empty and use `address_lines`. */
-  locality?: string | undefined;
-  /** Optional. Additional, country-specific, sorting code. This is not used in most regions. Where it is used, the value is either a string like "CEDEX", optionally followed by a number (for example, "CEDEX 7"), or just a number alone, representing the "sector code" (Jamaica), "delivery area indicator" (Malawi) or "post office indicator" (Côte d'Ivoire). */
-  sortingCode?: string | undefined;
 }
 /** All information pertaining to the location's profile. */
 export interface Profile {
   /** Required. Description of the location in your own voice, not editable by anyone else. */
   description?: string | undefined;
 }
-/** Additional non-user-editable information about the location. */
-export interface Metadata {
-  /** Output only. Indicates whether the location can be deleted using the API. */
-  canDelete?: boolean | undefined;
-  /** Output only. A link to the location on Maps. */
-  mapsUri?: string | undefined;
-  /** Output only. A link to the page on Google Search where a customer can leave a review for the location. */
-  newReviewUri?: string | undefined;
-  /** Output only. Indicates whether the place ID associated with this location has updates that need to be updated or rejected by the client. If this boolean is set, you should call the `getGoogleUpdated` method to look up information that's needs to be verified. */
-  hasGoogleUpdated?: boolean | undefined;
-  /** Output only. Indicates if the listing is eligible for food menu. */
-  canHaveFoodMenus?: boolean | undefined;
-  /** Output only. Indicates if the listing has Voice of Merchant. If this boolean is false, you should call the locations.getVoiceOfMerchantState API to get details as to why they do not have Voice of Merchant. */
-  hasVoiceOfMerchant?: boolean | undefined;
-  /** Output only. Indicates whether any of this Location's properties are in the edit pending state. */
-  hasPendingEdits?: boolean | undefined;
-  /** Output only. Indicates whether the location can operate on Lodging data. */
-  canOperateLodgingData?: boolean | undefined;
-  /** Output only. Indicates if the listing can modify the service list. */
-  canModifyServiceList?: boolean | undefined;
-  /** Output only. Indicates whether the location is classified as a particularly personal place. This means there are restrictions on Location History features. If you believe this was a mistake, see the [help center article](https://support.google.com/business/answer/3480441). */
-  isParticularlyPersonalPlace?: boolean | undefined;
-  /** Output only. Indicates whether the location can operate on Health data. */
-  canOperateHealthData?: boolean | undefined;
-  /** Output only. The location resource that this location duplicates. */
-  duplicateLocation?: string | undefined;
-  /** Output only. If this location appears on Google Maps, this field is populated with the place ID for the location. This ID can be used in various Places APIs. This field can be set during Create calls, but not for Update. */
+/** A collection of categories that describes the business. During updates, both fields must be set. Clients are prohibited from individually updating the primary or additional categories using the update mask. */
+export interface Categories {
+  /** Optional. Additional categories to describe your business. Categories help your customers find accurate, specific results for services they're interested in. To keep your business information accurate and live, make sure that you use as few categories as possible to describe your overall core business. Choose categories that are as specific as possible, but representative of your main business. */
+  additionalCategories?: CategoryList | undefined;
+  /** Required. Category that best describes the core business this location engages in. */
+  primaryCategory?: Category | undefined;
+}
+export type TimePeriodOpenDayEnum =
+  | "DAY_OF_WEEK_UNSPECIFIED"
+  | "MONDAY"
+  | "TUESDAY"
+  | "WEDNESDAY"
+  | "THURSDAY"
+  | "FRIDAY"
+  | "SATURDAY"
+  | "SUNDAY";
+/** Represents a time of day. The date and time zone are either not significant or are specified elsewhere. An API may choose to allow leap seconds. Related types are google.type.Date and `google.protobuf.Timestamp`. */
+export interface TimeOfDay {
+  /** Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time. */
+  hours?: number | undefined;
+  /** Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds. */
+  seconds?: number | undefined;
+  /** Fractions of seconds, in nanoseconds. Must be greater than or equal to 0 and less than or equal to 999,999,999. */
+  nanos?: number | undefined;
+  /** Minutes of an hour. Must be greater than or equal to 0 and less than or equal to 59. */
+  minutes?: number | undefined;
+}
+export type TimePeriodCloseDayEnum =
+  | "DAY_OF_WEEK_UNSPECIFIED"
+  | "MONDAY"
+  | "TUESDAY"
+  | "WEDNESDAY"
+  | "THURSDAY"
+  | "FRIDAY"
+  | "SATURDAY"
+  | "SUNDAY";
+/** Represents a span of time that the business is open, starting on the specified open day/time and closing on the specified close day/time. The closing time must occur after the opening time, for example later in the same day, or on a subsequent day. */
+export interface TimePeriod {
+  /** Required. Indicates the day of the week this period starts on. */
+  openDay?: TimePeriodOpenDayEnum | (string & {}) | undefined;
+  /** Required. Valid values are 00:00-24:00, where 24:00 represents midnight at the end of the specified day field. Note: In Proto3 JSON mapping, default zero values (00:00) are omitted, producing `{}` for open_time. */
+  openTime?: TimeOfDay | undefined;
+  /** Required. Indicates the day of the week this period ends on. */
+  closeDay?: TimePeriodCloseDayEnum | (string & {}) | undefined;
+  /** Required. Valid values are 00:00-24:00, where 24:00 represents midnight at the end of the specified day field. Note: In Proto3 JSON mapping, default zero values (00:00) are omitted, producing `{}` for close_time. */
+  closeTime?: TimeOfDay | undefined;
+}
+export type TimePeriodList = Array<TimePeriod>;
+/** The time periods during which a location is open for certain types of business. */
+export interface MoreHours {
+  /** Required. Type of hours. Clients should call {#link businessCategories:BatchGet} to get supported hours types for categories of their locations. */
+  hoursTypeId?: string | undefined;
+  /** Required. A collection of times that this location is open. Each period represents a range of hours when the location is open during the week. */
+  periods?: TimePeriodList | undefined;
+}
+export type MoreHoursList = Array<MoreHours>;
+/** Represents the time periods that this location is open for business. Holds a collection of TimePeriod instances. */
+export interface BusinessHours {
+  /** Required. A collection of times that this location is open for business. Each period represents a range of hours when the location is open during the week. */
+  periods?: TimePeriodList | undefined;
+}
+/** Additional information that is surfaced in AdWords. */
+export interface AdWordsLocationExtensions {
+  /** Required. An alternate phone number to display on AdWords location extensions instead of the location's primary phone number. */
+  adPhone?: string | undefined;
+}
+/** Represents a single time period when a location's operational hours differ from its normal business hours. A special hour period must represent a range of less than 24 hours. The `open_time` and `start_date` must predate the `close_time` and `end_date`. The `close_time` and `end_date` can extend to 11:59 a.m. on the day after the specified `start_date`. For example, the following inputs are valid: start_date=2015-11-23, open_time=08:00, close_time=18:00 start_date=2015-11-23, end_date=2015-11-23, open_time=08:00, close_time=18:00 start_date=2015-11-23, end_date=2015-11-24, open_time=13:00, close_time=11:59 The following inputs are not valid: start_date=2015-11-23, open_time=13:00, close_time=11:59 start_date=2015-11-23, end_date=2015-11-24, open_time=13:00, close_time=12:00 start_date=2015-11-23, end_date=2015-11-25, open_time=08:00, close_time=18:00 */
+export interface SpecialHourPeriod {
+  /** Required. The calendar date this special hour period starts on. */
+  startDate?: Mybusinessbusinessinformation_Date | undefined;
+  /** Optional. If true, `end_date`, `open_time`, and `close_time` are ignored, and the date specified in `start_date` is treated as the location being closed for the entire day. */
+  closed?: boolean | undefined;
+  /** Optional. The calendar date this special hour period ends on. If `end_date` field is not set, default to the date specified in `start_date`. If set, this field must be equal to or at most 1 day after `start_date`. */
+  endDate?: Mybusinessbusinessinformation_Date | undefined;
+  /** Optional. Valid values are 00:00-24:00 where 24:00 represents midnight at the end of the specified day field. Must be specified if `closed` is false. */
+  openTime?: TimeOfDay | undefined;
+  /** Optional. Valid values are 00:00-24:00, where 24:00 represents midnight at the end of the specified day field. Must be specified if `closed` is false. */
+  closeTime?: TimeOfDay | undefined;
+}
+export type SpecialHourPeriodList = Array<SpecialHourPeriod>;
+/** Represents a set of time periods when a location's operational hours differ from its normal business hours. */
+export interface SpecialHours {
+  /** Required. A list of exceptions to the business's regular hours. */
+  specialHourPeriods?: SpecialHourPeriodList | undefined;
+}
+/** A collection of phone numbers for the business. During updates, both fields must be set. Clients may not update just the primary or additional phone numbers using the update mask. International phone format is preferred, such as "+1 415 555 0132", see more in (https://developers.google.com/style/phone-numbers#international-phone-numbers). */
+export interface PhoneNumbers {
+  /** Required. A phone number that connects to your individual business location as directly as possible. Use a local phone number instead of a central, call center helpline number whenever possible. */
+  primaryPhone?: string | undefined;
+  /** Optional. Up to two phone numbers (mobile or landline, no fax) at which your business can be called, in addition to your primary phone number. */
+  additionalPhones?: StringList | undefined;
+}
+export type RelevantLocationRelationTypeEnum =
+  | "RELATION_TYPE_UNSPECIFIED"
+  | "DEPARTMENT_OF"
+  | "INDEPENDENT_ESTABLISHMENT_IN";
+/** Information about another location that is related to current one. The relation can be any one of DEPARTMENT_OF or INDEPENDENT_ESTABLISHMENT_OF, and the location specified here can be on either side (parent/child) of the location. */
+export interface RelevantLocation {
+  /** Required. Specify the location that is on the other side of the relation by its placeID. */
   placeId?: string | undefined;
-  /** Output only. Deprecated: Relates to the Call Tracking feature which is no longer supported. Indicates whether the location is eligible for business calls. */
-  canHaveBusinessCalls?: boolean | undefined;
-  /** Output only. Deprecated: This field is no longer populated and will be removed in a future version. */
-  canOperateLocalPost?: boolean | undefined;
+  /** Required. The type of the relationship. */
+  relationType?: RelevantLocationRelationTypeEnum | (string & {}) | undefined;
+}
+export type RelevantLocationList = Array<RelevantLocation>;
+/** Information of all parent and children locations related to this one. */
+export interface RelationshipData {
+  /** Optional. The parent location that this location has relations with. */
+  parentLocation?: RelevantLocation | undefined;
+  /** Optional. The resource name of the Chain that this location is member of. How to find Chain ID */
+  parentChain?: string | undefined;
+  /** Optional. The list of children locations that this location has relations with. */
+  childrenLocations?: RelevantLocationList | undefined;
 }
 /** A location. See the [help center article] (https://support.google.com/business/answer/3038177) for a detailed description of these fields, or the [category endpoint](/my-business/reference/rest/v4/categories) for a list of valid business categories. */
 export interface Location {
-  /** Optional. External identifier for this location, which must be unique within a given account. This is a means of associating the location with your own records. */
-  storeCode?: string | undefined;
-  /** Optional. A URL for this business. If possible, use a URL that represents this individual business location instead of a generic website/URL that represents all locations, or the brand. */
-  websiteUri?: string | undefined;
-  /** Optional. More hours for a business's different departments or specific customers. */
-  moreHours?: MoreHoursList | undefined;
+  /** Output only. Additional non-user-editable information. */
+  metadata?: Metadata | undefined;
   /** Optional. User-provided latitude and longitude. When creating a location, this field is ignored if the provided address geocodes successfully. This field is only returned on get requests if the user-provided `latlng` value was accepted during create, or the `latlng` value was updated through the Google Business Profile website. This field can only be updated by approved clients. */
   latlng?: LatLng | undefined;
-  /** Optional. All locations and chain related to this one. */
-  relationshipData?: RelationshipData | undefined;
-  /** Optional. The different categories that describe the business. */
-  categories?: Categories | undefined;
-  /** Optional. A collection of free-form strings to allow you to tag your business. These labels are NOT user facing; only you can see them. Must be between 1-255 characters per label. */
-  labels?: StringList | undefined;
-  /** Optional. List of services supported by merchants. A service can be haircut, install water heater, etc. Duplicated service items will be removed automatically. */
-  serviceItems?: ServiceItemList | undefined;
-  /** Optional. The different phone numbers that customers can use to get in touch with the business. */
-  phoneNumbers?: PhoneNumbers | undefined;
-  /** Optional. Operating hours for the business. */
-  regularHours?: BusinessHours | undefined;
-  /** Optional. Special hours for the business. This typically includes holiday hours, and other times outside of regular operating hours. These override regular business hours. This field cannot be set without regular hours. */
-  specialHours?: SpecialHours | undefined;
-  /** Immutable. The language of the location. Set during creation and not updateable. */
-  languageCode?: string | undefined;
-  /** Optional. A flag that indicates whether the location is currently open for business. */
-  openInfo?: OpenInfo | undefined;
-  /** Optional. Additional information that is surfaced in AdWords. */
-  adWordsLocationExtensions?: AdWordsLocationExtensions | undefined;
   /** Optional. Service area businesses provide their service at the customer's location. If this business is a service area business, this field describes the area(s) serviced by the business. */
   serviceArea?: ServiceAreaBusiness | undefined;
+  /** Optional. A URL for this business. If possible, use a URL that represents this individual business location instead of a generic website/URL that represents all locations, or the brand. */
+  websiteUri?: string | undefined;
+  /** Optional. A flag that indicates whether the location is currently open for business. */
+  openInfo?: OpenInfo | undefined;
+  /** Immutable. The language of the location. Set during creation and not updateable. */
+  languageCode?: string | undefined;
+  /** Optional. External identifier for this location, which must be unique within a given account. This is a means of associating the location with your own records. */
+  storeCode?: string | undefined;
+  /** Optional. List of services supported by merchants. A service can be haircut, install water heater, etc. Duplicated service items will be removed automatically. */
+  serviceItems?: ServiceItemList | undefined;
   /** Optional. A precise, accurate address to describe your business location. PO boxes or mailboxes located at remote locations are not acceptable. At this time, you can specify a maximum of five `address_lines` values in the address. This field should only be set for businesses that have a storefront. This field should not be set for locations of type `CUSTOMER_LOCATION_ONLY` but if set, any value provided will be discarded. */
   storefrontAddress?: PostalAddress | undefined;
   /** Optional. Describes your business in your own voice and shares with users the unique story of your business and offerings. This field is required for all categories except lodging categories (e.g., hotels, motels, inns). */
   profile?: Profile | undefined;
-  /** Required. Location name should reflect your business's real-world name, as used consistently on your storefront, website, and stationery, and as known to customers. Any additional information, when relevant, can be included in other fields of the resource (for example, `Address`, `Categories`). Don't add unnecessary information to your name (for example, prefer "Google" over "Google Inc. - Mountain View Corporate Headquarters"). Don't include marketing taglines, store codes, special characters, hours or closed/open status, phone numbers, website URLs, service/product information, location/address or directions, or containment information (for example, "Chase ATM in Duane Reade"). */
-  title?: string | undefined;
+  /** Optional. The different categories that describe the business. */
+  categories?: Categories | undefined;
+  /** Optional. More hours for a business's different departments or specific customers. */
+  moreHours?: MoreHoursList | undefined;
+  /** Optional. Operating hours for the business. */
+  regularHours?: BusinessHours | undefined;
+  /** Optional. Additional information that is surfaced in AdWords. */
+  adWordsLocationExtensions?: AdWordsLocationExtensions | undefined;
+  /** Optional. A collection of free-form strings to allow you to tag your business. These labels are NOT user facing; only you can see them. Must be between 1-255 characters per label. */
+  labels?: StringList | undefined;
   /** Identifier. Google identifier for this location in the form: `locations/{location_id}`. */
   name?: string | undefined;
-  /** Output only. Additional non-user-editable information. */
-  metadata?: Metadata | undefined;
+  /** Required. Location name should reflect your business's real-world name, as used consistently on your storefront, website, and stationery, and as known to customers. Any additional information, when relevant, can be included in other fields of the resource (for example, `Address`, `Categories`). Don't add unnecessary information to your name (for example, prefer "Google" over "Google Inc. - Mountain View Corporate Headquarters"). Don't include marketing taglines, store codes, special characters, hours or closed/open status, phone numbers, website URLs, service/product information, location/address or directions, or containment information (for example, "Chase ATM in Duane Reade"). */
+  title?: string | undefined;
+  /** Optional. Special hours for the business. This typically includes holiday hours, and other times outside of regular operating hours. These override regular business hours. This field cannot be set without regular hours. */
+  specialHours?: SpecialHours | undefined;
+  /** Optional. The different phone numbers that customers can use to get in touch with the business. */
+  phoneNumbers?: PhoneNumbers | undefined;
+  /** Optional. All locations and chain related to this one. */
+  relationshipData?: RelationshipData | undefined;
 }
 export interface CreateAccountsLocationsRequest extends Location {
-  /** Required. The name of the account in which to create this location. */
-  parent: string;
   /** Optional. If true, the request is validated without actually creating the location. */
   validateOnly?: boolean | undefined;
+  /** Required. The name of the account in which to create this location. */
+  parent: string;
   /** Optional. A unique request ID for the server to detect duplicated requests. We recommend using UUIDs. Max length is 50 characters. */
   requestId?: string | undefined;
 }
@@ -471,6 +471,7 @@ export type AttributeValueTypeEnum =
   | "ENUM"
   | "URL"
   | "REPEATED_ENUM";
+export type DocumentList = Array<unknown>;
 /** Values for an attribute with a `value_type` of URL. */
 export interface UriAttributeValue {
   /** Required. The proposed URI value for this attribute. */
@@ -479,32 +480,31 @@ export interface UriAttributeValue {
 export type UriAttributeValueList = Array<UriAttributeValue>;
 /** Values for an attribute with a `value_type` of REPEATED_ENUM. This consists of two lists of value IDs: those that are set (true) and those that are unset (false). Values absent are considered unknown. At least one value must be specified. */
 export interface RepeatedEnumAttributeValue {
-  /** Enum values that are unset. */
-  unsetValues?: StringList | undefined;
   /** Enum values that are set. */
   setValues?: StringList | undefined;
+  /** Enum values that are unset. */
+  unsetValues?: StringList | undefined;
 }
-export type DocumentList = Array<unknown>;
 /** A location attribute. Attributes provide additional information about a location. The attributes that can be set on a location may vary based on the properties of that location (for example, category). Available attributes are determined by Google and may be added and removed without API changes. */
 export interface Attribute {
-  /** Output only. The type of value that this attribute contains. This should be used to determine how to interpret the value. */
-  valueType?: AttributeValueTypeEnum | (string & {}) | undefined;
   /** Required. The resource name for this attribute. */
   name?: string | undefined;
+  /** Output only. The type of value that this attribute contains. This should be used to determine how to interpret the value. */
+  valueType?: AttributeValueTypeEnum | (string & {}) | undefined;
+  /** The values for this attribute. The type of the values supplied must match that expected for that attribute. This is a repeated field where multiple attribute values may be provided. Attribute types only support one value. */
+  values?: DocumentList | undefined;
   /** When the attribute value type is URL, this field contains the value(s) for this attribute, and the other values fields must be empty. */
   uriValues?: UriAttributeValueList | undefined;
   /** When the attribute value type is REPEATED_ENUM, this contains the attribute value, and the other values fields must be empty. */
   repeatedEnumValue?: RepeatedEnumAttributeValue | undefined;
-  /** The values for this attribute. The type of the values supplied must match that expected for that attribute. This is a repeated field where multiple attribute values may be provided. Attribute types only support one value. */
-  values?: DocumentList | undefined;
 }
 export type AttributeList = Array<Attribute>;
 /** A container for all the attributes for a given location. */
 export interface Attributes {
-  /** Required. Google identifier for this location in the form of `locations/{location_id}/attributes`. */
-  name?: string | undefined;
   /** A collection of attributes that need to be updated. */
   attributes?: AttributeList | undefined;
+  /** Required. Google identifier for this location in the form of `locations/{location_id}/attributes`. */
+  name?: string | undefined;
 }
 export interface GetChainsRequest {
   /** Required. The chain's resource name, in the format `chains/{chain_place_id}`. */
@@ -518,20 +518,20 @@ export interface ChainUri {
 export type ChainUriList = Array<ChainUri>;
 /** Name to be used when displaying the chain. */
 export interface ChainName {
-  /** The display name for this chain. */
-  displayName?: string | undefined;
   /** The BCP 47 code of language of the name. */
   languageCode?: string | undefined;
+  /** The display name for this chain. */
+  displayName?: string | undefined;
 }
 export type ChainNameList = Array<ChainName>;
 /** A chain is a brand that your business's locations can be affiliated with. */
 export interface Chain {
+  /** Required. The chain's resource name, in the format `chains/{chain_id}`. */
+  name?: string | undefined;
   /** Number of locations that are part of this chain. */
   locationCount?: number | undefined;
   /** Websites of the chain. */
   websites?: ChainUriList | undefined;
-  /** Required. The chain's resource name, in the format `chains/{chain_id}`. */
-  name?: string | undefined;
   /** Names of the chain. */
   chainNames?: ChainNameList | undefined;
 }
@@ -583,7 +583,6 @@ export type ExtendedFieldDataRejectionReasonEnum =
   | "GENERIC_QUALITY"
   | "IDENTITY_CHANGE"
   | "GEOGRAPHIC_LOCATION_CHANGE";
-export type ExtendedFieldDataSourceEnum = "SOURCE_UNSPECIFIED" | "SOURCE_API" | "SOURCE_UI";
 export type ExtendedFieldDataLastEditLifecycleStageEnum =
   | "EDIT_LIFECYCLE_STAGE_UNSPECIFIED"
   | "EDIT_LIFECYCLE_STAGE_PENDING"
@@ -591,26 +590,27 @@ export type ExtendedFieldDataLastEditLifecycleStageEnum =
   | "EDIT_LIFECYCLE_STAGE_REJECTED"
   | "EDIT_LIFECYCLE_STAGE_UPDATED_BY_GOOGLE"
   | "EDIT_LIFECYCLE_STAGE_DRAFT";
+export type ExtendedFieldDataSourceEnum = "SOURCE_UNSPECIFIED" | "SOURCE_API" | "SOURCE_UI";
 /** Represents detailed metadata for an edit on a specific field/attribute. */
 export interface ExtendedFieldData {
   /** Output only. Reason for rejection, only populated if `last_edit_lifecycle_stage` is `EDIT_LIFECYCLE_STAGE_REJECTED`. */
   rejectionReason?: ExtendedFieldDataRejectionReasonEnum | undefined;
-  /** Output only. Origin source attribution of the most recent merchant edit. Not all edits will have a source specified. */
-  source?: ExtendedFieldDataSourceEnum | undefined;
-  /** Output only. Timestamp of when the merchant's most recent edit was submitted. */
-  updateTime?: string | undefined;
   /** Output only. The current lifecycle stage of the merchant's most recent edit on this value. */
   lastEditLifecycleStage?: ExtendedFieldDataLastEditLifecycleStageEnum | undefined;
+  /** Output only. Timestamp of when the merchant's most recent edit was submitted. */
+  updateTime?: string | undefined;
+  /** Output only. Origin source attribution of the most recent merchant edit. Not all edits will have a source specified. */
+  source?: ExtendedFieldDataSourceEnum | undefined;
 }
 export type ExtendedFieldDataMap = { [key: string]: ExtendedFieldData | undefined };
 /** Represents a location along with its edit metadata and current serving state. */
 export interface ExtendedLocation {
   /** Output only. Extended field data, keyed by the name of a top-level field of the `Location` resource. Keys are always plain top-level field names, never nested field paths. Each top-level field is treated atomically, so if you change a subfield, this map will treat it as a change to the top-level field. */
   extendedFieldData?: ExtendedFieldDataMap | undefined;
-  /** Output only. The location data currently visible to consumers on Google Maps and Search. */
-  locationSeenByConsumers?: Location | undefined;
   /** Output only. The underlying location data managed by the merchant. */
   locationProvidedByMerchant?: Location | undefined;
+  /** Output only. The location data currently visible to consumers on Google Maps and Search. */
+  locationSeenByConsumers?: Location | undefined;
 }
 export interface GetExtendedLocationsAttributesRequest {
   /** Required. Google identifier for this location in the form of `locations/{location_id}/attributes`. */
@@ -618,12 +618,12 @@ export interface GetExtendedLocationsAttributesRequest {
 }
 /** Represents an attribute along with its edit metadata and current serving state. */
 export interface ExtendedAttribute {
-  /** Output only. The attribute data currently visible to consumers on Google Maps and Search. */
-  attributeSeenByConsumers?: Attribute | undefined;
-  /** Output only. The underlying attribute data managed by the merchant. */
-  attributeProvidedByMerchant?: Attribute | undefined;
   /** Output only. Detailed edit status and metadata for this specific attribute. */
   extendedFieldData?: ExtendedFieldData | undefined;
+  /** Output only. The underlying attribute data managed by the merchant. */
+  attributeProvidedByMerchant?: Attribute | undefined;
+  /** Output only. The attribute data currently visible to consumers on Google Maps and Search. */
+  attributeSeenByConsumers?: Attribute | undefined;
 }
 export type ExtendedAttributeList = Array<ExtendedAttribute>;
 /** Response message for AttributesService.GetExtendedAttributes. */
@@ -634,19 +634,19 @@ export interface ExtendedAttributes {
   extendedAttributes?: ExtendedAttributeList | undefined;
 }
 export interface GetGoogleUpdatedLocationsRequest {
-  /** Required. The name of the location to fetch. */
-  name: string;
   /** Required. Read mask to specify what fields will be returned in the response. */
   readMask?: string | undefined;
+  /** Required. The name of the location to fetch. */
+  name: string;
 }
 /** Represents the view of a location as it appears to consumers, which includes updates that are currently serving on Google Maps and Search. */
 export interface GoogleUpdatedLocation {
-  /** The Google-updated version of this location. */
-  location?: Location | undefined;
-  /** The fields where the merchant has provided an update that is currently in flight and hasn't yet been published to Maps and Search. This mask only tracks the status of the merchant's own edits, not external changes. */
-  pendingMask?: string | undefined;
   /** The fields where the values in the view as it appears to consumers are different than the merchant's information. To accept these changes, patch the location. To reject, patch with your preferred values. */
   diffMask?: string | undefined;
+  /** The fields where the merchant has provided an update that is currently in flight and hasn't yet been published to Maps and Search. This mask only tracks the status of the merchant's own edits, not external changes. */
+  pendingMask?: string | undefined;
+  /** The Google-updated version of this location. */
+  location?: Location | undefined;
 }
 export interface GetGoogleUpdatedLocationsAttributesRequest {
   /** Required. Google identifier for this location in the form of `locations/{location_id}/attributes`. */
@@ -659,42 +659,42 @@ export interface GetLocationsRequest {
   name: string;
 }
 export interface ListAccountsLocationsRequest {
-  /** Required. The name of the account to fetch locations from. * **Specific Account ID**: If the account is of type `AccountType.PERSONAL`, the response returns only locations directly owned by that account. For all other types (e.g., `AccountType.LOCATION_GROUP`), it returns all accessible locations. * **Wildcard (`-`)**: Using `accounts/-` identifies the authenticated user. This scope defaults to `AccountType.PERSONAL` but includes both directly and indirectly owned locations (e.g., those accessible via member groups). */
-  parent: string;
-  /** Optional. A filter constraining the locations to return. The response includes only entries that match the filter. If `filter` is empty, then constraints are applied and all locations (paginated) are retrieved for the requested account. For more information about valid fields and example usage, see [Work with Location Data Guide](https://developers.google.com/my-business/content/location-data#filter_results_when_you_list_locations). */
-  filter?: string | undefined;
   /** Optional. How many locations to fetch per page. Default value is 10 if not set. Minimum is 1, and maximum page size is 100. */
   pageSize?: number | undefined;
+  /** Optional. A filter constraining the locations to return. The response includes only entries that match the filter. If `filter` is empty, then constraints are applied and all locations (paginated) are retrieved for the requested account. For more information about valid fields and example usage, see [Work with Location Data Guide](https://developers.google.com/my-business/content/location-data#filter_results_when_you_list_locations). */
+  filter?: string | undefined;
   /** Optional. Sorting order for the request. Multiple fields should be comma-separated, following SQL syntax. The default sorting order is ascending. To specify descending order, a suffix " desc" should be added. Valid fields to order_by are title and store_code. For example: "title, store_code desc" or "title" or "store_code desc" */
   orderBy?: string | undefined;
   /** Optional. If specified, it fetches the next `page` of locations. The page token is returned by previous calls to `ListLocations` when there were more locations than could fit in the requested page size. */
   pageToken?: string | undefined;
   /** Required. Read mask to specify what fields will be returned in the response. */
   readMask?: string | undefined;
+  /** Required. The name of the account to fetch locations from. * **Specific Account ID**: If the account is of type `AccountType.PERSONAL`, the response returns only locations directly owned by that account. For all other types (e.g., `AccountType.LOCATION_GROUP`), it returns all accessible locations. * **Wildcard (`-`)**: Using `accounts/-` identifies the authenticated user. This scope defaults to `AccountType.PERSONAL` but includes both directly and indirectly owned locations (e.g., those accessible via member groups). */
+  parent: string;
 }
 export type LocationList = Array<Location>;
 /** Response message for Locations.ListLocations. */
 export interface ListLocationsResponse {
   /** The locations. */
   locations?: LocationList | undefined;
-  /** If the number of locations exceeded the requested page size, this field is populated with a token to fetch the next page of locations on a subsequent call to `ListLocations`. If there are no more locations, this field is not present in the response. */
-  nextPageToken?: string | undefined;
   /** The approximate number of Locations in the list irrespective of pagination. This field will only be returned if `filter` is used as a query parameter. */
   totalSize?: number | undefined;
+  /** If the number of locations exceeded the requested page size, this field is populated with a token to fetch the next page of locations on a subsequent call to `ListLocations`. If there are no more locations, this field is not present in the response. */
+  nextPageToken?: string | undefined;
 }
 export interface ListAttributesRequest {
+  /** If specified, the next page of attribute metadata is retrieved. */
+  pageToken?: string | undefined;
+  /** Optional. The primary category stable ID to find available attributes. Must be of the format `categories/{category_id}` (e.g., `categories/gcid:restaurant`). Required if `parent` is not set and `show_all` is false. */
+  categoryName?: string | undefined;
+  /** Optional. Resource name of the location to look up available attributes. If this field is set, `category_name`, `region_code`, `language_code` and `show_all` are not required and must not be set. Format: `locations/{location_id}` (e.g., `locations/1234567890`). */
+  parent?: string | undefined;
   /** Optional. The ISO 3166-1 alpha-2 country code to find available attributes. Required if `parent` is not set. */
   regionCode?: string | undefined;
   /** Optional. The BCP 47 code of language to get attribute display names in. If this language is not available, they will be provided in English. */
   languageCode?: string | undefined;
-  /** Optional. The primary category stable ID to find available attributes. Must be of the format `categories/{category_id}` (e.g., `categories/gcid:restaurant`). Required if `parent` is not set and `show_all` is false. */
-  categoryName?: string | undefined;
   /** Optional. If set to true, metadata for all available attributes are returned, disregarding `parent` and `category_name` fields. `language_code` and `region_code` are required when `show_all` is set to true. */
   showAll?: boolean | undefined;
-  /** If specified, the next page of attribute metadata is retrieved. */
-  pageToken?: string | undefined;
-  /** Optional. Resource name of the location to look up available attributes. If this field is set, `category_name`, `region_code`, `language_code` and `show_all` are not required and must not be set. Format: `locations/{location_id}` (e.g., `locations/1234567890`). */
-  parent?: string | undefined;
   /** How many attributes to include per page. Default is 200, minimum is 1. */
   pageSize?: number | undefined;
 }
@@ -706,28 +706,28 @@ export type AttributeMetadataValueTypeEnum =
   | "REPEATED_ENUM";
 /** Metadata for supported attribute values. */
 export interface AttributeValueMetadata {
-  /** The attribute value. */
-  value?: unknown | undefined;
   /** The display name for this value, localized where available; otherwise, in English. The value display name is intended to be used in context with the attribute display name. For example, for a "WiFi" enum attribute, this could contain "Paid" to represent paid Wi-Fi. */
   displayName?: string | undefined;
+  /** The attribute value. */
+  value?: unknown | undefined;
 }
 export type AttributeValueMetadataList = Array<AttributeValueMetadata>;
 /** Metadata for an attribute. Contains display information for the attribute, including a localized name and a heading for grouping related attributes together. */
 export interface AttributeMetadata {
-  /** The localized display name of the group that contains this attribute, if available; otherwise, the English group name. Related attributes are collected into a group and should be displayed together under the heading given here. */
-  groupDisplayName?: string | undefined;
-  /** If true, the attribute supports multiple values. If false, only a single value should be provided. */
-  repeatable?: boolean | undefined;
   /** The localized display name for the attribute, if available; otherwise, the English display name. */
   displayName?: string | undefined;
-  /** The value type for the attribute. Values set and retrieved should be expected to be of this type. */
-  valueType?: AttributeMetadataValueTypeEnum | undefined;
   /** If true, the attribute is deprecated and should no longer be used. If deprecated, updating this attribute will not result in an error, but updates will not be saved. At some point after being deprecated, the attribute will be removed entirely and it will become an error. */
   deprecated?: boolean | undefined;
+  /** The value type for the attribute. Values set and retrieved should be expected to be of this type. */
+  valueType?: AttributeMetadataValueTypeEnum | undefined;
   /** For some types of attributes (for example, enums), a list of supported values and corresponding display names for those values is provided. */
   valueMetadata?: AttributeValueMetadataList | undefined;
   /** The unique identifier for the attribute. */
   parent?: string | undefined;
+  /** If true, the attribute supports multiple values. If false, only a single value should be provided. */
+  repeatable?: boolean | undefined;
+  /** The localized display name of the group that contains this attribute, if available; otherwise, the English group name. Related attributes are collected into a group and should be displayed together under the heading given here. */
+  groupDisplayName?: string | undefined;
 }
 export type AttributeMetadataList = Array<AttributeMetadata>;
 /** Response for AttributesService.ListAttributeMetadata. */
@@ -739,18 +739,18 @@ export interface ListAttributeMetadataResponse {
 }
 export type ListCategoriesViewEnum = "CATEGORY_VIEW_UNSPECIFIED" | "BASIC" | "FULL";
 export interface ListCategoriesRequest {
-  /** Required. The ISO 3166-1 alpha-2 country code. */
-  regionCode?: string | undefined;
   /** Optional. How many categories to fetch per page. Default is 100, minimum is 1, and maximum page size is 100. */
   pageSize?: number | undefined;
+  /** Required. Specifies which parts to the Category resource should be returned in the response. */
+  view?: ListCategoriesViewEnum | (string & {}) | undefined;
+  /** Required. The ISO 3166-1 alpha-2 country code. */
+  regionCode?: string | undefined;
+  /** Optional. Filter string from user. The only field that supported is `displayName`. Eg: `filter=displayName=foo`. */
+  filter?: string | undefined;
   /** Required. The BCP 47 code of language. */
   languageCode?: string | undefined;
   /** Optional. If specified, the next page of categories will be fetched. */
   pageToken?: string | undefined;
-  /** Optional. Filter string from user. The only field that supported is `displayName`. Eg: `filter=displayName=foo`. */
-  filter?: string | undefined;
-  /** Required. Specifies which parts to the Category resource should be returned in the response. */
-  view?: ListCategoriesViewEnum | (string & {}) | undefined;
 }
 /** Response message for BusinessCategories.ListCategories. */
 export interface ListCategoriesResponse {
@@ -760,18 +760,18 @@ export interface ListCategoriesResponse {
   nextPageToken?: string | undefined;
 }
 export interface PatchLocationsRequest extends Omit<Location, "name"> {
-  /** Identifier. Google identifier for this location in the form: `locations/{location_id}`. */
-  name: string;
   /** Required. The specific fields to update. */
   updateMask?: string | undefined;
   /** Optional. If true, the request is validated without actually updating the location. When this field is set, we will only return validation errors if there were any. The response will be empty if no errors were found. */
   validateOnly?: boolean | undefined;
+  /** Identifier. Google identifier for this location in the form: `locations/{location_id}`. */
+  name: string;
 }
 export interface SearchChainsRequest {
-  /** Required. Search for a chain by its name. Exact/partial/fuzzy/related queries are supported. Examples: "walmart", "wal-mart", "walmmmart", "U+6C83U+5C14U+739B" */
-  chainName?: string | undefined;
   /** The maximum number of matched chains to return from this query. The default is 10. The maximum possible value is 500. */
   pageSize?: number | undefined;
+  /** Required. Search for a chain by its name. Exact/partial/fuzzy/related queries are supported. Examples: "walmart", "wal-mart", "walmmmart", "U+6C83U+5C14U+739B" */
+  chainName?: string | undefined;
 }
 export type ChainList = Array<Chain>;
 /** Response message for Locations.SearchChains. */
@@ -781,22 +781,22 @@ export interface SearchChainsResponse {
 }
 /** Request message for GoogleLocations.SearchGoogleLocations. */
 export interface SearchGoogleLocationsRequest {
+  /** The number of matches to return. The default value is 3, with a maximum of 10. Note that latency may increase if more are requested. There is no pagination. */
+  pageSize?: number | undefined;
   /** Text query to search for. The search results from a query string will be less accurate than if providing an exact location, but can provide more inexact matches. */
   query?: string | undefined;
   /** Location to search for. If provided, will find locations which match the provided location details, which must include a value for the title. */
   location?: Location | undefined;
-  /** The number of matches to return. The default value is 3, with a maximum of 10. Note that latency may increase if more are requested. There is no pagination. */
-  pageSize?: number | undefined;
 }
 export interface SearchGoogleLocationsRequest_ extends SearchGoogleLocationsRequest {}
 /** Represents a Location that is present on Google. This can be a location that has been claimed by the user, someone else, or could be unclaimed. */
 export interface GoogleLocation {
-  /** A URL that will redirect the user to the request admin rights UI. This field is only present if the location has already been claimed by any user, including the current user. */
-  requestAdminRightsUri?: string | undefined;
   /** Resource name of this GoogleLocation, in the format `googleLocations/{googleLocationId}`. */
   name?: string | undefined;
   /** The sparsely populated Location information. This field can be re-used in CreateLocation if it is not currently claimed by a user. */
   location?: Location | undefined;
+  /** A URL that will redirect the user to the request admin rights UI. This field is only present if the location has already been claimed by any user, including the current user. */
+  requestAdminRightsUri?: string | undefined;
 }
 export type GoogleLocationList = Array<GoogleLocation>;
 /** Response message for GoogleLocations.SearchGoogleLocations. */
@@ -1146,9 +1146,9 @@ function __c0(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          attributeSeenByConsumers: S.optional(__S(578, __c18, 2)),
-          attributeProvidedByMerchant: S.optional(__S(578, __c18, 2)),
           extendedFieldData: S.optional(__S(768, __c24, 0)),
+          attributeProvidedByMerchant: S.optional(__S(578, __c18, 2)),
+          attributeSeenByConsumers: S.optional(__S(578, __c18, 2)),
         }),
       ).annotate({ identifier: "ExtendedAttribute" });
     case 2:
@@ -1167,8 +1167,8 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           readMask: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1180,9 +1180,9 @@ function __c1(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          location: S.optional(__S(511, __c15, 31)),
-          pendingMask: S.optional(S.String),
           diffMask: S.optional(S.String),
+          pendingMask: S.optional(S.String),
+          location: S.optional(__S(511, __c15, 31)),
         }),
       ).annotate({ identifier: "GoogleUpdatedLocation" });
   }
@@ -1225,12 +1225,12 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
-          filter: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           readMask: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1245,8 +1245,8 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           locations: S.optional(__S(129, __c4, 1)),
-          nextPageToken: S.optional(S.String),
           totalSize: S.optional(S.Number),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListLocationsResponse" });
   }
@@ -1256,12 +1256,12 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          categoryName: S.optional(S.String.pipe(T.Query())),
+          parent: S.optional(S.String.pipe(T.Query())),
           regionCode: S.optional(S.String.pipe(T.Query())),
           languageCode: S.optional(S.String.pipe(T.Query())),
-          categoryName: S.optional(S.String.pipe(T.Query())),
           showAll: S.optional(S.Boolean.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          parent: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -1274,8 +1274,8 @@ function __c5(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(S.Unknown),
           displayName: S.optional(S.String),
+          value: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "AttributeValueMetadata" });
     case 2:
@@ -1283,13 +1283,13 @@ function __c5(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          groupDisplayName: S.optional(S.String),
-          repeatable: S.optional(S.Boolean),
           displayName: S.optional(S.String),
-          valueType: S.optional(S.String),
           deprecated: S.optional(S.Boolean),
+          valueType: S.optional(S.String),
           valueMetadata: S.optional(__S(162, __c5, 2)),
           parent: S.optional(S.String),
+          repeatable: S.optional(S.Boolean),
+          groupDisplayName: S.optional(S.String),
         }),
       ).annotate({ identifier: "AttributeMetadata" });
     case 4:
@@ -1308,12 +1308,12 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          regionCode: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          view: S.optional(S.String.pipe(T.Query())),
+          regionCode: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
           languageCode: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
-          view: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1338,9 +1338,9 @@ function __c7(j: number): any {
         S.Extend(
           __S(511, __c15, 31),
           S.Struct({
-            name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
             validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -1357,8 +1357,8 @@ function __c8(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          chainName: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          chainName: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1382,9 +1382,9 @@ function __c9(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          pageSize: S.optional(S.Number),
           query: S.optional(S.String),
           location: S.optional(__S(511, __c15, 31)),
-          pageSize: S.optional(S.Number),
         }),
       ).annotate({ identifier: "SearchGoogleLocationsRequest" });
     case 1:
@@ -1400,9 +1400,9 @@ function __c9(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          requestAdminRightsUri: S.optional(S.String),
           name: S.optional(S.String),
           location: S.optional(__S(511, __c15, 31)),
+          requestAdminRightsUri: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleLocation" });
     case 3:
@@ -1440,10 +1440,10 @@ function __c11(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          languageCode: S.optional(S.String.pipe(T.Query())),
-          regionCode: S.optional(S.String.pipe(T.Query())),
           names: S.optional(__S(384, __c12, 0).pipe(T.Query())),
+          regionCode: S.optional(S.String.pipe(T.Query())),
           view: S.optional(S.String.pipe(T.Query())),
+          languageCode: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1471,8 +1471,8 @@ function __c13(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          hoursTypeId: S.optional(S.String),
           displayName: S.optional(S.String),
+          hoursTypeId: S.optional(S.String),
           localizedDisplayName: S.optional(S.String),
         }),
       ).annotate({ identifier: "MoreHoursType" });
@@ -1481,8 +1481,8 @@ function __c13(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          serviceTypeId: S.optional(S.String),
           displayName: S.optional(S.String),
+          serviceTypeId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ServiceType" });
     case 3:
@@ -1491,8 +1491,8 @@ function __c13(j: number): any {
       return S.suspend(() =>
         S.Struct({
           displayName: S.optional(S.String),
-          moreHoursTypes: S.optional(__S(417, __c13, 1)),
           name: S.optional(S.String),
+          moreHoursTypes: S.optional(__S(417, __c13, 1)),
           serviceTypes: S.optional(__S(419, __c13, 3)),
         }),
       ).annotate({ identifier: "Category" });
@@ -1507,8 +1507,8 @@ function __c14(j: number): any {
         S.Extend(
           __S(511, __c15, 31),
           S.Struct({
-            parent: S.String.pipe(T.Label()),
             validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
@@ -1526,150 +1526,173 @@ function __c15(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          seconds: S.optional(S.Number),
-          minutes: S.optional(S.Number),
-          hours: S.optional(S.Number),
-          nanos: S.optional(S.Number),
+          newReviewUri: S.optional(S.String),
+          duplicateLocation: S.optional(S.String),
+          canModifyServiceList: S.optional(S.Boolean),
+          canOperateHealthData: S.optional(S.Boolean),
+          hasVoiceOfMerchant: S.optional(S.Boolean),
+          hasPendingEdits: S.optional(S.Boolean),
+          canOperateLodgingData: S.optional(S.Boolean),
+          hasGoogleUpdated: S.optional(S.Boolean),
+          mapsUri: S.optional(S.String),
+          canDelete: S.optional(S.Boolean),
+          canHaveBusinessCalls: S.optional(S.Boolean),
+          isParticularlyPersonalPlace: S.optional(S.Boolean),
+          canOperateLocalPost: S.optional(S.Boolean),
+          canHaveFoodMenus: S.optional(S.Boolean),
+          placeId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "TimeOfDay" });
+      ).annotate({ identifier: "Metadata" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          openDay: S.optional(S.String),
-          closeTime: S.optional(__S(480, __c15, 0)),
-          closeDay: S.optional(S.String),
-          openTime: S.optional(__S(480, __c15, 0)),
+          latitude: S.optional(S.Number),
+          longitude: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "TimePeriod" });
+      ).annotate({ identifier: "LatLng" });
     case 2:
-      return S.Array(__S(481, __c15, 1));
-    case 3:
       return S.suspend(() =>
         S.Struct({
-          periods: S.optional(__S(482, __c15, 2)),
-          hoursTypeId: S.optional(S.String),
+          placeName: S.optional(S.String),
+          placeId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "MoreHours" });
+      ).annotate({ identifier: "PlaceInfo" });
+    case 3:
+      return S.Array(__S(482, __c15, 2));
     case 4:
-      return S.Array(__S(483, __c15, 3));
+      return S.suspend(() =>
+        S.Struct({
+          placeInfos: S.optional(__S(483, __c15, 3)),
+        }),
+      ).annotate({ identifier: "Places" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          longitude: S.optional(S.Number),
-          latitude: S.optional(S.Number),
+          businessType: S.optional(S.String),
+          regionCode: S.optional(S.String),
+          places: S.optional(__S(484, __c15, 4)),
         }),
-      ).annotate({ identifier: "LatLng" });
+      ).annotate({ identifier: "ServiceAreaBusiness" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          placeId: S.optional(S.String),
-          relationType: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "RelevantLocation" });
-    case 7:
-      return S.Array(__S(486, __c15, 6));
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          childrenLocations: S.optional(__S(487, __c15, 7)),
-          parentLocation: S.optional(__S(486, __c15, 6)),
-          parentChain: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "RelationshipData" });
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          primaryCategory: S.optional(__S(420, __c13, 4)),
-          additionalCategories: S.optional(__S(421, __c13, 5)),
-        }),
-      ).annotate({ identifier: "Categories" });
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          nanos: S.optional(S.Number),
-          units: S.optional(S.String),
-          currencyCode: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Money" });
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          description: S.optional(S.String),
-          serviceTypeId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "StructuredServiceItem" });
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          languageCode: S.optional(S.String),
-          displayName: S.optional(S.String),
-          description: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Label" });
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          category: S.optional(S.String),
-          label: S.optional(__S(492, __c15, 12)),
-        }),
-      ).annotate({ identifier: "FreeFormServiceItem" });
-    case 14:
-      return S.suspend(() =>
-        S.Struct({
-          price: S.optional(__S(490, __c15, 10)),
-          structuredServiceItem: S.optional(__S(491, __c15, 11)),
-          freeFormServiceItem: S.optional(__S(493, __c15, 13)),
-        }),
-      ).annotate({ identifier: "ServiceItem" });
-    case 15:
-      return S.Array(__S(494, __c15, 14));
-    case 16:
-      return S.suspend(() =>
-        S.Struct({
-          primaryPhone: S.optional(S.String),
-          additionalPhones: S.optional(__S(384, __c12, 0)),
-        }),
-      ).annotate({ identifier: "PhoneNumbers" });
-    case 17:
-      return S.suspend(() =>
-        S.Struct({
-          periods: S.optional(__S(482, __c15, 2)),
-        }),
-      ).annotate({ identifier: "BusinessHours" });
-    case 18:
-      return S.suspend(() =>
-        S.Struct({
-          year: S.optional(S.Number),
           day: S.optional(S.Number),
           month: S.optional(S.Number),
+          year: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Mybusinessbusinessinformation_Date" });
-    case 19:
-      return S.suspend(() =>
-        S.Struct({
-          startDate: S.optional(__S(498, __c15, 18)),
-          openTime: S.optional(__S(480, __c15, 0)),
-          closed: S.optional(S.Boolean),
-          endDate: S.optional(__S(498, __c15, 18)),
-          closeTime: S.optional(__S(480, __c15, 0)),
-        }),
-      ).annotate({ identifier: "SpecialHourPeriod" });
-    case 20:
-      return S.Array(__S(499, __c15, 19));
-    case 21:
-      return S.suspend(() =>
-        S.Struct({
-          specialHourPeriods: S.optional(__S(500, __c15, 20)),
-        }),
-      ).annotate({ identifier: "SpecialHours" });
-    case 22:
+    case 7:
       return S.suspend(() =>
         S.Struct({
           canReopen: S.optional(S.Boolean),
-          openingDate: S.optional(__S(498, __c15, 18)),
+          openingDate: S.optional(__S(486, __c15, 6)),
           status: S.optional(S.String),
         }),
       ).annotate({ identifier: "OpenInfo" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          serviceTypeId: S.optional(S.String),
+          description: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "StructuredServiceItem" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          displayName: S.optional(S.String),
+          languageCode: S.optional(S.String),
+          description: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Label" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          category: S.optional(S.String),
+          label: S.optional(__S(489, __c15, 9)),
+        }),
+      ).annotate({ identifier: "FreeFormServiceItem" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          nanos: S.optional(S.Number),
+          currencyCode: S.optional(S.String),
+          units: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Money" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          structuredServiceItem: S.optional(__S(488, __c15, 8)),
+          freeFormServiceItem: S.optional(__S(490, __c15, 10)),
+          price: S.optional(__S(491, __c15, 11)),
+        }),
+      ).annotate({ identifier: "ServiceItem" });
+    case 13:
+      return S.Array(__S(492, __c15, 12));
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          administrativeArea: S.optional(S.String),
+          addressLines: S.optional(__S(384, __c12, 0)),
+          organization: S.optional(S.String),
+          revision: S.optional(S.Number),
+          sortingCode: S.optional(S.String),
+          regionCode: S.optional(S.String),
+          sublocality: S.optional(S.String),
+          locality: S.optional(S.String),
+          languageCode: S.optional(S.String),
+          postalCode: S.optional(S.String),
+          recipients: S.optional(__S(384, __c12, 0)),
+        }),
+      ).annotate({ identifier: "PostalAddress" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          description: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Profile" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          additionalCategories: S.optional(__S(421, __c13, 5)),
+          primaryCategory: S.optional(__S(420, __c13, 4)),
+        }),
+      ).annotate({ identifier: "Categories" });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          hours: S.optional(S.Number),
+          seconds: S.optional(S.Number),
+          nanos: S.optional(S.Number),
+          minutes: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "TimeOfDay" });
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          openDay: S.optional(S.String),
+          openTime: S.optional(__S(497, __c15, 17)),
+          closeDay: S.optional(S.String),
+          closeTime: S.optional(__S(497, __c15, 17)),
+        }),
+      ).annotate({ identifier: "TimePeriod" });
+    case 19:
+      return S.Array(__S(498, __c15, 18));
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          hoursTypeId: S.optional(S.String),
+          periods: S.optional(__S(499, __c15, 19)),
+        }),
+      ).annotate({ identifier: "MoreHours" });
+    case 21:
+      return S.Array(__S(500, __c15, 20));
+    case 22:
+      return S.suspend(() =>
+        S.Struct({
+          periods: S.optional(__S(499, __c15, 19)),
+        }),
+      ).annotate({ identifier: "BusinessHours" });
     case 23:
       return S.suspend(() =>
         S.Struct({
@@ -1679,91 +1702,68 @@ function __c15(j: number): any {
     case 24:
       return S.suspend(() =>
         S.Struct({
-          placeName: S.optional(S.String),
-          placeId: S.optional(S.String),
+          startDate: S.optional(__S(486, __c15, 6)),
+          closed: S.optional(S.Boolean),
+          endDate: S.optional(__S(486, __c15, 6)),
+          openTime: S.optional(__S(497, __c15, 17)),
+          closeTime: S.optional(__S(497, __c15, 17)),
         }),
-      ).annotate({ identifier: "PlaceInfo" });
+      ).annotate({ identifier: "SpecialHourPeriod" });
     case 25:
       return S.Array(__S(504, __c15, 24));
     case 26:
       return S.suspend(() =>
         S.Struct({
-          placeInfos: S.optional(__S(505, __c15, 25)),
+          specialHourPeriods: S.optional(__S(505, __c15, 25)),
         }),
-      ).annotate({ identifier: "Places" });
+      ).annotate({ identifier: "SpecialHours" });
     case 27:
       return S.suspend(() =>
         S.Struct({
-          places: S.optional(__S(506, __c15, 26)),
-          businessType: S.optional(S.String),
-          regionCode: S.optional(S.String),
+          primaryPhone: S.optional(S.String),
+          additionalPhones: S.optional(__S(384, __c12, 0)),
         }),
-      ).annotate({ identifier: "ServiceAreaBusiness" });
+      ).annotate({ identifier: "PhoneNumbers" });
     case 28:
       return S.suspend(() =>
         S.Struct({
-          revision: S.optional(S.Number),
-          administrativeArea: S.optional(S.String),
-          addressLines: S.optional(__S(384, __c12, 0)),
-          sublocality: S.optional(S.String),
-          organization: S.optional(S.String),
-          regionCode: S.optional(S.String),
-          languageCode: S.optional(S.String),
-          postalCode: S.optional(S.String),
-          recipients: S.optional(__S(384, __c12, 0)),
-          locality: S.optional(S.String),
-          sortingCode: S.optional(S.String),
+          placeId: S.optional(S.String),
+          relationType: S.optional(S.String),
         }),
-      ).annotate({ identifier: "PostalAddress" });
+      ).annotate({ identifier: "RelevantLocation" });
     case 29:
-      return S.suspend(() =>
-        S.Struct({
-          description: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Profile" });
+      return S.Array(__S(508, __c15, 28));
     case 30:
       return S.suspend(() =>
         S.Struct({
-          canDelete: S.optional(S.Boolean),
-          mapsUri: S.optional(S.String),
-          newReviewUri: S.optional(S.String),
-          hasGoogleUpdated: S.optional(S.Boolean),
-          canHaveFoodMenus: S.optional(S.Boolean),
-          hasVoiceOfMerchant: S.optional(S.Boolean),
-          hasPendingEdits: S.optional(S.Boolean),
-          canOperateLodgingData: S.optional(S.Boolean),
-          canModifyServiceList: S.optional(S.Boolean),
-          isParticularlyPersonalPlace: S.optional(S.Boolean),
-          canOperateHealthData: S.optional(S.Boolean),
-          duplicateLocation: S.optional(S.String),
-          placeId: S.optional(S.String),
-          canHaveBusinessCalls: S.optional(S.Boolean),
-          canOperateLocalPost: S.optional(S.Boolean),
+          parentLocation: S.optional(__S(508, __c15, 28)),
+          parentChain: S.optional(S.String),
+          childrenLocations: S.optional(__S(509, __c15, 29)),
         }),
-      ).annotate({ identifier: "Metadata" });
+      ).annotate({ identifier: "RelationshipData" });
     case 31:
       return S.suspend(() =>
         S.Struct({
-          storeCode: S.optional(S.String),
+          metadata: S.optional(__S(480, __c15, 0)),
+          latlng: S.optional(__S(481, __c15, 1)),
+          serviceArea: S.optional(__S(485, __c15, 5)),
           websiteUri: S.optional(S.String),
-          moreHours: S.optional(__S(484, __c15, 4)),
-          latlng: S.optional(__S(485, __c15, 5)),
-          relationshipData: S.optional(__S(488, __c15, 8)),
-          categories: S.optional(__S(489, __c15, 9)),
-          labels: S.optional(__S(384, __c12, 0)),
-          serviceItems: S.optional(__S(495, __c15, 15)),
-          phoneNumbers: S.optional(__S(496, __c15, 16)),
-          regularHours: S.optional(__S(497, __c15, 17)),
-          specialHours: S.optional(__S(501, __c15, 21)),
+          openInfo: S.optional(__S(487, __c15, 7)),
           languageCode: S.optional(S.String),
-          openInfo: S.optional(__S(502, __c15, 22)),
+          storeCode: S.optional(S.String),
+          serviceItems: S.optional(__S(493, __c15, 13)),
+          storefrontAddress: S.optional(__S(494, __c15, 14)),
+          profile: S.optional(__S(495, __c15, 15)),
+          categories: S.optional(__S(496, __c15, 16)),
+          moreHours: S.optional(__S(501, __c15, 21)),
+          regularHours: S.optional(__S(502, __c15, 22)),
           adWordsLocationExtensions: S.optional(__S(503, __c15, 23)),
-          serviceArea: S.optional(__S(507, __c15, 27)),
-          storefrontAddress: S.optional(__S(508, __c15, 28)),
-          profile: S.optional(__S(509, __c15, 29)),
-          title: S.optional(S.String),
+          labels: S.optional(__S(384, __c12, 0)),
           name: S.optional(S.String),
-          metadata: S.optional(__S(510, __c15, 30)),
+          title: S.optional(S.String),
+          specialHours: S.optional(__S(506, __c15, 26)),
+          phoneNumbers: S.optional(__S(507, __c15, 27)),
+          relationshipData: S.optional(__S(510, __c15, 30)),
         }),
       ).annotate({ identifier: "Location" });
   }
@@ -1805,22 +1805,22 @@ function __c17(j: number): any {
 function __c18(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(S.Unknown);
+    case 1:
       return S.suspend(() =>
         S.Struct({
-          unsetValues: S.optional(__S(384, __c12, 0)),
           setValues: S.optional(__S(384, __c12, 0)),
+          unsetValues: S.optional(__S(384, __c12, 0)),
         }),
       ).annotate({ identifier: "RepeatedEnumAttributeValue" });
-    case 1:
-      return S.Array(S.Unknown);
     case 2:
       return S.suspend(() =>
         S.Struct({
-          valueType: S.optional(S.String),
           name: S.optional(S.String),
+          valueType: S.optional(S.String),
+          values: S.optional(__S(576, __c18, 0)),
           uriValues: S.optional(__S(641, __c20, 1)),
-          repeatedEnumValue: S.optional(__S(576, __c18, 0)),
-          values: S.optional(__S(577, __c18, 1)),
+          repeatedEnumValue: S.optional(__S(577, __c18, 1)),
         }),
       ).annotate({ identifier: "Attribute" });
   }
@@ -1832,8 +1832,8 @@ function __c19(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
           attributes: S.optional(__S(608, __c19, 0)),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Attributes" });
   }
@@ -1871,8 +1871,8 @@ function __c22(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          displayName: S.optional(S.String),
           languageCode: S.optional(S.String),
+          displayName: S.optional(S.String),
         }),
       ).annotate({ identifier: "ChainName" });
     case 1:
@@ -1880,9 +1880,9 @@ function __c22(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          name: S.optional(S.String),
           locationCount: S.optional(S.Number),
           websites: S.optional(__S(641, __c20, 1)),
-          name: S.optional(S.String),
           chainNames: S.optional(__S(705, __c22, 1)),
         }),
       ).annotate({ identifier: "Chain" });
@@ -1908,8 +1908,8 @@ function __c23(j: number): any {
       return S.suspend(() =>
         S.Struct({
           extendedFieldData: S.optional(__S(737, __c23, 1)),
-          locationSeenByConsumers: S.optional(__S(511, __c15, 31)),
           locationProvidedByMerchant: S.optional(__S(511, __c15, 31)),
+          locationSeenByConsumers: S.optional(__S(511, __c15, 31)),
         }),
       ).annotate({ identifier: "ExtendedLocation" });
   }
@@ -1920,9 +1920,9 @@ function __c24(j: number): any {
       return S.suspend(() =>
         S.Struct({
           rejectionReason: S.optional(S.String),
-          source: S.optional(S.String),
-          updateTime: S.optional(S.String),
           lastEditLifecycleStage: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          source: S.optional(S.String),
         }),
       ).annotate({ identifier: "ExtendedFieldData" });
   }

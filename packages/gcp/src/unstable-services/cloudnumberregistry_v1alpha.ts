@@ -126,12 +126,12 @@ export type IpamAdminScopeAvailabilityAvailabilityEnum =
   | "UNAVAILABLE";
 /** Availability details for a specific IpamAdminScope. */
 export interface IpamAdminScopeAvailability {
-  /** The availability of the scope. */
-  availability?: IpamAdminScopeAvailabilityAvailabilityEnum | undefined;
   /** The scope of the IpamAdminScope. */
   scope?: string | undefined;
   /** The admin project of the IpamAdminScope if it exists. */
   adminProject?: string | undefined;
+  /** The availability of the scope. */
+  availability?: IpamAdminScopeAvailabilityAvailabilityEnum | undefined;
 }
 export type IpamAdminScopeAvailabilityList = Array<IpamAdminScopeAvailability>;
 /** Response message for the CloudNumberRegistry.CheckAvailabilityIpamAdminScopes method. */
@@ -152,21 +152,21 @@ export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
-  /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number | undefined;
-  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList | undefined;
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
   message?: string | undefined;
+  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
+  details?: DocumentMapList | undefined;
+  /** The status code, which should be an enum value of google.rpc.Code. */
+  code?: number | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
+  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
+  name?: string | undefined;
   /** The error result of the operation in case of failure or cancellation. */
   error?: Status | undefined;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
   done?: boolean | undefined;
-  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string | undefined;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
   response?: DocumentMap | undefined;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
@@ -175,64 +175,71 @@ export interface Operation {
 export type StringMap = { [key: string]: string | undefined };
 /** An OrgNumberRegistry defines a delegation of authority from an organization to a project, allowing the project to manage IP address data within specified scopes of the organization. */
 export interface OrgNumberRegistry {
-  /** Optional. User-defined labels. */
-  labels?: StringMap | undefined;
-  /** Output only. The time at which the OrgNumberRegistry was last updated. */
-  updateTime?: string | undefined;
   /** Identifier. The resource name of the OrgNumberRegistry. */
   name?: string | undefined;
-  /** Output only. The time at which the OrgNumberRegistry was created. */
-  createTime?: string | undefined;
   /** Required. The project that will act as the admin project for CNR resources Format: projects/{project_number} or projects/{project_id} */
   adminProject?: string | undefined;
   /** Required. The scopes within the organization that the project is able to manage. Currently only organization scope is supported. For example, "organizations/1234567890". */
   targetScopes?: StringList | undefined;
+  /** Optional. User-defined labels. */
+  labels?: StringMap | undefined;
+  /** Output only. The time at which the OrgNumberRegistry was last updated. */
+  updateTime?: string | undefined;
+  /** Output only. The time at which the OrgNumberRegistry was created. */
+  createTime?: string | undefined;
 }
 export interface CreateOrganizationsLocationsOrgNumberRegistriesRequest extends OrgNumberRegistry {
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
   /** Required. The parent resource name where the OrgNumberRegistry will be created. */
   parent: string;
   /** Required. The ID to use for the OrgNumberRegistry, which will become the final segment of the resource name. */
   orgNumberRegistryId?: string | undefined;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
 }
 /** A key-value pair representing a custom attribute associated with a resource. Attributes are resource metadata used to organize and search for resources. Do not include sensitive information, such as personally identifiable information or credentials, in attribute `key` or `value`. */
 export interface Attribute {
-  /** Required. The key of the attribute. */
-  key?: string | undefined;
   /** Required. The value of the attribute. */
   value?: string | undefined;
+  /** Required. The key of the attribute. */
+  key?: string | undefined;
 }
 export type AttributeList = Array<Attribute>;
 /** A CustomRange represents a user-defined IP address range. */
 export interface CustomRange {
-  /** Optional. The IPv6 CIDR range of the CustomRange. */
-  ipv6CidrRange?: string | undefined;
-  /** Optional. The attributes of the CustomRange. */
-  attributes?: AttributeList | undefined;
-  /** Optional. User-defined labels. */
-  labels?: StringMap | undefined;
-  /** Optional. The IPv4 CIDR range of the CustomRange. */
-  ipv4CidrRange?: string | undefined;
-  /** Required. Identifier. The resource name of the CustomRange, in the format `projects/{project}/locations/{location}/customRanges/{custom_range}`. */
-  name?: string | undefined;
   /** Optional. The resource name of the Realm associated with the CustomRange, in the format `projects/{project}/locations/{location}/realms/{realm}`. The Realm must be in the same project as the CustomRange. This field must not be set if the `parent_range` field is set, as the Realm will be inherited from the parent CustomRange. */
   realm?: string | undefined;
-  /** Optional. The resource name of the parent CustomRange, in the format `projects/{project}/locations/{location}/customRanges/{custom_range}`. If specified, the parent CustomRange must be in the same RegistryBook. This field is mutually exclusive with the `realm` field, as the Realm is inherited from the parent CustomRange. */
-  parentRange?: string | undefined;
+  /** Optional. The IPv4 CIDR range of the CustomRange. */
+  ipv4CidrRange?: string | undefined;
+  /** Optional. User-defined labels. */
+  labels?: StringMap | undefined;
+  /** Required. Identifier. The resource name of the CustomRange, in the format `projects/{project}/locations/{location}/customRanges/{custom_range}`. */
+  name?: string | undefined;
+  /** Optional. The IPv6 CIDR range of the CustomRange. */
+  ipv6CidrRange?: string | undefined;
   /** Optional. The description of the CustomRange. Do not include sensitive information, such as personally identifiable information or credentials, in the `description` field. */
   description?: string | undefined;
+  /** Optional. The resource name of the parent CustomRange, in the format `projects/{project}/locations/{location}/customRanges/{custom_range}`. If specified, the parent CustomRange must be in the same RegistryBook. This field is mutually exclusive with the `realm` field, as the Realm is inherited from the parent CustomRange. */
+  parentRange?: string | undefined;
+  /** Optional. The attributes of the CustomRange. */
+  attributes?: AttributeList | undefined;
   /** Output only. The RegistryBook of the CustomRange. This field is inherited from the Realm or parent CustomRange depending on which one is specified. */
   registryBook?: string | undefined;
 }
 export interface CreateProjectsLocationsCustomRangesRequest extends CustomRange {
   /** Required. The parent resource name where the CustomRange will be created. */
   parent: string;
-  /** Required. The ID to use for the CustomRange, which will become the final segment of the resource name. */
-  customRangeId?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
+  /** Required. The ID to use for the CustomRange, which will become the final segment of the resource name. */
+  customRangeId?: string | undefined;
 }
+export type IpamAdminScopeEnabledAddonPlatformsItemEnum =
+  | "ADD_ON_PLATFORM_UNSPECIFIED"
+  | "COMPUTE_ENGINE"
+  | "GCE";
+export type IpamAdminScopeEnabledAddonPlatformsItemEnumList = Array<
+  IpamAdminScopeEnabledAddonPlatformsItemEnum | (string & {})
+>;
 export type IpamAdminScopeStateEnum =
   | "DISCOVERY_PIPELINE_STATE_UNSPECIFIED"
   | "INTERNAL_FAILURE"
@@ -246,29 +253,22 @@ export type IpamAdminScopeStateEnum =
   | "DELETION_COMPLETED"
   | "CLEANUP_IN_PROGRESS"
   | "READY_FOR_DELETION";
-export type IpamAdminScopeEnabledAddonPlatformsItemEnum =
-  | "ADD_ON_PLATFORM_UNSPECIFIED"
-  | "COMPUTE_ENGINE"
-  | "GCE";
-export type IpamAdminScopeEnabledAddonPlatformsItemEnumList = Array<
-  IpamAdminScopeEnabledAddonPlatformsItemEnum | (string & {})
->;
 /** An IpamAdminScope defines the administrative boundary for IP address discovery and management. It configures which platforms and organizational scopes are enabled for IP tracking. */
 export interface IpamAdminScope {
-  /** Required. Identifier. The resource name of the IpamAdminScope. */
-  name?: string | undefined;
+  /** Output only. The time at which the IpamAdminScope was created. */
+  createTime?: string | undefined;
   /** Output only. The time at which the IpamAdminScope was last updated. */
   updateTime?: string | undefined;
+  /** Required. Identifier. The resource name of the IpamAdminScope. */
+  name?: string | undefined;
+  /** Optional. User-defined labels. */
+  labels?: StringMap | undefined;
+  /** Required. Add-on platforms that are enabled for this IpamAdminScope. Cloud Number Registry only discovers the IP addresses from the enabled platforms. */
+  enabledAddonPlatforms?: IpamAdminScopeEnabledAddonPlatformsItemEnumList | undefined;
   /** Output only. State of resource discovery pipeline. */
   state?: IpamAdminScopeStateEnum | (string & {}) | undefined;
   /** Required. Administrative scopes enabled for IP address discovery and management. For example, "organizations/1234567890". Minimum of 1 scope is required. In preview, only one organization scope is allowed. */
   scopes?: StringList | undefined;
-  /** Optional. User-defined labels. */
-  labels?: StringMap | undefined;
-  /** Output only. The time at which the IpamAdminScope was created. */
-  createTime?: string | undefined;
-  /** Required. Add-on platforms that are enabled for this IpamAdminScope. Cloud Number Registry only discovers the IP addresses from the enabled platforms. */
-  enabledAddonPlatforms?: IpamAdminScopeEnabledAddonPlatformsItemEnumList | undefined;
 }
 export interface CreateProjectsLocationsIpamAdminScopesRequest extends IpamAdminScope {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -278,20 +278,6 @@ export interface CreateProjectsLocationsIpamAdminScopesRequest extends IpamAdmin
   /** Required. The parent resource name where the IpamAdminScope will be created. */
   parent: string;
 }
-/** Aggregated data for the Realm. */
-export interface RealmAggregatedData {
-  /** Output only. Number of DiscoveredRanges in the Realm. */
-  discoveredRangesCount?: number | undefined;
-  /** Output only. Number of CustomRanges in the Realm. */
-  customRangesCount?: number | undefined;
-}
-export type RealmTrafficTypeEnum =
-  | "TRAFFIC_TYPE_UNSPECIFIED"
-  | "UNSET"
-  | "INTERNET"
-  | "PRIVATE"
-  | "LINKLOCAL";
-export type RealmManagementTypeEnum = "MANAGEMENT_TYPE_UNSPECIFIED" | "CNR" | "USER";
 export type RealmIpVersionEnum = "IP_VERSION_UNSPECIFIED" | "IPV4" | "IPV6";
 export type DiscoveryMetadataStateEnum =
   | "RESOURCE_STATE_UNSPECIFIED"
@@ -301,45 +287,59 @@ export type DiscoveryMetadataStateEnum =
   | "ERROR";
 /** Metadata about a discovered resource, tracking event times, state, and source information. */
 export interface DiscoveryMetadata {
-  /** Output only. A single source resource can be the source of multiple CNR resources. This sub_id is used to distinguish between the different CNR resources derived from the same upstream resource. For example, a single subnetwork can be the source of multiple Ranges, one for each protocol. In this case, the sub_id could be "private-ipv4" or "private-ipv6". */
-  sourceSubId?: string | undefined;
-  /** Output only. The time when the resource was last modified. */
-  updateTime?: string | undefined;
   /** Output only. The canonical google.aip.dev/122 name of the source resource. */
   sourceId?: string | undefined;
   /** Output only. The state of the resource. */
   state?: DiscoveryMetadataStateEnum | (string & {}) | undefined;
-  /** Output only. The resource uri of the discovered resource. */
-  resourceUri?: string | undefined;
-  /** Output only. The resource name of the discovered resource, should be API-agnostic. Example: "projects/{project_number}/networks/{network_id}". */
-  resource?: string | undefined;
-  /** Output only. The time when the event happened. */
-  eventTime?: string | undefined;
+  /** Output only. A single source resource can be the source of multiple CNR resources. This sub_id is used to distinguish between the different CNR resources derived from the same upstream resource. For example, a single subnetwork can be the source of multiple Ranges, one for each protocol. In this case, the sub_id could be "private-ipv4" or "private-ipv6". */
+  sourceSubId?: string | undefined;
   /** Output only. The time when the resource was created. */
   createTime?: string | undefined;
+  /** Output only. The resource name of the discovered resource, should be API-agnostic. Example: "projects/{project_number}/networks/{network_id}". */
+  resource?: string | undefined;
+  /** Output only. The time when the resource was last modified. */
+  updateTime?: string | undefined;
+  /** Output only. The time when the event happened. */
+  eventTime?: string | undefined;
+  /** Output only. The resource uri of the discovered resource. */
+  resourceUri?: string | undefined;
 }
+export type RealmTrafficTypeEnum =
+  | "TRAFFIC_TYPE_UNSPECIFIED"
+  | "UNSET"
+  | "INTERNET"
+  | "PRIVATE"
+  | "LINKLOCAL";
+/** Aggregated data for the Realm. */
+export interface RealmAggregatedData {
+  /** Output only. Number of CustomRanges in the Realm. */
+  customRangesCount?: number | undefined;
+  /** Output only. Number of DiscoveredRanges in the Realm. */
+  discoveredRangesCount?: number | undefined;
+}
+export type RealmManagementTypeEnum = "MANAGEMENT_TYPE_UNSPECIFIED" | "CNR" | "USER";
 /** A Realm represents a distinct network domain or security zone. It groups Ranges that share the same traffic and management characteristics. All the ranges in a Realm are routable to each other, meaning that they cannot overlap. */
 export interface Realm {
-  /** Required. Identifier. The resource name of the Realm. */
-  name?: string | undefined;
-  /** Optional. User-defined labels. */
-  labels?: StringMap | undefined;
-  /** Required. Name of the RegistryBook that claims the Realm. */
-  registryBook?: string | undefined;
-  /** Output only. Aggregated data for the Realm. Populated only when the view is AGGREGATE. */
-  aggregatedData?: RealmAggregatedData | undefined;
-  /** Required. Traffic type of the Realm. */
-  trafficType?: RealmTrafficTypeEnum | (string & {}) | undefined;
-  /** Output only. The time at which the Realm was created. */
-  createTime?: string | undefined;
-  /** Optional. Management type of the Realm. */
-  managementType?: RealmManagementTypeEnum | (string & {}) | undefined;
-  /** Output only. The time at which the Realm was last updated. */
-  updateTime?: string | undefined;
   /** Optional. IP version of the Realm. */
   ipVersion?: RealmIpVersionEnum | (string & {}) | undefined;
+  /** Output only. The time at which the Realm was created. */
+  createTime?: string | undefined;
+  /** Required. Identifier. The resource name of the Realm. */
+  name?: string | undefined;
   /** Output only. Discovery metadata of the Realm. */
   discoveryMetadata?: DiscoveryMetadata | undefined;
+  /** Required. Traffic type of the Realm. */
+  trafficType?: RealmTrafficTypeEnum | (string & {}) | undefined;
+  /** Optional. User-defined labels. */
+  labels?: StringMap | undefined;
+  /** Output only. The time at which the Realm was last updated. */
+  updateTime?: string | undefined;
+  /** Output only. Aggregated data for the Realm. Populated only when the view is AGGREGATE. */
+  aggregatedData?: RealmAggregatedData | undefined;
+  /** Required. Name of the RegistryBook that claims the Realm. */
+  registryBook?: string | undefined;
+  /** Optional. Management type of the Realm. */
+  managementType?: RealmManagementTypeEnum | (string & {}) | undefined;
 }
 export interface CreateProjectsLocationsRealmsRequest extends Realm {
   /** Required. The parent resource name where the Realm will be created. */
@@ -351,26 +351,26 @@ export interface CreateProjectsLocationsRealmsRequest extends Realm {
 }
 /** Details of a scope (e.g. project or folder). */
 export interface ScopeInfo {
-  /** Output only. Human-readable display title of the scope shown in Console (e.g. "My Cloud Project"). Used for UI display. */
-  displayName?: string | undefined;
   /** Output only. Resource name of the scope, e.g. "projects/1234567890". */
   name?: string | undefined;
   /** Output only. Programmatic string identifier of the scope (e.g. GCP Project ID "my-project-id"). Used for API and code logic. */
   id?: string | undefined;
+  /** Output only. Human-readable display title of the scope shown in Console (e.g. "My Cloud Project"). Used for UI display. */
+  displayName?: string | undefined;
 }
 export type ScopeInfoList = Array<ScopeInfo>;
 /** Aggregated data for the RegistryBook. */
 export interface AggregatedData {
   /** Output only. Number of discovered Realms in the RegistryBook. */
   discoveredRealmsCount?: number | undefined;
-  /** Output only. Number of custom Realms in the RegistryBook. */
-  customRealmsCount?: number | undefined;
   /** Output only. Number of DiscoveredRanges in the RegistryBook. */
   discoveredRangesCount?: number | undefined;
   /** Output only. Number of scopes unique to the RegistryBook. */
   uniqueScopesCount?: number | undefined;
   /** Output only. Number of CustomRanges in the RegistryBook. */
   customRangesCount?: number | undefined;
+  /** Output only. Number of custom Realms in the RegistryBook. */
+  customRealmsCount?: number | undefined;
 }
 /** A RegistryBook organizes and manages IP address space. It claims specific scopes (such as projects) and groups related Realms and Ranges. */
 export interface RegistryBook {
@@ -380,22 +380,22 @@ export interface RegistryBook {
   labels?: StringMap | undefined;
   /** Output only. The time at which the RegistryBook was created. */
   createTime?: string | undefined;
-  /** Output only. Whether the RegistryBook is the default one. */
-  isDefault?: boolean | undefined;
   /** Output only. Detailed scope information corresponding to each entry in `claimed_scopes`. */
   claimedScopesInfo?: ScopeInfoList | undefined;
-  /** Required. Identifier. The resource name of the RegistryBook. */
-  name?: string | undefined;
-  /** Output only. Aggregated data for the RegistryBook. Populated only when the view is AGGREGATE. */
-  aggregatedData?: AggregatedData | undefined;
   /** Optional. List of scopes claimed by the RegistryBook. In Preview, Only project scope is supported. Each scope is in the format of projects/{project}. Each scope can only be claimed once. */
   claimedScopes?: StringList | undefined;
+  /** Output only. Whether the RegistryBook is the default one. */
+  isDefault?: boolean | undefined;
+  /** Output only. Aggregated data for the RegistryBook. Populated only when the view is AGGREGATE. */
+  aggregatedData?: AggregatedData | undefined;
+  /** Required. Identifier. The resource name of the RegistryBook. */
+  name?: string | undefined;
 }
 export interface CreateProjectsLocationsRegistryBooksRequest extends RegistryBook {
-  /** Required. The ID to use for the RegistryBook, which will become the final segment of the resource name. */
-  registryBookId?: string | undefined;
   /** Required. The parent resource name where the RegistryBook will be created. */
   parent: string;
+  /** Required. The ID to use for the RegistryBook, which will become the final segment of the resource name. */
+  registryBookId?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
 }
@@ -412,10 +412,10 @@ export interface DeleteOrganizationsLocationsOrgNumberRegistriesRequest {
 export interface DeleteProjectsLocationsCustomRangesRequest {
   /** Required. The resource name of the CustomRange to delete. */
   name: string;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
   /** Optional. If set to true, all associated resources will be deleted. */
   force?: boolean | undefined;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
 }
 export interface DeleteProjectsLocationsIpamAdminScopesRequest {
   /** Required. The resource name of the IpamAdminScope to delete. */
@@ -438,12 +438,12 @@ export interface DeleteProjectsLocationsRealmsRequest {
   requestId?: string | undefined;
 }
 export interface DeleteProjectsLocationsRegistryBooksRequest {
+  /** Optional. If set to true, all associated resources will be deleted. */
+  force?: boolean | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. The resource name of the RegistryBook to delete. */
   name: string;
-  /** Optional. If set to true, all associated resources will be deleted. */
-  force?: boolean | undefined;
 }
 /** Request message for the CloudNumberRegistry.DisableIpamAdminScope method. */
 export type DisableIpamAdminScopeRequest = CleanupIpamAdminScopeRequest;
@@ -452,14 +452,14 @@ export interface DisableProjectsLocationsIpamAdminScopesRequest extends CleanupI
   name: string;
 }
 export interface FindFreeIpRangesProjectsLocationsCustomRangesRequest {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
+  /** Optional. The number of free IP ranges to find. */
+  rangeCount?: number | undefined;
   /** Required. The prefix length of the free IP ranges to find. */
   cidrPrefixLength?: number | undefined;
   /** Required. The resource name of the CustomRange to search within. */
   name: string;
-  /** Optional. The number of free IP ranges to find. */
-  rangeCount?: number | undefined;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
 }
 /** Response message for the CloudNumberRegistry.FindCustomRangeFreeIpRanges method. */
 export interface FindCustomRangeFreeIpRangesResponse {
@@ -467,14 +467,14 @@ export interface FindCustomRangeFreeIpRangesResponse {
   freeIpCidrRanges?: StringList | undefined;
 }
 export interface FindFreeIpRangesProjectsLocationsDiscoveredRangesRequest {
-  /** Optional. The number of free IP ranges to find. */
-  rangeCount?: number | undefined;
+  /** Required. The prefix length of the free IP ranges to find. */
+  cidrPrefixLength?: number | undefined;
   /** Required. The resource name of the DiscoveredRange to search within. */
   name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Required. The prefix length of the free IP ranges to find. */
-  cidrPrefixLength?: number | undefined;
+  /** Optional. The number of free IP ranges to find. */
+  rangeCount?: number | undefined;
 }
 /** Response message for the CloudNumberRegistry.FindDiscoveredRangeFreeIpRanges method. */
 export interface FindDiscoveredRangeFreeIpRangesResponse {
@@ -497,14 +497,14 @@ export interface GetProjectsLocationsRequest {
 export interface Location {
   /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
   displayName?: string | undefined;
-  /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
-  labels?: StringMap | undefined;
   /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
   name?: string | undefined;
-  /** Service-specific metadata. For example the available capacity at the given location. */
-  metadata?: DocumentMap | undefined;
   /** The canonical id for this location. For example: `"us-east1"`. */
   locationId?: string | undefined;
+  /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
+  labels?: StringMap | undefined;
+  /** Service-specific metadata. For example the available capacity at the given location. */
+  metadata?: DocumentMap | undefined;
 }
 export interface GetProjectsLocationsCustomRangesRequest {
   /** Required. The resource name of the CustomRange to retrieve. */
@@ -516,32 +516,32 @@ export interface GetProjectsLocationsDiscoveredRangesRequest {
 }
 /** A DiscoveredRange represents an IP address range automatically detected by the discovery pipeline. */
 export interface DiscoveredRange {
-  /** Output only. The RegistryBook of the DiscoveredRange. */
-  registryBook?: string | undefined;
+  /** Output only. Owner metadata for this DiscoveredRange. A unique set of metadata is associated with each DiscoveredRange. If an IP range is shared by multiple resources (e.g., an Address resource and an Instance resource, or multiple ForwardingRules),separate DiscoveredRanges are created, each with a distinct owner. This ensures each DiscoveredRange has its own unique set of attributes, labels, create time and update time. */
+  discoveryMetadata?: DiscoveryMetadata | undefined;
+  /** Output only. If true, allows child DiscoveredRanges of this DiscoveredRange to overlap with each other. */
+  childCidrOverlapAllowed?: boolean | undefined;
   /** Optional. The attributes of the DiscoveredRange. */
   attributes?: AttributeList | undefined;
+  /** Output only. The RegistryBook of the DiscoveredRange. */
+  registryBook?: string | undefined;
+  /** Optional. The IPv4 CIDR range of the DiscoveredRange. */
+  ipv4CidrRange?: string | undefined;
   /** Optional. The IPv6 CIDR range of the DiscoveredRange. */
   ipv6CidrRange?: string | undefined;
   /** Optional. Description of the DiscoveredRange. */
   description?: string | undefined;
-  /** Required. Identifier. The resource name of the DiscoveredRange, in the format `projects/{project}/locations/{location}/discoveredRanges/{discovered_range}`. */
-  name?: string | undefined;
-  /** Output only. Owner metadata for this DiscoveredRange. A unique set of metadata is associated with each DiscoveredRange. If an IP range is shared by multiple resources (e.g., an Address resource and an Instance resource, or multiple ForwardingRules),separate DiscoveredRanges are created, each with a distinct owner. This ensures each DiscoveredRange has its own unique set of attributes, labels, create time and update time. */
-  discoveryMetadata?: DiscoveryMetadata | undefined;
-  /** Optional. The Realm of the DiscoveredRange. */
-  realm?: string | undefined;
-  /** Output only. If true, allows child DiscoveredRanges of this DiscoveredRange to overlap with each other. */
-  childCidrOverlapAllowed?: boolean | undefined;
-  /** Optional. The IPv4 CIDR range of the DiscoveredRange. */
-  ipv4CidrRange?: string | undefined;
-  /** Optional. The resource name of the parent DiscoveredRange, in the format `projects/{project}/locations/{location}/discoveredRanges/{discovered_range}`. */
-  parentRange?: string | undefined;
   /** Output only. The time at which the DiscoveredRange was last updated. */
   updateTime?: string | undefined;
-  /** Output only. The time at which the DiscoveredRange was created. */
-  createTime?: string | undefined;
+  /** Optional. The Realm of the DiscoveredRange. */
+  realm?: string | undefined;
   /** Optional. User-defined labels. */
   labels?: StringMap | undefined;
+  /** Output only. The time at which the DiscoveredRange was created. */
+  createTime?: string | undefined;
+  /** Optional. The resource name of the parent DiscoveredRange, in the format `projects/{project}/locations/{location}/discoveredRanges/{discovered_range}`. */
+  parentRange?: string | undefined;
+  /** Required. Identifier. The resource name of the DiscoveredRange, in the format `projects/{project}/locations/{location}/discoveredRanges/{discovered_range}`. */
+  name?: string | undefined;
 }
 export interface GetProjectsLocationsIpamAdminScopesRequest {
   /** Required. The resource name of the IpamAdminScope to retrieve. */
@@ -557,10 +557,10 @@ export type GetProjectsLocationsRealmsViewEnum =
   | "FULL"
   | "AGGREGATE";
 export interface GetProjectsLocationsRealmsRequest {
-  /** Required. The resource name of the Realm to retrieve. */
-  name: string;
   /** Optional. The view of the Realm to retrieve. */
   view?: GetProjectsLocationsRealmsViewEnum | (string & {}) | undefined;
+  /** Required. The resource name of the Realm to retrieve. */
+  name: string;
 }
 export type GetProjectsLocationsRegistryBooksViewEnum =
   | "REGISTRY_BOOK_VIEW_UNSPECIFIED"
@@ -568,10 +568,10 @@ export type GetProjectsLocationsRegistryBooksViewEnum =
   | "FULL"
   | "AGGREGATE";
 export interface GetProjectsLocationsRegistryBooksRequest {
-  /** Required. The resource name of the RegistryBook to retrieve. */
-  name: string;
   /** Optional. The view of the RegistryBook to retrieve. */
   view?: GetProjectsLocationsRegistryBooksViewEnum | (string & {}) | undefined;
+  /** Required. The resource name of the RegistryBook to retrieve. */
+  name: string;
 }
 export interface GetUtilizationProjectsLocationsCustomRangesRequest {
   /** Required. The resource name of the CustomRange. */
@@ -579,10 +579,10 @@ export interface GetUtilizationProjectsLocationsCustomRangesRequest {
 }
 /** Utilization metrics for an IP Range, including consumed and produced address counts. */
 export interface RangeUtilization {
-  /** Output only. The usage of the Range as a percentage. This is marked as optional so that we have presence tracking and API responses show 0.0 instead of NULL. */
-  usage?: number | undefined;
   /** Output only. The total number of IP addresses consumed in the Range. */
   totalConsumed?: string | undefined;
+  /** Output only. The usage of the Range as a percentage. This is marked as optional so that we have presence tracking and API responses show 0.0 instead of NULL. */
+  usage?: number | undefined;
   /** Output only. The total number of IP addresses produced in the Range. */
   totalProduced?: string | undefined;
 }
@@ -605,146 +605,146 @@ export interface ShowDiscoveredRangeUtilizationResponse {
   rangeUtilization?: RangeUtilization | undefined;
 }
 export interface ListOrganizationsLocationsOperationsRequest {
-  /** The standard list filter. */
-  filter?: string | undefined;
-  /** The standard list page token. */
-  pageToken?: string | undefined;
-  /** The standard list page size. */
-  pageSize?: number | undefined;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
   returnPartialSuccess?: boolean | undefined;
   /** The name of the operation's parent resource. */
   name: string;
+  /** The standard list page size. */
+  pageSize?: number | undefined;
+  /** The standard list filter. */
+  filter?: string | undefined;
+  /** The standard list page token. */
+  pageToken?: string | undefined;
 }
 export type OperationList = Array<Operation>;
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
-  /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
-  unreachable?: StringList | undefined;
-  /** The standard List next-page token. */
-  nextPageToken?: string | undefined;
   /** A list of operations that matches the specified filter in the request. */
   operations?: OperationList | undefined;
+  /** The standard List next-page token. */
+  nextPageToken?: string | undefined;
+  /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
+  unreachable?: StringList | undefined;
 }
 export interface ListOrganizationsLocationsOrgNumberRegistriesRequest {
-  /** Optional. A token identifying a page of results the server should return. */
-  pageToken?: string | undefined;
-  /** Required. The parent resource name, for example `organizations/*\/locations/*`. */
-  parent: string;
-  /** Optional. Hint for how to order the results. */
-  orderBy?: string | undefined;
   /** Optional. Filter expression to filter the results. */
   filter?: string | undefined;
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
   pageSize?: number | undefined;
+  /** Optional. Hint for how to order the results. */
+  orderBy?: string | undefined;
+  /** Required. The parent resource name, for example `organizations/*\/locations/*`. */
+  parent: string;
+  /** Optional. A token identifying a page of results the server should return. */
+  pageToken?: string | undefined;
 }
 export type OrgNumberRegistryList = Array<OrgNumberRegistry>;
 /** Response message for the CloudNumberRegistry.ListOrgNumberRegistries method. */
 export interface ListOrgNumberRegistriesResponse {
-  /** The list of OrgNumberRegistries. */
-  orgNumberRegistries?: OrgNumberRegistryList | undefined;
-  /** Unordered list. Locations that could not be reached. */
-  unreachable?: StringList | undefined;
   /** A token to retrieve the next page of results, or empty if there are no more results in the list. */
   nextPageToken?: string | undefined;
+  /** Unordered list. Locations that could not be reached. */
+  unreachable?: StringList | undefined;
+  /** The list of OrgNumberRegistries. */
+  orgNumberRegistries?: OrgNumberRegistryList | undefined;
 }
 export interface ListProjectsLocationsRequest {
-  /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
-  filter?: string | undefined;
-  /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number | undefined;
-  /** The resource that owns the locations collection, if applicable. */
-  name: string;
-  /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
-  extraLocationTypes?: StringList | undefined;
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
   pageToken?: string | undefined;
+  /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
+  filter?: string | undefined;
+  /** The resource that owns the locations collection, if applicable. */
+  name: string;
+  /** The maximum number of results to return. If not set, the service selects a default. */
+  pageSize?: number | undefined;
+  /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
+  extraLocationTypes?: StringList | undefined;
 }
 export type LocationList = Array<Location>;
 /** The response message for Locations.ListLocations. */
 export interface ListLocationsResponse {
-  /** A list of locations that matches the specified filter in the request. */
-  locations?: LocationList | undefined;
   /** The standard List next-page token. */
   nextPageToken?: string | undefined;
+  /** A list of locations that matches the specified filter in the request. */
+  locations?: LocationList | undefined;
 }
 export interface ListProjectsLocationsCustomRangesRequest {
-  /** Optional. Filter expression to filter the results. */
-  filter?: string | undefined;
   /** Required. The parent resource name, for example `projects/*\/locations/*`. */
   parent: string;
-  /** Optional. Hint for how to order the results. */
-  orderBy?: string | undefined;
   /** Optional. A token identifying a page of results the server should return. */
   pageToken?: string | undefined;
+  /** Optional. Filter expression to filter the results. */
+  filter?: string | undefined;
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
   pageSize?: number | undefined;
+  /** Optional. Hint for how to order the results. */
+  orderBy?: string | undefined;
 }
 export type CustomRangeList = Array<CustomRange>;
 /** Response message for the CloudNumberRegistry.ListCustomRanges method. */
 export interface ListCustomRangesResponse {
+  /** Unordered list. Locations that could not be reached. */
+  unreachable?: StringList | undefined;
   /** A token to retrieve the next page of results, or empty if there are no more results in the list. */
   nextPageToken?: string | undefined;
   /** The list of CustomRanges. */
   customRanges?: CustomRangeList | undefined;
-  /** Unordered list. Locations that could not be reached. */
-  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsDiscoveredRangesRequest {
-  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number | undefined;
-  /** Optional. A token identifying a page of results the server should return. */
-  pageToken?: string | undefined;
   /** Optional. Filter expression to filter the results. */
   filter?: string | undefined;
-  /** Required. The parent resource name, for example `projects/*\/locations/*`. */
-  parent: string;
   /** Optional. Hint for how to order the results. */
   orderBy?: string | undefined;
+  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
+  pageSize?: number | undefined;
+  /** Required. The parent resource name, for example `projects/*\/locations/*`. */
+  parent: string;
+  /** Optional. A token identifying a page of results the server should return. */
+  pageToken?: string | undefined;
 }
 export type DiscoveredRangeList = Array<DiscoveredRange>;
 /** Response message for the CloudNumberRegistry.ListDiscoveredRanges method. */
 export interface ListDiscoveredRangesResponse {
   /** The list of DiscoveredRanges. */
   discoveredRanges?: DiscoveredRangeList | undefined;
-  /** A token to retrieve the next page of results, or empty if there are no more results in the list. */
-  nextPageToken?: string | undefined;
   /** Unordered list. Locations that could not be reached. */
   unreachable?: StringList | undefined;
+  /** A token to retrieve the next page of results, or empty if there are no more results in the list. */
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsIpamAdminScopesRequest {
-  /** Optional. Hint for how to order the results. */
-  orderBy?: string | undefined;
-  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number | undefined;
   /** Required. The parent resource name, for example `projects/*\/locations/*`. */
   parent: string;
+  /** Optional. Hint for how to order the results. */
+  orderBy?: string | undefined;
   /** Optional. Filter expression to filter the results. */
   filter?: string | undefined;
+  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
+  pageSize?: number | undefined;
   /** Optional. A token identifying a page of results the server should return. */
   pageToken?: string | undefined;
 }
 export type IpamAdminScopeList = Array<IpamAdminScope>;
 /** Response message for the CloudNumberRegistry.ListIpamAdminScopes method. */
 export interface ListIpamAdminScopesResponse {
+  /** Unordered list. Locations that could not be reached. */
+  unreachable?: StringList | undefined;
   /** The list of IpamAdminScopes. */
   ipamAdminScopes?: IpamAdminScopeList | undefined;
   /** A token to retrieve the next page of results, or empty if there are no more results in the list. */
   nextPageToken?: string | undefined;
-  /** Unordered list. Locations that could not be reached. */
-  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsOperationsRequest {
-  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean | undefined;
   /** The standard list filter. */
   filter?: string | undefined;
-  /** The standard list page token. */
-  pageToken?: string | undefined;
-  /** The name of the operation's parent resource. */
-  name: string;
   /** The standard list page size. */
   pageSize?: number | undefined;
+  /** The name of the operation's parent resource. */
+  name: string;
+  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
+  returnPartialSuccess?: boolean | undefined;
+  /** The standard list page token. */
+  pageToken?: string | undefined;
 }
 export type ListProjectsLocationsRealmsViewEnum =
   | "REALM_VIEW_UNSPECIFIED"
@@ -752,16 +752,16 @@ export type ListProjectsLocationsRealmsViewEnum =
   | "FULL"
   | "AGGREGATE";
 export interface ListProjectsLocationsRealmsRequest {
-  /** Required. The parent resource name, for example `projects/*\/locations/*`. */
-  parent: string;
-  /** Optional. Filter expression to filter the results. */
-  filter?: string | undefined;
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
   pageSize?: number | undefined;
-  /** Optional. A token identifying a page of results the server should return. */
-  pageToken?: string | undefined;
   /** Optional. Hint for how to order the results. */
   orderBy?: string | undefined;
+  /** Optional. Filter expression to filter the results. */
+  filter?: string | undefined;
+  /** Optional. A token identifying a page of results the server should return. */
+  pageToken?: string | undefined;
+  /** Required. The parent resource name, for example `projects/*\/locations/*`. */
+  parent: string;
   /** Optional. The view of the Realm to retrieve. */
   view?: ListProjectsLocationsRealmsViewEnum | (string & {}) | undefined;
 }
@@ -781,52 +781,52 @@ export type ListProjectsLocationsRegistryBooksViewEnum =
   | "FULL"
   | "AGGREGATE";
 export interface ListProjectsLocationsRegistryBooksRequest {
-  /** Optional. A token identifying a page of results the server should return. */
-  pageToken?: string | undefined;
   /** Required. The parent resource name, for example `projects/*\/locations/*`. */
   parent: string;
-  /** Optional. Hint for how to order the results. */
-  orderBy?: string | undefined;
-  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number | undefined;
+  /** Optional. A token identifying a page of results the server should return. */
+  pageToken?: string | undefined;
   /** Optional. Filter expression to filter the results. */
   filter?: string | undefined;
   /** Optional. The view of the RegistryBook to retrieve. */
   view?: ListProjectsLocationsRegistryBooksViewEnum | (string & {}) | undefined;
+  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
+  pageSize?: number | undefined;
+  /** Optional. Hint for how to order the results. */
+  orderBy?: string | undefined;
 }
 export type RegistryBookList = Array<RegistryBook>;
 /** Response message for the CloudNumberRegistry.ListRegistryBooks method. */
 export interface ListRegistryBooksResponse {
-  /** The list of RegistryBook */
-  registryBooks?: RegistryBookList | undefined;
-  /** Unordered list. Locations that could not be reached. */
-  unreachable?: StringList | undefined;
   /** A token identifying a page of results the server should return. */
   nextPageToken?: string | undefined;
+  /** Unordered list. Locations that could not be reached. */
+  unreachable?: StringList | undefined;
+  /** The list of RegistryBook */
+  registryBooks?: RegistryBookList | undefined;
 }
 export interface PatchProjectsLocationsCustomRangesRequest extends Omit<CustomRange, "name"> {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
   /** Optional. Field mask is used to specify the fields to be overwritten in the CustomRange resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
   /** Required. Identifier. The resource name of the CustomRange, in the format `projects/{project}/locations/{location}/customRanges/{custom_range}`. */
   name: string;
 }
 export interface PatchProjectsLocationsIpamAdminScopesRequest extends Omit<IpamAdminScope, "name"> {
-  /** Required. Identifier. The resource name of the IpamAdminScope. */
-  name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the IpamAdminScope resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
+  /** Required. Identifier. The resource name of the IpamAdminScope. */
+  name: string;
 }
 export interface PatchProjectsLocationsRealmsRequest extends Omit<Realm, "name"> {
-  /** Optional. Field mask is used to specify the fields to be overwritten in the Realm resource by the update. */
-  updateMask?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. */
   requestId?: string | undefined;
   /** Required. Identifier. The resource name of the Realm. */
   name: string;
+  /** Optional. Field mask is used to specify the fields to be overwritten in the Realm resource by the update. */
+  updateMask?: string | undefined;
 }
 export interface PatchProjectsLocationsRegistryBooksRequest extends Omit<RegistryBook, "name"> {
   /** Required. Identifier. The resource name of the RegistryBook. */
@@ -847,16 +847,16 @@ export type SearchIpResourcesRequestSearchResourceTypesItemEnumList = Array<
 export interface SearchIpResourcesRequest {
   /** Optional. Search query. This string filters resources in an AIP-160-like format. It has some limitations. You can only specify top level conjunctions or attribute level negations. Each restriction can only be used once except the attribute restriction. The available restrictions for Ranges are: - `resource_id`: The resource ID to search for within Ranges (only substring matching using the format `resource_id="*value*"` is supported). - `realm`: The Realm name to search in. - `ip_address`: The IP address to search for within Ranges. - `ip_version`: The IP version to filter by (e.g., "IPV4", "IPV6"). - `parent_range`: The parent Range of the Range to search for. - `attribute_text`: The attribute text to search for within Ranges. - `attribute`: The attribute key and value to filter by. The available restrictions for Realms are: - `ip_version`: The IP version to search for. - `management_type`: The management type of the Realm (e.g., "CNR", "USER"). Only one of attribute_text or multiple attribute filters can be specified. Examples: - `realm=test-realm` - `realm=test-realm AND ip_address=10.0.0.0` - `realm=test-realm AND ip_version=IPV6` - `realm=test-realm AND resource_id="*my-range*"` - `realm=test-realm AND attribute_text=test` - `ip_address=10.0.0.0 AND attribute:(key1=value1) AND attribute:(key2=value2)` - `attribute_text=test AND parent_range=projects/123/locations/global/discoveredRanges/test-parent-range` - `management_type=CNR` */
   query?: string | undefined;
-  /** Optional. The type of resources to search for. If not specified, the server will return Ranges. */
-  searchResourceTypes?: SearchIpResourcesRequestSearchResourceTypesItemEnumList | undefined;
-  /** Optional. A token identifying a page of results the server should return. */
-  pageToken?: string | undefined;
   /** Optional. Hint for how to order the results. Supported sort fields are: - `name`: Sort alphabetically by the resource name. - `create_time`: Sort by the creation timestamp of the resource. - `update_time`: Sort by the last update timestamp of the resource. Supported directions are `asc` (ascending) and `desc` (descending). If unspecified, direction defaults to `asc`. Only sorting by a single field is supported. */
   orderBy?: string | undefined;
-  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number | undefined;
+  /** Optional. A token identifying a page of results the server should return. */
+  pageToken?: string | undefined;
+  /** Optional. The type of resources to search for. If not specified, the server will return Ranges. */
+  searchResourceTypes?: SearchIpResourcesRequestSearchResourceTypesItemEnumList | undefined;
   /** Optional. Whether to show the utilization of the Ranges in the response. */
   showUtilization?: boolean | undefined;
+  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
+  pageSize?: number | undefined;
 }
 export interface SearchIpResourcesProjectsLocationsRegistryBooksRequest extends SearchIpResourcesRequest {
   /** Required. The resource name of the RegistryBook to search in. */
@@ -873,19 +873,19 @@ export interface Range {
 }
 /** A result matching the search query, which can be either a Range or a Realm. */
 export interface SearchIpResourcesResult {
-  /** A Range matching the search query. */
-  range?: Range | undefined;
   /** A Realm matching the search query. */
   realm?: Realm | undefined;
+  /** A Range matching the search query. */
+  range?: Range | undefined;
 }
 export type SearchIpResourcesResultList = Array<SearchIpResourcesResult>;
 export type RangeList = Array<Range>;
 /** Response message for the CloudNumberRegistry.SearchIpResources method. */
 export interface SearchIpResourcesResponse {
-  /** A token identifying a page of results the server should return. */
-  nextPageToken?: string | undefined;
   /** Unordered list. Locations that could not be reached. */
   unreachable?: StringList | undefined;
+  /** A token identifying a page of results the server should return. */
+  nextPageToken?: string | undefined;
   /** The list of results matching the search query. */
   results?: SearchIpResourcesResultList | undefined;
   /** Deprecated: Use results field instead. The list of Ranges matching the search query. */
@@ -1953,8 +1953,8 @@ function __c0(j: number): any {
           __S(16, __c2, 0),
           S.Struct({
             parent: S.String.pipe(T.Label()),
-            customRangeId: S.optional(S.String.pipe(T.Query())),
             requestId: S.optional(S.String.pipe(T.Query())),
+            customRangeId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -1971,8 +1971,8 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          key: S.optional(S.String),
           value: S.optional(S.String),
+          key: S.optional(S.String),
         }),
       ).annotate({ identifier: "Attribute" });
     case 1:
@@ -1984,14 +1984,14 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          ipv6CidrRange: S.optional(S.String),
-          attributes: S.optional(__S(9, __c1, 1)),
-          labels: S.optional(__S(488, __c61, 0)),
-          ipv4CidrRange: S.optional(S.String),
-          name: S.optional(S.String),
           realm: S.optional(S.String),
-          parentRange: S.optional(S.String),
+          ipv4CidrRange: S.optional(S.String),
+          labels: S.optional(__S(488, __c61, 0)),
+          name: S.optional(S.String),
+          ipv6CidrRange: S.optional(S.String),
           description: S.optional(S.String),
+          parentRange: S.optional(S.String),
+          attributes: S.optional(__S(9, __c1, 1)),
           registryBook: S.optional(S.String),
         }),
       ).annotate({ identifier: "CustomRange" });
@@ -2023,13 +2023,13 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
+          createTime: S.optional(S.String),
           updateTime: S.optional(S.String),
+          name: S.optional(S.String),
+          labels: S.optional(__S(488, __c61, 0)),
+          enabledAddonPlatforms: S.optional(__S(40, __c5, 0)),
           state: S.optional(S.String),
           scopes: S.optional(__S(440, __c55, 0)),
-          labels: S.optional(__S(488, __c61, 0)),
-          createTime: S.optional(S.String),
-          enabledAddonPlatforms: S.optional(__S(40, __c5, 0)),
         }),
       ).annotate({ identifier: "IpamAdminScope" });
   }
@@ -2066,14 +2066,14 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          sourceSubId: S.optional(S.String),
-          updateTime: S.optional(S.String),
           sourceId: S.optional(S.String),
           state: S.optional(S.String),
-          resourceUri: S.optional(S.String),
-          resource: S.optional(S.String),
-          eventTime: S.optional(S.String),
+          sourceSubId: S.optional(S.String),
           createTime: S.optional(S.String),
+          resource: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          eventTime: S.optional(S.String),
+          resourceUri: S.optional(S.String),
         }),
       ).annotate({ identifier: "DiscoveryMetadata" });
   }
@@ -2083,23 +2083,23 @@ function __c8(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          discoveredRangesCount: S.optional(S.Number),
           customRangesCount: S.optional(S.Number),
+          discoveredRangesCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "RealmAggregatedData" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          labels: S.optional(__S(488, __c61, 0)),
-          registryBook: S.optional(S.String),
-          aggregatedData: S.optional(__S(64, __c8, 0)),
-          trafficType: S.optional(S.String),
-          createTime: S.optional(S.String),
-          managementType: S.optional(S.String),
-          updateTime: S.optional(S.String),
           ipVersion: S.optional(S.String),
+          createTime: S.optional(S.String),
+          name: S.optional(S.String),
           discoveryMetadata: S.optional(__S(56, __c7, 0)),
+          trafficType: S.optional(S.String),
+          labels: S.optional(__S(488, __c61, 0)),
+          updateTime: S.optional(S.String),
+          aggregatedData: S.optional(__S(64, __c8, 0)),
+          registryBook: S.optional(S.String),
+          managementType: S.optional(S.String),
         }),
       ).annotate({ identifier: "Realm" });
   }
@@ -2111,8 +2111,8 @@ function __c9(j: number): any {
         S.Extend(
           __S(83, __c10, 3),
           S.Struct({
-            registryBookId: S.optional(S.String.pipe(T.Query())),
             parent: S.String.pipe(T.Label()),
+            registryBookId: S.optional(S.String.pipe(T.Query())),
             requestId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
@@ -2130,9 +2130,9 @@ function __c10(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          displayName: S.optional(S.String),
           name: S.optional(S.String),
           id: S.optional(S.String),
+          displayName: S.optional(S.String),
         }),
       ).annotate({ identifier: "ScopeInfo" });
     case 1:
@@ -2141,10 +2141,10 @@ function __c10(j: number): any {
       return S.suspend(() =>
         S.Struct({
           discoveredRealmsCount: S.optional(S.Number),
-          customRealmsCount: S.optional(S.Number),
           discoveredRangesCount: S.optional(S.Number),
           uniqueScopesCount: S.optional(S.Number),
           customRangesCount: S.optional(S.Number),
+          customRealmsCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "AggregatedData" });
     case 3:
@@ -2153,11 +2153,11 @@ function __c10(j: number): any {
           updateTime: S.optional(S.String),
           labels: S.optional(__S(488, __c61, 0)),
           createTime: S.optional(S.String),
-          isDefault: S.optional(S.Boolean),
           claimedScopesInfo: S.optional(__S(81, __c10, 1)),
-          name: S.optional(S.String),
-          aggregatedData: S.optional(__S(82, __c10, 2)),
           claimedScopes: S.optional(__S(440, __c55, 0)),
+          isDefault: S.optional(S.Boolean),
+          aggregatedData: S.optional(__S(82, __c10, 2)),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "RegistryBook" });
   }
@@ -2201,8 +2201,8 @@ function __c13(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
           force: S.optional(S.Boolean.pipe(T.Query())),
+          requestId: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -2270,9 +2270,9 @@ function __c17(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          force: S.optional(S.Boolean.pipe(T.Query())),
           requestId: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          force: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -2307,10 +2307,10 @@ function __c19(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
+          rangeCount: S.optional(S.Number.pipe(T.Query())),
           cidrPrefixLength: S.optional(S.Number.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          rangeCount: S.optional(S.Number.pipe(T.Query())),
+          requestId: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2336,10 +2336,10 @@ function __c21(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          rangeCount: S.optional(S.Number.pipe(T.Query())),
+          cidrPrefixLength: S.optional(S.Number.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           requestId: S.optional(S.String.pipe(T.Query())),
-          cidrPrefixLength: S.optional(S.Number.pipe(T.Query())),
+          rangeCount: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2404,10 +2404,10 @@ function __c25(j: number): any {
       return S.suspend(() =>
         S.Struct({
           displayName: S.optional(S.String),
-          labels: S.optional(__S(488, __c61, 0)),
           name: S.optional(S.String),
-          metadata: S.optional(__S(464, __c58, 0)),
           locationId: S.optional(S.String),
+          labels: S.optional(__S(488, __c61, 0)),
+          metadata: S.optional(__S(464, __c58, 0)),
         }),
       ).annotate({ identifier: "Location" });
   }
@@ -2449,19 +2449,19 @@ function __c28(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          registryBook: S.optional(S.String),
+          discoveryMetadata: S.optional(__S(56, __c7, 0)),
+          childCidrOverlapAllowed: S.optional(S.Boolean),
           attributes: S.optional(__S(9, __c1, 1)),
+          registryBook: S.optional(S.String),
+          ipv4CidrRange: S.optional(S.String),
           ipv6CidrRange: S.optional(S.String),
           description: S.optional(S.String),
-          name: S.optional(S.String),
-          discoveryMetadata: S.optional(__S(56, __c7, 0)),
-          realm: S.optional(S.String),
-          childCidrOverlapAllowed: S.optional(S.Boolean),
-          ipv4CidrRange: S.optional(S.String),
-          parentRange: S.optional(S.String),
           updateTime: S.optional(S.String),
-          createTime: S.optional(S.String),
+          realm: S.optional(S.String),
           labels: S.optional(__S(488, __c61, 0)),
+          createTime: S.optional(S.String),
+          parentRange: S.optional(S.String),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "DiscoveredRange" });
   }
@@ -2503,8 +2503,8 @@ function __c31(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           view: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2520,8 +2520,8 @@ function __c32(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           view: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2560,8 +2560,8 @@ function __c34(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          usage: S.optional(S.Number),
           totalConsumed: S.optional(S.String),
+          usage: S.optional(S.Number),
           totalProduced: S.optional(S.String),
         }),
       ).annotate({ identifier: "RangeUtilization" });
@@ -2595,11 +2595,11 @@ function __c36(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2617,9 +2617,9 @@ function __c37(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(440, __c55, 0)),
-          nextPageToken: S.optional(S.String),
           operations: S.optional(__S(296, __c37, 0)),
+          nextPageToken: S.optional(S.String),
+          unreachable: S.optional(__S(440, __c55, 0)),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
@@ -2629,11 +2629,11 @@ function __c38(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          orderBy: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2647,9 +2647,9 @@ function __c38(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          orgNumberRegistries: S.optional(__S(305, __c38, 1)),
-          unreachable: S.optional(__S(440, __c55, 0)),
           nextPageToken: S.optional(S.String),
+          unreachable: S.optional(__S(440, __c55, 0)),
+          orgNumberRegistries: S.optional(__S(305, __c38, 1)),
         }),
       ).annotate({ identifier: "ListOrgNumberRegistriesResponse" });
   }
@@ -2659,11 +2659,11 @@ function __c39(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          extraLocationTypes: S.optional(__S(440, __c55, 0).pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          extraLocationTypes: S.optional(__S(440, __c55, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2677,8 +2677,8 @@ function __c39(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          locations: S.optional(__S(313, __c39, 1)),
           nextPageToken: S.optional(S.String),
+          locations: S.optional(__S(313, __c39, 1)),
         }),
       ).annotate({ identifier: "ListLocationsResponse" });
   }
@@ -2688,11 +2688,11 @@ function __c40(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          orderBy: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2706,9 +2706,9 @@ function __c40(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          unreachable: S.optional(__S(440, __c55, 0)),
           nextPageToken: S.optional(S.String),
           customRanges: S.optional(__S(321, __c40, 1)),
-          unreachable: S.optional(__S(440, __c55, 0)),
         }),
       ).annotate({ identifier: "ListCustomRangesResponse" });
   }
@@ -2718,11 +2718,11 @@ function __c41(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           orderBy: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2737,8 +2737,8 @@ function __c41(j: number): any {
       return S.suspend(() =>
         S.Struct({
           discoveredRanges: S.optional(__S(329, __c41, 1)),
-          nextPageToken: S.optional(S.String),
           unreachable: S.optional(__S(440, __c55, 0)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListDiscoveredRangesResponse" });
   }
@@ -2748,10 +2748,10 @@ function __c42(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          orderBy: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          orderBy: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -2766,9 +2766,9 @@ function __c42(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          unreachable: S.optional(__S(440, __c55, 0)),
           ipamAdminScopes: S.optional(__S(337, __c42, 1)),
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(440, __c55, 0)),
         }),
       ).annotate({ identifier: "ListIpamAdminScopesResponse" });
   }
@@ -2778,11 +2778,11 @@ function __c43(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
+          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2798,11 +2798,11 @@ function __c44(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
-          filter: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
           view: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -2829,12 +2829,12 @@ function __c45(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          orderBy: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
           view: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2848,9 +2848,9 @@ function __c45(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          registryBooks: S.optional(__S(361, __c45, 1)),
-          unreachable: S.optional(__S(440, __c55, 0)),
           nextPageToken: S.optional(S.String),
+          unreachable: S.optional(__S(440, __c55, 0)),
+          registryBooks: S.optional(__S(361, __c45, 1)),
         }),
       ).annotate({ identifier: "ListRegistryBooksResponse" });
   }
@@ -2862,8 +2862,8 @@ function __c46(j: number): any {
         S.Extend(
           __S(16, __c2, 0),
           S.Struct({
-            requestId: S.optional(S.String.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
           }),
         ).pipe(
@@ -2883,9 +2883,9 @@ function __c47(j: number): any {
         S.Extend(
           __S(32, __c4, 0),
           S.Struct({
-            name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
             requestId: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -2904,9 +2904,9 @@ function __c48(j: number): any {
         S.Extend(
           __S(65, __c8, 1),
           S.Struct({
-            updateMask: S.optional(S.String.pipe(T.Query())),
             requestId: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -2945,11 +2945,11 @@ function __c50(j: number): any {
       return S.suspend(() =>
         S.Struct({
           query: S.optional(S.String),
-          searchResourceTypes: S.optional(__S(40, __c5, 0)),
-          pageToken: S.optional(S.String),
           orderBy: S.optional(S.String),
-          pageSize: S.optional(S.Number),
+          pageToken: S.optional(S.String),
+          searchResourceTypes: S.optional(__S(40, __c5, 0)),
           showUtilization: S.optional(S.Boolean),
+          pageSize: S.optional(S.Number),
         }),
       ).annotate({ identifier: "SearchIpResourcesRequest" });
     case 1:
@@ -2978,8 +2978,8 @@ function __c50(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          range: S.optional(__S(402, __c50, 2)),
           realm: S.optional(__S(65, __c8, 1)),
+          range: S.optional(__S(402, __c50, 2)),
         }),
       ).annotate({ identifier: "SearchIpResourcesResult" });
     case 4:
@@ -2989,8 +2989,8 @@ function __c50(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           unreachable: S.optional(__S(440, __c55, 0)),
+          nextPageToken: S.optional(S.String),
           results: S.optional(__S(404, __c50, 4)),
           ranges: S.optional(__S(405, __c50, 5)),
         }),
@@ -3055,9 +3055,9 @@ function __c54(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          availability: S.optional(S.String),
           scope: S.optional(S.String),
           adminProject: S.optional(S.String),
+          availability: S.optional(S.String),
         }),
       ).annotate({ identifier: "IpamAdminScopeAvailability" });
     case 2:
@@ -3118,17 +3118,17 @@ function __c59(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          code: S.optional(S.Number),
-          details: S.optional(__S(472, __c59, 0)),
           message: S.optional(S.String),
+          details: S.optional(__S(472, __c59, 0)),
+          code: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Status" });
     case 2:
       return S.suspend(() =>
         S.Struct({
+          name: S.optional(S.String),
           error: S.optional(__S(473, __c59, 1)),
           done: S.optional(S.Boolean),
-          name: S.optional(S.String),
           response: S.optional(__S(464, __c58, 0)),
           metadata: S.optional(__S(464, __c58, 0)),
         }),
@@ -3142,9 +3142,9 @@ function __c60(j: number): any {
         S.Extend(
           __S(496, __c62, 0),
           S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
             parent: S.String.pipe(T.Label()),
             orgNumberRegistryId: S.optional(S.String.pipe(T.Query())),
-            requestId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -3167,12 +3167,12 @@ function __c62(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          labels: S.optional(__S(488, __c61, 0)),
-          updateTime: S.optional(S.String),
           name: S.optional(S.String),
-          createTime: S.optional(S.String),
           adminProject: S.optional(S.String),
           targetScopes: S.optional(__S(440, __c55, 0)),
+          labels: S.optional(__S(488, __c61, 0)),
+          updateTime: S.optional(S.String),
+          createTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "OrgNumberRegistry" });
   }

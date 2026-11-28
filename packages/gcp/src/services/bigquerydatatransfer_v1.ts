@@ -107,15 +107,41 @@ export interface EmailPreferences {
   /** If true, email notifications will be sent on transfer run failures. */
   enableFailureEmail?: boolean | undefined;
 }
-/** Configuration for Dataplex destination. */
-export interface DataplexConfiguration {
-  /** Required. The Dataplex Universal Catalog entry group for importing the metadata. entry_group has the format of `projects/{project_id}/locations/{region}/entryGroups/{entry_group_id}`. */
-  entryGroup?: string | undefined;
+export type DocumentMap = { [key: string]: unknown | undefined };
+/** Options customizing EventDriven transfers schedule. */
+export interface EventDrivenSchedule {
+  /** Pub/Sub subscription name used to receive events. Only Google Cloud Storage data source support this option. Format: projects/{project}/subscriptions/{subscription} */
+  pubsubSubscription?: string | undefined;
 }
-/** The metadata destination of the transfer config. */
-export interface MetadataDestination {
-  /** The Dataplex Universal Catalog configuration. */
-  dataplexConfiguration?: DataplexConfiguration | undefined;
+/** Options customizing manual transfers schedule. */
+export type ManualSchedule = CheckValidCredsRequest;
+/** Options customizing the time based transfer schedule. Options are migrated from the original ScheduleOptions message. */
+export interface TimeBasedSchedule {
+  /** Data transfer schedule. If the data source does not support a custom schedule, this should be empty. If it is empty, the default value for the data source will be used. The specified times are in UTC. Examples of valid format: `1st,3rd monday of month 15:30`, `every wed,fri of jan,jun 13:15`, and `first sunday of quarter 00:00`. See more explanation about the format here: https://cloud.google.com/appengine/docs/flexible/python/scheduling-jobs-with-cron-yaml#the_schedule_format NOTE: The minimum interval time between recurring transfers depends on the data source; refer to the documentation for your data source. */
+  schedule?: string | undefined;
+  /** Specifies time to start scheduling transfer runs. The first run will be scheduled at or after the start time according to a recurrence pattern defined in the schedule string. The start time can be changed at any moment. */
+  startTime?: string | undefined;
+  /** Defines time to stop scheduling transfer runs. A transfer run cannot be scheduled at or after the end time. The end time can be changed at any moment. */
+  endTime?: string | undefined;
+}
+/** V2 options customizing different types of data transfer schedule. This field supports existing time-based and manual transfer schedule. Also supports Event-Driven transfer schedule. ScheduleOptionsV2 cannot be used together with ScheduleOptions/Schedule. */
+export interface ScheduleOptionsV2 {
+  /** Event driven transfer schedule options. If set, the transfer will be scheduled upon events arrial. */
+  eventDrivenSchedule?: EventDrivenSchedule | undefined;
+  /** Manual transfer schedule. If set, the transfer run will not be auto-scheduled by the system, unless the client invokes StartManualTransferRuns. This is equivalent to disable_auto_scheduling = true. */
+  manualSchedule?: CheckValidCredsRequest | undefined;
+  /** Time based transfer schedule options. This is the default schedule option. */
+  timeBasedSchedule?: TimeBasedSchedule | undefined;
+}
+export type DocumentMapList = Array<DocumentMap>;
+/** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
+export interface Status {
+  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
+  details?: DocumentMapList | undefined;
+  /** The status code, which should be an enum value of google.rpc.Code. */
+  code?: number | undefined;
+  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
+  message?: string | undefined;
 }
 export type TransferConfigStateEnum =
   | "TRANSFER_STATE_UNSPECIFIED"
@@ -129,134 +155,108 @@ export interface UserInfo {
   /** E-mail address of the user. */
   email?: string | undefined;
 }
-/** Options customizing the time based transfer schedule. Options are migrated from the original ScheduleOptions message. */
-export interface TimeBasedSchedule {
-  /** Defines time to stop scheduling transfer runs. A transfer run cannot be scheduled at or after the end time. The end time can be changed at any moment. */
-  endTime?: string | undefined;
-  /** Specifies time to start scheduling transfer runs. The first run will be scheduled at or after the start time according to a recurrence pattern defined in the schedule string. The start time can be changed at any moment. */
-  startTime?: string | undefined;
-  /** Data transfer schedule. If the data source does not support a custom schedule, this should be empty. If it is empty, the default value for the data source will be used. The specified times are in UTC. Examples of valid format: `1st,3rd monday of month 15:30`, `every wed,fri of jan,jun 13:15`, and `first sunday of quarter 00:00`. See more explanation about the format here: https://cloud.google.com/appengine/docs/flexible/python/scheduling-jobs-with-cron-yaml#the_schedule_format NOTE: The minimum interval time between recurring transfers depends on the data source; refer to the documentation for your data source. */
-  schedule?: string | undefined;
-}
-/** Options customizing EventDriven transfers schedule. */
-export interface EventDrivenSchedule {
-  /** Pub/Sub subscription name used to receive events. Only Google Cloud Storage data source support this option. Format: projects/{project}/subscriptions/{subscription} */
-  pubsubSubscription?: string | undefined;
-}
-/** Options customizing manual transfers schedule. */
-export type ManualSchedule = CheckValidCredsRequest;
-/** V2 options customizing different types of data transfer schedule. This field supports existing time-based and manual transfer schedule. Also supports Event-Driven transfer schedule. ScheduleOptionsV2 cannot be used together with ScheduleOptions/Schedule. */
-export interface ScheduleOptionsV2 {
-  /** Time based transfer schedule options. This is the default schedule option. */
-  timeBasedSchedule?: TimeBasedSchedule | undefined;
-  /** Event driven transfer schedule options. If set, the transfer will be scheduled upon events arrial. */
-  eventDrivenSchedule?: EventDrivenSchedule | undefined;
-  /** Manual transfer schedule. If set, the transfer run will not be auto-scheduled by the system, unless the client invokes StartManualTransferRuns. This is equivalent to disable_auto_scheduling = true. */
-  manualSchedule?: CheckValidCredsRequest | undefined;
-}
 export type StringList = Array<string>;
 /** Configuration for data source parameters. */
 export interface ParameterConfig {
   /** Optional. The list of parameters that are stored in Secret Manager. The value of a parameter included in this list will be interpreted as a Secret Manager key version resource name instead of a raw value. The raw value will be retrieved from Secret Manager upon execution. */
   secretManagerManagedParams?: StringList | undefined;
 }
+/** Configuration for Dataplex destination. */
+export interface DataplexConfiguration {
+  /** Required. The Dataplex Universal Catalog entry group for importing the metadata. entry_group has the format of `projects/{project_id}/locations/{region}/entryGroups/{entry_group_id}`. */
+  entryGroup?: string | undefined;
+}
+/** The metadata destination of the transfer config. */
+export interface MetadataDestination {
+  /** The Dataplex Universal Catalog configuration. */
+  dataplexConfiguration?: DataplexConfiguration | undefined;
+}
 export type TransferConfigManagedTableTypeEnum =
   | "MANAGED_TABLE_TYPE_UNSPECIFIED"
   | "NATIVE"
   | "BIGLAKE";
-/** Options customizing the data transfer schedule. */
-export interface ScheduleOptions {
-  /** Specifies time to start scheduling transfer runs. The first run will be scheduled at or after the start time according to a recurrence pattern defined in the schedule string. The start time can be changed at any moment. The time when a data transfer can be triggered manually is not limited by this option. */
-  startTime?: string | undefined;
-  /** Defines time to stop scheduling transfer runs. A transfer run cannot be scheduled at or after the end time. The end time can be changed at any moment. The time when a data transfer can be triggered manually is not limited by this option. */
-  endTime?: string | undefined;
-  /** If true, automatic scheduling of data transfer runs for this configuration will be disabled. The runs can be started on ad-hoc basis using StartManualTransferRuns API. When automatic scheduling is disabled, the TransferConfig.schedule field will be ignored. */
-  disableAutoScheduling?: boolean | undefined;
-}
-export type DocumentMap = { [key: string]: unknown | undefined };
 /** Represents the encryption configuration for a transfer. */
 export interface EncryptionConfiguration {
   /** The name of the KMS key used for encrypting BigQuery data. */
   kmsKeyName?: string | undefined;
 }
-export type DocumentMapList = Array<DocumentMap>;
-/** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
-export interface Status {
-  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string | undefined;
-  /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number | undefined;
-  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList | undefined;
+/** Options customizing the data transfer schedule. */
+export interface ScheduleOptions {
+  /** If true, automatic scheduling of data transfer runs for this configuration will be disabled. The runs can be started on ad-hoc basis using StartManualTransferRuns API. When automatic scheduling is disabled, the TransferConfig.schedule field will be ignored. */
+  disableAutoScheduling?: boolean | undefined;
+  /** Specifies time to start scheduling transfer runs. The first run will be scheduled at or after the start time according to a recurrence pattern defined in the schedule string. The start time can be changed at any moment. The time when a data transfer can be triggered manually is not limited by this option. */
+  startTime?: string | undefined;
+  /** Defines time to stop scheduling transfer runs. A transfer run cannot be scheduled at or after the end time. The end time can be changed at any moment. The time when a data transfer can be triggered manually is not limited by this option. */
+  endTime?: string | undefined;
 }
 /** Represents a data transfer configuration. A transfer configuration contains all metadata needed to perform a data transfer. For example, `destination_dataset_id` specifies where data should be stored. When a new transfer configuration is created, the specified `destination_dataset_id` is created when needed and shared with the appropriate data source service account. */
 export interface TransferConfig {
-  /** Is this config disabled. When set to true, no runs will be scheduled for this transfer config. */
-  disabled?: boolean | undefined;
+  /** User specified display name for the data transfer. */
+  displayName?: string | undefined;
   /** Email notifications will be sent according to these preferences to the email address of the user who owns this transfer config. */
   emailPreferences?: EmailPreferences | undefined;
-  /** The metadata destination of the transfer config. */
-  metadataDestination?: MetadataDestination | undefined;
+  /** Output only. Next time when data transfer will run. */
+  nextRunTime?: string | undefined;
+  /** Output only. Region in which BigQuery dataset is located. */
+  datasetRegion?: string | undefined;
+  /** Deprecated. Unique ID of the user on whose behalf transfer is done. */
+  userId?: string | undefined;
+  /** Parameters specific to each data source. For more information see the bq tab in the 'Setting up a data transfer' section for each data source. For example the parameters for Cloud Storage transfers are listed here: https://cloud.google.com/bigquery-transfer/docs/cloud-storage-transfer#bq */
+  params?: DocumentMap | undefined;
+  /** Options customizing different types of data transfer schedule. This field replaces "schedule" and "schedule_options" fields. ScheduleOptionsV2 cannot be used together with ScheduleOptions/Schedule. */
+  scheduleOptionsV2?: ScheduleOptionsV2 | undefined;
+  /** Pub/Sub topic where notifications will be sent after transfer runs associated with this transfer config finish. The format for specifying a pubsub topic is: `projects/{project_id}/topics/{topic_id}` */
+  notificationPubsubTopic?: string | undefined;
+  /** Identifier. The resource name of the transfer config. Transfer config names have the form either `projects/{project_id}/locations/{region}/transferConfigs/{config_id}` or `projects/{project_id}/transferConfigs/{config_id}`, where `config_id` is usually a UUID, even though it is not guaranteed or required. The name is ignored when creating a transfer config. */
+  name?: string | undefined;
+  /** Output only. Error code with detailed information about reason of the latest config failure. */
+  error?: Status | undefined;
+  /** The BigQuery target dataset id. */
+  destinationDatasetId?: string | undefined;
   /** Output only. State of the most recently updated transfer run. */
   state?: TransferConfigStateEnum | (string & {}) | undefined;
   /** Output only. Information about the user whose credentials are used to transfer data. Populated only for `transferConfigs.get` requests. In case the user information is not available, this field will not be populated. */
   ownerInfo?: UserInfo | undefined;
-  /** Options customizing different types of data transfer schedule. This field replaces "schedule" and "schedule_options" fields. ScheduleOptionsV2 cannot be used together with ScheduleOptions/Schedule. */
-  scheduleOptionsV2?: ScheduleOptionsV2 | undefined;
   /** Optional. The config for values in `params`. */
   paramConfig?: ParameterConfig | undefined;
-  /** The classification of the destination table. */
-  managedTableType?: TransferConfigManagedTableTypeEnum | (string & {}) | undefined;
-  /** Options customizing the data transfer schedule. */
-  scheduleOptions?: ScheduleOptions | undefined;
-  /** Pub/Sub topic where notifications will be sent after transfer runs associated with this transfer config finish. The format for specifying a pubsub topic is: `projects/{project_id}/topics/{topic_id}` */
-  notificationPubsubTopic?: string | undefined;
-  /** Parameters specific to each data source. For more information see the bq tab in the 'Setting up a data transfer' section for each data source. For example the parameters for Cloud Storage transfers are listed here: https://cloud.google.com/bigquery-transfer/docs/cloud-storage-transfer#bq */
-  params?: DocumentMap | undefined;
-  /** Output only. Next time when data transfer will run. */
-  nextRunTime?: string | undefined;
-  /** Output only. Data transfer modification time. Ignored by server on input. */
-  updateTime?: string | undefined;
-  /** Deprecated. Unique ID of the user on whose behalf transfer is done. */
-  userId?: string | undefined;
-  /** Data transfer schedule. If the data source does not support a custom schedule, this should be empty. If it is empty, the default value for the data source will be used. The specified times are in UTC. Examples of valid format: `1st,3rd monday of month 15:30`, `every wed,fri of jan,jun 13:15`, and `first sunday of quarter 00:00`. See more explanation about the format here: https://cloud.google.com/appengine/docs/flexible/python/scheduling-jobs-with-cron-yaml#the_schedule_format NOTE: The minimum interval time between recurring transfers depends on the data source; refer to the documentation for your data source. */
-  schedule?: string | undefined;
-  /** The encryption configuration part. Currently, it is only used for the optional KMS key name. The BigQuery service account of your project must be granted permissions to use the key. Read methods will return the key name applied in effect. Write methods will apply the key if it is present, or otherwise try to apply project default keys if it is absent. */
-  encryptionConfiguration?: EncryptionConfiguration | undefined;
-  /** Output only. Error code with detailed information about reason of the latest config failure. */
-  error?: Status | undefined;
-  /** The number of days to look back to automatically refresh the data. For example, if `data_refresh_window_days = 10`, then every day BigQuery reingests data for [today-10, today-1], rather than ingesting data for just [today-1]. Only valid if the data source supports the feature. Set the value to 0 to use the default value. */
-  dataRefreshWindowDays?: number | undefined;
-  /** Identifier. The resource name of the transfer config. Transfer config names have the form either `projects/{project_id}/locations/{region}/transferConfigs/{config_id}` or `projects/{project_id}/transferConfigs/{config_id}`, where `config_id` is usually a UUID, even though it is not guaranteed or required. The name is ignored when creating a transfer config. */
-  name?: string | undefined;
+  /** The metadata destination of the transfer config. */
+  metadataDestination?: MetadataDestination | undefined;
   /** Data source ID. This cannot be changed once data transfer is created. The full list of available data source IDs can be returned through an API call: https://cloud.google.com/bigquery-transfer/docs/reference/datatransfer/rest/v1/projects.locations.dataSources/list */
   dataSourceId?: string | undefined;
-  /** The BigQuery target dataset id. */
-  destinationDatasetId?: string | undefined;
-  /** User specified display name for the data transfer. */
-  displayName?: string | undefined;
-  /** Output only. Region in which BigQuery dataset is located. */
-  datasetRegion?: string | undefined;
+  /** The number of days to look back to automatically refresh the data. For example, if `data_refresh_window_days = 10`, then every day BigQuery reingests data for [today-10, today-1], rather than ingesting data for just [today-1]. Only valid if the data source supports the feature. Set the value to 0 to use the default value. */
+  dataRefreshWindowDays?: number | undefined;
+  /** The classification of the destination table. */
+  managedTableType?: TransferConfigManagedTableTypeEnum | (string & {}) | undefined;
+  /** The encryption configuration part. Currently, it is only used for the optional KMS key name. The BigQuery service account of your project must be granted permissions to use the key. Read methods will return the key name applied in effect. Write methods will apply the key if it is present, or otherwise try to apply project default keys if it is absent. */
+  encryptionConfiguration?: EncryptionConfiguration | undefined;
+  /** Is this config disabled. When set to true, no runs will be scheduled for this transfer config. */
+  disabled?: boolean | undefined;
+  /** Options customizing the data transfer schedule. */
+  scheduleOptions?: ScheduleOptions | undefined;
+  /** Data transfer schedule. If the data source does not support a custom schedule, this should be empty. If it is empty, the default value for the data source will be used. The specified times are in UTC. Examples of valid format: `1st,3rd monday of month 15:30`, `every wed,fri of jan,jun 13:15`, and `first sunday of quarter 00:00`. See more explanation about the format here: https://cloud.google.com/appengine/docs/flexible/python/scheduling-jobs-with-cron-yaml#the_schedule_format NOTE: The minimum interval time between recurring transfers depends on the data source; refer to the documentation for your data source. */
+  schedule?: string | undefined;
+  /** Output only. Data transfer modification time. Ignored by server on input. */
+  updateTime?: string | undefined;
 }
 export interface CreateProjectsLocationsTransferConfigsRequest extends TransferConfig {
+  /** Deprecated: Authorization code was required when `transferConfig.dataSourceId` is 'youtube_channel' but it is no longer used in any data sources. Use `version_info` instead. Optional OAuth2 authorization code to use with this transfer configuration. This is required only if `transferConfig.dataSourceId` is 'youtube_channel' and new credentials are needed, as indicated by `CheckValidCreds`. In order to obtain authorization_code, make a request to the following URL: https://bigquery.cloud.google.com/datatransfer/oauthz/auth?redirect_uri=urn:ietf:wg:oauth:2.0:oob&response_type=authorization_code&client_id=client_id&scope=data_source_scopes * The client_id is the OAuth client_id of the data source as returned by ListDataSources method. * data_source_scopes are the scopes returned by ListDataSources method. Note that this should not be set when `service_account_name` is used to create the transfer config. */
+  authorizationCode?: string | undefined;
+  /** Optional service account email. If this field is set, the transfer config will be created with this service account's credentials. It requires that the requesting user calling this API has permissions to act as this service account. Note that not all data sources support service account credentials when creating a transfer config. For the latest list of data sources, read about [using service accounts](https://cloud.google.com/bigquery-transfer/docs/use-service-accounts). */
+  serviceAccountName?: string | undefined;
   /** Optional version info. This parameter replaces `authorization_code` which is no longer used in any data sources. This is required only if `transferConfig.dataSourceId` is 'youtube_channel' *or* new credentials are needed, as indicated by `CheckValidCreds`. In order to obtain version info, make a request to the following URL: https://bigquery.cloud.google.com/datatransfer/oauthz/auth?redirect_uri=urn:ietf:wg:oauth:2.0:oob&response_type=version_info&client_id=client_id&scope=data_source_scopes * The client_id is the OAuth client_id of the data source as returned by ListDataSources method. * data_source_scopes are the scopes returned by ListDataSources method. Note that this should not be set when `service_account_name` is used to create the transfer config. */
   versionInfo?: string | undefined;
   /** Required. The BigQuery project id where the transfer configuration should be created. Must be in the format projects/{project_id}/locations/{location_id} or projects/{project_id}. If specified location and location of the destination bigquery dataset do not match - the request will fail. */
   parent: string;
-  /** Optional service account email. If this field is set, the transfer config will be created with this service account's credentials. It requires that the requesting user calling this API has permissions to act as this service account. Note that not all data sources support service account credentials when creating a transfer config. For the latest list of data sources, read about [using service accounts](https://cloud.google.com/bigquery-transfer/docs/use-service-accounts). */
-  serviceAccountName?: string | undefined;
-  /** Deprecated: Authorization code was required when `transferConfig.dataSourceId` is 'youtube_channel' but it is no longer used in any data sources. Use `version_info` instead. Optional OAuth2 authorization code to use with this transfer configuration. This is required only if `transferConfig.dataSourceId` is 'youtube_channel' and new credentials are needed, as indicated by `CheckValidCreds`. In order to obtain authorization_code, make a request to the following URL: https://bigquery.cloud.google.com/datatransfer/oauthz/auth?redirect_uri=urn:ietf:wg:oauth:2.0:oob&response_type=authorization_code&client_id=client_id&scope=data_source_scopes * The client_id is the OAuth client_id of the data source as returned by ListDataSources method. * data_source_scopes are the scopes returned by ListDataSources method. Note that this should not be set when `service_account_name` is used to create the transfer config. */
-  authorizationCode?: string | undefined;
 }
 export interface CreateProjectsTransferConfigsRequest extends TransferConfig {
-  /** Required. The BigQuery project id where the transfer configuration should be created. Must be in the format projects/{project_id}/locations/{location_id} or projects/{project_id}. If specified location and location of the destination bigquery dataset do not match - the request will fail. */
-  parent: string;
-  /** Deprecated: Authorization code was required when `transferConfig.dataSourceId` is 'youtube_channel' but it is no longer used in any data sources. Use `version_info` instead. Optional OAuth2 authorization code to use with this transfer configuration. This is required only if `transferConfig.dataSourceId` is 'youtube_channel' and new credentials are needed, as indicated by `CheckValidCreds`. In order to obtain authorization_code, make a request to the following URL: https://bigquery.cloud.google.com/datatransfer/oauthz/auth?redirect_uri=urn:ietf:wg:oauth:2.0:oob&response_type=authorization_code&client_id=client_id&scope=data_source_scopes * The client_id is the OAuth client_id of the data source as returned by ListDataSources method. * data_source_scopes are the scopes returned by ListDataSources method. Note that this should not be set when `service_account_name` is used to create the transfer config. */
-  authorizationCode?: string | undefined;
-  /** Optional version info. This parameter replaces `authorization_code` which is no longer used in any data sources. This is required only if `transferConfig.dataSourceId` is 'youtube_channel' *or* new credentials are needed, as indicated by `CheckValidCreds`. In order to obtain version info, make a request to the following URL: https://bigquery.cloud.google.com/datatransfer/oauthz/auth?redirect_uri=urn:ietf:wg:oauth:2.0:oob&response_type=version_info&client_id=client_id&scope=data_source_scopes * The client_id is the OAuth client_id of the data source as returned by ListDataSources method. * data_source_scopes are the scopes returned by ListDataSources method. Note that this should not be set when `service_account_name` is used to create the transfer config. */
-  versionInfo?: string | undefined;
   /** Optional service account email. If this field is set, the transfer config will be created with this service account's credentials. It requires that the requesting user calling this API has permissions to act as this service account. Note that not all data sources support service account credentials when creating a transfer config. For the latest list of data sources, read about [using service accounts](https://cloud.google.com/bigquery-transfer/docs/use-service-accounts). */
   serviceAccountName?: string | undefined;
+  /** Deprecated: Authorization code was required when `transferConfig.dataSourceId` is 'youtube_channel' but it is no longer used in any data sources. Use `version_info` instead. Optional OAuth2 authorization code to use with this transfer configuration. This is required only if `transferConfig.dataSourceId` is 'youtube_channel' and new credentials are needed, as indicated by `CheckValidCreds`. In order to obtain authorization_code, make a request to the following URL: https://bigquery.cloud.google.com/datatransfer/oauthz/auth?redirect_uri=urn:ietf:wg:oauth:2.0:oob&response_type=authorization_code&client_id=client_id&scope=data_source_scopes * The client_id is the OAuth client_id of the data source as returned by ListDataSources method. * data_source_scopes are the scopes returned by ListDataSources method. Note that this should not be set when `service_account_name` is used to create the transfer config. */
+  authorizationCode?: string | undefined;
+  /** Required. The BigQuery project id where the transfer configuration should be created. Must be in the format projects/{project_id}/locations/{location_id} or projects/{project_id}. If specified location and location of the destination bigquery dataset do not match - the request will fail. */
+  parent: string;
+  /** Optional version info. This parameter replaces `authorization_code` which is no longer used in any data sources. This is required only if `transferConfig.dataSourceId` is 'youtube_channel' *or* new credentials are needed, as indicated by `CheckValidCreds`. In order to obtain version info, make a request to the following URL: https://bigquery.cloud.google.com/datatransfer/oauthz/auth?redirect_uri=urn:ietf:wg:oauth:2.0:oob&response_type=version_info&client_id=client_id&scope=data_source_scopes * The client_id is the OAuth client_id of the data source as returned by ListDataSources method. * data_source_scopes are the scopes returned by ListDataSources method. Note that this should not be set when `service_account_name` is used to create the transfer config. */
+  versionInfo?: string | undefined;
 }
 export interface DeleteProjectsLocationsTransferConfigsRequest {
   /** Required. The name of the resource to delete. If you are using the regionless method, the location must be `US` and the name should be in the following form: * `projects/{project_id}/transferConfigs/{config_id}` If you are using the regionalized method, the name should be in the following form: * `projects/{project_id}/locations/{location_id}/transferConfigs/{config_id}` */
@@ -293,16 +293,11 @@ export interface GetProjectsDataSourcesRequest {
   /** Required. The name of the resource requested. If you are using the regionless method, the location must be `US` and the name should be in the following form: * `projects/{project_id}/dataSources/{data_source_id}` If you are using the regionalized method, the name should be in the following form: * `projects/{project_id}/locations/{location_id}/dataSources/{data_source_id}` */
   name: string;
 }
-export type DataSourceTransferTypeEnum = "TRANSFER_TYPE_UNSPECIFIED" | "BATCH" | "STREAMING";
 export type DataSourceAuthorizationTypeEnum =
   | "AUTHORIZATION_TYPE_UNSPECIFIED"
   | "AUTHORIZATION_CODE"
   | "GOOGLE_PLUS_AUTHORIZATION_CODE"
   | "FIRST_PARTY_OAUTH";
-export type DataSourceDataRefreshTypeEnum =
-  | "DATA_REFRESH_TYPE_UNSPECIFIED"
-  | "SLIDING_WINDOW"
-  | "CUSTOM_SLIDING_WINDOW";
 export type DataSourceParameterTypeEnum =
   | "TYPE_UNSPECIFIED"
   | "STRING"
@@ -314,82 +309,87 @@ export type DataSourceParameterTypeEnum =
   | "LIST";
 /** A parameter used to define custom fields in a data source definition. */
 export interface DataSourceParameter {
-  /** URL to a help document to further explain the naming requirements. */
-  validationHelpUrl?: string | undefined;
-  /** For list parameters, the max size of the list. */
-  maxListSize?: string | undefined;
-  /** For integer and double values specifies maximum allowed value. */
-  maxValue?: number | undefined;
-  /** For integer and double values specifies minimum allowed value. */
-  minValue?: number | undefined;
-  /** Deprecated. This field has no effect. */
-  recurse?: boolean | undefined;
   /** Parameter type. */
   type?: DataSourceParameterTypeEnum | undefined;
-  /** Parameter display name in the user interface. */
-  displayName?: string | undefined;
-  /** If true, it should not be used in new transfers, and it should not be visible to users. */
-  deprecated?: boolean | undefined;
-  /** Deprecated. This field has no effect. */
-  fields?: DataSourceParameterList | undefined;
-  /** Cannot be changed after initial creation. */
-  immutable?: boolean | undefined;
   /** Deprecated. This field has no effect. */
   repeated?: boolean | undefined;
-  /** Regular expression which can be used for parameter validation. */
-  validationRegex?: string | undefined;
-  /** Is parameter required. */
-  required?: boolean | undefined;
-  /** Parameter identifier. */
-  paramId?: string | undefined;
   /** Output only. If true, the parameter value can be provided through Secret Manager. */
   secretManagerAllowed?: boolean | undefined;
-  /** All possible values for the parameter. */
-  allowedValues?: StringList | undefined;
-  /** Parameter description. */
-  description?: string | undefined;
+  /** Cannot be changed after initial creation. */
+  immutable?: boolean | undefined;
+  /** For integer and double values specifies maximum allowed value. */
+  maxValue?: number | undefined;
+  /** Deprecated. This field has no effect. */
+  fields?: DataSourceParameterList | undefined;
+  /** For integer and double values specifies minimum allowed value. */
+  minValue?: number | undefined;
+  /** For list parameters, the max size of the list. */
+  maxListSize?: string | undefined;
+  /** If true, it should not be used in new transfers, and it should not be visible to users. */
+  deprecated?: boolean | undefined;
   /** Description of the requirements for this field, in case the user input does not fulfill the regex pattern or min/max values. */
   validationDescription?: string | undefined;
+  /** Regular expression which can be used for parameter validation. */
+  validationRegex?: string | undefined;
+  /** Deprecated. This field has no effect. */
+  recurse?: boolean | undefined;
+  /** Parameter description. */
+  description?: string | undefined;
+  /** Parameter identifier. */
+  paramId?: string | undefined;
+  /** Is parameter required. */
+  required?: boolean | undefined;
+  /** URL to a help document to further explain the naming requirements. */
+  validationHelpUrl?: string | undefined;
+  /** All possible values for the parameter. */
+  allowedValues?: StringList | undefined;
+  /** Parameter display name in the user interface. */
+  displayName?: string | undefined;
 }
 export type DataSourceParameterList = Array<DataSourceParameter>;
+export type DataSourceDataRefreshTypeEnum =
+  | "DATA_REFRESH_TYPE_UNSPECIFIED"
+  | "SLIDING_WINDOW"
+  | "CUSTOM_SLIDING_WINDOW";
+export type DataSourceTransferTypeEnum = "TRANSFER_TYPE_UNSPECIFIED" | "BATCH" | "STREAMING";
 /** Defines the properties and custom parameters for a data source. */
 export interface DataSource {
-  /** Data source client id which should be used to receive refresh token. */
-  clientId?: string | undefined;
-  /** Output only. Data source resource name. */
-  name?: string | undefined;
-  /** Deprecated. This field has no effect. */
-  transferType?: DataSourceTransferTypeEnum | undefined;
-  /** Indicates the type of authorization. */
-  authorizationType?: DataSourceAuthorizationTypeEnum | undefined;
-  /** The number of seconds to wait for an update from the data source before the Data Transfer Service marks the transfer as FAILED. */
-  updateDeadlineSeconds?: number | undefined;
-  /** Data source id. */
-  dataSourceId?: string | undefined;
-  /** User friendly data source name. */
-  displayName?: string | undefined;
-  /** Specifies whether the data source supports automatic data refresh for the past few days, and how it's supported. For some data sources, data might not be complete until a few days later, so it's useful to refresh data automatically. */
-  dataRefreshType?: DataSourceDataRefreshTypeEnum | undefined;
   /** Deprecated. This field has no effect. */
   supportsMultipleTransfers?: boolean | undefined;
+  /** Api auth scopes for which refresh token needs to be obtained. These are scopes needed by a data source to prepare data and ingest them into BigQuery, e.g., https://www.googleapis.com/auth/bigquery */
+  scopes?: StringList | undefined;
+  /** Disables backfilling and manual run scheduling for the data source. */
+  manualRunsDisabled?: boolean | undefined;
   /** Url for the help document for this data source. */
   helpUrl?: string | undefined;
   /** Default data refresh window on days. Only meaningful when `data_refresh_type` = `SLIDING_WINDOW`. */
   defaultDataRefreshWindowDays?: number | undefined;
+  /** Data source id. */
+  dataSourceId?: string | undefined;
+  /** Indicates the type of authorization. */
+  authorizationType?: DataSourceAuthorizationTypeEnum | undefined;
+  /** Data source parameters. */
+  parameters?: DataSourceParameterList | undefined;
+  /** Output only. Data source resource name. */
+  name?: string | undefined;
+  /** User friendly data source description string. */
+  description?: string | undefined;
   /** The minimum interval for scheduler to schedule runs. */
   minimumScheduleInterval?: string | undefined;
   /** Default data transfer schedule. Examples of valid schedules include: `1st,3rd monday of month 15:30`, `every wed,fri of jan,jun 13:15`, and `first sunday of quarter 00:00`. */
   defaultSchedule?: string | undefined;
-  /** Disables backfilling and manual run scheduling for the data source. */
-  manualRunsDisabled?: boolean | undefined;
-  /** Data source parameters. */
-  parameters?: DataSourceParameterList | undefined;
-  /** User friendly data source description string. */
-  description?: string | undefined;
+  /** The number of seconds to wait for an update from the data source before the Data Transfer Service marks the transfer as FAILED. */
+  updateDeadlineSeconds?: number | undefined;
+  /** Specifies whether the data source supports automatic data refresh for the past few days, and how it's supported. For some data sources, data might not be complete until a few days later, so it's useful to refresh data automatically. */
+  dataRefreshType?: DataSourceDataRefreshTypeEnum | undefined;
+  /** Deprecated. This field has no effect. */
+  transferType?: DataSourceTransferTypeEnum | undefined;
+  /** Data source client id which should be used to receive refresh token. */
+  clientId?: string | undefined;
   /** Specifies whether the data source supports a user defined schedule, or operates on the default schedule. When set to `true`, user can override default schedule. */
   supportsCustomSchedule?: boolean | undefined;
-  /** Api auth scopes for which refresh token needs to be obtained. These are scopes needed by a data source to prepare data and ingest them into BigQuery, e.g., https://www.googleapis.com/auth/bigquery */
-  scopes?: StringList | undefined;
+  /** User friendly data source name. */
+  displayName?: string | undefined;
 }
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
@@ -402,12 +402,12 @@ export interface Location {
   name?: string | undefined;
   /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
   displayName?: string | undefined;
-  /** The canonical id for this location. For example: `"us-east1"`. */
-  locationId?: string | undefined;
   /** Service-specific metadata. For example the available capacity at the given location. */
   metadata?: DocumentMap | undefined;
   /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
   labels?: StringMap | undefined;
+  /** The canonical id for this location. For example: `"us-east1"`. */
+  locationId?: string | undefined;
 }
 export interface GetProjectsLocationsDataSourcesRequest {
   /** Required. The name of the resource requested. If you are using the regionless method, the location must be `US` and the name should be in the following form: * `projects/{project_id}/dataSources/{data_source_id}` If you are using the regionalized method, the name should be in the following form: * `projects/{project_id}/locations/{location_id}/dataSources/{data_source_id}` */
@@ -430,50 +430,54 @@ export type TransferRunStateEnum =
   | "CANCELLED";
 /** Represents a data transfer run. */
 export interface TransferRun {
-  /** Identifier. The resource name of the transfer run. Transfer run names have the form `projects/{project_id}/locations/{location}/transferConfigs/{config_id}/runs/{run_id}`. The name is ignored when creating a transfer run. */
-  name?: string | undefined;
-  /** Output only. Last time the data transfer run state was updated. */
-  updateTime?: string | undefined;
-  /** Status of the transfer run. */
-  errorStatus?: Status | undefined;
-  /** Output only. Data source id. */
-  dataSourceId?: string | undefined;
-  /** Output only. Pub/Sub topic where a notification will be sent after this transfer run finishes. The format for specifying a pubsub topic is: `projects/{project_id}/topics/{topic_id}` */
-  notificationPubsubTopic?: string | undefined;
-  /** Data transfer run state. Ignored for input requests. */
-  state?: TransferRunStateEnum | undefined;
-  /** Output only. Email notifications will be sent according to these preferences to the email address of the user who owns the transfer config this run was derived from. */
-  emailPreferences?: EmailPreferences | undefined;
   /** Minimum time after which a transfer run can be started. */
   scheduleTime?: string | undefined;
-  /** Output only. Time when transfer run was started. Parameter ignored by server for input requests. */
-  startTime?: string | undefined;
+  /** Output only. Email notifications will be sent according to these preferences to the email address of the user who owns the transfer config this run was derived from. */
+  emailPreferences?: EmailPreferences | undefined;
   /** Output only. Parameters specific to each data source. For more information see the bq tab in the 'Setting up a data transfer' section for each data source. For example the parameters for Cloud Storage transfers are listed here: https://cloud.google.com/bigquery-transfer/docs/cloud-storage-transfer#bq */
   params?: DocumentMap | undefined;
-  /** Output only. The BigQuery target dataset id. */
-  destinationDatasetId?: string | undefined;
   /** Output only. Describes the schedule of this transfer run if it was created as part of a regular schedule. For batch transfer runs that are scheduled manually, this is empty. NOTE: the system might choose to delay the schedule depending on the current load, so `schedule_time` doesn't always match this. */
   schedule?: string | undefined;
-  /** Output only. The parameter config of the transfer run. */
-  parameterConfig?: ParameterConfig | undefined;
-  /** Deprecated. Unique ID of the user on whose behalf transfer is done. */
-  userId?: string | undefined;
   /** For batch transfer runs, specifies the date and time of the data should be ingested. */
   runTime?: string | undefined;
+  /** Status of the transfer run. */
+  errorStatus?: Status | undefined;
+  /** Identifier. The resource name of the transfer run. Transfer run names have the form `projects/{project_id}/locations/{location}/transferConfigs/{config_id}/runs/{run_id}`. The name is ignored when creating a transfer run. */
+  name?: string | undefined;
+  /** Deprecated. Unique ID of the user on whose behalf transfer is done. */
+  userId?: string | undefined;
   /** Output only. Time when transfer run ended. Parameter ignored by server for input requests. */
   endTime?: string | undefined;
+  /** Output only. Time when transfer run was started. Parameter ignored by server for input requests. */
+  startTime?: string | undefined;
+  /** Output only. Last time the data transfer run state was updated. */
+  updateTime?: string | undefined;
+  /** Data transfer run state. Ignored for input requests. */
+  state?: TransferRunStateEnum | undefined;
+  /** Output only. Pub/Sub topic where a notification will be sent after this transfer run finishes. The format for specifying a pubsub topic is: `projects/{project_id}/topics/{topic_id}` */
+  notificationPubsubTopic?: string | undefined;
+  /** Output only. Data source id. */
+  dataSourceId?: string | undefined;
+  /** Output only. The parameter config of the transfer run. */
+  parameterConfig?: ParameterConfig | undefined;
+  /** Output only. The BigQuery target dataset id. */
+  destinationDatasetId?: string | undefined;
 }
 export interface GetProjectsLocationsTransferConfigsTransferResourcesRequest {
   /** Required. The name of the transfer resource in the form of: * `projects/{project}/transferConfigs/{transfer_config}/transferResources/{transfer_resource}` * `projects/{project}/locations/{location}/transferConfigs/{transfer_config}/transferResources/{transfer_resource}` */
   name: string;
 }
-/** Basic information about a transfer run. */
-export interface TransferRunBrief {
-  /** Optional. Run URI. The format must be: `projects/{project}/locations/{location}/transferConfigs/{transfer_config}/run/{run}` */
-  run?: string | undefined;
-  /** Optional. Start time of the transfer run. */
-  startTime?: string | undefined;
-}
+export type TransferResourceDestinationEnum =
+  | "RESOURCE_DESTINATION_UNSPECIFIED"
+  | "RESOURCE_DESTINATION_BIGQUERY"
+  | "RESOURCE_DESTINATION_DATAPROC_METASTORE"
+  | "RESOURCE_DESTINATION_BIGLAKE_METASTORE"
+  | "RESOURCE_DESTINATION_BIGLAKE_REST_CATALOG"
+  | "RESOURCE_DESTINATION_BIGLAKE_HIVE_CATALOG";
+export type TransferResourceTypeEnum =
+  | "RESOURCE_TYPE_UNSPECIFIED"
+  | "RESOURCE_TYPE_TABLE"
+  | "RESOURCE_TYPE_PARTITION";
 /** Table details related to hierarchy. */
 export interface TableDetail {
   /** Optional. Total number of partitions being tracked within the table. */
@@ -491,10 +495,13 @@ export interface HierarchyDetail {
   /** Optional. Partition details related to hierarchy. */
   partitionDetail?: PartitionDetail | undefined;
 }
-export type TransferResourceTypeEnum =
-  | "RESOURCE_TYPE_UNSPECIFIED"
-  | "RESOURCE_TYPE_TABLE"
-  | "RESOURCE_TYPE_PARTITION";
+/** Basic information about a transfer run. */
+export interface TransferRunBrief {
+  /** Optional. Run URI. The format must be: `projects/{project}/locations/{location}/transferConfigs/{transfer_config}/run/{run}` */
+  run?: string | undefined;
+  /** Optional. Start time of the transfer run. */
+  startTime?: string | undefined;
+}
 export type TransferResourceStatusDetailStateEnum =
   | "RESOURCE_TRANSFER_STATE_UNSPECIFIED"
   | "RESOURCE_TRANSFER_PENDING"
@@ -514,14 +521,14 @@ export type TransferStatusMetricUnitEnum =
 export interface TransferStatusMetric {
   /** Optional. Number of units that failed to transfer. */
   failed?: string | undefined;
-  /** Optional. Number of units pending transfer. */
-  pending?: string | undefined;
   /** Optional. Unit for measuring progress (e.g., BYTES). */
   unit?: TransferStatusMetricUnitEnum | undefined;
-  /** Optional. Number of units transferred successfully. */
-  completed?: string | undefined;
+  /** Optional. Number of units pending transfer. */
+  pending?: string | undefined;
   /** Optional. Total number of units for the transfer. */
   total?: string | undefined;
+  /** Optional. Number of units transferred successfully. */
+  completed?: string | undefined;
 }
 export type TransferStatusMetricList = Array<TransferStatusMetric>;
 /** Status summary of the resource being transferred. */
@@ -533,40 +540,33 @@ export interface TransferStatusSummary {
 }
 /** Status details of the resource being transferred. */
 export interface TransferResourceStatusDetail {
-  /** Output only. Percentage of the transfer completed. Valid values: 0-100. */
-  completedPercentage?: number | undefined;
   /** Optional. Transfer state of the resource. */
   state?: TransferResourceStatusDetailStateEnum | undefined;
-  /** Optional. Transfer status summary of the resource. */
-  summary?: TransferStatusSummary | undefined;
   /** Optional. Transfer error details for the resource. */
   error?: Status | undefined;
+  /** Optional. Transfer status summary of the resource. */
+  summary?: TransferStatusSummary | undefined;
+  /** Output only. Percentage of the transfer completed. Valid values: 0-100. */
+  completedPercentage?: number | undefined;
 }
-export type TransferResourceDestinationEnum =
-  | "RESOURCE_DESTINATION_UNSPECIFIED"
-  | "RESOURCE_DESTINATION_BIGQUERY"
-  | "RESOURCE_DESTINATION_DATAPROC_METASTORE"
-  | "RESOURCE_DESTINATION_BIGLAKE_METASTORE"
-  | "RESOURCE_DESTINATION_BIGLAKE_REST_CATALOG"
-  | "RESOURCE_DESTINATION_BIGLAKE_HIVE_CATALOG";
 /** Resource (table/partition) that is being transferred. */
 export interface TransferResource {
-  /** Output only. Run details for the last successful run. */
-  lastSuccessfulRun?: TransferRunBrief | undefined;
-  /** Optional. Details about the hierarchy. */
-  hierarchyDetail?: HierarchyDetail | undefined;
+  /** Optional. Resource destination. */
+  destination?: TransferResourceDestinationEnum | undefined;
   /** Optional. Resource type. */
   type?: TransferResourceTypeEnum | undefined;
-  /** Optional. Status details for the latest run. */
-  latestStatusDetail?: TransferResourceStatusDetail | undefined;
+  /** Optional. Details about the hierarchy. */
+  hierarchyDetail?: HierarchyDetail | undefined;
+  /** Output only. Run details for the last successful run. */
+  lastSuccessfulRun?: TransferRunBrief | undefined;
   /** Identifier. Resource name. */
   name?: string | undefined;
   /** Optional. Run details for the latest run. */
   latestRun?: TransferRunBrief | undefined;
+  /** Optional. Status details for the latest run. */
+  latestStatusDetail?: TransferResourceStatusDetail | undefined;
   /** Output only. Time when the resource was last updated. */
   updateTime?: string | undefined;
-  /** Optional. Resource destination. */
-  destination?: TransferResourceDestinationEnum | undefined;
 }
 export interface GetProjectsTransferConfigsRequest {
   /** Required. The name of the resource requested. If you are using the regionless method, the location must be `US` and the name should be in the following form: * `projects/{project_id}/transferConfigs/{config_id}` If you are using the regionalized method, the name should be in the following form: * `projects/{project_id}/locations/{location_id}/transferConfigs/{config_id}` */
@@ -581,10 +581,10 @@ export interface GetProjectsTransferConfigsTransferResourcesRequest {
   name: string;
 }
 export interface ListProjectsDataSourcesRequest {
-  /** Page size. The default page size is the maximum value of 1000 results. */
-  pageSize?: number | undefined;
   /** Pagination token, which can be used to request a specific page of `ListDataSourcesRequest` list results. For multiple-page results, `ListDataSourcesResponse` outputs a `next_page` token, which can be used as the `page_token` value to request the next page of list results. */
   pageToken?: string | undefined;
+  /** Page size. The default page size is the maximum value of 1000 results. */
+  pageSize?: number | undefined;
   /** Required. The BigQuery project id for which data sources should be returned. Must be in the form: `projects/{project_id}` or `projects/{project_id}/locations/{location_id}` */
   parent: string;
 }
@@ -597,42 +597,42 @@ export interface ListDataSourcesResponse {
   nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsRequest {
-  /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
-  filter?: string | undefined;
   /** The resource that owns the locations collection, if applicable. */
   name: string;
-  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string | undefined;
   /** The maximum number of results to return. If not set, the service selects a default. */
   pageSize?: number | undefined;
+  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
+  pageToken?: string | undefined;
   /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
   extraLocationTypes?: StringList | undefined;
+  /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
+  filter?: string | undefined;
 }
 export type LocationList = Array<Location>;
 /** The response message for Locations.ListLocations. */
 export interface ListLocationsResponse {
-  /** A list of locations that matches the specified filter in the request. */
-  locations?: LocationList | undefined;
   /** The standard List next-page token. */
   nextPageToken?: string | undefined;
+  /** A list of locations that matches the specified filter in the request. */
+  locations?: LocationList | undefined;
 }
 export interface ListProjectsLocationsDataSourcesRequest {
-  /** Required. The BigQuery project id for which data sources should be returned. Must be in the form: `projects/{project_id}` or `projects/{project_id}/locations/{location_id}` */
-  parent: string;
   /** Pagination token, which can be used to request a specific page of `ListDataSourcesRequest` list results. For multiple-page results, `ListDataSourcesResponse` outputs a `next_page` token, which can be used as the `page_token` value to request the next page of list results. */
   pageToken?: string | undefined;
   /** Page size. The default page size is the maximum value of 1000 results. */
   pageSize?: number | undefined;
+  /** Required. The BigQuery project id for which data sources should be returned. Must be in the form: `projects/{project_id}` or `projects/{project_id}/locations/{location_id}` */
+  parent: string;
 }
 export interface ListProjectsLocationsTransferConfigsRequest {
-  /** Pagination token, which can be used to request a specific page of `ListTransfersRequest` list results. For multiple-page results, `ListTransfersResponse` outputs a `next_page` token, which can be used as the `page_token` value to request the next page of list results. */
-  pageToken?: string | undefined;
   /** Page size. The default page size is the maximum value of 1000 results. */
   pageSize?: number | undefined;
   /** Required. The BigQuery project id for which transfer configs should be returned. If you are using the regionless method, the location must be `US` and `parent` should be in the following form: * `projects/{project_id} If you are using the regionalized method, `parent` should be in the following form: * `projects/{project_id}/locations/{location_id}` */
   parent: string;
   /** When specified, only configurations of requested data sources are returned. */
   dataSourceIds?: StringList | undefined;
+  /** Pagination token, which can be used to request a specific page of `ListTransfersRequest` list results. For multiple-page results, `ListTransfersResponse` outputs a `next_page` token, which can be used as the `page_token` value to request the next page of list results. */
+  pageToken?: string | undefined;
 }
 export type TransferConfigList = Array<TransferConfig>;
 /** The returned list of pipelines in the project. */
@@ -642,9 +642,6 @@ export interface ListTransferConfigsResponse {
   /** Output only. The stored pipeline transfer configurations. */
   transferConfigs?: TransferConfigList | undefined;
 }
-export type ListProjectsLocationsTransferConfigsRunsRunAttemptEnum =
-  | "RUN_ATTEMPT_UNSPECIFIED"
-  | "LATEST";
 export type ListProjectsLocationsTransferConfigsRunsStatesEnum =
   | "TRANSFER_STATE_UNSPECIFIED"
   | "PENDING"
@@ -655,17 +652,20 @@ export type ListProjectsLocationsTransferConfigsRunsStatesEnum =
 export type ListProjectsLocationsTransferConfigsRunsStatesEnumList = Array<
   ListProjectsLocationsTransferConfigsRunsStatesEnum | (string & {})
 >;
+export type ListProjectsLocationsTransferConfigsRunsRunAttemptEnum =
+  | "RUN_ATTEMPT_UNSPECIFIED"
+  | "LATEST";
 export interface ListProjectsLocationsTransferConfigsRunsRequest {
-  /** Pagination token, which can be used to request a specific page of `ListTransferRunsRequest` list results. For multiple-page results, `ListTransferRunsResponse` outputs a `next_page` token, which can be used as the `page_token` value to request the next page of list results. */
-  pageToken?: string | undefined;
-  /** Indicates how run attempts are to be pulled. */
-  runAttempt?: ListProjectsLocationsTransferConfigsRunsRunAttemptEnum | (string & {}) | undefined;
   /** When specified, only transfer runs with requested states are returned. */
   states?: ListProjectsLocationsTransferConfigsRunsStatesEnumList | undefined;
-  /** Page size. The default page size is the maximum value of 1000 results. */
-  pageSize?: number | undefined;
   /** Required. Name of transfer configuration for which transfer runs should be retrieved. If you are using the regionless method, the location must be `US` and the name should be in the following form: * `projects/{project_id}/transferConfigs/{config_id}` If you are using the regionalized method, the name should be in the following form: * `projects/{project_id}/locations/{location_id}/transferConfigs/{config_id}` */
   parent: string;
+  /** Pagination token, which can be used to request a specific page of `ListTransferRunsRequest` list results. For multiple-page results, `ListTransferRunsResponse` outputs a `next_page` token, which can be used as the `page_token` value to request the next page of list results. */
+  pageToken?: string | undefined;
+  /** Page size. The default page size is the maximum value of 1000 results. */
+  pageSize?: number | undefined;
+  /** Indicates how run attempts are to be pulled. */
+  runAttempt?: ListProjectsLocationsTransferConfigsRunsRunAttemptEnum | (string & {}) | undefined;
 }
 export type TransferRunList = Array<TransferRun>;
 /** The returned list of pipelines in the project. */
@@ -688,10 +688,10 @@ export interface ListProjectsLocationsTransferConfigsRunsTransferLogsRequest {
   messageTypes?:
     | ListProjectsLocationsTransferConfigsRunsTransferLogsMessageTypesEnumList
     | undefined;
-  /** Required. Transfer run name. If you are using the regionless method, the location must be `US` and the name should be in the following form: * `projects/{project_id}/transferConfigs/{config_id}/runs/{run_id}` If you are using the regionalized method, the name should be in the following form: * `projects/{project_id}/locations/{location_id}/transferConfigs/{config_id}/runs/{run_id}` */
-  parent: string;
   /** Page size. The default page size is the maximum value of 1000 results. */
   pageSize?: number | undefined;
+  /** Required. Transfer run name. If you are using the regionless method, the location must be `US` and the name should be in the following form: * `projects/{project_id}/transferConfigs/{config_id}/runs/{run_id}` If you are using the regionalized method, the name should be in the following form: * `projects/{project_id}/locations/{location_id}/transferConfigs/{config_id}/runs/{run_id}` */
+  parent: string;
   /** Pagination token, which can be used to request a specific page of `ListTransferLogsRequest` list results. For multiple-page results, `ListTransferLogsResponse` outputs a `next_page` token, which can be used as the `page_token` value to request the next page of list results. */
   pageToken?: string | undefined;
 }
@@ -702,10 +702,10 @@ export type TransferMessageSeverityEnum =
   | "ERROR";
 /** Represents a user facing message for a particular data transfer run. */
 export interface TransferMessage {
-  /** Message text. */
-  messageText?: string | undefined;
   /** Time when message was logged. */
   messageTime?: string | undefined;
+  /** Message text. */
+  messageText?: string | undefined;
   /** Message severity. */
   severity?: TransferMessageSeverityEnum | undefined;
 }
@@ -718,32 +718,32 @@ export interface ListTransferLogsResponse {
   nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsTransferConfigsTransferResourcesRequest {
-  /** Optional. A page token, received from a previous `ListTransferResources` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListTransferResources` must match the call that provided the page token. */
-  pageToken?: string | undefined;
-  /** Required. Name of transfer configuration for which transfer resources should be retrieved. The name should be in one of the following forms: * `projects/{project}/transferConfigs/{transfer_config}` * `projects/{project}/locations/{location_id}/transferConfigs/{transfer_config}` */
-  parent: string;
   /** Optional. The maximum number of transfer resources to return. The maximum value is 1000; values above 1000 will be coerced to 1000. The default page size is the maximum value of 1000 results. */
   pageSize?: number | undefined;
+  /** Required. Name of transfer configuration for which transfer resources should be retrieved. The name should be in one of the following forms: * `projects/{project}/transferConfigs/{transfer_config}` * `projects/{project}/locations/{location_id}/transferConfigs/{transfer_config}` */
+  parent: string;
+  /** Optional. A page token, received from a previous `ListTransferResources` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListTransferResources` must match the call that provided the page token. */
+  pageToken?: string | undefined;
   /** Optional. Filter for the transfer resources. Currently supported filters include: * Resource name: `name` - Wildcard supported * Resource type: `type` * Resource destination: `destination` * Latest resource state: `latest_status_detail.state` * Last update time: `update_time` - RFC-3339 format * Parent table name: `hierarchy_detail.partition_detail.table` Multiple filters can be applied using the `AND/OR` operator. Examples: * `name="*123" AND (type="TABLE" OR latest_status_detail.state="SUCCEEDED")` * `update_time >= "2012-04-21T11:30:00-04:00"` * `hierarchy_detail.partition_detail.table = "table1"` */
   filter?: string | undefined;
 }
 export type TransferResourceList = Array<TransferResource>;
 /** Response for the `ListTransferResources` RPC. */
 export interface ListTransferResourcesResponse {
-  /** Output only. The transfer resources. */
-  transferResources?: TransferResourceList | undefined;
   /** Output only. A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string | undefined;
+  /** Output only. The transfer resources. */
+  transferResources?: TransferResourceList | undefined;
 }
 export interface ListProjectsTransferConfigsRequest {
-  /** Pagination token, which can be used to request a specific page of `ListTransfersRequest` list results. For multiple-page results, `ListTransfersResponse` outputs a `next_page` token, which can be used as the `page_token` value to request the next page of list results. */
-  pageToken?: string | undefined;
-  /** Required. The BigQuery project id for which transfer configs should be returned. If you are using the regionless method, the location must be `US` and `parent` should be in the following form: * `projects/{project_id} If you are using the regionalized method, `parent` should be in the following form: * `projects/{project_id}/locations/{location_id}` */
-  parent: string;
-  /** Page size. The default page size is the maximum value of 1000 results. */
-  pageSize?: number | undefined;
   /** When specified, only configurations of requested data sources are returned. */
   dataSourceIds?: StringList | undefined;
+  /** Page size. The default page size is the maximum value of 1000 results. */
+  pageSize?: number | undefined;
+  /** Required. The BigQuery project id for which transfer configs should be returned. If you are using the regionless method, the location must be `US` and `parent` should be in the following form: * `projects/{project_id} If you are using the regionalized method, `parent` should be in the following form: * `projects/{project_id}/locations/{location_id}` */
+  parent: string;
+  /** Pagination token, which can be used to request a specific page of `ListTransfersRequest` list results. For multiple-page results, `ListTransfersResponse` outputs a `next_page` token, which can be used as the `page_token` value to request the next page of list results. */
+  pageToken?: string | undefined;
 }
 export type ListProjectsTransferConfigsRunsStatesEnum =
   | "TRANSFER_STATE_UNSPECIFIED"
@@ -757,14 +757,14 @@ export type ListProjectsTransferConfigsRunsStatesEnumList = Array<
 >;
 export type ListProjectsTransferConfigsRunsRunAttemptEnum = "RUN_ATTEMPT_UNSPECIFIED" | "LATEST";
 export interface ListProjectsTransferConfigsRunsRequest {
-  /** Required. Name of transfer configuration for which transfer runs should be retrieved. If you are using the regionless method, the location must be `US` and the name should be in the following form: * `projects/{project_id}/transferConfigs/{config_id}` If you are using the regionalized method, the name should be in the following form: * `projects/{project_id}/locations/{location_id}/transferConfigs/{config_id}` */
-  parent: string;
   /** Pagination token, which can be used to request a specific page of `ListTransferRunsRequest` list results. For multiple-page results, `ListTransferRunsResponse` outputs a `next_page` token, which can be used as the `page_token` value to request the next page of list results. */
   pageToken?: string | undefined;
-  /** Page size. The default page size is the maximum value of 1000 results. */
-  pageSize?: number | undefined;
   /** When specified, only transfer runs with requested states are returned. */
   states?: ListProjectsTransferConfigsRunsStatesEnumList | undefined;
+  /** Required. Name of transfer configuration for which transfer runs should be retrieved. If you are using the regionless method, the location must be `US` and the name should be in the following form: * `projects/{project_id}/transferConfigs/{config_id}` If you are using the regionalized method, the name should be in the following form: * `projects/{project_id}/locations/{location_id}/transferConfigs/{config_id}` */
+  parent: string;
+  /** Page size. The default page size is the maximum value of 1000 results. */
+  pageSize?: number | undefined;
   /** Indicates how run attempts are to be pulled. */
   runAttempt?: ListProjectsTransferConfigsRunsRunAttemptEnum | (string & {}) | undefined;
 }
@@ -777,48 +777,48 @@ export type ListProjectsTransferConfigsRunsTransferLogsMessageTypesEnumList = Ar
   ListProjectsTransferConfigsRunsTransferLogsMessageTypesEnum | (string & {})
 >;
 export interface ListProjectsTransferConfigsRunsTransferLogsRequest {
+  /** Required. Transfer run name. If you are using the regionless method, the location must be `US` and the name should be in the following form: * `projects/{project_id}/transferConfigs/{config_id}/runs/{run_id}` If you are using the regionalized method, the name should be in the following form: * `projects/{project_id}/locations/{location_id}/transferConfigs/{config_id}/runs/{run_id}` */
+  parent: string;
   /** Page size. The default page size is the maximum value of 1000 results. */
   pageSize?: number | undefined;
   /** Pagination token, which can be used to request a specific page of `ListTransferLogsRequest` list results. For multiple-page results, `ListTransferLogsResponse` outputs a `next_page` token, which can be used as the `page_token` value to request the next page of list results. */
   pageToken?: string | undefined;
   /** Message types to return. If not populated - INFO, WARNING and ERROR messages are returned. */
   messageTypes?: ListProjectsTransferConfigsRunsTransferLogsMessageTypesEnumList | undefined;
-  /** Required. Transfer run name. If you are using the regionless method, the location must be `US` and the name should be in the following form: * `projects/{project_id}/transferConfigs/{config_id}/runs/{run_id}` If you are using the regionalized method, the name should be in the following form: * `projects/{project_id}/locations/{location_id}/transferConfigs/{config_id}/runs/{run_id}` */
-  parent: string;
 }
 export interface ListProjectsTransferConfigsTransferResourcesRequest {
-  /** Optional. A page token, received from a previous `ListTransferResources` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListTransferResources` must match the call that provided the page token. */
-  pageToken?: string | undefined;
   /** Required. Name of transfer configuration for which transfer resources should be retrieved. The name should be in one of the following forms: * `projects/{project}/transferConfigs/{transfer_config}` * `projects/{project}/locations/{location_id}/transferConfigs/{transfer_config}` */
   parent: string;
-  /** Optional. The maximum number of transfer resources to return. The maximum value is 1000; values above 1000 will be coerced to 1000. The default page size is the maximum value of 1000 results. */
-  pageSize?: number | undefined;
   /** Optional. Filter for the transfer resources. Currently supported filters include: * Resource name: `name` - Wildcard supported * Resource type: `type` * Resource destination: `destination` * Latest resource state: `latest_status_detail.state` * Last update time: `update_time` - RFC-3339 format * Parent table name: `hierarchy_detail.partition_detail.table` Multiple filters can be applied using the `AND/OR` operator. Examples: * `name="*123" AND (type="TABLE" OR latest_status_detail.state="SUCCEEDED")` * `update_time >= "2012-04-21T11:30:00-04:00"` * `hierarchy_detail.partition_detail.table = "table1"` */
   filter?: string | undefined;
+  /** Optional. The maximum number of transfer resources to return. The maximum value is 1000; values above 1000 will be coerced to 1000. The default page size is the maximum value of 1000 results. */
+  pageSize?: number | undefined;
+  /** Optional. A page token, received from a previous `ListTransferResources` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListTransferResources` must match the call that provided the page token. */
+  pageToken?: string | undefined;
 }
 export interface PatchProjectsLocationsTransferConfigsRequest extends Omit<TransferConfig, "name"> {
-  /** Optional service account email. If this field is set, the transfer config will be created with this service account's credentials. It requires that the requesting user calling this API has permissions to act as this service account. Note that not all data sources support service account credentials when creating a transfer config. For the latest list of data sources, read about [using service accounts](https://cloud.google.com/bigquery-transfer/docs/use-service-accounts). */
-  serviceAccountName?: string | undefined;
+  /** Optional version info. This parameter replaces `authorization_code` which is no longer used in any data sources. This is required only if `transferConfig.dataSourceId` is 'youtube_channel' *or* new credentials are needed, as indicated by `CheckValidCreds`. In order to obtain version info, make a request to the following URL: https://bigquery.cloud.google.com/datatransfer/oauthz/auth?redirect_uri=urn:ietf:wg:oauth:2.0:oob&response_type=version_info&client_id=client_id&scope=data_source_scopes * The client_id is the OAuth client_id of the data source as returned by ListDataSources method. * data_source_scopes are the scopes returned by ListDataSources method. Note that this should not be set when `service_account_name` is used to update the transfer config. */
+  versionInfo?: string | undefined;
   /** Deprecated: Authorization code was required when `transferConfig.dataSourceId` is 'youtube_channel' but it is no longer used in any data sources. Use `version_info` instead. Optional OAuth2 authorization code to use with this transfer configuration. This is required only if `transferConfig.dataSourceId` is 'youtube_channel' and new credentials are needed, as indicated by `CheckValidCreds`. In order to obtain authorization_code, make a request to the following URL: https://bigquery.cloud.google.com/datatransfer/oauthz/auth?redirect_uri=urn:ietf:wg:oauth:2.0:oob&response_type=authorization_code&client_id=client_id&scope=data_source_scopes * The client_id is the OAuth client_id of the data source as returned by ListDataSources method. * data_source_scopes are the scopes returned by ListDataSources method. Note that this should not be set when `service_account_name` is used to update the transfer config. */
   authorizationCode?: string | undefined;
   /** Identifier. The resource name of the transfer config. Transfer config names have the form either `projects/{project_id}/locations/{region}/transferConfigs/{config_id}` or `projects/{project_id}/transferConfigs/{config_id}`, where `config_id` is usually a UUID, even though it is not guaranteed or required. The name is ignored when creating a transfer config. */
   name: string;
-  /** Optional version info. This parameter replaces `authorization_code` which is no longer used in any data sources. This is required only if `transferConfig.dataSourceId` is 'youtube_channel' *or* new credentials are needed, as indicated by `CheckValidCreds`. In order to obtain version info, make a request to the following URL: https://bigquery.cloud.google.com/datatransfer/oauthz/auth?redirect_uri=urn:ietf:wg:oauth:2.0:oob&response_type=version_info&client_id=client_id&scope=data_source_scopes * The client_id is the OAuth client_id of the data source as returned by ListDataSources method. * data_source_scopes are the scopes returned by ListDataSources method. Note that this should not be set when `service_account_name` is used to update the transfer config. */
-  versionInfo?: string | undefined;
   /** Required. Required list of fields to be updated in this request. */
   updateMask?: string | undefined;
+  /** Optional service account email. If this field is set, the transfer config will be created with this service account's credentials. It requires that the requesting user calling this API has permissions to act as this service account. Note that not all data sources support service account credentials when creating a transfer config. For the latest list of data sources, read about [using service accounts](https://cloud.google.com/bigquery-transfer/docs/use-service-accounts). */
+  serviceAccountName?: string | undefined;
 }
 export interface PatchProjectsTransferConfigsRequest extends Omit<TransferConfig, "name"> {
-  /** Identifier. The resource name of the transfer config. Transfer config names have the form either `projects/{project_id}/locations/{region}/transferConfigs/{config_id}` or `projects/{project_id}/transferConfigs/{config_id}`, where `config_id` is usually a UUID, even though it is not guaranteed or required. The name is ignored when creating a transfer config. */
-  name: string;
-  /** Optional version info. This parameter replaces `authorization_code` which is no longer used in any data sources. This is required only if `transferConfig.dataSourceId` is 'youtube_channel' *or* new credentials are needed, as indicated by `CheckValidCreds`. In order to obtain version info, make a request to the following URL: https://bigquery.cloud.google.com/datatransfer/oauthz/auth?redirect_uri=urn:ietf:wg:oauth:2.0:oob&response_type=version_info&client_id=client_id&scope=data_source_scopes * The client_id is the OAuth client_id of the data source as returned by ListDataSources method. * data_source_scopes are the scopes returned by ListDataSources method. Note that this should not be set when `service_account_name` is used to update the transfer config. */
-  versionInfo?: string | undefined;
-  /** Optional service account email. If this field is set, the transfer config will be created with this service account's credentials. It requires that the requesting user calling this API has permissions to act as this service account. Note that not all data sources support service account credentials when creating a transfer config. For the latest list of data sources, read about [using service accounts](https://cloud.google.com/bigquery-transfer/docs/use-service-accounts). */
-  serviceAccountName?: string | undefined;
-  /** Required. Required list of fields to be updated in this request. */
-  updateMask?: string | undefined;
   /** Deprecated: Authorization code was required when `transferConfig.dataSourceId` is 'youtube_channel' but it is no longer used in any data sources. Use `version_info` instead. Optional OAuth2 authorization code to use with this transfer configuration. This is required only if `transferConfig.dataSourceId` is 'youtube_channel' and new credentials are needed, as indicated by `CheckValidCreds`. In order to obtain authorization_code, make a request to the following URL: https://bigquery.cloud.google.com/datatransfer/oauthz/auth?redirect_uri=urn:ietf:wg:oauth:2.0:oob&response_type=authorization_code&client_id=client_id&scope=data_source_scopes * The client_id is the OAuth client_id of the data source as returned by ListDataSources method. * data_source_scopes are the scopes returned by ListDataSources method. Note that this should not be set when `service_account_name` is used to update the transfer config. */
   authorizationCode?: string | undefined;
+  /** Required. Required list of fields to be updated in this request. */
+  updateMask?: string | undefined;
+  /** Optional service account email. If this field is set, the transfer config will be created with this service account's credentials. It requires that the requesting user calling this API has permissions to act as this service account. Note that not all data sources support service account credentials when creating a transfer config. For the latest list of data sources, read about [using service accounts](https://cloud.google.com/bigquery-transfer/docs/use-service-accounts). */
+  serviceAccountName?: string | undefined;
+  /** Optional version info. This parameter replaces `authorization_code` which is no longer used in any data sources. This is required only if `transferConfig.dataSourceId` is 'youtube_channel' *or* new credentials are needed, as indicated by `CheckValidCreds`. In order to obtain version info, make a request to the following URL: https://bigquery.cloud.google.com/datatransfer/oauthz/auth?redirect_uri=urn:ietf:wg:oauth:2.0:oob&response_type=version_info&client_id=client_id&scope=data_source_scopes * The client_id is the OAuth client_id of the data source as returned by ListDataSources method. * data_source_scopes are the scopes returned by ListDataSources method. Note that this should not be set when `service_account_name` is used to update the transfer config. */
+  versionInfo?: string | undefined;
+  /** Identifier. The resource name of the transfer config. Transfer config names have the form either `projects/{project_id}/locations/{region}/transferConfigs/{config_id}` or `projects/{project_id}/transferConfigs/{config_id}`, where `config_id` is usually a UUID, even though it is not guaranteed or required. The name is ignored when creating a transfer config. */
+  name: string;
 }
 /** A request to schedule transfer runs for a time range. */
 export interface ScheduleTransferRunsRequest {
@@ -1782,24 +1782,24 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          validationHelpUrl: S.optional(S.String),
-          maxListSize: S.optional(S.String),
-          maxValue: S.optional(S.Number),
-          minValue: S.optional(S.Number),
-          recurse: S.optional(S.Boolean),
           type: S.optional(S.String),
-          displayName: S.optional(S.String),
-          deprecated: S.optional(S.Boolean),
-          fields: S.optional(S.suspend(() => __S(97, __c6, 1))),
-          immutable: S.optional(S.Boolean),
           repeated: S.optional(S.Boolean),
-          validationRegex: S.optional(S.String),
-          required: S.optional(S.Boolean),
-          paramId: S.optional(S.String),
           secretManagerAllowed: S.optional(S.Boolean),
-          allowedValues: S.optional(__S(800, __c50, 0)),
-          description: S.optional(S.String),
+          immutable: S.optional(S.Boolean),
+          maxValue: S.optional(S.Number),
+          fields: S.optional(S.suspend(() => __S(97, __c6, 1))),
+          minValue: S.optional(S.Number),
+          maxListSize: S.optional(S.String),
+          deprecated: S.optional(S.Boolean),
           validationDescription: S.optional(S.String),
+          validationRegex: S.optional(S.String),
+          recurse: S.optional(S.Boolean),
+          description: S.optional(S.String),
+          paramId: S.optional(S.String),
+          required: S.optional(S.Boolean),
+          validationHelpUrl: S.optional(S.String),
+          allowedValues: S.optional(__S(800, __c50, 0)),
+          displayName: S.optional(S.String),
         }),
       ).annotate({ identifier: "DataSourceParameter" });
     case 1:
@@ -1807,24 +1807,24 @@ function __c6(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          clientId: S.optional(S.String),
-          name: S.optional(S.String),
-          transferType: S.optional(S.String),
-          authorizationType: S.optional(S.String),
-          updateDeadlineSeconds: S.optional(S.Number),
-          dataSourceId: S.optional(S.String),
-          displayName: S.optional(S.String),
-          dataRefreshType: S.optional(S.String),
           supportsMultipleTransfers: S.optional(S.Boolean),
+          scopes: S.optional(__S(800, __c50, 0)),
+          manualRunsDisabled: S.optional(S.Boolean),
           helpUrl: S.optional(S.String),
           defaultDataRefreshWindowDays: S.optional(S.Number),
+          dataSourceId: S.optional(S.String),
+          authorizationType: S.optional(S.String),
+          parameters: S.optional(__S(97, __c6, 1)),
+          name: S.optional(S.String),
+          description: S.optional(S.String),
           minimumScheduleInterval: S.optional(S.String),
           defaultSchedule: S.optional(S.String),
-          manualRunsDisabled: S.optional(S.Boolean),
-          parameters: S.optional(__S(97, __c6, 1)),
-          description: S.optional(S.String),
+          updateDeadlineSeconds: S.optional(S.Number),
+          dataRefreshType: S.optional(S.String),
+          transferType: S.optional(S.String),
+          clientId: S.optional(S.String),
           supportsCustomSchedule: S.optional(S.Boolean),
-          scopes: S.optional(__S(800, __c50, 0)),
+          displayName: S.optional(S.String),
         }),
       ).annotate({ identifier: "DataSource" });
   }
@@ -1854,9 +1854,9 @@ function __c8(j: number): any {
         S.Struct({
           name: S.optional(S.String),
           displayName: S.optional(S.String),
-          locationId: S.optional(S.String),
           metadata: S.optional(__S(816, __c51, 0)),
           labels: S.optional(__S(128, __c8, 0)),
+          locationId: S.optional(S.String),
         }),
       ).annotate({ identifier: "Location" });
   }
@@ -1914,22 +1914,22 @@ function __c12(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          errorStatus: S.optional(__S(833, __c52, 1)),
-          dataSourceId: S.optional(S.String),
-          notificationPubsubTopic: S.optional(S.String),
-          state: S.optional(S.String),
-          emailPreferences: S.optional(__S(848, __c53, 0)),
           scheduleTime: S.optional(S.String),
-          startTime: S.optional(S.String),
+          emailPreferences: S.optional(__S(848, __c53, 0)),
           params: S.optional(__S(816, __c51, 0)),
-          destinationDatasetId: S.optional(S.String),
           schedule: S.optional(S.String),
-          parameterConfig: S.optional(__S(849, __c53, 1)),
-          userId: S.optional(S.String),
           runTime: S.optional(S.String),
+          errorStatus: S.optional(__S(833, __c52, 1)),
+          name: S.optional(S.String),
+          userId: S.optional(S.String),
           endTime: S.optional(S.String),
+          startTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          state: S.optional(S.String),
+          notificationPubsubTopic: S.optional(S.String),
+          dataSourceId: S.optional(S.String),
+          parameterConfig: S.optional(__S(849, __c53, 1)),
+          destinationDatasetId: S.optional(S.String),
         }),
       ).annotate({ identifier: "TransferRun" });
   }
@@ -1955,37 +1955,37 @@ function __c14(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          run: S.optional(S.String),
-          startTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TransferRunBrief" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           partitionCount: S.optional(S.String),
         }),
       ).annotate({ identifier: "TableDetail" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           table: S.optional(S.String),
         }),
       ).annotate({ identifier: "PartitionDetail" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          tableDetail: S.optional(__S(224, __c14, 0)),
+          partitionDetail: S.optional(__S(225, __c14, 1)),
+        }),
+      ).annotate({ identifier: "HierarchyDetail" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          tableDetail: S.optional(__S(225, __c14, 1)),
-          partitionDetail: S.optional(__S(226, __c14, 2)),
+          run: S.optional(S.String),
+          startTime: S.optional(S.String),
         }),
-      ).annotate({ identifier: "HierarchyDetail" });
+      ).annotate({ identifier: "TransferRunBrief" });
     case 4:
       return S.suspend(() =>
         S.Struct({
           failed: S.optional(S.String),
-          pending: S.optional(S.String),
           unit: S.optional(S.String),
-          completed: S.optional(S.String),
+          pending: S.optional(S.String),
           total: S.optional(S.String),
+          completed: S.optional(S.String),
         }),
       ).annotate({ identifier: "TransferStatusMetric" });
     case 5:
@@ -2000,23 +2000,23 @@ function __c14(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          completedPercentage: S.optional(S.Number),
           state: S.optional(S.String),
-          summary: S.optional(__S(230, __c14, 6)),
           error: S.optional(__S(833, __c52, 1)),
+          summary: S.optional(__S(230, __c14, 6)),
+          completedPercentage: S.optional(S.Number),
         }),
       ).annotate({ identifier: "TransferResourceStatusDetail" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          lastSuccessfulRun: S.optional(__S(224, __c14, 0)),
-          hierarchyDetail: S.optional(__S(227, __c14, 3)),
-          type: S.optional(S.String),
-          latestStatusDetail: S.optional(__S(231, __c14, 7)),
-          name: S.optional(S.String),
-          latestRun: S.optional(__S(224, __c14, 0)),
-          updateTime: S.optional(S.String),
           destination: S.optional(S.String),
+          type: S.optional(S.String),
+          hierarchyDetail: S.optional(__S(226, __c14, 2)),
+          lastSuccessfulRun: S.optional(__S(227, __c14, 3)),
+          name: S.optional(S.String),
+          latestRun: S.optional(__S(227, __c14, 3)),
+          latestStatusDetail: S.optional(__S(231, __c14, 7)),
+          updateTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "TransferResource" });
   }
@@ -2074,8 +2074,8 @@ function __c18(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -2105,11 +2105,11 @@ function __c20(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           extraLocationTypes: S.optional(__S(800, __c50, 0).pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2123,8 +2123,8 @@ function __c20(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          locations: S.optional(__S(321, __c20, 1)),
           nextPageToken: S.optional(S.String),
+          locations: S.optional(__S(321, __c20, 1)),
         }),
       ).annotate({ identifier: "ListLocationsResponse" });
   }
@@ -2134,9 +2134,9 @@ function __c21(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2152,10 +2152,10 @@ function __c22(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           dataSourceIds: S.optional(__S(800, __c50, 0).pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2184,11 +2184,11 @@ function __c24(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          runAttempt: S.optional(S.String.pipe(T.Query())),
           states: S.optional(__S(400, __c25, 0).pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          runAttempt: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2228,8 +2228,8 @@ function __c28(j: number): any {
       return S.suspend(() =>
         S.Struct({
           messageTypes: S.optional(__S(400, __c25, 0).pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -2246,8 +2246,8 @@ function __c29(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          messageText: S.optional(S.String),
           messageTime: S.optional(S.String),
+          messageText: S.optional(S.String),
           severity: S.optional(S.String),
         }),
       ).annotate({ identifier: "TransferMessage" });
@@ -2267,9 +2267,9 @@ function __c30(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -2288,8 +2288,8 @@ function __c31(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          transferResources: S.optional(__S(496, __c31, 0)),
           nextPageToken: S.optional(S.String),
+          transferResources: S.optional(__S(496, __c31, 0)),
         }),
       ).annotate({ identifier: "ListTransferResourcesResponse" });
   }
@@ -2299,10 +2299,10 @@ function __c32(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           dataSourceIds: S.optional(__S(800, __c50, 0).pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2318,10 +2318,10 @@ function __c33(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           states: S.optional(__S(400, __c25, 0).pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           runAttempt: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -2338,10 +2338,10 @@ function __c34(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           messageTypes: S.optional(__S(400, __c25, 0).pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2357,10 +2357,10 @@ function __c35(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2378,11 +2378,11 @@ function __c36(j: number): any {
         S.Extend(
           __S(872, __c54, 8),
           S.Struct({
-            serviceAccountName: S.optional(S.String.pipe(T.Query())),
+            versionInfo: S.optional(S.String.pipe(T.Query())),
             authorizationCode: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            versionInfo: S.optional(S.String.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            serviceAccountName: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -2401,11 +2401,11 @@ function __c37(j: number): any {
         S.Extend(
           __S(872, __c54, 8),
           S.Struct({
-            name: S.String.pipe(T.Label()),
-            versionInfo: S.optional(S.String.pipe(T.Query())),
-            serviceAccountName: S.optional(S.String.pipe(T.Query())),
-            updateMask: S.optional(S.String.pipe(T.Query())),
             authorizationCode: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            serviceAccountName: S.optional(S.String.pipe(T.Query())),
+            versionInfo: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -2597,10 +2597,10 @@ function __c49(j: number): any {
         S.Extend(
           __S(872, __c54, 8),
           S.Struct({
+            authorizationCode: S.optional(S.String.pipe(T.Query())),
+            serviceAccountName: S.optional(S.String.pipe(T.Query())),
             versionInfo: S.optional(S.String.pipe(T.Query())),
             parent: S.String.pipe(T.Label()),
-            serviceAccountName: S.optional(S.String.pipe(T.Query())),
-            authorizationCode: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -2631,9 +2631,9 @@ function __c52(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          message: S.optional(S.String),
-          code: S.optional(S.Number),
           details: S.optional(__S(832, __c52, 0)),
+          code: S.optional(S.Number),
+          message: S.optional(S.String),
         }),
       ).annotate({ identifier: "Status" });
   }
@@ -2659,83 +2659,83 @@ function __c54(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          entryGroup: S.optional(S.String),
+          pubsubSubscription: S.optional(S.String),
         }),
-      ).annotate({ identifier: "DataplexConfiguration" });
+      ).annotate({ identifier: "EventDrivenSchedule" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          dataplexConfiguration: S.optional(__S(864, __c54, 0)),
+          schedule: S.optional(S.String),
+          startTime: S.optional(S.String),
+          endTime: S.optional(S.String),
         }),
-      ).annotate({ identifier: "MetadataDestination" });
+      ).annotate({ identifier: "TimeBasedSchedule" });
     case 2:
+      return S.suspend(() =>
+        S.Struct({
+          eventDrivenSchedule: S.optional(__S(864, __c54, 0)),
+          manualSchedule: S.optional(__S(736, __c46, 0)),
+          timeBasedSchedule: S.optional(__S(865, __c54, 1)),
+        }),
+      ).annotate({ identifier: "ScheduleOptionsV2" });
+    case 3:
       return S.suspend(() =>
         S.Struct({
           email: S.optional(S.String),
         }),
       ).annotate({ identifier: "UserInfo" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          endTime: S.optional(S.String),
-          startTime: S.optional(S.String),
-          schedule: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TimeBasedSchedule" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          pubsubSubscription: S.optional(S.String),
+          entryGroup: S.optional(S.String),
         }),
-      ).annotate({ identifier: "EventDrivenSchedule" });
+      ).annotate({ identifier: "DataplexConfiguration" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          timeBasedSchedule: S.optional(__S(867, __c54, 3)),
-          eventDrivenSchedule: S.optional(__S(868, __c54, 4)),
-          manualSchedule: S.optional(__S(736, __c46, 0)),
+          dataplexConfiguration: S.optional(__S(868, __c54, 4)),
         }),
-      ).annotate({ identifier: "ScheduleOptionsV2" });
+      ).annotate({ identifier: "MetadataDestination" });
     case 6:
-      return S.suspend(() =>
-        S.Struct({
-          startTime: S.optional(S.String),
-          endTime: S.optional(S.String),
-          disableAutoScheduling: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "ScheduleOptions" });
-    case 7:
       return S.suspend(() =>
         S.Struct({
           kmsKeyName: S.optional(S.String),
         }),
       ).annotate({ identifier: "EncryptionConfiguration" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          disableAutoScheduling: S.optional(S.Boolean),
+          startTime: S.optional(S.String),
+          endTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ScheduleOptions" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          disabled: S.optional(S.Boolean),
-          emailPreferences: S.optional(__S(848, __c53, 0)),
-          metadataDestination: S.optional(__S(865, __c54, 1)),
-          state: S.optional(S.String),
-          ownerInfo: S.optional(__S(866, __c54, 2)),
-          scheduleOptionsV2: S.optional(__S(869, __c54, 5)),
-          paramConfig: S.optional(__S(849, __c53, 1)),
-          managedTableType: S.optional(S.String),
-          scheduleOptions: S.optional(__S(870, __c54, 6)),
-          notificationPubsubTopic: S.optional(S.String),
-          params: S.optional(__S(816, __c51, 0)),
-          nextRunTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          userId: S.optional(S.String),
-          schedule: S.optional(S.String),
-          encryptionConfiguration: S.optional(__S(871, __c54, 7)),
-          error: S.optional(__S(833, __c52, 1)),
-          dataRefreshWindowDays: S.optional(S.Number),
-          name: S.optional(S.String),
-          dataSourceId: S.optional(S.String),
-          destinationDatasetId: S.optional(S.String),
           displayName: S.optional(S.String),
+          emailPreferences: S.optional(__S(848, __c53, 0)),
+          nextRunTime: S.optional(S.String),
           datasetRegion: S.optional(S.String),
+          userId: S.optional(S.String),
+          params: S.optional(__S(816, __c51, 0)),
+          scheduleOptionsV2: S.optional(__S(866, __c54, 2)),
+          notificationPubsubTopic: S.optional(S.String),
+          name: S.optional(S.String),
+          error: S.optional(__S(833, __c52, 1)),
+          destinationDatasetId: S.optional(S.String),
+          state: S.optional(S.String),
+          ownerInfo: S.optional(__S(867, __c54, 3)),
+          paramConfig: S.optional(__S(849, __c53, 1)),
+          metadataDestination: S.optional(__S(869, __c54, 5)),
+          dataSourceId: S.optional(S.String),
+          dataRefreshWindowDays: S.optional(S.Number),
+          managedTableType: S.optional(S.String),
+          encryptionConfiguration: S.optional(__S(870, __c54, 6)),
+          disabled: S.optional(S.Boolean),
+          scheduleOptions: S.optional(__S(871, __c54, 7)),
+          schedule: S.optional(S.String),
+          updateTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "TransferConfig" });
   }
@@ -2747,10 +2747,10 @@ function __c55(j: number): any {
         S.Extend(
           __S(872, __c54, 8),
           S.Struct({
-            parent: S.String.pipe(T.Label()),
-            authorizationCode: S.optional(S.String.pipe(T.Query())),
-            versionInfo: S.optional(S.String.pipe(T.Query())),
             serviceAccountName: S.optional(S.String.pipe(T.Query())),
+            authorizationCode: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            versionInfo: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({

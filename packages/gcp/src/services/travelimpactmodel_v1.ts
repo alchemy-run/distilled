@@ -84,25 +84,25 @@ export class NotFound
 
 /** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
 export interface Travelimpactmodel_Date {
-  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  month?: number | undefined;
   /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
   day?: number | undefined;
+  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
+  month?: number | undefined;
   /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
   year?: number | undefined;
 }
 /** All details related to a single request item for a direct flight emission estimates. */
 export interface Flight {
-  /** Required. IATA airport code for flight origin, e.g. "LHR". */
-  origin?: string | undefined;
-  /** Required. Date of the flight in the time zone of the origin airport. Must be a date in the present or future. */
-  departureDate?: Travelimpactmodel_Date | undefined;
   /** Required. Flight number, e.g. 324. */
   flightNumber?: number | undefined;
   /** Required. IATA carrier code, e.g. "AA". */
   operatingCarrierCode?: string | undefined;
   /** Required. IATA airport code for flight destination, e.g. "JFK". */
   destination?: string | undefined;
+  /** Required. Date of the flight in the time zone of the origin airport. Must be a date in the present or future. */
+  departureDate?: Travelimpactmodel_Date | undefined;
+  /** Required. IATA airport code for flight origin, e.g. "LHR". */
+  origin?: string | undefined;
 }
 export type FlightList = Array<Flight>;
 /** Input definition for the ComputeDetailedFlightEmissions request. */
@@ -111,52 +111,36 @@ export interface ComputeDetailedFlightEmissionsRequest {
   flights?: FlightList | undefined;
 }
 export interface ComputeDetailedFlightEmissionsFlightsRequest extends ComputeDetailedFlightEmissionsRequest {}
-/** Travel Impact Model version. For more information about the model versioning see [GitHub](https://github.com/google/travel-impact-model/#versioning). */
-export interface ModelVersion {
-  /** Major versions: Major changes to methodology (e.g. adding new data sources to the model that lead to major output changes). Such changes will be infrequent and announced well in advance. Might involve API version changes, which will respect [Google Cloud API guidelines](https://cloud.google.com/endpoints/docs/openapi/versioning-an-api#backwards-incompatible) */
-  major?: number | undefined;
-  /** Patch versions: Implementation changes meant to address bugs or inaccuracies in the model implementation. */
-  patch?: number | undefined;
-  /** Minor versions: Changes to the model that, while being consistent across schema versions, change the model parameters or implementation. */
-  minor?: number | undefined;
-  /** Dated versions: Model datasets are recreated with refreshed input data but no change to the algorithms regularly. */
-  dated?: string | undefined;
+/** Metadata about the EASA Flight Emissions Label. */
+export interface EasaLabelMetadata {
+  /** Sustainable Aviation Fuel (SAF) emissions discount percentage applied to the label. It is a percentage as a decimal. The values are in the interval [0,1]. For example, 0.0021 means 0.21%. This discount and reduction in emissions are reported by the EASA label but they are not included in the CO2e estimates distributed by this API. */
+  safDiscountPercentage?: number | undefined;
+  /** Version of the label. */
+  labelVersion?: string | undefined;
+  /** The date when the label expires. The label can be displayed until the end of this date. */
+  labelExpiryDate?: Travelimpactmodel_Date | undefined;
+  /** The date when the label was issued. */
+  labelIssueDate?: Travelimpactmodel_Date | undefined;
 }
-/** Grouped emissions per seating class results. */
-export interface EmissionsGramsPerPax {
-  /** Emissions for one passenger in premium economy class in grams. This field is always computed and populated, regardless of whether the aircraft has premium economy class seats or not. */
-  premiumEconomy?: number | undefined;
-  /** Emissions for one passenger in first class in grams. This field is always computed and populated, regardless of whether the aircraft has first class seats or not. */
-  first?: number | undefined;
-  /** Emissions for one passenger in business class in grams. This field is always computed and populated, regardless of whether the aircraft has business class seats or not. */
-  business?: number | undefined;
-  /** Emissions for one passenger in economy class in grams. This field is always computed and populated, regardless of whether the aircraft has economy class seats or not. */
-  economy?: number | undefined;
-}
-/** Details about the various emissions portions of the total emissions_grams_per_pax value. The value of the summed breakdowns should always equal emissions_grams_per_pax. */
-export interface EmissionsBreakdown {
-  /** Per-passenger well-to-tank emission estimate numbers. Will not be present if emissions could not be computed. For the list of reasons why emissions could not be computed, see ComputeFlightEmissions. */
-  wttEmissionsGramsPerPax?: EmissionsGramsPerPax | undefined;
-  /** Per-passenger tank-to-wake emission estimate numbers. Will not be present if emissions could not be computed. For the list of reasons why emissions could not be computed, see ComputeFlightEmissions. */
-  ttwEmissionsGramsPerPax?: EmissionsGramsPerPax | undefined;
-}
-export type FlightEmissionsDetailsContrailsImpactBucketEnum =
-  | "CONTRAILS_IMPACT_UNSPECIFIED"
-  | "CONTRAILS_IMPACT_NEGLIGIBLE"
-  | "CONTRAILS_IMPACT_MODERATE"
-  | "CONTRAILS_IMPACT_SEVERE";
-export type FlightEmissionsDetailsSourceEnum = "SOURCE_UNSPECIFIED" | "TIM" | "EASA";
-/** Details about the specific flight's emissions. */
-export interface FlightEmissionsDetails {
-  /** Output only. Per-passenger emission estimate numbers. Will not be present if emissions could not be computed. For the list of reasons why emissions could not be computed, see ComputeDetailedFlightEmissions */
-  emissionsGramsPerPax?: EmissionsGramsPerPax | undefined;
-  /** Output only. Details about the various emissions portions of the total emissions_grams_per_pax value. The value of the summed breakdowns should always equal emissions_grams_per_pax. */
-  emissionsBreakdown?: EmissionsBreakdown | undefined;
-  /** Output only. The significance of contrails warming impact compared to the total CO2e emissions impact. */
-  contrailsImpactBucket?: FlightEmissionsDetailsContrailsImpactBucketEnum | undefined;
-  /** Output only. The source of the emissions data. */
-  source?: FlightEmissionsDetailsSourceEnum | undefined;
-}
+export type EmissionsProvenanceEntryDistanceAdjustmentStrategyEnum =
+  | "STRATEGY_UNSPECIFIED"
+  | "ORIGIN_DESTINATION"
+  | "COUNTRY_PAIR"
+  | "DEFAULT";
+export type EmissionsProvenanceEntryLoadFactorsT100StrategyEnum =
+  | "STRATEGY_UNSPECIFIED"
+  | "CARRIER_ROUTE_MONTH"
+  | "CARRIER_MONTH"
+  | "ACTUAL_CARRIER_ROUTE_YEAR_MONTH";
+export type EmissionsProvenanceEntryLoadFactorsChAviationStrategyEnum =
+  | "STRATEGY_UNSPECIFIED"
+  | "CARRIER_MONTH"
+  | "ACTUAL_CARRIER_YEAR_MONTH";
+export type EmissionsProvenanceEntryDataCategoryEnum =
+  | "DATA_CATEGORY_UNSPECIFIED"
+  | "PRIMARY"
+  | "MODELED"
+  | "DEFAULT";
 export type EmissionsProvenanceEntryProvenanceEntryTypeEnum =
   | "EMISSIONS_PROVENANCE_ENTRY_TYPE_UNSPECIFIED"
   | "FUEL_BURN"
@@ -165,17 +149,10 @@ export type EmissionsProvenanceEntryProvenanceEntryTypeEnum =
   | "SEATING_CONFIG"
   | "SEAT_AREA_RATIOS"
   | "DISTANCE_ADJUSTMENT";
-export type EmissionsProvenanceEntryLoadFactorsT100StrategyEnum =
+export type EmissionsProvenanceEntrySeatAreaRatioIataStrategyEnum =
   | "STRATEGY_UNSPECIFIED"
-  | "CARRIER_ROUTE_MONTH"
-  | "CARRIER_MONTH"
-  | "ACTUAL_CARRIER_ROUTE_YEAR_MONTH";
-export type EmissionsProvenanceEntryCargoMassFractionT100StrategyEnum =
-  | "STRATEGY_UNSPECIFIED"
-  | "CARRIER_ROUTE_AIRCRAFT_CLASS"
-  | "ROUTE_AIRCRAFT_CLASS"
-  | "DISTANCE_AIRCRAFT_CLASS"
-  | "ACTUAL_CARRIER_ROUTE_YEAR_MONTH_AIRCRAFT_CLASS";
+  | "NARROW_AIRCRAFT_BODY"
+  | "WIDE_AIRCRAFT_BODY";
 export type EmissionsProvenanceEntrySourceEnum =
   | "DATA_SOURCE_UNSPECIFIED"
   | "EEA"
@@ -192,56 +169,44 @@ export type EmissionsProvenanceEntryFuelBurnEeaStrategyEnum =
   | "AIRCRAFT_MAPPING_FALLBACK_WITH_CORRECTION_FACTOR"
   | "AIRCRAFT_MAPPING_EXACT"
   | "AIRCRAFT_MAPPING_FALLBACK";
-export type EmissionsProvenanceEntrySeatAreaRatioIataStrategyEnum =
+export type EmissionsProvenanceEntryCargoMassFractionT100StrategyEnum =
   | "STRATEGY_UNSPECIFIED"
-  | "NARROW_AIRCRAFT_BODY"
-  | "WIDE_AIRCRAFT_BODY";
-export type EmissionsProvenanceEntryLoadFactorsChAviationStrategyEnum =
-  | "STRATEGY_UNSPECIFIED"
-  | "CARRIER_MONTH"
-  | "ACTUAL_CARRIER_YEAR_MONTH";
-export type EmissionsProvenanceEntryDistanceAdjustmentStrategyEnum =
-  | "STRATEGY_UNSPECIFIED"
-  | "ORIGIN_DESTINATION"
-  | "COUNTRY_PAIR"
-  | "DEFAULT";
-export type EmissionsProvenanceEntryDataCategoryEnum =
-  | "DATA_CATEGORY_UNSPECIFIED"
-  | "PRIMARY"
-  | "MODELED"
-  | "DEFAULT";
+  | "CARRIER_ROUTE_AIRCRAFT_CLASS"
+  | "ROUTE_AIRCRAFT_CLASS"
+  | "DISTANCE_AIRCRAFT_CLASS"
+  | "ACTUAL_CARRIER_ROUTE_YEAR_MONTH_AIRCRAFT_CLASS";
 /** Details about a single contributing factor in emissions calculations. Each entry represents a single factor where `provenance_entry_type` acts as the key identifying the factor, and the other fields describe it and may or may not be populated. */
 export interface EmissionsProvenanceEntry {
-  /** Output only. The type of the provenance entry. Acts as the "key" identifying the contributing factor; the remaining fields in this message describe it and may or may not be populated. */
-  provenanceEntryType?: EmissionsProvenanceEntryProvenanceEntryTypeEnum | undefined;
+  /** Output only. Strategy for distance adjustment. */
+  distanceAdjustmentStrategy?: EmissionsProvenanceEntryDistanceAdjustmentStrategyEnum | undefined;
   /** Output only. Strategy for T100 load factors. */
   loadFactorsT100Strategy?: EmissionsProvenanceEntryLoadFactorsT100StrategyEnum | undefined;
-  /** Output only. The version of the source data. For example, "2025/04". */
-  sourceVersion?: string | undefined;
-  /** Output only. The load factors data value. If not set, the load factors value is not available. */
-  loadFactorsData?: number | undefined;
-  /** Output only. Strategy for T100 cargo mass fraction. */
-  cargoMassFractionT100Strategy?:
-    | EmissionsProvenanceEntryCargoMassFractionT100StrategyEnum
-    | undefined;
-  /** Output only. The source of the data. */
-  source?: EmissionsProvenanceEntrySourceEnum | undefined;
-  /** Output only. Strategy for EEA fuel burn. */
-  fuelBurnEeaStrategy?: EmissionsProvenanceEntryFuelBurnEeaStrategyEnum | undefined;
-  /** Output only. Strategy for IATA seat area ratios. */
-  seatAreaRatioIataStrategy?: EmissionsProvenanceEntrySeatAreaRatioIataStrategyEnum | undefined;
   /** Output only. Strategy for CH Aviation load factors. */
   loadFactorsChAviationStrategy?:
     | EmissionsProvenanceEntryLoadFactorsChAviationStrategyEnum
     | undefined;
-  /** Output only. The cargo mass fraction value. If not set, the cargo mass fraction value is not available. */
-  cargoMassFractionData?: number | undefined;
-  /** Output only. Strategy for distance adjustment. */
-  distanceAdjustmentStrategy?: EmissionsProvenanceEntryDistanceAdjustmentStrategyEnum | undefined;
-  /** Output only. The estimated distance flown in CCD flight phase in kilometers value calculated using the distance adjustment factor (DAF). If not set, the estimated flight distance value is not available. */
-  estimatedFlightDistanceKm?: number | undefined;
   /** Output only. Data category of the data source. */
   dataCategory?: EmissionsProvenanceEntryDataCategoryEnum | undefined;
+  /** Output only. The type of the provenance entry. Acts as the "key" identifying the contributing factor; the remaining fields in this message describe it and may or may not be populated. */
+  provenanceEntryType?: EmissionsProvenanceEntryProvenanceEntryTypeEnum | undefined;
+  /** Output only. Strategy for IATA seat area ratios. */
+  seatAreaRatioIataStrategy?: EmissionsProvenanceEntrySeatAreaRatioIataStrategyEnum | undefined;
+  /** Output only. The version of the source data. For example, "2025/04". */
+  sourceVersion?: string | undefined;
+  /** Output only. The source of the data. */
+  source?: EmissionsProvenanceEntrySourceEnum | undefined;
+  /** Output only. The estimated distance flown in CCD flight phase in kilometers value calculated using the distance adjustment factor (DAF). If not set, the estimated flight distance value is not available. */
+  estimatedFlightDistanceKm?: number | undefined;
+  /** Output only. Strategy for EEA fuel burn. */
+  fuelBurnEeaStrategy?: EmissionsProvenanceEntryFuelBurnEeaStrategyEnum | undefined;
+  /** Output only. The load factors data value. If not set, the load factors value is not available. */
+  loadFactorsData?: number | undefined;
+  /** Output only. The cargo mass fraction value. If not set, the cargo mass fraction value is not available. */
+  cargoMassFractionData?: number | undefined;
+  /** Output only. Strategy for T100 cargo mass fraction. */
+  cargoMassFractionT100Strategy?:
+    | EmissionsProvenanceEntryCargoMassFractionT100StrategyEnum
+    | undefined;
 }
 export type EmissionsProvenanceEntryList = Array<EmissionsProvenanceEntry>;
 /** Information about the provenance of the data used to calculate emissions estimates, including contributing factors and their data sources. In `provenance_entries`, `provenance_entry_type` acts as the "key" identifying the contributing factor, and there is always only one entry per entry type. The remaining fields in each entry describe that specific entry type and may or may not be populated depending on the contributing factor and available data. */
@@ -249,56 +214,91 @@ export interface EmissionsProvenance {
   /** Output only. All contributing factors used to calculate emissions. Each entry type (`provenance_entry_type`) acts as a "key" identifying the factor, with always only one entry per entry type. The remaining fields describe that specific factor and may or may not be populated. */
   provenanceEntries?: EmissionsProvenanceEntryList | undefined;
 }
-/** Metadata about the EASA Flight Emissions Label. */
-export interface EasaLabelMetadata {
-  /** The date when the label expires. The label can be displayed until the end of this date. */
-  labelExpiryDate?: Travelimpactmodel_Date | undefined;
-  /** Sustainable Aviation Fuel (SAF) emissions discount percentage applied to the label. It is a percentage as a decimal. The values are in the interval [0,1]. For example, 0.0021 means 0.21%. This discount and reduction in emissions are reported by the EASA label but they are not included in the CO2e estimates distributed by this API. */
-  safDiscountPercentage?: number | undefined;
-  /** Version of the label. */
-  labelVersion?: string | undefined;
-  /** The date when the label was issued. */
-  labelIssueDate?: Travelimpactmodel_Date | undefined;
-}
 /** All additional metadata. */
 export interface EmissionsMetadata {
-  /** Output only. Details about the provenance of data used to calculate the emissions data, including the contributing factors with their data sources. */
-  emissionsProvenance?: EmissionsProvenance | undefined;
   /** Output only. Metadata about the EASA Flight Emissions Label. Only set when the emissions data source is EASA. */
   easaLabelMetadata?: EasaLabelMetadata | undefined;
   /** Output only. Link to the `travelimpactmodel.org` Emissions Calculator website. Example: https://travelimpactmodel.org/lookup/flight?itinerary=ZRH-BOS-LX-52-20261225. */
   timWebsiteEmissionsCalculatorUrl?: string | undefined;
+  /** Output only. Details about the provenance of data used to calculate the emissions data, including the contributing factors with their data sources. */
+  emissionsProvenance?: EmissionsProvenance | undefined;
+}
+export type FlightEmissionsDetailsContrailsImpactBucketEnum =
+  | "CONTRAILS_IMPACT_UNSPECIFIED"
+  | "CONTRAILS_IMPACT_NEGLIGIBLE"
+  | "CONTRAILS_IMPACT_MODERATE"
+  | "CONTRAILS_IMPACT_SEVERE";
+/** Grouped emissions per seating class results. */
+export interface EmissionsGramsPerPax {
+  /** Emissions for one passenger in economy class in grams. This field is always computed and populated, regardless of whether the aircraft has economy class seats or not. */
+  economy?: number | undefined;
+  /** Emissions for one passenger in first class in grams. This field is always computed and populated, regardless of whether the aircraft has first class seats or not. */
+  first?: number | undefined;
+  /** Emissions for one passenger in business class in grams. This field is always computed and populated, regardless of whether the aircraft has business class seats or not. */
+  business?: number | undefined;
+  /** Emissions for one passenger in premium economy class in grams. This field is always computed and populated, regardless of whether the aircraft has premium economy class seats or not. */
+  premiumEconomy?: number | undefined;
+}
+/** Details about the various emissions portions of the total emissions_grams_per_pax value. The value of the summed breakdowns should always equal emissions_grams_per_pax. */
+export interface EmissionsBreakdown {
+  /** Per-passenger well-to-tank emission estimate numbers. Will not be present if emissions could not be computed. For the list of reasons why emissions could not be computed, see ComputeFlightEmissions. */
+  wttEmissionsGramsPerPax?: EmissionsGramsPerPax | undefined;
+  /** Per-passenger tank-to-wake emission estimate numbers. Will not be present if emissions could not be computed. For the list of reasons why emissions could not be computed, see ComputeFlightEmissions. */
+  ttwEmissionsGramsPerPax?: EmissionsGramsPerPax | undefined;
+}
+export type FlightEmissionsDetailsSourceEnum = "SOURCE_UNSPECIFIED" | "TIM" | "EASA";
+/** Details about the specific flight's emissions. */
+export interface FlightEmissionsDetails {
+  /** Output only. The significance of contrails warming impact compared to the total CO2e emissions impact. */
+  contrailsImpactBucket?: FlightEmissionsDetailsContrailsImpactBucketEnum | undefined;
+  /** Output only. Details about the various emissions portions of the total emissions_grams_per_pax value. The value of the summed breakdowns should always equal emissions_grams_per_pax. */
+  emissionsBreakdown?: EmissionsBreakdown | undefined;
+  /** Output only. Per-passenger emission estimate numbers. Will not be present if emissions could not be computed. For the list of reasons why emissions could not be computed, see ComputeDetailedFlightEmissions */
+  emissionsGramsPerPax?: EmissionsGramsPerPax | undefined;
+  /** Output only. The source of the emissions data. */
+  source?: FlightEmissionsDetailsSourceEnum | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** Represents an error encountered while processing an individual flight or market in a request. When emission estimates cannot be computed for a requested item, the `errors` field contains one or more `Status` objects describing why: * `INVALID_ARGUMENT` (`code` `3`): Reports input errors on the requested item, such as missing or invalid airport codes, operating carrier codes, flight numbers, or departure dates. Multiple `Status` entries may be returned if multiple input fields are invalid. * `NOT_FOUND` (`code` `5`): Indicates that no emission estimates matched the requested flight or market inputs. */
 export interface Status {
+  /** The numeric status code corresponding to a `google.rpc.Code` enum value: * `3` (`INVALID_ARGUMENT`): Input error (for example, a missing or invalid airport or carrier code). * `5` (`NOT_FOUND`): No emission estimates matched the requested inputs. */
+  code?: number | undefined;
   /** Additional structured error details, when available. */
   details?: DocumentMapList | undefined;
   /** A human-readable error message in English describing why emission estimates could not be returned for the requested item. */
   message?: string | undefined;
-  /** The numeric status code corresponding to a `google.rpc.Code` enum value: * `3` (`INVALID_ARGUMENT`): Input error (for example, a missing or invalid airport or carrier code). * `5` (`NOT_FOUND`): No emission estimates matched the requested inputs. */
-  code?: number | undefined;
 }
 export type StatusList = Array<Status>;
 /** Direct flight with emission estimates details. */
 export interface FlightWithDetailedEmissions {
-  /** Output only. All the flight emissions data. */
-  flightEmissionsDetails?: FlightEmissionsDetails | undefined;
-  /** Output only. Additional metadata about the flight emissions calculation. */
-  emissionsMetadata?: EmissionsMetadata | undefined;
   /** Output only. Matches the flight identifiers in the request. Note: all IATA codes are capitalized. */
   flight?: Flight | undefined;
+  /** Output only. Additional metadata about the flight emissions calculation. */
+  emissionsMetadata?: EmissionsMetadata | undefined;
+  /** Output only. All the flight emissions data. */
+  flightEmissionsDetails?: FlightEmissionsDetails | undefined;
   /** Output only. Errors detailing why detailed emission estimates could not be returned for the flight. Empty when emission estimates are present. */
   errors?: StatusList | undefined;
 }
 export type FlightWithDetailedEmissionsList = Array<FlightWithDetailedEmissions>;
+/** Travel Impact Model version. For more information about the model versioning see [GitHub](https://github.com/google/travel-impact-model/#versioning). */
+export interface ModelVersion {
+  /** Minor versions: Changes to the model that, while being consistent across schema versions, change the model parameters or implementation. */
+  minor?: number | undefined;
+  /** Major versions: Major changes to methodology (e.g. adding new data sources to the model that lead to major output changes). Such changes will be infrequent and announced well in advance. Might involve API version changes, which will respect [Google Cloud API guidelines](https://cloud.google.com/endpoints/docs/openapi/versioning-an-api#backwards-incompatible) */
+  major?: number | undefined;
+  /** Patch versions: Implementation changes meant to address bugs or inaccuracies in the model implementation. */
+  patch?: number | undefined;
+  /** Dated versions: Model datasets are recreated with refreshed input data but no change to the algorithms regularly. */
+  dated?: string | undefined;
+}
 /** Output definition for the ComputeDetailedFlightEmissions response. */
 export interface ComputeDetailedFlightEmissionsResponse {
-  /** The model version under which emission estimates for all flights in this response were computed. */
-  modelVersion?: ModelVersion | undefined;
   /** List of flight legs with emission estimates. */
   flightsWithDetailedEmissions?: FlightWithDetailedEmissionsList | undefined;
+  /** The model version under which emission estimates for all flights in this response were computed. */
+  modelVersion?: ModelVersion | undefined;
 }
 /** Input definition for the ComputeFlightEmissions request. */
 export type ComputeFlightEmissionsRequest = ComputeDetailedFlightEmissionsRequest;
@@ -311,26 +311,26 @@ export type FlightWithEmissionsContrailsImpactBucketEnum =
 export type FlightWithEmissionsSourceEnum = "SOURCE_UNSPECIFIED" | "TIM" | "EASA";
 /** Direct flight with emission estimates. */
 export interface FlightWithEmissions {
-  /** Optional. The significance of contrails warming impact compared to the total CO2e emissions impact. */
-  contrailsImpactBucket?: FlightWithEmissionsContrailsImpactBucketEnum | undefined;
   /** Optional. Per-passenger emission estimate numbers. Will not be present if emissions could not be computed. For the list of reasons why emissions could not be computed, see ComputeFlightEmissions. */
   emissionsGramsPerPax?: EmissionsGramsPerPax | undefined;
-  /** Identifier. Matches the flight identifiers in the request. Note: all IATA codes are capitalized. */
-  flight?: Flight | undefined;
-  /** Optional. The source of the emissions data. */
-  source?: FlightWithEmissionsSourceEnum | undefined;
-  /** Optional. Metadata about the EASA Flight Emissions Label. Only set when the emissions data source is EASA. */
-  easaLabelMetadata?: EasaLabelMetadata | undefined;
+  /** Optional. The significance of contrails warming impact compared to the total CO2e emissions impact. */
+  contrailsImpactBucket?: FlightWithEmissionsContrailsImpactBucketEnum | undefined;
   /** Output only. Errors detailing why emission estimates could not be returned for the flight. Empty when emission estimates are present. */
   errors?: StatusList | undefined;
+  /** Optional. Metadata about the EASA Flight Emissions Label. Only set when the emissions data source is EASA. */
+  easaLabelMetadata?: EasaLabelMetadata | undefined;
+  /** Optional. The source of the emissions data. */
+  source?: FlightWithEmissionsSourceEnum | undefined;
+  /** Identifier. Matches the flight identifiers in the request. Note: all IATA codes are capitalized. */
+  flight?: Flight | undefined;
 }
 export type FlightWithEmissionsList = Array<FlightWithEmissions>;
 /** Output definition for the ComputeFlightEmissions response. */
 export interface ComputeFlightEmissionsResponse {
-  /** List of flight legs with emission estimates. */
-  flightEmissions?: FlightWithEmissionsList | undefined;
   /** The model version under which emission estimates for all flights in this response were computed. */
   modelVersion?: ModelVersion | undefined;
+  /** List of flight legs with emission estimates. */
+  flightEmissions?: FlightWithEmissionsList | undefined;
 }
 export type Scope3FlightSegmentCabinClassEnum =
   | "CABIN_CLASS_UNSPECIFIED"
@@ -340,28 +340,28 @@ export type Scope3FlightSegmentCabinClassEnum =
   | "FIRST";
 /** Flight parameters with which the Scope 3 emissions are fetched. */
 export interface Scope3FlightSegment {
-  /** Required. The cabin class of the flight. */
-  cabinClass?: Scope3FlightSegmentCabinClassEnum | (string & {}) | undefined;
-  /** Optional. Distance in kilometers, e.g. `2423`, from [`1`, `1e12`) km. This is used to match a flight to distance-based emissions when origin and destination are not provided or there are no matching typical flights. */
-  distanceKm?: string | undefined;
-  /** Optional. 3-character [IATA airport code](https://www.iata.org/en/publications/directories/code-search/) for flight destination, e.g. `ICN`. This is used to match specific flight if provided alongside origin, carrier, and flight number. If there is no match, we will first try to match the flight to a typical flight between the provided origin and destination airports. Otherwise, we will use the distance-based emissions model if the flight distance is provided. */
-  destination?: string | undefined;
   /** Optional. Up to 4-digit [flight number](https://en.wikipedia.org/wiki/Flight_number), e.g. `71`, from [1, 9999]. This is first used to match a specific flight if a flight number is specified alongside origin, destination, and carrier. If a flight number is not specified, we will first try to match the flight to a typical flight between the provided origin and destination airports. If that fails and/or origin & destination are not provided, we will use the distance-based emissions model based on the flight distance provided. */
   flightNumber?: number | undefined;
-  /** Required. Date of the flight in the time zone of the origin airport. Only year is required for typical flight and distance-based emissions models (month and day values are ignored and therefore, can be either omitted, set to 0, or set to a valid date for those cases). Correspondingly, if a specific date is not provided for TIM emissions, we will fallback to typical flight (or distance-based) emissions. */
-  departureDate?: Travelimpactmodel_Date | undefined;
-  /** Optional. 3-character [IATA airport code](https://www.iata.org/en/publications/directories/code-search/) for flight origin, e.g. `YVR`. This is used to match specific flight if provided alongside destination, carrier, and flight number. If there is no match, we will first try to match the flight to a typical flight between the provided origin and destination airports. Otherwise, we will use the distance-based emissions model if the flight distance is provided. */
-  origin?: string | undefined;
+  /** Optional. 3-character [IATA airport code](https://www.iata.org/en/publications/directories/code-search/) for flight destination, e.g. `ICN`. This is used to match specific flight if provided alongside origin, carrier, and flight number. If there is no match, we will first try to match the flight to a typical flight between the provided origin and destination airports. Otherwise, we will use the distance-based emissions model if the flight distance is provided. */
+  destination?: string | undefined;
   /** Optional. 2-character [IATA carrier code](https://www.iata.org/en/publications/directories/code-search/), e.g. `KE`. This is required if specific flight matching is desired. Otherwise, this is unused for typical flight and distance-based emissions models. This could be both operating and marketing carrier code (i.e. codeshare is covered). */
   carrierCode?: string | undefined;
+  /** Required. Date of the flight in the time zone of the origin airport. Only year is required for typical flight and distance-based emissions models (month and day values are ignored and therefore, can be either omitted, set to 0, or set to a valid date for those cases). Correspondingly, if a specific date is not provided for TIM emissions, we will fallback to typical flight (or distance-based) emissions. */
+  departureDate?: Travelimpactmodel_Date | undefined;
+  /** Required. The cabin class of the flight. */
+  cabinClass?: Scope3FlightSegmentCabinClassEnum | (string & {}) | undefined;
+  /** Optional. 3-character [IATA airport code](https://www.iata.org/en/publications/directories/code-search/) for flight origin, e.g. `YVR`. This is used to match specific flight if provided alongside destination, carrier, and flight number. If there is no match, we will first try to match the flight to a typical flight between the provided origin and destination airports. Otherwise, we will use the distance-based emissions model if the flight distance is provided. */
+  origin?: string | undefined;
+  /** Optional. Distance in kilometers, e.g. `2423`, from [`1`, `1e12`) km. This is used to match a flight to distance-based emissions when origin and destination are not provided or there are no matching typical flights. */
+  distanceKm?: string | undefined;
 }
 export type Scope3FlightSegmentList = Array<Scope3FlightSegment>;
 /** A list of flight segments to request the Scope 3 emissions for. */
 export interface ComputeScope3FlightEmissionsRequest {
-  /** Optional. The model version under which emission estimates for all flights in this request were computed. */
-  modelVersion?: ModelVersion | undefined;
   /** Required. Flights to return emission estimates for. */
   flights?: Scope3FlightSegmentList | undefined;
+  /** Optional. The model version under which emission estimates for all flights in this request were computed. */
+  modelVersion?: ModelVersion | undefined;
 }
 export interface ComputeScope3FlightEmissionsFlightsRequest extends ComputeScope3FlightEmissionsRequest {}
 export type Scope3FlightEmissionsSourceEnum =
@@ -377,20 +377,20 @@ export interface Scope3FlightEmissions {
   modelVersion?: ModelVersion | undefined;
   /** Identifier. Matches the flight identifiers in the request. */
   flight?: Scope3FlightSegment | undefined;
-  /** Optional. Well-to-tank flight emissions per passenger based on the requested info. */
-  wttEmissionsGramsPerPax?: string | undefined;
   /** Optional. Tank-to-wake flight emissions per passenger based on the requested info. */
   ttwEmissionsGramsPerPax?: string | undefined;
   /** Optional. The source of the emissions data. */
   source?: Scope3FlightEmissionsSourceEnum | undefined;
+  /** Optional. Well-to-tank flight emissions per passenger based on the requested info. */
+  wttEmissionsGramsPerPax?: string | undefined;
 }
 export type Scope3FlightEmissionsList = Array<Scope3FlightEmissions>;
 /** A list of flights with Scope 3 emission estimates. */
 export interface ComputeScope3FlightEmissionsResponse {
-  /** List of flight segments with emission estimates. */
-  flightEmissions?: Scope3FlightEmissionsList | undefined;
   /** The model version under which emission estimates for all flights in this response were computed. */
   modelVersion?: ModelVersion | undefined;
+  /** List of flight segments with emission estimates. */
+  flightEmissions?: Scope3FlightEmissionsList | undefined;
 }
 /** A pair of airports. */
 export interface Market {
@@ -408,20 +408,20 @@ export interface ComputeTypicalFlightEmissionsRequest {
 export interface ComputeTypicalFlightEmissionsFlightsRequest extends ComputeTypicalFlightEmissionsRequest {}
 /** Typical flight emission estimates for a certain market */
 export interface TypicalFlightEmissions {
-  /** Optional. Typical flight emissions per passenger for requested market. Will not be present if a typical emissions could not be computed. For the list of reasons why typical flight emissions could not be computed, see [GitHub](https://github.com/google/travel-impact-model/blob/main/projects/typical_flight_emissions.md#step-7-validate-dataset). */
-  emissionsGramsPerPax?: EmissionsGramsPerPax | undefined;
   /** Identifier. Matches the flight identifiers in the request. Note: all IATA codes are capitalized. */
   market?: Market | undefined;
   /** Output only. Errors detailing why typical flight emission estimates could not be returned for the market. Empty when emission estimates are present. */
   errors?: StatusList | undefined;
+  /** Optional. Typical flight emissions per passenger for requested market. Will not be present if a typical emissions could not be computed. For the list of reasons why typical flight emissions could not be computed, see [GitHub](https://github.com/google/travel-impact-model/blob/main/projects/typical_flight_emissions.md#step-7-validate-dataset). */
+  emissionsGramsPerPax?: EmissionsGramsPerPax | undefined;
 }
 export type TypicalFlightEmissionsList = Array<TypicalFlightEmissions>;
 /** The response includes the emissions but also the model version. */
 export interface ComputeTypicalFlightEmissionsResponse {
-  /** Market's Typical Flight Emissions requested. */
-  typicalFlightEmissions?: TypicalFlightEmissionsList | undefined;
   /** The model version under which typical flight emission estimates for all flights in this response were computed. */
   modelVersion?: ModelVersion | undefined;
+  /** Market's Typical Flight Emissions requested. */
+  typicalFlightEmissions?: TypicalFlightEmissionsList | undefined;
 }
 export type ComputeDetailedFlightEmissionsFlightsError =
   | NotFound
@@ -531,59 +531,59 @@ function __c0(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          distanceAdjustmentStrategy: S.optional(S.String),
+          loadFactorsT100Strategy: S.optional(S.String),
+          loadFactorsChAviationStrategy: S.optional(S.String),
+          dataCategory: S.optional(S.String),
+          provenanceEntryType: S.optional(S.String),
+          seatAreaRatioIataStrategy: S.optional(S.String),
+          sourceVersion: S.optional(S.String),
+          source: S.optional(S.String),
+          estimatedFlightDistanceKm: S.optional(S.Number),
+          fuelBurnEeaStrategy: S.optional(S.String),
+          loadFactorsData: S.optional(S.Number),
+          cargoMassFractionData: S.optional(S.Number),
+          cargoMassFractionT100Strategy: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EmissionsProvenanceEntry" });
+    case 2:
+      return S.Array(__S(1, __c0, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          provenanceEntries: S.optional(__S(2, __c0, 2)),
+        }),
+      ).annotate({ identifier: "EmissionsProvenance" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          easaLabelMetadata: S.optional(__S(19, __c1, 3)),
+          timWebsiteEmissionsCalculatorUrl: S.optional(S.String),
+          emissionsProvenance: S.optional(__S(3, __c0, 3)),
+        }),
+      ).annotate({ identifier: "EmissionsMetadata" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
           wttEmissionsGramsPerPax: S.optional(__S(64, __c4, 0)),
           ttwEmissionsGramsPerPax: S.optional(__S(64, __c4, 0)),
         }),
       ).annotate({ identifier: "EmissionsBreakdown" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          emissionsGramsPerPax: S.optional(__S(64, __c4, 0)),
-          emissionsBreakdown: S.optional(__S(1, __c0, 1)),
-          contrailsImpactBucket: S.optional(S.String),
-          source: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "FlightEmissionsDetails" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          provenanceEntryType: S.optional(S.String),
-          loadFactorsT100Strategy: S.optional(S.String),
-          sourceVersion: S.optional(S.String),
-          loadFactorsData: S.optional(S.Number),
-          cargoMassFractionT100Strategy: S.optional(S.String),
-          source: S.optional(S.String),
-          fuelBurnEeaStrategy: S.optional(S.String),
-          seatAreaRatioIataStrategy: S.optional(S.String),
-          loadFactorsChAviationStrategy: S.optional(S.String),
-          cargoMassFractionData: S.optional(S.Number),
-          distanceAdjustmentStrategy: S.optional(S.String),
-          estimatedFlightDistanceKm: S.optional(S.Number),
-          dataCategory: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "EmissionsProvenanceEntry" });
-    case 4:
-      return S.Array(__S(3, __c0, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          provenanceEntries: S.optional(__S(4, __c0, 4)),
-        }),
-      ).annotate({ identifier: "EmissionsProvenance" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          emissionsProvenance: S.optional(__S(5, __c0, 5)),
-          easaLabelMetadata: S.optional(__S(19, __c1, 3)),
-          timWebsiteEmissionsCalculatorUrl: S.optional(S.String),
+          contrailsImpactBucket: S.optional(S.String),
+          emissionsBreakdown: S.optional(__S(5, __c0, 5)),
+          emissionsGramsPerPax: S.optional(__S(64, __c4, 0)),
+          source: S.optional(S.String),
         }),
-      ).annotate({ identifier: "EmissionsMetadata" });
+      ).annotate({ identifier: "FlightEmissionsDetails" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          flightEmissionsDetails: S.optional(__S(2, __c0, 2)),
-          emissionsMetadata: S.optional(__S(6, __c0, 6)),
           flight: S.optional(__S(16, __c1, 0)),
+          emissionsMetadata: S.optional(__S(4, __c0, 4)),
+          flightEmissionsDetails: S.optional(__S(6, __c0, 6)),
           errors: S.optional(__S(68, __c4, 4)),
         }),
       ).annotate({ identifier: "FlightWithDetailedEmissions" });
@@ -592,8 +592,8 @@ function __c0(j: number): any {
     case 9:
       return S.suspend(() =>
         S.Struct({
-          modelVersion: S.optional(__S(48, __c3, 0)),
           flightsWithDetailedEmissions: S.optional(__S(8, __c0, 8)),
+          modelVersion: S.optional(__S(48, __c3, 0)),
         }),
       ).annotate({ identifier: "ComputeDetailedFlightEmissionsResponse" });
   }
@@ -603,11 +603,11 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          origin: S.optional(S.String),
-          departureDate: S.optional(__S(32, __c2, 0)),
           flightNumber: S.optional(S.Number),
           operatingCarrierCode: S.optional(S.String),
           destination: S.optional(S.String),
+          departureDate: S.optional(__S(32, __c2, 0)),
+          origin: S.optional(S.String),
         }),
       ).annotate({ identifier: "Flight" });
     case 1:
@@ -621,9 +621,9 @@ function __c1(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          labelExpiryDate: S.optional(__S(32, __c2, 0)),
           safDiscountPercentage: S.optional(S.Number),
           labelVersion: S.optional(S.String),
+          labelExpiryDate: S.optional(__S(32, __c2, 0)),
           labelIssueDate: S.optional(__S(32, __c2, 0)),
         }),
       ).annotate({ identifier: "EasaLabelMetadata" });
@@ -634,8 +634,8 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          month: S.optional(S.Number),
           day: S.optional(S.Number),
+          month: S.optional(S.Number),
           year: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Travelimpactmodel_Date" });
@@ -646,9 +646,9 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          minor: S.optional(S.Number),
           major: S.optional(S.Number),
           patch: S.optional(S.Number),
-          minor: S.optional(S.Number),
           dated: S.optional(S.String),
         }),
       ).annotate({ identifier: "ModelVersion" });
@@ -659,10 +659,10 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          premiumEconomy: S.optional(S.Number),
+          economy: S.optional(S.Number),
           first: S.optional(S.Number),
           business: S.optional(S.Number),
-          economy: S.optional(S.Number),
+          premiumEconomy: S.optional(S.Number),
         }),
       ).annotate({ identifier: "EmissionsGramsPerPax" });
     case 1:
@@ -672,9 +672,9 @@ function __c4(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
+          code: S.optional(S.Number),
           details: S.optional(__S(66, __c4, 2)),
           message: S.optional(S.String),
-          code: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Status" });
     case 4:
@@ -696,12 +696,12 @@ function __c5(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          contrailsImpactBucket: S.optional(S.String),
           emissionsGramsPerPax: S.optional(__S(64, __c4, 0)),
-          flight: S.optional(__S(16, __c1, 0)),
-          source: S.optional(S.String),
-          easaLabelMetadata: S.optional(__S(19, __c1, 3)),
+          contrailsImpactBucket: S.optional(S.String),
           errors: S.optional(__S(68, __c4, 4)),
+          easaLabelMetadata: S.optional(__S(19, __c1, 3)),
+          source: S.optional(S.String),
+          flight: S.optional(__S(16, __c1, 0)),
         }),
       ).annotate({ identifier: "FlightWithEmissions" });
     case 2:
@@ -709,8 +709,8 @@ function __c5(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          flightEmissions: S.optional(__S(82, __c5, 2)),
           modelVersion: S.optional(__S(48, __c3, 0)),
+          flightEmissions: S.optional(__S(82, __c5, 2)),
         }),
       ).annotate({ identifier: "ComputeFlightEmissionsResponse" });
   }
@@ -720,13 +720,13 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          cabinClass: S.optional(S.String),
-          distanceKm: S.optional(S.String),
-          destination: S.optional(S.String),
           flightNumber: S.optional(S.Number),
-          departureDate: S.optional(__S(32, __c2, 0)),
-          origin: S.optional(S.String),
+          destination: S.optional(S.String),
           carrierCode: S.optional(S.String),
+          departureDate: S.optional(__S(32, __c2, 0)),
+          cabinClass: S.optional(S.String),
+          origin: S.optional(S.String),
+          distanceKm: S.optional(S.String),
         }),
       ).annotate({ identifier: "Scope3FlightSegment" });
     case 1:
@@ -734,8 +734,8 @@ function __c6(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          modelVersion: S.optional(__S(48, __c3, 0)),
           flights: S.optional(__S(97, __c6, 1)),
+          modelVersion: S.optional(__S(48, __c3, 0)),
         }),
       ).annotate({ identifier: "ComputeScope3FlightEmissionsRequest" });
     case 3:
@@ -754,9 +754,9 @@ function __c6(j: number): any {
           wtwEmissionsGramsPerPax: S.optional(S.String),
           modelVersion: S.optional(__S(48, __c3, 0)),
           flight: S.optional(__S(96, __c6, 0)),
-          wttEmissionsGramsPerPax: S.optional(S.String),
           ttwEmissionsGramsPerPax: S.optional(S.String),
           source: S.optional(S.String),
+          wttEmissionsGramsPerPax: S.optional(S.String),
         }),
       ).annotate({ identifier: "Scope3FlightEmissions" });
     case 5:
@@ -764,8 +764,8 @@ function __c6(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          flightEmissions: S.optional(__S(101, __c6, 5)),
           modelVersion: S.optional(__S(48, __c3, 0)),
+          flightEmissions: S.optional(__S(101, __c6, 5)),
         }),
       ).annotate({ identifier: "ComputeScope3FlightEmissionsResponse" });
   }
@@ -800,9 +800,9 @@ function __c7(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          emissionsGramsPerPax: S.optional(__S(64, __c4, 0)),
           market: S.optional(__S(112, __c7, 0)),
           errors: S.optional(__S(68, __c4, 4)),
+          emissionsGramsPerPax: S.optional(__S(64, __c4, 0)),
         }),
       ).annotate({ identifier: "TypicalFlightEmissions" });
     case 5:
@@ -810,8 +810,8 @@ function __c7(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          typicalFlightEmissions: S.optional(__S(117, __c7, 5)),
           modelVersion: S.optional(__S(48, __c3, 0)),
+          typicalFlightEmissions: S.optional(__S(117, __c7, 5)),
         }),
       ).annotate({ identifier: "ComputeTypicalFlightEmissionsResponse" });
   }
