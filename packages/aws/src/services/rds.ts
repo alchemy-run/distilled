@@ -3274,6 +3274,7 @@ export interface DeleteDBClusterMessage {
   SkipFinalSnapshot?: boolean | undefined;
   FinalDBSnapshotIdentifier?: string | undefined;
   DeleteAutomatedBackups?: boolean | undefined;
+  DeleteDBInstances?: boolean | undefined;
 }
 export interface DeleteDBClusterResult {
   DBCluster?: DBCluster | undefined;
@@ -6955,6 +6956,8 @@ export type DeleteDBClusterError =
  * The DeleteDBCluster action deletes a previously provisioned DB cluster. When you delete a DB cluster, all automated backups for that DB cluster are deleted and can't be recovered. Manual DB cluster snapshots of the specified DB cluster are not deleted.
  *
  * If you're deleting a Multi-AZ DB cluster with read replicas, all cluster members are terminated and read replicas are promoted to standalone instances.
+ *
+ * To delete an Amazon Aurora DB cluster and all of its DB instances in a single call, set `DeleteDBInstances` to `true`. Otherwise, delete each DB instance in the DB cluster before you delete the DB cluster.
  *
  * For more information on Amazon Aurora, see What is Amazon Aurora? in the *Amazon Aurora User Guide*.
  *
@@ -13627,6 +13630,7 @@ function __c84(j: number): any {
           SkipFinalSnapshot: S.optional(S.Boolean),
           FinalDBSnapshotIdentifier: S.optional(S.String),
           DeleteAutomatedBackups: S.optional(S.Boolean),
+          DeleteDBInstances: S.optional(S.Boolean),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "DeleteDBClusterMessage" });
     case 1:

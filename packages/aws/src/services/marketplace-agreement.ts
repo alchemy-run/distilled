@@ -925,9 +925,16 @@ export interface RenewalTerm {
   priceIncrease?: PriceIncrease | undefined;
   termTemplates?: TermTemplate[] | undefined;
 }
+export type AWSRegion = string;
+export interface RegionalPrice {
+  region: string;
+  price: string;
+}
+export type RegionalPriceList = RegionalPrice[];
 export interface RateCardItem {
   dimensionKey?: string | undefined;
   price?: string | undefined;
+  regionalPrices?: RegionalPrice[] | undefined;
 }
 export type RateCardList = RateCardItem[];
 export interface UsageBasedRateCardItem {
@@ -3901,7 +3908,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "GetAgreementRequestTermsInput" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ terms: __S(900, __c28, 4), nextToken: S.optional(S.String) }),
+        S.Struct({ terms: __S(902, __c28, 6), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "GetAgreementRequestTermsOutput" });
   }
 }
@@ -3982,62 +3989,72 @@ function __c27(j: number): any {
         }),
       ).annotate({ identifier: "RenewalTerm" });
     case 13:
-      return S.suspend(() =>
-        S.Struct({ dimensionKey: S.optional(S.String), price: S.optional(S.String) }),
-      ).annotate({ identifier: "RateCardItem" });
+      return S.suspend(() => S.Struct({ region: S.String, price: S.String })).annotate({
+        identifier: "RegionalPrice",
+      });
     case 14:
       return S.Array(__S(877, __c27, 13));
     case 15:
-      return S.suspend(() => S.Struct({ rateCard: S.optional(__S(878, __c27, 14)) })).annotate({
-        identifier: "UsageBasedRateCardItem",
-      });
+      return S.suspend(() =>
+        S.Struct({
+          dimensionKey: S.optional(S.String),
+          price: S.optional(S.String),
+          regionalPrices: S.optional(__S(878, __c27, 14)),
+        }),
+      ).annotate({ identifier: "RateCardItem" });
     case 16:
       return S.Array(__S(879, __c27, 15));
     case 17:
+      return S.suspend(() => S.Struct({ rateCard: S.optional(__S(880, __c27, 16)) })).annotate({
+        identifier: "UsageBasedRateCardItem",
+      });
+    case 18:
+      return S.Array(__S(881, __c27, 17));
+    case 19:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
           id: S.optional(S.String),
           currencyCode: S.optional(S.String),
-          rateCards: S.optional(__S(880, __c27, 16)),
+          rateCards: S.optional(__S(882, __c27, 18)),
         }),
       ).annotate({ identifier: "UsageBasedPricingTerm" });
-    case 18:
+    case 20:
       return S.suspend(() =>
         S.Struct({ type: S.optional(S.String), value: S.optional(S.String) }),
       ).annotate({ identifier: "Selector" });
-    case 19:
+    case 21:
       return S.suspend(() =>
         S.Struct({
           multipleDimensionSelection: S.optional(S.String),
           quantityConfiguration: S.optional(S.String),
         }),
       ).annotate({ identifier: "Constraints" });
-    case 20:
+    case 22:
       return S.suspend(() =>
         S.Struct({
-          selector: S.optional(__S(882, __c27, 18)),
-          constraints: S.optional(__S(883, __c27, 19)),
-          rateCard: S.optional(__S(878, __c27, 14)),
+          selector: S.optional(__S(884, __c27, 20)),
+          constraints: S.optional(__S(885, __c27, 21)),
+          rateCard: S.optional(__S(880, __c27, 16)),
         }),
       ).annotate({ identifier: "ConfigurableUpfrontRateCardItem" });
-    case 21:
-      return S.Array(__S(884, __c27, 20));
-    case 22:
+    case 23:
+      return S.Array(__S(886, __c27, 22));
+    case 24:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
           id: S.optional(S.String),
           currencyCode: S.optional(S.String),
-          rateCards: S.optional(__S(885, __c27, 21)),
+          rateCards: S.optional(__S(887, __c27, 23)),
           configuration: S.optional(__S(386, __c12, 2)),
         }),
       ).annotate({ identifier: "ConfigurableUpfrontPricingTerm" });
-    case 23:
+    case 25:
       return S.suspend(() =>
         S.Struct({ type: S.optional(S.String), id: S.optional(S.String) }),
       ).annotate({ identifier: "ByolPricingTerm" });
-    case 24:
+    case 26:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
@@ -4047,7 +4064,7 @@ function __c27(j: number): any {
           price: S.optional(S.String),
         }),
       ).annotate({ identifier: "RecurringPaymentTerm" });
-    case 25:
+    case 27:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
@@ -4057,44 +4074,44 @@ function __c27(j: number): any {
           agreementEndDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
         }),
       ).annotate({ identifier: "ValidityTerm" });
-    case 26:
+    case 28:
       return S.suspend(() =>
         S.Struct({
           chargeDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           chargeAmount: S.optional(S.String),
         }),
       ).annotate({ identifier: "ScheduleItem" });
-    case 27:
-      return S.Array(__S(890, __c27, 26));
-    case 28:
+    case 29:
+      return S.Array(__S(892, __c27, 28));
+    case 30:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
           id: S.optional(S.String),
           currencyCode: S.optional(S.String),
-          schedule: S.optional(__S(891, __c27, 27)),
+          schedule: S.optional(__S(893, __c27, 29)),
         }),
       ).annotate({ identifier: "PaymentScheduleTerm" });
-    case 29:
+    case 31:
       return S.suspend(() =>
         S.Struct({ dimensionKey: S.optional(S.String), maxQuantity: S.optional(S.Number) }),
       ).annotate({ identifier: "GrantItem" });
-    case 30:
-      return S.Array(__S(893, __c27, 29));
-    case 31:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.optional(S.String),
-          id: S.optional(S.String),
-          duration: S.optional(S.String),
-          grants: S.optional(__S(894, __c27, 30)),
-        }),
-      ).annotate({ identifier: "FreeTrialPricingTerm" });
   }
 }
 function __c28(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(__S(895, __c27, 31));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String),
+          id: S.optional(S.String),
+          duration: S.optional(S.String),
+          grants: S.optional(__S(896, __c28, 0)),
+        }),
+      ).annotate({ identifier: "FreeTrialPricingTerm" });
+    case 2:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
@@ -4102,10 +4119,10 @@ function __c28(j: number): any {
           currencyCode: S.optional(S.String),
           duration: S.optional(S.String),
           price: S.optional(S.String),
-          grants: S.optional(__S(894, __c27, 30)),
+          grants: S.optional(__S(896, __c28, 0)),
         }),
       ).annotate({ identifier: "FixedUpfrontPricingTerm" });
-    case 1:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
@@ -4115,7 +4132,7 @@ function __c28(j: number): any {
           configuration: S.optional(__S(388, __c12, 4)),
         }),
       ).annotate({ identifier: "VariablePaymentTerm" });
-    case 2:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
@@ -4123,24 +4140,24 @@ function __c28(j: number): any {
           paymentDuePeriod: S.optional(S.String),
         }),
       ).annotate({ identifier: "NetPaymentTerm" });
-    case 3:
+    case 5:
       return S.Union([
         /*@__PURE__*/ S.Struct({ legalTerm: __S(866, __c27, 2) }),
         /*@__PURE__*/ S.Struct({ supportTerm: __S(867, __c27, 3) }),
         /*@__PURE__*/ S.Struct({ renewalTerm: __S(876, __c27, 12) }),
-        /*@__PURE__*/ S.Struct({ usageBasedPricingTerm: __S(881, __c27, 17) }),
-        /*@__PURE__*/ S.Struct({ configurableUpfrontPricingTerm: __S(886, __c27, 22) }),
-        /*@__PURE__*/ S.Struct({ byolPricingTerm: __S(887, __c27, 23) }),
-        /*@__PURE__*/ S.Struct({ recurringPaymentTerm: __S(888, __c27, 24) }),
-        /*@__PURE__*/ S.Struct({ validityTerm: __S(889, __c27, 25) }),
-        /*@__PURE__*/ S.Struct({ paymentScheduleTerm: __S(892, __c27, 28) }),
-        /*@__PURE__*/ S.Struct({ freeTrialPricingTerm: __S(895, __c27, 31) }),
-        /*@__PURE__*/ S.Struct({ fixedUpfrontPricingTerm: __S(896, __c28, 0) }),
-        /*@__PURE__*/ S.Struct({ variablePaymentTerm: __S(897, __c28, 1) }),
-        /*@__PURE__*/ S.Struct({ netPaymentTerm: __S(898, __c28, 2) }),
+        /*@__PURE__*/ S.Struct({ usageBasedPricingTerm: __S(883, __c27, 19) }),
+        /*@__PURE__*/ S.Struct({ configurableUpfrontPricingTerm: __S(888, __c27, 24) }),
+        /*@__PURE__*/ S.Struct({ byolPricingTerm: __S(889, __c27, 25) }),
+        /*@__PURE__*/ S.Struct({ recurringPaymentTerm: __S(890, __c27, 26) }),
+        /*@__PURE__*/ S.Struct({ validityTerm: __S(891, __c27, 27) }),
+        /*@__PURE__*/ S.Struct({ paymentScheduleTerm: __S(894, __c27, 30) }),
+        /*@__PURE__*/ S.Struct({ freeTrialPricingTerm: __S(897, __c28, 1) }),
+        /*@__PURE__*/ S.Struct({ fixedUpfrontPricingTerm: __S(898, __c28, 2) }),
+        /*@__PURE__*/ S.Struct({ variablePaymentTerm: __S(899, __c28, 3) }),
+        /*@__PURE__*/ S.Struct({ netPaymentTerm: __S(900, __c28, 4) }),
       ]);
-    case 4:
-      return S.Array(__S(899, __c28, 3));
+    case 6:
+      return S.Array(__S(901, __c28, 5));
   }
 }
 function __c29(j: number): any {
@@ -4156,7 +4173,7 @@ function __c29(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          acceptedTerms: S.optional(__S(900, __c28, 4)),
+          acceptedTerms: S.optional(__S(902, __c28, 6)),
           nextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetAgreementTermsOutput" });
