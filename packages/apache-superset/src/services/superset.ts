@@ -13499,7 +13499,7 @@ export const getDatabaseTableExtra: API.OperationMethod<
   span: "GetDatabaseTableExtra",
 }));
 
-export type GetDatabaseTableMetadataError = NotFound | ApacheSupersetOpError;
+export type GetDatabaseTableMetadataError = NotFound | UnprocessableEntity | ApacheSupersetOpError;
 /** Get table metadata Metadata associated with the table (columns, indexes, etc.) */
 export const getDatabaseTableMetadata: API.OperationMethod<
   GetDatabaseTableMetadataRequest,
@@ -13509,7 +13509,7 @@ export const getDatabaseTableMetadata: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1136, __c71, 0) as any as S.Schema<GetDatabaseTableMetadataRequest>,
   output: __S(1120, __c70, 0) as any as S.Schema<TableExtraMetadataResponseSchema>,
-  errors: [NotFound],
+  errors: [NotFound, UnprocessableEntity],
   serviceErrors: ApacheSupersetServiceErrors,
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
