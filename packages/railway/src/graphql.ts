@@ -611,6 +611,8 @@ export type EventSeverity = "CRITICAL" | "INFO" | "NOTICE" | "WARNING";
 /** Supported function runtime environments */
 export type FunctionRuntimeName = "bun";
 
+export type HealthcheckType = "EXEC" | "HTTP" | "TCP";
+
 /** A named reading of history, not a peer of the filter's own fields: a mode expands into them. */
 export type HistoryFilterMode = "ACTIVITY_FEED";
 
@@ -1858,8 +1860,10 @@ export interface ServiceInstanceUpdateInput {
   readonly cronSchedule?: string | null | undefined;
   readonly dockerfilePath?: string | null | undefined;
   readonly drainingSeconds?: number | null | undefined;
+  readonly healthcheckCommand?: string | null | undefined;
   readonly healthcheckPath?: string | null | undefined;
   readonly healthcheckTimeout?: number | null | undefined;
+  readonly healthcheckType?: "EXEC" | "HTTP" | "TCP" | null | undefined;
   readonly hideUnhealthyReplicas?: boolean | null | undefined;
   readonly ipv6EgressEnabled?: boolean | null | undefined;
   readonly multiRegionConfig?: unknown | null | undefined;
@@ -5118,8 +5122,10 @@ export interface ServiceInstance {
   readonly edgeConfig: EdgeConfig | null;
   readonly environmentId: string;
   readonly hasEverDeployed: boolean;
+  readonly healthcheckCommand: string | null;
   readonly healthcheckPath: string | null;
   readonly healthcheckTimeout: number | null;
+  readonly healthcheckType: "EXEC" | "HTTP" | "TCP" | null;
   readonly hideUnhealthyReplicas: boolean;
   readonly id: string;
   readonly ipv6EgressEnabled: boolean | null;
@@ -11051,8 +11057,10 @@ const ServiceInstanceFields: TypeMeta["fields"] = {
   edgeConfig: objectField("edgeConfig", EdgeConfig),
   environmentId: scalarField("environmentId"),
   hasEverDeployed: scalarField("hasEverDeployed"),
+  healthcheckCommand: scalarField("healthcheckCommand"),
   healthcheckPath: scalarField("healthcheckPath"),
   healthcheckTimeout: scalarField("healthcheckTimeout"),
+  healthcheckType: scalarField("healthcheckType"),
   hideUnhealthyReplicas: scalarField("hideUnhealthyReplicas"),
   id: scalarField("id"),
   ipv6EgressEnabled: scalarField("ipv6EgressEnabled"),
