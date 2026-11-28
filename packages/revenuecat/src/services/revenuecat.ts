@@ -3596,6 +3596,8 @@ export type ChartDataValuesItem = ChartDataValuesItemCase0List | ChartDataValues
 export type ChartDataValuesList = Array<ChartDataValuesItem>;
 /** Summary statistics for the chart data */
 export type ChartDataSummaryMap = { [key: string]: unknown | undefined };
+/** Whether an increase in this series is good (`positive`), bad (`negative`) or neither (`neutral`) for the project, e.g. new versus churned subscriptions in a movement chart. */
+export type ChartSeriesEffect = "positive" | "negative" | "neutral";
 /** Per-measure metadata, when a segmented series carries more than one measure. */
 export type ChartSeriesNestedMeasuresList = Array<ChartSeries>;
 /** Metadata describing one series (a segment, measure, or cohort period) of a chart, used to label and format the matching data points in `values`. */
@@ -3610,6 +3612,10 @@ export interface ChartSeries {
   decimal_precision?: number | undefined;
   /** The scale this series belongs to. Charts that offer a scale selector group their series by it, e.g. `absolute` / `relative` amounts or an LTV window such as `30 days`. Values are chart-specific labels. */
   scale?: string | undefined;
+  /** The window this series counts, on charts whose measures are limited to one, e.g. `7 days` after installation or `Unbounded`. Values are chart-specific labels. */
+  timeframe?: string | undefined;
+  /** Whether an increase in this series is good (`positive`), bad (`negative`) or neither (`neutral`) for the project, e.g. new versus churned subscriptions in a movement chart. */
+  effect?: ChartSeriesEffect | undefined;
   /** Whether the series is meaningful to plot. */
   chartable?: boolean | undefined;
   /** Whether the series is meaningful to show as a table column. */
@@ -12714,6 +12720,8 @@ function __c145(j: number): any {
             unit: S.optional(S.String),
             decimal_precision: S.optional(S.Number),
             scale: S.optional(S.String),
+            timeframe: S.optional(S.String),
+            effect: S.optional(S.String),
             chartable: S.optional(S.Boolean),
             tabulable: S.optional(S.Boolean),
             is_total: S.optional(S.Boolean),
