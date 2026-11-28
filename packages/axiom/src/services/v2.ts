@@ -1441,9 +1441,12 @@ export interface GetAnnotationRequest {
   id: string;
 }
 export type GetAnnotationsRequestDatasetsList = Array<string>;
+export type GetAnnotationsRequestTypesList = Array<string>;
 export interface GetAnnotationsRequest {
   /** Optional: Filter for dataset names. */
   datasets?: GetAnnotationsRequestDatasetsList | undefined;
+  /** Optional: Filter for annotation types. Omit or leave empty to include all types. */
+  types?: GetAnnotationsRequestTypesList | undefined;
   /** Optional: Filter for events after this date. Use RFC3339 time format. */
   start?: string | undefined;
   /** Optional: Filter for events before this date. Use RFC3339 time format. */
@@ -2292,7 +2295,7 @@ export const createStarred: API.OperationMethod<
 }));
 
 export type CreateViewError = UnprocessableEntity | AxiomOpError;
-/** Creates a view, a named APL query that you can query like a dataset. Axiom derives `datasets` from `aplQuery`. The name can't match an existing dataset or view, and the query can't reference views or use wildcards. */
+/** Creates a view, a named APL query that you can query like a dataset. Axiom derives `datasets` from `aplQuery`. The name can't match an existing dataset or view, and the query can't reference views or use wildcards. The name is 1 to 80 characters long, uses only letters, digits, hyphens (`-`), underscores (`_`), and periods (`.`), starts and ends with a letter or digit, and can't be a reserved name such as `axiom-audit`. */
 export const createView: API.OperationMethod<
   CreateViewRequest,
   View,
@@ -2526,7 +2529,7 @@ export const getAnnotation: API.OperationMethod<
 }));
 
 export type GetAnnotationsError = BadRequest | AxiomOpError;
-/** Lists annotations in the organization. Filter by `datasets`, or by a time range with both `start` and `end` at most 100 days apart. Without filters, returns all annotations. */
+/** Lists annotations in the organization. Filter by `datasets` or `types`, or by a time range with both `start` and `end`. Results are limited to the organization's maximum retention window, including when no time range is supplied. */
 export const getAnnotations: API.OperationMethod<
   GetAnnotationsRequest,
   GetAnnotationsResponse,
@@ -3660,6 +3663,7 @@ function __c26(j: number): any {
       return S.suspend(() =>
         S.Struct({
           datasets: S.optional(__S(456, __c57, 0).pipe(T.Query())),
+          types: S.optional(__S(456, __c57, 0).pipe(T.Query())),
           start: S.optional(S.String.pipe(T.Query())),
           end: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/v2/annotations", code: 200 })),
