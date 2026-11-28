@@ -12556,6 +12556,8 @@ export interface NekiPostgresVersion {
   version: string;
   /** Whether this is the default minor version for its PostgreSQL major version */
   default: boolean;
+  /** Whether this version is newer than the stable Neki update channel's default PostgreSQL version */
+  preview: boolean;
 }
 export type ListPostgresVersionsResponseBodyList = Array<NekiPostgresVersion>;
 export type ListPostgresVersionsResponse = ListPostgresVersionsResponseBodyList;
@@ -27535,6 +27537,7 @@ function __c188(j: number): any {
           minor_version: S.String,
           version: S.String,
           default: S.Boolean,
+          preview: S.Boolean,
         }),
       ).annotate({ identifier: "NekiPostgresVersion" });
     case 2:
