@@ -18,6 +18,7 @@ const NULLABLE_TRAIT = "com.distilled.openapi#nullable";
 const ERROR_MATCHERS_TRAIT = "com.distilled.openapi#errorMatchers";
 const RAW_RESPONSE_TRAIT = "com.distilled.openapi#rawResponse";
 const SENSITIVE_TRAIT = "smithy.api#sensitive";
+const COMMA_DELIMITED_TRAIT = "com.distilled.resend#commaDelimited";
 
 /** Resend's provider spec for the shared smithy→SDK compiler. */
 const resendSpec: SdkSpec = {
@@ -40,6 +41,9 @@ const resendSpec: SdkSpec = {
   // on input.
   memberTraitPipes: {
     [SENSITIVE_TRAIT]: "T.SensitiveValue",
+    // Query lists sent as one comma-separated value (`explode: false`);
+    // patches/comma-delimited-queries.json stamps them.
+    [COMMA_DELIMITED_TRAIT]: "T.CommaDelimited",
   },
   memberTsType: (m) =>
     SENSITIVE_TRAIT in m.traits

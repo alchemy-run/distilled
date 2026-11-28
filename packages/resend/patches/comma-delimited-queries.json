@@ -1,0 +1,10 @@
+{
+  "description": "Send listEmailReceiving's `to` list as one comma-separated query parameter (`?to=a@example.com,b@example.com`). The spec declares it `style: form, explode: false` and says \"Repeating the parameter returns a 422 validation_error\", but the shared OpenAPI converter drops `explode`, so the SDK would send `?to=a&to=b`. The trait maps to core `T.CommaDelimited` in scripts/generate.ts.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#EmailsListReceivingRequest/members/to/traits/com.distilled.resend#commaDelimited",
+      "value": {}
+    }
+  ]
+}

@@ -2110,8 +2110,14 @@ export interface GetAutomationRunRequest {
   /** The ID of the automation run. */
   run_id: string;
 }
-/** The current status of the automation run. */
-export type AutomationRunStatus = "running" | "completed" | "failed" | "cancelled";
+/** The current status of the automation run. `cancelled` runs were stopped on purpose, `skipped` runs ended on their own. */
+export type AutomationRunStatus =
+  | "running"
+  | "completed"
+  | "failed"
+  | "cancelled"
+  | "quota_exceeded"
+  | "skipped";
 /** The type of automation step. */
 export type AutomationRunStepType =
   | "trigger"
@@ -2148,8 +2154,10 @@ export interface AutomationRun {
   object: string;
   /** The ID of the automation run. */
   id: string;
-  /** The current status of the automation run. */
+  /** The current status of the automation run. `cancelled` runs were stopped on purpose, `skipped` runs ended on their own. */
   status: AutomationRunStatus;
+  /** The reason behind the run's status, for example `missing_variable` or `contact_deleted`. Only present on `failed` and `skipped` runs. */
+  status_reason?: string | undefined;
   /** The date and time the run started. */
   started_at: string | null;
   /** The date and time the run completed. */
@@ -3153,7 +3161,7 @@ export interface ListApiKeysResponse {
 export interface ListAutomationRunsRequest {
   /** The ID of the automation. */
   automation_id: string;
-  /** Filter runs by status. Comma-separated list of: running, completed, failed, cancelled. */
+  /** Filter runs by status. Comma-separated list of: running, completed, failed, cancelled, quota_exceeded, skipped. */
   status?: string | undefined;
   /** Number of items to return. */
   limit?: number | undefined;
@@ -3162,13 +3170,21 @@ export interface ListAutomationRunsRequest {
   /** Return items before this cursor. */
   before?: string | undefined;
 }
-/** The current status of the automation run. */
-export type AutomationRunListItemStatus = "running" | "completed" | "failed" | "cancelled";
+/** The current status of the automation run. `cancelled` runs were stopped on purpose, `skipped` runs ended on their own. */
+export type AutomationRunListItemStatus =
+  | "running"
+  | "completed"
+  | "failed"
+  | "cancelled"
+  | "quota_exceeded"
+  | "skipped";
 export interface AutomationRunListItem {
   /** The ID of the automation run. */
   id: string;
-  /** The current status of the automation run. */
+  /** The current status of the automation run. `cancelled` runs were stopped on purpose, `skipped` runs ended on their own. */
   status: AutomationRunListItemStatus;
+  /** The reason behind the run's status, for example `missing_variable` or `contact_deleted`. Only present on `failed` and `skipped` runs. */
+  status_reason?: string | undefined;
   /** The date and time the run started. */
   started_at: string | null;
   /** The date and time the run completed. */
@@ -3601,6 +3617,7 @@ export interface ListAttachmentsResponse {
   /** Array containing attachment information. */
   data: ListAttachmentsResponseDataList;
 }
+export type ListEmailReceivingRequestToList = Array<string>;
 export interface ListEmailReceivingRequest {
   /** Maximum number of received emails to return. */
   limit?: number | undefined;
@@ -3608,6 +3625,12 @@ export interface ListEmailReceivingRequest {
   after?: string | undefined;
   /** Pagination cursor to fetch results before this email ID. Cannot be used with 'after'. */
   before?: string | undefined;
+  /** Comma-separated recipient addresses. Each value must exactly match the envelope recipient, with case. Returns emails that match any of them. Up to 20 values. Repeating the parameter returns a 422 validation_error. */
+  to?: ListEmailReceivingRequestToList | undefined;
+  /** Matches emails received on or after this date. Accepts a date like `2026-09-01` or an ISO 8601 timestamp, in UTC unless the timestamp has an offset. */
+  start_date?: string | undefined;
+  /** Matches emails received on or before this date. Same formats as `start_date`. A date covers that whole day, so `start_date=2026-09-01&end_date=2026-09-30` covers all of September. A timestamp is used as given. An `end_date` before `start_date` returns a 422 validation_error. A range entirely outside your data retention also returns a 422. */
+  end_date?: string | undefined;
 }
 /** The recipient email addresses. */
 export type ListReceivedEmailsResponseDataItemToList = Array<string>;
@@ -8725,6 +8748,7 @@ function __c29(j: number): any {
         S.Struct({
           id: S.String,
           status: S.String,
+          status_reason: S.optional(S.String),
           started_at: S.NullOr(S.String),
           completed_at: S.NullOr(S.String),
           created_at: S.String,
@@ -9128,6 +9152,9 @@ function __c43(j: number): any {
           limit: S.optional(S.Number.pipe(T.Query())),
           after: S.optional(S.String.pipe(T.Query())),
           before: S.optional(S.String.pipe(T.Query())),
+          to: S.optional(__S(1536, __c96, 0).pipe(T.Query(), T.CommaDelimited({}))),
+          start_date: S.optional(S.String.pipe(T.Query())),
+          end_date: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/emails/receiving", code: 200 })),
       ).annotate({ identifier: "ListEmailReceivingRequest" });
     case 1:
@@ -11395,6 +11422,7 @@ function __c168(j: number): any {
           object: S.String,
           id: S.String,
           status: S.String,
+          status_reason: S.optional(S.String),
           started_at: S.NullOr(S.String),
           completed_at: S.NullOr(S.String),
           created_at: S.String,
