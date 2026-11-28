@@ -86,6 +86,7 @@ export class Forbidden
           /*@__PURE__*/ S.suspend(() => __S(4832, __c151, 0)),
           /*@__PURE__*/ S.suspend(() => __S(4832, __c151, 0)),
           /*@__PURE__*/ S.suspend(() => __S(4832, __c151, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(4832, __c151, 0)),
           /*@__PURE__*/ S.suspend(() => __S(32, __c1, 0)),
           /*@__PURE__*/ S.suspend(() => __S(4832, __c151, 0)),
           S.String,
@@ -98,6 +99,7 @@ export class Forbidden
 {
   declare readonly body?:
     | ForbiddenResponse
+    | TimesheetForbiddenResponse
     | CountryFormForbiddenResponse
     | PayslipFileForbiddenResponse
     | IntegrationsScimErrorResponse
@@ -3569,15 +3571,15 @@ export type WebhookTriggerBillingParamsDocumentType =
   | "supplemental_service_credit_note"
   | "prefunding_credit_note"
   | "reconciliation_credit_note"
+  | "eor_reserve_credit_note"
+  | "cor_service_invoice"
+  | "peo_payroll_invoice"
   | "eor_reserve_invoice"
   | "credit_note"
-  | "payroll_service_invoice"
-  | "cor_service_invoice"
+  | "peo_service_invoice"
   | "contractor_management_invoice"
-  | "peo_payroll_invoice"
-  | "eor_reserve_credit_note"
   | "remote_plan_invoice"
-  | "peo_service_invoice";
+  | "payroll_service_invoice";
 export type WebhookTriggerBillingParamsEventType = "billing_document.issued";
 export interface WebhookTriggerBillingParams {
   document_type: WebhookTriggerBillingParamsDocumentType | (string & {});
@@ -4496,21 +4498,21 @@ export interface GetBillingDocumentPdfRequest {
 }
 export interface GetBillingDocumentPdfResponse {}
 export type GetBillingDocumentsRequestType =
-  | "eor_reserve_invoice"
-  | "prefunding_invoice"
-  | "credit_note"
-  | "reconciliation_invoice"
-  | "supplemental_service_credit_note"
-  | "payroll_service_invoice"
-  | "reconciliation_credit_note"
-  | "cor_service_invoice"
-  | "prefunding_credit_note"
-  | "contractor_management_invoice"
-  | "supplemental_service_invoice"
-  | "peo_payroll_invoice"
   | "eor_reserve_credit_note"
+  | "supplemental_service_invoice"
+  | "supplemental_service_credit_note"
+  | "cor_service_invoice"
+  | "peo_payroll_invoice"
+  | "eor_reserve_invoice"
+  | "reconciliation_invoice"
+  | "credit_note"
+  | "reconciliation_credit_note"
+  | "peo_service_invoice"
+  | "contractor_management_invoice"
+  | "prefunding_invoice"
   | "remote_plan_invoice"
-  | "peo_service_invoice";
+  | "payroll_service_invoice"
+  | "prefunding_credit_note";
 export interface GetBillingDocumentsRequest {
   /** The month for the billing documents (in ISO-8601 format) */
   period?: string | undefined;
@@ -4522,21 +4524,21 @@ export interface GetBillingDocumentsRequest {
   page_size?: number | undefined;
 }
 export type BillingDocumentsResponseDataBillingDocumentsItemBillingDocumentType =
-  | "eor_reserve_invoice"
-  | "prefunding_invoice"
-  | "credit_note"
-  | "reconciliation_invoice"
-  | "supplemental_service_credit_note"
-  | "payroll_service_invoice"
-  | "reconciliation_credit_note"
-  | "cor_service_invoice"
-  | "prefunding_credit_note"
-  | "contractor_management_invoice"
-  | "supplemental_service_invoice"
-  | "peo_payroll_invoice"
   | "eor_reserve_credit_note"
+  | "supplemental_service_invoice"
+  | "supplemental_service_credit_note"
+  | "cor_service_invoice"
+  | "peo_payroll_invoice"
+  | "eor_reserve_invoice"
+  | "reconciliation_invoice"
+  | "credit_note"
+  | "reconciliation_credit_note"
+  | "peo_service_invoice"
+  | "contractor_management_invoice"
+  | "prefunding_invoice"
   | "remote_plan_invoice"
-  | "peo_service_invoice";
+  | "payroll_service_invoice"
+  | "prefunding_credit_note";
 export interface BillingDocumentsResponseDataBillingDocumentsItem {
   /** The entity issuing the billing document. Null if not applicable. */
   bill_from?: string | null | undefined;
@@ -4711,9 +4713,14 @@ export interface AccountUserIntegrationUser {
 }
 export type BulkEmploymentImportJobInsertedByCase1IntegrationUsersList =
   Array<AccountUserIntegrationUser>;
+/** Names of fields redacted because the caller lacks the required attribute permission */
+export type AccountsMinimalCompanyAdminRedactedFieldsList = Array<string>;
+/** May be redacted for an employer user: `name` and `slug` are sentinels, listed in `redacted_fields`, without the employment's added-by attribute permission. */
 export interface AccountsMinimalCompanyAdmin {
   job_title?: string | null | undefined;
   name?: string | undefined;
+  /** Names of fields redacted because the caller lacks the required attribute permission */
+  redacted_fields?: AccountsMinimalCompanyAdminRedactedFieldsList | undefined;
   slug?: string | undefined;
 }
 export type BulkEmploymentImportJobInsertedByCase1Role =
@@ -9483,9 +9490,13 @@ export type TimesheetTopUpTimeTrackingsList = Array<TopUpTimeTracking>;
 export type TimesheetTotalHours = HoursAndMinutes;
 /** A timesheet represents an employee's recorded working hours for a specific date range. It contains aggregated hour totals and individual time tracking entries. Timesheets progress through a lifecycle: open (draft) -> submitted -> approved -> processed, or they may be sent back for revision. */
 export interface Timesheet {
+  /** Null when `can_approve` is true; otherwise the first reason approval is blocked, in this order: `missing_permission`, `contractor`, `not_submitted`, `held_for_payroll_check`, `employment_not_active`, `superseded_by_correction`. This is an open list: clients must accept new values added in the future. */
+  approval_blocked_reason: string | null;
   /** Whether this timesheet requires explicit approval before it can be processed. When false, the timesheet may be auto-approved based on the company's configuration. */
   approval_required: boolean;
   break_hours: HoursAndMinutes;
+  /** Whether the timesheet's current state and the user's RBAC permissions allow company approval. OAuth scopes are not checked: a read-only token can use a separate write token to approve. Re-read before approving; concurrent changes can still prevent approval. */
+  can_approve: boolean;
   country_code: string;
   employment_id: string;
   end_date: string;
@@ -11210,6 +11221,8 @@ export type ConflictOrResourceErrorResponse = ConflictResponse | ResourceErrorRe
 export interface ForbiddenResponse {
   message: string;
 }
+/** Returned when the token's scope or the user's RBAC permissions do not allow the action. */
+export type TimesheetForbiddenResponse = ForbiddenResponse;
 /** Returned when the token lacks a required scope or role, and, for `administrative_details` with an `employment_id`, when none of the roles the token acts with holds both the `people-employment` and the `people-sensitive-details` read permissions. An employment outside the data scope of those roles answers 404. */
 export type CountryFormForbiddenResponse = ForbiddenResponse;
 /** Returned when the user the token acts for has no role that holds all the permissions this download needs, or can't open the payslip's file. A payslip outside the data scope of those roles answers 404. */
@@ -11301,12 +11314,12 @@ export interface ApproveTimesheetErrorResponseFieldErrorsItem {
 /** The structured errors. Branch on `code`, not on the message. */
 export type ApproveTimesheetErrorResponseFieldErrorsList =
   Array<ApproveTimesheetErrorResponseFieldErrorsItem>;
-/** Returned when the timesheet can't be approved. A timesheet Remote holds for a Payroll check also has `field_errors` with code `resource_invalid_state`. */
+/** Returned when the timesheet's state prevents approval, with `field_errors` code `resource_invalid_state`. */
 export interface ApproveTimesheetErrorResponse {
   /** Validation errors, keyed by field. */
   errors?: unknown | undefined;
   /** The structured errors. Branch on `code`, not on the message. */
-  field_errors?: ApproveTimesheetErrorResponseFieldErrorsList | undefined;
+  field_errors: ApproveTimesheetErrorResponseFieldErrorsList;
   /** A human-readable summary of why it can't be approved. */
   message: string;
 }
@@ -12977,11 +12990,11 @@ export const createTimeoffDecline: API.OperationMethod<
 }));
 
 export type CreateTimesheetApproveError =
-  | BadRequest
+  | Forbidden
   | NotFound
   | UnprocessableEntity
   | RemoteOpError;
-/** Approve timesheet Approves the given timesheet. Contractor timesheets can't be approved through the API and are rejected with `422`. Some timesheets Remote reopened for a Payroll check can only be approved by Remote. They are rejected with `422` and code `resource_invalid_state`; send them back if the hours are wrong. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) -- obtained by a company manager through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Company-scoped access token (assertion)** (`OAuth2CompanyManagerAssertion`) -- obtained through the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant for a company manager. See [OAuth Assertion](https://developer.remote.com/docs/authorization-method-oauth-assertion). - **Customer API token** (`CustomerAPIToken`) -- generated by the customer on their Integration Settings page, with the scopes they choose there. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes Any one of the scopes in a token type's row is enough. `all:write` works too. */
+/** Approve timesheet Approves the given timesheet. Read `can_approve` and `approval_blocked_reason` on the full timesheet response before approving. Refusals caused by the timesheet's state return `422` with `field_errors` code `resource_invalid_state`. Contractor timesheets can't be approved through the API and are rejected with `422`. Some timesheets Remote reopened for a Payroll check can only be approved by Remote. They are rejected with `422` and code `resource_invalid_state`; send them back if the hours are wrong. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) -- obtained by a company manager through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Company-scoped access token (assertion)** (`OAuth2CompanyManagerAssertion`) -- obtained through the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant for a company manager. See [OAuth Assertion](https://developer.remote.com/docs/authorization-method-oauth-assertion). - **Customer API token** (`CustomerAPIToken`) -- generated by the customer on their Integration Settings page, with the scopes they choose there. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes Any one of the scopes in a token type's row is enough. `all:write` works too. */
 export const createTimesheetApprove: API.OperationMethod<
   CreateTimesheetApproveRequest,
   MinimalTimesheetResponse,
@@ -12990,7 +13003,7 @@ export const createTimesheetApprove: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12352, __c386, 0) as any as S.Schema<CreateTimesheetApproveRequest>,
   output: __S(12355, __c386, 3) as any as S.Schema<MinimalTimesheetResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: RemoteServiceErrors,
   protocol: RemoteProtocol,
   retry: Retry.Retry,
@@ -23584,8 +23597,10 @@ function __c214(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
+          approval_blocked_reason: S.NullOr(S.String),
           approval_required: S.Boolean,
           break_hours: __S(6080, __c190, 0),
+          can_approve: S.Boolean,
           country_code: S.String,
           employment_id: S.String,
           end_date: S.String,
@@ -25600,7 +25615,7 @@ function __c319(j: number): any {
       return S.suspend(() =>
         S.Struct({
           errors: S.optional(S.Unknown),
-          field_errors: S.optional(__S(10219, __c319, 11)),
+          field_errors: __S(10219, __c319, 11),
           message: S.String,
         }),
       ).annotate({ identifier: "ApproveTimesheetErrorResponse" });
