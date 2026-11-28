@@ -3328,6 +3328,8 @@ export interface CheckoutsUpdateRequest {
   trial_interval_count?: number | null | undefined;
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
   metadata?: CheckoutsUpdateRequestMetadataMap | undefined;
+  /** ID in your system of the product to checkout. Must be present in the checkout's product list. Can't be combined with `product_id`. */
+  external_product_id?: string | undefined;
   currency?: PresentmentCurrency | (string & {}) | undefined;
   /** ID of the discount to apply to the checkout. */
   discount_id?: string | null | undefined;
@@ -4890,10 +4892,15 @@ export type CustomerPortalLicenseKeysValidateRequestConditionsMap = {
 export interface CustomerPortalLicenseKeysValidateRequest {
   key: string;
   organization_id: string;
-  activation_id?: string | null | undefined;
-  benefit_id?: string | null | undefined;
-  customer_id?: string | null | undefined;
-  increment_usage?: number | null | undefined;
+  activation_id?: string | undefined;
+  /** The benefit ID. */
+  benefit_id?: string | undefined;
+  /** The ID in your system of the benefit the license key must belong to. Matches every version of the benefit. Can't be combined with `benefit_id`. */
+  external_benefit_id?: string | undefined;
+  customer_id?: string | undefined;
+  /** The ID in your system of the customer the license key must belong to. Can't be combined with `customer_id`. */
+  external_customer_id?: string | undefined;
+  increment_usage?: number | undefined;
   /** Key-value object allowing you to set conditions that must match when validating the license key. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
   conditions?: CustomerPortalLicenseKeysValidateRequestConditionsMap | undefined;
 }
@@ -6008,6 +6015,8 @@ export interface CustomerStateSubscription {
   ends_at: string | null;
   /** The ID of the subscribed product. */
   product_id: string;
+  /** The external ID of the subscribed product, if any. It stays the same across product versions. */
+  external_product_id: string | null;
   /** The ID of the applied discount, if any. */
   discount_id: string | null;
   /** The number of seats for seat-based subscriptions. None for non-seat subscriptions. */
@@ -6038,6 +6047,8 @@ export interface CustomerStateBenefitGrant {
   granted_at: string;
   /** The ID of the benefit concerned by this grant. */
   benefit_id: string;
+  /** The external ID of the benefit concerned by this grant, if any. It stays the same across benefit versions. */
+  external_benefit_id: string | null;
   /** The type of the benefit concerned by this grant. */
   benefit_type: BenefitType;
   /** The metadata of the benefit concerned by this grant. */
@@ -6056,6 +6067,8 @@ export interface CustomerStateMeter {
   modified_at: string | null;
   /** The ID of the meter. */
   meter_id: string;
+  /** The external ID of the meter, if any. It stays the same across meter versions. */
+  external_meter_id: string | null;
   /** The number of consumed units. */
   consumed_units: number;
   /** The number of credited units. */
@@ -8935,10 +8948,15 @@ export type LicenseKeysValidateRequestConditionsMap = {
 export interface LicenseKeysValidateRequest {
   key: string;
   organization_id: string;
-  activation_id?: string | null | undefined;
-  benefit_id?: string | null | undefined;
-  customer_id?: string | null | undefined;
-  increment_usage?: number | null | undefined;
+  activation_id?: string | undefined;
+  /** The benefit ID. */
+  benefit_id?: string | undefined;
+  /** The ID in your system of the benefit the license key must belong to. Matches every version of the benefit. Can't be combined with `benefit_id`. */
+  external_benefit_id?: string | undefined;
+  customer_id?: string | undefined;
+  /** The ID in your system of the customer the license key must belong to. Can't be combined with `customer_id`. */
+  external_customer_id?: string | undefined;
+  increment_usage?: number | undefined;
   /** Key-value object allowing you to set conditions that must match when validating the license key. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
   conditions?: LicenseKeysValidateRequestConditionsMap | undefined;
 }
@@ -11021,6 +11039,68 @@ export interface OrderCreate {
   /** The ID of the one-time product to charge for. Must belong to the order's organization. Only fixed-price, free and unit-based products are supported. */
   product_id: string;
 }
+export type OrderCreateExternalCustomerCustomFieldDataValue = string | number | boolean;
+/** Key-value object storing custom field values. */
+export type OrderCreateExternalCustomerCustomFieldDataMap = {
+  [key: string]: OrderCreateExternalCustomerCustomFieldDataValue | null | undefined;
+};
+export type OrderCreateExternalCustomerMetadataValue = string | number | number | boolean;
+/** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
+export type OrderCreateExternalCustomerMetadataMap = {
+  [key: string]: OrderCreateExternalCustomerMetadataValue | undefined;
+};
+/** Schema to create a draft order for an off-session charge, referencing the customer by its external ID. */
+export interface OrderCreateExternalCustomer {
+  /** Key-value object storing custom field values. */
+  custom_field_data?: OrderCreateExternalCustomerCustomFieldDataMap | undefined;
+  /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
+  metadata?: OrderCreateExternalCustomerMetadataMap | undefined;
+  /** The ID of the organization the order belongs to. **Required unless you use an organization token.** The customer and product must belong to this organization. */
+  organization_id?: string | null | undefined;
+  /** The currency to charge in (ISO 4217, lowercase, e.g. `usd`). Defaults to the organization's default currency; specify it to force a different one, or when the product isn't priced in the organization's default currency. */
+  currency?: string | null | undefined;
+  /** A custom amount to charge, in the smallest currency unit. Overrides the product's price; defaults to the product's configured price (0 for free products). A positive amount must be at least the currency's minimum. Can't be combined with `units`. */
+  amount?: number | null | undefined;
+  /** The number of units to charge for. Required when the product has unit-based pricing, and rejected otherwise. The amount comes from the price's tiers. Can't be combined with `amount`. */
+  units?: number | null | undefined;
+  /** A custom description for the order's line item, shown on the invoice and receipt (e.g. `5,000 tokens`). Defaults to the product name. */
+  description?: string | null | undefined;
+  /** The ID of the customer in your system the order is for. Must belong to the order's organization. */
+  external_customer_id: string;
+  /** The ID of the one-time product to charge for. Must belong to the order's organization. Only fixed-price, free and unit-based products are supported. */
+  product_id: string;
+}
+export type OrderCreateExternalProductCustomFieldDataValue = string | number | boolean;
+/** Key-value object storing custom field values. */
+export type OrderCreateExternalProductCustomFieldDataMap = {
+  [key: string]: OrderCreateExternalProductCustomFieldDataValue | null | undefined;
+};
+export type OrderCreateExternalProductMetadataValue = string | number | number | boolean;
+/** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
+export type OrderCreateExternalProductMetadataMap = {
+  [key: string]: OrderCreateExternalProductMetadataValue | undefined;
+};
+/** Schema to create a draft order for an off-session charge, referencing the product by its external ID. */
+export interface OrderCreateExternalProduct {
+  /** Key-value object storing custom field values. */
+  custom_field_data?: OrderCreateExternalProductCustomFieldDataMap | undefined;
+  /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
+  metadata?: OrderCreateExternalProductMetadataMap | undefined;
+  /** The ID of the organization the order belongs to. **Required unless you use an organization token.** The customer and product must belong to this organization. */
+  organization_id?: string | null | undefined;
+  /** The currency to charge in (ISO 4217, lowercase, e.g. `usd`). Defaults to the organization's default currency; specify it to force a different one, or when the product isn't priced in the organization's default currency. */
+  currency?: string | null | undefined;
+  /** A custom amount to charge, in the smallest currency unit. Overrides the product's price; defaults to the product's configured price (0 for free products). A positive amount must be at least the currency's minimum. Can't be combined with `units`. */
+  amount?: number | null | undefined;
+  /** The number of units to charge for. Required when the product has unit-based pricing, and rejected otherwise. The amount comes from the price's tiers. Can't be combined with `amount`. */
+  units?: number | null | undefined;
+  /** A custom description for the order's line item, shown on the invoice and receipt (e.g. `5,000 tokens`). Defaults to the product name. */
+  description?: string | null | undefined;
+  /** The ID of the customer the order is for. Must belong to the order's organization. */
+  customer_id: string;
+  /** The ID of the one-time product in your system to charge for. Resolves to the current version of the product. Must belong to the order's organization. Only fixed-price, free and unit-based products are supported. */
+  external_product_id: string;
+}
 export type OrderCreateExternalCustomFieldDataValue = string | number | boolean;
 /** Key-value object storing custom field values. */
 export type OrderCreateExternalCustomFieldDataMap = {
@@ -11052,7 +11132,11 @@ export interface OrderCreateExternal {
   /** The ID of the one-time product in your system to charge for. Resolves to the current version of the product. Must belong to the order's organization. Only fixed-price, free and unit-based products are supported. */
   external_product_id: string;
 }
-export type OrdersCreateRequestBody = OrderCreate | OrderCreateExternal;
+export type OrdersCreateRequestBody =
+  | OrderCreate
+  | OrderCreateExternalCustomer
+  | OrderCreateExternalProduct
+  | OrderCreateExternal;
 export interface OrdersCreateRequest {
   body: OrdersCreateRequestBody;
 }
@@ -13148,7 +13232,7 @@ export interface SubscriptionCreateCustomer {
   /** The ID of the recurring product to subscribe to. Must be a free product or have a trial with no upfront payment setup required. Otherwise, the customer should go through a checkout flow. */
   product_id: string;
   /** The currency of the subscription. The product must have a free price in this currency or have a trial with no upfront payment setup required. If not set, the organization's default currency is used. */
-  currency?: PresentmentCurrency | (string & {}) | null | undefined;
+  currency?: PresentmentCurrency | (string & {}) | undefined;
   /** The ID of the customer to create the subscription for. */
   customer_id: string;
 }
@@ -13164,13 +13248,32 @@ export interface SubscriptionCreateExternalCustomer {
   /** The ID of the recurring product to subscribe to. Must be a free product or have a trial with no upfront payment setup required. Otherwise, the customer should go through a checkout flow. */
   product_id: string;
   /** The currency of the subscription. The product must have a free price in this currency or have a trial with no upfront payment setup required. If not set, the organization's default currency is used. */
-  currency?: PresentmentCurrency | (string & {}) | null | undefined;
+  currency?: PresentmentCurrency | (string & {}) | undefined;
   /** The ID of the customer in your system to create the subscription for. It must already exist in Polar. */
   external_customer_id: string;
 }
+export type SubscriptionCreateExternalMetadataValue = string | number | number | boolean;
+/** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
+export type SubscriptionCreateExternalMetadataMap = {
+  [key: string]: SubscriptionCreateExternalMetadataValue | undefined;
+};
+/** Create a subscription using external IDs for the customer and the product. */
+export interface SubscriptionCreateExternal {
+  /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
+  metadata?: SubscriptionCreateExternalMetadataMap | undefined;
+  /** The ID of the customer in your system to create the subscription for. It must already exist in Polar. */
+  external_customer_id: string;
+  /** The ID of the recurring product in your system to subscribe to. Resolves to the current version of the product. Must be a free product or have a trial with no upfront payment setup required. Otherwise, the customer should go through a checkout flow. */
+  external_product_id: string;
+  /** The ID of the organization owning the customer and product. **Required unless your credential identifies one organization.** Omit this field when using an organization token. */
+  organization_id?: string | null | undefined;
+  /** The currency of the subscription. The product must have a free price in this currency or have a trial with no upfront payment setup required. If not set, the organization's default currency is used. */
+  currency?: PresentmentCurrency | (string & {}) | undefined;
+}
 export type SubscriptionsCreateRequestBody =
   | SubscriptionCreateCustomer
-  | SubscriptionCreateExternalCustomer;
+  | SubscriptionCreateExternalCustomer
+  | SubscriptionCreateExternal;
 export interface SubscriptionsCreateRequest {
   body: SubscriptionsCreateRequestBody;
 }
@@ -13439,6 +13542,8 @@ export interface SubscriptionUpdateBase {
   metadata?: SubscriptionUpdateBaseMetadataMap | undefined;
   /** Update subscription to another product. */
   product_id?: string | undefined;
+  /** Update subscription to another product, referenced by its ID in your system. Resolves to the current version of the product. Can't be combined with `product_id`. */
+  external_product_id?: string | undefined;
   /** Determine how to handle the proration billing. If not provided, will use the default organization setting. */
   proration_behavior?: SubscriptionUpdateBaseProrationBehavior | undefined;
   /** Update the subscription to apply a new discount. If set to `null`, the discount will be removed. The change will be applied on the next billing cycle. */
@@ -16989,8 +17094,8 @@ export const oauth2Userinfo: API.OperationMethod<
   span: "Oauth2Userinfo",
 }));
 
-export type OrdersCreateError = UnprocessableEntity | PolarOpError;
-/** Create Order Create a draft order for an off-session charge against a saved payment method. The order is created with `status=draft` and no invoice number; call `POST /v1/orders/{id}/finalize` to attempt the charge. Reference the customer and the product both by Polar ID or both by external ID. The organization must have the `off_session_charges_enabled` feature flag. **Scopes**: `orders:write` */
+export type OrdersCreateError = Forbidden | UnprocessableEntity | PolarOpError;
+/** Create Order Create a draft order for an off-session charge against a saved payment method. The order is created with `status=draft` and no invoice number; call `POST /v1/orders/{id}/finalize` to attempt the charge. Reference the customer by `customer_id` or `external_customer_id`, and the product by `product_id` or `external_product_id`. The organization must have the `off_session_charges_enabled` feature flag. **Scopes**: `orders:write` */
 export const ordersCreate: API.OperationMethod<
   OrdersCreateRequest,
   Order,
@@ -16999,7 +17104,7 @@ export const ordersCreate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(536, __c67, 0) as any as S.Schema<OrdersCreateRequest>,
   output: __S(547, __c68, 3) as any as S.Schema<Order>,
-  errors: [UnprocessableEntity],
+  errors: [Forbidden, UnprocessableEntity],
   serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -17007,7 +17112,7 @@ export const ordersCreate: API.OperationMethod<
   span: "OrdersCreate",
 }));
 
-export type OrdersExportError = Forbidden | UnprocessableEntity | PolarOpError;
+export type OrdersExportError = UnprocessableEntity | PolarOpError;
 /** Export Orders Export orders as a CSV file. **Scopes**: `orders:read` */
 export const ordersExport: API.OperationMethod<
   OrdersExportRequest,
@@ -17017,7 +17122,7 @@ export const ordersExport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(552, __c69, 0) as any as S.Schema<OrdersExportRequest>,
   output: __S(16, __c2, 0) as any as S.Schema<OrdersExportResponse>,
-  errors: [Forbidden, UnprocessableEntity],
+  errors: [UnprocessableEntity],
   serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -17469,7 +17574,7 @@ export const refundsList: API.PaginatedOperationMethod<
 ) as any;
 
 export type SubscriptionsCreateError = Conflict | UnprocessableEntity | PolarOpError;
-/** Create Subscription Create a subscription programmatically. Supports free products and paid products with a trial that does not require upfront payment setup. Paid subscriptions start with the product's configured trial period. For other paid products, use the checkout flow. No initial order will be created and no confirmation email will be sent. **Scopes**: `subscriptions:write` */
+/** Create Subscription Create a subscription programmatically. Supports free products and paid products with a trial that does not require upfront payment setup. Paid subscriptions start with the product's configured trial period. For other paid products, use the checkout flow. Reference the customer by Polar ID or external ID. Reference the product by Polar ID, or by external ID together with an external customer ID. No initial order will be created and no confirmation email will be sent. **Scopes**: `subscriptions:write` */
 export const subscriptionsCreate: API.OperationMethod<
   SubscriptionsCreateRequest,
   Subscription,
@@ -18665,10 +18770,12 @@ function __c44(j: number): any {
         S.Struct({
           key: S.String,
           organization_id: S.String,
-          activation_id: S.optional(S.NullOr(S.String)),
-          benefit_id: S.optional(S.NullOr(S.String)),
-          customer_id: S.optional(S.NullOr(S.String)),
-          increment_usage: S.optional(S.NullOr(S.Number)),
+          activation_id: S.optional(S.String),
+          benefit_id: S.optional(S.String),
+          external_benefit_id: S.optional(S.String),
+          customer_id: S.optional(S.String),
+          external_customer_id: S.optional(S.String),
+          increment_usage: S.optional(S.Number),
           conditions: S.optional(__S(352, __c44, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/v1/license-keys/validate", code: 200 })),
       ).annotate({ identifier: "LicenseKeysValidateRequest" });
@@ -20810,6 +20917,7 @@ function __c132(j: number): any {
           trial_interval: S.optional(S.NullOr(S.String)),
           trial_interval_count: S.optional(S.NullOr(S.Number)),
           metadata: S.optional(__S(1057, __c132, 1)),
+          external_product_id: S.optional(S.String),
           currency: S.optional(S.String),
           discount_id: S.optional(S.NullOr(S.String)),
           allow_discount_codes: S.optional(S.Boolean),
@@ -21823,10 +21931,12 @@ function __c180(j: number): any {
         S.Struct({
           key: S.String,
           organization_id: S.String,
-          activation_id: S.optional(S.NullOr(S.String)),
-          benefit_id: S.optional(S.NullOr(S.String)),
-          customer_id: S.optional(S.NullOr(S.String)),
-          increment_usage: S.optional(S.NullOr(S.Number)),
+          activation_id: S.optional(S.String),
+          benefit_id: S.optional(S.String),
+          external_benefit_id: S.optional(S.String),
+          customer_id: S.optional(S.String),
+          external_customer_id: S.optional(S.String),
+          increment_usage: S.optional(S.Number),
           conditions: S.optional(__S(1440, __c180, 0)),
         }).pipe(
           T.Http({ method: "POST", uri: "/v1/customer-portal/license-keys/validate", code: 200 }),
