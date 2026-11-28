@@ -50,6 +50,8 @@ export class NotFound
 
 export interface ApproveReimbursementRequest {
   reimbursementId: string;
+  /** Return an approval request that a person confirms in Mercury, instead of approving. */
+  requireApproval?: boolean | null | undefined;
 }
 export interface ApproveReimbursementResponse {}
 export interface ArchiveBudgetRequest {
@@ -4584,6 +4586,33 @@ export interface MarkReimbursementPaidRequest {
   note?: string | null | undefined;
 }
 export interface MarkReimbursementPaidResponse {}
+/** Adjustments on the line entry itself, for any part of the payment no payroll run accounts for, such as a bank fee, at most 100. */
+export type MatchBooksPayrollPaymentRequestAdjustmentsList =
+  Array<BooksAPIPaymentApplicationAdjustment>;
+/** Adjustments booked against this payroll run, writing off part of its remaining balance, at most 100. */
+export type BooksAPIPayrollPaymentApplicationAdjustmentsList =
+  Array<BooksAPIPaymentApplicationAdjustment>;
+/** The part of the line entry's amount applied to one payroll run. */
+export interface BooksAPIPayrollPaymentApplication {
+  /** Adjustments booked against this payroll run, writing off part of its remaining balance, at most 100. */
+  adjustments?: BooksAPIPayrollPaymentApplicationAdjustmentsList | null | undefined;
+  amount: unknown;
+  /** The payroll run paid, as `getBooksPayrollRuns` returns its `id`. */
+  payrollRunId: string;
+}
+/** One item per payroll run the withdrawal paid: at least 1 and at most 100 items, with no `payrollRunId` repeated. */
+export type MatchBooksPayrollPaymentRequestApplicationsList =
+  Array<BooksAPIPayrollPaymentApplication>;
+export interface MatchBooksPayrollPaymentRequest {
+  booksId?: string | undefined;
+  /** Adjustments on the line entry itself, for any part of the payment no payroll run accounts for, such as a bank fee, at most 100. */
+  adjustments?: MatchBooksPayrollPaymentRequestAdjustmentsList | null | undefined;
+  /** One item per payroll run the withdrawal paid: at least 1 and at most 100 items, with no `payrollRunId` repeated. */
+  applications: MatchBooksPayrollPaymentRequestApplicationsList;
+  /** The line entry of the bank withdrawal that paid the payroll runs, as `getBooksTransactions` and `getBooksTransaction` return its `lineEntryId`. */
+  lineEntryId: string;
+}
+export interface MatchBooksPayrollPaymentResponse {}
 export interface MatchReceiptRequest {
   receiptId: string;
 }
@@ -4953,15 +4982,15 @@ export interface VerifyWebhookRequest {
 }
 export interface VerifyWebhookResponse {}
 export type ApproveReimbursementError = BadRequest | NotFound | MercuryOpError;
-/** Approve a reimbursement Approve a submitted reimbursement. The token's user needs the "Reimbursement approval and submission" or "Policy management and approval" permission, and access to the organization's reimbursement account. The token needs the `reimbursements:manage` scope or Read and Write access. Self-approval works only when the organization allows it or has only one admin. Approved reimbursements pay out in a batch each weekday at 1:49 PM Eastern. A payout waits for a later batch when the reimbursement account can't cover it or the submitter has no verified payout account. */
+/** Approve a reimbursement Approve a submitted reimbursement. The token's user needs the "Reimbursement approval and submission" or "Policy management and approval" permission, and access to the organization's reimbursement account. The token needs the `reimbursements:manage` scope or Read and Write access. Self-approval works only when the organization allows it or has only one admin. Approved reimbursements pay out in a batch each weekday at 1:49 PM Eastern. A payout waits for a later batch when the reimbursement account can't cover it or the submitter has no verified payout account. The body is optional. Send `{"requireApproval": true}` to get an approval request instead of approving. A call from an MCP client always gets one. The response is 202 with the approval request, including a `dashboardLink`, and the reimbursement is approved only after a person confirms it in Mercury. */
 export const approveReimbursement: API.OperationMethod<
   ApproveReimbursementRequest,
   ApproveReimbursementResponse,
   ApproveReimbursementError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2144, __c67, 0) as any as S.Schema<ApproveReimbursementRequest>,
-  output: __S(2176, __c68, 0) as any as S.Schema<ApproveReimbursementResponse>,
+  input: __S(2208, __c69, 0) as any as S.Schema<ApproveReimbursementRequest>,
+  output: __S(2240, __c70, 0) as any as S.Schema<ApproveReimbursementResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -4978,8 +5007,8 @@ export const archiveBudget: API.OperationMethod<
   ArchiveBudgetError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2944, __c92, 0) as any as S.Schema<ArchiveBudgetRequest>,
-  output: __S(2176, __c68, 0) as any as S.Schema<ArchiveBudgetResponse>,
+  input: __S(3008, __c94, 0) as any as S.Schema<ArchiveBudgetRequest>,
+  output: __S(2240, __c70, 0) as any as S.Schema<ArchiveBudgetResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -4996,8 +5025,8 @@ export const assignTransactionToBudget: API.OperationMethod<
   AssignTransactionToBudgetError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3328, __c104, 0) as any as S.Schema<AssignTransactionToBudgetRequest>,
-  output: __S(2176, __c68, 0) as any as S.Schema<AssignTransactionToBudgetResponse>,
+  input: __S(3392, __c106, 0) as any as S.Schema<AssignTransactionToBudgetRequest>,
+  output: __S(2240, __c70, 0) as any as S.Schema<AssignTransactionToBudgetResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -5014,8 +5043,8 @@ export const bulkCreateBooksJournalEntries: API.OperationMethod<
   BulkCreateBooksJournalEntriesError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3812, __c119, 4) as any as S.Schema<BulkCreateBooksJournalEntriesRequest>,
-  output: __S(3813, __c119, 5) as any as S.Schema<CreateBooksAPIJournalEntriesBulkResponse>,
+  input: __S(3876, __c121, 4) as any as S.Schema<BulkCreateBooksJournalEntriesRequest>,
+  output: __S(3877, __c121, 5) as any as S.Schema<CreateBooksAPIJournalEntriesBulkResponse>,
   errors: [BadRequest],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -5032,8 +5061,8 @@ export const bulkDeleteBooksJournalEntries: API.OperationMethod<
   BulkDeleteBooksJournalEntriesError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4352, __c136, 0) as any as S.Schema<BulkDeleteBooksJournalEntriesRequest>,
-  output: __S(2176, __c68, 0) as any as S.Schema<BulkDeleteBooksJournalEntriesResponse>,
+  input: __S(4416, __c138, 0) as any as S.Schema<BulkDeleteBooksJournalEntriesRequest>,
+  output: __S(2240, __c70, 0) as any as S.Schema<BulkDeleteBooksJournalEntriesResponse>,
   errors: [BadRequest],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -5050,8 +5079,8 @@ export const bulkUpdateBooksJournalEntries: API.OperationMethod<
   BulkUpdateBooksJournalEntriesError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4743, __c148, 7) as any as S.Schema<BulkUpdateBooksJournalEntriesRequest>,
-  output: __S(2176, __c68, 0) as any as S.Schema<BulkUpdateBooksJournalEntriesResponse>,
+  input: __S(4807, __c150, 7) as any as S.Schema<BulkUpdateBooksJournalEntriesRequest>,
+  output: __S(2240, __c70, 0) as any as S.Schema<BulkUpdateBooksJournalEntriesResponse>,
   errors: [BadRequest],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -5068,8 +5097,8 @@ export const cancelCard: API.OperationMethod<
   CancelCardError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5184, __c162, 0) as any as S.Schema<CancelCardRequest>,
-  output: __S(5346, __c167, 2) as any as S.Schema<Card>,
+  input: __S(5248, __c164, 0) as any as S.Schema<CancelCardRequest>,
+  output: __S(5410, __c169, 2) as any as S.Schema<Card>,
   errors: [NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -5086,8 +5115,8 @@ export const cancelInvoice: API.OperationMethod<
   CancelInvoiceError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5792, __c181, 0) as any as S.Schema<CancelInvoiceRequest>,
-  output: __S(2176, __c68, 0) as any as S.Schema<CancelInvoiceResponse>,
+  input: __S(5856, __c183, 0) as any as S.Schema<CancelInvoiceRequest>,
+  output: __S(2240, __c70, 0) as any as S.Schema<CancelInvoiceResponse>,
   errors: [NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -5105,7 +5134,7 @@ export const cancelReimbursement: API.OperationMethod<
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CancelReimbursementRequest>,
-  output: __S(2176, __c68, 0) as any as S.Schema<CancelReimbursementResponse>,
+  output: __S(2240, __c70, 0) as any as S.Schema<CancelReimbursementResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -5169,7 +5198,7 @@ export const createBooksCategorizationRule: API.OperationMethod<
 }));
 
 export type CreateBooksCloseError = BadRequest | MercuryOpError;
-/** Close the books Closes the books through `closeDate` (`YYYY-MM-DD`), which must be today or earlier (UTC) and after the latest close date, or, when the books have never been closed, on or after the day the books' entries start; any other date is a 400 that names the rule. The close is soft: it sets the close date reports use and doesn't lock journal entries dated on or before it. To list existing closes and the latest close date, use getBooksCloses. */
+/** Close the books Closes the books through `closeDate` (`YYYY-MM-DD`), which must be today or earlier (UTC) and after the latest close date, or, when the books have never been closed, on or after the day the books' entries start; any other date is a 400 that names the rule. A `closeDate` equal to the latest close date returns 200 and changes nothing, so retrying the same request is safe. A 503 means Books couldn't close the books or couldn't confirm the close; retry the same request. The close is soft: it sets the close date reports use and doesn't lock journal entries dated on or before it. To list existing closes and the latest close date, use getBooksCloses. */
 export const createBooksClose: API.OperationMethod<
   CreateBooksCloseRequest,
   CreateBooksAPICloseResponse,
@@ -5194,8 +5223,8 @@ export const createBooksInvoice: API.OperationMethod<
   CreateBooksInvoiceError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c56, 0) as any as S.Schema<CreateBooksInvoiceRequest>,
-  output: __S(1824, __c57, 0) as any as S.Schema<BooksAPIInvoice>,
+  input: __S(1824, __c57, 0) as any as S.Schema<CreateBooksInvoiceRequest>,
+  output: __S(1856, __c58, 0) as any as S.Schema<BooksAPIInvoice>,
   errors: [BadRequest],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -5212,8 +5241,8 @@ export const createBooksLedgers: API.OperationMethod<
   CreateBooksLedgersError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1858, __c58, 2) as any as S.Schema<CreateBooksLedgersRequest>,
-  output: __S(1890, __c59, 2) as any as S.Schema<CreateBooksAPILedgersResponse>,
+  input: __S(1890, __c59, 2) as any as S.Schema<CreateBooksLedgersRequest>,
+  output: __S(1922, __c60, 2) as any as S.Schema<CreateBooksAPILedgersResponse>,
   errors: [BadRequest],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -5230,8 +5259,8 @@ export const createBooksPaymentApplications: API.OperationMethod<
   CreateBooksPaymentApplicationsError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1988, __c62, 4) as any as S.Schema<CreateBooksPaymentApplicationsRequest>,
-  output: __S(2019, __c63, 3) as any as S.Schema<BooksAPIPaymentApplicationsResponse>,
+  input: __S(2018, __c63, 2) as any as S.Schema<CreateBooksPaymentApplicationsRequest>,
+  output: __S(2083, __c65, 3) as any as S.Schema<BooksAPIPaymentApplicationsResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -5248,8 +5277,8 @@ export const createBudget: API.OperationMethod<
   CreateBudgetError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c64, 0) as any as S.Schema<CreateBudgetRequest>,
-  output: __S(2080, __c65, 0) as any as S.Schema<ApiV1BudgetIdResponse>,
+  input: __S(2112, __c66, 0) as any as S.Schema<CreateBudgetRequest>,
+  output: __S(2144, __c67, 0) as any as S.Schema<ApiV1BudgetIdResponse>,
   errors: [BadRequest],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -5266,8 +5295,8 @@ export const createCard: API.OperationMethod<
   CreateCardError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2114, __c66, 2) as any as S.Schema<CreateCardRequest>,
-  output: __S(5346, __c167, 2) as any as S.Schema<Card>,
+  input: __S(2178, __c68, 2) as any as S.Schema<CreateCardRequest>,
+  output: __S(5410, __c169, 2) as any as S.Schema<Card>,
   errors: [BadRequest],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -5284,8 +5313,8 @@ export const createCategory: API.OperationMethod<
   CreateCategoryError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c69, 0) as any as S.Schema<CreateCategoryRequest>,
-  output: __S(2240, __c70, 0) as any as S.Schema<CategoryData>,
+  input: __S(2272, __c71, 0) as any as S.Schema<CreateCategoryRequest>,
+  output: __S(2304, __c72, 0) as any as S.Schema<CategoryData>,
   errors: [BadRequest],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -5302,8 +5331,8 @@ export const createCustomer: API.OperationMethod<
   CreateCustomerError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c71, 0) as any as S.Schema<CreateCustomerRequest>,
-  output: __S(2337, __c73, 1) as any as S.Schema<ApiV1ArCustomerResponseData>,
+  input: __S(2336, __c73, 0) as any as S.Schema<CreateCustomerRequest>,
+  output: __S(2401, __c75, 1) as any as S.Schema<ApiV1ArCustomerResponseData>,
   errors: [BadRequest],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -5320,8 +5349,8 @@ export const createInternalTransfer: API.OperationMethod<
   CreateInternalTransferError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2368, __c74, 0) as any as S.Schema<CreateInternalTransferRequest>,
-  output: __S(2369, __c74, 1) as any as S.Schema<InternalTransferAPIResponse>,
+  input: __S(2432, __c76, 0) as any as S.Schema<CreateInternalTransferRequest>,
+  output: __S(2433, __c76, 1) as any as S.Schema<InternalTransferAPIResponse>,
   errors: [BadRequest],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -5338,8 +5367,8 @@ export const createInvoice: API.OperationMethod<
   CreateInvoiceError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c78, 0) as any as S.Schema<CreateInvoiceRequest>,
-  output: __S(2530, __c79, 2) as any as S.Schema<ApiV1ArInvoiceResponse>,
+  input: __S(2560, __c80, 0) as any as S.Schema<CreateInvoiceRequest>,
+  output: __S(2594, __c81, 2) as any as S.Schema<ApiV1ArInvoiceResponse>,
   errors: [BadRequest],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -5356,8 +5385,8 @@ export const createProduct: API.OperationMethod<
   CreateProductError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2560, __c80, 0) as any as S.Schema<CreateProductRequest>,
-  output: __S(2592, __c81, 0) as any as S.Schema<ApiV1ArProductResponseData>,
+  input: __S(2624, __c82, 0) as any as S.Schema<CreateProductRequest>,
+  output: __S(2656, __c83, 0) as any as S.Schema<ApiV1ArProductResponseData>,
   errors: [BadRequest],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -5374,8 +5403,8 @@ export const createReceiptUploadUrl: API.OperationMethod<
   CreateReceiptUploadUrlError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2624, __c82, 0) as any as S.Schema<CreateReceiptUploadUrlRequest>,
-  output: __S(2625, __c82, 1) as any as S.Schema<ApiV1ReceiptUploadUrlResponse>,
+  input: __S(2688, __c84, 0) as any as S.Schema<CreateReceiptUploadUrlRequest>,
+  output: __S(2689, __c84, 1) as any as S.Schema<ApiV1ReceiptUploadUrlResponse>,
   errors: [BadRequest],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -5392,8 +5421,8 @@ export const createRecipient: API.OperationMethod<
   CreateRecipientError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2656, __c83, 0) as any as S.Schema<CreateRecipientRequest>,
-  output: __S(2755, __c86, 3) as any as S.Schema<RecipientInfo>,
+  input: __S(2720, __c85, 0) as any as S.Schema<CreateRecipientRequest>,
+  output: __S(2819, __c88, 3) as any as S.Schema<RecipientInfo>,
   errors: [BadRequest],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -5410,8 +5439,8 @@ export const createRecipientInvite: API.OperationMethod<
   CreateRecipientInviteError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2784, __c87, 0) as any as S.Schema<CreateRecipientInviteRequest>,
-  output: __S(2816, __c88, 0) as any as S.Schema<RecipientInviteApiResponse>,
+  input: __S(2848, __c89, 0) as any as S.Schema<CreateRecipientInviteRequest>,
+  output: __S(2880, __c90, 0) as any as S.Schema<RecipientInviteApiResponse>,
   errors: [BadRequest],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -5428,8 +5457,8 @@ export const createReimbursement: API.OperationMethod<
   CreateReimbursementError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2848, __c89, 0) as any as S.Schema<CreateReimbursementRequest>,
-  output: __S(2080, __c65, 0) as any as S.Schema<ApiV1CreateReimbursementResponse>,
+  input: __S(2912, __c91, 0) as any as S.Schema<CreateReimbursementRequest>,
+  output: __S(2144, __c67, 0) as any as S.Schema<ApiV1CreateReimbursementResponse>,
   errors: [BadRequest],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -5446,8 +5475,8 @@ export const createTransaction: API.OperationMethod<
   CreateTransactionError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2880, __c90, 0) as any as S.Schema<CreateTransactionRequest>,
-  output: __S(2476, __c77, 12) as any as S.Schema<Transaction>,
+  input: __S(2944, __c92, 0) as any as S.Schema<CreateTransactionRequest>,
+  output: __S(2540, __c79, 12) as any as S.Schema<Transaction>,
   errors: [BadRequest, NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -5464,8 +5493,8 @@ export const createWebhook: API.OperationMethod<
   CreateWebhookError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2976, __c93, 0) as any as S.Schema<CreateWebhookRequest>,
-  output: __S(3008, __c94, 0) as any as S.Schema<ApiWebhookResponse>,
+  input: __S(3040, __c95, 0) as any as S.Schema<CreateWebhookRequest>,
+  output: __S(3072, __c96, 0) as any as S.Schema<ApiWebhookResponse>,
   errors: [BadRequest],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -5482,8 +5511,8 @@ export const deleteBooksCategorizationRule: API.OperationMethod<
   DeleteBooksCategorizationRuleError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3040, __c95, 0) as any as S.Schema<DeleteBooksCategorizationRuleRequest>,
-  output: __S(2176, __c68, 0) as any as S.Schema<DeleteBooksCategorizationRuleResponse>,
+  input: __S(3104, __c97, 0) as any as S.Schema<DeleteBooksCategorizationRuleRequest>,
+  output: __S(2240, __c70, 0) as any as S.Schema<DeleteBooksCategorizationRuleResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -5500,8 +5529,8 @@ export const deleteBooksLedgers: API.OperationMethod<
   DeleteBooksLedgersError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3072, __c96, 0) as any as S.Schema<DeleteBooksLedgersRequest>,
-  output: __S(3075, __c96, 3) as any as S.Schema<DeleteBooksAPILedgersResponse>,
+  input: __S(3136, __c98, 0) as any as S.Schema<DeleteBooksLedgersRequest>,
+  output: __S(3139, __c98, 3) as any as S.Schema<DeleteBooksAPILedgersResponse>,
   errors: [BadRequest],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -5518,8 +5547,8 @@ export const deleteBooksPaymentApplications: API.OperationMethod<
   DeleteBooksPaymentApplicationsError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3104, __c97, 0) as any as S.Schema<DeleteBooksPaymentApplicationsRequest>,
-  output: __S(2019, __c63, 3) as any as S.Schema<BooksAPIPaymentApplicationsResponse>,
+  input: __S(3168, __c99, 0) as any as S.Schema<DeleteBooksPaymentApplicationsRequest>,
+  output: __S(2083, __c65, 3) as any as S.Schema<BooksAPIPaymentApplicationsResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -5536,8 +5565,8 @@ export const deleteCategory: API.OperationMethod<
   DeleteCategoryError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3136, __c98, 0) as any as S.Schema<DeleteCategoryRequest>,
-  output: __S(2176, __c68, 0) as any as S.Schema<DeleteCategoryResponse>,
+  input: __S(3200, __c100, 0) as any as S.Schema<DeleteCategoryRequest>,
+  output: __S(2240, __c70, 0) as any as S.Schema<DeleteCategoryResponse>,
   errors: [NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -5554,8 +5583,8 @@ export const deleteCustomer: API.OperationMethod<
   DeleteCustomerError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3168, __c99, 0) as any as S.Schema<DeleteCustomerRequest>,
-  output: __S(2176, __c68, 0) as any as S.Schema<DeleteCustomerResponse>,
+  input: __S(3232, __c101, 0) as any as S.Schema<DeleteCustomerRequest>,
+  output: __S(2240, __c70, 0) as any as S.Schema<DeleteCustomerResponse>,
   errors: [NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -5572,8 +5601,8 @@ export const deleteProduct: API.OperationMethod<
   DeleteProductError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3200, __c100, 0) as any as S.Schema<DeleteProductRequest>,
-  output: __S(2176, __c68, 0) as any as S.Schema<DeleteProductResponse>,
+  input: __S(3264, __c102, 0) as any as S.Schema<DeleteProductRequest>,
+  output: __S(2240, __c70, 0) as any as S.Schema<DeleteProductResponse>,
   errors: [NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -5590,8 +5619,8 @@ export const deleteRecipient: API.OperationMethod<
   DeleteRecipientError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3232, __c101, 0) as any as S.Schema<DeleteRecipientRequest>,
-  output: __S(2176, __c68, 0) as any as S.Schema<DeleteRecipientResponse>,
+  input: __S(3296, __c103, 0) as any as S.Schema<DeleteRecipientRequest>,
+  output: __S(2240, __c70, 0) as any as S.Schema<DeleteRecipientResponse>,
   errors: [NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -5608,8 +5637,8 @@ export const deleteRecipientInvite: API.OperationMethod<
   DeleteRecipientInviteError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3264, __c102, 0) as any as S.Schema<DeleteRecipientInviteRequest>,
-  output: __S(2176, __c68, 0) as any as S.Schema<DeleteRecipientInviteResponse>,
+  input: __S(3328, __c104, 0) as any as S.Schema<DeleteRecipientInviteRequest>,
+  output: __S(2240, __c70, 0) as any as S.Schema<DeleteRecipientInviteResponse>,
   errors: [NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -5626,8 +5655,8 @@ export const deleteWebhook: API.OperationMethod<
   DeleteWebhookError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3296, __c103, 0) as any as S.Schema<DeleteWebhookRequest>,
-  output: __S(2176, __c68, 0) as any as S.Schema<DeleteWebhookResponse>,
+  input: __S(3360, __c105, 0) as any as S.Schema<DeleteWebhookRequest>,
+  output: __S(2240, __c70, 0) as any as S.Schema<DeleteWebhookResponse>,
   errors: [NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -5644,8 +5673,8 @@ export const denyReimbursement: API.OperationMethod<
   DenyReimbursementError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3360, __c105, 0) as any as S.Schema<DenyReimbursementRequest>,
-  output: __S(2176, __c68, 0) as any as S.Schema<DenyReimbursementResponse>,
+  input: __S(3424, __c107, 0) as any as S.Schema<DenyReimbursementRequest>,
+  output: __S(2240, __c70, 0) as any as S.Schema<DenyReimbursementResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -5662,8 +5691,8 @@ export const editCategory: API.OperationMethod<
   EditCategoryError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3392, __c106, 0) as any as S.Schema<EditCategoryRequest>,
-  output: __S(2240, __c70, 0) as any as S.Schema<CategoryData>,
+  input: __S(3456, __c108, 0) as any as S.Schema<EditCategoryRequest>,
+  output: __S(2304, __c72, 0) as any as S.Schema<CategoryData>,
   errors: [BadRequest, NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -5680,8 +5709,8 @@ export const freezeCard: API.OperationMethod<
   FreezeCardError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3424, __c107, 0) as any as S.Schema<FreezeCardRequest>,
-  output: __S(5346, __c167, 2) as any as S.Schema<Card>,
+  input: __S(3488, __c109, 0) as any as S.Schema<FreezeCardRequest>,
+  output: __S(5410, __c169, 2) as any as S.Schema<Card>,
   errors: [NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -5698,8 +5727,8 @@ export const getAccountCards: API.OperationMethod<
   GetAccountCardsError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3456, __c108, 0) as any as S.Schema<GetAccountCardsRequest>,
-  output: __S(3459, __c108, 3) as any as S.Schema<AccountCardsResponse>,
+  input: __S(3520, __c110, 0) as any as S.Schema<GetAccountCardsRequest>,
+  output: __S(3523, __c110, 3) as any as S.Schema<AccountCardsResponse>,
   errors: [NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -5716,8 +5745,8 @@ export const getAccounts: API.OperationMethod<
   GetAccountsError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3488, __c109, 0) as any as S.Schema<GetAccountsRequest>,
-  output: __S(3491, __c109, 3) as any as S.Schema<AccountsPaginatedResponse>,
+  input: __S(3552, __c111, 0) as any as S.Schema<GetAccountsRequest>,
+  output: __S(3555, __c111, 3) as any as S.Schema<AccountsPaginatedResponse>,
   errors: [BadRequest],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -5734,8 +5763,8 @@ export const getAccountStatements: API.OperationMethod<
   GetAccountStatementsError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3552, __c111, 0) as any as S.Schema<GetAccountStatementsRequest>,
-  output: __S(3555, __c111, 3) as any as S.Schema<DepositoryAccountStatementsPaginatedResponse>,
+  input: __S(3616, __c113, 0) as any as S.Schema<GetAccountStatementsRequest>,
+  output: __S(3619, __c113, 3) as any as S.Schema<DepositoryAccountStatementsPaginatedResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -5752,8 +5781,8 @@ export const getAutoTransferRules: API.OperationMethod<
   GetAutoTransferRulesError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3616, __c113, 0) as any as S.Schema<GetAutoTransferRulesRequest>,
-  output: __S(3623, __c113, 7) as any as S.Schema<AutoTransferRulesResponse>,
+  input: __S(3680, __c115, 0) as any as S.Schema<GetAutoTransferRulesRequest>,
+  output: __S(3687, __c115, 7) as any as S.Schema<AutoTransferRulesResponse>,
   errors: [BadRequest],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -5770,8 +5799,8 @@ export const getBooksBalanceSheet: API.OperationMethod<
   GetBooksBalanceSheetError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3648, __c114, 0) as any as S.Schema<GetBooksBalanceSheetRequest>,
-  output: __S(3716, __c116, 4) as any as S.Schema<BooksAPIReport>,
+  input: __S(3712, __c116, 0) as any as S.Schema<GetBooksBalanceSheetRequest>,
+  output: __S(3780, __c118, 4) as any as S.Schema<BooksAPIReport>,
   errors: [BadRequest],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -5788,8 +5817,8 @@ export const getBooksBill: API.OperationMethod<
   GetBooksBillError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3744, __c117, 0) as any as S.Schema<GetBooksBillRequest>,
-  output: __S(3745, __c117, 1) as any as S.Schema<GetBooksAPIBillResponse>,
+  input: __S(3808, __c119, 0) as any as S.Schema<GetBooksBillRequest>,
+  output: __S(3809, __c119, 1) as any as S.Schema<GetBooksAPIBillResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -5806,8 +5835,8 @@ export const getBooksBills: API.OperationMethod<
   GetBooksBillsError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3776, __c118, 0) as any as S.Schema<GetBooksBillsRequest>,
-  output: __S(3778, __c118, 2) as any as S.Schema<GetBooksAPIBillsResponse>,
+  input: __S(3840, __c120, 0) as any as S.Schema<GetBooksBillsRequest>,
+  output: __S(3842, __c120, 2) as any as S.Schema<GetBooksAPIBillsResponse>,
   errors: [BadRequest],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -5824,8 +5853,8 @@ export const getBooksCashFlow: API.OperationMethod<
   GetBooksCashFlowError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4032, __c126, 0) as any as S.Schema<GetBooksCashFlowRequest>,
-  output: __S(4039, __c126, 7) as any as S.Schema<BooksAPICashFlowReport>,
+  input: __S(4096, __c128, 0) as any as S.Schema<GetBooksCashFlowRequest>,
+  output: __S(4103, __c128, 7) as any as S.Schema<BooksAPICashFlowReport>,
   errors: [BadRequest],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -5842,8 +5871,8 @@ export const getBooksCategorizationRules: API.OperationMethod<
   GetBooksCategorizationRulesError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4064, __c127, 0) as any as S.Schema<GetBooksCategorizationRulesRequest>,
-  output: __S(4066, __c127, 2) as any as S.Schema<GetBooksAPICategorizationRulesResponse>,
+  input: __S(4128, __c129, 0) as any as S.Schema<GetBooksCategorizationRulesRequest>,
+  output: __S(4130, __c129, 2) as any as S.Schema<GetBooksAPICategorizationRulesResponse>,
   errors: [BadRequest],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -5860,8 +5889,8 @@ export const getBooksCloses: API.OperationMethod<
   GetBooksClosesError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4096, __c128, 0) as any as S.Schema<GetBooksClosesRequest>,
-  output: __S(4099, __c128, 3) as any as S.Schema<GetBooksAPIClosesResponse>,
+  input: __S(4160, __c130, 0) as any as S.Schema<GetBooksClosesRequest>,
+  output: __S(4163, __c130, 3) as any as S.Schema<GetBooksAPIClosesResponse>,
   errors: [BadRequest],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -5878,8 +5907,8 @@ export const getBooksInstances: API.OperationMethod<
   GetBooksInstancesError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4128, __c129, 0) as any as S.Schema<GetBooksInstancesRequest>,
-  output: __S(4131, __c129, 3) as any as S.Schema<GetBooksAPIInstancesResponse>,
+  input: __S(4192, __c131, 0) as any as S.Schema<GetBooksInstancesRequest>,
+  output: __S(4195, __c131, 3) as any as S.Schema<GetBooksAPIInstancesResponse>,
   errors: [BadRequest],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -5896,8 +5925,8 @@ export const getBooksIntegrations: API.OperationMethod<
   GetBooksIntegrationsError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4160, __c130, 0) as any as S.Schema<GetBooksIntegrationsRequest>,
-  output: __S(4163, __c130, 3) as any as S.Schema<GetBooksAPIIntegrationsResponse>,
+  input: __S(4224, __c132, 0) as any as S.Schema<GetBooksIntegrationsRequest>,
+  output: __S(4227, __c132, 3) as any as S.Schema<GetBooksAPIIntegrationsResponse>,
   errors: [BadRequest],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -5914,8 +5943,8 @@ export const getBooksInvoice: API.OperationMethod<
   GetBooksInvoiceError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4192, __c131, 0) as any as S.Schema<GetBooksInvoiceRequest>,
-  output: __S(4193, __c131, 1) as any as S.Schema<GetBooksAPIInvoiceResponse>,
+  input: __S(4256, __c133, 0) as any as S.Schema<GetBooksInvoiceRequest>,
+  output: __S(4257, __c133, 1) as any as S.Schema<GetBooksAPIInvoiceResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -5932,8 +5961,8 @@ export const getBooksInvoices: API.OperationMethod<
   GetBooksInvoicesError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4224, __c132, 0) as any as S.Schema<GetBooksInvoicesRequest>,
-  output: __S(4226, __c132, 2) as any as S.Schema<GetBooksAPIInvoicesResponse>,
+  input: __S(4288, __c134, 0) as any as S.Schema<GetBooksInvoicesRequest>,
+  output: __S(4290, __c134, 2) as any as S.Schema<GetBooksAPIInvoicesResponse>,
   errors: [BadRequest],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -5950,8 +5979,8 @@ export const getBooksJournalEntry: API.OperationMethod<
   GetBooksJournalEntryError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4256, __c133, 0) as any as S.Schema<GetBooksJournalEntryRequest>,
-  output: __S(4257, __c133, 1) as any as S.Schema<GetBooksAPIJournalEntryResponse>,
+  input: __S(4320, __c135, 0) as any as S.Schema<GetBooksJournalEntryRequest>,
+  output: __S(4321, __c135, 1) as any as S.Schema<GetBooksAPIJournalEntryResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -5968,8 +5997,8 @@ export const getBooksLedger: API.OperationMethod<
   GetBooksLedgerError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4288, __c134, 0) as any as S.Schema<GetBooksLedgerRequest>,
-  output: __S(4289, __c134, 1) as any as S.Schema<GetBooksAPILedgerResponse>,
+  input: __S(4352, __c136, 0) as any as S.Schema<GetBooksLedgerRequest>,
+  output: __S(4353, __c136, 1) as any as S.Schema<GetBooksAPILedgerResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -5986,8 +6015,8 @@ export const getBooksLedgerBalances: API.OperationMethod<
   GetBooksLedgerBalancesError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4320, __c135, 0) as any as S.Schema<GetBooksLedgerBalancesRequest>,
-  output: __S(4323, __c135, 3) as any as S.Schema<GetBooksAPILedgerBalancesResponse>,
+  input: __S(4384, __c137, 0) as any as S.Schema<GetBooksLedgerBalancesRequest>,
+  output: __S(4387, __c137, 3) as any as S.Schema<GetBooksAPILedgerBalancesResponse>,
   errors: [BadRequest],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -6004,8 +6033,8 @@ export const getBooksLedgers: API.OperationMethod<
   GetBooksLedgersError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4384, __c137, 0) as any as S.Schema<GetBooksLedgersRequest>,
-  output: __S(4386, __c137, 2) as any as S.Schema<GetBooksAPILedgersResponse>,
+  input: __S(4448, __c139, 0) as any as S.Schema<GetBooksLedgersRequest>,
+  output: __S(4450, __c139, 2) as any as S.Schema<GetBooksAPILedgersResponse>,
   errors: [BadRequest],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -6022,8 +6051,8 @@ export const getBooksLineEntries: API.OperationMethod<
   GetBooksLineEntriesError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4416, __c138, 0) as any as S.Schema<GetBooksLineEntriesRequest>,
-  output: __S(4419, __c138, 3) as any as S.Schema<GetBooksAPILineEntriesResponse>,
+  input: __S(4480, __c140, 0) as any as S.Schema<GetBooksLineEntriesRequest>,
+  output: __S(4483, __c140, 3) as any as S.Schema<GetBooksAPILineEntriesResponse>,
   errors: [BadRequest],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -6040,8 +6069,8 @@ export const getBooksPayrollRun: API.OperationMethod<
   GetBooksPayrollRunError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4448, __c139, 0) as any as S.Schema<GetBooksPayrollRunRequest>,
-  output: __S(4452, __c139, 4) as any as S.Schema<GetBooksAPIPayrollRunResponse>,
+  input: __S(4512, __c141, 0) as any as S.Schema<GetBooksPayrollRunRequest>,
+  output: __S(4516, __c141, 4) as any as S.Schema<GetBooksAPIPayrollRunResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -6058,8 +6087,8 @@ export const getBooksPayrollRuns: API.OperationMethod<
   GetBooksPayrollRunsError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4480, __c140, 0) as any as S.Schema<GetBooksPayrollRunsRequest>,
-  output: __S(4483, __c140, 3) as any as S.Schema<GetBooksAPIPayrollRunsResponse>,
+  input: __S(4544, __c142, 0) as any as S.Schema<GetBooksPayrollRunsRequest>,
+  output: __S(4547, __c142, 3) as any as S.Schema<GetBooksAPIPayrollRunsResponse>,
   errors: [BadRequest],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -6076,8 +6105,8 @@ export const getBooksProfitAndLoss: API.OperationMethod<
   GetBooksProfitAndLossError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4512, __c141, 0) as any as S.Schema<GetBooksProfitAndLossRequest>,
-  output: __S(3716, __c116, 4) as any as S.Schema<BooksAPIReport>,
+  input: __S(4576, __c143, 0) as any as S.Schema<GetBooksProfitAndLossRequest>,
+  output: __S(3780, __c118, 4) as any as S.Schema<BooksAPIReport>,
   errors: [BadRequest],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -6094,8 +6123,8 @@ export const getBooksSourceAccounts: API.OperationMethod<
   GetBooksSourceAccountsError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4544, __c142, 0) as any as S.Schema<GetBooksSourceAccountsRequest>,
-  output: __S(4547, __c142, 3) as any as S.Schema<GetBooksAPISourceAccountsResponse>,
+  input: __S(4608, __c144, 0) as any as S.Schema<GetBooksSourceAccountsRequest>,
+  output: __S(4611, __c144, 3) as any as S.Schema<GetBooksAPISourceAccountsResponse>,
   errors: [BadRequest],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -6112,8 +6141,8 @@ export const getBooksTagGroups: API.OperationMethod<
   GetBooksTagGroupsError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4576, __c143, 0) as any as S.Schema<GetBooksTagGroupsRequest>,
-  output: __S(4579, __c143, 3) as any as S.Schema<GetBooksAPITagGroupsResponse>,
+  input: __S(4640, __c145, 0) as any as S.Schema<GetBooksTagGroupsRequest>,
+  output: __S(4643, __c145, 3) as any as S.Schema<GetBooksAPITagGroupsResponse>,
   errors: [BadRequest],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -6130,8 +6159,8 @@ export const getBooksTags: API.OperationMethod<
   GetBooksTagsError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4608, __c144, 0) as any as S.Schema<GetBooksTagsRequest>,
-  output: __S(4611, __c144, 3) as any as S.Schema<GetBooksAPITagsResponse>,
+  input: __S(4672, __c146, 0) as any as S.Schema<GetBooksTagsRequest>,
+  output: __S(4675, __c146, 3) as any as S.Schema<GetBooksAPITagsResponse>,
   errors: [BadRequest],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -6148,8 +6177,8 @@ export const getBooksTransaction: API.OperationMethod<
   GetBooksTransactionError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4640, __c145, 0) as any as S.Schema<GetBooksTransactionRequest>,
-  output: __S(4641, __c145, 1) as any as S.Schema<GetBooksAPITransactionResponse>,
+  input: __S(4704, __c147, 0) as any as S.Schema<GetBooksTransactionRequest>,
+  output: __S(4705, __c147, 1) as any as S.Schema<GetBooksAPITransactionResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -6166,8 +6195,8 @@ export const getBooksTransactions: API.OperationMethod<
   GetBooksTransactionsError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4704, __c147, 0) as any as S.Schema<GetBooksTransactionsRequest>,
-  output: __S(4706, __c147, 2) as any as S.Schema<GetBooksAPITransactionsResponse>,
+  input: __S(4768, __c149, 0) as any as S.Schema<GetBooksTransactionsRequest>,
+  output: __S(4770, __c149, 2) as any as S.Schema<GetBooksAPITransactionsResponse>,
   errors: [BadRequest],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -6184,8 +6213,8 @@ export const getBudget: API.OperationMethod<
   GetBudgetError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4768, __c149, 0) as any as S.Schema<GetBudgetRequest>,
-  output: __S(4800, __c150, 0) as any as S.Schema<ApiV1SpendBudgetResponse>,
+  input: __S(4832, __c151, 0) as any as S.Schema<GetBudgetRequest>,
+  output: __S(4864, __c152, 0) as any as S.Schema<ApiV1SpendBudgetResponse>,
   errors: [NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -6202,8 +6231,8 @@ export const getBudgetExpenditures: API.OperationMethod<
   GetBudgetExpendituresError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4832, __c151, 0) as any as S.Schema<GetBudgetExpendituresRequest>,
-  output: __S(4835, __c151, 3) as any as S.Schema<ApiV1BudgetExpendituresResponse>,
+  input: __S(4896, __c153, 0) as any as S.Schema<GetBudgetExpendituresRequest>,
+  output: __S(4899, __c153, 3) as any as S.Schema<ApiV1BudgetExpendituresResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -6220,8 +6249,8 @@ export const getBudgetMembers: API.OperationMethod<
   GetBudgetMembersError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4864, __c152, 0) as any as S.Schema<GetBudgetMembersRequest>,
-  output: __S(4867, __c152, 3) as any as S.Schema<ApiV1BudgetMembersResponse>,
+  input: __S(4928, __c154, 0) as any as S.Schema<GetBudgetMembersRequest>,
+  output: __S(4931, __c154, 3) as any as S.Schema<ApiV1BudgetMembersResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -6234,8 +6263,8 @@ export type GetCardError = NotFound | MercuryOpError;
 /** Get a card Retrieve details of a specific card by its ID. */
 export const getCard: API.OperationMethod<GetCardRequest, Card, GetCardError, MercuryOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(4896, __c153, 0) as any as S.Schema<GetCardRequest>,
-    output: __S(5346, __c167, 2) as any as S.Schema<Card>,
+    input: __S(4960, __c155, 0) as any as S.Schema<GetCardRequest>,
+    output: __S(5410, __c169, 2) as any as S.Schema<Card>,
     errors: [NotFound],
     serviceErrors: MercuryServiceErrors,
     protocol: MercuryProtocol,
@@ -6252,8 +6281,8 @@ export const getCreditAccountStatements: API.OperationMethod<
   GetCreditAccountStatementsError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4928, __c154, 0) as any as S.Schema<GetCreditAccountStatementsRequest>,
-  output: __S(4932, __c154, 4) as any as S.Schema<CreditAccountStatementsPaginatedResponse>,
+  input: __S(4992, __c156, 0) as any as S.Schema<GetCreditAccountStatementsRequest>,
+  output: __S(4996, __c156, 4) as any as S.Schema<CreditAccountStatementsPaginatedResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -6270,8 +6299,8 @@ export const getCustomer: API.OperationMethod<
   GetCustomerError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4960, __c155, 0) as any as S.Schema<GetCustomerRequest>,
-  output: __S(2337, __c73, 1) as any as S.Schema<ApiV1ArCustomerResponseData>,
+  input: __S(5024, __c157, 0) as any as S.Schema<GetCustomerRequest>,
+  output: __S(2401, __c75, 1) as any as S.Schema<ApiV1ArCustomerResponseData>,
   errors: [NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -6288,8 +6317,8 @@ export const getEvent: API.OperationMethod<
   GetEventError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4992, __c156, 0) as any as S.Schema<GetEventRequest>,
-  output: __S(5024, __c157, 0) as any as S.Schema<ApiEventResponse>,
+  input: __S(5056, __c158, 0) as any as S.Schema<GetEventRequest>,
+  output: __S(5088, __c159, 0) as any as S.Schema<ApiEventResponse>,
   errors: [NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -6306,8 +6335,8 @@ export const getEvents: API.OperationMethod<
   GetEventsError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5056, __c158, 0) as any as S.Schema<GetEventsRequest>,
-  output: __S(5058, __c158, 2) as any as S.Schema<ApiEventsPaginatedResponse>,
+  input: __S(5120, __c160, 0) as any as S.Schema<GetEventsRequest>,
+  output: __S(5122, __c160, 2) as any as S.Schema<ApiEventsPaginatedResponse>,
   errors: [BadRequest],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -6324,8 +6353,8 @@ export const getInvoice: API.OperationMethod<
   GetInvoiceError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5088, __c159, 0) as any as S.Schema<GetInvoiceRequest>,
-  output: __S(2530, __c79, 2) as any as S.Schema<ApiV1ArInvoiceResponse>,
+  input: __S(5152, __c161, 0) as any as S.Schema<GetInvoiceRequest>,
+  output: __S(2594, __c81, 2) as any as S.Schema<ApiV1ArInvoiceResponse>,
   errors: [NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -6342,8 +6371,8 @@ export const getInvoiceAttachment: API.OperationMethod<
   GetInvoiceAttachmentError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5120, __c160, 0) as any as S.Schema<GetInvoiceAttachmentRequest>,
-  output: __S(5152, __c161, 0) as any as S.Schema<ApiV1ArAttachmentResponseData>,
+  input: __S(5184, __c162, 0) as any as S.Schema<GetInvoiceAttachmentRequest>,
+  output: __S(5216, __c163, 0) as any as S.Schema<ApiV1ArAttachmentResponseData>,
   errors: [NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -6360,8 +6389,8 @@ export const getInvoicePdf: API.OperationMethod<
   GetInvoicePdfError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5376, __c168, 0) as any as S.Schema<GetInvoicePdfRequest>,
-  output: __S(2176, __c68, 0) as any as S.Schema<GetInvoicePdfResponse>,
+  input: __S(5440, __c170, 0) as any as S.Schema<GetInvoicePdfRequest>,
+  output: __S(2240, __c70, 0) as any as S.Schema<GetInvoicePdfResponse>,
   errors: [NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -6378,8 +6407,8 @@ export const getOrganization: API.OperationMethod<
   GetOrganizationError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5408, __c169, 0) as any as S.Schema<GetOrganizationRequest>,
-  output: __S(5412, __c169, 4) as any as S.Schema<OrganizationResponse>,
+  input: __S(5472, __c171, 0) as any as S.Schema<GetOrganizationRequest>,
+  output: __S(5476, __c171, 4) as any as S.Schema<OrganizationResponse>,
   errors: [],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -6396,8 +6425,8 @@ export const getReceipt: API.OperationMethod<
   GetReceiptError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5440, __c170, 0) as any as S.Schema<GetReceiptRequest>,
-  output: __S(5472, __c171, 0) as any as S.Schema<ApiV1ReceiptResponse>,
+  input: __S(5504, __c172, 0) as any as S.Schema<GetReceiptRequest>,
+  output: __S(5536, __c173, 0) as any as S.Schema<ApiV1ReceiptResponse>,
   errors: [NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -6414,8 +6443,8 @@ export const getRecipient: API.OperationMethod<
   GetRecipientError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5504, __c172, 0) as any as S.Schema<GetRecipientRequest>,
-  output: __S(2755, __c86, 3) as any as S.Schema<RecipientInfo>,
+  input: __S(5568, __c174, 0) as any as S.Schema<GetRecipientRequest>,
+  output: __S(2819, __c88, 3) as any as S.Schema<RecipientInfo>,
   errors: [NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -6432,8 +6461,8 @@ export const getRecipientInvite: API.OperationMethod<
   GetRecipientInviteError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5536, __c173, 0) as any as S.Schema<GetRecipientInviteRequest>,
-  output: __S(2816, __c88, 0) as any as S.Schema<RecipientInviteApiResponse>,
+  input: __S(5600, __c175, 0) as any as S.Schema<GetRecipientInviteRequest>,
+  output: __S(2880, __c90, 0) as any as S.Schema<RecipientInviteApiResponse>,
   errors: [NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -6450,8 +6479,8 @@ export const getRecipients: API.OperationMethod<
   GetRecipientsError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5568, __c174, 0) as any as S.Schema<GetRecipientsRequest>,
-  output: __S(5570, __c174, 2) as any as S.Schema<RecipientsPaginatedResponse>,
+  input: __S(5632, __c176, 0) as any as S.Schema<GetRecipientsRequest>,
+  output: __S(5634, __c176, 2) as any as S.Schema<RecipientsPaginatedResponse>,
   errors: [BadRequest],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -6468,8 +6497,8 @@ export const getReimbursement: API.OperationMethod<
   GetReimbursementError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5600, __c175, 0) as any as S.Schema<GetReimbursementRequest>,
-  output: __S(5601, __c175, 1) as any as S.Schema<ApiV1ReimbursementResponse>,
+  input: __S(5664, __c177, 0) as any as S.Schema<GetReimbursementRequest>,
+  output: __S(5665, __c177, 1) as any as S.Schema<ApiV1ReimbursementResponse>,
   errors: [NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -6486,8 +6515,8 @@ export const getSafeRequest: API.OperationMethod<
   GetSafeRequestError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5664, __c177, 0) as any as S.Schema<GetSafeRequestRequest>,
-  output: __S(5698, __c178, 2) as any as S.Schema<APISafeRequest>,
+  input: __S(5728, __c179, 0) as any as S.Schema<GetSafeRequestRequest>,
+  output: __S(5762, __c180, 2) as any as S.Schema<APISafeRequest>,
   errors: [NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -6504,8 +6533,8 @@ export const getSafeRequestDocument: API.OperationMethod<
   GetSafeRequestDocumentError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5728, __c179, 0) as any as S.Schema<GetSafeRequestDocumentRequest>,
-  output: __S(2176, __c68, 0) as any as S.Schema<GetSafeRequestDocumentResponse>,
+  input: __S(5792, __c181, 0) as any as S.Schema<GetSafeRequestDocumentRequest>,
+  output: __S(2240, __c70, 0) as any as S.Schema<GetSafeRequestDocumentResponse>,
   errors: [NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -6522,8 +6551,8 @@ export const getSafeRequests: API.OperationMethod<
   GetSafeRequestsError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5760, __c180, 0) as any as S.Schema<GetSafeRequestsRequest>,
-  output: __S(5762, __c180, 2) as any as S.Schema<GetSafeRequestsResponse>,
+  input: __S(5824, __c182, 0) as any as S.Schema<GetSafeRequestsRequest>,
+  output: __S(5826, __c182, 2) as any as S.Schema<GetSafeRequestsResponse>,
   errors: [],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -6540,8 +6569,8 @@ export const getSendMoneyApprovalRequest: API.OperationMethod<
   GetSendMoneyApprovalRequestError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5824, __c182, 0) as any as S.Schema<GetSendMoneyApprovalRequestRequest>,
-  output: __S(5856, __c183, 0) as any as S.Schema<SendMoneyApprovalRequestResponse>,
+  input: __S(5888, __c184, 0) as any as S.Schema<GetSendMoneyApprovalRequestRequest>,
+  output: __S(5920, __c185, 0) as any as S.Schema<SendMoneyApprovalRequestResponse>,
   errors: [NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -6558,8 +6587,8 @@ export const getStatementPdf: API.OperationMethod<
   GetStatementPdfError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5920, __c185, 0) as any as S.Schema<GetStatementPdfRequest>,
-  output: __S(2176, __c68, 0) as any as S.Schema<GetStatementPdfResponse>,
+  input: __S(5984, __c187, 0) as any as S.Schema<GetStatementPdfRequest>,
+  output: __S(2240, __c70, 0) as any as S.Schema<GetStatementPdfResponse>,
   errors: [NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -6576,8 +6605,8 @@ export const getTransaction: API.OperationMethod<
   GetTransactionError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5952, __c186, 0) as any as S.Schema<GetTransactionRequest>,
-  output: __S(2476, __c77, 12) as any as S.Schema<Transaction>,
+  input: __S(6016, __c188, 0) as any as S.Schema<GetTransactionRequest>,
+  output: __S(2540, __c79, 12) as any as S.Schema<Transaction>,
   errors: [NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -6594,8 +6623,8 @@ export const getTransactionByTransactionId: API.OperationMethod<
   GetTransactionByTransactionIdError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5984, __c187, 0) as any as S.Schema<GetTransactionByTransactionIdRequest>,
-  output: __S(2476, __c77, 12) as any as S.Schema<Transaction>,
+  input: __S(6048, __c189, 0) as any as S.Schema<GetTransactionByTransactionIdRequest>,
+  output: __S(2540, __c79, 12) as any as S.Schema<Transaction>,
   errors: [NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -6612,8 +6641,8 @@ export const getTransferMoneyApprovalRequest: API.OperationMethod<
   GetTransferMoneyApprovalRequestError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6016, __c188, 0) as any as S.Schema<GetTransferMoneyApprovalRequestRequest>,
-  output: __S(6048, __c189, 0) as any as S.Schema<TransferMoneyApprovalRequestResponse>,
+  input: __S(6080, __c190, 0) as any as S.Schema<GetTransferMoneyApprovalRequestRequest>,
+  output: __S(6112, __c191, 0) as any as S.Schema<TransferMoneyApprovalRequestResponse>,
   errors: [NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -6630,8 +6659,8 @@ export const getTreasury: API.OperationMethod<
   GetTreasuryError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6080, __c190, 0) as any as S.Schema<GetTreasuryRequest>,
-  output: __S(6087, __c190, 7) as any as S.Schema<TreasuryAccountsPaginatedResponse>,
+  input: __S(6144, __c192, 0) as any as S.Schema<GetTreasuryRequest>,
+  output: __S(6151, __c192, 7) as any as S.Schema<TreasuryAccountsPaginatedResponse>,
   errors: [BadRequest],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -6648,8 +6677,8 @@ export const getTreasuryStatements: API.OperationMethod<
   GetTreasuryStatementsError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6112, __c191, 0) as any as S.Schema<GetTreasuryStatementsRequest>,
-  output: __S(6115, __c191, 3) as any as S.Schema<TreasuryStatementsPaginatedResponse>,
+  input: __S(6176, __c193, 0) as any as S.Schema<GetTreasuryStatementsRequest>,
+  output: __S(6179, __c193, 3) as any as S.Schema<TreasuryStatementsPaginatedResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -6666,8 +6695,8 @@ export const getTreasuryTransactions: API.OperationMethod<
   GetTreasuryTransactionsError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6144, __c192, 0) as any as S.Schema<GetTreasuryTransactionsRequest>,
-  output: __S(6148, __c192, 4) as any as S.Schema<TreasuryTransactionsResponse>,
+  input: __S(6208, __c194, 0) as any as S.Schema<GetTreasuryTransactionsRequest>,
+  output: __S(6212, __c194, 4) as any as S.Schema<TreasuryTransactionsResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -6684,8 +6713,8 @@ export const getUser: API.OperationMethod<
   GetUserError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6176, __c193, 0) as any as S.Schema<GetUserRequest>,
-  output: __S(6208, __c194, 0) as any as S.Schema<UserDetails>,
+  input: __S(6240, __c195, 0) as any as S.Schema<GetUserRequest>,
+  output: __S(6272, __c196, 0) as any as S.Schema<UserDetails>,
   errors: [NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -6702,8 +6731,8 @@ export const getUsers: API.OperationMethod<
   GetUsersError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6240, __c195, 0) as any as S.Schema<GetUsersRequest>,
-  output: __S(6242, __c195, 2) as any as S.Schema<UsersPaginatedResponse>,
+  input: __S(6304, __c197, 0) as any as S.Schema<GetUsersRequest>,
+  output: __S(6306, __c197, 2) as any as S.Schema<UsersPaginatedResponse>,
   errors: [BadRequest],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -6721,7 +6750,7 @@ export const getWebhook: API.OperationMethod<
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c1, 0) as any as S.Schema<GetWebhookRequest>,
-  output: __S(3008, __c94, 0) as any as S.Schema<ApiWebhookResponse>,
+  output: __S(3072, __c96, 0) as any as S.Schema<ApiWebhookResponse>,
   errors: [NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -7099,13 +7128,31 @@ export const markReimbursementPaid: API.OperationMethod<
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(928, __c29, 0) as any as S.Schema<MarkReimbursementPaidRequest>,
-  output: __S(2176, __c68, 0) as any as S.Schema<MarkReimbursementPaidResponse>,
+  output: __S(2240, __c70, 0) as any as S.Schema<MarkReimbursementPaidResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "MarkReimbursementPaid",
+}));
+
+export type MatchBooksPayrollPaymentError = BadRequest | MercuryOpError;
+/** Match a payment to payroll runs Records that a transaction's line entry, a bank withdrawal, paid one or more payroll runs, i.e. matches the payment to them. Payroll runs come from the organization's connected payroll provider; each is one pay period's payroll, which Books records as an accrual awaiting payment. Use the transaction's own `lineEntryId` from getBooksTransactions or getBooksTransaction, and payroll run IDs from getBooksPayrollRuns. Before matching, read each run's `amountOutstanding` with getBooksPayrollRun. Each item of `applications` gives a `payrollRunId` and the positive `amount` of the payment applied to that run, as a JSON number of dollars with at most two decimal places. A run may take a partial amount, less than its `amountOutstanding`, but never more. An application may carry `adjustments`, which write off part of that run's remaining balance; a run's `amount` plus its adjustments can't exceed its `amountOutstanding`. The request's own `adjustments` are closing adjustments on the line entry, for any part of the payment no run accounts for, such as a bank fee. Each adjustment is a `ledgerId` (an editable ledger, i.e. general ledger (GL) account, of the instance, from getBooksLedgers) and a positive `amount` in dollars with at most two decimal places; each adjustments list may have at most 100 items, and all adjustments together may name at most 100 different ledgers. List every run the payment covers in one request, from 1 to 100 runs, each at most once: a line entry is matched at most once, and the applied amounts plus the closing adjustments must add up to the transaction's amount (a run's own adjustments don't count toward it). The transaction's other lines are replaced by lines for the matched runs and adjustments, so an existing split is removed and the transaction's category can change. 400, and nothing changes, when an ID isn't a payroll run of the Books instance (a bill or invoice ID included) or the request is malformed. 403, and nothing changes, when an adjustment ledger is read-only or in another Books instance; a ledger Books can't otherwise post to is refused with 400. 409, and nothing changes, when the line entry is already matched differently. A 503 response means Books couldn't match the line entry or confirm the match right now; retry the same request. Retrying the same request is always safe: a retried request whose match already landed succeeds without matching again. Returns 204 with no body on success; to see the result, read the runs back with getBooksPayrollRun, whose `amountPaid` and `matchingStatus` reflect the match. To undo a payroll match, unmatch the line entry with deleteBooksPaymentApplications. */
+export const matchBooksPayrollPayment: API.OperationMethod<
+  MatchBooksPayrollPaymentRequest,
+  MatchBooksPayrollPaymentResponse,
+  MatchBooksPayrollPaymentError,
+  MercuryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(962, __c30, 2) as any as S.Schema<MatchBooksPayrollPaymentRequest>,
+  output: __S(2240, __c70, 0) as any as S.Schema<MatchBooksPayrollPaymentResponse>,
+  errors: [BadRequest],
+  serviceErrors: MercuryServiceErrors,
+  protocol: MercuryProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MatchBooksPayrollPayment",
 }));
 
 export type MatchReceiptError = BadRequest | NotFound | MercuryOpError;
@@ -7116,8 +7163,8 @@ export const matchReceipt: API.OperationMethod<
   MatchReceiptError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c30, 0) as any as S.Schema<MatchReceiptRequest>,
-  output: __S(2176, __c68, 0) as any as S.Schema<MatchReceiptResponse>,
+  input: __S(992, __c31, 0) as any as S.Schema<MatchReceiptRequest>,
+  output: __S(2240, __c70, 0) as any as S.Schema<MatchReceiptResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -7134,8 +7181,8 @@ export const obtainAccessToken: API.OperationMethod<
   ObtainAccessTokenError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c31, 0) as any as S.Schema<ObtainAccessTokenRequest>,
-  output: __S(993, __c31, 1) as any as S.Schema<OAuth2TokenResponse>,
+  input: __S(1024, __c32, 0) as any as S.Schema<ObtainAccessTokenRequest>,
+  output: __S(1025, __c32, 1) as any as S.Schema<OAuth2TokenResponse>,
   errors: [BadRequest],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -7152,8 +7199,8 @@ export const requestSendMoney: API.OperationMethod<
   RequestSendMoneyError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c32, 0) as any as S.Schema<RequestSendMoneyRequest>,
-  output: __S(5856, __c183, 0) as any as S.Schema<SendMoneyApprovalRequestResponse>,
+  input: __S(1056, __c33, 0) as any as S.Schema<RequestSendMoneyRequest>,
+  output: __S(5920, __c185, 0) as any as S.Schema<SendMoneyApprovalRequestResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -7170,8 +7217,8 @@ export const requestTransferMoney: API.OperationMethod<
   RequestTransferMoneyError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c33, 0) as any as S.Schema<RequestTransferMoneyRequest>,
-  output: __S(6048, __c189, 0) as any as S.Schema<TransferMoneyApprovalRequestResponse>,
+  input: __S(1088, __c34, 0) as any as S.Schema<RequestTransferMoneyRequest>,
+  output: __S(6112, __c191, 0) as any as S.Schema<TransferMoneyApprovalRequestResponse>,
   errors: [BadRequest],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -7188,8 +7235,8 @@ export const revealCardPan: API.OperationMethod<
   RevealCardPanError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c34, 0) as any as S.Schema<RevealCardPanRequest>,
-  output: __S(1089, __c34, 1) as any as S.Schema<CardRevealResponse>,
+  input: __S(1120, __c35, 0) as any as S.Schema<RevealCardPanRequest>,
+  output: __S(1121, __c35, 1) as any as S.Schema<CardRevealResponse>,
   errors: [NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -7206,8 +7253,8 @@ export const setBooksLedgerOpeningBalances: API.OperationMethod<
   SetBooksLedgerOpeningBalancesError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1122, __c35, 2) as any as S.Schema<SetBooksLedgerOpeningBalancesRequest>,
-  output: __S(1125, __c35, 5) as any as S.Schema<SetBooksAPILedgerOpeningBalancesResponse>,
+  input: __S(1154, __c36, 2) as any as S.Schema<SetBooksLedgerOpeningBalancesRequest>,
+  output: __S(1157, __c36, 5) as any as S.Schema<SetBooksAPILedgerOpeningBalancesResponse>,
   errors: [BadRequest],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -7224,8 +7271,8 @@ export const startOAuth2Flow: API.OperationMethod<
   StartOAuth2FlowError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c36, 0) as any as S.Schema<StartOAuth2FlowRequest>,
-  output: __S(2176, __c68, 0) as any as S.Schema<StartOAuth2FlowResponse>,
+  input: __S(1184, __c37, 0) as any as S.Schema<StartOAuth2FlowRequest>,
+  output: __S(2240, __c70, 0) as any as S.Schema<StartOAuth2FlowResponse>,
   errors: [BadRequest],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -7242,8 +7289,8 @@ export const unfreezeCard: API.OperationMethod<
   UnfreezeCardError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c37, 0) as any as S.Schema<UnfreezeCardRequest>,
-  output: __S(5346, __c167, 2) as any as S.Schema<Card>,
+  input: __S(1280, __c40, 0) as any as S.Schema<UnfreezeCardRequest>,
+  output: __S(5410, __c169, 2) as any as S.Schema<Card>,
   errors: [NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -7260,7 +7307,7 @@ export const updateBooksBill: API.OperationMethod<
   UpdateBooksBillError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c40, 0) as any as S.Schema<UpdateBooksBillRequest>,
+  input: __S(1312, __c41, 0) as any as S.Schema<UpdateBooksBillRequest>,
   output: __S(864, __c27, 0) as any as S.Schema<BooksAPIBill>,
   errors: [BadRequest, NotFound],
   serviceErrors: MercuryServiceErrors,
@@ -7278,8 +7325,8 @@ export const updateBooksInvoice: API.OperationMethod<
   UpdateBooksInvoiceError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c42, 0) as any as S.Schema<UpdateBooksInvoiceRequest>,
-  output: __S(1824, __c57, 0) as any as S.Schema<BooksAPIInvoice>,
+  input: __S(1376, __c43, 0) as any as S.Schema<UpdateBooksInvoiceRequest>,
+  output: __S(1856, __c58, 0) as any as S.Schema<BooksAPIInvoice>,
   errors: [BadRequest, NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -7296,8 +7343,8 @@ export const updateBooksLedgers: API.OperationMethod<
   UpdateBooksLedgersError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1378, __c43, 2) as any as S.Schema<UpdateBooksLedgersRequest>,
-  output: __S(1890, __c59, 2) as any as S.Schema<UpdateBooksAPILedgersResponse>,
+  input: __S(1410, __c44, 2) as any as S.Schema<UpdateBooksLedgersRequest>,
+  output: __S(1922, __c60, 2) as any as S.Schema<UpdateBooksAPILedgersResponse>,
   errors: [BadRequest],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -7314,8 +7361,8 @@ export const updateBudget: API.OperationMethod<
   UpdateBudgetError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c44, 0) as any as S.Schema<UpdateBudgetRequest>,
-  output: __S(2080, __c65, 0) as any as S.Schema<ApiV1BudgetIdResponse>,
+  input: __S(1440, __c45, 0) as any as S.Schema<UpdateBudgetRequest>,
+  output: __S(2144, __c67, 0) as any as S.Schema<ApiV1BudgetIdResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -7332,8 +7379,8 @@ export const updateCard: API.OperationMethod<
   UpdateCardError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c45, 0) as any as S.Schema<UpdateCardRequest>,
-  output: __S(5346, __c167, 2) as any as S.Schema<Card>,
+  input: __S(1472, __c46, 0) as any as S.Schema<UpdateCardRequest>,
+  output: __S(5410, __c169, 2) as any as S.Schema<Card>,
   errors: [BadRequest, NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -7350,8 +7397,8 @@ export const updateCustomer: API.OperationMethod<
   UpdateCustomerError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c46, 0) as any as S.Schema<UpdateCustomerRequest>,
-  output: __S(2337, __c73, 1) as any as S.Schema<ApiV1ArCustomerResponseData>,
+  input: __S(1504, __c47, 0) as any as S.Schema<UpdateCustomerRequest>,
+  output: __S(2401, __c75, 1) as any as S.Schema<ApiV1ArCustomerResponseData>,
   errors: [BadRequest, NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -7368,8 +7415,8 @@ export const updateInvoice: API.OperationMethod<
   UpdateInvoiceError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c47, 0) as any as S.Schema<UpdateInvoiceRequest>,
-  output: __S(2530, __c79, 2) as any as S.Schema<ApiV1ArInvoiceResponse>,
+  input: __S(1536, __c48, 0) as any as S.Schema<UpdateInvoiceRequest>,
+  output: __S(2594, __c81, 2) as any as S.Schema<ApiV1ArInvoiceResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -7386,8 +7433,8 @@ export const updateRecipient: API.OperationMethod<
   UpdateRecipientError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c48, 0) as any as S.Schema<UpdateRecipientRequest>,
-  output: __S(2755, __c86, 3) as any as S.Schema<RecipientInfo>,
+  input: __S(1568, __c49, 0) as any as S.Schema<UpdateRecipientRequest>,
+  output: __S(2819, __c88, 3) as any as S.Schema<RecipientInfo>,
   errors: [BadRequest, NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -7404,8 +7451,8 @@ export const updateReimbursement: API.OperationMethod<
   UpdateReimbursementError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c49, 0) as any as S.Schema<UpdateReimbursementRequest>,
-  output: __S(2080, __c65, 0) as any as S.Schema<ApiV1CreateReimbursementResponse>,
+  input: __S(1600, __c50, 0) as any as S.Schema<UpdateReimbursementRequest>,
+  output: __S(2144, __c67, 0) as any as S.Schema<ApiV1CreateReimbursementResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -7422,8 +7469,8 @@ export const updateTransaction: API.OperationMethod<
   UpdateTransactionError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c50, 0) as any as S.Schema<UpdateTransactionRequest>,
-  output: __S(2476, __c77, 12) as any as S.Schema<Transaction>,
+  input: __S(1664, __c52, 0) as any as S.Schema<UpdateTransactionRequest>,
+  output: __S(2540, __c79, 12) as any as S.Schema<Transaction>,
   errors: [BadRequest, NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -7440,8 +7487,8 @@ export const updateWebhook: API.OperationMethod<
   UpdateWebhookError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c52, 0) as any as S.Schema<UpdateWebhookRequest>,
-  output: __S(3008, __c94, 0) as any as S.Schema<ApiWebhookResponse>,
+  input: __S(1696, __c53, 0) as any as S.Schema<UpdateWebhookRequest>,
+  output: __S(3072, __c96, 0) as any as S.Schema<ApiWebhookResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -7458,8 +7505,8 @@ export const uploadRecipientAttachment: API.OperationMethod<
   UploadRecipientAttachmentError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c53, 0) as any as S.Schema<UploadRecipientAttachmentRequest>,
-  output: __S(2176, __c68, 0) as any as S.Schema<UploadRecipientAttachmentResponse>,
+  input: __S(1728, __c54, 0) as any as S.Schema<UploadRecipientAttachmentRequest>,
+  output: __S(2240, __c70, 0) as any as S.Schema<UploadRecipientAttachmentResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -7476,8 +7523,8 @@ export const uploadTransactionAttachment: API.OperationMethod<
   UploadTransactionAttachmentError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c54, 0) as any as S.Schema<UploadTransactionAttachmentRequest>,
-  output: __S(2176, __c68, 0) as any as S.Schema<UploadTransactionAttachmentResponse>,
+  input: __S(1760, __c55, 0) as any as S.Schema<UploadTransactionAttachmentRequest>,
+  output: __S(2240, __c70, 0) as any as S.Schema<UploadTransactionAttachmentResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -7494,8 +7541,8 @@ export const verifyWebhook: API.OperationMethod<
   VerifyWebhookError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c55, 0) as any as S.Schema<VerifyWebhookRequest>,
-  output: __S(2176, __c68, 0) as any as S.Schema<VerifyWebhookResponse>,
+  input: __S(1792, __c56, 0) as any as S.Schema<VerifyWebhookRequest>,
+  output: __S(2240, __c70, 0) as any as S.Schema<VerifyWebhookResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -7536,7 +7583,7 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          status: S.optional(__S(5216, __c163, 0).pipe(T.Query())),
+          status: S.optional(__S(5280, __c165, 0).pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           start_after: S.optional(S.String.pipe(T.Query())),
           end_before: S.optional(S.String.pipe(T.Query())),
@@ -7544,11 +7591,11 @@ function __c2(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/webhooks", code: 200 })),
       ).annotate({ identifier: "GetWebhooksRequest" });
     case 1:
-      return S.Array(__S(3008, __c94, 0));
+      return S.Array(__S(3072, __c96, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          page: __S(3520, __c110, 0),
+          page: __S(3584, __c112, 0),
           webhooks: __S(65, __c2, 1),
         }),
       ).annotate({ identifier: "ApiWebhooksPaginatedResponse" });
@@ -7584,7 +7631,7 @@ function __c3(j: number): any {
 function __c4(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2476, __c77, 12));
+      return S.Array(__S(2540, __c79, 12));
   }
 }
 function __c5(j: number): any {
@@ -7597,7 +7644,7 @@ function __c5(j: number): any {
           endDate: S.optional(S.String.pipe(T.Query())),
           ledgerId: S.optional(S.String.pipe(T.Query())),
           creationSource: S.optional(S.String.pipe(T.Query())),
-          creationSources: S.optional(__S(5216, __c163, 0).pipe(T.Query())),
+          creationSources: S.optional(__S(5280, __c165, 0).pipe(T.Query())),
           journalEntrySort: S.optional(S.String.pipe(T.Query())),
           expand: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
@@ -7605,18 +7652,18 @@ function __c5(j: number): any {
           amount: S.optional(S.Number.pipe(T.Query())),
           minAmount: S.optional(S.Number.pipe(T.Query())),
           maxAmount: S.optional(S.Number.pipe(T.Query())),
-          ledgerIdGroups: S.optional(__S(4000, __c125, 0).pipe(T.Query())),
+          ledgerIdGroups: S.optional(__S(4064, __c127, 0).pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
-          tagIds: S.optional(__S(4000, __c125, 0).pipe(T.Query())),
-          categorizationStatus: S.optional(__S(5216, __c163, 0).pipe(T.Query())),
-          reviewStatus: S.optional(__S(5216, __c163, 0).pipe(T.Query())),
-          categorizationMethod: S.optional(__S(5216, __c163, 0).pipe(T.Query())),
+          tagIds: S.optional(__S(4064, __c127, 0).pipe(T.Query())),
+          categorizationStatus: S.optional(__S(5280, __c165, 0).pipe(T.Query())),
+          reviewStatus: S.optional(__S(5280, __c165, 0).pipe(T.Query())),
+          categorizationMethod: S.optional(__S(5280, __c165, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/books/journal-entries", code: 200 })),
       ).annotate({ identifier: "ListBooksJournalEntriesRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          journalEntries: __S(3840, __c120, 0),
+          journalEntries: __S(3904, __c122, 0),
           nextPageToken: S.optional(S.NullOr(S.String)),
           prevPageToken: S.optional(S.NullOr(S.String)),
         }),
@@ -7636,12 +7683,12 @@ function __c6(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/spend/budgets", code: 200 })),
       ).annotate({ identifier: "ListBudgetsRequest" });
     case 1:
-      return S.Array(__S(4800, __c150, 0));
+      return S.Array(__S(4864, __c152, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           budgets: __S(193, __c6, 1),
-          page: __S(3520, __c110, 0),
+          page: __S(3584, __c112, 0),
         }),
       ).annotate({ identifier: "ApiV1SpendBudgetsResponse" });
   }
@@ -7651,10 +7698,10 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          accountId: S.optional(__S(4000, __c125, 0).pipe(T.Query())),
-          status: S.optional(__S(5216, __c163, 0).pipe(T.Query())),
-          type: S.optional(__S(5216, __c163, 0).pipe(T.Query())),
-          kind: S.optional(__S(5216, __c163, 0).pipe(T.Query())),
+          accountId: S.optional(__S(4064, __c127, 0).pipe(T.Query())),
+          status: S.optional(__S(5280, __c165, 0).pipe(T.Query())),
+          type: S.optional(__S(5280, __c165, 0).pipe(T.Query())),
+          kind: S.optional(__S(5280, __c165, 0).pipe(T.Query())),
           userId: S.optional(S.String.pipe(T.Query())),
           isAgentCard: S.optional(S.Boolean.pipe(T.Query())),
           isSingleUse: S.optional(S.Boolean.pipe(T.Query())),
@@ -7665,12 +7712,12 @@ function __c7(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/cards", code: 200 })),
       ).annotate({ identifier: "ListCardsRequest" });
     case 1:
-      return S.Array(__S(5346, __c167, 2));
+      return S.Array(__S(5410, __c169, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
           cards: __S(225, __c7, 1),
-          page: __S(3520, __c110, 0),
+          page: __S(3584, __c112, 0),
         }),
       ).annotate({ identifier: "CardListResponse" });
   }
@@ -7687,12 +7734,12 @@ function __c8(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/categories", code: 200 })),
       ).annotate({ identifier: "ListCategoriesRequest" });
     case 1:
-      return S.Array(__S(2240, __c70, 0));
+      return S.Array(__S(2304, __c72, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           categories: __S(257, __c8, 1),
-          page: __S(3520, __c110, 0),
+          page: __S(3584, __c112, 0),
         }),
       ).annotate({ identifier: "CategoriesPaginatedResponse" });
   }
@@ -7735,12 +7782,12 @@ function __c10(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/ar/customers", code: 200 })),
       ).annotate({ identifier: "ListCustomersRequest" });
     case 1:
-      return S.Array(__S(2337, __c73, 1));
+      return S.Array(__S(2401, __c75, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
           customers: __S(321, __c10, 1),
-          page: __S(3520, __c110, 0),
+          page: __S(3584, __c112, 0),
         }),
       ).annotate({ identifier: "ApiV1ArCustomerPaginatedResponseData" });
   }
@@ -7754,7 +7801,7 @@ function __c11(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/ar/invoices/{invoiceId}/attachments", code: 200 })),
       ).annotate({ identifier: "ListInvoiceAttachmentsRequest" });
     case 1:
-      return S.Array(__S(5152, __c161, 0));
+      return S.Array(__S(5216, __c163, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -7771,7 +7818,7 @@ function __c12(j: number): any {
           amount: S.Unknown,
           description: S.optional(S.NullOr(S.String)),
           ledgerId: S.String,
-          tagIds: S.optional(S.NullOr(__S(4000, __c125, 0))),
+          tagIds: S.optional(S.NullOr(__S(4064, __c127, 0))),
         }),
       ).annotate({ identifier: "BooksAPICategorizationSplit" });
     case 1:
@@ -7897,7 +7944,7 @@ function __c15(j: number): any {
           achDebitEnabled: S.Boolean,
           amount: S.Number,
           canceledAt: S.optional(S.NullOr(S.Unknown)),
-          ccEmails: __S(4000, __c125, 0),
+          ccEmails: __S(4064, __c127, 0),
           createdAt: S.Unknown,
           creditCardEnabled: S.Boolean,
           currencyCode: S.Unknown,
@@ -7922,7 +7969,7 @@ function __c15(j: number): any {
       return S.suspend(() =>
         S.Struct({
           invoices: __S(482, __c15, 2),
-          page: __S(3520, __c110, 0),
+          page: __S(3584, __c112, 0),
         }),
       ).annotate({ identifier: "ApiV1ArInvoicesPaginatedResponse" });
   }
@@ -7940,12 +7987,12 @@ function __c16(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/merchants", code: 200 })),
       ).annotate({ identifier: "ListMerchantsRequest" });
     case 1:
-      return S.Array(__S(5280, __c165, 0));
+      return S.Array(__S(5344, __c167, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           data: __S(513, __c16, 1),
-          page: __S(3520, __c110, 0),
+          page: __S(3584, __c112, 0),
         }),
       ).annotate({ identifier: "MerchantsResponse" });
   }
@@ -7962,11 +8009,11 @@ function __c17(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/ar/products", code: 200 })),
       ).annotate({ identifier: "ListProductsRequest" });
     case 1:
-      return S.Array(__S(2592, __c81, 0));
+      return S.Array(__S(2656, __c83, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          page: __S(3520, __c110, 0),
+          page: __S(3584, __c112, 0),
           products: __S(545, __c17, 1),
         }),
       ).annotate({ identifier: "ApiV1ArProductPaginatedResponseData" });
@@ -7985,11 +8032,11 @@ function __c18(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/spend/receipts", code: 200 })),
       ).annotate({ identifier: "ListReceiptsRequest" });
     case 1:
-      return S.Array(__S(5472, __c171, 0));
+      return S.Array(__S(5536, __c173, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          page: __S(3520, __c110, 0),
+          page: __S(3584, __c112, 0),
           receipts: __S(577, __c18, 1),
         }),
       ).annotate({ identifier: "ApiV1ReceiptsPaginatedResponse" });
@@ -8008,12 +8055,12 @@ function __c19(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/recipients/invites", code: 200 })),
       ).annotate({ identifier: "ListRecipientInvitesRequest" });
     case 1:
-      return S.Array(__S(2816, __c88, 0));
+      return S.Array(__S(2880, __c90, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           invites: __S(609, __c19, 1),
-          page: __S(3520, __c110, 0),
+          page: __S(3584, __c112, 0),
         }),
       ).annotate({ identifier: "RecipientInviteApiPaginatedResponse" });
   }
@@ -8046,7 +8093,7 @@ function __c20(j: number): any {
       return S.suspend(() =>
         S.Struct({
           attachments: __S(642, __c20, 2),
-          page: __S(3520, __c110, 0),
+          page: __S(3584, __c112, 0),
           total: S.Unknown,
         }),
       ).annotate({ identifier: "RecipientsAttachmentsPaginatedResponse" });
@@ -8068,7 +8115,7 @@ function __c21(j: number): any {
       return S.suspend(() =>
         S.Struct({
           amount: S.Number,
-          attachments: __S(5633, __c176, 1),
+          attachments: __S(5697, __c178, 1),
           currency: S.String,
           id: S.String,
           paymentStatus: S.String,
@@ -8082,7 +8129,7 @@ function __c21(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          page: __S(3520, __c110, 0),
+          page: __S(3584, __c112, 0),
           reimbursements: __S(674, __c21, 2),
         }),
       ).annotate({ identifier: "ApiV1ReimbursementsPaginatedResponse" });
@@ -8101,11 +8148,11 @@ function __c22(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/request-send-money", code: 200 })),
       ).annotate({ identifier: "ListSendMoneyApprovalRequestsRequest" });
     case 1:
-      return S.Array(__S(5856, __c183, 0));
+      return S.Array(__S(5920, __c185, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          page: __S(3520, __c110, 0),
+          page: __S(3584, __c112, 0),
           requests: __S(705, __c22, 1),
         }),
       ).annotate({ identifier: "SendMoneyApprovalRequestsPaginatedResponse" });
@@ -8116,14 +8163,14 @@ function __c23(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          status: S.optional(__S(5216, __c163, 0).pipe(T.Query())),
+          status: S.optional(__S(5280, __c165, 0).pipe(T.Query())),
           search: S.optional(S.String.pipe(T.Query())),
           start: S.optional(S.String.pipe(T.Query())),
           end: S.optional(S.String.pipe(T.Query())),
           postedStart: S.optional(S.String.pipe(T.Query())),
           postedEnd: S.optional(S.String.pipe(T.Query())),
-          accountId: S.optional(__S(4000, __c125, 0).pipe(T.Query())),
-          cardId: S.optional(__S(4000, __c125, 0).pipe(T.Query())),
+          accountId: S.optional(__S(4064, __c127, 0).pipe(T.Query())),
+          cardId: S.optional(__S(4064, __c127, 0).pipe(T.Query())),
           mercuryCategory: S.optional(S.String.pipe(T.Query())),
           categoryId: S.optional(S.String.pipe(T.Query())),
           start_at: S.optional(S.String.pipe(T.Query())),
@@ -8136,7 +8183,7 @@ function __c23(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          page: __S(3520, __c110, 0),
+          page: __S(3584, __c112, 0),
           transactions: __S(128, __c4, 0),
         }),
       ).annotate({ identifier: "TransactionsPaginatedResponse" });
@@ -8153,7 +8200,7 @@ function __c24(j: number): any {
           lines: __S(801, __c25, 1),
           notes: S.optional(S.NullOr(S.String)),
           referenceNumber: S.optional(S.String),
-          vendor: __S(3872, __c121, 0),
+          vendor: __S(3936, __c123, 0),
         }).pipe(T.Http({ method: "POST", uri: "/books/bills", code: 200 })),
       ).annotate({ identifier: "CreateBooksBillRequest" });
   }
@@ -8240,11 +8287,11 @@ function __c28(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/request-transfer", code: 200 })),
       ).annotate({ identifier: "ListTransferMoneyApprovalRequestsRequest" });
     case 1:
-      return S.Array(__S(6048, __c189, 0));
+      return S.Array(__S(6112, __c191, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          page: __S(3520, __c110, 0),
+          page: __S(3584, __c112, 0),
           requests: __S(897, __c28, 1),
         }),
       ).annotate({ identifier: "TransferMoneyApprovalRequestsPaginatedResponse" });
@@ -8272,12 +8319,35 @@ function __c30(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          adjustments: S.optional(S.NullOr(__S(2049, __c64, 1))),
+          amount: S.Unknown,
+          payrollRunId: S.String,
+        }),
+      ).annotate({ identifier: "BooksAPIPayrollPaymentApplication" });
+    case 1:
+      return S.Array(__S(960, __c30, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          booksId: S.optional(S.String.pipe(T.Query())),
+          adjustments: S.optional(S.NullOr(__S(2049, __c64, 1))),
+          applications: __S(961, __c30, 1),
+          lineEntryId: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/books/payroll-runs/payments", code: 200 })),
+      ).annotate({ identifier: "MatchBooksPayrollPaymentRequest" });
+  }
+}
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           receiptId: S.String.pipe(T.Label()),
         }).pipe(T.Http({ method: "POST", uri: "/spend/receipts/{receiptId}/match", code: 200 })),
       ).annotate({ identifier: "MatchReceiptRequest" });
   }
 }
-function __c31(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8302,7 +8372,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "OAuth2TokenResponse" });
   }
 }
-function __c32(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8315,7 +8385,7 @@ function __c32(j: number): any {
           idempotencyKey: S.String,
           note: S.optional(S.String),
           paymentMethod: S.String,
-          purpose: S.optional(__S(2913, __c91, 1)),
+          purpose: S.optional(__S(2977, __c93, 1)),
           recipientId: S.String,
         }).pipe(
           T.Http({ method: "POST", uri: "/account/{accountId}/request-send-money", code: 200 }),
@@ -8323,7 +8393,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "RequestSendMoneyRequest" });
   }
 }
-function __c33(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8337,7 +8407,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "RequestTransferMoneyRequest" });
   }
 }
-function __c34(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8350,12 +8420,12 @@ function __c34(j: number): any {
         S.Struct({
           cardNumber: S.String,
           cvc: S.String,
-          expiration: __S(5312, __c166, 0),
+          expiration: __S(5376, __c168, 0),
         }),
       ).annotate({ identifier: "CardRevealResponse" });
   }
 }
-function __c35(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8365,35 +8435,35 @@ function __c35(j: number): any {
         }),
       ).annotate({ identifier: "SetBooksAPILedgerOpeningBalance" });
     case 1:
-      return S.Array(__S(1120, __c35, 0));
+      return S.Array(__S(1152, __c36, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           booksId: S.optional(S.String.pipe(T.Query())),
-          openingBalances: __S(1121, __c35, 1),
+          openingBalances: __S(1153, __c36, 1),
         }).pipe(T.Http({ method: "PUT", uri: "/books/ledgers/opening-balances", code: 200 })),
       ).annotate({ identifier: "SetBooksLedgerOpeningBalancesRequest" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          error: S.optional(S.NullOr(__S(1920, __c60, 0))),
+          error: S.optional(S.NullOr(__S(1952, __c61, 0))),
           ledgerId: S.String,
           success: S.Boolean,
         }),
       ).annotate({ identifier: "BooksAPISetLedgerOpeningBalanceResult" });
     case 4:
-      return S.Array(__S(1123, __c35, 3));
+      return S.Array(__S(1155, __c36, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           failedCount: S.Number,
-          results: __S(1124, __c35, 4),
+          results: __S(1156, __c36, 4),
           succeededCount: S.Number,
         }),
       ).annotate({ identifier: "SetBooksAPILedgerOpeningBalancesResponse" });
   }
 }
-function __c36(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8407,16 +8477,6 @@ function __c36(j: number): any {
           code_challenge_method: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/oauth2/auth", code: 200 })),
       ).annotate({ identifier: "StartOAuth2FlowRequest" });
-  }
-}
-function __c37(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          cardId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "POST", uri: "/cards/{cardId}/unfreeze", code: 200 })),
-      ).annotate({ identifier: "UnfreezeCardRequest" });
   }
 }
 function __c38(j: number): any {
@@ -8474,11 +8534,21 @@ function __c40(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          cardId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "POST", uri: "/cards/{cardId}/unfreeze", code: 200 })),
+      ).annotate({ identifier: "UnfreezeCardRequest" });
+  }
+}
+function __c41(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           billId: S.String.pipe(T.Label()),
           booksId: S.optional(S.String.pipe(T.Query())),
           dueDate: S.optional(S.NullOr(S.Unknown)),
           effectiveDate: S.optional(S.NullOr(S.Unknown)),
-          lineChanges: S.optional(S.NullOr(__S(1314, __c41, 2))),
+          lineChanges: S.optional(S.NullOr(__S(1346, __c42, 2))),
           notes: S.optional(S.NullOr(S.String)),
           referenceNumber: S.optional(S.NullOr(S.String)),
           vendor: S.optional(S.NullOr(S.Unknown)),
@@ -8486,7 +8556,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "UpdateBooksBillRequest" });
   }
 }
-function __c41(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8498,18 +8568,18 @@ function __c41(j: number): any {
         }),
       ).annotate({ identifier: "UpdateBooksAPIBillLine" });
     case 1:
-      return S.Array(__S(1312, __c41, 0));
+      return S.Array(__S(1344, __c42, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           create: S.optional(S.NullOr(__S(801, __c25, 1))),
-          delete: S.optional(S.NullOr(__S(4000, __c125, 0))),
-          update: S.optional(S.NullOr(__S(1313, __c41, 1))),
+          delete: S.optional(S.NullOr(__S(4064, __c127, 0))),
+          update: S.optional(S.NullOr(__S(1345, __c42, 1))),
         }),
       ).annotate({ identifier: "UpdateBooksBillRequestLineChanges" });
   }
 }
-function __c42(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8519,19 +8589,19 @@ function __c42(j: number): any {
           customer: S.optional(S.NullOr(S.Unknown)),
           dueDate: S.optional(S.NullOr(S.Unknown)),
           effectiveDate: S.optional(S.NullOr(S.Unknown)),
-          lineChanges: S.optional(S.NullOr(__S(1314, __c41, 2))),
+          lineChanges: S.optional(S.NullOr(__S(1346, __c42, 2))),
           notes: S.optional(S.NullOr(S.String)),
           referenceNumber: S.optional(S.NullOr(S.String)),
         }).pipe(T.Http({ method: "PATCH", uri: "/books/invoice/{invoiceId}", code: 200 })),
       ).annotate({ identifier: "UpdateBooksInvoiceRequest" });
   }
 }
-function __c43(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          clearFields: S.optional(S.NullOr(__S(5216, __c163, 0))),
+          clearFields: S.optional(S.NullOr(__S(5280, __c165, 0))),
           debitCredit: S.optional(S.NullOr(S.Unknown)),
           ledgerId: S.String,
           name: S.optional(S.NullOr(S.String)),
@@ -8542,17 +8612,17 @@ function __c43(j: number): any {
         }),
       ).annotate({ identifier: "UpdateBooksAPILedger" });
     case 1:
-      return S.Array(__S(1376, __c43, 0));
+      return S.Array(__S(1408, __c44, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           booksId: S.optional(S.String.pipe(T.Query())),
-          ledgers: __S(1377, __c43, 1),
+          ledgers: __S(1409, __c44, 1),
         }).pipe(T.Http({ method: "PUT", uri: "/books/ledgers", code: 200 })),
       ).annotate({ identifier: "UpdateBooksLedgersRequest" });
   }
 }
-function __c44(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8568,30 +8638,16 @@ function __c44(j: number): any {
       ).annotate({ identifier: "UpdateBudgetRequest" });
   }
 }
-function __c45(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           cardId: S.String.pipe(T.Label()),
           nickname: S.optional(S.Unknown),
-          spendLimit: S.optional(S.NullOr(__S(5248, __c164, 0))),
+          spendLimit: S.optional(S.NullOr(__S(5312, __c166, 0))),
         }).pipe(T.Http({ method: "POST", uri: "/cards/{cardId}", code: 200 })),
       ).annotate({ identifier: "UpdateCardRequest" });
-  }
-}
-function __c46(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          address: S.optional(S.NullOr(__S(2304, __c72, 0))),
-          email: S.Unknown,
-          name: S.String,
-          resendOpenInvoices: S.Boolean,
-        }).pipe(T.Http({ method: "POST", uri: "/ar/customers/{customerId}", code: 200 })),
-      ).annotate({ identifier: "UpdateCustomerRequest" });
   }
 }
 function __c47(j: number): any {
@@ -8599,15 +8655,29 @@ function __c47(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          customerId: S.String.pipe(T.Label()),
+          address: S.optional(S.NullOr(__S(2368, __c74, 0))),
+          email: S.Unknown,
+          name: S.String,
+          resendOpenInvoices: S.Boolean,
+        }).pipe(T.Http({ method: "POST", uri: "/ar/customers/{customerId}", code: 200 })),
+      ).annotate({ identifier: "UpdateCustomerRequest" });
+  }
+}
+function __c48(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           invoiceId: S.String.pipe(T.Label()),
           achDebitEnabled: S.Boolean,
-          ccEmails: __S(4000, __c125, 0),
+          ccEmails: __S(4064, __c127, 0),
           creditCardEnabled: S.Boolean,
           dueDate: S.Unknown,
           internalNote: S.optional(S.NullOr(S.String)),
           invoiceDate: S.Unknown,
           invoiceNumber: S.String,
-          lineItems: __S(2529, __c79, 1),
+          lineItems: __S(2593, __c81, 1),
           payerMemo: S.optional(S.NullOr(S.String)),
           poNumber: S.optional(S.NullOr(S.String)),
           servicePeriodEndDate: S.optional(S.NullOr(S.Unknown)),
@@ -8617,26 +8687,26 @@ function __c47(j: number): any {
       ).annotate({ identifier: "UpdateInvoiceRequest" });
   }
 }
-function __c48(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           recipientId: S.String.pipe(T.Label()),
-          address: S.optional(__S(2432, __c76, 0)),
-          checkInfo: S.optional(__S(2752, __c86, 0)),
+          address: S.optional(__S(2496, __c78, 0)),
+          checkInfo: S.optional(__S(2816, __c88, 0)),
           contactEmail: S.optional(S.String),
-          domesticWireRoutingInfo: S.optional(__S(2688, __c84, 0)),
-          electronicRoutingInfo: S.optional(__S(2689, __c84, 1)),
-          emails: S.optional(__S(4000, __c125, 0)),
+          domesticWireRoutingInfo: S.optional(__S(2752, __c86, 0)),
+          electronicRoutingInfo: S.optional(__S(2753, __c86, 1)),
+          emails: S.optional(__S(4064, __c127, 0)),
           name: S.optional(S.String),
           nickname: S.optional(S.String),
-          realTimePaymentRoutingInfo: S.optional(__S(2688, __c84, 0)),
+          realTimePaymentRoutingInfo: S.optional(__S(2752, __c86, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/recipient/{recipientId}", code: 200 })),
       ).annotate({ identifier: "UpdateRecipientRequest" });
   }
 }
-function __c49(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8652,18 +8722,6 @@ function __c49(j: number): any {
           T.Http({ method: "PUT", uri: "/spend/reimbursements/{reimbursementId}", code: 200 }),
         ),
       ).annotate({ identifier: "UpdateReimbursementRequest" });
-  }
-}
-function __c50(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          transactionId: S.String.pipe(T.Label()),
-          categoryId: S.optional(S.Unknown),
-          note: S.optional(S.Unknown),
-        }).pipe(T.Http({ method: "PATCH", uri: "/transaction/{transactionId}", code: 200 })),
-      ).annotate({ identifier: "UpdateTransactionRequest" });
   }
 }
 function __c51(j: number): any {
@@ -8688,16 +8746,28 @@ function __c52(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          transactionId: S.String.pipe(T.Label()),
+          categoryId: S.optional(S.Unknown),
+          note: S.optional(S.Unknown),
+        }).pipe(T.Http({ method: "PATCH", uri: "/transaction/{transactionId}", code: 200 })),
+      ).annotate({ identifier: "UpdateTransactionRequest" });
+  }
+}
+function __c53(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           webhookEndpointId: S.String.pipe(T.Label()),
-          eventTypes: S.optional(S.NullOr(__S(5216, __c163, 0))),
-          filterPaths: S.optional(S.NullOr(__S(5216, __c163, 0))),
+          eventTypes: S.optional(S.NullOr(__S(5280, __c165, 0))),
+          filterPaths: S.optional(S.NullOr(__S(5280, __c165, 0))),
           status: S.optional(S.NullOr(S.Unknown)),
           url: S.optional(S.NullOr(S.String)),
         }).pipe(T.Http({ method: "POST", uri: "/webhooks/{webhookEndpointId}", code: 200 })),
       ).annotate({ identifier: "UpdateWebhookRequest" });
   }
 }
-function __c53(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8715,7 +8785,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "UploadRecipientAttachmentRequest" });
   }
 }
-function __c54(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8734,7 +8804,7 @@ function __c54(j: number): any {
       ).annotate({ identifier: "UploadTransactionAttachmentRequest" });
   }
 }
-function __c55(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8745,7 +8815,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "VerifyWebhookRequest" });
   }
 }
-function __c56(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8761,7 +8831,7 @@ function __c56(j: number): any {
       ).annotate({ identifier: "CreateBooksInvoiceRequest" });
   }
 }
-function __c57(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8782,7 +8852,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "BooksAPIInvoice" });
   }
 }
-function __c58(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8796,38 +8866,38 @@ function __c58(j: number): any {
         }),
       ).annotate({ identifier: "CreateBooksAPILedger" });
     case 1:
-      return S.Array(__S(1856, __c58, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          booksId: S.optional(S.String.pipe(T.Query())),
-          ledgers: __S(1857, __c58, 1),
-        }).pipe(T.Http({ method: "POST", uri: "/books/ledgers", code: 200 })),
-      ).annotate({ identifier: "CreateBooksLedgersRequest" });
-  }
-}
-function __c59(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          error: S.optional(S.NullOr(__S(1920, __c60, 0))),
-          ledger: S.optional(S.NullOr(__S(1952, __c61, 0))),
-        }),
-      ).annotate({ identifier: "BooksAPICreateLedgerResult" });
-    case 1:
       return S.Array(__S(1888, __c59, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
+          booksId: S.optional(S.String.pipe(T.Query())),
+          ledgers: __S(1889, __c59, 1),
+        }).pipe(T.Http({ method: "POST", uri: "/books/ledgers", code: 200 })),
+      ).annotate({ identifier: "CreateBooksLedgersRequest" });
+  }
+}
+function __c60(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          error: S.optional(S.NullOr(__S(1952, __c61, 0))),
+          ledger: S.optional(S.NullOr(__S(1984, __c62, 0))),
+        }),
+      ).annotate({ identifier: "BooksAPICreateLedgerResult" });
+    case 1:
+      return S.Array(__S(1920, __c60, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
           failedCount: S.Number,
-          results: __S(1889, __c59, 1),
+          results: __S(1921, __c60, 1),
           succeededCount: S.Number,
         }),
       ).annotate({ identifier: "CreateBooksAPILedgersResponse" });
   }
 }
-function __c60(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8838,7 +8908,7 @@ function __c60(j: number): any {
       ).annotate({ identifier: "BooksAPICreateLedgerResultError" });
   }
 }
-function __c61(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8861,35 +8931,26 @@ function __c61(j: number): any {
       ).annotate({ identifier: "BooksAPICreateLedgerResultLedger" });
   }
 }
-function __c62(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          amount: S.Unknown,
-          ledgerId: S.String,
-        }),
-      ).annotate({ identifier: "BooksAPIPaymentApplicationAdjustment" });
-    case 1:
-      return S.Array(__S(1984, __c62, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          adjustments: S.optional(S.NullOr(__S(1985, __c62, 1))),
+          adjustments: S.optional(S.NullOr(__S(2049, __c64, 1))),
           amount: S.Unknown,
           billId: S.optional(S.NullOr(S.String)),
           invoiceId: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "BooksAPIPaymentApplication" });
-    case 3:
-      return S.Array(__S(1986, __c62, 2));
-    case 4:
+    case 1:
+      return S.Array(__S(2016, __c63, 0));
+    case 2:
       return S.suspend(() =>
         S.Struct({
           lineEntryId: S.String.pipe(T.Label()),
           booksId: S.optional(S.String.pipe(T.Query())),
-          adjustments: S.optional(S.NullOr(__S(1985, __c62, 1))),
-          applications: __S(1987, __c62, 3),
+          adjustments: S.optional(S.NullOr(__S(2049, __c64, 1))),
+          applications: __S(2017, __c63, 1),
         }).pipe(
           T.Http({
             method: "POST",
@@ -8900,7 +8961,20 @@ function __c62(j: number): any {
       ).annotate({ identifier: "CreateBooksPaymentApplicationsRequest" });
   }
 }
-function __c63(j: number): any {
+function __c64(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          amount: S.Unknown,
+          ledgerId: S.String,
+        }),
+      ).annotate({ identifier: "BooksAPIPaymentApplicationAdjustment" });
+    case 1:
+      return S.Array(__S(2048, __c64, 0));
+  }
+}
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8914,7 +8988,7 @@ function __c63(j: number): any {
         }),
       ).annotate({ identifier: "BooksAPIPaymentApplicationAccrualSource" });
     case 1:
-      return S.Array(__S(2016, __c63, 0));
+      return S.Array(__S(2080, __c65, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -8929,15 +9003,15 @@ function __c63(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          bills: __S(2017, __c63, 1),
-          invoices: __S(2017, __c63, 1),
-          lineEntry: __S(2018, __c63, 2),
-          payrollRuns: __S(2017, __c63, 1),
+          bills: __S(2081, __c65, 1),
+          invoices: __S(2081, __c65, 1),
+          lineEntry: __S(2082, __c65, 2),
+          payrollRuns: __S(2081, __c65, 1),
         }),
       ).annotate({ identifier: "BooksAPIPaymentApplicationsResponse" });
   }
 }
-function __c64(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8952,7 +9026,7 @@ function __c64(j: number): any {
       ).annotate({ identifier: "CreateBudgetRequest" });
   }
 }
-function __c65(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8962,7 +9036,7 @@ function __c65(j: number): any {
       ).annotate({ identifier: "ApiV1BudgetIdResponse" });
   }
 }
-function __c66(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8981,22 +9055,23 @@ function __c66(j: number): any {
       return S.suspend(() =>
         S.Struct({
           accountId: S.optional(S.NullOr(S.Unknown)),
-          cardConfiguration: S.optional(S.NullOr(__S(2112, __c66, 0))),
+          cardConfiguration: S.optional(S.NullOr(__S(2176, __c68, 0))),
           kind: S.Unknown,
           nickname: S.optional(S.NullOr(S.String)),
-          spendLimit: S.optional(S.NullOr(__S(2113, __c66, 1))),
+          spendLimit: S.optional(S.NullOr(__S(2177, __c68, 1))),
           type: S.Unknown,
           userId: S.Unknown,
         }).pipe(T.Http({ method: "POST", uri: "/cards", code: 200 })),
       ).annotate({ identifier: "CreateCardRequest" });
   }
 }
-function __c67(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           reimbursementId: S.String.pipe(T.Label()),
+          requireApproval: S.optional(S.NullOr(S.Boolean)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -9007,13 +9082,13 @@ function __c67(j: number): any {
       ).annotate({ identifier: "ApproveReimbursementRequest" });
   }
 }
-function __c68(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "ApproveReimbursementResponse" });
   }
 }
-function __c69(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9026,7 +9101,7 @@ function __c69(j: number): any {
       ).annotate({ identifier: "CreateCategoryRequest" });
   }
 }
-function __c70(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9040,19 +9115,19 @@ function __c70(j: number): any {
       ).annotate({ identifier: "CategoryData" });
   }
 }
-function __c71(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          address: S.optional(S.NullOr(__S(2304, __c72, 0))),
+          address: S.optional(S.NullOr(__S(2368, __c74, 0))),
           email: S.Unknown,
           name: S.String,
         }).pipe(T.Http({ method: "POST", uri: "/ar/customers", code: 200 })),
       ).annotate({ identifier: "CreateCustomerRequest" });
   }
 }
-function __c72(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9068,7 +9143,7 @@ function __c72(j: number): any {
       ).annotate({ identifier: "CreateCustomerRequestAddress" });
   }
 }
-function __c73(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9084,7 +9159,7 @@ function __c73(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          address: S.optional(S.NullOr(__S(2336, __c73, 0))),
+          address: S.optional(S.NullOr(__S(2400, __c75, 0))),
           deletedAt: S.optional(S.NullOr(S.Unknown)),
           email: S.Unknown,
           id: S.Unknown,
@@ -9093,7 +9168,7 @@ function __c73(j: number): any {
       ).annotate({ identifier: "ApiV1ArCustomerResponseData" });
   }
 }
-function __c74(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9108,13 +9183,13 @@ function __c74(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          creditTransaction: __S(2476, __c77, 12),
-          debitTransaction: __S(2476, __c77, 12),
+          creditTransaction: __S(2540, __c79, 12),
+          debitTransaction: __S(2540, __c79, 12),
         }),
       ).annotate({ identifier: "InternalTransferAPIResponse" });
   }
 }
-function __c75(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9131,7 +9206,7 @@ function __c75(j: number): any {
       return S.suspend(() =>
         S.Struct({
           accountNumber: S.String,
-          address: S.optional(S.NullOr(__S(2400, __c75, 0))),
+          address: S.optional(S.NullOr(__S(2464, __c77, 0))),
           bankName: S.optional(S.NullOr(S.String)),
           routingNumber: S.String,
         }),
@@ -9140,7 +9215,7 @@ function __c75(j: number): any {
       return S.suspend(() =>
         S.Struct({
           accountNumber: S.String,
-          address: S.optional(S.NullOr(__S(2400, __c75, 0))),
+          address: S.optional(S.NullOr(__S(2464, __c77, 0))),
           bankName: S.optional(S.NullOr(S.String)),
           electronicAccountType: S.String,
           routingNumber: S.String,
@@ -9222,29 +9297,29 @@ function __c75(j: number): any {
     case 14:
       return S.suspend(() =>
         S.Struct({
-          australia: S.optional(S.NullOr(__S(2405, __c75, 5))),
-          brazil: S.optional(S.NullOr(__S(2406, __c75, 6))),
-          canada: S.optional(S.NullOr(__S(2407, __c75, 7))),
-          chile: S.optional(S.NullOr(__S(2406, __c75, 6))),
-          colombia: S.optional(S.NullOr(__S(2406, __c75, 6))),
-          dominicanRepublic: S.optional(S.NullOr(__S(2408, __c75, 8))),
-          honduras: S.optional(S.NullOr(__S(2408, __c75, 8))),
-          india: S.optional(S.NullOr(__S(2409, __c75, 9))),
-          kazakhstan: S.optional(S.NullOr(__S(2406, __c75, 6))),
-          pakistan: S.optional(S.NullOr(__S(2410, __c75, 10))),
-          paraguay: S.optional(S.NullOr(__S(2406, __c75, 6))),
-          philippines: S.optional(S.NullOr(__S(2411, __c75, 11))),
-          russia: S.optional(S.NullOr(__S(2412, __c75, 12))),
-          southAfrica: S.optional(S.NullOr(__S(2413, __c75, 13))),
+          australia: S.optional(S.NullOr(__S(2469, __c77, 5))),
+          brazil: S.optional(S.NullOr(__S(2470, __c77, 6))),
+          canada: S.optional(S.NullOr(__S(2471, __c77, 7))),
+          chile: S.optional(S.NullOr(__S(2470, __c77, 6))),
+          colombia: S.optional(S.NullOr(__S(2470, __c77, 6))),
+          dominicanRepublic: S.optional(S.NullOr(__S(2472, __c77, 8))),
+          honduras: S.optional(S.NullOr(__S(2472, __c77, 8))),
+          india: S.optional(S.NullOr(__S(2473, __c77, 9))),
+          kazakhstan: S.optional(S.NullOr(__S(2470, __c77, 6))),
+          pakistan: S.optional(S.NullOr(__S(2474, __c77, 10))),
+          paraguay: S.optional(S.NullOr(__S(2470, __c77, 6))),
+          philippines: S.optional(S.NullOr(__S(2475, __c77, 11))),
+          russia: S.optional(S.NullOr(__S(2476, __c77, 12))),
+          southAfrica: S.optional(S.NullOr(__S(2477, __c77, 13))),
         }),
       ).annotate({ identifier: "InternationalWireCountrySpecificData" });
     case 15:
       return S.suspend(() =>
         S.Struct({
-          address: S.optional(S.NullOr(__S(2400, __c75, 0))),
-          bankDetails: S.optional(S.NullOr(__S(2403, __c75, 3))),
-          correspondentInfo: S.optional(S.NullOr(__S(2404, __c75, 4))),
-          countrySpecific: __S(2414, __c75, 14),
+          address: S.optional(S.NullOr(__S(2464, __c77, 0))),
+          bankDetails: S.optional(S.NullOr(__S(2467, __c77, 3))),
+          correspondentInfo: S.optional(S.NullOr(__S(2468, __c77, 4))),
+          countrySpecific: __S(2478, __c77, 14),
           emailAddress: S.optional(S.NullOr(S.String)),
           iban: S.String,
           phoneNumber: S.optional(S.NullOr(S.String)),
@@ -9253,7 +9328,7 @@ function __c75(j: number): any {
       ).annotate({ identifier: "InternationalWireRoutingInfo" });
   }
 }
-function __c76(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9267,7 +9342,7 @@ function __c76(j: number): any {
       ).annotate({ identifier: "AddressData" });
   }
 }
-function __c77(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9289,7 +9364,7 @@ function __c77(j: number): any {
         }),
       ).annotate({ identifier: "TransactionAttachment" });
     case 2:
-      return S.Array(__S(2465, __c77, 1));
+      return S.Array(__S(2529, __c79, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -9320,12 +9395,12 @@ function __c77(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          address: S.optional(S.NullOr(__S(2432, __c76, 0))),
-          creditCardInfo: S.optional(S.NullOr(__S(2468, __c77, 4))),
-          debitCardInfo: S.optional(S.NullOr(__S(2469, __c77, 5))),
-          domesticWireRoutingInfo: S.optional(S.NullOr(__S(2401, __c75, 1))),
-          electronicRoutingInfo: S.optional(S.NullOr(__S(2402, __c75, 2))),
-          internationalWireRoutingInfo: S.optional(S.NullOr(__S(2415, __c75, 15))),
+          address: S.optional(S.NullOr(__S(2496, __c78, 0))),
+          creditCardInfo: S.optional(S.NullOr(__S(2532, __c79, 4))),
+          debitCardInfo: S.optional(S.NullOr(__S(2533, __c79, 5))),
+          domesticWireRoutingInfo: S.optional(S.NullOr(__S(2465, __c77, 1))),
+          electronicRoutingInfo: S.optional(S.NullOr(__S(2466, __c77, 2))),
+          internationalWireRoutingInfo: S.optional(S.NullOr(__S(2479, __c77, 15))),
         }),
       ).annotate({ identifier: "TransactionMethodData" });
     case 7:
@@ -9339,7 +9414,7 @@ function __c77(j: number): any {
         }),
       ).annotate({ identifier: "GlAllocation" });
     case 8:
-      return S.Array(__S(2471, __c77, 7));
+      return S.Array(__S(2535, __c79, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
@@ -9360,17 +9435,17 @@ function __c77(j: number): any {
         }),
       ).annotate({ identifier: "RelatedTransactionData" });
     case 11:
-      return S.Array(__S(2474, __c77, 10));
+      return S.Array(__S(2538, __c79, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
           accountId: S.Unknown,
-          accountingStatus: S.optional(S.NullOr(__S(2464, __c77, 0))),
+          accountingStatus: S.optional(S.NullOr(__S(2528, __c79, 0))),
           amount: S.Number,
-          attachments: __S(2466, __c77, 2),
+          attachments: __S(2530, __c79, 2),
           bankDescription: S.optional(S.NullOr(S.String)),
           cardId: S.optional(S.NullOr(S.String)),
-          categoryData: S.optional(S.NullOr(__S(2240, __c70, 0))),
+          categoryData: S.optional(S.NullOr(__S(2304, __c72, 0))),
           checkNumber: S.optional(S.NullOr(S.String)),
           compliantWithReceiptPolicy: S.Boolean,
           counterpartyId: S.String,
@@ -9378,24 +9453,24 @@ function __c77(j: number): any {
           counterpartyNickname: S.optional(S.NullOr(S.String)),
           createdAt: S.String,
           creditAccountPeriodId: S.optional(S.NullOr(S.String)),
-          currencyExchangeInfo: S.optional(S.NullOr(__S(2467, __c77, 3))),
+          currencyExchangeInfo: S.optional(S.NullOr(__S(2531, __c79, 3))),
           dashboardLink: S.String,
-          details: S.optional(S.NullOr(__S(2470, __c77, 6))),
+          details: S.optional(S.NullOr(__S(2534, __c79, 6))),
           estimatedDeliveryDate: S.String,
           externalMemo: S.optional(S.NullOr(S.String)),
           failedAt: S.optional(S.NullOr(S.String)),
           feeId: S.optional(S.NullOr(S.String)),
           generalLedgerCodeName: S.optional(S.NullOr(S.String)),
-          glAllocations: __S(2472, __c77, 8),
+          glAllocations: __S(2536, __c79, 8),
           hasGeneratedReceipt: S.Boolean,
           id: S.String,
           kind: S.String,
-          merchant: S.optional(S.NullOr(__S(2473, __c77, 9))),
+          merchant: S.optional(S.NullOr(__S(2537, __c79, 9))),
           mercuryCategory: S.optional(S.NullOr(S.String)),
           note: S.optional(S.NullOr(S.String)),
           postedAt: S.optional(S.NullOr(S.String)),
           reasonForFailure: S.optional(S.NullOr(S.String)),
-          relatedTransactions: __S(2475, __c77, 11),
+          relatedTransactions: __S(2539, __c79, 11),
           requestId: S.optional(S.NullOr(S.String)),
           status: S.String,
           trackingNumber: S.optional(S.NullOr(S.String)),
@@ -9403,13 +9478,13 @@ function __c77(j: number): any {
       ).annotate({ identifier: "Transaction" });
   }
 }
-function __c78(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           achDebitEnabled: S.Boolean,
-          ccEmails: __S(4000, __c125, 0),
+          ccEmails: __S(4064, __c127, 0),
           creditCardEnabled: S.Boolean,
           currencyCode: S.optional(S.NullOr(S.Unknown)),
           customerId: S.Unknown,
@@ -9418,7 +9493,7 @@ function __c78(j: number): any {
           internalNote: S.optional(S.NullOr(S.String)),
           invoiceDate: S.Unknown,
           invoiceNumber: S.optional(S.NullOr(S.String)),
-          lineItems: __S(2529, __c79, 1),
+          lineItems: __S(2593, __c81, 1),
           payerMemo: S.optional(S.NullOr(S.String)),
           poNumber: S.optional(S.NullOr(S.String)),
           sendEmailOption: S.optional(S.NullOr(S.Unknown)),
@@ -9429,7 +9504,7 @@ function __c78(j: number): any {
       ).annotate({ identifier: "CreateInvoiceRequest" });
   }
 }
-function __c79(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9442,14 +9517,14 @@ function __c79(j: number): any {
         }),
       ).annotate({ identifier: "ApiV1ArLineItemData" });
     case 1:
-      return S.Array(__S(2528, __c79, 0));
+      return S.Array(__S(2592, __c81, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           achDebitEnabled: S.Boolean,
           amount: S.Number,
           canceledAt: S.optional(S.NullOr(S.Unknown)),
-          ccEmails: __S(4000, __c125, 0),
+          ccEmails: __S(4064, __c127, 0),
           createdAt: S.Unknown,
           creditCardEnabled: S.Boolean,
           currencyCode: S.Unknown,
@@ -9460,7 +9535,7 @@ function __c79(j: number): any {
           internalNote: S.optional(S.NullOr(S.String)),
           invoiceDate: S.Unknown,
           invoiceNumber: S.String,
-          lineItems: __S(2529, __c79, 1),
+          lineItems: __S(2593, __c81, 1),
           payerMemo: S.optional(S.NullOr(S.String)),
           poNumber: S.optional(S.NullOr(S.String)),
           servicePeriodEndDate: S.optional(S.NullOr(S.Unknown)),
@@ -9473,7 +9548,7 @@ function __c79(j: number): any {
       ).annotate({ identifier: "ApiV1ArInvoiceResponse" });
   }
 }
-function __c80(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9485,7 +9560,7 @@ function __c80(j: number): any {
       ).annotate({ identifier: "CreateProductRequest" });
   }
 }
-function __c81(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9499,7 +9574,7 @@ function __c81(j: number): any {
       ).annotate({ identifier: "ApiV1ArProductResponseData" });
   }
 }
-function __c82(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9516,31 +9591,31 @@ function __c82(j: number): any {
       ).annotate({ identifier: "ApiV1ReceiptUploadUrlResponse" });
   }
 }
-function __c83(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          address: S.optional(__S(2432, __c76, 0)),
-          checkInfo: S.optional(__S(2752, __c86, 0)),
+          address: S.optional(__S(2496, __c78, 0)),
+          checkInfo: S.optional(__S(2816, __c88, 0)),
           contactEmail: S.optional(S.String),
-          domesticWireRoutingInfo: S.optional(__S(2688, __c84, 0)),
-          electronicRoutingInfo: S.optional(__S(2689, __c84, 1)),
-          emails: __S(4000, __c125, 0),
+          domesticWireRoutingInfo: S.optional(__S(2752, __c86, 0)),
+          electronicRoutingInfo: S.optional(__S(2753, __c86, 1)),
+          emails: __S(4064, __c127, 0),
           name: S.String,
           nickname: S.optional(S.String),
-          realTimePaymentRoutingInfo: S.optional(__S(2688, __c84, 0)),
+          realTimePaymentRoutingInfo: S.optional(__S(2752, __c86, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/recipients", code: 200 })),
       ).annotate({ identifier: "CreateRecipientRequest" });
   }
 }
-function __c84(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           accountNumber: S.String,
-          address: __S(2400, __c75, 0),
+          address: __S(2464, __c77, 0),
           routingNumber: S.String,
         }),
       ).annotate({ identifier: "DomesticWireRoutingInfoRaw" });
@@ -9548,14 +9623,14 @@ function __c84(j: number): any {
       return S.suspend(() =>
         S.Struct({
           accountNumber: S.String,
-          address: __S(2400, __c75, 0),
+          address: __S(2464, __c77, 0),
           electronicAccountType: S.Unknown,
           routingNumber: S.String,
         }),
       ).annotate({ identifier: "ElectronicRoutingInfoRaw" });
   }
 }
-function __c85(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9571,12 +9646,12 @@ function __c85(j: number): any {
       ).annotate({ identifier: "Address" });
   }
 }
-function __c86(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          address: __S(2400, __c75, 0),
+          address: __S(2464, __c77, 0),
         }),
       ).annotate({ identifier: "CheckInfoRaw" });
     case 1:
@@ -9589,33 +9664,33 @@ function __c86(j: number): any {
         }),
       ).annotate({ identifier: "RecipientAttachment" });
     case 2:
-      return S.Array(__S(2753, __c86, 1));
+      return S.Array(__S(2817, __c88, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          address: S.optional(S.NullOr(__S(2720, __c85, 0))),
-          attachments: __S(2754, __c86, 2),
-          checkInfo: S.optional(S.NullOr(__S(2752, __c86, 0))),
+          address: S.optional(S.NullOr(__S(2784, __c87, 0))),
+          attachments: __S(2818, __c88, 2),
+          checkInfo: S.optional(S.NullOr(__S(2816, __c88, 0))),
           contactEmail: S.optional(S.NullOr(S.String)),
           dateLastPaid: S.optional(S.NullOr(S.String)),
-          defaultAddress: S.optional(S.NullOr(__S(2400, __c75, 0))),
+          defaultAddress: S.optional(S.NullOr(__S(2464, __c77, 0))),
           defaultPaymentMethod: S.String,
-          domesticWireRoutingInfo: S.optional(S.NullOr(__S(2401, __c75, 1))),
-          electronicRoutingInfo: S.optional(S.NullOr(__S(2402, __c75, 2))),
-          emails: __S(4000, __c125, 0),
+          domesticWireRoutingInfo: S.optional(S.NullOr(__S(2465, __c77, 1))),
+          electronicRoutingInfo: S.optional(S.NullOr(__S(2466, __c77, 2))),
+          emails: __S(4064, __c127, 0),
           id: S.String,
-          internationalWireRoutingInfo: S.optional(S.NullOr(__S(2415, __c75, 15))),
+          internationalWireRoutingInfo: S.optional(S.NullOr(__S(2479, __c77, 15))),
           inviteId: S.optional(S.NullOr(S.String)),
           isBusiness: S.optional(S.NullOr(S.Boolean)),
           name: S.String,
           nickname: S.optional(S.NullOr(S.String)),
-          realTimePaymentRoutingInfo: S.optional(S.NullOr(__S(2401, __c75, 1))),
+          realTimePaymentRoutingInfo: S.optional(S.NullOr(__S(2465, __c77, 1))),
           status: S.String,
         }),
       ).annotate({ identifier: "RecipientInfo" });
   }
 }
-function __c87(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9624,7 +9699,7 @@ function __c87(j: number): any {
           name: S.optional(S.NullOr(S.String)),
           notes: S.optional(S.NullOr(S.String)),
           organizationNameOnRequest: S.optional(S.NullOr(S.String)),
-          paymentMethods: __S(5216, __c163, 0),
+          paymentMethods: __S(5280, __c165, 0),
           recipientId: S.optional(S.NullOr(S.Unknown)),
           requireTaxDocument: S.Boolean,
           sendEmail: S.Boolean,
@@ -9632,7 +9707,7 @@ function __c87(j: number): any {
       ).annotate({ identifier: "CreateRecipientInviteRequest" });
   }
 }
-function __c88(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9644,7 +9719,7 @@ function __c88(j: number): any {
           name: S.String,
           notes: S.optional(S.NullOr(S.String)),
           onboardingUrl: S.String,
-          paymentMethods: __S(5216, __c163, 0),
+          paymentMethods: __S(5280, __c165, 0),
           recipientId: S.optional(S.NullOr(S.Unknown)),
           requireTaxDocument: S.Boolean,
           status: S.Unknown,
@@ -9652,7 +9727,7 @@ function __c88(j: number): any {
       ).annotate({ identifier: "RecipientInviteApiResponse" });
   }
 }
-function __c89(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9667,7 +9742,7 @@ function __c89(j: number): any {
       ).annotate({ identifier: "CreateReimbursementRequest" });
   }
 }
-function __c90(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9679,13 +9754,13 @@ function __c90(j: number): any {
           idempotencyKey: S.String,
           note: S.optional(S.String),
           paymentMethod: S.String,
-          purpose: S.optional(__S(2913, __c91, 1)),
+          purpose: S.optional(__S(2977, __c93, 1)),
           recipientId: S.String,
         }).pipe(T.Http({ method: "POST", uri: "/account/{accountId}/transactions", code: 200 })),
       ).annotate({ identifier: "CreateTransactionRequest" });
   }
 }
-function __c91(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9697,12 +9772,12 @@ function __c91(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          simple: S.optional(S.NullOr(__S(2912, __c91, 0))),
+          simple: S.optional(S.NullOr(__S(2976, __c93, 0))),
         }),
       ).annotate({ identifier: "PostTransactionSendMoneyPurpose" });
   }
 }
-function __c92(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9712,26 +9787,26 @@ function __c92(j: number): any {
       ).annotate({ identifier: "ArchiveBudgetRequest" });
   }
 }
-function __c93(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          eventTypes: S.optional(S.NullOr(__S(5216, __c163, 0))),
-          filterPaths: S.optional(S.NullOr(__S(5216, __c163, 0))),
+          eventTypes: S.optional(S.NullOr(__S(5280, __c165, 0))),
+          filterPaths: S.optional(S.NullOr(__S(5280, __c165, 0))),
           url: S.String,
         }).pipe(T.Http({ method: "POST", uri: "/webhooks", code: 200 })),
       ).annotate({ identifier: "CreateWebhookRequest" });
   }
 }
-function __c94(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           createdAt: S.Unknown,
-          eventTypes: S.optional(S.NullOr(__S(5216, __c163, 0))),
-          filterPaths: S.optional(S.NullOr(__S(5216, __c163, 0))),
+          eventTypes: S.optional(S.NullOr(__S(5280, __c165, 0))),
+          filterPaths: S.optional(S.NullOr(__S(5280, __c165, 0))),
           id: S.Unknown,
           secret: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           status: S.Unknown,
@@ -9741,7 +9816,7 @@ function __c94(j: number): any {
       ).annotate({ identifier: "ApiWebhookResponse" });
   }
 }
-function __c95(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9752,36 +9827,36 @@ function __c95(j: number): any {
       ).annotate({ identifier: "DeleteBooksCategorizationRuleRequest" });
   }
 }
-function __c96(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           booksId: S.optional(S.String.pipe(T.Query())),
-          ledgerIds: __S(4000, __c125, 0),
+          ledgerIds: __S(4064, __c127, 0),
         }).pipe(T.Http({ method: "DELETE", uri: "/books/ledgers", code: 200 })),
       ).annotate({ identifier: "DeleteBooksLedgersRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           deleted: S.Boolean,
-          error: S.optional(S.NullOr(__S(1920, __c60, 0))),
+          error: S.optional(S.NullOr(__S(1952, __c61, 0))),
           ledgerId: S.String,
         }),
       ).annotate({ identifier: "BooksAPIDeleteLedgerResult" });
     case 2:
-      return S.Array(__S(3073, __c96, 1));
+      return S.Array(__S(3137, __c98, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           failedCount: S.Number,
-          results: __S(3074, __c96, 2),
+          results: __S(3138, __c98, 2),
           succeededCount: S.Number,
         }),
       ).annotate({ identifier: "DeleteBooksAPILedgersResponse" });
   }
 }
-function __c97(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9798,7 +9873,7 @@ function __c97(j: number): any {
       ).annotate({ identifier: "DeleteBooksPaymentApplicationsRequest" });
   }
 }
-function __c98(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9808,7 +9883,7 @@ function __c98(j: number): any {
       ).annotate({ identifier: "DeleteCategoryRequest" });
   }
 }
-function __c99(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9818,7 +9893,7 @@ function __c99(j: number): any {
       ).annotate({ identifier: "DeleteCustomerRequest" });
   }
 }
-function __c100(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9828,7 +9903,7 @@ function __c100(j: number): any {
       ).annotate({ identifier: "DeleteProductRequest" });
   }
 }
-function __c101(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9838,7 +9913,7 @@ function __c101(j: number): any {
       ).annotate({ identifier: "DeleteRecipientRequest" });
   }
 }
-function __c102(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9848,7 +9923,7 @@ function __c102(j: number): any {
       ).annotate({ identifier: "DeleteRecipientInviteRequest" });
   }
 }
-function __c103(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9858,7 +9933,7 @@ function __c103(j: number): any {
       ).annotate({ identifier: "DeleteWebhookRequest" });
   }
 }
-function __c104(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9876,7 +9951,7 @@ function __c104(j: number): any {
       ).annotate({ identifier: "AssignTransactionToBudgetRequest" });
   }
 }
-function __c105(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9893,7 +9968,7 @@ function __c105(j: number): any {
       ).annotate({ identifier: "DenyReimbursementRequest" });
   }
 }
-function __c106(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9907,7 +9982,7 @@ function __c106(j: number): any {
       ).annotate({ identifier: "EditCategoryRequest" });
   }
 }
-function __c107(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9917,7 +9992,7 @@ function __c107(j: number): any {
       ).annotate({ identifier: "FreezeCardRequest" });
   }
 }
-function __c108(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9934,7 +10009,7 @@ function __c108(j: number): any {
           nameOnCard: S.String,
           network: S.String,
           physicalCardStatus: S.optional(S.NullOr(S.String)),
-          spendLimit: __S(5248, __c164, 0),
+          spendLimit: __S(5312, __c166, 0),
           status: S.String,
           type: S.String,
           updatedAt: S.String,
@@ -9942,16 +10017,16 @@ function __c108(j: number): any {
         }),
       ).annotate({ identifier: "AccountCard" });
     case 2:
-      return S.Array(__S(3457, __c108, 1));
+      return S.Array(__S(3521, __c110, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          cards: __S(3458, __c108, 2),
+          cards: __S(3522, __c110, 2),
         }),
       ).annotate({ identifier: "AccountCardsResponse" });
   }
 }
-function __c109(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9983,17 +10058,17 @@ function __c109(j: number): any {
         }),
       ).annotate({ identifier: "Account" });
     case 2:
-      return S.Array(__S(3489, __c109, 1));
+      return S.Array(__S(3553, __c111, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          accounts: __S(3490, __c109, 2),
-          page: __S(3520, __c110, 0),
+          accounts: __S(3554, __c111, 2),
+          page: __S(3584, __c112, 0),
         }),
       ).annotate({ identifier: "AccountsPaginatedResponse" });
   }
 }
-function __c110(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10004,7 +10079,7 @@ function __c110(j: number): any {
       ).annotate({ identifier: "AccountsPaginatedResponsePage" });
   }
 }
-function __c111(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10022,7 +10097,7 @@ function __c111(j: number): any {
       return S.suspend(() =>
         S.Struct({
           accountNumber: S.String,
-          companyLegalAddress: __S(2720, __c85, 0),
+          companyLegalAddress: __S(2784, __c87, 0),
           companyLegalName: S.String,
           downloadUrl: S.String,
           ein: S.optional(S.NullOr(S.String)),
@@ -10031,21 +10106,21 @@ function __c111(j: number): any {
           id: S.String,
           routingNumber: S.String,
           startDate: S.String,
-          transactions: __S(3585, __c112, 1),
+          transactions: __S(3649, __c114, 1),
         }),
       ).annotate({ identifier: "DepositoryAccountStatement" });
     case 2:
-      return S.Array(__S(3553, __c111, 1));
+      return S.Array(__S(3617, __c113, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          page: __S(3520, __c110, 0),
-          statements: __S(3554, __c111, 2),
+          page: __S(3584, __c112, 0),
+          statements: __S(3618, __c113, 2),
         }),
       ).annotate({ identifier: "DepositoryAccountStatementsPaginatedResponse" });
   }
 }
-function __c112(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10056,10 +10131,10 @@ function __c112(j: number): any {
         }),
       ).annotate({ identifier: "AccountStatementTransaction" });
     case 1:
-      return S.Array(__S(3584, __c112, 0));
+      return S.Array(__S(3648, __c114, 0));
   }
 }
-function __c113(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10080,11 +10155,11 @@ function __c113(j: number): any {
         }),
       ).annotate({ identifier: "AutoTransferRuleDetailsContentsReservoirAccountsItem" });
     case 2:
-      return S.Array(__S(3617, __c113, 1));
+      return S.Array(__S(3681, __c115, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          reservoirAccounts: S.optional(__S(3618, __c113, 2)),
+          reservoirAccounts: S.optional(__S(3682, __c115, 2)),
           lowerBound: S.optional(S.NullOr(S.Unknown)),
           reservoirAccountId: S.optional(S.Unknown),
           targetBalance: S.optional(S.Unknown),
@@ -10094,7 +10169,7 @@ function __c113(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          contents: S.optional(__S(3619, __c113, 3)),
+          contents: S.optional(__S(3683, __c115, 3)),
           kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "AutoTransferRuleDetails" });
@@ -10103,7 +10178,7 @@ function __c113(j: number): any {
         S.Struct({
           controlledAccountId: S.Unknown,
           description: S.String,
-          details: __S(3620, __c113, 4),
+          details: __S(3684, __c115, 4),
           frequency: S.String,
           id: S.Unknown,
           isPaused: S.Boolean,
@@ -10113,17 +10188,17 @@ function __c113(j: number): any {
         }),
       ).annotate({ identifier: "AutoTransferRule" });
     case 6:
-      return S.Array(__S(3621, __c113, 5));
+      return S.Array(__S(3685, __c115, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          page: __S(3520, __c110, 0),
-          rules: __S(3622, __c113, 6),
+          page: __S(3584, __c112, 0),
+          rules: __S(3686, __c115, 6),
         }),
       ).annotate({ identifier: "AutoTransferRulesResponse" });
   }
 }
-function __c114(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10138,7 +10213,7 @@ function __c114(j: number): any {
       ).annotate({ identifier: "GetBooksBalanceSheetRequest" });
   }
 }
-function __c115(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10150,27 +10225,27 @@ function __c115(j: number): any {
         }),
       ).annotate({ identifier: "BooksAPIReportColumn" });
     case 1:
-      return S.Array(__S(3680, __c115, 0));
+      return S.Array(__S(3744, __c117, 0));
     case 2:
       return S.Array(S.Number);
   }
 }
-function __c116(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          calculatedCurrentYearEarnings: __S(3682, __c115, 2),
-          calculatedRetainedEarnings: __S(3682, __c115, 2),
+          calculatedCurrentYearEarnings: __S(3746, __c117, 2),
+          calculatedRetainedEarnings: __S(3746, __c117, 2),
         }),
       ).annotate({ identifier: "BooksAPIReportRetainedEarnings" });
     case 1:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(3714, __c116, 2)));
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(3778, __c118, 2)));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          amounts: __S(3682, __c115, 2),
-          children: __S(3713, __c116, 1),
+          amounts: __S(3746, __c117, 2),
+          children: __S(3777, __c118, 1),
           debitCredit: S.Unknown,
           ledgerId: S.optional(S.NullOr(S.String)),
           name: S.String,
@@ -10178,23 +10253,23 @@ function __c116(j: number): any {
           rowKind: S.Unknown,
           sortCode: S.optional(S.NullOr(S.String)),
           subType: S.optional(S.NullOr(S.Unknown)),
-          totalAmounts: __S(3682, __c115, 2),
+          totalAmounts: __S(3746, __c117, 2),
           type: S.optional(S.NullOr(S.Unknown)),
         }),
       ).annotate({ identifier: "BooksAPIReportRow" });
     case 3:
-      return S.Array(__S(3714, __c116, 2));
+      return S.Array(__S(3778, __c118, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          columns: __S(3681, __c115, 1),
-          retainedEarnings: S.optional(S.NullOr(__S(3712, __c116, 0))),
-          rows: __S(3715, __c116, 3),
+          columns: __S(3745, __c117, 1),
+          retainedEarnings: S.optional(S.NullOr(__S(3776, __c118, 0))),
+          rows: __S(3779, __c118, 3),
         }),
       ).annotate({ identifier: "BooksAPIReport" });
   }
 }
-function __c117(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10211,7 +10286,7 @@ function __c117(j: number): any {
       ).annotate({ identifier: "GetBooksAPIBillResponse" });
   }
 }
-function __c118(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10221,10 +10296,10 @@ function __c118(j: number): any {
           effectiveDateEnd: S.optional(S.String.pipe(T.Query())),
           dueDateStart: S.optional(S.String.pipe(T.Query())),
           dueDateEnd: S.optional(S.String.pipe(T.Query())),
-          status: S.optional(__S(5216, __c163, 0).pipe(T.Query())),
-          displayStatus: S.optional(__S(5216, __c163, 0).pipe(T.Query())),
-          vendorIds: S.optional(__S(4000, __c125, 0).pipe(T.Query())),
-          ids: S.optional(__S(4000, __c125, 0).pipe(T.Query())),
+          status: S.optional(__S(5280, __c165, 0).pipe(T.Query())),
+          displayStatus: S.optional(__S(5280, __c165, 0).pipe(T.Query())),
+          vendorIds: S.optional(__S(4064, __c127, 0).pipe(T.Query())),
+          ids: S.optional(__S(4064, __c127, 0).pipe(T.Query())),
           referenceNumber: S.optional(S.String.pipe(T.Query())),
           grossAmount: S.optional(S.Number.pipe(T.Query())),
           minGrossAmount: S.optional(S.Number.pipe(T.Query())),
@@ -10233,7 +10308,7 @@ function __c118(j: number): any {
           minAmountRemaining: S.optional(S.Number.pipe(T.Query())),
           maxAmountRemaining: S.optional(S.Number.pipe(T.Query())),
           keywords: S.optional(S.String.pipe(T.Query())),
-          sort: S.optional(__S(5216, __c163, 0).pipe(T.Query())),
+          sort: S.optional(__S(5280, __c165, 0).pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/books/bills", code: 200 })),
@@ -10243,14 +10318,14 @@ function __c118(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          bills: __S(3777, __c118, 1),
+          bills: __S(3841, __c120, 1),
           nextPageToken: S.optional(S.NullOr(S.String)),
           prevPageToken: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "GetBooksAPIBillsResponse" });
   }
 }
-function __c119(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10259,44 +10334,44 @@ function __c119(j: number): any {
           debitCredit: S.Unknown,
           description: S.String,
           ledgerId: S.String,
-          tagIds: S.optional(S.NullOr(__S(4000, __c125, 0))),
+          tagIds: S.optional(S.NullOr(__S(4064, __c127, 0))),
         }),
       ).annotate({ identifier: "BooksAPICreateJournalEntryLineEntry" });
     case 1:
-      return S.Array(__S(3808, __c119, 0));
+      return S.Array(__S(3872, __c121, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           datetime: S.Unknown,
           description: S.String,
-          lineEntries: __S(3809, __c119, 1),
+          lineEntries: __S(3873, __c121, 1),
         }),
       ).annotate({ identifier: "CreateBooksAPIJournalEntryRequest" });
     case 3:
-      return S.Array(__S(3810, __c119, 2));
+      return S.Array(__S(3874, __c121, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           booksId: S.optional(S.String.pipe(T.Query())),
           expand: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3811, __c119, 3).pipe(T.HttpBody())),
+          body: S.optional(__S(3875, __c121, 3).pipe(T.HttpBody())),
         }).pipe(T.Http({ method: "POST", uri: "/books/journal-entries", code: 200 })),
       ).annotate({ identifier: "BulkCreateBooksJournalEntriesRequest" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          journalEntries: __S(3840, __c120, 0),
+          journalEntries: __S(3904, __c122, 0),
         }),
       ).annotate({ identifier: "CreateBooksAPIJournalEntriesBulkResponse" });
   }
 }
-function __c120(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(3925, __c122, 21));
+      return S.Array(__S(3989, __c124, 21));
   }
 }
-function __c121(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10307,7 +10382,7 @@ function __c121(j: number): any {
       ).annotate({ identifier: "BooksJournalEntryAccrualSourceExternalPartyId" });
   }
 }
-function __c122(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10317,7 +10392,7 @@ function __c122(j: number): any {
         }),
       ).annotate({ identifier: "BooksAccrualSourceFile" });
     case 1:
-      return S.Array(__S(3904, __c122, 0));
+      return S.Array(__S(3968, __c124, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -10331,7 +10406,7 @@ function __c122(j: number): any {
         }),
       ).annotate({ identifier: "BooksAccrualSourceLine" });
     case 3:
-      return S.Array(__S(3906, __c122, 2));
+      return S.Array(__S(3970, __c124, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -10342,7 +10417,7 @@ function __c122(j: number): any {
         }),
       ).annotate({ identifier: "BooksPaymentApplicationAccrualAdjustment" });
     case 5:
-      return S.Array(__S(3908, __c122, 4));
+      return S.Array(__S(3972, __c124, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -10356,8 +10431,8 @@ function __c122(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          adjustments: __S(3909, __c122, 5),
-          lineEntry: __S(3910, __c122, 6),
+          adjustments: __S(3973, __c124, 5),
+          lineEntry: __S(3974, __c124, 6),
           matchedAmount: S.Unknown,
           paymentApplicationId: S.String,
           sourceType: S.String,
@@ -10365,7 +10440,7 @@ function __c122(j: number): any {
         }),
       ).annotate({ identifier: "BooksAccrualSourcePaymentApplication" });
     case 8:
-      return S.Array(__S(3911, __c122, 7));
+      return S.Array(__S(3975, __c124, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
@@ -10374,30 +10449,30 @@ function __c122(j: number): any {
         }),
       ).annotate({ identifier: "BooksAccrualSourceUnappliedPayment" });
     case 10:
-      return S.Array(__S(3913, __c122, 9));
+      return S.Array(__S(3977, __c124, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
           amountOutstanding: S.Unknown,
           amountPaid: S.Unknown,
-          billPayInvoiceAttachment: S.optional(S.NullOr(__S(3968, __c124, 0))),
+          billPayInvoiceAttachment: S.optional(S.NullOr(__S(4032, __c126, 0))),
           displayStatus: S.Unknown,
           dueDate: S.optional(S.NullOr(S.Unknown)),
           effectiveDate: S.Unknown,
           externalId: S.optional(S.NullOr(S.String)),
-          externalPartyId: S.optional(S.NullOr(__S(3872, __c121, 0))),
-          files: S.optional(S.NullOr(__S(3905, __c122, 1))),
+          externalPartyId: S.optional(S.NullOr(__S(3936, __c123, 0))),
+          files: S.optional(S.NullOr(__S(3969, __c124, 1))),
           grossAmount: S.Unknown,
           id: S.optional(S.NullOr(S.String)),
-          journalEntryIds: __S(4000, __c125, 0),
-          lines: S.optional(S.NullOr(__S(3907, __c122, 3))),
+          journalEntryIds: __S(4064, __c127, 0),
+          lines: S.optional(S.NullOr(__S(3971, __c124, 3))),
           needsActionReason: S.optional(S.NullOr(S.Unknown)),
           notes: S.optional(S.NullOr(S.String)),
-          paymentApplications: S.optional(S.NullOr(__S(3912, __c122, 8))),
+          paymentApplications: S.optional(S.NullOr(__S(3976, __c124, 8))),
           referenceNumber: S.optional(S.NullOr(S.String)),
           status: S.Unknown,
           type: S.String,
-          unappliedPayments: S.optional(S.NullOr(__S(3914, __c122, 10))),
+          unappliedPayments: S.optional(S.NullOr(__S(3978, __c124, 10))),
         }),
       ).annotate({ identifier: "BooksJournalEntryAccrualSource" });
     case 12:
@@ -10420,10 +10495,10 @@ function __c122(j: number): any {
           dueDate: S.optional(S.NullOr(S.Unknown)),
           effectiveDate: S.Unknown,
           externalId: S.optional(S.NullOr(S.String)),
-          externalPartyId: S.optional(S.NullOr(__S(3872, __c121, 0))),
+          externalPartyId: S.optional(S.NullOr(__S(3936, __c123, 0))),
           grossAmount: S.Unknown,
           id: S.String,
-          lines: S.optional(S.NullOr(__S(3907, __c122, 3))),
+          lines: S.optional(S.NullOr(__S(3971, __c124, 3))),
           notes: S.optional(S.NullOr(S.String)),
           referenceNumber: S.optional(S.NullOr(S.String)),
           status: S.Unknown,
@@ -10444,7 +10519,7 @@ function __c122(j: number): any {
       return S.suspend(() =>
         S.Struct({
           amount: S.Unknown,
-          attachments: S.optional(S.NullOr(__S(3969, __c124, 1))),
+          attachments: S.optional(S.NullOr(__S(4033, __c126, 1))),
           cardLastFourDigits: S.optional(S.NullOr(S.String)),
           categorizationMethod: S.optional(S.NullOr(S.Unknown)),
           counterpartyName: S.optional(S.NullOr(S.String)),
@@ -10457,9 +10532,9 @@ function __c122(j: number): any {
           journalEntryId: S.optional(S.NullOr(S.String)),
           ledgerId: S.optional(S.NullOr(S.String)),
           lineEntryId: S.optional(S.NullOr(S.String)),
-          merchantType: S.optional(S.NullOr(__S(3919, __c122, 15))),
+          merchantType: S.optional(S.NullOr(__S(3983, __c124, 15))),
           note: S.optional(S.NullOr(S.String)),
-          opposingLineEntryIds: S.optional(S.NullOr(__S(4000, __c125, 0))),
+          opposingLineEntryIds: S.optional(S.NullOr(__S(4064, __c127, 0))),
           personal: S.Boolean,
           postedStatus: S.Unknown,
           reviewStatus: S.Unknown,
@@ -10472,7 +10547,7 @@ function __c122(j: number): any {
     case 17:
       return S.suspend(() =>
         S.Struct({
-          accrualSource: S.optional(S.NullOr(__S(3917, __c122, 13))),
+          accrualSource: S.optional(S.NullOr(__S(3981, __c124, 13))),
           amount: S.Unknown,
           categorizationStatus: S.Unknown,
           datetime: S.Unknown,
@@ -10484,38 +10559,38 @@ function __c122(j: number): any {
           journalEntryId: S.String,
           ledgerId: S.String,
           ledgerName: S.String,
-          opposingLedgerIds: S.optional(S.NullOr(__S(4000, __c125, 0))),
-          paymentApplications: S.optional(S.NullOr(__S(3918, __c122, 14))),
+          opposingLedgerIds: S.optional(S.NullOr(__S(4064, __c127, 0))),
+          paymentApplications: S.optional(S.NullOr(__S(3982, __c124, 14))),
           relatedLineEntryId: S.optional(S.NullOr(S.String)),
           sortOrder: S.optional(S.NullOr(S.Number)),
-          tags: S.optional(S.NullOr(__S(3937, __c123, 1))),
-          transaction: S.optional(S.NullOr(__S(3920, __c122, 16))),
+          tags: S.optional(S.NullOr(__S(4001, __c125, 1))),
+          transaction: S.optional(S.NullOr(__S(3984, __c124, 16))),
           transactionId: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "BooksLineEntry" });
     case 18:
-      return S.Array(__S(3921, __c122, 17));
+      return S.Array(__S(3985, __c124, 17));
     case 19:
       return S.suspend(() =>
         S.Struct({
           datetime: S.Unknown,
           description: S.String,
           journalEntryId: S.String,
-          lineEntries: __S(3922, __c122, 18),
+          lineEntries: __S(3986, __c124, 18),
         }),
       ).annotate({ identifier: "BooksJournalEntryTransferFromEntry" });
     case 20:
       return S.suspend(() =>
         S.Struct({
-          fromEntry: __S(3923, __c122, 19),
-          toEntry: __S(3923, __c122, 19),
+          fromEntry: __S(3987, __c124, 19),
+          toEntry: __S(3987, __c124, 19),
         }),
       ).annotate({ identifier: "BooksJournalEntryTransfer" });
     case 21:
       return S.suspend(() =>
         S.Struct({
-          accrualSource: S.optional(S.NullOr(__S(3915, __c122, 11))),
-          autocatResult: S.optional(S.NullOr(__S(3916, __c122, 12))),
+          accrualSource: S.optional(S.NullOr(__S(3979, __c124, 11))),
+          autocatResult: S.optional(S.NullOr(__S(3980, __c124, 12))),
           categorizationStatus: S.Unknown,
           creationDate: S.Unknown,
           creationSource: S.Unknown,
@@ -10523,16 +10598,16 @@ function __c122(j: number): any {
           description: S.String,
           id: S.String,
           isOpeningBalance: S.Boolean,
-          lineEntries: S.optional(S.NullOr(__S(3922, __c122, 18))),
-          lineEntryIds: S.optional(S.NullOr(__S(4000, __c125, 0))),
+          lineEntries: S.optional(S.NullOr(__S(3986, __c124, 18))),
+          lineEntryIds: S.optional(S.NullOr(__S(4064, __c127, 0))),
           reviewStatus: S.Unknown,
           reviewStatusSetAt: S.optional(S.NullOr(S.Unknown)),
-          transfer: S.optional(S.NullOr(__S(3924, __c122, 20))),
+          transfer: S.optional(S.NullOr(__S(3988, __c124, 20))),
         }),
       ).annotate({ identifier: "BooksJournalEntry" });
   }
 }
-function __c123(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10543,10 +10618,10 @@ function __c123(j: number): any {
         }),
       ).annotate({ identifier: "BooksTag" });
     case 1:
-      return S.Array(__S(3936, __c123, 0));
+      return S.Array(__S(4000, __c125, 0));
   }
 }
-function __c124(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10557,16 +10632,16 @@ function __c124(j: number): any {
         }),
       ).annotate({ identifier: "BooksJournalEntryAccrualSourceBillPayInvoiceAttachment" });
     case 1:
-      return S.Array(__S(3968, __c124, 0));
+      return S.Array(__S(4032, __c126, 0));
   }
 }
-function __c125(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c126(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10579,50 +10654,50 @@ function __c126(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/books/reports/cash-flow", code: 200 })),
       ).annotate({ identifier: "GetBooksCashFlowRequest" });
     case 1:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(4034, __c126, 2)));
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(4098, __c128, 2)));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          balances: __S(3682, __c115, 2),
-          children: __S(4033, __c126, 1),
+          balances: __S(3746, __c117, 2),
+          children: __S(4097, __c128, 1),
           ledgerId: S.String,
           name: S.String,
           parentId: S.optional(S.NullOr(S.String)),
           sortCode: S.String,
-          totalBalances: __S(3682, __c115, 2),
+          totalBalances: __S(3746, __c117, 2),
         }),
       ).annotate({ identifier: "BooksAPICashBalanceRow" });
     case 3:
-      return S.Array(__S(4034, __c126, 2));
+      return S.Array(__S(4098, __c128, 2));
     case 4:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(4037, __c126, 5)));
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(4101, __c128, 5)));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          children: __S(4036, __c126, 4),
+          children: __S(4100, __c128, 4),
           ledgerId: S.String,
           name: S.String,
-          netCashFlows: __S(3682, __c115, 2),
+          netCashFlows: __S(3746, __c117, 2),
           parentId: S.optional(S.NullOr(S.String)),
-          totalNetCashFlows: __S(3682, __c115, 2),
+          totalNetCashFlows: __S(3746, __c117, 2),
         }),
       ).annotate({ identifier: "BooksAPICashFlowLedgerRow" });
     case 6:
-      return S.Array(__S(4037, __c126, 5));
+      return S.Array(__S(4101, __c128, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          columns: __S(3681, __c115, 1),
-          endingBalances: __S(4035, __c126, 3),
-          endingCashBalances: __S(3682, __c115, 2),
-          ledgers: __S(4038, __c126, 6),
-          startingBalances: __S(4035, __c126, 3),
-          startingCashBalances: __S(3682, __c115, 2),
+          columns: __S(3745, __c117, 1),
+          endingBalances: __S(4099, __c128, 3),
+          endingCashBalances: __S(3746, __c117, 2),
+          ledgers: __S(4102, __c128, 6),
+          startingBalances: __S(4099, __c128, 3),
+          startingCashBalances: __S(3746, __c117, 2),
         }),
       ).annotate({ identifier: "BooksAPICashFlowReport" });
   }
 }
-function __c127(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10638,12 +10713,12 @@ function __c127(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.NullOr(S.String)),
-          rules: __S(4065, __c127, 1),
+          rules: __S(4129, __c129, 1),
         }),
       ).annotate({ identifier: "GetBooksAPICategorizationRulesResponse" });
   }
 }
-function __c128(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10659,16 +10734,16 @@ function __c128(j: number): any {
         }),
       ).annotate({ identifier: "BooksAPIClose" });
     case 2:
-      return S.Array(__S(4097, __c128, 1));
+      return S.Array(__S(4161, __c130, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          closes: __S(4098, __c128, 2),
+          closes: __S(4162, __c130, 2),
         }),
       ).annotate({ identifier: "GetBooksAPIClosesResponse" });
   }
 }
-function __c129(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10688,17 +10763,17 @@ function __c129(j: number): any {
         }),
       ).annotate({ identifier: "BooksAPIInstance" });
     case 2:
-      return S.Array(__S(4129, __c129, 1));
+      return S.Array(__S(4193, __c131, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          instances: __S(4130, __c129, 2),
+          instances: __S(4194, __c131, 2),
           nextPageToken: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "GetBooksAPIInstancesResponse" });
   }
 }
-function __c130(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10719,17 +10794,17 @@ function __c130(j: number): any {
         }),
       ).annotate({ identifier: "BooksAPIIntegration" });
     case 2:
-      return S.Array(__S(4161, __c130, 1));
+      return S.Array(__S(4225, __c132, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          failedChecks: __S(5216, __c163, 0),
-          integrations: __S(4162, __c130, 2),
+          failedChecks: __S(5280, __c165, 0),
+          integrations: __S(4226, __c132, 2),
         }),
       ).annotate({ identifier: "GetBooksAPIIntegrationsResponse" });
   }
 }
-function __c131(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10741,12 +10816,12 @@ function __c131(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          invoice: __S(1824, __c57, 0),
+          invoice: __S(1856, __c58, 0),
         }),
       ).annotate({ identifier: "GetBooksAPIInvoiceResponse" });
   }
 }
-function __c132(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10756,10 +10831,10 @@ function __c132(j: number): any {
           effectiveDateEnd: S.optional(S.String.pipe(T.Query())),
           dueDateStart: S.optional(S.String.pipe(T.Query())),
           dueDateEnd: S.optional(S.String.pipe(T.Query())),
-          status: S.optional(__S(5216, __c163, 0).pipe(T.Query())),
-          displayStatus: S.optional(__S(5216, __c163, 0).pipe(T.Query())),
-          customerIds: S.optional(__S(4000, __c125, 0).pipe(T.Query())),
-          ids: S.optional(__S(4000, __c125, 0).pipe(T.Query())),
+          status: S.optional(__S(5280, __c165, 0).pipe(T.Query())),
+          displayStatus: S.optional(__S(5280, __c165, 0).pipe(T.Query())),
+          customerIds: S.optional(__S(4064, __c127, 0).pipe(T.Query())),
+          ids: S.optional(__S(4064, __c127, 0).pipe(T.Query())),
           referenceNumber: S.optional(S.String.pipe(T.Query())),
           grossAmount: S.optional(S.Number.pipe(T.Query())),
           minGrossAmount: S.optional(S.Number.pipe(T.Query())),
@@ -10768,24 +10843,24 @@ function __c132(j: number): any {
           minAmountRemaining: S.optional(S.Number.pipe(T.Query())),
           maxAmountRemaining: S.optional(S.Number.pipe(T.Query())),
           keywords: S.optional(S.String.pipe(T.Query())),
-          sort: S.optional(__S(5216, __c163, 0).pipe(T.Query())),
+          sort: S.optional(__S(5280, __c165, 0).pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/books/invoices", code: 200 })),
       ).annotate({ identifier: "GetBooksInvoicesRequest" });
     case 1:
-      return S.Array(__S(1824, __c57, 0));
+      return S.Array(__S(1856, __c58, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          invoices: __S(4225, __c132, 1),
+          invoices: __S(4289, __c134, 1),
           nextPageToken: S.optional(S.NullOr(S.String)),
           prevPageToken: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "GetBooksAPIInvoicesResponse" });
   }
 }
-function __c133(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10798,12 +10873,12 @@ function __c133(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          journalEntry: __S(3925, __c122, 21),
+          journalEntry: __S(3989, __c124, 21),
         }),
       ).annotate({ identifier: "GetBooksAPIJournalEntryResponse" });
   }
 }
-function __c134(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10815,17 +10890,17 @@ function __c134(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          ledger: __S(1952, __c61, 0),
+          ledger: __S(1984, __c62, 0),
         }),
       ).annotate({ identifier: "GetBooksAPILedgerResponse" });
   }
 }
-function __c135(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          ledgerIds: __S(4000, __c125, 0).pipe(T.Query()),
+          ledgerIds: __S(4064, __c127, 0).pipe(T.Query()),
           startDate: S.String.pipe(T.Query()),
           endDate: S.String.pipe(T.Query()),
           booksId: S.optional(S.String.pipe(T.Query())),
@@ -10846,50 +10921,13 @@ function __c135(j: number): any {
         }),
       ).annotate({ identifier: "BooksAPILedgerBalance" });
     case 2:
-      return S.Array(__S(4321, __c135, 1));
+      return S.Array(__S(4385, __c137, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          ledgerBalances: __S(4322, __c135, 2),
+          ledgerBalances: __S(4386, __c137, 2),
         }),
       ).annotate({ identifier: "GetBooksAPILedgerBalancesResponse" });
-  }
-}
-function __c136(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          booksId: S.optional(S.String.pipe(T.Query())),
-          journalEntryIds: __S(4000, __c125, 0),
-        }).pipe(T.Http({ method: "DELETE", uri: "/books/journal-entries", code: 200 })),
-      ).annotate({ identifier: "BulkDeleteBooksJournalEntriesRequest" });
-  }
-}
-function __c137(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          booksId: S.optional(S.String.pipe(T.Query())),
-          type: S.optional(S.String.pipe(T.Query())),
-          subType: S.optional(S.String.pipe(T.Query())),
-          debitCredit: S.optional(S.String.pipe(T.Query())),
-          ids: S.optional(__S(4000, __c125, 0).pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/books/ledgers", code: 200 })),
-      ).annotate({ identifier: "GetBooksLedgersRequest" });
-    case 1:
-      return S.Array(__S(1952, __c61, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          ledgers: __S(4385, __c137, 1),
-          nextPageToken: S.optional(S.NullOr(S.String)),
-          prevPageToken: S.optional(S.NullOr(S.String)),
-        }),
-      ).annotate({ identifier: "GetBooksAPILedgersResponse" });
   }
 }
 function __c138(j: number): any {
@@ -10898,14 +10936,51 @@ function __c138(j: number): any {
       return S.suspend(() =>
         S.Struct({
           booksId: S.optional(S.String.pipe(T.Query())),
+          journalEntryIds: __S(4064, __c127, 0),
+        }).pipe(T.Http({ method: "DELETE", uri: "/books/journal-entries", code: 200 })),
+      ).annotate({ identifier: "BulkDeleteBooksJournalEntriesRequest" });
+  }
+}
+function __c139(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          booksId: S.optional(S.String.pipe(T.Query())),
+          type: S.optional(S.String.pipe(T.Query())),
+          subType: S.optional(S.String.pipe(T.Query())),
+          debitCredit: S.optional(S.String.pipe(T.Query())),
+          ids: S.optional(__S(4064, __c127, 0).pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/books/ledgers", code: 200 })),
+      ).annotate({ identifier: "GetBooksLedgersRequest" });
+    case 1:
+      return S.Array(__S(1984, __c62, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          ledgers: __S(4449, __c139, 1),
+          nextPageToken: S.optional(S.NullOr(S.String)),
+          prevPageToken: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "GetBooksAPILedgersResponse" });
+  }
+}
+function __c140(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          booksId: S.optional(S.String.pipe(T.Query())),
           startDate: S.String.pipe(T.Query()),
           endDate: S.String.pipe(T.Query()),
-          ledgerIds: S.optional(__S(4000, __c125, 0).pipe(T.Query())),
-          opposingLedgerIds: S.optional(__S(4000, __c125, 0).pipe(T.Query())),
+          ledgerIds: S.optional(__S(4064, __c127, 0).pipe(T.Query())),
+          opposingLedgerIds: S.optional(__S(4064, __c127, 0).pipe(T.Query())),
           debitCredit: S.optional(S.String.pipe(T.Query())),
           minAmount: S.optional(S.Number.pipe(T.Query())),
           maxAmount: S.optional(S.Number.pipe(T.Query())),
-          sort: S.optional(__S(5216, __c163, 0).pipe(T.Query())),
+          sort: S.optional(__S(5280, __c165, 0).pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/books/line-entries", code: 200 })),
@@ -10922,23 +10997,23 @@ function __c138(j: number): any {
           journalEntryId: S.String,
           ledgerId: S.String,
           ledgerName: S.String,
-          opposingLedgerIds: __S(4000, __c125, 0),
-          tags: __S(3937, __c123, 1),
+          opposingLedgerIds: __S(4064, __c127, 0),
+          tags: __S(4001, __c125, 1),
         }),
       ).annotate({ identifier: "BooksAPILineEntry" });
     case 2:
-      return S.Array(__S(4417, __c138, 1));
+      return S.Array(__S(4481, __c140, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          lineEntries: __S(4418, __c138, 2),
+          lineEntries: __S(4482, __c140, 2),
           nextPageToken: S.optional(S.NullOr(S.String)),
           prevPageToken: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "GetBooksAPILineEntriesResponse" });
   }
 }
-function __c139(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10960,7 +11035,7 @@ function __c139(j: number): any {
         }),
       ).annotate({ identifier: "BooksAPIPayrollRunLine" });
     case 2:
-      return S.Array(__S(4449, __c139, 1));
+      return S.Array(__S(4513, __c141, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -10969,12 +11044,12 @@ function __c139(j: number): any {
           employerCost: S.Unknown,
           id: S.String,
           initialAccrualJournalEntryId: S.optional(S.NullOr(S.String)),
-          lines: __S(4450, __c139, 2),
+          lines: __S(4514, __c141, 2),
           matchingStatus: S.Unknown,
           payPeriodEnd: S.Unknown,
           payPeriodStart: S.Unknown,
           postingDate: S.Unknown,
-          relatedJournalEntryIds: __S(4000, __c125, 0),
+          relatedJournalEntryIds: __S(4064, __c127, 0),
           runType: S.Unknown,
           totalPayroll: S.Unknown,
         }),
@@ -10982,19 +11057,19 @@ function __c139(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          payrollRun: __S(4451, __c139, 3),
+          payrollRun: __S(4515, __c141, 3),
         }),
       ).annotate({ identifier: "GetBooksAPIPayrollRunResponse" });
   }
 }
-function __c140(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           booksId: S.optional(S.String.pipe(T.Query())),
-          matchingStatuses: S.optional(__S(5216, __c163, 0).pipe(T.Query())),
-          runTypes: S.optional(__S(5216, __c163, 0).pipe(T.Query())),
+          matchingStatuses: S.optional(__S(5280, __c165, 0).pipe(T.Query())),
+          runTypes: S.optional(__S(5280, __c165, 0).pipe(T.Query())),
           payPeriodStartFrom: S.optional(S.String.pipe(T.Query())),
           payPeriodStartTo: S.optional(S.String.pipe(T.Query())),
           payPeriodEndFrom: S.optional(S.String.pipe(T.Query())),
@@ -11024,18 +11099,18 @@ function __c140(j: number): any {
         }),
       ).annotate({ identifier: "BooksAPIPayrollRun" });
     case 2:
-      return S.Array(__S(4481, __c140, 1));
+      return S.Array(__S(4545, __c142, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.NullOr(S.String)),
-          payrollRuns: __S(4482, __c140, 2),
+          payrollRuns: __S(4546, __c142, 2),
           prevPageToken: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "GetBooksAPIPayrollRunsResponse" });
   }
 }
-function __c141(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11050,7 +11125,7 @@ function __c141(j: number): any {
       ).annotate({ identifier: "GetBooksProfitAndLossRequest" });
   }
 }
-function __c142(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11070,16 +11145,16 @@ function __c142(j: number): any {
         }),
       ).annotate({ identifier: "BooksAPISourceAccount" });
     case 2:
-      return S.Array(__S(4545, __c142, 1));
+      return S.Array(__S(4609, __c144, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          sourceAccounts: __S(4546, __c142, 2),
+          sourceAccounts: __S(4610, __c144, 2),
         }),
       ).annotate({ identifier: "GetBooksAPISourceAccountsResponse" });
   }
 }
-function __c143(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11099,18 +11174,18 @@ function __c143(j: number): any {
         }),
       ).annotate({ identifier: "BooksAPITagGroup" });
     case 2:
-      return S.Array(__S(4577, __c143, 1));
+      return S.Array(__S(4641, __c145, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.NullOr(S.String)),
           prevPageToken: S.optional(S.NullOr(S.String)),
-          tagGroups: __S(4578, __c143, 2),
+          tagGroups: __S(4642, __c145, 2),
         }),
       ).annotate({ identifier: "GetBooksAPITagGroupsResponse" });
   }
 }
-function __c144(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11134,18 +11209,18 @@ function __c144(j: number): any {
         }),
       ).annotate({ identifier: "BooksAPITag" });
     case 2:
-      return S.Array(__S(4609, __c144, 1));
+      return S.Array(__S(4673, __c146, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.NullOr(S.String)),
           prevPageToken: S.optional(S.NullOr(S.String)),
-          tags: __S(4610, __c144, 2),
+          tags: __S(4674, __c146, 2),
         }),
       ).annotate({ identifier: "GetBooksAPITagsResponse" });
   }
 }
-function __c145(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11159,18 +11234,18 @@ function __c145(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          transaction: __S(4672, __c146, 0),
+          transaction: __S(4736, __c148, 0),
         }),
       ).annotate({ identifier: "GetBooksAPITransactionResponse" });
   }
 }
-function __c146(j: number): any {
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           amount: S.Unknown,
-          attachments: S.optional(S.NullOr(__S(3969, __c124, 1))),
+          attachments: S.optional(S.NullOr(__S(4033, __c126, 1))),
           cardLastFourDigits: S.optional(S.NullOr(S.String)),
           categorizationLines: __S(417, __c13, 1),
           categorizationMethod: S.optional(S.NullOr(S.Unknown)),
@@ -11196,7 +11271,7 @@ function __c146(j: number): any {
       ).annotate({ identifier: "GetBooksAPITransactionResponseTransaction" });
   }
 }
-function __c147(j: number): any {
+function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11211,18 +11286,18 @@ function __c147(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/books/transactions", code: 200 })),
       ).annotate({ identifier: "GetBooksTransactionsRequest" });
     case 1:
-      return S.Array(__S(4672, __c146, 0));
+      return S.Array(__S(4736, __c148, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.NullOr(S.String)),
           prevPageToken: S.optional(S.NullOr(S.String)),
-          transactions: __S(4705, __c147, 1),
+          transactions: __S(4769, __c149, 1),
         }),
       ).annotate({ identifier: "GetBooksAPITransactionsResponse" });
   }
 }
-function __c148(j: number): any {
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11232,11 +11307,11 @@ function __c148(j: number): any {
           description: S.String,
           ledgerId: S.String,
           sortOrder: S.optional(S.NullOr(S.Number)),
-          tagIds: S.optional(S.NullOr(__S(4000, __c125, 0))),
+          tagIds: S.optional(S.NullOr(__S(4064, __c127, 0))),
         }),
       ).annotate({ identifier: "BooksAPIUpdateJournalEntryLECreate" });
     case 1:
-      return S.Array(__S(4736, __c148, 0));
+      return S.Array(__S(4800, __c150, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -11246,17 +11321,17 @@ function __c148(j: number): any {
           id: S.String,
           ledgerId: S.optional(S.NullOr(S.String)),
           sortOrder: S.optional(S.NullOr(S.Number)),
-          tagIds: S.optional(S.NullOr(__S(4000, __c125, 0))),
+          tagIds: S.optional(S.NullOr(__S(4064, __c127, 0))),
         }),
       ).annotate({ identifier: "BooksAPIUpdateJournalEntryLEUpdate" });
     case 3:
-      return S.Array(__S(4738, __c148, 2));
+      return S.Array(__S(4802, __c150, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          create: S.optional(S.NullOr(__S(4737, __c148, 1))),
-          delete: S.optional(S.NullOr(__S(4000, __c125, 0))),
-          update: S.optional(S.NullOr(__S(4739, __c148, 3))),
+          create: S.optional(S.NullOr(__S(4801, __c150, 1))),
+          delete: S.optional(S.NullOr(__S(4064, __c127, 0))),
+          update: S.optional(S.NullOr(__S(4803, __c150, 3))),
         }),
       ).annotate({ identifier: "UpdateBooksAPIJournalEntryRequestLineEntryChanges" });
     case 5:
@@ -11265,22 +11340,22 @@ function __c148(j: number): any {
           datetime: S.optional(S.NullOr(S.Unknown)),
           description: S.optional(S.NullOr(S.String)),
           journalEntryId: S.String,
-          lineEntryChanges: S.optional(S.NullOr(__S(4740, __c148, 4))),
+          lineEntryChanges: S.optional(S.NullOr(__S(4804, __c150, 4))),
           reviewStatus: S.optional(S.NullOr(S.Unknown)),
         }),
       ).annotate({ identifier: "UpdateBooksAPIJournalEntryRequest" });
     case 6:
-      return S.Array(__S(4741, __c148, 5));
+      return S.Array(__S(4805, __c150, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           booksId: S.optional(S.String.pipe(T.Query())),
-          updates: __S(4742, __c148, 6),
+          updates: __S(4806, __c150, 6),
         }).pipe(T.Http({ method: "PUT", uri: "/books/journal-entries", code: 200 })),
       ).annotate({ identifier: "BulkUpdateBooksJournalEntriesRequest" });
   }
 }
-function __c149(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11290,7 +11365,7 @@ function __c149(j: number): any {
       ).annotate({ identifier: "GetBudgetRequest" });
   }
 }
-function __c150(j: number): any {
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11307,7 +11382,7 @@ function __c150(j: number): any {
       ).annotate({ identifier: "ApiV1SpendBudgetResponse" });
   }
 }
-function __c151(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11332,17 +11407,17 @@ function __c151(j: number): any {
         }),
       ).annotate({ identifier: "ApiV1BudgetExpenditure" });
     case 2:
-      return S.Array(__S(4833, __c151, 1));
+      return S.Array(__S(4897, __c153, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          expenditures: __S(4834, __c151, 2),
-          page: __S(3520, __c110, 0),
+          expenditures: __S(4898, __c153, 2),
+          page: __S(3584, __c112, 0),
         }),
       ).annotate({ identifier: "ApiV1BudgetExpendituresResponse" });
   }
 }
-function __c152(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11367,17 +11442,17 @@ function __c152(j: number): any {
         }),
       ).annotate({ identifier: "ApiV1BudgetMember" });
     case 2:
-      return S.Array(__S(4865, __c152, 1));
+      return S.Array(__S(4929, __c154, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          members: __S(4866, __c152, 2),
-          page: __S(3520, __c110, 0),
+          members: __S(4930, __c154, 2),
+          page: __S(3584, __c112, 0),
         }),
       ).annotate({ identifier: "ApiV1BudgetMembersResponse" });
   }
 }
-function __c153(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11387,7 +11462,7 @@ function __c153(j: number): any {
       ).annotate({ identifier: "GetCardRequest" });
   }
 }
-function __c154(j: number): any {
+function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11411,30 +11486,30 @@ function __c154(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          companyLegalAddress: __S(2720, __c85, 0),
+          companyLegalAddress: __S(2784, __c87, 0),
           companyLegalName: S.String,
-          details: __S(4929, __c154, 1),
+          details: __S(4993, __c156, 1),
           downloadUrl: S.String,
           ein: S.optional(S.NullOr(S.String)),
           endDate: S.String,
           endingBalance: S.Number,
           id: S.String,
           startDate: S.String,
-          transactions: __S(3585, __c112, 1),
+          transactions: __S(3649, __c114, 1),
         }),
       ).annotate({ identifier: "AccountStatement" });
     case 3:
-      return S.Array(__S(4930, __c154, 2));
+      return S.Array(__S(4994, __c156, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          page: __S(3520, __c110, 0),
-          statements: __S(4931, __c154, 3),
+          page: __S(3584, __c112, 0),
+          statements: __S(4995, __c156, 3),
         }),
       ).annotate({ identifier: "CreditAccountStatementsPaginatedResponse" });
   }
 }
-function __c155(j: number): any {
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11444,7 +11519,7 @@ function __c155(j: number): any {
       ).annotate({ identifier: "GetCustomerRequest" });
   }
 }
-function __c156(j: number): any {
+function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11454,12 +11529,12 @@ function __c156(j: number): any {
       ).annotate({ identifier: "GetEventRequest" });
   }
 }
-function __c157(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          changedPaths: __S(4000, __c125, 0),
+          changedPaths: __S(4064, __c127, 0),
           id: S.Unknown,
           mergePatch: S.Unknown,
           occurredAt: S.Unknown,
@@ -11472,7 +11547,7 @@ function __c157(j: number): any {
       ).annotate({ identifier: "ApiEventResponse" });
   }
 }
-function __c158(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11486,17 +11561,17 @@ function __c158(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/events", code: 200 })),
       ).annotate({ identifier: "GetEventsRequest" });
     case 1:
-      return S.Array(__S(5024, __c157, 0));
+      return S.Array(__S(5088, __c159, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          events: __S(5057, __c158, 1),
-          page: __S(3520, __c110, 0),
+          events: __S(5121, __c160, 1),
+          page: __S(3584, __c112, 0),
         }),
       ).annotate({ identifier: "ApiEventsPaginatedResponse" });
   }
 }
-function __c159(j: number): any {
+function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11506,7 +11581,7 @@ function __c159(j: number): any {
       ).annotate({ identifier: "GetInvoiceRequest" });
   }
 }
-function __c160(j: number): any {
+function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11516,7 +11591,7 @@ function __c160(j: number): any {
       ).annotate({ identifier: "GetInvoiceAttachmentRequest" });
   }
 }
-function __c161(j: number): any {
+function __c163(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11528,7 +11603,7 @@ function __c161(j: number): any {
       ).annotate({ identifier: "ApiV1ArAttachmentResponseData" });
   }
 }
-function __c162(j: number): any {
+function __c164(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11538,13 +11613,13 @@ function __c162(j: number): any {
       ).annotate({ identifier: "CancelCardRequest" });
   }
 }
-function __c163(j: number): any {
+function __c165(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c164(j: number): any {
+function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11556,7 +11631,7 @@ function __c164(j: number): any {
       ).annotate({ identifier: "CardSpendLimit" });
   }
 }
-function __c165(j: number): any {
+function __c167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11567,7 +11642,7 @@ function __c165(j: number): any {
       ).annotate({ identifier: "CardMerchantLock" });
   }
 }
-function __c166(j: number): any {
+function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11578,7 +11653,7 @@ function __c166(j: number): any {
       ).annotate({ identifier: "CardExpiration" });
   }
 }
-function __c167(j: number): any {
+function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11590,25 +11665,25 @@ function __c167(j: number): any {
         }),
       ).annotate({ identifier: "CardBudget" });
     case 1:
-      return S.Array(__S(5344, __c167, 0));
+      return S.Array(__S(5408, __c169, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           accountId: S.String,
-          budgets: __S(5345, __c167, 1),
-          categoryLocks: __S(5216, __c163, 0),
+          budgets: __S(5409, __c169, 1),
+          categoryLocks: __S(5280, __c165, 0),
           createdAt: S.Unknown,
-          expiration: __S(5312, __c166, 0),
+          expiration: __S(5376, __c168, 0),
           id: S.String,
           isAgentCard: S.Boolean,
           isSingleUse: S.Boolean,
           kind: S.Unknown,
           lastFour: S.String,
-          merchantLock: S.optional(S.NullOr(__S(5280, __c165, 0))),
+          merchantLock: S.optional(S.NullOr(__S(5344, __c167, 0))),
           nameOnCard: S.String,
           nickname: S.optional(S.NullOr(S.String)),
           physicalCardStatus: S.optional(S.NullOr(S.Unknown)),
-          spendLimit: S.optional(S.NullOr(__S(5248, __c164, 0))),
+          spendLimit: S.optional(S.NullOr(__S(5312, __c166, 0))),
           spendLimitType: S.Unknown,
           status: S.Unknown,
           type: S.Unknown,
@@ -11618,7 +11693,7 @@ function __c167(j: number): any {
       ).annotate({ identifier: "Card" });
   }
 }
-function __c168(j: number): any {
+function __c170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11628,7 +11703,7 @@ function __c168(j: number): any {
       ).annotate({ identifier: "GetInvoicePdfRequest" });
   }
 }
-function __c169(j: number): any {
+function __c171(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11642,12 +11717,12 @@ function __c169(j: number): any {
         }),
       ).annotate({ identifier: "OrganizationDBA" });
     case 2:
-      return S.Array(__S(5409, __c169, 1));
+      return S.Array(__S(5473, __c171, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           billingCadence: S.Unknown,
-          dbas: __S(5410, __c169, 2),
+          dbas: __S(5474, __c171, 2),
           ein: S.optional(S.NullOr(S.String)),
           id: S.Unknown,
           kind: S.Unknown,
@@ -11658,12 +11733,12 @@ function __c169(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          organization: __S(5411, __c169, 3),
+          organization: __S(5475, __c171, 3),
         }),
       ).annotate({ identifier: "OrganizationResponse" });
   }
 }
-function __c170(j: number): any {
+function __c172(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11673,7 +11748,7 @@ function __c170(j: number): any {
       ).annotate({ identifier: "GetReceiptRequest" });
   }
 }
-function __c171(j: number): any {
+function __c173(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11689,7 +11764,7 @@ function __c171(j: number): any {
       ).annotate({ identifier: "ApiV1ReceiptResponse" });
   }
 }
-function __c172(j: number): any {
+function __c174(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11699,7 +11774,7 @@ function __c172(j: number): any {
       ).annotate({ identifier: "GetRecipientRequest" });
   }
 }
-function __c173(j: number): any {
+function __c175(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11709,7 +11784,7 @@ function __c173(j: number): any {
       ).annotate({ identifier: "GetRecipientInviteRequest" });
   }
 }
-function __c174(j: number): any {
+function __c176(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11721,18 +11796,18 @@ function __c174(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/recipients", code: 200 })),
       ).annotate({ identifier: "GetRecipientsRequest" });
     case 1:
-      return S.Array(__S(2755, __c86, 3));
+      return S.Array(__S(2819, __c88, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          page: __S(3520, __c110, 0),
-          recipients: __S(5569, __c174, 1),
+          page: __S(3584, __c112, 0),
+          recipients: __S(5633, __c176, 1),
           total: S.Unknown,
         }),
       ).annotate({ identifier: "RecipientsPaginatedResponse" });
   }
 }
-function __c175(j: number): any {
+function __c177(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11746,7 +11821,7 @@ function __c175(j: number): any {
       return S.suspend(() =>
         S.Struct({
           amount: S.Number,
-          attachments: __S(5633, __c176, 1),
+          attachments: __S(5697, __c178, 1),
           categoryId: S.optional(S.NullOr(S.String)),
           currency: S.String,
           datePaidFor: S.String,
@@ -11762,7 +11837,7 @@ function __c175(j: number): any {
       ).annotate({ identifier: "ApiV1ReimbursementResponse" });
   }
 }
-function __c176(j: number): any {
+function __c178(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11773,10 +11848,10 @@ function __c176(j: number): any {
         }),
       ).annotate({ identifier: "ApiV1ReimbursementAttachment" });
     case 1:
-      return S.Array(__S(5632, __c176, 0));
+      return S.Array(__S(5696, __c178, 0));
   }
 }
-function __c177(j: number): any {
+function __c179(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11786,7 +11861,7 @@ function __c177(j: number): any {
       ).annotate({ identifier: "GetSafeRequestRequest" });
   }
 }
-function __c178(j: number): any {
+function __c180(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11822,8 +11897,8 @@ function __c178(j: number): any {
           includesProRataRightsLetter: S.Boolean,
           investmentAmount: S.Number,
           investmentDate: S.String,
-          investor: __S(5696, __c178, 0),
-          organization: __S(5697, __c178, 1),
+          investor: __S(5760, __c180, 0),
+          organization: __S(5761, __c180, 1),
           paidAt: S.optional(S.NullOr(S.String)),
           signedByInvestorAt: S.optional(S.NullOr(S.String)),
           signedByOwnerAt: S.optional(S.NullOr(S.String)),
@@ -11833,7 +11908,7 @@ function __c178(j: number): any {
       ).annotate({ identifier: "APISafeRequest" });
   }
 }
-function __c179(j: number): any {
+function __c181(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11843,21 +11918,21 @@ function __c179(j: number): any {
       ).annotate({ identifier: "GetSafeRequestDocumentRequest" });
   }
 }
-function __c180(j: number): any {
+function __c182(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/safes", code: 200 })),
       ).annotate({ identifier: "GetSafeRequestsRequest" });
     case 1:
-      return S.Array(__S(5698, __c178, 2));
+      return S.Array(__S(5762, __c180, 2));
     case 2:
-      return S.suspend(() => __S(5761, __c180, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(5825, __c182, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetSafeRequestsResponse",
       });
   }
 }
-function __c181(j: number): any {
+function __c183(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11867,7 +11942,7 @@ function __c181(j: number): any {
       ).annotate({ identifier: "CancelInvoiceRequest" });
   }
 }
-function __c182(j: number): any {
+function __c184(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11877,7 +11952,7 @@ function __c182(j: number): any {
       ).annotate({ identifier: "GetSendMoneyApprovalRequestRequest" });
   }
 }
-function __c183(j: number): any {
+function __c185(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11892,14 +11967,14 @@ function __c183(j: number): any {
           requestId: S.String,
           requestedByUserId: S.Unknown,
           requesterMayApprove: S.optional(S.NullOr(S.Boolean)),
-          reviews: __S(5889, __c184, 1),
+          reviews: __S(5953, __c186, 1),
           scheduledSendDate: S.optional(S.NullOr(S.Unknown)),
           status: S.String,
         }),
       ).annotate({ identifier: "SendMoneyApprovalRequestResponse" });
   }
 }
-function __c184(j: number): any {
+function __c186(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11910,10 +11985,10 @@ function __c184(j: number): any {
         }),
       ).annotate({ identifier: "PaymentApprovalReview" });
     case 1:
-      return S.Array(__S(5888, __c184, 0));
+      return S.Array(__S(5952, __c186, 0));
   }
 }
-function __c185(j: number): any {
+function __c187(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11923,7 +11998,7 @@ function __c185(j: number): any {
       ).annotate({ identifier: "GetStatementPdfRequest" });
   }
 }
-function __c186(j: number): any {
+function __c188(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11940,7 +12015,7 @@ function __c186(j: number): any {
       ).annotate({ identifier: "GetTransactionRequest" });
   }
 }
-function __c187(j: number): any {
+function __c189(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11950,7 +12025,7 @@ function __c187(j: number): any {
       ).annotate({ identifier: "GetTransactionByTransactionIdRequest" });
   }
 }
-function __c188(j: number): any {
+function __c190(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11960,7 +12035,7 @@ function __c188(j: number): any {
       ).annotate({ identifier: "GetTransferMoneyApprovalRequestRequest" });
   }
 }
-function __c189(j: number): any {
+function __c191(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11974,14 +12049,14 @@ function __c189(j: number): any {
           requestId: S.String,
           requestedByUserId: S.Unknown,
           requesterMayApprove: S.optional(S.NullOr(S.Boolean)),
-          reviews: __S(5889, __c184, 1),
+          reviews: __S(5953, __c186, 1),
           sourceAccountId: S.Unknown,
           status: S.String,
         }),
       ).annotate({ identifier: "TransferMoneyApprovalRequestResponse" });
   }
 }
-function __c190(j: number): any {
+function __c192(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12002,11 +12077,11 @@ function __c190(j: number): any {
         }),
       ).annotate({ identifier: "TreasuryDividend" });
     case 2:
-      return S.Array(__S(6081, __c190, 1));
+      return S.Array(__S(6145, __c192, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          dividends: __S(6082, __c190, 2),
+          dividends: __S(6146, __c192, 2),
           month: S.Unknown,
           netAmount: S.Number,
           status: S.Unknown,
@@ -12014,7 +12089,7 @@ function __c190(j: number): any {
         }),
       ).annotate({ identifier: "TreasuryNetReturn" });
     case 4:
-      return S.Array(__S(6083, __c190, 3));
+      return S.Array(__S(6147, __c192, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -12022,22 +12097,22 @@ function __c190(j: number): any {
           createdAt: S.String,
           currentBalance: S.Number,
           id: S.String,
-          netReturns: __S(6084, __c190, 4),
+          netReturns: __S(6148, __c192, 4),
           status: S.String,
         }),
       ).annotate({ identifier: "TreasuryAccount" });
     case 6:
-      return S.Array(__S(6085, __c190, 5));
+      return S.Array(__S(6149, __c192, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          accounts: __S(6086, __c190, 6),
-          page: __S(3520, __c110, 0),
+          accounts: __S(6150, __c192, 6),
+          page: __S(3584, __c112, 0),
         }),
       ).annotate({ identifier: "TreasuryAccountsPaginatedResponse" });
   }
 }
-function __c191(j: number): any {
+function __c193(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12066,17 +12141,17 @@ function __c191(j: number): any {
         }),
       ).annotate({ identifier: "TreasuryStatement" });
     case 2:
-      return S.Array(__S(6113, __c191, 1));
+      return S.Array(__S(6177, __c193, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          page: __S(3520, __c110, 0),
-          statements: __S(6114, __c191, 2),
+          page: __S(3584, __c112, 0),
+          statements: __S(6178, __c193, 2),
         }),
       ).annotate({ identifier: "TreasuryStatementsPaginatedResponse" });
   }
 }
-function __c192(j: number): any {
+function __c194(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12109,24 +12184,24 @@ function __c192(j: number): any {
           balance: S.Number,
           canonicalDay: S.String,
           description: S.String,
-          details: S.optional(S.NullOr(__S(6145, __c192, 1))),
+          details: S.optional(S.NullOr(__S(6209, __c194, 1))),
           id: S.String,
           security: S.optional(S.NullOr(S.String)),
           type: S.String,
         }),
       ).annotate({ identifier: "TreasuryTxn" });
     case 3:
-      return S.Array(__S(6146, __c192, 2));
+      return S.Array(__S(6210, __c194, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           cursor: S.optional(S.NullOr(S.Unknown)),
-          transactions: __S(6147, __c192, 3),
+          transactions: __S(6211, __c194, 3),
         }),
       ).annotate({ identifier: "TreasuryTransactionsResponse" });
   }
 }
-function __c193(j: number): any {
+function __c195(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12136,7 +12211,7 @@ function __c193(j: number): any {
       ).annotate({ identifier: "GetUserRequest" });
   }
 }
-function __c194(j: number): any {
+function __c196(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12150,7 +12225,7 @@ function __c194(j: number): any {
       ).annotate({ identifier: "UserDetails" });
   }
 }
-function __c195(j: number): any {
+function __c197(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12162,12 +12237,12 @@ function __c195(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/users", code: 200 })),
       ).annotate({ identifier: "GetUsersRequest" });
     case 1:
-      return S.Array(__S(6208, __c194, 0));
+      return S.Array(__S(6272, __c196, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          page: __S(3520, __c110, 0),
-          users: __S(6241, __c195, 1),
+          page: __S(3584, __c112, 0),
+          users: __S(6305, __c197, 1),
         }),
       ).annotate({ identifier: "UsersPaginatedResponse" });
   }
