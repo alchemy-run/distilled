@@ -1286,7 +1286,6 @@ export type RepositoryRuleType =
   | "SECRET_SCANNING"
   | "TAG"
   | "TAG_NAME_PATTERN"
-  | "UNKNOWN"
   | "UPDATE"
   | "WORKFLOWS"
   | "WORKFLOW_UPDATES";
@@ -4751,7 +4750,6 @@ export interface RepositoryRuleInput {
     | "SECRET_SCANNING"
     | "TAG"
     | "TAG_NAME_PATTERN"
-    | "UNKNOWN"
     | "UPDATE"
     | "WORKFLOWS"
     | "WORKFLOW_UPDATES";
@@ -13534,9 +13532,7 @@ export interface PinnedIssueEdge {
   readonly node: PinnedIssue | null;
 }
 
-/** A planning status an issue can be in. Issue statuses are in public preview and
-subject to change. They're rolling out gradually, so they might not be available
-in your repositories yet. */
+/** A planning status an issue can be in. Issue statuses are in preview and only available to accounts enrolled in the preview. */
 export interface PlanningStatus {
   readonly category: PlanningStatusCategory;
   readonly id: string;
@@ -13544,8 +13540,7 @@ export interface PlanningStatus {
 }
 
 /** The category of a planning status, which decides whether the issue is open or
-closed. Issue statuses are in public preview and subject to change. They're
-rolling out gradually, so they might not be available in your repositories yet. */
+closed. Issue statuses are in preview and only available to accounts enrolled in the preview. */
 export interface PlanningStatusCategory {
   readonly key: string;
   readonly name: string;
@@ -17321,7 +17316,6 @@ export interface RepositoryRule {
     | "SECRET_SCANNING"
     | "TAG"
     | "TAG_NAME_PATTERN"
-    | "UNKNOWN"
     | "UPDATE"
     | "WORKFLOWS"
     | "WORKFLOW_UPDATES";
