@@ -1597,7 +1597,6 @@ export interface LoadNamespaceMetadataRequest {
   /** A namespace identifier as a single string. Multipart namespace parts must be separated by the namespace separator as indicated via the /config override `namespace-separator`, which defaults to the unit separator `0x1F` byte (url encoded `%1F`). To be compatible with older clients, servers must use both the advertised separator and `0x1F` as valid separators when decoding namespaces. The `namespace-separator` should be provided in a url encoded form. */
   namespace: string;
 }
-/** Properties stored on the namespace, if supported by the server. If the server does not support namespace properties, it should return null for this field. If namespace properties are supported, but none are set, it should return an empty object. */
 export type GetNamespaceResponsePropertiesMap = { [key: string]: string | undefined };
 export interface GetNamespaceResponse {
   namespace: Namespace;
