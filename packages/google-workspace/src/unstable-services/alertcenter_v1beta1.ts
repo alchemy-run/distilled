@@ -94,12 +94,12 @@ export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
-  /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number | undefined;
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
   message?: string | undefined;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
   details?: DocumentMapList | undefined;
+  /** The status code, which should be an enum value of google.rpc.Code. */
+  code?: number | undefined;
 }
 export type StatusMap = { [key: string]: Status | undefined };
 /** Response to batch delete operation on alerts. */
@@ -133,22 +133,22 @@ export type AlertFeedbackTypeEnum =
 export interface AlertFeedback {
   /** Output only. The unique identifier of the Google Workspace account of the customer. */
   customerId?: string | undefined;
-  /** Output only. The unique identifier for the feedback. */
-  feedbackId?: string | undefined;
-  /** Output only. The email of the user that provided the feedback. */
-  email?: string | undefined;
   /** Output only. The alert identifier. */
   alertId?: string | undefined;
-  /** Output only. The time this feedback was created. */
-  createTime?: string | undefined;
+  /** Output only. The email of the user that provided the feedback. */
+  email?: string | undefined;
+  /** Output only. The unique identifier for the feedback. */
+  feedbackId?: string | undefined;
   /** Required. The type of the feedback. */
   type?: AlertFeedbackTypeEnum | (string & {}) | undefined;
+  /** Output only. The time this feedback was created. */
+  createTime?: string | undefined;
 }
 export interface CreateAlertsFeedbackRequest extends Omit<AlertFeedback, "customerId" | "alertId"> {
-  /** Required. The identifier of the alert this feedback belongs to. */
-  alertId: string;
   /** Optional. The unique identifier of the Google Workspace account of the customer the alert is associated with. The `customer_id` must have the initial "C" stripped (for example, `046psxkn`). Inferred from the caller identity if not provided. [Find your customer ID](https://support.google.com/cloudidentity/answer/10070793). */
   customerId?: string | undefined;
+  /** Required. The identifier of the alert this feedback belongs to. */
+  alertId: string;
 }
 export interface DeleteAlertsRequest {
   /** Required. The identifier of the alert to delete. */
@@ -159,56 +159,56 @@ export interface DeleteAlertsRequest {
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
 export interface GetAlertsRequest {
-  /** Required. The identifier of the alert to retrieve. */
-  alertId: string;
   /** Optional. The unique identifier of the Google Workspace account of the customer the alert is associated with. The `customer_id` must have the initial "C" stripped (for example, `046psxkn`). Inferred from the caller identity if not provided. [Find your customer ID](https://support.google.com/cloudidentity/answer/10070793). */
   customerId?: string | undefined;
+  /** Required. The identifier of the alert to retrieve. */
+  alertId: string;
 }
 /** An alert metadata. */
 export interface AlertMetadata {
+  /** Optional. `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of an alert metadata from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform metadata updates in order to avoid race conditions: An `etag` is returned in the response which contains alert metadata, and systems are expected to put that etag in the request to update alert metadata to ensure that their change will be applied to the same version of the alert metadata. If no `etag` is provided in the call to update alert metadata, then the existing alert metadata is overwritten blindly. */
+  etag?: string | undefined;
+  /** The current status of the alert. The supported values are the following: * NOT_STARTED * IN_PROGRESS * CLOSED */
+  status?: string | undefined;
+  /** Output only. The time this metadata was last updated. */
+  updateTime?: string | undefined;
   /** Output only. The alert identifier. */
   alertId?: string | undefined;
   /** The severity value of the alert. Alert Center will set this field at alert creation time, default's to an empty string when it could not be determined. The supported values for update actions on this field are the following: * HIGH * MEDIUM * LOW */
   severity?: string | undefined;
-  /** Optional. `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of an alert metadata from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform metadata updates in order to avoid race conditions: An `etag` is returned in the response which contains alert metadata, and systems are expected to put that etag in the request to update alert metadata to ensure that their change will be applied to the same version of the alert metadata. If no `etag` is provided in the call to update alert metadata, then the existing alert metadata is overwritten blindly. */
-  etag?: string | undefined;
-  /** Output only. The time this metadata was last updated. */
-  updateTime?: string | undefined;
-  /** Output only. The unique identifier of the Google Workspace account of the customer. */
-  customerId?: string | undefined;
-  /** The current status of the alert. The supported values are the following: * NOT_STARTED * IN_PROGRESS * CLOSED */
-  status?: string | undefined;
   /** The email address of the user assigned to the alert. */
   assignee?: string | undefined;
+  /** Output only. The unique identifier of the Google Workspace account of the customer. */
+  customerId?: string | undefined;
 }
 /** An alert affecting a customer. */
 export interface Alert {
-  /** Output only. The metadata associated with this alert. */
-  metadata?: AlertMetadata | undefined;
+  /** Optional. The time the event that caused this alert ceased being active. If provided, the end time must not be earlier than the start time. If not provided, it indicates an ongoing alert. */
+  endTime?: string | undefined;
+  /** Required. The type of the alert. This is output only after alert is created. For a list of available alert types see [Google Workspace Alert types](https://developers.google.com/workspace/admin/alertcenter/reference/alert-types). */
+  type?: string | undefined;
+  /** Optional. `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of an alert from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform alert updates in order to avoid race conditions: An `etag` is returned in the response which contains alerts, and systems are expected to put that etag in the request to update alert to ensure that their change will be applied to the same version of the alert. If no `etag` is provided in the call to update alert, then the existing alert is overwritten blindly. */
+  etag?: string | undefined;
+  /** Output only. The time this alert was created. */
+  createTime?: string | undefined;
+  /** Output only. `True` if this alert is marked for deletion. */
+  deleted?: boolean | undefined;
   /** Output only. The unique identifier of the Google Workspace account of the customer. */
   customerId?: string | undefined;
   /** Output only. The time this alert was last updated. */
   updateTime?: string | undefined;
   /** Optional. The data associated with this alert, for example google.apps.alertcenter.type.DeviceCompromised. */
   data?: DocumentMap | undefined;
+  /** Required. A unique identifier for the system that reported the alert. This is output only after alert is created. Supported sources are any of the following: * Google Operations * Mobile device management * Gmail phishing * Data Loss Prevention * Domain wide takeout * State sponsored attack * Google identity * Apps outage */
+  source?: string | undefined;
+  /** Output only. An optional [Security Investigation Tool](https://support.google.com/a/answer/7575955) query for this alert. */
+  securityInvestigationToolLink?: string | undefined;
   /** Required. The time the event that caused this alert was started or detected. */
   startTime?: string | undefined;
   /** Output only. The unique identifier for the alert. */
   alertId?: string | undefined;
-  /** Output only. The time this alert was created. */
-  createTime?: string | undefined;
-  /** Output only. An optional [Security Investigation Tool](https://support.google.com/a/answer/7575955) query for this alert. */
-  securityInvestigationToolLink?: string | undefined;
-  /** Required. The type of the alert. This is output only after alert is created. For a list of available alert types see [Google Workspace Alert types](https://developers.google.com/workspace/admin/alertcenter/reference/alert-types). */
-  type?: string | undefined;
-  /** Optional. `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of an alert from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform alert updates in order to avoid race conditions: An `etag` is returned in the response which contains alerts, and systems are expected to put that etag in the request to update alert to ensure that their change will be applied to the same version of the alert. If no `etag` is provided in the call to update alert, then the existing alert is overwritten blindly. */
-  etag?: string | undefined;
-  /** Optional. The time the event that caused this alert ceased being active. If provided, the end time must not be earlier than the start time. If not provided, it indicates an ongoing alert. */
-  endTime?: string | undefined;
-  /** Output only. `True` if this alert is marked for deletion. */
-  deleted?: boolean | undefined;
-  /** Required. A unique identifier for the system that reported the alert. This is output only after alert is created. Supported sources are any of the following: * Google Operations * Mobile device management * Gmail phishing * Data Loss Prevention * Domain wide takeout * State sponsored attack * Google identity * Apps outage */
-  source?: string | undefined;
+  /** Output only. The metadata associated with this alert. */
+  metadata?: AlertMetadata | undefined;
 }
 export interface GetMetadataAlertsRequest {
   /** Optional. The unique identifier of the Google Workspace account of the customer the alert metadata is associated with. The `customer_id` must have the initial "C" stripped (for example, `046psxkn`). Inferred from the caller identity if not provided. [Find your customer ID](https://support.google.com/cloudidentity/answer/10070793). */
@@ -223,10 +223,10 @@ export interface GetSettingsV1beta1Request {
 export type CloudPubsubTopicPayloadFormatEnum = "PAYLOAD_FORMAT_UNSPECIFIED" | "JSON";
 /** A reference to a Cloud Pubsub topic. To register for notifications, the owner of the topic must grant `alerts-api-push-notifications@system.gserviceaccount.com` the `projects.topics.publish` permission. */
 export interface CloudPubsubTopic {
-  /** Optional. The format of the payload that would be sent. If not specified the format will be JSON. */
-  payloadFormat?: CloudPubsubTopicPayloadFormatEnum | (string & {}) | undefined;
   /** The `name` field of a Cloud Pubsub [Topic] (https://cloud.google.com/pubsub/docs/reference/rest/v1/projects.topics#Topic). */
   topicName?: string | undefined;
+  /** Optional. The format of the payload that would be sent. If not specified the format will be JSON. */
+  payloadFormat?: CloudPubsubTopicPayloadFormatEnum | (string & {}) | undefined;
 }
 /** Settings for callback notifications. For more details see [Google Workspace Alert Notification](https://developers.google.com/workspace/admin/alertcenter/guides/notifications). */
 export interface Notification {
@@ -240,12 +240,12 @@ export interface Settings {
   notifications?: NotificationList | undefined;
 }
 export interface ListAlertsRequest {
-  /** Optional. The sort order of the list results. If not specified results may be returned in arbitrary order. You can sort the results in descending order based on the creation timestamp using `order_by="create_time desc"`. Currently, supported sorting are `create_time asc`, `create_time desc`, `update_time desc` */
-  orderBy?: string | undefined;
-  /** Optional. The requested page size. Server may return fewer items than requested. If unspecified, server picks an appropriate default. */
-  pageSize?: number | undefined;
   /** Optional. A query string for filtering alert results. For more details, see [Query filters](https://developers.google.com/workspace/admin/alertcenter/guides/query-filters) and [Supported query filter fields](https://developers.google.com/workspace/admin/alertcenter/reference/filter-fields#alerts.list). */
   filter?: string | undefined;
+  /** Optional. The requested page size. Server may return fewer items than requested. If unspecified, server picks an appropriate default. */
+  pageSize?: number | undefined;
+  /** Optional. The sort order of the list results. If not specified results may be returned in arbitrary order. You can sort the results in descending order based on the creation timestamp using `order_by="create_time desc"`. Currently, supported sorting are `create_time asc`, `create_time desc`, `update_time desc` */
+  orderBy?: string | undefined;
   /** Optional. A token identifying a page of results the server should return. If empty, a new iteration is started. To continue an iteration, pass in the value from the previous ListAlertsResponse's next_page_token field. */
   pageToken?: string | undefined;
   /** Optional. The unique identifier of the Google Workspace account of the customer the alerts are associated with. The `customer_id` must have the initial "C" stripped (for example, `046psxkn`). Inferred from the caller identity if not provided. [Find your customer ID](https://support.google.com/cloudidentity/answer/10070793). */
@@ -254,18 +254,18 @@ export interface ListAlertsRequest {
 export type AlertList = Array<Alert>;
 /** Response message for an alert listing request. */
 export interface ListAlertsResponse {
-  /** The token for the next page. If not empty, indicates that there may be more alerts that match the listing request; this value can be used in a subsequent ListAlertsRequest to get alerts continuing from last result of the current list call. */
-  nextPageToken?: string | undefined;
   /** The list of alerts. */
   alerts?: AlertList | undefined;
+  /** The token for the next page. If not empty, indicates that there may be more alerts that match the listing request; this value can be used in a subsequent ListAlertsRequest to get alerts continuing from last result of the current list call. */
+  nextPageToken?: string | undefined;
 }
 export interface ListAlertsFeedbackRequest {
   /** Optional. The unique identifier of the Google Workspace account of the customer the alert is associated with. The `customer_id` must have the initial "C" stripped (for example, `046psxkn`). Inferred from the caller identity if not provided. [Find your customer ID](https://support.google.com/cloudidentity/answer/10070793). */
   customerId?: string | undefined;
-  /** Optional. A query string for filtering alert feedback results. For more details, see [Query filters](https://developers.google.com/workspace/admin/alertcenter/guides/query-filters) and [Supported query filter fields](https://developers.google.com/workspace/admin/alertcenter/reference/filter-fields#alerts.feedback.list). */
-  filter?: string | undefined;
   /** Required. The alert identifier. The "-" wildcard could be used to represent all alerts. */
   alertId: string;
+  /** Optional. A query string for filtering alert feedback results. For more details, see [Query filters](https://developers.google.com/workspace/admin/alertcenter/guides/query-filters) and [Supported query filter fields](https://developers.google.com/workspace/admin/alertcenter/reference/filter-fields#alerts.feedback.list). */
+  filter?: string | undefined;
 }
 export type AlertFeedbackList = Array<AlertFeedback>;
 /** Response message for an alert feedback listing request. */
@@ -538,8 +538,8 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          payloadFormat: S.optional(S.String),
           topicName: S.optional(S.String),
+          payloadFormat: S.optional(S.String),
         }),
       ).annotate({ identifier: "CloudPubsubTopic" });
     case 1:
@@ -563,9 +563,9 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          orderBy: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           customerId: S.optional(S.String.pipe(T.Query())),
         }).pipe(
@@ -581,8 +581,8 @@ function __c2(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           alerts: S.optional(__S(17, __c2, 1)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListAlertsResponse" });
   }
@@ -593,8 +593,8 @@ function __c3(j: number): any {
       return S.suspend(() =>
         S.Struct({
           customerId: S.optional(S.String.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
           alertId: S.String.pipe(T.Label()),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -687,9 +687,9 @@ function __c7(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          code: S.optional(S.Number),
           message: S.optional(S.String),
           details: S.optional(__S(58, __c7, 2)),
+          code: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Status" });
     case 4:
@@ -730,8 +730,8 @@ function __c10(j: number): any {
         S.Extend(
           __S(88, __c11, 0),
           S.Struct({
-            alertId: S.String.pipe(T.Label()),
             customerId: S.optional(S.String.pipe(T.Query())),
+            alertId: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -749,11 +749,11 @@ function __c11(j: number): any {
       return S.suspend(() =>
         S.Struct({
           customerId: S.optional(S.String),
-          feedbackId: S.optional(S.String),
-          email: S.optional(S.String),
           alertId: S.optional(S.String),
-          createTime: S.optional(S.String),
+          email: S.optional(S.String),
+          feedbackId: S.optional(S.String),
           type: S.optional(S.String),
+          createTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "AlertFeedback" });
   }
@@ -782,8 +782,8 @@ function __c13(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          alertId: S.String.pipe(T.Label()),
           customerId: S.optional(S.String.pipe(T.Query())),
+          alertId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -799,19 +799,19 @@ function __c14(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          metadata: S.optional(__S(120, __c15, 0)),
+          endTime: S.optional(S.String),
+          type: S.optional(S.String),
+          etag: S.optional(S.String),
+          createTime: S.optional(S.String),
+          deleted: S.optional(S.Boolean),
           customerId: S.optional(S.String),
           updateTime: S.optional(S.String),
           data: S.optional(__S(64, __c8, 0)),
+          source: S.optional(S.String),
+          securityInvestigationToolLink: S.optional(S.String),
           startTime: S.optional(S.String),
           alertId: S.optional(S.String),
-          createTime: S.optional(S.String),
-          securityInvestigationToolLink: S.optional(S.String),
-          type: S.optional(S.String),
-          etag: S.optional(S.String),
-          endTime: S.optional(S.String),
-          deleted: S.optional(S.Boolean),
-          source: S.optional(S.String),
+          metadata: S.optional(__S(120, __c15, 0)),
         }),
       ).annotate({ identifier: "Alert" });
   }
@@ -821,13 +821,13 @@ function __c15(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          etag: S.optional(S.String),
+          status: S.optional(S.String),
+          updateTime: S.optional(S.String),
           alertId: S.optional(S.String),
           severity: S.optional(S.String),
-          etag: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          customerId: S.optional(S.String),
-          status: S.optional(S.String),
           assignee: S.optional(S.String),
+          customerId: S.optional(S.String),
         }),
       ).annotate({ identifier: "AlertMetadata" });
   }
