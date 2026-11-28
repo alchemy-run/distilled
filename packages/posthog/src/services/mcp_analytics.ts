@@ -410,6 +410,154 @@ export interface MCPIntentClusterSnapshot {
 }
 export type GetMcpAnalyticsIntentClusterResponseBodyList = Array<MCPIntentClusterSnapshot>;
 export type GetMcpAnalyticsIntentClusterResponse = GetMcpAnalyticsIntentClusterResponseBodyList;
+export interface GetMcpAnalyticsWrappedRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+}
+export interface MCPWrappedIntroCard {
+  /** First month with 100+ tool calls, as YYYY-MM. MCP analytics started tracking then. */
+  tracked_since: string;
+  /** MCP servers that each sent at least 1% of the project's tool calls. */
+  server_count: number;
+}
+export interface MCPWrappedMonth {
+  /** Month as YYYY-MM. */
+  month: string;
+  /** Tool calls in the month. */
+  calls: number;
+}
+/** Calls per month from the tracked-since month on, oldest first. */
+export type MCPWrappedToolCallsCardMonthsList = Array<MCPWrappedMonth>;
+export interface MCPWrappedToolCallsCard {
+  /** Tool calls in the period. */
+  total_calls: number;
+  /** Calls per month from the tracked-since month on, oldest first. */
+  months: MCPWrappedToolCallsCardMonthsList;
+  /** The last month's calls over the first full month's, set only when it is 1.5 or more. */
+  growth_multiple: number | null;
+}
+export interface MCPWrappedToolCount {
+  /** Tool name. */
+  tool: string;
+  /** Tool calls in the period. */
+  calls: number;
+}
+/** Up to five tools, busiest first. */
+export type MCPWrappedTopToolsCardToolsList = Array<MCPWrappedToolCount>;
+export interface MCPWrappedTopToolsCard {
+  /** Up to five tools, busiest first. */
+  tools: MCPWrappedTopToolsCardToolsList;
+}
+export interface MCPWrappedShare {
+  /** Name of the app, AI lab or model family, or "Other". */
+  name: string;
+  /** Share of the calls the bar covers, from 0 to 1. */
+  share: number;
+}
+/** Largest first, with the remainder as a final Other entry. */
+export type MCPWrappedSharesCardSharesList = Array<MCPWrappedShare>;
+export interface MCPWrappedSharesCard {
+  /** Largest first, with the remainder as a final Other entry. */
+  shares: MCPWrappedSharesCardSharesList;
+}
+/** Intensity from 0 to 100 for each of the 168 weekday-hour slots, index (weekday - 1) * 24 + hour. */
+export type MCPWrappedRushHourCardHeatList = Array<number>;
+export interface MCPWrappedRushHourCard {
+  /** Busiest ISO weekday, 1 is Monday. */
+  weekday: number;
+  /** Busiest hour, 0 to 23, in timezone. */
+  hour: number;
+  /** The project's timezone, which weekday and hour use. */
+  timezone: string;
+  /** Intensity from 0 to 100 for each of the 168 weekday-hour slots, index (weekday - 1) * 24 + hour. */
+  heat: MCPWrappedRushHourCardHeatList;
+  /** Under 15% of calls fell on weekends. */
+  quiet_weekends: boolean;
+  /** Over half of the calls fell between 10 pm and 6 am. */
+  night_shift: boolean;
+}
+export interface MCPWrappedToolErrorRate {
+  /** Tool name. */
+  tool: string;
+  /** Share of the tool's calls that errored, 0 to 1. */
+  error_rate: number;
+  /** The tool's calls this year. */
+  calls: number;
+}
+export interface MCPWrappedReliabilityCard {
+  /** Share of calls without an error, 0 to 1. */
+  success_rate: number;
+  /** The tool with the lowest error rate among tools with 100+ calls, more calls winning a tie, when 3 or more qualify. */
+  most_reliable_tool: MCPWrappedToolErrorRate | null;
+  /** The tool with the highest error rate among tools with 100+ calls, when 3 or more qualify and its rate is above the most reliable tool's. */
+  struggling_tool: MCPWrappedToolErrorRate | null;
+}
+export interface MCPWrappedToolLatency {
+  /** Tool name. */
+  tool: string;
+  /** 95th percentile response time in ms. */
+  p95_duration_ms: number;
+}
+export interface MCPWrappedSpeedCard {
+  /** 95th percentile response time across all calls, in ms. */
+  p95_duration_ms: number;
+  /** The quickest of the five busiest tools. */
+  quickest_busy_tool: MCPWrappedToolLatency | null;
+  /** The slowest tool with 100+ calls. */
+  slowest_tool: MCPWrappedToolLatency | null;
+}
+/** * `one_hit_wonder` - The One-Hit Wonder * `swiss_army_knife` - The Swiss Army Knife * `night_owl` - The Night Owl * `weekend_warrior` - The Weekend Warrior * `speed_demon` - The Speed Demon * `rocket` - The Rocket * `superhero` - The Superhero * `all_rounder` - The All-Rounder */
+export type ArchetypeEnum =
+  | "one_hit_wonder"
+  | "swiss_army_knife"
+  | "night_owl"
+  | "weekend_warrior"
+  | "speed_demon"
+  | "rocket"
+  | "superhero"
+  | "all_rounder";
+export interface MCPWrappedArchetypeCard {
+  /** The server's personality, from the first rule it meets. * `one_hit_wonder` - The One-Hit Wonder * `swiss_army_knife` - The Swiss Army Knife * `night_owl` - The Night Owl * `weekend_warrior` - The Weekend Warrior * `speed_demon` - The Speed Demon * `rocket` - The Rocket * `superhero` - The Superhero * `all_rounder` - The All-Rounder */
+  archetype: ArchetypeEnum;
+  /** The number that earned the archetype: a share, a tool count, a p95 in ms or a growth multiple. */
+  evidence: number | null;
+}
+export interface MCPWrappedCards {
+  /** Opening card. */
+  intro: MCPWrappedIntroCard;
+  /** Total and monthly tool calls. */
+  tool_calls: MCPWrappedToolCallsCard;
+  /** The busiest tools. */
+  top_tools: MCPWrappedTopToolsCard;
+  /** Share of calls by app. Null when too many calls have no client. */
+  apps: MCPWrappedSharesCard | null;
+  /** Share of calls by AI lab, as agents report it. Null when too few calls carry a model. */
+  labs: MCPWrappedSharesCard | null;
+  /** Share of calls by model family, as agents report it. Null when too few calls carry a model. */
+  models: MCPWrappedSharesCard | null;
+  /** Busiest weekday and hour. Null under 1,000 calls. */
+  rush_hour: MCPWrappedRushHourCard | null;
+  /** Calls without an error. */
+  reliability: MCPWrappedReliabilityCard;
+  /** Response times. Null when most calls have no duration. */
+  speed: MCPWrappedSpeedCard | null;
+  /** The server's personality. */
+  archetype: MCPWrappedArchetypeCard;
+}
+export interface MCPWrapped {
+  /** Year the wrap covers, Jan 1 to Dec 1. */
+  year: number;
+  /** When the wrap was computed. */
+  generated_at: string;
+  /** When the wrap stops showing, 14 days after it was computed. */
+  expires_at: string;
+  /** Values for each story card. */
+  cards: MCPWrappedCards;
+}
+export interface MCPWrappedResponse {
+  /** The project's wrap, or null when none is ready and fresh. */
+  wrapped: MCPWrapped | null;
+}
 export interface ListMcpAnalyticsCustomHarnessesRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -748,7 +896,7 @@ export const createMcpAnalyticsMissingCapability: API.OperationMethod<
   CreateMcpAnalyticsMissingCapabilityError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<CreateMcpAnalyticsMissingCapabilityRequest>,
+  input: __S(416, __c13, 0) as any as S.Schema<CreateMcpAnalyticsMissingCapabilityRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<MCPAnalyticsSubmission>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
@@ -766,8 +914,8 @@ export const generateMcpAnalyticsSessionIntent: API.OperationMethod<
   GenerateMcpAnalyticsSessionIntentError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c13, 0) as any as S.Schema<GenerateMcpAnalyticsSessionIntentRequest>,
-  output: __S(417, __c13, 1) as any as S.Schema<MCPSessionIntent>,
+  input: __S(448, __c14, 0) as any as S.Schema<GenerateMcpAnalyticsSessionIntentRequest>,
+  output: __S(449, __c14, 1) as any as S.Schema<MCPSessionIntent>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -784,7 +932,7 @@ export const getMcpAnalyticsCustomHarness: API.OperationMethod<
   GetMcpAnalyticsCustomHarnessError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c14, 0) as any as S.Schema<GetMcpAnalyticsCustomHarnessRequest>,
+  input: __S(480, __c15, 0) as any as S.Schema<GetMcpAnalyticsCustomHarnessRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<MCPCustomHarness>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
@@ -802,14 +950,32 @@ export const getMcpAnalyticsIntentCluster: API.OperationMethod<
   GetMcpAnalyticsIntentClusterError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c15, 0) as any as S.Schema<GetMcpAnalyticsIntentClusterRequest>,
-  output: __S(506, __c15, 26) as any as S.Schema<GetMcpAnalyticsIntentClusterResponse>,
+  input: __S(512, __c16, 0) as any as S.Schema<GetMcpAnalyticsIntentClusterRequest>,
+  output: __S(538, __c16, 26) as any as S.Schema<GetMcpAnalyticsIntentClusterResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetMcpAnalyticsIntentCluster",
+}));
+
+export type GetMcpAnalyticsWrappedError = PosthogOpError;
+/** Return the project's MCP Wrapped: a yearly story of its MCP tool calls. The wrap is returned for 14 days after it is computed, and `wrapped` is null outside that window or when the project has none. */
+export const getMcpAnalyticsWrapped: API.OperationMethod<
+  GetMcpAnalyticsWrappedRequest,
+  MCPWrappedResponse,
+  GetMcpAnalyticsWrappedError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(576, __c18, 0) as any as S.Schema<GetMcpAnalyticsWrappedRequest>,
+  output: __S(596, __c18, 20) as any as S.Schema<MCPWrappedResponse>,
+  errors: [],
+  serviceErrors: PosthogServiceErrors,
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMcpAnalyticsWrapped",
 }));
 
 export type ListMcpAnalyticsCustomHarnessesError = PosthogOpError;
@@ -820,8 +986,8 @@ export const listMcpAnalyticsCustomHarnesses: API.OperationMethod<
   ListMcpAnalyticsCustomHarnessesError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c17, 0) as any as S.Schema<ListMcpAnalyticsCustomHarnessesRequest>,
-  output: __S(546, __c17, 2) as any as S.Schema<ListMcpAnalyticsCustomHarnessesResponse>,
+  input: __S(608, __c19, 0) as any as S.Schema<ListMcpAnalyticsCustomHarnessesRequest>,
+  output: __S(610, __c19, 2) as any as S.Schema<ListMcpAnalyticsCustomHarnessesResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -838,8 +1004,8 @@ export const listMcpAnalyticsFeedback: API.OperationMethod<
   ListMcpAnalyticsFeedbackError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c18, 0) as any as S.Schema<ListMcpAnalyticsFeedbackRequest>,
-  output: __S(609, __c19, 1) as any as S.Schema<PaginatedMCPAnalyticsSubmissionList>,
+  input: __S(640, __c20, 0) as any as S.Schema<ListMcpAnalyticsFeedbackRequest>,
+  output: __S(673, __c21, 1) as any as S.Schema<PaginatedMCPAnalyticsSubmissionList>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -856,8 +1022,8 @@ export const listMcpAnalyticsMissingCapabilities: API.OperationMethod<
   ListMcpAnalyticsMissingCapabilitiesError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c20, 0) as any as S.Schema<ListMcpAnalyticsMissingCapabilitiesRequest>,
-  output: __S(609, __c19, 1) as any as S.Schema<PaginatedMCPAnalyticsSubmissionList>,
+  input: __S(704, __c22, 0) as any as S.Schema<ListMcpAnalyticsMissingCapabilitiesRequest>,
+  output: __S(673, __c21, 1) as any as S.Schema<PaginatedMCPAnalyticsSubmissionList>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -874,8 +1040,8 @@ export const listMcpAnalyticsSessions: API.OperationMethod<
   ListMcpAnalyticsSessionsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<ListMcpAnalyticsSessionsRequest>,
-  output: __S(675, __c21, 3) as any as S.Schema<PaginatedMCPSessionList>,
+  input: __S(128, __c4, 0) as any as S.Schema<ListMcpAnalyticsSessionsRequest>,
+  output: __S(131, __c4, 3) as any as S.Schema<PaginatedMCPSessionList>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -892,8 +1058,8 @@ export const mcpAnalyticsCustomHarnessesDestroy: API.OperationMethod<
   McpAnalyticsCustomHarnessesDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c4, 0) as any as S.Schema<McpAnalyticsCustomHarnessesDestroyRequest>,
-  output: __S(160, __c5, 0) as any as S.Schema<McpAnalyticsCustomHarnessesDestroyResponse>,
+  input: __S(160, __c5, 0) as any as S.Schema<McpAnalyticsCustomHarnessesDestroyRequest>,
+  output: __S(192, __c6, 0) as any as S.Schema<McpAnalyticsCustomHarnessesDestroyResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -910,8 +1076,8 @@ export const mcpAnalyticsIntentClustersRecompute: API.OperationMethod<
   McpAnalyticsIntentClustersRecomputeError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c6, 0) as any as S.Schema<McpAnalyticsIntentClustersRecomputeRequest>,
-  output: __S(160, __c5, 0) as any as S.Schema<McpAnalyticsIntentClustersRecomputeResponse>,
+  input: __S(224, __c7, 0) as any as S.Schema<McpAnalyticsIntentClustersRecomputeRequest>,
+  output: __S(192, __c6, 0) as any as S.Schema<McpAnalyticsIntentClustersRecomputeResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -928,8 +1094,8 @@ export const mcpAnalyticsSessionsActivityOverview: API.OperationMethod<
   McpAnalyticsSessionsActivityOverviewError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c7, 0) as any as S.Schema<McpAnalyticsSessionsActivityOverviewRequest>,
-  output: __S(232, __c7, 8) as any as S.Schema<MCPActivityOverview>,
+  input: __S(256, __c8, 0) as any as S.Schema<McpAnalyticsSessionsActivityOverviewRequest>,
+  output: __S(264, __c8, 8) as any as S.Schema<MCPActivityOverview>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -946,8 +1112,8 @@ export const mcpAnalyticsSessionsIntentDigest: API.OperationMethod<
   McpAnalyticsSessionsIntentDigestError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c8, 0) as any as S.Schema<McpAnalyticsSessionsIntentDigestRequest>,
-  output: __S(259, __c8, 3) as any as S.Schema<MCPIntentDigest>,
+  input: __S(288, __c9, 0) as any as S.Schema<McpAnalyticsSessionsIntentDigestRequest>,
+  output: __S(291, __c9, 3) as any as S.Schema<MCPIntentDigest>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -964,8 +1130,8 @@ export const mcpAnalyticsSessionsToolCalls: API.OperationMethod<
   McpAnalyticsSessionsToolCallsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c9, 0) as any as S.Schema<McpAnalyticsSessionsToolCallsRequest>,
-  output: __S(291, __c9, 3) as any as S.Schema<PaginatedMCPToolCallList>,
+  input: __S(320, __c10, 0) as any as S.Schema<McpAnalyticsSessionsToolCallsRequest>,
+  output: __S(323, __c10, 3) as any as S.Schema<PaginatedMCPToolCallList>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -982,7 +1148,7 @@ export const updateMcpAnalyticsCustomHarness: API.OperationMethod<
   UpdateMcpAnalyticsCustomHarnessError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c10, 0) as any as S.Schema<UpdateMcpAnalyticsCustomHarnessRequest>,
+  input: __S(352, __c11, 0) as any as S.Schema<UpdateMcpAnalyticsCustomHarnessRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<MCPCustomHarness>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
@@ -1000,7 +1166,7 @@ export const updateMcpAnalyticsCustomHarnessesPartial: API.OperationMethod<
   UpdateMcpAnalyticsCustomHarnessesPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c11, 0) as any as S.Schema<UpdateMcpAnalyticsCustomHarnessesPartialRequest>,
+  input: __S(384, __c12, 0) as any as S.Schema<UpdateMcpAnalyticsCustomHarnessesPartialRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<MCPCustomHarness>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
@@ -1101,6 +1267,60 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
+          date_from: S.optional(S.String.pipe(T.Query())),
+          date_to: S.optional(S.String.pipe(T.Query())),
+          feedback_only: S.optional(S.Boolean.pipe(T.Query())),
+          filter_test_accounts: S.optional(S.Boolean.pipe(T.Query())),
+          has_errors: S.optional(S.Boolean.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          offset: S.optional(S.Number.pipe(T.Query())),
+          order_by: S.optional(S.String.pipe(T.Query())),
+          properties: S.optional(S.String.pipe(T.Query())),
+          search: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/mcp_analytics/sessions/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListMcpAnalyticsSessionsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          session_id: S.String,
+          tool_calls: S.Number,
+          error_calls: S.Number,
+          session_start: S.String,
+          session_end: S.String,
+          distinct_id_count: S.Number,
+          tools_used: __S(544, __c17, 0),
+          mcp_client_name: S.String,
+          distinct_id: S.String,
+          person_email: S.String,
+          person_name: S.String,
+          intent: S.String,
+        }),
+      ).annotate({ identifier: "MCPSession" });
+    case 2:
+      return S.Array(__S(129, __c4, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          next: S.NullOr(S.String),
+          previous: S.NullOr(S.String),
+          results: __S(130, __c4, 2),
+          has_next: S.Boolean,
+        }),
+      ).annotate({ identifier: "PaginatedMCPSessionList" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -1112,7 +1332,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "McpAnalyticsCustomHarnessesDestroyRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -1120,7 +1340,7 @@ function __c5(j: number): any {
       });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1136,7 +1356,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "McpAnalyticsIntentClustersRecomputeRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1174,7 +1394,7 @@ function __c7(j: number): any {
         }),
       ).annotate({ identifier: "MCPActivityToolRow" });
     case 3:
-      return S.Array(__S(226, __c7, 2));
+      return S.Array(__S(258, __c8, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -1183,7 +1403,7 @@ function __c7(j: number): any {
         }),
       ).annotate({ identifier: "MCPActivityClientRow" });
     case 5:
-      return S.Array(__S(228, __c7, 4));
+      return S.Array(__S(260, __c8, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -1197,19 +1417,19 @@ function __c7(j: number): any {
         }),
       ).annotate({ identifier: "MCPActivityRecentCall" });
     case 7:
-      return S.Array(__S(230, __c7, 6));
+      return S.Array(__S(262, __c8, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          stats: __S(225, __c7, 1),
-          top_tools: __S(227, __c7, 3),
-          clients: __S(229, __c7, 5),
-          recent_calls: __S(231, __c7, 7),
+          stats: __S(257, __c8, 1),
+          top_tools: __S(259, __c8, 3),
+          clients: __S(261, __c8, 5),
+          recent_calls: __S(263, __c8, 7),
         }),
       ).annotate({ identifier: "MCPActivityOverview" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1230,22 +1450,22 @@ function __c8(j: number): any {
           description: S.String,
           intent_count: S.Number,
           example_intent: S.String,
-          tools: __S(512, __c16, 0),
+          tools: __S(544, __c17, 0),
         }),
       ).annotate({ identifier: "MCPIntentTheme" });
     case 2:
-      return S.Array(__S(257, __c8, 1));
+      return S.Array(__S(289, __c9, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           digest: S.NullOr(S.String),
           intent_count: S.Number,
-          themes: __S(258, __c8, 2),
+          themes: __S(290, __c9, 2),
         }),
       ).annotate({ identifier: "MCPIntentDigest" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1282,26 +1502,26 @@ function __c9(j: number): any {
           error_status: S.String,
           exec_verb: S.String,
           exec_target_tool: S.String,
-          input_keys: __S(512, __c16, 0),
+          input_keys: __S(544, __c17, 0),
           error_code: S.String,
           error_field: S.String,
           llm_model: S.String,
         }),
       ).annotate({ identifier: "MCPToolCall" });
     case 2:
-      return S.Array(__S(289, __c9, 1));
+      return S.Array(__S(321, __c10, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           next: S.NullOr(S.String),
           previous: S.NullOr(S.String),
-          results: __S(290, __c9, 2),
+          results: __S(322, __c10, 2),
           has_next: S.Boolean,
         }),
       ).annotate({ identifier: "PaginatedMCPToolCallList" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1321,7 +1541,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "UpdateMcpAnalyticsCustomHarnessRequest" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1341,7 +1561,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "UpdateMcpAnalyticsCustomHarnessesPartialRequest" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1367,7 +1587,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "CreateMcpAnalyticsMissingCapabilityRequest" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1392,7 +1612,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "MCPSessionIntent" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1409,7 +1629,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "GetMcpAnalyticsCustomHarnessRequest" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1435,25 +1655,25 @@ function __c15(j: number): any {
         }),
       ).annotate({ identifier: "MCPIntentClusterToolEntry" });
     case 2:
-      return S.Array(__S(481, __c15, 1));
+      return S.Array(__S(513, __c16, 1));
     case 3:
       return S.Array(/*@__PURE__*/ S.NullOr(S.String));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          steps: __S(483, __c15, 3),
+          steps: __S(515, __c16, 3),
           outcome: S.String,
           count: S.Number,
         }),
       ).annotate({ identifier: "MCPIntentClusterJourneyPath" });
     case 5:
-      return S.Array(__S(484, __c15, 4));
+      return S.Array(__S(516, __c16, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          paths: __S(485, __c15, 5),
+          paths: __S(517, __c16, 5),
           total_sessions: S.Number,
-          leak: S.NullOr(__S(484, __c15, 4)),
+          leak: S.NullOr(__S(516, __c16, 4)),
         }),
       ).annotate({ identifier: "MCPIntentClusterJourney" });
     case 7:
@@ -1465,7 +1685,7 @@ function __c15(j: number): any {
         }),
       ).annotate({ identifier: "MCPClusterSwitch" });
     case 8:
-      return S.Array(__S(487, __c15, 7));
+      return S.Array(__S(519, __c16, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
@@ -1474,7 +1694,7 @@ function __c15(j: number): any {
         }),
       ).annotate({ identifier: "MCPClusterSelfRetry" });
     case 10:
-      return S.Array(__S(489, __c15, 9));
+      return S.Array(__S(521, __c16, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
@@ -1486,15 +1706,15 @@ function __c15(j: number): any {
           error_count: S.Number,
           error_rate_pct: S.Number,
           routing_entropy: S.Number,
-          tool_distribution: __S(482, __c15, 2),
-          sample_intents: __S(512, __c16, 0),
-          journey: S.NullOr(__S(486, __c15, 6)),
-          switches: __S(488, __c15, 8),
-          self_retries: __S(490, __c15, 10),
+          tool_distribution: __S(514, __c16, 2),
+          sample_intents: __S(544, __c17, 0),
+          journey: S.NullOr(__S(518, __c16, 6)),
+          switches: __S(520, __c16, 8),
+          self_retries: __S(522, __c16, 10),
         }),
       ).annotate({ identifier: "MCPIntentCluster" });
     case 12:
-      return S.Array(__S(491, __c15, 11));
+      return S.Array(__S(523, __c16, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
@@ -1503,7 +1723,7 @@ function __c15(j: number): any {
           call_count: S.Number,
           error_count: S.Number,
           error_rate_pct: S.Number,
-          sample_intents: __S(512, __c16, 0),
+          sample_intents: __S(544, __c17, 0),
         }),
       ).annotate({ identifier: "MCPIntentClusterLongTail" });
     case 14:
@@ -1515,11 +1735,11 @@ function __c15(j: number): any {
           error_count: S.Number,
           error_rate_pct: S.Number,
           variant_count: S.Number,
-          sample_variants: __S(512, __c16, 0),
+          sample_variants: __S(544, __c17, 0),
         }),
       ).annotate({ identifier: "MCPRecurringIntent" });
     case 15:
-      return S.Array(__S(494, __c15, 14));
+      return S.Array(__S(526, __c16, 14));
     case 16:
       return S.suspend(() =>
         S.Struct({
@@ -1535,11 +1755,11 @@ function __c15(j: number): any {
           capture_pct: S.Number,
           rank: S.Number,
           description_fit: S.NullOr(S.Number),
-          top_competitor: S.NullOr(__S(496, __c15, 16)),
+          top_competitor: S.NullOr(__S(528, __c16, 16)),
         }),
       ).annotate({ identifier: "MCPToolPivotClusterEntry" });
     case 18:
-      return S.Array(__S(497, __c15, 17));
+      return S.Array(__S(529, __c16, 17));
     case 19:
       return S.suspend(() =>
         S.Struct({
@@ -1553,11 +1773,11 @@ function __c15(j: number): any {
           discovery_rate_pct: S.NullOr(S.Number),
           description: S.NullOr(S.String),
           n_clusters_served: S.Number,
-          clusters: __S(498, __c15, 18),
+          clusters: __S(530, __c16, 18),
         }),
       ).annotate({ identifier: "MCPToolPivot" });
     case 20:
-      return S.Array(__S(499, __c15, 19));
+      return S.Array(__S(531, __c16, 19));
     case 21:
       return S.suspend(() =>
         S.Struct({
@@ -1570,7 +1790,7 @@ function __c15(j: number): any {
         }),
       ).annotate({ identifier: "MCPToolOverlap" });
     case 22:
-      return S.Array(__S(501, __c15, 21));
+      return S.Array(__S(533, __c16, 21));
     case 23:
       return S.suspend(() =>
         S.Struct({
@@ -1600,30 +1820,181 @@ function __c15(j: number): any {
           error_message: S.String,
           last_computed_at: S.NullOr(S.String),
           last_computed_by_email: S.String,
-          clusters: __S(492, __c15, 12),
-          long_tail: S.NullOr(__S(493, __c15, 13)),
-          recurring: __S(495, __c15, 15),
+          clusters: __S(524, __c16, 12),
+          long_tail: S.NullOr(__S(525, __c16, 13)),
+          recurring: __S(527, __c16, 15),
           intent_text_redacted: S.Boolean,
-          tools: __S(500, __c15, 20),
-          tool_overlaps: __S(502, __c15, 22),
-          computed_with: S.NullOr(__S(503, __c15, 23)),
+          tools: __S(532, __c16, 20),
+          tool_overlaps: __S(534, __c16, 22),
+          computed_with: S.NullOr(__S(535, __c16, 23)),
         }),
       ).annotate({ identifier: "MCPIntentClusterSnapshot" });
     case 25:
-      return S.Array(__S(504, __c15, 24));
+      return S.Array(__S(536, __c16, 24));
     case 26:
-      return S.suspend(() => __S(505, __c15, 25).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(537, __c16, 25).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetMcpAnalyticsIntentClusterResponse",
       });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/mcp_analytics/wrapped/current/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetMcpAnalyticsWrappedRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          tracked_since: S.String,
+          server_count: S.Number,
+        }),
+      ).annotate({ identifier: "MCPWrappedIntroCard" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          month: S.String,
+          calls: S.Number,
+        }),
+      ).annotate({ identifier: "MCPWrappedMonth" });
+    case 3:
+      return S.Array(__S(578, __c18, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          total_calls: S.Number,
+          months: __S(579, __c18, 3),
+          growth_multiple: S.NullOr(S.Number),
+        }),
+      ).annotate({ identifier: "MCPWrappedToolCallsCard" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          tool: S.String,
+          calls: S.Number,
+        }),
+      ).annotate({ identifier: "MCPWrappedToolCount" });
+    case 6:
+      return S.Array(__S(581, __c18, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          tools: __S(582, __c18, 6),
+        }),
+      ).annotate({ identifier: "MCPWrappedTopToolsCard" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          share: S.Number,
+        }),
+      ).annotate({ identifier: "MCPWrappedShare" });
+    case 9:
+      return S.Array(__S(584, __c18, 8));
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          shares: __S(585, __c18, 9),
+        }),
+      ).annotate({ identifier: "MCPWrappedSharesCard" });
+    case 11:
+      return S.Array(S.Number);
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          weekday: S.Number,
+          hour: S.Number,
+          timezone: S.String,
+          heat: __S(587, __c18, 11),
+          quiet_weekends: S.Boolean,
+          night_shift: S.Boolean,
+        }),
+      ).annotate({ identifier: "MCPWrappedRushHourCard" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          tool: S.String,
+          error_rate: S.Number,
+          calls: S.Number,
+        }),
+      ).annotate({ identifier: "MCPWrappedToolErrorRate" });
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          success_rate: S.Number,
+          most_reliable_tool: S.NullOr(__S(589, __c18, 13)),
+          struggling_tool: S.NullOr(__S(589, __c18, 13)),
+        }),
+      ).annotate({ identifier: "MCPWrappedReliabilityCard" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          tool: S.String,
+          p95_duration_ms: S.Number,
+        }),
+      ).annotate({ identifier: "MCPWrappedToolLatency" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          p95_duration_ms: S.Number,
+          quickest_busy_tool: S.NullOr(__S(591, __c18, 15)),
+          slowest_tool: S.NullOr(__S(591, __c18, 15)),
+        }),
+      ).annotate({ identifier: "MCPWrappedSpeedCard" });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          archetype: S.String,
+          evidence: S.NullOr(S.Number),
+        }),
+      ).annotate({ identifier: "MCPWrappedArchetypeCard" });
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          intro: __S(577, __c18, 1),
+          tool_calls: __S(580, __c18, 4),
+          top_tools: __S(583, __c18, 7),
+          apps: S.NullOr(__S(586, __c18, 10)),
+          labs: S.NullOr(__S(586, __c18, 10)),
+          models: S.NullOr(__S(586, __c18, 10)),
+          rush_hour: S.NullOr(__S(588, __c18, 12)),
+          reliability: __S(590, __c18, 14),
+          speed: S.NullOr(__S(592, __c18, 16)),
+          archetype: __S(593, __c18, 17),
+        }),
+      ).annotate({ identifier: "MCPWrappedCards" });
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          year: S.Number,
+          generated_at: S.String,
+          expires_at: S.String,
+          cards: __S(594, __c18, 18),
+        }),
+      ).annotate({ identifier: "MCPWrapped" });
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          wrapped: S.NullOr(__S(595, __c18, 19)),
+        }),
+      ).annotate({ identifier: "MCPWrappedResponse" });
+  }
+}
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1640,12 +2011,12 @@ function __c17(j: number): any {
     case 1:
       return S.Array(__S(32, __c1, 0));
     case 2:
-      return S.suspend(() => __S(545, __c17, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(609, __c19, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListMcpAnalyticsCustomHarnessesResponse",
       });
   }
 }
-function __c18(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1663,7 +2034,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "ListMcpAnalyticsFeedbackRequest" });
   }
 }
-function __c19(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(96, __c3, 0));
@@ -1673,12 +2044,12 @@ function __c19(j: number): any {
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(608, __c19, 0),
+          results: __S(672, __c21, 0),
         }),
       ).annotate({ identifier: "PaginatedMCPAnalyticsSubmissionList" });
   }
 }
-function __c20(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1694,60 +2065,6 @@ function __c20(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ListMcpAnalyticsMissingCapabilitiesRequest" });
-  }
-}
-function __c21(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          date_from: S.optional(S.String.pipe(T.Query())),
-          date_to: S.optional(S.String.pipe(T.Query())),
-          feedback_only: S.optional(S.Boolean.pipe(T.Query())),
-          filter_test_accounts: S.optional(S.Boolean.pipe(T.Query())),
-          has_errors: S.optional(S.Boolean.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          offset: S.optional(S.Number.pipe(T.Query())),
-          order_by: S.optional(S.String.pipe(T.Query())),
-          properties: S.optional(S.String.pipe(T.Query())),
-          search: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/projects/{project_id}/mcp_analytics/sessions/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListMcpAnalyticsSessionsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          session_id: S.String,
-          tool_calls: S.Number,
-          error_calls: S.Number,
-          session_start: S.String,
-          session_end: S.String,
-          distinct_id_count: S.Number,
-          tools_used: __S(512, __c16, 0),
-          mcp_client_name: S.String,
-          distinct_id: S.String,
-          person_email: S.String,
-          person_name: S.String,
-          intent: S.String,
-        }),
-      ).annotate({ identifier: "MCPSession" });
-    case 2:
-      return S.Array(__S(673, __c21, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          next: S.NullOr(S.String),
-          previous: S.NullOr(S.String),
-          results: __S(674, __c21, 2),
-          has_next: S.Boolean,
-        }),
-      ).annotate({ identifier: "PaginatedMCPSessionList" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

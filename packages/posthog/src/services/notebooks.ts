@@ -285,6 +285,8 @@ export interface NotebookAppBlock {
   title?: string | undefined;
   /** Width in a twelve-column grid. */
   width?: number | undefined;
+  /** Card height in pixels. Omit for automatic height. */
+  height?: number | undefined;
   /** Source notebook cell ID. */
   node_id?: string | undefined;
   /** Markdown for a text component. */
@@ -4316,6 +4318,7 @@ function __c67(j: number): any {
           tab_id: S.String,
           title: S.optional(S.String),
           width: S.optional(S.Number),
+          height: S.optional(S.Number),
           node_id: S.optional(S.String),
           text: S.optional(S.String),
           variable: S.optional(S.String),

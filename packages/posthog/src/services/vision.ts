@@ -968,6 +968,36 @@ export type SignalScoutConfigPauseReasonEnum =
   | "background_removed";
 /** * `team` - Team * `background` - Background */
 export type SignalScoutConfigManagedByEnum = "team" | "background";
+/** * `slack_dm` - Slack direct message * `slack_channel` - Slack channel */
+export type SignalScoutMessageDeliveryTargetTypeEnum = "slack_dm" | "slack_channel";
+export interface SignalScoutMessageTarget {
+  type: SignalScoutMessageDeliveryTargetTypeEnum;
+  /** Slack member ID, for `slack_dm`. */
+  user?: string | undefined;
+  /** Slack channel ID, for `slack_channel`. Never a shared channel. */
+  channel?: string | undefined;
+}
+export type SignalScoutMessageRouteToList = Array<SignalScoutMessageTarget>;
+export interface SignalScoutMessageRoute {
+  /** Slug the scout names to send on this route. */
+  key: string;
+  /** When the scout should send, shown in its run prompt. */
+  when: string;
+  to: SignalScoutMessageRouteToList;
+}
+/** Routes the scout may message on, through `slack.integration_id`. Omit to keep, `[]` to clear. */
+export type SignalScoutRoutedOutputDestinationsMessagesList = Array<SignalScoutMessageRoute>;
+/** Output destinations plus message routes. Only the config create and update paths take routes, so the scout and source-product create tools keep their schemas small. */
+export interface SignalScoutRoutedOutputDestinations {
+  /** Slack destination for each emitted scout finding or report. Null or omitted disables Slack delivery. */
+  slack?: SignalScoutSlackDestination | null | undefined;
+  /** The CDP destination another product provisioned for this scout's reports. Null or omitted means no webhook. Unlike Slack, Signals does not deliver this itself: the reference lives here so the owning product can manage the destination's lifecycle. */
+  webhook?: SignalScoutWebhookDestination | null | undefined;
+  /** Whether this scout's reports appear in the shared inbox. Defaults to true. Set false to keep the reports this scout authors out of the inbox and its Slack notifications, for example for a digest scout read in Slack. Reports this scout only edits are not affected. An update that omits this key keeps the stored value. */
+  inbox?: boolean | undefined;
+  /** Routes the scout may message on, through `slack.integration_id`. Omit to keep, `[]` to clear. */
+  messages?: SignalScoutRoutedOutputDestinationsMessagesList | undefined;
+}
 /** Optional JSON Schema (draft 2020-12) describing ONE structured record this scout produces via `scout-record-output` -- e.g. a per-report quality judgment (`{"type": "object", "properties": {"verdict": {"enum": ["good", "bad", "unsure"]}, "reason": {"type": "string"}}, "required": ["verdict", "reason"]}`). The root must be `"type": "object"`. Setting a schema turns the structured-output channel on: the run prompt renders the schema and every submitted record is validated against it and recorded in the project as a `$scout_structured_output` event, queryable like any event. The channel also requires emit -- a dry-run scout has nowhere to record to. Cardinality is the scout's call (one record per run, one per judged entity, ...). Null = channel off. Setting a schema requires skill-authoring authorization (the `llm_skill:write` scope and skill editor access) since the scout reads it verbatim in its prompt; clearing it needs only the config write. Records validate against the schema in force when the run was dispatched. */
 export type SignalScoutConfigStructuredOutputSchemaMap = { [key: string]: unknown | undefined };
 /** MCP gateway servers (by id) this scout's runs may use, chosen from the connections members shared to the whole team. Selection is per scout: an empty list gives the scout no MCP servers. Applies from the scout's next run. */
@@ -1017,7 +1047,7 @@ export interface SignalScoutConfig {
   /** Optional five-field cron expression evaluated in the project timezone, e.g. '30 9 * * *'. Takes precedence over `run_interval_minutes` when set. Null means the rolling interval schedule. */
   run_cron_schedule: string | null;
   /** Destinations that receive each finding or report this scout emits. Empty when none is configured. */
-  output_destinations: SignalScoutOutputDestinations;
+  output_destinations: SignalScoutRoutedOutputDestinations;
   /** Optional JSON Schema (draft 2020-12) describing ONE structured record this scout produces via `scout-record-output` -- e.g. a per-report quality judgment (`{"type": "object", "properties": {"verdict": {"enum": ["good", "bad", "unsure"]}, "reason": {"type": "string"}}, "required": ["verdict", "reason"]}`). The root must be `"type": "object"`. Setting a schema turns the structured-output channel on: the run prompt renders the schema and every submitted record is validated against it and recorded in the project as a `$scout_structured_output` event, queryable like any event. The channel also requires emit -- a dry-run scout has nowhere to record to. Cardinality is the scout's call (one record per run, one per judged entity, ...). Null = channel off. Setting a schema requires skill-authoring authorization (the `llm_skill:write` scope and skill editor access) since the scout reads it verbatim in its prompt; clearing it needs only the config write. Records validate against the schema in force when the run was dispatched. */
   structured_output_schema: SignalScoutConfigStructuredOutputSchemaMap | null;
   /** What the scout's sandbox can reach over the network while it runs. `trusted` (the default) restricts runs to the platform's trusted-domain allowlist (PostHog, GitHub, common package registries). `full` lets the scout reach any site, for skills that read external sources such as documentation or papers. * `trusted` - Trusted domains only * `full` - Full */
@@ -3113,7 +3143,7 @@ export const createVisionScannersScout: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(516, __c16, 4) as any as S.Schema<CreateVisionScannersScoutRequest>,
-  output: __S(519, __c16, 7) as any as S.Schema<ScannerScoutCreateResponse>,
+  output: __S(524, __c16, 12) as any as S.Schema<ScannerScoutCreateResponse>,
   errors: [Forbidden],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -4619,6 +4649,35 @@ function __c16(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
+          type: S.String,
+          user: S.optional(S.String),
+          channel: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SignalScoutMessageTarget" });
+    case 7:
+      return S.Array(__S(518, __c16, 6));
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          key: S.String,
+          when: S.String,
+          to: __S(519, __c16, 7),
+        }),
+      ).annotate({ identifier: "SignalScoutMessageRoute" });
+    case 9:
+      return S.Array(__S(520, __c16, 8));
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          slack: S.optional(S.NullOr(__S(512, __c16, 0))),
+          webhook: S.optional(S.NullOr(__S(513, __c16, 1))),
+          inbox: S.optional(S.Boolean),
+          messages: S.optional(__S(521, __c16, 9)),
+        }),
+      ).annotate({ identifier: "SignalScoutRoutedOutputDestinations" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
           id: S.String,
           skill_name: S.String,
           description: S.String,
@@ -4634,7 +4693,7 @@ function __c16(j: number): any {
           emit: S.Boolean,
           run_interval_minutes: S.Number,
           run_cron_schedule: S.NullOr(S.String),
-          output_destinations: __S(514, __c16, 2),
+          output_destinations: __S(522, __c16, 10),
           structured_output_schema: S.NullOr(__S(1248, __c39, 0)),
           network_access: S.String,
           model: S.NullOr(S.String),
@@ -4666,11 +4725,11 @@ function __c16(j: number): any {
           updated_at: S.String,
         }),
       ).annotate({ identifier: "SignalScoutConfig" });
-    case 7:
+    case 12:
       return S.suspend(() =>
         S.Struct({
           created: S.Boolean,
-          config: __S(518, __c16, 6),
+          config: __S(523, __c16, 11),
         }),
       ).annotate({ identifier: "ScannerScoutCreateResponse" });
   }

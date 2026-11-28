@@ -831,12 +831,8 @@ export interface PipelineRowsStatsResponse {
   billing_period_start: string | null;
   /** End of the current billing period. */
   billing_period_end: string | null;
-  /** Rows synced in the billing period, billed and not yet billed. */
+  /** Billable rows this project synced in the billing period. Other projects in the organization are not counted. */
   total_rows: number;
-  /** Rows billing has already counted. */
-  tracked_billing_rows: number;
-  /** Rows synced since billing last counted. */
-  pending_billing_rows: number;
   /** Rows written by materialized view runs in the billing period. */
   materialized_rows_in_billing_period: number;
   /** Rows synced in the billing period, keyed by source id. */
@@ -1479,7 +1475,7 @@ export const getDataWarehouseRunningActivity: API.OperationMethod<
 }));
 
 export type GetDataWarehouseTotalRowsStatError = PosthogOpError;
-/** Returns aggregated statistics for the data warehouse total rows processed within the current billing period. Used by the frontend data warehouse scene to display usage information. */
+/** Returns this team's data warehouse rows processed within the organization's current billing period. Used by the frontend data warehouse scene to display usage information. */
 export const getDataWarehouseTotalRowsStat: API.OperationMethod<
   GetDataWarehouseTotalRowsStatRequest,
   PipelineRowsStatsResponse,
@@ -2383,8 +2379,6 @@ function __c30(j: number): any {
           billing_period_start: S.NullOr(S.String),
           billing_period_end: S.NullOr(S.String),
           total_rows: S.Number,
-          tracked_billing_rows: S.Number,
-          pending_billing_rows: S.Number,
           materialized_rows_in_billing_period: S.Number,
           breakdown_of_rows_by_source: __S(481, __c30, 1),
         }),
