@@ -2416,6 +2416,7 @@ export interface CreateDeviceRunSessionInput {
   readonly name?: string | null | undefined;
   readonly networkCapture?: boolean | null | undefined;
   readonly networkCaptureFields?: ReadonlyArray<string> | null | undefined;
+  readonly networkCaptureRecording?: boolean | null | undefined;
   readonly openUrl?: string | null | undefined;
   readonly packageVersion?: string | null | undefined;
   readonly platform: "ANDROID" | "IOS";
