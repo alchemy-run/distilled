@@ -82,6 +82,10 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
+export type QueryDomainStatsRequestAggregationGranularityEnum =
+  | "AGGREGATION_GRANULARITY_UNSPECIFIED"
+  | "DAILY"
+  | "OVERALL";
 /** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
 export interface Gmailpostmastertools_Date {
   /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
@@ -117,10 +121,6 @@ export interface TimeQuery {
   /** A list of specific dates. */
   dateList?: DateList | undefined;
 }
-export type QueryDomainStatsRequestAggregationGranularityEnum =
-  | "AGGREGATION_GRANULARITY_UNSPECIFIED"
-  | "DAILY"
-  | "OVERALL";
 export type BaseMetricStandardMetricEnum =
   | "STANDARD_METRIC_UNSPECIFIED"
   | "FEEDBACK_LOOP_ID"
@@ -138,29 +138,29 @@ export interface BaseMetric {
 }
 /** Defines a specific metric to query, including a user-defined name, the base metric type, and optional filters. */
 export interface MetricDefinition {
-  /** Required. The user-defined name for this metric. This name will be used as the key for this metric's value in the response. */
-  name?: string | undefined;
   /** Optional. Optional filters to apply to the metric. */
   filter?: string | undefined;
   /** Required. The underlying metric to query. */
   baseMetric?: BaseMetric | undefined;
+  /** Required. The user-defined name for this metric. This name will be used as the key for this metric's value in the response. */
+  name?: string | undefined;
 }
 export type MetricDefinitionList = Array<MetricDefinition>;
 /** Request message for QueryDomainStats. */
 export interface QueryDomainStatsRequest {
-  /** Required. The time range or specific dates for which to retrieve the metrics. */
-  timeQuery?: TimeQuery | undefined;
-  /** Optional. The next_page_token value returned from a previous List request, if any. If the aggregation granularity is DAILY, the page token will be the encoded date + "/" + metric name. If the aggregation granularity is OVERALL, the page token will be the encoded metric name. */
-  pageToken?: string | undefined;
-  /** Optional. The maximum number of DomainStats resources to return in the response. The server may return fewer than this value. If unspecified, a default value of 10 will be used. The maximum value is 200. */
-  pageSize?: number | undefined;
-  /** Required. The parent resource name where the stats are queried. Format: domains/{domain} */
-  parent?: string | undefined;
   /** Optional. The granularity at which to aggregate the statistics. If unspecified, defaults to DAILY. */
   aggregationGranularity?:
     | QueryDomainStatsRequestAggregationGranularityEnum
     | (string & {})
     | undefined;
+  /** Required. The parent resource name where the stats are queried. Format: domains/{domain} */
+  parent?: string | undefined;
+  /** Optional. The maximum number of DomainStats resources to return in the response. The server may return fewer than this value. If unspecified, a default value of 10 will be used. The maximum value is 200. */
+  pageSize?: number | undefined;
+  /** Required. The time range or specific dates for which to retrieve the metrics. */
+  timeQuery?: TimeQuery | undefined;
+  /** Optional. The next_page_token value returned from a previous List request, if any. If the aggregation granularity is DAILY, the page token will be the encoded date + "/" + metric name. If the aggregation granularity is OVERALL, the page token will be the encoded metric name. */
+  pageToken?: string | undefined;
   /** Required. The specific metrics to query. You can define a custom name for each metric, which will be used in the response. */
   metricDefinitions?: MetricDefinitionList | undefined;
 }
@@ -179,25 +179,25 @@ export interface StringList {
 }
 /** The actual value of a statistic. */
 export interface StatisticValue {
-  /** String value. */
-  stringValue?: string | undefined;
-  /** Double value. */
-  doubleValue?: number | undefined;
-  /** List of string values. */
-  stringList?: StringList | undefined;
   /** Float value. */
   floatValue?: number | undefined;
+  /** List of string values. */
+  stringList?: StringList | undefined;
+  /** String value. */
+  stringValue?: string | undefined;
   /** Integer value. */
   intValue?: string | undefined;
+  /** Double value. */
+  doubleValue?: number | undefined;
 }
 /** Email statistics for a domain for a specified time period or date. */
 export interface DomainStat {
   /** Output only. The resource name of the DomainStat resource. Format: domains/{domain}/domainStats/{domain_stat} The `{domain_stat}` segment is an opaque, server-generated ID. We recommend using the `metric` field to identify queried metrics instead of parsing the name. */
   name?: string | undefined;
-  /** The user-defined name from MetricDefinition.name in the request, used to correlate this result with the requested metric. */
-  metric?: string | undefined;
   /** Optional. The specific date for these stats, if granularity is DAILY. This field is populated if the QueryDomainStatsRequest specified a DAILY aggregation granularity. */
   date?: Gmailpostmastertools_Date | undefined;
+  /** The user-defined name from MetricDefinition.name in the request, used to correlate this result with the requested metric. */
+  metric?: string | undefined;
   /** The value of the corresponding metric. */
   value?: StatisticValue | undefined;
 }
@@ -246,16 +246,16 @@ export type DomainVerificationStateEnum =
 export type DomainPermissionEnum = "PERMISSION_UNSPECIFIED" | "READER" | "ADMIN" | "OWNER" | "NONE";
 /** Information about a domain registered by the user. */
 export interface Domain {
-  /** Output only. Information about a user's verification history and properties for the domain. */
-  verificationState?: DomainVerificationStateEnum | undefined;
-  /** Output only. User's permission of this domain. */
-  permission?: DomainPermissionEnum | undefined;
-  /** Output only. Immutable. The timestamp at which the domain was added to the user's account. */
-  createTime?: string | undefined;
-  /** The timestamp at which the domain was last verified by the user. */
-  lastVerifyTime?: string | undefined;
   /** Identifier. The resource name of the domain. Format: `domains/{domain_name}`, where domain_name is the fully qualified domain name (i.e., mymail.mydomain.com). */
   name?: string | undefined;
+  /** Output only. Immutable. The timestamp at which the domain was added to the user's account. */
+  createTime?: string | undefined;
+  /** Output only. Information about a user's verification history and properties for the domain. */
+  verificationState?: DomainVerificationStateEnum | undefined;
+  /** The timestamp at which the domain was last verified by the user. */
+  lastVerifyTime?: string | undefined;
+  /** Output only. User's permission of this domain. */
+  permission?: DomainPermissionEnum | undefined;
 }
 export type CreateUserRequestPermissionEnum =
   | "PERMISSION_UNSPECIFIED"
@@ -265,10 +265,10 @@ export type CreateUserRequestPermissionEnum =
   | "NONE";
 /** [Developer Preview](https://developers.google.com/workspace/preview): Request message for CreateUser. */
 export interface CreateUserRequest {
-  /** Optional. Specifies the permission level to give the user for the specified domain. If not specified, the default value for this field is READER. */
-  permission?: CreateUserRequestPermissionEnum | (string & {}) | undefined;
   /** Required. The user to create. */
   userId?: string | undefined;
+  /** Optional. Specifies the permission level to give the user for the specified domain. If not specified, the default value for this field is READER. */
+  permission?: CreateUserRequestPermissionEnum | (string & {}) | undefined;
 }
 export interface CreateDomainsUsersRequest extends CreateUserRequest {
   /** Required. The parent resource where this user will be created. Format: domains/{domain} */
@@ -283,10 +283,10 @@ export interface User {
   user?: string | undefined;
   /** Output only. The user that added the current user. */
   accessGranter?: string | undefined;
-  /** The permission level that the user has for the specified domain. */
-  permission?: UserPermissionEnum | (string & {}) | undefined;
   /** Output only. The time the user was granted access. */
   createTime?: string | undefined;
+  /** The permission level that the user has for the specified domain. */
+  permission?: UserPermissionEnum | (string & {}) | undefined;
 }
 export interface DeleteDomainsRequest {
   /** Required. The domain to delete. */
@@ -302,11 +302,27 @@ export interface GetComplianceStatusDomainsRequest {
   /** Required. The resource name of the domain's compliance status to retrieve. Format: `domains/{domain_id}/complianceStatus`. */
   name: string;
 }
+export type DeliverabilityStatusVerdictReasonEnum =
+  | "REASON_UNSPECIFIED"
+  | "MESSAGE_VOLUME_LOW"
+  | "SMTP_ERRORS_HIGH"
+  | "SENDER_NOT_COMPLIANT"
+  | "SPAM_RATE_HIGH"
+  | "USER_FEEDBACK_NEGATIVE"
+  | "USER_FEEDBACK_LOW"
+  | "USER_FEEDBACK_POSITIVE";
 export type ComplianceStatusStatusEnum = "STATE_UNSPECIFIED" | "COMPLIANT" | "NEEDS_WORK";
 /** The status of a sender compliance requirement. */
 export interface ComplianceStatus {
   /** Output only. The compliance status. */
   status?: ComplianceStatusStatusEnum | undefined;
+}
+/** [Developer Preview](https://developers.google.com/workspace/preview): Verdict of domain deliverability status. */
+export interface DeliverabilityStatusVerdict {
+  /** Output only. The specific reason for the compliance verdict. */
+  reason?: DeliverabilityStatusVerdictReasonEnum | undefined;
+  /** Output only. The compliance state. */
+  state?: ComplianceStatus | undefined;
 }
 export type ComplianceRowDataRequirementEnum =
   | "COMPLIANCE_REQUIREMENT_UNSPECIFIED"
@@ -323,28 +339,12 @@ export type ComplianceRowDataRequirementEnum =
   | "HONOR_UNSUBSCRIBE";
 /** Data for a single row of the compliance status table. */
 export interface ComplianceRowData {
-  /** The compliance status for the requirement. */
-  status?: ComplianceStatus | undefined;
   /** The compliance requirement. */
   requirement?: ComplianceRowDataRequirementEnum | undefined;
+  /** The compliance status for the requirement. */
+  status?: ComplianceStatus | undefined;
 }
 export type ComplianceRowDataList = Array<ComplianceRowData>;
-export type DeliverabilityStatusVerdictReasonEnum =
-  | "REASON_UNSPECIFIED"
-  | "MESSAGE_VOLUME_LOW"
-  | "SMTP_ERRORS_HIGH"
-  | "SENDER_NOT_COMPLIANT"
-  | "SPAM_RATE_HIGH"
-  | "USER_FEEDBACK_NEGATIVE"
-  | "USER_FEEDBACK_LOW"
-  | "USER_FEEDBACK_POSITIVE";
-/** [Developer Preview](https://developers.google.com/workspace/preview): Verdict of domain deliverability status. */
-export interface DeliverabilityStatusVerdict {
-  /** Output only. The specific reason for the compliance verdict. */
-  reason?: DeliverabilityStatusVerdictReasonEnum | undefined;
-  /** Output only. The compliance state. */
-  state?: ComplianceStatus | undefined;
-}
 export type OneClickUnsubscribeVerdictReasonEnum =
   | "REASON_UNSPECIFIED"
   | "NO_UNSUB_GENERAL"
@@ -364,19 +364,19 @@ export type HonorUnsubscribeVerdictReasonEnum =
   | "NOT_HONORING_TOO_MANY_CAMPAIGNS";
 /** Compliance verdict for whether a sender meets the unsubscribe honoring compliance requirement. */
 export interface HonorUnsubscribeVerdict {
-  /** The compliance status. */
-  status?: ComplianceStatus | undefined;
   /** The specific reason for the compliance verdict. Must be empty if the status is compliant. */
   reason?: HonorUnsubscribeVerdictReasonEnum | undefined;
+  /** The compliance status. */
+  status?: ComplianceStatus | undefined;
 }
 /** Compliance data for a given domain. */
 export interface DomainComplianceData {
-  /** Data for each of the rows of the table. Each message contains all the data that backs a single row. */
-  rowData?: ComplianceRowDataList | undefined;
-  /** Domain that this data is for. */
-  domainId?: string | undefined;
   /** Output only. Deliverability status verdict. */
   deliverabilityStatusVerdict?: DeliverabilityStatusVerdict | undefined;
+  /** Domain that this data is for. */
+  domainId?: string | undefined;
+  /** Data for each of the rows of the table. Each message contains all the data that backs a single row. */
+  rowData?: ComplianceRowDataList | undefined;
   /** One-click unsubscribe compliance verdict. */
   oneClickUnsubscribeVerdict?: OneClickUnsubscribeVerdict | undefined;
   /** Unsubscribe honoring compliance verdict. */
@@ -384,12 +384,12 @@ export interface DomainComplianceData {
 }
 /** Compliance status for a domain. */
 export interface DomainComplianceStatus {
-  /** Compliance data for the registrable domain part of the domain in `name`. For example, if `name` is `domains/example.com/complianceStatus`, this field contains compliance data for `example.com`. */
-  complianceData?: DomainComplianceData | undefined;
   /** Compliance data calculated specifically for the subdomain in `name`. This field is only populated if the domain in `name` is a subdomain that differs from its registrable domain (e.g., `sub.example.com`), and if compliance data is available for that specific subdomain. */
   subdomainComplianceData?: DomainComplianceData | undefined;
   /** Identifier. The resource name of the domain's compliance status. Format: `domains/{domain_id}/complianceStatus`. */
   name?: string | undefined;
+  /** Compliance data for the registrable domain part of the domain in `name`. For example, if `name` is `domains/example.com/complianceStatus`, this field contains compliance data for `example.com`. */
+  complianceData?: DomainComplianceData | undefined;
 }
 export interface GetDomainsRequest {
   /** Required. The resource name of the domain. Format: `domains/{domain_name}`, where domain_name is the fully qualified domain name (i.e., mymail.mydomain.com). */
@@ -420,46 +420,46 @@ export type DomainVerificationTokenVerificationMethodEnum =
 export interface DomainVerificationToken {
   /** The verification method used. */
   verificationMethod?: DomainVerificationTokenVerificationMethodEnum | undefined;
-  /** The verification token. */
-  token?: string | Redacted.Redacted<string> | undefined;
   /** Identifier. The resource name of the domain verification token. Format: domains/{domain}/verificationToken */
   name?: string | undefined;
+  /** The verification token. */
+  token?: string | Redacted.Redacted<string> | undefined;
 }
 export interface ListDomainsRequest {
-  /** Optional. The next_page_token value returned from a previous List request, if any. */
-  pageToken?: string | undefined;
   /** Optional. Requested page size. Server may return fewer domains than requested. If unspecified, the default value for this field is 10. The maximum value for this field is 200. */
   pageSize?: number | undefined;
+  /** Optional. The next_page_token value returned from a previous List request, if any. */
+  pageToken?: string | undefined;
 }
 export type DomainList = Array<Domain>;
 /** Response message for ListDomains. */
 export interface ListDomainsResponse {
-  /** The domains that have been registered by the user. */
-  domains?: DomainList | undefined;
   /** Token to retrieve the next page of results, or empty if there are no more results in the list. */
   nextPageToken?: string | undefined;
+  /** The domains that have been registered by the user. */
+  domains?: DomainList | undefined;
 }
 export interface ListDomainsUsersRequest {
-  /** Optional. Requested page size. Server may return fewer users than requested. If unspecified, the default value for this field is 10. The maximum value for this field is 200. */
-  pageSize?: number | undefined;
   /** Optional. The next_page_token value returned from a previous List request, if any. */
   pageToken?: string | undefined;
+  /** Optional. Requested page size. Server may return fewer users than requested. If unspecified, the default value for this field is 10. The maximum value for this field is 200. */
+  pageSize?: number | undefined;
   /** Required. The parent resource name for which to list users. Format: `domains/{domain}` */
   parent: string;
 }
 export type UserList = Array<User>;
 /** [Developer Preview](https://developers.google.com/workspace/preview): Response message for ListUsers. */
 export interface ListUsersResponse {
-  /** The users that have access to the domain. */
-  users?: UserList | undefined;
   /** Token to retrieve the next page of results, or empty if there are no more results in the list. */
   nextPageToken?: string | undefined;
+  /** The users that have access to the domain. */
+  users?: UserList | undefined;
 }
 export interface PatchDomainsUsersRequest extends Omit<User, "name"> {
-  /** The list of fields to update. */
-  updateMask?: string | undefined;
   /** Identifier. The resource name of the user. Format: users/{user} Note: {user} is the user's email address. */
   name: string;
+  /** The list of fields to update. */
+  updateMask?: string | undefined;
 }
 export interface QueryDomainsDomainStatsRequest extends Omit<QueryDomainStatsRequest, "parent"> {
   /** Required. The parent resource name where the stats are queried. Format: domains/{domain} */
@@ -604,7 +604,7 @@ export const getComplianceStatusDomains: API.OperationMethod<
   GoogleWorkspaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c17, 0) as any as S.Schema<GetComplianceStatusDomainsRequest>,
-  output: __S(551, __c17, 7) as any as S.Schema<DomainComplianceStatus>,
+  output: __S(552, __c17, 8) as any as S.Schema<DomainComplianceStatus>,
   errors: [NotFound, Forbidden],
   serviceErrors: GoogleWorkspaceServiceErrors,
   protocol: GoogleWorkspaceProtocol,
@@ -828,8 +828,8 @@ function __c2(j: number): any {
       return S.suspend(() =>
         S.Struct({
           verificationMethod: S.optional(S.String),
-          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           name: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "DomainVerificationToken" });
   }
@@ -839,8 +839,8 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -854,8 +854,8 @@ function __c3(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          domains: S.optional(__S(97, __c3, 1)),
           nextPageToken: S.optional(S.String),
+          domains: S.optional(__S(97, __c3, 1)),
         }),
       ).annotate({ identifier: "ListDomainsResponse" });
   }
@@ -865,8 +865,8 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -881,8 +881,8 @@ function __c4(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          users: S.optional(__S(129, __c4, 1)),
           nextPageToken: S.optional(S.String),
+          users: S.optional(__S(129, __c4, 1)),
         }),
       ).annotate({ identifier: "ListUsersResponse" });
   }
@@ -894,8 +894,8 @@ function __c5(j: number): any {
         S.Extend(
           __S(416, __c13, 0),
           S.Struct({
-            updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -1049,9 +1049,9 @@ function __c9(j: number): any {
     case 8:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
           filter: S.optional(S.String),
           baseMetric: S.optional(__S(295, __c9, 7)),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "MetricDefinition" });
     case 9:
@@ -1059,11 +1059,11 @@ function __c9(j: number): any {
     case 10:
       return S.suspend(() =>
         S.Struct({
+          aggregationGranularity: S.optional(S.String),
+          parent: S.optional(S.String),
+          pageSize: S.optional(S.Number),
           timeQuery: S.optional(__S(294, __c9, 6)),
           pageToken: S.optional(S.String),
-          pageSize: S.optional(S.Number),
-          parent: S.optional(S.String),
-          aggregationGranularity: S.optional(S.String),
           metricDefinitions: S.optional(__S(297, __c9, 9)),
         }),
       ).annotate({ identifier: "QueryDomainStatsRequest" });
@@ -1078,19 +1078,19 @@ function __c9(j: number): any {
     case 13:
       return S.suspend(() =>
         S.Struct({
-          stringValue: S.optional(S.String),
-          doubleValue: S.optional(S.Number),
-          stringList: S.optional(__S(300, __c9, 12)),
           floatValue: S.optional(S.Number),
+          stringList: S.optional(__S(300, __c9, 12)),
+          stringValue: S.optional(S.String),
           intValue: S.optional(S.String),
+          doubleValue: S.optional(S.Number),
         }),
       ).annotate({ identifier: "StatisticValue" });
     case 14:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          metric: S.optional(S.String),
           date: S.optional(__S(288, __c9, 0)),
+          metric: S.optional(S.String),
           value: S.optional(__S(301, __c9, 13)),
         }),
       ).annotate({ identifier: "DomainStat" });
@@ -1130,11 +1130,11 @@ function __c11(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          verificationState: S.optional(S.String),
-          permission: S.optional(S.String),
-          createTime: S.optional(S.String),
-          lastVerifyTime: S.optional(S.String),
           name: S.optional(S.String),
+          createTime: S.optional(S.String),
+          verificationState: S.optional(S.String),
+          lastVerifyTime: S.optional(S.String),
+          permission: S.optional(S.String),
         }),
       ).annotate({ identifier: "Domain" });
   }
@@ -1144,8 +1144,8 @@ function __c12(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          permission: S.optional(S.String),
           userId: S.optional(S.String),
+          permission: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateUserRequest" });
     case 1:
@@ -1173,8 +1173,8 @@ function __c13(j: number): any {
           name: S.optional(S.String),
           user: S.optional(S.String),
           accessGranter: S.optional(S.String),
-          permission: S.optional(S.String),
           createTime: S.optional(S.String),
+          permission: S.optional(S.String),
         }),
       ).annotate({ identifier: "User" });
   }
@@ -1240,19 +1240,19 @@ function __c17(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          status: S.optional(__S(545, __c17, 1)),
-          requirement: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ComplianceRowData" });
-    case 3:
-      return S.Array(__S(546, __c17, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
           reason: S.optional(S.String),
           state: S.optional(__S(545, __c17, 1)),
         }),
       ).annotate({ identifier: "DeliverabilityStatusVerdict" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          requirement: S.optional(S.String),
+          status: S.optional(__S(545, __c17, 1)),
+        }),
+      ).annotate({ identifier: "ComplianceRowData" });
+    case 4:
+      return S.Array(__S(547, __c17, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -1263,19 +1263,26 @@ function __c17(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          rowData: S.optional(__S(547, __c17, 3)),
-          domainId: S.optional(S.String),
-          deliverabilityStatusVerdict: S.optional(__S(548, __c17, 4)),
-          oneClickUnsubscribeVerdict: S.optional(__S(549, __c17, 5)),
-          honorUnsubscribeVerdict: S.optional(__S(549, __c17, 5)),
+          reason: S.optional(S.String),
+          status: S.optional(__S(545, __c17, 1)),
         }),
-      ).annotate({ identifier: "DomainComplianceData" });
+      ).annotate({ identifier: "HonorUnsubscribeVerdict" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          complianceData: S.optional(__S(550, __c17, 6)),
-          subdomainComplianceData: S.optional(__S(550, __c17, 6)),
+          deliverabilityStatusVerdict: S.optional(__S(546, __c17, 2)),
+          domainId: S.optional(S.String),
+          rowData: S.optional(__S(548, __c17, 4)),
+          oneClickUnsubscribeVerdict: S.optional(__S(549, __c17, 5)),
+          honorUnsubscribeVerdict: S.optional(__S(550, __c17, 6)),
+        }),
+      ).annotate({ identifier: "DomainComplianceData" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          subdomainComplianceData: S.optional(__S(551, __c17, 7)),
           name: S.optional(S.String),
+          complianceData: S.optional(__S(551, __c17, 7)),
         }),
       ).annotate({ identifier: "DomainComplianceStatus" });
   }
